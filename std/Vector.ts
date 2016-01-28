@@ -1,4 +1,4 @@
-/// <reference path="IContainer.ts" />
+/// <reference path="base/IContainer.ts" />
 
 /// <reference path="VectorIterator.ts" />
 
@@ -42,7 +42,7 @@ namespace std
      */
     export class Vector<T>
         extends Array<T>
-        implements IContainer<T>
+        implements base.IContainer<T>
     {
         /* ---------------------------------------------------------
 		    CONSTRUCTORS
@@ -77,7 +77,7 @@ namespace std
          * @param container Another Container object of the same type (with the same class template 
          *                  arguments T), whose contents are either copied or acquired.
          */
-        public constructor(container: IContainer<T>);
+        public constructor(container: base.IContainer<T>);
 
         /**
          * Construct from begin and end iterators. 
@@ -117,10 +117,10 @@ namespace std
                 
                 this.assign(size, val);
             }
-            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof Container))
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.Container))
             {
                 // COPY CONSTRUCTOR
-                var container: Container<T> = <Container<T>>args[0];
+                var container: base.Container<T> = <base.Container<T>>args[0];
                 
                 this.assign(container.begin(), container.end());
             }

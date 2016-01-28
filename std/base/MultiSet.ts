@@ -1,8 +1,8 @@
 ﻿/// <reference path="SetContainer.ts" />
 
-namespace std
+namespace std.base
 {
-	export abstract class BaseMultiSet<T>
+	export abstract class MultiSet<T>
 		extends SetContainer<T>
 	{
 		/* ---------------------------------------------------------

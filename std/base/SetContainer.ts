@@ -1,11 +1,11 @@
 /// <reference path="Container.ts" />
 
-/// <reference path="SetIterator.ts" />
-/// <reference path="List.ts" />
+/// <reference path="../SetIterator.ts" />
+/// <reference path="../List.ts" />
 
-/// <reference path="Pair.ts" />
+/// <reference path="../Pair.ts" />
 
-namespace std
+namespace std.base
 {
     /**
      * Abstract Set.

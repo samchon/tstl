@@ -1,10 +1,9 @@
-﻿/// <reference path="MapIterator.ts" />
-/// <reference path="Object.ts" />
+﻿/// <reference path="../MapIterator.ts" />
+/// <reference path="../Object.ts" />
 
-/// <reference path="Pair.ts" />
-/// <reference path="Exception.ts" />
+/// <reference path="../Pair.ts" />
 
-namespace std
+namespace std.base
 {
 	export abstract class MapContainer<K, T>
 	{

@@ -1,6 +1,6 @@
-﻿/// <reference path="BaseMap.ts" />
+﻿/// <reference path="base/MultiMap.ts" />
 
-/// <reference path="Hash.ts" />
+/// <reference path="base/Hash.ts" />
 
 namespace std
 {
@@ -38,7 +38,7 @@ namespace std
      * @author Migrated by Jeongho Nam
      */
     export class UnorderedMultiMap<K, T>
-        extends BaseMultiMap<K, T>
+        extends base.MultiMap<K, T>
     {
         private hashGroup: Vector<Vector<MapIterator<K, T>>>;
 	
@@ -63,7 +63,7 @@ namespace std
         /**
          * Copy Constructor.
          */
-        public constructor(container: MapContainer<K, T>);
+        public constructor(container: base.MapContainer<K, T>);
 
         /**
          * Construct from range iterators.
@@ -80,7 +80,7 @@ namespace std
 			{
 				this.constructByArray(args[0]);
 			}
-			else if (args.length == 1 && args[0] instanceof MapContainer)
+			else if (args.length == 1 && args[0] instanceof base.MapContainer)
 			{
 				this.constructByContainer(args[0]);
 			}
@@ -92,7 +92,7 @@ namespace std
 
         protected constructByArray(items: Array<Pair<K, T>>): void
         {
-            this.constructHashGroup(items.length * Hash.RATIO);
+            this.constructHashGroup(items.length * base.Hash.RATIO);
 
             super.constructByArray(items);
         }
@@ -113,7 +113,7 @@ namespace std
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
-            this.constructHashGroup(size * Hash.RATIO);
+            this.constructHashGroup(size * base.Hash.RATIO);
 
             // SUPER; INSERT
             super.assign(begin, end);
@@ -134,8 +134,8 @@ namespace std
 	    --------------------------------------------------------- */
         private constructHashGroup(size: number = -1): void 
         {
-            if (size < Hash.MIN_SIZE)
-                size = Hash.MIN_SIZE;
+            if (size < base.Hash.MIN_SIZE)
+                size = base.Hash.MIN_SIZE;
 
             // CLEAR
             this.hashGroup = new Vector<Vector<MapIterator<K, T>>>();
@@ -148,7 +148,7 @@ namespace std
         private reconstructHashGroup(size: number = -1): void
         {
             if (size == -1)
-                size = this.size() * Hash.RATIO;
+                size = this.size() * base.Hash.RATIO;
 
             // CONSTURCT HASH_GROUP
             this.constructHashGroup(size);
@@ -203,7 +203,7 @@ namespace std
 
             // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * Hash.RATIO);
+                this.reconstructHashGroup((this.size() + size) * base.Hash.RATIO);
 
             // INSERTS
             super.insertByRange(begin, end);
@@ -250,7 +250,7 @@ namespace std
 
         private hashIndex(val: any): number
         {
-            return Hash.code(val) % this.hashGroup.size();
+            return base.Hash.code(val) % this.hashGroup.size();
         }
     }
 }

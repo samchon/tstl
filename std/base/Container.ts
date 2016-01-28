@@ -1,11 +1,11 @@
 /// <reference path="IContainer.ts" />
 
-/// <reference path="Iterator.ts" />
+/// <reference path="../Iterator.ts" />
 
-/// <reference path="Exception.ts" />
-/// <referecen path="Vector.ts" />
+/// <reference path="../Exception.ts" />
+/// <referecen path="../Vector.ts" />
 
-namespace std
+namespace std.base
 {
     /**
      * An abstract class containing elements.

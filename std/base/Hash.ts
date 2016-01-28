@@ -1,6 +1,6 @@
-/// <reference path="Object.ts" />
+/// <reference path="../Object.ts" />
 
-namespace std
+namespace std.base
 {
     /**
      * A static class for issuing hash code.

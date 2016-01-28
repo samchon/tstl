@@ -1,10 +1,10 @@
-﻿/// <reference path="MapContainer.ts" />
+﻿/// <reference path="base/MapContainer.ts" />
 
 namespace std
 {
 	export class MapIterator<K, T>
 	{
-		protected source: MapContainer<K, T>;
+		protected source: base.MapContainer<K, T>;
 
 		protected listIterator: ListIterator<Pair<K, T>>;
 
@@ -16,7 +16,7 @@ namespace std
 		 *
 		 * @param source The source PairContainer.
 		 */
-		public constructor(source: MapContainer<K, T>, listIterator: ListIterator<Pair<K, T>>)
+		public constructor(source: base.MapContainer<K, T>, listIterator: ListIterator<Pair<K, T>>)
 		{
 			this.source = source;
 
@@ -41,7 +41,7 @@ namespace std
 		{
 			return new MapIterator<K, T>
 			(
-				<MapContainer<K, T>>this.source,
+				<base.MapContainer<K, T>>this.source,
 				<ListIterator<Pair<K, T>>>this.listIterator.prev()
 			);
 		}
@@ -53,7 +53,7 @@ namespace std
 		{
 			return new MapIterator<K, T>
 			(
-				<MapContainer<K, T>>this.source,
+				<base.MapContainer<K, T>>this.source,
 				<ListIterator<Pair<K, T>>>this.listIterator.next()
 			);
 		}
@@ -97,7 +97,7 @@ namespace std
 		/**
 		 * Get source.
 		 */
-		public getSource(): MapContainer<K, T>
+		public getSource(): base.MapContainer<K, T>
 		{
 			return this.source;
 		}

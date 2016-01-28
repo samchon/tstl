@@ -1,9 +1,9 @@
-﻿/// <reference path="BaseSet.ts" />
+﻿/// <reference path="base/UniqueSet.ts" />
 
 namespace std
 {
     export class Set<T>
-        extends BaseSet<T>
+        extends base.UniqueSet<T>
     {
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -20,7 +20,7 @@ namespace std
 
         public constructor(array: Array<T>);
 
-        public constructor(container: Container<T>);
+        public constructor(container: base.Container<T>);
 
         public constructor(begin: Iterator<T>, end: Iterator<T>);
         

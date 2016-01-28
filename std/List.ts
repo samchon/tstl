@@ -1,4 +1,4 @@
-/// <reference path="Container.ts" />
+/// <reference path="base/Container.ts" />
 
 /// <reference path="ListIterator.ts" />
 
@@ -38,7 +38,7 @@ namespace std
      * @author Migrated by Jeongho Nam
      */
     export class List<T>
-        extends Container<T>
+        extends base.Container<T>
     {
         /**
          * An iterator of beginning.
@@ -81,7 +81,7 @@ namespace std
          *
          * @param container
          */
-        public constructor(container: IContainer<T>);
+        public constructor(container: base.IContainer<T>);
 
         /**
          * Construct from begin and end iterators. 
@@ -106,9 +106,9 @@ namespace std
                 this.clear();
                 this.push(...array);
             }
-            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof Container))
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.Container))
             {
-                var container: IContainer<T> = args[0];
+                var container: base.IContainer<T> = args[0];
 
                 this.assign(container.begin(), container.end());
             }

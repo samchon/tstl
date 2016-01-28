@@ -1,3 +1,108 @@
+/// <reference path="base/MapContainer.ts" />
+var std;
+(function (std) {
+    var MapIterator = (function () {
+        /* ---------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------- */
+        /**
+         * Construct from the source PairContainer.
+         *
+         * @param source The source PairContainer.
+         */
+        function MapIterator(source, listIterator) {
+            this.source = source;
+            this.listIterator = listIterator;
+        }
+        /**
+         * Get listIterator.
+         */
+        MapIterator.prototype.getListIterator = function () {
+            return this.listIterator;
+        };
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * Get iterator to previous element.
+         */
+        MapIterator.prototype.prev = function () {
+            return new MapIterator(this.source, this.listIterator.prev());
+        };
+        /**
+         * Get iterator to next element.
+         */
+        MapIterator.prototype.next = function () {
+            return new MapIterator(this.source, this.listIterator.next());
+        };
+        /**
+         * Advances the Iterator by n element positions.
+         *
+         * @param n Number of element positions to advance.
+         * @return An advanced Iterator.
+         */
+        MapIterator.prototype.advance = function (n) {
+            var it = this;
+            var i;
+            if (n >= 0) {
+                for (i = 0; i < n; i++)
+                    if (it.equals(this.source.end()))
+                        return this.source.end();
+                    else
+                        it = it.next();
+            }
+            else {
+                n = n * -1;
+                for (i = 0; i < n; i++)
+                    if (it.equals(this.source.end()))
+                        return this.source.end();
+                    else
+                        it = it.prev();
+            }
+            return it;
+        };
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
+        /**
+         * Get source.
+         */
+        MapIterator.prototype.getSource = function () {
+            return this.source;
+        };
+        MapIterator.prototype.equals = function (obj) {
+            return this.source == obj.source && this.listIterator.equals(obj.listIterator);
+        };
+        Object.defineProperty(MapIterator.prototype, "first", {
+            /**
+             * Get first, key element.
+             */
+            get: function () {
+                return this.listIterator.value.first;
+            },
+            set: function (key) {
+                this.listIterator.value.first = key;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MapIterator.prototype, "second", {
+            /**
+             * Get second, value element.
+             */
+            get: function () {
+                return this.listIterator.value.second;
+            },
+            set: function (val) {
+                this.listIterator.value.second = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return MapIterator;
+    })();
+    std.MapIterator = MapIterator;
+})(std || (std = {}));
 var std;
 (function (std) {
     function equals(val1, val2) {
@@ -56,58 +161,6 @@ Object.prototype.__get_m_iUID =
 var std;
 (function (std) {
     /**
-     * A static class for issuing hash code.
-     *
-     * @author Jeongho Nam
-     */
-    var Hash = (function () {
-        function Hash() {
-        }
-        Object.defineProperty(Hash, "MIN_SIZE", {
-            get: function () { return 10; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Hash, "RATIO", {
-            get: function () { return 0.8; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Hash, "MAX_RATIO", {
-            get: function () { return 2.0; },
-            enumerable: true,
-            configurable: true
-        });
-        Hash.code = function (val) {
-            var type = typeof val;
-            if (type == "number")
-                return Hash.codeByNumber(val);
-            else if (type == "string")
-                return Hash.codeByString(val);
-            else
-                return Hash.codeByObject(val);
-        };
-        Hash.codeByNumber = function (val) {
-            return Math.abs(Math.round(val));
-        };
-        Hash.codeByString = function (str) {
-            var val = 0;
-            for (var i = 0; i < str.length; i++)
-                val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-            return val;
-        };
-        Hash.codeByObject = function (obj) {
-            return obj.hashCode();
-        };
-        return Hash;
-    })();
-    std.Hash = Hash;
-})(std || (std = {}));
-/// <reference path="Object.ts" />
-/// <reference path="Hash.ts" />
-var std;
-(function (std) {
-    /**
      * <p> A pair of values. </p>
      * <ul>
      *  <li> _Ty1: Type of member fisrt. </li>
@@ -159,18 +212,254 @@ var std;
             else
                 return std.less(this.second, pair.second);
         };
-        Pair.prototype.hashCode = function () {
-            return std.Hash.code(this.first) + std.Hash.code(this.second);
-        };
         return Pair;
     })();
     std.Pair = Pair;
 })(std || (std = {}));
+/// <reference path="../MapIterator.ts" />
+/// <reference path="../Object.ts" />
+/// <reference path="../Pair.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var MapContainer = (function () {
+            /* =========================================================
+                CONSTRUCTORS & SEMI-CONSTRUCTORS
+                    - CONSTRUCTORS
+                    - ASSIGN & CLEAR
+            ============================================================
+                CONSTURCTORS
+            --------------------------------------------------------- */
+            /**
+             * Default Constructor.
+             */
+            function MapContainer() {
+            }
+            MapContainer.prototype.constructByArray = function (items) {
+                for (var i = 0; i < items.length; i++)
+                    this.insertByPair(items[i]);
+            };
+            MapContainer.prototype.constructByContainer = function (container) {
+                this.constructByRange(container.begin(), container.end());
+            };
+            MapContainer.prototype.constructByRange = function (begin, end) {
+                this.assign(begin, end);
+            };
+            /* ---------------------------------------------------------
+                ASSIGN & CLEAR
+            --------------------------------------------------------- */
+            /**
+             * <p> Assign new content to content. </p>
+             *
+             * <p> Assigns new contents to the Container, replacing its current contents,
+             * and modifying its size accordingly. </p>
+             *
+             * @param begin Input interator of the initial position in a sequence.
+             * @param end Input interator of the final position in a sequence.
+             */
+            MapContainer.prototype.assign = function (begin, end) {
+                // INSERT
+                for (var it = begin; it.equals(end) == false; it = it.next())
+                    this.insertByPair(new std.Pair(it.first, it.second));
+            };
+            /**
+             * <p> Clear content. </p>
+             *
+             * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
+             */
+            MapContainer.prototype.clear = function () {
+                this.data.clear();
+            };
+            /**
+             * <p> Return iterator to beginning. </p>
+             * <p> Returns an iterator referring the first element in the Container. </p>
+             *
+             * <h4> Note </h4>
+             * <p> If the container is empty, the returned iterator is same with end(). </p>
+             *
+             * @return An iterator to the first element in the container.
+             * The iterator containes the first element's value.
+             */
+            MapContainer.prototype.begin = function () {
+                return new std.MapIterator(this, this.data.begin());
+            };
+            /**
+             * <p> Return iterator to end. </p>
+             * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+             *
+             * <p> The past-the-end element is the theoretical element that would follow the last element in
+             * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+             *
+             * <p> Because the ranges used by functions of the Container do not include the element reference
+             * by their closing iterator, this function is often used in combination with Container::begin() to specify
+             * a range including all the elements in the container. </p>
+             *
+             * <h4> Note </h4>
+             * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
+             * element by the iterator will cause throwing exception (out of range). </p>
+             * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+             *
+             * @return An iterator to the end element in the container.
+             */
+            MapContainer.prototype.end = function () {
+                return new std.MapIterator(this, this.data.end());
+            };
+            /* ---------------------------------------------------------
+                ELEMENTS
+            --------------------------------------------------------- */
+            /**
+             * <p> Whether have the item or not. </p>
+             * <p> Indicates whether a map has an item having the specified identifier. </p>
+             *
+             * @param key Key value of the element whose mapped value is accessed.
+             *
+             * @return Whether the map has an item having the specified identifier.
+             */
+            MapContainer.prototype.has = function (key) {
+                return this.count(key) != 0;
+            };
+            /**
+             * Return the number of elements in the map.
+             */
+            MapContainer.prototype.size = function () {
+                return this.data.size();
+            };
+            /**
+             * Test whether the Container is empty.
+             */
+            MapContainer.prototype.empty = function () {
+                return this.size() == 0;
+            };
+            MapContainer.prototype.insert = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                if (args.length == 1 && args[0] instanceof std.Pair) {
+                    return this.insertByPair(args[0]);
+                }
+                else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.Pair) {
+                    return this.insertByHint(args[0], args[1]);
+                }
+                else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
+                    return this.insertByRange(args[0], args[1]);
+                }
+            };
+            //{
+            //    // TEST WHETHER EXISTS
+            //    var it = this.find(pair.first);
+            //    if (it.equals(this.end()) == false)
+            //        return new Pair<PairIterator<K, T>, boolean>(it, false);
+            //    // INSERT
+            //    this.data.pushBack(pair);
+            //    it = it.prev();
+            //    // POST-PROCESS
+            //    this.handleInsert(<MapIterator<K, T>>it);
+            //    return new Pair<PairIterator<K, T>, boolean>(it, true);
+            //}
+            MapContainer.prototype.insertByHint = function (hint, pair) {
+                // INSERT
+                var list_it = hint.getListIterator();
+                list_it = this.data.insert(hint.getListIterator(), pair);
+                // POST-PROCESS
+                var it = new std.MapIterator(this, list_it);
+                this.handleInsert(it);
+                return it;
+            };
+            MapContainer.prototype.insertByRange = function (begin, end) {
+                for (var it = begin; it.equals(end) == false; it = it.next())
+                    this.insertByPair(new std.Pair(it.first, it.second));
+            };
+            MapContainer.prototype.erase = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                if (args.length == 1) {
+                    if (args[0] instanceof std.MapIterator && args[0].getSource() == this)
+                        return this.eraseByIterator(args[0]);
+                    else
+                        return this.eraseByKey(args[0]);
+                }
+                else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator)
+                    return this.eraseByRange(args[0], args[1]);
+            };
+            MapContainer.prototype.eraseByKey = function (key) {
+                var it = this.find(key);
+                if (it.equals(this.end()) == true)
+                    return 0;
+                this.eraseByIterator(it);
+                return 1;
+            };
+            MapContainer.prototype.eraseByIterator = function (it) {
+                // ERASE
+                var listIterator = this.data.erase(it.getListIterator());
+                // POST-PROCESS
+                this.handleErase(it);
+                return new std.MapIterator(this, listIterator);
+                ;
+            };
+            MapContainer.prototype.eraseByRange = function (begin, end) {
+                // ERASE
+                var listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
+                // POST-PROCESS
+                for (var it = begin; it.equals(this.end()) == false; it = it.next())
+                    this.handleErase(it);
+                return new std.MapIterator(this, listIterator);
+            };
+            return MapContainer;
+        })();
+        base.MapContainer = MapContainer;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="MapContainer.ts" />
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var MultiMap = (function (_super) {
+            __extends(MultiMap, _super);
+            /* ---------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------- */
+            /**
+             * Default Constructor.
+             */
+            function MultiMap() {
+                _super.call(this);
+            }
+            /**
+             * @inheritdoc
+             */
+            MultiMap.prototype.count = function (key) {
+                var myIt = this.find(key);
+                if (myIt.equals(this.end()))
+                    return 0;
+                var size = 1;
+                for (var it = myIt.prev(); !it.equals(this.end()) && std.equals(key, it.first); it = it.prev())
+                    size++;
+                for (var it = myIt.next(); !it.equals(this.end()) && std.equals(key, it.first); it = it.next())
+                    size++;
+                return size;
+            };
+            MultiMap.prototype.insert = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                return _super.prototype.insert.apply(this, args);
+            };
+            return MultiMap;
+        })(base.MapContainer);
+        base.MultiMap = MultiMap;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
 var std;
 (function (std) {
     /* =========================================================
@@ -343,422 +632,7 @@ var std;
     })(RuntimeError);
     std.SystemError = SystemError;
 })(std || (std = {}));
-/// <reference path="MapIterator.ts" />
-/// <reference path="Object.ts" />
-/// <reference path="Pair.ts" />
-/// <reference path="Exception.ts" />
-var std;
-(function (std) {
-    var MapContainer = (function () {
-        /* =========================================================
-            CONSTRUCTORS & SEMI-CONSTRUCTORS
-                - CONSTRUCTORS
-                - ASSIGN & CLEAR
-        ============================================================
-            CONSTURCTORS
-        --------------------------------------------------------- */
-        /**
-         * Default Constructor.
-         */
-        function MapContainer() {
-        }
-        MapContainer.prototype.constructByArray = function (items) {
-            for (var i = 0; i < items.length; i++)
-                this.insertByPair(items[i]);
-        };
-        MapContainer.prototype.constructByContainer = function (container) {
-            this.constructByRange(container.begin(), container.end());
-        };
-        MapContainer.prototype.constructByRange = function (begin, end) {
-            this.assign(begin, end);
-        };
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
-        /**
-         * <p> Assign new content to content. </p>
-         *
-         * <p> Assigns new contents to the Container, replacing its current contents,
-         * and modifying its size accordingly. </p>
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        MapContainer.prototype.assign = function (begin, end) {
-            // INSERT
-            for (var it = begin; it.equals(end) == false; it = it.next())
-                this.insertByPair(new std.Pair(it.first, it.second));
-        };
-        /**
-         * <p> Clear content. </p>
-         *
-         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
-         */
-        MapContainer.prototype.clear = function () {
-            this.data.clear();
-        };
-        /**
-         * <p> Return iterator to beginning. </p>
-         * <p> Returns an iterator referring the first element in the Container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> If the container is empty, the returned iterator is same with end(). </p>
-         *
-         * @return An iterator to the first element in the container.
-         * The iterator containes the first element's value.
-         */
-        MapContainer.prototype.begin = function () {
-            return new std.MapIterator(this, this.data.begin());
-        };
-        /**
-         * <p> Return iterator to end. </p>
-         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
-         *
-         * <p> The past-the-end element is the theoretical element that would follow the last element in
-         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
-         *
-         * <p> Because the ranges used by functions of the Container do not include the element reference
-         * by their closing iterator, this function is often used in combination with Container::begin() to specify
-         * a range including all the elements in the container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-         * element by the iterator will cause throwing exception (out of range). </p>
-         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
-         *
-         * @return An iterator to the end element in the container.
-         */
-        MapContainer.prototype.end = function () {
-            return new std.MapIterator(this, this.data.end());
-        };
-        /* ---------------------------------------------------------
-            ELEMENTS
-        --------------------------------------------------------- */
-        /**
-         * <p> Whether have the item or not. </p>
-         * <p> Indicates whether a map has an item having the specified identifier. </p>
-         *
-         * @param key Key value of the element whose mapped value is accessed.
-         *
-         * @return Whether the map has an item having the specified identifier.
-         */
-        MapContainer.prototype.has = function (key) {
-            return this.count(key) != 0;
-        };
-        /**
-         * Return the number of elements in the map.
-         */
-        MapContainer.prototype.size = function () {
-            return this.data.size();
-        };
-        /**
-         * Test whether the Container is empty.
-         */
-        MapContainer.prototype.empty = function () {
-            return this.size() == 0;
-        };
-        MapContainer.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            if (args.length == 1 && args[0] instanceof std.Pair) {
-                return this.insertByPair(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.Pair) {
-                return this.insertByHint(args[0], args[1]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
-                return this.insertByRange(args[0], args[1]);
-            }
-        };
-        //{
-        //    // TEST WHETHER EXISTS
-        //    var it = this.find(pair.first);
-        //    if (it.equals(this.end()) == false)
-        //        return new Pair<PairIterator<K, T>, boolean>(it, false);
-        //    // INSERT
-        //    this.data.pushBack(pair);
-        //    it = it.prev();
-        //    // POST-PROCESS
-        //    this.handleInsert(<MapIterator<K, T>>it);
-        //    return new Pair<PairIterator<K, T>, boolean>(it, true);
-        //}
-        MapContainer.prototype.insertByHint = function (hint, pair) {
-            // INSERT
-            var list_it = hint.getListIterator();
-            list_it = this.data.insert(hint.getListIterator(), pair);
-            // POST-PROCESS
-            var it = new std.MapIterator(this, list_it);
-            this.handleInsert(it);
-            return it;
-        };
-        MapContainer.prototype.insertByRange = function (begin, end) {
-            for (var it = begin; it.equals(end) == false; it = it.next())
-                this.insertByPair(new std.Pair(it.first, it.second));
-        };
-        MapContainer.prototype.erase = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            if (args.length == 1) {
-                if (args[0] instanceof std.MapIterator && args[0].getSource() == this)
-                    return this.eraseByIterator(args[0]);
-                else
-                    return this.eraseByKey(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator)
-                return this.eraseByRange(args[0], args[1]);
-        };
-        MapContainer.prototype.eraseByKey = function (key) {
-            var it = this.find(key);
-            if (it.equals(this.end()) == true)
-                return 0;
-            this.eraseByIterator(it);
-            return 1;
-        };
-        MapContainer.prototype.eraseByIterator = function (it) {
-            // ERASE
-            var listIterator = this.data.erase(it.getListIterator());
-            // POST-PROCESS
-            this.handleErase(it);
-            return new std.MapIterator(this, listIterator);
-            ;
-        };
-        MapContainer.prototype.eraseByRange = function (begin, end) {
-            // ERASE
-            var listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
-            // POST-PROCESS
-            for (var it = begin; it.equals(this.end()) == false; it = it.next())
-                this.handleErase(it);
-            return new std.MapIterator(this, listIterator);
-        };
-        return MapContainer;
-    })();
-    std.MapContainer = MapContainer;
-})(std || (std = {}));
-/// <reference path="MapContainer.ts" />
-var std;
-(function (std) {
-    var MapIterator = (function () {
-        /* ---------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------- */
-        /**
-         * Construct from the source PairContainer.
-         *
-         * @param source The source PairContainer.
-         */
-        function MapIterator(source, listIterator) {
-            this.source = source;
-            this.listIterator = listIterator;
-        }
-        /**
-         * Get listIterator.
-         */
-        MapIterator.prototype.getListIterator = function () {
-            return this.listIterator;
-        };
-        /* ---------------------------------------------------------
-            MOVERS
-        --------------------------------------------------------- */
-        /**
-         * Get iterator to previous element.
-         */
-        MapIterator.prototype.prev = function () {
-            return new MapIterator(this.source, this.listIterator.prev());
-        };
-        /**
-         * Get iterator to next element.
-         */
-        MapIterator.prototype.next = function () {
-            return new MapIterator(this.source, this.listIterator.next());
-        };
-        /**
-         * Advances the Iterator by n element positions.
-         *
-         * @param n Number of element positions to advance.
-         * @return An advanced Iterator.
-         */
-        MapIterator.prototype.advance = function (n) {
-            var it = this;
-            var i;
-            if (n >= 0) {
-                for (i = 0; i < n; i++)
-                    if (it.equals(this.source.end()))
-                        return this.source.end();
-                    else
-                        it = it.next();
-            }
-            else {
-                n = n * -1;
-                for (i = 0; i < n; i++)
-                    if (it.equals(this.source.end()))
-                        return this.source.end();
-                    else
-                        it = it.prev();
-            }
-            return it;
-        };
-        /* ---------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------- */
-        /**
-         * Get source.
-         */
-        MapIterator.prototype.getSource = function () {
-            return this.source;
-        };
-        MapIterator.prototype.equals = function (obj) {
-            return this.source == obj.source && this.listIterator.equals(obj.listIterator);
-        };
-        Object.defineProperty(MapIterator.prototype, "first", {
-            /**
-             * Get first, key element.
-             */
-            get: function () {
-                return this.listIterator.value.first;
-            },
-            set: function (key) {
-                this.listIterator.value.first = key;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(MapIterator.prototype, "second", {
-            /**
-             * Get second, value element.
-             */
-            get: function () {
-                return this.listIterator.value.second;
-            },
-            set: function (val) {
-                this.listIterator.value.second = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return MapIterator;
-    })();
-    std.MapIterator = MapIterator;
-})(std || (std = {}));
-/// <reference path="MapContainer.ts" />
-var std;
-(function (std) {
-    var BaseMap = (function (_super) {
-        __extends(BaseMap, _super);
-        /* ---------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------- */
-        /**
-         * Default Constructor.
-         */
-        function BaseMap() {
-            _super.call(this);
-        }
-        /**
-         * @inheritdoc
-         */
-        BaseMap.prototype.count = function (key) {
-            return this.find(key).equals(this.end()) ? 0 : 1;
-        };
-        BaseMap.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            return _super.prototype.insert.apply(this, args);
-        };
-        return BaseMap;
-    })(std.MapContainer);
-    std.BaseMap = BaseMap;
-})(std || (std = {}));
-/// <reference path="MapContainer.ts" />
-var std;
-(function (std) {
-    var BaseMultiMap = (function (_super) {
-        __extends(BaseMultiMap, _super);
-        /* ---------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------- */
-        /**
-         * Default Constructor.
-         */
-        function BaseMultiMap() {
-            _super.call(this);
-        }
-        /**
-         * @inheritdoc
-         */
-        BaseMultiMap.prototype.count = function (key) {
-            var myIt = this.find(key);
-            if (myIt.equals(this.end()))
-                return 0;
-            var size = 1;
-            for (var it = myIt.prev(); !it.equals(this.end()) && std.equals(key, it.first); it = it.prev())
-                size++;
-            for (var it = myIt.next(); !it.equals(this.end()) && std.equals(key, it.first); it = it.next())
-                size++;
-            return size;
-        };
-        BaseMultiMap.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            return _super.prototype.insert.apply(this, args);
-        };
-        return BaseMultiMap;
-    })(std.MapContainer);
-    std.BaseMultiMap = BaseMultiMap;
-})(std || (std = {}));
-/// <reference path="Iterator.ts" />
-/// <reference path="Object.ts" />
-/// <reference path="IContainer.ts" />
-/// <reference path="Iterator.ts" />
-/// <reference path="Exception.ts" />
-/// <referecen path="Vector.ts" />
-var std;
-(function (std) {
-    /**
-     * An abstract class containing elements.
-     *
-     * @author Jeongho Nam
-     */
-    var Container = (function () {
-        function Container() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof Container)) {
-                var container = args[0];
-                this.assign(container.begin(), container.end());
-            }
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
-                var begin = args[0];
-                var end = args[1];
-                this.assign(begin, end);
-            }
-        }
-        /**
-         * @inheritdoc
-         */
-        Container.prototype.clear = function () {
-            this.erase(this.begin(), this.end());
-        };
-        /**
-         * @inheritdoc
-         */
-        Container.prototype.empty = function () {
-            return this.size() == 0;
-        };
-        return Container;
-    })();
-    std.Container = Container;
-})(std || (std = {}));
-/// <reference path="Container.ts" />
+/// <reference path="base/Container.ts" />
 /// <reference path="Exception.ts" />
 var std;
 (function (std) {
@@ -853,7 +727,157 @@ var std;
     })();
     std.Iterator = Iterator;
 })(std || (std = {}));
+/// <reference path="../Iterator.ts" />
 /// <reference path="IContainer.ts" />
+/// <reference path="../Iterator.ts" />
+/// <reference path="../Exception.ts" />
+/// <referecen path="../Vector.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * An abstract class containing elements.
+         *
+         * @author Jeongho Nam
+         */
+        var Container = (function () {
+            function Container() {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof Container)) {
+                    var container = args[0];
+                    this.assign(container.begin(), container.end());
+                }
+                else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+                    var begin = args[0];
+                    var end = args[1];
+                    this.assign(begin, end);
+                }
+            }
+            /**
+             * @inheritdoc
+             */
+            Container.prototype.clear = function () {
+                this.erase(this.begin(), this.end());
+            };
+            /**
+             * @inheritdoc
+             */
+            Container.prototype.empty = function () {
+                return this.size() == 0;
+            };
+            return Container;
+        })();
+        base.Container = Container;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="Iterator.ts" />
+/// <reference path="Vector.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> A bi-directional iterator of a Set. </p>
+     *
+     * @tparam T Type of the elements.
+     *
+     * @author Jeongho Nam
+     */
+    var VectorIterator = (function (_super) {
+        __extends(VectorIterator, _super);
+        /* ---------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------- */
+        /**
+         * <p> Construct from source and index number. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Do not create iterator directly. </p>
+         * <p> Use begin(), find() or end() in Vector instead. </p>
+         *
+         * @param vector The source vector to reference.
+         * @param index Sequence number of the element in the surce vector.
+         */
+        function VectorIterator(source, index) {
+            _super.call(this, source);
+            this.index = index;
+        }
+        Object.defineProperty(VectorIterator.prototype, "vector", {
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            get: function () {
+                return this.source;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(VectorIterator.prototype, "value", {
+            /**
+             * @inheritdoc
+             */
+            get: function () {
+                return this.vector.at(this.index);
+            },
+            /**
+             * @inheritdoc
+             */
+            set: function (val) {
+                this.vector.set(this.index, val);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @inheritdoc
+         */
+        VectorIterator.prototype.equals = function (obj) {
+            return _super.prototype.equals.call(this, obj) && this.index == obj.index;
+        };
+        /**
+         * Get index.
+         */
+        VectorIterator.prototype.getIndex = function () {
+            return this.index;
+        };
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        VectorIterator.prototype.prev = function () {
+            if (this.index <= 0)
+                return this.source.end();
+            else
+                return new VectorIterator(this.vector, this.index - 1);
+        };
+        /**
+         * @inheritdoc
+         */
+        VectorIterator.prototype.next = function () {
+            if (this.index >= this.source.size() - 1)
+                return this.source.end();
+            else
+                return new VectorIterator(this.vector, this.index + 1);
+        };
+        /**
+         * @inheritdoc
+         */
+        VectorIterator.prototype.advance = function (n) {
+            var newIndex = this.index + n;
+            if (newIndex < 0 || newIndex >= this.source.size())
+                return this.source.end();
+            else
+                return new VectorIterator(this.vector, newIndex);
+        };
+        return VectorIterator;
+    })(std.Iterator);
+    std.VectorIterator = VectorIterator;
+})(std || (std = {}));
+/// <reference path="base/IContainer.ts" />
 /// <reference path="VectorIterator.ts" />
 var std;
 (function (std) {
@@ -919,7 +943,7 @@ var std;
                 var val = args[1];
                 this.assign(size, val);
             }
-            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof std.Container)) {
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof std.base.Container)) {
                 // COPY CONSTRUCTOR
                 var container = args[0];
                 this.assign(container.begin(), container.end());
@@ -1111,190 +1135,7 @@ var std;
     })(Array);
     std.Vector = Vector;
 })(std || (std = {}));
-/// <reference path="Iterator.ts" />
-/// <reference path="Vector.ts" />
-var std;
-(function (std) {
-    /**
-     * <p> A bi-directional iterator of a Set. </p>
-     *
-     * @tparam T Type of the elements.
-     *
-     * @author Jeongho Nam
-     */
-    var VectorIterator = (function (_super) {
-        __extends(VectorIterator, _super);
-        /* ---------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------- */
-        /**
-         * <p> Construct from source and index number. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in Vector instead. </p>
-         *
-         * @param vector The source vector to reference.
-         * @param index Sequence number of the element in the surce vector.
-         */
-        function VectorIterator(source, index) {
-            _super.call(this, source);
-            this.index = index;
-        }
-        Object.defineProperty(VectorIterator.prototype, "vector", {
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            get: function () {
-                return this.source;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(VectorIterator.prototype, "value", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.vector.at(this.index);
-            },
-            /**
-             * @inheritdoc
-             */
-            set: function (val) {
-                this.vector.set(this.index, val);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.index == obj.index;
-        };
-        /**
-         * Get index.
-         */
-        VectorIterator.prototype.getIndex = function () {
-            return this.index;
-        };
-        /* ---------------------------------------------------------
-            MOVERS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.prev = function () {
-            if (this.index <= 0)
-                return this.source.end();
-            else
-                return new VectorIterator(this.vector, this.index - 1);
-        };
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.next = function () {
-            if (this.index >= this.source.size() - 1)
-                return this.source.end();
-            else
-                return new VectorIterator(this.vector, this.index + 1);
-        };
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.advance = function (n) {
-            var newIndex = this.index + n;
-            if (newIndex < 0 || newIndex >= this.source.size())
-                return this.source.end();
-            else
-                return new VectorIterator(this.vector, newIndex);
-        };
-        return VectorIterator;
-    })(std.Iterator);
-    std.VectorIterator = VectorIterator;
-})(std || (std = {}));
-/// <reference path="Iterator.ts" />
-/// <reference path="List.ts" />
-var std;
-(function (std) {
-    var ListIterator = (function (_super) {
-        __extends(ListIterator, _super);
-        /* ---------------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------------- */
-        /**
-         * <p> Construct from source List. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in List instead. </p>
-         *
-         * @param list The source vector to reference.
-         */
-        function ListIterator(source, prev, next, value) {
-            _super.call(this, source);
-            this.prev_ = prev;
-            this.next_ = next;
-            this.value_ = value;
-        }
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.setPrev = function (prev) {
-            this.prev_ = prev;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.setNext = function (next) {
-            this.next_ = next;
-        };
-        /* ---------------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.equals = function (obj) {
-            if (obj instanceof ListIterator == false)
-                return false;
-            var it = obj;
-            return _super.prototype.equals.call(this, obj) == true && this.prev_ == it.prev_ && this.next_ == it.next_;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.prev = function () {
-            return this.prev_;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.next = function () {
-            return this.next_;
-        };
-        Object.defineProperty(ListIterator.prototype, "value", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.value_;
-            },
-            /**
-             * @inheritdoc
-             */
-            set: function (val) {
-                this.value_ = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ListIterator;
-    })(std.Iterator);
-    std.ListIterator = ListIterator;
-})(std || (std = {}));
-/// <reference path="Container.ts" />
+/// <reference path="base/Container.ts" />
 /// <reference path="ListIterator.ts" />
 /// <reference path="Vector.ts" />
 var std;
@@ -1346,7 +1187,7 @@ var std;
                 this.clear();
                 this.push.apply(this, array);
             }
-            else if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof std.Container)) {
+            else if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof std.base.Container)) {
                 var container = args[0];
                 this.assign(container.begin(), container.end());
             }
@@ -1626,211 +1467,91 @@ var std;
             return prev;
         };
         return List;
-    })(std.Container);
+    })(std.base.Container);
     std.List = List;
 })(std || (std = {}));
-/// <reference path="Container.ts" />
-/// <reference path="SetIterator.ts" />
+/// <reference path="Iterator.ts" />
 /// <reference path="List.ts" />
-/// <reference path="Pair.ts" />
 var std;
 (function (std) {
-    /**
-     * Abstract Set.
-     *
-     * @author Jeongho Nam
-     */
-    var SetContainer = (function (_super) {
-        __extends(SetContainer, _super);
-        /* =========================================================
-            CONSTRUCTORS & SEMI-CONSTRUCTORS
-                - CONSTRUCTORS
-                - ASSIGN & CLEAR
-        ============================================================
-            CONSTURCTORS
-        --------------------------------------------------------- */
+    var ListIterator = (function (_super) {
+        __extends(ListIterator, _super);
+        /* ---------------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------------- */
         /**
-         * Default Constructor.
+         * <p> Construct from source List. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Do not create iterator directly. </p>
+         * <p> Use begin(), find() or end() in List instead. </p>
+         *
+         * @param list The source vector to reference.
          */
-        function SetContainer() {
-            _super.call(this);
-            // INITIALIZATION
-            this.data = new std.List();
-            //// OVERLOADINGS
-            //if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
-            //{
-            //    this.constructByArray(args[0]);
-            //}
-            //else if (args.length == 1 && args[0] instanceof Container)
-            //{
-            //    this.constructByContainer(args[0]);
-            //}
-            //else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-            //{
-            //    this.constructByRange(args[0], args[1]);
-            //}
+        function ListIterator(source, prev, next, value) {
+            _super.call(this, source);
+            this.prev_ = prev;
+            this.next_ = next;
+            this.value_ = value;
         }
-        SetContainer.prototype.constructByArray = function (items) {
-            for (var i = 0; i < items.length; i++) {
-                if (this.has(items[i]) == true)
-                    continue;
-                this.insertByVal(items[i]);
-            }
-        };
-        SetContainer.prototype.constructByContainer = function (container) {
-            this.constructByRange(container.begin(), container.end());
-        };
-        SetContainer.prototype.constructByRange = function (begin, end) {
-            this.assign(begin, end);
-        };
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        SetContainer.prototype.assign = function (begin, end) {
-            // INSERT
-            for (var it = begin; it.equals(end) == false; it = it.next())
-                this.insertByVal(it.value);
+        ListIterator.prototype.setPrev = function (prev) {
+            this.prev_ = prev;
         };
         /**
          * @inheritdoc
          */
-        SetContainer.prototype.clear = function () {
-            this.data.clear();
+        ListIterator.prototype.setNext = function (next) {
+            this.next_ = next;
+        };
+        /* ---------------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.equals = function (obj) {
+            if (obj instanceof ListIterator == false)
+                return false;
+            var it = obj;
+            return _super.prototype.equals.call(this, obj) == true && this.prev_ == it.prev_ && this.next_ == it.next_;
         };
         /**
          * @inheritdoc
          */
-        SetContainer.prototype.begin = function () {
-            return new std.SetIterator(this, this.data.begin());
+        ListIterator.prototype.prev = function () {
+            return this.prev_;
         };
         /**
          * @inheritdoc
          */
-        SetContainer.prototype.end = function () {
-            return new std.SetIterator(this, this.data.end());
+        ListIterator.prototype.next = function () {
+            return this.next_;
         };
-        /* ---------------------------------------------------------
-            ELEMENTS
-        --------------------------------------------------------- */
-        /**
-         * <p> Whether have the item or not. </p>
-         * <p> Indicates whether a set has an item having the specified identifier. </p>
-         *
-         * @param key Key value of the element whose mapped value is accessed.
-         *
-         * @return Whether the set has an item having the specified identifier.
-         */
-        SetContainer.prototype.has = function (val) {
-            return this.count(val) != 0;
-        };
-        /**
-         * @inheritdoc
-         */
-        SetContainer.prototype.size = function () {
-            return this.data.size();
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - INSERT
-                - ERASE
-                - POST-PROCESS
-        ============================================================
-            INSERT
-        --------------------------------------------------------- */
-        SetContainer.prototype.push = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            for (var i = 0; i < args.length; i++)
-                this.insertByVal(args[i]);
-            return this.size();
-        };
-        SetContainer.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            if (args.length == 1)
-                return this.insertByVal(args[0]);
-            else if (args.length == 2 && args[0] instanceof std.Iterator) {
-                if (args[1] instanceof std.Iterator && args[0].getSource() != this && args[1].getSource() != this)
-                    return this.insertByRange(args[0], args[1]);
-                else
-                    return this.insertByHint(args[0], args[1]);
-            }
-        };
-        //{
-        //    // test whether exists
-        //    var it = this.find(val);
-        //    if (it.equals(this.end()) == false)
-        //        return new pair<iterator<t>, boolean>(it, false);
-        //    // insert
-        //    this.data.pushback(val);
-        //    it = it.prev();
-        //    // post-process
-        //    this.handleinsert(<setiterator<t>>it);
-        //    return new pair<iterator<t>, boolean>(it, true);
-        //}
-        SetContainer.prototype.insertByHint = function (hint, val) {
-            // INSERT
-            var listIterator = this.data.insert(hint.getListIterator(), val);
-            // POST-PROCESS
-            var it = new std.SetIterator(this, listIterator);
-            this.handleInsert(it);
-            return it;
-        };
-        SetContainer.prototype.insertByRange = function (begin, end) {
-            for (var it = begin; it.equals(end) == false; it = it.next()) {
-                this.insertByVal(it.value);
-            }
-        };
-        SetContainer.prototype.erase = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            if (args.length == 1)
-                if (args[0] instanceof std.Iterator && args[0].getSource() == this)
-                    return this.eraseByIterator(args[0]);
-                else
-                    return this.eraseByKey(args[0]);
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator)
-                return this.eraseByRange(args[0], args[1]);
-        };
-        SetContainer.prototype.eraseByKey = function (val) {
-            // TEST WHETHER EXISTS
-            var it = this.find(val);
-            if (it.equals(this.end()) == true)
-                return 0;
-            // ERASE
-            this.eraseByIterator(it);
-            return 1;
-        };
-        SetContainer.prototype.eraseByIterator = function (it) {
-            // ERASE
-            var listIterator = this.data.erase(it.getListIterator());
-            // POST-PROCESS
-            this.handleErase(it);
-            return new std.SetIterator(this, listIterator);
-        };
-        SetContainer.prototype.eraseByRange = function (begin, end) {
-            // ERASE
-            var listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
-            // POST-PROCESS
-            for (var it = begin; it.equals(this.end()) == false; it = it.next())
-                this.handleErase(it);
-            return begin.prev();
-        };
-        return SetContainer;
-    })(std.Container);
-    std.SetContainer = SetContainer;
+        Object.defineProperty(ListIterator.prototype, "value", {
+            /**
+             * @inheritdoc
+             */
+            get: function () {
+                return this.value_;
+            },
+            /**
+             * @inheritdoc
+             */
+            set: function (val) {
+                this.value_ = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ListIterator;
+    })(std.Iterator);
+    std.ListIterator = ListIterator;
 })(std || (std = {}));
 /// <refe0rence path="Iterator.ts" />
-/// <reference path="SetContainer.ts" />
+/// <reference path="base/SetContainer.ts" />
 /// <reference path="ListIterator.ts" />
 var std;
 (function (std) {
@@ -1908,69 +1629,312 @@ var std;
     })(std.Iterator);
     std.SetIterator = SetIterator;
 })(std || (std = {}));
-/// <reference path="SetContainer.ts" />
+/// <reference path="Container.ts" />
+/// <reference path="../SetIterator.ts" />
+/// <reference path="../List.ts" />
+/// <reference path="../Pair.ts" />
 var std;
 (function (std) {
-    var BaseMultiSet = (function (_super) {
-        __extends(BaseMultiSet, _super);
-        /* ---------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------- */
+    var base;
+    (function (base) {
         /**
-         * Default Constructor.
+         * Abstract Set.
+         *
+         * @author Jeongho Nam
          */
-        function BaseMultiSet() {
-            _super.call(this);
-        }
-        BaseMultiSet.prototype.count = function (val) {
-            var myIt = this.find(val);
-            if (myIt.equals(this.end()))
-                return 0;
-            var size = -1;
-            for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.prev())
-                size++;
-            for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
-                size++;
-            return size;
-        };
-        BaseMultiSet.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
+        var SetContainer = (function (_super) {
+            __extends(SetContainer, _super);
+            /* =========================================================
+                CONSTRUCTORS & SEMI-CONSTRUCTORS
+                    - CONSTRUCTORS
+                    - ASSIGN & CLEAR
+            ============================================================
+                CONSTURCTORS
+            --------------------------------------------------------- */
+            /**
+             * Default Constructor.
+             */
+            function SetContainer() {
+                _super.call(this);
+                // INITIALIZATION
+                this.data = new std.List();
+                //// OVERLOADINGS
+                //if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
+                //{
+                //    this.constructByArray(args[0]);
+                //}
+                //else if (args.length == 1 && args[0] instanceof Container)
+                //{
+                //    this.constructByContainer(args[0]);
+                //}
+                //else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+                //{
+                //    this.constructByRange(args[0], args[1]);
+                //}
             }
-            return _super.prototype.insert.apply(this, args);
-        };
-        return BaseMultiSet;
-    })(std.SetContainer);
-    std.BaseMultiSet = BaseMultiSet;
+            SetContainer.prototype.constructByArray = function (items) {
+                for (var i = 0; i < items.length; i++) {
+                    if (this.has(items[i]) == true)
+                        continue;
+                    this.insertByVal(items[i]);
+                }
+            };
+            SetContainer.prototype.constructByContainer = function (container) {
+                this.constructByRange(container.begin(), container.end());
+            };
+            SetContainer.prototype.constructByRange = function (begin, end) {
+                this.assign(begin, end);
+            };
+            /* ---------------------------------------------------------
+                ASSIGN & CLEAR
+            --------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            SetContainer.prototype.assign = function (begin, end) {
+                // INSERT
+                for (var it = begin; it.equals(end) == false; it = it.next())
+                    this.insertByVal(it.value);
+            };
+            /**
+             * @inheritdoc
+             */
+            SetContainer.prototype.clear = function () {
+                this.data.clear();
+            };
+            /**
+             * @inheritdoc
+             */
+            SetContainer.prototype.begin = function () {
+                return new std.SetIterator(this, this.data.begin());
+            };
+            /**
+             * @inheritdoc
+             */
+            SetContainer.prototype.end = function () {
+                return new std.SetIterator(this, this.data.end());
+            };
+            /* ---------------------------------------------------------
+                ELEMENTS
+            --------------------------------------------------------- */
+            /**
+             * <p> Whether have the item or not. </p>
+             * <p> Indicates whether a set has an item having the specified identifier. </p>
+             *
+             * @param key Key value of the element whose mapped value is accessed.
+             *
+             * @return Whether the set has an item having the specified identifier.
+             */
+            SetContainer.prototype.has = function (val) {
+                return this.count(val) != 0;
+            };
+            /**
+             * @inheritdoc
+             */
+            SetContainer.prototype.size = function () {
+                return this.data.size();
+            };
+            /* =========================================================
+                ELEMENTS I/O
+                    - INSERT
+                    - ERASE
+                    - POST-PROCESS
+            ============================================================
+                INSERT
+            --------------------------------------------------------- */
+            SetContainer.prototype.push = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                for (var i = 0; i < args.length; i++)
+                    this.insertByVal(args[i]);
+                return this.size();
+            };
+            SetContainer.prototype.insert = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                if (args.length == 1)
+                    return this.insertByVal(args[0]);
+                else if (args.length == 2 && args[0] instanceof std.Iterator) {
+                    if (args[1] instanceof std.Iterator && args[0].getSource() != this && args[1].getSource() != this)
+                        return this.insertByRange(args[0], args[1]);
+                    else
+                        return this.insertByHint(args[0], args[1]);
+                }
+            };
+            //{
+            //    // test whether exists
+            //    var it = this.find(val);
+            //    if (it.equals(this.end()) == false)
+            //        return new pair<iterator<t>, boolean>(it, false);
+            //    // insert
+            //    this.data.pushback(val);
+            //    it = it.prev();
+            //    // post-process
+            //    this.handleinsert(<setiterator<t>>it);
+            //    return new pair<iterator<t>, boolean>(it, true);
+            //}
+            SetContainer.prototype.insertByHint = function (hint, val) {
+                // INSERT
+                var listIterator = this.data.insert(hint.getListIterator(), val);
+                // POST-PROCESS
+                var it = new std.SetIterator(this, listIterator);
+                this.handleInsert(it);
+                return it;
+            };
+            SetContainer.prototype.insertByRange = function (begin, end) {
+                for (var it = begin; it.equals(end) == false; it = it.next()) {
+                    this.insertByVal(it.value);
+                }
+            };
+            SetContainer.prototype.erase = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                if (args.length == 1)
+                    if (args[0] instanceof std.Iterator && args[0].getSource() == this)
+                        return this.eraseByIterator(args[0]);
+                    else
+                        return this.eraseByKey(args[0]);
+                else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator)
+                    return this.eraseByRange(args[0], args[1]);
+            };
+            SetContainer.prototype.eraseByKey = function (val) {
+                // TEST WHETHER EXISTS
+                var it = this.find(val);
+                if (it.equals(this.end()) == true)
+                    return 0;
+                // ERASE
+                this.eraseByIterator(it);
+                return 1;
+            };
+            SetContainer.prototype.eraseByIterator = function (it) {
+                // ERASE
+                var listIterator = this.data.erase(it.getListIterator());
+                // POST-PROCESS
+                this.handleErase(it);
+                return new std.SetIterator(this, listIterator);
+            };
+            SetContainer.prototype.eraseByRange = function (begin, end) {
+                // ERASE
+                var listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
+                // POST-PROCESS
+                for (var it = begin; it.equals(this.end()) == false; it = it.next())
+                    this.handleErase(it);
+                return begin.prev();
+            };
+            return SetContainer;
+        })(base.Container);
+        base.SetContainer = SetContainer;
+    })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="SetContainer.ts" />
 var std;
 (function (std) {
-    var BaseSet = (function (_super) {
-        __extends(BaseSet, _super);
-        /* =========================================================
-            CONSTRUCTORS
-        ========================================================= */
-        /**
-         * Default Constructor.
-         */
-        function BaseSet() {
-            _super.call(this);
-        }
-        BaseSet.prototype.count = function (key) {
-            return this.find(key).equals(this.end()) ? 0 : 1;
-        };
-        BaseSet.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
+    var base;
+    (function (base) {
+        var MultiSet = (function (_super) {
+            __extends(MultiSet, _super);
+            /* ---------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------- */
+            /**
+             * Default Constructor.
+             */
+            function MultiSet() {
+                _super.call(this);
             }
-            return _super.prototype.insert.apply(this, args);
-        };
-        return BaseSet;
-    })(std.SetContainer);
-    std.BaseSet = BaseSet;
+            MultiSet.prototype.count = function (val) {
+                var myIt = this.find(val);
+                if (myIt.equals(this.end()))
+                    return 0;
+                var size = -1;
+                for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.prev())
+                    size++;
+                for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
+                    size++;
+                return size;
+            };
+            MultiSet.prototype.insert = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                return _super.prototype.insert.apply(this, args);
+            };
+            return MultiSet;
+        })(base.SetContainer);
+        base.MultiSet = MultiSet;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="MapContainer.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var UniqueMap = (function (_super) {
+            __extends(UniqueMap, _super);
+            /* ---------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------- */
+            /**
+             * Default Constructor.
+             */
+            function UniqueMap() {
+                _super.call(this);
+            }
+            /**
+             * @inheritdoc
+             */
+            UniqueMap.prototype.count = function (key) {
+                return this.find(key).equals(this.end()) ? 0 : 1;
+            };
+            UniqueMap.prototype.insert = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                return _super.prototype.insert.apply(this, args);
+            };
+            return UniqueMap;
+        })(base.MapContainer);
+        base.UniqueMap = UniqueMap;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="SetContainer.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var UniqueSet = (function (_super) {
+            __extends(UniqueSet, _super);
+            /* =========================================================
+                CONSTRUCTORS
+            ========================================================= */
+            /**
+             * Default Constructor.
+             */
+            function UniqueSet() {
+                _super.call(this);
+            }
+            UniqueSet.prototype.count = function (key) {
+                return this.find(key).equals(this.end()) ? 0 : 1;
+            };
+            UniqueSet.prototype.insert = function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                return _super.prototype.insert.apply(this, args);
+            };
+            return UniqueSet;
+        })(base.SetContainer);
+        base.UniqueSet = UniqueSet;
+    })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -1993,8 +1957,62 @@ var std;
     })();
     std.Bind = Bind;
 })(std || (std = {}));
-/// <reference path="BaseSet.ts" />
-/// <reference path="Hash.ts" />
+/// <reference path="../Object.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * A static class for issuing hash code.
+         *
+         * @author Jeongho Nam
+         */
+        var Hash = (function () {
+            function Hash() {
+            }
+            Object.defineProperty(Hash, "MIN_SIZE", {
+                get: function () { return 10; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Hash, "RATIO", {
+                get: function () { return 0.8; },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(Hash, "MAX_RATIO", {
+                get: function () { return 2.0; },
+                enumerable: true,
+                configurable: true
+            });
+            Hash.code = function (val) {
+                var type = typeof val;
+                if (type == "number")
+                    return Hash.codeByNumber(val);
+                else if (type == "string")
+                    return Hash.codeByString(val);
+                else
+                    return Hash.codeByObject(val);
+            };
+            Hash.codeByNumber = function (val) {
+                return Math.abs(Math.round(val));
+            };
+            Hash.codeByString = function (str) {
+                var val = 0;
+                for (var i = 0; i < str.length; i++)
+                    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+                return val;
+            };
+            Hash.codeByObject = function (obj) {
+                return obj.hashCode();
+            };
+            return Hash;
+        })();
+        base.Hash = Hash;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="base/UniqueSet.ts" />
+/// <reference path="base/Hash.ts" />
 var std;
 (function (std) {
     /**
@@ -2037,7 +2055,7 @@ var std;
             if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
                 this.constructByArray(args[0]);
             }
-            else if (args.length == 1 && args[0] instanceof std.Container) {
+            else if (args.length == 1 && args[0] instanceof std.base.Container) {
                 this.constructByContainer(args[0]);
             }
             else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -2045,7 +2063,7 @@ var std;
             }
         }
         UnorderedSet.prototype.constructByArray = function (items) {
-            this.constructHashGroup(items.length * std.Hash.RATIO);
+            this.constructHashGroup(items.length * std.base.Hash.RATIO);
             _super.prototype.constructByArray.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -2060,7 +2078,7 @@ var std;
             // REVERSE HASH_GROUP SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            this.constructHashGroup(size * std.Hash.RATIO);
+            this.constructHashGroup(size * std.base.Hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -2076,8 +2094,8 @@ var std;
         --------------------------------------------------------- */
         UnorderedSet.prototype.constructHashGroup = function (size) {
             if (size === void 0) { size = -1; }
-            if (size < std.Hash.MIN_SIZE)
-                size = std.Hash.MIN_SIZE;
+            if (size < std.base.Hash.MIN_SIZE)
+                size = std.base.Hash.MIN_SIZE;
             // CLEAR
             this.hashGroup = new std.Vector();
             // AND INSERTS WITHI CAPACITY SIZE
@@ -2087,7 +2105,7 @@ var std;
         UnorderedSet.prototype.reconstructHashGroup = function (size) {
             if (size === void 0) { size = -1; }
             if (size == -1)
-                size = this.size() * std.Hash.RATIO;
+                size = this.size() * std.base.Hash.RATIO;
             // CONSTURCT HASH_GROUP
             this.constructHashGroup(size);
             //RE-INSERT ELEMENTS TO HASH GROUP
@@ -2134,7 +2152,7 @@ var std;
                 size++;
             // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * std.Hash.RATIO);
+                this.reconstructHashGroup((this.size() + size) * std.base.Hash.RATIO);
             // INSERTS
             _super.prototype.insertByRange.call(this, begin, end);
         };
@@ -2145,7 +2163,7 @@ var std;
          * @inheritdoc
          */
         UnorderedSet.prototype.handleInsert = function (item) {
-            if (this.size() > this.hashGroup.size() * std.Hash.MAX_RATIO)
+            if (this.size() > this.hashGroup.size() * std.base.Hash.MAX_RATIO)
                 this.reconstructHashGroup();
             var index = this.hashIndex(item.value);
             this.hashGroup.at(index).push(item);
@@ -2163,10 +2181,10 @@ var std;
                 }
         };
         UnorderedSet.prototype.hashIndex = function (val) {
-            return std.Hash.code(val) % this.hashGroup.size();
+            return std.base.Hash.code(val) % this.hashGroup.size();
         };
         return UnorderedSet;
-    })(std.BaseSet);
+    })(std.base.UniqueSet);
     std.UnorderedSet = UnorderedSet;
 })(std || (std = {}));
 /// <reference path="../List.ts" />
@@ -2240,197 +2258,7 @@ var std;
         example.ContainerTest = ContainerTest;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
-/// <reference path="BaseMap.ts" />
-/// <reference path="Hash.ts" />
-var std;
-(function (std) {
-    /**
-     * <p> Unordered Map. </p>
-     *
-     * <p> Unordered maps are associative containers that store elements formed by the combination of a key value
-     * and a mapped value, and which allows for fast retrieval of individual elements based on their keys. </p>
-     *
-     * <p> In an <code>UnorderedMap</code>, the key value is generally used to uniquely identify the element,
-     * while the mapped value is an object with the content associated to this key. Types of key and mapped
-     * value may differ. </p>
-     *
-     * <p> Internally, the elements in the <code>UnorderedMap</code> are not sorted in any particular order with
-     * respect to either their key or mapped values, but organized into buckets depending on their hash values to
-     * allow for fast access to individual elements directly by their key values (with a constant average time
-     * complexity on average). </p>
-     *
-     * <p> <code>UnorderedMap</code> containers are faster than map containers to access individual elements by
-     * their key, although they are generally less efficient for range iteration through a subset of their
-     * elements. </p>
-     *
-     * <p> Unordered maps implement the direct access operator (<code>get()</code>) which allows for direct access
-     * of the mapped value using its key value as argument. </p>
-     *
-     * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
-     * </ul>
-     *
-     * @tparam K Type of the key values.
-     *           Each element in an <code>UnorderedMap</code> is uniquely identified by its key value.
-     * @tparam T Type of the mapped value.
-     *           Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
-     *
-     * @author Migrated by Jeongho Nam
-     */
-    var UnorderedMap = (function (_super) {
-        __extends(UnorderedMap, _super);
-        function UnorderedMap() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            this.constructHashGroup();
-            // OVERLOADINGS
-            if (args.length == 1 && args[0] instanceof Array) {
-                this.constructByArray(args[0]);
-            }
-            else if (args.length == 1 && args[0] instanceof std.MapContainer) {
-                this.constructByContainer(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
-                this.constructByRange(args[0], args[1]);
-            }
-        }
-        UnorderedMap.prototype.constructByArray = function (items) {
-            this.constructHashGroup(items.length * std.Hash.RATIO);
-            _super.prototype.constructByArray.call(this, items);
-        };
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        UnorderedMap.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
-            // REVERSE HASH_GROUP SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            this.constructHashGroup(size * std.Hash.RATIO);
-            // SUPER; INSERT
-            _super.prototype.assign.call(this, begin, end);
-        };
-        /**
-         * @inheritdoc
-         */
-        UnorderedMap.prototype.clear = function () {
-            _super.prototype.clear.call(this);
-            this.constructHashGroup();
-        };
-        /* ---------------------------------------------------------
-            HASH GROUP
-        --------------------------------------------------------- */
-        UnorderedMap.prototype.constructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size < std.Hash.MIN_SIZE)
-                size = std.Hash.MIN_SIZE;
-            // CLEAR
-            this.hashGroup = new std.Vector();
-            // AND INSERTS WITHI CAPACITY SIZE
-            for (var i = 0; i < size; i++)
-                this.hashGroup.pushBack(new std.Vector());
-        };
-        UnorderedMap.prototype.reconstructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size == -1)
-                size = this.size() * std.Hash.RATIO;
-            // CONSTURCT HASH_GROUP
-            this.constructHashGroup(size);
-            // INSERT ELEMENTS TO HASH GROUP
-            for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
-                this.handleInsert(it);
-        };
-        /* =========================================================
-            ACCESSORS
-        ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        UnorderedMap.prototype.find = function (key) {
-            var hashIndex = this.hashIndex(key);
-            var hashArray = this.hashGroup.at(hashIndex);
-            for (var i = 0; i < hashArray.size(); i++)
-                if (std.equals(hashArray.at(i).first, key))
-                    return hashArray.at(i);
-            return this.end();
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - INSERT
-                - POST-PROCESS
-        ============================================================
-            INSERT
-        --------------------------------------------------------- */
-        UnorderedMap.prototype.insertByPair = function (pair) {
-            // TEST WHETHER EXIST
-            var it = this.find(pair.first);
-            if (it.equals(this.end()) == false)
-                return new std.Pair(it, false);
-            // INSERT
-            this.data.pushBack(pair);
-            it = it.prev();
-            // POST-PROCESS
-            this.handleInsert(it);
-            return new std.Pair(it, true);
-        };
-        UnorderedMap.prototype.insertByRange = function (begin, end) {
-            // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * std.Hash.RATIO);
-            // INSERTS
-            _super.prototype.insertByRange.call(this, begin, end);
-        };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        UnorderedMap.prototype.handleInsert = function (it) {
-            if (this.hashGroup.size() > this.size() * 2)
-                this.reconstructHashGroup();
-            var key = it.first;
-            var hashIndex = this.hashIndex(key);
-            this.hashGroup.at(hashIndex).pushBack(it);
-        };
-        /**
-         * @inheritdoc
-         */
-        UnorderedMap.prototype.handleErase = function (it) {
-            // FIND MATCHED HASHES
-            var key = it.first;
-            var hashIndex = this.hashIndex(key);
-            var hashVector = this.hashGroup.at(hashIndex);
-            // ERASE FROM THE HASHES
-            for (var i = 0; i < hashVector.size(); i++) {
-                if (std.equals(it.first, hashVector.at(i).first) == true) {
-                    hashVector.erase(hashVector.begin().advance(i));
-                    break;
-                }
-            }
-        };
-        UnorderedMap.prototype.hashIndex = function (val) {
-            return std.Hash.code(val) % this.hashGroup.size();
-        };
-        return UnorderedMap;
-    })(std.BaseMap);
-    std.UnorderedMap = UnorderedMap;
-})(std || (std = {}));
-/// <reference path="UnorderedMap.ts" />
-/// <reference path="UnorderedSet.ts" />
-/// <reference path="IMap.ts" />
-/// <reference path="BaseMap.ts" />
+/// <reference path="base/UniqueMap.ts" />
 var std;
 (function (std) {
     var Map = (function (_super) {
@@ -2492,10 +2320,10 @@ var std;
         Map.prototype.handleErase = function (item) {
         };
         return Map;
-    })(std.BaseMap);
+    })(std.base.UniqueMap);
     std.Map = Map;
 })(std || (std = {}));
-/// <reference path="BaseSet.ts" />
+/// <reference path="base/UniqueSet.ts" />
 var std;
 (function (std) {
     var Set = (function (_super) {
@@ -2557,7 +2385,7 @@ var std;
         Set.prototype.handleErase = function (item) {
         };
         return Set;
-    })(std.BaseSet);
+    })(std.base.UniqueSet);
     std.Set = Set;
 })(std || (std = {}));
 var std;
@@ -2579,8 +2407,195 @@ var std;
     })();
     std.Tree = Tree;
 })(std || (std = {}));
-/// <reference path="BaseMap.ts" />
-/// <reference path="Hash.ts" />
+/// <reference path="base/UniqueMap.ts" />
+/// <reference path="base/Hash.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Unordered Map. </p>
+     *
+     * <p> Unordered maps are associative containers that store elements formed by the combination of a key value
+     * and a mapped value, and which allows for fast retrieval of individual elements based on their keys. </p>
+     *
+     * <p> In an <code>UnorderedMap</code>, the key value is generally used to uniquely identify the element,
+     * while the mapped value is an object with the content associated to this key. Types of key and mapped
+     * value may differ. </p>
+     *
+     * <p> Internally, the elements in the <code>UnorderedMap</code> are not sorted in any particular order with
+     * respect to either their key or mapped values, but organized into buckets depending on their hash values to
+     * allow for fast access to individual elements directly by their key values (with a constant average time
+     * complexity on average). </p>
+     *
+     * <p> <code>UnorderedMap</code> containers are faster than map containers to access individual elements by
+     * their key, although they are generally less efficient for range iteration through a subset of their
+     * elements. </p>
+     *
+     * <p> Unordered maps implement the direct access operator (<code>get()</code>) which allows for direct access
+     * of the mapped value using its key value as argument. </p>
+     *
+     * <ul>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+     * </ul>
+     *
+     * @tparam K Type of the key values.
+     *           Each element in an <code>UnorderedMap</code> is uniquely identified by its key value.
+     * @tparam T Type of the mapped value.
+     *           Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
+     *
+     * @author Migrated by Jeongho Nam
+     */
+    var UnorderedMap = (function (_super) {
+        __extends(UnorderedMap, _super);
+        function UnorderedMap() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            this.constructHashGroup();
+            // OVERLOADINGS
+            if (args.length == 1 && args[0] instanceof Array) {
+                this.constructByArray(args[0]);
+            }
+            else if (args.length == 1 && args[0] instanceof std.base.MapContainer) {
+                this.constructByContainer(args[0]);
+            }
+            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
+                this.constructByRange(args[0], args[1]);
+            }
+        }
+        UnorderedMap.prototype.constructByArray = function (items) {
+            this.constructHashGroup(items.length * std.base.Hash.RATIO);
+            _super.prototype.constructByArray.call(this, items);
+        };
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        UnorderedMap.prototype.assign = function (begin, end) {
+            var it;
+            var size = 0;
+            // REVERSE HASH_GROUP SIZE
+            for (it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            this.constructHashGroup(size * std.base.Hash.RATIO);
+            // SUPER; INSERT
+            _super.prototype.assign.call(this, begin, end);
+        };
+        /**
+         * @inheritdoc
+         */
+        UnorderedMap.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+            this.constructHashGroup();
+        };
+        /* ---------------------------------------------------------
+            HASH GROUP
+        --------------------------------------------------------- */
+        UnorderedMap.prototype.constructHashGroup = function (size) {
+            if (size === void 0) { size = -1; }
+            if (size < std.base.Hash.MIN_SIZE)
+                size = std.base.Hash.MIN_SIZE;
+            // CLEAR
+            this.hashGroup = new std.Vector();
+            // AND INSERTS WITHI CAPACITY SIZE
+            for (var i = 0; i < size; i++)
+                this.hashGroup.pushBack(new std.Vector());
+        };
+        UnorderedMap.prototype.reconstructHashGroup = function (size) {
+            if (size === void 0) { size = -1; }
+            if (size == -1)
+                size = this.size() * std.base.Hash.RATIO;
+            // CONSTURCT HASH_GROUP
+            this.constructHashGroup(size);
+            // INSERT ELEMENTS TO HASH GROUP
+            for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
+                this.handleInsert(it);
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        UnorderedMap.prototype.find = function (key) {
+            var hashIndex = this.hashIndex(key);
+            var hashArray = this.hashGroup.at(hashIndex);
+            for (var i = 0; i < hashArray.size(); i++)
+                if (std.equals(hashArray.at(i).first, key))
+                    return hashArray.at(i);
+            return this.end();
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        UnorderedMap.prototype.insertByPair = function (pair) {
+            // TEST WHETHER EXIST
+            var it = this.find(pair.first);
+            if (it.equals(this.end()) == false)
+                return new std.Pair(it, false);
+            // INSERT
+            this.data.pushBack(pair);
+            it = it.prev();
+            // POST-PROCESS
+            this.handleInsert(it);
+            return new std.Pair(it, true);
+        };
+        UnorderedMap.prototype.insertByRange = function (begin, end) {
+            // CALCULATE INSERTING SIZE
+            var size = 0;
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashGroup.size() * 2)
+                this.reconstructHashGroup((this.size() + size) * std.base.Hash.RATIO);
+            // INSERTS
+            _super.prototype.insertByRange.call(this, begin, end);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        UnorderedMap.prototype.handleInsert = function (it) {
+            if (this.hashGroup.size() > this.size() * 2)
+                this.reconstructHashGroup();
+            var key = it.first;
+            var hashIndex = this.hashIndex(key);
+            this.hashGroup.at(hashIndex).pushBack(it);
+        };
+        /**
+         * @inheritdoc
+         */
+        UnorderedMap.prototype.handleErase = function (it) {
+            // FIND MATCHED HASHES
+            var key = it.first;
+            var hashIndex = this.hashIndex(key);
+            var hashVector = this.hashGroup.at(hashIndex);
+            // ERASE FROM THE HASHES
+            for (var i = 0; i < hashVector.size(); i++) {
+                if (std.equals(it.first, hashVector.at(i).first) == true) {
+                    hashVector.erase(hashVector.begin().advance(i));
+                    break;
+                }
+            }
+        };
+        UnorderedMap.prototype.hashIndex = function (val) {
+            return std.base.Hash.code(val) % this.hashGroup.size();
+        };
+        return UnorderedMap;
+    })(std.base.UniqueMap);
+    std.UnorderedMap = UnorderedMap;
+})(std || (std = {}));
+/// <reference path="base/MultiMap.ts" />
+/// <reference path="base/Hash.ts" />
 var std;
 (function (std) {
     /**
@@ -2629,7 +2644,7 @@ var std;
             if (args.length == 1 && args[0] instanceof Array) {
                 this.constructByArray(args[0]);
             }
-            else if (args.length == 1 && args[0] instanceof std.MapContainer) {
+            else if (args.length == 1 && args[0] instanceof std.base.MapContainer) {
                 this.constructByContainer(args[0]);
             }
             else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
@@ -2637,7 +2652,7 @@ var std;
             }
         }
         UnorderedMultiMap.prototype.constructByArray = function (items) {
-            this.constructHashGroup(items.length * std.Hash.RATIO);
+            this.constructHashGroup(items.length * std.base.Hash.RATIO);
             _super.prototype.constructByArray.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -2652,7 +2667,7 @@ var std;
             // REVERSE HASH_GROUP SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            this.constructHashGroup(size * std.Hash.RATIO);
+            this.constructHashGroup(size * std.base.Hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -2668,8 +2683,8 @@ var std;
         --------------------------------------------------------- */
         UnorderedMultiMap.prototype.constructHashGroup = function (size) {
             if (size === void 0) { size = -1; }
-            if (size < std.Hash.MIN_SIZE)
-                size = std.Hash.MIN_SIZE;
+            if (size < std.base.Hash.MIN_SIZE)
+                size = std.base.Hash.MIN_SIZE;
             // CLEAR
             this.hashGroup = new std.Vector();
             // AND INSERTS WITHI CAPACITY SIZE
@@ -2679,7 +2694,7 @@ var std;
         UnorderedMultiMap.prototype.reconstructHashGroup = function (size) {
             if (size === void 0) { size = -1; }
             if (size == -1)
-                size = this.size() * std.Hash.RATIO;
+                size = this.size() * std.base.Hash.RATIO;
             // CONSTURCT HASH_GROUP
             this.constructHashGroup(size);
             // INSERT ELEMENTS TO HASH GROUP
@@ -2720,7 +2735,7 @@ var std;
                 size++;
             // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * std.Hash.RATIO);
+                this.reconstructHashGroup((this.size() + size) * std.base.Hash.RATIO);
             // INSERTS
             _super.prototype.insertByRange.call(this, begin, end);
         };
@@ -2754,14 +2769,14 @@ var std;
             }
         };
         UnorderedMultiMap.prototype.hashIndex = function (val) {
-            return std.Hash.code(val) % this.hashGroup.size();
+            return std.base.Hash.code(val) % this.hashGroup.size();
         };
         return UnorderedMultiMap;
-    })(std.BaseMultiMap);
+    })(std.base.MultiMap);
     std.UnorderedMultiMap = UnorderedMultiMap;
 })(std || (std = {}));
-/// <reference path="BaseMultiSet.ts" />
-/// <reference path="Hash.ts" />
+/// <reference path="base/MultiSet.ts" />
+/// <reference path="base/Hash.ts" />
 var std;
 (function (std) {
     /**
@@ -2804,7 +2819,7 @@ var std;
             if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
                 this.constructByArray(args[0]);
             }
-            else if (args.length == 1 && args[0] instanceof std.Container) {
+            else if (args.length == 1 && args[0] instanceof std.base.Container) {
                 this.constructByContainer(args[0]);
             }
             else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -2812,7 +2827,7 @@ var std;
             }
         }
         UnorderedMultiSet.prototype.constructByArray = function (items) {
-            this.constructHashGroup(items.length * std.Hash.RATIO);
+            this.constructHashGroup(items.length * std.base.Hash.RATIO);
             _super.prototype.constructByArray.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -2827,7 +2842,7 @@ var std;
             // REVERSE HASH_GROUP SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            this.constructHashGroup(size * std.Hash.RATIO);
+            this.constructHashGroup(size * std.base.Hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -2843,8 +2858,8 @@ var std;
         --------------------------------------------------------- */
         UnorderedMultiSet.prototype.constructHashGroup = function (size) {
             if (size === void 0) { size = -1; }
-            if (size < std.Hash.MIN_SIZE)
-                size = std.Hash.MIN_SIZE;
+            if (size < std.base.Hash.MIN_SIZE)
+                size = std.base.Hash.MIN_SIZE;
             // CLEAR
             this.hashGroup = new std.Vector();
             // AND INSERTS WITHI CAPACITY SIZE
@@ -2854,7 +2869,7 @@ var std;
         UnorderedMultiSet.prototype.reconstructHashGroup = function (size) {
             if (size === void 0) { size = -1; }
             if (size == -1)
-                size = this.size() * std.Hash.RATIO;
+                size = this.size() * std.base.Hash.RATIO;
             // CONSTURCT HASH_GROUP
             this.constructHashGroup(size);
             //RE-INSERT ELEMENTS TO HASH GROUP
@@ -2896,7 +2911,7 @@ var std;
                 size++;
             // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * std.Hash.RATIO);
+                this.reconstructHashGroup((this.size() + size) * std.base.Hash.RATIO);
             // INSERTS
             _super.prototype.insertByRange.call(this, begin, end);
         };
@@ -2907,7 +2922,7 @@ var std;
          * @inheritdoc
          */
         UnorderedMultiSet.prototype.handleInsert = function (item) {
-            if (this.size() > this.hashGroup.size() * std.Hash.MAX_RATIO)
+            if (this.size() > this.hashGroup.size() * std.base.Hash.MAX_RATIO)
                 this.reconstructHashGroup();
             var index = this.hashIndex(item.value);
             this.hashGroup.at(index).push(item);
@@ -2925,10 +2940,10 @@ var std;
                 }
         };
         UnorderedMultiSet.prototype.hashIndex = function (val) {
-            return std.Hash.code(val) % this.hashGroup.size();
+            return std.base.Hash.code(val) % this.hashGroup.size();
         };
         return UnorderedMultiSet;
-    })(std.BaseMultiSet);
+    })(std.base.MultiSet);
     std.UnorderedMultiSet = UnorderedMultiSet;
 })(std || (std = {}));
 //# sourceMappingURL=std.js.map

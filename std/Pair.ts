@@ -1,7 +1,5 @@
 /// <reference path="Object.ts" />
 
-/// <reference path="Hash.ts" />
-
 namespace std
 {
     /**
@@ -71,11 +69,6 @@ namespace std
                 return std.less(this.first, pair.first);
             else
                 return std.less(this.second, pair.second);
-        }
-
-        public hashCode(): number
-        {
-            return Hash.code(this.first) + Hash.code(this.second);
         }
     }  
 }

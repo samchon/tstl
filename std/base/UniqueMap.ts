@@ -1,8 +1,8 @@
 ﻿/// <reference path="MapContainer.ts" />
 
-namespace std
+namespace std.base
 {
-	export abstract class BaseMultiMap<K, T>
+	export abstract class UniqueMap<K, T>
 		extends MapContainer<K, T>
 	{
 		/* ---------------------------------------------------------
@@ -21,25 +21,13 @@ namespace std
 		 */
 		public count(key: K): number
 		{
-			var myIt = this.find(key);
-			if (myIt.equals(this.end()))
-				return 0;
-
-			var size: number = 1;
-
-			for (let it = myIt.prev(); !it.equals(this.end()) && std.equals(key, it.first); it = it.prev())
-				size++;
-
-			for (let it = myIt.next(); !it.equals(this.end()) && std.equals(key, it.first); it = it.next())
-				size++;
-
-			return size;
+			return this.find(key).equals(this.end()) ? 0 : 1;
 		}
 
 		/* ---------------------------------------------------------
 		    ELEMENTS I/O
 	    --------------------------------------------------------- */
-		public insert<L extends K, U extends T>(pair: Pair<L, U>): MapIterator<K, T>;
+		public insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
 
 		/**
 		 * @inheritdoc
