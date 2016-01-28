@@ -1,4 +1,5 @@
 ﻿/// <reference path="PairIterator.ts" />
+/// <reference path="Object.ts" />
 
 /// <reference path="Pair.ts" />
 /// <reference path="Exception.ts" />

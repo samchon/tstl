@@ -83,6 +83,14 @@ namespace std.example
         public static main(): void
         {
             new ContainerTest();
+
+			var obj: Object = new Object();
+			obj["id"] = "samchon";
+			obj["name"] = "Jeongho Nam";
+
+			std.less(obj, {});
+
+			document.writeln(JSON.stringify(obj));
         }
     }
 }

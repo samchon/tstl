@@ -38,28 +38,26 @@
         else
             return val1 < val2;
     }
+
+	export var __s_iUID: number = 0;
 }
 
-var __s_uid: number = 0;
-
-//Object.prototype["__uid"] = ++__s_uid;
-
-Object.prototype["equals"] =
+(<any>Object).prototype.equals =
     function (obj): boolean 
     {
         return this == obj;
-    }
+    };
 
-Object.prototype["less"] =
+(<any>Object).prototype.less =
     function (obj): boolean
     {
-        return this.__getUID() < obj.__getUID();
-    }
+        return this.__get_m_iUID() < obj.__get_m_iUID();
+    };
 
-Object.prototype["hasCode"] =
+(<any>Object).prototype.hashCode =
     function (): number
     {
-        return this.__getUID();
+        return this.__get_m_iUID();
         //var str: string = JSON.stringify(this);
         //var val: number = 0;
 
@@ -67,13 +65,13 @@ Object.prototype["hasCode"] =
         //    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
 
         //return val;
-    }
+    };
 
-Object.prototype["__getUID"] =
-    function (): number
-    {
-        if (this.hasOwnProperty("__uid") == false)
-            this.__uid = ++__s_uid;
+(<any>Object).prototype.__get_m_iUID =
+	function (): number
+	{
+		if (this.__m_iUID == undefined)
+            this.__m_iUID = ++std.__s_iUID;
 
-        return this.__uid;
-    }
+        return this.__m_iUID;
+	};

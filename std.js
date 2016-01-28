@@ -27,33 +27,32 @@ var std;
             return val1 < val2;
     }
     std.less = less;
+    std.__s_iUID = 0;
 })(std || (std = {}));
-var __s_uid = 0;
-//Object.prototype["__uid"] = ++__s_uid;
-Object.prototype["equals"] =
+Object.prototype.equals =
     function (obj) {
         return this == obj;
     };
-Object.prototype["less"] =
+Object.prototype.less =
     function (obj) {
-        return this.__getUID() < obj.__getUID();
+        return this.__get_m_iUID() < obj.__get_m_iUID();
     };
-Object.prototype["hasCode"] =
+Object.prototype.hashCode =
     function () {
-        return this.__getUID();
+        return this.__get_m_iUID();
         //var str: string = JSON.stringify(this);
         //var val: number = 0;
         //for (var i: number = 0; i < str.length; i++)
         //    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
         //return val;
     };
-Object.prototype["__getUID"] =
+Object.prototype.__get_m_iUID =
     function () {
-        if (this.hasOwnProperty("__uid") == false)
-            this.__uid = ++__s_uid;
-        return this.__uid;
+        if (this.__m_iUID == undefined)
+            this.__m_iUID = ++std.__s_iUID;
+        return this.__m_iUID;
     };
-/// <reference path="IObject.ts" />
+/// <reference path="Object.ts" />
 var std;
 (function (std) {
     /**
@@ -104,7 +103,7 @@ var std;
     })();
     std.Hash = Hash;
 })(std || (std = {}));
-/// <reference path="IObject.ts" />
+/// <reference path="Object.ts" />
 /// <reference path="Hash.ts" />
 var std;
 (function (std) {
@@ -345,6 +344,7 @@ var std;
     std.SystemError = SystemError;
 })(std || (std = {}));
 /// <reference path="PairIterator.ts" />
+/// <reference path="Object.ts" />
 /// <reference path="Pair.ts" />
 /// <reference path="Exception.ts" />
 var std;
@@ -592,6 +592,7 @@ var std;
     std.Iterator = Iterator;
 })(std || (std = {}));
 /// <reference path="Iterator.ts" />
+/// <reference path="Object.ts" />
 /// <reference path="IContainer.ts" />
 /// <reference path="VectorIterator.ts" />
 var std;
@@ -2209,6 +2210,11 @@ var std;
             };
             ContainerTest.main = function () {
                 new ContainerTest();
+                var obj = new Object();
+                obj["id"] = "samchon";
+                obj["name"] = "Jeongho Nam";
+                std.less(obj, {});
+                document.writeln(JSON.stringify(obj));
             };
             return ContainerTest;
         })();

@@ -1,4 +1,5 @@
 /// <reference path="Iterator.ts" />
+/// <reference path="Object.ts" />
 
 namespace std
 {

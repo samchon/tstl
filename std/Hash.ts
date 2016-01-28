@@ -1,4 +1,4 @@
-/// <reference path="IObject.ts" />
+/// <reference path="Object.ts" />
 
 namespace std
 {

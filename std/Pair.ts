@@ -1,4 +1,4 @@
-/// <reference path="IObject.ts" />
+/// <reference path="Object.ts" />
 
 /// <reference path="Hash.ts" />
 

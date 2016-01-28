@@ -47,7 +47,7 @@
     <TypeScriptCompile Include="std\IContainer.ts" />
     <TypeScriptCompile Include="std\IDictionary.ts" />
     <TypeScriptCompile Include="std\IMap.ts" />
-    <TypeScriptCompile Include="std\IObject.ts" />
+    <TypeScriptCompile Include="std\Object.ts" />
     <TypeScriptCompile Include="std\Iterator.ts" />
     <TypeScriptCompile Include="std\List.ts" />
     <TypeScriptCompile Include="std\ListIterator.ts" />
