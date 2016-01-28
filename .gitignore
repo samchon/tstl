@@ -2,6 +2,7 @@
 #	TYPESCRIPT
 # ======================================================
 *.*
+
 !*.ts
 
 !*.html
@@ -9,5 +10,6 @@
 !*.js.map
 
 !LICENSE
+!README
 !*.bat
 !.gitignore

@@ -1,6 +1,6 @@
 ﻿/// <refe0rence path="Iterator.ts" />
 
-/// <reference path="AbstractSet.ts" />
+/// <reference path="SetContainer.ts" />
 /// <reference path="ListIterator.ts" />
 
 namespace std
@@ -25,7 +25,7 @@ namespace std
          * @param map The source Set to reference.
          * @param index Sequence number of the element in the source Set.
          */
-        public constructor(source: AbstractSet<T>, it: ListIterator<T>)
+        public constructor(source: SetContainer<T>, it: ListIterator<T>)
         {
             super(source);
 
@@ -45,7 +45,7 @@ namespace std
          */
         public prev(): Iterator<T>
         {
-            return new SetIterator<T>(<AbstractSet<T>>this.source, <ListIterator<T>>this.it.prev());
+            return new SetIterator<T>(<SetContainer<T>>this.source, <ListIterator<T>>this.it.prev());
         }
 
         /**
@@ -53,7 +53,7 @@ namespace std
          */
         public next(): Iterator<T>
         {
-            return new SetIterator<T>(<AbstractSet<T>>this.source, <ListIterator<T>>this.it.next());
+            return new SetIterator<T>(<SetContainer<T>>this.source, <ListIterator<T>>this.it.next());
         }
 
         /**
@@ -61,7 +61,7 @@ namespace std
          */
         public advance(size: number): Iterator<T>
         {
-            return new SetIterator<T>(<AbstractSet<T>>this.source, <ListIterator<T>>this.it.advance(size));
+            return new SetIterator<T>(<SetContainer<T>>this.source, <ListIterator<T>>this.it.advance(size));
         }
 
         /* ---------------------------------------------------------

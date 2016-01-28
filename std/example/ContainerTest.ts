@@ -49,7 +49,7 @@ namespace std.example
             document.write("<h4> UnorderedSet </h4>\n");
 
             // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-            var container = new UnorderedSet<number>();
+            var container = new UnorderedMultiSet<number>();
             for (var i: number = 0; i < 10; i++)
                 container.insert(i);
 
@@ -76,6 +76,8 @@ namespace std.example
 
             for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
                 document.write("<li>" + it.value + "</li>\n");
+
+			document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
 
             document.write("</ul>\n\n");
         }

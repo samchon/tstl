@@ -1,9 +1,9 @@
-﻿/// <reference path="AbstractSet.ts" />
+﻿/// <reference path="BaseSet.ts" />
 
 namespace std
 {
     export class Set<T>
-        extends AbstractSet<T>
+        extends BaseSet<T>
     {
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS

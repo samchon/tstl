@@ -1,4 +1,4 @@
-﻿/// <reference path="BaseSet.ts" />
+﻿/// <reference path="BaseMultiSet.ts" />
 
 /// <reference path="Hash.ts" />
 
@@ -31,8 +31,8 @@ namespace std
      *
      * @author Migrated by Jeongho Nam
      */
-    export class UnorderedSet<T>
-        extends BaseSet<T>
+    export class UnorderedMultiSet<T>
+        extends BaseMultiSet<T>
     {
         private hashGroup: Vector<Vector<SetIterator<T>>>;
 
@@ -83,7 +83,7 @@ namespace std
                 this.constructByRange(args[0], args[1]);
             }
         }
-        
+
         protected constructByArray(items: Array<T>): void
         {
             this.constructHashGroup(items.length * Hash.RATIO);
@@ -213,7 +213,7 @@ namespace std
         {
             var index: number = this.hashIndex(item.value);
             var hashArray = this.hashGroup.at(index);
-            
+
             for (var it = hashArray.begin(); it.equals(hashArray.end()) == false; it = it.next())
                 if (it.value == item)
                 {
@@ -221,7 +221,7 @@ namespace std
                     break;
                 }
         }
-        
+
         private hashIndex(val: any): number
         {
             return Hash.code(val) % this.hashGroup.size();

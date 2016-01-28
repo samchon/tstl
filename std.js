@@ -1698,38 +1698,47 @@ var std;
      *
      * @author Jeongho Nam
      */
-    var AbstractSet = (function (_super) {
-        __extends(AbstractSet, _super);
-        function AbstractSet() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
+    var SetContainer = (function (_super) {
+        __extends(SetContainer, _super);
+        /* =========================================================
+            CONSTRUCTORS & SEMI-CONSTRUCTORS
+                - CONSTRUCTORS
+                - ASSIGN & CLEAR
+        ============================================================
+            CONSTURCTORS
+        --------------------------------------------------------- */
+        /**
+         * Default Constructor.
+         */
+        function SetContainer() {
             _super.call(this);
             // INITIALIZATION
             this.data = new std.List();
-            // OVERLOADINGS
-            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
-                this.constructByArray(args[0]);
-            }
-            else if (args.length == 1 && args[0] instanceof std.Container) {
-                this.constructByContainer(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
-                this.constructByRange(args[0], args[1]);
-            }
+            //// OVERLOADINGS
+            //if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
+            //{
+            //    this.constructByArray(args[0]);
+            //}
+            //else if (args.length == 1 && args[0] instanceof Container)
+            //{
+            //    this.constructByContainer(args[0]);
+            //}
+            //else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+            //{
+            //    this.constructByRange(args[0], args[1]);
+            //}
         }
-        AbstractSet.prototype.constructByArray = function (items) {
+        SetContainer.prototype.constructByArray = function (items) {
             for (var i = 0; i < items.length; i++) {
                 if (this.has(items[i]) == true)
                     continue;
-                this.insert(items[i]);
+                this.insertByVal(items[i]);
             }
         };
-        AbstractSet.prototype.constructByContainer = function (container) {
+        SetContainer.prototype.constructByContainer = function (container) {
             this.constructByRange(container.begin(), container.end());
         };
-        AbstractSet.prototype.constructByRange = function (begin, end) {
+        SetContainer.prototype.constructByRange = function (begin, end) {
             this.assign(begin, end);
         };
         /* ---------------------------------------------------------
@@ -1738,27 +1747,27 @@ var std;
         /**
          * @inheritdoc
          */
-        AbstractSet.prototype.assign = function (begin, end) {
+        SetContainer.prototype.assign = function (begin, end) {
             // INSERT
             for (var it = begin; it.equals(end) == false; it = it.next())
-                this.insert(it.value);
+                this.insertByVal(it.value);
         };
         /**
          * @inheritdoc
          */
-        AbstractSet.prototype.clear = function () {
+        SetContainer.prototype.clear = function () {
             this.data.clear();
         };
         /**
          * @inheritdoc
          */
-        AbstractSet.prototype.begin = function () {
+        SetContainer.prototype.begin = function () {
             return new std.SetIterator(this, this.data.begin());
         };
         /**
          * @inheritdoc
          */
-        AbstractSet.prototype.end = function () {
+        SetContainer.prototype.end = function () {
             return new std.SetIterator(this, this.data.end());
         };
         /* ---------------------------------------------------------
@@ -1772,24 +1781,13 @@ var std;
          *
          * @return Whether the set has an item having the specified identifier.
          */
-        AbstractSet.prototype.has = function (val) {
+        SetContainer.prototype.has = function (val) {
             return this.count(val) != 0;
-        };
-        /**
-         * <p> Count elements with a specific key. </p>
-         * <p> Searches the container for elements with a value of k and returns the number of elements found. </p>
-         *
-         * @param key Value of the elements to be counted.
-         *
-         * @return The number of elements in the container with a <code>key</code>.
-         */
-        AbstractSet.prototype.count = function (val) {
-            return (this.find(val).equals(this.end()) == false) ? 1 : 0;
         };
         /**
          * @inheritdoc
          */
-        AbstractSet.prototype.size = function () {
+        SetContainer.prototype.size = function () {
             return this.data.size();
         };
         /* =========================================================
@@ -1800,7 +1798,7 @@ var std;
         ============================================================
             INSERT
         --------------------------------------------------------- */
-        AbstractSet.prototype.push = function () {
+        SetContainer.prototype.push = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
@@ -1809,7 +1807,7 @@ var std;
                 this.insertByVal(args[i]);
             return this.size();
         };
-        AbstractSet.prototype.insert = function () {
+        SetContainer.prototype.insert = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
@@ -1823,19 +1821,19 @@ var std;
                     return this.insertByHint(args[0], args[1]);
             }
         };
-        AbstractSet.prototype.insertByVal = function (val) {
-            // TEST WHETHER EXISTS
-            var it = this.find(val);
-            if (it.equals(this.end()) == false)
-                return new std.Pair(it, false);
-            // INSERT
-            this.data.pushBack(val);
-            it = it.prev();
-            // POST-PROCESS
-            this.handleInsert(it);
-            return new std.Pair(it, true);
-        };
-        AbstractSet.prototype.insertByHint = function (hint, val) {
+        //{
+        //    // test whether exists
+        //    var it = this.find(val);
+        //    if (it.equals(this.end()) == false)
+        //        return new pair<iterator<t>, boolean>(it, false);
+        //    // insert
+        //    this.data.pushback(val);
+        //    it = it.prev();
+        //    // post-process
+        //    this.handleinsert(<setiterator<t>>it);
+        //    return new pair<iterator<t>, boolean>(it, true);
+        //}
+        SetContainer.prototype.insertByHint = function (hint, val) {
             // INSERT
             var listIterator = this.data.insert(hint.getListIterator(), val);
             // POST-PROCESS
@@ -1843,12 +1841,12 @@ var std;
             this.handleInsert(it);
             return it;
         };
-        AbstractSet.prototype.insertByRange = function (begin, end) {
+        SetContainer.prototype.insertByRange = function (begin, end) {
             for (var it = begin; it.equals(end) == false; it = it.next()) {
                 this.insertByVal(it.value);
             }
         };
-        AbstractSet.prototype.erase = function () {
+        SetContainer.prototype.erase = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
@@ -1861,7 +1859,7 @@ var std;
             else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator)
                 return this.eraseByRange(args[0], args[1]);
         };
-        AbstractSet.prototype.eraseByKey = function (val) {
+        SetContainer.prototype.eraseByKey = function (val) {
             // TEST WHETHER EXISTS
             var it = this.find(val);
             if (it.equals(this.end()) == true)
@@ -1870,14 +1868,14 @@ var std;
             this.eraseByIterator(it);
             return 1;
         };
-        AbstractSet.prototype.eraseByIterator = function (it) {
+        SetContainer.prototype.eraseByIterator = function (it) {
             // ERASE
             var listIterator = this.data.erase(it.getListIterator());
             // POST-PROCESS
             this.handleErase(it);
             return new std.SetIterator(this, listIterator);
         };
-        AbstractSet.prototype.eraseByRange = function (begin, end) {
+        SetContainer.prototype.eraseByRange = function (begin, end) {
             // ERASE
             var listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
             // POST-PROCESS
@@ -1885,12 +1883,12 @@ var std;
                 this.handleErase(it);
             return begin.prev();
         };
-        return AbstractSet;
+        return SetContainer;
     })(std.Container);
-    std.AbstractSet = AbstractSet;
+    std.SetContainer = SetContainer;
 })(std || (std = {}));
 /// <refe0rence path="Iterator.ts" />
-/// <reference path="AbstractSet.ts" />
+/// <reference path="SetContainer.ts" />
 /// <reference path="ListIterator.ts" />
 var std;
 (function (std) {
@@ -1968,6 +1966,89 @@ var std;
     })(std.Iterator);
     std.SetIterator = SetIterator;
 })(std || (std = {}));
+/// <reference path="SetContainer.ts" />
+var std;
+(function (std) {
+    var BaseMultiSet = (function (_super) {
+        __extends(BaseMultiSet, _super);
+        /* =========================================================
+            CONSTRUCTORS
+        ========================================================= */
+        /**
+         * Default Constructor.
+         */
+        function BaseMultiSet() {
+            _super.call(this);
+        }
+        BaseMultiSet.prototype.count = function (val) {
+            var myIt = this.find(val);
+            if (myIt.equals(this.end()))
+                return 0;
+            var size = -1;
+            for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.prev())
+                size++;
+            for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
+                size++;
+            return size;
+        };
+        BaseMultiSet.prototype.insert = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            return _super.prototype.insert.apply(this, args);
+        };
+        BaseMultiSet.prototype.insertByVal = function (val) {
+            // insert
+            var listIterator = this.data.insert(this.data.end(), val);
+            var it = new std.SetIterator(this, listIterator);
+            this.handleInsert(it);
+            return it;
+        };
+        return BaseMultiSet;
+    })(std.SetContainer);
+    std.BaseMultiSet = BaseMultiSet;
+})(std || (std = {}));
+/// <reference path="SetContainer.ts" />
+var std;
+(function (std) {
+    var BaseSet = (function (_super) {
+        __extends(BaseSet, _super);
+        /* =========================================================
+            CONSTRUCTORS
+        ========================================================= */
+        /**
+         * Default Constructor.
+         */
+        function BaseSet() {
+            _super.call(this);
+        }
+        BaseSet.prototype.count = function (key) {
+            return this.find(key).equals(this.end()) ? 0 : 1;
+        };
+        BaseSet.prototype.insert = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            return _super.prototype.insert.apply(this, args);
+        };
+        BaseSet.prototype.insertByVal = function (val) {
+            // TEST WHETHER EXIST
+            var it = this.find(val);
+            if (it.equals(this.end()) == false)
+                return new std.Pair(it, false);
+            // INSERT
+            this.data.pushBack(val);
+            it = it.prev();
+            // POST-PROCESS
+            this.handleInsert(it);
+            return new std.Pair(it, true);
+        };
+        return BaseSet;
+    })(std.SetContainer);
+    std.BaseSet = BaseSet;
+})(std || (std = {}));
 var std;
 (function (std) {
     var Bind = (function () {
@@ -1989,7 +2070,7 @@ var std;
     })();
     std.Bind = Bind;
 })(std || (std = {}));
-/// <reference path="AbstractSet.ts" />
+/// <reference path="BaseSet.ts" />
 /// <reference path="Hash.ts" />
 var std;
 (function (std) {
@@ -2027,15 +2108,17 @@ var std;
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
+            _super.call(this);
             this.constructHashGroup();
-            if (args.length == 0) {
-                _super.call(this);
+            // OVERLOADINGS
+            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
+                this.constructByArray(args[0]);
             }
-            else if (args.length == 1) {
-                _super.call(this, args[0]);
+            else if (args.length == 1 && args[0] instanceof std.Container) {
+                this.constructByContainer(args[0]);
             }
-            else if (args.length == 2) {
-                _super.call(this, args[0], args[1]);
+            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+                this.constructByRange(args[0], args[1]);
             }
         }
         UnorderedSet.prototype.constructByArray = function (items) {
@@ -2148,7 +2231,7 @@ var std;
             return std.Hash.code(val) % this.hashGroup.size();
         };
         return UnorderedSet;
-    })(std.AbstractSet);
+    })(std.BaseSet);
     std.UnorderedSet = UnorderedSet;
 })(std || (std = {}));
 /// <reference path="../List.ts" />
@@ -2186,7 +2269,7 @@ var std;
             ContainerTest.prototype.testUnorderedSet = function () {
                 document.write("<h4> UnorderedSet </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.UnorderedSet();
+                var container = new std.UnorderedMultiSet();
                 for (var i = 0; i < 10; i++)
                     container.insert(i);
                 // ELEMENTS I/O
@@ -2206,6 +2289,7 @@ var std;
                 document.write("<ul>\n");
                 for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
                     document.write("<li>" + it.value + "</li>\n");
+                document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
                 document.write("</ul>\n\n");
             };
             ContainerTest.main = function () {
@@ -2456,7 +2540,7 @@ var std;
     })(std.AbstractMap);
     std.Map = Map;
 })(std || (std = {}));
-/// <reference path="AbstractSet.ts" />
+/// <reference path="BaseSet.ts" />
 var std;
 (function (std) {
     var Set = (function (_super) {
@@ -2512,7 +2596,7 @@ var std;
         Set.prototype.handleErase = function (item) {
         };
         return Set;
-    })(std.AbstractSet);
+    })(std.BaseSet);
     std.Set = Set;
 })(std || (std = {}));
 var std;
@@ -2533,5 +2617,169 @@ var std;
         return Tree;
     })();
     std.Tree = Tree;
+})(std || (std = {}));
+/// <reference path="BaseMultiSet.ts" />
+/// <reference path="Hash.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Unordered Set. </p>
+     *
+     * <p> Unordered sets are containers that store unique elements in no particular order, and which allow for
+     * fast retrieval of individual elements based on their value. </p>
+     *
+     * <p> In an <code>UnorderedSet</code>, the value of an element is at the same time its key, that identifies
+     * it uniquely. Keys are immutable, therefore, the elements in an <code>UnorderedSet</code> cannot be modified
+     * once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> Internally, the elements in the <code>UnorderedSet</code> are not sorted in any particular order, but
+     * organized into buckets depending on their hash values to allow for fast access to individual elements directly
+     * by their values (with a constant average time complexity on average). </p>
+     *
+     * <p> <code>UnorderedSet</code> containers are faster than <codeSet<code> containers to access individual
+     * elements by their key, although they are generally less efficient for range iteration through a subset of
+     * their elements. </p>
+     *
+     * <ul>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+     * </ul>
+     *
+     * @tparam T Type of the elements.
+     *           Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
+     *
+     * @author Migrated by Jeongho Nam
+     */
+    var UnorderedMultiSet = (function (_super) {
+        __extends(UnorderedMultiSet, _super);
+        function UnorderedMultiSet() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            this.constructHashGroup();
+            // OVERLOADINGS
+            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
+                this.constructByArray(args[0]);
+            }
+            else if (args.length == 1 && args[0] instanceof std.Container) {
+                this.constructByContainer(args[0]);
+            }
+            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+                this.constructByRange(args[0], args[1]);
+            }
+        }
+        UnorderedMultiSet.prototype.constructByArray = function (items) {
+            this.constructHashGroup(items.length * std.Hash.RATIO);
+            _super.prototype.constructByArray.call(this, items);
+        };
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        UnorderedMultiSet.prototype.assign = function (begin, end) {
+            var it;
+            var size = 0;
+            // REVERSE HASH_GROUP SIZE
+            for (it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            this.constructHashGroup(size * std.Hash.RATIO);
+            // SUPER; INSERT
+            _super.prototype.assign.call(this, begin, end);
+        };
+        /**
+         * @inheritdoc
+         */
+        UnorderedMultiSet.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+            this.constructHashGroup();
+        };
+        /* ---------------------------------------------------------
+            HASH GROUP
+        --------------------------------------------------------- */
+        UnorderedMultiSet.prototype.constructHashGroup = function (size) {
+            if (size === void 0) { size = -1; }
+            if (size < std.Hash.MIN_SIZE)
+                size = std.Hash.MIN_SIZE;
+            // CLEAR
+            this.hashGroup = new std.Vector();
+            // AND INSERTS WITHI CAPACITY SIZE
+            for (var i = 0; i < size; i++)
+                this.hashGroup.pushBack(new std.Vector());
+        };
+        UnorderedMultiSet.prototype.reconstructHashGroup = function (size) {
+            if (size === void 0) { size = -1; }
+            if (size == -1)
+                size = this.size() * std.Hash.RATIO;
+            // CONSTURCT HASH_GROUP
+            this.constructHashGroup(size);
+            //RE-INSERT ELEMENTS TO HASH GROUP
+            for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
+                this.handleInsert(it);
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        UnorderedMultiSet.prototype.find = function (val) {
+            var hashIndex = this.hashIndex(val);
+            var hashArray = this.hashGroup.at(hashIndex);
+            for (var i = 0; i < hashArray.size(); i++)
+                if (std.equals(hashArray.at(i).value, val))
+                    return hashArray.at(i);
+            return this.end();
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        UnorderedMultiSet.prototype.insertByRange = function (begin, end) {
+            // CALCULATE INSERTING SIZE
+            var size = 0;
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashGroup.size() * 2)
+                this.reconstructHashGroup((this.size() + size) * std.Hash.RATIO);
+            // INSERTS
+            _super.prototype.insertByRange.call(this, begin, end);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        UnorderedMultiSet.prototype.handleInsert = function (item) {
+            if (this.size() > this.hashGroup.size() * std.Hash.MAX_RATIO)
+                this.reconstructHashGroup();
+            var index = this.hashIndex(item.value);
+            this.hashGroup.at(index).push(item);
+        };
+        /**
+         * @inheritdoc
+         */
+        UnorderedMultiSet.prototype.handleErase = function (item) {
+            var index = this.hashIndex(item.value);
+            var hashArray = this.hashGroup.at(index);
+            for (var it = hashArray.begin(); it.equals(hashArray.end()) == false; it = it.next())
+                if (it.value == item) {
+                    hashArray.erase(it);
+                    break;
+                }
+        };
+        UnorderedMultiSet.prototype.hashIndex = function (val) {
+            return std.Hash.code(val) % this.hashGroup.size();
+        };
+        return UnorderedMultiSet;
+    })(std.BaseMultiSet);
+    std.UnorderedMultiSet = UnorderedMultiSet;
 })(std || (std = {}));
 //# sourceMappingURL=std.js.map
