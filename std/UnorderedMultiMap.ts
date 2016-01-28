@@ -37,8 +37,8 @@ namespace std
      *
      * @author Migrated by Jeongho Nam
      */
-    export class UnorderedMap<K, T>
-        extends BaseMap<K, T>
+    export class UnorderedMultiMap<K, T>
+        extends BaseMultiMap<K, T>
     {
         private hashGroup: Vector<Vector<MapIterator<K, T>>>;
 	
@@ -70,8 +70,8 @@ namespace std
          */
         public constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
 
-	    public constructor(...args: any[])
-	    {
+		public constructor(...args: any[])
+		{
 			super();
             this.constructHashGroup();
 
@@ -183,23 +183,16 @@ namespace std
 	    ============================================================
 		    INSERT
 	    --------------------------------------------------------- */
-        protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
+		protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
 		{
-            // TEST WHETHER EXIST
-            var it = this.find(pair.first);
-            if (it.equals(this.end()) == false)
-                return new Pair<MapIterator<K, T>, boolean>(it, false);
+            var listIterator = <ListIterator<Pair<L, U>>>this.data.insert(this.data.end(), pair);
 
-            // INSERT
-            this.data.pushBack(pair);
-            it = it.prev();
+			var it = new MapIterator<K, T>(this, listIterator);
+			this.handleInsert(it);
 
-            // POST-PROCESS
-            this.handleInsert(<MapIterator<K, T>>it);
-
-            return new Pair<MapIterator<K, T>, boolean>(it, true);
+			return it;
 		}
-		
+
 		protected insertByRange<L extends K, U extends T>
             (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
         {
@@ -241,7 +234,7 @@ namespace std
             // FIND MATCHED HASHES
             var key: K = it.first;
             var hashIndex: number = this.hashIndex(key);
-            
+
             var hashVector = this.hashGroup.at(hashIndex);
 
             // ERASE FROM THE HASHES

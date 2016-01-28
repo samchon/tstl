@@ -1,128 +1,135 @@
-﻿/// <refe0rence path="PairIterator.ts" />
-
-/// <reference path="AbstractMap.ts" />
-/// <reference path="ListIterator.ts" />
+﻿/// <reference path="MapContainer.ts" />
 
 namespace std
 {
-    /**
-     * <p> A bi-directional iterator. </p>
-     * 
-     * @tparam K Type of the keys. Each element in a map is uniquely identified by its key value.
-     * @tparam T Type of the mapped value. Each element in a map stores some data as its mapped value.
-     * 
-     * @author Jeongho Nam
-     */
-    export class MapIterator<K, T>
-        extends PairIterator<K, T>
-    {
-	    private listIterator: ListIterator<Pair<K, T>>;
+	export class MapIterator<K, T>
+	{
+		protected source: MapContainer<K, T>;
+
+		protected listIterator: ListIterator<Pair<K, T>>;
+
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
+		/**
+		 * Construct from the source PairContainer. 
+		 *
+		 * @param source The source PairContainer.
+		 */
+		public constructor(source: MapContainer<K, T>, listIterator: ListIterator<Pair<K, T>>)
+		{
+			this.source = source;
+
+			this.listIterator = listIterator;
+		}
+
+		/**
+		 * Get listIterator.
+		 */
+		public getListIterator(): ListIterator<Pair<K, T>>
+		{
+			return this.listIterator;
+		}
+
+		/* ---------------------------------------------------------
+			MOVERS
+		--------------------------------------------------------- */
+		/**
+		 * Get iterator to previous element.
+		 */
+        public prev(): MapIterator<K, T>
+		{
+			return new MapIterator<K, T>
+			(
+				<MapContainer<K, T>>this.source,
+				<ListIterator<Pair<K, T>>>this.listIterator.prev()
+			);
+		}
 
         /**
-         * <p> Construct from source and index number. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in Map instead. </p> 
-         *
-         * @param map The source map to reference
-         * @param index Sequence number of the element in the source map
+         * Get iterator to next element.
          */
-        constructor(source: AbstractMap<K, T>, it: ListIterator<Pair<K, T>>)
-	    {
-            super(source);
+        public next(): MapIterator<K, T>
+		{
+			return new MapIterator<K, T>
+			(
+				<MapContainer<K, T>>this.source,
+				<ListIterator<Pair<K, T>>>this.listIterator.next()
+			);
+		}
 
-		    this.listIterator = it;
-	    }
+		/**
+		 * Advances the Iterator by n element positions.
+		 *
+		 * @param n Number of element positions to advance.
+		 * @return An advanced Iterator.
+		 */
+		public advance(n: number): MapIterator<K, T>
+		{
+			var it: MapIterator<K, T> = this;
+			var i: number;
 
-        /**
-         * Get listIterator.
-         */
-        public getListIterator(): ListIterator<Pair<K, T>>
-        {
-            return this.listIterator;
-        }
+			if (n >= 0 )
+			{
+				for (i = 0; i < n; i++)
+					if (it.equals(this.source.end()))
+						return this.source.end();
+					else
+						it = it.next();
+			}
+			else
+			{
+				n = n * -1;
 
-        /* ---------------------------------------------------------
-		    MOVERS
-	    --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        public prev(): PairIterator<K, T>
-        {
-            return new MapIterator<K, T>
-                (
-                    <AbstractMap<K, T>>this.source, 
-                    <ListIterator<Pair<K, T>>>this.listIterator.prev()
-                );
-        }
+				for (i = 0; i < n; i++)
+					if (it.equals(this.source.end()))
+						return this.source.end();
+					else
+						it = it.prev();
+			}
 
-        /**
-         * @inheritdoc
-         */
-        public next(): PairIterator<K, T>
-        {
-            return new MapIterator<K, T>
-                (
-                    <AbstractMap<K, T>>this.source, 
-                    <ListIterator<Pair<K, T>>>this.listIterator.next()
-                );
-        }
+			return it;
+		}
 
-        /**
-         * @inheritdoc
-         */
-        public advance(size: number): PairIterator<K, T>
-        {
-            return new MapIterator<K, T>
-                (
-                    <AbstractMap<K, T>>this.source, 
-                    <ListIterator<Pair<K, T>>>this.listIterator.advance(size)
-                );
-        }
-
-        /* ---------------------------------------------------------
-		    ACCESSORS
-	    --------------------------------------------------------- */
-	    /**
-	     * @inheritdoc
-	     */
-        public equals(obj: PairIterator<K, T>): boolean
-	    {
-            return super.equals(obj) && this.listIterator == (<MapIterator<K, T>>obj).listIterator;
-	    }
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		/**
+		 * Get source.
+		 */
+		public getSource(): MapContainer<K, T>
+		{
+			return this.source;
+		}
+		
+		public equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean 
+		{
+			return this.source == obj.source && this.listIterator.equals(obj.listIterator);
+		}
         
-        /**
-         * @inheritdoc
-         */
-	    public get first(): K
-	    {
-		    return this.listIterator.value.first;
-	    }
+		/**
+		 * Get first, key element.
+		 */
+		public get first(): K
+		{
+			return this.listIterator.value.first;
+		}
 
-	    /**
-         * @inheritdoc
-         */
-	    public get second(): T
-	    {
-		    return this.listIterator.value.second;
-	    }
-        
-	    /**
-         * @inheritdoc
-         */
-	    public set first(key: K)
-	    {
-		    this.listIterator.value.first = key;
-	    }
+		/**
+		 * Get second, value element.
+		 */
+		public get second(): T
+		{
+			return this.listIterator.value.second;
+		}
 
-	    /**
-         * @inheritdoc
-         */
-	    public set second(val: T)
-	    {
-		    this.listIterator.value.second = val;
-	    }
-    }
+		public set first(key: K)
+		{
+			this.listIterator.value.first = key;
+		}
+		public set second(val: T)
+		{
+			this.listIterator.value.second = val;
+		}
+	}
 }

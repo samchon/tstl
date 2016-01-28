@@ -1,9 +1,9 @@
-/// <reference path="AbstractMap.ts" />
+/// <reference path="BaseMap.ts" />
 
 namespace std
 {
     export class Map<K, T>
-        extends AbstractMap<K, T>
+        extends BaseMap<K, T>
     {
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -20,9 +20,9 @@ namespace std
 
         public constructor(array: Array<Pair<K, T>>);
 
-        public constructor(container: PairContainer<K, T>);
+        public constructor(container: MapContainer<K, T>);
 
-        public constructor(begin: PairIterator<K, T>, end: PairIterator<K, T>);
+        public constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
         
         public constructor(...args: any[])
         {
@@ -36,7 +36,7 @@ namespace std
          * @inheritdoc
          */
         public assign<L extends K, U extends T>
-            (begin: PairIterator<L, U>, end: PairIterator<L, U>): void
+            (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
         {
             super.assign(begin, end);
         }
@@ -60,21 +60,29 @@ namespace std
         /**
          * @inheritdoc
          */
-        public find(key: K): PairIterator<K, T>
+        public find(key: K): MapIterator<K, T>
         {
             return this.end();
         }
 
         /* =========================================================
 		    ELEMENTS I/O
+				- INSERT
                 - POST-PROCESS
 	    ============================================================
+		    INSERT
+	    --------------------------------------------------------- */
+		protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
+		{
+		}
+
+		/* ---------------------------------------------------------
 		    POST-PROCESS
 	    --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        protected handleInsert(item: PairIterator<K, T>): void
+        protected handleInsert(item: MapIterator<K, T>): void
         {
             
         }
@@ -82,7 +90,7 @@ namespace std
         /**
          * @inheritdoc
          */
-        protected handleErase(item: PairIterator<K, T>): void
+        protected handleErase(item: MapIterator<K, T>): void
         {
             
         }

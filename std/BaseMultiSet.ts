@@ -5,9 +5,9 @@ namespace std
 	export abstract class BaseMultiSet<T>
 		extends SetContainer<T>
 	{
-		/* =========================================================
+		/* ---------------------------------------------------------
 		    CONSTRUCTORS
-	    ========================================================= */
+	    --------------------------------------------------------- */
 		/**
 		 * Default Constructor.
 		 */
@@ -33,9 +33,9 @@ namespace std
 			return size;
 		}
 
-		/* =========================================================
+		/* ---------------------------------------------------------
 		    ELEMENTS I/O
-	    ========================================================= */
+	    --------------------------------------------------------- */
 		public insert(val: T): Iterator<T>;
 
 		public insert(hint: Iterator<T>, val: T): Iterator<T>;
@@ -45,17 +45,6 @@ namespace std
 		public insert(...args: any[]): any
 		{
 			return super.insert.apply(this, args);
-		}
-
-		protected insertByVal(val: T): any
-		{
-            // insert
-            var listIterator = <ListIterator<T>>this.data.insert(this.data.end(), val);
-            
-			var it = new SetIterator<T>(this, listIterator);
-			this.handleInsert(it);
-
-			return it;
 		}
 	}
 }

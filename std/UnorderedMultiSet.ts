@@ -176,6 +176,17 @@ namespace std
 	    ============================================================
 		    INSERT
 	    --------------------------------------------------------- */
+		protected insertByVal(val: T): any
+		{
+            // insert
+            var listIterator = <ListIterator<T>>this.data.insert(this.data.end(), val);
+
+			var it = new SetIterator<T>(this, listIterator);
+			this.handleInsert(it);
+
+			return it;
+		}
+
         protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
         {
             // CALCULATE INSERTING SIZE

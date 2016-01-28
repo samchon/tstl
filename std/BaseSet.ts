@@ -34,22 +34,5 @@ namespace std
 		{
 			return super.insert.apply(this, args);
 		}
-
-		protected insertByVal(val: T): any
-		{
-            // TEST WHETHER EXIST
-            var it = this.find(val);
-            if (it.equals(this.end()) == false)
-                return new Pair<Iterator<T>, boolean>(it, false);
-
-            // INSERT
-            this.data.pushBack(val);
-            it = it.prev();
-
-            // POST-PROCESS
-            this.handleInsert(<SetIterator<T>>it);
-
-            return new Pair<Iterator<T>, boolean>(it, true);
-        }
 	}
 }
