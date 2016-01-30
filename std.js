@@ -319,33 +319,54 @@ var std;
 })(std || (std = {}));
 var std;
 (function (std) {
-    function equals(val1, val2) {
-        if (val1 instanceof Object)
-            return val1.equals(val2);
+    /**
+     * <p> For equality comparison. </p>
+     *
+     * <p> Binary fucntion returns whether the arguments are equal. </p>
+     *
+     * @param <T> Type of arguments to compare.
+     *
+     * @param first First element to compare.
+     * @param second Second element to compare.
+     *
+     * @return Whether the arguments are equal.
+     */
+    function equals(first, second) {
+        if (first instanceof Object)
+            return first.equals(second);
         else
-            return val1 == val2;
+            return first == second;
     }
     std.equals = equals;
     /**
-     * <p> for less-than inequality comparison. </p>
+     * <p> For less-than inequality comparison. </p>
      *
-     * <p> Binary function object class whose call returns whether the its first argument compares less than
+     * <p> Binary function returns whether the its first argument compares less than
      * the second. </p>
      *
      * <p> Objects of this class can be used on standard algorithms such as <code>sort</code>, <code>merge</code>. </p>
+     *
+     * @param <T> Type of arguments to compare.
      *
      * @param val1 First element, the standard of comparison.
      * @param val2 Second element compare with the first.
      *
      * @return Whether the first parameter is less than the second.
      */
-    function less(val1, val2) {
-        if (val1 instanceof Object)
-            return val1.less(val2);
+    function less(first, second) {
+        if (first instanceof Object)
+            return first.less(second);
         else
-            return val1 < val2;
+            return first < second;
     }
     std.less = less;
+    function hashCode(par) {
+        return std.base.Hash.code(par);
+    }
+    std.hashCode = hashCode;
+    /**
+     * Incremental sequence of unique id allocated to Object.
+     */
     std.__s_iUID = 0;
 })(std || (std = {}));
 Object.prototype.equals =
@@ -399,14 +420,14 @@ var std;
                 enumerable: true,
                 configurable: true
             });
-            Hash.code = function (val) {
-                var type = typeof val;
+            Hash.code = function (par) {
+                var type = typeof par;
                 if (type == "number")
-                    return Hash.codeByNumber(val);
+                    return Hash.codeByNumber(par);
                 else if (type == "string")
-                    return Hash.codeByString(val);
+                    return Hash.codeByString(par);
                 else
-                    return Hash.codeByObject(val);
+                    return Hash.codeByObject(par);
             };
             Hash.codeByNumber = function (val) {
                 return Math.abs(Math.round(val));
@@ -423,6 +444,82 @@ var std;
             return Hash;
         })();
         base.Hash = Hash;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var HashBucket = (function () {
+            /* ---------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------- */
+            /**
+             * Default Constructor.
+             */
+            function HashBucket() {
+                this.clear();
+            }
+            /**
+             * Reserve the bucket size.
+             *
+             * @param size Number of bucket size to reserve.
+             */
+            HashBucket.prototype.reserve = function (size) {
+                if (size < base.Hash.MIN_SIZE)
+                    size = base.Hash.MIN_SIZE;
+                var prevMatrix = this.matrix;
+                this.matrix = new std.Vector();
+                for (var i = 0; i < size; i++)
+                    this.matrix.pushBack(new std.Vector());
+                for (var i = 0; i < prevMatrix.size(); i++)
+                    for (var j = 0; j < prevMatrix.at(i).size(); j++) {
+                        var val = prevMatrix.at(i).at(j);
+                        this.matrix.at(this.hashIndex(val)).pushBack(val);
+                        this.itemSize_++;
+                    }
+            };
+            HashBucket.prototype.clear = function () {
+                this.matrix = new std.Vector();
+                this.itemSize_ = 0;
+                for (var i = 0; i < base.Hash.MIN_SIZE; i++)
+                    this.matrix.pushBack(new std.Vector());
+            };
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            HashBucket.prototype.size = function () {
+                return this.matrix.size();
+            };
+            HashBucket.prototype.itemSize = function () {
+                return this.itemSize_;
+            };
+            HashBucket.prototype.at = function (index) {
+                return this.matrix.at(index);
+            };
+            HashBucket.prototype.hashIndex = function (val) {
+                return base.Hash.code(val) % this.matrix.size();
+            };
+            /* ---------------------------------------------------------
+                ELEMENTS I/O
+            --------------------------------------------------------- */
+            HashBucket.prototype.insert = function (val) {
+                this.matrix.at(this.hashIndex(val)).pushBack(val);
+                if (++this.itemSize_ > this.matrix.size() * base.Hash.MAX_RATIO)
+                    this.reserve(this.itemSize_ * base.Hash.RATIO);
+            };
+            HashBucket.prototype.erase = function (val) {
+                var hashes = this.matrix.at(this.hashIndex(val));
+                for (var i = 0; i < hashes.size(); i++)
+                    if (hashes.at(i) == val) {
+                        hashes.splice(i, 1);
+                        this.itemSize_--;
+                        break;
+                    }
+            };
+            return HashBucket;
+        })();
+        base.HashBucket = HashBucket;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="base/MapContainer.ts" />
@@ -497,9 +594,6 @@ var std;
         MapIterator.prototype.getSource = function () {
             return this.source;
         };
-        MapIterator.prototype.equals = function (obj) {
-            return this.source == obj.source && this.listIterator.equals(obj.listIterator);
-        };
         Object.defineProperty(MapIterator.prototype, "first", {
             /**
              * Get first, key element.
@@ -526,6 +620,18 @@ var std;
             enumerable: true,
             configurable: true
         });
+        /* ---------------------------------------------------------
+            COMPARISONS
+        --------------------------------------------------------- */
+        MapIterator.prototype.equals = function (obj) {
+            return this.source == obj.source && this.listIterator == obj.listIterator;
+        };
+        MapIterator.prototype.less = function (obj) {
+            return std.less(this.first, obj.first);
+        };
+        MapIterator.prototype.hashCode = function () {
+            return std.hashCode(this.first);
+        };
         return MapIterator;
     })();
     std.MapIterator = MapIterator;
@@ -608,6 +714,7 @@ var std;
              * Default Constructor.
              */
             function MapContainer() {
+                this.data = new std.List();
             }
             MapContainer.prototype.constructByArray = function (items) {
                 for (var i = 0; i < items.length; i++)
@@ -719,18 +826,6 @@ var std;
                     return this.insertByRange(args[0], args[1]);
                 }
             };
-            //{
-            //    // TEST WHETHER EXISTS
-            //    var it = this.find(pair.first);
-            //    if (it.equals(this.end()) == false)
-            //        return new Pair<PairIterator<K, T>, boolean>(it, false);
-            //    // INSERT
-            //    this.data.pushBack(pair);
-            //    it = it.prev();
-            //    // POST-PROCESS
-            //    this.handleInsert(<MapIterator<K, T>>it);
-            //    return new Pair<PairIterator<K, T>, boolean>(it, true);
-            //}
             MapContainer.prototype.insertByHint = function (hint, pair) {
                 // INSERT
                 var list_it = hint.getListIterator();
@@ -809,9 +904,7 @@ var std;
                 var myIt = this.find(key);
                 if (myIt.equals(this.end()))
                     return 0;
-                var size = 1;
-                for (var it = myIt.prev(); !it.equals(this.end()) && std.equals(key, it.first); it = it.prev())
-                    size++;
+                var size = 0;
                 for (var it = myIt.next(); !it.equals(this.end()) && std.equals(key, it.first); it = it.next())
                     size++;
                 return size;
@@ -835,7 +928,7 @@ var std;
     /**
      * <p> A bi-directional iterator of a Set. </p>
      *
-     * @tparam T Type of the elements.
+     * @param <T> Type of the elements.
      *
      * @author Jeongho Nam
      */
@@ -1628,10 +1721,10 @@ var std;
          */
         function SetIterator(source, it) {
             _super.call(this, source);
-            this.it = it;
+            this.listIterator = it;
         }
         SetIterator.prototype.getListIterator = function () {
-            return this.it;
+            return this.listIterator;
         };
         /* ---------------------------------------------------------
             MOVERS
@@ -1640,45 +1733,54 @@ var std;
          * @inheritdoc
          */
         SetIterator.prototype.prev = function () {
-            return new SetIterator(this.source, this.it.prev());
+            return new SetIterator(this.source, this.listIterator.prev());
         };
         /**
          * @inheritdoc
          */
         SetIterator.prototype.next = function () {
-            return new SetIterator(this.source, this.it.next());
+            return new SetIterator(this.source, this.listIterator.next());
         };
         /**
          * @inheritdoc
          */
         SetIterator.prototype.advance = function (size) {
-            return new SetIterator(this.source, this.it.advance(size));
-        };
-        /* ---------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        SetIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.it == obj.it;
+            return new SetIterator(this.source, this.listIterator.advance(size));
         };
         Object.defineProperty(SetIterator.prototype, "value", {
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
             /**
              * @inheritdoc
              */
             get: function () {
-                return this.it.value;
+                return this.listIterator.value;
             },
             /**
              * @inheritdoc
              */
             set: function (val) {
-                this.it.value = val;
+                this.listIterator.value = val;
             },
             enumerable: true,
             configurable: true
         });
+        /* ---------------------------------------------------------
+            COMPARISONS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        SetIterator.prototype.equals = function (obj) {
+            return _super.prototype.equals.call(this, obj) && this.listIterator == obj.listIterator;
+        };
+        SetIterator.prototype.less = function (obj) {
+            return std.less(this.value, obj.value);
+        };
+        SetIterator.prototype.hashCode = function () {
+            return std.base.Hash.code(this.value);
+        };
         return SetIterator;
     })(std.Iterator);
     std.SetIterator = SetIterator;
@@ -1906,9 +2008,7 @@ var std;
                 var myIt = this.find(val);
                 if (myIt.equals(this.end()))
                     return 0;
-                var size = -1;
-                for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.prev())
-                    size++;
+                var size = 0;
                 for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
                     size++;
                 return size;
@@ -2016,7 +2116,7 @@ var std;
 var std;
 (function (std) {
     /**
-     * <p> Unordered Set. </p>
+     * <p> Unordered Set, in other other, Hash Set. </p>
      *
      * <p> Unordered sets are containers that store unique elements in no particular order, and which allow for
      * fast retrieval of individual elements based on their value. </p>
@@ -2037,8 +2137,8 @@ var std;
      *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
      * </ul>
      *
-     * @tparam T Type of the elements.
-     *           Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
+     * @param <T> Type of the elements.
+     *			  Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
      *
      * @author Migrated by Jeongho Nam
      */
@@ -2050,7 +2150,8 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            this.constructHashGroup();
+            // BUCKET
+            this.hashBucket = new std.base.HashBucket();
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
                 this.constructByArray(args[0]);
@@ -2063,7 +2164,7 @@ var std;
             }
         }
         UnorderedSet.prototype.constructByArray = function (items) {
-            this.constructHashGroup(items.length * std.base.Hash.RATIO);
+            this.hashBucket.reserve(items.length * std.base.Hash.RATIO);
             _super.prototype.constructByArray.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -2075,10 +2176,11 @@ var std;
         UnorderedSet.prototype.assign = function (begin, end) {
             var it;
             var size = 0;
-            // REVERSE HASH_GROUP SIZE
+            // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            this.constructHashGroup(size * std.base.Hash.RATIO);
+            this.hashBucket.clear();
+            this.hashBucket.reserve(size * std.base.Hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -2087,30 +2189,7 @@ var std;
          */
         UnorderedSet.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.constructHashGroup();
-        };
-        /* ---------------------------------------------------------
-            HASH GROUP
-        --------------------------------------------------------- */
-        UnorderedSet.prototype.constructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size < std.base.Hash.MIN_SIZE)
-                size = std.base.Hash.MIN_SIZE;
-            // CLEAR
-            this.hashGroup = new std.Vector();
-            // AND INSERTS WITHI CAPACITY SIZE
-            for (var i = 0; i < size; i++)
-                this.hashGroup.pushBack(new std.Vector());
-        };
-        UnorderedSet.prototype.reconstructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size == -1)
-                size = this.size() * std.base.Hash.RATIO;
-            // CONSTURCT HASH_GROUP
-            this.constructHashGroup(size);
-            //RE-INSERT ELEMENTS TO HASH GROUP
-            for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
-                this.handleInsert(it);
+            this.hashBucket.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -2119,8 +2198,8 @@ var std;
          * @inheritdoc
          */
         UnorderedSet.prototype.find = function (val) {
-            var hashIndex = this.hashIndex(val);
-            var hashArray = this.hashGroup.at(hashIndex);
+            var hashIndex = std.base.Hash.code(val) % this.hashBucket.size();
+            var hashArray = this.hashBucket.at(hashIndex);
             for (var i = 0; i < hashArray.size(); i++)
                 if (std.equals(hashArray.at(i).value, val))
                     return hashArray.at(i);
@@ -2150,9 +2229,9 @@ var std;
             var size = 0;
             for (var it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * std.base.Hash.RATIO);
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBucket.itemSize() * std.base.Hash.MAX_RATIO)
+                this.hashBucket.reserve((this.size() + size) * std.base.Hash.RATIO);
             // INSERTS
             _super.prototype.insertByRange.call(this, begin, end);
         };
@@ -2163,25 +2242,13 @@ var std;
          * @inheritdoc
          */
         UnorderedSet.prototype.handleInsert = function (item) {
-            if (this.size() > this.hashGroup.size() * std.base.Hash.MAX_RATIO)
-                this.reconstructHashGroup();
-            var index = this.hashIndex(item.value);
-            this.hashGroup.at(index).push(item);
+            this.hashBucket.insert(item);
         };
         /**
          * @inheritdoc
          */
         UnorderedSet.prototype.handleErase = function (item) {
-            var index = this.hashIndex(item.value);
-            var hashArray = this.hashGroup.at(index);
-            for (var it = hashArray.begin(); it.equals(hashArray.end()) == false; it = it.next())
-                if (it.value == item) {
-                    hashArray.erase(it);
-                    break;
-                }
-        };
-        UnorderedSet.prototype.hashIndex = function (val) {
-            return std.base.Hash.code(val) % this.hashGroup.size();
+            this.hashBucket.erase(item);
         };
         return UnorderedSet;
     })(std.base.UniqueSet);
@@ -2198,6 +2265,7 @@ var std;
                 document.write("<h3> Container Test </h3>\n\n");
                 this.testList();
                 this.testUnorderedSet();
+                this.testUnorderedMap();
             }
             ContainerTest.prototype.testList = function () {
                 document.write("<h4> List </h4>\n");
@@ -2222,7 +2290,7 @@ var std;
             ContainerTest.prototype.testUnorderedSet = function () {
                 document.write("<h4> UnorderedSet </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.UnorderedMultiSet();
+                var container = new std.UnorderedSet();
                 for (var i = 0; i < 10; i++)
                     container.insert(i);
                 // ELEMENTS I/O
@@ -2242,6 +2310,32 @@ var std;
                 document.write("<ul>\n");
                 for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
                     document.write("<li>" + it.value + "</li>\n");
+                document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
+                document.write("</ul>\n\n");
+            };
+            ContainerTest.prototype.testUnorderedMap = function () {
+                document.write("<h4> UnorderedMap </h4>\n");
+                // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
+                var container = new std.UnorderedMap();
+                for (var i = 0; i < 10; i++)
+                    container.insert(new std.Pair(i, i));
+                // ELEMENTS I/O
+                document.write("Erase 7<br>\n" +
+                    "Insert -5<br>\n" +
+                    "Erase 3<br><br>\n\n");
+                container.erase(7);
+                container.insert(new std.Pair(-5, -5));
+                container.insert(new std.Pair(-5, -5));
+                container.insert(new std.Pair(-5, -5));
+                container.insert(new std.Pair(-5, -5));
+                container.erase(3);
+                container.erase(3);
+                container.erase(100);
+                // PRINTS
+                document.write("Elements in the UnorderedMap: #" + container.size() + "<br>\n");
+                document.write("<ul>\n");
+                for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
+                    document.write("<li>" + it.first + ": " + it.second + "</li>\n");
                 document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
                 document.write("</ul>\n\n");
             };
@@ -2326,6 +2420,32 @@ var std;
 /// <reference path="base/UniqueSet.ts" />
 var std;
 (function (std) {
+    /**
+     * <p> Set, in other word, Tree Set. </p>
+     *
+     * <p> Sets are containers that store unique elements following a specific order. </p>
+     *
+     * <p> In a set, the value of an element also identifies it (the value is itself the key, of type T), and each
+     * value must be unique. The value of the elements in a set cannot be modified once in the container
+     * (the elements are always const), but they can be inserted or removed from the container. </p>
+     *
+     * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering criterion
+     * indicated by its internal comparison object (of type Compare). </p>
+     *
+     * <p> Set containers are generally slower than unordered_set containers to access individual elements by
+     * their key, but they allow the direct iteration on subsets based on their order. </p>
+     *
+     * <p> Sets are typically implemented as binary search trees. </p>
+     *
+      * <ul>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *			  Each element in an <code>Set</code> is also uniquely identified by this value.
+     *
+     * @author Migrated by Jeongho Nam
+     */
     var Set = (function (_super) {
         __extends(Set, _super);
         function Set() {
@@ -2412,7 +2532,7 @@ var std;
 var std;
 (function (std) {
     /**
-     * <p> Unordered Map. </p>
+     * <p> Unordered Map, another word, Hash Map. </p>
      *
      * <p> Unordered maps are associative containers that store elements formed by the combination of a key value
      * and a mapped value, and which allows for fast retrieval of individual elements based on their keys. </p>
@@ -2437,10 +2557,10 @@ var std;
      *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
      * </ul>
      *
-     * @tparam K Type of the key values.
-     *           Each element in an <code>UnorderedMap</code> is uniquely identified by its key value.
-     * @tparam T Type of the mapped value.
-     *           Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
+     * @param <K> Type of the key values.
+     *			  Each element in an <code>UnorderedMap</code> is uniquely identified by its key value.
+     * @param <T> Type of the mapped value.
+     *			  Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
      *
      * @author Migrated by Jeongho Nam
      */
@@ -2452,7 +2572,8 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            this.constructHashGroup();
+            // HASH_BUCKET
+            this.hashBucket = new std.base.HashBucket();
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array) {
                 this.constructByArray(args[0]);
@@ -2465,7 +2586,7 @@ var std;
             }
         }
         UnorderedMap.prototype.constructByArray = function (items) {
-            this.constructHashGroup(items.length * std.base.Hash.RATIO);
+            this.hashBucket.reserve(items.length * std.base.Hash.RATIO);
             _super.prototype.constructByArray.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -2477,10 +2598,11 @@ var std;
         UnorderedMap.prototype.assign = function (begin, end) {
             var it;
             var size = 0;
-            // REVERSE HASH_GROUP SIZE
+            // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            this.constructHashGroup(size * std.base.Hash.RATIO);
+            this.hashBucket.clear();
+            this.hashBucket.reserve(size * std.base.Hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -2489,30 +2611,7 @@ var std;
          */
         UnorderedMap.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.constructHashGroup();
-        };
-        /* ---------------------------------------------------------
-            HASH GROUP
-        --------------------------------------------------------- */
-        UnorderedMap.prototype.constructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size < std.base.Hash.MIN_SIZE)
-                size = std.base.Hash.MIN_SIZE;
-            // CLEAR
-            this.hashGroup = new std.Vector();
-            // AND INSERTS WITHI CAPACITY SIZE
-            for (var i = 0; i < size; i++)
-                this.hashGroup.pushBack(new std.Vector());
-        };
-        UnorderedMap.prototype.reconstructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size == -1)
-                size = this.size() * std.base.Hash.RATIO;
-            // CONSTURCT HASH_GROUP
-            this.constructHashGroup(size);
-            // INSERT ELEMENTS TO HASH GROUP
-            for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
-                this.handleInsert(it);
+            this.hashBucket.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -2521,8 +2620,8 @@ var std;
          * @inheritdoc
          */
         UnorderedMap.prototype.find = function (key) {
-            var hashIndex = this.hashIndex(key);
-            var hashArray = this.hashGroup.at(hashIndex);
+            var hashIndex = std.base.Hash.code(key) % this.hashBucket.size();
+            var hashArray = this.hashBucket.at(hashIndex);
             for (var i = 0; i < hashArray.size(); i++)
                 if (std.equals(hashArray.at(i).first, key))
                     return hashArray.at(i);
@@ -2552,9 +2651,9 @@ var std;
             var size = 0;
             for (var it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * std.base.Hash.RATIO);
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBucket.itemSize() * std.base.Hash.MAX_RATIO)
+                this.hashBucket.reserve((this.size() + size) * std.base.Hash.RATIO);
             // INSERTS
             _super.prototype.insertByRange.call(this, begin, end);
         };
@@ -2565,30 +2664,13 @@ var std;
          * @inheritdoc
          */
         UnorderedMap.prototype.handleInsert = function (it) {
-            if (this.hashGroup.size() > this.size() * 2)
-                this.reconstructHashGroup();
-            var key = it.first;
-            var hashIndex = this.hashIndex(key);
-            this.hashGroup.at(hashIndex).pushBack(it);
+            this.hashBucket.insert(it);
         };
         /**
          * @inheritdoc
          */
         UnorderedMap.prototype.handleErase = function (it) {
-            // FIND MATCHED HASHES
-            var key = it.first;
-            var hashIndex = this.hashIndex(key);
-            var hashVector = this.hashGroup.at(hashIndex);
-            // ERASE FROM THE HASHES
-            for (var i = 0; i < hashVector.size(); i++) {
-                if (std.equals(it.first, hashVector.at(i).first) == true) {
-                    hashVector.erase(hashVector.begin().advance(i));
-                    break;
-                }
-            }
-        };
-        UnorderedMap.prototype.hashIndex = function (val) {
-            return std.base.Hash.code(val) % this.hashGroup.size();
+            this.hashBucket.erase(it);
         };
         return UnorderedMap;
     })(std.base.UniqueMap);
@@ -2599,35 +2681,33 @@ var std;
 var std;
 (function (std) {
     /**
-     * <p> Unordered Map. </p>
+     * <p> Unordered Multimap, in another word, Hashed MultiMap. </p>
      *
-     * <p> Unordered maps are associative containers that store elements formed by the combination of a key value
-     * and a mapped value, and which allows for fast retrieval of individual elements based on their keys. </p>
+     * <p> Unordered multimaps are associative containers that store elements formed by the combination of
+     * a key value and a mapped value, much like UnorderedMap containers, but allowing different elements to
+     * have equivalent keys. </p>
      *
-     * <p> In an <code>UnorderedMap</code>, the key value is generally used to uniquely identify the element,
-     * while the mapped value is an object with the content associated to this key. Types of key and mapped
-     * value may differ. </p>
+     * <p> In an UnorderedMultiMap, the key value is generally used to uniquely identify the element, while
+     * the mapped value is an object with the content associated to this key. Types of key and mapped value
+     * may differ. </p>
      *
-     * <p> Internally, the elements in the <code>UnorderedMap</code> are not sorted in any particular order with
-     * respect to either their key or mapped values, but organized into buckets depending on their hash values to
-     * allow for fast access to individual elements directly by their key values (with a constant average time
-     * complexity on average). </p>
+     * <p> Internally, the elements in the unordered_multimap are not sorted in any particular order with
+     * respect to either their key or mapped values, but organized into buckets depending on their hash values
+     * to allow for fast access to individual elements directly by their key values (with a constant average
+     * time complexity on average). </p>
      *
-     * <p> <code>UnorderedMap</code> containers are faster than map containers to access individual elements by
-     * their key, although they are generally less efficient for range iteration through a subset of their
-     * elements. </p>
-     *
-     * <p> Unordered maps implement the direct access operator (<code>get()</code>) which allows for direct access
-     * of the mapped value using its key value as argument. </p>
+     * <p> Elements with equivalent keys are grouped together in the same bucket and in such a way that
+     * an iterator (see equal_range) can iterate through all of them. Iterators in the container are doubly
+     * linked iterators. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
      * </ul>
      *
-     * @tparam K Type of the key values.
-     *           Each element in an <code>UnorderedMap</code> is uniquely identified by its key value.
-     * @tparam T Type of the mapped value.
-     *           Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
+     * @param <K> Type of the key values.
+     *			  Each element in an UnorderedMultiMap is identified by a key value.
+     * @param <T> Type of the mapped value.
+     *			  Each element in an UnorderedUnorderedMap is used to store some data as its mapped value.
      *
      * @author Migrated by Jeongho Nam
      */
@@ -2639,7 +2719,8 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            this.constructHashGroup();
+            // HASH_BUCKET
+            this.hashBucket = new std.base.HashBucket();
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array) {
                 this.constructByArray(args[0]);
@@ -2652,7 +2733,7 @@ var std;
             }
         }
         UnorderedMultiMap.prototype.constructByArray = function (items) {
-            this.constructHashGroup(items.length * std.base.Hash.RATIO);
+            this.hashBucket.reserve(items.length * std.base.Hash.RATIO);
             _super.prototype.constructByArray.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -2667,7 +2748,8 @@ var std;
             // REVERSE HASH_GROUP SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            this.constructHashGroup(size * std.base.Hash.RATIO);
+            this.hashBucket.clear();
+            this.hashBucket.reserve(size * std.base.Hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -2676,30 +2758,7 @@ var std;
          */
         UnorderedMultiMap.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.constructHashGroup();
-        };
-        /* ---------------------------------------------------------
-            HASH GROUP
-        --------------------------------------------------------- */
-        UnorderedMultiMap.prototype.constructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size < std.base.Hash.MIN_SIZE)
-                size = std.base.Hash.MIN_SIZE;
-            // CLEAR
-            this.hashGroup = new std.Vector();
-            // AND INSERTS WITHI CAPACITY SIZE
-            for (var i = 0; i < size; i++)
-                this.hashGroup.pushBack(new std.Vector());
-        };
-        UnorderedMultiMap.prototype.reconstructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size == -1)
-                size = this.size() * std.base.Hash.RATIO;
-            // CONSTURCT HASH_GROUP
-            this.constructHashGroup(size);
-            // INSERT ELEMENTS TO HASH GROUP
-            for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
-                this.handleInsert(it);
+            this.hashBucket.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -2708,8 +2767,8 @@ var std;
          * @inheritdoc
          */
         UnorderedMultiMap.prototype.find = function (key) {
-            var hashIndex = this.hashIndex(key);
-            var hashArray = this.hashGroup.at(hashIndex);
+            var hashIndex = std.base.Hash.code(key) % this.hashBucket.size();
+            var hashArray = this.hashBucket.at(hashIndex);
             for (var i = 0; i < hashArray.size(); i++)
                 if (std.equals(hashArray.at(i).first, key))
                     return hashArray.at(i);
@@ -2733,9 +2792,9 @@ var std;
             var size = 0;
             for (var it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * std.base.Hash.RATIO);
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBucket.itemSize() * std.base.Hash.MAX_RATIO)
+                this.hashBucket.reserve((this.size() + size) * std.base.Hash.RATIO);
             // INSERTS
             _super.prototype.insertByRange.call(this, begin, end);
         };
@@ -2746,30 +2805,13 @@ var std;
          * @inheritdoc
          */
         UnorderedMultiMap.prototype.handleInsert = function (it) {
-            if (this.hashGroup.size() > this.size() * 2)
-                this.reconstructHashGroup();
-            var key = it.first;
-            var hashIndex = this.hashIndex(key);
-            this.hashGroup.at(hashIndex).pushBack(it);
+            this.hashBucket.insert(it);
         };
         /**
          * @inheritdoc
          */
         UnorderedMultiMap.prototype.handleErase = function (it) {
-            // FIND MATCHED HASHES
-            var key = it.first;
-            var hashIndex = this.hashIndex(key);
-            var hashVector = this.hashGroup.at(hashIndex);
-            // ERASE FROM THE HASHES
-            for (var i = 0; i < hashVector.size(); i++) {
-                if (std.equals(it.first, hashVector.at(i).first) == true) {
-                    hashVector.erase(hashVector.begin().advance(i));
-                    break;
-                }
-            }
-        };
-        UnorderedMultiMap.prototype.hashIndex = function (val) {
-            return std.base.Hash.code(val) % this.hashGroup.size();
+            this.hashBucket.erase(it);
         };
         return UnorderedMultiMap;
     })(std.base.MultiMap);
@@ -2780,29 +2822,29 @@ var std;
 var std;
 (function (std) {
     /**
-     * <p> Unordered Set. </p>
+     * <p> Unordered Multiset, in another word, Hashed MultiSet. </p>
      *
-     * <p> Unordered sets are containers that store unique elements in no particular order, and which allow for
-     * fast retrieval of individual elements based on their value. </p>
+     * <p> Unordered multisets are containers that store elements in no particular order, allowing fast retrieval
+     * of individual elements based on their value, much like UnorderedSet containers, but allowing different
+     * elements to have equivalent values. </p>
      *
-     * <p> In an <code>UnorderedSet</code>, the value of an element is at the same time its key, that identifies
-     * it uniquely. Keys are immutable, therefore, the elements in an <code>UnorderedSet</code> cannot be modified
-     * once in the container - they can be inserted and removed, though. </p>
+     * <p> In an UnorderedMultiSet, the value of an element is at the same time its key, used to identify it.
+     * Keys are immutable, therefore, the elements in an unordered_multiset cannot be modified once in the
+     * container - they can be inserted and removed, though. </p>
      *
-     * <p> Internally, the elements in the <code>UnorderedSet</code> are not sorted in any particular order, but
-     * organized into buckets depending on their hash values to allow for fast access to individual elements directly
-     * by their values (with a constant average time complexity on average). </p>
+     * <p> Internally, the elements in the unordered_multiset are not sorted in any particular, but organized
+     * into buckets depending on their hash values to allow for fast access to individual elements directly by
+     * their values (with a constant average time complexity on average). </p>
      *
-     * <p> <code>UnorderedSet</code> containers are faster than <codeSet<code> containers to access individual
-     * elements by their key, although they are generally less efficient for range iteration through a subset of
-     * their elements. </p>
+     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
+     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
      * </ul>
      *
-     * @tparam T Type of the elements.
-     *           Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
+     * @param <T> Type of the elements.
+     *           Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
      *
      * @author Migrated by Jeongho Nam
      */
@@ -2814,7 +2856,8 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            this.constructHashGroup();
+            // BUCKET
+            this.hashBucket = new std.base.HashBucket();
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
                 this.constructByArray(args[0]);
@@ -2827,7 +2870,7 @@ var std;
             }
         }
         UnorderedMultiSet.prototype.constructByArray = function (items) {
-            this.constructHashGroup(items.length * std.base.Hash.RATIO);
+            this.hashBucket.reserve(items.length * std.base.Hash.RATIO);
             _super.prototype.constructByArray.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -2839,10 +2882,11 @@ var std;
         UnorderedMultiSet.prototype.assign = function (begin, end) {
             var it;
             var size = 0;
-            // REVERSE HASH_GROUP SIZE
+            // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            this.constructHashGroup(size * std.base.Hash.RATIO);
+            this.hashBucket.clear();
+            this.hashBucket.reserve(size * std.base.Hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -2851,30 +2895,7 @@ var std;
          */
         UnorderedMultiSet.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.constructHashGroup();
-        };
-        /* ---------------------------------------------------------
-            HASH GROUP
-        --------------------------------------------------------- */
-        UnorderedMultiSet.prototype.constructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size < std.base.Hash.MIN_SIZE)
-                size = std.base.Hash.MIN_SIZE;
-            // CLEAR
-            this.hashGroup = new std.Vector();
-            // AND INSERTS WITHI CAPACITY SIZE
-            for (var i = 0; i < size; i++)
-                this.hashGroup.pushBack(new std.Vector());
-        };
-        UnorderedMultiSet.prototype.reconstructHashGroup = function (size) {
-            if (size === void 0) { size = -1; }
-            if (size == -1)
-                size = this.size() * std.base.Hash.RATIO;
-            // CONSTURCT HASH_GROUP
-            this.constructHashGroup(size);
-            //RE-INSERT ELEMENTS TO HASH GROUP
-            for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
-                this.handleInsert(it);
+            this.hashBucket.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -2883,8 +2904,8 @@ var std;
          * @inheritdoc
          */
         UnorderedMultiSet.prototype.find = function (val) {
-            var hashIndex = this.hashIndex(val);
-            var hashArray = this.hashGroup.at(hashIndex);
+            var hashIndex = std.base.Hash.code(val) % this.hashBucket.size();
+            var hashArray = this.hashBucket.at(hashIndex);
             for (var i = 0; i < hashArray.size(); i++)
                 if (std.equals(hashArray.at(i).value, val))
                     return hashArray.at(i);
@@ -2898,9 +2919,10 @@ var std;
             INSERT
         --------------------------------------------------------- */
         UnorderedMultiSet.prototype.insertByVal = function (val) {
-            // insert
+            // INSERT
             var listIterator = this.data.insert(this.data.end(), val);
             var it = new std.SetIterator(this, listIterator);
+            // POST-PROCESS
             this.handleInsert(it);
             return it;
         };
@@ -2909,9 +2931,9 @@ var std;
             var size = 0;
             for (var it = begin; it.equals(end) == false; it = it.next())
                 size++;
-            // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * std.base.Hash.RATIO);
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBucket.itemSize() * std.base.Hash.MAX_RATIO)
+                this.hashBucket.reserve((this.size() + size) * std.base.Hash.RATIO);
             // INSERTS
             _super.prototype.insertByRange.call(this, begin, end);
         };
@@ -2921,26 +2943,14 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedMultiSet.prototype.handleInsert = function (item) {
-            if (this.size() > this.hashGroup.size() * std.base.Hash.MAX_RATIO)
-                this.reconstructHashGroup();
-            var index = this.hashIndex(item.value);
-            this.hashGroup.at(index).push(item);
+        UnorderedMultiSet.prototype.handleInsert = function (it) {
+            this.hashBucket.insert(it);
         };
         /**
          * @inheritdoc
          */
-        UnorderedMultiSet.prototype.handleErase = function (item) {
-            var index = this.hashIndex(item.value);
-            var hashArray = this.hashGroup.at(index);
-            for (var it = hashArray.begin(); it.equals(hashArray.end()) == false; it = it.next())
-                if (it.value == item) {
-                    hashArray.erase(it);
-                    break;
-                }
-        };
-        UnorderedMultiSet.prototype.hashIndex = function (val) {
-            return std.base.Hash.code(val) % this.hashGroup.size();
+        UnorderedMultiSet.prototype.handleErase = function (it) {
+            this.hashBucket.erase(it);
         };
         return UnorderedMultiSet;
     })(std.base.MultiSet);

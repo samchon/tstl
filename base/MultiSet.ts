@@ -22,11 +22,7 @@ namespace std.base
 			if (myIt.equals(this.end()))
 				return 0;
 
-			var size: number = -1;
-
-			for (let it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.prev())
-				size++;
-
+			var size: number = 0;
 			for (let it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
 				size++;
 

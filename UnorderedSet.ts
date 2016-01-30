@@ -5,7 +5,7 @@
 namespace std
 {
     /**
-     * <p> Unordered Set. </p>
+     * <p> Unordered Set, in other other, Hash Set. </p>
      *
      * <p> Unordered sets are containers that store unique elements in no particular order, and which allow for 
      * fast retrieval of individual elements based on their value. </p>
@@ -26,21 +26,20 @@ namespace std
      *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
      * </ul>
      *
-     * @tparam T Type of the elements. 
-     *           Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
+     * @param <T> Type of the elements. 
+     *			  Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
      *
      * @author Migrated by Jeongho Nam
      */
     export class UnorderedSet<T>
         extends base.UniqueSet<T>
     {
-        private hashGroup: Vector<Vector<SetIterator<T>>>;
+        private hashBucket: base.HashBucket<SetIterator<T>>;
 
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
                 - CONSTRUCTORS
                 - ASSIGN & CLEAR
-                - HASH GROUP
 	    ============================================================
             CONSTURCTORS
         --------------------------------------------------------- */
@@ -67,7 +66,9 @@ namespace std
         public constructor(...args: any[])
         {
 			super();
-            this.constructHashGroup();
+
+			// BUCKET
+            this.hashBucket = new base.HashBucket<SetIterator<T>>();
 
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
@@ -86,7 +87,7 @@ namespace std
         
         protected constructByArray(items: Array<T>): void
         {
-            this.constructHashGroup(items.length * base.Hash.RATIO);
+            this.hashBucket.reserve(items.length * base.Hash.RATIO);
 
             super.constructByArray(items);
         }
@@ -102,11 +103,12 @@ namespace std
             var it: Iterator<U>;
             var size: number = 0;
             
-            // REVERSE HASH_GROUP SIZE
+            // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
-            this.constructHashGroup(size * base.Hash.RATIO);
+			this.hashBucket.clear();
+            this.hashBucket.reserve(size * base.Hash.RATIO);
 
             // SUPER; INSERT
             super.assign(begin, end);
@@ -119,36 +121,7 @@ namespace std
         {
             super.clear();
 
-            this.constructHashGroup();
-        }
-
-        /* ---------------------------------------------------------
-		    HASH GROUP
-	    --------------------------------------------------------- */
-        private constructHashGroup(size: number = -1): void 
-        {
-            if (size < base.Hash.MIN_SIZE)
-                size = base.Hash.MIN_SIZE;
-
-            // CLEAR
-            this.hashGroup = new Vector<Vector<SetIterator<T>>>();
-
-            // AND INSERTS WITHI CAPACITY SIZE
-            for (var i: number = 0; i < size; i++)
-                this.hashGroup.pushBack(new Vector<SetIterator<T>>());
-        }
-
-        private reconstructHashGroup(size: number = -1): void
-        {
-            if (size == -1)
-                size = this.size() * base.Hash.RATIO;
-
-            // CONSTURCT HASH_GROUP
-            this.constructHashGroup(size);
-
-            //RE-INSERT ELEMENTS TO HASH GROUP
-            for (var it = this.begin(); it.equals(this.end()) == false; it = it.next())
-                this.handleInsert(<SetIterator<T>>it);
+            this.hashBucket.clear();
         }
 
         /* =========================================================
@@ -159,8 +132,8 @@ namespace std
          */
         public find(val: T): Iterator<T>
         {
-            var hashIndex: number = this.hashIndex(val);
-            var hashArray = this.hashGroup.at(hashIndex);
+            var hashIndex: number = base.Hash.code(val) % this.hashBucket.size();
+            var hashArray = this.hashBucket.at(hashIndex);
 
             for (var i: number = 0; i < hashArray.size(); i++)
                 if (std.equals(hashArray.at(i).value, val))
@@ -178,7 +151,7 @@ namespace std
 	    --------------------------------------------------------- */
 		protected insertByVal(val: T): any
 		{
-            // TEST WHETHER EXIST
+			// TEST WHETHER EXIST
             var it = this.find(val);
             if (it.equals(this.end()) == false)
                 return new Pair<Iterator<T>, boolean>(it, false);
@@ -191,7 +164,7 @@ namespace std
             this.handleInsert(<SetIterator<T>>it);
 
             return new Pair<Iterator<T>, boolean>(it, true);
-        }
+		}
 
         protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
         {
@@ -200,9 +173,9 @@ namespace std
             for (var it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
-            // IF NEEDED, HASH_GROUP TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashGroup.size() * 2)
-                this.reconstructHashGroup((this.size() + size) * base.Hash.RATIO);
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBucket.itemSize() * base.Hash.MAX_RATIO)
+                this.hashBucket.reserve((this.size() + size) * base.Hash.RATIO);
 
             // INSERTS
             super.insertByRange(begin, end);
@@ -216,11 +189,7 @@ namespace std
          */
         protected handleInsert(item: SetIterator<T>): void
         {
-            if (this.size() > this.hashGroup.size() * base.Hash.MAX_RATIO)
-                this.reconstructHashGroup();
-
-            var index: number = this.hashIndex(item.value);
-            this.hashGroup.at(index).push(item);
+            this.hashBucket.insert(item);
         }
 
         /**
@@ -228,20 +197,7 @@ namespace std
          */
         protected handleErase(item: SetIterator<T>): void
         {
-            var index: number = this.hashIndex(item.value);
-            var hashArray = this.hashGroup.at(index);
-            
-            for (var it = hashArray.begin(); it.equals(hashArray.end()) == false; it = it.next())
-                if (it.value == item)
-                {
-                    hashArray.erase(it);
-                    break;
-                }
-        }
-        
-        private hashIndex(val: any): number
-        {
-            return base.Hash.code(val) % this.hashGroup.size();
+            this.hashBucket.erase(item);
         }
     }
 }

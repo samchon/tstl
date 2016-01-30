@@ -2,6 +2,32 @@
 
 namespace std
 {
+	/**
+	 * <p> Set, in other word, Tree Set. </p>
+	 *
+	 * <p> Sets are containers that store unique elements following a specific order. </p>
+	 *
+	 * <p> In a set, the value of an element also identifies it (the value is itself the key, of type T), and each 
+	 * value must be unique. The value of the elements in a set cannot be modified once in the container 
+	 * (the elements are always const), but they can be inserted or removed from the container. </p>
+	 *
+	 * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering criterion 
+	 * indicated by its internal comparison object (of type Compare). </p>
+	 *
+	 * <p> Set containers are generally slower than unordered_set containers to access individual elements by 
+	 * their key, but they allow the direct iteration on subsets based on their order. </p>
+	 *
+	 * <p> Sets are typically implemented as binary search trees. </p>
+	 *
+	  * <ul>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
+     * </ul>
+	 *
+	 * @param <T> Type of the elements. 
+     *			  Each element in an <code>Set</code> is also uniquely identified by this value.
+	 *
+	 * @author Migrated by Jeongho Nam
+	 */
     export class Set<T>
         extends base.UniqueSet<T>
     {

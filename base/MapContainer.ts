@@ -21,6 +21,7 @@ namespace std.base
 		 */
 		public constructor()
 		{
+			this.data = new List<Pair<K, T>>();
 		}
 
 		protected constructByArray(items: Array<Pair<K, T>>): void
@@ -201,21 +202,7 @@ namespace std.base
         }
 
         protected abstract insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
-        //{
-        //    // TEST WHETHER EXISTS
-        //    var it = this.find(pair.first);
-        //    if (it.equals(this.end()) == false)
-        //        return new Pair<PairIterator<K, T>, boolean>(it, false);
-
-        //    // INSERT
-        //    this.data.pushBack(pair);
-        //    it = it.prev();
-
-        //    // POST-PROCESS
-        //    this.handleInsert(<MapIterator<K, T>>it);
-
-        //    return new Pair<PairIterator<K, T>, boolean>(it, true);
-        //}
+        
         private insertByHint(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>
         {
             // INSERT

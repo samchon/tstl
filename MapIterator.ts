@@ -101,11 +101,6 @@ namespace std
 		{
 			return this.source;
 		}
-		
-		public equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean 
-		{
-			return this.source == obj.source && this.listIterator.equals(obj.listIterator);
-		}
         
 		/**
 		 * Get first, key element.
@@ -130,6 +125,24 @@ namespace std
 		public set second(val: T)
 		{
 			this.listIterator.value.second = val;
+		}
+
+		/* ---------------------------------------------------------
+		    COMPARISONS
+	    --------------------------------------------------------- */
+		public equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean 
+		{
+			return this.source == obj.source && this.listIterator == obj.listIterator;
+		}
+
+		public less<L extends K, U extends T>(obj: MapIterator<L, U>): boolean
+		{
+			return std.less(this.first, obj.first);
+		}
+
+		public hashCode(): number
+		{
+			return std.hashCode(this.first);
 		}
 	}
 }

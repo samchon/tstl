@@ -11,6 +11,7 @@ namespace std.example
 
             this.testList();
             this.testUnorderedSet();
+			this.testUnorderedMap();
         }
 
         private testList(): void
@@ -49,7 +50,7 @@ namespace std.example
             document.write("<h4> UnorderedSet </h4>\n");
 
             // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-            var container = new UnorderedMultiSet<number>();
+            var container = new UnorderedSet<number>();
             for (var i: number = 0; i < 10; i++)
                 container.insert(i);
 
@@ -81,6 +82,44 @@ namespace std.example
 
             document.write("</ul>\n\n");
         }
+
+		private testUnorderedMap()
+		{
+			document.write("<h4> UnorderedMap </h4>\n");
+
+            // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
+            var container = new UnorderedMap<number, number>();
+            for (var i: number = 0; i < 10; i++)
+                container.insert(new Pair<number, number>(i, i));
+
+            // ELEMENTS I/O
+            document.write
+				(
+                "Erase 7<br>\n" +
+                "Insert -5<br>\n" +
+                "Erase 3<br><br>\n\n"
+				);
+
+            container.erase(7);
+            container.insert(new Pair<number, number>(-5, -5));
+            container.insert(new Pair<number, number>(-5, -5));
+			container.insert(new Pair<number, number>(-5, -5));
+			container.insert(new Pair<number, number>(-5, -5));
+            container.erase(3);
+            container.erase(3);
+            container.erase(100);
+            
+            // PRINTS
+            document.write("Elements in the UnorderedMap: #" + container.size() + "<br>\n");
+            document.write("<ul>\n");
+
+            for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
+                document.write("<li>" + it.first + ": " + it.second + "</li>\n");
+
+			document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
+
+            document.write("</ul>\n\n");
+		}
 
         public static main(): void
         {

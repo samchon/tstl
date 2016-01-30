@@ -7,7 +7,7 @@ namespace std
     /**
      * <p> A bi-directional iterator of a Set. </p>
      *
-     * @tparam T Type of the elements.
+     * @param <T> Type of the elements.
      * 
      * @author Jeongho Nam
      */

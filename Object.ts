@@ -1,44 +1,61 @@
 ﻿namespace std
 {
-    export interface IObject
-        extends Object
+	/**
+	 * <p> For equality comparison. </p>
+	 *
+	 * <p> Binary fucntion returns whether the arguments are equal. </p> 
+	 *
+	 * @param <T> Type of arguments to compare.
+	 *
+	 * @param first First element to compare.
+	 * @param second Second element to compare.
+	 *
+	 * @return Whether the arguments are equal.
+	 */
+    export function equals<T>(first: T, second: T): boolean
     {
-        equals(obj: IObject): boolean;
-
-        less(obj: IObject): boolean;
-
-        hashCode(): number;
-    }
-
-    export function equals<T>(val1: T, val2: T): boolean
-    {
-        if (val1 instanceof Object)
-            return (<any>val1).equals(val2);
+        if (first instanceof Object)
+            return (<any>first).equals(second);
         else
-            return val1 == val2;
+            return first == second;
     }
 
     /**
-     * <p> for less-than inequality comparison. </p>
+     * <p> For less-than inequality comparison. </p>
      *
-     * <p> Binary function object class whose call returns whether the its first argument compares less than 
+     * <p> Binary function returns whether the its first argument compares less than 
      * the second. </p>
      *
      * <p> Objects of this class can be used on standard algorithms such as <code>sort</code>, <code>merge</code>. </p>
      *
+	 * @param <T> Type of arguments to compare.
+	 *
      * @param val1 First element, the standard of comparison.
      * @param val2 Second element compare with the first.
      *
      * @return Whether the first parameter is less than the second.
      */
-    export function less<T>(val1: T, val2: T): boolean
+    export function less<T>(first: T, second: T): boolean
     {
-        if (val1 instanceof Object)
-            return (<any>val1).less(val2);
+        if (first instanceof Object)
+            return (<any>first).less(second);
         else
-            return val1 < val2;
+            return first < second;
     }
 
+	export function hashCode(val: number): number;
+	export function hashCode(str: string): number;
+	export function hashCode(obj: Object): number;
+	export function hashCode(par: any): number;
+	
+	export function hashCode(par: any): number
+	{
+		return base.Hash.code(par);
+	}
+
+	/**
+	 * Incremental sequence of unique id allocated to Object.
+	 */
 	export var __s_iUID: number = 0;
 }
 

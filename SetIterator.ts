@@ -13,7 +13,7 @@ namespace std
     export class SetIterator<T>
         extends Iterator<T>
     {
-        private it: ListIterator<T>;
+        private listIterator: ListIterator<T>;
 
         /**
          * <p> Construct from source and index number. </p>
@@ -29,12 +29,12 @@ namespace std
         {
             super(source);
 
-            this.it = it;
+            this.listIterator = it;
         }
 
         public getListIterator(): ListIterator<T>
         {
-            return this.it;
+            return this.listIterator;
         }
 
         /* ---------------------------------------------------------
@@ -45,7 +45,7 @@ namespace std
          */
         public prev(): Iterator<T>
         {
-            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.it.prev());
+            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.prev());
         }
 
         /**
@@ -53,7 +53,7 @@ namespace std
          */
         public next(): Iterator<T>
         {
-            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.it.next());
+            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.next());
         }
 
         /**
@@ -61,7 +61,7 @@ namespace std
          */
         public advance(size: number): Iterator<T>
         {
-            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.it.advance(size));
+            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.advance(size));
         }
 
         /* ---------------------------------------------------------
@@ -70,17 +70,9 @@ namespace std
         /**
          * @inheritdoc
          */
-        public equals<U extends T>(obj: Iterator<U>): boolean 
-        {
-            return super.equals(obj) && this.it == (<SetIterator<U>>obj).it;
-        }
-
-        /**
-         * @inheritdoc
-         */
         public get value(): T
         {
-            return this.it.value;
+            return this.listIterator.value;
         }
 
         /**
@@ -88,7 +80,28 @@ namespace std
          */
         public set value(val: T)
         {
-            this.it.value = val;
+            this.listIterator.value = val;
         }
+
+		/* ---------------------------------------------------------
+		    COMPARISONS
+	    --------------------------------------------------------- */
+		/**
+         * @inheritdoc
+         */
+        public equals<U extends T>(obj: Iterator<U>): boolean 
+        {
+            return super.equals(obj) && this.listIterator == (<SetIterator<U>>obj).listIterator;
+        }
+
+		public less<U extends T>(obj: Iterator<U>): boolean
+		{
+			return std.less(this.value, obj.value);
+		}
+
+		public hashCode(): number
+		{
+			return base.Hash.code(this.value);
+		}
     }
 }
