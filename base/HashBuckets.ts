@@ -1,6 +1,10 @@
-﻿namespace std.base
+﻿/// <reference path="Hash.ts" />
+
+/// <reference path="../Vector.ts" />
+
+namespace std.base
 {
-	export class HashBucket<T>
+	export class HashBuckets<T>
 	{
 		private matrix: Vector<Vector<T>>;
 		private itemSize_: number;
@@ -70,7 +74,7 @@
 			return this.matrix.at(index);
 		}
 
-		public hashIndex(val: T): number
+		private hashIndex(val: T): number
 		{
 			return Hash.code(val) % this.matrix.size();
 		}

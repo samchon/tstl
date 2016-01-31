@@ -40,7 +40,7 @@ namespace std
     export class UnorderedMap<K, T>
         extends base.UniqueMap<K, T>
     {
-        private hashBucket: base.HashBucket<MapIterator<K, T>>;
+        private hashBuckets: base.MapHashBuckets<K, T>;
 	
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -74,7 +74,7 @@ namespace std
 			super();
 
 			// HASH_BUCKET
-			this.hashBucket = new base.HashBucket<MapIterator<K, T>>();
+			this.hashBuckets = new base.MapHashBuckets<K, T>(this);
 
 			// OVERLOADINGS
 			if (args.length == 1 && args[0] instanceof Array)
@@ -93,7 +93,7 @@ namespace std
 
         protected constructByArray(items: Array<Pair<K, T>>): void
         {
-            this.hashBucket.reserve(items.length * base.Hash.RATIO);
+            this.hashBuckets.reserve(items.length * base.Hash.RATIO);
 
             super.constructByArray(items);
         }
@@ -114,8 +114,8 @@ namespace std
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
-            this.hashBucket.clear();
-            this.hashBucket.reserve(size * base.Hash.RATIO);
+            this.hashBuckets.clear();
+            this.hashBuckets.reserve(size * base.Hash.RATIO);
 
             // SUPER; INSERT
             super.assign(begin, end);
@@ -128,7 +128,7 @@ namespace std
         {
             super.clear();
 
-            this.hashBucket.clear();
+            this.hashBuckets.clear();
         }
 
 	    /* =========================================================
@@ -139,14 +139,7 @@ namespace std
 	     */
         public find(key: K): MapIterator<K, T>
         {
-            var hashIndex: number = base.Hash.code(key) % this.hashBucket.size();
-            var hashArray = this.hashBucket.at(hashIndex);
-
-            for (var i: number = 0; i < hashArray.size(); i++)
-                if (std.equals(hashArray.at(i).first, key))
-                    return hashArray.at(i);
-
-            return this.end();
+            return this.hashBuckets.find(key);
         }
 
         /* =========================================================
@@ -182,8 +175,8 @@ namespace std
                 size++;
 
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashBucket.itemSize() * base.Hash.MAX_RATIO)
-                this.hashBucket.reserve((this.size() + size) * base.Hash.RATIO);
+            if (this.size() + size > this.hashBuckets.itemSize() * base.Hash.MAX_RATIO)
+                this.hashBuckets.reserve((this.size() + size) * base.Hash.RATIO);
 
             // INSERTS
             super.insertByRange(begin, end);
@@ -197,7 +190,7 @@ namespace std
          */
         protected handleInsert(it: MapIterator<K, T>): void
         {
-            this.hashBucket.insert(it);
+            this.hashBuckets.insert(it);
         }
 
         /**
@@ -205,7 +198,7 @@ namespace std
          */
         protected handleErase(it: MapIterator<K, T>): void
         {
-            this.hashBucket.erase(it);
+            this.hashBuckets.erase(it);
         }
     }
 }

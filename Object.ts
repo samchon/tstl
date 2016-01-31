@@ -1,4 +1,6 @@
-﻿namespace std
+﻿/// <reference path="base/Hash.ts" />
+
+namespace std
 {
 	/**
 	 * <p> For equality comparison. </p>
@@ -30,8 +32,8 @@
      *
 	 * @param <T> Type of arguments to compare.
 	 *
-     * @param val1 First element, the standard of comparison.
-     * @param val2 Second element compare with the first.
+     * @param first First element, the standard of comparison.
+     * @param second Second element compare with the first.
      *
      * @return Whether the first parameter is less than the second.
      */
