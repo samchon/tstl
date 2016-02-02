@@ -432,7 +432,7 @@ namespace std
             }
 
             // IF WAS EMPTY, VAL IS THE BEGIN
-            if (this.empty() == true)
+            if (this.empty() == true || first.prev().equals(this.end()) == true)
                 this.begin_ = first;
 
             // CONNECT BETWEEN LAST AND POSITION
@@ -521,6 +521,9 @@ namespace std
             // SHRINK
             prev.setNext(next);
             next.setPrev(prev);
+
+			if (next.prev().equals(this.end()) == true)
+				this.begin_ = next;
 
             this.size_ -= size;
 

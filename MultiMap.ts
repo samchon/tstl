@@ -1,9 +1,9 @@
-/// <reference path="base/container/UniqueMap.ts" />
+﻿/// <reference path="base/container/MultiMap.ts" />
 
 namespace std
 {
-    export class Map<K, T>
-        extends base.container.UniqueMap<K, T>
+    export class MultiMap<K, T>
+        extends base.container.MultiMap<K, T>
     {
 		private tree: base.tree.PairTree<K, T>;
 
@@ -24,7 +24,7 @@ namespace std
         public constructor(container: base.container.MapContainer<K, T>);
 
         public constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
-        
+
         public constructor(...args: any[])
         {
             super();
@@ -78,25 +78,28 @@ namespace std
 		protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
 		{
 			var node = this.tree.find(pair.first);
-
-			// IF EQUALS, THEN RETURN FALSE
-			if (node != null && std.equals(node.value.first, pair.first) == true)
-				return new Pair<MapIterator<K, T>, boolean>(node.value, false);
-			
-			// INSERTS
 			var it: MapIterator<K, T>;
 
 			if (node == null)
+			{
 				it = this.end();
-			else if (std.less(node.value.first, pair.first) == true)
+			}
+			else if (std.equals(node.value.first, pair.first) == true)
+			{
 				it = node.value.next();
+			}
+			else if (std.less(node.value.first, pair.first) == true)
+			{
+				it = node.value.next();
+
+				while (it.equals(this.end()) == false && std.less(it.first, pair.first))
+					it = it.next();
+			}
 			else
 				it = node.value;
 
 			// ITERATOR TO RETURN
-			it = this.insert(it, pair);
-
-			return new Pair<MapIterator<K, T>, boolean>(it, true);
+			return this.insert(it, pair);
 		}
 
 		/* ---------------------------------------------------------

@@ -6,7 +6,7 @@ namespace std.example
         {
             document.write("<h3> Container Test </h3>\n\n");
 
-            this.testList();
+            //this.testList();
             this.testUnorderedSet();
 			this.testUnorderedMap();
         }
@@ -47,7 +47,7 @@ namespace std.example
             document.write("<h4> UnorderedSet </h4>\n");
 
             // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-            let container = new UnorderedSet<number>();
+            let container = new MultiSet<number>();
             for (let i: number = 0; i < 10; i++)
                 container.insert(i);
 
@@ -85,7 +85,7 @@ namespace std.example
 			document.write("<h4> UnorderedMap </h4>\n");
 
             // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-            let container = new UnorderedMap<number, number>();
+            let container = new MultiMap<number, number>();
             for (let i: number = 0; i < 10; i++)
                 container.insert(new Pair<number, number>(i, i));
 

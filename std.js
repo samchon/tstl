@@ -1,4 +1,3 @@
-/// <reference path="IContainer.ts" />
 var std;
 (function (std) {
     var base;
@@ -574,9 +573,8 @@ var std;
                     return it;
                 };
                 SetContainer.prototype.insertByRange = function (begin, end) {
-                    for (var it = begin; it.equals(end) == false; it = it.next()) {
+                    for (var it = begin; it.equals(end) == false; it = it.next())
                         this.insertByVal(it.value);
-                    }
                 };
                 SetContainer.prototype.erase = function () {
                     var args = [];
@@ -688,61 +686,6 @@ var std;
         })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <referecen path="XTree.ts" />
-//namespace std.base.tree
-//{
-//	export class SetTree<T>
-//		extends XTree<SetIterator<T>>
-//	{
-//		/* ---------------------------------------------------------
-//		    CONSTRUCTOR
-//	    --------------------------------------------------------- */
-//		public constructor()
-//		{
-//			super();
-//		}
-//		public find(val: T): XTreeNode<SetIterator<T>>;
-//		public find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
-//		public find(val: any): XTreeNode<SetIterator<T>>
-//		{
-//			if (val instanceof SetIterator && (<SetIterator<T>>val).value instanceof SetIterator == false)
-//				return super.find(val);
-//			else
-//				return this.findByVal(val);
-//		}
-//		private findByVal(val: T): XTreeNode<SetIterator<T>>
-//		{
-//			let node = this.root;
-//			if (node != null)
-//				while (true)
-//				{
-//					let newNode: XTreeNode<SetIterator<T>> = null;
-//					if (std.equals(val, node.value.value))
-//						break;
-//					else if (std.less(val, node.value.value))
-//						newNode = node.left;
-//					else
-//						newNode = node.right;
-//					if (newNode == null)
-//						break;
-//					else
-//						node = newNode;
-//				}
-//			return node;
-//		}
-//		/* ---------------------------------------------------------
-//		    CONSTRUCTOR
-//	    --------------------------------------------------------- */
-//		public isEquals(left: SetIterator<T>, right: SetIterator<T>): boolean
-//		{
-//			return std.equals(left, right);
-//		}
-//		public isLess(left: SetIterator<T>, right: SetIterator<T>): boolean
-//		{
-//			return std.less(left, right);
-//		}
-//	}
-//} 
 var std;
 (function (std) {
     var base;
@@ -765,6 +708,15 @@ var std;
                 return Color;
             })();
             tree.Color = Color;
+        })(tree = base.tree || (base.tree = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var tree;
+        (function (tree) {
             var XTree = (function () {
                 /* =========================================================
                     CONSTRUCTOR
@@ -823,7 +775,7 @@ var std;
                 --------------------------------------------------------- */
                 XTree.prototype.insert = function (val) {
                     var parent = this.find(val);
-                    var node = new tree.XTreeNode(val, Color.RED);
+                    var node = new tree.XTreeNode(val, tree.Color.RED);
                     if (parent == null)
                         this.root = node;
                     else {
@@ -838,21 +790,21 @@ var std;
                 };
                 XTree.prototype.insertCase1 = function (node) {
                     if (node.parent == null)
-                        node.color = Color.BLACK;
+                        node.color = tree.Color.BLACK;
                     else
                         this.insertCase2(node);
                 };
                 XTree.prototype.insertCase2 = function (node) {
-                    if (this.fetchColor(node.parent) == Color.BLACK)
+                    if (this.fetchColor(node.parent) == tree.Color.BLACK)
                         return;
                     else
                         this.insertCase3(node);
                 };
                 XTree.prototype.insertCase3 = function (node) {
-                    if (this.fetchColor(node.uncle) == Color.RED) {
-                        node.parent.color = Color.BLACK;
-                        node.uncle.color = Color.BLACK;
-                        node.grandParent.color = Color.RED;
+                    if (this.fetchColor(node.uncle) == tree.Color.RED) {
+                        node.parent.color = tree.Color.BLACK;
+                        node.uncle.color = tree.Color.BLACK;
+                        node.grandParent.color = tree.Color.RED;
                         this.insertCase1(node.grandParent);
                     }
                     else {
@@ -871,8 +823,8 @@ var std;
                     this.insertCase5(node);
                 };
                 XTree.prototype.insertCase5 = function (node) {
-                    node.parent.color = Color.BLACK;
-                    node.grandParent.color = Color.RED;
+                    node.parent.color = tree.Color.BLACK;
+                    node.grandParent.color = tree.Color.RED;
                     if (node == node.parent.left && node.parent == node.grandParent.left)
                         this.rotateRight(node.grandParent);
                     else
@@ -891,7 +843,7 @@ var std;
                         node = pred;
                     }
                     var child = (node.right == null) ? node.left : node.right;
-                    if (this.fetchColor(node) == Color.BLACK) {
+                    if (this.fetchColor(node) == tree.Color.BLACK) {
                         node.color = this.fetchColor(child);
                         this.eraseCase1(node);
                     }
@@ -905,9 +857,9 @@ var std;
                         this.eraseCase2(node);
                 };
                 XTree.prototype.eraseCase2 = function (node) {
-                    if (this.fetchColor(node.sibling) == Color.RED) {
-                        node.parent.color = Color.RED;
-                        node.sibling.color = Color.BLACK;
+                    if (this.fetchColor(node.sibling) == tree.Color.RED) {
+                        node.parent.color = tree.Color.RED;
+                        node.sibling.color = tree.Color.BLACK;
                         if (node == node.parent.left)
                             this.rotateLeft(node.parent);
                         else
@@ -916,24 +868,24 @@ var std;
                     this.eraseCase3(node);
                 };
                 XTree.prototype.eraseCase3 = function (node) {
-                    if (this.fetchColor(node.parent) == Color.BLACK &&
-                        this.fetchColor(node.sibling) == Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == Color.BLACK) {
-                        node.sibling.color = Color.RED;
+                    if (this.fetchColor(node.parent) == tree.Color.BLACK &&
+                        this.fetchColor(node.sibling) == tree.Color.BLACK &&
+                        this.fetchColor(node.sibling.left) == tree.Color.BLACK &&
+                        this.fetchColor(node.sibling.right) == tree.Color.BLACK) {
+                        node.sibling.color = tree.Color.RED;
                         this.eraseCase1(node.parent);
                     }
                     else
                         this.eraseCase4(node);
                 };
                 XTree.prototype.eraseCase4 = function (node) {
-                    if (this.fetchColor(node.parent) == Color.RED &&
+                    if (this.fetchColor(node.parent) == tree.Color.RED &&
                         node.sibling != null &&
-                        this.fetchColor(node.sibling) == Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == Color.BLACK) {
-                        node.sibling.color = Color.RED;
-                        node.parent.color = Color.BLACK;
+                        this.fetchColor(node.sibling) == tree.Color.BLACK &&
+                        this.fetchColor(node.sibling.left) == tree.Color.BLACK &&
+                        this.fetchColor(node.sibling.right) == tree.Color.BLACK) {
+                        node.sibling.color = tree.Color.RED;
+                        node.parent.color = tree.Color.BLACK;
                     }
                     else
                         this.eraseCase5(node);
@@ -941,32 +893,32 @@ var std;
                 XTree.prototype.eraseCase5 = function (node) {
                     if (node == node.parent.left &&
                         node.sibling != null &&
-                        this.fetchColor(node.sibling) == Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == Color.RED &&
-                        this.fetchColor(node.sibling.right) == Color.BLACK) {
-                        node.sibling.color = Color.RED;
-                        node.sibling.left.color = Color.BLACK;
+                        this.fetchColor(node.sibling) == tree.Color.BLACK &&
+                        this.fetchColor(node.sibling.left) == tree.Color.RED &&
+                        this.fetchColor(node.sibling.right) == tree.Color.BLACK) {
+                        node.sibling.color = tree.Color.RED;
+                        node.sibling.left.color = tree.Color.BLACK;
                         this.rotateRight(node.sibling);
                     }
                     else if (node == node.parent.right &&
                         node.sibling != null &&
-                        this.fetchColor(node.sibling) == Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == Color.RED) {
-                        node.sibling.color = Color.RED;
-                        node.sibling.right.color = Color.BLACK;
+                        this.fetchColor(node.sibling) == tree.Color.BLACK &&
+                        this.fetchColor(node.sibling.left) == tree.Color.BLACK &&
+                        this.fetchColor(node.sibling.right) == tree.Color.RED) {
+                        node.sibling.color = tree.Color.RED;
+                        node.sibling.right.color = tree.Color.BLACK;
                         this.rotateLeft(node.sibling);
                     }
                 };
                 XTree.prototype.eraseCase6 = function (node) {
                     node.sibling.color = this.fetchColor(node.parent);
-                    node.parent.color = Color.BLACK;
+                    node.parent.color = tree.Color.BLACK;
                     if (node == node.parent.left) {
-                        node.sibling.right.color = Color.BLACK;
+                        node.sibling.right.color = tree.Color.BLACK;
                         this.rotateLeft(node.parent);
                     }
                     else {
-                        node.sibling.left.color = Color.BLACK;
+                        node.sibling.left.color = tree.Color.BLACK;
                         this.rotateRight(node.parent);
                     }
                 };
@@ -1005,51 +957,98 @@ var std;
                 };
                 XTree.prototype.fetchColor = function (node) {
                     if (node == null)
-                        return Color.BLACK;
+                        return tree.Color.BLACK;
                     else
                         return node.color;
                 };
                 return XTree;
             })();
             tree.XTree = XTree;
-            var MapTree = (function (_super) {
-                __extends(MapTree, _super);
+        })(tree = base.tree || (base.tree = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="XTree.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var tree;
+        (function (tree) {
+            var PairTree = (function (_super) {
+                __extends(PairTree, _super);
                 /* ---------------------------------------------------------
                     CONSTRUCTOR
                 --------------------------------------------------------- */
-                function MapTree() {
+                /**
+                 * Default Constructor.
+                 */
+                function PairTree() {
                     _super.call(this);
                 }
-                MapTree.prototype.find = function (val) {
-                    return null;
+                PairTree.prototype.find = function (val) {
+                    if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
+                        return _super.prototype.find.call(this, val);
+                    else
+                        return this.findByKey(val);
+                };
+                PairTree.prototype.findByKey = function (key) {
+                    var node = this.root;
+                    if (node != null)
+                        while (true) {
+                            var newNode = null;
+                            if (std.equals(key, node.value.first))
+                                break;
+                            else if (std.less(key, node.value.first))
+                                newNode = node.left;
+                            else
+                                newNode = node.right;
+                            if (newNode == null)
+                                break;
+                            else
+                                node = newNode;
+                        }
+                    return node;
                 };
                 /* ---------------------------------------------------------
                     COMPARISON
                 --------------------------------------------------------- */
-                MapTree.prototype.isEquals = function (left, right) {
+                PairTree.prototype.isEquals = function (left, right) {
                     return std.equals(left.first, right.first);
                 };
-                MapTree.prototype.isLess = function (left, right) {
+                PairTree.prototype.isLess = function (left, right) {
                     return std.less(left.first, right.first);
                 };
-                return MapTree;
-            })(XTree);
-            tree.MapTree = MapTree;
-            var SetTree = (function (_super) {
-                __extends(SetTree, _super);
+                return PairTree;
+            })(tree.XTree);
+            tree.PairTree = PairTree;
+        })(tree = base.tree || (base.tree = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="XTree.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var tree;
+        (function (tree) {
+            var AtomicTree = (function (_super) {
+                __extends(AtomicTree, _super);
                 /* ---------------------------------------------------------
                     CONSTRUCTOR
                 --------------------------------------------------------- */
-                function SetTree() {
+                /**
+                 * Default Constructor.
+                 */
+                function AtomicTree() {
                     _super.call(this);
                 }
-                SetTree.prototype.find = function (val) {
+                AtomicTree.prototype.find = function (val) {
                     if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
                         return _super.prototype.find.call(this, val);
                     else
                         return this.findByVal(val);
                 };
-                SetTree.prototype.findByVal = function (val) {
+                AtomicTree.prototype.findByVal = function (val) {
                     var node = this.root;
                     if (node != null)
                         while (true) {
@@ -1070,15 +1069,15 @@ var std;
                 /* ---------------------------------------------------------
                     CONSTRUCTOR
                 --------------------------------------------------------- */
-                SetTree.prototype.isEquals = function (left, right) {
+                AtomicTree.prototype.isEquals = function (left, right) {
                     return std.equals(left, right);
                 };
-                SetTree.prototype.isLess = function (left, right) {
+                AtomicTree.prototype.isLess = function (left, right) {
                     return std.less(left, right);
                 };
-                return SetTree;
-            })(XTree);
-            tree.SetTree = SetTree;
+                return AtomicTree;
+            })(tree.XTree);
+            tree.AtomicTree = AtomicTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -1245,7 +1244,7 @@ var std;
         var ContainerTest = (function () {
             function ContainerTest() {
                 document.write("<h3> Container Test </h3>\n\n");
-                this.testList();
+                //this.testList();
                 this.testUnorderedSet();
                 this.testUnorderedMap();
             }
@@ -1272,7 +1271,7 @@ var std;
             ContainerTest.prototype.testUnorderedSet = function () {
                 document.write("<h4> UnorderedSet </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.UnorderedSet();
+                var container = new std.MultiSet();
                 for (var i = 0; i < 10; i++)
                     container.insert(i);
                 // ELEMENTS I/O
@@ -1298,7 +1297,7 @@ var std;
             ContainerTest.prototype.testUnorderedMap = function () {
                 document.write("<h4> UnorderedMap </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.UnorderedMap();
+                var container = new std.MultiMap();
                 for (var i = 0; i < 10; i++)
                     container.insert(new std.Pair(i, i));
                 // ELEMENTS I/O
@@ -1865,7 +1864,7 @@ var std;
                 prev = item;
             }
             // IF WAS EMPTY, VAL IS THE BEGIN
-            if (this.empty() == true)
+            if (this.empty() == true || first.prev().equals(this.end()) == true)
                 this.begin_ = first;
             // CONNECT BETWEEN LAST AND POSITION
             prev.setNext(position);
@@ -1925,6 +1924,8 @@ var std;
             // SHRINK
             prev.setNext(next);
             next.setPrev(prev);
+            if (next.prev().equals(this.end()) == true)
+                this.begin_ = next;
             this.size_ -= size;
             return prev;
         };
@@ -2022,6 +2023,7 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
+            this.tree = new std.base.tree.PairTree();
         }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
@@ -2029,18 +2031,17 @@ var std;
         /**
          * @inheritdoc
          */
-        Map.prototype.assign = function (begin, end) {
-            _super.prototype.assign.call(this, begin, end);
-        };
+        //public assign<L extends K, U extends T>
+        //    (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+        //{
+        //    super.assign(begin, end);
+        //}
         /**
          * @inheritdoc
          */
         Map.prototype.clear = function () {
             _super.prototype.clear.call(this);
         };
-        /* ---------------------------------------------------------
-            TREE
-        --------------------------------------------------------- */
         /* =========================================================
             ACCESSORS
         ========================================================= */
@@ -2048,7 +2049,11 @@ var std;
          * @inheritdoc
          */
         Map.prototype.find = function (key) {
-            return this.end();
+            var node = this.tree.find(key);
+            if (node == null || std.equals(node.value.first, key) == false)
+                return this.end();
+            else
+                return node.value;
         };
         /* =========================================================
             ELEMENTS I/O
@@ -2058,6 +2063,21 @@ var std;
             INSERT
         --------------------------------------------------------- */
         Map.prototype.insertByPair = function (pair) {
+            var node = this.tree.find(pair.first);
+            // IF EQUALS, THEN RETURN FALSE
+            if (node != null && std.equals(node.value.first, pair.first) == true)
+                return new std.Pair(node.value, false);
+            // INSERTS
+            var it;
+            if (node == null)
+                it = this.end();
+            else if (std.less(node.value.first, pair.first) == true)
+                it = node.value.next();
+            else
+                it = node.value;
+            // ITERATOR TO RETURN
+            it = this.insert(it, pair);
+            return new std.Pair(it, true);
         };
         /* ---------------------------------------------------------
             POST-PROCESS
@@ -2066,11 +2086,13 @@ var std;
          * @inheritdoc
          */
         Map.prototype.handleInsert = function (item) {
+            this.tree.insert(item);
         };
         /**
          * @inheritdoc
          */
         Map.prototype.handleErase = function (item) {
+            this.tree.erase(item);
         };
         return Map;
     })(std.base.container.UniqueMap);
@@ -2189,38 +2211,183 @@ var std;
     })();
     std.MapIterator = MapIterator;
 })(std || (std = {}));
-/// <referecen path="XTree.ts" />
-//namespace std.base.tree
-//{
-//	export class MapTree<K, T>
-//		extends XTree<MapIterator<K, T>>
-//	{
-//		/* ---------------------------------------------------------
-//		    CONSTRUCTOR
-//	    --------------------------------------------------------- */
-//		public constructor()
-//		{
-//			super();
-//		}
-//		public find(key: K): XTreeNode<MapIterator<K, T>>;
-//		public find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
-//		public find(val: any): XTreeNode<MapIterator<K, T>>
-//		{
-//			return null;
-//		}
-//		/* ---------------------------------------------------------
-//		    COMPARISON
-//	    --------------------------------------------------------- */
-//		public isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean
-//		{
-//			return std.equals(left.first, right.first);
-//		}
-//		public isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean
-//		{
-//			return std.less(left.first, right.first);
-//		}
-//	}
-//} 
+/// <reference path="base/container/MultiMap.ts" />
+var std;
+(function (std) {
+    var MultiMap = (function (_super) {
+        __extends(MultiMap, _super);
+        function MultiMap() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            this.tree = new std.base.tree.PairTree();
+        }
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        //public assign<L extends K, U extends T>
+        //    (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+        //{
+        //    super.assign(begin, end);
+        //}
+        /**
+         * @inheritdoc
+         */
+        MultiMap.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        MultiMap.prototype.find = function (key) {
+            var node = this.tree.find(key);
+            if (node == null || std.equals(node.value.first, key) == false)
+                return this.end();
+            else
+                return node.value;
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        MultiMap.prototype.insertByPair = function (pair) {
+            var node = this.tree.find(pair.first);
+            var it;
+            if (node == null) {
+                it = this.end();
+            }
+            else if (std.equals(node.value.first, pair.first) == true) {
+                it = node.value.next();
+            }
+            else if (std.less(node.value.first, pair.first) == true) {
+                it = node.value.next();
+                while (it.equals(this.end()) == false && std.less(it.first, pair.first))
+                    it = it.next();
+            }
+            else
+                it = node.value;
+            // ITERATOR TO RETURN
+            return this.insert(it, pair);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        MultiMap.prototype.handleInsert = function (item) {
+            this.tree.insert(item);
+        };
+        /**
+         * @inheritdoc
+         */
+        MultiMap.prototype.handleErase = function (item) {
+            this.tree.erase(item);
+        };
+        return MultiMap;
+    })(std.base.container.MultiMap);
+    std.MultiMap = MultiMap;
+})(std || (std = {}));
+/// <reference path="base/container/MultiSet.ts" />
+var std;
+(function (std) {
+    var MultiSet = (function (_super) {
+        __extends(MultiSet, _super);
+        function MultiSet() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            this.tree = new std.base.tree.AtomicTree();
+        }
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        ///**
+        // * @inheritdoc
+        // */
+        //public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
+        //{
+        //    super.assign(begin, end);
+        //}
+        /**
+         * @inheritdoc
+         */
+        MultiSet.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+            this.tree = new std.base.tree.AtomicTree();
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        MultiSet.prototype.find = function (val) {
+            var node = this.tree.find(val);
+            if (node == null || std.equals(val, node.value.value) == false)
+                return this.end();
+            else
+                return node.value;
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        MultiSet.prototype.insertByVal = function (val) {
+            var node = this.tree.find(val);
+            var it;
+            if (node == null) {
+                it = this.end();
+            }
+            else if (std.equals(node.value.value, val) == true) {
+                it = node.value.next();
+            }
+            else if (std.less(node.value.value, val) == true) {
+                it = node.value.next();
+                while (it.equals(this.end()) == false && std.less(it.value, val))
+                    it = it.next();
+            }
+            else {
+                it = node.value;
+            }
+            // ITERATOR TO RETURN
+            return this.insert(it, val);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        MultiSet.prototype.handleInsert = function (item) {
+            this.tree.insert(item);
+        };
+        /**
+         * @inheritdoc
+         */
+        MultiSet.prototype.handleErase = function (item) {
+            this.tree.erase(item);
+        };
+        return MultiSet;
+    })(std.base.container.MultiSet);
+    std.MultiSet = MultiSet;
+})(std || (std = {}));
 var std;
 (function (std) {
     /**
@@ -2419,25 +2586,25 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
+            this.tree = new std.base.tree.AtomicTree();
         }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        Set.prototype.assign = function (begin, end) {
-            _super.prototype.assign.call(this, begin, end);
-        };
+        ///**
+        // * @inheritdoc
+        // */
+        //public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
+        //{
+        //    super.assign(begin, end);
+        //}
         /**
          * @inheritdoc
          */
         Set.prototype.clear = function () {
             _super.prototype.clear.call(this);
+            this.tree = new std.base.tree.AtomicTree();
         };
-        /* ---------------------------------------------------------
-            TREE
-        --------------------------------------------------------- */
         /* =========================================================
             ACCESSORS
         ========================================================= */
@@ -2445,7 +2612,11 @@ var std;
          * @inheritdoc
          */
         Set.prototype.find = function (val) {
-            return this.end();
+            var node = this.tree.find(val);
+            if (node == null || std.equals(node.value.value, val) == false)
+                return this.end();
+            else
+                return node.value;
         };
         /* =========================================================
             ELEMENTS I/O
@@ -2455,6 +2626,21 @@ var std;
             INSERT
         --------------------------------------------------------- */
         Set.prototype.insertByVal = function (val) {
+            var node = this.tree.find(val);
+            // IF EQUALS, THEN RETURN FALSE
+            if (node != null && std.equals(node.value.value, val) == true)
+                return new std.Pair(node.value, false);
+            // INSERTS
+            var it;
+            if (node == null)
+                it = this.end();
+            else if (std.less(node.value.value, val) == true)
+                it = node.value.next();
+            else
+                it = node.value;
+            // ITERATOR TO RETURN
+            it = this.insert(it, val);
+            return new std.Pair(it, true);
         };
         /* ---------------------------------------------------------
             POST-PROCESS
@@ -2463,11 +2649,13 @@ var std;
          * @inheritdoc
          */
         Set.prototype.handleInsert = function (item) {
+            this.tree.insert(item);
         };
         /**
          * @inheritdoc
          */
         Set.prototype.handleErase = function (item) {
+            this.tree.erase(item);
         };
         return Set;
     })(std.base.container.UniqueSet);
@@ -3107,7 +3295,6 @@ var std;
     })(std.base.container.UniqueSet);
     std.UnorderedSet = UnorderedSet;
 })(std || (std = {}));
-/// <reference path="base/container/IContainer.ts" />
 var std;
 (function (std) {
     /**

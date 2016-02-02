@@ -1,5 +1,3 @@
-/// <reference path="base/container/IContainer.ts" />
-
 namespace std
 {
     /**

@@ -259,22 +259,7 @@ namespace std.base.container
         protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
         {
             for (let it = begin; it.equals(end) == false; it = it.next())
-            {
                 this.insertByVal(it.value);
-
-                //// INSERT TO MEMBER LIST
-                //let listIterator = <ListIterator<T>>
-                //    this.data.insert
-                //    (
-                //        this.data.end(),
-                //        (<SetIterator<T>>begin).getListIterator(),
-                //        (<SetIterator<T>>end).getListIterator()
-                //    );
-
-                //// POST-PROCESS
-                //let myIt = new SetIterator<T>(this, listIterator);
-                //this.handleInsert(myIt);
-            }
         }
 
         /* ---------------------------------------------------------

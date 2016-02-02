@@ -1,94 +1,4 @@
 declare namespace std.base.container {
-    interface IContainer<T> {
-        /**
-         * <p> Assign new content to content. </p>
-         *
-         * <p> Assigns new contents to the Container, replacing its current contents,
-         * and modifying its size accordingly. </p>
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        assign(begin: Iterator<T>, end: Iterator<T>): void;
-        /**
-         * <p> Clear content. </p>
-         *
-         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
-         */
-        clear(): void;
-        /**
-         * <p> Return iterator to beginning. </p>
-         * <p> Returns an iterator referring the first element in the Container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> If the container is empty, the returned iterator is same with end(). </p>
-         *
-         * @return An iterator to the first element in the container.
-         * The iterator containes the first element's value.
-         */
-        begin(): Iterator<T>;
-        /**
-         * <p> Return iterator to end. </p>
-         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
-         *
-         * <p> The past-the-end element is the theoretical element that would follow the last element in
-         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
-         *
-         * <p> Because the ranges used by functions of the Container do not include the element reference
-         * by their closing iterator, this function is often used in combination with Container::begin() to specify
-         * a range including all the elements in the container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-         * element by the iterator will cause throwing exception (out of range). </p>
-         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
-         *
-         * @return An iterator to the end element in the container.
-         */
-        end(): Iterator<T>;
-        /**
-         * Return the number of elements in the Container.
-         */
-        size(): number;
-        /**
-         * Test whether the Container is empty.
-         */
-        empty(): boolean;
-        /**
-         * Appends new elements to the container, and returns the new size of the Container.
-         *
-         * @param items New elements to insert.
-         * @return New size of the Container.
-         */
-        push<U extends T>(...items: U[]): number;
-        /**
-         * <p> Erase an element. </p>
-         * <p> Removes from the Container a single element. </p>
-         *
-         * <p> This effectively reduces the container size by the number of elements removed. </p>
-         *
-         * @param position Iterator pointing to a single element to be removed from the Container.
-         *
-         * @return An iterator pointing to the element that followed the last element erased by the function
-         * call. This is the container end if the operation erased the last element in the sequence.
-         */
-        erase(position: Iterator<T>): Iterator<T>;
-        /**
-         * <p> Erase elements. </p>
-         * <p> Removes from the Container a range of elements. </p>
-         *
-         * <p> This effectively reduces the container size by the number of elements removed. </p>
-         *
-         * @param begin An iterator specifying a range of beginning to erase.
-         * @param end An iterator specifying a range of end to erase.
-         *
-         * @return An iterator pointing to the element that followed the last element erased by the function
-         * call. This is the container end if the operation erased the last element in the sequence.
-         */
-        erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
-    }
-}
-declare namespace std.base.container {
     /**
      * An abstract class containing elements.
      *
@@ -184,6 +94,96 @@ declare namespace std.base.hash {
         private hashIndex(val);
         insert(val: T): void;
         erase(val: T): void;
+    }
+}
+declare namespace std.base.container {
+    interface IContainer<T> {
+        /**
+         * <p> Assign new content to content. </p>
+         *
+         * <p> Assigns new contents to the Container, replacing its current contents,
+         * and modifying its size accordingly. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        assign(begin: Iterator<T>, end: Iterator<T>): void;
+        /**
+         * <p> Clear content. </p>
+         *
+         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
+         */
+        clear(): void;
+        /**
+         * <p> Return iterator to beginning. </p>
+         * <p> Returns an iterator referring the first element in the Container. </p>
+         *
+         * <h4> Note </h4>
+         * <p> If the container is empty, the returned iterator is same with end(). </p>
+         *
+         * @return An iterator to the first element in the container.
+         * The iterator containes the first element's value.
+         */
+        begin(): Iterator<T>;
+        /**
+         * <p> Return iterator to end. </p>
+         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+         *
+         * <p> The past-the-end element is the theoretical element that would follow the last element in
+         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+         *
+         * <p> Because the ranges used by functions of the Container do not include the element reference
+         * by their closing iterator, this function is often used in combination with Container::begin() to specify
+         * a range including all the elements in the container. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
+         * element by the iterator will cause throwing exception (out of range). </p>
+         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+         *
+         * @return An iterator to the end element in the container.
+         */
+        end(): Iterator<T>;
+        /**
+         * Return the number of elements in the Container.
+         */
+        size(): number;
+        /**
+         * Test whether the Container is empty.
+         */
+        empty(): boolean;
+        /**
+         * Appends new elements to the container, and returns the new size of the Container.
+         *
+         * @param items New elements to insert.
+         * @return New size of the Container.
+         */
+        push<U extends T>(...items: U[]): number;
+        /**
+         * <p> Erase an element. </p>
+         * <p> Removes from the Container a single element. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param position Iterator pointing to a single element to be removed from the Container.
+         *
+         * @return An iterator pointing to the element that followed the last element erased by the function
+         * call. This is the container end if the operation erased the last element in the sequence.
+         */
+        erase(position: Iterator<T>): Iterator<T>;
+        /**
+         * <p> Erase elements. </p>
+         * <p> Removes from the Container a range of elements. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param begin An iterator specifying a range of beginning to erase.
+         * @param end An iterator specifying a range of end to erase.
+         *
+         * @return An iterator pointing to the element that followed the last element erased by the function
+         * call. This is the container end if the operation erased the last element in the sequence.
+         */
+        erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
     }
 }
 declare namespace std.base.container {
@@ -479,6 +479,8 @@ declare namespace std.base.tree {
         static BLACK: boolean;
         static RED: boolean;
     }
+}
+declare namespace std.base.tree {
     abstract class XTree<T> {
         protected root: XTreeNode<T>;
         protected size_: number;
@@ -510,14 +512,25 @@ declare namespace std.base.tree {
         private replaceNode(oldNode, newNode);
         private fetchColor(node);
     }
-    class MapTree<K, T> extends XTree<MapIterator<K, T>> {
+}
+declare namespace std.base.tree {
+    class PairTree<K, T> extends XTree<MapIterator<K, T>> {
+        /**
+         * Default Constructor.
+         */
         constructor();
         find(key: K): XTreeNode<MapIterator<K, T>>;
         find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
+        private findByKey(key);
         isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
         isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
     }
-    class SetTree<T> extends XTree<SetIterator<T>> {
+}
+declare namespace std.base.tree {
+    class AtomicTree<T> extends XTree<SetIterator<T>> {
+        /**
+         * Default Constructor.
+         */
         constructor();
         find(val: T): XTreeNode<SetIterator<T>>;
         find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
@@ -1012,6 +1025,7 @@ declare namespace std {
 }
 declare namespace std {
     class Map<K, T> extends base.container.UniqueMap<K, T> {
+        private tree;
         /**
          * Default Constructor
          */
@@ -1022,7 +1036,6 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
         /**
          * @inheritdoc
          */
@@ -1086,6 +1099,64 @@ declare namespace std {
         equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean;
         less<L extends K, U extends T>(obj: MapIterator<L, U>): boolean;
         hashCode(): number;
+    }
+}
+declare namespace std {
+    class MultiMap<K, T> extends base.container.MultiMap<K, T> {
+        private tree;
+        /**
+         * Default Constructor
+         */
+        constructor();
+        constructor(array: Array<Pair<K, T>>);
+        constructor(container: base.container.MapContainer<K, T>);
+        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
+        /**
+         * @inheritdoc
+         */
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(key: K): MapIterator<K, T>;
+        protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(item: MapIterator<K, T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(item: MapIterator<K, T>): void;
+    }
+}
+declare namespace std {
+    class MultiSet<T> extends base.container.MultiSet<T> {
+        private tree;
+        constructor();
+        constructor(array: Array<T>);
+        constructor(container: base.container.Container<T>);
+        constructor(begin: Iterator<T>, end: Iterator<T>);
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(val: T): Iterator<T>;
+        protected insertByVal(val: T): any;
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(item: SetIterator<T>): void;
     }
 }
 declare namespace std {
@@ -1202,6 +1273,7 @@ declare namespace std {
      * @author Migrated by Jeongho Nam
      */
     class Set<T> extends base.container.UniqueSet<T> {
+        private tree;
         /**
          * Default Constructor
          */
@@ -1209,10 +1281,6 @@ declare namespace std {
         constructor(array: Array<T>);
         constructor(container: base.container.Container<T>);
         constructor(begin: Iterator<T>, end: Iterator<T>);
-        /**
-         * @inheritdoc
-         */
-        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
         /**
          * @inheritdoc
          */
