@@ -3,11 +3,11 @@
 	/**
 	 * Reference: http://jiniya.net/tt/444
 	 */
-	export class TreeNode<T>
+	export class XTreeNode<T>
 	{
-		public parent: TreeNode<T>;
-		public left: TreeNode<T>;
-		public right: TreeNode<T>;
+		public parent: XTreeNode<T>;
+		public left: XTreeNode<T>;
+		public right: XTreeNode<T>;
 
 		public value: T;
 
@@ -26,18 +26,18 @@
 			this.right = null;
 		}
 
-		public get grandParent(): TreeNode<T>
+		public get grandParent(): XTreeNode<T>
 		{
 			return this.parent.parent;
 		}
-		public get sibling(): TreeNode<T>
+		public get sibling(): XTreeNode<T>
 		{
 			if (this == this.parent.left)
 				return this.parent.right;
 			else
 				return this.parent.left;
 		}
-		public get uncle(): TreeNode<T>
+		public get uncle(): XTreeNode<T>
 		{
 			return this.parent.sibling;
 		}

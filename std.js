@@ -688,13 +688,353 @@ var std;
         })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <referecen path="Tree.ts" />
+/// <referecen path="XTree.ts" />
+//namespace std.base.tree
+//{
+//	export class SetTree<T>
+//		extends XTree<SetIterator<T>>
+//	{
+//		/* ---------------------------------------------------------
+//		    CONSTRUCTOR
+//	    --------------------------------------------------------- */
+//		public constructor()
+//		{
+//			super();
+//		}
+//		public find(val: T): XTreeNode<SetIterator<T>>;
+//		public find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
+//		public find(val: any): XTreeNode<SetIterator<T>>
+//		{
+//			if (val instanceof SetIterator && (<SetIterator<T>>val).value instanceof SetIterator == false)
+//				return super.find(val);
+//			else
+//				return this.findByVal(val);
+//		}
+//		private findByVal(val: T): XTreeNode<SetIterator<T>>
+//		{
+//			let node = this.root;
+//			if (node != null)
+//				while (true)
+//				{
+//					let newNode: XTreeNode<SetIterator<T>> = null;
+//					if (std.equals(val, node.value.value))
+//						break;
+//					else if (std.less(val, node.value.value))
+//						newNode = node.left;
+//					else
+//						newNode = node.right;
+//					if (newNode == null)
+//						break;
+//					else
+//						node = newNode;
+//				}
+//			return node;
+//		}
+//		/* ---------------------------------------------------------
+//		    CONSTRUCTOR
+//	    --------------------------------------------------------- */
+//		public isEquals(left: SetIterator<T>, right: SetIterator<T>): boolean
+//		{
+//			return std.equals(left, right);
+//		}
+//		public isLess(left: SetIterator<T>, right: SetIterator<T>): boolean
+//		{
+//			return std.less(left, right);
+//		}
+//	}
+//} 
 var std;
 (function (std) {
     var base;
     (function (base) {
         var tree;
         (function (tree) {
+            var Color = (function () {
+                function Color() {
+                }
+                Object.defineProperty(Color, "BLACK", {
+                    get: function () { return false; },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Color, "RED", {
+                    get: function () { return true; },
+                    enumerable: true,
+                    configurable: true
+                });
+                return Color;
+            })();
+            tree.Color = Color;
+            var XTree = (function () {
+                /* =========================================================
+                    CONSTRUCTOR
+                ========================================================= */
+                /**
+                 * Default Constructor
+                 */
+                function XTree() {
+                    this.root = null;
+                    this.size_ = 0;
+                }
+                /* =========================================================
+                    ACCESSORS
+                        - GETTERS
+                        - COMPARISON
+                ============================================================
+                    GETTERS
+                --------------------------------------------------------- */
+                XTree.prototype.size = function () {
+                    return this.size_;
+                };
+                XTree.prototype.find = function (val) {
+                    var node = this.root;
+                    if (node != null)
+                        while (true) {
+                            var newNode = null;
+                            if (this.isEquals(val, node.value))
+                                break;
+                            else if (this.isLess(val, node.value))
+                                newNode = node.left;
+                            else
+                                newNode = node.right;
+                            if (newNode == null)
+                                break;
+                            else
+                                node = newNode;
+                        }
+                    return node;
+                };
+                XTree.prototype.fetchMaximum = function (node) {
+                    while (node.right != null)
+                        node = node.right;
+                    return node;
+                };
+                XTree.prototype.debug = function () {
+                    if (this.root != null)
+                        this.root.debug();
+                };
+                /* =========================================================
+                    ELEMENTS I/O
+                        - INSERT
+                        - ERASE
+                        - ROTATION
+                ============================================================
+                    INSERT
+                --------------------------------------------------------- */
+                XTree.prototype.insert = function (val) {
+                    var parent = this.find(val);
+                    var node = new tree.XTreeNode(val, Color.RED);
+                    if (parent == null)
+                        this.root = node;
+                    else {
+                        node.parent = parent;
+                        if (this.isLess(node.value, parent.value))
+                            parent.left = node;
+                        else
+                            parent.right = node;
+                    }
+                    this.insertCase1(node);
+                    this.size_++;
+                };
+                XTree.prototype.insertCase1 = function (node) {
+                    if (node.parent == null)
+                        node.color = Color.BLACK;
+                    else
+                        this.insertCase2(node);
+                };
+                XTree.prototype.insertCase2 = function (node) {
+                    if (this.fetchColor(node.parent) == Color.BLACK)
+                        return;
+                    else
+                        this.insertCase3(node);
+                };
+                XTree.prototype.insertCase3 = function (node) {
+                    if (this.fetchColor(node.uncle) == Color.RED) {
+                        node.parent.color = Color.BLACK;
+                        node.uncle.color = Color.BLACK;
+                        node.grandParent.color = Color.RED;
+                        this.insertCase1(node.grandParent);
+                    }
+                    else {
+                        this.insertCase4(node);
+                    }
+                };
+                XTree.prototype.insertCase4 = function (node) {
+                    if (node == node.parent.right && node.parent == node.grandParent.left) {
+                        this.rotateLeft(node.parent);
+                        node = node.left;
+                    }
+                    else if (node == node.parent.left && node.parent == node.grandParent.right) {
+                        this.rotateRight(node.parent);
+                        node = node.right;
+                    }
+                    this.insertCase5(node);
+                };
+                XTree.prototype.insertCase5 = function (node) {
+                    node.parent.color = Color.BLACK;
+                    node.grandParent.color = Color.RED;
+                    if (node == node.parent.left && node.parent == node.grandParent.left)
+                        this.rotateRight(node.grandParent);
+                    else
+                        this.rotateLeft(node.grandParent);
+                };
+                /* ---------------------------------------------------------
+                    ERASE
+                --------------------------------------------------------- */
+                XTree.prototype.erase = function (val) {
+                    var node = this.find(val);
+                    if (node == null || this.isEquals(val, node.value) == false)
+                        return;
+                    if (node.left != null && node.right != null) {
+                        var pred = this.fetchMaximum(node.left);
+                        node.value = pred.value;
+                        node = pred;
+                    }
+                    var child = (node.right == null) ? node.left : node.right;
+                    if (this.fetchColor(node) == Color.BLACK) {
+                        node.color = this.fetchColor(child);
+                        this.eraseCase1(node);
+                    }
+                    this.replaceNode(node, child);
+                    this.size_--;
+                };
+                XTree.prototype.eraseCase1 = function (node) {
+                    if (node.parent == null)
+                        return;
+                    else
+                        this.eraseCase2(node);
+                };
+                XTree.prototype.eraseCase2 = function (node) {
+                    if (this.fetchColor(node.sibling) == Color.RED) {
+                        node.parent.color = Color.RED;
+                        node.sibling.color = Color.BLACK;
+                        if (node == node.parent.left)
+                            this.rotateLeft(node.parent);
+                        else
+                            this.rotateRight(node.parent);
+                    }
+                    this.eraseCase3(node);
+                };
+                XTree.prototype.eraseCase3 = function (node) {
+                    if (this.fetchColor(node.parent) == Color.BLACK &&
+                        this.fetchColor(node.sibling) == Color.BLACK &&
+                        this.fetchColor(node.sibling.left) == Color.BLACK &&
+                        this.fetchColor(node.sibling.right) == Color.BLACK) {
+                        node.sibling.color = Color.RED;
+                        this.eraseCase1(node.parent);
+                    }
+                    else
+                        this.eraseCase4(node);
+                };
+                XTree.prototype.eraseCase4 = function (node) {
+                    if (this.fetchColor(node.parent) == Color.RED &&
+                        node.sibling != null &&
+                        this.fetchColor(node.sibling) == Color.BLACK &&
+                        this.fetchColor(node.sibling.left) == Color.BLACK &&
+                        this.fetchColor(node.sibling.right) == Color.BLACK) {
+                        node.sibling.color = Color.RED;
+                        node.parent.color = Color.BLACK;
+                    }
+                    else
+                        this.eraseCase5(node);
+                };
+                XTree.prototype.eraseCase5 = function (node) {
+                    if (node == node.parent.left &&
+                        node.sibling != null &&
+                        this.fetchColor(node.sibling) == Color.BLACK &&
+                        this.fetchColor(node.sibling.left) == Color.RED &&
+                        this.fetchColor(node.sibling.right) == Color.BLACK) {
+                        node.sibling.color = Color.RED;
+                        node.sibling.left.color = Color.BLACK;
+                        this.rotateRight(node.sibling);
+                    }
+                    else if (node == node.parent.right &&
+                        node.sibling != null &&
+                        this.fetchColor(node.sibling) == Color.BLACK &&
+                        this.fetchColor(node.sibling.left) == Color.BLACK &&
+                        this.fetchColor(node.sibling.right) == Color.RED) {
+                        node.sibling.color = Color.RED;
+                        node.sibling.right.color = Color.BLACK;
+                        this.rotateLeft(node.sibling);
+                    }
+                };
+                XTree.prototype.eraseCase6 = function (node) {
+                    node.sibling.color = this.fetchColor(node.parent);
+                    node.parent.color = Color.BLACK;
+                    if (node == node.parent.left) {
+                        node.sibling.right.color = Color.BLACK;
+                        this.rotateLeft(node.parent);
+                    }
+                    else {
+                        node.sibling.left.color = Color.BLACK;
+                        this.rotateRight(node.parent);
+                    }
+                };
+                /* ---------------------------------------------------------
+                    ROTATION
+                --------------------------------------------------------- */
+                XTree.prototype.rotateLeft = function (node) {
+                    var right = node.right;
+                    this.replaceNode(node, right);
+                    node.right = right.left;
+                    if (right.left != null)
+                        right.left.parent = node;
+                    right.left = node;
+                    node.parent = right;
+                };
+                XTree.prototype.rotateRight = function (node) {
+                    var left = node.left;
+                    this.replaceNode(node, left);
+                    node.left = left.right;
+                    if (left.right != null)
+                        left.right.parent = node;
+                    left.right = node;
+                    node.parent = left;
+                };
+                XTree.prototype.replaceNode = function (oldNode, newNode) {
+                    if (oldNode.parent == null)
+                        this.root = newNode;
+                    else {
+                        if (oldNode == oldNode.parent.left)
+                            oldNode.parent.left = newNode;
+                        else
+                            oldNode.parent.right = newNode;
+                    }
+                    if (newNode != null)
+                        newNode.parent = oldNode.parent;
+                };
+                XTree.prototype.fetchColor = function (node) {
+                    if (node == null)
+                        return Color.BLACK;
+                    else
+                        return node.color;
+                };
+                return XTree;
+            })();
+            tree.XTree = XTree;
+            var MapTree = (function (_super) {
+                __extends(MapTree, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTOR
+                --------------------------------------------------------- */
+                function MapTree() {
+                    _super.call(this);
+                }
+                MapTree.prototype.find = function (val) {
+                    return null;
+                };
+                /* ---------------------------------------------------------
+                    COMPARISON
+                --------------------------------------------------------- */
+                MapTree.prototype.isEquals = function (left, right) {
+                    return std.equals(left.first, right.first);
+                };
+                MapTree.prototype.isLess = function (left, right) {
+                    return std.less(left.first, right.first);
+                };
+                return MapTree;
+            })(XTree);
+            tree.MapTree = MapTree;
             var SetTree = (function (_super) {
                 __extends(SetTree, _super);
                 /* ---------------------------------------------------------
@@ -737,280 +1077,8 @@ var std;
                     return std.less(left, right);
                 };
                 return SetTree;
-            })(tree.Tree);
+            })(XTree);
             tree.SetTree = SetTree;
-        })(tree = base.tree || (base.tree = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var tree;
-        (function (tree) {
-            var Color = (function () {
-                function Color() {
-                }
-                Object.defineProperty(Color, "BLACK", {
-                    get: function () { return false; },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(Color, "RED", {
-                    get: function () { return true; },
-                    enumerable: true,
-                    configurable: true
-                });
-                return Color;
-            })();
-            tree.Color = Color;
-            var Tree = (function () {
-                /* =========================================================
-                    CONSTRUCTOR
-                ========================================================= */
-                /**
-                 * Default Constructor
-                 */
-                function Tree() {
-                    this.root = null;
-                    this.size_ = 0;
-                }
-                /* =========================================================
-                    ACCESSORS
-                        - GETTERS
-                        - COMPARISON
-                ============================================================
-                    GETTERS
-                --------------------------------------------------------- */
-                Tree.prototype.size = function () {
-                    return this.size_;
-                };
-                Tree.prototype.find = function (val) {
-                    var node = this.root;
-                    if (node != null)
-                        while (true) {
-                            var newNode = null;
-                            if (this.isEquals(val, node.value))
-                                break;
-                            else if (this.isLess(val, node.value))
-                                newNode = node.left;
-                            else
-                                newNode = node.right;
-                            if (newNode == null)
-                                break;
-                            else
-                                node = newNode;
-                        }
-                    return node;
-                };
-                Tree.prototype.fetchMaximum = function (node) {
-                    while (node.right != null)
-                        node = node.right;
-                    return node;
-                };
-                Tree.prototype.debug = function () {
-                    if (this.root != null)
-                        this.root.debug();
-                };
-                /* =========================================================
-                    ELEMENTS I/O
-                        - INSERT
-                        - ERASE
-                        - ROTATION
-                ============================================================
-                    INSERT
-                --------------------------------------------------------- */
-                Tree.prototype.insert = function (val) {
-                    var parent = this.find(val);
-                    var node = new tree.TreeNode(val, Color.RED);
-                    if (parent == null)
-                        this.root = node;
-                    else {
-                        node.parent = parent;
-                        if (this.isLess(node.value, parent.value))
-                            parent.left = node;
-                        else
-                            parent.right = node;
-                    }
-                    this.insertCase1(node);
-                    this.size_++;
-                };
-                Tree.prototype.insertCase1 = function (node) {
-                    if (node.parent == null)
-                        node.color = Color.BLACK;
-                    else
-                        this.insertCase2(node);
-                };
-                Tree.prototype.insertCase2 = function (node) {
-                    if (this.fetchColor(node.parent) == Color.BLACK)
-                        return;
-                    else
-                        this.insertCase3(node);
-                };
-                Tree.prototype.insertCase3 = function (node) {
-                    if (this.fetchColor(node.uncle) == Color.RED) {
-                        node.parent.color = Color.BLACK;
-                        node.uncle.color = Color.BLACK;
-                        node.grandParent.color = Color.RED;
-                        this.insertCase1(node.grandParent);
-                    }
-                    else {
-                        this.insertCase4(node);
-                    }
-                };
-                Tree.prototype.insertCase4 = function (node) {
-                    if (node == node.parent.right && node.parent == node.grandParent.left) {
-                        this.rotateLeft(node.parent);
-                        node = node.left;
-                    }
-                    else if (node == node.parent.left && node.parent == node.grandParent.right) {
-                        this.rotateRight(node.parent);
-                        node = node.right;
-                    }
-                    this.insertCase5(node);
-                };
-                Tree.prototype.insertCase5 = function (node) {
-                    node.parent.color = Color.BLACK;
-                    node.grandParent.color = Color.RED;
-                    if (node == node.parent.left && node.parent == node.grandParent.left)
-                        this.rotateRight(node.grandParent);
-                    else
-                        this.rotateLeft(node.grandParent);
-                };
-                /* ---------------------------------------------------------
-                    ERASE
-                --------------------------------------------------------- */
-                Tree.prototype.erase = function (val) {
-                    var node = this.find(val);
-                    if (node == null || this.isEquals(val, node.value) == false)
-                        return;
-                    if (node.left != null && node.right != null) {
-                        var pred = this.fetchMaximum(node.left);
-                        node.value = pred.value;
-                        node = pred;
-                    }
-                    var child = (node.right == null) ? node.left : node.right;
-                    if (this.fetchColor(node) == Color.BLACK) {
-                        node.color = this.fetchColor(child);
-                        this.eraseCase1(node);
-                    }
-                    this.replaceNode(node, child);
-                    this.size_--;
-                };
-                Tree.prototype.eraseCase1 = function (node) {
-                    if (node.parent == null)
-                        return;
-                    else
-                        this.eraseCase2(node);
-                };
-                Tree.prototype.eraseCase2 = function (node) {
-                    if (this.fetchColor(node.sibling) == Color.RED) {
-                        node.parent.color = Color.RED;
-                        node.sibling.color = Color.BLACK;
-                        if (node == node.parent.left)
-                            this.rotateLeft(node.parent);
-                        else
-                            this.rotateRight(node.parent);
-                    }
-                    this.eraseCase3(node);
-                };
-                Tree.prototype.eraseCase3 = function (node) {
-                    if (this.fetchColor(node.parent) == Color.BLACK &&
-                        this.fetchColor(node.sibling) == Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == Color.BLACK) {
-                        node.sibling.color = Color.RED;
-                        this.eraseCase1(node.parent);
-                    }
-                    else
-                        this.eraseCase4(node);
-                };
-                Tree.prototype.eraseCase4 = function (node) {
-                    if (this.fetchColor(node.parent) == Color.RED &&
-                        node.sibling != null &&
-                        this.fetchColor(node.sibling) == Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == Color.BLACK) {
-                        node.sibling.color = Color.RED;
-                        node.parent.color = Color.BLACK;
-                    }
-                    else
-                        this.eraseCase5(node);
-                };
-                Tree.prototype.eraseCase5 = function (node) {
-                    if (node == node.parent.left &&
-                        node.sibling != null &&
-                        this.fetchColor(node.sibling) == Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == Color.RED &&
-                        this.fetchColor(node.sibling.right) == Color.BLACK) {
-                        node.sibling.color = Color.RED;
-                        node.sibling.left.color = Color.BLACK;
-                        this.rotateRight(node.sibling);
-                    }
-                    else if (node == node.parent.right &&
-                        node.sibling != null &&
-                        this.fetchColor(node.sibling) == Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == Color.RED) {
-                        node.sibling.color = Color.RED;
-                        node.sibling.right.color = Color.BLACK;
-                        this.rotateLeft(node.sibling);
-                    }
-                };
-                Tree.prototype.eraseCase6 = function (node) {
-                    node.sibling.color = this.fetchColor(node.parent);
-                    node.parent.color = Color.BLACK;
-                    if (node == node.parent.left) {
-                        node.sibling.right.color = Color.BLACK;
-                        this.rotateLeft(node.parent);
-                    }
-                    else {
-                        node.sibling.left.color = Color.BLACK;
-                        this.rotateRight(node.parent);
-                    }
-                };
-                /* ---------------------------------------------------------
-                    ROTATION
-                --------------------------------------------------------- */
-                Tree.prototype.rotateLeft = function (node) {
-                    var right = node.right;
-                    this.replaceNode(node, right);
-                    node.right = right.left;
-                    if (right.left != null)
-                        right.left.parent = node;
-                    right.left = node;
-                    node.parent = right;
-                };
-                Tree.prototype.rotateRight = function (node) {
-                    var left = node.left;
-                    this.replaceNode(node, left);
-                    node.left = left.right;
-                    if (left.right != null)
-                        left.right.parent = node;
-                    left.right = node;
-                    node.parent = left;
-                };
-                Tree.prototype.replaceNode = function (oldNode, newNode) {
-                    if (oldNode.parent == null)
-                        this.root = newNode;
-                    else {
-                        if (oldNode == oldNode.parent.left)
-                            oldNode.parent.left = newNode;
-                        else
-                            oldNode.parent.right = newNode;
-                    }
-                    if (newNode != null)
-                        newNode.parent = oldNode.parent;
-                };
-                Tree.prototype.fetchColor = function (node) {
-                    if (node == null)
-                        return Color.BLACK;
-                    else
-                        return node.color;
-                };
-                return Tree;
-            })();
-            tree.Tree = Tree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -1023,25 +1091,25 @@ var std;
             /**
              * Reference: http://jiniya.net/tt/444
              */
-            var TreeNode = (function () {
+            var XTreeNode = (function () {
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
-                function TreeNode(value, color) {
+                function XTreeNode(value, color) {
                     this.value = value;
                     this.color = color;
                     this.parent = null;
                     this.left = null;
                     this.right = null;
                 }
-                Object.defineProperty(TreeNode.prototype, "grandParent", {
+                Object.defineProperty(XTreeNode.prototype, "grandParent", {
                     get: function () {
                         return this.parent.parent;
                     },
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(TreeNode.prototype, "sibling", {
+                Object.defineProperty(XTreeNode.prototype, "sibling", {
                     get: function () {
                         if (this == this.parent.left)
                             return this.parent.right;
@@ -1051,14 +1119,14 @@ var std;
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(TreeNode.prototype, "uncle", {
+                Object.defineProperty(XTreeNode.prototype, "uncle", {
                     get: function () {
                         return this.parent.sibling;
                     },
                     enumerable: true,
                     configurable: true
                 });
-                TreeNode.prototype.debug = function (header, level) {
+                XTreeNode.prototype.debug = function (header, level) {
                     if (header === void 0) { header = "ROOT"; }
                     if (level === void 0) { level = 0; }
                     // TABS
@@ -1072,9 +1140,9 @@ var std;
                     if (this.right != null)
                         this.right.debug("Right", level + 1);
                 };
-                return TreeNode;
+                return XTreeNode;
             })();
-            tree.TreeNode = TreeNode;
+            tree.XTreeNode = XTreeNode;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -2121,39 +2189,38 @@ var std;
     })();
     std.MapIterator = MapIterator;
 })(std || (std = {}));
-/// <referecen path="Tree.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var tree;
-        (function (tree) {
-            var MapTree = (function (_super) {
-                __extends(MapTree, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTOR
-                --------------------------------------------------------- */
-                function MapTree() {
-                    _super.call(this);
-                }
-                MapTree.prototype.find = function (val) {
-                    return null;
-                };
-                /* ---------------------------------------------------------
-                    COMPARISON
-                --------------------------------------------------------- */
-                MapTree.prototype.isEquals = function (left, right) {
-                    return std.equals(left.first, right.first);
-                };
-                MapTree.prototype.isLess = function (left, right) {
-                    return std.less(left.first, right.first);
-                };
-                return MapTree;
-            })(tree.Tree);
-            tree.MapTree = MapTree;
-        })(tree = base.tree || (base.tree = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
+/// <referecen path="XTree.ts" />
+//namespace std.base.tree
+//{
+//	export class MapTree<K, T>
+//		extends XTree<MapIterator<K, T>>
+//	{
+//		/* ---------------------------------------------------------
+//		    CONSTRUCTOR
+//	    --------------------------------------------------------- */
+//		public constructor()
+//		{
+//			super();
+//		}
+//		public find(key: K): XTreeNode<MapIterator<K, T>>;
+//		public find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
+//		public find(val: any): XTreeNode<MapIterator<K, T>>
+//		{
+//			return null;
+//		}
+//		/* ---------------------------------------------------------
+//		    COMPARISON
+//	    --------------------------------------------------------- */
+//		public isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean
+//		{
+//			return std.equals(left.first, right.first);
+//		}
+//		public isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean
+//		{
+//			return std.less(left.first, right.first);
+//		}
+//	}
+//} 
 var std;
 (function (std) {
     /**

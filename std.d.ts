@@ -475,29 +475,19 @@ declare namespace std.base.hash {
     }
 }
 declare namespace std.base.tree {
-    class SetTree<T> extends Tree<SetIterator<T>> {
-        constructor();
-        find(val: T): TreeNode<SetIterator<T>>;
-        find(it: SetIterator<T>): TreeNode<SetIterator<T>>;
-        private findByVal(val);
-        isEquals(left: SetIterator<T>, right: SetIterator<T>): boolean;
-        isLess(left: SetIterator<T>, right: SetIterator<T>): boolean;
-    }
-}
-declare namespace std.base.tree {
     class Color {
         static BLACK: boolean;
         static RED: boolean;
     }
-    abstract class Tree<T> {
-        protected root: TreeNode<T>;
+    abstract class XTree<T> {
+        protected root: XTreeNode<T>;
         protected size_: number;
         /**
          * Default Constructor
          */
         constructor();
         size(): number;
-        find(val: T): TreeNode<T>;
+        find(val: T): XTreeNode<T>;
         private fetchMaximum(node);
         debug(): void;
         abstract isEquals(left: T, right: T): boolean;
@@ -520,21 +510,36 @@ declare namespace std.base.tree {
         private replaceNode(oldNode, newNode);
         private fetchColor(node);
     }
+    class MapTree<K, T> extends XTree<MapIterator<K, T>> {
+        constructor();
+        find(key: K): XTreeNode<MapIterator<K, T>>;
+        find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
+        isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
+        isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
+    }
+    class SetTree<T> extends XTree<SetIterator<T>> {
+        constructor();
+        find(val: T): XTreeNode<SetIterator<T>>;
+        find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
+        private findByVal(val);
+        isEquals(left: SetIterator<T>, right: SetIterator<T>): boolean;
+        isLess(left: SetIterator<T>, right: SetIterator<T>): boolean;
+    }
 }
 declare namespace std.base.tree {
     /**
      * Reference: http://jiniya.net/tt/444
      */
-    class TreeNode<T> {
-        parent: TreeNode<T>;
-        left: TreeNode<T>;
-        right: TreeNode<T>;
+    class XTreeNode<T> {
+        parent: XTreeNode<T>;
+        left: XTreeNode<T>;
+        right: XTreeNode<T>;
         value: T;
         color: boolean;
         constructor(value: T, color: boolean);
-        grandParent: TreeNode<T>;
-        sibling: TreeNode<T>;
-        uncle: TreeNode<T>;
+        grandParent: XTreeNode<T>;
+        sibling: XTreeNode<T>;
+        uncle: XTreeNode<T>;
         debug(header?: string, level?: number): void;
     }
 }
@@ -1081,15 +1086,6 @@ declare namespace std {
         equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean;
         less<L extends K, U extends T>(obj: MapIterator<L, U>): boolean;
         hashCode(): number;
-    }
-}
-declare namespace std.base.tree {
-    class MapTree<K, T> extends Tree<MapIterator<K, T>> {
-        constructor();
-        find(key: K): TreeNode<MapIterator<K, T>>;
-        find(it: MapIterator<K, T>): TreeNode<MapIterator<K, T>>;
-        isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
-        isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
     }
 }
 declare namespace std {

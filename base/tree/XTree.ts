@@ -6,9 +6,9 @@
 		public static get RED(): boolean { return true; }
 	}
 
-	export abstract class Tree<T>
+	export abstract class XTree<T>
 	{
-		protected root: TreeNode<T>;
+		protected root: XTreeNode<T>;
 
 		protected size_: number;
 
@@ -37,14 +37,14 @@
 			return  this.size_;
 		}
 
-		public find(val: T): TreeNode<T>
+		public find(val: T): XTreeNode<T>
 		{
 			let node = this.root;
 
 			if (node != null)
 				while(true)
 				{
-					let newNode: TreeNode<T> = null;
+					let newNode: XTreeNode<T> = null;
 
 					if (this.isEquals(val, node.value))
 						break;
@@ -62,7 +62,7 @@
 			return node;
 		}
 
-		private fetchMaximum(node: TreeNode<T>): TreeNode<T>
+		private fetchMaximum(node: XTreeNode<T>): XTreeNode<T>
 		{
 			while (node.right != null)
 				node = node.right;
@@ -94,7 +94,7 @@
 		public insert(val: T): void
 		{
 			let parent = this.find(val);
-			let node = new TreeNode<T>(val, Color.RED);
+			let node = new XTreeNode<T>(val, Color.RED);
 
 			if (parent == null)
 				this.root = node;
@@ -113,7 +113,7 @@
 			this.size_++;
 		}
 
-		private insertCase1(node: TreeNode<T>): void
+		private insertCase1(node: XTreeNode<T>): void
 		{
 			if (node.parent == null)
 				node.color = Color.BLACK;
@@ -121,7 +121,7 @@
 				this.insertCase2(node);
 		}
 
-		private insertCase2(node: TreeNode<T>): void
+		private insertCase2(node: XTreeNode<T>): void
 		{
 			if (this.fetchColor(node.parent) == Color.BLACK)
 				return;
@@ -129,7 +129,7 @@
 				this.insertCase3(node);
 		}
 
-		private insertCase3(node: TreeNode<T>): void
+		private insertCase3(node: XTreeNode<T>): void
 		{
 			if (this.fetchColor(node.uncle) == Color.RED)
 			{
@@ -145,7 +145,7 @@
 			}
 		}
 
-		private insertCase4(node: TreeNode<T>): void
+		private insertCase4(node: XTreeNode<T>): void
 		{
 			if (node == node.parent.right && node.parent == node.grandParent.left)
 			{
@@ -161,7 +161,7 @@
 			this.insertCase5(node);
 		}
 
-		private insertCase5(node: TreeNode<T>): void
+		private insertCase5(node: XTreeNode<T>): void
 		{
 			node.parent.color = Color.BLACK;
 			node.grandParent.color = Color.RED;
@@ -183,7 +183,7 @@
 
 			if (node.left != null && node.right != null)
 			{
-				let pred: TreeNode<T> = this.fetchMaximum(node.left);
+				let pred: XTreeNode<T> = this.fetchMaximum(node.left);
 
 				node.value = pred.value;
 				node = pred;
@@ -202,7 +202,7 @@
 			this.size_--;
 		}
 
-		private eraseCase1(node: TreeNode<T>): void
+		private eraseCase1(node: XTreeNode<T>): void
 		{
 			if (node.parent == null)
 				return;
@@ -210,7 +210,7 @@
 				this.eraseCase2(node);
 		}
 
-		private eraseCase2(node: TreeNode<T>): void
+		private eraseCase2(node: XTreeNode<T>): void
 		{
 			if (this.fetchColor(node.sibling) == Color.RED)
 			{
@@ -226,7 +226,7 @@
 			this.eraseCase3(node);
 		}
 
-		private eraseCase3(node: TreeNode<T>): void
+		private eraseCase3(node: XTreeNode<T>): void
 		{
 			if (this.fetchColor(node.parent) == Color.BLACK &&
 				this.fetchColor(node.sibling) == Color.BLACK &&
@@ -241,7 +241,7 @@
 				this.eraseCase4(node);
 		}
 
-		private eraseCase4(node: TreeNode<T>): void
+		private eraseCase4(node: XTreeNode<T>): void
 		{
 			if (this.fetchColor(node.parent) == Color.RED &&
 				node.sibling != null &&
@@ -256,7 +256,7 @@
 				this.eraseCase5(node);
 		}
 
-		private eraseCase5(node: TreeNode<T>): void
+		private eraseCase5(node: XTreeNode<T>): void
 		{
 			if (node == node.parent.left &&
 				node.sibling != null &&
@@ -282,7 +282,7 @@
 			}
 		}
 
-		private eraseCase6(node: TreeNode<T>): void
+		private eraseCase6(node: XTreeNode<T>): void
 		{
 			node.sibling.color = this.fetchColor(node.parent);
 			node.parent.color = Color.BLACK;
@@ -304,7 +304,7 @@
 		/* ---------------------------------------------------------
 		    ROTATION
 	    --------------------------------------------------------- */
-		private rotateLeft(node: TreeNode<T>): void
+		private rotateLeft(node: XTreeNode<T>): void
 		{
 			let right = node.right;
 			this.replaceNode(node, right);
@@ -317,7 +317,7 @@
 			node.parent = right;
 		}
 
-		private rotateRight(node: TreeNode<T>): void
+		private rotateRight(node: XTreeNode<T>): void
 		{
 			let left = node.left;
 			this.replaceNode(node, left);
@@ -330,7 +330,7 @@
 			node.parent = left;
 		}
 
-		private replaceNode(oldNode: TreeNode<T>, newNode: TreeNode<T>): void
+		private replaceNode(oldNode: XTreeNode<T>, newNode: XTreeNode<T>): void
 		{
 			if (oldNode.parent == null)
 				this.root = newNode;
@@ -346,12 +346,106 @@
 				newNode.parent = oldNode.parent;
 		}
 
-		private fetchColor(node: TreeNode<T>): boolean
+		private fetchColor(node: XTreeNode<T>): boolean
 		{
 			if (node == null)
 				return Color.BLACK;
 			else
 				return node.color;
+		}
+	}
+
+	export class MapTree<K, T>
+		extends XTree<MapIterator<K, T>>
+	{
+		/* ---------------------------------------------------------
+		    CONSTRUCTOR
+	    --------------------------------------------------------- */
+		public constructor()
+		{
+			super();
+		}
+
+		public find(key: K): XTreeNode<MapIterator<K, T>>;
+		public find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
+
+		public find(val: any): XTreeNode<MapIterator<K, T>>
+		{
+			return null;
+		}
+
+		/* ---------------------------------------------------------
+		    COMPARISON
+	    --------------------------------------------------------- */
+		public isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean
+		{
+			return std.equals(left.first, right.first);
+		}
+
+		public isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean
+		{
+			return std.less(left.first, right.first);
+		}
+	}
+
+	export class SetTree<T>
+		extends XTree<SetIterator<T>>
+	{
+		/* ---------------------------------------------------------
+		    CONSTRUCTOR
+	    --------------------------------------------------------- */
+		public constructor()
+		{
+			super();
+		}
+
+		public find(val: T): XTreeNode<SetIterator<T>>;
+		public find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
+
+		public find(val: any): XTreeNode<SetIterator<T>>
+		{
+			if (val instanceof SetIterator && (<SetIterator<T>>val).value instanceof SetIterator == false)
+				return super.find(val);
+			else
+				return this.findByVal(val);
+		}
+
+		private findByVal(val: T): XTreeNode<SetIterator<T>>
+		{
+			let node = this.root;
+
+			if (node != null)
+				while (true)
+				{
+					let newNode: XTreeNode<SetIterator<T>> = null;
+
+					if (std.equals(val, node.value.value))
+						break;
+					else if (std.less(val, node.value.value))
+						newNode = node.left;
+					else
+						newNode = node.right;
+
+					if (newNode == null)
+						break;
+					else
+						node = newNode;
+				}
+
+			return node;
+		}
+
+		/* ---------------------------------------------------------
+		    CONSTRUCTOR
+	    --------------------------------------------------------- */
+		public isEquals(left: SetIterator<T>, right: SetIterator<T>): boolean
+		{
+			return std.equals(left, right);
+		}
+
+		public isLess(left: SetIterator<T>, right: SetIterator<T>): boolean
+		{
+			return std.less(left, right);
 		}
 	}
 }
