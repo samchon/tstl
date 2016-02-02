@@ -1,5 +1,3 @@
-/// <reference path="Object.ts" />
-
 namespace std
 {
     /**

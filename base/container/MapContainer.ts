@@ -1,9 +1,4 @@
-﻿/// <reference path="../MapIterator.ts" />
-/// <reference path="../Object.ts" />
-
-/// <reference path="../Pair.ts" />
-
-namespace std.base
+﻿namespace std.base.container
 {
 	export abstract class MapContainer<K, T>
 	{
@@ -26,7 +21,7 @@ namespace std.base
 
 		protected constructByArray(items: Array<Pair<K, T>>): void
 		{
-			for (var i: number = 0; i < items.length; i++)
+			for (let i: number = 0; i < items.length; i++)
 				this.insertByPair(items[i]);
 		}
 		protected constructByContainer(container: MapContainer<K, T>): void
@@ -54,7 +49,7 @@ namespace std.base
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			// INSERT
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (let it = begin; it.equals(end) == false; it = it.next())
 				this.insertByPair(new Pair<K, T>(it.first, it.second));
 		}
 
@@ -206,13 +201,13 @@ namespace std.base
         private insertByHint(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>
         {
             // INSERT
-            var list_it: ListIterator<Pair<K, T>> = (<MapIterator<K, T>>hint).getListIterator();
+            let list_it: ListIterator<Pair<K, T>> = (<MapIterator<K, T>>hint).getListIterator();
 
             list_it = <ListIterator<Pair<K, T>>>
                 this.data.insert((<MapIterator<K, T>>hint).getListIterator(), pair);
 
             // POST-PROCESS
-            var it = new MapIterator<K, T>(this, list_it);
+            let it = new MapIterator<K, T>(this, list_it);
 
             this.handleInsert(it);
 
@@ -221,7 +216,7 @@ namespace std.base
         protected insertByRange<L extends K, U extends T>
             (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
         {
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 this.insertByPair(new Pair<K, T>(it.first, it.second));
         }
 
@@ -247,7 +242,7 @@ namespace std.base
 
         private eraseByKey(key: K): number
         {
-            var it = this.find(key);
+            let it = this.find(key);
             if (it.equals(this.end()) == true)
                 return 0;
 
@@ -257,7 +252,7 @@ namespace std.base
         private eraseByIterator(it: MapIterator<K, T>): MapIterator<K, T>
         {
             // ERASE
-            var listIterator = <ListIterator<Pair<K, T>>>
+            let listIterator = <ListIterator<Pair<K, T>>>
                 this.data.erase((<MapIterator<K, T>>it).getListIterator());
             
             // POST-PROCESS
@@ -268,7 +263,7 @@ namespace std.base
         private eraseByRange(begin: MapIterator<K, T>, end: MapIterator<K, T>): MapIterator<K, T>
         {
             // ERASE
-            var listIterator = <ListIterator<Pair<K, T>>>
+            let listIterator = <ListIterator<Pair<K, T>>>
                 this.data.erase
 				(
                     (<MapIterator<K, T>>begin).getListIterator(),
@@ -276,7 +271,7 @@ namespace std.base
 				);
             
             // POST-PROCESS
-            for (var it = begin; it.equals(this.end()) == false; it = it.next())
+            for (let it = begin; it.equals(this.end()) == false; it = it.next())
                 this.handleErase(<MapIterator<K, T>>it);
 
             return new MapIterator<K, T>(this, listIterator);

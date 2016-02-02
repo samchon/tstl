@@ -1,8 +1,5 @@
 ﻿/// <refe0rence path="Iterator.ts" />
 
-/// <reference path="base/SetContainer.ts" />
-/// <reference path="ListIterator.ts" />
-
 namespace std
 {
     /**
@@ -25,7 +22,7 @@ namespace std
          * @param map The source Set to reference.
          * @param index Sequence number of the element in the source Set.
          */
-        public constructor(source: base.SetContainer<T>, it: ListIterator<T>)
+        public constructor(source: base.container.SetContainer<T>, it: ListIterator<T>)
         {
             super(source);
 
@@ -45,7 +42,7 @@ namespace std
          */
         public prev(): Iterator<T>
         {
-            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.prev());
+            return new SetIterator<T>(<base.container.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.prev());
         }
 
         /**
@@ -53,7 +50,7 @@ namespace std
          */
         public next(): Iterator<T>
         {
-            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.next());
+            return new SetIterator<T>(<base.container.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.next());
         }
 
         /**
@@ -61,7 +58,7 @@ namespace std
          */
         public advance(size: number): Iterator<T>
         {
-            return new SetIterator<T>(<base.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.advance(size));
+            return new SetIterator<T>(<base.container.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.advance(size));
         }
 
         /* ---------------------------------------------------------
@@ -101,7 +98,7 @@ namespace std
 
 		public hashCode(): number
 		{
-			return base.Hash.code(this.value);
+			return base.hash.code(this.value);
 		}
     }
 }

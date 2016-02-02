@@ -1,6 +1,6 @@
 ﻿/// <reference path="SetContainer.ts" />
 
-namespace std.base
+namespace std.base.container
 {
 	export abstract class UniqueSet<T>
 		extends SetContainer<T>

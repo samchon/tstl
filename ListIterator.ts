@@ -1,7 +1,5 @@
 ﻿/// <reference path="Iterator.ts" />
 
-/// <reference path="List.ts" />
-
 namespace std
 {
      export class ListIterator<T>
@@ -61,7 +59,7 @@ namespace std
             if (obj instanceof ListIterator == false)
                 return false;
 
-            var it: ListIterator<T> = <ListIterator<T>>obj;
+            let it: ListIterator<T> = <ListIterator<T>>obj;
 
             return super.equals(obj) == true && this.prev_ == it.prev_ && this.next_ == it.next_;
         }

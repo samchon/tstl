@@ -1,12 +1,8 @@
-﻿/// <reference path="base/Container.ts" />
-
-/// <reference path="Exception.ts" />
-
-namespace std
+﻿namespace std
 {
     export abstract class Iterator<T>
     {
-        protected source: base.Container<T>;
+        protected source: base.container.Container<T>;
 
         /* ---------------------------------------------------------
 		    CONSTRUCTORS
@@ -16,7 +12,7 @@ namespace std
          *
          * @param source The source Container.
          */
-        public constructor(source: base.Container<T>)
+        public constructor(source: base.container.Container<T>)
         {
             this.source = source;
         }
@@ -48,8 +44,8 @@ namespace std
          */
         public advance(n: number): Iterator<T>
         {
-            var it: Iterator<T> = this;
-            var i: number;
+            let it: Iterator<T> = this;
+            let i: number;
 
             if (n >= 0 )
             {
@@ -79,7 +75,7 @@ namespace std
         /**
          * Get source.
          */
-        public getSource(): base.Container<T>
+        public getSource(): base.container.Container<T>
         {
             return this.source;
         }

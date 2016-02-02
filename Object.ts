@@ -1,6 +1,4 @@
-﻿/// <reference path="base/Hash.ts" />
-
-namespace std
+﻿namespace std
 {
 	/**
 	 * <p> For equality comparison. </p>
@@ -14,12 +12,12 @@ namespace std
 	 *
 	 * @return Whether the arguments are equal.
 	 */
-    export function equals<T>(first: T, second: T): boolean
+    export function equals<T>(left: T, right: T): boolean
     {
-        if (first instanceof Object)
-            return (<any>first).equals(second);
+        if (left instanceof Object)
+            return (<any>left).equals(right);
         else
-            return first == second;
+            return left == right;
     }
 
     /**
@@ -37,12 +35,12 @@ namespace std
      *
      * @return Whether the first parameter is less than the second.
      */
-    export function less<T>(first: T, second: T): boolean
+    export function less<T>(left: T, right: T): boolean
     {
-        if (first instanceof Object)
-            return (<any>first).less(second);
+        if (left instanceof Object)
+            return (<any>left).less(right);
         else
-            return first < second;
+            return left < right;
     }
 
 	export function hashCode(val: number): number;
@@ -52,7 +50,7 @@ namespace std
 	
 	export function hashCode(par: any): number
 	{
-		return base.Hash.code(par);
+		return base.hash.code(par);
 	}
 
 	/**
@@ -60,6 +58,57 @@ namespace std
 	 */
 	export var __s_iUID: number = 0;
 }
+
+Object.defineProperties(Object.prototype,
+{
+	"__getUID":
+	{
+		value: function (): number
+		{
+			if (this.hasOwnProperty("__m_iUID") == false)
+			{
+				var uid: number = std.__s_iUID++;
+
+				Object.defineProperty
+				(
+					this, "__m_iUID",
+					{
+						"get": function (): number
+						{
+							return uid;
+						}
+					}
+				);
+			}
+
+			return this.__m_iUID;
+		}
+	}/*,
+
+	"equals": 
+	{
+		value: function (obj): boolean 
+		{
+			return this == obj;
+		}
+	},
+
+	"less":
+	{
+		value: function (obj): boolean
+		{
+			return this.__m_iUID < obj.__m_iUID;
+		}
+	},
+	
+	"hashCode":
+	{
+		value: function (obj): number
+		{
+			return this.__m_iUID;
+		}
+	}*/
+});
 
 (<any>Object).prototype.equals =
     function (obj): boolean 
@@ -70,27 +119,11 @@ namespace std
 (<any>Object).prototype.less =
     function (obj): boolean
     {
-        return this.__get_m_iUID() < obj.__get_m_iUID();
+        return this.__getUID() < obj.__getUID();
     };
 
 (<any>Object).prototype.hashCode =
     function (): number
     {
-        return this.__get_m_iUID();
-        //var str: string = JSON.stringify(this);
-        //var val: number = 0;
-
-        //for (var i: number = 0; i < str.length; i++)
-        //    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-
-        //return val;
+        return this.__getUID();
     };
-
-(<any>Object).prototype.__get_m_iUID =
-	function (): number
-	{
-		if (this.__m_iUID == undefined)
-            this.__m_iUID = ++std.__s_iUID;
-
-        return this.__m_iUID;
-	};

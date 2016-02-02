@@ -1,11 +1,6 @@
 /// <reference path="IContainer.ts" />
 
-/// <reference path="../Iterator.ts" />
-
-/// <reference path="../Exception.ts" />
-/// <referecen path="../Vector.ts" />
-
-namespace std.base
+namespace std.base.container
 {
     /**
      * An abstract class containing elements.
@@ -49,14 +44,14 @@ namespace std.base
         {
             if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof Container))
             {
-                var container: IContainer<T> = args[0];
+                let container: IContainer<T> = args[0];
 
                 this.assign(container.begin(), container.end());
             }
             else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
             {
-                var begin: Iterator<T> = args[0];
-                var end: Iterator<T> = args[1];
+                let begin: Iterator<T> = args[0];
+                let end: Iterator<T> = args[1];
 
                 this.assign(begin, end);
             }

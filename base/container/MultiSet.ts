@@ -1,6 +1,6 @@
 ﻿/// <reference path="SetContainer.ts" />
 
-namespace std.base
+namespace std.base.container
 {
 	export abstract class MultiSet<T>
 		extends SetContainer<T>
@@ -18,11 +18,11 @@ namespace std.base
 
 		public count(val: T): number
 		{
-			var myIt = this.find(val);
+			let myIt = this.find(val);
 			if (myIt.equals(this.end()))
 				return 0;
 
-			var size: number = 0;
+			let size: number = 0;
 			for (let it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
 				size++;
 

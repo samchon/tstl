@@ -1,6 +1,4 @@
-﻿/// <reference path="base/MultiSet.ts" />
-
-/// <reference path="base/SetHashBuckets.ts" />
+﻿/// <reference path="base/container/MultiSet.ts" />
 
 namespace std
 {
@@ -32,9 +30,9 @@ namespace std
      * @author Migrated by Jeongho Nam
      */
     export class UnorderedMultiSet<T>
-        extends base.MultiSet<T>
+        extends base.container.MultiSet<T>
     {
-        private hashBuckets: base.SetHashBuckets<T>;
+        private hashBuckets: base.hash.SetHashBuckets<T>;
 
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -56,7 +54,7 @@ namespace std
         /**
          * Copy Constructor.
          */
-        public constructor(container: base.IContainer<T>);
+        public constructor(container: base.container.IContainer<T>);
 
         /**
          * Construct from range iterators.
@@ -68,14 +66,14 @@ namespace std
 			super();
             
 			// BUCKET
-			this.hashBuckets = new base.SetHashBuckets<T>(this);
+			this.hashBuckets = new base.hash.SetHashBuckets<T>(this);
 
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
             {
                 this.constructByArray(args[0]);
             }
-            else if (args.length == 1 && args[0] instanceof base.Container)
+            else if (args.length == 1 && args[0] instanceof base.container.Container)
            { 
                 this.constructByContainer(args[0]);
             }
@@ -87,7 +85,7 @@ namespace std
 
         protected constructByArray(items: Array<T>): void
         {
-            this.hashBuckets.reserve(items.length * base.Hash.RATIO);
+            this.hashBuckets.reserve(items.length * base.hash.RATIO);
 
             super.constructByArray(items);
         }
@@ -100,15 +98,15 @@ namespace std
          */
         public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
         {
-            var it: Iterator<U>;
-            var size: number = 0;
+            let it: Iterator<U>;
+            let size: number = 0;
             
             // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
             this.hashBuckets.clear();
-            this.hashBuckets.reserve(size * base.Hash.RATIO);
+            this.hashBuckets.reserve(size * base.hash.RATIO);
 
             // SUPER; INSERT
             super.assign(begin, end);
@@ -145,9 +143,9 @@ namespace std
 		protected insertByVal(val: T): any
 		{
             // INSERT
-            var listIterator = <ListIterator<T>>this.data.insert(this.data.end(), val);
+            let listIterator = <ListIterator<T>>this.data.insert(this.data.end(), val);
 
-			var it = new SetIterator<T>(this, listIterator);
+			let it = new SetIterator<T>(this, listIterator);
 
 			// POST-PROCESS
 			this.handleInsert(it);
@@ -158,13 +156,13 @@ namespace std
         protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
         {
             // CALCULATE INSERTING SIZE
-            var size: number = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            let size: number = 0;
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashBuckets.itemSize() * base.Hash.MAX_RATIO)
-                this.hashBuckets.reserve((this.size() + size) * base.Hash.RATIO);
+            if (this.size() + size > this.hashBuckets.itemSize() * base.hash.MAX_RATIO)
+                this.hashBuckets.reserve((this.size() + size) * base.hash.RATIO);
 
             // INSERTS
             super.insertByRange(begin, end);

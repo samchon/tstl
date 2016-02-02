@@ -1,6 +1,4 @@
-﻿/// <reference path="base/UniqueMap.ts" />
-
-/// <reference path="base/Hash.ts" />
+﻿/// <reference path="base/container/UniqueMap.ts" />
 
 namespace std
 {
@@ -38,9 +36,9 @@ namespace std
      * @author Migrated by Jeongho Nam
      */
     export class UnorderedMap<K, T>
-        extends base.UniqueMap<K, T>
+        extends base.container.UniqueMap<K, T>
     {
-        private hashBuckets: base.MapHashBuckets<K, T>;
+        private hashBuckets: base.hash.MapHashBuckets<K, T>;
 	
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -62,7 +60,7 @@ namespace std
         /**
          * Copy Constructor.
          */
-        public constructor(container: base.MapContainer<K, T>);
+        public constructor(container: base.container.MapContainer<K, T>);
 
         /**
          * Construct from range iterators.
@@ -74,14 +72,14 @@ namespace std
 			super();
 
 			// HASH_BUCKET
-			this.hashBuckets = new base.MapHashBuckets<K, T>(this);
+			this.hashBuckets = new base.hash.MapHashBuckets<K, T>(this);
 
 			// OVERLOADINGS
 			if (args.length == 1 && args[0] instanceof Array)
 			{
 				this.constructByArray(args[0]);
 			}
-			else if (args.length == 1 && args[0] instanceof base.MapContainer)
+			else if (args.length == 1 && args[0] instanceof base.container.MapContainer)
 			{
 				this.constructByContainer(args[0]);
 			}
@@ -93,7 +91,7 @@ namespace std
 
         protected constructByArray(items: Array<Pair<K, T>>): void
         {
-            this.hashBuckets.reserve(items.length * base.Hash.RATIO);
+            this.hashBuckets.reserve(items.length * base.hash.RATIO);
 
             super.constructByArray(items);
         }
@@ -107,15 +105,15 @@ namespace std
         public assign<L extends K, U extends T>
             (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
         {
-            var it: MapIterator<L, U>;
-            var size: number = 0;
+            let it: MapIterator<L, U>;
+            let size: number = 0;
             
             // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
             this.hashBuckets.clear();
-            this.hashBuckets.reserve(size * base.Hash.RATIO);
+            this.hashBuckets.reserve(size * base.hash.RATIO);
 
             // SUPER; INSERT
             super.assign(begin, end);
@@ -152,7 +150,7 @@ namespace std
 		protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
 		{
             // TEST WHETHER EXIST
-            var it = this.find(pair.first);
+            let it = this.find(pair.first);
             if (it.equals(this.end()) == false)
                 return new Pair<MapIterator<K, T>, boolean>(it, false);
 
@@ -170,13 +168,13 @@ namespace std
             (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
         {
             // CALCULATE INSERTING SIZE
-            var size: number = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            let size: number = 0;
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashBuckets.itemSize() * base.Hash.MAX_RATIO)
-                this.hashBuckets.reserve((this.size() + size) * base.Hash.RATIO);
+            if (this.size() + size > this.hashBuckets.itemSize() * base.hash.MAX_RATIO)
+                this.hashBuckets.reserve((this.size() + size) * base.hash.RATIO);
 
             // INSERTS
             super.insertByRange(begin, end);

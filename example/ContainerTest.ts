@@ -1,6 +1,3 @@
-/// <reference path="../List.ts" />
-/// <reference path="../UnorderedSet.ts" />
-
 namespace std.example
 {
     export class ContainerTest
@@ -19,8 +16,8 @@ namespace std.example
             document.write("<h4> List </h4>\n");
 
             // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-            var container = new List<number>();
-            for (var i: number = 0; i < 10; i++)
+            let container = new List<number>();
+            for (let i: number = 0; i < 10; i++)
                 container.pushBack(i);
 
             // ELEMENTS I/O
@@ -39,7 +36,7 @@ namespace std.example
             document.write("Elements in the List: #" + container.size() + "<br>\n");
             document.write("<ul>\n");
 
-            for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
+            for (let it = container.begin(); it.equals(container.end()) == false; it = it.next())
                 document.write("\t<li>" + it.value + "</li>\n");
 
             document.write("</ul>\n\n");
@@ -50,8 +47,8 @@ namespace std.example
             document.write("<h4> UnorderedSet </h4>\n");
 
             // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-            var container = new UnorderedSet<number>();
-            for (var i: number = 0; i < 10; i++)
+            let container = new UnorderedSet<number>();
+            for (let i: number = 0; i < 10; i++)
                 container.insert(i);
 
             // ELEMENTS I/O
@@ -75,7 +72,7 @@ namespace std.example
             document.write("Elements in the UnorderedSet: #" + container.size() + "<br>\n");
             document.write("<ul>\n");
 
-            for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
+            for (let it = container.begin(); it.equals(container.end()) == false; it = it.next())
                 document.write("<li>" + it.value + "</li>\n");
 
 			document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
@@ -88,8 +85,8 @@ namespace std.example
 			document.write("<h4> UnorderedMap </h4>\n");
 
             // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-            var container = new UnorderedMap<number, number>();
-            for (var i: number = 0; i < 10; i++)
+            let container = new UnorderedMap<number, number>();
+            for (let i: number = 0; i < 10; i++)
                 container.insert(new Pair<number, number>(i, i));
 
             // ELEMENTS I/O
@@ -113,7 +110,7 @@ namespace std.example
             document.write("Elements in the UnorderedMap: #" + container.size() + "<br>\n");
             document.write("<ul>\n");
 
-            for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
+            for (let it = container.begin(); it.equals(container.end()) == false; it = it.next())
                 document.write("<li>" + it.first + ": " + it.second + "</li>\n");
 
 			document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
@@ -125,7 +122,7 @@ namespace std.example
         {
             new ContainerTest();
 
-			var obj: Object = new Object();
+			let obj: Object = new Object();
 			obj["id"] = "samchon";
 			obj["name"] = "Jeongho Nam";
 

@@ -1,6 +1,6 @@
 ﻿/// <reference path="MapContainer.ts" />
 
-namespace std.base
+namespace std.base.container
 {
 	export abstract class MultiMap<K, T>
 		extends MapContainer<K, T>
@@ -21,11 +21,11 @@ namespace std.base
 		 */
 		public count(key: K): number
 		{
-			var myIt = this.find(key);
+			let myIt = this.find(key);
 			if (myIt.equals(this.end()))
 				return 0;
 
-			var size: number = 0;
+			let size: number = 0;
 			for (let it = myIt.next(); !it.equals(this.end()) && std.equals(key, it.first); it = it.next())
 				size++;
 

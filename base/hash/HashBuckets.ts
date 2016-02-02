@@ -1,8 +1,4 @@
-﻿/// <reference path="Hash.ts" />
-
-/// <reference path="../Vector.ts" />
-
-namespace std.base
+﻿namespace std.base.hash
 {
 	export class HashBuckets<T>
 	{
@@ -27,10 +23,10 @@ namespace std.base
 		 */
 		public reserve(size): void
 		{
-			if (size < Hash.MIN_SIZE)
-				size = Hash.MIN_SIZE;
+			if (size < hash.MIN_SIZE)
+				size = hash.MIN_SIZE;
 
-			var prevMatrix: Vector<Vector<T>> = this.matrix;
+			let prevMatrix: Vector<Vector<T>> = this.matrix;
 			this.matrix = new Vector<Vector<T>>();
 
 			for (let i: number = 0; i < size; i++)
@@ -39,7 +35,7 @@ namespace std.base
 			for (let i: number = 0; i < prevMatrix.size(); i++)
 				for (let j: number = 0; j < prevMatrix.at(i).size(); j++)
 				{
-					var val: T = prevMatrix.at(i).at(j);
+					let val: T = prevMatrix.at(i).at(j);
 
 					this.matrix.at(this.hashIndex(val)).pushBack(val);
 					this.itemSize_++;
@@ -51,7 +47,7 @@ namespace std.base
 			this.matrix = new Vector<Vector<T>>();
 			this.itemSize_ = 0;
 
-			for (let i: number = 0; i < Hash.MIN_SIZE; i++)
+			for (let i: number = 0; i < hash.MIN_SIZE; i++)
 				this.matrix.pushBack(new Vector<T>());
 		}
 
@@ -76,7 +72,7 @@ namespace std.base
 
 		private hashIndex(val: T): number
 		{
-			return Hash.code(val) % this.matrix.size();
+			return hash.code(val) % this.matrix.size();
 		}
 
 		/* ---------------------------------------------------------
@@ -86,15 +82,15 @@ namespace std.base
 		{
 			this.matrix.at(this.hashIndex(val)).pushBack(val);
 
-			if (++this.itemSize_ > this.matrix.size() * Hash.MAX_RATIO)
-				this.reserve(this.itemSize_ * Hash.RATIO);
+			if (++this.itemSize_ > this.matrix.size() * hash.MAX_RATIO)
+				this.reserve(this.itemSize_ * hash.RATIO);
 		}
 
 		public erase(val: T): void
 		{
-			var hashes: Vector<T> = this.matrix.at(this.hashIndex(val));
+			let hashes: Vector<T> = this.matrix.at(this.hashIndex(val));
 
-			for (var i: number = 0; i < hashes.size(); i++)
+			for (let i: number = 0; i < hashes.size(); i++)
 				if (hashes.at(i) == val)
 				{
 					hashes.splice(i, 1);

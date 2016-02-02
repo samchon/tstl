@@ -1,4 +1,4 @@
-﻿/// <reference path="base/UniqueSet.ts" />
+﻿/// <reference path="base/container/UniqueSet.ts" />
 
 namespace std
 {
@@ -29,7 +29,7 @@ namespace std
 	 * @author Migrated by Jeongho Nam
 	 */
     export class Set<T>
-        extends base.UniqueSet<T>
+        extends base.container.UniqueSet<T>
     {
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -46,7 +46,7 @@ namespace std
 
         public constructor(array: Array<T>);
 
-        public constructor(container: base.Container<T>);
+        public constructor(container: base.container.Container<T>);
 
         public constructor(begin: Iterator<T>, end: Iterator<T>);
         

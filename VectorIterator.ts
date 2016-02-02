@@ -1,7 +1,5 @@
 ﻿/// <reference path="Iterator.ts" />
 
-/// <reference path="Vector.ts" />
-
 namespace std
 {
     /**
@@ -109,7 +107,7 @@ namespace std
          */
         public advance(n: number): Iterator<T>
         {
-            var newIndex: number = this.index + n;
+            let newIndex: number = this.index + n;
 
             if (newIndex < 0 || newIndex >= this.source.size())
                 return this.source.end();

@@ -1,6 +1,6 @@
 ﻿/// <reference path="MapContainer.ts" />
 
-namespace std.base
+namespace std.base.container
 {
 	export abstract class UniqueMap<K, T>
 		extends MapContainer<K, T>

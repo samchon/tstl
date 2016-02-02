@@ -1,6 +1,4 @@
-/// <reference path="../Iterator.ts" />
-
-namespace std.base
+namespace std.base.container
 {
     export interface IContainer<T>
     {

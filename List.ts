@@ -1,8 +1,4 @@
-/// <reference path="base/Container.ts" />
-
-/// <reference path="ListIterator.ts" />
-
-/// <reference path="Vector.ts" />
+/// <reference path="base/container/Container.ts" />
 
 namespace std
 {
@@ -38,7 +34,7 @@ namespace std
      * @author Migrated by Jeongho Nam
      */
     export class List<T>
-        extends base.Container<T>
+        extends base.container.Container<T>
     {
         /**
          * An iterator of beginning.
@@ -81,7 +77,7 @@ namespace std
          *
          * @param container
          */
-        public constructor(container: base.IContainer<T>);
+        public constructor(container: base.container.IContainer<T>);
 
         /**
          * Construct from begin and end iterators. 
@@ -101,28 +97,28 @@ namespace std
             }
             else if (args.length == 1 && args[0] instanceof Array)
             {
-                var array: Array<T> = args[0];
+                let array: Array<T> = args[0];
 
                 this.clear();
                 this.push(...array);
             }
-            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.Container))
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.container.Container))
             {
-                var container: base.IContainer<T> = args[0];
+                let container: base.container.IContainer<T> = args[0];
 
                 this.assign(container.begin(), container.end());
             }
             else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
             {
-                var begin: Iterator<T> = args[0];
-                var end: Iterator<T> = args[1];
+                let begin: Iterator<T> = args[0];
+                let end: Iterator<T> = args[1];
 
                 this.assign(begin, end);
             }
             else if (args.length == 2 && typeof args[0] == "number")
             {
-                var size: number = args[0];
-                var val: T = <T>args[1];
+                let size: number = args[0];
+                let val: T = <T>args[1];
 
                 this.assign(size, val);
             }
@@ -143,14 +139,14 @@ namespace std
             if (par1 instanceof Iterator && par2 instanceof Iterator)
             {
                 // PARAMETERS
-                var begin: Iterator<T> = par1;
-                var end: Iterator<T> = par2;
+                let begin: Iterator<T> = par1;
+                let end: Iterator<T> = par2;
 
                 // BODY
-                var prev: ListIterator<T> = null;
-                var item: ListIterator<T>;
+                let prev: ListIterator<T> = null;
+                let item: ListIterator<T>;
             
-                var it = begin;
+                let it = begin;
             
                 while (true)
                 {
@@ -188,7 +184,7 @@ namespace std
          */
         public clear(): void
         {
-            var it = new ListIterator(this, null, null, null);
+            let it = new ListIterator(this, null, null, null);
             it.setPrev(it);
             it.setNext(it);
 
@@ -271,7 +267,7 @@ namespace std
          */
         public push(...items: T[]): number 
         {
-            for (var i: number = 0; i < items.length; i++)
+            for (let i: number = 0; i < items.length; i++)
                 this.pushBack(items[i]);
             
             return this.size();
@@ -287,7 +283,7 @@ namespace std
          */
         public pushFront(val: T): void
         {
-            var item: ListIterator<T> = new ListIterator(this, null, this.begin_, val);
+            let item: ListIterator<T> = new ListIterator(this, null, this.begin_, val);
 
             // CONFIGURE BEGIN AND NEXT
             this.begin_.setPrev(item);
@@ -316,8 +312,8 @@ namespace std
          */
         public pushBack(val: T): void
         {
-            var prev: ListIterator<T> = <ListIterator<T>>this.end_.prev();
-            var item: ListIterator<T> = new ListIterator(this, <ListIterator<T>>this.end_.prev(), this.end_, val);
+            let prev: ListIterator<T> = <ListIterator<T>>this.end_.prev();
+            let item: ListIterator<T> = new ListIterator(this, <ListIterator<T>>this.end_.prev(), this.end_, val);
             
             prev.setNext(item);
             this.end_.setPrev(item);
@@ -420,13 +416,13 @@ namespace std
             if (this != position.getSource())
                 throw new InvalidArgument("Parametric iterator is not this container's own.");
             
-            var prev: ListIterator<T> = <ListIterator<T>>position.prev();
-            var first: ListIterator<T> = null;
+            let prev: ListIterator<T> = <ListIterator<T>>position.prev();
+            let first: ListIterator<T> = null;
             
-            for (var i: number = 0; i < size; i++)
+            for (let i: number = 0; i < size; i++)
             {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item: ListIterator<T> = new ListIterator(this, prev, null, val);
+                let item: ListIterator<T> = new ListIterator(this, prev, null, val);
                 
                 if (i == 0)         first = item;
                 if (prev != null)   prev.setNext(item);
@@ -452,15 +448,15 @@ namespace std
             if (this != position.getSource())
                 throw new InvalidArgument("Parametric iterator is not this container's own.");
 
-            var prev: ListIterator<T> = <ListIterator<T>>position.prev();
-            var first: ListIterator<T> = null;
+            let prev: ListIterator<T> = <ListIterator<T>>position.prev();
+            let first: ListIterator<T> = null;
 
-            var size: number = 0;
+            let size: number = 0;
 
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (let it = begin; it.equals(end) == false; it = it.next())
             {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
+                let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
 
                 if (size == 0)      first = item;
                 if (prev != null)   prev.setNext(item);
@@ -513,13 +509,13 @@ namespace std
                 throw new InvalidArgument("Parametric iterator is not this container's own.");
 
             // FIND PREV AND NEXT
-            var prev: ListIterator<T> = <ListIterator<T>>begin.prev();
-            var next: ListIterator<T> = <ListIterator<T>>end;
+            let prev: ListIterator<T> = <ListIterator<T>>begin.prev();
+            let next: ListIterator<T> = <ListIterator<T>>end;
 
             // CALCULATE THE SIZE
-            var size: number = 0;
+            let size: number = 0;
 
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 size++;
 
             // SHRINK

@@ -1,6 +1,4 @@
-/// <reference path="base/IContainer.ts" />
-
-/// <reference path="VectorIterator.ts" />
+/// <reference path="base/container/IContainer.ts" />
 
 namespace std
 {
@@ -42,7 +40,7 @@ namespace std
      */
     export class Vector<T>
         extends Array<T>
-        implements base.IContainer<T>
+        implements base.container.IContainer<T>
     {
         /* ---------------------------------------------------------
 		    CONSTRUCTORS
@@ -77,7 +75,7 @@ namespace std
          * @param container Another Container object of the same type (with the same class template 
          *                  arguments T), whose contents are either copied or acquired.
          */
-        public constructor(container: base.IContainer<T>);
+        public constructor(container: base.container.IContainer<T>);
 
         /**
          * Construct from begin and end iterators. 
@@ -98,37 +96,37 @@ namespace std
             if (args.length == 1 && args[0] instanceof Array)
             {
                 // CONSTRUCT FROM AN ARRAY OF ITEMS
-                var array: Array<T> = args[0];
+                let array: Array<T> = args[0];
                 
                 this.push(...array);
             }
             else if (args.length == 1 && typeof args[0] == "number")
             {
                 // CONSTRUCT FROM SIZE
-                var size: number = args[0];
+                let size: number = args[0];
                 
                 this.length = size;
             }
             else if (args.length == 2 && typeof args[0] == "number")
             {
                 // CONSTRUCT FROM SIZE AND REPEATING VALUE
-                var size: number = args[0];
-                var val: T = args[1];
+                let size: number = args[0];
+                let val: T = args[1];
                 
                 this.assign(size, val);
             }
-            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.Container))
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.container.Container))
             {
                 // COPY CONSTRUCTOR
-                var container: base.Container<T> = <base.Container<T>>args[0];
+                let container: base.container.Container<T> = <base.container.Container<T>>args[0];
                 
                 this.assign(container.begin(), container.end());
             }
             else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
             {
                 // CONSTRUCT FROM INPUT ITERATORS
-                var begin: Iterator<T> = args[0];
-                var end: Iterator<T> = args[1];
+                let begin: Iterator<T> = args[0];
+                let end: Iterator<T> = args[1];
 
                 this.assign(begin, end);
             }
@@ -157,20 +155,20 @@ namespace std
 
             if (first instanceof Iterator && second instanceof Iterator)
             {
-                var begin: Iterator<U> = first;
-                var end: Iterator<U> = second;
+                let begin: Iterator<U> = first;
+                let end: Iterator<U> = second;
 
-                for (var it = begin; it.equals(end) == false; it = it.next())
+                for (let it = begin; it.equals(end) == false; it = it.next())
                     this.push(it.value);
             }
             else if (typeof first == "number")
             {
-                var size: number = <number>first;
-                var val: T = <T>second;
+                let size: number = <number>first;
+                let val: T = <T>second;
 
                 this.length = size;
 
-                for (var i: number = 0; i < size; i++)
+                for (let i: number = 0; i < size; i++)
                     this[i] = val;
             }
         }
@@ -297,7 +295,7 @@ namespace std
             if (index > this.length)
                 throw new std.OutOfRange("Target index is greater than Vector's size.");
 
-            var prev: T = this[index];
+            let prev: T = this[index];
             this[index] = val;
 
             return prev;
@@ -320,23 +318,23 @@ namespace std
 
         public insert<U extends T>(...args: any[]): any
         {
-            var position: VectorIterator<T> = args[0];
+            let position: VectorIterator<T> = args[0];
 
             if (args.length == 2 && args[1] instanceof Iterator == false)
             {
-                var val: T = args[1];
+                let val: T = args[1];
 
                 return this.insert(position, 1, val);
             }
             else if (args.length == 3 && typeof args[1] == "number")
             {
-                var size: number = <number>args[1];
-                var val: T = args[2];
+                let size: number = <number>args[1];
+                let val: T = args[2];
 
-                var spliced: Array<T> = this.splice(position.getIndex());
-                var inserts: Array<T> = [];
+                let spliced: Array<T> = this.splice(position.getIndex());
+                let inserts: Array<T> = [];
 
-                for (var i: number = 0; i < size; i++)
+                for (let i: number = 0; i < size; i++)
                     inserts.push(val);
 
                 this.push(...spliced);
@@ -346,14 +344,14 @@ namespace std
             }
             else if (args.length == 3 && args[1] instanceof Iterator && args[2] instanceof Iterator)
             {
-                var myEnd: VectorIterator<T> = args[0];
-                var begin: Iterator<U> = args[1];
-                var end: Iterator<U> = args[2];
+                let myEnd: VectorIterator<T> = args[0];
+                let begin: Iterator<U> = args[1];
+                let end: Iterator<U> = args[2];
 
-                var spliced: Array<T> = this.splice(position.getIndex());
-                var inserts: Array<T> = [];
+                let spliced: Array<T> = this.splice(position.getIndex());
+                let inserts: Array<T> = [];
 
-                for (var it = begin; it.equals(end) == false; it = it.next())
+                for (let it = begin; it.equals(end) == false; it = it.next())
                     inserts.push(it.value);
 
                 this.push(...spliced);
@@ -370,7 +368,7 @@ namespace std
 
         public erase(begin: Iterator<T>, end: Iterator<T> = null): Iterator<T>
         {
-            var startIndex: number = (<VectorIterator<T>>begin).getIndex();
+            let startIndex: number = (<VectorIterator<T>>begin).getIndex();
 
             if (end == null)
                 this.splice(startIndex, 1);

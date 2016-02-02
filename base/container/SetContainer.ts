@@ -1,11 +1,6 @@
 /// <reference path="Container.ts" />
 
-/// <reference path="../SetIterator.ts" />
-/// <reference path="../List.ts" />
-
-/// <reference path="../Pair.ts" />
-
-namespace std.base
+namespace std.base.container
 {
     /**
      * Abstract Set.
@@ -68,7 +63,7 @@ namespace std.base
         
         protected constructByArray(items: Array<T>): void
         {
-            for (var i: number = 0; i < items.length; i++)
+            for (let i: number = 0; i < items.length; i++)
             {
                 if (this.has(items[i]) == true)
                     continue;
@@ -94,7 +89,7 @@ namespace std.base
         public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
         {
             // INSERT
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 this.insertByVal(it.value);
         }
 
@@ -190,7 +185,7 @@ namespace std.base
 	    --------------------------------------------------------- */
         public push<U extends T>(...args: U[]): number
         {
-            for (var i: number = 0; i < args.length; i++)
+            for (let i: number = 0; i < args.length; i++)
                 this.insertByVal(args[i]);
 
             return this.size();
@@ -237,7 +232,7 @@ namespace std.base
         protected abstract insertByVal(val: T): any;
         //{
         //    // test whether exists
-        //    var it = this.find(val);
+        //    let it = this.find(val);
         //    if (it.equals(this.end()) == false)
         //        return new pair<iterator<t>, boolean>(it, false);
 
@@ -253,22 +248,22 @@ namespace std.base
         private insertByHint(hint: SetIterator<T>, val: T): Iterator<T>
         {
             // INSERT
-            var listIterator = <ListIterator<T>>this.data.insert(hint.getListIterator(), val);
+            let listIterator = <ListIterator<T>>this.data.insert(hint.getListIterator(), val);
             
             // POST-PROCESS
-            var it = new SetIterator(this, listIterator);
+            let it = new SetIterator(this, listIterator);
             this.handleInsert(it);
 
             return it;
         }
         protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
         {
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (let it = begin; it.equals(end) == false; it = it.next())
             {
                 this.insertByVal(it.value);
 
                 //// INSERT TO MEMBER LIST
-                //var listIterator = <ListIterator<T>>
+                //let listIterator = <ListIterator<T>>
                 //    this.data.insert
                 //    (
                 //        this.data.end(),
@@ -277,7 +272,7 @@ namespace std.base
                 //    );
 
                 //// POST-PROCESS
-                //var myIt = new SetIterator<T>(this, listIterator);
+                //let myIt = new SetIterator<T>(this, listIterator);
                 //this.handleInsert(myIt);
             }
         }
@@ -327,7 +322,7 @@ namespace std.base
         private eraseByKey(val: T): number
         {
             // TEST WHETHER EXISTS
-            var it = this.find(val);
+            let it = this.find(val);
             if (it.equals(this.end()) == true)
                 return 0;
 
@@ -338,7 +333,7 @@ namespace std.base
         private eraseByIterator(it: Iterator<T>): Iterator<T>
         {
             // ERASE
-            var listIterator = <ListIterator<T>>this.data.erase((<SetIterator<T>>it).getListIterator());
+            let listIterator = <ListIterator<T>>this.data.erase((<SetIterator<T>>it).getListIterator());
             
             // POST-PROCESS
             this.handleErase(<SetIterator<T>>it);
@@ -348,7 +343,7 @@ namespace std.base
         private eraseByRange(begin: Iterator<T>, end: Iterator<T>): Iterator<T>
         {
             // ERASE
-            var listIterator = <ListIterator<T>>
+            let listIterator = <ListIterator<T>>
                 this.data.erase
                 (
                     (<SetIterator<T>>begin).getListIterator(), 
@@ -356,7 +351,7 @@ namespace std.base
                 );
             
             // POST-PROCESS
-            for (var it = begin; it.equals(this.end()) == false; it = it.next())
+            for (let it = begin; it.equals(this.end()) == false; it = it.next())
                 this.handleErase(<SetIterator<T>>it);
 
             return begin.prev();

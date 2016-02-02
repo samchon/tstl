@@ -1,9 +1,9 @@
-/// <reference path="base/UniqueMap.ts" />
+/// <reference path="base/container/UniqueMap.ts" />
 
 namespace std
 {
     export class Map<K, T>
-        extends base.UniqueMap<K, T>
+        extends base.container.UniqueMap<K, T>
     {
         /* =========================================================
 		    CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -20,7 +20,7 @@ namespace std
 
         public constructor(array: Array<Pair<K, T>>);
 
-        public constructor(container: base.MapContainer<K, T>);
+        public constructor(container: base.container.MapContainer<K, T>);
 
         public constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
         
