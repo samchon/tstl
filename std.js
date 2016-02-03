@@ -3053,7 +3053,7 @@ var std;
      * </ul>
      *
      * @param <T> Type of the elements.
-     *           Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+     *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
      *
      * @author Migrated by Jeongho Nam
      */
@@ -3435,8 +3435,8 @@ var std;
          * bounds. </p>
          *
          * @param index Position of an element in the container.
-         *              If this is greater than or equal to the vector size, an exception of type OutOfRange
-         *              is thrown. Notice that the first element has a position of 0 (not 1).
+         *			  If this is greater than or equal to the vector size, an exception of type OutOfRange
+         *			  is thrown. Notice that the first element has a position of 0 (not 1).
          *
          * @return The element at the specified position in the container.
          */

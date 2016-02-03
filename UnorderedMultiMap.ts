@@ -1,11 +1,11 @@
-﻿/// <reference path="base/container/MultiMap.ts" />
+/// <reference path="base/container/MultiMap.ts" />
 
 namespace std
 {
-    /**
+	/**
 	 * <p> Unordered Multimap, in another word, Hashed MultiMap. </p>
 	 * 
-     * <p> Unordered multimaps are associative containers that store elements formed by the combination of 
+	 * <p> Unordered multimaps are associative containers that store elements formed by the combination of 
 	 * a key value and a mapped value, much like UnorderedMap containers, but allowing different elements to 
 	 * have equivalent keys. </p>
 	 *
@@ -21,54 +21,54 @@ namespace std
 	 * <p> Elements with equivalent keys are grouped together in the same bucket and in such a way that 
 	 * an iterator (see equal_range) can iterate through all of them. Iterators in the container are doubly 
 	 * linked iterators. </p>
-     *
-     * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
-     * </ul>
-     *
-     * @param <K> Type of the key values. 
+	 *
+	 * <ul>
+	 *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
+	 * </ul>
+	 *
+	 * @param <K> Type of the key values. 
 	 *			  Each element in an UnorderedMultiMap is identified by a key value.
-     * @param <T> Type of the mapped value. 
-     *			  Each element in an UnorderedUnorderedMap is used to store some data as its mapped value.
-     *
-     * @author Migrated by Jeongho Nam
-     */
-    export class UnorderedMultiMap<K, T>
-        extends base.container.MultiMap<K, T>
-    {
-        private hashBuckets: base.hash.MapHashBuckets<K, T>;
+	 * @param <T> Type of the mapped value. 
+	 *			  Each element in an UnorderedUnorderedMap is used to store some data as its mapped value.
+	 *
+	 * @author Migrated by Jeongho Nam
+	 */
+	export class UnorderedMultiMap<K, T>
+		extends base.container.MultiMap<K, T>
+	{
+		private hashBuckets: base.hash.MapHashBuckets<K, T>;
 	
-        /* =========================================================
-		    CONSTRUCTORS & SEMI-CONSTRUCTORS
-                - CONSTRUCTORS
-                - ASSIGN & CLEAR
-	    ============================================================
-            CONSTURCTORS
-        --------------------------------------------------------- */
-	    /**
-	     * Default Constructor.
-	     */
-        public constructor();
+		/* =========================================================
+			CONSTRUCTORS & SEMI-CONSTRUCTORS
+				- CONSTRUCTORS
+				- ASSIGN & CLEAR
+		============================================================
+			CONSTURCTORS
+		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
+		public constructor();
 
-        /**
-         * Construct from elements.
-         */
-        public constructor(array: Array<Pair<K, T>>);
+		/**
+		 * Construct from elements.
+		 */
+		public constructor(array: Array<Pair<K, T>>);
 
-        /**
-         * Copy Constructor.
-         */
-        public constructor(container: base.container.MapContainer<K, T>);
+		/**
+		 * Copy Constructor.
+		 */
+		public constructor(container: base.container.MapContainer<K, T>);
 
-        /**
-         * Construct from range iterators.
-         */
-        public constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
+		/**
+		 * Construct from range iterators.
+		 */
+		public constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
 
 		public constructor(...args: any[])
 		{
 			super();
-            
+			
 			// HASH_BUCKET
 			this.hashBuckets = new base.hash.MapHashBuckets<K, T>(this);
 
@@ -85,69 +85,69 @@ namespace std
 			{
 				this.constructByRange(args[0], args[1]);
 			}
-        }
+		}
 
-        protected constructByArray(items: Array<Pair<K, T>>): void
-        {
-            this.hashBuckets.reserve(items.length * base.hash.RATIO);
+		protected constructByArray(items: Array<Pair<K, T>>): void
+		{
+			this.hashBuckets.reserve(items.length * base.hash.RATIO);
 
-            super.constructByArray(items);
-        }
-        
-        /* ---------------------------------------------------------
-		    ASSIGN & CLEAR
-	    --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        public assign<L extends K, U extends T>
-            (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-        {
-            let it: MapIterator<L, U>;
-            let size: number = 0;
-            
-            // REVERSE HASH_GROUP SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
-                size++;
+			super.constructByArray(items);
+		}
+		
+		/* ---------------------------------------------------------
+			ASSIGN & CLEAR
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public assign<L extends K, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		{
+			let it: MapIterator<L, U>;
+			let size: number = 0;
+			
+			// REVERSE HASH_GROUP SIZE
+			for (it = begin; it.equals(end) == false; it = it.next())
+				size++;
 
-            this.hashBuckets.clear();
-            this.hashBuckets.reserve(size * base.hash.RATIO);
+			this.hashBuckets.clear();
+			this.hashBuckets.reserve(size * base.hash.RATIO);
 
-            // SUPER; INSERT
-            super.assign(begin, end);
-        }
-        
-        /**
-         * @inheritdoc
-         */
-        public clear(): void
-        {
-            super.clear();
+			// SUPER; INSERT
+			super.assign(begin, end);
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		public clear(): void
+		{
+			super.clear();
 
-            this.hashBuckets.clear();
-        }
+			this.hashBuckets.clear();
+		}
 
-	    /* =========================================================
-		    ACCESSORS
-	    ========================================================= */
-        /**
-	     * @inheritdoc
-	     */
-        public find(key: K): MapIterator<K, T>
-        {
-            return this.hashBuckets.find(key);
-        }
+		/* =========================================================
+			ACCESSORS
+		========================================================= */
+		/**
+		 * @inheritdoc
+		 */
+		public find(key: K): MapIterator<K, T>
+		{
+			return this.hashBuckets.find(key);
+		}
 
-        /* =========================================================
-		    ELEMENTS I/O
-                - INSERT
-                - POST-PROCESS
-	    ============================================================
-		    INSERT
-	    --------------------------------------------------------- */
+		/* =========================================================
+			ELEMENTS I/O
+				- INSERT
+				- POST-PROCESS
+		============================================================
+			INSERT
+		--------------------------------------------------------- */
 		protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
 		{
-            let listIterator = <ListIterator<Pair<L, U>>>this.data.insert(this.data.end(), pair);
+			let listIterator = <ListIterator<Pair<L, U>>>this.data.insert(this.data.end(), pair);
 
 			let it = new MapIterator<K, T>(this, listIterator);
 			this.handleInsert(it);
@@ -156,38 +156,38 @@ namespace std
 		}
 
 		protected insertByRange<L extends K, U extends T>
-            (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-        {
-            // CALCULATE INSERTING SIZE
-            let size: number = 0;
-            for (let it = begin; it.equals(end) == false; it = it.next())
-                size++;
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		{
+			// CALCULATE INSERTING SIZE
+			let size: number = 0;
+			for (let it = begin; it.equals(end) == false; it = it.next())
+				size++;
 
-            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashBuckets.itemSize() * base.hash.MAX_RATIO)
-                this.hashBuckets.reserve((this.size() + size) * base.hash.RATIO);
+			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+			if (this.size() + size > this.hashBuckets.itemSize() * base.hash.MAX_RATIO)
+				this.hashBuckets.reserve((this.size() + size) * base.hash.RATIO);
 
-            // INSERTS
-            super.insertByRange(begin, end);
-        }
+			// INSERTS
+			super.insertByRange(begin, end);
+		}
 
-        /* ---------------------------------------------------------
-		    POST-PROCESS
-	    --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        protected handleInsert(it: MapIterator<K, T>): void
-        {
-            this.hashBuckets.insert(it);
-        }
+		/* ---------------------------------------------------------
+			POST-PROCESS
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		protected handleInsert(it: MapIterator<K, T>): void
+		{
+			this.hashBuckets.insert(it);
+		}
 
-        /**
-         * @inheritdoc
-         */
-        protected handleErase(it: MapIterator<K, T>): void
-        {
-            this.hashBuckets.erase(it);
-        }
-    }
+		/**
+		 * @inheritdoc
+		 */
+		protected handleErase(it: MapIterator<K, T>): void
+		{
+			this.hashBuckets.erase(it);
+		}
+	}
 }

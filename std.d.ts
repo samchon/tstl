@@ -1521,7 +1521,7 @@ declare namespace std {
      * </ul>
      *
      * @param <T> Type of the elements.
-     *           Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+     *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
      *
      * @author Migrated by Jeongho Nam
      */
@@ -1701,7 +1701,7 @@ declare namespace std {
          * in the same order. </p>
          *
          * @param container Another Container object of the same type (with the same class template
-         *                  arguments T), whose contents are either copied or acquired.
+         *				  arguments T), whose contents are either copied or acquired.
          */
         constructor(container: base.container.IContainer<T>);
         /**
@@ -1723,7 +1723,7 @@ declare namespace std {
          *
          * @param size New size of the container.
          * @param val Value to fill the container with. Each of the <u>size</u> elements in
-         *            the container will be initialized to a copy of this value.
+         *			the container will be initialized to a copy of this value.
          */
         assign(size: number, val: T): void;
         /**
@@ -1756,8 +1756,8 @@ declare namespace std {
          * bounds. </p>
          *
          * @param index Position of an element in the container.
-         *              If this is greater than or equal to the vector size, an exception of type OutOfRange
-         *              is thrown. Notice that the first element has a position of 0 (not 1).
+         *			  If this is greater than or equal to the vector size, an exception of type OutOfRange
+         *			  is thrown. Notice that the first element has a position of 0 (not 1).
          *
          * @return The element at the specified position in the container.
          */
