@@ -69,7 +69,7 @@
 			{
 				if (this.hasOwnProperty("__m_iUID") == false)
 				{
-					var uid: number = __s_iUID++;
+					var uid: number = ++__s_iUID;
 
 					Object.defineProperty
 						(
