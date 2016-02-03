@@ -4,9 +4,9 @@
 *.*
 !*.ts
 
-!*.html
-!*.js
-!*.js.map
+!release/*.html
+!release/*.js
+!release/*.js.map
 
 !LICENSE
 !README
