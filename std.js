@@ -47,119 +47,6 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        var hash;
-        (function (hash) {
-            hash.MIN_SIZE = 10;
-            hash.RATIO = 0.8;
-            hash.MAX_RATIO = 2.0;
-            function code(par) {
-                var type = typeof par;
-                if (type == "number")
-                    return codeByNumber(par);
-                else if (type == "string")
-                    return codeByString(par);
-                else
-                    return codeByObject(par);
-            }
-            hash.code = code;
-            function codeByNumber(val) {
-                return Math.abs(Math.round(val));
-            }
-            function codeByString(str) {
-                var val = 0;
-                for (var i = 0; i < str.length; i++)
-                    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-                return val;
-            }
-            function codeByObject(obj) {
-                return obj.hashCode();
-            }
-        })(hash = base.hash || (base.hash = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var hash;
-        (function (hash) {
-            var HashBuckets = (function () {
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function HashBuckets() {
-                    this.clear();
-                }
-                /**
-                 * Reserve the bucket size.
-                 *
-                 * @param size Number of bucket size to reserve.
-                 */
-                HashBuckets.prototype.reserve = function (size) {
-                    if (size < hash.MIN_SIZE)
-                        size = hash.MIN_SIZE;
-                    var prevMatrix = this.matrix;
-                    this.matrix = new std.Vector();
-                    for (var i = 0; i < size; i++)
-                        this.matrix.pushBack(new std.Vector());
-                    for (var i = 0; i < prevMatrix.size(); i++)
-                        for (var j = 0; j < prevMatrix.at(i).size(); j++) {
-                            var val = prevMatrix.at(i).at(j);
-                            this.matrix.at(this.hashIndex(val)).pushBack(val);
-                            this.itemSize_++;
-                        }
-                };
-                HashBuckets.prototype.clear = function () {
-                    this.matrix = new std.Vector();
-                    this.itemSize_ = 0;
-                    for (var i = 0; i < hash.MIN_SIZE; i++)
-                        this.matrix.pushBack(new std.Vector());
-                };
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                HashBuckets.prototype.size = function () {
-                    return this.matrix.size();
-                };
-                HashBuckets.prototype.itemSize = function () {
-                    return this.itemSize_;
-                };
-                HashBuckets.prototype.at = function (index) {
-                    return this.matrix.at(index);
-                };
-                HashBuckets.prototype.hashIndex = function (val) {
-                    return hash.code(val) % this.matrix.size();
-                };
-                /* ---------------------------------------------------------
-                    ELEMENTS I/O
-                --------------------------------------------------------- */
-                HashBuckets.prototype.insert = function (val) {
-                    this.matrix.at(this.hashIndex(val)).pushBack(val);
-                    if (++this.itemSize_ > this.matrix.size() * hash.MAX_RATIO)
-                        this.reserve(this.itemSize_ * hash.RATIO);
-                };
-                HashBuckets.prototype.erase = function (val) {
-                    var hashes = this.matrix.at(this.hashIndex(val));
-                    for (var i = 0; i < hashes.size(); i++)
-                        if (hashes.at(i) == val) {
-                            hashes.splice(i, 1);
-                            this.itemSize_--;
-                            break;
-                        }
-                };
-                return HashBuckets;
-            })();
-            hash.HashBuckets = HashBuckets;
-        })(hash = base.hash || (base.hash = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-var std;
-(function (std) {
-    var base;
-    (function (base) {
         var container;
         (function (container_3) {
             var MapContainer = (function () {
@@ -342,39 +229,12 @@ var std;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="HashBuckets.ts" />
+/// <reference path="MapContainer.ts" />
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var hash;
-        (function (hash) {
-            var MapHashBuckets = (function (_super) {
-                __extends(MapHashBuckets, _super);
-                function MapHashBuckets(map) {
-                    _super.call(this);
-                    this.map = map;
-                }
-                MapHashBuckets.prototype.find = function (key) {
-                    var index = hash.code(key) % this.size();
-                    var bucket = this.at(index);
-                    for (var i = 0; i < bucket.size(); i++)
-                        if (std.equals(bucket.at(i).first, key))
-                            return bucket.at(i);
-                    return this.map.end();
-                };
-                return MapHashBuckets;
-            })(hash.HashBuckets);
-            hash.MapHashBuckets = MapHashBuckets;
-        })(hash = base.hash || (base.hash = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="MapContainer.ts" />
 var std;
 (function (std) {
     var base;
@@ -657,6 +517,220 @@ var std;
             })(container.SetContainer);
             container.MultiSet = MultiSet;
         })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="MapContainer.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var container;
+        (function (container) {
+            var UniqueMap = (function (_super) {
+                __extends(UniqueMap, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function UniqueMap() {
+                    _super.call(this);
+                }
+                /**
+                 * @inheritdoc
+                 */
+                UniqueMap.prototype.count = function (key) {
+                    return this.find(key).equals(this.end()) ? 0 : 1;
+                };
+                UniqueMap.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    return _super.prototype.insert.apply(this, args);
+                };
+                return UniqueMap;
+            })(container.MapContainer);
+            container.UniqueMap = UniqueMap;
+        })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="SetContainer.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var container;
+        (function (container) {
+            var UniqueSet = (function (_super) {
+                __extends(UniqueSet, _super);
+                /* =========================================================
+                    CONSTRUCTORS
+                ========================================================= */
+                /**
+                 * Default Constructor.
+                 */
+                function UniqueSet() {
+                    _super.call(this);
+                }
+                UniqueSet.prototype.count = function (key) {
+                    return this.find(key).equals(this.end()) ? 0 : 1;
+                };
+                UniqueSet.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    return _super.prototype.insert.apply(this, args);
+                };
+                return UniqueSet;
+            })(container.SetContainer);
+            container.UniqueSet = UniqueSet;
+        })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var hash;
+        (function (hash) {
+            hash.MIN_SIZE = 10;
+            hash.RATIO = 0.8;
+            hash.MAX_RATIO = 2.0;
+            function code(par) {
+                var type = typeof par;
+                if (type == "number")
+                    return codeByNumber(par);
+                else if (type == "string")
+                    return codeByString(par);
+                else
+                    return codeByObject(par);
+            }
+            hash.code = code;
+            function codeByNumber(val) {
+                return Math.abs(Math.round(val));
+            }
+            function codeByString(str) {
+                var val = 0;
+                for (var i = 0; i < str.length; i++)
+                    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+                return val;
+            }
+            function codeByObject(obj) {
+                if (obj.hasOwnProperty("hashCode") == true)
+                    return obj.hashCode();
+                else
+                    return obj.__getUID();
+            }
+        })(hash = base.hash || (base.hash = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var hash;
+        (function (hash) {
+            var HashBuckets = (function () {
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function HashBuckets() {
+                    this.clear();
+                }
+                /**
+                 * Reserve the bucket size.
+                 *
+                 * @param size Number of bucket size to reserve.
+                 */
+                HashBuckets.prototype.reserve = function (size) {
+                    if (size < hash.MIN_SIZE)
+                        size = hash.MIN_SIZE;
+                    var prevMatrix = this.matrix;
+                    this.matrix = new std.Vector();
+                    for (var i = 0; i < size; i++)
+                        this.matrix.pushBack(new std.Vector());
+                    for (var i = 0; i < prevMatrix.size(); i++)
+                        for (var j = 0; j < prevMatrix.at(i).size(); j++) {
+                            var val = prevMatrix.at(i).at(j);
+                            this.matrix.at(this.hashIndex(val)).pushBack(val);
+                            this.itemSize_++;
+                        }
+                };
+                HashBuckets.prototype.clear = function () {
+                    this.matrix = new std.Vector();
+                    this.itemSize_ = 0;
+                    for (var i = 0; i < hash.MIN_SIZE; i++)
+                        this.matrix.pushBack(new std.Vector());
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                HashBuckets.prototype.size = function () {
+                    return this.matrix.size();
+                };
+                HashBuckets.prototype.itemSize = function () {
+                    return this.itemSize_;
+                };
+                HashBuckets.prototype.at = function (index) {
+                    return this.matrix.at(index);
+                };
+                HashBuckets.prototype.hashIndex = function (val) {
+                    return hash.code(val) % this.matrix.size();
+                };
+                /* ---------------------------------------------------------
+                    ELEMENTS I/O
+                --------------------------------------------------------- */
+                HashBuckets.prototype.insert = function (val) {
+                    this.matrix.at(this.hashIndex(val)).pushBack(val);
+                    if (++this.itemSize_ > this.matrix.size() * hash.MAX_RATIO)
+                        this.reserve(this.itemSize_ * hash.RATIO);
+                };
+                HashBuckets.prototype.erase = function (val) {
+                    var hashes = this.matrix.at(this.hashIndex(val));
+                    for (var i = 0; i < hashes.size(); i++)
+                        if (hashes.at(i) == val) {
+                            hashes.splice(i, 1);
+                            this.itemSize_--;
+                            break;
+                        }
+                };
+                return HashBuckets;
+            })();
+            hash.HashBuckets = HashBuckets;
+        })(hash = base.hash || (base.hash = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="HashBuckets.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var hash;
+        (function (hash) {
+            var MapHashBuckets = (function (_super) {
+                __extends(MapHashBuckets, _super);
+                function MapHashBuckets(map) {
+                    _super.call(this);
+                    this.map = map;
+                }
+                MapHashBuckets.prototype.find = function (key) {
+                    var index = hash.code(key) % this.size();
+                    var bucket = this.at(index);
+                    for (var i = 0; i < bucket.size(); i++)
+                        if (std.equals(bucket.at(i).first, key))
+                            return bucket.at(i);
+                    return this.map.end();
+                };
+                return MapHashBuckets;
+            })(hash.HashBuckets);
+            hash.MapHashBuckets = MapHashBuckets;
+        })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="HashBuckets.ts" />
@@ -1143,77 +1217,6 @@ var std;
             })();
             tree.XTreeNode = XTreeNode;
         })(tree = base.tree || (base.tree = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="MapContainer.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var container;
-        (function (container) {
-            var UniqueMap = (function (_super) {
-                __extends(UniqueMap, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function UniqueMap() {
-                    _super.call(this);
-                }
-                /**
-                 * @inheritdoc
-                 */
-                UniqueMap.prototype.count = function (key) {
-                    return this.find(key).equals(this.end()) ? 0 : 1;
-                };
-                UniqueMap.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    return _super.prototype.insert.apply(this, args);
-                };
-                return UniqueMap;
-            })(container.MapContainer);
-            container.UniqueMap = UniqueMap;
-        })(container = base.container || (base.container = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="SetContainer.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var container;
-        (function (container) {
-            var UniqueSet = (function (_super) {
-                __extends(UniqueSet, _super);
-                /* =========================================================
-                    CONSTRUCTORS
-                ========================================================= */
-                /**
-                 * Default Constructor.
-                 */
-                function UniqueSet() {
-                    _super.call(this);
-                }
-                UniqueSet.prototype.count = function (key) {
-                    return this.find(key).equals(this.end()) ? 0 : 1;
-                };
-                UniqueSet.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    return _super.prototype.insert.apply(this, args);
-                };
-                return UniqueSet;
-            })(container.SetContainer);
-            container.UniqueSet = UniqueSet;
-        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
@@ -2403,7 +2406,7 @@ var std;
      * @return Whether the arguments are equal.
      */
     function equals(left, right) {
-        if (left instanceof Object)
+        if (left instanceof Object && left.hasOwnProperty("equals"))
             return left.equals(right);
         else
             return left == right;
@@ -2426,11 +2429,18 @@ var std;
      */
     function less(left, right) {
         if (left instanceof Object)
-            return left.less(right);
+            if (left.hasOwnProperty("less") == true)
+                return left.less(right);
+            else
+                return left.__getUID() < right.__getUID();
         else
             return left < right;
     }
     std.less = less;
+    function greater(left, right) {
+        return !std.equals(left, right) && !std.less(left, right);
+    }
+    std.greater = greater;
     function hashCode(par) {
         return std.base.hash.code(par);
     }
@@ -2438,59 +2448,23 @@ var std;
     /**
      * Incremental sequence of unique id allocated to Object.
      */
-    std.__s_iUID = 0;
-})(std || (std = {}));
-Object.defineProperties(Object.prototype, {
-    "__getUID": {
-        value: function () {
-            if (this.hasOwnProperty("__m_iUID") == false) {
-                var uid = std.__s_iUID++;
-                Object.defineProperty(this, "__m_iUID", {
-                    "get": function () {
-                        return uid;
-                    }
-                });
+    var __s_iUID = 0;
+    Object.defineProperties(Object.prototype, {
+        "__getUID": {
+            value: function () {
+                if (this.hasOwnProperty("__m_iUID") == false) {
+                    var uid = __s_iUID++;
+                    Object.defineProperty(this, "__m_iUID", {
+                        "get": function () {
+                            return uid;
+                        }
+                    });
+                }
+                return this.__m_iUID;
             }
-            return this.__m_iUID;
         }
-    } /*,
-
-    "equals":
-    {
-        value: function (obj): boolean
-        {
-            return this == obj;
-        }
-    },
-
-    "less":
-    {
-        value: function (obj): boolean
-        {
-            return this.__m_iUID < obj.__m_iUID;
-        }
-    },
-    
-    "hashCode":
-    {
-        value: function (obj): number
-        {
-            return this.__m_iUID;
-        }
-    }*/
-});
-Object.prototype.equals =
-    function (obj) {
-        return this == obj;
-    };
-Object.prototype.less =
-    function (obj) {
-        return this.__getUID() < obj.__getUID();
-    };
-Object.prototype.hashCode =
-    function () {
-        return this.__getUID();
-    };
+    });
+})(std || (std = {}));
 var std;
 (function (std) {
     /**

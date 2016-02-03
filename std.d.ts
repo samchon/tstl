@@ -67,35 +67,6 @@ declare namespace std.base.container {
         empty(): boolean;
     }
 }
-declare namespace std.base.hash {
-    const MIN_SIZE: number;
-    const RATIO: number;
-    const MAX_RATIO: number;
-    function code(par: any): number;
-}
-declare namespace std.base.hash {
-    class HashBuckets<T> {
-        private matrix;
-        private itemSize_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Reserve the bucket size.
-         *
-         * @param size Number of bucket size to reserve.
-         */
-        reserve(size: any): void;
-        clear(): void;
-        size(): number;
-        itemSize(): number;
-        at(index: number): Vector<T>;
-        private hashIndex(val);
-        insert(val: T): void;
-        erase(val: T): void;
-    }
-}
 declare namespace std.base.container {
     interface IContainer<T> {
         /**
@@ -299,13 +270,6 @@ declare namespace std.base.container {
         protected abstract handleErase(item: MapIterator<K, T>): void;
     }
 }
-declare namespace std.base.hash {
-    class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
-        private map;
-        constructor(map: container.MapContainer<K, T>);
-        find(key: K): MapIterator<K, T>;
-    }
-}
 declare namespace std.base.container {
     abstract class MultiMap<K, T> extends MapContainer<K, T> {
         /**
@@ -467,6 +431,75 @@ declare namespace std.base.container {
         insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
     }
 }
+declare namespace std.base.container {
+    abstract class UniqueMap<K, T> extends MapContainer<K, T> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        count(key: K): number;
+        insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
+        /**
+         * @inheritdoc
+         */
+        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
+        /**
+         * @inheritdoc
+         */
+        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+    }
+}
+declare namespace std.base.container {
+    abstract class UniqueSet<T> extends SetContainer<T> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        count(key: T): number;
+        insert(val: T): Pair<Iterator<T>, boolean>;
+        insert(hint: Iterator<T>, val: T): Iterator<T>;
+        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+    }
+}
+declare namespace std.base.hash {
+    const MIN_SIZE: number;
+    const RATIO: number;
+    const MAX_RATIO: number;
+    function code(par: any): number;
+}
+declare namespace std.base.hash {
+    class HashBuckets<T> {
+        private matrix;
+        private itemSize_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Reserve the bucket size.
+         *
+         * @param size Number of bucket size to reserve.
+         */
+        reserve(size: any): void;
+        clear(): void;
+        size(): number;
+        itemSize(): number;
+        at(index: number): Vector<T>;
+        private hashIndex(val);
+        insert(val: T): void;
+        erase(val: T): void;
+    }
+}
+declare namespace std.base.hash {
+    class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
+        private map;
+        constructor(map: container.MapContainer<K, T>);
+        find(key: K): MapIterator<K, T>;
+    }
+}
 declare namespace std.base.hash {
     class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
         private set;
@@ -554,39 +587,6 @@ declare namespace std.base.tree {
         sibling: XTreeNode<T>;
         uncle: XTreeNode<T>;
         debug(header?: string, level?: number): void;
-    }
-}
-declare namespace std.base.container {
-    abstract class UniqueMap<K, T> extends MapContainer<K, T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        count(key: K): number;
-        insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
-        /**
-         * @inheritdoc
-         */
-        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
-        /**
-         * @inheritdoc
-         */
-        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
-    }
-}
-declare namespace std.base.container {
-    abstract class UniqueSet<T> extends SetContainer<T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        count(key: T): number;
-        insert(val: T): Pair<Iterator<T>, boolean>;
-        insert(hint: Iterator<T>, val: T): Iterator<T>;
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
     }
 }
 declare namespace std {
@@ -1189,14 +1189,8 @@ declare namespace std {
      * @return Whether the first parameter is less than the second.
      */
     function less<T>(left: T, right: T): boolean;
-    function hashCode(val: number): number;
-    function hashCode(str: string): number;
-    function hashCode(obj: Object): number;
+    function greater<T>(left: T, right: T): boolean;
     function hashCode(par: any): number;
-    /**
-     * Incremental sequence of unique id allocated to Object.
-     */
-    var __s_iUID: number;
 }
 declare namespace std {
     /**

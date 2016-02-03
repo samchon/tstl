@@ -33,6 +33,9 @@
 	}
 	function codeByObject(obj: Object): number
 	{
-		return (<any>obj).hashCode();
+		if (obj.hasOwnProperty("hashCode") == true)
+			return (<any>obj).hashCode();
+		else
+			return (<any>obj).__getUID();
 	}
 }

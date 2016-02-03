@@ -14,8 +14,8 @@
 	 */
     export function equals<T>(left: T, right: T): boolean
     {
-        if (left instanceof Object)
-            return (<any>left).equals(right);
+        if (left instanceof Object && left.hasOwnProperty("equals"))
+			return (<any>left).equals(right);
         else
             return left == right;
     }
@@ -38,16 +38,19 @@
     export function less<T>(left: T, right: T): boolean
     {
         if (left instanceof Object)
-            return (<any>left).less(right);
+			if (left.hasOwnProperty("less") == true)
+				return (<any>left).less(right);
+			else
+				return (<any>left).__getUID() < (<any>right).__getUID();
         else
             return left < right;
     }
 
-	export function hashCode(val: number): number;
-	export function hashCode(str: string): number;
-	export function hashCode(obj: Object): number;
-	export function hashCode(par: any): number;
-	
+	export function greater<T>(left: T, right: T): boolean
+	{
+		return !std.equals(left, right) && !std.less(left, right);
+	}
+
 	export function hashCode(par: any): number
 	{
 		return base.hash.code(par);
@@ -56,74 +59,32 @@
 	/**
 	 * Incremental sequence of unique id allocated to Object.
 	 */
-	export var __s_iUID: number = 0;
-}
+	var __s_iUID: number = 0;
 
-Object.defineProperties(Object.prototype,
-{
-	"__getUID":
+	Object.defineProperties(Object.prototype,
 	{
-		value: function (): number
+		"__getUID":
 		{
-			if (this.hasOwnProperty("__m_iUID") == false)
+			value: function (): number
 			{
-				var uid: number = std.__s_iUID++;
+				if (this.hasOwnProperty("__m_iUID") == false)
+				{
+					var uid: number = __s_iUID++;
 
-				Object.defineProperty
-				(
-					this, "__m_iUID",
-					{
-						"get": function (): number
+					Object.defineProperty
+						(
+						this, "__m_iUID",
 						{
-							return uid;
+							"get": function (): number
+							{
+								return uid;
+							}
 						}
-					}
-				);
+					);
+				}
+
+				return this.__m_iUID;
 			}
-
-			return this.__m_iUID;
 		}
-	}/*,
-
-	"equals": 
-	{
-		value: function (obj): boolean 
-		{
-			return this == obj;
-		}
-	},
-
-	"less":
-	{
-		value: function (obj): boolean
-		{
-			return this.__m_iUID < obj.__m_iUID;
-		}
-	},
-	
-	"hashCode":
-	{
-		value: function (obj): number
-		{
-			return this.__m_iUID;
-		}
-	}*/
-});
-
-(<any>Object).prototype.equals =
-    function (obj): boolean 
-    {
-        return this == obj;
-    };
-
-(<any>Object).prototype.less =
-    function (obj): boolean
-    {
-        return this.__getUID() < obj.__getUID();
-    };
-
-(<any>Object).prototype.hashCode =
-    function (): number
-    {
-        return this.__getUID();
-    };
+	});
+}
