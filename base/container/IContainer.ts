@@ -1,7 +1,7 @@
 namespace std.base.container
 {
-    export interface IContainer<T>
-    {
+	export interface IContainer<T>
+	{
 		/* ---------------------------------------------------------------
 			SEMI-CONSTRUCTORS
 		--------------------------------------------------------------- */
@@ -105,5 +105,5 @@ namespace std.base.container
 		 * call. This is the container end if the operation erased the last element in the sequence.
 		 */
 		erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
-    }
+	}
 }

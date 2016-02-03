@@ -1,4 +1,4 @@
-﻿/// <reference path="base/container/UniqueSet.ts" />
+/// <reference path="base/container/UniqueSet.ts" />
 
 namespace std
 {
@@ -19,81 +19,81 @@ namespace std
 	 *
 	 * <p> Sets are typically implemented as binary search trees. </p>
 	 *
-	  * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
-     * </ul>
+	 * <ul>
+	 *	<li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
+	 * </ul>
 	 *
 	 * @param <T> Type of the elements. 
-     *			  Each element in an <code>Set</code> is also uniquely identified by this value.
+	 *			  Each element in an <code>Set</code> is also uniquely identified by this value.
 	 *
 	 * @author Migrated by Jeongho Nam
 	 */
-    export class Set<T>
-        extends base.container.UniqueSet<T>
-    {
+	export class Set<T>
+		extends base.container.UniqueSet<T>
+	{
 		private tree: base.tree.AtomicTree<T>;
 
-        /* =========================================================
-		    CONSTRUCTORS & SEMI-CONSTRUCTORS
-                - CONSTRUCTORS
-                - ASSIGN & CLEAR
-	    ============================================================
-            CONSTURCTORS
-        --------------------------------------------------------- */
-        /**
-         * Default Constructor
-         */
-        public constructor();
+		/* =========================================================
+			CONSTRUCTORS & SEMI-CONSTRUCTORS
+				- CONSTRUCTORS
+				- ASSIGN & CLEAR
+		============================================================
+			CONSTURCTORS
+		--------------------------------------------------------- */
+		/**
+		 * Default Constructor
+		 */
+		public constructor();
 
-        public constructor(array: Array<T>);
+		public constructor(array: Array<T>);
 
-        public constructor(container: base.container.Container<T>);
+		public constructor(container: base.container.Container<T>);
 
-        public constructor(begin: Iterator<T>, end: Iterator<T>);
-        
-        public constructor(...args: any[])
-        {
-            super();
-
-			this.tree = new base.tree.AtomicTree<T>();
-        }
-
-        /* ---------------------------------------------------------
-		    ASSIGN & CLEAR
-	    --------------------------------------------------------- */
-        ///**
-        // * @inheritdoc
-        // */
-        //public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
-        //{
-        //    super.assign(begin, end);
-        //}
-
-        /**
-         * @inheritdoc
-         */
-        public clear(): void
-        {
-            super.clear();
-
-			this.tree = new base.tree.AtomicTree<T>();
-        }
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
 		
-        /* =========================================================
-		    ACCESSORS
-	    ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        public find(val: T): Iterator<T>
-        {
-            var node = this.tree.find(val);
+		public constructor(...args: any[])
+		{
+			super();
+
+			this.tree = new base.tree.AtomicTree<T>();
+		}
+
+		/* ---------------------------------------------------------
+			ASSIGN & CLEAR
+		--------------------------------------------------------- */
+		///**
+		// * @inheritdoc
+		// */
+		//public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
+		//{
+		//	super.assign(begin, end);
+		//}
+
+		/**
+		 * @inheritdoc
+		 */
+		public clear(): void
+		{
+			super.clear();
+
+			this.tree = new base.tree.AtomicTree<T>();
+		}
+		
+		/* =========================================================
+			ACCESSORS
+		========================================================= */
+		/**
+		 * @inheritdoc
+		 */
+		public find(val: T): Iterator<T>
+		{
+			var node = this.tree.find(val);
 
 			if (node == null || std.equals(node.value.value, val) == false)
 				return this.end();
 			else
 				return node.value;
-        }
+		}
 
 		public findNear(val: T): Iterator<T>
 		{
@@ -105,14 +105,14 @@ namespace std
 				return node.value;
 		}
 
-        /* =========================================================
-		    ELEMENTS I/O
+		/* =========================================================
+			ELEMENTS I/O
 				- INSERT
-                - POST-PROCESS
-	    ============================================================
-		    INSERT
-	    --------------------------------------------------------- */
-        protected insertByVal(val: T): any
+				- POST-PROCESS
+		============================================================
+			INSERT
+		--------------------------------------------------------- */
+		protected insertByVal(val: T): any
 		{
 			var node = this.tree.find(val);
 
@@ -137,22 +137,22 @@ namespace std
 		}
 
 		/* ---------------------------------------------------------
-		    POST-PROCESS
-	    --------------------------------------------------------- */
+			POST-PROCESS
+		--------------------------------------------------------- */
 		/**
-         * @inheritdoc
-         */
-        protected handleInsert(item: SetIterator<T>): void
-        {
-            this.tree.insert(item);
-        }
+		 * @inheritdoc
+		 */
+		protected handleInsert(item: SetIterator<T>): void
+		{
+			this.tree.insert(item);
+		}
 
-        /**
-         * @inheritdoc
-         */
-        protected handleErase(item: SetIterator<T>): void
-        {
-            this.tree.erase(item);
-        }
-    }
+		/**
+		 * @inheritdoc
+		 */
+		protected handleErase(item: SetIterator<T>): void
+		{
+			this.tree.erase(item);
+		}
+	}
 }

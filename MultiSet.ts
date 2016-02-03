@@ -1,4 +1,4 @@
-﻿/// <reference path="base/container/MultiSet.ts" />
+/// <reference path="base/container/MultiSet.ts" />
 
 namespace std
 {
@@ -8,19 +8,19 @@ namespace std
 		private tree: base.tree.AtomicTree<T>;
 
 		/* =========================================================
-		    CONSTRUCTORS & SEMI-CONSTRUCTORS
-                - CONSTRUCTORS
-                - ASSIGN & CLEAR
-	    ============================================================
-            CONSTURCTORS
-        --------------------------------------------------------- */
+			CONSTRUCTORS & SEMI-CONSTRUCTORS
+				- CONSTRUCTORS
+				- ASSIGN & CLEAR
+		============================================================
+			CONSTURCTORS
+		--------------------------------------------------------- */
 		public constructor();
 
-        public constructor(array: Array<T>);
+		public constructor(array: Array<T>);
 
-        public constructor(container: base.container.Container<T>);
+		public constructor(container: base.container.Container<T>);
 
-        public constructor(begin: Iterator<T>, end: Iterator<T>);
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -30,41 +30,41 @@ namespace std
 		}
 
 		/* ---------------------------------------------------------
-		    ASSIGN & CLEAR
-	    --------------------------------------------------------- */
-        ///**
-        // * @inheritdoc
-        // */
-        //public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
-        //{
-        //    super.assign(begin, end);
-        //}
+			ASSIGN & CLEAR
+		--------------------------------------------------------- */
+		///**
+		// * @inheritdoc
+		// */
+		//public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
+		//{
+		//	super.assign(begin, end);
+		//}
 
-        /**
-         * @inheritdoc
-         */
-        public clear(): void
-        {
-            super.clear();
+		/**
+		 * @inheritdoc
+		 */
+		public clear(): void
+		{
+			super.clear();
 
 			this.tree = new base.tree.AtomicTree<T>();
-        }
+		}
 
 		/* =========================================================
-		    ACCESSORS
-	    ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        public find(val: T): Iterator<T>
-        {
-            var node = this.tree.find(val);
+			ACCESSORS
+		========================================================= */
+		/**
+		 * @inheritdoc
+		 */
+		public find(val: T): Iterator<T>
+		{
+			var node = this.tree.find(val);
 
 			if (node == null || std.equals(val, node.value.value) == false)
 				return this.end();
 			else
 				return node.value;
-        }
+		}
 
 		public findNear(val: T): Iterator<T>
 		{
@@ -77,13 +77,13 @@ namespace std
 		}
 
 		/* =========================================================
-		    ELEMENTS I/O
+			ELEMENTS I/O
 				- INSERT
-                - POST-PROCESS
-	    ============================================================
-		    INSERT
-	    --------------------------------------------------------- */
-        protected insertByVal(val: T): any
+				- POST-PROCESS
+		============================================================
+			INSERT
+		--------------------------------------------------------- */
+		protected insertByVal(val: T): any
 		{
 			var node = this.tree.find(val);
 			var it: SetIterator<T>;
@@ -113,22 +113,22 @@ namespace std
 		}
 
 		/* ---------------------------------------------------------
-		    POST-PROCESS
-	    --------------------------------------------------------- */
+			POST-PROCESS
+		--------------------------------------------------------- */
 		/**
-         * @inheritdoc
-         */
-        protected handleInsert(item: SetIterator<T>): void
-        {
-            this.tree.insert(item);
-        }
+		 * @inheritdoc
+		 */
+		protected handleInsert(item: SetIterator<T>): void
+		{
+			this.tree.insert(item);
+		}
 
-        /**
-         * @inheritdoc
-         */
-        protected handleErase(item: SetIterator<T>): void
-        {
-            this.tree.erase(item);
-        }
+		/**
+		 * @inheritdoc
+		 */
+		protected handleErase(item: SetIterator<T>): void
+		{
+			this.tree.erase(item);
+		}
 	}
 }

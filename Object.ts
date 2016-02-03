@@ -1,4 +1,4 @@
-﻿namespace std
+namespace std
 {
 	/**
 	 * <p> For equality comparison. </p>
@@ -12,39 +12,39 @@
 	 *
 	 * @return Whether the arguments are equal.
 	 */
-    export function equals<T>(left: T, right: T): boolean
-    {
-        if (left instanceof Object && left.hasOwnProperty("equals"))
+	export function equals<T>(left: T, right: T): boolean
+	{
+		if (left instanceof Object && left.hasOwnProperty("equals"))
 			return (<any>left).equals(right);
-        else
-            return left == right;
-    }
+		else
+			return left == right;
+	}
 
-    /**
-     * <p> For less-than inequality comparison. </p>
-     *
-     * <p> Binary function returns whether the its first argument compares less than 
-     * the second. </p>
-     *
-     * <p> Objects of this class can be used on standard algorithms such as <code>sort</code>, <code>merge</code>. </p>
-     *
+	/**
+	 * <p> For less-than inequality comparison. </p>
+	 *
+	 * <p> Binary function returns whether the its first argument compares less than 
+	 * the second. </p>
+	 *
+	 * <p> Objects of this class can be used on standard algorithms such as <code>sort</code>, <code>merge</code>. </p>
+	 *
 	 * @param <T> Type of arguments to compare.
 	 *
-     * @param first First element, the standard of comparison.
-     * @param second Second element compare with the first.
-     *
-     * @return Whether the first parameter is less than the second.
-     */
-    export function less<T>(left: T, right: T): boolean
-    {
-        if (left instanceof Object)
+	 * @param first First element, the standard of comparison.
+	 * @param second Second element compare with the first.
+	 *
+	 * @return Whether the first parameter is less than the second.
+	 */
+	export function less<T>(left: T, right: T): boolean
+	{
+		if (left instanceof Object)
 			if (left.hasOwnProperty("less") == true)
 				return (<any>left).less(right);
 			else
 				return (<any>left).__getUID() < (<any>right).__getUID();
-        else
-            return left < right;
-    }
+		else
+			return left < right;
+	}
 
 	export function greater<T>(left: T, right: T): boolean
 	{

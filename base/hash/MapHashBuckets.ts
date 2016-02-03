@@ -1,4 +1,4 @@
-﻿/// <reference path="HashBuckets.ts" />
+/// <reference path="HashBuckets.ts" />
 
 namespace std.base.hash
 {
@@ -20,8 +20,8 @@ namespace std.base.hash
 			let bucket = this.at(index);
 
 			for (let i: number = 0; i < bucket.size(); i++)
-                if (std.equals(bucket.at(i).first, key))
-                    return bucket.at(i);
+				if (std.equals(bucket.at(i).first, key))
+					return bucket.at(i);
 
 			return this.map.end();
 		}

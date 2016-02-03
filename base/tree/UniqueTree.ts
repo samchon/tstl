@@ -1,4 +1,4 @@
-﻿/// <reference path="XTree.ts" />
+/// <reference path="XTree.ts" />
 
 namespace std.base.tree
 {
@@ -6,8 +6,8 @@ namespace std.base.tree
 		extends XTree<SetIterator<T>>
 	{
 		/* ---------------------------------------------------------
-		    CONSTRUCTOR
-	    --------------------------------------------------------- */
+			CONSTRUCTOR
+		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
 		 */
@@ -53,8 +53,8 @@ namespace std.base.tree
 		}
 
 		/* ---------------------------------------------------------
-		    CONSTRUCTOR
-	    --------------------------------------------------------- */
+			CONSTRUCTOR
+		--------------------------------------------------------- */
 		public isEquals(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
 			return std.equals(left, right);

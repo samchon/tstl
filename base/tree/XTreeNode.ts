@@ -1,4 +1,4 @@
-﻿namespace std.base.tree
+namespace std.base.tree
 {
 	/**
 	 * Reference: http://jiniya.net/tt/444
@@ -14,8 +14,8 @@
 		public color: boolean;
 
 		/* ---------------------------------------------------------
-		    CONSTRUCTORS
-	    --------------------------------------------------------- */
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(value: T, color: boolean)
 		{
 			this.value = value;

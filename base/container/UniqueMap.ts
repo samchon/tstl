@@ -1,4 +1,4 @@
-﻿/// <reference path="MapContainer.ts" />
+/// <reference path="MapContainer.ts" />
 
 namespace std.base.container
 {
@@ -6,8 +6,8 @@ namespace std.base.container
 		extends MapContainer<K, T>
 	{
 		/* ---------------------------------------------------------
-		    CONSTRUCTORS
-	    --------------------------------------------------------- */
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
 		 */
@@ -25,8 +25,8 @@ namespace std.base.container
 		}
 
 		/* ---------------------------------------------------------
-		    ELEMENTS I/O
-	    --------------------------------------------------------- */
+			ELEMENTS I/O
+		--------------------------------------------------------- */
 		public insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
 
 		/**

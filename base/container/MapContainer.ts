@@ -1,4 +1,4 @@
-﻿namespace std.base.container
+namespace std.base.container
 {
 	export abstract class MapContainer<K, T>
 	{
@@ -25,7 +25,7 @@
 				this.insertByPair(items[i]);
 		}
 		protected constructByContainer(container: MapContainer<K, T>): void
-        {
+		{
 			this.constructByRange(container.begin(), container.end());
 		}
 		protected constructByRange(begin: MapIterator<K, T>, end: MapIterator<K, T>): void
@@ -49,7 +49,7 @@
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			// INSERT
-            for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equals(end) == false; it = it.next())
 				this.insertByPair(new Pair<K, T>(it.first, it.second));
 		}
 
@@ -136,10 +136,10 @@
 		 *
 		 * @return Whether the map has an item having the specified identifier.
 		 */
-        public has(key: K): boolean
-        {
-            return this.count(key) != 0;
-        }
+		public has(key: K): boolean
+		{
+			return this.count(key) != 0;
+		}
 
 		/**
 		 * <p> Count elements with a specific key. </p>
@@ -152,8 +152,8 @@
 		public abstract count(key: K): number;
 
 		/**
-         * Return the number of elements in the map.
-         */
+		 * Return the number of elements in the map.
+		 */
 		public size(): number
 		{
 			return this.data.size();
@@ -168,14 +168,14 @@
 		}
 		
 		/* =========================================================
-		    ELEMENTS I/O
-                - INSERT
-                - ERASE
-                - POST-PROCESS
-                - HASH CODE
-	    ============================================================
-		    INSERT
-	    --------------------------------------------------------- */
+			ELEMENTS I/O
+				- INSERT
+				- ERASE
+				- POST-PROCESS
+				- HASH CODE
+		============================================================
+			INSERT
+		--------------------------------------------------------- */
 		public insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
 		public insert<L extends K, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
@@ -194,94 +194,94 @@
 			{
 				return this.insertByRange(args[0], args[1]);
 			}
-        }
+		}
 
-        protected abstract insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
-        
-        private insertByHint(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>
-        {
-            // INSERT
-            let list_it: ListIterator<Pair<K, T>> = (<MapIterator<K, T>>hint).getListIterator();
+		protected abstract insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
+		
+		private insertByHint(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>
+		{
+			// INSERT
+			let list_it: ListIterator<Pair<K, T>> = (<MapIterator<K, T>>hint).getListIterator();
 
-            list_it = <ListIterator<Pair<K, T>>>
-                this.data.insert((<MapIterator<K, T>>hint).getListIterator(), pair);
+			list_it = <ListIterator<Pair<K, T>>>
+				this.data.insert((<MapIterator<K, T>>hint).getListIterator(), pair);
 
-            // POST-PROCESS
-            let it = new MapIterator<K, T>(this, list_it);
+			// POST-PROCESS
+			let it = new MapIterator<K, T>(this, list_it);
 
-            this.handleInsert(it);
+			this.handleInsert(it);
 
-            return it;
-        }
-        protected insertByRange<L extends K, U extends T>
-            (begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-        {
-            for (let it = begin; it.equals(end) == false; it = it.next())
-                this.insertByPair(new Pair<K, T>(it.first, it.second));
-        }
+			return it;
+		}
+		protected insertByRange<L extends K, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		{
+			for (let it = begin; it.equals(end) == false; it = it.next())
+				this.insertByPair(new Pair<K, T>(it.first, it.second));
+		}
 
-        /* ---------------------------------------------------------
-		    ERASE
-	    --------------------------------------------------------- */
-        public erase(key: K): number;
-        public erase(it: MapIterator<K, T>): MapIterator<K, T>;
-        public erase(begin: MapIterator<K, T>, end: MapIterator<K, T>): MapIterator<K, T>;
+		/* ---------------------------------------------------------
+			ERASE
+		--------------------------------------------------------- */
+		public erase(key: K): number;
+		public erase(it: MapIterator<K, T>): MapIterator<K, T>;
+		public erase(begin: MapIterator<K, T>, end: MapIterator<K, T>): MapIterator<K, T>;
 
-        public erase(...args: any[]): any 
-        {
-            if (args.length == 1)
+		public erase(...args: any[]): any 
+		{
+			if (args.length == 1)
 			{
-                if (args[0] instanceof MapIterator && args[0].getSource() == this)
-                    return this.eraseByIterator(args[0]);
-                else
-                    return this.eraseByKey(args[0]);
-            }
+				if (args[0] instanceof MapIterator && args[0].getSource() == this)
+					return this.eraseByIterator(args[0]);
+				else
+					return this.eraseByKey(args[0]);
+			}
 			else if (args.length == 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
-                return this.eraseByRange(args[0], args[1]);
-        }
+				return this.eraseByRange(args[0], args[1]);
+		}
 
-        private eraseByKey(key: K): number
-        {
-            let it = this.find(key);
-            if (it.equals(this.end()) == true)
-                return 0;
+		private eraseByKey(key: K): number
+		{
+			let it = this.find(key);
+			if (it.equals(this.end()) == true)
+				return 0;
 
-            this.eraseByIterator(it);
-            return 1;
-        }
-        private eraseByIterator(it: MapIterator<K, T>): MapIterator<K, T>
-        {
-            // ERASE
-            let listIterator = <ListIterator<Pair<K, T>>>
-                this.data.erase((<MapIterator<K, T>>it).getListIterator());
-            
-            // POST-PROCESS
-            this.handleErase(<MapIterator<K, T>>it);
+			this.eraseByIterator(it);
+			return 1;
+		}
+		private eraseByIterator(it: MapIterator<K, T>): MapIterator<K, T>
+		{
+			// ERASE
+			let listIterator = <ListIterator<Pair<K, T>>>
+				this.data.erase((<MapIterator<K, T>>it).getListIterator());
+			
+			// POST-PROCESS
+			this.handleErase(<MapIterator<K, T>>it);
 
-            return new MapIterator<K, T>(this, listIterator);;
-        }
-        private eraseByRange(begin: MapIterator<K, T>, end: MapIterator<K, T>): MapIterator<K, T>
-        {
-            // ERASE
-            let listIterator = <ListIterator<Pair<K, T>>>
-                this.data.erase
+			return new MapIterator<K, T>(this, listIterator);;
+		}
+		private eraseByRange(begin: MapIterator<K, T>, end: MapIterator<K, T>): MapIterator<K, T>
+		{
+			// ERASE
+			let listIterator = <ListIterator<Pair<K, T>>>
+				this.data.erase
 				(
-                    (<MapIterator<K, T>>begin).getListIterator(),
-                    (<MapIterator<K, T>>end).getListIterator()
+					(<MapIterator<K, T>>begin).getListIterator(),
+					(<MapIterator<K, T>>end).getListIterator()
 				);
-            
-            // POST-PROCESS
-            for (let it = begin; it.equals(this.end()) == false; it = it.next())
-                this.handleErase(<MapIterator<K, T>>it);
+			
+			// POST-PROCESS
+			for (let it = begin; it.equals(this.end()) == false; it = it.next())
+				this.handleErase(<MapIterator<K, T>>it);
 
-            return new MapIterator<K, T>(this, listIterator);
-        }
+			return new MapIterator<K, T>(this, listIterator);
+		}
 
-        /* ---------------------------------------------------------
-		    POST-PROCESS
-	    --------------------------------------------------------- */
-        protected abstract handleInsert(item: MapIterator<K, T>): void;
+		/* ---------------------------------------------------------
+			POST-PROCESS
+		--------------------------------------------------------- */
+		protected abstract handleInsert(item: MapIterator<K, T>): void;
 
-        protected abstract handleErase(item: MapIterator<K, T>): void;
+		protected abstract handleErase(item: MapIterator<K, T>): void;
 	}
 }

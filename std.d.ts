@@ -16,7 +16,7 @@ declare namespace std.base.container {
          * in the same order. </p>
          *
          * @param container Another Container object of the same type (with the same class template
-         *                  arguments T), whose contents are either copied or acquired.
+         *				  arguments T), whose contents are either copied or acquired.
          */
         constructor(container: IContainer<T>);
         /**
@@ -65,6 +65,35 @@ declare namespace std.base.container {
          * @inheritdoc
          */
         empty(): boolean;
+    }
+}
+declare namespace std.base.hash {
+    const MIN_SIZE: number;
+    const RATIO: number;
+    const MAX_RATIO: number;
+    function code(par: any): number;
+}
+declare namespace std.base.hash {
+    class HashBuckets<T> {
+        private matrix;
+        private itemSize_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Reserve the bucket size.
+         *
+         * @param size Number of bucket size to reserve.
+         */
+        reserve(size: any): void;
+        clear(): void;
+        size(): number;
+        itemSize(): number;
+        at(index: number): Vector<T>;
+        private hashIndex(val);
+        insert(val: T): void;
+        erase(val: T): void;
     }
 }
 declare namespace std.base.container {
@@ -270,6 +299,13 @@ declare namespace std.base.container {
         protected abstract handleErase(item: MapIterator<K, T>): void;
     }
 }
+declare namespace std.base.hash {
+    class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
+        private map;
+        constructor(map: container.MapContainer<K, T>);
+        find(key: K): MapIterator<K, T>;
+    }
+}
 declare namespace std.base.container {
     abstract class MultiMap<K, T> extends MapContainer<K, T> {
         /**
@@ -327,7 +363,7 @@ declare namespace std.base.container {
          * @param key Key to be searched for.
          *
          * @return An iterator to the element, if the specified value is found,
-         *         or <code>end()</code> if it is not found in the container.
+         *		 or <code>end()</code> if it is not found in the container.
          */
         abstract find(val: T): Iterator<T>;
         /**
@@ -371,7 +407,7 @@ declare namespace std.base.container {
          * @param key Value to be inserted as an elements.
          *
          * @return An iterator pointing to either the newly inserted element or
-         *         to the element that already had its same value in the set.
+         *		 to the element that already had its same value in the set.
          */
         insert(hint: Iterator<T>, val: T): Iterator<T>;
         /**
@@ -429,75 +465,6 @@ declare namespace std.base.container {
         insert(val: T): Iterator<T>;
         insert(hint: Iterator<T>, val: T): Iterator<T>;
         insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
-    }
-}
-declare namespace std.base.container {
-    abstract class UniqueMap<K, T> extends MapContainer<K, T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        count(key: K): number;
-        insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
-        /**
-         * @inheritdoc
-         */
-        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
-        /**
-         * @inheritdoc
-         */
-        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
-    }
-}
-declare namespace std.base.container {
-    abstract class UniqueSet<T> extends SetContainer<T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        count(key: T): number;
-        insert(val: T): Pair<Iterator<T>, boolean>;
-        insert(hint: Iterator<T>, val: T): Iterator<T>;
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
-    }
-}
-declare namespace std.base.hash {
-    const MIN_SIZE: number;
-    const RATIO: number;
-    const MAX_RATIO: number;
-    function code(par: any): number;
-}
-declare namespace std.base.hash {
-    class HashBuckets<T> {
-        private matrix;
-        private itemSize_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Reserve the bucket size.
-         *
-         * @param size Number of bucket size to reserve.
-         */
-        reserve(size: any): void;
-        clear(): void;
-        size(): number;
-        itemSize(): number;
-        at(index: number): Vector<T>;
-        private hashIndex(val);
-        insert(val: T): void;
-        erase(val: T): void;
-    }
-}
-declare namespace std.base.hash {
-    class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
-        private map;
-        constructor(map: container.MapContainer<K, T>);
-        find(key: K): MapIterator<K, T>;
     }
 }
 declare namespace std.base.hash {
@@ -587,6 +554,39 @@ declare namespace std.base.tree {
         sibling: XTreeNode<T>;
         uncle: XTreeNode<T>;
         debug(header?: string, level?: number): void;
+    }
+}
+declare namespace std.base.container {
+    abstract class UniqueMap<K, T> extends MapContainer<K, T> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        count(key: K): number;
+        insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
+        /**
+         * @inheritdoc
+         */
+        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
+        /**
+         * @inheritdoc
+         */
+        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+    }
+}
+declare namespace std.base.container {
+    abstract class UniqueSet<T> extends SetContainer<T> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        count(key: T): number;
+        insert(val: T): Pair<Iterator<T>, boolean>;
+        insert(hint: Iterator<T>, val: T): Iterator<T>;
+        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
     }
 }
 declare namespace std {
@@ -934,8 +934,8 @@ declare namespace std {
          * <p> The arguments determine how many elements are inserted and to which values they are initialized. </p>
          *
          * @param position Position in the container where the new element is inserted.
-         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *                 type that points to elements.
+         *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *				 type that points to elements.
          * @param val Value to be inserted as an element.
          *
          * @return An iterator that points to the newly inserted element <code>val</code>.
@@ -945,8 +945,8 @@ declare namespace std {
          * <p> Insert elements by repeated filling. </p>
          *
          * @param position Position in the container where the new elements are inserted.
-         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *                 type that points to elements.
+         *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *				 type that points to elements.
          * @param size Number of elements to insert.
          * @param val Value to be inserted as an element.
          *
@@ -956,8 +956,8 @@ declare namespace std {
         /**
          *
          * @param position Position in the container where the new elements are inserted.
-         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *                 type that points to elements.
+         *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *				 type that points to elements.
          * @param begin An iterator specifying range of the begining element.
          * @param end An iterator specifying range of the ending element.
          *
@@ -1260,8 +1260,8 @@ declare namespace std {
      *
      * <p> Sets are typically implemented as binary search trees. </p>
      *
-      * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
+     * <ul>
+     *	<li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
      * </ul>
      *
      * @param <T> Type of the elements.

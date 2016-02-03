@@ -1,4 +1,4 @@
-﻿namespace std
+namespace std
 {
 	export class MapIterator<K, T>
 	{
@@ -35,7 +35,7 @@
 		/**
 		 * Get iterator to previous element.
 		 */
-        public prev(): MapIterator<K, T>
+		public prev(): MapIterator<K, T>
 		{
 			return new MapIterator<K, T>
 			(
@@ -44,10 +44,10 @@
 			);
 		}
 
-        /**
-         * Get iterator to next element.
-         */
-        public next(): MapIterator<K, T>
+		/**
+		 * Get iterator to next element.
+		 */
+		public next(): MapIterator<K, T>
 		{
 			return new MapIterator<K, T>
 			(
@@ -99,7 +99,7 @@
 		{
 			return this.source;
 		}
-        
+		
 		/**
 		 * Get first, key element.
 		 */
@@ -126,8 +126,8 @@
 		}
 
 		/* ---------------------------------------------------------
-		    COMPARISONS
-	    --------------------------------------------------------- */
+			COMPARISONS
+		--------------------------------------------------------- */
 		public equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean 
 		{
 			return this.source == obj.source && this.listIterator == obj.listIterator;

@@ -1,4 +1,4 @@
-﻿/// <reference path="SetContainer.ts" />
+/// <reference path="SetContainer.ts" />
 
 namespace std.base.container
 {
@@ -6,8 +6,8 @@ namespace std.base.container
 		extends SetContainer<T>
 	{
 		/* =========================================================
-		    CONSTRUCTORS
-	    ========================================================= */
+			CONSTRUCTORS
+		========================================================= */
 		/**
 		 * Default Constructor.
 		 */
@@ -22,8 +22,8 @@ namespace std.base.container
 		}
 
 		/* =========================================================
-		    ELEMENTS I/O
-	    ========================================================= */
+			ELEMENTS I/O
+		========================================================= */
 		public insert(val: T): Pair<Iterator<T>, boolean>;
 
 		public insert(hint: Iterator<T>, val: T): Iterator<T>;
