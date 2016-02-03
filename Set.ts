@@ -95,6 +95,16 @@ namespace std
 				return node.value;
         }
 
+		public findNear(val: T): Iterator<T>
+		{
+			var node = this.tree.find(val);
+
+			if (node == null)
+				return this.end();
+			else
+				return node.value;
+		}
+
         /* =========================================================
 		    ELEMENTS I/O
 				- INSERT

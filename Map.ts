@@ -68,6 +68,16 @@ namespace std
 				return node.value;
         }
 
+		public findNear(key: K): MapIterator<K, T>
+		{
+			var node = this.tree.find(key);
+
+			if (node == null)
+				return this.end();
+			else
+				return node.value;
+		}
+
         /* =========================================================
 		    ELEMENTS I/O
 				- INSERT
