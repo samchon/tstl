@@ -1,5 +1,17 @@
 namespace std.base.container
 {
+	/**
+	 * <p> An interface of container. </p>
+	 *
+	 * <p> <code>IContainer</code> is an interface designed for sequence containers. Sequence containers of STL
+	 * (Standard Template Library) are based on the <code>IContainer</code>. </p>
+	 *
+	 * 
+	 *
+	 * @param <T> Type of elements.
+	 *
+	 * @author Jeongho Nam
+	 */
 	export interface IContainer<T>
 	{
 		/* ---------------------------------------------------------------
@@ -60,11 +72,19 @@ namespace std.base.container
 
 		/**
 		 * Return the number of elements in the Container.
+		 *
+		 * @return The number of elements in the container.
 		 */
 		size(): number;
 
 		/**
-		 * Test whether the Container is empty.
+		 * <p> Test whether the container is empty. </p>
+		 * <p> Returns whether the container is empty (i.e. whether its size is 0). </p>
+		 *
+		 * <p> This function does not modify the container in any way. To clear the content of the container,
+		 * see <code>clear()</code>. </p>
+		 *
+		 * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
 		 */
 		empty(): boolean;
 
@@ -104,6 +124,6 @@ namespace std.base.container
 		 * @return An iterator pointing to the element that followed the last element erased by the function 
 		 * call. This is the container end if the operation erased the last element in the sequence.
 		 */
-		erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+		erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
 	}
 }

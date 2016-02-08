@@ -28,10 +28,10 @@ namespace std
 	 * of small-sized elements). </p>
 	 *
 	 * <ul>
-	 *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/list/list/
+	 *  <li> Reference: http://www.cplusplus.com/reference/list/list/
 	 * </ul>
 	 *
-	 * @author Migrated by Jeongho Nam
+	 * @author Jeongho Nam
 	 */
 	export class List<T>
 		extends base.container.Container<T>
@@ -85,33 +85,38 @@ namespace std
 		 * @param begin
 		 * @param end
 		 */
-		public constructor(begin: Iterator<T>, end: Iterator<T>);
+		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 
 		public constructor(...args: any[])
 		{
 			super();
 
-			if (args.length == 0) {
+			if (args.length == 0) 
+			{
 				this.clear();
 			}
-			else if (args.length == 1 && args[0] instanceof Array) {
+			else if (args.length == 1 && args[0] instanceof Array) 
+			{
 				let array: Array<T> = args[0];
 
 				this.clear();
 				this.push(...array);
 			}
-			else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.container.Container)) {
+			else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.container.Container)) 
+			{
 				let container: base.container.IContainer<T> = args[0];
 
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator) {
-				let begin: Iterator<T> = args[0];
-				let end: Iterator<T> = args[1];
+			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator) 
+			{
+				let begin: base.container.Iterator<T> = args[0];
+				let end: base.container.Iterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
-			else if (args.length == 2 && typeof args[0] == "number") {
+			else if (args.length == 2 && typeof args[0] == "number")
+			{
 				let size: number = args[0];
 				let val: T = <T>args[1];
 
@@ -127,14 +132,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign(begin: Iterator<T>, end: Iterator<T>): void;
+		public assign(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
 
-		public assign(par1: number | Iterator<T>, par2: T | Iterator<T>): void
+		public assign(par1: any, par2: any): void
 		{
-			if (par1 instanceof Iterator && par2 instanceof Iterator) {
+			if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator) {
 				// PARAMETERS
-				let begin: Iterator<T> = par1;
-				let end: Iterator<T> = par2;
+				let begin: base.container.Iterator<T> = par1;
+				let end: base.container.Iterator<T> = par2;
 
 				// BODY
 				let prev: ListIterator<T> = null;
@@ -142,15 +147,16 @@ namespace std
 
 				let it = begin;
 
-				while (true) {
+				while (true) 
+				{
 					// CONSTRUCT ELEMENT ITEM
 					item = new ListIterator<T>
-						(
+					(
 						this,
 						prev,
 						null,
 						(it != end ? it.value : null)
-						);
+					);
 
 					// SET PREVIOUS NEXT POINTER
 					if (prev != null)
@@ -192,7 +198,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public begin(): Iterator<T>
+		public begin(): ListIterator<T>
 		{
 			return this.begin_;
 		}
@@ -200,7 +206,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public end(): Iterator<T>
+		public end(): ListIterator<T>
 		{
 			return this.end_;
 		}
@@ -280,7 +286,8 @@ namespace std
 			// CONFIGURE BEGIN AND NEXT
 			this.begin_.setPrev(item);
 
-			if (this.size_ == 0) {
+			if (this.size_ == 0) 
+			{
 				// IT WAS EMPTY
 				this.end_ = new ListIterator(this, item, item, null);
 				item.setNext(this.end_);
@@ -359,7 +366,7 @@ namespace std
 		 *
 		 * @return An iterator that points to the newly inserted element <code>val</code>.
 		 */
-		public insert(position: Iterator<T>, val: T): Iterator<T>;
+		public insert(position: ListIterator<T>, val: T): ListIterator<T>;
 
 		/**
 		 * <p> Insert elements by repeated filling. </p> 
@@ -372,7 +379,7 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert(position: Iterator<T>, size: number, val: T): Iterator<T>;
+		public insert(position: ListIterator<T>, size: number, val: T): ListIterator<T>;
 
 		/**
 		 * 
@@ -384,9 +391,9 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert(position: Iterator<T>, begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+		public insert(position: ListIterator<T>, begin: base.container.Iterator<T>, end: base.container.Iterator<T>): ListIterator<T>;
 
-		public insert(...args: any[]): Iterator<T>
+		public insert(...args: any[]): ListIterator<T>
 		{
 			if (args.length = 2)
 				return this.insertByVal(args[0], args[1]);
@@ -396,12 +403,12 @@ namespace std
 				return this.insertByRange(args[0], args[1], args[2]);
 		}
 
-		private insertByVal(position: Iterator<T>, val: T): Iterator<T>
+		private insertByVal(position: ListIterator<T>, val: T): ListIterator<T>
 		{
 			// SHIFT TO INSERT OF THE REPEATING VAL
 			return this.insertByRepeatingVal(position, 1, val);
 		}
-		private insertByRepeatingVal(position: Iterator<T>, size: number, val: T): Iterator<T>
+		private insertByRepeatingVal(position: ListIterator<T>, size: number, val: T): ListIterator<T>
 		{
 			if (this != position.getSource())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
@@ -432,7 +439,8 @@ namespace std
 
 			return first;
 		}
-		private insertByRange(position: Iterator<T>, begin: Iterator<T>, end: Iterator<T>): Iterator<T>
+		private insertByRange(position: ListIterator<T>, 
+			begin: base.container.Iterator<T>, end: base.container.Iterator<T>): ListIterator<T>
 		{
 			if (this != position.getSource())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
@@ -442,7 +450,8 @@ namespace std
 
 			let size: number = 0;
 
-			for (let it = begin; it.equals(end) == false; it = it.next()) {
+			for (let it = begin; it.equals(end) == false; it = it.next()) 
+			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
 
@@ -473,25 +482,25 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public erase(it: Iterator<T>): Iterator<T>;
+		public erase(it: ListIterator<T>): ListIterator<T>;
 		
 		/**
 		 * @inheritdoc
 		 */
-		public erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+		public erase(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>;
 
-		public erase(...args: any[]): Iterator<T>
+		public erase(...args: any[]): ListIterator<T>
 		{
 			if (args.length == 1)
 				return this.eraseByIterator(args[0]);
 			else if (args.length == 2)
 				return this.eraseByRange(args[0], args[1]);
 		}
-		private eraseByIterator(it: Iterator<T>): Iterator<T>
+		private eraseByIterator(it: ListIterator<T>): ListIterator<T>
 		{
 			return this.eraseByRange(it, it.next());
 		}
-		private eraseByRange(begin: Iterator<T>, end: Iterator<T>): Iterator<T>
+		private eraseByRange(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>
 		{
 			if (this != begin.getSource() || begin.getSource() != end.getSource())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");

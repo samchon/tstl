@@ -20,15 +20,15 @@ namespace std
 	 * <p> Sets are typically implemented as binary search trees. </p>
 	 *
 	 * <ul>
-	 *	<li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
+	 *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
 	 * </ul>
 	 *
 	 * @param <T> Type of the elements. 
 	 *			  Each element in an <code>Set</code> is also uniquely identified by this value.
 	 *
-	 * @author Migrated by Jeongho Nam
+	 * @author Jeongho Nam
 	 */
-	export class Set<T>
+	export class TreeSet<T>
 		extends base.container.UniqueSet<T>
 	{
 		private tree: base.tree.AtomicTree<T>;
@@ -49,7 +49,7 @@ namespace std
 
 		public constructor(container: base.container.Container<T>);
 
-		public constructor(begin: Iterator<T>, end: Iterator<T>);
+		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 		
 		public constructor(...args: any[])
 		{
@@ -85,7 +85,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(val: T): Iterator<T>
+		public find(val: T): SetIterator<T>
 		{
 			var node = this.tree.find(val);
 
@@ -95,7 +95,7 @@ namespace std
 				return node.value;
 		}
 
-		public findNear(val: T): Iterator<T>
+		public findNear(val: T): SetIterator<T>
 		{
 			var node = this.tree.find(val);
 
@@ -118,22 +118,22 @@ namespace std
 
 			// IF EQUALS, THEN RETURN FALSE
 			if (node != null && std.equals(node.value.value, val) == true)
-				return new Pair<Iterator<T>, boolean>(node.value, false);
+				return new Pair<SetIterator<T>, boolean>(node.value, false);
 			
 			// INSERTS
 			var it: SetIterator<T>;
 
 			if (node == null)
-				it = <SetIterator<T>>this.end();
+				it = this.end();
 			else if (std.less(node.value.value, val) == true)
-				it = <SetIterator<T>>node.value.next();
+				it = node.value.next();
 			else
 				it = node.value;
 
 			// ITERATOR TO RETURN
-			it = <SetIterator<T>>this.insert(it, val);
+			it = this.insert(it, val);
 
-			return new Pair<Iterator<T>, boolean>(it, true);
+			return new Pair<SetIterator<T>, boolean>(it, true);
 		}
 
 		/* ---------------------------------------------------------

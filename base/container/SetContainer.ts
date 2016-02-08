@@ -123,22 +123,22 @@ namespace std.base.container
 		 * @return An iterator to the element, if the specified value is found, 
 		 *		 or <code>end()</code> if it is not found in the container.
 		 */
-		public abstract find(val: T): Iterator<T>;
+		public abstract find(val: T): SetIterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public begin(): Iterator<T>
+		public begin(): SetIterator<T>
 		{
-			return new SetIterator<T>(this, <ListIterator<T>>this.data.begin());
+			return new SetIterator<T>(this, this.data.begin());
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public end(): Iterator<T>
+		public end(): SetIterator<T>
 		{
-			return new SetIterator<T>(this, <ListIterator<T>>this.data.end());
+			return new SetIterator<T>(this, this.data.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -203,7 +203,7 @@ namespace std.base.container
 		 * @return An iterator pointing to either the newly inserted element or 
 		 *		 to the element that already had its same value in the set.
 		 */
-		public insert(hint: Iterator<T>, val: T): Iterator<T>;
+		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
 
 		/**
 		 * <p> Insert elements with a range of a container. </p>
@@ -245,10 +245,10 @@ namespace std.base.container
 
 		//	return new pair<iterator<t>, boolean>(it, true);
 		//}
-		private insertByHint(hint: SetIterator<T>, val: T): Iterator<T>
+		private insertByHint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
 			// INSERT
-			let listIterator = <ListIterator<T>>this.data.insert(hint.getListIterator(), val);
+			let listIterator = this.data.insert(hint.getListIterator(), val);
 			
 			// POST-PROCESS
 			let it = new SetIterator(this, listIterator);
@@ -280,7 +280,7 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public erase(it: Iterator<T>): Iterator<T>;
+		public erase(it: SetIterator<T>): SetIterator<T>;
 
 		/**
 		 * <p> Erase elements. </p>
@@ -291,7 +291,7 @@ namespace std.base.container
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
 		 */
-		public erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+		public erase(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>;
 
 		public erase(...args: any[]): any
 		{
@@ -315,29 +315,24 @@ namespace std.base.container
 			this.eraseByIterator(it);
 			return 1;
 		}
-		private eraseByIterator(it: Iterator<T>): Iterator<T>
+		private eraseByIterator(it: SetIterator<T>): SetIterator<T>
 		{
 			// ERASE
-			let listIterator = <ListIterator<T>>this.data.erase((<SetIterator<T>>it).getListIterator());
+			let listIterator = this.data.erase(it.getListIterator());
 			
 			// POST-PROCESS
-			this.handleErase(<SetIterator<T>>it);
+			this.handleErase(it);
 
 			return new SetIterator<T>(this, listIterator);
 		}
-		private eraseByRange(begin: Iterator<T>, end: Iterator<T>): Iterator<T>
+		private eraseByRange(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>
 		{
 			// ERASE
-			let listIterator = <ListIterator<T>>
-				this.data.erase
-				(
-					(<SetIterator<T>>begin).getListIterator(), 
-					(<SetIterator<T>>end).getListIterator()
-				);
+			let listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
 			
 			// POST-PROCESS
-			for (let it = begin; it.equals(this.end()) == false; it = it.next())
-				this.handleErase(<SetIterator<T>>it);
+			for (let it = begin; !it.equals(this.end()); it = it.next())
+				this.handleErase(it);
 
 			return begin.prev();
 		}

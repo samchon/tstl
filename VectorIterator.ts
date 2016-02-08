@@ -1,4 +1,4 @@
-/// <reference path="Iterator.ts" />
+/// <reference path="base/container/Iterator.ts" />
 
 namespace std
 {
@@ -10,7 +10,7 @@ namespace std
 	 * @author Jeongho Nam
 	 */
 	export class VectorIterator<T>
-		extends Iterator<T>
+		extends base.container.Iterator<T>
 	{
 		/**
 		 * <p> Sequence number of iterator in the source Vector. </p>
@@ -40,7 +40,7 @@ namespace std
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public get vector(): Vector<T>
+		private get vector(): Vector<T>
 		{
 			return <Vector<T>>this.source;
 		}
@@ -64,9 +64,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equals<U extends T>(obj: Iterator<U>): boolean
+		public equals<U extends T>(obj: VectorIterator<U>): boolean
 		{
-			return super.equals(obj) && this.index == (<VectorIterator<U>>obj).index;
+			return super.equals(obj) && this.index == obj.index;
 		}
 
 		/**
@@ -83,10 +83,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public prev(): Iterator<T>
+		public prev(): VectorIterator<T>
 		{
 			if (this.index <= 0)
-				return this.source.end();
+				return this.vector.end();
 			else
 				return new VectorIterator<T>(this.vector, this.index - 1);
 		}
@@ -94,10 +94,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public next(): Iterator<T>
+		public next(): VectorIterator<T>
 		{
 			if (this.index >= this.source.size() - 1)
-				return this.source.end();
+				return this.vector.end();
 			else
 				return new VectorIterator<T>(this.vector, this.index + 1);
 		}
@@ -105,12 +105,12 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public advance(n: number): Iterator<T>
+		public advance(n: number): VectorIterator<T>
 		{
 			let newIndex: number = this.index + n;
 
-			if (newIndex < 0 || newIndex >= this.source.size())
-				return this.source.end();
+			if (newIndex < 0 || newIndex >= this.vector.size())
+				return this.vector.end();
 			else
 				return new VectorIterator<T>(this.vector, newIndex);
 		}

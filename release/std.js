@@ -5,7 +5,11 @@ var std;
         var container;
         (function (container_1) {
             /**
-             * An abstract class containing elements.
+             * <p> An abstract container. </p>
+             *
+             *
+             *
+             * @param <T> Type of elements.
              *
              * @author Jeongho Nam
              */
@@ -19,7 +23,7 @@ var std;
                         var container_2 = args[0];
                         this.assign(container_2.begin(), container_2.end());
                     }
-                    else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+                    else if (args.length == 2 && args[0] instanceof container_1.Iterator && args[1] instanceof container_1.Iterator) {
                         var begin = args[0];
                         var end = args[1];
                         this.assign(begin, end);
@@ -41,6 +45,211 @@ var std;
             })();
             container_1.Container = Container;
         })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var container;
+        (function (container_3) {
+            /**
+             * <p> First-out container. </p>
+             *
+             * <p> <code>FOContainer</code> is an abstract class, a type of container adaptor, specifically designed to
+             * operate in a FIFO and LIFO, like <code>Queue</code> and <code>Stack</code>. </p>
+             *
+             * <p> <code>FOContainer</code>s are implemented as containers adaptors, which are classes that use an
+             * encapsulated object of a specific container class as its <i>underlying container</i>, providing a specific
+             * set of member functions to access its elements. Elements are pushed/popped from the <code>accessor</code>
+             * method of the (derived) specific container. </p>
+             *
+             * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+             * By default, if no container class is specified for a particular <code>FOContainer</code> class
+             * instantiation, the standard container <code>List</code> is used. </p>
+             *
+             * @param <T> Type of elements.
+             *
+             * @author Jeongho Nam
+             */
+            var FOContainer = (function () {
+                function FOContainer(container) {
+                    if (container === void 0) { container = null; }
+                    this.data = new std.List();
+                    if (container != null)
+                        this.data.assign(container.data.begin(), container.data.end());
+                }
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Return size. </p>
+                 * <p> Returns the number of elements in the <code>FOStack</code>. </p>
+                 *
+                 * <p> This member function effectively calls member <code>size</code> of the
+                 * <i>underlying container</i> object. </p>
+                 *
+                 * @return The number of elements in the <i>underlying container</i>.
+                 */
+                FOContainer.prototype.size = function () {
+                    return this.data.size();
+                };
+                /**
+                 * <p> Test whether container is empty. </p>
+                 * <p> returns whether the <code>FOContainer</code> is empty: i.e. whether its <i>size</i> is zero. </p>
+                 *
+                 * <p> This member function efeectively calls member <code>empty()</code> of the
+                 * <i>underlying container</i> object. </p>
+                 *
+                 * @return <code>true</code> if the <i>underlying container</i>'s size is 0,
+                 *		   <code>false</code> otherwise. </p>
+                 */
+                FOContainer.prototype.empty = function () {
+                    return this.data.empty();
+                };
+                return FOContainer;
+            })();
+            container_3.FOContainer = FOContainer;
+        })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var system;
+        (function (system) {
+            /**
+             * <p> An abstract error instance. </p>
+             *
+             * <p> <code>ErrorInstance</code> is an abstract class of <code>ErrorCode</code> and <code>ErrorCondition</code>
+             * holding an error instance's identifier <code>value</code>, associated with a <code>category</code>. </p>
+             *
+             * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+             * represent possible results. These numerical values may carry essential information for a specific platform,
+             * but be non-portable from one platform to another. </p>
+             *
+             * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
+             * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
+             *
+             * <ul>
+             *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
+             *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
+             * </ul>
+             *
+             * @author Jeongho Nam
+             */
+            var ErrorInstance = (function () {
+                function ErrorInstance(val, category) {
+                    if (val === void 0) { val = 0; }
+                    if (category === void 0) { category = null; }
+                    this.assign(val, category);
+                }
+                /**
+                 * <p> Assign error instance. </p>
+                 *
+                 * <p> Assigns the <code>ErrorCode</code> object a value of val associated with the <code>ErrorCategory.</code> </p>
+                 *
+                 * @param val A numerical value identifying an error instance.
+                 * @param category A reference to an <code>ErrorCategory</code> object.
+                 */
+                ErrorInstance.prototype.assign = function (val, category) {
+                    this.category_ = category;
+                    this.value_ = val;
+                };
+                /**
+                 * <p> Clear error instance. </p>
+                 *
+                 * <p> Clears the value in the <code>ErrorCode</code> object so that it is set to a value of
+                 * <i>0</i> of the <code>ErrorCategory.systemCategory()</code> (indicating no error).
+                 */
+                ErrorInstance.prototype.clear = function () {
+                    this.value_ = 0;
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Get category. </p>
+                 *
+                 * <p> Returns a reference to the <code>ErrorCategory</code> associated with the <code>ErrorCode</code>
+                 * object. </p>
+                 *
+                 * @return A reference to a non-copyable object of a type derived from <code>ErrorCategory</code>.
+                 */
+                ErrorInstance.prototype.category = function () {
+                    return this.category_;
+                };
+                /**
+                 * <p> Error value. </p>
+                 *
+                 * <p> Returns the error value associated with the <code>ErrorCode</code> object. </p>
+                 *
+                 * @return The error value.
+                 */
+                ErrorInstance.prototype.value = function () {
+                    return this.value_;
+                };
+                /**
+                 * <p> Get message. </p>
+                 *
+                 * <p> Returns the message associated with the error instance. </p>
+                 *
+                 * <p> Error messages are defined by the <code>category</code> the error instance belongs to. </p>
+                 *
+                 * <p> This function returns the same as if the following member was called: </p>
+                 *
+                 * <p> <code>category().message(value())</code> </p>
+                 *
+                 * @return A <code>string</code> object with the message associated with the <code>ErrorCode</code>.
+                 */
+                ErrorInstance.prototype.message = function () {
+                    if (this.category_ == null || this.value_ == 0)
+                        return "";
+                    else
+                        return this.category_.message(this.value_);
+                };
+                /**
+                 * <p> Default error condition. </p>
+                 *
+                 * <p> Returns the default <code>ErrorCondition</code> object associated with the <code>ErrorCode</code>
+                 * object. </p>
+                 *
+                 * <p> This function returns the same as if the following member was called: </p>
+                 *
+                 * <p> <code>category().default_error_condition(value())</code> </p>
+                 *
+                 * <p> <code>ErrorCategory.defaultErrorCondition()</code> is a virtual member function, that can operate
+                 * differently for each category. </p>
+                 *
+                 * @return An <code>ErrorCondition</code> object that corresponds to the <code>ErrorCode</code> object.
+                 */
+                ErrorInstance.prototype.defaultErrorCondition = function () {
+                    if (this.category_ == null || this.value_ == 0)
+                        return null;
+                    else
+                        return this.category_.defaultErrorCondition(this.value_);
+                };
+                /* ---------------------------------------------------------
+                    OPERATORS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Convert to bool. </p>
+                 *
+                 * <p> Returns whether the error instance has a numerical <code>value</code> other than 0. </p>
+                 *
+                 * If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true.
+                 *
+                 * @return <code>true</code> if the error's numerical value is not zero.
+                 *		   <code>false</code> otherwise.
+                 */
+                ErrorInstance.prototype.toBoolean = function () {
+                    return this.value_ != 0;
+                };
+                return ErrorInstance;
+            })();
+            system.ErrorInstance = ErrorInstance;
+        })(system = base.system || (base.system = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
@@ -104,48 +313,48 @@ var std;
                 HashBuckets.prototype.reserve = function (size) {
                     if (size < hash.MIN_SIZE)
                         size = hash.MIN_SIZE;
-                    var prevMatrix = this.matrix;
-                    this.matrix = new std.Vector();
+                    var prevMatrix = this.buckets;
+                    this.buckets = new std.Vector();
                     for (var i = 0; i < size; i++)
-                        this.matrix.pushBack(new std.Vector());
+                        this.buckets.pushBack(new std.Vector());
                     for (var i = 0; i < prevMatrix.size(); i++)
                         for (var j = 0; j < prevMatrix.at(i).size(); j++) {
                             var val = prevMatrix.at(i).at(j);
-                            this.matrix.at(this.hashIndex(val)).pushBack(val);
+                            this.buckets.at(this.hashIndex(val)).pushBack(val);
                             this.itemSize_++;
                         }
                 };
                 HashBuckets.prototype.clear = function () {
-                    this.matrix = new std.Vector();
+                    this.buckets = new std.Vector();
                     this.itemSize_ = 0;
                     for (var i = 0; i < hash.MIN_SIZE; i++)
-                        this.matrix.pushBack(new std.Vector());
+                        this.buckets.pushBack(new std.Vector());
                 };
                 /* ---------------------------------------------------------
                     ACCESSORS
                 --------------------------------------------------------- */
                 HashBuckets.prototype.size = function () {
-                    return this.matrix.size();
+                    return this.buckets.size();
                 };
                 HashBuckets.prototype.itemSize = function () {
                     return this.itemSize_;
                 };
                 HashBuckets.prototype.at = function (index) {
-                    return this.matrix.at(index);
+                    return this.buckets.at(index);
                 };
                 HashBuckets.prototype.hashIndex = function (val) {
-                    return hash.code(val) % this.matrix.size();
+                    return hash.code(val) % this.buckets.size();
                 };
                 /* ---------------------------------------------------------
                     ELEMENTS I/O
                 --------------------------------------------------------- */
                 HashBuckets.prototype.insert = function (val) {
-                    this.matrix.at(this.hashIndex(val)).pushBack(val);
-                    if (++this.itemSize_ > this.matrix.size() * hash.MAX_RATIO)
+                    this.buckets.at(this.hashIndex(val)).pushBack(val);
+                    if (++this.itemSize_ > this.buckets.size() * hash.MAX_RATIO)
                         this.reserve(this.itemSize_ * hash.RATIO);
                 };
                 HashBuckets.prototype.erase = function (val) {
-                    var hashes = this.matrix.at(this.hashIndex(val));
+                    var hashes = this.buckets.at(this.hashIndex(val));
                     for (var i = 0; i < hashes.size(); i++)
                         if (hashes.at(i) == val) {
                             hashes.splice(i, 1);
@@ -164,7 +373,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container_3) {
+        (function (container_4) {
             var MapContainer = (function () {
                 /* =========================================================
                     CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -341,7 +550,7 @@ var std;
                 };
                 return MapContainer;
             })();
-            container_3.MapContainer = MapContainer;
+            container_4.MapContainer = MapContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -426,7 +635,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container_4) {
+        (function (container_5) {
             /**
              * Abstract Set.
              *
@@ -548,8 +757,8 @@ var std;
                     }
                     if (args.length == 1)
                         return this.insertByVal(args[0]);
-                    else if (args.length == 2 && args[0] instanceof std.Iterator) {
-                        if (args[1] instanceof std.Iterator && args[0].getSource() != this && args[1].getSource() != this)
+                    else if (args.length == 2 && args[0] instanceof container_5.Iterator) {
+                        if (args[1] instanceof container_5.Iterator && args[0].getSource() != this && args[1].getSource() != this)
                             return this.insertByRange(args[0], args[1]);
                         else
                             return this.insertByHint(args[0], args[1]);
@@ -585,11 +794,11 @@ var std;
                         args[_i - 0] = arguments[_i];
                     }
                     if (args.length == 1)
-                        if (args[0] instanceof std.Iterator && args[0].getSource() == this)
+                        if (args[0] instanceof container_5.Iterator && args[0].getSource() == this)
                             return this.eraseByIterator(args[0]);
                         else
                             return this.eraseByKey(args[0]);
-                    else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator)
+                    else if (args.length == 2 && args[0] instanceof container_5.Iterator && args[1] instanceof container_5.Iterator)
                         return this.eraseByRange(args[0], args[1]);
                 };
                 SetContainer.prototype.eraseByKey = function (val) {
@@ -612,13 +821,13 @@ var std;
                     // ERASE
                     var listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
                     // POST-PROCESS
-                    for (var it = begin; it.equals(this.end()) == false; it = it.next())
+                    for (var it = begin; !it.equals(this.end()); it = it.next())
                         this.handleErase(it);
                     return begin.prev();
                 };
                 return SetContainer;
-            })(container_4.Container);
-            container_4.SetContainer = SetContainer;
+            })(container_5.Container);
+            container_5.SetContainer = SetContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -1242,6 +1451,75 @@ var std;
 })(std || (std = {}));
 var std;
 (function (std) {
+    /**
+     * <p> Error category. </p>
+     *
+     * <p> This type serves as a base class for specific category types. </p>
+     *
+     * <p> Category types are used to identify the source of an error. They also define the relation between
+     * <code>ErrorCode</code> and <code>ErrorCondition</code> objects of its category, as well as the message
+     * set for <code>ErrorCode</code> objects.
+     *
+     * <p> Objects of these types have no distinct values and are not-copyable and not-assignable, and thus can
+     * only be passed by reference. As such, only one object of each of these types shall exist, each uniquely
+     * identifying its own category: all error codes and conditions of a same category shall return a reference
+     * to same object. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    var ErrorCategory = (function () {
+        /* ---------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------- */
+        /**
+         * Default Constructor.
+         */
+        function ErrorCategory() {
+        }
+        /* ---------------------------------------------------------
+            OPERATORS
+        --------------------------------------------------------- */
+        /**
+         * <p> Default error condition. </p>
+         *
+         * <p> Returns the default <code>ErrorCondition</code> object of this category that is associated with
+         * the <code>ErrorCode</code> identified by a value of <i>val</i>. </p>
+         *
+         * <p> Its definition in the base class <code>ErrorCategory</code> returns the same as constructing an
+         * <code>ErrorCondition</code> object with:
+         *
+         * <p> <code>ErrorCondition (val, *this);</code> </p>
+         *
+         * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
+         *
+         * <p> This function is called by the default definition of member <code>equivalent()</code>, which is
+         * used to compare <code>error conditions</code> with error codes. </p>
+         *
+         * @param val A numerical value identifying an error condition.
+         *
+         * @return The default <code>ErrorCondition</code> object associated with condition value <i>val</i>
+         *		   for this category.
+         */
+        ErrorCategory.prototype.defaultErrorCondition = function (val) {
+            return null;
+        };
+        ErrorCategory.prototype.equivalent = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            return false;
+        };
+        return ErrorCategory;
+    })();
+    std.ErrorCategory = ErrorCategory;
+})(std || (std = {}));
+var std;
+(function (std) {
     var example;
     (function (example) {
         var ContainerTest = (function () {
@@ -1274,7 +1552,7 @@ var std;
             ContainerTest.prototype.testUnorderedSet = function () {
                 document.write("<h4> UnorderedSet </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.MultiSet();
+                var container = new std.UnorderedMultiSet();
                 for (var i = 0; i < 10; i++)
                     container.insert(i);
                 // ELEMENTS I/O
@@ -1353,16 +1631,17 @@ var std;
     ========================================================= */
     /**
      * <p> Standard exception class. </p>
+     *
      * <p> Base class for standard exceptions. </p>
      *
      * <p> All objects thrown by components of the standard library are derived from this class.
      * Therefore, all standard exceptions can be caught by catching this type by reference. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/exception/exception/
+     *  <li> Reference: http://www.cplusplus.com/reference/exception/exception/
      * </ul>
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var Exception = (function () {
         function Exception(what) {
@@ -1401,45 +1680,131 @@ var std;
      * <p> It is used as a base class for several logical error exceptions. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/stdexcept/logic_error/
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/logic_error/
      * </ul>
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var LogicError = (function (_super) {
         __extends(LogicError, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function LogicError(what) {
             _super.call(this, what);
         }
         return LogicError;
     })(Exception);
     std.LogicError = LogicError;
+    /**
+     * <p> Domain error exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to report domain errors. </p>
+     *
+     * <p> Generally, the domain of a mathematical function is the subset of values that it is defined for.
+     * For example, the square root function is only defined for non-negative numbers. Thus, a negative number
+     * for such a function would qualify as a domain error. </p>
+     *
+     * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
+     * exception to be thrown by programs. </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/domain_error/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
     var DomainError = (function (_super) {
         __extends(DomainError, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function DomainError(what) {
             _super.call(this, what);
         }
         return DomainError;
     })(LogicError);
     std.DomainError = DomainError;
+    /**
+     * <p> Invalid argument exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to report an invalid argument. </p>
+     *
+     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
+     * also throw exceptions of this type to signal invalid arguments. </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/invalid_argument/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
     var InvalidArgument = (function (_super) {
         __extends(InvalidArgument, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function InvalidArgument(what) {
             _super.call(this, what);
         }
         return InvalidArgument;
     })(LogicError);
     std.InvalidArgument = InvalidArgument;
+    /**
+     * <p> Length error exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to report a length error. </p>
+     *
+     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library,
+     * such as vector and string also throw exceptions of this type to signal errors resizing. </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/length_error/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
     var LengthError = (function (_super) {
         __extends(LengthError, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function LengthError(what) {
             _super.call(this, what);
         }
         return LengthError;
     })(LogicError);
     std.LengthError = LengthError;
+    /**
+     * <p> Out-of-range exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to report an out-of-range error. </p>
+     *
+     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library,
+     * such as vector, deque, string and bitset also throw exceptions of this type to signal arguments
+     * out of range. </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/out_of_range/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
     var OutOfRange = (function (_super) {
         __extends(OutOfRange, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function OutOfRange(what) {
             _super.call(this, what);
         }
@@ -1462,144 +1827,205 @@ var std;
      * <p> It is used as a base class for several runtime error exceptions. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/stdexcept/runtime_error/
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/runtime_error/
      * </ul>
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var RuntimeError = (function (_super) {
         __extends(RuntimeError, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function RuntimeError(what) {
             _super.call(this, what);
         }
         return RuntimeError;
     })(Exception);
     std.RuntimeError = RuntimeError;
+    /**
+     * <p> Overflow error exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to arithmetic overflow errors. </p>
+     *
+     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
+     * also throw exceptions of this type to signal range errors. </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/outflow_error/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
     var OverflowError = (function (_super) {
         __extends(OverflowError, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function OverflowError(what) {
             _super.call(this, what);
         }
         return OverflowError;
     })(RuntimeError);
     std.OverflowError = OverflowError;
+    /**
+     * <p> Underflow error exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to arithmetic underflow errors. </p>
+     *
+     * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
+     * exception to be thrown by programs. </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/underflow_error/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
     var UnderflowError = (function (_super) {
         __extends(UnderflowError, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function UnderflowError(what) {
             _super.call(this, what);
         }
         return UnderflowError;
     })(RuntimeError);
     std.UnderflowError = UnderflowError;
+    /**
+     * <p> Range error exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to report range errors in internal
+     * computations. </p>
+     *
+     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
+     * also throw exceptions of this type to signal range errors. </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/range_error/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
     var RangeError = (function (_super) {
         __extends(RangeError, _super);
+        /**
+         * <p> Construct from a message. </p>
+         *
+         * @param message A message representing specification about the Exception.
+         */
         function RangeError(what) {
             _super.call(this, what);
         }
         return RangeError;
     })(RuntimeError);
     std.RangeError = RangeError;
-    var SystemError = (function (_super) {
-        __extends(SystemError, _super);
-        function SystemError(what) {
-            _super.call(this, what);
-        }
-        return SystemError;
-    })(RuntimeError);
-    std.SystemError = SystemError;
 })(std || (std = {}));
 var std;
 (function (std) {
-    var Iterator = (function () {
-        /* ---------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------- */
-        /**
-         * Construct from the source Container.
-         *
-         * @param source The source Container.
-         */
-        function Iterator(source) {
-            this.source = source;
-        }
-        /**
-         * Advances the Iterator by n element positions.
-         *
-         * @param n Number of element positions to advance.
-         * @return An advanced Iterator.
-         */
-        Iterator.prototype.advance = function (n) {
-            var it = this;
-            var i;
-            if (n >= 0) {
-                for (i = 0; i < n; i++)
-                    if (it.equals(this.source.end()))
-                        return this.source.end();
-                    else
-                        it = it.next();
-            }
-            else {
-                n = n * -1;
-                for (i = 0; i < n; i++)
-                    if (it.equals(this.source.end()))
-                        return this.source.end();
-                    else
-                        it = it.prev();
-            }
-            return it;
-        };
-        /* ---------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------- */
-        /**
-         * Get source.
-         */
-        Iterator.prototype.getSource = function () {
-            return this.source;
-        };
-        /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         *
-         * <h4> Note </h4>
-         *
-         * <p> Iterator's equals() only compare souce map and index number. </p>
-         *
-         * <p> Although elements in a pair, key and value are equals, if the source map or
-         * index number is different, then the equals() will return false. If you want to
-         * compare the elements of a pair, compare them directly by yourself. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
-         */
-        Iterator.prototype.equals = function (obj) {
-            return this.source == obj.source;
-        };
-        Object.defineProperty(Iterator.prototype, "value", {
-            /**
-             * <p> Get value of the iterator is pointing. </p>
-             *
-             * @return A value of the iterator.
-             */
-            get: function () {
-                throw new std.LogicError("Have to be overriden.");
-            },
-            /**
-             * <p> Set value of the iterator is pointing. </p>
-             *
-             * @param val A new value of the iterator.
-             */
-            set: function (val) {
-                throw new std.LogicError("Have to be overriden.");
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Iterator;
-    })();
-    std.Iterator = Iterator;
+    var base;
+    (function (base) {
+        var container;
+        (function (container) {
+            var Iterator = (function () {
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Construct from the source Container.
+                 *
+                 * @param source The source Container.
+                 */
+                function Iterator(source) {
+                    this.source = source;
+                }
+                /**
+                 * Advances the Iterator by n element positions.
+                 *
+                 * @param n Number of element positions to advance.
+                 * @return An advanced Iterator.
+                 */
+                Iterator.prototype.advance = function (n) {
+                    var it = this;
+                    var i;
+                    if (n >= 0) {
+                        for (i = 0; i < n; i++)
+                            if (it.equals(this.source.end()))
+                                return this.source.end();
+                            else
+                                it = it.next();
+                    }
+                    else {
+                        n = n * -1;
+                        for (i = 0; i < n; i++)
+                            if (it.equals(this.source.end()))
+                                return this.source.end();
+                            else
+                                it = it.prev();
+                    }
+                    return it;
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * Get source.
+                 */
+                Iterator.prototype.getSource = function () {
+                    return this.source;
+                };
+                /**
+                 * <p> Whether an iterator is equal with the iterator. </p>
+                 *
+                 * <p> Compare two iterators and returns whether they are equal or not. </p>
+                 *
+                 *
+                 * <h4> Note </h4>
+                 *
+                 * <p> Iterator's equals() only compare souce map and index number. </p>
+                 *
+                 * <p> Although elements in a pair, key and value are equals, if the source map or
+                 * index number is different, then the equals() will return false. If you want to
+                 * compare the elements of a pair, compare them directly by yourself. </p>
+                 *
+                 * @param obj An iterator to compare
+                 * @return Indicates whether equal or not.
+                 */
+                Iterator.prototype.equals = function (obj) {
+                    return this.source == obj.source;
+                };
+                Object.defineProperty(Iterator.prototype, "value", {
+                    /**
+                     * <p> Get value of the iterator is pointing. </p>
+                     *
+                     * @return A value of the iterator.
+                     */
+                    get: function () {
+                        throw new std.LogicError("Have to be overriden.");
+                    },
+                    /**
+                     * <p> Set value of the iterator is pointing. </p>
+                     *
+                     * @param val A new value of the iterator.
+                     */
+                    set: function (val) {
+                        throw new std.LogicError("Have to be overriden.");
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                return Iterator;
+            })();
+            container.Iterator = Iterator;
+        })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="base/container/Container.ts" />
 var std;
@@ -1630,10 +2056,10 @@ var std;
      * of small-sized elements). </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/list/list/
+     *  <li> Reference: http://www.cplusplus.com/reference/list/list/
      * </ul>
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var List = (function (_super) {
         __extends(List, _super);
@@ -1655,7 +2081,7 @@ var std;
                 var container = args[0];
                 this.assign(container.begin(), container.end());
             }
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 var begin = args[0];
                 var end = args[1];
                 this.assign(begin, end);
@@ -1667,7 +2093,7 @@ var std;
             }
         }
         List.prototype.assign = function (par1, par2) {
-            if (par1 instanceof std.Iterator && par2 instanceof std.Iterator) {
+            if (par1 instanceof std.base.container.Iterator && par2 instanceof std.base.container.Iterator) {
                 // PARAMETERS
                 var begin = par1;
                 var end = par2;
@@ -1936,7 +2362,7 @@ var std;
     })(std.base.container.Container);
     std.List = List;
 })(std || (std = {}));
-/// <reference path="Iterator.ts" />
+/// <reference path="base/container/Iterator.ts" />
 var std;
 (function (std) {
     var ListIterator = (function (_super) {
@@ -1978,10 +2404,7 @@ var std;
          * @inheritdoc
          */
         ListIterator.prototype.equals = function (obj) {
-            if (obj instanceof ListIterator == false)
-                return false;
-            var it = obj;
-            return _super.prototype.equals.call(this, obj) == true && this.prev_ == it.prev_ && this.next_ == it.next_;
+            return _super.prototype.equals.call(this, obj) == true && this.prev_ == obj.prev_ && this.next_ == obj.next_;
         };
         /**
          * @inheritdoc
@@ -1994,6 +2417,15 @@ var std;
          */
         ListIterator.prototype.next = function () {
             return this.next_;
+        };
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.advance = function (size) {
+            var it = this;
+            for (var i = 0; i < size; i++)
+                it = it.next();
+            return it;
         };
         Object.defineProperty(ListIterator.prototype, "value", {
             /**
@@ -2012,7 +2444,7 @@ var std;
             configurable: true
         });
         return ListIterator;
-    })(std.Iterator);
+    })(std.base.container.Iterator);
     std.ListIterator = ListIterator;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueMap.ts" />
@@ -2544,6 +2976,227 @@ var std;
     })();
     std.Pair = Pair;
 })(std || (std = {}));
+/// <reference path="base/container/FOContainer.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> FIFO queue. </p>
+     *
+     * <p> <code>Queue</code>s are a type of container adaptor, specifically designed to operate in a FIFO
+     * context (first-in first-out), where elements are inserted into one end of the container and extracted
+     * from the other. </p>
+     *
+     * <p> <code>Queue</code>s are implemented as containers adaptors, which are classes that use an encapsulated
+     * object of a specific container class as its underlying container, providing a specific set of member
+     * functions to access its elements. Elements are pushed into the <code>back()</code> of the specific
+     * container and popped from its <code>front()</code>. </p>
+     *
+     * <p> The underlying container may be one of the standard container class template or some other specifically
+     * designed container class. This underlying container shall support at least the following operations: </p>
+     *
+     * <ul>
+     *	<li> empty </li>
+     *	<li> size </li>
+     *	<li> front </li>
+     *	<li> back </li>
+     *	<li> pushBack </li>
+     *	<li> popFront </li>
+     * </ul>
+     *
+     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+     * By default, if no container class is specified for a particular <code>Queue</code> class instantiation,
+     * the standard container <code>List</code> is used. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/queue/queue/ </li>
+     * </ul>
+     *
+     * @param <T> Type of elements.
+     *
+     * @author Jeongho Nam
+     */
+    var Queue = (function (_super) {
+        __extends(Queue, _super);
+        function Queue(container) {
+            if (container === void 0) { container = null; }
+            _super.call(this, container);
+        }
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
+        /**
+         * <p> Access next element. </p>
+         * <p> Returns a value of the next element in the <code>Queue</code>. </p>
+         *
+         * <p> The next element is the "oldest" element in the <code>Queue</code> and the same element that is
+         * popped out from the queue when <code>Queue::pop()</code> is called. </p>
+         *
+         * <p> This member function effectively calls <code>member()</code> front of the <i>underlying container</i> sobject. </p>
+         *
+         * @return A value of the next element in the <code>Queue</code>.
+         */
+        Queue.prototype.front = function () {
+            return this.data.front();
+        };
+        /**
+         * <p> Access last element. </p>
+         *
+         * <p> Returns a vaue of the last element in the queue. This is the "newest" element in the queue
+         * (i.e. the last element pushed into the queue). </p>
+         *
+         * <p> This member function effectively calls member <code>back()</code> of the
+         * <i>underlying container</i> object. </p>
+         *
+         * @return A value of the last element in the <code>Queue</code>.
+         */
+        Queue.prototype.back = function () {
+            return this.data.back();
+        };
+        /* ---------------------------------------------------------
+            ELEMENTS I/O
+        --------------------------------------------------------- */
+        /**
+         * <p> Insert element. </p>
+         *
+         * <p> Inserts a new element at the end of the <code>Queue</code>, after its current last element.
+         * The content of this new element is initialized to val. </p>
+         *
+         * <p> This member function effectively calls the member function <code>pushBack()</code> of the
+         * <i>underlying container</i> object. </p>
+         *
+         * @param val Value to which the inserted element is initialized.
+         */
+        Queue.prototype.push = function (val) {
+            this.data.pushBack(val);
+        };
+        /**
+         * <p> Remove next element. </p>
+         *
+         * <p> Removes the next element in the <code>Queue</code>, effectively reducing its size by one. </p>
+         *
+         * <p> The element removed is the "oldest" element in the <code>Queue</code> whose value can be retrieved
+         * by calling member <code>Queue::front()</code> </p>.
+         *
+         * <p> This member function effectively calls the member function <code>popFront()</code> of the
+         * <i>underlying container</i> object. </p>
+         */
+        Queue.prototype.pop = function () {
+            this.data.popFront();
+        };
+        return Queue;
+    })(std.base.container.FOContainer);
+    std.Queue = Queue;
+})(std || (std = {}));
+/// <reference path="Exception.ts" />
+/// <reference path="base/system/ErrorInstance.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> System error exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to report conditions originating during
+     * runtime from the operating system or other low-level application program interfaces which have an
+     * associated <code>ErrorCode</code>. </p>
+     *
+     * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as
+     * member code (and defines a specialized what member). </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    var SystemError = (function (_super) {
+        __extends(SystemError, _super);
+        function SystemError() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this, "");
+        }
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
+        /**
+         * <p> Get error code. </p>
+         *
+         * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
+         *
+         * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent
+         * (if constructed with a value and a <code>category</code>). </p>
+         *
+         * @return The <code>ErrorCode</code> associated with the object.
+         */
+        SystemError.prototype.code = function () {
+            return this.code_;
+        };
+        return SystemError;
+    })(std.RuntimeError);
+    std.SystemError = SystemError;
+    /**
+     * <p> Error code. </p>
+     *
+     * <p> Objects of this type hold an error code <code>value</code> associated with a <code>category</code>. </p>
+     *
+     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+     * represent possible results. These numerical values may carry essential information for a specific platform,
+     * but be non-portable from one platform to another. </p>
+     *
+     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
+     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    var ErrorCode = (function (_super) {
+        __extends(ErrorCode, _super);
+        function ErrorCode(val, category) {
+            if (val === void 0) { val = 0; }
+            if (category === void 0) { category = null; }
+            _super.call(this, val, category);
+        }
+        return ErrorCode;
+    })(std.base.system.ErrorInstance);
+    std.ErrorCode = ErrorCode;
+    /**
+     * <p> Error condition. </p>
+     *
+     * <p> Objects of this type hold a condition <code>value</code> associated with a <code>category</code>. </p>
+     *
+     * <p> Objects of this type describe errors in a generic way so that they may be portable across different
+     * systems. This is in contrast with <code>ErrorCode</code> objects, that may contain system-specific
+     * information. </p>
+     *
+     * <p> Because <code>ErrorCondition</code> objects can be compared with error_code objects directly by using
+     * <code>relational operators</code>, <code>ErrorCondition</code> objects are generally used to check whether
+     * a particular <code>ErrorCode</code> obtained from the system matches a specific error condition no matter
+     * the system. </p>
+     *
+     * <p> The <code>categories</code> associated with the <code>ErrorCondition</code> and the <code>ErrorCode</code>
+     * define the equivalences between them. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    var ErrorCondition = (function (_super) {
+        __extends(ErrorCondition, _super);
+        function ErrorCondition(val, category) {
+            if (val === void 0) { val = 0; }
+            if (category === void 0) { category = null; }
+            _super.call(this, val, category);
+        }
+        return ErrorCondition;
+    })(std.base.system.ErrorInstance);
+    std.ErrorCondition = ErrorCondition;
+})(std || (std = {}));
 /// <reference path="base/container/UniqueSet.ts" />
 var std;
 (function (std) {
@@ -2565,17 +3218,17 @@ var std;
      * <p> Sets are typically implemented as binary search trees. </p>
      *
      * <ul>
-     *	<li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
      * </ul>
      *
      * @param <T> Type of the elements.
      *			  Each element in an <code>Set</code> is also uniquely identified by this value.
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
-    var Set = (function (_super) {
-        __extends(Set, _super);
-        function Set() {
+    var TreeSet = (function (_super) {
+        __extends(TreeSet, _super);
+        function TreeSet() {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
@@ -2596,7 +3249,7 @@ var std;
         /**
          * @inheritdoc
          */
-        Set.prototype.clear = function () {
+        TreeSet.prototype.clear = function () {
             _super.prototype.clear.call(this);
             this.tree = new std.base.tree.AtomicTree();
         };
@@ -2606,14 +3259,14 @@ var std;
         /**
          * @inheritdoc
          */
-        Set.prototype.find = function (val) {
+        TreeSet.prototype.find = function (val) {
             var node = this.tree.find(val);
             if (node == null || std.equals(node.value.value, val) == false)
                 return this.end();
             else
                 return node.value;
         };
-        Set.prototype.findNear = function (val) {
+        TreeSet.prototype.findNear = function (val) {
             var node = this.tree.find(val);
             if (node == null)
                 return this.end();
@@ -2627,7 +3280,7 @@ var std;
         ============================================================
             INSERT
         --------------------------------------------------------- */
-        Set.prototype.insertByVal = function (val) {
+        TreeSet.prototype.insertByVal = function (val) {
             var node = this.tree.find(val);
             // IF EQUALS, THEN RETURN FALSE
             if (node != null && std.equals(node.value.value, val) == true)
@@ -2650,20 +3303,20 @@ var std;
         /**
          * @inheritdoc
          */
-        Set.prototype.handleInsert = function (item) {
+        TreeSet.prototype.handleInsert = function (item) {
             this.tree.insert(item);
         };
         /**
          * @inheritdoc
          */
-        Set.prototype.handleErase = function (item) {
+        TreeSet.prototype.handleErase = function (item) {
             this.tree.erase(item);
         };
-        return Set;
+        return TreeSet;
     })(std.base.container.UniqueSet);
-    std.Set = Set;
+    std.TreeSet = TreeSet;
 })(std || (std = {}));
-/// <refe0rence path="Iterator.ts" />
+/// <refe0rence path="base/container/Iterator.ts" />
 var std;
 (function (std) {
     /**
@@ -2697,7 +3350,7 @@ var std;
          * @inheritdoc
          */
         SetIterator.prototype.prev = function () {
-            return new SetIterator(this.source, this.listIterator.prev());
+            return new SetIterator(this.set, this.listIterator.prev());
         };
         /**
          * @inheritdoc
@@ -2709,12 +3362,19 @@ var std;
          * @inheritdoc
          */
         SetIterator.prototype.advance = function (size) {
-            return new SetIterator(this.source, this.listIterator.advance(size));
+            return new SetIterator(this.set, this.listIterator.advance(size));
         };
-        Object.defineProperty(SetIterator.prototype, "value", {
+        Object.defineProperty(SetIterator.prototype, "set", {
             /* ---------------------------------------------------------
                 ACCESSORS
             --------------------------------------------------------- */
+            get: function () {
+                return this.source;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SetIterator.prototype, "value", {
             /**
              * @inheritdoc
              */
@@ -2746,8 +3406,105 @@ var std;
             return std.base.hash.code(this.value);
         };
         return SetIterator;
-    })(std.Iterator);
+    })(std.base.container.Iterator);
     std.SetIterator = SetIterator;
+})(std || (std = {}));
+/// <reference path="base/container/FOContainer.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> LIFO stack. </p>
+     *
+     * <p> <code>Stack</code>s are a type of container adaptor, specifically designed to operate in a LIFO context
+     * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
+     *
+     * <p> <code>Stack</code>s are implemented as containers adaptors, which are classes that use an encapsulated
+     * object of a specific container class as its <i>underlying container</i>, providing a specific set of member
+     * functions to access its elements. Elements are pushed/popped from the <code>back()</code> of the specific
+     * container, which is known as the top of the <code>Stack</code>. </p>
+     *
+     * <p> The underlying container may be any of the standard container class templates or some other
+     * specifically designed container class. The container shall support the following operations: </p>
+     *
+     * <ul>
+     *	<li> empty </li>
+     *	<li> size </li>
+     *	<li> front </li>
+     *	<li> back </li>
+     *	<li> pushBack </li>
+     *	<li> popFront </li>
+     * </ul>
+     *
+     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+     * By default, if no container class is specified for a particular <code>Stack</code> class instantiation,
+     * the standard container <code>List</code> is used. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
+     * </ul>
+     *
+     * @param <T> Type of elements.
+     *
+     * @author Jeongho Nam
+     */
+    var Stack = (function (_super) {
+        __extends(Stack, _super);
+        function Stack(container) {
+            if (container === void 0) { container = null; }
+            _super.call(this, container);
+        }
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
+        /**
+         * <p> Access next element. </p>
+         *
+         * <p> Returns a value of the top element in the <code>Stack</code> </p>.
+         *
+         * <p> Since <code>Stack</code>s are last-in first-out containers, the top element is the last element
+         * inserted into the <code>Stack</code>. </p>
+         *
+         * <p> This member function effectively calls member <code>back()</code> of the
+         * <i>underlying container</i> object. </p>
+         *
+         * @return A value of the top element in the <code>Stack</code>.
+         */
+        Stack.prototype.top = function () {
+            return this.data.front();
+        };
+        /* ---------------------------------------------------------
+            ELEMENTS I/O
+        --------------------------------------------------------- */
+        /**
+         * <p> Insert element. </p>
+         *
+         * <p> Inserts a new element at the top of the <code>Stack</code>, above its current top element. </p>
+         *
+         * <p> This member function effectively calls the member function <code>pushBack()</code> of the
+         * <i>underlying container</i> object. </p>
+         *
+         * @param val Value to which the inserted element is initialized.
+         */
+        Stack.prototype.push = function (val) {
+            this.data.pushFront(val);
+        };
+        /**
+         * <p> Remove top element. </p>
+         *
+         * <p> Removes the element on top of the <code>Stack</code>, effectively reducing its size by one. </p>
+         *
+         * <p> The element removed is the latest element inserted into the <code>Stack</code>, whose value can be
+         * retrieved by calling member <code>Stack::top()</code> </p>.
+         *
+         * <p> This member function effectively calls the member function <code>popBack()</code> of the
+         * <i>underlying container</i> object. </p>
+         */
+        Stack.prototype.pop = function () {
+            this.data.popFront();
+        };
+        return Stack;
+    })(std.base.container.FOContainer);
+    std.Stack = Stack;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueMap.ts" />
 var std;
@@ -2775,7 +3532,7 @@ var std;
      * of the mapped value using its key value as argument. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
      * </ul>
      *
      * @param <K> Type of the key values.
@@ -2783,7 +3540,7 @@ var std;
      * @param <T> Type of the mapped value.
      *			  Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var UnorderedMap = (function (_super) {
         __extends(UnorderedMap, _super);
@@ -2916,7 +3673,7 @@ var std;
      * linked iterators. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
      * </ul>
      *
      * @param <K> Type of the key values.
@@ -2924,7 +3681,7 @@ var std;
      * @param <T> Type of the mapped value.
      *			  Each element in an UnorderedUnorderedMap is used to store some data as its mapped value.
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var UnorderedMultiMap = (function (_super) {
         __extends(UnorderedMultiMap, _super);
@@ -3049,13 +3806,13 @@ var std;
      * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
      * </ul>
      *
      * @param <T> Type of the elements.
      *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var UnorderedMultiSet = (function (_super) {
         __extends(UnorderedMultiSet, _super);
@@ -3074,7 +3831,7 @@ var std;
             else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
                 this.constructByContainer(args[0]);
             }
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 this.constructByRange(args[0], args[1]);
             }
         }
@@ -3182,13 +3939,13 @@ var std;
      * their elements. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
      * </ul>
      *
      * @param <T> Type of the elements.
      *			  Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var UnorderedSet = (function (_super) {
         __extends(UnorderedSet, _super);
@@ -3207,7 +3964,7 @@ var std;
             else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
                 this.constructByContainer(args[0]);
             }
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 this.constructByRange(args[0], args[1]);
             }
         }
@@ -3330,10 +4087,10 @@ var std;
      * than Lists. </p>
      *
      * <ul>
-     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/vector/vector/
+     *  <li> Reference: http://www.cplusplus.com/reference/vector/vector/
      * </ul>
      *
-     * @author Migrated by Jeongho Nam
+     * @author Jeongho Nam
      */
     var Vector = (function (_super) {
         __extends(Vector, _super);
@@ -3366,7 +4123,7 @@ var std;
                 var container = args[0];
                 this.assign(container.begin(), container.end());
             }
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 // CONSTRUCT FROM INPUT ITERATORS
                 var begin = args[0];
                 var end = args[1];
@@ -3375,7 +4132,7 @@ var std;
         }
         Vector.prototype.assign = function (first, second) {
             this.clear();
-            if (first instanceof std.Iterator && second instanceof std.Iterator) {
+            if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
                 var begin = first;
                 var end = second;
                 for (var it = begin; it.equals(end) == false; it = it.next())
@@ -3510,7 +4267,7 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             var position = args[0];
-            if (args.length == 2 && args[1] instanceof std.Iterator == false) {
+            if (args.length == 2 && args[1] instanceof std.base.container.Iterator == false) {
                 var val = args[1];
                 return this.insert(position, 1, val);
             }
@@ -3525,7 +4282,7 @@ var std;
                 this.push.apply(this, inserts);
                 return new std.VectorIterator(this, position.getIndex() + inserts.length);
             }
-            else if (args.length == 3 && args[1] instanceof std.Iterator && args[2] instanceof std.Iterator) {
+            else if (args.length == 3 && args[1] instanceof std.base.container.Iterator && args[2] instanceof std.base.container.Iterator) {
                 var myEnd = args[0];
                 var begin = args[1];
                 var end = args[2];
@@ -3553,7 +4310,7 @@ var std;
     })(Array);
     std.Vector = Vector;
 })(std || (std = {}));
-/// <reference path="Iterator.ts" />
+/// <reference path="base/container/Iterator.ts" />
 var std;
 (function (std) {
     /**
@@ -3628,7 +4385,7 @@ var std;
          */
         VectorIterator.prototype.prev = function () {
             if (this.index <= 0)
-                return this.source.end();
+                return this.vector.end();
             else
                 return new VectorIterator(this.vector, this.index - 1);
         };
@@ -3637,7 +4394,7 @@ var std;
          */
         VectorIterator.prototype.next = function () {
             if (this.index >= this.source.size() - 1)
-                return this.source.end();
+                return this.vector.end();
             else
                 return new VectorIterator(this.vector, this.index + 1);
         };
@@ -3646,13 +4403,13 @@ var std;
          */
         VectorIterator.prototype.advance = function (n) {
             var newIndex = this.index + n;
-            if (newIndex < 0 || newIndex >= this.source.size())
-                return this.source.end();
+            if (newIndex < 0 || newIndex >= this.vector.size())
+                return this.vector.end();
             else
                 return new VectorIterator(this.vector, newIndex);
         };
         return VectorIterator;
-    })(std.Iterator);
+    })(std.base.container.Iterator);
     std.VectorIterator = VectorIterator;
 })(std || (std = {}));
 //# sourceMappingURL=std.js.map

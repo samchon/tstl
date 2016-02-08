@@ -1,4 +1,4 @@
-/// <refe0rence path="Iterator.ts" />
+/// <refe0rence path="base/container/Iterator.ts" />
 
 namespace std
 {
@@ -8,7 +8,7 @@ namespace std
 	 * @author Jeongho Nam
 	 */
 	export class SetIterator<T>
-		extends Iterator<T>
+		extends base.container.Iterator<T>
 	{
 		private listIterator: ListIterator<T>;
 
@@ -40,30 +40,35 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public prev(): Iterator<T>
+		public prev(): SetIterator<T>
 		{
-			return new SetIterator<T>(<base.container.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.prev());
+			return new SetIterator<T>(this.set, this.listIterator.prev());
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public next(): Iterator<T>
+		public next(): SetIterator<T>
 		{
-			return new SetIterator<T>(<base.container.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.next());
+			return new SetIterator<T>(<base.container.SetContainer<T>>this.source, this.listIterator.next());
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public advance(size: number): Iterator<T>
+		public advance(size: number): SetIterator<T>
 		{
-			return new SetIterator<T>(<base.container.SetContainer<T>>this.source, <ListIterator<T>>this.listIterator.advance(size));
+			return new SetIterator<T>(this.set, this.listIterator.advance(size));
 		}
 
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		private get set(): TreeSet<T>
+		{
+			return <TreeSet<T>>this.source;
+		}
+
 		/**
 		 * @inheritdoc
 		 */
@@ -86,12 +91,12 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equals<U extends T>(obj: Iterator<U>): boolean 
+		public equals<U extends T>(obj: SetIterator<U>): boolean 
 		{
-			return super.equals(obj) && this.listIterator == (<SetIterator<U>>obj).listIterator;
+			return super.equals(obj) && this.listIterator == obj.listIterator;
 		}
 
-		public less<U extends T>(obj: Iterator<U>): boolean
+		public less<U extends T>(obj: SetIterator<U>): boolean
 		{
 			return std.less(this.value, obj.value);
 		}

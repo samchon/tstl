@@ -24,11 +24,11 @@ namespace std.base.container
 		/* =========================================================
 			ELEMENTS I/O
 		========================================================= */
-		public insert(val: T): Pair<Iterator<T>, boolean>;
+		public insert(val: T): Pair<SetIterator<T>, boolean>;
 
-		public insert(hint: Iterator<T>, val: T): Iterator<T>;
+		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
 
-		public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+		public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
 
 		public insert(...args: any[]): any
 		{

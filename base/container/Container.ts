@@ -1,8 +1,12 @@
 namespace std.base.container
 {
 	/**
-	 * An abstract class containing elements.
+	 * <p> An abstract container. </p>
 	 *
+	 * 
+	 *
+	 * @param <T> Type of elements.
+	 * 
 	 * @author Jeongho Nam
 	 */
 	export abstract class Container<T>

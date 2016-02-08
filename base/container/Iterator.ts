@@ -1,8 +1,8 @@
-namespace std
+namespace std.base.container
 {
 	export abstract class Iterator<T>
 	{
-		protected source: base.container.Container<T>;
+		protected source: Container<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -12,7 +12,7 @@ namespace std
 		 *
 		 * @param source The source Container.
 		 */
-		public constructor(source: base.container.Container<T>)
+		public constructor(source: Container<T>)
 		{
 			this.source = source;
 		}
@@ -75,7 +75,7 @@ namespace std
 		/**
 		 * Get source.
 		 */
-		public getSource(): base.container.Container<T>
+		public getSource(): Container<T>
 		{
 			return this.source;
 		}

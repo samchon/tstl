@@ -31,10 +31,10 @@ namespace std
 	 * than Lists. </p>
 	 *
 	 * <ul>
-	 *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/vector/vector/
+	 *  <li> Reference: http://www.cplusplus.com/reference/vector/vector/
 	 * </ul>
 	 *
-	 * @author Migrated by Jeongho Nam
+	 * @author Jeongho Nam
 	 */
 	export class Vector<T>
 		extends Array<T>
@@ -81,7 +81,7 @@ namespace std
 		 * @param begin
 		 * @param end
 		 */
-		public constructor(begin: Iterator<T>, end: Iterator<T>);
+		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 		
 		public constructor(...args: any[])
 		{
@@ -120,11 +120,11 @@ namespace std
 				
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
 			{
 				// CONSTRUCT FROM INPUT ITERATORS
-				let begin: Iterator<T> = args[0];
-				let end: Iterator<T> = args[1];
+				let begin: base.container.Iterator<T> = args[0];
+				let end: base.container.Iterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -133,7 +133,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
 
 		/**
 		 * <p> Assign Container content. </p>
@@ -147,14 +147,14 @@ namespace std
 		 */
 		public assign(size: number, val: T): void;
 
-		public assign<U extends T>(first: Iterator<U> | number, second: Iterator<U> | T): void
+		public assign<U extends T>(first: any, second: any): void
 		{
 			this.clear();
 
-			if (first instanceof Iterator && second instanceof Iterator)
+			if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
 			{
-				let begin: Iterator<U> = first;
-				let end: Iterator<U> = second;
+				let begin: base.container.Iterator<U> = first;
+				let end: base.container.Iterator<U> = second;
 
 				for (let it = begin; it.equals(end) == false; it = it.next())
 					this.push(it.value);
@@ -185,7 +185,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public begin(): Iterator<T>
+		public begin(): VectorIterator<T>
 		{
 			if (this.size() == 0)
 				return this.end();
@@ -196,7 +196,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public end(): Iterator<T>
+		public end(): VectorIterator<T>
 		{
 			return new VectorIterator<T>(this, -1);
 		}
@@ -310,15 +310,15 @@ namespace std
 			this.erase(this.end().prev());
 		}
 
-		public insert(position: Iterator<T>, val: T): Iterator<T>;
-		public insert(position: Iterator<T>, size: number, val: T): Iterator<T>;
-		public insert<U extends T>(position: Iterator<T>, begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+		public insert(position: VectorIterator<T>, val: T): VectorIterator<T>;
+		public insert(position: VectorIterator<T>, size: number, val: T): VectorIterator<T>;
+		public insert<U extends T>(position: VectorIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): VectorIterator<T>;
 
 		public insert<U extends T>(...args: any[]): any
 		{
 			let position: VectorIterator<T> = args[0];
 
-			if (args.length == 2 && args[1] instanceof Iterator == false)
+			if (args.length == 2 && args[1] instanceof base.container.Iterator == false)
 			{
 				let val: T = args[1];
 
@@ -340,11 +340,11 @@ namespace std
 
 				return new VectorIterator(this, position.getIndex() + inserts.length);
 			}
-			else if (args.length == 3 && args[1] instanceof Iterator && args[2] instanceof Iterator)
+			else if (args.length == 3 && args[1] instanceof base.container.Iterator && args[2] instanceof base.container.Iterator)
 			{
 				let myEnd: VectorIterator<T> = args[0];
-				let begin: Iterator<U> = args[1];
-				let end: Iterator<U> = args[2];
+				let begin: base.container.Iterator<U> = args[1];
+				let end: base.container.Iterator<U> = args[2];
 
 				let spliced: Array<T> = this.splice(position.getIndex());
 				let inserts: Array<T> = [];
@@ -361,10 +361,10 @@ namespace std
 				throw new std.InvalidArgument("invalid parameters.");
 		}
 		
-		public erase(it: Iterator<T>): Iterator<T>;
-		public erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+		public erase(it: VectorIterator<T>): VectorIterator<T>;
+		public erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;
 
-		public erase(begin: Iterator<T>, end: Iterator<T> = null): Iterator<T>
+		public erase(begin: VectorIterator<T>, end: VectorIterator<T> = null): VectorIterator<T>
 		{
 			let startIndex: number = (<VectorIterator<T>>begin).getIndex();
 

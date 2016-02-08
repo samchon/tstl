@@ -1,9 +1,9 @@
-/// <reference path="Iterator.ts" />
+/// <reference path="base/container/Iterator.ts" />
 
 namespace std
 {
 	 export class ListIterator<T>
-		extends Iterator<T>
+		 extends base.container.Iterator<T>
 	{
 		protected value_: T;
 
@@ -54,20 +54,15 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equals(obj: Iterator<T>): boolean
+		public equals(obj: ListIterator<T>): boolean
 		{
-			if (obj instanceof ListIterator == false)
-				return false;
-
-			let it: ListIterator<T> = <ListIterator<T>>obj;
-
-			return super.equals(obj) == true && this.prev_ == it.prev_ && this.next_ == it.next_;
+			return super.equals(obj) == true && this.prev_ == obj.prev_ && this.next_ == obj.next_;
 		}
 		
 		/**
 		 * @inheritdoc
 		 */
-		public prev(): Iterator<T>
+		public prev(): ListIterator<T>
 		{
 			return this.prev_;
 		}
@@ -75,9 +70,21 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public next(): Iterator<T>
+		public next(): ListIterator<T>
 		{
 			return this.next_;
+		}
+
+		 /**
+		  * @inheritdoc
+		  */
+		public advance(size: number): ListIterator<T>
+		{
+			let it: ListIterator<T> = this;
+			for (let i: number = 0; i < size; i++)
+				it = it.next();
+
+			return it;
 		}
 
 		/**

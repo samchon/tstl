@@ -21,13 +21,13 @@ namespace std
 	 * their elements. </p>
 	 *
 	 * <ul>
-	 *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
 	 * </ul>
 	 *
 	 * @param <T> Type of the elements. 
 	 *			  Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
 	 *
-	 * @author Migrated by Jeongho Nam
+	 * @author Jeongho Nam
 	 */
 	export class UnorderedSet<T>
 		extends base.container.UniqueSet<T>
@@ -59,7 +59,7 @@ namespace std
 		/**
 		 * Construct from range iterators.
 		 */
-		public constructor(begin: Iterator<T>, end: Iterator<T>);
+		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -77,7 +77,7 @@ namespace std
 			{
 				this.constructByContainer(args[0]);
 			}
-			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
 			{
 				this.constructByRange(args[0], args[1]);
 			}
@@ -96,9 +96,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
+		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void
 		{
-			let it: Iterator<U>;
+			let it: base.container.Iterator<U>;
 			let size: number = 0;
 			
 			// RESERVE HASH_BUCKET SIZE
@@ -128,7 +128,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(val: T): Iterator<T>
+		public find(val: T): SetIterator<T>
 		{
 			return this.hashBuckets.find(val);
 		}
@@ -145,7 +145,7 @@ namespace std
 			// TEST WHETHER EXIST
 			let it = this.find(val);
 			if (it.equals(this.end()) == false)
-				return new Pair<Iterator<T>, boolean>(it, false);
+				return new Pair<SetIterator<T>, boolean>(it, false);
 
 			// INSERT
 			this.data.pushBack(val);
@@ -154,10 +154,10 @@ namespace std
 			// POST-PROCESS
 			this.handleInsert(<SetIterator<T>>it);
 
-			return new Pair<Iterator<T>, boolean>(it, true);
+			return new Pair<SetIterator<T>, boolean>(it, true);
 		}
 
-		protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
+		protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void
 		{
 			// CALCULATE INSERTING SIZE
 			let size: number = 0;

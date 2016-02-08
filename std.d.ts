@@ -1,10 +1,6 @@
 declare namespace std.base.container {
     /**
-     * <p> An abstract container. </p>
-     *
-     *
-     *
-     * @param <T> Type of elements.
+     * An abstract class containing elements.
      *
      * @author Jeongho Nam
      */
@@ -20,7 +16,7 @@ declare namespace std.base.container {
          * in the same order. </p>
          *
          * @param container Another Container object of the same type (with the same class template
-         *				  arguments T), whose contents are either copied or acquired.
+         *                  arguments T), whose contents are either copied or acquired.
          */
         constructor(container: IContainer<T>);
         /**
@@ -71,204 +67,6 @@ declare namespace std.base.container {
         empty(): boolean;
     }
 }
-declare namespace std.base.container {
-    /**
-     * <p> First-out container. </p>
-     *
-     * <p> <code>FOContainer</code> is an abstract class, a type of container adaptor, specifically designed to
-     * operate in a FIFO and LIFO, like <code>Queue</code> and <code>Stack</code>. </p>
-     *
-     * <p> <code>FOContainer</code>s are implemented as containers adaptors, which are classes that use an
-     * encapsulated object of a specific container class as its <i>underlying container</i>, providing a specific
-     * set of member functions to access its elements. Elements are pushed/popped from the <code>accessor</code>
-     * method of the (derived) specific container. </p>
-     *
-     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
-     * By default, if no container class is specified for a particular <code>FOContainer</code> class
-     * instantiation, the standard container <code>List</code> is used. </p>
-     *
-     * @param <T> Type of elements.
-     *
-     * @author Jeongho Nam
-     */
-    abstract class FOContainer<T> {
-        /**
-         * The <i>underlying object</i> for implementing the <i>First-out</i>.
-         */
-        protected data: List<T>;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a LIFO or FIFO container.
-         *
-         * @param container An abstract container of LIFO and FIFO to copy.
-         */
-        constructor(container: FOContainer<T>);
-        /**
-         * <p> Return size. </p>
-         * <p> Returns the number of elements in the <code>FOStack</code>. </p>
-         *
-         * <p> This member function effectively calls member <code>size</code> of the
-         * <i>underlying container</i> object. </p>
-         *
-         * @return The number of elements in the <i>underlying container</i>.
-         */
-        size(): number;
-        /**
-         * <p> Test whether container is empty. </p>
-         * <p> returns whether the <code>FOContainer</code> is empty: i.e. whether its <i>size</i> is zero. </p>
-         *
-         * <p> This member function efeectively calls member <code>empty()</code> of the
-         * <i>underlying container</i> object. </p>
-         *
-         * @return <code>true</code> if the <i>underlying container</i>'s size is 0,
-         *		   <code>false</code> otherwise. </p>
-         */
-        empty(): boolean;
-        /**
-         * <p> Insert element. </p>
-         *
-         * <p> Inserts a new element at the first or last of the <code>FOContainer</code>. </p>
-         *
-         * <p> This member function effectively calls the member function <code>pushFront()</code> or
-         * <code>pushBack()</code> of the <i>underlying container</i> object. </p>
-         *
-         * @param val Value to which the inserted element is initialized.
-         */
-        abstract push(val: T): void;
-        /**
-         * <p> Remove next element. </p>
-         *
-         * <p> Removes the next element in the <code>FOContainer</code>, effectively reducing its size by one. </p>
-         *
-         * <p> The element removed is the "first" or "last" element in the <code>FOContainer</code> whose value
-         * can be retrieved by calling member its derived <code>accessor</code> method. </p>.
-         *
-         * <p> This member function effectively calls the member function <code>popFront()</code>
-         * <code>popBack()</code> of the <i>underlying container</i> object. </p>
-         */
-        abstract pop(): void;
-    }
-}
-declare namespace std.base.system {
-    /**
-     * <p> An abstract error instance. </p>
-     *
-     * <p> <code>ErrorInstance</code> is an abstract class of <code>ErrorCode</code> and <code>ErrorCondition</code>
-     * holding an error instance's identifier <code>value</code>, associated with a <code>category</code>. </p>
-     *
-     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-     * represent possible results. These numerical values may carry essential information for a specific platform,
-     * but be non-portable from one platform to another. </p>
-     *
-     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    class ErrorInstance {
-        /**
-         * A reference to an <code>ErrorCategory</code> object.
-         */
-        protected category_: ErrorCategory;
-        /**
-         * A numerical value identifying an error instance.
-         */
-        protected value_: number;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error instance.
-         * @param category A reference to an <code>ErrorCategory</code> object.
-         */
-        constructor(val: number, category: ErrorCategory);
-        /**
-         * <p> Assign error instance. </p>
-         *
-         * <p> Assigns the <code>ErrorCode</code> object a value of val associated with the <code>ErrorCategory.</code> </p>
-         *
-         * @param val A numerical value identifying an error instance.
-         * @param category A reference to an <code>ErrorCategory</code> object.
-         */
-        assign(val: number, category: ErrorCategory): void;
-        /**
-         * <p> Clear error instance. </p>
-         *
-         * <p> Clears the value in the <code>ErrorCode</code> object so that it is set to a value of
-         * <i>0</i> of the <code>ErrorCategory.systemCategory()</code> (indicating no error).
-         */
-        clear(): void;
-        /**
-         * <p> Get category. </p>
-         *
-         * <p> Returns a reference to the <code>ErrorCategory</code> associated with the <code>ErrorCode</code>
-         * object. </p>
-         *
-         * @return A reference to a non-copyable object of a type derived from <code>ErrorCategory</code>.
-         */
-        category(): ErrorCategory;
-        /**
-         * <p> Error value. </p>
-         *
-         * <p> Returns the error value associated with the <code>ErrorCode</code> object. </p>
-         *
-         * @return The error value.
-         */
-        value(): number;
-        /**
-         * <p> Get message. </p>
-         *
-         * <p> Returns the message associated with the error instance. </p>
-         *
-         * <p> Error messages are defined by the <code>category</code> the error instance belongs to. </p>
-         *
-         * <p> This function returns the same as if the following member was called: </p>
-         *
-         * <p> <code>category().message(value())</code> </p>
-         *
-         * @return A <code>string</code> object with the message associated with the <code>ErrorCode</code>.
-         */
-        message(): string;
-        /**
-         * <p> Default error condition. </p>
-         *
-         * <p> Returns the default <code>ErrorCondition</code> object associated with the <code>ErrorCode</code>
-         * object. </p>
-         *
-         * <p> This function returns the same as if the following member was called: </p>
-         *
-         * <p> <code>category().default_error_condition(value())</code> </p>
-         *
-         * <p> <code>ErrorCategory.defaultErrorCondition()</code> is a virtual member function, that can operate
-         * differently for each category. </p>
-         *
-         * @return An <code>ErrorCondition</code> object that corresponds to the <code>ErrorCode</code> object.
-         */
-        defaultErrorCondition(): ErrorCondition;
-        /**
-         * <p> Convert to bool. </p>
-         *
-         * <p> Returns whether the error instance has a numerical <code>value</code> other than 0. </p>
-         *
-         * If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true.
-         *
-         * @return <code>true</code> if the error's numerical value is not zero.
-         *		   <code>false</code> otherwise.
-         */
-        toBoolean(): boolean;
-    }
-}
 declare namespace std.base.hash {
     const MIN_SIZE: number;
     const RATIO: number;
@@ -277,7 +75,7 @@ declare namespace std.base.hash {
 }
 declare namespace std.base.hash {
     class HashBuckets<T> {
-        private buckets;
+        private matrix;
         private itemSize_;
         /**
          * Default Constructor.
@@ -299,18 +97,6 @@ declare namespace std.base.hash {
     }
 }
 declare namespace std.base.container {
-    /**
-     * <p> An interface of container. </p>
-     *
-     * <p> <code>IContainer</code> is an interface designed for sequence containers. Sequence containers of STL
-     * (Standard Template Library) are based on the <code>IContainer</code>. </p>
-     *
-     *
-     *
-     * @param <T> Type of elements.
-     *
-     * @author Jeongho Nam
-     */
     interface IContainer<T> {
         /**
          * <p> Assign new content to content. </p>
@@ -360,18 +146,10 @@ declare namespace std.base.container {
         end(): Iterator<T>;
         /**
          * Return the number of elements in the Container.
-         *
-         * @return The number of elements in the container.
          */
         size(): number;
         /**
-         * <p> Test whether the container is empty. </p>
-         * <p> Returns whether the container is empty (i.e. whether its size is 0). </p>
-         *
-         * <p> This function does not modify the container in any way. To clear the content of the container,
-         * see <code>clear()</code>. </p>
-         *
-         * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
+         * Test whether the Container is empty.
          */
         empty(): boolean;
         /**
@@ -405,7 +183,7 @@ declare namespace std.base.container {
          * @return An iterator pointing to the element that followed the last element erased by the function
          * call. This is the container end if the operation erased the last element in the sequence.
          */
-        erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+        erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
     }
 }
 declare namespace std.base.container {
@@ -585,17 +363,17 @@ declare namespace std.base.container {
          * @param key Key to be searched for.
          *
          * @return An iterator to the element, if the specified value is found,
-         *		 or <code>end()</code> if it is not found in the container.
+         *         or <code>end()</code> if it is not found in the container.
          */
-        abstract find(val: T): SetIterator<T>;
+        abstract find(val: T): Iterator<T>;
         /**
          * @inheritdoc
          */
-        begin(): SetIterator<T>;
+        begin(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        end(): SetIterator<T>;
+        end(): Iterator<T>;
         /**
          * <p> Whether have the item or not. </p>
          * <p> Indicates whether a set has an item having the specified identifier. </p>
@@ -629,9 +407,9 @@ declare namespace std.base.container {
          * @param key Value to be inserted as an elements.
          *
          * @return An iterator pointing to either the newly inserted element or
-         *		 to the element that already had its same value in the set.
+         *         to the element that already had its same value in the set.
          */
-        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+        insert(hint: Iterator<T>, val: T): Iterator<T>;
         /**
          * <p> Insert elements with a range of a container. </p>
          *
@@ -659,7 +437,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        erase(it: SetIterator<T>): SetIterator<T>;
+        erase(it: Iterator<T>): Iterator<T>;
         /**
          * <p> Erase elements. </p>
          * <p> Removes from the set container a range of elements.. </p>
@@ -669,7 +447,7 @@ declare namespace std.base.container {
          * @param begin An iterator specifying a range of beginning to erase.
          * @param end An iterator specifying a range of end to erase.
          */
-        erase(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>;
+        erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
         private eraseByKey(val);
         private eraseByIterator(it);
         private eraseByRange(begin, end);
@@ -684,9 +462,9 @@ declare namespace std.base.container {
          */
         constructor();
         count(val: T): number;
-        insert(val: T): SetIterator<T>;
-        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
+        insert(val: T): Iterator<T>;
+        insert(hint: Iterator<T>, val: T): Iterator<T>;
+        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
     }
 }
 declare namespace std.base.hash {
@@ -806,9 +584,9 @@ declare namespace std.base.container {
          */
         constructor();
         count(key: T): number;
-        insert(val: T): Pair<SetIterator<T>, boolean>;
-        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
+        insert(val: T): Pair<Iterator<T>, boolean>;
+        insert(hint: Iterator<T>, val: T): Iterator<T>;
+        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
     }
 }
 declare namespace std {
@@ -818,94 +596,6 @@ declare namespace std {
         constructor(func: Listener, thisArg: This);
         apply(...args: any[]): any;
         equals<U extends Listener, T extends This>(obj: Bind<U, T>): boolean;
-    }
-}
-declare namespace std {
-    /**
-     * <p> Error category. </p>
-     *
-     * <p> This type serves as a base class for specific category types. </p>
-     *
-     * <p> Category types are used to identify the source of an error. They also define the relation between
-     * <code>ErrorCode</code> and <code>ErrorCondition</code> objects of its category, as well as the message
-     * set for <code>ErrorCode</code> objects.
-     *
-     * <p> Objects of these types have no distinct values and are not-copyable and not-assignable, and thus can
-     * only be passed by reference. As such, only one object of each of these types shall exist, each uniquely
-     * identifying its own category: all error codes and conditions of a same category shall return a reference
-     * to same object. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    abstract class ErrorCategory {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * <p> Return category name. </p>
-         *
-         * <p> In derived classes, the function returns a <code>string</code> naming the category. </p>
-         *
-         * <p> In <code>ErrorCategory</code>, it is a pure virtual member function. </p>
-         *
-         * <ul>
-         *	<li> In the <code>GenericCategory</code> object, it returns <i>"generic"</i>. </li>
-         *	<li> In the <code>SystemCategory</code> object, it returns <i>"system"</i>. </li>
-         *	<li> In the <code>IOStreamCategory</code> object, it returns <i>"iostream"</i>. </li>
-         * </ul>
-         *
-         * @return The category name.
-         */
-        abstract name(): string;
-        /**
-         * <p> Error message. </p>
-         *
-         * <p> In derived classes, the function returns a <code>string</code> object with a message describing
-         * the error condition denoted by <code>val</code>. </p>
-         *
-         * <p> In <code>ErrorCategory</code>, it is a pure virtual member function. </p>
-         *
-         * <p> This function is called both by <code>ErrorCode.message()</code> and <code>ErrorCondition.message()</code>
-         * to obtain the corresponding message in the <code>category</code>. Therefore, numerical values used by
-         * custom <code>error codes</code> and <code>error conditions</code> should only match for a category
-         * if they describe the same error. </p>
-         *
-         * @param val A numerical value identifying an error condition.
-         *			  If the <code>ErrorCategory</code> object is the <code>GenericCategory</code>, this argument
-         *			  is equivalent to an <code>errno</code> value.
-         *
-         * @return A <code>string</code> object with the message.
-         */
-        abstract message(val: number): string;
-        /**
-         * <p> Default error condition. </p>
-         *
-         * <p> Returns the default <code>ErrorCondition</code> object of this category that is associated with
-         * the <code>ErrorCode</code> identified by a value of <i>val</i>. </p>
-         *
-         * <p> Its definition in the base class <code>ErrorCategory</code> returns the same as constructing an
-         * <code>ErrorCondition</code> object with:
-         *
-         * <p> <code>ErrorCondition (val, *this);</code> </p>
-         *
-         * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
-         *
-         * <p> This function is called by the default definition of member <code>equivalent()</code>, which is
-         * used to compare <code>error conditions</code> with error codes. </p>
-         *
-         * @param val A numerical value identifying an error condition.
-         *
-         * @return The default <code>ErrorCondition</code> object associated with condition value <i>val</i>
-         *		   for this category.
-         */
-        defaultErrorCondition(val: number): ErrorCondition;
-        equivalent(valCode: number, cond: ErrorCondition): boolean;
-        equivalent(code: ErrorCode, valCond: number): boolean;
     }
 }
 declare namespace std.example {
@@ -920,17 +610,16 @@ declare namespace std.example {
 declare namespace std {
     /**
      * <p> Standard exception class. </p>
-     *
      * <p> Base class for standard exceptions. </p>
      *
      * <p> All objects thrown by components of the standard library are derived from this class.
      * Therefore, all standard exceptions can be caught by catching this type by reference. </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/exception/exception/
+     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/exception/exception/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class Exception {
         /**
@@ -968,110 +657,24 @@ declare namespace std {
      * <p> It is used as a base class for several logical error exceptions. </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/logic_error/
+     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/stdexcept/logic_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class LogicError extends Exception {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
         constructor(what: string);
     }
-    /**
-     * <p> Domain error exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to report domain errors. </p>
-     *
-     * <p> Generally, the domain of a mathematical function is the subset of values that it is defined for.
-     * For example, the square root function is only defined for non-negative numbers. Thus, a negative number
-     * for such a function would qualify as a domain error. </p>
-     *
-     * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
-     * exception to be thrown by programs. </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/domain_error/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
     class DomainError extends LogicError {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
         constructor(what: string);
     }
-    /**
-     * <p> Invalid argument exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to report an invalid argument. </p>
-     *
-     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
-     * also throw exceptions of this type to signal invalid arguments. </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/invalid_argument/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
     class InvalidArgument extends LogicError {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
         constructor(what: string);
     }
-    /**
-     * <p> Length error exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to report a length error. </p>
-     *
-     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library,
-     * such as vector and string also throw exceptions of this type to signal errors resizing. </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/length_error/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
     class LengthError extends LogicError {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
         constructor(what: string);
     }
-    /**
-     * <p> Out-of-range exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to report an out-of-range error. </p>
-     *
-     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library,
-     * such as vector, deque, string and bitset also throw exceptions of this type to signal arguments
-     * out of range. </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/out_of_range/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
     class OutOfRange extends LogicError {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
         constructor(what: string);
     }
     /**
@@ -1083,96 +686,36 @@ declare namespace std {
      * <p> It is used as a base class for several runtime error exceptions. </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/runtime_error/
+     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/stdexcept/runtime_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class RuntimeError extends Exception {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
         constructor(what: string);
     }
-    /**
-     * <p> Overflow error exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to arithmetic overflow errors. </p>
-     *
-     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
-     * also throw exceptions of this type to signal range errors. </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/outflow_error/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
     class OverflowError extends RuntimeError {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
         constructor(what: string);
     }
-    /**
-     * <p> Underflow error exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to arithmetic underflow errors. </p>
-     *
-     * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
-     * exception to be thrown by programs. </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/underflow_error/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
     class UnderflowError extends RuntimeError {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
         constructor(what: string);
     }
-    /**
-     * <p> Range error exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to report range errors in internal
-     * computations. </p>
-     *
-     * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
-     * also throw exceptions of this type to signal range errors. </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/range_error/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
     class RangeError extends RuntimeError {
-        /**
-         * <p> Construct from a message. </p>
-         *
-         * @param message A message representing specification about the Exception.
-         */
+        constructor(what: string);
+    }
+    class SystemError extends RuntimeError {
         constructor(what: string);
     }
 }
-declare namespace std.base.container {
+declare namespace std {
     abstract class Iterator<T> {
-        protected source: Container<T>;
+        protected source: base.container.Container<T>;
         /**
          * Construct from the source Container.
          *
          * @param source The source Container.
          */
-        constructor(source: Container<T>);
+        constructor(source: base.container.Container<T>);
         /**
          * <p> Get iterator to previous element. </p>
          * <p> If current iterator is the first item(equal with <code>begin()</code>), returns <code>end()</code>. </p>
@@ -1197,7 +740,7 @@ declare namespace std.base.container {
         /**
          * Get source.
          */
-        getSource(): Container<T>;
+        getSource(): base.container.Container<T>;
         /**
          * <p> Whether an iterator is equal with the iterator. </p>
          *
@@ -1256,10 +799,10 @@ declare namespace std {
      * of small-sized elements). </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/list/list/
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/list/list/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class List<T> extends base.container.Container<T> {
         /**
@@ -1297,12 +840,12 @@ declare namespace std {
          * @param begin
          * @param end
          */
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        constructor(begin: Iterator<T>, end: Iterator<T>);
         assign(size: number, val: T): void;
         /**
          * @inheritdoc
          */
-        assign(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+        assign(begin: Iterator<T>, end: Iterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -1310,11 +853,11 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        begin(): ListIterator<T>;
+        begin(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        end(): ListIterator<T>;
+        end(): Iterator<T>;
         /**
          * @inheritdoc
          */
@@ -1391,53 +934,53 @@ declare namespace std {
          * <p> The arguments determine how many elements are inserted and to which values they are initialized. </p>
          *
          * @param position Position in the container where the new element is inserted.
-         *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *				 type that points to elements.
+         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *                 type that points to elements.
          * @param val Value to be inserted as an element.
          *
          * @return An iterator that points to the newly inserted element <code>val</code>.
          */
-        insert(position: ListIterator<T>, val: T): ListIterator<T>;
+        insert(position: Iterator<T>, val: T): Iterator<T>;
         /**
          * <p> Insert elements by repeated filling. </p>
          *
          * @param position Position in the container where the new elements are inserted.
-         *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *				 type that points to elements.
+         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *                 type that points to elements.
          * @param size Number of elements to insert.
          * @param val Value to be inserted as an element.
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert(position: ListIterator<T>, size: number, val: T): ListIterator<T>;
+        insert(position: Iterator<T>, size: number, val: T): Iterator<T>;
         /**
          *
          * @param position Position in the container where the new elements are inserted.
-         *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *				 type that points to elements.
+         *                 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+         *                 type that points to elements.
          * @param begin An iterator specifying range of the begining element.
          * @param end An iterator specifying range of the ending element.
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert(position: ListIterator<T>, begin: base.container.Iterator<T>, end: base.container.Iterator<T>): ListIterator<T>;
+        insert(position: Iterator<T>, begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
         private insertByVal(position, val);
         private insertByRepeatingVal(position, size, val);
         private insertByRange(position, begin, end);
         /**
          * @inheritdoc
          */
-        erase(it: ListIterator<T>): ListIterator<T>;
+        erase(it: Iterator<T>): Iterator<T>;
         /**
          * @inheritdoc
          */
-        erase(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>;
+        erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
         private eraseByIterator(it);
         private eraseByRange(begin, end);
     }
 }
 declare namespace std {
-    class ListIterator<T> extends base.container.Iterator<T> {
+    class ListIterator<T> extends Iterator<T> {
         protected value_: T;
         protected prev_: ListIterator<T>;
         protected next_: ListIterator<T>;
@@ -1462,19 +1005,15 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        equals(obj: ListIterator<T>): boolean;
+        equals(obj: Iterator<T>): boolean;
         /**
          * @inheritdoc
          */
-        prev(): ListIterator<T>;
+        prev(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        next(): ListIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        advance(size: number): ListIterator<T>;
+        next(): Iterator<T>;
         /**
          * @inheritdoc
          */
@@ -1505,7 +1044,6 @@ declare namespace std {
          * @inheritdoc
          */
         find(key: K): MapIterator<K, T>;
-        findNear(key: K): MapIterator<K, T>;
         protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
         /**
          * @inheritdoc
@@ -1584,7 +1122,6 @@ declare namespace std {
          * @inheritdoc
          */
         find(key: K): MapIterator<K, T>;
-        findNear(key: K): MapIterator<K, T>;
         protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
         /**
          * @inheritdoc
@@ -1602,7 +1139,7 @@ declare namespace std {
         constructor();
         constructor(array: Array<T>);
         constructor(container: base.container.Container<T>);
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        constructor(begin: Iterator<T>, end: Iterator<T>);
         /**
          * @inheritdoc
          */
@@ -1610,8 +1147,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        find(val: T): SetIterator<T>;
-        findNear(val: T): SetIterator<T>;
+        find(val: T): Iterator<T>;
         protected insertByVal(val: T): any;
         /**
          * @inheritdoc
@@ -1622,25 +1158,6 @@ declare namespace std {
          */
         protected handleErase(item: SetIterator<T>): void;
     }
-}
-/**
- * <p> A namespace of STL library. </p>
- *
- * <ul>
- *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
- *	<li> Reference: http://www.cplusplus.com/reference/ </li>
- *
- * @author Jeongho Nam
- */
-declare namespace std {
-}
-declare namespace std.base {
-}
-declare namespace std.base.container {
-}
-declare namespace std.base.hash {
-}
-declare namespace std.base.tree {
 }
 declare namespace std {
     /**
@@ -1724,234 +1241,6 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> FIFO queue. </p>
-     *
-     * <p> <code>Queue</code>s are a type of container adaptor, specifically designed to operate in a FIFO
-     * context (first-in first-out), where elements are inserted into one end of the container and extracted
-     * from the other. </p>
-     *
-     * <p> <code>Queue</code>s are implemented as containers adaptors, which are classes that use an encapsulated
-     * object of a specific container class as its underlying container, providing a specific set of member
-     * functions to access its elements. Elements are pushed into the <code>back()</code> of the specific
-     * container and popped from its <code>front()</code>. </p>
-     *
-     * <p> The underlying container may be one of the standard container class template or some other specifically
-     * designed container class. This underlying container shall support at least the following operations: </p>
-     *
-     * <ul>
-     *	<li> empty </li>
-     *	<li> size </li>
-     *	<li> front </li>
-     *	<li> back </li>
-     *	<li> pushBack </li>
-     *	<li> popFront </li>
-     * </ul>
-     *
-     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
-     * By default, if no container class is specified for a particular <code>Queue</code> class instantiation,
-     * the standard container <code>List</code> is used. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/queue/queue/ </li>
-     * </ul>
-     *
-     * @param <T> Type of elements.
-     *
-     * @author Jeongho Nam
-     */
-    class Queue<T> extends base.container.FOContainer<T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a LIFO or FIFO container.
-         *
-         * @param container An abstract container of LIFO and FIFO.
-         */
-        constructor(container: base.container.FOContainer<T>);
-        /**
-         * <p> Access next element. </p>
-         * <p> Returns a value of the next element in the <code>Queue</code>. </p>
-         *
-         * <p> The next element is the "oldest" element in the <code>Queue</code> and the same element that is
-         * popped out from the queue when <code>Queue::pop()</code> is called. </p>
-         *
-         * <p> This member function effectively calls <code>member()</code> front of the <i>underlying container</i> sobject. </p>
-         *
-         * @return A value of the next element in the <code>Queue</code>.
-         */
-        front(): T;
-        /**
-         * <p> Access last element. </p>
-         *
-         * <p> Returns a vaue of the last element in the queue. This is the "newest" element in the queue
-         * (i.e. the last element pushed into the queue). </p>
-         *
-         * <p> This member function effectively calls member <code>back()</code> of the
-         * <i>underlying container</i> object. </p>
-         *
-         * @return A value of the last element in the <code>Queue</code>.
-         */
-        back(): T;
-        /**
-         * <p> Insert element. </p>
-         *
-         * <p> Inserts a new element at the end of the <code>Queue</code>, after its current last element.
-         * The content of this new element is initialized to val. </p>
-         *
-         * <p> This member function effectively calls the member function <code>pushBack()</code> of the
-         * <i>underlying container</i> object. </p>
-         *
-         * @param val Value to which the inserted element is initialized.
-         */
-        push(val: T): void;
-        /**
-         * <p> Remove next element. </p>
-         *
-         * <p> Removes the next element in the <code>Queue</code>, effectively reducing its size by one. </p>
-         *
-         * <p> The element removed is the "oldest" element in the <code>Queue</code> whose value can be retrieved
-         * by calling member <code>Queue::front()</code> </p>.
-         *
-         * <p> This member function effectively calls the member function <code>popFront()</code> of the
-         * <i>underlying container</i> object. </p>
-         */
-        pop(): void;
-    }
-}
-declare namespace std {
-    /**
-     * <p> System error exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to report conditions originating during
-     * runtime from the operating system or other low-level application program interfaces which have an
-     * associated <code>ErrorCode</code>. </p>
-     *
-     * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as
-     * member code (and defines a specialized what member). </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    class SystemError extends RuntimeError {
-        /**
-         * Error code.
-         */
-        protected code_: ErrorCode;
-        /**
-         * Construct from an error code.
-         *
-         * @param code An <code>ErrorCode</code> object.
-         */
-        constructor(code: ErrorCode);
-        /**
-         * Construct from an error code and message.
-         *
-         * @param code An <code>ErrorCode</code> object.
-         * @param message A message incorporated in the string returned by member <code>what()</code>.
-         */
-        constructor(code: ErrorCode, message: string);
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCode</code> object.
-         */
-        constructor(val: number, category: ErrorCategory);
-        /**
-         * Construct from a numeric value, error category and message.
-         *
-         * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCode</code> object.
-         * @param message A message incorporated in the string returned by member <code>what()</code>.
-         */
-        constructor(val: number, category: ErrorCategory, message: string);
-        /**
-         * <p> Get error code. </p>
-         *
-         * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
-         *
-         * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent
-         * (if constructed with a value and a <code>category</code>). </p>
-         *
-         * @return The <code>ErrorCode</code> associated with the object.
-         */
-        code(): ErrorCode;
-    }
-    /**
-     * <p> Error code. </p>
-     *
-     * <p> Objects of this type hold an error code <code>value</code> associated with a <code>category</code>. </p>
-     *
-     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-     * represent possible results. These numerical values may carry essential information for a specific platform,
-     * but be non-portable from one platform to another. </p>
-     *
-     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    class ErrorCode extends base.system.ErrorInstance {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCategory</code> object.
-         */
-        constructor(val: number, category: ErrorCategory);
-    }
-    /**
-     * <p> Error condition. </p>
-     *
-     * <p> Objects of this type hold a condition <code>value</code> associated with a <code>category</code>. </p>
-     *
-     * <p> Objects of this type describe errors in a generic way so that they may be portable across different
-     * systems. This is in contrast with <code>ErrorCode</code> objects, that may contain system-specific
-     * information. </p>
-     *
-     * <p> Because <code>ErrorCondition</code> objects can be compared with error_code objects directly by using
-     * <code>relational operators</code>, <code>ErrorCondition</code> objects are generally used to check whether
-     * a particular <code>ErrorCode</code> obtained from the system matches a specific error condition no matter
-     * the system. </p>
-     *
-     * <p> The <code>categories</code> associated with the <code>ErrorCondition</code> and the <code>ErrorCode</code>
-     * define the equivalences between them. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    class ErrorCondition extends base.system.ErrorInstance {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error condition.
-         * @param category A reference to an <code>ErrorCategory</code> object.
-         */
-        constructor(val: number, category: ErrorCategory);
-    }
-}
-declare namespace std {
-    /**
      * <p> Set, in other word, Tree Set. </p>
      *
      * <p> Sets are containers that store unique elements following a specific order. </p>
@@ -1968,16 +1257,16 @@ declare namespace std {
      *
      * <p> Sets are typically implemented as binary search trees. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
+      * <ul>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/set/set/ </li>
      * </ul>
      *
      * @param <T> Type of the elements.
      *			  Each element in an <code>Set</code> is also uniquely identified by this value.
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
-    class TreeSet<T> extends base.container.UniqueSet<T> {
+    class Set<T> extends base.container.UniqueSet<T> {
         private tree;
         /**
          * Default Constructor
@@ -1985,7 +1274,7 @@ declare namespace std {
         constructor();
         constructor(array: Array<T>);
         constructor(container: base.container.Container<T>);
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        constructor(begin: Iterator<T>, end: Iterator<T>);
         /**
          * @inheritdoc
          */
@@ -1993,8 +1282,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        find(val: T): SetIterator<T>;
-        findNear(val: T): SetIterator<T>;
+        find(val: T): Iterator<T>;
         protected insertByVal(val: T): any;
         /**
          * @inheritdoc
@@ -2012,7 +1300,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class SetIterator<T> extends base.container.Iterator<T> {
+    class SetIterator<T> extends Iterator<T> {
         private listIterator;
         /**
          * <p> Construct from source and index number. </p>
@@ -2029,16 +1317,15 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        prev(): SetIterator<T>;
+        prev(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        next(): SetIterator<T>;
+        next(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        advance(size: number): SetIterator<T>;
-        private set;
+        advance(size: number): Iterator<T>;
         /**
          * @inheritdoc
          */
@@ -2049,95 +1336,9 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        equals<U extends T>(obj: SetIterator<U>): boolean;
-        less<U extends T>(obj: SetIterator<U>): boolean;
+        equals<U extends T>(obj: Iterator<U>): boolean;
+        less<U extends T>(obj: Iterator<U>): boolean;
         hashCode(): number;
-    }
-}
-declare namespace std {
-    /**
-     * <p> LIFO stack. </p>
-     *
-     * <p> <code>Stack</code>s are a type of container adaptor, specifically designed to operate in a LIFO context
-     * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
-     *
-     * <p> <code>Stack</code>s are implemented as containers adaptors, which are classes that use an encapsulated
-     * object of a specific container class as its <i>underlying container</i>, providing a specific set of member
-     * functions to access its elements. Elements are pushed/popped from the <code>back()</code> of the specific
-     * container, which is known as the top of the <code>Stack</code>. </p>
-     *
-     * <p> The underlying container may be any of the standard container class templates or some other
-     * specifically designed container class. The container shall support the following operations: </p>
-     *
-     * <ul>
-     *	<li> empty </li>
-     *	<li> size </li>
-     *	<li> front </li>
-     *	<li> back </li>
-     *	<li> pushBack </li>
-     *	<li> popFront </li>
-     * </ul>
-     *
-     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
-     * By default, if no container class is specified for a particular <code>Stack</code> class instantiation,
-     * the standard container <code>List</code> is used. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
-     * </ul>
-     *
-     * @param <T> Type of elements.
-     *
-     * @author Jeongho Nam
-     */
-    class Stack<T> extends base.container.FOContainer<T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a LIFO or FIFO container.
-         *
-         * @param container An abstract container of LIFO and FIFO.
-         */
-        constructor(container: base.container.FOContainer<T>);
-        /**
-         * <p> Access next element. </p>
-         *
-         * <p> Returns a value of the top element in the <code>Stack</code> </p>.
-         *
-         * <p> Since <code>Stack</code>s are last-in first-out containers, the top element is the last element
-         * inserted into the <code>Stack</code>. </p>
-         *
-         * <p> This member function effectively calls member <code>back()</code> of the
-         * <i>underlying container</i> object. </p>
-         *
-         * @return A value of the top element in the <code>Stack</code>.
-         */
-        top(): T;
-        /**
-         * <p> Insert element. </p>
-         *
-         * <p> Inserts a new element at the top of the <code>Stack</code>, above its current top element. </p>
-         *
-         * <p> This member function effectively calls the member function <code>pushBack()</code> of the
-         * <i>underlying container</i> object. </p>
-         *
-         * @param val Value to which the inserted element is initialized.
-         */
-        push(val: T): void;
-        /**
-         * <p> Remove top element. </p>
-         *
-         * <p> Removes the element on top of the <code>Stack</code>, effectively reducing its size by one. </p>
-         *
-         * <p> The element removed is the latest element inserted into the <code>Stack</code>, whose value can be
-         * retrieved by calling member <code>Stack::top()</code> </p>.
-         *
-         * <p> This member function effectively calls the member function <code>popBack()</code> of the
-         * <i>underlying container</i> object. </p>
-         */
-        pop(): void;
     }
 }
 declare namespace std {
@@ -2164,7 +1365,7 @@ declare namespace std {
      * of the mapped value using its key value as argument. </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
      * </ul>
      *
      * @param <K> Type of the key values.
@@ -2172,7 +1373,7 @@ declare namespace std {
      * @param <T> Type of the mapped value.
      *			  Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class UnorderedMap<K, T> extends base.container.UniqueMap<K, T> {
         private hashBuckets;
@@ -2239,7 +1440,7 @@ declare namespace std {
      * linked iterators. </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
      * </ul>
      *
      * @param <K> Type of the key values.
@@ -2247,7 +1448,7 @@ declare namespace std {
      * @param <T> Type of the mapped value.
      *			  Each element in an UnorderedUnorderedMap is used to store some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class UnorderedMultiMap<K, T> extends base.container.MultiMap<K, T> {
         private hashBuckets;
@@ -2312,13 +1513,13 @@ declare namespace std {
      * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
      * </ul>
      *
      * @param <T> Type of the elements.
-     *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+     *           Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class UnorderedMultiSet<T> extends base.container.MultiSet<T> {
         private hashBuckets;
@@ -2337,12 +1538,12 @@ declare namespace std {
         /**
          * Construct from range iterators.
          */
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        constructor(begin: Iterator<T>, end: Iterator<T>);
         protected constructByArray(items: Array<T>): void;
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
         /**
          * @inheritdoc
          */
@@ -2350,9 +1551,9 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        find(val: T): SetIterator<T>;
+        find(val: T): Iterator<T>;
         protected insertByVal(val: T): any;
-        protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+        protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -2383,13 +1584,13 @@ declare namespace std {
      * their elements. </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+     *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
      * </ul>
      *
      * @param <T> Type of the elements.
      *			  Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class UnorderedSet<T> extends base.container.UniqueSet<T> {
         private hashBuckets;
@@ -2408,12 +1609,12 @@ declare namespace std {
         /**
          * Construct from range iterators.
          */
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        constructor(begin: Iterator<T>, end: Iterator<T>);
         protected constructByArray(items: Array<T>): void;
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
         /**
          * @inheritdoc
          */
@@ -2421,9 +1622,9 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        find(val: T): SetIterator<T>;
+        find(val: T): Iterator<T>;
         protected insertByVal(val: T): any;
-        protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+        protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -2466,10 +1667,10 @@ declare namespace std {
      * than Lists. </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/vector/vector/
+     *  <li> Designed by C++ Reference - http://www.cplusplus.com/reference/vector/vector/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Migrated by Jeongho Nam
      */
     class Vector<T> extends Array<T> implements base.container.IContainer<T> {
         /**
@@ -2496,7 +1697,7 @@ declare namespace std {
          * in the same order. </p>
          *
          * @param container Another Container object of the same type (with the same class template
-         *				  arguments T), whose contents are either copied or acquired.
+         *                  arguments T), whose contents are either copied or acquired.
          */
         constructor(container: base.container.IContainer<T>);
         /**
@@ -2505,11 +1706,11 @@ declare namespace std {
          * @param begin
          * @param end
          */
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        constructor(begin: Iterator<T>, end: Iterator<T>);
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
         /**
          * <p> Assign Container content. </p>
          *
@@ -2518,7 +1719,7 @@ declare namespace std {
          *
          * @param size New size of the container.
          * @param val Value to fill the container with. Each of the <u>size</u> elements in
-         *			the container will be initialized to a copy of this value.
+         *            the container will be initialized to a copy of this value.
          */
         assign(size: number, val: T): void;
         /**
@@ -2528,11 +1729,11 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        begin(): VectorIterator<T>;
+        begin(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        end(): VectorIterator<T>;
+        end(): Iterator<T>;
         /**
          * @inheritdoc
          */
@@ -2551,8 +1752,8 @@ declare namespace std {
          * bounds. </p>
          *
          * @param index Position of an element in the container.
-         *			  If this is greater than or equal to the vector size, an exception of type OutOfRange
-         *			  is thrown. Notice that the first element has a position of 0 (not 1).
+         *              If this is greater than or equal to the vector size, an exception of type OutOfRange
+         *              is thrown. Notice that the first element has a position of 0 (not 1).
          *
          * @return The element at the specified position in the container.
          */
@@ -2598,11 +1799,11 @@ declare namespace std {
          * <code>size</code> by one. </p>
          */
         popBack(): void;
-        insert(position: VectorIterator<T>, val: T): VectorIterator<T>;
-        insert(position: VectorIterator<T>, size: number, val: T): VectorIterator<T>;
-        insert<U extends T>(position: VectorIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): VectorIterator<T>;
-        erase(it: VectorIterator<T>): VectorIterator<T>;
-        erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;
+        insert(position: Iterator<T>, val: T): Iterator<T>;
+        insert(position: Iterator<T>, size: number, val: T): Iterator<T>;
+        insert<U extends T>(position: Iterator<T>, begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+        erase(it: Iterator<T>): Iterator<T>;
+        erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
     }
 }
 declare namespace std {
@@ -2613,7 +1814,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class VectorIterator<T> extends base.container.Iterator<T> {
+    class VectorIterator<T> extends Iterator<T> {
         /**
          * <p> Sequence number of iterator in the source Vector. </p>
          */
@@ -2629,7 +1830,7 @@ declare namespace std {
          * @param index Sequence number of the element in the surce vector.
          */
         constructor(source: Vector<T>, index: number);
-        private vector;
+        vector: Vector<T>;
         /**
          * @inheritdoc
          */
@@ -2640,7 +1841,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        equals<U extends T>(obj: VectorIterator<U>): boolean;
+        equals<U extends T>(obj: Iterator<U>): boolean;
         /**
          * Get index.
          */
@@ -2648,14 +1849,14 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        prev(): VectorIterator<T>;
+        prev(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        next(): VectorIterator<T>;
+        next(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        advance(n: number): VectorIterator<T>;
+        advance(n: number): Iterator<T>;
     }
 }

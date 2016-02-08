@@ -47,7 +47,7 @@ namespace std.example
 			document.write("<h4> UnorderedSet </h4>\n");
 
 			// CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-			let container = new MultiSet<number>();
+			let container = new UnorderedMultiSet<number>();
 			for (let i: number = 0; i < 10; i++)
 				container.insert(i);
 

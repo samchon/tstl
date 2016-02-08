@@ -25,7 +25,7 @@ namespace std
 	 * of the mapped value using its key value as argument. </p>
 	 *
 	 * <ul>
-	 *  <li> Designed by C++ Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
 	 * </ul>
 	 *
 	 * @param <K> Type of the key values. 
@@ -33,7 +33,7 @@ namespace std
 	 * @param <T> Type of the mapped value. 
 	 *			  Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
 	 *
-	 * @author Migrated by Jeongho Nam
+	 * @author Jeongho Nam
 	 */
 	export class UnorderedMap<K, T>
 		extends base.container.UniqueMap<K, T>

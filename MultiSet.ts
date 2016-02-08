@@ -20,7 +20,7 @@ namespace std
 
 		public constructor(container: base.container.Container<T>);
 
-		public constructor(begin: Iterator<T>, end: Iterator<T>);
+		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -56,7 +56,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(val: T): Iterator<T>
+		public find(val: T): SetIterator<T>
 		{
 			var node = this.tree.find(val);
 
@@ -66,7 +66,7 @@ namespace std
 				return node.value;
 		}
 
-		public findNear(val: T): Iterator<T>
+		public findNear(val: T): SetIterator<T>
 		{
 			var node = this.tree.find(val);
 
@@ -90,22 +90,22 @@ namespace std
 
 			if (node == null)
 			{
-				it = <SetIterator<T>>this.end();
+				it = this.end();
 			}
 			else if (std.equals(node.value.value, val) == true)
 			{
-				it = <SetIterator<T>>node.value.next();
+				it = node.value.next();
 			}
 			else if (std.less(node.value.value, val) == true)
 			{
-				it = <SetIterator<T>>node.value.next();
+				it = node.value.next();
 
 				while (it.equals(this.end()) == false && std.less(it.value, val))
-					it = <SetIterator<T>>it.next();
+					it = it.next();
 			}
 			else
 			{
-				it = <SetIterator<T>>node.value;
+				it = node.value;
 			}
 
 			// ITERATOR TO RETURN
