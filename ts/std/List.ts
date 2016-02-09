@@ -5,8 +5,8 @@ namespace std
 	/**
 	 * <p> Doubly linked list. </p>
 	 *
-	 * <p> Lists are sequence containers that allow constant time insert and erase operations anywhere 
-	 * within the sequence, and iteration in both directions. </p>
+	 * <p> <code>List</code>s are sequence containers that allow constant time insert and erase operations 
+	 * anywhere within the sequence, and iteration in both directions. </p>
 	 *
 	 * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of 
 	 * the elements they contain in different and unrelated storage locations. The ordering is kept 
@@ -29,9 +29,23 @@ namespace std
 	 * the linking information associated to each element (which may be an important factor for large lists 
 	 * of small-sized elements). </p>
 	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 * 	<dt> Sequence </dt>
+	 * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are 
+	 *		 accessed by their position in this sequence. </dd>
+	 *
+	 * 	<dt> Doubly-linked list </dt>
+	 *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing 
+	 *		 constant time insert and erase operations before or after a specific element (even of entire ranges), 
+	 *		 but no direct random access. </dd>
+	 * </dl>
+	 *
 	 * <ul>
 	 *  <li> Reference: http://www.cplusplus.com/reference/list/list/
 	 * </ul>
+	 *
+	 * @param <T> Type of the elements.
 	 *
 	 * @author Jeongho Nam
 	 */
@@ -49,7 +63,7 @@ namespace std
 		protected end_: ListIterator<T>;
 
 		/**
-		 * Number of elements in the List.
+		 * Number of elements in the <code>List</code>.
 		 */
 		protected size_: number;
 
@@ -61,31 +75,33 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
-		 * Default Constructor
+		 * @inheritdoc
 		 */
 		public constructor();
 
 		/**
-		 * Construct from arguments. 
-		 *
-		 * @param args
+		 * @inheritdoc
 		 */
 		public constructor(items: Array<T>);
 
+		/**
+		 * <p> Fill Constructor. </p>
+		 *
+		 * <p> Constructs a container with <i>n</i> elements. Each element is a copy of <i>val</i> (if provided). </p>
+		 *
+		 * @param n Initial container size (i.e., the number of elements in the container at construction).
+		 * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is 
+		 *			  initialized to a copy of this value.
+		 */
 		public constructor(size: number, val: T);
 
 		/**
-		 * Copy Constructor. 
-		 *
-		 * @param container
+		 * @inheritdoc
 		 */
 		public constructor(container: base.container.IContainer<T>);
 
 		/**
-		 * Construct from begin and end iterators. 
-		 *
-		 * @param begin
-		 * @param end
+		 * @inheritdoc
 		 */
 		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 
@@ -129,6 +145,16 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * <p> Assign container content. </p>
+		 *
+		 * <p> Assigns new contents to the Container, replacing its current contents, and modifying its size 
+		 * accordingly. </p>
+		 *
+		 * @param size New size of the container.
+		 * @param val Value to fill the container with. Each of the <i>n</i> elements in the container will be 
+		 *			  initialized to a copy of this value.
+		 */
 		public assign(size: number, val: T): void;
 
 		/**
@@ -194,9 +220,9 @@ namespace std
 			this.size_ = 0;
 		}
 		
-		/* ---------------------------------------------------------
+		/* =========================================================
 			ACCESSORS
-		--------------------------------------------------------- */
+		========================================================= */
 		/**
 		 * @inheritdoc
 		 */
@@ -306,9 +332,9 @@ namespace std
 		 * <p> Add element at the end. </p> 
 		 *
 		 * <p> Adds a new element at the lend of the <code>List</code> container, after its current last
-		 * element.This effectively increases the container size by one. </p>
+		 * element. This effectively increases the container <code>size</code> by one. </p>
 		 *
-		 * @param val Value to be inserted as an element.
+		 * @param val Value to be copied to the new element.
 		 */
 		public pushBack(val: T): void
 		{
@@ -366,7 +392,7 @@ namespace std
 		 *				 type that points to elements.
 		 * @param val Value to be inserted as an element.
 		 *
-		 * @return An iterator that points to the newly inserted element <code>val</code>.
+		 * @return An iterator that points to the newly inserted element; <code>val</code>.
 		 */
 		public insert(position: ListIterator<T>, val: T): ListIterator<T>;
 
@@ -386,8 +412,8 @@ namespace std
 		/**
 		 * 
 		 * @param position Position in the container where the new elements are inserted.
-		 *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-		 *				 type that points to elements.
+		 *				   <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
+		 *				   type that points to elements.
 		 * @param begin An iterator specifying range of the begining element.
 		 * @param end An iterator specifying range of the ending element.
 		 *
@@ -405,11 +431,18 @@ namespace std
 				return this.insertByRange(args[0], args[1], args[2]);
 		}
 
+		/**
+		 * @private
+		 */
 		private insertByVal(position: ListIterator<T>, val: T): ListIterator<T>
 		{
 			// SHIFT TO INSERT OF THE REPEATING VAL
 			return this.insertByRepeatingVal(position, 1, val);
 		}
+
+		/**
+		 * @private
+		 */
 		private insertByRepeatingVal(position: ListIterator<T>, size: number, val: T): ListIterator<T>
 		{
 			if (this != position.getSource())
@@ -441,6 +474,10 @@ namespace std
 
 			return first;
 		}
+
+		/**
+		 * @private
+		 */
 		private insertByRange(position: ListIterator<T>, 
 			begin: base.container.Iterator<T>, end: base.container.Iterator<T>): ListIterator<T>
 		{
@@ -482,12 +519,39 @@ namespace std
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * <p> Erase an element. </p>
+		 *
+		 * <p> Removes from the <code>List</code> either a single element; <i>position</i>. </p>
+		 *
+		 * <p> This effectively reduces the container size by the number of element removed. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, <code>List</code> objects are specifically designed to 
+		 * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * 
+		 * @param position Iterator pointing to a single element to be removed from the <code>List</code>.
+		 *
+		 * @return An iterator pointing to the element that followed the last element erased by the function 
+		 *		   call. This is the <code>List.end</code> if the operation erased the last element in the 
+		 *		   sequence.
 		 */
-		public erase(it: ListIterator<T>): ListIterator<T>;
+		public erase(position: ListIterator<T>): ListIterator<T>;
 		
 		/**
-		 * @inheritdoc
+		 * <p> Erase elements. </p>
+		 *
+		 * <p> Removes from the <code>List</code> container a range of elements. </p>
+		 *
+		 * <p> This effectively reduces the container <code>size</code> by the number of elements removed. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, <code>List</code> objects are specifically designed to 
+		 * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 *
+		 * @param begin An iterator specifying a range of beginning to erase.
+		 * @param end An iterator specifying a range of end to erase.
+		 * 
+		 * @return An iterator pointing to the element that followed the last element erased by the function 
+		 *		   call. This is the <code>List.end</code> if the operation erased the last element in the 
+		 *		   sequence.
 		 */
 		public erase(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>;
 
@@ -498,10 +562,18 @@ namespace std
 			else if (args.length == 2)
 				return this.eraseByRange(args[0], args[1]);
 		}
+
+		/**
+		 * @private
+		 */
 		private eraseByIterator(it: ListIterator<T>): ListIterator<T>
 		{
 			return this.eraseByRange(it, it.next());
 		}
+
+		/**
+		 * @private
+		 */
 		private eraseByRange(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>
 		{
 			if (this != begin.getSource() || begin.getSource() != end.getSource())

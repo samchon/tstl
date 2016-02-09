@@ -7,7 +7,17 @@ var std;
             /**
              * <p> An abstract container. </p>
              *
+             * <h3> Container properties </h3>
+             * <dl>
+             * 	<dt> Sequence </dt>
+             * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+             *		 accessed by their position in this sequence. </dd>
              *
+             * 	<dt> Doubly-linked list </dt>
+             *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing
+             *		 constant time insert and erase operations before or after a specific element (even of entire ranges),
+             *		 but no direct random access. </dd>
+             * </dl>
              *
              * @param <T> Type of elements.
              *
@@ -2879,8 +2889,8 @@ var std;
     /**
      * <p> Doubly linked list. </p>
      *
-     * <p> Lists are sequence containers that allow constant time insert and erase operations anywhere
-     * within the sequence, and iteration in both directions. </p>
+     * <p> <code>List</code>s are sequence containers that allow constant time insert and erase operations
+     * anywhere within the sequence, and iteration in both directions. </p>
      *
      * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of
      * the elements they contain in different and unrelated storage locations. The ordering is kept
@@ -2903,9 +2913,23 @@ var std;
      * the linking information associated to each element (which may be an important factor for large lists
      * of small-sized elements). </p>
      *
+     * <h3> Container properties </h3>
+     * <dl>
+     * 	<dt> Sequence </dt>
+     * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+     *		 accessed by their position in this sequence. </dd>
+     *
+     * 	<dt> Doubly-linked list </dt>
+     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing
+     *		 constant time insert and erase operations before or after a specific element (even of entire ranges),
+     *		 but no direct random access. </dd>
+     * </dl>
+     *
      * <ul>
      *  <li> Reference: http://www.cplusplus.com/reference/list/list/
      * </ul>
+     *
+     * @param <T> Type of the elements.
      *
      * @author Jeongho Nam
      */
@@ -2979,9 +3003,9 @@ var std;
             this.end_ = it;
             this.size_ = 0;
         };
-        /* ---------------------------------------------------------
+        /* =========================================================
             ACCESSORS
-        --------------------------------------------------------- */
+        ========================================================= */
         /**
          * @inheritdoc
          */
@@ -3076,9 +3100,9 @@ var std;
          * <p> Add element at the end. </p>
          *
          * <p> Adds a new element at the lend of the <code>List</code> container, after its current last
-         * element.This effectively increases the container size by one. </p>
+         * element. This effectively increases the container <code>size</code> by one. </p>
          *
-         * @param val Value to be inserted as an element.
+         * @param val Value to be copied to the new element.
          */
         List.prototype.pushBack = function (val) {
             var prev = this.end_.prev();
@@ -3121,10 +3145,16 @@ var std;
             else
                 return this.insertByRange(args[0], args[1], args[2]);
         };
+        /**
+         * @private
+         */
         List.prototype.insertByVal = function (position, val) {
             // SHIFT TO INSERT OF THE REPEATING VAL
             return this.insertByRepeatingVal(position, 1, val);
         };
+        /**
+         * @private
+         */
         List.prototype.insertByRepeatingVal = function (position, size, val) {
             if (this != position.getSource())
                 throw new std.InvalidArgument("Parametric iterator is not this container's own.");
@@ -3149,6 +3179,9 @@ var std;
             this.size_ += size;
             return first;
         };
+        /**
+         * @private
+         */
         List.prototype.insertByRange = function (position, begin, end) {
             if (this != position.getSource())
                 throw new std.InvalidArgument("Parametric iterator is not this container's own.");
@@ -3185,9 +3218,15 @@ var std;
             else if (args.length == 2)
                 return this.eraseByRange(args[0], args[1]);
         };
+        /**
+         * @private
+         */
         List.prototype.eraseByIterator = function (it) {
             return this.eraseByRange(it, it.next());
         };
+        /**
+         * @private
+         */
         List.prototype.eraseByRange = function (begin, end) {
             if (this != begin.getSource() || begin.getSource() != end.getSource())
                 throw new std.InvalidArgument("Parametric iterator is not this container's own.");
@@ -4394,38 +4433,52 @@ var std;
     /**
      * <p> Vector, the dynamic array. </p>
      *
-     * <p> Vectors are sequence containers representing arrays that can change in size. </p>
+     * <p> <code>Vector</code>s are sequence containers representing arrays that can change in size. </p>
      *
-     * <p> Just like arrays, vectors use contiguous storage locations for their elements, which means that
-     * their elements can also be accessed using offsets on regular pointers to its elements, and just as
-     * efficiently as in arrays. But unlike arrays, their size can change dynamically, with their storage
-     * being handled automatically by the container. </p>
+     * <p> Just like arrays, <code>Vector</code>s use contiguous storage locations for their elements, which
+     * means that their elements can also be accessed using offsets on regular pointers to its elements, and
+     * just as efficiently as in arrays. But unlike arrays, their size can change dynamically, with their
+     * storage being handled automatically by the container. </p>
      *
-     * <p> Internally, Vectors use a dynamically allocated array to store their elements. This array may
-     * need to be reallocated in order to grow in size when new elements are inserted, which implies
-     * allocating a new array and moving all elements to it. This is a relatively expensive task in terms
-     * of processing time, and thus, vectors do not reallocate each time an element is added to the
+     * <p> Internally, <code>Vector</code>s use a dynamically allocated array to store their elements. This
+     * array may need to be reallocated in order to grow in size when new elements are inserted, which implies
+     * allocating a new array and moving all elements to it. This is a relatively expensive task in terms of
+     * processing time, and thus, <code>Vector</code>s do not reallocate each time an element is added to the
      * container. </p>
      *
-     * <p> Instead, vector containers may allocate some extra storage to accommodate for possible growth,
-     * and thus the container may have an actual capacity greater than the storage strictly needed to
-     * contain its elements (i.e., its size). Libraries can implement different strategies for growth to
-     * balance between memory usage and reallocations, but in any case, reallocations should only happen at
-     * logarithmically growing intervals of size so that the insertion of individual elements at the end of
-     * the vector can be provided with amortized constant time complexity. </p>
+     * <p> Instead, <code>Vector</code> containers may allocate some extra storage to accommodate for possible
+     * growth, and thus the container may have an actual <code>capacity</code> greater than the storage strictly
+     * needed to contain its elements (i.e., its <code>size</code>). Libraries can implement different strategies
+     * for growth to balance between memory usage and reallocations, but in any case, reallocations should only
+     * happen at logarithmically growing intervals of <code>size</code> so that the insertion of individual
+     * elements at the end of the <code>Vector</code> can be provided with amortized constant time complexity
+     * (see <code>pushBack()</code>). </p>
      *
-     * <p> Therefore, compared to arrays, vectors consume more memory in exchange for the ability to manage
-     * storage and grow dynamically in an efficient way. </p>
+     * <p> Therefore, compared to arrays, <code>Vector</code>s consume more memory in exchange for the ability
+     * to manage storage and grow dynamically in an efficient way. </p>
      *
-     * <p> Compared to the other dynamic sequence containers (deques, lists and forward_lists), vectors are
-     * very efficient accessing its elements (just like arrays) and relatively efficient adding or removing
-     * elements from its end. For operations that involve inserting or removing elements at positions other
-     * than the end, they perform worse than the others, and have less consistent iterators and references
-     * than Lists. </p>
+     * <p> Compared to the other dynamic sequence containers (<code>Deque</code>s, <code>List</code>s),
+     * <code>Vector</code>s are very efficient accessing its elements (just like arrays) and relatively
+     * efficient adding or removing elements from its end. For operations that involve inserting or removing
+     * elements at positions other than the end, they perform worse than the others, and have less consistent
+     * iterators and references than <code>List</code>s. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Sequence </dt>
+     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+     *		 accessed by their position in this sequence. </dd>
+     *
+     *	<dt> Dynamic array </dt>
+     *	<dd> Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
+     *		 relatively fast addition/removal of elements at the end of the sequence. </dd>
+     * </dl>
      *
      * <ul>
      *  <li> Reference: http://www.cplusplus.com/reference/vector/vector/
      * </ul>
+     *
+     * @param <T> Type of the elements.
      *
      * @author Jeongho Nam
      */
@@ -4489,9 +4542,9 @@ var std;
         Vector.prototype.clear = function () {
             this.erase(this.begin(), this.end());
         };
-        /* ---------------------------------------------------------
+        /* =========================================================
             ACCESSORS
-        --------------------------------------------------------- */
+        ========================================================= */
         /**
          * @inheritdoc
          */
@@ -4571,8 +4624,20 @@ var std;
         /* ---------------------------------------------------------
             ELEMENTS I/O
         --------------------------------------------------------- */
-        Vector.prototype.pushBack = function (element) {
-            this.push(element);
+        /**
+         * <p> Add element at the end. </p>
+         *
+         * <p> Adds a new element at the end of the <code>Vector</code>, after its current last element. The
+         * content of <i>val</i> is copied to the new element. </p>
+         *
+         * <p> This effectively increases the container <code>size</code> by one, which causes an automatic
+         * reallocation of the allocated storage space if -and only if- the new <code>Vector.size</code>
+         * surpasses the current <code>Vector.capacity</code>.
+         *
+         * @param val Value to be copied to the new element.
+         */
+        Vector.prototype.pushBack = function (val) {
+            this.push(val);
         };
         /**
          * Replaces the element at the specified position in this list with the specified element.

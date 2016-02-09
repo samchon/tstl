@@ -6,7 +6,17 @@ namespace std.base.container
 	 * <p> <code>IContainer</code> is an interface designed for sequence containers. Sequence containers of STL
 	 * (Standard Template Library) are based on the <code>IContainer</code>. </p>
 	 *
-	 * 
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 * 	<dt> Sequence </dt>
+	 * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are 
+	 *		 accessed by their position in this sequence. </dd>
+	 *
+	 * 	<dt> Doubly-linked list </dt>
+	 *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing 
+	 *		 constant time insert and erase operations before or after a specific element (even of entire ranges), 
+	 *		 but no direct random access. </dd>
+	 * </dl>
 	 *
 	 * @param <T> Type of elements.
 	 *
@@ -20,8 +30,8 @@ namespace std.base.container
 		/**
 		 * <p> Assign new content to content. </p>
 		 *
-		 * <p> Assigns new contents to the Container, replacing its current contents, 
-		 * and modifying its size accordingly. </p>
+		 * <p> Assigns new contents to the container, replacing its current contents, and modifying its 
+		 * <code>size</code> accordingly. </p>
 		 *
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
@@ -40,6 +50,7 @@ namespace std.base.container
 		--------------------------------------------------------------- */
 		/**
 		 * <p> Return iterator to beginning. </p>
+		 *
 		 * <p> Returns an iterator referring the first element in the Container. </p>
 		 *
 		 * <h4> Note </h4>
@@ -92,29 +103,35 @@ namespace std.base.container
 			ELEMENTS I/O
 		--------------------------------------------------------------- */
 		/**
-		 * Appends new elements to the container, and returns the new size of the Container.
+		 * <p> Insert elements. </p>
+		 *
+		 * <p> Appends new elements to the container, and returns the new size of the <code>Container</code>. </p>
 		 * 
 		 * @param items New elements to insert.
+		 * 
 		 * @return New size of the Container.
 		 */
 		push<U extends T>(...items: U[]): number;
 
 		/**
 		 * <p> Erase an element. </p>
-		 * <p> Removes from the Container a single element. </p>
 		 *
-		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 * <p> Removes from the <code>Container</code> a single element. </p>
+		 *
+		 * <p> This effectively reduces the container size by the number of element removed. </p>
 		 *
 		 * @param position Iterator pointing to a single element to be removed from the Container.
 		 *
 		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 * call. This is the container end if the operation erased the last element in the sequence.
+		 *		   call. This is the <code>Container.end</code> if the operation erased the last element in the 
+		 *		   sequence.
 		 */
 		erase(position: Iterator<T>): Iterator<T>;
 
 		/**
 		 * <p> Erase elements. </p>
-		 * <p> Removes from the Container a range of elements. </p>
+		 *
+		 * <p> Removes from the <code>Container</code> a range of elements. </p>
 		 *
 		 * <p> This effectively reduces the container size by the number of elements removed. </p>
 		 *
@@ -122,7 +139,8 @@ namespace std.base.container
 		 * @param end An iterator specifying a range of end to erase.
 		 *
 		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 * call. This is the container end if the operation erased the last element in the sequence.
+		 *		   call. This is the <code>Container.end</code> if the operation erased the last element in the 
+		 *		   sequence.
 		 */
 		erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
 	}

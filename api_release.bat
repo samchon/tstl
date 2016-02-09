@@ -7,7 +7,7 @@ rd "%RELEASE_DIR%" /S /Q
 :: ----------------------------------------------------------------
 ::    TYPE_SCRIPT
 :: ----------------------------------------------------------------
-SET TS_SRC_DIR=.\
+SET TS_SRC_DIR=ts/std/
 
 ::DOCUMENTATE
 typedoc --target ES5 --out %RELEASE_DIR% %TS_SRC_DIR% --mode file
