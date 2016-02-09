@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{98F70358-E286-4559-84EA-E0F83B99CA49}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="index.html" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="std\base\container\Container.ts" />
+    <TypeScriptCompile Include="std\base\container\FOContainer.ts" />
+    <TypeScriptCompile Include="std\base\container\IContainer.ts" />
+    <TypeScriptCompile Include="std\base\container\Iterator.ts" />
+    <TypeScriptCompile Include="std\base\container\MapContainer.ts" />
+    <TypeScriptCompile Include="std\base\container\MultiMap.ts" />
+    <TypeScriptCompile Include="std\base\container\MultiSet.ts" />
+    <TypeScriptCompile Include="std\base\container\SetContainer.ts" />
+    <TypeScriptCompile Include="std\base\container\UniqueMap.ts" />
+    <TypeScriptCompile Include="std\base\container\UniqueSet.ts" />
+    <TypeScriptCompile Include="std\base\hash\Hash.ts" />
+    <TypeScriptCompile Include="std\base\hash\HashBuckets.ts" />
+    <TypeScriptCompile Include="std\base\hash\MapHashBuckets.ts" />
+    <TypeScriptCompile Include="std\base\hash\SetHashBuckets.ts" />
+    <TypeScriptCompile Include="std\base\system\ErrorInstance.ts" />
+    <TypeScriptCompile Include="std\base\tree\AtomicTree.ts" />
+    <TypeScriptCompile Include="std\base\tree\Color.ts" />
+    <TypeScriptCompile Include="std\base\tree\PairTree.ts" />
+    <TypeScriptCompile Include="std\base\tree\XTree.ts" />
+    <TypeScriptCompile Include="std\base\tree\XTreeNode.ts" />
+    <TypeScriptCompile Include="std\Bind.ts" />
+    <TypeScriptCompile Include="std\ErrorCategory.ts" />
+    <TypeScriptCompile Include="std\ErrorCode.ts" />
+    <TypeScriptCompile Include="std\ErrorCondition.ts" />
+    <TypeScriptCompile Include="std\example\ContainerTest.ts" />
+    <TypeScriptCompile Include="std\Exception.ts" />
+    <TypeScriptCompile Include="std\HashMap.ts" />
+    <TypeScriptCompile Include="std\HashMultiMap.ts" />
+    <TypeScriptCompile Include="std\HashMultiSet.ts" />
+    <TypeScriptCompile Include="std\HashSet.ts" />
+    <TypeScriptCompile Include="std\IComparable.ts" />
+    <TypeScriptCompile Include="std\List.ts" />
+    <TypeScriptCompile Include="std\ListIterator.ts" />
+    <TypeScriptCompile Include="std\MapIterator.ts" />
+    <TypeScriptCompile Include="std\namespace.ts" />
+    <TypeScriptCompile Include="std\Pair.ts" />
+    <TypeScriptCompile Include="std\Queue.ts" />
+    <TypeScriptCompile Include="std\SetIterator.ts" />
+    <TypeScriptCompile Include="std\Stack.ts" />
+    <TypeScriptCompile Include="std\SystemError.ts" />
+    <TypeScriptCompile Include="std\TreeMap.ts" />
+    <TypeScriptCompile Include="std\TreeMultiMap.ts" />
+    <TypeScriptCompile Include="std\TreeMultiSet.ts" />
+    <TypeScriptCompile Include="std\TreeSet.ts" />
+    <TypeScriptCompile Include="std\Vector.ts" />
+    <TypeScriptCompile Include="std\VectorIterator.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>STL_for_TypeScript</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51047</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:51047/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptOutFile>std.js</TypeScriptOutFile>
+    <TypeScriptOutDir>../release/</TypeScriptOutDir>
+    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>
