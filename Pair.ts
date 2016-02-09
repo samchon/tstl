@@ -1,17 +1,18 @@
 namespace std
 {
 	/**
-	 * <p> A pair of values. </p>
+	 * <p> Pair of values. </p>
+	 *
+	 * <p> This class couples together a pair of values, which may be of different types (<code>T1</code> and 
+	 * <code>T2</code>). The individual values can be accessed through its public members <code>first</code> and 
+	 * <code>second</code>. </p>
+	 *
 	 * <ul>
-	 *  <li> _Ty1: Type of member fisrt. </li>
-	 *  <li> _Ty2 Type of member second. </li>
+	 *	<li> Reference: http://www.cplusplus.com/reference/utility/pair/ </li>
 	 * </ul>
 	 *
-	 * <p> This class couples together a pair of values, which may be of different types 
-	 * (_Ty1 and _Ty2). The individual values can be accessed through its public members 
-	 * first and second. </p>
-	 *
-	 * <p> Same with std::pair (http://www.cplusplus.com/reference/utility/pair/) </p>
+	 * @param <K> Type of member <code>first</code>.
+	 * @param <T> Type of member <code>second</code>.
 	 *
 	 * @author Jeongho Nam
 	 */

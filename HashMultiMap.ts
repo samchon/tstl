@@ -3,37 +3,54 @@
 namespace std
 {
 	/**
-	 * <p> Unordered Multimap, in another word, Hashed MultiMap. </p>
+	 * <p> Hashed, unordered Multimap. </p>
 	 * 
-	 * <p> Unordered multimaps are associative containers that store elements formed by the combination of 
-	 * a key value and a mapped value, much like UnorderedMap containers, but allowing different elements to 
-	 * have equivalent keys. </p>
+	 * <p> <code>HashMultiMap</code>s are associative containers that store elements formed by the combination of 
+	 * a <i>key value</i> and a <i>mapped value</i>, much like <code>HashMap</code> containers, but allowing 
+	 * different elements to have equivalent <i>keys</i>. </p>
 	 *
-	 * <p> In an UnorderedMultiMap, the key value is generally used to uniquely identify the element, while 
-	 * the mapped value is an object with the content associated to this key. Types of key and mapped value 
-	 * may differ. </p>
+	 * <p> In an <code>HashMultiMap</code>, the <i>key value</i> is generally used to uniquely identify the 
+	 * element, while the <i>mapped value</i> is an object with the content associated to this <i>key</i>. 
+	 * Types of <i>key</i> and <i>mapped value</i> may differ. </p>
 	 *
-	 * <p> Internally, the elements in the unordered_multimap are not sorted in any particular order with 
-	 * respect to either their key or mapped values, but organized into buckets depending on their hash values 
-	 * to allow for fast access to individual elements directly by their key values (with a constant average 
-	 * time complexity on average). </p>
+	 * <p> Internally, the elements in the <code>HashMultiMap</code> are not sorted in any particular order with 
+	 * respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on 
+	 * their hash values to allow for fast access to individual elements directly by their <i>key values</i> 
+	 * (with a constant average time complexity on average). </p>
 	 *
-	 * <p> Elements with equivalent keys are grouped together in the same bucket and in such a way that 
-	 * an iterator (see equal_range) can iterate through all of them. Iterators in the container are doubly 
-	 * linked iterators. </p>
+	 * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that 
+	 * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
 	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Associative </dt>
+	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
+	 *		 position in the container. </dd>
+	 * 
+	 *	<dt> Hashed </dt>
+	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
+	 *		 by their <i>key</i>. </dd>
+	 * 
+	 *	<dt> Map </dt>
+	 *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>: 
+	 *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+	 * 
+	 *	<dt> Multiple equivalent keys </dt>
+	 *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+	 * </dl>
+	 * 
 	 * <ul>
 	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
 	 * </ul>
 	 *
 	 * @param <K> Type of the key values. 
-	 *			  Each element in an UnorderedMultiMap is identified by a key value.
+	 *			  Each element in an <code>HashMultiMap</code> is identified by a key value.
 	 * @param <T> Type of the mapped value. 
-	 *			  Each element in an UnorderedUnorderedMap is used to store some data as its mapped value.
+	 *			  Each element in an <code>HashMultiMap</code> is used to store some data as its mapped value.
 	 *
 	 * @author Jeongho Nam
 	 */
-	export class UnorderedMultiMap<K, T>
+	export class HashMultiMap<K, T>
 		extends base.container.MultiMap<K, T>
 	{
 		private hashBuckets: base.hash.MapHashBuckets<K, T>;
@@ -87,6 +104,9 @@ namespace std
 			}
 		}
 
+		/**
+		 * @private
+		 */
 		protected constructByArray(items: Array<Pair<K, T>>): void
 		{
 			this.hashBuckets.reserve(items.length * base.hash.RATIO);
@@ -145,6 +165,9 @@ namespace std
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @private
+		 */
 		protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
 		{
 			let listIterator = <ListIterator<Pair<L, U>>>this.data.insert(this.data.end(), pair);
@@ -155,6 +178,9 @@ namespace std
 			return it;
 		}
 
+		/**
+		 * @private
+		 */
 		protected insertByRange<L extends K, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{

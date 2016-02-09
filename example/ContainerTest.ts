@@ -47,7 +47,7 @@ namespace std.example
 			document.write("<h4> UnorderedSet </h4>\n");
 
 			// CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-			let container = new UnorderedMultiSet<number>();
+			let container = new HashMultiSet<number>();
 			for (let i: number = 0; i < 10; i++)
 				container.insert(i);
 
@@ -85,7 +85,7 @@ namespace std.example
 			document.write("<h4> UnorderedMap </h4>\n");
 
 			// CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-			let container = new MultiMap<number, number>();
+			let container = new TreeMultiMap<number, number>();
 			for (let i: number = 0; i < 10; i++)
 				container.insert(new Pair<number, number>(i, i));
 

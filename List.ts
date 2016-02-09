@@ -3,6 +3,8 @@
 namespace std
 {
 	/**
+	 * <p> Doubly linked list. </p>
+	 *
 	 * <p> Lists are sequence containers that allow constant time insert and erase operations anywhere 
 	 * within the sequence, and iteration in both directions. </p>
 	 *

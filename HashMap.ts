@@ -3,39 +3,55 @@
 namespace std
 {
 	/**
-	 * <p> Unordered Map, another word, Hash Map. </p>
+	 * <p> Hashed, unordered map. </p>
 	 *
-	 * <p> Unordered maps are associative containers that store elements formed by the combination of a key value 
-	 * and a mapped value, and which allows for fast retrieval of individual elements based on their keys. </p>
+	 * <p> <code>HashMap</code>s are associative containers that store elements formed by the 
+	 * combination of a <i>key value</i> and a <i>mapped value</i>, and which allows for fast 
+	 * retrieval of individual elements based on their <i>keys</i>. </p>
 	 *
-	 * <p> In an <code>UnorderedMap</code>, the key value is generally used to uniquely identify the element, 
-	 * while the mapped value is an object with the content associated to this key. Types of key and mapped 
-	 * value may differ. </p>
+	 * <p> In an <code>HashMap</code>, the <i>key value</i> is generally used to uniquely identify  
+	 * the element, while the <i>mapped value</i> is an object with the content associated to this 
+	 * <i>key</i>. Types of <i>key</i> and <i>mapped value</i> may differ. </p>
 	 *
-	 * <p> Internally, the elements in the <code>UnorderedMap</code> are not sorted in any particular order with 
-	 * respect to either their key or mapped values, but organized into buckets depending on their hash values to 
-	 * allow for fast access to individual elements directly by their key values (with a constant average time 
-	 * complexity on average). </p>
+	 * <p> Internally, the elements in the <code>HashMap</code> are not sorted in any particular order 
+	 * with respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> 
+	 * depending on their hash values to allow for fast access to individual elements directly by 
+	 * their <i>key values</i> (with a constant average time complexity on average). </p>
 	 *
-	 * <p> <code>UnorderedMap</code> containers are faster than map containers to access individual elements by 
-	 * their key, although they are generally less efficient for range iteration through a subset of their 
-	 * elements. </p>
+	 * <p> <code>HashMap</code> containers are faster than <code>TreeMap</code> containers to access 
+	 * individual elements by their <i>key</i>, although they are generally less efficient for range 
+	 * iteration through a subset of their elements. </p>
 	 *
-	 * <p> Unordered maps implement the direct access operator (<code>get()</code>) which allows for direct access 
-	 * of the mapped value using its key value as argument. </p>
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 * 	<dt> Associative </dt>
+	 * 	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
+	 *		 position in the container. </dd>
+	 * 
+	 * 	<dt> Hashed </dt>
+	 * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
+	 *		 by their <i>key</i>. </dd>
+	 * 
+	 * 	<dt> Map </dt>
+	 * 	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>: 
+	 *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+	 * 
+	 * 	<dt> Unique keys </dt>
+	 * 	<dd> No two elements in the container can have equivalent keys. </dd>
+	 * </dl>
 	 *
 	 * <ul>
 	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
 	 * </ul>
 	 *
 	 * @param <K> Type of the key values. 
-	 *			  Each element in an <code>UnorderedMap</code> is uniquely identified by its key value.
+	 *			  Each element in an <code>HashMap</code> is uniquely identified by its key value.
 	 * @param <T> Type of the mapped value. 
-	 *			  Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
+	 *			  Each element in an <code>HashMap</code> is used to store some data as its mapped value.
 	 *
 	 * @author Jeongho Nam
 	 */
-	export class UnorderedMap<K, T>
+	export class HashMap<K, T>
 		extends base.container.UniqueMap<K, T>
 	{
 		private hashBuckets: base.hash.MapHashBuckets<K, T>;
@@ -89,6 +105,9 @@ namespace std
 			}
 		}
 
+		/**
+		 * @private
+		 */
 		protected constructByArray(items: Array<Pair<K, T>>): void
 		{
 			this.hashBuckets.reserve(items.length * base.hash.RATIO);
@@ -147,6 +166,9 @@ namespace std
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @private
+		 */
 		protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
 		{
 			// TEST WHETHER EXIST
@@ -164,6 +186,9 @@ namespace std
 			return new Pair<MapIterator<K, T>, boolean>(it, true);
 		}
 
+		/**
+		 * @private
+		 */
 		protected insertByRange<L extends K, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{

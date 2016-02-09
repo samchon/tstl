@@ -117,255 +117,99 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        var system;
-        (function (system) {
-            /**
-             * <p> An abstract error instance. </p>
-             *
-             * <p> <code>ErrorInstance</code> is an abstract class of <code>ErrorCode</code> and <code>ErrorCondition</code>
-             * holding an error instance's identifier <code>value</code>, associated with a <code>category</code>. </p>
-             *
-             * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-             * represent possible results. These numerical values may carry essential information for a specific platform,
-             * but be non-portable from one platform to another. </p>
-             *
-             * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-             * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
-             *
-             * <ul>
-             *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-             *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-             * </ul>
-             *
-             * @author Jeongho Nam
-             */
-            var ErrorInstance = (function () {
-                function ErrorInstance(val, category) {
-                    if (val === void 0) { val = 0; }
-                    if (category === void 0) { category = null; }
-                    this.assign(val, category);
-                }
-                /**
-                 * <p> Assign error instance. </p>
-                 *
-                 * <p> Assigns the <code>ErrorCode</code> object a value of val associated with the <code>ErrorCategory.</code> </p>
-                 *
-                 * @param val A numerical value identifying an error instance.
-                 * @param category A reference to an <code>ErrorCategory</code> object.
-                 */
-                ErrorInstance.prototype.assign = function (val, category) {
-                    this.category_ = category;
-                    this.value_ = val;
-                };
-                /**
-                 * <p> Clear error instance. </p>
-                 *
-                 * <p> Clears the value in the <code>ErrorCode</code> object so that it is set to a value of
-                 * <i>0</i> of the <code>ErrorCategory.systemCategory()</code> (indicating no error).
-                 */
-                ErrorInstance.prototype.clear = function () {
-                    this.value_ = 0;
-                };
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                /**
-                 * <p> Get category. </p>
-                 *
-                 * <p> Returns a reference to the <code>ErrorCategory</code> associated with the <code>ErrorCode</code>
-                 * object. </p>
-                 *
-                 * @return A reference to a non-copyable object of a type derived from <code>ErrorCategory</code>.
-                 */
-                ErrorInstance.prototype.category = function () {
-                    return this.category_;
-                };
-                /**
-                 * <p> Error value. </p>
-                 *
-                 * <p> Returns the error value associated with the <code>ErrorCode</code> object. </p>
-                 *
-                 * @return The error value.
-                 */
-                ErrorInstance.prototype.value = function () {
-                    return this.value_;
-                };
-                /**
-                 * <p> Get message. </p>
-                 *
-                 * <p> Returns the message associated with the error instance. </p>
-                 *
-                 * <p> Error messages are defined by the <code>category</code> the error instance belongs to. </p>
-                 *
-                 * <p> This function returns the same as if the following member was called: </p>
-                 *
-                 * <p> <code>category().message(value())</code> </p>
-                 *
-                 * @return A <code>string</code> object with the message associated with the <code>ErrorCode</code>.
-                 */
-                ErrorInstance.prototype.message = function () {
-                    if (this.category_ == null || this.value_ == 0)
-                        return "";
-                    else
-                        return this.category_.message(this.value_);
-                };
-                /**
-                 * <p> Default error condition. </p>
-                 *
-                 * <p> Returns the default <code>ErrorCondition</code> object associated with the <code>ErrorCode</code>
-                 * object. </p>
-                 *
-                 * <p> This function returns the same as if the following member was called: </p>
-                 *
-                 * <p> <code>category().default_error_condition(value())</code> </p>
-                 *
-                 * <p> <code>ErrorCategory.defaultErrorCondition()</code> is a virtual member function, that can operate
-                 * differently for each category. </p>
-                 *
-                 * @return An <code>ErrorCondition</code> object that corresponds to the <code>ErrorCode</code> object.
-                 */
-                ErrorInstance.prototype.defaultErrorCondition = function () {
-                    if (this.category_ == null || this.value_ == 0)
-                        return null;
-                    else
-                        return this.category_.defaultErrorCondition(this.value_);
-                };
-                /* ---------------------------------------------------------
-                    OPERATORS
-                --------------------------------------------------------- */
-                /**
-                 * <p> Convert to bool. </p>
-                 *
-                 * <p> Returns whether the error instance has a numerical <code>value</code> other than 0. </p>
-                 *
-                 * If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true.
-                 *
-                 * @return <code>true</code> if the error's numerical value is not zero.
-                 *		   <code>false</code> otherwise.
-                 */
-                ErrorInstance.prototype.toBoolean = function () {
-                    return this.value_ != 0;
-                };
-                return ErrorInstance;
-            })();
-            system.ErrorInstance = ErrorInstance;
-        })(system = base.system || (base.system = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var hash;
-        (function (hash) {
-            hash.MIN_SIZE = 10;
-            hash.RATIO = 0.8;
-            hash.MAX_RATIO = 2.0;
-            function code(par) {
-                var type = typeof par;
-                if (type == "number")
-                    return codeByNumber(par);
-                else if (type == "string")
-                    return codeByString(par);
-                else
-                    return codeByObject(par);
-            }
-            hash.code = code;
-            function codeByNumber(val) {
-                return Math.abs(Math.round(val));
-            }
-            function codeByString(str) {
-                var val = 0;
-                for (var i = 0; i < str.length; i++)
-                    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-                return val;
-            }
-            function codeByObject(obj) {
-                if (obj.hasOwnProperty("hashCode") == true)
-                    return obj.hashCode();
-                else
-                    return obj.__getUID();
-            }
-        })(hash = base.hash || (base.hash = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var hash;
-        (function (hash) {
-            var HashBuckets = (function () {
+        var container;
+        (function (container) {
+            var Iterator = (function () {
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
                 /**
-                 * Default Constructor.
+                 * Construct from the source Container.
+                 *
+                 * @param source The source Container.
                  */
-                function HashBuckets() {
-                    this.clear();
+                function Iterator(source) {
+                    this.source = source;
                 }
                 /**
-                 * Reserve the bucket size.
+                 * Advances the Iterator by n element positions.
                  *
-                 * @param size Number of bucket size to reserve.
+                 * @param n Number of element positions to advance.
+                 * @return An advanced Iterator.
                  */
-                HashBuckets.prototype.reserve = function (size) {
-                    if (size < hash.MIN_SIZE)
-                        size = hash.MIN_SIZE;
-                    var prevMatrix = this.buckets;
-                    this.buckets = new std.Vector();
-                    for (var i = 0; i < size; i++)
-                        this.buckets.pushBack(new std.Vector());
-                    for (var i = 0; i < prevMatrix.size(); i++)
-                        for (var j = 0; j < prevMatrix.at(i).size(); j++) {
-                            var val = prevMatrix.at(i).at(j);
-                            this.buckets.at(this.hashIndex(val)).pushBack(val);
-                            this.itemSize_++;
-                        }
-                };
-                HashBuckets.prototype.clear = function () {
-                    this.buckets = new std.Vector();
-                    this.itemSize_ = 0;
-                    for (var i = 0; i < hash.MIN_SIZE; i++)
-                        this.buckets.pushBack(new std.Vector());
+                Iterator.prototype.advance = function (n) {
+                    var it = this;
+                    var i;
+                    if (n >= 0) {
+                        for (i = 0; i < n; i++)
+                            if (it.equals(this.source.end()))
+                                return this.source.end();
+                            else
+                                it = it.next();
+                    }
+                    else {
+                        n = n * -1;
+                        for (i = 0; i < n; i++)
+                            if (it.equals(this.source.end()))
+                                return this.source.end();
+                            else
+                                it = it.prev();
+                    }
+                    return it;
                 };
                 /* ---------------------------------------------------------
                     ACCESSORS
                 --------------------------------------------------------- */
-                HashBuckets.prototype.size = function () {
-                    return this.buckets.size();
+                /**
+                 * Get source.
+                 */
+                Iterator.prototype.getSource = function () {
+                    return this.source;
                 };
-                HashBuckets.prototype.itemSize = function () {
-                    return this.itemSize_;
+                /**
+                 * <p> Whether an iterator is equal with the iterator. </p>
+                 *
+                 * <p> Compare two iterators and returns whether they are equal or not. </p>
+                 *
+                 *
+                 * <h4> Note </h4>
+                 *
+                 * <p> Iterator's equals() only compare souce map and index number. </p>
+                 *
+                 * <p> Although elements in a pair, key and value are equals, if the source map or
+                 * index number is different, then the equals() will return false. If you want to
+                 * compare the elements of a pair, compare them directly by yourself. </p>
+                 *
+                 * @param obj An iterator to compare
+                 * @return Indicates whether equal or not.
+                 */
+                Iterator.prototype.equals = function (obj) {
+                    return this.source == obj.source;
                 };
-                HashBuckets.prototype.at = function (index) {
-                    return this.buckets.at(index);
-                };
-                HashBuckets.prototype.hashIndex = function (val) {
-                    return hash.code(val) % this.buckets.size();
-                };
-                /* ---------------------------------------------------------
-                    ELEMENTS I/O
-                --------------------------------------------------------- */
-                HashBuckets.prototype.insert = function (val) {
-                    this.buckets.at(this.hashIndex(val)).pushBack(val);
-                    if (++this.itemSize_ > this.buckets.size() * hash.MAX_RATIO)
-                        this.reserve(this.itemSize_ * hash.RATIO);
-                };
-                HashBuckets.prototype.erase = function (val) {
-                    var hashes = this.buckets.at(this.hashIndex(val));
-                    for (var i = 0; i < hashes.size(); i++)
-                        if (hashes.at(i) == val) {
-                            hashes.splice(i, 1);
-                            this.itemSize_--;
-                            break;
-                        }
-                };
-                return HashBuckets;
+                Object.defineProperty(Iterator.prototype, "value", {
+                    /**
+                     * <p> Get value of the iterator is pointing. </p>
+                     *
+                     * @return A value of the iterator.
+                     */
+                    get: function () {
+                        throw new std.LogicError("Have to be overriden.");
+                    },
+                    /**
+                     * <p> Set value of the iterator is pointing. </p>
+                     *
+                     * @param val A new value of the iterator.
+                     */
+                    set: function (val) {
+                        throw new std.LogicError("Have to be overriden.");
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                return Iterator;
             })();
-            hash.HashBuckets = HashBuckets;
-        })(hash = base.hash || (base.hash = {}));
+            container.Iterator = Iterator;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
@@ -374,6 +218,22 @@ var std;
     (function (base) {
         var container;
         (function (container_4) {
+            /**
+             * <p> An abstract map. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Ordered </dt>
+             *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+             *		 given a position in this order. </dd>
+             *
+             *	<dt> Map </dt>
+             *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+             *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+             * </dl>
+             *
+             * @author Jeongho Nam
+             */
             var MapContainer = (function () {
                 /* =========================================================
                     CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -388,13 +248,22 @@ var std;
                 function MapContainer() {
                     this.data = new std.List();
                 }
+                /**
+                 * @private
+                 */
                 MapContainer.prototype.constructByArray = function (items) {
                     for (var i = 0; i < items.length; i++)
                         this.insertByPair(items[i]);
                 };
+                /**
+                 * @private
+                 */
                 MapContainer.prototype.constructByContainer = function (container) {
                     this.constructByRange(container.begin(), container.end());
                 };
+                /**
+                 * @private
+                 */
                 MapContainer.prototype.constructByRange = function (begin, end) {
                     this.assign(begin, end);
                 };
@@ -525,6 +394,9 @@ var std;
                     else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator)
                         return this.eraseByRange(args[0], args[1]);
                 };
+                /**
+                 * @private
+                 */
                 MapContainer.prototype.eraseByKey = function (key) {
                     var it = this.find(key);
                     if (it.equals(this.end()) == true)
@@ -532,6 +404,9 @@ var std;
                     this.eraseByIterator(it);
                     return 1;
                 };
+                /**
+                 * @private
+                 */
                 MapContainer.prototype.eraseByIterator = function (it) {
                     // ERASE
                     var listIterator = this.data.erase(it.getListIterator());
@@ -540,6 +415,9 @@ var std;
                     return new std.MapIterator(this, listIterator);
                     ;
                 };
+                /**
+                 * @private
+                 */
                 MapContainer.prototype.eraseByRange = function (begin, end) {
                     // ERASE
                     var listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
@@ -554,39 +432,12 @@ var std;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="HashBuckets.ts" />
+/// <reference path="MapContainer.ts" />
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var hash;
-        (function (hash) {
-            var MapHashBuckets = (function (_super) {
-                __extends(MapHashBuckets, _super);
-                function MapHashBuckets(map) {
-                    _super.call(this);
-                    this.map = map;
-                }
-                MapHashBuckets.prototype.find = function (key) {
-                    var index = hash.code(key) % this.size();
-                    var bucket = this.at(index);
-                    for (var i = 0; i < bucket.size(); i++)
-                        if (std.equals(bucket.at(i).first, key))
-                            return bucket.at(i);
-                    return this.map.end();
-                };
-                return MapHashBuckets;
-            })(hash.HashBuckets);
-            hash.MapHashBuckets = MapHashBuckets;
-        })(hash = base.hash || (base.hash = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="MapContainer.ts" />
 var std;
 (function (std) {
     var base;
@@ -764,18 +615,9 @@ var std;
                             return this.insertByHint(args[0], args[1]);
                     }
                 };
-                //{
-                //	// test whether exists
-                //	let it = this.find(val);
-                //	if (it.equals(this.end()) == false)
-                //		return new pair<iterator<t>, boolean>(it, false);
-                //	// insert
-                //	this.data.pushback(val);
-                //	it = it.prev();
-                //	// post-process
-                //	this.handleinsert(<setiterator<t>>it);
-                //	return new pair<iterator<t>, boolean>(it, true);
-                //}
+                /**
+                 * @private
+                 */
                 SetContainer.prototype.insertByHint = function (hint, val) {
                     // INSERT
                     var listIterator = this.data.insert(hint.getListIterator(), val);
@@ -784,6 +626,9 @@ var std;
                     this.handleInsert(it);
                     return it;
                 };
+                /**
+                 * @private
+                 */
                 SetContainer.prototype.insertByRange = function (begin, end) {
                     for (var it = begin; it.equals(end) == false; it = it.next())
                         this.insertByVal(it.value);
@@ -801,6 +646,9 @@ var std;
                     else if (args.length == 2 && args[0] instanceof container_5.Iterator && args[1] instanceof container_5.Iterator)
                         return this.eraseByRange(args[0], args[1]);
                 };
+                /**
+                 * @private
+                 */
                 SetContainer.prototype.eraseByKey = function (val) {
                     // TEST WHETHER EXISTS
                     var it = this.find(val);
@@ -810,6 +658,9 @@ var std;
                     this.eraseByIterator(it);
                     return 1;
                 };
+                /**
+                 * @private
+                 */
                 SetContainer.prototype.eraseByIterator = function (it) {
                     // ERASE
                     var listIterator = this.data.erase(it.getListIterator());
@@ -817,6 +668,9 @@ var std;
                     this.handleErase(it);
                     return new std.SetIterator(this, listIterator);
                 };
+                /**
+                 * @private
+                 */
                 SetContainer.prototype.eraseByRange = function (begin, end) {
                     // ERASE
                     var listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
@@ -871,6 +725,220 @@ var std;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
+/// <reference path="MapContainer.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var container;
+        (function (container) {
+            var UniqueMap = (function (_super) {
+                __extends(UniqueMap, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function UniqueMap() {
+                    _super.call(this);
+                }
+                /**
+                 * @inheritdoc
+                 */
+                UniqueMap.prototype.count = function (key) {
+                    return this.find(key).equals(this.end()) ? 0 : 1;
+                };
+                UniqueMap.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    return _super.prototype.insert.apply(this, args);
+                };
+                return UniqueMap;
+            })(container.MapContainer);
+            container.UniqueMap = UniqueMap;
+        })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="SetContainer.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var container;
+        (function (container) {
+            var UniqueSet = (function (_super) {
+                __extends(UniqueSet, _super);
+                /* =========================================================
+                    CONSTRUCTORS
+                ========================================================= */
+                /**
+                 * Default Constructor.
+                 */
+                function UniqueSet() {
+                    _super.call(this);
+                }
+                UniqueSet.prototype.count = function (key) {
+                    return this.find(key).equals(this.end()) ? 0 : 1;
+                };
+                UniqueSet.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    return _super.prototype.insert.apply(this, args);
+                };
+                return UniqueSet;
+            })(container.SetContainer);
+            container.UniqueSet = UniqueSet;
+        })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var hash;
+        (function (hash) {
+            hash.MIN_SIZE = 10;
+            hash.RATIO = 0.8;
+            hash.MAX_RATIO = 2.0;
+            function code(par) {
+                var type = typeof par;
+                if (type == "number")
+                    return codeByNumber(par);
+                else if (type == "string")
+                    return codeByString(par);
+                else
+                    return codeByObject(par);
+            }
+            hash.code = code;
+            function codeByNumber(val) {
+                return Math.abs(Math.round(val));
+            }
+            function codeByString(str) {
+                var val = 0;
+                for (var i = 0; i < str.length; i++)
+                    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+                return val;
+            }
+            function codeByObject(obj) {
+                if (obj.hasOwnProperty("hashCode") == true)
+                    return obj.hashCode();
+                else
+                    return obj.__getUID();
+            }
+        })(hash = base.hash || (base.hash = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var hash;
+        (function (hash) {
+            var HashBuckets = (function () {
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function HashBuckets() {
+                    this.clear();
+                }
+                /**
+                 * Reserve the bucket size.
+                 *
+                 * @param size Number of bucket size to reserve.
+                 */
+                HashBuckets.prototype.reserve = function (size) {
+                    if (size < hash.MIN_SIZE)
+                        size = hash.MIN_SIZE;
+                    var prevMatrix = this.buckets;
+                    this.buckets = new std.Vector();
+                    for (var i = 0; i < size; i++)
+                        this.buckets.pushBack(new std.Vector());
+                    for (var i = 0; i < prevMatrix.size(); i++)
+                        for (var j = 0; j < prevMatrix.at(i).size(); j++) {
+                            var val = prevMatrix.at(i).at(j);
+                            this.buckets.at(this.hashIndex(val)).pushBack(val);
+                            this.itemSize_++;
+                        }
+                };
+                HashBuckets.prototype.clear = function () {
+                    this.buckets = new std.Vector();
+                    this.itemSize_ = 0;
+                    for (var i = 0; i < hash.MIN_SIZE; i++)
+                        this.buckets.pushBack(new std.Vector());
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                HashBuckets.prototype.size = function () {
+                    return this.buckets.size();
+                };
+                HashBuckets.prototype.itemSize = function () {
+                    return this.itemSize_;
+                };
+                HashBuckets.prototype.at = function (index) {
+                    return this.buckets.at(index);
+                };
+                HashBuckets.prototype.hashIndex = function (val) {
+                    return hash.code(val) % this.buckets.size();
+                };
+                /* ---------------------------------------------------------
+                    ELEMENTS I/O
+                --------------------------------------------------------- */
+                HashBuckets.prototype.insert = function (val) {
+                    this.buckets.at(this.hashIndex(val)).pushBack(val);
+                    if (++this.itemSize_ > this.buckets.size() * hash.MAX_RATIO)
+                        this.reserve(this.itemSize_ * hash.RATIO);
+                };
+                HashBuckets.prototype.erase = function (val) {
+                    var hashes = this.buckets.at(this.hashIndex(val));
+                    for (var i = 0; i < hashes.size(); i++)
+                        if (hashes.at(i) == val) {
+                            hashes.splice(i, 1);
+                            this.itemSize_--;
+                            break;
+                        }
+                };
+                return HashBuckets;
+            })();
+            hash.HashBuckets = HashBuckets;
+        })(hash = base.hash || (base.hash = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="HashBuckets.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var hash;
+        (function (hash) {
+            var MapHashBuckets = (function (_super) {
+                __extends(MapHashBuckets, _super);
+                function MapHashBuckets(map) {
+                    _super.call(this);
+                    this.map = map;
+                }
+                MapHashBuckets.prototype.find = function (key) {
+                    var index = hash.code(key) % this.size();
+                    var bucket = this.at(index);
+                    for (var i = 0; i < bucket.size(); i++)
+                        if (std.equals(bucket.at(i).first, key))
+                            return bucket.at(i);
+                    return this.map.end();
+                };
+                return MapHashBuckets;
+            })(hash.HashBuckets);
+            hash.MapHashBuckets = MapHashBuckets;
+        })(hash = base.hash || (base.hash = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
 /// <reference path="HashBuckets.ts" />
 var std;
 (function (std) {
@@ -902,25 +970,139 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        var tree;
-        (function (tree) {
-            var Color = (function () {
-                function Color() {
+        var system;
+        (function (system) {
+            /**
+             * <p> An abstract error instance. </p>
+             *
+             * <p> <code>ErrorInstance</code> is an abstract class of <code>ErrorCode</code> and <code>ErrorCondition</code>
+             * holding an error instance's identifier <code>value</code>, associated with a <code>category</code>. </p>
+             *
+             * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+             * represent possible results. These numerical values may carry essential information for a specific platform,
+             * but be non-portable from one platform to another. </p>
+             *
+             * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
+             * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
+             *
+             * <ul>
+             *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
+             *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
+             * </ul>
+             *
+             * @author Jeongho Nam
+             */
+            var ErrorInstance = (function () {
+                function ErrorInstance(val, category) {
+                    if (val === void 0) { val = 0; }
+                    if (category === void 0) { category = null; }
+                    this.assign(val, category);
                 }
-                Object.defineProperty(Color, "BLACK", {
-                    get: function () { return false; },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(Color, "RED", {
-                    get: function () { return true; },
-                    enumerable: true,
-                    configurable: true
-                });
-                return Color;
+                /**
+                 * <p> Assign error instance. </p>
+                 *
+                 * <p> Assigns the <code>ErrorCode</code> object a value of val associated with the <code>ErrorCategory.</code> </p>
+                 *
+                 * @param val A numerical value identifying an error instance.
+                 * @param category A reference to an <code>ErrorCategory</code> object.
+                 */
+                ErrorInstance.prototype.assign = function (val, category) {
+                    this.category_ = category;
+                    this.value_ = val;
+                };
+                /**
+                 * <p> Clear error instance. </p>
+                 *
+                 * <p> Clears the value in the <code>ErrorCode</code> object so that it is set to a value of
+                 * <i>0</i> of the <code>ErrorCategory.systemCategory()</code> (indicating no error).
+                 */
+                ErrorInstance.prototype.clear = function () {
+                    this.value_ = 0;
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Get category. </p>
+                 *
+                 * <p> Returns a reference to the <code>ErrorCategory</code> associated with the <code>ErrorCode</code>
+                 * object. </p>
+                 *
+                 * @return A reference to a non-copyable object of a type derived from <code>ErrorCategory</code>.
+                 */
+                ErrorInstance.prototype.category = function () {
+                    return this.category_;
+                };
+                /**
+                 * <p> Error value. </p>
+                 *
+                 * <p> Returns the error value associated with the <code>ErrorCode</code> object. </p>
+                 *
+                 * @return The error value.
+                 */
+                ErrorInstance.prototype.value = function () {
+                    return this.value_;
+                };
+                /**
+                 * <p> Get message. </p>
+                 *
+                 * <p> Returns the message associated with the error instance. </p>
+                 *
+                 * <p> Error messages are defined by the <code>category</code> the error instance belongs to. </p>
+                 *
+                 * <p> This function returns the same as if the following member was called: </p>
+                 *
+                 * <p> <code>category().message(value())</code> </p>
+                 *
+                 * @return A <code>string</code> object with the message associated with the <code>ErrorCode</code>.
+                 */
+                ErrorInstance.prototype.message = function () {
+                    if (this.category_ == null || this.value_ == 0)
+                        return "";
+                    else
+                        return this.category_.message(this.value_);
+                };
+                /**
+                 * <p> Default error condition. </p>
+                 *
+                 * <p> Returns the default <code>ErrorCondition</code> object associated with the <code>ErrorCode</code>
+                 * object. </p>
+                 *
+                 * <p> This function returns the same as if the following member was called: </p>
+                 *
+                 * <p> <code>category().default_error_condition(value())</code> </p>
+                 *
+                 * <p> <code>ErrorCategory.defaultErrorCondition()</code> is a virtual member function, that can operate
+                 * differently for each category. </p>
+                 *
+                 * @return An <code>ErrorCondition</code> object that corresponds to the <code>ErrorCode</code> object.
+                 */
+                ErrorInstance.prototype.defaultErrorCondition = function () {
+                    if (this.category_ == null || this.value_ == 0)
+                        return null;
+                    else
+                        return this.category_.defaultErrorCondition(this.value_);
+                };
+                /* ---------------------------------------------------------
+                    OPERATORS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Convert to bool. </p>
+                 *
+                 * <p> Returns whether the error instance has a numerical <code>value</code> other than 0. </p>
+                 *
+                 * If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true.
+                 *
+                 * @return <code>true</code> if the error's numerical value is not zero.
+                 *		   <code>false</code> otherwise.
+                 */
+                ErrorInstance.prototype.toBoolean = function () {
+                    return this.value_ != 0;
+                };
+                return ErrorInstance;
             })();
-            tree.Color = Color;
-        })(tree = base.tree || (base.tree = {}));
+            system.ErrorInstance = ErrorInstance;
+        })(system = base.system || (base.system = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
@@ -1186,63 +1368,6 @@ var std;
     (function (base) {
         var tree;
         (function (tree) {
-            var PairTree = (function (_super) {
-                __extends(PairTree, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTOR
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function PairTree() {
-                    _super.call(this);
-                }
-                PairTree.prototype.find = function (val) {
-                    if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
-                        return _super.prototype.find.call(this, val);
-                    else
-                        return this.findByKey(val);
-                };
-                PairTree.prototype.findByKey = function (key) {
-                    var node = this.root;
-                    if (node != null)
-                        while (true) {
-                            var newNode = null;
-                            if (std.equals(key, node.value.first))
-                                break;
-                            else if (std.less(key, node.value.first))
-                                newNode = node.left;
-                            else
-                                newNode = node.right;
-                            if (newNode == null)
-                                break;
-                            else
-                                node = newNode;
-                        }
-                    return node;
-                };
-                /* ---------------------------------------------------------
-                    COMPARISON
-                --------------------------------------------------------- */
-                PairTree.prototype.isEquals = function (left, right) {
-                    return std.equals(left.first, right.first);
-                };
-                PairTree.prototype.isLess = function (left, right) {
-                    return std.less(left.first, right.first);
-                };
-                return PairTree;
-            })(tree.XTree);
-            tree.PairTree = PairTree;
-        })(tree = base.tree || (base.tree = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="XTree.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var tree;
-        (function (tree) {
             var AtomicTree = (function (_super) {
                 __extends(AtomicTree, _super);
                 /* ---------------------------------------------------------
@@ -1290,6 +1415,88 @@ var std;
                 return AtomicTree;
             })(tree.XTree);
             tree.AtomicTree = AtomicTree;
+        })(tree = base.tree || (base.tree = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var tree;
+        (function (tree) {
+            var Color = (function () {
+                function Color() {
+                }
+                Object.defineProperty(Color, "BLACK", {
+                    get: function () { return false; },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Color, "RED", {
+                    get: function () { return true; },
+                    enumerable: true,
+                    configurable: true
+                });
+                return Color;
+            })();
+            tree.Color = Color;
+        })(tree = base.tree || (base.tree = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="XTree.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var tree;
+        (function (tree) {
+            var PairTree = (function (_super) {
+                __extends(PairTree, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTOR
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function PairTree() {
+                    _super.call(this);
+                }
+                PairTree.prototype.find = function (val) {
+                    if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
+                        return _super.prototype.find.call(this, val);
+                    else
+                        return this.findByKey(val);
+                };
+                PairTree.prototype.findByKey = function (key) {
+                    var node = this.root;
+                    if (node != null)
+                        while (true) {
+                            var newNode = null;
+                            if (std.equals(key, node.value.first))
+                                break;
+                            else if (std.less(key, node.value.first))
+                                newNode = node.left;
+                            else
+                                newNode = node.right;
+                            if (newNode == null)
+                                break;
+                            else
+                                node = newNode;
+                        }
+                    return node;
+                };
+                /* ---------------------------------------------------------
+                    COMPARISON
+                --------------------------------------------------------- */
+                PairTree.prototype.isEquals = function (left, right) {
+                    return std.equals(left.first, right.first);
+                };
+                PairTree.prototype.isLess = function (left, right) {
+                    return std.less(left.first, right.first);
+                };
+                return PairTree;
+            })(tree.XTree);
+            tree.PairTree = PairTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -1355,77 +1562,6 @@ var std;
             })();
             tree.XTreeNode = XTreeNode;
         })(tree = base.tree || (base.tree = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="MapContainer.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var container;
-        (function (container) {
-            var UniqueMap = (function (_super) {
-                __extends(UniqueMap, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Default Constructor.
-                 */
-                function UniqueMap() {
-                    _super.call(this);
-                }
-                /**
-                 * @inheritdoc
-                 */
-                UniqueMap.prototype.count = function (key) {
-                    return this.find(key).equals(this.end()) ? 0 : 1;
-                };
-                UniqueMap.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    return _super.prototype.insert.apply(this, args);
-                };
-                return UniqueMap;
-            })(container.MapContainer);
-            container.UniqueMap = UniqueMap;
-        })(container = base.container || (base.container = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="SetContainer.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var container;
-        (function (container) {
-            var UniqueSet = (function (_super) {
-                __extends(UniqueSet, _super);
-                /* =========================================================
-                    CONSTRUCTORS
-                ========================================================= */
-                /**
-                 * Default Constructor.
-                 */
-                function UniqueSet() {
-                    _super.call(this);
-                }
-                UniqueSet.prototype.count = function (key) {
-                    return this.find(key).equals(this.end()) ? 0 : 1;
-                };
-                UniqueSet.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    return _super.prototype.insert.apply(this, args);
-                };
-                return UniqueSet;
-            })(container.SetContainer);
-            container.UniqueSet = UniqueSet;
-        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
@@ -1518,6 +1654,75 @@ var std;
     })();
     std.ErrorCategory = ErrorCategory;
 })(std || (std = {}));
+/// <reference path="base/system/ErrorInstance.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Error code. </p>
+     *
+     * <p> Objects of this type hold an error code <code>value</code> associated with a <code>category</code>. </p>
+     *
+     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+     * represent possible results. These numerical values may carry essential information for a specific platform,
+     * but be non-portable from one platform to another. </p>
+     *
+     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
+     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    var ErrorCode = (function (_super) {
+        __extends(ErrorCode, _super);
+        function ErrorCode(val, category) {
+            if (val === void 0) { val = 0; }
+            if (category === void 0) { category = null; }
+            _super.call(this, val, category);
+        }
+        return ErrorCode;
+    })(std.base.system.ErrorInstance);
+    std.ErrorCode = ErrorCode;
+})(std || (std = {}));
+/// <reference path="base/system/ErrorInstance.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Error condition. </p>
+     *
+     * <p> Objects of this type hold a condition <code>value</code> associated with a <code>category</code>. </p>
+     *
+     * <p> Objects of this type describe errors in a generic way so that they may be portable across different
+     * systems. This is in contrast with <code>ErrorCode</code> objects, that may contain system-specific
+     * information. </p>
+     *
+     * <p> Because <code>ErrorCondition</code> objects can be compared with error_code objects directly by using
+     * <code>relational operators</code>, <code>ErrorCondition</code> objects are generally used to check whether
+     * a particular <code>ErrorCode</code> obtained from the system matches a specific error condition no matter
+     * the system. </p>
+     *
+     * <p> The <code>categories</code> associated with the <code>ErrorCondition</code> and the <code>ErrorCode</code>
+     * define the equivalences between them. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    var ErrorCondition = (function (_super) {
+        __extends(ErrorCondition, _super);
+        function ErrorCondition(val, category) {
+            if (val === void 0) { val = 0; }
+            if (category === void 0) { category = null; }
+            _super.call(this, val, category);
+        }
+        return ErrorCondition;
+    })(std.base.system.ErrorInstance);
+    std.ErrorCondition = ErrorCondition;
+})(std || (std = {}));
 var std;
 (function (std) {
     var example;
@@ -1552,7 +1757,7 @@ var std;
             ContainerTest.prototype.testUnorderedSet = function () {
                 document.write("<h4> UnorderedSet </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.UnorderedMultiSet();
+                var container = new std.HashMultiSet();
                 for (var i = 0; i < 10; i++)
                     container.insert(i);
                 // ELEMENTS I/O
@@ -1578,7 +1783,7 @@ var std;
             ContainerTest.prototype.testUnorderedMap = function () {
                 document.write("<h4> UnorderedMap </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.MultiMap();
+                var container = new std.TreeMultiMap();
                 for (var i = 0; i < 10; i++)
                     container.insert(new std.Pair(i, i));
                 // ELEMENTS I/O
@@ -1928,109 +2133,752 @@ var std;
     })(RuntimeError);
     std.RangeError = RangeError;
 })(std || (std = {}));
+/// <reference path="base/container/UniqueMap.ts" />
 var std;
 (function (std) {
-    var base;
-    (function (base) {
-        var container;
-        (function (container) {
-            var Iterator = (function () {
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
-                /**
-                 * Construct from the source Container.
-                 *
-                 * @param source The source Container.
-                 */
-                function Iterator(source) {
-                    this.source = source;
+    /**
+     * <p> Hashed, unordered map. </p>
+     *
+     * <p> <code>HashMap</code>s are associative containers that store elements formed by the
+     * combination of a <i>key value</i> and a <i>mapped value</i>, and which allows for fast
+     * retrieval of individual elements based on their <i>keys</i>. </p>
+     *
+     * <p> In an <code>HashMap</code>, the <i>key value</i> is generally used to uniquely identify
+     * the element, while the <i>mapped value</i> is an object with the content associated to this
+     * <i>key</i>. Types of <i>key</i> and <i>mapped value</i> may differ. </p>
+     *
+     * <p> Internally, the elements in the <code>HashMap</code> are not sorted in any particular order
+     * with respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i>
+     * depending on their hash values to allow for fast access to individual elements directly by
+     * their <i>key values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> <code>HashMap</code> containers are faster than <code>TreeMap</code> containers to access
+     * individual elements by their <i>key</i>, although they are generally less efficient for range
+     * iteration through a subset of their elements. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     * 	<dt> Associative </dt>
+     * 	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     * 	<dt> Hashed </dt>
+     * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     * 	<dt> Map </dt>
+     * 	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *
+     * 	<dt> Unique keys </dt>
+     * 	<dd> No two elements in the container can have equivalent keys. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+     * </ul>
+     *
+     * @param <K> Type of the key values.
+     *			  Each element in an <code>HashMap</code> is uniquely identified by its key value.
+     * @param <T> Type of the mapped value.
+     *			  Each element in an <code>HashMap</code> is used to store some data as its mapped value.
+     *
+     * @author Jeongho Nam
+     */
+    var HashMap = (function (_super) {
+        __extends(HashMap, _super);
+        function HashMap() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            // HASH_BUCKET
+            this.hashBuckets = new std.base.hash.MapHashBuckets(this);
+            // OVERLOADINGS
+            if (args.length == 1 && args[0] instanceof Array) {
+                this.constructByArray(args[0]);
+            }
+            else if (args.length == 1 && args[0] instanceof std.base.container.MapContainer) {
+                this.constructByContainer(args[0]);
+            }
+            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
+                this.constructByRange(args[0], args[1]);
+            }
+        }
+        /**
+         * @private
+         */
+        HashMap.prototype.constructByArray = function (items) {
+            this.hashBuckets.reserve(items.length * std.base.hash.RATIO);
+            _super.prototype.constructByArray.call(this, items);
+        };
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.assign = function (begin, end) {
+            var it;
+            var size = 0;
+            // RESERVE HASH_BUCKET SIZE
+            for (it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            this.hashBuckets.clear();
+            this.hashBuckets.reserve(size * std.base.hash.RATIO);
+            // SUPER; INSERT
+            _super.prototype.assign.call(this, begin, end);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+            this.hashBuckets.clear();
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.find = function (key) {
+            return this.hashBuckets.find(key);
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        /**
+         * @private
+         */
+        HashMap.prototype.insertByPair = function (pair) {
+            // TEST WHETHER EXIST
+            var it = this.find(pair.first);
+            if (it.equals(this.end()) == false)
+                return new std.Pair(it, false);
+            // INSERT
+            this.data.pushBack(pair);
+            it = it.prev();
+            // POST-PROCESS
+            this.handleInsert(it);
+            return new std.Pair(it, true);
+        };
+        /**
+         * @private
+         */
+        HashMap.prototype.insertByRange = function (begin, end) {
+            // CALCULATE INSERTING SIZE
+            var size = 0;
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBuckets.itemSize() * std.base.hash.MAX_RATIO)
+                this.hashBuckets.reserve((this.size() + size) * std.base.hash.RATIO);
+            // INSERTS
+            _super.prototype.insertByRange.call(this, begin, end);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.handleInsert = function (it) {
+            this.hashBuckets.insert(it);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.handleErase = function (it) {
+            this.hashBuckets.erase(it);
+        };
+        return HashMap;
+    })(std.base.container.UniqueMap);
+    std.HashMap = HashMap;
+})(std || (std = {}));
+/// <reference path="base/container/MultiMap.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Hashed, unordered Multimap. </p>
+     *
+     * <p> <code>HashMultiMap</code>s are associative containers that store elements formed by the combination of
+     * a <i>key value</i> and a <i>mapped value</i>, much like <code>HashMap</code> containers, but allowing
+     * different elements to have equivalent <i>keys</i>. </p>
+     *
+     * <p> In an <code>HashMultiMap</code>, the <i>key value</i> is generally used to uniquely identify the
+     * element, while the <i>mapped value</i> is an object with the content associated to this <i>key</i>.
+     * Types of <i>key</i> and <i>mapped value</i> may differ. </p>
+     *
+     * <p> Internally, the elements in the <code>HashMultiMap</code> are not sorted in any particular order with
+     * respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on
+     * their hash values to allow for fast access to individual elements directly by their <i>key values</i>
+     * (with a constant average time complexity on average). </p>
+     *
+     * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that
+     * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
+     * </ul>
+     *
+     * @param <K> Type of the key values.
+     *			  Each element in an <code>HashMultiMap</code> is identified by a key value.
+     * @param <T> Type of the mapped value.
+     *			  Each element in an <code>HashMultiMap</code> is used to store some data as its mapped value.
+     *
+     * @author Jeongho Nam
+     */
+    var HashMultiMap = (function (_super) {
+        __extends(HashMultiMap, _super);
+        function HashMultiMap() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            // HASH_BUCKET
+            this.hashBuckets = new std.base.hash.MapHashBuckets(this);
+            // OVERLOADINGS
+            if (args.length == 1 && args[0] instanceof Array) {
+                this.constructByArray(args[0]);
+            }
+            else if (args.length == 1 && args[0] instanceof std.base.container.MapContainer) {
+                this.constructByContainer(args[0]);
+            }
+            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
+                this.constructByRange(args[0], args[1]);
+            }
+        }
+        /**
+         * @private
+         */
+        HashMultiMap.prototype.constructByArray = function (items) {
+            this.hashBuckets.reserve(items.length * std.base.hash.RATIO);
+            _super.prototype.constructByArray.call(this, items);
+        };
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.assign = function (begin, end) {
+            var it;
+            var size = 0;
+            // REVERSE HASH_GROUP SIZE
+            for (it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            this.hashBuckets.clear();
+            this.hashBuckets.reserve(size * std.base.hash.RATIO);
+            // SUPER; INSERT
+            _super.prototype.assign.call(this, begin, end);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+            this.hashBuckets.clear();
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.find = function (key) {
+            return this.hashBuckets.find(key);
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        /**
+         * @private
+         */
+        HashMultiMap.prototype.insertByPair = function (pair) {
+            var listIterator = this.data.insert(this.data.end(), pair);
+            var it = new std.MapIterator(this, listIterator);
+            this.handleInsert(it);
+            return it;
+        };
+        /**
+         * @private
+         */
+        HashMultiMap.prototype.insertByRange = function (begin, end) {
+            // CALCULATE INSERTING SIZE
+            var size = 0;
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBuckets.itemSize() * std.base.hash.MAX_RATIO)
+                this.hashBuckets.reserve((this.size() + size) * std.base.hash.RATIO);
+            // INSERTS
+            _super.prototype.insertByRange.call(this, begin, end);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.handleInsert = function (it) {
+            this.hashBuckets.insert(it);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.handleErase = function (it) {
+            this.hashBuckets.erase(it);
+        };
+        return HashMultiMap;
+    })(std.base.container.MultiMap);
+    std.HashMultiMap = HashMultiMap;
+})(std || (std = {}));
+/// <reference path="base/container/MultiSet.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Hashed, unordered Multiset. </p>
+     *
+     * <p> <code>HashMultiSet</code>s are containers that store elements in no particular order, allowing fast
+     * retrieval of individual elements based on their value, much like <code>UnorderedSet</code> containers,
+     * but allowing different elements to have equivalent values. </p>
+     *
+     * <p> In an <code>HashMultiSet</code>, the value of an element is at the same time its <i>key</i>, used to
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an <code>HashMultiSet</code> cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> Internally, the elements in the <code>HashMultiSet</code> are not sorted in any particular, but
+     * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
+     * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
+     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+     *
+     * @author Jeongho Nam
+     */
+    var HashMultiSet = (function (_super) {
+        __extends(HashMultiSet, _super);
+        function HashMultiSet() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            // BUCKET
+            this.hashBuckets = new std.base.hash.SetHashBuckets(this);
+            // OVERLOADINGS
+            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
+                this.constructByArray(args[0]);
+            }
+            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
+                this.constructByContainer(args[0]);
+            }
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
+                this.constructByRange(args[0], args[1]);
+            }
+        }
+        /**
+         * @private
+         */
+        HashMultiSet.prototype.constructByArray = function (items) {
+            this.hashBuckets.reserve(items.length * std.base.hash.RATIO);
+            _super.prototype.constructByArray.call(this, items);
+        };
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.assign = function (begin, end) {
+            var it;
+            var size = 0;
+            // RESERVE HASH_BUCKET SIZE
+            for (it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            this.hashBuckets.clear();
+            this.hashBuckets.reserve(size * std.base.hash.RATIO);
+            // SUPER; INSERT
+            _super.prototype.assign.call(this, begin, end);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+            this.hashBuckets.clear();
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.find = function (val) {
+            return this.hashBuckets.find(val);
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        /**
+         * @private
+         */
+        HashMultiSet.prototype.insertByVal = function (val) {
+            // INSERT
+            var listIterator = this.data.insert(this.data.end(), val);
+            var it = new std.SetIterator(this, listIterator);
+            // POST-PROCESS
+            this.handleInsert(it);
+            return it;
+        };
+        /**
+         * @private
+         */
+        HashMultiSet.prototype.insertByRange = function (begin, end) {
+            // CALCULATE INSERTING SIZE
+            var size = 0;
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBuckets.itemSize() * std.base.hash.MAX_RATIO)
+                this.hashBuckets.reserve((this.size() + size) * std.base.hash.RATIO);
+            // INSERTS
+            _super.prototype.insertByRange.call(this, begin, end);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.handleInsert = function (it) {
+            this.hashBuckets.insert(it);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.handleErase = function (it) {
+            this.hashBuckets.erase(it);
+        };
+        return HashMultiSet;
+    })(std.base.container.MultiSet);
+    std.HashMultiSet = HashMultiSet;
+})(std || (std = {}));
+/// <reference path="base/container/UniqueSet.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Hashed, unordered set. </p>
+     *
+     * <p> <code>HashSet</code>s are containers that store unique elements in no particular order, and which
+     * allow for fast retrieval of individual elements based on their value. </p>
+     *
+     * <p> In an <code>HashSet</code>, the value of an element is at the same time its <i>key</i>, that
+     * identifies it uniquely. Keys are immutable, therefore, the elements in an <code>HashSet</code> cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> Internally, the elements in the <code>HashSet</code> are not sorted in any particular order, but
+     * organized into buckets depending on their hash values to allow for fast access to individual elements
+     * directly by their <i>values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> <code>HashSet</code> containers are faster than <codeTreeSet<code> containers to access individual
+     * elements by their <i>key</i>, although they are generally less efficient for range iteration through a
+     * subset of their elements. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *			  Each element in an <code>HashSet</code> is also uniquely identified by this value.
+     *
+     * @author Jeongho Nam
+     */
+    var HashSet = (function (_super) {
+        __extends(HashSet, _super);
+        function HashSet() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            // BUCKET
+            this.hashBuckets = new std.base.hash.SetHashBuckets(this);
+            // OVERLOADINGS
+            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
+                this.constructByArray(args[0]);
+            }
+            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
+                this.constructByContainer(args[0]);
+            }
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
+                this.constructByRange(args[0], args[1]);
+            }
+        }
+        HashSet.prototype.constructByArray = function (items) {
+            this.hashBuckets.reserve(items.length * std.base.hash.RATIO);
+            _super.prototype.constructByArray.call(this, items);
+        };
+        /* ---------------------------------------------------------
+            ASSIGN & CLEAR
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.assign = function (begin, end) {
+            var it;
+            var size = 0;
+            // RESERVE HASH_BUCKET SIZE
+            for (it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            this.hashBuckets.clear();
+            this.hashBuckets.reserve(size * std.base.hash.RATIO);
+            // SUPER; INSERT
+            _super.prototype.assign.call(this, begin, end);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.clear = function () {
+            _super.prototype.clear.call(this);
+            this.hashBuckets.clear();
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.find = function (val) {
+            return this.hashBuckets.find(val);
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - INSERT
+                - POST-PROCESS
+        ============================================================
+            INSERT
+        --------------------------------------------------------- */
+        HashSet.prototype.insertByVal = function (val) {
+            // TEST WHETHER EXIST
+            var it = this.find(val);
+            if (it.equals(this.end()) == false)
+                return new std.Pair(it, false);
+            // INSERT
+            this.data.pushBack(val);
+            it = it.prev();
+            // POST-PROCESS
+            this.handleInsert(it);
+            return new std.Pair(it, true);
+        };
+        HashSet.prototype.insertByRange = function (begin, end) {
+            // CALCULATE INSERTING SIZE
+            var size = 0;
+            for (var it = begin; it.equals(end) == false; it = it.next())
+                size++;
+            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+            if (this.size() + size > this.hashBuckets.size() * std.base.hash.MAX_RATIO)
+                this.hashBuckets.reserve((this.size() + size) * std.base.hash.RATIO);
+            // INSERTS
+            _super.prototype.insertByRange.call(this, begin, end);
+        };
+        /* ---------------------------------------------------------
+            POST-PROCESS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.handleInsert = function (item) {
+            this.hashBuckets.insert(item);
+        };
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.handleErase = function (item) {
+            this.hashBuckets.erase(item);
+        };
+        return HashSet;
+    })(std.base.container.UniqueSet);
+    std.HashSet = HashSet;
+})(std || (std = {}));
+var std;
+(function (std) {
+    /**
+     * <p> For equality comparison. </p>
+     *
+     * <p> Binary fucntion returns whether the arguments are equal. </p>
+     *
+     * @param <T> Type of arguments to compare.
+     *
+     * @param first First element to compare.
+     * @param second Second element to compare.
+     *
+     * @return Whether the arguments are equal.
+     */
+    function equals(left, right) {
+        if (left instanceof Object && left.hasOwnProperty("equals"))
+            return left.equals(right);
+        else
+            return left == right;
+    }
+    std.equals = equals;
+    /**
+     * <p> Function for less-than inequality comparison. </p>
+     *
+     * <p> Binary function returns whether the its first argument compares less than the second. </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function <code>less()</code>
+     * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
+     * This member function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * <p> Objects of this class can be used on standard algorithms such as <code>sort()</code>,
+     * <code>merge<()/code> or <code>lower_bound()</code>. </p>
+     *
+     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
+     *			  <code>operator<()</code> or method <code>less()</code>.
+     *
+     * @param first First element, the standard of comparison.
+     * @param second Second element compare with the first.
+     *
+     * @return Whether the first parameter is less than the second.
+     */
+    function less(left, right) {
+        if (left instanceof Object)
+            if (left.hasOwnProperty("less") == true)
+                return left.less(right);
+            else
+                return left.__getUID() < right.__getUID();
+        else
+            return left < right;
+    }
+    std.less = less;
+    /**
+     * <p> Function for greater-than inequality comparison. </p>
+     *
+     * <p> Binary function returns whether the its first argument compares greater than the second. </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function <code>less()</code> and
+     * <code>equals()</code> defined. If an object doesn't have those methods, then its own uid will be used
+     * to compare insteadly. This member function allows the object to be used with the same syntax as a function
+     * call. </p>
+     *
+     * <p> Objects of this class can be used on standard algorithms such as <code>sort()</code>,
+     * <code>merge<()/code> or <code>lower_bound()</code>. </p>
+     *
+     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
+     *			  <code>operator>()</code> or method <code>less()</code> and <code>equals()</code>.
+     *
+     * @param left
+     * @param right
+     */
+    function greater(left, right) {
+        return !std.less(left, right) && !std.equals(left, right);
+    }
+    std.greater = greater;
+    function hashCode(obj) {
+        return std.base.hash.code(obj);
+    }
+    std.hashCode = hashCode;
+    /**
+     * Incremental sequence of unique id allocated to Object.
+     */
+    var __s_iUID = 0;
+    Object.defineProperties(Object.prototype, {
+        "__getUID": {
+            value: function () {
+                if (this.hasOwnProperty("__m_iUID") == false) {
+                    var uid = ++__s_iUID;
+                    Object.defineProperty(this, "__m_iUID", {
+                        "get": function () {
+                            return uid;
+                        }
+                    });
                 }
-                /**
-                 * Advances the Iterator by n element positions.
-                 *
-                 * @param n Number of element positions to advance.
-                 * @return An advanced Iterator.
-                 */
-                Iterator.prototype.advance = function (n) {
-                    var it = this;
-                    var i;
-                    if (n >= 0) {
-                        for (i = 0; i < n; i++)
-                            if (it.equals(this.source.end()))
-                                return this.source.end();
-                            else
-                                it = it.next();
-                    }
-                    else {
-                        n = n * -1;
-                        for (i = 0; i < n; i++)
-                            if (it.equals(this.source.end()))
-                                return this.source.end();
-                            else
-                                it = it.prev();
-                    }
-                    return it;
-                };
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                /**
-                 * Get source.
-                 */
-                Iterator.prototype.getSource = function () {
-                    return this.source;
-                };
-                /**
-                 * <p> Whether an iterator is equal with the iterator. </p>
-                 *
-                 * <p> Compare two iterators and returns whether they are equal or not. </p>
-                 *
-                 *
-                 * <h4> Note </h4>
-                 *
-                 * <p> Iterator's equals() only compare souce map and index number. </p>
-                 *
-                 * <p> Although elements in a pair, key and value are equals, if the source map or
-                 * index number is different, then the equals() will return false. If you want to
-                 * compare the elements of a pair, compare them directly by yourself. </p>
-                 *
-                 * @param obj An iterator to compare
-                 * @return Indicates whether equal or not.
-                 */
-                Iterator.prototype.equals = function (obj) {
-                    return this.source == obj.source;
-                };
-                Object.defineProperty(Iterator.prototype, "value", {
-                    /**
-                     * <p> Get value of the iterator is pointing. </p>
-                     *
-                     * @return A value of the iterator.
-                     */
-                    get: function () {
-                        throw new std.LogicError("Have to be overriden.");
-                    },
-                    /**
-                     * <p> Set value of the iterator is pointing. </p>
-                     *
-                     * @param val A new value of the iterator.
-                     */
-                    set: function (val) {
-                        throw new std.LogicError("Have to be overriden.");
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                return Iterator;
-            })();
-            container.Iterator = Iterator;
-        })(container = base.container || (base.container = {}));
-    })(base = std.base || (std.base = {}));
+                return this.__m_iUID;
+            }
+        }
+    });
 })(std || (std = {}));
 /// <reference path="base/container/Container.ts" />
 var std;
 (function (std) {
     /**
+     * <p> Doubly linked list. </p>
+     *
      * <p> Lists are sequence containers that allow constant time insert and erase operations anywhere
      * within the sequence, and iteration in both directions. </p>
      *
@@ -2447,99 +3295,6 @@ var std;
     })(std.base.container.Iterator);
     std.ListIterator = ListIterator;
 })(std || (std = {}));
-/// <reference path="base/container/UniqueMap.ts" />
-var std;
-(function (std) {
-    var Map = (function (_super) {
-        __extends(Map, _super);
-        function Map() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            this.tree = new std.base.tree.PairTree();
-        }
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        //public assign<L extends K, U extends T>
-        //	(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-        //{
-        //	super.assign(begin, end);
-        //}
-        /**
-         * @inheritdoc
-         */
-        Map.prototype.clear = function () {
-            _super.prototype.clear.call(this);
-        };
-        /* =========================================================
-            ACCESSORS
-        ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        Map.prototype.find = function (key) {
-            var node = this.tree.find(key);
-            if (node == null || std.equals(node.value.first, key) == false)
-                return this.end();
-            else
-                return node.value;
-        };
-        Map.prototype.findNear = function (key) {
-            var node = this.tree.find(key);
-            if (node == null)
-                return this.end();
-            else
-                return node.value;
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - INSERT
-                - POST-PROCESS
-        ============================================================
-            INSERT
-        --------------------------------------------------------- */
-        Map.prototype.insertByPair = function (pair) {
-            var node = this.tree.find(pair.first);
-            // IF EQUALS, THEN RETURN FALSE
-            if (node != null && std.equals(node.value.first, pair.first) == true)
-                return new std.Pair(node.value, false);
-            // INSERTS
-            var it;
-            if (node == null)
-                it = this.end();
-            else if (std.less(node.value.first, pair.first) == true)
-                it = node.value.next();
-            else
-                it = node.value;
-            // ITERATOR TO RETURN
-            it = this.insert(it, pair);
-            return new std.Pair(it, true);
-        };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        Map.prototype.handleInsert = function (item) {
-            this.tree.insert(item);
-        };
-        /**
-         * @inheritdoc
-         */
-        Map.prototype.handleErase = function (item) {
-            this.tree.erase(item);
-        };
-        return Map;
-    })(std.base.container.UniqueMap);
-    std.Map = Map;
-})(std || (std = {}));
 var std;
 (function (std) {
     var MapIterator = (function () {
@@ -2653,285 +3408,21 @@ var std;
     })();
     std.MapIterator = MapIterator;
 })(std || (std = {}));
-/// <reference path="base/container/MultiMap.ts" />
-var std;
-(function (std) {
-    var MultiMap = (function (_super) {
-        __extends(MultiMap, _super);
-        function MultiMap() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            this.tree = new std.base.tree.PairTree();
-        }
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        //public assign<L extends K, U extends T>
-        //	(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-        //{
-        //	super.assign(begin, end);
-        //}
-        /**
-         * @inheritdoc
-         */
-        MultiMap.prototype.clear = function () {
-            _super.prototype.clear.call(this);
-        };
-        /* =========================================================
-            ACCESSORS
-        ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        MultiMap.prototype.find = function (key) {
-            var node = this.tree.find(key);
-            if (node == null || std.equals(node.value.first, key) == false)
-                return this.end();
-            else
-                return node.value;
-        };
-        MultiMap.prototype.findNear = function (key) {
-            var node = this.tree.find(key);
-            if (node == null)
-                return this.end();
-            else
-                return node.value;
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - INSERT
-                - POST-PROCESS
-        ============================================================
-            INSERT
-        --------------------------------------------------------- */
-        MultiMap.prototype.insertByPair = function (pair) {
-            var node = this.tree.find(pair.first);
-            var it;
-            if (node == null) {
-                it = this.end();
-            }
-            else if (std.equals(node.value.first, pair.first) == true) {
-                it = node.value.next();
-            }
-            else if (std.less(node.value.first, pair.first) == true) {
-                it = node.value.next();
-                while (it.equals(this.end()) == false && std.less(it.first, pair.first))
-                    it = it.next();
-            }
-            else
-                it = node.value;
-            // ITERATOR TO RETURN
-            return this.insert(it, pair);
-        };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        MultiMap.prototype.handleInsert = function (item) {
-            this.tree.insert(item);
-        };
-        /**
-         * @inheritdoc
-         */
-        MultiMap.prototype.handleErase = function (item) {
-            this.tree.erase(item);
-        };
-        return MultiMap;
-    })(std.base.container.MultiMap);
-    std.MultiMap = MultiMap;
-})(std || (std = {}));
-/// <reference path="base/container/MultiSet.ts" />
-var std;
-(function (std) {
-    var MultiSet = (function (_super) {
-        __extends(MultiSet, _super);
-        function MultiSet() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            this.tree = new std.base.tree.AtomicTree();
-        }
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
-        ///**
-        // * @inheritdoc
-        // */
-        //public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
-        //{
-        //	super.assign(begin, end);
-        //}
-        /**
-         * @inheritdoc
-         */
-        MultiSet.prototype.clear = function () {
-            _super.prototype.clear.call(this);
-            this.tree = new std.base.tree.AtomicTree();
-        };
-        /* =========================================================
-            ACCESSORS
-        ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        MultiSet.prototype.find = function (val) {
-            var node = this.tree.find(val);
-            if (node == null || std.equals(val, node.value.value) == false)
-                return this.end();
-            else
-                return node.value;
-        };
-        MultiSet.prototype.findNear = function (val) {
-            var node = this.tree.find(val);
-            if (node == null)
-                return this.end();
-            else
-                return node.value;
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - INSERT
-                - POST-PROCESS
-        ============================================================
-            INSERT
-        --------------------------------------------------------- */
-        MultiSet.prototype.insertByVal = function (val) {
-            var node = this.tree.find(val);
-            var it;
-            if (node == null) {
-                it = this.end();
-            }
-            else if (std.equals(node.value.value, val) == true) {
-                it = node.value.next();
-            }
-            else if (std.less(node.value.value, val) == true) {
-                it = node.value.next();
-                while (it.equals(this.end()) == false && std.less(it.value, val))
-                    it = it.next();
-            }
-            else {
-                it = node.value;
-            }
-            // ITERATOR TO RETURN
-            return this.insert(it, val);
-        };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        MultiSet.prototype.handleInsert = function (item) {
-            this.tree.insert(item);
-        };
-        /**
-         * @inheritdoc
-         */
-        MultiSet.prototype.handleErase = function (item) {
-            this.tree.erase(item);
-        };
-        return MultiSet;
-    })(std.base.container.MultiSet);
-    std.MultiSet = MultiSet;
-})(std || (std = {}));
 var std;
 (function (std) {
     /**
-     * <p> For equality comparison. </p>
+     * <p> Pair of values. </p>
      *
-     * <p> Binary fucntion returns whether the arguments are equal. </p>
+     * <p> This class couples together a pair of values, which may be of different types (<code>T1</code> and
+     * <code>T2</code>). The individual values can be accessed through its public members <code>first</code> and
+     * <code>second</code>. </p>
      *
-     * @param <T> Type of arguments to compare.
-     *
-     * @param first First element to compare.
-     * @param second Second element to compare.
-     *
-     * @return Whether the arguments are equal.
-     */
-    function equals(left, right) {
-        if (left instanceof Object && left.hasOwnProperty("equals"))
-            return left.equals(right);
-        else
-            return left == right;
-    }
-    std.equals = equals;
-    /**
-     * <p> For less-than inequality comparison. </p>
-     *
-     * <p> Binary function returns whether the its first argument compares less than
-     * the second. </p>
-     *
-     * <p> Objects of this class can be used on standard algorithms such as <code>sort</code>, <code>merge</code>. </p>
-     *
-     * @param <T> Type of arguments to compare.
-     *
-     * @param first First element, the standard of comparison.
-     * @param second Second element compare with the first.
-     *
-     * @return Whether the first parameter is less than the second.
-     */
-    function less(left, right) {
-        if (left instanceof Object)
-            if (left.hasOwnProperty("less") == true)
-                return left.less(right);
-            else
-                return left.__getUID() < right.__getUID();
-        else
-            return left < right;
-    }
-    std.less = less;
-    function greater(left, right) {
-        return !std.equals(left, right) && !std.less(left, right);
-    }
-    std.greater = greater;
-    function hashCode(par) {
-        return std.base.hash.code(par);
-    }
-    std.hashCode = hashCode;
-    /**
-     * Incremental sequence of unique id allocated to Object.
-     */
-    var __s_iUID = 0;
-    Object.defineProperties(Object.prototype, {
-        "__getUID": {
-            value: function () {
-                if (this.hasOwnProperty("__m_iUID") == false) {
-                    var uid = ++__s_iUID;
-                    Object.defineProperty(this, "__m_iUID", {
-                        "get": function () {
-                            return uid;
-                        }
-                    });
-                }
-                return this.__m_iUID;
-            }
-        }
-    });
-})(std || (std = {}));
-var std;
-(function (std) {
-    /**
-     * <p> A pair of values. </p>
      * <ul>
-     *  <li> _Ty1: Type of member fisrt. </li>
-     *  <li> _Ty2 Type of member second. </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/utility/pair/ </li>
      * </ul>
      *
-     * <p> This class couples together a pair of values, which may be of different types
-     * (_Ty1 and _Ty2). The individual values can be accessed through its public members
-     * first and second. </p>
-     *
-     * <p> Same with std::pair (http://www.cplusplus.com/reference/utility/pair/) </p>
+     * @param <K> Type of member <code>first</code>.
+     * @param <T> Type of member <code>second</code>.
      *
      * @author Jeongho Nam
      */
@@ -3086,235 +3577,6 @@ var std;
         return Queue;
     })(std.base.container.FOContainer);
     std.Queue = Queue;
-})(std || (std = {}));
-/// <reference path="Exception.ts" />
-/// <reference path="base/system/ErrorInstance.ts" />
-var std;
-(function (std) {
-    /**
-     * <p> System error exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to report conditions originating during
-     * runtime from the operating system or other low-level application program interfaces which have an
-     * associated <code>ErrorCode</code>. </p>
-     *
-     * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as
-     * member code (and defines a specialized what member). </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    var SystemError = (function (_super) {
-        __extends(SystemError, _super);
-        function SystemError() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this, "");
-        }
-        /* ---------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------- */
-        /**
-         * <p> Get error code. </p>
-         *
-         * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
-         *
-         * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent
-         * (if constructed with a value and a <code>category</code>). </p>
-         *
-         * @return The <code>ErrorCode</code> associated with the object.
-         */
-        SystemError.prototype.code = function () {
-            return this.code_;
-        };
-        return SystemError;
-    })(std.RuntimeError);
-    std.SystemError = SystemError;
-    /**
-     * <p> Error code. </p>
-     *
-     * <p> Objects of this type hold an error code <code>value</code> associated with a <code>category</code>. </p>
-     *
-     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-     * represent possible results. These numerical values may carry essential information for a specific platform,
-     * but be non-portable from one platform to another. </p>
-     *
-     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    var ErrorCode = (function (_super) {
-        __extends(ErrorCode, _super);
-        function ErrorCode(val, category) {
-            if (val === void 0) { val = 0; }
-            if (category === void 0) { category = null; }
-            _super.call(this, val, category);
-        }
-        return ErrorCode;
-    })(std.base.system.ErrorInstance);
-    std.ErrorCode = ErrorCode;
-    /**
-     * <p> Error condition. </p>
-     *
-     * <p> Objects of this type hold a condition <code>value</code> associated with a <code>category</code>. </p>
-     *
-     * <p> Objects of this type describe errors in a generic way so that they may be portable across different
-     * systems. This is in contrast with <code>ErrorCode</code> objects, that may contain system-specific
-     * information. </p>
-     *
-     * <p> Because <code>ErrorCondition</code> objects can be compared with error_code objects directly by using
-     * <code>relational operators</code>, <code>ErrorCondition</code> objects are generally used to check whether
-     * a particular <code>ErrorCode</code> obtained from the system matches a specific error condition no matter
-     * the system. </p>
-     *
-     * <p> The <code>categories</code> associated with the <code>ErrorCondition</code> and the <code>ErrorCode</code>
-     * define the equivalences between them. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    var ErrorCondition = (function (_super) {
-        __extends(ErrorCondition, _super);
-        function ErrorCondition(val, category) {
-            if (val === void 0) { val = 0; }
-            if (category === void 0) { category = null; }
-            _super.call(this, val, category);
-        }
-        return ErrorCondition;
-    })(std.base.system.ErrorInstance);
-    std.ErrorCondition = ErrorCondition;
-})(std || (std = {}));
-/// <reference path="base/container/UniqueSet.ts" />
-var std;
-(function (std) {
-    /**
-     * <p> Set, in other word, Tree Set. </p>
-     *
-     * <p> Sets are containers that store unique elements following a specific order. </p>
-     *
-     * <p> In a set, the value of an element also identifies it (the value is itself the key, of type T), and each
-     * value must be unique. The value of the elements in a set cannot be modified once in the container
-     * (the elements are always const), but they can be inserted or removed from the container. </p>
-     *
-     * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering criterion
-     * indicated by its internal comparison object (of type Compare). </p>
-     *
-     * <p> Set containers are generally slower than unordered_set containers to access individual elements by
-     * their key, but they allow the direct iteration on subsets based on their order. </p>
-     *
-     * <p> Sets are typically implemented as binary search trees. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
-     * </ul>
-     *
-     * @param <T> Type of the elements.
-     *			  Each element in an <code>Set</code> is also uniquely identified by this value.
-     *
-     * @author Jeongho Nam
-     */
-    var TreeSet = (function (_super) {
-        __extends(TreeSet, _super);
-        function TreeSet() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            this.tree = new std.base.tree.AtomicTree();
-        }
-        /* ---------------------------------------------------------
-            ASSIGN & CLEAR
-        --------------------------------------------------------- */
-        ///**
-        // * @inheritdoc
-        // */
-        //public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
-        //{
-        //	super.assign(begin, end);
-        //}
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.clear = function () {
-            _super.prototype.clear.call(this);
-            this.tree = new std.base.tree.AtomicTree();
-        };
-        /* =========================================================
-            ACCESSORS
-        ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.find = function (val) {
-            var node = this.tree.find(val);
-            if (node == null || std.equals(node.value.value, val) == false)
-                return this.end();
-            else
-                return node.value;
-        };
-        TreeSet.prototype.findNear = function (val) {
-            var node = this.tree.find(val);
-            if (node == null)
-                return this.end();
-            else
-                return node.value;
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - INSERT
-                - POST-PROCESS
-        ============================================================
-            INSERT
-        --------------------------------------------------------- */
-        TreeSet.prototype.insertByVal = function (val) {
-            var node = this.tree.find(val);
-            // IF EQUALS, THEN RETURN FALSE
-            if (node != null && std.equals(node.value.value, val) == true)
-                return new std.Pair(node.value, false);
-            // INSERTS
-            var it;
-            if (node == null)
-                it = this.end();
-            else if (std.less(node.value.value, val) == true)
-                it = node.value.next();
-            else
-                it = node.value;
-            // ITERATOR TO RETURN
-            it = this.insert(it, val);
-            return new std.Pair(it, true);
-        };
-        /* ---------------------------------------------------------
-            POST-PROCESS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.handleInsert = function (item) {
-            this.tree.insert(item);
-        };
-        /**
-         * @inheritdoc
-         */
-        TreeSet.prototype.handleErase = function (item) {
-            this.tree.erase(item);
-        };
-        return TreeSet;
-    })(std.base.container.UniqueSet);
-    std.TreeSet = TreeSet;
 })(std || (std = {}));
 /// <refe0rence path="base/container/Iterator.ts" />
 var std;
@@ -3506,90 +3768,130 @@ var std;
     })(std.base.container.FOContainer);
     std.Stack = Stack;
 })(std || (std = {}));
+/// <reference path="Exception.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> System error exception. </p>
+     *
+     * <p> This class defines the type of objects thrown as exceptions to report conditions originating during
+     * runtime from the operating system or other low-level application program interfaces which have an
+     * associated <code>ErrorCode</code>. </p>
+     *
+     * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as
+     * member code (and defines a specialized what member). </p>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    var SystemError = (function (_super) {
+        __extends(SystemError, _super);
+        function SystemError() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this, "");
+        }
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
+        /**
+         * <p> Get error code. </p>
+         *
+         * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
+         *
+         * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent
+         * (if constructed with a value and a <code>category</code>). </p>
+         *
+         * @return The <code>ErrorCode</code> associated with the object.
+         */
+        SystemError.prototype.code = function () {
+            return this.code_;
+        };
+        return SystemError;
+    })(std.RuntimeError);
+    std.SystemError = SystemError;
+})(std || (std = {}));
 /// <reference path="base/container/UniqueMap.ts" />
 var std;
 (function (std) {
     /**
-     * <p> Unordered Map, another word, Hash Map. </p>
+     * <p> TreeMap, <code>std::map</code> of STL. </p>
      *
-     * <p> Unordered maps are associative containers that store elements formed by the combination of a key value
-     * and a mapped value, and which allows for fast retrieval of individual elements based on their keys. </p>
+     * <p> <code>TreeMap</code>s are associative containers that store elements formed by a combination of a
+     * <i>key value</i> (<code>Key</code>) and a <i>mapped value</i> (<code>T</code>), following order. </p>
      *
-     * <p> In an <code>UnorderedMap</code>, the key value is generally used to uniquely identify the element,
-     * while the mapped value is an object with the content associated to this key. Types of key and mapped
-     * value may differ. </p>
+     * <p> In a <code>TreeMap</code>, the <i>key values</i> are generally used to sort and uniquely identify
+     * the elements, while the <i>mapped values</i> store the content associated to this key. The types of
+     * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
+     * <code>value_type</code>, which is a <code>Pair</code> type combining both:
      *
-     * <p> Internally, the elements in the <code>UnorderedMap</code> are not sorted in any particular order with
-     * respect to either their key or mapped values, but organized into buckets depending on their hash values to
-     * allow for fast access to individual elements directly by their key values (with a constant average time
-     * complexity on average). </p>
+     * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
      *
-     * <p> <code>UnorderedMap</code> containers are faster than map containers to access individual elements by
-     * their key, although they are generally less efficient for range iteration through a subset of their
-     * elements. </p>
+     * <p> Internally, the elements in a <code>TreeMap</code> are always sorted by its <i>key</i> following
+     * a strict weak ordering criterion indicated by its internal comparison method <code>less()</code>.
      *
-     * <p> Unordered maps implement the direct access operator (<code>get()</code>) which allows for direct access
-     * of the mapped value using its key value as argument. </p>
+     * <p> <code>TreeMap</code> containers are generally slower than <code>HashMap</code> containers to access
+     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
+     * order. </p>
+     *
+     * <p> <code>TreeMap</code>s are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/map/map/ </li>
      * </ul>
      *
-     * @param <K> Type of the key values.
-     *			  Each element in an <code>UnorderedMap</code> is uniquely identified by its key value.
-     * @param <T> Type of the mapped value.
-     *			  Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
+     * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
      * @author Jeongho Nam
      */
-    var UnorderedMap = (function (_super) {
-        __extends(UnorderedMap, _super);
-        function UnorderedMap() {
+    var TreeMap = (function (_super) {
+        __extends(TreeMap, _super);
+        function TreeMap() {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            // HASH_BUCKET
-            this.hashBuckets = new std.base.hash.MapHashBuckets(this);
-            // OVERLOADINGS
-            if (args.length == 1 && args[0] instanceof Array) {
-                this.constructByArray(args[0]);
-            }
-            else if (args.length == 1 && args[0] instanceof std.base.container.MapContainer) {
-                this.constructByContainer(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
-                this.constructByRange(args[0], args[1]);
-            }
+            this.tree = new std.base.tree.PairTree();
         }
-        UnorderedMap.prototype.constructByArray = function (items) {
-            this.hashBuckets.reserve(items.length * std.base.hash.RATIO);
-            _super.prototype.constructByArray.call(this, items);
-        };
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        UnorderedMap.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
-            // RESERVE HASH_BUCKET SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            this.hashBuckets.clear();
-            this.hashBuckets.reserve(size * std.base.hash.RATIO);
-            // SUPER; INSERT
+        TreeMap.prototype.assign = function (begin, end) {
             _super.prototype.assign.call(this, begin, end);
         };
         /**
          * @inheritdoc
          */
-        UnorderedMap.prototype.clear = function () {
+        TreeMap.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.hashBuckets.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -3597,8 +3899,19 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedMap.prototype.find = function (key) {
-            return this.hashBuckets.find(key);
+        TreeMap.prototype.find = function (key) {
+            var node = this.tree.find(key);
+            if (node == null || std.equals(node.value.first, key) == false)
+                return this.end();
+            else
+                return node.value;
+        };
+        TreeMap.prototype.findNear = function (key) {
+            var node = this.tree.find(key);
+            if (node == null)
+                return this.end();
+            else
+                return node.value;
         };
         /* =========================================================
             ELEMENTS I/O
@@ -3607,28 +3920,25 @@ var std;
         ============================================================
             INSERT
         --------------------------------------------------------- */
-        UnorderedMap.prototype.insertByPair = function (pair) {
-            // TEST WHETHER EXIST
-            var it = this.find(pair.first);
-            if (it.equals(this.end()) == false)
-                return new std.Pair(it, false);
-            // INSERT
-            this.data.pushBack(pair);
-            it = it.prev();
-            // POST-PROCESS
-            this.handleInsert(it);
-            return new std.Pair(it, true);
-        };
-        UnorderedMap.prototype.insertByRange = function (begin, end) {
-            // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashBuckets.itemSize() * std.base.hash.MAX_RATIO)
-                this.hashBuckets.reserve((this.size() + size) * std.base.hash.RATIO);
+        /**
+         * @private
+         */
+        TreeMap.prototype.insertByPair = function (pair) {
+            var node = this.tree.find(pair.first);
+            // IF EQUALS, THEN RETURN FALSE
+            if (node != null && std.equals(node.value.first, pair.first) == true)
+                return new std.Pair(node.value, false);
             // INSERTS
-            _super.prototype.insertByRange.call(this, begin, end);
+            var it;
+            if (node == null)
+                it = this.end();
+            else if (std.less(node.value.first, pair.first) == true)
+                it = node.value.next();
+            else
+                it = node.value;
+            // ITERATOR TO RETURN
+            it = this.insert(it, pair);
+            return new std.Pair(it, true);
         };
         /* ---------------------------------------------------------
             POST-PROCESS
@@ -3636,101 +3946,96 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedMap.prototype.handleInsert = function (it) {
-            this.hashBuckets.insert(it);
+        TreeMap.prototype.handleInsert = function (item) {
+            this.tree.insert(item);
         };
         /**
          * @inheritdoc
          */
-        UnorderedMap.prototype.handleErase = function (it) {
-            this.hashBuckets.erase(it);
+        TreeMap.prototype.handleErase = function (item) {
+            this.tree.erase(item);
         };
-        return UnorderedMap;
+        return TreeMap;
     })(std.base.container.UniqueMap);
-    std.UnorderedMap = UnorderedMap;
+    std.TreeMap = TreeMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiMap.ts" />
 var std;
 (function (std) {
     /**
-     * <p> Unordered Multimap, in another word, Hashed MultiMap. </p>
+     * <p> Tree-structured multiple-key map. </p>
      *
-     * <p> Unordered multimaps are associative containers that store elements formed by the combination of
-     * a key value and a mapped value, much like UnorderedMap containers, but allowing different elements to
+     * <p> <code>TreeMultiMap</code>s are associative containers that store elements formed by a combination of
+     * a <i>key value</i> and a <i>mapped value</i>, following a specific order, and where multiple elements can
      * have equivalent keys. </p>
      *
-     * <p> In an UnorderedMultiMap, the key value is generally used to uniquely identify the element, while
-     * the mapped value is an object with the content associated to this key. Types of key and mapped value
-     * may differ. </p>
+     * <p> In a <code>TreeMultiMap</code>, the <i>key values</i> are generally used to sort and uniquely identify
+     * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of
+     * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
+     * <code>value_type</code>, which is a <code>Pair</code> type combining both:
      *
-     * <p> Internally, the elements in the unordered_multimap are not sorted in any particular order with
-     * respect to either their key or mapped values, but organized into buckets depending on their hash values
-     * to allow for fast access to individual elements directly by their key values (with a constant average
-     * time complexity on average). </p>
+     * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
      *
-     * <p> Elements with equivalent keys are grouped together in the same bucket and in such a way that
-     * an iterator (see equal_range) can iterate through all of them. Iterators in the container are doubly
-     * linked iterators. </p>
+     * <p> Internally, the elements in a <code>TreeMultiMap</code> are always sorted by its key following a
+     * strict weak ordering criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+     *
+     * <p> <code>TreeMultiMap</code> containers are generally slower than <code>HashMultiMap</code> containers
+     * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based
+     * on their order. </p>
+     *
+     * <p> <code>TreeMultiMap</code>s are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/map/multimap/ </li>
      * </ul>
      *
-     * @param <K> Type of the key values.
-     *			  Each element in an UnorderedMultiMap is identified by a key value.
-     * @param <T> Type of the mapped value.
-     *			  Each element in an UnorderedUnorderedMap is used to store some data as its mapped value.
+     * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
      * @author Jeongho Nam
      */
-    var UnorderedMultiMap = (function (_super) {
-        __extends(UnorderedMultiMap, _super);
-        function UnorderedMultiMap() {
+    var TreeMultiMap = (function (_super) {
+        __extends(TreeMultiMap, _super);
+        function TreeMultiMap() {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            // HASH_BUCKET
-            this.hashBuckets = new std.base.hash.MapHashBuckets(this);
-            // OVERLOADINGS
-            if (args.length == 1 && args[0] instanceof Array) {
-                this.constructByArray(args[0]);
-            }
-            else if (args.length == 1 && args[0] instanceof std.base.container.MapContainer) {
-                this.constructByContainer(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
-                this.constructByRange(args[0], args[1]);
-            }
+            this.tree = new std.base.tree.PairTree();
         }
-        UnorderedMultiMap.prototype.constructByArray = function (items) {
-            this.hashBuckets.reserve(items.length * std.base.hash.RATIO);
-            _super.prototype.constructByArray.call(this, items);
-        };
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        UnorderedMultiMap.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
-            // REVERSE HASH_GROUP SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            this.hashBuckets.clear();
-            this.hashBuckets.reserve(size * std.base.hash.RATIO);
-            // SUPER; INSERT
+        TreeMultiMap.prototype.assign = function (begin, end) {
             _super.prototype.assign.call(this, begin, end);
         };
         /**
          * @inheritdoc
          */
-        UnorderedMultiMap.prototype.clear = function () {
+        TreeMultiMap.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.hashBuckets.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -3738,8 +4043,19 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedMultiMap.prototype.find = function (key) {
-            return this.hashBuckets.find(key);
+        TreeMultiMap.prototype.find = function (key) {
+            var node = this.tree.find(key);
+            if (node == null || std.equals(node.value.first, key) == false)
+                return this.end();
+            else
+                return node.value;
+        };
+        TreeMultiMap.prototype.findNear = function (key) {
+            var node = this.tree.find(key);
+            if (node == null)
+                return this.end();
+            else
+                return node.value;
         };
         /* =========================================================
             ELEMENTS I/O
@@ -3748,22 +4064,27 @@ var std;
         ============================================================
             INSERT
         --------------------------------------------------------- */
-        UnorderedMultiMap.prototype.insertByPair = function (pair) {
-            var listIterator = this.data.insert(this.data.end(), pair);
-            var it = new std.MapIterator(this, listIterator);
-            this.handleInsert(it);
-            return it;
-        };
-        UnorderedMultiMap.prototype.insertByRange = function (begin, end) {
-            // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashBuckets.itemSize() * std.base.hash.MAX_RATIO)
-                this.hashBuckets.reserve((this.size() + size) * std.base.hash.RATIO);
-            // INSERTS
-            _super.prototype.insertByRange.call(this, begin, end);
+        /**
+         * @private
+         */
+        TreeMultiMap.prototype.insertByPair = function (pair) {
+            var node = this.tree.find(pair.first);
+            var it;
+            if (node == null) {
+                it = this.end();
+            }
+            else if (std.equals(node.value.first, pair.first) == true) {
+                it = node.value.next();
+            }
+            else if (std.less(node.value.first, pair.first) == true) {
+                it = node.value.next();
+                while (it.equals(this.end()) == false && std.less(it.first, pair.first))
+                    it = it.next();
+            }
+            else
+                it = node.value;
+            // ITERATOR TO RETURN
+            return this.insert(it, pair);
         };
         /* ---------------------------------------------------------
             POST-PROCESS
@@ -3771,97 +4092,93 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedMultiMap.prototype.handleInsert = function (it) {
-            this.hashBuckets.insert(it);
+        TreeMultiMap.prototype.handleInsert = function (item) {
+            this.tree.insert(item);
         };
         /**
          * @inheritdoc
          */
-        UnorderedMultiMap.prototype.handleErase = function (it) {
-            this.hashBuckets.erase(it);
+        TreeMultiMap.prototype.handleErase = function (item) {
+            this.tree.erase(item);
         };
-        return UnorderedMultiMap;
+        return TreeMultiMap;
     })(std.base.container.MultiMap);
-    std.UnorderedMultiMap = UnorderedMultiMap;
+    std.TreeMultiMap = TreeMultiMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiSet.ts" />
 var std;
 (function (std) {
     /**
-     * <p> Unordered Multiset, in another word, Hashed MultiSet. </p>
+     * <p> Tree-structured multiple-key set. </p>
      *
-     * <p> Unordered multisets are containers that store elements in no particular order, allowing fast retrieval
-     * of individual elements based on their value, much like UnorderedSet containers, but allowing different
-     * elements to have equivalent values. </p>
+     * <p> <code>TreeMultiSet</code>s are containers that store elements following a specific order, and where
+     * multiple elements can have equivalent values. </p>
      *
-     * <p> In an UnorderedMultiSet, the value of an element is at the same time its key, used to identify it.
-     * Keys are immutable, therefore, the elements in an unordered_multiset cannot be modified once in the
-     * container - they can be inserted and removed, though. </p>
+     * <p> In a <code>TreeMultiSet</code>, the value of an element also identifies it (the value is itself
+     * the <i>key</i>, of type <code>T</code>). The value of the elements in a <code>TreeMultiSet</code> cannot
+     * be modified once in the container (the elements are always const), but they can be inserted or removed
+     * from the container. </p>
      *
-     * <p> Internally, the elements in the unordered_multiset are not sorted in any particular, but organized
-     * into buckets depending on their hash values to allow for fast access to individual elements directly by
-     * their values (with a constant average time complexity on average). </p>
+     * <p> Internally, the elements in a <code>TreeMultiSet</code>s are always sorted following a strict weak
+     * ordering criterion indicated by its internal comparison method (of <code>less()</code>).
      *
-     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
-     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     * <p> <code>TreeMultiSet</code> containers are generally slower than <code>HashMultiSet</code> containers
+     * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
+     * their order. </p>
+     *
+     * <p> <code>TreeMultiSet</code>s are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
      * </ul>
      *
-     * @param <T> Type of the elements.
-     *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+     * @param <T> Type of the elements. Each element in a <code>TreeMultiSet</code> container is also identified
+     *			  by this value (each value is itself also the element's <i>key</i>).
      *
      * @author Jeongho Nam
      */
-    var UnorderedMultiSet = (function (_super) {
-        __extends(UnorderedMultiSet, _super);
-        function UnorderedMultiSet() {
+    var TreeMultiSet = (function (_super) {
+        __extends(TreeMultiSet, _super);
+        function TreeMultiSet() {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            // BUCKET
-            this.hashBuckets = new std.base.hash.SetHashBuckets(this);
-            // OVERLOADINGS
-            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
-                this.constructByArray(args[0]);
-            }
-            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
-                this.constructByContainer(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
-                this.constructByRange(args[0], args[1]);
-            }
+            this.tree = new std.base.tree.AtomicTree();
         }
-        UnorderedMultiSet.prototype.constructByArray = function (items) {
-            this.hashBuckets.reserve(items.length * std.base.hash.RATIO);
-            _super.prototype.constructByArray.call(this, items);
-        };
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        UnorderedMultiSet.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
-            // RESERVE HASH_BUCKET SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            this.hashBuckets.clear();
-            this.hashBuckets.reserve(size * std.base.hash.RATIO);
-            // SUPER; INSERT
+        TreeMultiSet.prototype.assign = function (begin, end) {
             _super.prototype.assign.call(this, begin, end);
         };
         /**
          * @inheritdoc
          */
-        UnorderedMultiSet.prototype.clear = function () {
+        TreeMultiSet.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.hashBuckets.clear();
+            this.tree = new std.base.tree.AtomicTree();
         };
         /* =========================================================
             ACCESSORS
@@ -3869,8 +4186,19 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedMultiSet.prototype.find = function (val) {
-            return this.hashBuckets.find(val);
+        TreeMultiSet.prototype.find = function (val) {
+            var node = this.tree.find(val);
+            if (node == null || std.equals(val, node.value.value) == false)
+                return this.end();
+            else
+                return node.value;
+        };
+        TreeMultiSet.prototype.findNear = function (val) {
+            var node = this.tree.find(val);
+            if (node == null)
+                return this.end();
+            else
+                return node.value;
         };
         /* =========================================================
             ELEMENTS I/O
@@ -3879,24 +4207,28 @@ var std;
         ============================================================
             INSERT
         --------------------------------------------------------- */
-        UnorderedMultiSet.prototype.insertByVal = function (val) {
-            // INSERT
-            var listIterator = this.data.insert(this.data.end(), val);
-            var it = new std.SetIterator(this, listIterator);
-            // POST-PROCESS
-            this.handleInsert(it);
-            return it;
-        };
-        UnorderedMultiSet.prototype.insertByRange = function (begin, end) {
-            // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashBuckets.itemSize() * std.base.hash.MAX_RATIO)
-                this.hashBuckets.reserve((this.size() + size) * std.base.hash.RATIO);
-            // INSERTS
-            _super.prototype.insertByRange.call(this, begin, end);
+        /**
+         * @private
+         */
+        TreeMultiSet.prototype.insertByVal = function (val) {
+            var node = this.tree.find(val);
+            var it;
+            if (node == null) {
+                it = this.end();
+            }
+            else if (std.equals(node.value.value, val) == true) {
+                it = node.value.next();
+            }
+            else if (std.less(node.value.value, val) == true) {
+                it = node.value.next();
+                while (it.equals(this.end()) == false && std.less(it.value, val))
+                    it = it.next();
+            }
+            else {
+                it = node.value;
+            }
+            // ITERATOR TO RETURN
+            return this.insert(it, val);
         };
         /* ---------------------------------------------------------
             POST-PROCESS
@@ -3904,97 +4236,92 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedMultiSet.prototype.handleInsert = function (it) {
-            this.hashBuckets.insert(it);
+        TreeMultiSet.prototype.handleInsert = function (item) {
+            this.tree.insert(item);
         };
         /**
          * @inheritdoc
          */
-        UnorderedMultiSet.prototype.handleErase = function (it) {
-            this.hashBuckets.erase(it);
+        TreeMultiSet.prototype.handleErase = function (item) {
+            this.tree.erase(item);
         };
-        return UnorderedMultiSet;
+        return TreeMultiSet;
     })(std.base.container.MultiSet);
-    std.UnorderedMultiSet = UnorderedMultiSet;
+    std.TreeMultiSet = TreeMultiSet;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueSet.ts" />
 var std;
 (function (std) {
     /**
-     * <p> Unordered Set, in other other, Hash Set. </p>
+     * <p> Tree-structured set. </p>
      *
-     * <p> Unordered sets are containers that store unique elements in no particular order, and which allow for
-     * fast retrieval of individual elements based on their value. </p>
+     * <p> <code>TreeSet</code>s are containers that store unique elements following a specific order. </p>
      *
-     * <p> In an <code>UnorderedSet</code>, the value of an element is at the same time its key, that identifies
-     * it uniquely. Keys are immutable, therefore, the elements in an <code>UnorderedSet</code> cannot be modified
-     * once in the container - they can be inserted and removed, though. </p>
+     * <p> In a <code>TreeSet</code>, the value of an element also identifies it (the value is itself the
+     * <i>key</i>, of type <code>T</code>), and each value must be unique. The value of the elements in a
+     * <code>TreeSet</code> cannot be modified once in the container (the elements are always const), but they
+     * can be inserted or removed from the container. </p>
      *
-     * <p> Internally, the elements in the <code>UnorderedSet</code> are not sorted in any particular order, but
-     * organized into buckets depending on their hash values to allow for fast access to individual elements directly
-     * by their values (with a constant average time complexity on average). </p>
+     * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering
+     * criterion indicated by its internal comparison method (of <code>less()</code>). </p>
      *
-     * <p> <code>UnorderedSet</code> containers are faster than <codeSet<code> containers to access individual
-     * elements by their key, although they are generally less efficient for range iteration through a subset of
-     * their elements. </p>
+     * <p> <code>TreeSet</code> containers are generally slower than <code>HashSet</code> containers to access
+     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
+     * order. </p>
+     *
+     * <p> <code>TreeSet</code>s are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
      * </ul>
      *
      * @param <T> Type of the elements.
-     *			  Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
+     *			  Each element in an <code>TreeSet</code> is also uniquely identified by this value.
      *
      * @author Jeongho Nam
      */
-    var UnorderedSet = (function (_super) {
-        __extends(UnorderedSet, _super);
-        function UnorderedSet() {
+    var TreeSet = (function (_super) {
+        __extends(TreeSet, _super);
+        function TreeSet() {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            // BUCKET
-            this.hashBuckets = new std.base.hash.SetHashBuckets(this);
-            // OVERLOADINGS
-            if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
-                this.constructByArray(args[0]);
-            }
-            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
-                this.constructByContainer(args[0]);
-            }
-            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
-                this.constructByRange(args[0], args[1]);
-            }
+            this.tree = new std.base.tree.AtomicTree();
         }
-        UnorderedSet.prototype.constructByArray = function (items) {
-            this.hashBuckets.reserve(items.length * std.base.hash.RATIO);
-            _super.prototype.constructByArray.call(this, items);
-        };
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        UnorderedSet.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
-            // RESERVE HASH_BUCKET SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            this.hashBuckets.clear();
-            this.hashBuckets.reserve(size * std.base.hash.RATIO);
-            // SUPER; INSERT
+        TreeSet.prototype.assign = function (begin, end) {
             _super.prototype.assign.call(this, begin, end);
         };
         /**
          * @inheritdoc
          */
-        UnorderedSet.prototype.clear = function () {
+        TreeSet.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.hashBuckets.clear();
+            this.tree = new std.base.tree.AtomicTree();
         };
         /* =========================================================
             ACCESSORS
@@ -4002,8 +4329,19 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedSet.prototype.find = function (val) {
-            return this.hashBuckets.find(val);
+        TreeSet.prototype.find = function (val) {
+            var node = this.tree.find(val);
+            if (node == null || std.equals(node.value.value, val) == false)
+                return this.end();
+            else
+                return node.value;
+        };
+        TreeSet.prototype.findNear = function (val) {
+            var node = this.tree.find(val);
+            if (node == null)
+                return this.end();
+            else
+                return node.value;
         };
         /* =========================================================
             ELEMENTS I/O
@@ -4012,28 +4350,25 @@ var std;
         ============================================================
             INSERT
         --------------------------------------------------------- */
-        UnorderedSet.prototype.insertByVal = function (val) {
-            // TEST WHETHER EXIST
-            var it = this.find(val);
-            if (it.equals(this.end()) == false)
-                return new std.Pair(it, false);
-            // INSERT
-            this.data.pushBack(val);
-            it = it.prev();
-            // POST-PROCESS
-            this.handleInsert(it);
-            return new std.Pair(it, true);
-        };
-        UnorderedSet.prototype.insertByRange = function (begin, end) {
-            // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
-                size++;
-            // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hashBuckets.size() * std.base.hash.MAX_RATIO)
-                this.hashBuckets.reserve((this.size() + size) * std.base.hash.RATIO);
+        /**
+         * @private
+         */
+        TreeSet.prototype.insertByVal = function (val) {
+            var node = this.tree.find(val);
+            // IF EQUALS, THEN RETURN FALSE
+            if (node != null && std.equals(node.value.value, val) == true)
+                return new std.Pair(node.value, false);
             // INSERTS
-            _super.prototype.insertByRange.call(this, begin, end);
+            var it;
+            if (node == null)
+                it = this.end();
+            else if (std.less(node.value.value, val) == true)
+                it = node.value.next();
+            else
+                it = node.value;
+            // ITERATOR TO RETURN
+            it = this.insert(it, val);
+            return new std.Pair(it, true);
         };
         /* ---------------------------------------------------------
             POST-PROCESS
@@ -4041,22 +4376,24 @@ var std;
         /**
          * @inheritdoc
          */
-        UnorderedSet.prototype.handleInsert = function (item) {
-            this.hashBuckets.insert(item);
+        TreeSet.prototype.handleInsert = function (item) {
+            this.tree.insert(item);
         };
         /**
          * @inheritdoc
          */
-        UnorderedSet.prototype.handleErase = function (item) {
-            this.hashBuckets.erase(item);
+        TreeSet.prototype.handleErase = function (item) {
+            this.tree.erase(item);
         };
-        return UnorderedSet;
+        return TreeSet;
     })(std.base.container.UniqueSet);
-    std.UnorderedSet = UnorderedSet;
+    std.TreeSet = TreeSet;
 })(std || (std = {}));
 var std;
 (function (std) {
     /**
+     * <p> Vector, the dynamic array. </p>
+     *
      * <p> Vectors are sequence containers representing arrays that can change in size. </p>
      *
      * <p> Just like arrays, vectors use contiguous storage locations for their elements, which means that

@@ -229,22 +229,14 @@ namespace std.base.container
 			}
 		}
 
+		/**
+		 * @private
+		 */
 		protected abstract insertByVal(val: T): any;
-		//{
-		//	// test whether exists
-		//	let it = this.find(val);
-		//	if (it.equals(this.end()) == false)
-		//		return new pair<iterator<t>, boolean>(it, false);
-
-		//	// insert
-		//	this.data.pushback(val);
-		//	it = it.prev();
-
-		//	// post-process
-		//	this.handleinsert(<setiterator<t>>it);
-
-		//	return new pair<iterator<t>, boolean>(it, true);
-		//}
+		
+		/**
+		 * @private
+		 */
 		private insertByHint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
 			// INSERT
@@ -256,6 +248,10 @@ namespace std.base.container
 
 			return it;
 		}
+
+		/**
+		 * @private
+		 */
 		protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void
 		{
 			for (let it = begin; it.equals(end) == false; it = it.next())
@@ -304,6 +300,9 @@ namespace std.base.container
 				return this.eraseByRange(args[0], args[1]);
 		}
 
+		/**
+		 * @private
+		 */
 		private eraseByKey(val: T): number
 		{
 			// TEST WHETHER EXISTS
@@ -315,6 +314,10 @@ namespace std.base.container
 			this.eraseByIterator(it);
 			return 1;
 		}
+
+		/**
+		 * @private
+		 */
 		private eraseByIterator(it: SetIterator<T>): SetIterator<T>
 		{
 			// ERASE
@@ -325,6 +328,10 @@ namespace std.base.container
 
 			return new SetIterator<T>(this, listIterator);
 		}
+
+		/**
+		 * @private
+		 */
 		private eraseByRange(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>
 		{
 			// ERASE

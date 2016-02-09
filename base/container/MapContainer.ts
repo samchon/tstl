@@ -1,8 +1,24 @@
 namespace std.base.container
 {
-	export abstract class MapContainer<K, T>
+	/**
+	 * <p> An abstract map. </p>
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Ordered </dt>
+	 *	<dd> The elements in the container follow a strict order at all times. All inserted elements are 
+	 *		 given a position in this order. </dd>
+	 *
+	 *	<dt> Map </dt>
+	 *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>: 
+	 *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+	 * </dl>
+	 * 
+	 * @author Jeongho Nam
+	 */
+	export abstract class MapContainer<Key, T>
 	{
-		protected data: List<Pair<K, T>>;
+		protected data: List<Pair<Key, T>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -16,19 +32,30 @@ namespace std.base.container
 		 */
 		public constructor()
 		{
-			this.data = new List<Pair<K, T>>();
+			this.data = new List<Pair<Key, T>>();
 		}
 
-		protected constructByArray(items: Array<Pair<K, T>>): void
+		/**
+		 * @private
+		 */
+		protected constructByArray(items: Array<Pair<Key, T>>): void
 		{
 			for (let i: number = 0; i < items.length; i++)
 				this.insertByPair(items[i]);
 		}
-		protected constructByContainer(container: MapContainer<K, T>): void
+
+		/**
+		 * @private
+		 */
+		protected constructByContainer(container: MapContainer<Key, T>): void
 		{
 			this.constructByRange(container.begin(), container.end());
 		}
-		protected constructByRange(begin: MapIterator<K, T>, end: MapIterator<K, T>): void
+
+		/**
+		 * @private
+		 */
+		protected constructByRange(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): void
 		{
 			this.assign(begin, end);
 		}
@@ -45,12 +72,12 @@ namespace std.base.container
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public assign<L extends K, U extends T>
+		public assign<L extends Key, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			// INSERT
 			for (let it = begin; it.equals(end) == false; it = it.next())
-				this.insertByPair(new Pair<K, T>(it.first, it.second));
+				this.insertByPair(new Pair<Key, T>(it.first, it.second));
 		}
 
 		/**
@@ -85,7 +112,7 @@ namespace std.base.container
 		 * @param key Key to be searched for
 		 * @return An iterator to the element, if an element with specified key is found, or Map::end() otherwise.
 		 */
-		public abstract find(key: K): MapIterator<K, T>;
+		public abstract find(key: Key): MapIterator<Key, T>;
 
 		/**
 		 * <p> Return iterator to beginning. </p>
@@ -97,9 +124,9 @@ namespace std.base.container
 		 * @return An iterator to the first element in the container.
 		 * The iterator containes the first element's value.
 		 */
-		public begin(): MapIterator<K, T>
+		public begin(): MapIterator<Key, T>
 		{
-			return new MapIterator<K, T>(this, <ListIterator<Pair<K, T>>>this.data.begin());
+			return new MapIterator<Key, T>(this, <ListIterator<Pair<Key, T>>>this.data.begin());
 		}
 
 		/**
@@ -120,9 +147,9 @@ namespace std.base.container
 		 * 
 		 * @return An iterator to the end element in the container.
 		 */
-		public end(): MapIterator<K, T>
+		public end(): MapIterator<Key, T>
 		{
-			return new MapIterator<K, T>(this, <ListIterator<Pair<K, T>>>this.data.end());
+			return new MapIterator<Key, T>(this, <ListIterator<Pair<Key, T>>>this.data.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -136,7 +163,7 @@ namespace std.base.container
 		 *
 		 * @return Whether the map has an item having the specified identifier.
 		 */
-		public has(key: K): boolean
+		public has(key: Key): boolean
 		{
 			return this.count(key) != 0;
 		}
@@ -149,7 +176,7 @@ namespace std.base.container
 		 *
 		 * @return The number of elements in the container with a <code>key</code>.
 		 */
-		public abstract count(key: K): number;
+		public abstract count(key: Key): number;
 
 		/**
 		 * Return the number of elements in the map.
@@ -176,8 +203,8 @@ namespace std.base.container
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
-		public insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
-		public insert<L extends K, U extends T>
+		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+		public insert<L extends Key, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
 
 		public insert(...args: any[]): any
@@ -196,36 +223,36 @@ namespace std.base.container
 			}
 		}
 
-		protected abstract insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
+		protected abstract insertByPair<L extends Key, U extends T>(pair: Pair<L, U>): any;
 		
-		private insertByHint(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>
+		private insertByHint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			// INSERT
-			let list_it: ListIterator<Pair<K, T>> = (<MapIterator<K, T>>hint).getListIterator();
+			let list_it: ListIterator<Pair<Key, T>> = (<MapIterator<Key, T>>hint).getListIterator();
 
-			list_it = <ListIterator<Pair<K, T>>>
-				this.data.insert((<MapIterator<K, T>>hint).getListIterator(), pair);
+			list_it = <ListIterator<Pair<Key, T>>>
+				this.data.insert((<MapIterator<Key, T>>hint).getListIterator(), pair);
 
 			// POST-PROCESS
-			let it = new MapIterator<K, T>(this, list_it);
+			let it = new MapIterator<Key, T>(this, list_it);
 
 			this.handleInsert(it);
 
 			return it;
 		}
-		protected insertByRange<L extends K, U extends T>
+		protected insertByRange<L extends Key, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			for (let it = begin; it.equals(end) == false; it = it.next())
-				this.insertByPair(new Pair<K, T>(it.first, it.second));
+				this.insertByPair(new Pair<Key, T>(it.first, it.second));
 		}
 
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
-		public erase(key: K): number;
-		public erase(it: MapIterator<K, T>): MapIterator<K, T>;
-		public erase(begin: MapIterator<K, T>, end: MapIterator<K, T>): MapIterator<K, T>;
+		public erase(key: Key): number;
+		public erase(it: MapIterator<Key, T>): MapIterator<Key, T>;
+		public erase(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>;
 
 		public erase(...args: any[]): any 
 		{
@@ -240,7 +267,10 @@ namespace std.base.container
 				return this.eraseByRange(args[0], args[1]);
 		}
 
-		private eraseByKey(key: K): number
+		/**
+		 * @private
+		 */
+		private eraseByKey(key: Key): number
 		{
 			let it = this.find(key);
 			if (it.equals(this.end()) == true)
@@ -249,39 +279,47 @@ namespace std.base.container
 			this.eraseByIterator(it);
 			return 1;
 		}
-		private eraseByIterator(it: MapIterator<K, T>): MapIterator<K, T>
+
+		/**
+		 * @private
+		 */
+		private eraseByIterator(it: MapIterator<Key, T>): MapIterator<Key, T>
 		{
 			// ERASE
-			let listIterator = <ListIterator<Pair<K, T>>>
-				this.data.erase((<MapIterator<K, T>>it).getListIterator());
+			let listIterator = <ListIterator<Pair<Key, T>>>
+				this.data.erase((<MapIterator<Key, T>>it).getListIterator());
 			
 			// POST-PROCESS
-			this.handleErase(<MapIterator<K, T>>it);
+			this.handleErase(<MapIterator<Key, T>>it);
 
-			return new MapIterator<K, T>(this, listIterator);;
+			return new MapIterator<Key, T>(this, listIterator);;
 		}
-		private eraseByRange(begin: MapIterator<K, T>, end: MapIterator<K, T>): MapIterator<K, T>
+
+		/**
+		 * @private
+		 */
+		private eraseByRange(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>
 		{
 			// ERASE
-			let listIterator = <ListIterator<Pair<K, T>>>
+			let listIterator = <ListIterator<Pair<Key, T>>>
 				this.data.erase
 				(
-					(<MapIterator<K, T>>begin).getListIterator(),
-					(<MapIterator<K, T>>end).getListIterator()
+					(<MapIterator<Key, T>>begin).getListIterator(),
+					(<MapIterator<Key, T>>end).getListIterator()
 				);
 			
 			// POST-PROCESS
 			for (let it = begin; it.equals(this.end()) == false; it = it.next())
-				this.handleErase(<MapIterator<K, T>>it);
+				this.handleErase(<MapIterator<Key, T>>it);
 
-			return new MapIterator<K, T>(this, listIterator);
+			return new MapIterator<Key, T>(this, listIterator);
 		}
 
 		/* ---------------------------------------------------------
 			POST-PROCESS
 		--------------------------------------------------------- */
-		protected abstract handleInsert(item: MapIterator<K, T>): void;
+		protected abstract handleInsert(item: MapIterator<Key, T>): void;
 
-		protected abstract handleErase(item: MapIterator<K, T>): void;
+		protected abstract handleErase(item: MapIterator<Key, T>): void;
 	}
 }

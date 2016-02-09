@@ -3,34 +3,56 @@
 namespace std
 {
 	/**
-	 * <p> Set, in other word, Tree Set. </p>
+	 * <p> Tree-structured set. </p>
 	 *
-	 * <p> Sets are containers that store unique elements following a specific order. </p>
+	 * <p> <code>TreeSet</code>s are containers that store unique elements following a specific order. </p>
 	 *
-	 * <p> In a set, the value of an element also identifies it (the value is itself the key, of type T), and each 
-	 * value must be unique. The value of the elements in a set cannot be modified once in the container 
-	 * (the elements are always const), but they can be inserted or removed from the container. </p>
+	 * <p> In a <code>TreeSet</code>, the value of an element also identifies it (the value is itself the 
+	 * <i>key</i>, of type <code>T</code>), and each value must be unique. The value of the elements in a 
+	 * <code>TreeSet</code> cannot be modified once in the container (the elements are always const), but they 
+	 * can be inserted or removed from the container. </p>
 	 *
-	 * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering criterion 
-	 * indicated by its internal comparison object (of type Compare). </p>
+	 * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering 
+	 * criterion indicated by its internal comparison method (of <code>less()</code>). </p>
 	 *
-	 * <p> Set containers are generally slower than unordered_set containers to access individual elements by 
-	 * their key, but they allow the direct iteration on subsets based on their order. </p>
+	 * <p> <code>TreeSet</code> containers are generally slower than <code>HashSet</code> containers to access 
+	 * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their 
+	 * order. </p>
 	 *
-	 * <p> Sets are typically implemented as binary search trees. </p>
+	 * <p> <code>TreeSet</code>s are typically implemented as binary search trees. </p>
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Associative </dt>
+	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
+	 *		 position in the container. </dd>
+	 * 
+	 *	<dt> Ordered </dt>
+	 *	<dd> The elements in the container follow a strict order at all times. All inserted elements are 
+	 *		 given a position in this order. </dd>
+	 *
+	 *	<dt> Set </dt>
+	 *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+	 *
+	 *	<dt> Unique keys </dt>
+	 *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+	 * </dl>
 	 *
 	 * <ul>
 	 *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
 	 * </ul>
 	 *
 	 * @param <T> Type of the elements. 
-	 *			  Each element in an <code>Set</code> is also uniquely identified by this value.
+	 *			  Each element in an <code>TreeSet</code> is also uniquely identified by this value.
 	 *
 	 * @author Jeongho Nam
 	 */
 	export class TreeSet<T>
 		extends base.container.UniqueSet<T>
 	{
+		/**
+		 * <i>RB-Tree+</i> object for implemeting the <code>TreeSet</code>.
+		 */
 		private tree: base.tree.AtomicTree<T>;
 
 		/* =========================================================
@@ -61,13 +83,13 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
-		///**
-		// * @inheritdoc
-		// */
-		//public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
-		//{
-		//	super.assign(begin, end);
-		//}
+		/**
+		 * @inheritdoc
+		 */
+		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void
+		{
+			super.assign(begin, end);
+		}
 
 		/**
 		 * @inheritdoc
@@ -112,6 +134,9 @@ namespace std
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @private
+		 */
 		protected insertByVal(val: T): any
 		{
 			var node = this.tree.find(val);

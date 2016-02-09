@@ -1,6 +1,8 @@
 namespace std
 {
 	/**
+	 * <p> Vector, the dynamic array. </p>
+	 *
 	 * <p> Vectors are sequence containers representing arrays that can change in size. </p>
 	 *
 	 * <p> Just like arrays, vectors use contiguous storage locations for their elements, which means that 

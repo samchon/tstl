@@ -2,9 +2,58 @@
 
 namespace std
 {
-	export class MultiSet<T>
+	/**
+	 * <p> Tree-structured multiple-key set. </p>
+	 *
+	 * <p> <code>TreeMultiSet</code>s are containers that store elements following a specific order, and where 
+	 * multiple elements can have equivalent values. </p>
+	 *
+	 * <p> In a <code>TreeMultiSet</code>, the value of an element also identifies it (the value is itself 
+	 * the <i>key</i>, of type <code>T</code>). The value of the elements in a <code>TreeMultiSet</code> cannot 
+	 * be modified once in the container (the elements are always const), but they can be inserted or removed 
+	 * from the container. </p>
+	 *
+	 * <p> Internally, the elements in a <code>TreeMultiSet</code>s are always sorted following a strict weak 
+	 * ordering criterion indicated by its internal comparison method (of <code>less()</code>).
+	 *
+	 * <p> <code>TreeMultiSet</code> containers are generally slower than <code>HashMultiSet</code> containers 
+	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 
+	 * their order. </p>
+	 *
+	 * <p> <code>TreeMultiSet</code>s are typically implemented as binary search trees. </p>
+	 *
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Associative </dt>
+	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
+	 *		 position in the container. </dd>
+	 * 
+	 *	<dt> Ordered </dt>
+	 *	<dd> The elements in the container follow a strict order at all times. All inserted elements are 
+	 *		 given a position in this order. </dd>
+	 *
+	 *	<dt> Set </dt>
+	 *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+	 *
+	 *	<dt> Multiple equivalent keys </dt>
+	 *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+	 * </dl>
+	 *
+	 * <ul>
+	 *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
+	 * </ul>
+	 * 
+	 * @param <T> Type of the elements. Each element in a <code>TreeMultiSet</code> container is also identified 
+	 *			  by this value (each value is itself also the element's <i>key</i>).
+	 *
+	 * @author Jeongho Nam
+	 */
+	export class TreeMultiSet<T>
 		extends base.container.MultiSet<T>
 	{
+		/**
+		 * <i>RB-Tree+</i> object for implemeting the <code>TreeMultiSet</code>.
+		 */
 		private tree: base.tree.AtomicTree<T>;
 
 		/* =========================================================
@@ -14,6 +63,9 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
 
 		public constructor(array: Array<T>);
@@ -32,13 +84,13 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
-		///**
-		// * @inheritdoc
-		// */
-		//public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
-		//{
-		//	super.assign(begin, end);
-		//}
+		/**
+		 * @inheritdoc
+		 */
+		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void
+		{
+			super.assign(begin, end);
+		}
 
 		/**
 		 * @inheritdoc
@@ -83,6 +135,9 @@ namespace std
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @private
+		 */
 		protected insertByVal(val: T): any
 		{
 			var node = this.tree.find(val);

@@ -152,6 +152,583 @@ declare namespace std.base.container {
         abstract pop(): void;
     }
 }
+declare namespace std.base.container {
+    /**
+     * <p> An interface of container. </p>
+     *
+     * <p> <code>IContainer</code> is an interface designed for sequence containers. Sequence containers of STL
+     * (Standard Template Library) are based on the <code>IContainer</code>. </p>
+     *
+     *
+     *
+     * @param <T> Type of elements.
+     *
+     * @author Jeongho Nam
+     */
+    interface IContainer<T> {
+        /**
+         * <p> Assign new content to content. </p>
+         *
+         * <p> Assigns new contents to the Container, replacing its current contents,
+         * and modifying its size accordingly. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        assign(begin: Iterator<T>, end: Iterator<T>): void;
+        /**
+         * <p> Clear content. </p>
+         *
+         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
+         */
+        clear(): void;
+        /**
+         * <p> Return iterator to beginning. </p>
+         * <p> Returns an iterator referring the first element in the Container. </p>
+         *
+         * <h4> Note </h4>
+         * <p> If the container is empty, the returned iterator is same with end(). </p>
+         *
+         * @return An iterator to the first element in the container.
+         * The iterator containes the first element's value.
+         */
+        begin(): Iterator<T>;
+        /**
+         * <p> Return iterator to end. </p>
+         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+         *
+         * <p> The past-the-end element is the theoretical element that would follow the last element in
+         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+         *
+         * <p> Because the ranges used by functions of the Container do not include the element reference
+         * by their closing iterator, this function is often used in combination with Container::begin() to specify
+         * a range including all the elements in the container. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
+         * element by the iterator will cause throwing exception (out of range). </p>
+         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+         *
+         * @return An iterator to the end element in the container.
+         */
+        end(): Iterator<T>;
+        /**
+         * Return the number of elements in the Container.
+         *
+         * @return The number of elements in the container.
+         */
+        size(): number;
+        /**
+         * <p> Test whether the container is empty. </p>
+         * <p> Returns whether the container is empty (i.e. whether its size is 0). </p>
+         *
+         * <p> This function does not modify the container in any way. To clear the content of the container,
+         * see <code>clear()</code>. </p>
+         *
+         * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
+         */
+        empty(): boolean;
+        /**
+         * Appends new elements to the container, and returns the new size of the Container.
+         *
+         * @param items New elements to insert.
+         * @return New size of the Container.
+         */
+        push<U extends T>(...items: U[]): number;
+        /**
+         * <p> Erase an element. </p>
+         * <p> Removes from the Container a single element. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param position Iterator pointing to a single element to be removed from the Container.
+         *
+         * @return An iterator pointing to the element that followed the last element erased by the function
+         * call. This is the container end if the operation erased the last element in the sequence.
+         */
+        erase(position: Iterator<T>): Iterator<T>;
+        /**
+         * <p> Erase elements. </p>
+         * <p> Removes from the Container a range of elements. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param begin An iterator specifying a range of beginning to erase.
+         * @param end An iterator specifying a range of end to erase.
+         *
+         * @return An iterator pointing to the element that followed the last element erased by the function
+         * call. This is the container end if the operation erased the last element in the sequence.
+         */
+        erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+    }
+}
+declare namespace std.base.container {
+    abstract class Iterator<T> {
+        protected source: Container<T>;
+        /**
+         * Construct from the source Container.
+         *
+         * @param source The source Container.
+         */
+        constructor(source: Container<T>);
+        /**
+         * <p> Get iterator to previous element. </p>
+         * <p> If current iterator is the first item(equal with <code>begin()</code>), returns <code>end()</code>. </p>
+         *
+         * @return An iterator of the previous item.
+         */
+        abstract prev(): Iterator<T>;
+        /**
+         * <p> Get iterator to next element. </p>
+         * <p> If current iterator is the last item, returns <code>end()</code>. </p>
+         *
+         * @return An iterator of the next item.
+         */
+        abstract next(): Iterator<T>;
+        /**
+         * Advances the Iterator by n element positions.
+         *
+         * @param n Number of element positions to advance.
+         * @return An advanced Iterator.
+         */
+        advance(n: number): Iterator<T>;
+        /**
+         * Get source.
+         */
+        getSource(): Container<T>;
+        /**
+         * <p> Whether an iterator is equal with the iterator. </p>
+         *
+         * <p> Compare two iterators and returns whether they are equal or not. </p>
+         *
+         *
+         * <h4> Note </h4>
+         *
+         * <p> Iterator's equals() only compare souce map and index number. </p>
+         *
+         * <p> Although elements in a pair, key and value are equals, if the source map or
+         * index number is different, then the equals() will return false. If you want to
+         * compare the elements of a pair, compare them directly by yourself. </p>
+         *
+         * @param obj An iterator to compare
+         * @return Indicates whether equal or not.
+         */
+        equals<U extends T>(obj: Iterator<U>): boolean;
+        /**
+         * <p> Get value of the iterator is pointing. </p>
+         *
+         * @return A value of the iterator.
+         */
+        /**
+         * <p> Set value of the iterator is pointing. </p>
+         *
+         * @param val A new value of the iterator.
+         */
+        value: T;
+    }
+}
+declare namespace std.base.container {
+    /**
+     * <p> An abstract map. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     * </dl>
+     *
+     * @author Jeongho Nam
+     */
+    abstract class MapContainer<Key, T> {
+        protected data: List<Pair<Key, T>>;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @private
+         */
+        protected constructByArray(items: Array<Pair<Key, T>>): void;
+        /**
+         * @private
+         */
+        protected constructByContainer(container: MapContainer<Key, T>): void;
+        /**
+         * @private
+         */
+        protected constructByRange(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): void;
+        /**
+         * <p> Assign new content to content. </p>
+         *
+         * <p> Assigns new contents to the Container, replacing its current contents,
+         * and modifying its size accordingly. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        assign<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        /**
+         * <p> Clear content. </p>
+         *
+         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
+         */
+        clear(): void;
+        /**
+         * <p> Get iterator to element. </p>
+         *
+         * <p> Searches the container for an element with a identifier equivalent to <code>key</code> and
+         * returns an iterator to it if found, otherwise it returns an iterator to <code>end()</code>. </p>
+         *
+         * <p> Two keys are considered equivalent if the container's comparison object returns false
+         * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+         *
+         * <p> Another member function, <code>has()</code>, can be used to just check whether
+         * a particular key exists. </p>
+         *
+         * @param key Key to be searched for
+         * @return An iterator to the element, if an element with specified key is found, or Map::end() otherwise.
+         */
+        abstract find(key: Key): MapIterator<Key, T>;
+        /**
+         * <p> Return iterator to beginning. </p>
+         * <p> Returns an iterator referring the first element in the Container. </p>
+         *
+         * <h4> Note </h4>
+         * <p> If the container is empty, the returned iterator is same with end(). </p>
+         *
+         * @return An iterator to the first element in the container.
+         * The iterator containes the first element's value.
+         */
+        begin(): MapIterator<Key, T>;
+        /**
+         * <p> Return iterator to end. </p>
+         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+         *
+         * <p> The past-the-end element is the theoretical element that would follow the last element in
+         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+         *
+         * <p> Because the ranges used by functions of the Container do not include the element reference
+         * by their closing iterator, this function is often used in combination with Container::begin() to specify
+         * a range including all the elements in the container. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
+         * element by the iterator will cause throwing exception (out of range). </p>
+         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+         *
+         * @return An iterator to the end element in the container.
+         */
+        end(): MapIterator<Key, T>;
+        /**
+         * <p> Whether have the item or not. </p>
+         * <p> Indicates whether a map has an item having the specified identifier. </p>
+         *
+         * @param key Key value of the element whose mapped value is accessed.
+         *
+         * @return Whether the map has an item having the specified identifier.
+         */
+        has(key: Key): boolean;
+        /**
+         * <p> Count elements with a specific key. </p>
+         * <p> Searches the container for elements whose key is k and returns the number of elements found. </p>
+         *
+         * @param key Key value to be searched for.
+         *
+         * @return The number of elements in the container with a <code>key</code>.
+         */
+        abstract count(key: Key): number;
+        /**
+         * Return the number of elements in the map.
+         */
+        size(): number;
+        /**
+         * Test whether the Container is empty.
+         */
+        empty(): boolean;
+        insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+        insert<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        protected abstract insertByPair<L extends Key, U extends T>(pair: Pair<L, U>): any;
+        private insertByHint(hint, pair);
+        protected insertByRange<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        erase(key: Key): number;
+        erase(it: MapIterator<Key, T>): MapIterator<Key, T>;
+        erase(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>;
+        /**
+         * @private
+         */
+        private eraseByKey(key);
+        /**
+         * @private
+         */
+        private eraseByIterator(it);
+        /**
+         * @private
+         */
+        private eraseByRange(begin, end);
+        protected abstract handleInsert(item: MapIterator<Key, T>): void;
+        protected abstract handleErase(item: MapIterator<Key, T>): void;
+    }
+}
+declare namespace std.base.container {
+    abstract class MultiMap<K, T> extends MapContainer<K, T> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        count(key: K): number;
+        insert<L extends K, U extends T>(pair: Pair<L, U>): MapIterator<K, T>;
+        /**
+         * @inheritdoc
+         */
+        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
+        /**
+         * @inheritdoc
+         */
+        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+    }
+}
+declare namespace std.base.container {
+    /**
+     * Abstract Set.
+     *
+     * @author Jeongho Nam
+     */
+    abstract class SetContainer<T> extends Container<T> {
+        protected data: List<T>;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        protected constructByArray(items: Array<T>): void;
+        protected constructByContainer(container: Container<T>): void;
+        protected constructByRange(begin: Iterator<T>, end: Iterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * <p> Get iterator to element. </p>
+         *
+         * <p> Searches the container for an element with <code>key</code> as value and returns an iterator to it
+         * if found, otherwise it returns an iterator to <code>end()</code> (the element past the end of the
+         * container). </p>
+         *
+         * <p> Another member function, <code>count()</code>, can be used to just check whether a particular
+         * element exists. </p>
+         *
+         * @param key Key to be searched for.
+         *
+         * @return An iterator to the element, if the specified value is found,
+         *		 or <code>end()</code> if it is not found in the container.
+         */
+        abstract find(val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        begin(): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        end(): SetIterator<T>;
+        /**
+         * <p> Whether have the item or not. </p>
+         * <p> Indicates whether a set has an item having the specified identifier. </p>
+         *
+         * @param key Key value of the element whose mapped value is accessed.
+         *
+         * @return Whether the set has an item having the specified identifier.
+         */
+        has(val: T): boolean;
+        /**
+         * <p> Count elements with a specific key. </p>
+         * <p> Searches the container for elements with a value of k and returns the number of elements found. </p>
+         *
+         * @param key Value of the elements to be counted.
+         *
+         * @return The number of elements in the container with a <code>key</code>.
+         */
+        abstract count(val: T): number;
+        /**
+         * @inheritdoc
+         */
+        size(): number;
+        push<U extends T>(...args: U[]): number;
+        /**
+         * <p> Insert element with hint. </p>
+         *
+         * <p> Extends the container by inserting new elements, effectively increasing the container size by the
+         * number of elements inserted. </p>
+         *
+         * @param hint Hint for the position where the element can be inserted.
+         * @param key Value to be inserted as an elements.
+         *
+         * @return An iterator pointing to either the newly inserted element or
+         *		 to the element that already had its same value in the set.
+         */
+        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+        /**
+         * <p> Insert elements with a range of a container. </p>
+         *
+         * <p> Extends the container by inserting new elements, effectively increasing the container size by the
+         * number of elements inserted. </p>
+         *
+         * @param begin An iterator specifying range of the begining element.
+         * @param end An iterator specifying range of the ending element.
+         */
+        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        /**
+         * @private
+         */
+        protected abstract insertByVal(val: T): any;
+        /**
+         * @private
+         */
+        private insertByHint(hint, val);
+        /**
+         * @private
+         */
+        protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void;
+        /**
+         * <p> Erase an element. </p>
+         * <p> Removes from the set container the elements whose value is <code>key</code>. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param key Value of the elements to be erased.
+         *
+         * @return Number of elements erased.
+         */
+        erase(val: T): number;
+        /**
+         * @inheritdoc
+         */
+        erase(it: SetIterator<T>): SetIterator<T>;
+        /**
+         * <p> Erase elements. </p>
+         * <p> Removes from the set container a range of elements.. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param begin An iterator specifying a range of beginning to erase.
+         * @param end An iterator specifying a range of end to erase.
+         */
+        erase(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>;
+        /**
+         * @private
+         */
+        private eraseByKey(val);
+        /**
+         * @private
+         */
+        private eraseByIterator(it);
+        /**
+         * @private
+         */
+        private eraseByRange(begin, end);
+        protected abstract handleInsert(item: SetIterator<T>): void;
+        protected abstract handleErase(item: SetIterator<T>): void;
+    }
+}
+declare namespace std.base.container {
+    abstract class MultiSet<T> extends SetContainer<T> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        count(val: T): number;
+        insert(val: T): SetIterator<T>;
+        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
+    }
+}
+declare namespace std.base.container {
+    abstract class UniqueMap<K, T> extends MapContainer<K, T> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * @inheritdoc
+         */
+        count(key: K): number;
+        insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
+        /**
+         * @inheritdoc
+         */
+        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
+        /**
+         * @inheritdoc
+         */
+        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+    }
+}
+declare namespace std.base.container {
+    abstract class UniqueSet<T> extends SetContainer<T> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        count(key: T): number;
+        insert(val: T): Pair<SetIterator<T>, boolean>;
+        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
+    }
+}
+declare namespace std.base.hash {
+    const MIN_SIZE: number;
+    const RATIO: number;
+    const MAX_RATIO: number;
+    function code(par: any): number;
+}
+declare namespace std.base.hash {
+    class HashBuckets<T> {
+        private buckets;
+        private itemSize_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Reserve the bucket size.
+         *
+         * @param size Number of bucket size to reserve.
+         */
+        reserve(size: any): void;
+        clear(): void;
+        size(): number;
+        itemSize(): number;
+        at(index: number): Vector<T>;
+        private hashIndex(val);
+        insert(val: T): void;
+        erase(val: T): void;
+    }
+}
+declare namespace std.base.hash {
+    class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
+        private map;
+        constructor(map: container.MapContainer<K, T>);
+        find(key: K): MapIterator<K, T>;
+    }
+}
+declare namespace std.base.hash {
+    class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
+        private set;
+        constructor(set: container.SetContainer<T>);
+        find(val: T): SetIterator<T>;
+    }
+}
 declare namespace std.base.system {
     /**
      * <p> An abstract error instance. </p>
@@ -269,439 +846,6 @@ declare namespace std.base.system {
         toBoolean(): boolean;
     }
 }
-declare namespace std.base.hash {
-    const MIN_SIZE: number;
-    const RATIO: number;
-    const MAX_RATIO: number;
-    function code(par: any): number;
-}
-declare namespace std.base.hash {
-    class HashBuckets<T> {
-        private buckets;
-        private itemSize_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Reserve the bucket size.
-         *
-         * @param size Number of bucket size to reserve.
-         */
-        reserve(size: any): void;
-        clear(): void;
-        size(): number;
-        itemSize(): number;
-        at(index: number): Vector<T>;
-        private hashIndex(val);
-        insert(val: T): void;
-        erase(val: T): void;
-    }
-}
-declare namespace std.base.container {
-    /**
-     * <p> An interface of container. </p>
-     *
-     * <p> <code>IContainer</code> is an interface designed for sequence containers. Sequence containers of STL
-     * (Standard Template Library) are based on the <code>IContainer</code>. </p>
-     *
-     *
-     *
-     * @param <T> Type of elements.
-     *
-     * @author Jeongho Nam
-     */
-    interface IContainer<T> {
-        /**
-         * <p> Assign new content to content. </p>
-         *
-         * <p> Assigns new contents to the Container, replacing its current contents,
-         * and modifying its size accordingly. </p>
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        assign(begin: Iterator<T>, end: Iterator<T>): void;
-        /**
-         * <p> Clear content. </p>
-         *
-         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
-         */
-        clear(): void;
-        /**
-         * <p> Return iterator to beginning. </p>
-         * <p> Returns an iterator referring the first element in the Container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> If the container is empty, the returned iterator is same with end(). </p>
-         *
-         * @return An iterator to the first element in the container.
-         * The iterator containes the first element's value.
-         */
-        begin(): Iterator<T>;
-        /**
-         * <p> Return iterator to end. </p>
-         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
-         *
-         * <p> The past-the-end element is the theoretical element that would follow the last element in
-         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
-         *
-         * <p> Because the ranges used by functions of the Container do not include the element reference
-         * by their closing iterator, this function is often used in combination with Container::begin() to specify
-         * a range including all the elements in the container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-         * element by the iterator will cause throwing exception (out of range). </p>
-         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
-         *
-         * @return An iterator to the end element in the container.
-         */
-        end(): Iterator<T>;
-        /**
-         * Return the number of elements in the Container.
-         *
-         * @return The number of elements in the container.
-         */
-        size(): number;
-        /**
-         * <p> Test whether the container is empty. </p>
-         * <p> Returns whether the container is empty (i.e. whether its size is 0). </p>
-         *
-         * <p> This function does not modify the container in any way. To clear the content of the container,
-         * see <code>clear()</code>. </p>
-         *
-         * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
-         */
-        empty(): boolean;
-        /**
-         * Appends new elements to the container, and returns the new size of the Container.
-         *
-         * @param items New elements to insert.
-         * @return New size of the Container.
-         */
-        push<U extends T>(...items: U[]): number;
-        /**
-         * <p> Erase an element. </p>
-         * <p> Removes from the Container a single element. </p>
-         *
-         * <p> This effectively reduces the container size by the number of elements removed. </p>
-         *
-         * @param position Iterator pointing to a single element to be removed from the Container.
-         *
-         * @return An iterator pointing to the element that followed the last element erased by the function
-         * call. This is the container end if the operation erased the last element in the sequence.
-         */
-        erase(position: Iterator<T>): Iterator<T>;
-        /**
-         * <p> Erase elements. </p>
-         * <p> Removes from the Container a range of elements. </p>
-         *
-         * <p> This effectively reduces the container size by the number of elements removed. </p>
-         *
-         * @param begin An iterator specifying a range of beginning to erase.
-         * @param end An iterator specifying a range of end to erase.
-         *
-         * @return An iterator pointing to the element that followed the last element erased by the function
-         * call. This is the container end if the operation erased the last element in the sequence.
-         */
-        erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
-    }
-}
-declare namespace std.base.container {
-    abstract class MapContainer<K, T> {
-        protected data: List<Pair<K, T>>;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        protected constructByArray(items: Array<Pair<K, T>>): void;
-        protected constructByContainer(container: MapContainer<K, T>): void;
-        protected constructByRange(begin: MapIterator<K, T>, end: MapIterator<K, T>): void;
-        /**
-         * <p> Assign new content to content. </p>
-         *
-         * <p> Assigns new contents to the Container, replacing its current contents,
-         * and modifying its size accordingly. </p>
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        assign<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
-        /**
-         * <p> Clear content. </p>
-         *
-         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
-         */
-        clear(): void;
-        /**
-         * <p> Get iterator to element. </p>
-         *
-         * <p> Searches the container for an element with a identifier equivalent to <code>key</code> and
-         * returns an iterator to it if found, otherwise it returns an iterator to <code>end()</code>. </p>
-         *
-         * <p> Two keys are considered equivalent if the container's comparison object returns false
-         * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
-         *
-         * <p> Another member function, <code>has()</code>, can be used to just check whether
-         * a particular key exists. </p>
-         *
-         * @param key Key to be searched for
-         * @return An iterator to the element, if an element with specified key is found, or Map::end() otherwise.
-         */
-        abstract find(key: K): MapIterator<K, T>;
-        /**
-         * <p> Return iterator to beginning. </p>
-         * <p> Returns an iterator referring the first element in the Container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> If the container is empty, the returned iterator is same with end(). </p>
-         *
-         * @return An iterator to the first element in the container.
-         * The iterator containes the first element's value.
-         */
-        begin(): MapIterator<K, T>;
-        /**
-         * <p> Return iterator to end. </p>
-         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
-         *
-         * <p> The past-the-end element is the theoretical element that would follow the last element in
-         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
-         *
-         * <p> Because the ranges used by functions of the Container do not include the element reference
-         * by their closing iterator, this function is often used in combination with Container::begin() to specify
-         * a range including all the elements in the container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-         * element by the iterator will cause throwing exception (out of range). </p>
-         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
-         *
-         * @return An iterator to the end element in the container.
-         */
-        end(): MapIterator<K, T>;
-        /**
-         * <p> Whether have the item or not. </p>
-         * <p> Indicates whether a map has an item having the specified identifier. </p>
-         *
-         * @param key Key value of the element whose mapped value is accessed.
-         *
-         * @return Whether the map has an item having the specified identifier.
-         */
-        has(key: K): boolean;
-        /**
-         * <p> Count elements with a specific key. </p>
-         * <p> Searches the container for elements whose key is k and returns the number of elements found. </p>
-         *
-         * @param key Key value to be searched for.
-         *
-         * @return The number of elements in the container with a <code>key</code>.
-         */
-        abstract count(key: K): number;
-        /**
-         * Return the number of elements in the map.
-         */
-        size(): number;
-        /**
-         * Test whether the Container is empty.
-         */
-        empty(): boolean;
-        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
-        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
-        protected abstract insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
-        private insertByHint(hint, pair);
-        protected insertByRange<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
-        erase(key: K): number;
-        erase(it: MapIterator<K, T>): MapIterator<K, T>;
-        erase(begin: MapIterator<K, T>, end: MapIterator<K, T>): MapIterator<K, T>;
-        private eraseByKey(key);
-        private eraseByIterator(it);
-        private eraseByRange(begin, end);
-        protected abstract handleInsert(item: MapIterator<K, T>): void;
-        protected abstract handleErase(item: MapIterator<K, T>): void;
-    }
-}
-declare namespace std.base.hash {
-    class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
-        private map;
-        constructor(map: container.MapContainer<K, T>);
-        find(key: K): MapIterator<K, T>;
-    }
-}
-declare namespace std.base.container {
-    abstract class MultiMap<K, T> extends MapContainer<K, T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        count(key: K): number;
-        insert<L extends K, U extends T>(pair: Pair<L, U>): MapIterator<K, T>;
-        /**
-         * @inheritdoc
-         */
-        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
-        /**
-         * @inheritdoc
-         */
-        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
-    }
-}
-declare namespace std.base.container {
-    /**
-     * Abstract Set.
-     *
-     * @author Jeongho Nam
-     */
-    abstract class SetContainer<T> extends Container<T> {
-        protected data: List<T>;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        protected constructByArray(items: Array<T>): void;
-        protected constructByContainer(container: Container<T>): void;
-        protected constructByRange(begin: Iterator<T>, end: Iterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * <p> Get iterator to element. </p>
-         *
-         * <p> Searches the container for an element with <code>key</code> as value and returns an iterator to it
-         * if found, otherwise it returns an iterator to <code>end()</code> (the element past the end of the
-         * container). </p>
-         *
-         * <p> Another member function, <code>count()</code>, can be used to just check whether a particular
-         * element exists. </p>
-         *
-         * @param key Key to be searched for.
-         *
-         * @return An iterator to the element, if the specified value is found,
-         *		 or <code>end()</code> if it is not found in the container.
-         */
-        abstract find(val: T): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        begin(): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        end(): SetIterator<T>;
-        /**
-         * <p> Whether have the item or not. </p>
-         * <p> Indicates whether a set has an item having the specified identifier. </p>
-         *
-         * @param key Key value of the element whose mapped value is accessed.
-         *
-         * @return Whether the set has an item having the specified identifier.
-         */
-        has(val: T): boolean;
-        /**
-         * <p> Count elements with a specific key. </p>
-         * <p> Searches the container for elements with a value of k and returns the number of elements found. </p>
-         *
-         * @param key Value of the elements to be counted.
-         *
-         * @return The number of elements in the container with a <code>key</code>.
-         */
-        abstract count(val: T): number;
-        /**
-         * @inheritdoc
-         */
-        size(): number;
-        push<U extends T>(...args: U[]): number;
-        /**
-         * <p> Insert element with hint. </p>
-         *
-         * <p> Extends the container by inserting new elements, effectively increasing the container size by the
-         * number of elements inserted. </p>
-         *
-         * @param hint Hint for the position where the element can be inserted.
-         * @param key Value to be inserted as an elements.
-         *
-         * @return An iterator pointing to either the newly inserted element or
-         *		 to the element that already had its same value in the set.
-         */
-        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-        /**
-         * <p> Insert elements with a range of a container. </p>
-         *
-         * <p> Extends the container by inserting new elements, effectively increasing the container size by the
-         * number of elements inserted. </p>
-         *
-         * @param begin An iterator specifying range of the begining element.
-         * @param end An iterator specifying range of the ending element.
-         */
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
-        protected abstract insertByVal(val: T): any;
-        private insertByHint(hint, val);
-        protected insertByRange(begin: Iterator<T>, end: Iterator<T>): void;
-        /**
-         * <p> Erase an element. </p>
-         * <p> Removes from the set container the elements whose value is <code>key</code>. </p>
-         *
-         * <p> This effectively reduces the container size by the number of elements removed. </p>
-         *
-         * @param key Value of the elements to be erased.
-         *
-         * @return Number of elements erased.
-         */
-        erase(val: T): number;
-        /**
-         * @inheritdoc
-         */
-        erase(it: SetIterator<T>): SetIterator<T>;
-        /**
-         * <p> Erase elements. </p>
-         * <p> Removes from the set container a range of elements.. </p>
-         *
-         * <p> This effectively reduces the container size by the number of elements removed. </p>
-         *
-         * @param begin An iterator specifying a range of beginning to erase.
-         * @param end An iterator specifying a range of end to erase.
-         */
-        erase(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>;
-        private eraseByKey(val);
-        private eraseByIterator(it);
-        private eraseByRange(begin, end);
-        protected abstract handleInsert(item: SetIterator<T>): void;
-        protected abstract handleErase(item: SetIterator<T>): void;
-    }
-}
-declare namespace std.base.container {
-    abstract class MultiSet<T> extends SetContainer<T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        count(val: T): number;
-        insert(val: T): SetIterator<T>;
-        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
-    }
-}
-declare namespace std.base.hash {
-    class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
-        private set;
-        constructor(set: container.SetContainer<T>);
-        find(val: T): SetIterator<T>;
-    }
-}
-declare namespace std.base.tree {
-    class Color {
-        static BLACK: boolean;
-        static RED: boolean;
-    }
-}
 declare namespace std.base.tree {
     abstract class XTree<T> {
         protected root: XTreeNode<T>;
@@ -736,19 +880,6 @@ declare namespace std.base.tree {
     }
 }
 declare namespace std.base.tree {
-    class PairTree<K, T> extends XTree<MapIterator<K, T>> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        find(key: K): XTreeNode<MapIterator<K, T>>;
-        find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
-        private findByKey(key);
-        isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
-        isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
-    }
-}
-declare namespace std.base.tree {
     class AtomicTree<T> extends XTree<SetIterator<T>> {
         /**
          * Default Constructor.
@@ -759,6 +890,25 @@ declare namespace std.base.tree {
         private findByVal(val);
         isEquals(left: SetIterator<T>, right: SetIterator<T>): boolean;
         isLess(left: SetIterator<T>, right: SetIterator<T>): boolean;
+    }
+}
+declare namespace std.base.tree {
+    class Color {
+        static BLACK: boolean;
+        static RED: boolean;
+    }
+}
+declare namespace std.base.tree {
+    class PairTree<K, T> extends XTree<MapIterator<K, T>> {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        find(key: K): XTreeNode<MapIterator<K, T>>;
+        find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
+        private findByKey(key);
+        isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
+        isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
     }
 }
 declare namespace std.base.tree {
@@ -776,39 +926,6 @@ declare namespace std.base.tree {
         sibling: XTreeNode<T>;
         uncle: XTreeNode<T>;
         debug(header?: string, level?: number): void;
-    }
-}
-declare namespace std.base.container {
-    abstract class UniqueMap<K, T> extends MapContainer<K, T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * @inheritdoc
-         */
-        count(key: K): number;
-        insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
-        /**
-         * @inheritdoc
-         */
-        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
-        /**
-         * @inheritdoc
-         */
-        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
-    }
-}
-declare namespace std.base.container {
-    abstract class UniqueSet<T> extends SetContainer<T> {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        count(key: T): number;
-        insert(val: T): Pair<SetIterator<T>, boolean>;
-        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
     }
 }
 declare namespace std {
@@ -906,6 +1023,77 @@ declare namespace std {
         defaultErrorCondition(val: number): ErrorCondition;
         equivalent(valCode: number, cond: ErrorCondition): boolean;
         equivalent(code: ErrorCode, valCond: number): boolean;
+    }
+}
+declare namespace std {
+    /**
+     * <p> Error code. </p>
+     *
+     * <p> Objects of this type hold an error code <code>value</code> associated with a <code>category</code>. </p>
+     *
+     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+     * represent possible results. These numerical values may carry essential information for a specific platform,
+     * but be non-portable from one platform to another. </p>
+     *
+     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
+     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    class ErrorCode extends base.system.ErrorInstance {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from a numeric value and error category.
+         *
+         * @param val A numerical value identifying an error code.
+         * @param category A reference to an <code>ErrorCategory</code> object.
+         */
+        constructor(val: number, category: ErrorCategory);
+    }
+}
+declare namespace std {
+    /**
+     * <p> Error condition. </p>
+     *
+     * <p> Objects of this type hold a condition <code>value</code> associated with a <code>category</code>. </p>
+     *
+     * <p> Objects of this type describe errors in a generic way so that they may be portable across different
+     * systems. This is in contrast with <code>ErrorCode</code> objects, that may contain system-specific
+     * information. </p>
+     *
+     * <p> Because <code>ErrorCondition</code> objects can be compared with error_code objects directly by using
+     * <code>relational operators</code>, <code>ErrorCondition</code> objects are generally used to check whether
+     * a particular <code>ErrorCode</code> obtained from the system matches a specific error condition no matter
+     * the system. </p>
+     *
+     * <p> The <code>categories</code> associated with the <code>ErrorCondition</code> and the <code>ErrorCode</code>
+     * define the equivalences between them. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam
+     */
+    class ErrorCondition extends base.system.ErrorInstance {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from a numeric value and error category.
+         *
+         * @param val A numerical value identifying an error condition.
+         * @param category A reference to an <code>ErrorCategory</code> object.
+         */
+        constructor(val: number, category: ErrorCategory);
     }
 }
 declare namespace std.example {
@@ -1164,73 +1352,460 @@ declare namespace std {
         constructor(what: string);
     }
 }
-declare namespace std.base.container {
-    abstract class Iterator<T> {
-        protected source: Container<T>;
+declare namespace std {
+    /**
+     * <p> Hashed, unordered map. </p>
+     *
+     * <p> <code>HashMap</code>s are associative containers that store elements formed by the
+     * combination of a <i>key value</i> and a <i>mapped value</i>, and which allows for fast
+     * retrieval of individual elements based on their <i>keys</i>. </p>
+     *
+     * <p> In an <code>HashMap</code>, the <i>key value</i> is generally used to uniquely identify
+     * the element, while the <i>mapped value</i> is an object with the content associated to this
+     * <i>key</i>. Types of <i>key</i> and <i>mapped value</i> may differ. </p>
+     *
+     * <p> Internally, the elements in the <code>HashMap</code> are not sorted in any particular order
+     * with respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i>
+     * depending on their hash values to allow for fast access to individual elements directly by
+     * their <i>key values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> <code>HashMap</code> containers are faster than <code>TreeMap</code> containers to access
+     * individual elements by their <i>key</i>, although they are generally less efficient for range
+     * iteration through a subset of their elements. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     * 	<dt> Associative </dt>
+     * 	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     * 	<dt> Hashed </dt>
+     * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     * 	<dt> Map </dt>
+     * 	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *
+     * 	<dt> Unique keys </dt>
+     * 	<dd> No two elements in the container can have equivalent keys. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+     * </ul>
+     *
+     * @param <K> Type of the key values.
+     *			  Each element in an <code>HashMap</code> is uniquely identified by its key value.
+     * @param <T> Type of the mapped value.
+     *			  Each element in an <code>HashMap</code> is used to store some data as its mapped value.
+     *
+     * @author Jeongho Nam
+     */
+    class HashMap<K, T> extends base.container.UniqueMap<K, T> {
+        private hashBuckets;
         /**
-         * Construct from the source Container.
-         *
-         * @param source The source Container.
+         * Default Constructor.
          */
-        constructor(source: Container<T>);
+        constructor();
         /**
-         * <p> Get iterator to previous element. </p>
-         * <p> If current iterator is the first item(equal with <code>begin()</code>), returns <code>end()</code>. </p>
-         *
-         * @return An iterator of the previous item.
+         * Construct from elements.
          */
-        abstract prev(): Iterator<T>;
+        constructor(array: Array<Pair<K, T>>);
         /**
-         * <p> Get iterator to next element. </p>
-         * <p> If current iterator is the last item, returns <code>end()</code>. </p>
-         *
-         * @return An iterator of the next item.
+         * Copy Constructor.
          */
-        abstract next(): Iterator<T>;
+        constructor(container: base.container.MapContainer<K, T>);
         /**
-         * Advances the Iterator by n element positions.
-         *
-         * @param n Number of element positions to advance.
-         * @return An advanced Iterator.
+         * Construct from range iterators.
          */
-        advance(n: number): Iterator<T>;
+        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
         /**
-         * Get source.
+         * @private
          */
-        getSource(): Container<T>;
+        protected constructByArray(items: Array<Pair<K, T>>): void;
         /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         *
-         * <h4> Note </h4>
-         *
-         * <p> Iterator's equals() only compare souce map and index number. </p>
-         *
-         * <p> Although elements in a pair, key and value are equals, if the source map or
-         * index number is different, then the equals() will return false. If you want to
-         * compare the elements of a pair, compare them directly by yourself. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
+         * @inheritdoc
          */
-        equals<U extends T>(obj: Iterator<U>): boolean;
+        assign<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
         /**
-         * <p> Get value of the iterator is pointing. </p>
-         *
-         * @return A value of the iterator.
+         * @inheritdoc
          */
+        clear(): void;
         /**
-         * <p> Set value of the iterator is pointing. </p>
-         *
-         * @param val A new value of the iterator.
+         * @inheritdoc
          */
-        value: T;
+        find(key: K): MapIterator<K, T>;
+        /**
+         * @private
+         */
+        protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
+        /**
+         * @private
+         */
+        protected insertByRange<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(it: MapIterator<K, T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(it: MapIterator<K, T>): void;
     }
 }
 declare namespace std {
     /**
+     * <p> Hashed, unordered Multimap. </p>
+     *
+     * <p> <code>HashMultiMap</code>s are associative containers that store elements formed by the combination of
+     * a <i>key value</i> and a <i>mapped value</i>, much like <code>HashMap</code> containers, but allowing
+     * different elements to have equivalent <i>keys</i>. </p>
+     *
+     * <p> In an <code>HashMultiMap</code>, the <i>key value</i> is generally used to uniquely identify the
+     * element, while the <i>mapped value</i> is an object with the content associated to this <i>key</i>.
+     * Types of <i>key</i> and <i>mapped value</i> may differ. </p>
+     *
+     * <p> Internally, the elements in the <code>HashMultiMap</code> are not sorted in any particular order with
+     * respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on
+     * their hash values to allow for fast access to individual elements directly by their <i>key values</i>
+     * (with a constant average time complexity on average). </p>
+     *
+     * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that
+     * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
+     * </ul>
+     *
+     * @param <K> Type of the key values.
+     *			  Each element in an <code>HashMultiMap</code> is identified by a key value.
+     * @param <T> Type of the mapped value.
+     *			  Each element in an <code>HashMultiMap</code> is used to store some data as its mapped value.
+     *
+     * @author Jeongho Nam
+     */
+    class HashMultiMap<K, T> extends base.container.MultiMap<K, T> {
+        private hashBuckets;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from elements.
+         */
+        constructor(array: Array<Pair<K, T>>);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: base.container.MapContainer<K, T>);
+        /**
+         * Construct from range iterators.
+         */
+        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
+        /**
+         * @private
+         */
+        protected constructByArray(items: Array<Pair<K, T>>): void;
+        /**
+         * @inheritdoc
+         */
+        assign<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(key: K): MapIterator<K, T>;
+        /**
+         * @private
+         */
+        protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
+        /**
+         * @private
+         */
+        protected insertByRange<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(it: MapIterator<K, T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(it: MapIterator<K, T>): void;
+    }
+}
+declare namespace std {
+    /**
+     * <p> Hashed, unordered Multiset. </p>
+     *
+     * <p> <code>HashMultiSet</code>s are containers that store elements in no particular order, allowing fast
+     * retrieval of individual elements based on their value, much like <code>UnorderedSet</code> containers,
+     * but allowing different elements to have equivalent values. </p>
+     *
+     * <p> In an <code>HashMultiSet</code>, the value of an element is at the same time its <i>key</i>, used to
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an <code>HashMultiSet</code> cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> Internally, the elements in the <code>HashMultiSet</code> are not sorted in any particular, but
+     * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
+     * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
+     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+     *
+     * @author Jeongho Nam
+     */
+    class HashMultiSet<T> extends base.container.MultiSet<T> {
+        private hashBuckets;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from elements.
+         */
+        constructor(items: Array<T>);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: base.container.IContainer<T>);
+        /**
+         * Construct from range iterators.
+         */
+        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        /**
+         * @private
+         */
+        protected constructByArray(items: Array<T>): void;
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(val: T): SetIterator<T>;
+        /**
+         * @private
+         */
+        protected insertByVal(val: T): any;
+        /**
+         * @private
+         */
+        protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(it: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(it: SetIterator<T>): void;
+    }
+}
+declare namespace std {
+    /**
+     * <p> Hashed, unordered set. </p>
+     *
+     * <p> <code>HashSet</code>s are containers that store unique elements in no particular order, and which
+     * allow for fast retrieval of individual elements based on their value. </p>
+     *
+     * <p> In an <code>HashSet</code>, the value of an element is at the same time its <i>key</i>, that
+     * identifies it uniquely. Keys are immutable, therefore, the elements in an <code>HashSet</code> cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> Internally, the elements in the <code>HashSet</code> are not sorted in any particular order, but
+     * organized into buckets depending on their hash values to allow for fast access to individual elements
+     * directly by their <i>values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> <code>HashSet</code> containers are faster than <codeTreeSet<code> containers to access individual
+     * elements by their <i>key</i>, although they are generally less efficient for range iteration through a
+     * subset of their elements. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *			  Each element in an <code>HashSet</code> is also uniquely identified by this value.
+     *
+     * @author Jeongho Nam
+     */
+    class HashSet<T> extends base.container.UniqueSet<T> {
+        private hashBuckets;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from elements.
+         */
+        constructor(items: Array<T>);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: base.container.IContainer<T>);
+        /**
+         * Construct from range iterators.
+         */
+        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        protected constructByArray(items: Array<T>): void;
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(val: T): SetIterator<T>;
+        protected insertByVal(val: T): any;
+        protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(item: SetIterator<T>): void;
+    }
+}
+declare namespace std {
+    interface IComparable<T> {
+        equals(obj: T): boolean;
+        less(obj: T): boolean;
+        hashCode(): number;
+    }
+    /**
+     * <p> For equality comparison. </p>
+     *
+     * <p> Binary fucntion returns whether the arguments are equal. </p>
+     *
+     * @param <T> Type of arguments to compare.
+     *
+     * @param first First element to compare.
+     * @param second Second element to compare.
+     *
+     * @return Whether the arguments are equal.
+     */
+    function equals<T>(left: T, right: T): boolean;
+    /**
+     * <p> Function for less-than inequality comparison. </p>
+     *
+     * <p> Binary function returns whether the its first argument compares less than the second. </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function <code>less()</code>
+     * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
+     * This member function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * <p> Objects of this class can be used on standard algorithms such as <code>sort()</code>,
+     * <code>merge<()/code> or <code>lower_bound()</code>. </p>
+     *
+     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
+     *			  <code>operator<()</code> or method <code>less()</code>.
+     *
+     * @param first First element, the standard of comparison.
+     * @param second Second element compare with the first.
+     *
+     * @return Whether the first parameter is less than the second.
+     */
+    function less<T>(left: T, right: T): boolean;
+    /**
+     * <p> Function for greater-than inequality comparison. </p>
+     *
+     * <p> Binary function returns whether the its first argument compares greater than the second. </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function <code>less()</code> and
+     * <code>equals()</code> defined. If an object doesn't have those methods, then its own uid will be used
+     * to compare insteadly. This member function allows the object to be used with the same syntax as a function
+     * call. </p>
+     *
+     * <p> Objects of this class can be used on standard algorithms such as <code>sort()</code>,
+     * <code>merge<()/code> or <code>lower_bound()</code>. </p>
+     *
+     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
+     *			  <code>operator>()</code> or method <code>less()</code> and <code>equals()</code>.
+     *
+     * @param left
+     * @param right
+     */
+    function greater<T>(left: T, right: T): boolean;
+    function hashCode(obj: any): number;
+}
+declare namespace std {
+    /**
+     * <p> Doubly linked list. </p>
+     *
      * <p> Lists are sequence containers that allow constant time insert and erase operations anywhere
      * within the sequence, and iteration in both directions. </p>
      *
@@ -1485,39 +2060,6 @@ declare namespace std {
     }
 }
 declare namespace std {
-    class Map<K, T> extends base.container.UniqueMap<K, T> {
-        private tree;
-        /**
-         * Default Constructor
-         */
-        constructor();
-        constructor(array: Array<Pair<K, T>>);
-        constructor(container: base.container.MapContainer<K, T>);
-        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
-        /**
-         * @inheritdoc
-         */
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(key: K): MapIterator<K, T>;
-        findNear(key: K): MapIterator<K, T>;
-        protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
-        /**
-         * @inheritdoc
-         */
-        protected handleInsert(item: MapIterator<K, T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handleErase(item: MapIterator<K, T>): void;
-    }
-}
-declare namespace std {
     class MapIterator<K, T> {
         protected source: base.container.MapContainer<K, T>;
         protected listIterator: ListIterator<Pair<K, T>>;
@@ -1563,66 +2105,6 @@ declare namespace std {
         hashCode(): number;
     }
 }
-declare namespace std {
-    class MultiMap<K, T> extends base.container.MultiMap<K, T> {
-        private tree;
-        /**
-         * Default Constructor
-         */
-        constructor();
-        constructor(array: Array<Pair<K, T>>);
-        constructor(container: base.container.MapContainer<K, T>);
-        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
-        /**
-         * @inheritdoc
-         */
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(key: K): MapIterator<K, T>;
-        findNear(key: K): MapIterator<K, T>;
-        protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
-        /**
-         * @inheritdoc
-         */
-        protected handleInsert(item: MapIterator<K, T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handleErase(item: MapIterator<K, T>): void;
-    }
-}
-declare namespace std {
-    class MultiSet<T> extends base.container.MultiSet<T> {
-        private tree;
-        constructor();
-        constructor(array: Array<T>);
-        constructor(container: base.container.Container<T>);
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(val: T): SetIterator<T>;
-        findNear(val: T): SetIterator<T>;
-        protected insertByVal(val: T): any;
-        /**
-         * @inheritdoc
-         */
-        protected handleInsert(item: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handleErase(item: SetIterator<T>): void;
-    }
-}
 /**
  * <p> A namespace of STL library. </p>
  *
@@ -1644,50 +2126,18 @@ declare namespace std.base.tree {
 }
 declare namespace std {
     /**
-     * <p> For equality comparison. </p>
+     * <p> Pair of values. </p>
      *
-     * <p> Binary fucntion returns whether the arguments are equal. </p>
+     * <p> This class couples together a pair of values, which may be of different types (<code>T1</code> and
+     * <code>T2</code>). The individual values can be accessed through its public members <code>first</code> and
+     * <code>second</code>. </p>
      *
-     * @param <T> Type of arguments to compare.
-     *
-     * @param first First element to compare.
-     * @param second Second element to compare.
-     *
-     * @return Whether the arguments are equal.
-     */
-    function equals<T>(left: T, right: T): boolean;
-    /**
-     * <p> For less-than inequality comparison. </p>
-     *
-     * <p> Binary function returns whether the its first argument compares less than
-     * the second. </p>
-     *
-     * <p> Objects of this class can be used on standard algorithms such as <code>sort</code>, <code>merge</code>. </p>
-     *
-     * @param <T> Type of arguments to compare.
-     *
-     * @param first First element, the standard of comparison.
-     * @param second Second element compare with the first.
-     *
-     * @return Whether the first parameter is less than the second.
-     */
-    function less<T>(left: T, right: T): boolean;
-    function greater<T>(left: T, right: T): boolean;
-    function hashCode(par: any): number;
-}
-declare namespace std {
-    /**
-     * <p> A pair of values. </p>
      * <ul>
-     *  <li> _Ty1: Type of member fisrt. </li>
-     *  <li> _Ty2 Type of member second. </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/utility/pair/ </li>
      * </ul>
      *
-     * <p> This class couples together a pair of values, which may be of different types
-     * (_Ty1 and _Ty2). The individual values can be accessed through its public members
-     * first and second. </p>
-     *
-     * <p> Same with std::pair (http://www.cplusplus.com/reference/utility/pair/) </p>
+     * @param <K> Type of member <code>first</code>.
+     * @param <T> Type of member <code>second</code>.
      *
      * @author Jeongho Nam
      */
@@ -1818,192 +2268,6 @@ declare namespace std {
          * <i>underlying container</i> object. </p>
          */
         pop(): void;
-    }
-}
-declare namespace std {
-    /**
-     * <p> System error exception. </p>
-     *
-     * <p> This class defines the type of objects thrown as exceptions to report conditions originating during
-     * runtime from the operating system or other low-level application program interfaces which have an
-     * associated <code>ErrorCode</code>. </p>
-     *
-     * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as
-     * member code (and defines a specialized what member). </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    class SystemError extends RuntimeError {
-        /**
-         * Error code.
-         */
-        protected code_: ErrorCode;
-        /**
-         * Construct from an error code.
-         *
-         * @param code An <code>ErrorCode</code> object.
-         */
-        constructor(code: ErrorCode);
-        /**
-         * Construct from an error code and message.
-         *
-         * @param code An <code>ErrorCode</code> object.
-         * @param message A message incorporated in the string returned by member <code>what()</code>.
-         */
-        constructor(code: ErrorCode, message: string);
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCode</code> object.
-         */
-        constructor(val: number, category: ErrorCategory);
-        /**
-         * Construct from a numeric value, error category and message.
-         *
-         * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCode</code> object.
-         * @param message A message incorporated in the string returned by member <code>what()</code>.
-         */
-        constructor(val: number, category: ErrorCategory, message: string);
-        /**
-         * <p> Get error code. </p>
-         *
-         * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
-         *
-         * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent
-         * (if constructed with a value and a <code>category</code>). </p>
-         *
-         * @return The <code>ErrorCode</code> associated with the object.
-         */
-        code(): ErrorCode;
-    }
-    /**
-     * <p> Error code. </p>
-     *
-     * <p> Objects of this type hold an error code <code>value</code> associated with a <code>category</code>. </p>
-     *
-     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-     * represent possible results. These numerical values may carry essential information for a specific platform,
-     * but be non-portable from one platform to another. </p>
-     *
-     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    class ErrorCode extends base.system.ErrorInstance {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCategory</code> object.
-         */
-        constructor(val: number, category: ErrorCategory);
-    }
-    /**
-     * <p> Error condition. </p>
-     *
-     * <p> Objects of this type hold a condition <code>value</code> associated with a <code>category</code>. </p>
-     *
-     * <p> Objects of this type describe errors in a generic way so that they may be portable across different
-     * systems. This is in contrast with <code>ErrorCode</code> objects, that may contain system-specific
-     * information. </p>
-     *
-     * <p> Because <code>ErrorCondition</code> objects can be compared with error_code objects directly by using
-     * <code>relational operators</code>, <code>ErrorCondition</code> objects are generally used to check whether
-     * a particular <code>ErrorCode</code> obtained from the system matches a specific error condition no matter
-     * the system. </p>
-     *
-     * <p> The <code>categories</code> associated with the <code>ErrorCondition</code> and the <code>ErrorCode</code>
-     * define the equivalences between them. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam
-     */
-    class ErrorCondition extends base.system.ErrorInstance {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error condition.
-         * @param category A reference to an <code>ErrorCategory</code> object.
-         */
-        constructor(val: number, category: ErrorCategory);
-    }
-}
-declare namespace std {
-    /**
-     * <p> Set, in other word, Tree Set. </p>
-     *
-     * <p> Sets are containers that store unique elements following a specific order. </p>
-     *
-     * <p> In a set, the value of an element also identifies it (the value is itself the key, of type T), and each
-     * value must be unique. The value of the elements in a set cannot be modified once in the container
-     * (the elements are always const), but they can be inserted or removed from the container. </p>
-     *
-     * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering criterion
-     * indicated by its internal comparison object (of type Compare). </p>
-     *
-     * <p> Set containers are generally slower than unordered_set containers to access individual elements by
-     * their key, but they allow the direct iteration on subsets based on their order. </p>
-     *
-     * <p> Sets are typically implemented as binary search trees. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
-     * </ul>
-     *
-     * @param <T> Type of the elements.
-     *			  Each element in an <code>Set</code> is also uniquely identified by this value.
-     *
-     * @author Jeongho Nam
-     */
-    class TreeSet<T> extends base.container.UniqueSet<T> {
-        private tree;
-        /**
-         * Default Constructor
-         */
-        constructor();
-        constructor(array: Array<T>);
-        constructor(container: base.container.Container<T>);
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(val: T): SetIterator<T>;
-        findNear(val: T): SetIterator<T>;
-        protected insertByVal(val: T): any;
-        /**
-         * @inheritdoc
-         */
-        protected handleInsert(item: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handleErase(item: SetIterator<T>): void;
     }
 }
 declare namespace std {
@@ -2142,61 +2406,149 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> Unordered Map, another word, Hash Map. </p>
+     * <p> System error exception. </p>
      *
-     * <p> Unordered maps are associative containers that store elements formed by the combination of a key value
-     * and a mapped value, and which allows for fast retrieval of individual elements based on their keys. </p>
+     * <p> This class defines the type of objects thrown as exceptions to report conditions originating during
+     * runtime from the operating system or other low-level application program interfaces which have an
+     * associated <code>ErrorCode</code>. </p>
      *
-     * <p> In an <code>UnorderedMap</code>, the key value is generally used to uniquely identify the element,
-     * while the mapped value is an object with the content associated to this key. Types of key and mapped
-     * value may differ. </p>
-     *
-     * <p> Internally, the elements in the <code>UnorderedMap</code> are not sorted in any particular order with
-     * respect to either their key or mapped values, but organized into buckets depending on their hash values to
-     * allow for fast access to individual elements directly by their key values (with a constant average time
-     * complexity on average). </p>
-     *
-     * <p> <code>UnorderedMap</code> containers are faster than map containers to access individual elements by
-     * their key, although they are generally less efficient for range iteration through a subset of their
-     * elements. </p>
-     *
-     * <p> Unordered maps implement the direct access operator (<code>get()</code>) which allows for direct access
-     * of the mapped value using its key value as argument. </p>
+     * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as
+     * member code (and defines a specialized what member). </p>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
+     *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
      * </ul>
-     *
-     * @param <K> Type of the key values.
-     *			  Each element in an <code>UnorderedMap</code> is uniquely identified by its key value.
-     * @param <T> Type of the mapped value.
-     *			  Each element in an <code>UnorderedMap</code> is used to store some data as its mapped value.
      *
      * @author Jeongho Nam
      */
-    class UnorderedMap<K, T> extends base.container.UniqueMap<K, T> {
-        private hashBuckets;
+    class SystemError extends RuntimeError {
         /**
-         * Default Constructor.
+         * Error code.
+         */
+        protected code_: ErrorCode;
+        /**
+         * Construct from an error code.
+         *
+         * @param code An <code>ErrorCode</code> object.
+         */
+        constructor(code: ErrorCode);
+        /**
+         * Construct from an error code and message.
+         *
+         * @param code An <code>ErrorCode</code> object.
+         * @param message A message incorporated in the string returned by member <code>what()</code>.
+         */
+        constructor(code: ErrorCode, message: string);
+        /**
+         * Construct from a numeric value and error category.
+         *
+         * @param val A numerical value identifying an error code.
+         * @param category A reference to an <code>ErrorCode</code> object.
+         */
+        constructor(val: number, category: ErrorCategory);
+        /**
+         * Construct from a numeric value, error category and message.
+         *
+         * @param val A numerical value identifying an error code.
+         * @param category A reference to an <code>ErrorCode</code> object.
+         * @param message A message incorporated in the string returned by member <code>what()</code>.
+         */
+        constructor(val: number, category: ErrorCategory, message: string);
+        /**
+         * <p> Get error code. </p>
+         *
+         * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
+         *
+         * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent
+         * (if constructed with a value and a <code>category</code>). </p>
+         *
+         * @return The <code>ErrorCode</code> associated with the object.
+         */
+        code(): ErrorCode;
+    }
+}
+declare namespace std {
+    /**
+     * <p> TreeMap, <code>std::map</code> of STL. </p>
+     *
+     * <p> <code>TreeMap</code>s are associative containers that store elements formed by a combination of a
+     * <i>key value</i> (<code>Key</code>) and a <i>mapped value</i> (<code>T</code>), following order. </p>
+     *
+     * <p> In a <code>TreeMap</code>, the <i>key values</i> are generally used to sort and uniquely identify
+     * the elements, while the <i>mapped values</i> store the content associated to this key. The types of
+     * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
+     * <code>value_type</code>, which is a <code>Pair</code> type combining both:
+     *
+     * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
+     *
+     * <p> Internally, the elements in a <code>TreeMap</code> are always sorted by its <i>key</i> following
+     * a strict weak ordering criterion indicated by its internal comparison method <code>less()</code>.
+     *
+     * <p> <code>TreeMap</code> containers are generally slower than <code>HashMap</code> containers to access
+     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
+     * order. </p>
+     *
+     * <p> <code>TreeMap</code>s are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/map/map/ </li>
+     * </ul>
+     *
+     * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+     *
+     * @author Jeongho Nam
+     */
+    class TreeMap<Key, T> extends base.container.UniqueMap<Key, T> {
+        /**
+         * <i>RB-Tree+</i> object for implemeting the <code>TreeMap</code>.
+         */
+        private tree;
+        /**
+         * Default Constructor
          */
         constructor();
         /**
-         * Construct from elements.
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
          */
-        constructor(array: Array<Pair<K, T>>);
+        constructor(array: Array<Pair<Key, T>>);
         /**
          * Copy Constructor.
+         *
+         * @param container Another map to copy.
          */
-        constructor(container: base.container.MapContainer<K, T>);
+        constructor(container: base.container.MapContainer<Key, T>);
         /**
-         * Construct from range iterators.
+         * Range Constructor.
+         *
+         * @param begin nput interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
          */
-        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
-        protected constructByArray(items: Array<Pair<K, T>>): void;
+        constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
         /**
          * @inheritdoc
          */
-        assign<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        assign<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
         /**
          * @inheritdoc
          */
@@ -2204,74 +2556,102 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        find(key: K): MapIterator<K, T>;
-        protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
-        protected insertByRange<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        find(key: Key): MapIterator<Key, T>;
+        findNear(key: Key): MapIterator<Key, T>;
+        /**
+         * @private
+         */
+        protected insertByPair<L extends Key, U extends T>(pair: Pair<L, U>): any;
         /**
          * @inheritdoc
          */
-        protected handleInsert(it: MapIterator<K, T>): void;
+        protected handleInsert(item: MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handleErase(it: MapIterator<K, T>): void;
+        protected handleErase(item: MapIterator<Key, T>): void;
     }
 }
 declare namespace std {
     /**
-     * <p> Unordered Multimap, in another word, Hashed MultiMap. </p>
+     * <p> Tree-structured multiple-key map. </p>
      *
-     * <p> Unordered multimaps are associative containers that store elements formed by the combination of
-     * a key value and a mapped value, much like UnorderedMap containers, but allowing different elements to
+     * <p> <code>TreeMultiMap</code>s are associative containers that store elements formed by a combination of
+     * a <i>key value</i> and a <i>mapped value</i>, following a specific order, and where multiple elements can
      * have equivalent keys. </p>
      *
-     * <p> In an UnorderedMultiMap, the key value is generally used to uniquely identify the element, while
-     * the mapped value is an object with the content associated to this key. Types of key and mapped value
-     * may differ. </p>
+     * <p> In a <code>TreeMultiMap</code>, the <i>key values</i> are generally used to sort and uniquely identify
+     * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of
+     * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
+     * <code>value_type</code>, which is a <code>Pair</code> type combining both:
      *
-     * <p> Internally, the elements in the unordered_multimap are not sorted in any particular order with
-     * respect to either their key or mapped values, but organized into buckets depending on their hash values
-     * to allow for fast access to individual elements directly by their key values (with a constant average
-     * time complexity on average). </p>
+     * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
      *
-     * <p> Elements with equivalent keys are grouped together in the same bucket and in such a way that
-     * an iterator (see equal_range) can iterate through all of them. Iterators in the container are doubly
-     * linked iterators. </p>
+     * <p> Internally, the elements in a <code>TreeMultiMap</code> are always sorted by its key following a
+     * strict weak ordering criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+     *
+     * <p> <code>TreeMultiMap</code> containers are generally slower than <code>HashMultiMap</code> containers
+     * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based
+     * on their order. </p>
+     *
+     * <p> <code>TreeMultiMap</code>s are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/map/multimap/ </li>
      * </ul>
      *
-     * @param <K> Type of the key values.
-     *			  Each element in an UnorderedMultiMap is identified by a key value.
-     * @param <T> Type of the mapped value.
-     *			  Each element in an UnorderedUnorderedMap is used to store some data as its mapped value.
+     * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
      * @author Jeongho Nam
      */
-    class UnorderedMultiMap<K, T> extends base.container.MultiMap<K, T> {
-        private hashBuckets;
+    class TreeMultiMap<Key, T> extends base.container.MultiMap<Key, T> {
+        private tree;
         /**
-         * Default Constructor.
+         * Default Constructor
          */
         constructor();
         /**
-         * Construct from elements.
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
          */
-        constructor(array: Array<Pair<K, T>>);
+        constructor(array: Array<Pair<Key, T>>);
         /**
          * Copy Constructor.
+         *
+         * @param container Another map to copy.
          */
-        constructor(container: base.container.MapContainer<K, T>);
+        constructor(container: base.container.MapContainer<Key, T>);
         /**
-         * Construct from range iterators.
+         * Range Constructor.
+         *
+         * @param begin nput interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
          */
-        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
-        protected constructByArray(items: Array<Pair<K, T>>): void;
+        constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
         /**
          * @inheritdoc
          */
-        assign<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        assign<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
         /**
          * @inheritdoc
          */
@@ -2279,66 +2659,81 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        find(key: K): MapIterator<K, T>;
-        protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any;
-        protected insertByRange<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        find(key: Key): MapIterator<Key, T>;
+        findNear(key: Key): MapIterator<Key, T>;
+        /**
+         * @private
+         */
+        protected insertByPair<L extends Key, U extends T>(pair: Pair<L, U>): any;
         /**
          * @inheritdoc
          */
-        protected handleInsert(it: MapIterator<K, T>): void;
+        protected handleInsert(item: MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handleErase(it: MapIterator<K, T>): void;
+        protected handleErase(item: MapIterator<Key, T>): void;
     }
 }
 declare namespace std {
     /**
-     * <p> Unordered Multiset, in another word, Hashed MultiSet. </p>
+     * <p> Tree-structured multiple-key set. </p>
      *
-     * <p> Unordered multisets are containers that store elements in no particular order, allowing fast retrieval
-     * of individual elements based on their value, much like UnorderedSet containers, but allowing different
-     * elements to have equivalent values. </p>
+     * <p> <code>TreeMultiSet</code>s are containers that store elements following a specific order, and where
+     * multiple elements can have equivalent values. </p>
      *
-     * <p> In an UnorderedMultiSet, the value of an element is at the same time its key, used to identify it.
-     * Keys are immutable, therefore, the elements in an unordered_multiset cannot be modified once in the
-     * container - they can be inserted and removed, though. </p>
+     * <p> In a <code>TreeMultiSet</code>, the value of an element also identifies it (the value is itself
+     * the <i>key</i>, of type <code>T</code>). The value of the elements in a <code>TreeMultiSet</code> cannot
+     * be modified once in the container (the elements are always const), but they can be inserted or removed
+     * from the container. </p>
      *
-     * <p> Internally, the elements in the unordered_multiset are not sorted in any particular, but organized
-     * into buckets depending on their hash values to allow for fast access to individual elements directly by
-     * their values (with a constant average time complexity on average). </p>
+     * <p> Internally, the elements in a <code>TreeMultiSet</code>s are always sorted following a strict weak
+     * ordering criterion indicated by its internal comparison method (of <code>less()</code>).
      *
-     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
-     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     * <p> <code>TreeMultiSet</code> containers are generally slower than <code>HashMultiSet</code> containers
+     * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
+     * their order. </p>
+     *
+     * <p> <code>TreeMultiSet</code>s are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
      *
      * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
+     *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
      * </ul>
      *
-     * @param <T> Type of the elements.
-     *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+     * @param <T> Type of the elements. Each element in a <code>TreeMultiSet</code> container is also identified
+     *			  by this value (each value is itself also the element's <i>key</i>).
      *
      * @author Jeongho Nam
      */
-    class UnorderedMultiSet<T> extends base.container.MultiSet<T> {
-        private hashBuckets;
+    class TreeMultiSet<T> extends base.container.MultiSet<T> {
+        /**
+         * <i>RB-Tree+</i> object for implemeting the <code>TreeMultiSet</code>.
+         */
+        private tree;
         /**
          * Default Constructor.
          */
         constructor();
-        /**
-         * Construct from elements.
-         */
-        constructor(items: Array<T>);
-        /**
-         * Copy Constructor.
-         */
-        constructor(container: base.container.IContainer<T>);
-        /**
-         * Construct from range iterators.
-         */
+        constructor(array: Array<T>);
+        constructor(container: base.container.Container<T>);
         constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
-        protected constructByArray(items: Array<T>): void;
         /**
          * @inheritdoc
          */
@@ -2351,79 +2746,11 @@ declare namespace std {
          * @inheritdoc
          */
         find(val: T): SetIterator<T>;
+        findNear(val: T): SetIterator<T>;
+        /**
+         * @private
+         */
         protected insertByVal(val: T): any;
-        protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handleInsert(it: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handleErase(it: SetIterator<T>): void;
-    }
-}
-declare namespace std {
-    /**
-     * <p> Unordered Set, in other other, Hash Set. </p>
-     *
-     * <p> Unordered sets are containers that store unique elements in no particular order, and which allow for
-     * fast retrieval of individual elements based on their value. </p>
-     *
-     * <p> In an <code>UnorderedSet</code>, the value of an element is at the same time its key, that identifies
-     * it uniquely. Keys are immutable, therefore, the elements in an <code>UnorderedSet</code> cannot be modified
-     * once in the container - they can be inserted and removed, though. </p>
-     *
-     * <p> Internally, the elements in the <code>UnorderedSet</code> are not sorted in any particular order, but
-     * organized into buckets depending on their hash values to allow for fast access to individual elements directly
-     * by their values (with a constant average time complexity on average). </p>
-     *
-     * <p> <code>UnorderedSet</code> containers are faster than <codeSet<code> containers to access individual
-     * elements by their key, although they are generally less efficient for range iteration through a subset of
-     * their elements. </p>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
-     * </ul>
-     *
-     * @param <T> Type of the elements.
-     *			  Each element in an <code>UnorderedSet</code> is also uniquely identified by this value.
-     *
-     * @author Jeongho Nam
-     */
-    class UnorderedSet<T> extends base.container.UniqueSet<T> {
-        private hashBuckets;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from elements.
-         */
-        constructor(items: Array<T>);
-        /**
-         * Copy Constructor.
-         */
-        constructor(container: base.container.IContainer<T>);
-        /**
-         * Construct from range iterators.
-         */
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
-        protected constructByArray(items: Array<T>): void;
-        /**
-         * @inheritdoc
-         */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(val: T): SetIterator<T>;
-        protected insertByVal(val: T): any;
-        protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -2436,6 +2763,93 @@ declare namespace std {
 }
 declare namespace std {
     /**
+     * <p> Tree-structured set. </p>
+     *
+     * <p> <code>TreeSet</code>s are containers that store unique elements following a specific order. </p>
+     *
+     * <p> In a <code>TreeSet</code>, the value of an element also identifies it (the value is itself the
+     * <i>key</i>, of type <code>T</code>), and each value must be unique. The value of the elements in a
+     * <code>TreeSet</code> cannot be modified once in the container (the elements are always const), but they
+     * can be inserted or removed from the container. </p>
+     *
+     * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering
+     * criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+     *
+     * <p> <code>TreeSet</code> containers are generally slower than <code>HashSet</code> containers to access
+     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
+     * order. </p>
+     *
+     * <p> <code>TreeSet</code>s are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the container. </dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
+     *		 given a position in this order. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *			  Each element in an <code>TreeSet</code> is also uniquely identified by this value.
+     *
+     * @author Jeongho Nam
+     */
+    class TreeSet<T> extends base.container.UniqueSet<T> {
+        /**
+         * <i>RB-Tree+</i> object for implemeting the <code>TreeSet</code>.
+         */
+        private tree;
+        /**
+         * Default Constructor
+         */
+        constructor();
+        constructor(array: Array<T>);
+        constructor(container: base.container.Container<T>);
+        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(val: T): SetIterator<T>;
+        findNear(val: T): SetIterator<T>;
+        /**
+         * @private
+         */
+        protected insertByVal(val: T): any;
+        /**
+         * @inheritdoc
+         */
+        protected handleInsert(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handleErase(item: SetIterator<T>): void;
+    }
+}
+declare namespace std {
+    /**
+     * <p> Vector, the dynamic array. </p>
+     *
      * <p> Vectors are sequence containers representing arrays that can change in size. </p>
      *
      * <p> Just like arrays, vectors use contiguous storage locations for their elements, which means that
