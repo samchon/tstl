@@ -3,6 +3,7 @@
  * 
  * <ul>
  *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+ *	<li> Github: https://github.com/samchon/stl/ </li>
  *	<li> Reference: http://www.cplusplus.com/reference/ </li>
  * </ul>
  * 

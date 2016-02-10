@@ -76,15 +76,7 @@ namespace std
 		{
 			return this.listIterator.value;
 		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public set value(val: T)
-		{
-			this.listIterator.value = val;
-		}
-
+		
 		/* ---------------------------------------------------------
 			COMPARISONS
 		--------------------------------------------------------- */

@@ -103,6 +103,11 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
+		public abstract insert(position: Iterator<T>, val: T): Iterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
 		public abstract erase(position: Iterator<T>): Iterator<T>;
 
 		/**

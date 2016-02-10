@@ -382,7 +382,8 @@ namespace std
 		 * <p> Insert an element. </p>
 		 *
 		 * <p> The container is extended by inserting a new element before the element at the specified 
-		 * <i>position</i>. This effectively increases the List size by the amount of elements inserted. </p>
+		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements 
+		 * inserted. </p>
 		 *
 		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be 
 		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>

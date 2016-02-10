@@ -183,6 +183,9 @@ namespace std.base.container
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public push<U extends T>(...args: U[]): number
 		{
 			for (let i: number = 0; i < args.length; i++)

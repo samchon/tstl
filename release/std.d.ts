@@ -67,6 +67,10 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
+        abstract insert(position: Iterator<T>, val: T): Iterator<T>;
+        /**
+         * @inheritdoc
+         */
         abstract erase(position: Iterator<T>): Iterator<T>;
         /**
          * @inheritdoc
@@ -102,9 +106,9 @@ declare namespace std.base.container {
      * set of member functions to access its elements. Elements are pushed/popped from the <code>accessor</code>
      * method of the (derived) specific container. </p>
      *
-     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+     * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
      * By default, if no container class is specified for a particular <code>FOContainer</code> class
-     * instantiation, the standard container <code>List</code> is used. </p>
+     * instantiation, the standard container {@link List} is used. </p>
      *
      * @param <T> Type of elements.
      *
@@ -129,7 +133,7 @@ declare namespace std.base.container {
          * <p> Return size. </p>
          * <p> Returns the number of elements in the <code>FOStack</code>. </p>
          *
-         * <p> This member function effectively calls member <code>size</code> of the
+         * <p> This member function effectively calls member {@link size} of the
          * <i>underlying container</i> object. </p>
          *
          * @return The number of elements in the <i>underlying container</i>.
@@ -199,7 +203,7 @@ declare namespace std.base.container {
          * <p> Assign new content to content. </p>
          *
          * <p> Assigns new contents to the container, replacing its current contents, and modifying its
-         * <code>size</code> accordingly. </p>
+         * {@link size} accordingly. </p>
          *
          * @param begin Input interator of the initial position in a sequence.
          * @param end Input interator of the final position in a sequence.
@@ -259,13 +263,30 @@ declare namespace std.base.container {
          */
         empty(): boolean;
         /**
-         * Appends new elements to the container, and returns the new size of the Container.
+         * <p> Insert elements. </p>
+         *
+         * <p> Appends new elements to the container, and returns the new size of the <code>Container</code>. </p>
          *
          * @param items New elements to insert.
          *
          * @return New size of the Container.
          */
         push<U extends T>(...items: U[]): number;
+        /**
+         * <p> Insert an element. </p>
+         *
+         * <p> The container is extended by inserting a new element before the element at the specified
+         * <i>position</i>. This effectively increases the {@link IContainer.size container size} by the amount of
+         * elements inserted. </p>
+         *
+         * @param position Position in the {@link IContainer} where the new element is inserted.
+         *				   {@link iterator} is a member type, defined as a {@link Iterator random access iterator}
+         *				   type that points to elements.
+         * @param val Value to be copied to the inserted element.
+         *
+         * @return An iterator that points to the newly inserted element.
+         */
+        insert(position: Iterator<T>, val: T): Iterator<T>;
         /**
          * <p> Erase an element. </p>
          *
@@ -299,32 +320,33 @@ declare namespace std.base.container {
 }
 declare namespace std.base.container {
     abstract class Iterator<T> {
-        protected source: Container<T>;
+        protected source: IContainer<T>;
         /**
          * Construct from the source Container.
          *
          * @param source The source Container.
          */
-        constructor(source: Container<T>);
+        constructor(source: IContainer<T>);
         /**
          * <p> Get iterator to previous element. </p>
-         * <p> If current iterator is the first item(equal with <code>begin()</code>), returns <code>end()</code>. </p>
+         * <p> If current iterator is the first item(equal with {@link IContainer.begin IContainer.begin()}),
+         * returns {@link IContainer.end IContainer.end()}. </p>
          *
          * @return An iterator of the previous item.
          */
         abstract prev(): Iterator<T>;
         /**
          * <p> Get iterator to next element. </p>
-         * <p> If current iterator is the last item, returns <code>end()</code>. </p>
+         * <p> If current iterator is the last item, returns {@link IContainer.end IContainer.end()}. </p>
          *
          * @return An iterator of the next item.
          */
         abstract next(): Iterator<T>;
         /**
-         * Advances the Iterator by n element positions.
+         * Advances the {@link Iterator} by <i>n</i> element positions.
          *
          * @param n Number of element positions to advance.
-         * @return An advanced Iterator.
+         * @return An advanced iterator.
          */
         advance(n: number): Iterator<T>;
         /**
@@ -342,7 +364,7 @@ declare namespace std.base.container {
          * <p> Iterator's equals() only compare souce map and index number. </p>
          *
          * <p> Although elements in a pair, key and value are equals, if the source map or
-         * index number is different, then the equals() will return false. If you want to
+         * index number is different, then the {@link equals equals()} will return false. If you want to
          * compare the elements of a pair, compare them directly by yourself. </p>
          *
          * @param obj An iterator to compare
@@ -353,11 +375,6 @@ declare namespace std.base.container {
          * <p> Get value of the iterator is pointing. </p>
          *
          * @return A value of the iterator.
-         */
-        /**
-         * <p> Set value of the iterator is pointing. </p>
-         *
-         * @param val A new value of the iterator.
          */
         value: T;
     }
@@ -416,17 +433,18 @@ declare namespace std.base.container {
         /**
          * <p> Get iterator to element. </p>
          *
-         * <p> Searches the container for an element with a identifier equivalent to <code>key</code> and
-         * returns an iterator to it if found, otherwise it returns an iterator to <code>end()</code>. </p>
+         * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and
+         * returns an iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
          *
          * <p> Two keys are considered equivalent if the container's comparison object returns false
          * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
          *
-         * <p> Another member function, <code>has()</code>, can be used to just check whether
-         * a particular key exists. </p>
+         * <p> Another member functions, {@link has has()} and {@link count count()}, can be used to just check
+         * whether a particular <i>key</i> exists. </p>
          *
          * @param key Key to be searched for
-         * @return An iterator to the element, if an element with specified key is found, or Map::end() otherwise.
+         * @return An iterator to the element, if an element with specified <i>key</i> is found, or
+         *		   {@link end end()} otherwise.
          */
         abstract find(key: Key): MapIterator<Key, T>;
         /**
@@ -434,7 +452,7 @@ declare namespace std.base.container {
          * <p> Returns an iterator referring the first element in the Container. </p>
          *
          * <h4> Note </h4>
-         * <p> If the container is empty, the returned iterator is same with end(). </p>
+         * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
          *
          * @return An iterator to the first element in the container.
          * The iterator containes the first element's value.
@@ -454,7 +472,7 @@ declare namespace std.base.container {
          * <h4> Note </h4>
          * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
          * element by the iterator will cause throwing exception (out of range). </p>
-         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+         * <p> If the container is empty, this function returns the same as {@link begin}. </p>
          *
          * @return An iterator to the end element in the container.
          */
@@ -474,7 +492,7 @@ declare namespace std.base.container {
          *
          * @param key Key value to be searched for.
          *
-         * @return The number of elements in the container with a <code>key</code>.
+         * @return The number of elements in the container with a <i>key</i>.
          */
         abstract count(key: Key): number;
         /**
@@ -599,6 +617,9 @@ declare namespace std.base.container {
          * @inheritdoc
          */
         size(): number;
+        /**
+         * @inheritdoc
+         */
         push<U extends T>(...args: U[]): number;
         /**
          * <p> Insert element with hint. </p>
@@ -768,26 +789,22 @@ declare namespace std.base.system {
     /**
      * <p> An abstract error instance. </p>
      *
-     * <p> <code>ErrorInstance</code> is an abstract class of <code>ErrorCode</code> and <code>ErrorCondition</code>
-     * holding an error instance's identifier <code>value</code>, associated with a <code>category</code>. </p>
+     * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
+     * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
      *
      * <p> The operating system and other low-level applications and libraries generate numerical error codes to
      * represent possible results. These numerical values may carry essential information for a specific platform,
      * but be non-portable from one platform to another. </p>
      *
-     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-     * </ul>
+     * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
+     * so that they can be interpreted when needed as more abstract (and portable)
+     * {@link ErrorCondition error conditions}. </p>
      *
      * @author Jeongho Nam
      */
     class ErrorInstance {
         /**
-         * A reference to an <code>ErrorCategory</code> object.
+         * A reference to an {@link ErrorCategory} object.
          */
         protected category_: ErrorCategory;
         /**
@@ -802,38 +819,37 @@ declare namespace std.base.system {
          * Construct from a numeric value and error category.
          *
          * @param val A numerical value identifying an error instance.
-         * @param category A reference to an <code>ErrorCategory</code> object.
+         * @param category A reference to an {@link ErrorCategory} object.
          */
         constructor(val: number, category: ErrorCategory);
         /**
          * <p> Assign error instance. </p>
          *
-         * <p> Assigns the <code>ErrorCode</code> object a value of val associated with the <code>ErrorCategory.</code> </p>
+         * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p>
          *
          * @param val A numerical value identifying an error instance.
-         * @param category A reference to an <code>ErrorCategory</code> object.
+         * @param category A reference to an {@link ErrorCategory} object.
          */
         assign(val: number, category: ErrorCategory): void;
         /**
          * <p> Clear error instance. </p>
          *
-         * <p> Clears the value in the <code>ErrorCode</code> object so that it is set to a value of
-         * <i>0</i> of the <code>ErrorCategory.systemCategory()</code> (indicating no error).
+         * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
+         * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
          */
         clear(): void;
         /**
          * <p> Get category. </p>
          *
-         * <p> Returns a reference to the <code>ErrorCategory</code> associated with the <code>ErrorCode</code>
-         * object. </p>
+         * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
          *
-         * @return A reference to a non-copyable object of a type derived from <code>ErrorCategory</code>.
+         * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
          */
         category(): ErrorCategory;
         /**
          * <p> Error value. </p>
          *
-         * <p> Returns the error value associated with the <code>ErrorCode</code> object. </p>
+         * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
          *
          * @return The error value.
          */
@@ -843,37 +859,36 @@ declare namespace std.base.system {
          *
          * <p> Returns the message associated with the error instance. </p>
          *
-         * <p> Error messages are defined by the <code>category</code> the error instance belongs to. </p>
+         * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
          *
          * <p> This function returns the same as if the following member was called: </p>
          *
          * <p> <code>category().message(value())</code> </p>
          *
-         * @return A <code>string</code> object with the message associated with the <code>ErrorCode</code>.
+         * @return A <code>string</code> object with the message associated with the {@link ErrorCode}.
          */
         message(): string;
         /**
          * <p> Default error condition. </p>
          *
-         * <p> Returns the default <code>ErrorCondition</code> object associated with the <code>ErrorCode</code>
-         * object. </p>
+         * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
          *
          * <p> This function returns the same as if the following member was called: </p>
          *
          * <p> <code>category().default_error_condition(value())</code> </p>
          *
-         * <p> <code>ErrorCategory.defaultErrorCondition()</code> is a virtual member function, that can operate
-         * differently for each category. </p>
+         * <p> {@link ErrorCategory.defaultErrorCondition ErrorCategory.defaultErrorCondition()}
+         * is a virtual member function, that can operate differently for each category. </p>
          *
-         * @return An <code>ErrorCondition</code> object that corresponds to the <code>ErrorCode</code> object.
+         * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
          */
         defaultErrorCondition(): ErrorCondition;
         /**
          * <p> Convert to bool. </p>
          *
-         * <p> Returns whether the error instance has a numerical <code>value</code> other than 0. </p>
+         * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
          *
-         * If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true.
+         * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
          *
          * @return <code>true</code> if the error's numerical value is not zero.
          *		   <code>false</code> otherwise.
@@ -884,15 +899,12 @@ declare namespace std.base.system {
 declare namespace std.base.tree {
     abstract class XTree<T> {
         protected root: XTreeNode<T>;
-        protected size_: number;
         /**
-         * Default Constructor
+         * Default Constructor.
          */
         constructor();
-        size(): number;
         find(val: T): XTreeNode<T>;
         private fetchMaximum(node);
-        debug(): void;
         abstract isEquals(left: T, right: T): boolean;
         abstract isLess(left: T, right: T): boolean;
         insert(val: T): void;
@@ -928,6 +940,11 @@ declare namespace std.base.tree {
     }
 }
 declare namespace std.base.tree {
+    /**
+     * Static class holding enumeration codes of color of Red-black tree.
+     *
+     * @author Jeongho Nam
+     */
     class Color {
         static BLACK: boolean;
         static RED: boolean;
@@ -956,11 +973,16 @@ declare namespace std.base.tree {
         right: XTreeNode<T>;
         value: T;
         color: boolean;
+        /**
+         * Construct from value and color of node.
+         *
+         * @param value Value to be stored in.
+         * @param color Color of the node, red or black.
+         */
         constructor(value: T, color: boolean);
         grandParent: XTreeNode<T>;
         sibling: XTreeNode<T>;
         uncle: XTreeNode<T>;
-        debug(header?: string, level?: number): void;
     }
 }
 declare namespace std {
@@ -979,8 +1001,8 @@ declare namespace std {
      * <p> This type serves as a base class for specific category types. </p>
      *
      * <p> Category types are used to identify the source of an error. They also define the relation between
-     * <code>ErrorCode</code> and <code>ErrorCondition</code> objects of its category, as well as the message
-     * set for <code>ErrorCode</code> objects.
+     * {@link ErrorCode} and {@link ErrorCondition}objects of its category, as well as the message
+     * set for {@link ErrorCode} objects.
      *
      * <p> Objects of these types have no distinct values and are not-copyable and not-assignable, and thus can
      * only be passed by reference. As such, only one object of each of these types shall exist, each uniquely
@@ -1003,7 +1025,7 @@ declare namespace std {
          *
          * <p> In derived classes, the function returns a <code>string</code> naming the category. </p>
          *
-         * <p> In <code>ErrorCategory</code>, it is a pure virtual member function. </p>
+         * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
          *
          * <ul>
          *	<li> In the <code>GenericCategory</code> object, it returns <i>"generic"</i>. </li>
@@ -1018,17 +1040,18 @@ declare namespace std {
          * <p> Error message. </p>
          *
          * <p> In derived classes, the function returns a <code>string</code> object with a message describing
-         * the error condition denoted by <code>val</code>. </p>
+         * the error condition denoted by <i>val</i>. </p>
          *
-         * <p> In <code>ErrorCategory</code>, it is a pure virtual member function. </p>
+         * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
          *
-         * <p> This function is called both by <code>ErrorCode.message()</code> and <code>ErrorCondition.message()</code>
-         * to obtain the corresponding message in the <code>category</code>. Therefore, numerical values used by
-         * custom <code>error codes</code> and <code>error conditions</code> should only match for a category
+         * <p> This function is called both by {@link ErrorCode.message ErrorCode.message()} and
+         * {@link ErrorCondition.message ErrorCondition.message()}
+         * to obtain the corresponding message in the {@link category}. Therefore, numerical values used by
+         * custom <code>error codes</code> and {@link ErrorCondition error conditions} should only match for a category
          * if they describe the same error. </p>
          *
          * @param val A numerical value identifying an error condition.
-         *			  If the <code>ErrorCategory</code> object is the <code>GenericCategory</code>, this argument
+         *			  If the {@link ErrorCategory} object is the <code>GenericCategory</code>, this argument
          *			  is equivalent to an <code>errno</code> value.
          *
          * @return A <code>string</code> object with the message.
@@ -1037,22 +1060,22 @@ declare namespace std {
         /**
          * <p> Default error condition. </p>
          *
-         * <p> Returns the default <code>ErrorCondition</code> object of this category that is associated with
-         * the <code>ErrorCode</code> identified by a value of <i>val</i>. </p>
+         * <p> Returns the default {@link ErrorCondition}object of this category that is associated with
+         * the {@link ErrorCode} identified by a value of <i>val</i>. </p>
          *
-         * <p> Its definition in the base class <code>ErrorCategory</code> returns the same as constructing an
-         * <code>ErrorCondition</code> object with:
+         * <p> Its definition in the base class {@link ErrorCategory} returns the same as constructing an
+         * {@link ErrorCondition}object with:
          *
-         * <p> <code>ErrorCondition (val, *this);</code> </p>
+         * <p> <code>new ErrorCondition(val, *this);</code> </p>
          *
          * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
          *
          * <p> This function is called by the default definition of member <code>equivalent()</code>, which is
-         * used to compare <code>error conditions</code> with error codes. </p>
+         * used to compare {@link ErrorCondition error conditions} with error codes. </p>
          *
          * @param val A numerical value identifying an error condition.
          *
-         * @return The default <code>ErrorCondition</code> object associated with condition value <i>val</i>
+         * @return The default {@link ErrorCondition}object associated with condition value <i>val</i>
          *		   for this category.
          */
         defaultErrorCondition(val: number): ErrorCondition;
@@ -1064,14 +1087,14 @@ declare namespace std {
     /**
      * <p> Error code. </p>
      *
-     * <p> Objects of this type hold an error code <code>value</code> associated with a <code>category</code>. </p>
+     * <p> Objects of this type hold an error code {@link value} associated with a {@link category}. </p>
      *
      * <p> The operating system and other low-level applications and libraries generate numerical error codes to
      * represent possible results. These numerical values may carry essential information for a specific platform,
      * but be non-portable from one platform to another. </p>
      *
-     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
+     * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they
+     * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
@@ -1088,7 +1111,7 @@ declare namespace std {
          * Construct from a numeric value and error category.
          *
          * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCategory</code> object.
+         * @param category A reference to an {@link ErrorCategory} object.
          */
         constructor(val: number, category: ErrorCategory);
     }
@@ -1097,19 +1120,19 @@ declare namespace std {
     /**
      * <p> Error condition. </p>
      *
-     * <p> Objects of this type hold a condition <code>value</code> associated with a <code>category</code>. </p>
+     * <p> Objects of this type hold a condition {@link value} associated with a {@link category}. </p>
      *
      * <p> Objects of this type describe errors in a generic way so that they may be portable across different
-     * systems. This is in contrast with <code>ErrorCode</code> objects, that may contain system-specific
+     * systems. This is in contrast with {@link ErrorCode} objects, that may contain system-specific
      * information. </p>
      *
-     * <p> Because <code>ErrorCondition</code> objects can be compared with error_code objects directly by using
-     * <code>relational operators</code>, <code>ErrorCondition</code> objects are generally used to check whether
-     * a particular <code>ErrorCode</code> obtained from the system matches a specific error condition no matter
+     * <p> Because {@link ErrorCondition}objects can be compared with error_code objects directly by using
+     * <code>relational operators</code>, {@link ErrorCondition}objects are generally used to check whether
+     * a particular {@link ErrorCode} obtained from the system matches a specific error condition no matter
      * the system. </p>
      *
-     * <p> The <code>categories</code> associated with the <code>ErrorCondition</code> and the <code>ErrorCode</code>
-     * define the equivalences between them. </p>
+     * <p> The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the
+     * {@link ErrorCode} define the equivalences between them. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
@@ -1126,7 +1149,7 @@ declare namespace std {
          * Construct from a numeric value and error category.
          *
          * @param val A numerical value identifying an error condition.
-         * @param category A reference to an <code>ErrorCategory</code> object.
+         * @param category A reference to an {@link ErrorCategory} object.
          */
         constructor(val: number, category: ErrorCategory);
     }
@@ -1391,20 +1414,20 @@ declare namespace std {
     /**
      * <p> Hashed, unordered map. </p>
      *
-     * <p> <code>HashMap</code>s are associative containers that store elements formed by the
+     * <p> {@link HashMap}s are associative containers that store elements formed by the
      * combination of a <i>key value</i> and a <i>mapped value</i>, and which allows for fast
      * retrieval of individual elements based on their <i>keys</i>. </p>
      *
-     * <p> In an <code>HashMap</code>, the <i>key value</i> is generally used to uniquely identify
+     * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify
      * the element, while the <i>mapped value</i> is an object with the content associated to this
      * <i>key</i>. Types of <i>key</i> and <i>mapped value</i> may differ. </p>
      *
-     * <p> Internally, the elements in the <code>HashMap</code> are not sorted in any particular order
+     * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order
      * with respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i>
      * depending on their hash values to allow for fast access to individual elements directly by
      * their <i>key values</i> (with a constant average time complexity on average). </p>
      *
-     * <p> <code>HashMap</code> containers are faster than <code>TreeMap</code> containers to access
+     * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access
      * individual elements by their <i>key</i>, although they are generally less efficient for range
      * iteration through a subset of their elements. </p>
      *
@@ -1431,9 +1454,9 @@ declare namespace std {
      * </ul>
      *
      * @param <K> Type of the key values.
-     *			  Each element in an <code>HashMap</code> is uniquely identified by its key value.
+     *			  Each element in an {@link HashMap} is uniquely identified by its key value.
      * @param <T> Type of the mapped value.
-     *			  Each element in an <code>HashMap</code> is used to store some data as its mapped value.
+     *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
      * @author Jeongho Nam
      */
@@ -1494,7 +1517,7 @@ declare namespace std {
      * <p> Hashed, unordered Multimap. </p>
      *
      * <p> <code>HashMultiMap</code>s are associative containers that store elements formed by the combination of
-     * a <i>key value</i> and a <i>mapped value</i>, much like <code>HashMap</code> containers, but allowing
+     * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMap} containers, but allowing
      * different elements to have equivalent <i>keys</i>. </p>
      *
      * <p> In an <code>HashMultiMap</code>, the <i>key value</i> is generally used to uniquely identify the
@@ -1691,18 +1714,18 @@ declare namespace std {
     /**
      * <p> Hashed, unordered set. </p>
      *
-     * <p> <code>HashSet</code>s are containers that store unique elements in no particular order, and which
+     * <p> {@link HashSet}s are containers that store unique elements in no particular order, and which
      * allow for fast retrieval of individual elements based on their value. </p>
      *
-     * <p> In an <code>HashSet</code>, the value of an element is at the same time its <i>key</i>, that
-     * identifies it uniquely. Keys are immutable, therefore, the elements in an <code>HashSet</code> cannot be
+     * <p> In an {@link HashSet}, the value of an element is at the same time its <i>key</i>, that
+     * identifies it uniquely. Keys are immutable, therefore, the elements in an {@link HashSet} cannot be
      * modified once in the container - they can be inserted and removed, though. </p>
      *
-     * <p> Internally, the elements in the <code>HashSet</code> are not sorted in any particular order, but
+     * <p> Internally, the elements in the {@link HashSet} are not sorted in any particular order, but
      * organized into buckets depending on their hash values to allow for fast access to individual elements
      * directly by their <i>values</i> (with a constant average time complexity on average). </p>
      *
-     * <p> <code>HashSet</code> containers are faster than <codeTreeSet<code> containers to access individual
+     * <p> {@link HashSet} containers are faster than <codeTreeSet<code> containers to access individual
      * elements by their <i>key</i>, although they are generally less efficient for range iteration through a
      * subset of their elements. </p>
      *
@@ -1728,7 +1751,7 @@ declare namespace std {
      * </ul>
      *
      * @param <T> Type of the elements.
-     *			  Each element in an <code>HashSet</code> is also uniquely identified by this value.
+     *			  Each element in an {@link HashSet} is also uniquely identified by this value.
      *
      * @author Jeongho Nam
      */
@@ -1799,7 +1822,7 @@ declare namespace std {
      *
      * <p> Binary function returns whether the its first argument compares less than the second. </p>
      *
-     * <p> Generically, function objects are instances of a class with member function <code>less()</code>
+     * <p> Generically, function objects are instances of a class with member function {@link less}
      * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
      * This member function allows the object to be used with the same syntax as a function call. </p>
      *
@@ -1807,7 +1830,7 @@ declare namespace std {
      * <code>merge<()/code> or <code>lower_bound()</code>. </p>
      *
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <code>operator<()</code> or method <code>less()</code>.
+     *			  <code>operator<()</code> or method {@link less}.
      *
      * @param first First element, the standard of comparison.
      * @param second Second element compare with the first.
@@ -1820,7 +1843,7 @@ declare namespace std {
      *
      * <p> Binary function returns whether the its first argument compares greater than the second. </p>
      *
-     * <p> Generically, function objects are instances of a class with member function <code>less()</code> and
+     * <p> Generically, function objects are instances of a class with member function {@link less} and
      * <code>equals()</code> defined. If an object doesn't have those methods, then its own uid will be used
      * to compare insteadly. This member function allows the object to be used with the same syntax as a function
      * call. </p>
@@ -1829,7 +1852,7 @@ declare namespace std {
      * <code>merge<()/code> or <code>lower_bound()</code>. </p>
      *
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <code>operator>()</code> or method <code>less()</code> and <code>equals()</code>.
+     *			  <code>operator>()</code> or method {@link less} and <code>equals()</code>.
      *
      * @param left
      * @param right
@@ -1841,7 +1864,7 @@ declare namespace std {
     /**
      * <p> Doubly linked list. </p>
      *
-     * <p> <code>List</code>s are sequence containers that allow constant time insert and erase operations
+     * <p> {@link List}s are sequence containers that allow constant time insert and erase operations
      * anywhere within the sequence, and iteration in both directions. </p>
      *
      * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of
@@ -1886,6 +1909,7 @@ declare namespace std {
      * @author Jeongho Nam
      */
     class List<T> extends base.container.Container<T> {
+        static iterator: typeof ListIterator;
         /**
          * An iterator of beginning.
          */
@@ -1895,7 +1919,7 @@ declare namespace std {
          */
         protected end_: ListIterator<T>;
         /**
-         * Number of elements in the <code>List</code>.
+         * Number of elements in the {@link List}.
          */
         protected size_: number;
         /**
@@ -1959,7 +1983,7 @@ declare namespace std {
          * <p> Access first element. </p>
          * <p> Returns a value in the first element of the List. </p>
          *
-         * <p> Unlike member <code>List.end()</code>, which returns an iterator just past this element,
+         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
          * this function returns a direct value. </p>
          *
          * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -1971,7 +1995,7 @@ declare namespace std {
          * <p> Access last element. </p>
          * <p> Returns a value in the last element of the List. </p>
          *
-         * <p> Unlike member <code>List.end()</code>, which returns an iterator just past this element,
+         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
          * this function returns a direct value. </p>
          *
          * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -1995,8 +2019,8 @@ declare namespace std {
         /**
          * <p> Add element at the end. </p>
          *
-         * <p> Adds a new element at the lend of the <code>List</code> container, after its current last
-         * element. This effectively increases the container <code>size</code> by one. </p>
+         * <p> Adds a new element at the lend of the {@link List} container, after its current last
+         * element. This effectively increases the container {@link size} by one. </p>
          *
          * @param val Value to be copied to the new element.
          */
@@ -2005,41 +2029,42 @@ declare namespace std {
          * <p> Delete first element. </p>
          *
          * <p> Removes first last element in the List container, effectively reducing the container
-         * <code>size</code> by one. </p>
+         * {@link size} by one. </p>
          */
         popFront(): void;
         /**
          * <p> Delete last element. </p>
          *
          * <p> Removes the last element in the List container, effectively reducing the container
-         * <code>size</code> by one. </p>
+         * {@link size} by one. </p>
          */
         popBack(): void;
         /**
          * <p> Insert an element. </p>
          *
          * <p> The container is extended by inserting a new element before the element at the specified
-         * <code>position</code>. This effectively increases the List size by the amount of elements inserted. </p>
+         * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
+         * inserted. </p>
          *
-         * <p> Unlike other standard sequence containers, <code>List</code> is specifically designed to be
+         * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be
          * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
          *
          * <p> The arguments determine how many elements are inserted and to which values they are initialized. </p>
          *
          * @param position Position in the container where the new element is inserted.
-         *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *				 type that points to elements.
+         *				   {@link iterator}> is a member type, defined as a
+         *				   {@link ListIterator bidirectional iterator} type that points to elements.
          * @param val Value to be inserted as an element.
          *
-         * @return An iterator that points to the newly inserted element; <code>val</code>.
+         * @return An iterator that points to the newly inserted element; <i>val</i>.
          */
         insert(position: ListIterator<T>, val: T): ListIterator<T>;
         /**
          * <p> Insert elements by repeated filling. </p>
          *
          * @param position Position in the container where the new elements are inserted.
-         *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *				 type that points to elements.
+         *				   {@link iterator}> is a member type, defined as a
+         *				   {@link ListIterator bidirectional iterator} type that points to elements.
          * @param size Number of elements to insert.
          * @param val Value to be inserted as an element.
          *
@@ -2049,8 +2074,8 @@ declare namespace std {
         /**
          *
          * @param position Position in the container where the new elements are inserted.
-         *				   <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-         *				   type that points to elements.
+         *				   {@link iterator}> is a member type, defined as a
+         *				   {@link ListIterator bidirectional iterator} type that points to elements.
          * @param begin An iterator specifying range of the begining element.
          * @param end An iterator specifying range of the ending element.
          *
@@ -2072,35 +2097,35 @@ declare namespace std {
         /**
          * <p> Erase an element. </p>
          *
-         * <p> Removes from the <code>List</code> either a single element; <i>position</i>. </p>
+         * <p> Removes from the {@link List} either a single element; <i>position</i>. </p>
          *
          * <p> This effectively reduces the container size by the number of element removed. </p>
          *
-         * <p> Unlike other standard sequence containers, <code>List</code> objects are specifically designed to
+         * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to
          * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
          *
-         * @param position Iterator pointing to a single element to be removed from the <code>List</code>.
+         * @param position Iterator pointing to a single element to be removed from the {@link List}.
          *
          * @return An iterator pointing to the element that followed the last element erased by the function
-         *		   call. This is the <code>List.end</code> if the operation erased the last element in the
+         *		   call. This is the {@link end end()} if the operation erased the last element in the
          *		   sequence.
          */
         erase(position: ListIterator<T>): ListIterator<T>;
         /**
          * <p> Erase elements. </p>
          *
-         * <p> Removes from the <code>List</code> container a range of elements. </p>
+         * <p> Removes from the {@link List} container a range of elements. </p>
          *
-         * <p> This effectively reduces the container <code>size</code> by the number of elements removed. </p>
+         * <p> This effectively reduces the container {@link size} by the number of elements removed. </p>
          *
-         * <p> Unlike other standard sequence containers, <code>List</code> objects are specifically designed to
+         * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to
          * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
          *
          * @param begin An iterator specifying a range of beginning to erase.
          * @param end An iterator specifying a range of end to erase.
          *
          * @return An iterator pointing to the element that followed the last element erased by the function
-         *		   call. This is the <code>List.end</code> if the operation erased the last element in the
+         *		   call. This is the {@link end end()} if the operation erased the last element in the
          *		   sequence.
          */
         erase(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>;
@@ -2213,7 +2238,9 @@ declare namespace std {
  *
  * <ul>
  *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+ *	<li> Github: https://github.com/samchon/stl/ </li>
  *	<li> Reference: http://www.cplusplus.com/reference/ </li>
+ * </ul>
  *
  * @author Jeongho Nam
  */
@@ -2221,11 +2248,22 @@ declare namespace std {
 }
 declare namespace std.base {
 }
+/**
+ * <p> A namespace containing abstract container objects. </p>
+ *
+ * <ul>
+ * 	<li> Reference: http://www.cplusplus.com/reference/stl/ </li>
+ * </ul>
+ *
+ * @author Jeongho Nam
+ */
 declare namespace std.base.container {
 }
 declare namespace std.base.hash {
 }
 declare namespace std.base.tree {
+}
+declare namespace std.system {
 }
 declare namespace std {
     /**
@@ -2300,9 +2338,9 @@ declare namespace std {
      *	<li> popFront </li>
      * </ul>
      *
-     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+     * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
      * By default, if no container class is specified for a particular <code>Queue</code> class instantiation,
-     * the standard container <code>List</code> is used. </p>
+     * the standard container {@link List} is used. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/queue/queue/ </li>
@@ -2409,9 +2447,6 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        /**
-         * @inheritdoc
-         */
         value: T;
         /**
          * @inheritdoc
@@ -2445,9 +2480,9 @@ declare namespace std {
      *	<li> popFront </li>
      * </ul>
      *
-     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+     * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
      * By default, if no container class is specified for a particular <code>Stack</code> class instantiation,
-     * the standard container <code>List</code> is used. </p>
+     * the standard container {@link List} is used. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
@@ -2513,9 +2548,9 @@ declare namespace std {
      *
      * <p> This class defines the type of objects thrown as exceptions to report conditions originating during
      * runtime from the operating system or other low-level application program interfaces which have an
-     * associated <code>ErrorCode</code>. </p>
+     * associated {@link ErrorCode}. </p>
      *
-     * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as
+     * <p> The class inherits from {@link RuntimeError}, to which it adds an {@link ErrorCode} as
      * member code (and defines a specialized what member). </p>
      *
      * <ul>
@@ -2532,13 +2567,13 @@ declare namespace std {
         /**
          * Construct from an error code.
          *
-         * @param code An <code>ErrorCode</code> object.
+         * @param code An {@link ErrorCode} object.
          */
         constructor(code: ErrorCode);
         /**
          * Construct from an error code and message.
          *
-         * @param code An <code>ErrorCode</code> object.
+         * @param code An {@link ErrorCode} object.
          * @param message A message incorporated in the string returned by member <code>what()</code>.
          */
         constructor(code: ErrorCode, message: string);
@@ -2546,52 +2581,52 @@ declare namespace std {
          * Construct from a numeric value and error category.
          *
          * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCode</code> object.
+         * @param category A reference to an {@link ErrorCode} object.
          */
         constructor(val: number, category: ErrorCategory);
         /**
          * Construct from a numeric value, error category and message.
          *
          * @param val A numerical value identifying an error code.
-         * @param category A reference to an <code>ErrorCode</code> object.
+         * @param category A reference to an {@link ErrorCode} object.
          * @param message A message incorporated in the string returned by member <code>what()</code>.
          */
         constructor(val: number, category: ErrorCategory, message: string);
         /**
          * <p> Get error code. </p>
          *
-         * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
+         * <p> Returns the {@link ErrorCode} object associated with the exception. </p>
          *
-         * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent
+         * <p> This value is either the {@link ErrorCode} passed to the construction or its equivalent
          * (if constructed with a value and a <code>category</code>). </p>
          *
-         * @return The <code>ErrorCode</code> associated with the object.
+         * @return The {@link ErrorCode} associated with the object.
          */
         code(): ErrorCode;
     }
 }
 declare namespace std {
     /**
-     * <p> TreeMap, <code>std::map</code> of STL. </p>
+     * <p> Tree-structured map, <code>std::map</code> of STL. </p>
      *
-     * <p> <code>TreeMap</code>s are associative containers that store elements formed by a combination of a
+     * <p> {@link TreeMap}s are associative containers that store elements formed by a combination of a
      * <i>key value</i> (<code>Key</code>) and a <i>mapped value</i> (<code>T</code>), following order. </p>
      *
-     * <p> In a <code>TreeMap</code>, the <i>key values</i> are generally used to sort and uniquely identify
+     * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify
      * the elements, while the <i>mapped values</i> store the content associated to this key. The types of
      * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
-     * <code>value_type</code>, which is a <code>Pair</code> type combining both:
+     * <code>value_type</code>, which is a {@link Pair} type combining both:
      *
      * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
      *
-     * <p> Internally, the elements in a <code>TreeMap</code> are always sorted by its <i>key</i> following
-     * a strict weak ordering criterion indicated by its internal comparison method <code>less()</code>.
+     * <p> Internally, the elements in a {@link TreeMap} are always sorted by its <i>key</i> following
+     * a strict weak ordering criterion indicated by its internal comparison method {@link less}.
      *
-     * <p> <code>TreeMap</code> containers are generally slower than <code>HashMap</code> containers to access
-     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
-     * order. </p>
+     * <p> {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to
+     * access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
+     * their order. </p>
      *
-     * <p> <code>TreeMap</code>s are typically implemented as binary search trees. </p>
+     * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -2622,7 +2657,7 @@ declare namespace std {
      */
     class TreeMap<Key, T> extends base.container.UniqueMap<Key, T> {
         /**
-         * <i>RB-Tree+</i> object for implemeting the <code>TreeMap</code>.
+         * <i>RB-Tree+</i> object for implemeting the {@link TreeMap}.
          */
         private tree;
         /**
@@ -2691,7 +2726,7 @@ declare namespace std {
      * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
      *
      * <p> Internally, the elements in a <code>TreeMultiMap</code> are always sorted by its key following a
-     * strict weak ordering criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+     * strict weak ordering criterion indicated by its internal comparison method (of {@link less}). </p>
      *
      * <p> <code>TreeMultiMap</code> containers are generally slower than <code>HashMultiMap</code> containers
      * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based
@@ -2791,7 +2826,7 @@ declare namespace std {
      * from the container. </p>
      *
      * <p> Internally, the elements in a <code>TreeMultiSet</code>s are always sorted following a strict weak
-     * ordering criterion indicated by its internal comparison method (of <code>less()</code>).
+     * ordering criterion indicated by its internal comparison method (of {@link less}).
      *
      * <p> <code>TreeMultiSet</code> containers are generally slower than <code>HashMultiSet</code> containers
      * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
@@ -2866,23 +2901,23 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> Tree-structured set. </p>
+     * <p> Tree-structured set, <code>std::set</code> of STL. </p>
      *
-     * <p> <code>TreeSet</code>s are containers that store unique elements following a specific order. </p>
+     * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
      *
-     * <p> In a <code>TreeSet</code>, the value of an element also identifies it (the value is itself the
+     * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
      * <i>key</i>, of type <code>T</code>), and each value must be unique. The value of the elements in a
-     * <code>TreeSet</code> cannot be modified once in the container (the elements are always const), but they
+     * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
      * can be inserted or removed from the container. </p>
      *
      * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering
-     * criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+     * criterion indicated by its internal comparison method (of {@link less}). </p>
      *
-     * <p> <code>TreeSet</code> containers are generally slower than <code>HashSet</code> containers to access
+     * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access
      * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
      * order. </p>
      *
-     * <p> <code>TreeSet</code>s are typically implemented as binary search trees. </p>
+     * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -2906,13 +2941,13 @@ declare namespace std {
      * </ul>
      *
      * @param <T> Type of the elements.
-     *			  Each element in an <code>TreeSet</code> is also uniquely identified by this value.
+     *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
      *
      * @author Jeongho Nam
      */
     class TreeSet<T> extends base.container.UniqueSet<T> {
         /**
-         * <i>RB-Tree+</i> object for implemeting the <code>TreeSet</code>.
+         * <i>RB-Tree+</i> object for implemeting the {@link TreeSet}.
          */
         private tree;
         /**
@@ -2953,35 +2988,35 @@ declare namespace std {
     /**
      * <p> Vector, the dynamic array. </p>
      *
-     * <p> <code>Vector</code>s are sequence containers representing arrays that can change in size. </p>
+     * <p> {@link Vector}s are sequence containers representing arrays that can change in size. </p>
      *
-     * <p> Just like arrays, <code>Vector</code>s use contiguous storage locations for their elements, which
+     * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which
      * means that their elements can also be accessed using offsets on regular pointers to its elements, and
      * just as efficiently as in arrays. But unlike arrays, their size can change dynamically, with their
      * storage being handled automatically by the container. </p>
      *
-     * <p> Internally, <code>Vector</code>s use a dynamically allocated array to store their elements. This
+     * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This
      * array may need to be reallocated in order to grow in size when new elements are inserted, which implies
      * allocating a new array and moving all elements to it. This is a relatively expensive task in terms of
-     * processing time, and thus, <code>Vector</code>s do not reallocate each time an element is added to the
+     * processing time, and thus, {@link Vector}s do not reallocate each time an element is added to the
      * container. </p>
      *
-     * <p> Instead, <code>Vector</code> containers may allocate some extra storage to accommodate for possible
-     * growth, and thus the container may have an actual <code>capacity</code> greater than the storage strictly
-     * needed to contain its elements (i.e., its <code>size</code>). Libraries can implement different strategies
+     * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible
+     * growth, and thus the container may have an actual {@link capacity} greater than the storage strictly
+     * needed to contain its elements (i.e., its {@link size}). Libraries can implement different strategies
      * for growth to balance between memory usage and reallocations, but in any case, reallocations should only
-     * happen at logarithmically growing intervals of <code>size</code> so that the insertion of individual
-     * elements at the end of the <code>Vector</code> can be provided with amortized constant time complexity
-     * (see <code>pushBack()</code>). </p>
+     * happen at logarithmically growing intervals of {@link size} so that the insertion of individual
+     * elements at the end of the {@link Vector} can be provided with amortized constant time complexity
+     * (see {@link pushBack pushBack()}). </p>
      *
-     * <p> Therefore, compared to arrays, <code>Vector</code>s consume more memory in exchange for the ability
+     * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability
      * to manage storage and grow dynamically in an efficient way. </p>
      *
-     * <p> Compared to the other dynamic sequence containers (<code>Deque</code>s, <code>List</code>s),
-     * <code>Vector</code>s are very efficient accessing its elements (just like arrays) and relatively
+     * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s),
+     * {@link Vector}s are very efficient accessing its elements (just like arrays) and relatively
      * efficient adding or removing elements from its end. For operations that involve inserting or removing
      * elements at positions other than the end, they perform worse than the others, and have less consistent
-     * iterators and references than <code>List</code>s. </p>
+     * iterators and references than {@link List}s. </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -3003,6 +3038,7 @@ declare namespace std {
      * @author Jeongho Nam
      */
     class Vector<T> extends Array<T> implements base.container.IContainer<T> {
+        static iterator: typeof VectorIterator;
         /**
          * @inheritdoc
          */
@@ -3066,16 +3102,17 @@ declare namespace std {
          * @inheritdoc
          */
         size(): number;
+        capacity(): number;
         /**
          * @inheritdoc
          */
         empty(): boolean;
         /**
          * <p> Access element. </p>
-         * <p> Returns a value to the element at position <code>index</code> in the Vector.</p>
+         * <p> Returns a value to the element at position <i>index</i> in the Vector.</p>
          *
          * <p> The function automatically checks whether n is within the bounds of valid elements in the
-         * Vector, throwing an OutOfRange exception if it is not (i.e., if <code>index</code> is greater or
+         * Vector, throwing an OutOfRange exception if it is not (i.e., if <i>index</i> is greater or
          * equal than its size). This is in contrast with member operator[], that does not check against
          * bounds. </p>
          *
@@ -3090,7 +3127,7 @@ declare namespace std {
          * <p> Access first element. </p>
          * <p> Returns a value in the first element of the Vector. </p>
          *
-         * <p> Unlike member <code>Vector.begin()</code>, which returns an iterator just past this element,
+         * <p> Unlike member {@link begin begin()}, which returns an iterator just past this element,
          * this function returns a direct value. </p>
          *
          * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -3102,7 +3139,7 @@ declare namespace std {
          * <p> Access last element. </p>
          * <p> Returns a value in the last element of the Vector. </p>
          *
-         * <p> Unlike member <code>Vector.end()</code>, which returns an iterator just past this element,
+         * <p> Unlike member <{@link end end()}, which returns an iterator just past this element,
          * this function returns a direct value. </p>
          *
          * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -3113,12 +3150,12 @@ declare namespace std {
         /**
          * <p> Add element at the end. </p>
          *
-         * <p> Adds a new element at the end of the <code>Vector</code>, after its current last element. The
+         * <p> Adds a new element at the end of the {@link Vector}, after its current last element. The
          * content of <i>val</i> is copied to the new element. </p>
          *
-         * <p> This effectively increases the container <code>size</code> by one, which causes an automatic
-         * reallocation of the allocated storage space if -and only if- the new <code>Vector.size</code>
-         * surpasses the current <code>Vector.capacity</code>.
+         * <p> This effectively increases the container {@link size} by one, which causes an automatic
+         * reallocation of the allocated storage space if -and only if- the new {@link size}
+         * surpasses the current {@link capacity}.
          *
          * @param val Value to be copied to the new element.
          */
@@ -3136,27 +3173,27 @@ declare namespace std {
          * <p> Delete last element. </p>
          *
          * <p> Removes the last element in the Vector container, effectively reducing the container
-         * <code>size</code> by one. </p>
+         * {@link size} by one. </p>
          */
         popBack(): void;
         /**
          * <p> Insert an element. </p>
          *
-         * <p> The <code>Vector</code> is extended by inserting new element before the element at the specified
+         * <p> The {@link Vector} is extended by inserting new element before the element at the specified
          * <i>position</i>, effectively increasing the container size to be more one. </p>
          *
          * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * <code>Vector.size</code> surpasses the current <code>Vector.capacity</code>.
+         * {@link size} surpasses the current {@link capacity}. </p>
          *
-         * <p> Because <code>Vector</code>s use an <code>Array</code> as their underlying storage, inserting
-         * element in positions other than the <code>Vector.end</code> causes the container to relocate all the
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting
+         * element in positions other than the {@link end end()} causes the container to relocate all the
          * elements that were after <i>position</i> to its new position. This is generally an inefficient
          * operation compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as <code>List</code>). </p>
+         * (such as {@link List}). </p>
          *
-         * @param position Position in the <code>Vector</code> where the new element is inserted.
-         *				   <code>iterator</code> is a member type, defined as a random access iterator type that
-         *				   points to elements.
+         * @param position Position in the {@link Vector} where the new element is inserted.
+         *				   {@link iterator} is a member type, defined as a
+         *				   {@link VectorIterator random access iterator} type that points to elements.
          * @param val Value to be copied to the inserted element.
          *
          * @return An iterator that points to the newly inserted element.
@@ -3165,21 +3202,21 @@ declare namespace std {
         /**
          * <p> Insert elements by repeated filling. </p>
          *
-         * <p> The <code>Vector</code> is extended by inserting new elements before the element at the specified
+         * <p> The {@link Vector} is extended by inserting new elements before the element at the specified
          * <i>position</i>, effectively increasing the container size by the number of elements inserted. </p>
          *
          * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * <code>Vector.size</code> surpasses the current <code>Vector.capacity</code> </p>.
-
-         * <p> Because <code>Vector</code>s use an <code>Array</code> as their underlying storage, inserting
-         * elements in positions other than the <code>Vector.end</code> causes the container to relocate all the
+         * {@link size} surpasses the current {@link capacity}. </p>
+         *
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting
+         * elements in positions other than the {@link end end()} causes the container to relocate all the
          * elements that were after <i>position</i> to their new positions. This is generally an inefficient
          * operation compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as <code>List</code>).
+         * (such as {@link List}).
          *
-         * @param position Position in the <code>Vector</code> where the new elements are inserted.
-         *				   <code>iterator</code> is a member type, defined as a random access iterator type that
-         *				   points to elements.
+         * @param position Position in the {@link Vector} where the new elements are inserted.
+         *				   {@link iterator} is a member type, defined as a
+         *				   {@link VectorIterator random access iterator} type that points to elements.
          * @param n Number of elements to insert. Each element is initialized to a copy of <i>val</i>.
          * @param val Value to be copied (or moved) to the inserted elements.
          *
@@ -3189,22 +3226,22 @@ declare namespace std {
         /**
          * <p> Insert elements by range iterators. </p>
          *
-         * <p> The <code>Vector</code> is extended by inserting new elements before the element at the specified
+         * <p> The {@link Vector} is extended by inserting new elements before the element at the specified
          * <i>position</i>, effectively increasing the container size by the number of elements inserted by
          * range iterators. </p>
          *
          * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * <code>Vector.size</code> surpasses the current <code>Vector.capacity</code> </p>.
+         * {@link size} surpasses the current {@link capacity}. </p>
 
-         * <p> Because <code>Vector</code>s use an <code>Array</code> as their underlying storage, inserting
-         * elements in positions other than the <code>Vector.end</code> causes the container to relocate all the
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting
+         * elements in positions other than the {@link end end()} causes the container to relocate all the
          * elements that were after <i>position</i> to their new positions. This is generally an inefficient
          * operation compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as <code>List</code>).
+         * (such as {@link List}).
          *
-         * @param position Position in the <code>Vector</code> where the new elements are inserted.
-         *				   <code>iterator</code> is a member type, defined as a random access iterator type that
-         *				   points to elements.
+         * @param position Position in the {@link Vector} where the new elements are inserted.
+         *				   {@link iterator} is a member type, defined as a
+         *				   {@link VectorIterator random access iterator} type that points to elements.
          * @param begin Input interator of the initial position in a sequence.
          * @param end Input interator of the final position in a sequence.
          *
@@ -3214,20 +3251,20 @@ declare namespace std {
         /**
          * <p> Erase element. </p>
          *
-         * <p> Removes from the <code>Vector</code> either a single element; <i>position</i>. </p>
+         * <p> Removes from the {@link Vector} either a single element; <i>position</i>. </p>
          *
          * <p> This effectively reduces the container size by the number of element removed. </p>
          *
-         * <p> Because <code>Vector</code>s use an <code>Array</code> as their underlying storage, erasing an
-         * element in position other than the <code>Vector.end</code> causes the container to relocate all the
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an
+         * element in position other than the {@link end end()} causes the container to relocate all the
          * elements after the segment erased to their new positions. This is generally an inefficient operation
          * compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as <code>List</code>). </p>
+         * (such as {@link List}). </p>
          *
-         * @param position Iterator pointing to a single element to be removed from the <code>Vector</code>.
+         * @param position Iterator pointing to a single element to be removed from the {@link Vector}.
          *
          * @return An iterator pointing to the new location of the element that followed the last element erased
-         *		   by the function call. This is the <code>Vector.end</code> if the operation erased the last
+         *		   by the function call. This is the {@link end end()} if the operation erased the last
          *		   element in the sequence.
          */
         erase(position: VectorIterator<T>): VectorIterator<T>;
@@ -3238,17 +3275,17 @@ declare namespace std {
          *
          * <p> This effectively reduces the container size by the number of elements removed. </p>
          *
-         * <p> Because <code>Vector</code>s use an <code>Array</code> as their underlying storage, erasing
-         * elements in position other than the <code>Vector.end</code> causes the container to relocate all the
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing
+         * elements in position other than the {@link end end()} causes the container to relocate all the
          * elements after the segment erased to their new positions. This is generally an inefficient operation
          * compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as <code>List</code>). </p>
+         * (such as {@link List}). </p>
          *
          * @param begin An iterator specifying a range of beginning to erase.
          * @param end An iterator specifying a range of end to erase.
          *
          * @return An iterator pointing to the new location of the element that followed the last element erased
-         *		   by the function call. This is the <code>Vector.end</code> if the operation erased the last
+         *		   by the function call. This is the {@link end end()} if the operation erased the last
          *		   element in the sequence.
          */
         erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;

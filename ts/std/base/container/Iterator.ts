@@ -112,15 +112,5 @@ namespace std.base.container
 		{
 			throw new LogicError("Have to be overriden.");
 		}
-
-		/**
-		 * <p> Set value of the iterator is pointing. </p>
-		 *
-		 * @param val A new value of the iterator.
-		 */
-		public set value(val: T)
-		{
-			throw new LogicError("Have to be overriden.");
-		}
 	}
 }

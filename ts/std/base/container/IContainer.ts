@@ -114,6 +114,22 @@ namespace std.base.container
 		push<U extends T>(...items: U[]): number;
 
 		/**
+		 * <p> Insert an element. </p>
+		 *
+		 * <p> The container is extended by inserting a new element before the element at the specified 
+		 * <i>position</i>. This effectively increases the {@link IContainer.size container size} by the amount of 
+		 * elements inserted. </p>
+		 *
+		 * @param position Position in the {@link IContainer} where the new element is inserted.
+		 *				   {@link iterator} is a member type, defined as a {@link Iterator random access iterator} 
+		 *				   type that points to elements.
+		 * @param val Value to be copied to the inserted element.
+		 *
+		 * @return An iterator that points to the newly inserted element.
+		 */
+		insert(position: Iterator<T>, val: T): Iterator<T>;
+
+		/**
 		 * <p> Erase an element. </p>
 		 *
 		 * <p> Removes from the <code>Container</code> a single element. </p>

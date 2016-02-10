@@ -74,9 +74,9 @@ var std;
              * set of member functions to access its elements. Elements are pushed/popped from the <code>accessor</code>
              * method of the (derived) specific container. </p>
              *
-             * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+             * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
              * By default, if no container class is specified for a particular <code>FOContainer</code> class
-             * instantiation, the standard container <code>List</code> is used. </p>
+             * instantiation, the standard container {@link List} is used. </p>
              *
              * @param <T> Type of elements.
              *
@@ -96,7 +96,7 @@ var std;
                  * <p> Return size. </p>
                  * <p> Returns the number of elements in the <code>FOStack</code>. </p>
                  *
-                 * <p> This member function effectively calls member <code>size</code> of the
+                 * <p> This member function effectively calls member {@link size} of the
                  * <i>underlying container</i> object. </p>
                  *
                  * @return The number of elements in the <i>underlying container</i>.
@@ -142,10 +142,10 @@ var std;
                     this.source = source;
                 }
                 /**
-                 * Advances the Iterator by n element positions.
+                 * Advances the {@link Iterator} by <i>n</i> element positions.
                  *
                  * @param n Number of element positions to advance.
-                 * @return An advanced Iterator.
+                 * @return An advanced iterator.
                  */
                 Iterator.prototype.advance = function (n) {
                     var it = this;
@@ -187,7 +187,7 @@ var std;
                  * <p> Iterator's equals() only compare souce map and index number. </p>
                  *
                  * <p> Although elements in a pair, key and value are equals, if the source map or
-                 * index number is different, then the equals() will return false. If you want to
+                 * index number is different, then the {@link equals equals()} will return false. If you want to
                  * compare the elements of a pair, compare them directly by yourself. </p>
                  *
                  * @param obj An iterator to compare
@@ -203,14 +203,6 @@ var std;
                      * @return A value of the iterator.
                      */
                     get: function () {
-                        throw new std.LogicError("Have to be overriden.");
-                    },
-                    /**
-                     * <p> Set value of the iterator is pointing. </p>
-                     *
-                     * @param val A new value of the iterator.
-                     */
-                    set: function (val) {
                         throw new std.LogicError("Have to be overriden.");
                     },
                     enumerable: true,
@@ -307,7 +299,7 @@ var std;
                  * <p> Returns an iterator referring the first element in the Container. </p>
                  *
                  * <h4> Note </h4>
-                 * <p> If the container is empty, the returned iterator is same with end(). </p>
+                 * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
                  *
                  * @return An iterator to the first element in the container.
                  * The iterator containes the first element's value.
@@ -329,7 +321,7 @@ var std;
                  * <h4> Note </h4>
                  * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
                  * element by the iterator will cause throwing exception (out of range). </p>
-                 * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+                 * <p> If the container is empty, this function returns the same as {@link begin}. </p>
                  *
                  * @return An iterator to the end element in the container.
                  */
@@ -602,6 +594,9 @@ var std;
                 ============================================================
                     INSERT
                 --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
                 SetContainer.prototype.push = function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -985,20 +980,16 @@ var std;
             /**
              * <p> An abstract error instance. </p>
              *
-             * <p> <code>ErrorInstance</code> is an abstract class of <code>ErrorCode</code> and <code>ErrorCondition</code>
-             * holding an error instance's identifier <code>value</code>, associated with a <code>category</code>. </p>
+             * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
+             * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
              *
              * <p> The operating system and other low-level applications and libraries generate numerical error codes to
              * represent possible results. These numerical values may carry essential information for a specific platform,
              * but be non-portable from one platform to another. </p>
              *
-             * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-             * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
-             *
-             * <ul>
-             *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-             *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-             * </ul>
+             * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
+             * so that they can be interpreted when needed as more abstract (and portable)
+             * {@link ErrorCondition error conditions}. </p>
              *
              * @author Jeongho Nam
              */
@@ -1011,10 +1002,10 @@ var std;
                 /**
                  * <p> Assign error instance. </p>
                  *
-                 * <p> Assigns the <code>ErrorCode</code> object a value of val associated with the <code>ErrorCategory.</code> </p>
+                 * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p>
                  *
                  * @param val A numerical value identifying an error instance.
-                 * @param category A reference to an <code>ErrorCategory</code> object.
+                 * @param category A reference to an {@link ErrorCategory} object.
                  */
                 ErrorInstance.prototype.assign = function (val, category) {
                     this.category_ = category;
@@ -1023,8 +1014,8 @@ var std;
                 /**
                  * <p> Clear error instance. </p>
                  *
-                 * <p> Clears the value in the <code>ErrorCode</code> object so that it is set to a value of
-                 * <i>0</i> of the <code>ErrorCategory.systemCategory()</code> (indicating no error).
+                 * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
+                 * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
                  */
                 ErrorInstance.prototype.clear = function () {
                     this.value_ = 0;
@@ -1035,10 +1026,9 @@ var std;
                 /**
                  * <p> Get category. </p>
                  *
-                 * <p> Returns a reference to the <code>ErrorCategory</code> associated with the <code>ErrorCode</code>
-                 * object. </p>
+                 * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
                  *
-                 * @return A reference to a non-copyable object of a type derived from <code>ErrorCategory</code>.
+                 * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
                  */
                 ErrorInstance.prototype.category = function () {
                     return this.category_;
@@ -1046,7 +1036,7 @@ var std;
                 /**
                  * <p> Error value. </p>
                  *
-                 * <p> Returns the error value associated with the <code>ErrorCode</code> object. </p>
+                 * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
                  *
                  * @return The error value.
                  */
@@ -1058,13 +1048,13 @@ var std;
                  *
                  * <p> Returns the message associated with the error instance. </p>
                  *
-                 * <p> Error messages are defined by the <code>category</code> the error instance belongs to. </p>
+                 * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
                  *
                  * <p> This function returns the same as if the following member was called: </p>
                  *
                  * <p> <code>category().message(value())</code> </p>
                  *
-                 * @return A <code>string</code> object with the message associated with the <code>ErrorCode</code>.
+                 * @return A <code>string</code> object with the message associated with the {@link ErrorCode}.
                  */
                 ErrorInstance.prototype.message = function () {
                     if (this.category_ == null || this.value_ == 0)
@@ -1075,17 +1065,16 @@ var std;
                 /**
                  * <p> Default error condition. </p>
                  *
-                 * <p> Returns the default <code>ErrorCondition</code> object associated with the <code>ErrorCode</code>
-                 * object. </p>
+                 * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
                  *
                  * <p> This function returns the same as if the following member was called: </p>
                  *
                  * <p> <code>category().default_error_condition(value())</code> </p>
                  *
-                 * <p> <code>ErrorCategory.defaultErrorCondition()</code> is a virtual member function, that can operate
-                 * differently for each category. </p>
+                 * <p> {@link ErrorCategory.defaultErrorCondition ErrorCategory.defaultErrorCondition()}
+                 * is a virtual member function, that can operate differently for each category. </p>
                  *
-                 * @return An <code>ErrorCondition</code> object that corresponds to the <code>ErrorCode</code> object.
+                 * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
                  */
                 ErrorInstance.prototype.defaultErrorCondition = function () {
                     if (this.category_ == null || this.value_ == 0)
@@ -1099,9 +1088,9 @@ var std;
                 /**
                  * <p> Convert to bool. </p>
                  *
-                 * <p> Returns whether the error instance has a numerical <code>value</code> other than 0. </p>
+                 * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
                  *
-                 * If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true.
+                 * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
                  *
                  * @return <code>true</code> if the error's numerical value is not zero.
                  *		   <code>false</code> otherwise.
@@ -1122,15 +1111,16 @@ var std;
         var tree;
         (function (tree) {
             var XTree = (function () {
+                //protected size_: number;
                 /* =========================================================
                     CONSTRUCTOR
                 ========================================================= */
                 /**
-                 * Default Constructor
+                 * Default Constructor.
                  */
                 function XTree() {
                     this.root = null;
-                    this.size_ = 0;
+                    //this.size_ = 0;
                 }
                 /* =========================================================
                     ACCESSORS
@@ -1139,9 +1129,10 @@ var std;
                 ============================================================
                     GETTERS
                 --------------------------------------------------------- */
-                XTree.prototype.size = function () {
-                    return this.size_;
-                };
+                //public size(): number
+                //{
+                //	return  this.size_;
+                //}
                 XTree.prototype.find = function (val) {
                     var node = this.root;
                     if (node != null)
@@ -1165,10 +1156,6 @@ var std;
                         node = node.right;
                     return node;
                 };
-                XTree.prototype.debug = function () {
-                    if (this.root != null)
-                        this.root.debug();
-                };
                 /* =========================================================
                     ELEMENTS I/O
                         - INSERT
@@ -1190,7 +1177,7 @@ var std;
                             parent.right = node;
                     }
                     this.insertCase1(node);
-                    this.size_++;
+                    //this.size_++;
                 };
                 XTree.prototype.insertCase1 = function (node) {
                     if (node.parent == null)
@@ -1252,7 +1239,7 @@ var std;
                         this.eraseCase1(node);
                     }
                     this.replaceNode(node, child);
-                    this.size_--;
+                    //this.size_--;
                 };
                 XTree.prototype.eraseCase1 = function (node) {
                     if (node.parent == null)
@@ -1434,6 +1421,11 @@ var std;
     (function (base) {
         var tree;
         (function (tree) {
+            /**
+             * Static class holding enumeration codes of color of Red-black tree.
+             *
+             * @author Jeongho Nam
+             */
             var Color = (function () {
                 function Color() {
                 }
@@ -1523,6 +1515,12 @@ var std;
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
+                /**
+                 * Construct from value and color of node.
+                 *
+                 * @param value Value to be stored in.
+                 * @param color Color of the node, red or black.
+                 */
                 function XTreeNode(value, color) {
                     this.value = value;
                     this.color = color;
@@ -1554,20 +1552,6 @@ var std;
                     enumerable: true,
                     configurable: true
                 });
-                XTreeNode.prototype.debug = function (header, level) {
-                    if (header === void 0) { header = "ROOT"; }
-                    if (level === void 0) { level = 0; }
-                    // TABS
-                    var tab = "";
-                    for (var i = 0; i < level; i++)
-                        tab += "\t";
-                    console.log(tab + header + ": " + this.value);
-                    // LEFT AND  RIGHT
-                    if (this.left != null)
-                        this.left.debug("Left", level + 1);
-                    if (this.right != null)
-                        this.right.debug("Right", level + 1);
-                };
                 return XTreeNode;
             })();
             tree.XTreeNode = XTreeNode;
@@ -1603,8 +1587,8 @@ var std;
      * <p> This type serves as a base class for specific category types. </p>
      *
      * <p> Category types are used to identify the source of an error. They also define the relation between
-     * <code>ErrorCode</code> and <code>ErrorCondition</code> objects of its category, as well as the message
-     * set for <code>ErrorCode</code> objects.
+     * {@link ErrorCode} and {@link ErrorCondition}objects of its category, as well as the message
+     * set for {@link ErrorCode} objects.
      *
      * <p> Objects of these types have no distinct values and are not-copyable and not-assignable, and thus can
      * only be passed by reference. As such, only one object of each of these types shall exist, each uniquely
@@ -1632,22 +1616,22 @@ var std;
         /**
          * <p> Default error condition. </p>
          *
-         * <p> Returns the default <code>ErrorCondition</code> object of this category that is associated with
-         * the <code>ErrorCode</code> identified by a value of <i>val</i>. </p>
+         * <p> Returns the default {@link ErrorCondition}object of this category that is associated with
+         * the {@link ErrorCode} identified by a value of <i>val</i>. </p>
          *
-         * <p> Its definition in the base class <code>ErrorCategory</code> returns the same as constructing an
-         * <code>ErrorCondition</code> object with:
+         * <p> Its definition in the base class {@link ErrorCategory} returns the same as constructing an
+         * {@link ErrorCondition}object with:
          *
-         * <p> <code>ErrorCondition (val, *this);</code> </p>
+         * <p> <code>new ErrorCondition(val, *this);</code> </p>
          *
          * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
          *
          * <p> This function is called by the default definition of member <code>equivalent()</code>, which is
-         * used to compare <code>error conditions</code> with error codes. </p>
+         * used to compare {@link ErrorCondition error conditions} with error codes. </p>
          *
          * @param val A numerical value identifying an error condition.
          *
-         * @return The default <code>ErrorCondition</code> object associated with condition value <i>val</i>
+         * @return The default {@link ErrorCondition}object associated with condition value <i>val</i>
          *		   for this category.
          */
         ErrorCategory.prototype.defaultErrorCondition = function (val) {
@@ -1670,14 +1654,14 @@ var std;
     /**
      * <p> Error code. </p>
      *
-     * <p> Objects of this type hold an error code <code>value</code> associated with a <code>category</code>. </p>
+     * <p> Objects of this type hold an error code {@link value} associated with a {@link category}. </p>
      *
      * <p> The operating system and other low-level applications and libraries generate numerical error codes to
      * represent possible results. These numerical values may carry essential information for a specific platform,
      * but be non-portable from one platform to another. </p>
      *
-     * <p> Objects of this class associate such numerical codes to <code>error categories</code>, so that they
-     * can be interpreted when needed as more abstract (and portable) <code>error conditions</code>. </p>
+     * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they
+     * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
@@ -1702,19 +1686,19 @@ var std;
     /**
      * <p> Error condition. </p>
      *
-     * <p> Objects of this type hold a condition <code>value</code> associated with a <code>category</code>. </p>
+     * <p> Objects of this type hold a condition {@link value} associated with a {@link category}. </p>
      *
      * <p> Objects of this type describe errors in a generic way so that they may be portable across different
-     * systems. This is in contrast with <code>ErrorCode</code> objects, that may contain system-specific
+     * systems. This is in contrast with {@link ErrorCode} objects, that may contain system-specific
      * information. </p>
      *
-     * <p> Because <code>ErrorCondition</code> objects can be compared with error_code objects directly by using
-     * <code>relational operators</code>, <code>ErrorCondition</code> objects are generally used to check whether
-     * a particular <code>ErrorCode</code> obtained from the system matches a specific error condition no matter
+     * <p> Because {@link ErrorCondition}objects can be compared with error_code objects directly by using
+     * <code>relational operators</code>, {@link ErrorCondition}objects are generally used to check whether
+     * a particular {@link ErrorCode} obtained from the system matches a specific error condition no matter
      * the system. </p>
      *
-     * <p> The <code>categories</code> associated with the <code>ErrorCondition</code> and the <code>ErrorCode</code>
-     * define the equivalences between them. </p>
+     * <p> The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the
+     * {@link ErrorCode} define the equivalences between them. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
@@ -2149,20 +2133,20 @@ var std;
     /**
      * <p> Hashed, unordered map. </p>
      *
-     * <p> <code>HashMap</code>s are associative containers that store elements formed by the
+     * <p> {@link HashMap}s are associative containers that store elements formed by the
      * combination of a <i>key value</i> and a <i>mapped value</i>, and which allows for fast
      * retrieval of individual elements based on their <i>keys</i>. </p>
      *
-     * <p> In an <code>HashMap</code>, the <i>key value</i> is generally used to uniquely identify
+     * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify
      * the element, while the <i>mapped value</i> is an object with the content associated to this
      * <i>key</i>. Types of <i>key</i> and <i>mapped value</i> may differ. </p>
      *
-     * <p> Internally, the elements in the <code>HashMap</code> are not sorted in any particular order
+     * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order
      * with respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i>
      * depending on their hash values to allow for fast access to individual elements directly by
      * their <i>key values</i> (with a constant average time complexity on average). </p>
      *
-     * <p> <code>HashMap</code> containers are faster than <code>TreeMap</code> containers to access
+     * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access
      * individual elements by their <i>key</i>, although they are generally less efficient for range
      * iteration through a subset of their elements. </p>
      *
@@ -2189,9 +2173,9 @@ var std;
      * </ul>
      *
      * @param <K> Type of the key values.
-     *			  Each element in an <code>HashMap</code> is uniquely identified by its key value.
+     *			  Each element in an {@link HashMap} is uniquely identified by its key value.
      * @param <T> Type of the mapped value.
-     *			  Each element in an <code>HashMap</code> is used to store some data as its mapped value.
+     *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
      * @author Jeongho Nam
      */
@@ -2318,7 +2302,7 @@ var std;
      * <p> Hashed, unordered Multimap. </p>
      *
      * <p> <code>HashMultiMap</code>s are associative containers that store elements formed by the combination of
-     * a <i>key value</i> and a <i>mapped value</i>, much like <code>HashMap</code> containers, but allowing
+     * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMap} containers, but allowing
      * different elements to have equivalent <i>keys</i>. </p>
      *
      * <p> In an <code>HashMultiMap</code>, the <i>key value</i> is generally used to uniquely identify the
@@ -2637,18 +2621,18 @@ var std;
     /**
      * <p> Hashed, unordered set. </p>
      *
-     * <p> <code>HashSet</code>s are containers that store unique elements in no particular order, and which
+     * <p> {@link HashSet}s are containers that store unique elements in no particular order, and which
      * allow for fast retrieval of individual elements based on their value. </p>
      *
-     * <p> In an <code>HashSet</code>, the value of an element is at the same time its <i>key</i>, that
-     * identifies it uniquely. Keys are immutable, therefore, the elements in an <code>HashSet</code> cannot be
+     * <p> In an {@link HashSet}, the value of an element is at the same time its <i>key</i>, that
+     * identifies it uniquely. Keys are immutable, therefore, the elements in an {@link HashSet} cannot be
      * modified once in the container - they can be inserted and removed, though. </p>
      *
-     * <p> Internally, the elements in the <code>HashSet</code> are not sorted in any particular order, but
+     * <p> Internally, the elements in the {@link HashSet} are not sorted in any particular order, but
      * organized into buckets depending on their hash values to allow for fast access to individual elements
      * directly by their <i>values</i> (with a constant average time complexity on average). </p>
      *
-     * <p> <code>HashSet</code> containers are faster than <codeTreeSet<code> containers to access individual
+     * <p> {@link HashSet} containers are faster than <codeTreeSet<code> containers to access individual
      * elements by their <i>key</i>, although they are generally less efficient for range iteration through a
      * subset of their elements. </p>
      *
@@ -2674,7 +2658,7 @@ var std;
      * </ul>
      *
      * @param <T> Type of the elements.
-     *			  Each element in an <code>HashSet</code> is also uniquely identified by this value.
+     *			  Each element in an {@link HashSet} is also uniquely identified by this value.
      *
      * @author Jeongho Nam
      */
@@ -2811,7 +2795,7 @@ var std;
      *
      * <p> Binary function returns whether the its first argument compares less than the second. </p>
      *
-     * <p> Generically, function objects are instances of a class with member function <code>less()</code>
+     * <p> Generically, function objects are instances of a class with member function {@link less}
      * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
      * This member function allows the object to be used with the same syntax as a function call. </p>
      *
@@ -2819,7 +2803,7 @@ var std;
      * <code>merge<()/code> or <code>lower_bound()</code>. </p>
      *
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <code>operator<()</code> or method <code>less()</code>.
+     *			  <code>operator<()</code> or method {@link less}.
      *
      * @param first First element, the standard of comparison.
      * @param second Second element compare with the first.
@@ -2841,7 +2825,7 @@ var std;
      *
      * <p> Binary function returns whether the its first argument compares greater than the second. </p>
      *
-     * <p> Generically, function objects are instances of a class with member function <code>less()</code> and
+     * <p> Generically, function objects are instances of a class with member function {@link less} and
      * <code>equals()</code> defined. If an object doesn't have those methods, then its own uid will be used
      * to compare insteadly. This member function allows the object to be used with the same syntax as a function
      * call. </p>
@@ -2850,7 +2834,7 @@ var std;
      * <code>merge<()/code> or <code>lower_bound()</code>. </p>
      *
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <code>operator>()</code> or method <code>less()</code> and <code>equals()</code>.
+     *			  <code>operator>()</code> or method {@link less} and <code>equals()</code>.
      *
      * @param left
      * @param right
@@ -2889,7 +2873,7 @@ var std;
     /**
      * <p> Doubly linked list. </p>
      *
-     * <p> <code>List</code>s are sequence containers that allow constant time insert and erase operations
+     * <p> {@link List}s are sequence containers that allow constant time insert and erase operations
      * anywhere within the sequence, and iteration in both directions. </p>
      *
      * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of
@@ -2964,6 +2948,11 @@ var std;
                 this.assign(size, val);
             }
         }
+        Object.defineProperty(List, "iterator", {
+            get: function () { return std.ListIterator; },
+            enumerable: true,
+            configurable: true
+        });
         List.prototype.assign = function (par1, par2) {
             if (par1 instanceof std.base.container.Iterator && par2 instanceof std.base.container.Iterator) {
                 // PARAMETERS
@@ -3028,7 +3017,7 @@ var std;
          * <p> Access first element. </p>
          * <p> Returns a value in the first element of the List. </p>
          *
-         * <p> Unlike member <code>List.end()</code>, which returns an iterator just past this element,
+         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
          * this function returns a direct value. </p>
          *
          * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -3042,7 +3031,7 @@ var std;
          * <p> Access last element. </p>
          * <p> Returns a value in the last element of the List. </p>
          *
-         * <p> Unlike member <code>List.end()</code>, which returns an iterator just past this element,
+         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
          * this function returns a direct value. </p>
          *
          * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -3099,8 +3088,8 @@ var std;
         /**
          * <p> Add element at the end. </p>
          *
-         * <p> Adds a new element at the lend of the <code>List</code> container, after its current last
-         * element. This effectively increases the container <code>size</code> by one. </p>
+         * <p> Adds a new element at the lend of the {@link List} container, after its current last
+         * element. This effectively increases the container {@link size} by one. </p>
          *
          * @param val Value to be copied to the new element.
          */
@@ -3119,7 +3108,7 @@ var std;
          * <p> Delete first element. </p>
          *
          * <p> Removes first last element in the List container, effectively reducing the container
-         * <code>size</code> by one. </p>
+         * {@link size} by one. </p>
          */
         List.prototype.popFront = function () {
             this.erase(this.begin_);
@@ -3128,7 +3117,7 @@ var std;
          * <p> Delete last element. </p>
          *
          * <p> Removes the last element in the List container, effectively reducing the container
-         * <code>size</code> by one. </p>
+         * {@link size} by one. </p>
          */
         List.prototype.popBack = function () {
             this.erase(this.end_.prev());
@@ -3412,9 +3401,6 @@ var std;
             get: function () {
                 return this.listIterator.value.first;
             },
-            set: function (key) {
-                this.listIterator.value.first = key;
-            },
             enumerable: true,
             configurable: true
         });
@@ -3533,9 +3519,9 @@ var std;
      *	<li> popFront </li>
      * </ul>
      *
-     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+     * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
      * By default, if no container class is specified for a particular <code>Queue</code> class instantiation,
-     * the standard container <code>List</code> is used. </p>
+     * the standard container {@link List} is used. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/queue/queue/ </li>
@@ -3682,12 +3668,6 @@ var std;
             get: function () {
                 return this.listIterator.value;
             },
-            /**
-             * @inheritdoc
-             */
-            set: function (val) {
-                this.listIterator.value = val;
-            },
             enumerable: true,
             configurable: true
         });
@@ -3736,9 +3716,9 @@ var std;
      *	<li> popFront </li>
      * </ul>
      *
-     * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements.
+     * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
      * By default, if no container class is specified for a particular <code>Stack</code> class instantiation,
-     * the standard container <code>List</code> is used. </p>
+     * the standard container {@link List} is used. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
@@ -3815,9 +3795,9 @@ var std;
      *
      * <p> This class defines the type of objects thrown as exceptions to report conditions originating during
      * runtime from the operating system or other low-level application program interfaces which have an
-     * associated <code>ErrorCode</code>. </p>
+     * associated {@link ErrorCode}. </p>
      *
-     * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as
+     * <p> The class inherits from {@link RuntimeError}, to which it adds an {@link ErrorCode} as
      * member code (and defines a specialized what member). </p>
      *
      * <ul>
@@ -3841,12 +3821,12 @@ var std;
         /**
          * <p> Get error code. </p>
          *
-         * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
+         * <p> Returns the {@link ErrorCode} object associated with the exception. </p>
          *
-         * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent
+         * <p> This value is either the {@link ErrorCode} passed to the construction or its equivalent
          * (if constructed with a value and a <code>category</code>). </p>
          *
-         * @return The <code>ErrorCode</code> associated with the object.
+         * @return The {@link ErrorCode} associated with the object.
          */
         SystemError.prototype.code = function () {
             return this.code_;
@@ -3859,26 +3839,26 @@ var std;
 var std;
 (function (std) {
     /**
-     * <p> TreeMap, <code>std::map</code> of STL. </p>
+     * <p> Tree-structured map, <code>std::map</code> of STL. </p>
      *
-     * <p> <code>TreeMap</code>s are associative containers that store elements formed by a combination of a
+     * <p> {@link TreeMap}s are associative containers that store elements formed by a combination of a
      * <i>key value</i> (<code>Key</code>) and a <i>mapped value</i> (<code>T</code>), following order. </p>
      *
-     * <p> In a <code>TreeMap</code>, the <i>key values</i> are generally used to sort and uniquely identify
+     * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify
      * the elements, while the <i>mapped values</i> store the content associated to this key. The types of
      * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
-     * <code>value_type</code>, which is a <code>Pair</code> type combining both:
+     * <code>value_type</code>, which is a {@link Pair} type combining both:
      *
      * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
      *
-     * <p> Internally, the elements in a <code>TreeMap</code> are always sorted by its <i>key</i> following
-     * a strict weak ordering criterion indicated by its internal comparison method <code>less()</code>.
+     * <p> Internally, the elements in a {@link TreeMap} are always sorted by its <i>key</i> following
+     * a strict weak ordering criterion indicated by its internal comparison method {@link less}.
      *
-     * <p> <code>TreeMap</code> containers are generally slower than <code>HashMap</code> containers to access
-     * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
-     * order. </p>
+     * <p> {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to
+     * access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
+     * their order. </p>
      *
-     * <p> <code>TreeMap</code>s are typically implemented as binary search trees. </p>
+     * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -4016,7 +3996,7 @@ var std;
      * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
      *
      * <p> Internally, the elements in a <code>TreeMultiMap</code> are always sorted by its key following a
-     * strict weak ordering criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+     * strict weak ordering criterion indicated by its internal comparison method (of {@link less}). </p>
      *
      * <p> <code>TreeMultiMap</code> containers are generally slower than <code>HashMultiMap</code> containers
      * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based
@@ -4159,7 +4139,7 @@ var std;
      * from the container. </p>
      *
      * <p> Internally, the elements in a <code>TreeMultiSet</code>s are always sorted following a strict weak
-     * ordering criterion indicated by its internal comparison method (of <code>less()</code>).
+     * ordering criterion indicated by its internal comparison method (of {@link less}).
      *
      * <p> <code>TreeMultiSet</code> containers are generally slower than <code>HashMultiSet</code> containers
      * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
@@ -4292,23 +4272,23 @@ var std;
 var std;
 (function (std) {
     /**
-     * <p> Tree-structured set. </p>
+     * <p> Tree-structured set, <code>std::set</code> of STL. </p>
      *
-     * <p> <code>TreeSet</code>s are containers that store unique elements following a specific order. </p>
+     * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
      *
-     * <p> In a <code>TreeSet</code>, the value of an element also identifies it (the value is itself the
+     * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
      * <i>key</i>, of type <code>T</code>), and each value must be unique. The value of the elements in a
-     * <code>TreeSet</code> cannot be modified once in the container (the elements are always const), but they
+     * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
      * can be inserted or removed from the container. </p>
      *
      * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering
-     * criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+     * criterion indicated by its internal comparison method (of {@link less}). </p>
      *
-     * <p> <code>TreeSet</code> containers are generally slower than <code>HashSet</code> containers to access
+     * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access
      * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
      * order. </p>
      *
-     * <p> <code>TreeSet</code>s are typically implemented as binary search trees. </p>
+     * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -4332,7 +4312,7 @@ var std;
      * </ul>
      *
      * @param <T> Type of the elements.
-     *			  Each element in an <code>TreeSet</code> is also uniquely identified by this value.
+     *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
      *
      * @author Jeongho Nam
      */
@@ -4433,35 +4413,35 @@ var std;
     /**
      * <p> Vector, the dynamic array. </p>
      *
-     * <p> <code>Vector</code>s are sequence containers representing arrays that can change in size. </p>
+     * <p> {@link Vector}s are sequence containers representing arrays that can change in size. </p>
      *
-     * <p> Just like arrays, <code>Vector</code>s use contiguous storage locations for their elements, which
+     * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which
      * means that their elements can also be accessed using offsets on regular pointers to its elements, and
      * just as efficiently as in arrays. But unlike arrays, their size can change dynamically, with their
      * storage being handled automatically by the container. </p>
      *
-     * <p> Internally, <code>Vector</code>s use a dynamically allocated array to store their elements. This
+     * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This
      * array may need to be reallocated in order to grow in size when new elements are inserted, which implies
      * allocating a new array and moving all elements to it. This is a relatively expensive task in terms of
-     * processing time, and thus, <code>Vector</code>s do not reallocate each time an element is added to the
+     * processing time, and thus, {@link Vector}s do not reallocate each time an element is added to the
      * container. </p>
      *
-     * <p> Instead, <code>Vector</code> containers may allocate some extra storage to accommodate for possible
-     * growth, and thus the container may have an actual <code>capacity</code> greater than the storage strictly
-     * needed to contain its elements (i.e., its <code>size</code>). Libraries can implement different strategies
+     * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible
+     * growth, and thus the container may have an actual {@link capacity} greater than the storage strictly
+     * needed to contain its elements (i.e., its {@link size}). Libraries can implement different strategies
      * for growth to balance between memory usage and reallocations, but in any case, reallocations should only
-     * happen at logarithmically growing intervals of <code>size</code> so that the insertion of individual
-     * elements at the end of the <code>Vector</code> can be provided with amortized constant time complexity
-     * (see <code>pushBack()</code>). </p>
+     * happen at logarithmically growing intervals of {@link size} so that the insertion of individual
+     * elements at the end of the {@link Vector} can be provided with amortized constant time complexity
+     * (see {@link pushBack pushBack()}). </p>
      *
-     * <p> Therefore, compared to arrays, <code>Vector</code>s consume more memory in exchange for the ability
+     * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability
      * to manage storage and grow dynamically in an efficient way. </p>
      *
-     * <p> Compared to the other dynamic sequence containers (<code>Deque</code>s, <code>List</code>s),
-     * <code>Vector</code>s are very efficient accessing its elements (just like arrays) and relatively
+     * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s),
+     * {@link Vector}s are very efficient accessing its elements (just like arrays) and relatively
      * efficient adding or removing elements from its end. For operations that involve inserting or removing
      * elements at positions other than the end, they perform worse than the others, and have less consistent
-     * iterators and references than <code>List</code>s. </p>
+     * iterators and references than {@link List}s. </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -4520,6 +4500,11 @@ var std;
                 this.assign(begin, end);
             }
         }
+        Object.defineProperty(Vector, "iterator", {
+            get: function () { return std.VectorIterator; },
+            enumerable: true,
+            configurable: true
+        });
         Vector.prototype.assign = function (first, second) {
             this.clear();
             if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
@@ -4566,6 +4551,9 @@ var std;
         Vector.prototype.size = function () {
             return this.length;
         };
+        Vector.prototype.capacity = function () {
+            return this.length;
+        };
         /**
          * @inheritdoc
          */
@@ -4574,10 +4562,10 @@ var std;
         };
         /**
          * <p> Access element. </p>
-         * <p> Returns a value to the element at position <code>index</code> in the Vector.</p>
+         * <p> Returns a value to the element at position <i>index</i> in the Vector.</p>
          *
          * <p> The function automatically checks whether n is within the bounds of valid elements in the
-         * Vector, throwing an OutOfRange exception if it is not (i.e., if <code>index</code> is greater or
+         * Vector, throwing an OutOfRange exception if it is not (i.e., if <i>index</i> is greater or
          * equal than its size). This is in contrast with member operator[], that does not check against
          * bounds. </p>
          *
@@ -4597,7 +4585,7 @@ var std;
          * <p> Access first element. </p>
          * <p> Returns a value in the first element of the Vector. </p>
          *
-         * <p> Unlike member <code>Vector.begin()</code>, which returns an iterator just past this element,
+         * <p> Unlike member {@link begin begin()}, which returns an iterator just past this element,
          * this function returns a direct value. </p>
          *
          * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -4611,7 +4599,7 @@ var std;
          * <p> Access last element. </p>
          * <p> Returns a value in the last element of the Vector. </p>
          *
-         * <p> Unlike member <code>Vector.end()</code>, which returns an iterator just past this element,
+         * <p> Unlike member <{@link end end()}, which returns an iterator just past this element,
          * this function returns a direct value. </p>
          *
          * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -4627,12 +4615,12 @@ var std;
         /**
          * <p> Add element at the end. </p>
          *
-         * <p> Adds a new element at the end of the <code>Vector</code>, after its current last element. The
+         * <p> Adds a new element at the end of the {@link Vector}, after its current last element. The
          * content of <i>val</i> is copied to the new element. </p>
          *
-         * <p> This effectively increases the container <code>size</code> by one, which causes an automatic
-         * reallocation of the allocated storage space if -and only if- the new <code>Vector.size</code>
-         * surpasses the current <code>Vector.capacity</code>.
+         * <p> This effectively increases the container {@link size} by one, which causes an automatic
+         * reallocation of the allocated storage space if -and only if- the new {@link size}
+         * surpasses the current {@link capacity}.
          *
          * @param val Value to be copied to the new element.
          */
@@ -4658,7 +4646,7 @@ var std;
          * <p> Delete last element. </p>
          *
          * <p> Removes the last element in the Vector container, effectively reducing the container
-         * <code>size</code> by one. </p>
+         * {@link size} by one. </p>
          */
         Vector.prototype.popBack = function () {
             this.erase(this.end().prev());

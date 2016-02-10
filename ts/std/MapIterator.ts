@@ -116,10 +116,6 @@ namespace std
 			return this.listIterator.value.second;
 		}
 
-		public set first(key: K)
-		{
-			this.listIterator.value.first = key;
-		}
 		public set second(val: T)
 		{
 			this.listIterator.value.second = val;
