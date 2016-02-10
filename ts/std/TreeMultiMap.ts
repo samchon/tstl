@@ -17,7 +17,7 @@ namespace std
 	 * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
 	 * 
 	 * <p> Internally, the elements in a <code>TreeMultiMap</code> are always sorted by its key following a 
-	 * strict weak ordering criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+	 * strict weak ordering criterion indicated by its internal comparison method (of {@link less}). </p>
 	 *
 	 * <p> <code>TreeMultiMap</code> containers are generally slower than <code>HashMultiMap</code> containers 
 	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based 

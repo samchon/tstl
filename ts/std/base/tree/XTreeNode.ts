@@ -16,6 +16,12 @@ namespace std.base.tree
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from value and color of node. 
+		 *
+		 * @param value Value to be stored in.
+		 * @param color Color of the node, red or black.
+		 */
 		public constructor(value: T, color: boolean)
 		{
 			this.value = value;
@@ -42,21 +48,21 @@ namespace std.base.tree
 			return this.parent.sibling;
 		}
 
-		public debug(header: string = "ROOT", level: number = 0): void
-		{
-			// TABS
-			let tab: string = "";
-			for (let i = 0; i < level; i++)
-				tab += "\t";
+		//public debug(header: string = "ROOT", level: number = 0): void
+		//{
+		//	// TABS
+		//	let tab: string = "";
+		//	for (let i = 0; i < level; i++)
+		//		tab += "\t";
 			
-			console.log(tab + header + ": " + this.value);
+		//	console.log(tab + header + ": " + this.value);
 
-			// LEFT AND  RIGHT
-			if (this.left != null)
-				this.left.debug("Left", level + 1);
+		//	// LEFT AND  RIGHT
+		//	if (this.left != null)
+		//		this.left.debug("Left", level + 1);
 
-			if (this.right != null)
-				this.right.debug("Right", level + 1);
-		}
+		//	if (this.right != null)
+		//		this.right.debug("Right", level + 1);
+		//}
 	}
 }

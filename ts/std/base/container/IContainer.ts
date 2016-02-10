@@ -31,7 +31,7 @@ namespace std.base.container
 		 * <p> Assign new content to content. </p>
 		 *
 		 * <p> Assigns new contents to the container, replacing its current contents, and modifying its 
-		 * <code>size</code> accordingly. </p>
+		 * {@link size} accordingly. </p>
 		 *
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.

@@ -3,26 +3,26 @@
 namespace std
 {
 	/**
-	 * <p> TreeMap, <code>std::map</code> of STL. </p>
+	 * <p> Tree-structured map, <code>std::map</code> of STL. </p>
 	 *
-	 * <p> <code>TreeMap</code>s are associative containers that store elements formed by a combination of a 
+	 * <p> {@link TreeMap}s are associative containers that store elements formed by a combination of a 
 	 * <i>key value</i> (<code>Key</code>) and a <i>mapped value</i> (<code>T</code>), following order. </p>
 	 *
-	 * <p> In a <code>TreeMap</code>, the <i>key values</i> are generally used to sort and uniquely identify 
+	 * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify 
 	 * the elements, while the <i>mapped values</i> store the content associated to this key. The types of 
 	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type 
-	 * <code>value_type</code>, which is a <code>Pair</code> type combining both:
+	 * <code>value_type</code>, which is a {@link Pair} type combining both:
 	 *
 	 * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
 	 *
-	 * <p> Internally, the elements in a <code>TreeMap</code> are always sorted by its <i>key</i> following 
-	 * a strict weak ordering criterion indicated by its internal comparison method <code>less()</code>.
+	 * <p> Internally, the elements in a {@link TreeMap} are always sorted by its <i>key</i> following 
+	 * a strict weak ordering criterion indicated by its internal comparison method {@link less}.
 	 *
-	 * <p> <code>TreeMap</code> containers are generally slower than <code>HashMap</code> containers to access 
-	 * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their 
-	 * order. </p>
+	 * <p> {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to 
+	 * access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 
+	 * their order. </p>
 	 *
-	 * <p> <code>TreeMap</code>s are typically implemented as binary search trees. </p>
+	 * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -55,7 +55,7 @@ namespace std
 		extends base.container.UniqueMap<Key, T>
 	{
 		/**
-		 * <i>RB-Tree+</i> object for implemeting the <code>TreeMap</code>.
+		 * <i>RB-Tree+</i> object for implemeting the {@link TreeMap}.
 		 */
 		private tree: base.tree.PairTree<Key, T>;
 

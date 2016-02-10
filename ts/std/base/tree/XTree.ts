@@ -4,19 +4,19 @@ namespace std.base.tree
 	{
 		protected root: XTreeNode<T>;
 
-		protected size_: number;
+		//protected size_: number;
 
 		/* =========================================================
 			CONSTRUCTOR
 		========================================================= */
 		/**
-		 * Default Constructor
+		 * Default Constructor.
 		 */
 		public constructor()
 		{
 			this.root = null;
 
-			this.size_ = 0;
+			//this.size_ = 0;
 		}
 
 		/* =========================================================
@@ -26,10 +26,10 @@ namespace std.base.tree
 		============================================================
 			GETTERS
 		--------------------------------------------------------- */
-		public size(): number
-		{
-			return  this.size_;
-		}
+		//public size(): number
+		//{
+		//	return  this.size_;
+		//}
 
 		public find(val: T): XTreeNode<T>
 		{
@@ -64,11 +64,11 @@ namespace std.base.tree
 			return node;
 		}
 
-		public debug(): void
-		{
-			if (this.root != null)
-				this.root.debug();
-		}
+		//public debug(): void
+		//{
+		//	if (this.root != null)
+		//		this.root.debug();
+		//}
 
 		/* ---------------------------------------------------------
 			COMPARISON
@@ -104,7 +104,7 @@ namespace std.base.tree
 
 			this.insertCase1(node);
 
-			this.size_++;
+			//this.size_++;
 		}
 
 		private insertCase1(node: XTreeNode<T>): void
@@ -193,7 +193,7 @@ namespace std.base.tree
 
 			this.replaceNode(node, child);
 
-			this.size_--;
+			//this.size_--;
 		}
 
 		private eraseCase1(node: XTreeNode<T>): void

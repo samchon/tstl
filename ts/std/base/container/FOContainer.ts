@@ -11,9 +11,9 @@
 	 * set of member functions to access its elements. Elements are pushed/popped from the <code>accessor</code>
 	 * method of the (derived) specific container. </p>
 	 *
-	 * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements. 
+	 * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements. 
 	 * By default, if no container class is specified for a particular <code>FOContainer</code> class 
-	 * instantiation, the standard container <code>List</code> is used. </p>
+	 * instantiation, the standard container {@link List} is used. </p>
 	 *
 	 * @param <T> Type of elements.
 	 * 
@@ -56,7 +56,7 @@
 		 * <p> Return size. </p>
 		 * <p> Returns the number of elements in the <code>FOStack</code>. </p> 
 		 *
-		 * <p> This member function effectively calls member <code>size</code> of the 
+		 * <p> This member function effectively calls member {@link size} of the 
 		 * <i>underlying container</i> object. </p>
 		 *
 		 * @return The number of elements in the <i>underlying container</i>.

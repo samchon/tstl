@@ -2,7 +2,7 @@ namespace std.base.container
 {
 	export abstract class Iterator<T>
 	{
-		protected source: Container<T>;
+		protected source: IContainer<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -12,7 +12,7 @@ namespace std.base.container
 		 *
 		 * @param source The source Container.
 		 */
-		public constructor(source: Container<T>)
+		public constructor(source: IContainer<T>)
 		{
 			this.source = source;
 		}
@@ -22,7 +22,8 @@ namespace std.base.container
 		--------------------------------------------------------- */
 		/**
 		 * <p> Get iterator to previous element. </p>
-		 * <p> If current iterator is the first item(equal with <code>begin()</code>), returns <code>end()</code>. </p>
+		 * <p> If current iterator is the first item(equal with {@link IContainer.begin IContainer.begin()}), 
+		 * returns {@link IContainer.end IContainer.end()}. </p>
 		 *
 		 * @return An iterator of the previous item. 
 		 */
@@ -30,17 +31,17 @@ namespace std.base.container
 
 		/**
 		 * <p> Get iterator to next element. </p>
-		 * <p> If current iterator is the last item, returns <code>end()</code>. </p>
+		 * <p> If current iterator is the last item, returns {@link IContainer.end IContainer.end()}. </p>
 		 *
 		 * @return An iterator of the next item.
 		 */
 		public abstract next(): Iterator<T>;
 
 		/**
-		 * Advances the Iterator by n element positions.
+		 * Advances the {@link Iterator} by <i>n</i> element positions.
 		 *
 		 * @param n Number of element positions to advance.
-		 * @return An advanced Iterator.
+		 * @return An advanced iterator.
 		 */
 		public advance(n: number): Iterator<T>
 		{
@@ -91,7 +92,7 @@ namespace std.base.container
 		 * <p> Iterator's equals() only compare souce map and index number. </p>
 		 *
 		 * <p> Although elements in a pair, key and value are equals, if the source map or
-		 * index number is different, then the equals() will return false. If you want to
+		 * index number is different, then the {@link equals equals()} will return false. If you want to
 		 * compare the elements of a pair, compare them directly by yourself. </p>
 		 *
 		 * @param obj An iterator to compare

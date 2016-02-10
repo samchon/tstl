@@ -3,23 +3,23 @@
 namespace std
 {
 	/**
-	 * <p> Tree-structured set. </p>
+	 * <p> Tree-structured set, <code>std::set</code> of STL. </p>
 	 *
-	 * <p> <code>TreeSet</code>s are containers that store unique elements following a specific order. </p>
+	 * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
 	 *
-	 * <p> In a <code>TreeSet</code>, the value of an element also identifies it (the value is itself the 
+	 * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the 
 	 * <i>key</i>, of type <code>T</code>), and each value must be unique. The value of the elements in a 
-	 * <code>TreeSet</code> cannot be modified once in the container (the elements are always const), but they 
+	 * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they 
 	 * can be inserted or removed from the container. </p>
 	 *
 	 * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering 
-	 * criterion indicated by its internal comparison method (of <code>less()</code>). </p>
+	 * criterion indicated by its internal comparison method (of {@link less}). </p>
 	 *
-	 * <p> <code>TreeSet</code> containers are generally slower than <code>HashSet</code> containers to access 
+	 * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access 
 	 * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their 
 	 * order. </p>
 	 *
-	 * <p> <code>TreeSet</code>s are typically implemented as binary search trees. </p>
+	 * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -43,7 +43,7 @@ namespace std
 	 * </ul>
 	 *
 	 * @param <T> Type of the elements. 
-	 *			  Each element in an <code>TreeSet</code> is also uniquely identified by this value.
+	 *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
 	 *
 	 * @author Jeongho Nam
 	 */
@@ -51,7 +51,7 @@ namespace std
 		extends base.container.UniqueSet<T>
 	{
 		/**
-		 * <i>RB-Tree+</i> object for implemeting the <code>TreeSet</code>.
+		 * <i>RB-Tree+</i> object for implemeting the {@link TreeSet}.
 		 */
 		private tree: base.tree.AtomicTree<T>;
 

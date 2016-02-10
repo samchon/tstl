@@ -6,7 +6,7 @@ namespace std
 	 * <p> Hashed, unordered Multimap. </p>
 	 * 
 	 * <p> <code>HashMultiMap</code>s are associative containers that store elements formed by the combination of 
-	 * a <i>key value</i> and a <i>mapped value</i>, much like <code>HashMap</code> containers, but allowing 
+	 * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMap} containers, but allowing 
 	 * different elements to have equivalent <i>keys</i>. </p>
 	 *
 	 * <p> In an <code>HashMultiMap</code>, the <i>key value</i> is generally used to uniquely identify the 

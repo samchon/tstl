@@ -5,7 +5,7 @@ namespace std
 	/**
 	 * <p> Doubly linked list. </p>
 	 *
-	 * <p> <code>List</code>s are sequence containers that allow constant time insert and erase operations 
+	 * <p> {@link List}s are sequence containers that allow constant time insert and erase operations 
 	 * anywhere within the sequence, and iteration in both directions. </p>
 	 *
 	 * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of 
@@ -52,6 +52,8 @@ namespace std
 	export class List<T>
 		extends base.container.Container<T>
 	{
+		public static get iterator() { return ListIterator; }
+
 		/**
 		 * An iterator of beginning.
 		 */
@@ -63,7 +65,7 @@ namespace std
 		protected end_: ListIterator<T>;
 
 		/**
-		 * Number of elements in the <code>List</code>.
+		 * Number of elements in the {@link List}.
 		 */
 		protected size_: number;
 
@@ -251,7 +253,7 @@ namespace std
 		 * <p> Access first element. </p>
 		 * <p> Returns a value in the first element of the List. </p>
 		 *
-		 * <p> Unlike member <code>List.end()</code>, which returns an iterator just past this element, 
+		 * <p> Unlike member {@link end end()}, which returns an iterator just past this element, 
 		 * this function returns a direct value. </p>
 		 *
 		 * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -267,7 +269,7 @@ namespace std
 		 * <p> Access last element. </p>
 		 * <p> Returns a value in the last element of the List. </p>
 		 *
-		 * <p> Unlike member <code>List.end()</code>, which returns an iterator just past this element, 
+		 * <p> Unlike member {@link end end()}, which returns an iterator just past this element, 
 		 * this function returns a direct value. </p>
 		 *
 		 * <p> Calling this function on an empty container causes undefined behavior. </p>
@@ -331,8 +333,8 @@ namespace std
 		/**
 		 * <p> Add element at the end. </p> 
 		 *
-		 * <p> Adds a new element at the lend of the <code>List</code> container, after its current last
-		 * element. This effectively increases the container <code>size</code> by one. </p>
+		 * <p> Adds a new element at the lend of the {@link List} container, after its current last
+		 * element. This effectively increases the container {@link size} by one. </p>
 		 *
 		 * @param val Value to be copied to the new element.
 		 */
@@ -355,7 +357,7 @@ namespace std
 		 * <p> Delete first element. </p>
 		 * 
 		 * <p> Removes first last element in the List container, effectively reducing the container 
-		 * <code>size</code> by one. </p>
+		 * {@link size} by one. </p>
 		 */
 		public popFront(): void
 		{
@@ -366,7 +368,7 @@ namespace std
 		 * <p> Delete last element. </p>
 		 * 
 		 * <p> Removes the last element in the List container, effectively reducing the container 
-		 * <code>size</code> by one. </p>
+		 * {@link size} by one. </p>
 		 */
 		public popBack(): void
 		{
@@ -380,19 +382,19 @@ namespace std
 		 * <p> Insert an element. </p>
 		 *
 		 * <p> The container is extended by inserting a new element before the element at the specified 
-		 * <code>position</code>. This effectively increases the List size by the amount of elements inserted. </p>
+		 * <i>position</i>. This effectively increases the List size by the amount of elements inserted. </p>
 		 *
-		 * <p> Unlike other standard sequence containers, <code>List</code> is specifically designed to be 
+		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be 
 		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
 		 *
 		 * <p> The arguments determine how many elements are inserted and to which values they are initialized. </p>
 		 *
 		 * @param position Position in the container where the new element is inserted.
-		 *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-		 *				 type that points to elements.
+		 *				   {@link iterator}> is a member type, defined as a 
+		 *				   {@link ListIterator bidirectional iterator} type that points to elements.
 		 * @param val Value to be inserted as an element.
 		 *
-		 * @return An iterator that points to the newly inserted element; <code>val</code>.
+		 * @return An iterator that points to the newly inserted element; <i>val</i>.
 		 */
 		public insert(position: ListIterator<T>, val: T): ListIterator<T>;
 
@@ -400,8 +402,8 @@ namespace std
 		 * <p> Insert elements by repeated filling. </p> 
 		 *
 		 * @param position Position in the container where the new elements are inserted.
-		 *				 <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-		 *				 type that points to elements.
+		 *				   {@link iterator}> is a member type, defined as a 
+		 *				   {@link ListIterator bidirectional iterator} type that points to elements.
 		 * @param size Number of elements to insert.
 		 * @param val Value to be inserted as an element.
 		 *
@@ -412,8 +414,8 @@ namespace std
 		/**
 		 * 
 		 * @param position Position in the container where the new elements are inserted.
-		 *				   <code>iterator</code> is a member type, defined as a <code>bidirectional iterator</code>
-		 *				   type that points to elements.
+		 *				   {@link iterator}> is a member type, defined as a 
+		 *				   {@link ListIterator bidirectional iterator} type that points to elements.
 		 * @param begin An iterator specifying range of the begining element.
 		 * @param end An iterator specifying range of the ending element.
 		 *
@@ -521,17 +523,17 @@ namespace std
 		/**
 		 * <p> Erase an element. </p>
 		 *
-		 * <p> Removes from the <code>List</code> either a single element; <i>position</i>. </p>
+		 * <p> Removes from the {@link List} either a single element; <i>position</i>. </p>
 		 *
 		 * <p> This effectively reduces the container size by the number of element removed. </p>
 		 *
-		 * <p> Unlike other standard sequence containers, <code>List</code> objects are specifically designed to 
+		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to 
 		 * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
 		 * 
-		 * @param position Iterator pointing to a single element to be removed from the <code>List</code>.
+		 * @param position Iterator pointing to a single element to be removed from the {@link List}.
 		 *
 		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 *		   call. This is the <code>List.end</code> if the operation erased the last element in the 
+		 *		   call. This is the {@link end end()} if the operation erased the last element in the 
 		 *		   sequence.
 		 */
 		public erase(position: ListIterator<T>): ListIterator<T>;
@@ -539,18 +541,18 @@ namespace std
 		/**
 		 * <p> Erase elements. </p>
 		 *
-		 * <p> Removes from the <code>List</code> container a range of elements. </p>
+		 * <p> Removes from the {@link List} container a range of elements. </p>
 		 *
-		 * <p> This effectively reduces the container <code>size</code> by the number of elements removed. </p>
+		 * <p> This effectively reduces the container {@link size} by the number of elements removed. </p>
 		 *
-		 * <p> Unlike other standard sequence containers, <code>List</code> objects are specifically designed to 
+		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to 
 		 * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
 		 *
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
 		 * 
 		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 *		   call. This is the <code>List.end</code> if the operation erased the last element in the 
+		 *		   call. This is the {@link end end()} if the operation erased the last element in the 
 		 *		   sequence.
 		 */
 		public erase(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>;

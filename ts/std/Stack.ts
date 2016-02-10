@@ -25,9 +25,9 @@ namespace std
 	 *	<li> popFront </li>
 	 * </ul>
 	 * 
-	 * <p> The standard container classes <code>Deque</code> and <code>List</code> fulfill these requirements. 
+	 * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements. 
 	 * By default, if no container class is specified for a particular <code>Stack</code> class instantiation, 
-	 * the standard container <code>List</code> is used. </p>
+	 * the standard container {@link List} is used. </p>
 	 * 
 	 * <ul>
 	 *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>

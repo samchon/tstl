@@ -14,7 +14,7 @@ namespace std
 	 * from the container. </p>
 	 *
 	 * <p> Internally, the elements in a <code>TreeMultiSet</code>s are always sorted following a strict weak 
-	 * ordering criterion indicated by its internal comparison method (of <code>less()</code>).
+	 * ordering criterion indicated by its internal comparison method (of {@link less}).
 	 *
 	 * <p> <code>TreeMultiSet</code> containers are generally slower than <code>HashMultiSet</code> containers 
 	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 

@@ -7,9 +7,9 @@ namespace std
 	 *
 	 * <p> This class defines the type of objects thrown as exceptions to report conditions originating during 
 	 * runtime from the operating system or other low-level application program interfaces which have an 
-	 * associated <code>ErrorCode</code>. </p>
+	 * associated {@link ErrorCode}. </p>
 	 *
-	 * <p> The class inherits from <code>RuntimeError</code>, to which it adds an <code>ErrorCode</code> as 
+	 * <p> The class inherits from {@link RuntimeError}, to which it adds an {@link ErrorCode} as 
 	 * member code (and defines a specialized what member). </p>
 	 *
 	 * <ul>
@@ -32,14 +32,14 @@ namespace std
 		/**
 		 * Construct from an error code. 
 		 *
-		 * @param code An <code>ErrorCode</code> object.
+		 * @param code An {@link ErrorCode} object.
 		 */
 		public constructor(code: ErrorCode);
 
 		/**
 		 * Construct from an error code and message. 
 		 *
-		 * @param code An <code>ErrorCode</code> object.
+		 * @param code An {@link ErrorCode} object.
 		 * @param message A message incorporated in the string returned by member <code>what()</code>.
 		 */
 		public constructor(code: ErrorCode, message: string);
@@ -48,7 +48,7 @@ namespace std
 		 * Construct from a numeric value and error category. 
 		 *
 		 * @param val A numerical value identifying an error code.
-		 * @param category A reference to an <code>ErrorCode</code> object.
+		 * @param category A reference to an {@link ErrorCode} object.
 		 */
 		public constructor(val: number, category: ErrorCategory);
 
@@ -56,7 +56,7 @@ namespace std
 		 * Construct from a numeric value, error category and message.
 		 * 
 		 * @param val A numerical value identifying an error code.
-		 * @param category A reference to an <code>ErrorCode</code> object.
+		 * @param category A reference to an {@link ErrorCode} object.
 		 * @param message A message incorporated in the string returned by member <code>what()</code>.
 		 */
 		public constructor(val: number, category: ErrorCategory, message: string);
@@ -72,12 +72,12 @@ namespace std
 		/**
 		 * <p> Get error code. </p>
 		 *
-		 * <p> Returns the <code>ErrorCode</code> object associated with the exception. </p>
+		 * <p> Returns the {@link ErrorCode} object associated with the exception. </p>
 		 *
-		 * <p> This value is either the <code>ErrorCode</code> passed to the construction or its equivalent 
+		 * <p> This value is either the {@link ErrorCode} passed to the construction or its equivalent 
 		 * (if constructed with a value and a <code>category</code>). </p>
 		 *
-		 * @return The <code>ErrorCode</code> associated with the object.
+		 * @return The {@link ErrorCode} associated with the object.
 		 */
 		public code(): ErrorCode
 		{

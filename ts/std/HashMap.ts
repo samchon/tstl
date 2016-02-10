@@ -5,20 +5,20 @@ namespace std
 	/**
 	 * <p> Hashed, unordered map. </p>
 	 *
-	 * <p> <code>HashMap</code>s are associative containers that store elements formed by the 
+	 * <p> {@link HashMap}s are associative containers that store elements formed by the 
 	 * combination of a <i>key value</i> and a <i>mapped value</i>, and which allows for fast 
 	 * retrieval of individual elements based on their <i>keys</i>. </p>
 	 *
-	 * <p> In an <code>HashMap</code>, the <i>key value</i> is generally used to uniquely identify  
+	 * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify  
 	 * the element, while the <i>mapped value</i> is an object with the content associated to this 
 	 * <i>key</i>. Types of <i>key</i> and <i>mapped value</i> may differ. </p>
 	 *
-	 * <p> Internally, the elements in the <code>HashMap</code> are not sorted in any particular order 
+	 * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order 
 	 * with respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> 
 	 * depending on their hash values to allow for fast access to individual elements directly by 
 	 * their <i>key values</i> (with a constant average time complexity on average). </p>
 	 *
-	 * <p> <code>HashMap</code> containers are faster than <code>TreeMap</code> containers to access 
+	 * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access 
 	 * individual elements by their <i>key</i>, although they are generally less efficient for range 
 	 * iteration through a subset of their elements. </p>
 	 *
@@ -45,9 +45,9 @@ namespace std
 	 * </ul>
 	 *
 	 * @param <K> Type of the key values. 
-	 *			  Each element in an <code>HashMap</code> is uniquely identified by its key value.
+	 *			  Each element in an {@link HashMap} is uniquely identified by its key value.
 	 * @param <T> Type of the mapped value. 
-	 *			  Each element in an <code>HashMap</code> is used to store some data as its mapped value.
+	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
 	 *
 	 * @author Jeongho Nam
 	 */

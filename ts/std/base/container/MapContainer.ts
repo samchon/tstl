@@ -100,17 +100,18 @@ namespace std.base.container
 		/**
 		 * <p> Get iterator to element. </p>
 		 * 
-		 * <p> Searches the container for an element with a identifier equivalent to <code>key</code> and 
-		 * returns an iterator to it if found, otherwise it returns an iterator to <code>end()</code>. </p>
+		 * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and 
+		 * returns an iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
 		 *
 		 * <p> Two keys are considered equivalent if the container's comparison object returns false 
 		 * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
 		 *
-		 * <p> Another member function, <code>has()</code>, can be used to just check whether 
-		 * a particular key exists. </p>
+		 * <p> Another member functions, {@link has has()} and {@link count count()}, can be used to just check 
+		 * whether a particular <i>key</i> exists. </p>
 		 *
 		 * @param key Key to be searched for
-		 * @return An iterator to the element, if an element with specified key is found, or Map::end() otherwise.
+		 * @return An iterator to the element, if an element with specified <i>key</i> is found, or 
+		 *		   {@link end end()} otherwise.
 		 */
 		public abstract find(key: Key): MapIterator<Key, T>;
 
@@ -119,7 +120,7 @@ namespace std.base.container
 		 * <p> Returns an iterator referring the first element in the Container. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> If the container is empty, the returned iterator is same with end(). </p>
+		 * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
 		 *
 		 * @return An iterator to the first element in the container.
 		 * The iterator containes the first element's value.
@@ -143,7 +144,7 @@ namespace std.base.container
 		 * <h4> Note </h4>
 		 * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing 
 		 * element by the iterator will cause throwing exception (out of range). </p>
-		 * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+		 * <p> If the container is empty, this function returns the same as {@link begin}. </p>
 		 * 
 		 * @return An iterator to the end element in the container.
 		 */
@@ -174,7 +175,7 @@ namespace std.base.container
 		 *
 		 * @param key Key value to be searched for.
 		 *
-		 * @return The number of elements in the container with a <code>key</code>.
+		 * @return The number of elements in the container with a <i>key</i>.
 		 */
 		public abstract count(key: Key): number;
 

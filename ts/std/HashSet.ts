@@ -5,18 +5,18 @@ namespace std
 	/**
 	 * <p> Hashed, unordered set. </p>
 	 *
-	 * <p> <code>HashSet</code>s are containers that store unique elements in no particular order, and which 
+	 * <p> {@link HashSet}s are containers that store unique elements in no particular order, and which 
 	 * allow for fast retrieval of individual elements based on their value. </p>
 	 *
-	 * <p> In an <code>HashSet</code>, the value of an element is at the same time its <i>key</i>, that 
-	 * identifies it uniquely. Keys are immutable, therefore, the elements in an <code>HashSet</code> cannot be 
+	 * <p> In an {@link HashSet}, the value of an element is at the same time its <i>key</i>, that 
+	 * identifies it uniquely. Keys are immutable, therefore, the elements in an {@link HashSet} cannot be 
 	 * modified once in the container - they can be inserted and removed, though. </p>
 	 *
-	 * <p> Internally, the elements in the <code>HashSet</code> are not sorted in any particular order, but 
+	 * <p> Internally, the elements in the {@link HashSet} are not sorted in any particular order, but 
 	 * organized into buckets depending on their hash values to allow for fast access to individual elements 
 	 * directly by their <i>values</i> (with a constant average time complexity on average). </p>
 	 *
-	 * <p> <code>HashSet</code> containers are faster than <codeTreeSet<code> containers to access individual 
+	 * <p> {@link HashSet} containers are faster than <codeTreeSet<code> containers to access individual 
 	 * elements by their <i>key</i>, although they are generally less efficient for range iteration through a 
 	 * subset of their elements. </p>
 	 *
@@ -42,7 +42,7 @@ namespace std
 	 * </ul>
 	 * 
 	 * @param <T> Type of the elements. 
-	 *			  Each element in an <code>HashSet</code> is also uniquely identified by this value.
+	 *			  Each element in an {@link HashSet} is also uniquely identified by this value.
 	 *
 	 * @author Jeongho Nam
 	 */
