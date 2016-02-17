@@ -51,6 +51,7 @@ namespace std
 	 */
 	export class List<T>
 		extends base.container.Container<T>
+		implements base.container.IDeque<T>
 	{
 		public static get iterator() { return ListIterator; }
 
@@ -77,12 +78,18 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * <p> Default Constructor. </p>
+		 *
+		 * <p> Constructs an empty container, with no elements. </p>
 		 */
 		public constructor();
 
 		/**
-		 * @inheritdoc
+		 * <p> Initializer list Constructor. </p>
+		 *
+		 * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
+		 *
+		 * @param array An array containing elements to be copied and contained.
 		 */
 		public constructor(items: Array<T>);
 
@@ -98,12 +105,23 @@ namespace std
 		public constructor(size: number, val: T);
 
 		/**
-		 * @inheritdoc
+		 * <p> Copy Constructor. </p>
+		 *
+		 * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
+		 *
+		 * @param container Another container object of the same type (with the same class template 
+		 *					arguments <code>T</code>), whose contents are either copied or acquired.
 		 */
 		public constructor(container: base.container.IContainer<T>);
 
 		/**
-		 * @inheritdoc
+		 * <p> Range Constructor. </p>
+		 *
+		 * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each 
+		 * element emplace-constructed from its corresponding element in that range, in the same order. </p>
+		 *
+		 * @param begin Input interator of the initial position in a sequence.
+		 * @param end Input interator of the final position in a sequence.
 		 */
 		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 
@@ -148,28 +166,21 @@ namespace std
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
 		/**
-		 * <p> Assign container content. </p>
-		 *
-		 * <p> Assigns new contents to the Container, replacing its current contents, and modifying its size 
-		 * accordingly. </p>
-		 *
-		 * @param size New size of the container.
-		 * @param val Value to fill the container with. Each of the <i>n</i> elements in the container will be 
-		 *			  initialized to a copy of this value.
+		 * @inheritdoc
 		 */
-		public assign(size: number, val: T): void;
+		public assign(n: number, val: T): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public assign(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
 
-		public assign(par1: any, par2: any): void
+		public assign<U extends T>(par1: any, par2: any): void
 		{
 			if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator) {
 				// PARAMETERS
-				let begin: base.container.Iterator<T> = par1;
-				let end: base.container.Iterator<T> = par2;
+				let begin: base.container.Iterator<U> = par1;
+				let end: base.container.Iterator<U> = par2;
 
 				// BODY
 				let prev: ListIterator<T> = null;
@@ -250,15 +261,7 @@ namespace std
 		}
 		
 		/**
-		 * <p> Access first element. </p>
-		 * <p> Returns a value in the first element of the List. </p>
-		 *
-		 * <p> Unlike member {@link end end()}, which returns an iterator just past this element, 
-		 * this function returns a direct value. </p>
-		 *
-		 * <p> Calling this function on an empty container causes undefined behavior. </p>
-		 *
-		 * @return A value in the first element of the List.
+		 * @inheritdoc
 		 */
 		public front(): T
 		{
@@ -266,15 +269,7 @@ namespace std
 		}
 
 		/**
-		 * <p> Access last element. </p>
-		 * <p> Returns a value in the last element of the List. </p>
-		 *
-		 * <p> Unlike member {@link end end()}, which returns an iterator just past this element, 
-		 * this function returns a direct value. </p>
-		 *
-		 * <p> Calling this function on an empty container causes undefined behavior. </p>
-		 *
-		 * @return A value in the last element of the List.
+		 * @inheritdoc
 		 */
 		public back(): T
 		{
@@ -293,7 +288,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public push(...items: T[]): number 
+		public push<U extends T>(...items: U[]): number 
 		{
 			for (let i: number = 0; i < items.length; i++)
 				this.pushBack(items[i]);
@@ -302,12 +297,7 @@ namespace std
 		}
 		
 		/**
-		 * <p> Insert element at beginning. </p>
-		 *
-		 * <p> Inserts a new element at the beginning of the list, right before its current first element.
-		 * This effectively increases the container size by one. </p>
-		 *
-		 * @param val Value to be inserted as an element.
+		 * @inheritdoc
 		 */
 		public pushFront(val: T): void
 		{
@@ -331,12 +321,7 @@ namespace std
 		}
 
 		/**
-		 * <p> Add element at the end. </p> 
-		 *
-		 * <p> Adds a new element at the lend of the {@link List} container, after its current last
-		 * element. This effectively increases the container {@link size} by one. </p>
-		 *
-		 * @param val Value to be copied to the new element.
+		 * @inheritdoc
 		 */
 		public pushBack(val: T): void
 		{
@@ -354,10 +339,7 @@ namespace std
 		}
 
 		/**
-		 * <p> Delete first element. </p>
-		 * 
-		 * <p> Removes first last element in the List container, effectively reducing the container 
-		 * {@link size} by one. </p>
+		 * @inheritdoc
 		 */
 		public popFront(): void
 		{
@@ -365,10 +347,7 @@ namespace std
 		}
 
 		/**
-		 * <p> Delete last element. </p>
-		 * 
-		 * <p> Removes the last element in the List container, effectively reducing the container 
-		 * {@link size} by one. </p>
+		 * @inheritdoc
 		 */
 		public popBack(): void
 		{
@@ -387,8 +366,6 @@ namespace std
 		 *
 		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be 
 		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
-		 *
-		 * <p> The arguments determine how many elements are inserted and to which values they are initialized. </p>
 		 *
 		 * @param position Position in the container where the new element is inserted.
 		 *				   {@link iterator}> is a member type, defined as a 

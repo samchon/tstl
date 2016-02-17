@@ -134,9 +134,9 @@ var std;
                     CONSTRUCTORS
                 --------------------------------------------------------- */
                 /**
-                 * Construct from the source Container.
+                 * Construct from the source {@link IContainer container}.
                  *
-                 * @param source The source Container.
+                 * @param source The source container.
                  */
                 function Iterator(source) {
                     this.source = source;
@@ -1110,8 +1110,72 @@ var std;
     (function (base) {
         var tree;
         (function (tree) {
+            /**
+             * <p> Red-black Tree. </p>
+             *
+             *
+             * <h3> Definition in Wekipedia </h3>
+             *
+             * <p> A red–black tree is a kind of self-balancing binary search tree. Each node of the binary tree has an
+             * extra bit, and that bit is often interpreted as the color (red or black) of the node. These color bits are
+             * used to ensure the tree remains approximately balanced during insertions and deletions. </p>
+             *
+             * <p> Balance is preserved by painting each node of the tree with one of two colors (typically called 'red'
+             * and 'black') in a way that satisfies certain properties, which collectively constrain how unbalanced the
+             * tree can become in the worst case. When the tree is modified, the new tree is subsequently rearranged and
+             * repainted to restore the coloring properties. The properties are designed in such a way that this
+             * rearranging and recoloring can be performed efficiently. </p>
+             *
+             * <p> The balancing of the tree is not perfect but it is good enough to allow it to guarantee searching in
+             * O(log n) time, where n is the total number of elements in the tree. The insertion and deletion operations,
+             * along with the tree rearrangement and recoloring, are also performed in O(log n) time. </p>
+             *
+             * <p> Tracking the color of each node requires only 1 bit of information per node because there are only two
+             * colors. The tree does not contain any other data specific to its being a red–black tree so its memory
+             * footprint is almost identical to a classic (uncolored) binary search tree. In many cases the additional bit
+             * of information can be stored at no additional memory cost. </p>
+             *
+             * <h4> Properties </h4>
+             * <p> In addition to the requirements imposed on a binary search tree the following must be satisfied by a
+             * red–black tree: </p>
+             *
+             * <ol>
+             *	<li> A node is either red or black. </li>
+             *	<li> The root is black. This rule is sometimes omitted. Since the root can always be changed from red to
+             *		 black, but not necessarily vice versa, this rule has little effect on analysis. </li>
+             *	<li> All leaves (NIL; <code>null</code>) are black. </li>
+             *  <li> If a node is red, then both its children are black. </li>
+             *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of black
+             *		 nodes. Some definitions: the number of black nodes from the root to a node is the node's black depth;
+             *		 the uniform number of black nodes in all paths from root to the leaves is called the black-height of
+             *		 the red–black tree. </li>
+             * </ol>
+             *
+             * <p> These constraints enforce a critical property of red–black trees: the path from the root to the
+             * farthest leaf is no more than twice as long as the path from the root to the nearest leaf. The result is
+             * that the tree is roughly height-balanced. Since operations such as inserting, deleting, and finding values
+             * require worst-case time proportional to the height of the tree, this theoretical upper bound on the height
+             * allows red–black trees to be efficient in the worst case, unlike ordinary binary search trees. </p>
+             *
+             * <p> To see why this is guaranteed, it suffices to consider the effect of properties 4 and 5 together. For a
+             * red–black tree T, let B be the number of black nodes in property 5. Let the shortest possible path from the
+             * root of T to any leaf consist of B black nodes. Longer possible paths may be constructed by inserting red
+             * nodes. However, property 4 makes it impossible to insert more than one consecutive red node. Therefore,
+             * ignoring any black NIL leaves, the longest possible path consists of 2*B nodes, alternating black and red
+             * (this is the worst case). Counting the black NIL leaves, the longest possible path consists of 2*B-1 nodes. </p>
+             *
+             * <p> The shortest possible path has all black nodes, and the longest possible path alternates between red
+             * and black nodes. Since all maximal paths have the same number of black nodes, by property 5, this shows
+             * that no path is more than twice as long as any other path. </p>
+             *
+             * <ul>
+             *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
+             * </ul>
+             *
+             * @inventor Rudolf Bayer
+             * @author Migrated by Jeongho Nam
+             */
             var XTree = (function () {
-                //protected size_: number;
                 /* =========================================================
                     CONSTRUCTOR
                 ========================================================= */
@@ -1422,19 +1486,46 @@ var std;
         var tree;
         (function (tree) {
             /**
-             * Static class holding enumeration codes of color of Red-black tree.
+             * <p> Static class holding enumeration codes of color of Red-black tree. </p>
              *
-             * @author Jeongho Nam
+             * <p> Color codes imposed to nodes of RB-Tree are following those rules: </p>
+             *
+             * <ol>
+             *	<li> A node is either red or black. </li>
+             *	<li> The root is black. This rule is sometimes omitted. Since the root can always be changed from red to
+             *		 black, but not necessarily vice versa, this rule has little effect on analysis. </li>
+             *	<li> All leaves (NIL; <code>null</code>) are black. </li>
+             *  <li> If a node is red, then both its children are black. </li>
+             *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of black
+             *		 nodes. Some definitions: the number of black nodes from the root to a node is the node's black depth;
+             *		 the uniform number of black nodes in all paths from root to the leaves is called the black-height of
+             *		 the red–black tree. </li>
+             * </ol>
+             *
+             * @author Migrated by Jeongho Nam
              */
             var Color = (function () {
                 function Color() {
                 }
                 Object.defineProperty(Color, "BLACK", {
+                    /**
+                     * <p> Code of color black. </p>
+                     *
+                     * <ul>
+                     *	<li> Those are clearly black: root, leaf nodes or children nodes of red. </li>
+                     *	<li> Every path from a given nodes containes the same number of black nodes exclude NIL(s). </li>
+                     * </ul>
+                     */
                     get: function () { return false; },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(Color, "RED", {
+                    /**
+                     * <p> Code of color red. </p>
+                     *
+                     *
+                     */
                     get: function () { return true; },
                     enumerable: true,
                     configurable: true
@@ -1578,6 +1669,488 @@ var std;
         return Bind;
     })();
     std.Bind = Bind;
+})(std || (std = {}));
+/// <reference path="base/container/Container.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Double ended queue. </p>
+     *
+     * <p> {@link Deque} (usually pronounced like "<i>deck</i>") is an irregular acronym of
+     * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic
+     * sizes that can be expanded or contracted on both ends (either its front or its back). </p>
+     *
+     * <p> Specific libraries may implement deques in different ways, generally as some form of dynamic
+     * array. But in any case, they allow for the individual elements to be accessed directly through
+     * random access iterators, with storage handled automatically by expanding and contracting the
+     * container as needed. </p>
+     *
+     * <p> Therefore, they provide a functionality similar to vectors, but with efficient insertion and
+     * deletion of elements also at the beginning of the sequence, and not only at its end. But, unlike
+     * {@link Vector}s, {@link Deque}s are not guaranteed to store all its elements in contiguous storage
+     * locations: accessing elements in a <u>deque</u> by offsetting a pointer to another element causes
+     * undefined behavior. </p>
+     *
+     * <p> Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for
+     * similar purposes, but internally both work in quite different ways: While {@link Vector}s use a
+     * single array that needs to be occasionally reallocated for growth, the elements of a {@link Deque}
+     * can be scattered in different chunks of storage, with the container keeping the necessary information
+     * internally to provide direct access to any of its elements in constant time and with a uniform
+     * sequential interface (through iterators). Therefore, {@link Deque}s are a little more complex
+     * internally than {@link Vector}s, but this allows them to grow more efficiently under certain
+     * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
+     *
+     * <p> For operations that involve frequent insertion or removals of elements at positions other than
+     * the beginning or the end, {@link Deque}s perform worse and have less consistent iterators and
+     * references than {@link List}s. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Sequence </dt>
+     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements
+     *		 are accessed by their position in this sequence. </dd>
+     *
+     *	<dt> Dynamic array </dt>
+     *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the
+     *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end
+     *		 of the sequence. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/deque/deque/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam
+     */
+    var Deque = (function (_super) {
+        __extends(Deque, _super);
+        function Deque() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            if (args.length == 0) {
+                this.clear();
+            }
+            if (args.length == 1 && args[0] instanceof Array) {
+                var array = args[0];
+                this.clear();
+                this.push.apply(this, array);
+            }
+            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
+                var container = args[0];
+                this.assign(container.begin(), container.end());
+            }
+            else if (args.length == 2 &&
+                args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
+                var begin = args[0];
+                var end = args[1];
+                this.assign(begin, end);
+            }
+        }
+        Object.defineProperty(Deque, "ROW", {
+            get: function () { return 10; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Deque, "MIN_CAPACITY", {
+            get: function () { return 100; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Deque, "iterator", {
+            get: function () { return std.DequeIterator; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Deque.prototype, "lastArray", {
+            get: function () {
+                return this.matrix[this.matrix.length - 1];
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Deque.prototype, "colSize", {
+            get: function () {
+                return Math.ceil(this.capacity_ / Deque.ROW);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Deque.prototype.assign = function (first, second) {
+            if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
+                var begin = first;
+                var end = second;
+                var size = 0;
+                for (var it = begin; !it.equals(end); it = it.next())
+                    size++;
+                this.capacity_ = Math.min(size, 100);
+                for (var it = begin; !it.equals(end); it = it.next())
+                    this.pushBack(it.value);
+            }
+            else {
+                var size = first;
+                var val = second;
+                this.capacity_ = Math.min(size, 100);
+                for (var i = 0; i < size; i++)
+                    this.pushBack(val);
+            }
+        };
+        Deque.prototype.reserve = function (capacity) {
+            var prevMatrix = this.matrix;
+            var prevSize = this.size_;
+            this.clear();
+            this.size_ = prevSize;
+            this.capacity_ = capacity;
+            if (prevMatrix == null)
+                return;
+            for (var i = 0; i < prevMatrix.length; i++)
+                for (var j = 0; j < prevMatrix[i].length; j++) {
+                    if (prevMatrix[i].length + 1 > this.colSize)
+                        this.matrix.push(new Array());
+                    this.lastArray.push(prevMatrix[i][j]);
+                }
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.clear = function () {
+            this.matrix = new Array();
+            this.matrix.push(new Array());
+            this.size_ = 0;
+            this.capacity_ = Deque.MIN_CAPACITY;
+        };
+        /* =========================================================
+            ACCESSORS
+                - GETTERS & SETTERS
+                - ITERATORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.begin = function () {
+            if (this.empty() == true)
+                return this.end();
+            else
+                return new std.DequeIterator(this, 0);
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.end = function () {
+            return new std.DequeIterator(this, -1);
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.size = function () {
+            return this.size_;
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.capacity = function () {
+            return this.capacity_;
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.at = function (index) {
+            if (index > this.size())
+                throw new std.OutOfRange("Target index is greater than Deque's size.");
+            var indexPair = this.fetchIndex(index);
+            return this.matrix[indexPair.first][indexPair.second];
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.set = function (index, val) {
+            if (index > this.size())
+                throw new std.OutOfRange("Target index is greater than Deque's size.");
+            var indexPair = this.fetchIndex(index);
+            this.matrix[indexPair.first][indexPair.second] = val;
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.front = function () {
+            return this.matrix[0][0];
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.back = function () {
+            return this.lastArray[this.lastArray.length - 1];
+        };
+        Deque.prototype.fetchIndex = function (index) {
+            var row;
+            for (row = 0; row < this.matrix.length; row++) {
+                if (index < this.matrix[row].length)
+                    break;
+                index -= this.matrix[row].length;
+            }
+            return new std.Pair(row, index);
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - PUSH & POP
+                - INSERT
+                - ERASE
+        ============================================================
+            PUSH & POP
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.push = function () {
+            var items = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                items[_i - 0] = arguments[_i];
+            }
+            return this.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.pushFront = function (val) {
+            this.matrix[0] = [val].concat(this.matrix[0]);
+            this.size_++;
+            if (this.size_ > this.capacity_)
+                this.reserve(this.capacity_ * 2);
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.pushBack = function (val) {
+            if (this.lastArray.length + 1 > this.colSize)
+                this.matrix.push(new Array());
+            this.lastArray.push(val);
+            this.size_++;
+            if (this.size_ > this.capacity_)
+                this.reserve(this.capacity_ * 2);
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.popFront = function () {
+            if (this.empty() == true)
+                return; // SOMEWHERE PLACE TO THROW EXCEPTION
+            this.matrix[0].splice(0, 1);
+            this.size_--;
+            if (this.matrix[0].length == 0)
+                this.matrix.splice(0, 1);
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.popBack = function () {
+            if (this.empty() == true)
+                return; // SOMEWHERE PLACE TO THROW EXCEPTION
+            this.lastArray.splice(this.lastArray.length - 1, 1);
+            this.size_--;
+            if (this.lastArray.length)
+                this.matrix.splice(this.matrix.length - 1, 1);
+        };
+        Deque.prototype.insert = function (position) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
+            var items = [];
+            if (args.length == 1) {
+                var val = args[0];
+                items.push(val);
+            }
+            else if (args.length == 2 && typeof args[0] == "number") {
+                var n = args[0];
+                var val = args[1];
+                for (var i = 0; i < n; i++)
+                    items.push(val);
+            }
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
+                var begin = args[0];
+                var end = args[1];
+                for (var it = begin; !it.equals(end); it = it.next())
+                    items.push(it.value);
+            }
+            return this.insertByItems(position, items);
+        };
+        Deque.prototype.insertByItems = function (position, items) {
+            // ALLOCATE THE NEW SIZE
+            this.size_ += items.length;
+            if (this.size_ <= this.capacity_) {
+                // -----------------------------------------------------
+                // WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
+                // -----------------------------------------------------
+                // INSERTS CAREFULLY
+                if (position.equals(this.end()) == true) {
+                    // WHEN INSERTS TO THE BACK SIDE
+                    while (items.length != 0)
+                        this.matrix.push(items.splice(0, Math.min(Deque.ROW, items.length)));
+                }
+                else {
+                    // WHEN INSERTING TO A MIDDLE POSITION.
+                    var indexPair = this.fetchIndex(position.getIndex());
+                    var index = indexPair.first;
+                    var splicedValues = this.matrix[index].splice(indexPair.second);
+                    if (splicedValues.length != 0)
+                        items = items.concat.apply(items, splicedValues);
+                    if (this.matrix[index].length < Deque.ROW) {
+                        this.matrix[index] =
+                            (_a = this.matrix[index]).concat.apply(_a, items.splice(0, Deque.ROW - this.matrix[index].length));
+                    }
+                    var splicedArray = this.matrix.splice(index + 1);
+                    // INSERTS
+                    while (items.length != 0)
+                        this.matrix.push(items.splice(0, Math.min(Deque.ROW, items.length)));
+                    // CONCAT WITH BACKS
+                    this.matrix = (_b = this.matrix).concat.apply(_b, splicedArray);
+                }
+            }
+            else {
+                // -----------------------------------------------------
+                // WHEN CANNOT BE FIT INTO THE RESERVED CAPACITY
+                // -----------------------------------------------------
+                // JUST INSERT CARELESSLY
+                // AND KEEP BLANACE BY THE RESERVE() METHOD
+                if (position.equals(this.end()) == true) {
+                    this.matrix.push(items); // ALL TO THE LAST
+                }
+                else {
+                    var indexPair = this.fetchIndex(position.getIndex());
+                    var index = indexPair.first;
+                    var splicedValues = this.matrix[index].splice(indexPair.second);
+                    if (splicedValues.length != 0)
+                        items = items.concat.apply(items, splicedValues);
+                    // ALL TO THE MIDDLE
+                    this.matrix[index] = (_c = this.matrix[index]).concat.apply(_c, items);
+                }
+                // AND KEEP BALANCE BY RESERVE()
+                var newCapacity = this.capacity_;
+                while (this.size_ + items.length > newCapacity)
+                    newCapacity *= 2;
+                this.reserve(newCapacity);
+            }
+            return position;
+            var _a, _b, _c;
+        };
+        Deque.prototype.erase = function (begin, end) {
+            if (end === void 0) { end = null; }
+            if (end == null)
+                end = begin.next();
+            var index = begin.getIndex();
+            var deleteIndex = index;
+            var deleteSize = (index == -1) ? this.size_ - index : end.getIndex() - index;
+            while (deleteSize != 0) {
+                var indexPair = this.fetchIndex(index);
+                var array = this.matrix[indexPair.first];
+                var myDeleteSize = Math.min(deleteSize, array.length - indexPair.second);
+                array.splice(indexPair.second, myDeleteSize);
+                if (array.length == 0)
+                    this.matrix.splice(indexPair.first, 1);
+                deleteSize -= myDeleteSize;
+            }
+            this.size_ -= deleteSize;
+            return begin;
+        };
+        return Deque;
+    })(std.base.container.Container);
+    std.Deque = Deque;
+})(std || (std = {}));
+/// <reference path="base/container/Iterator.ts" />
+var std;
+(function (std) {
+    var DequeIterator = (function (_super) {
+        __extends(DequeIterator, _super);
+        /* ---------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------- */
+        /**
+         * <p> Construct from the source {@link Deque container}. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Do not create the iterator directly, by yourself. </p>
+         * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p>
+         *
+         * @param vector The source {@link Deque container} to reference.
+         * @param index Sequence number of the element in the source {@link Deque}.
+         */
+        function DequeIterator(source, index) {
+            _super.call(this, source);
+            this.index = index;
+        }
+        Object.defineProperty(DequeIterator.prototype, "deque", {
+            get: function () { return this.source; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DequeIterator.prototype, "value", {
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            get: function () {
+                return this.deque.at(this.index);
+            },
+            set: function (val) {
+                this.deque.set(this.index, val);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @inheritdoc
+         */
+        DequeIterator.prototype.equals = function (obj) {
+            return _super.prototype.equals.call(this, obj) && this.index == obj.index;
+        };
+        /**
+         * Get index.
+         */
+        DequeIterator.prototype.getIndex = function () {
+            return this.index;
+        };
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        DequeIterator.prototype.prev = function () {
+            if (this.index == -1)
+                return new DequeIterator(this.deque, this.deque.size() - 1);
+            else if (this.index - 1 < 0)
+                return this.deque.end();
+            else
+                return new DequeIterator(this.deque, this.index - 1);
+        };
+        /**
+         * @inheritdoc
+         */
+        DequeIterator.prototype.next = function () {
+            if (this.index >= this.source.size() - 1)
+                return this.deque.end();
+            else
+                return new DequeIterator(this.deque, this.index + 1);
+        };
+        /**
+         * @inheritdoc
+         */
+        DequeIterator.prototype.advance = function (n) {
+            var newIndex = this.index + n;
+            if (newIndex < 0 || newIndex >= this.deque.size())
+                return this.deque.end();
+            else
+                return new DequeIterator(this.deque, newIndex);
+        };
+        return DequeIterator;
+    })(std.base.container.Iterator);
+    std.DequeIterator = DequeIterator;
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -3014,29 +3587,13 @@ var std;
             return this.size_;
         };
         /**
-         * <p> Access first element. </p>
-         * <p> Returns a value in the first element of the List. </p>
-         *
-         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the first element of the List.
+         * @inheritdoc
          */
         List.prototype.front = function () {
             return this.begin_.value;
         };
         /**
-         * <p> Access last element. </p>
-         * <p> Returns a value in the last element of the List. </p>
-         *
-         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the last element of the List.
+         * @inheritdoc
          */
         List.prototype.back = function () {
             return this.end_.prev().value;
@@ -3063,12 +3620,7 @@ var std;
             return this.size();
         };
         /**
-         * <p> Insert element at beginning. </p>
-         *
-         * <p> Inserts a new element at the beginning of the list, right before its current first element.
-         * This effectively increases the container size by one. </p>
-         *
-         * @param val Value to be inserted as an element.
+         * @inheritdoc
          */
         List.prototype.pushFront = function (val) {
             var item = new std.ListIterator(this, null, this.begin_, val);
@@ -3086,12 +3638,7 @@ var std;
             this.size_++;
         };
         /**
-         * <p> Add element at the end. </p>
-         *
-         * <p> Adds a new element at the lend of the {@link List} container, after its current last
-         * element. This effectively increases the container {@link size} by one. </p>
-         *
-         * @param val Value to be copied to the new element.
+         * @inheritdoc
          */
         List.prototype.pushBack = function (val) {
             var prev = this.end_.prev();
@@ -3105,19 +3652,13 @@ var std;
             this.size_++;
         };
         /**
-         * <p> Delete first element. </p>
-         *
-         * <p> Removes first last element in the List container, effectively reducing the container
-         * {@link size} by one. </p>
+         * @inheritdoc
          */
         List.prototype.popFront = function () {
             this.erase(this.begin_);
         };
         /**
-         * <p> Delete last element. </p>
-         *
-         * <p> Removes the last element in the List container, effectively reducing the container
-         * {@link size} by one. </p>
+         * @inheritdoc
          */
         List.prototype.popBack = function () {
             this.erase(this.end_.prev());
@@ -3247,13 +3788,16 @@ var std;
             CONSTRUCTORS
         --------------------------------------------------------------- */
         /**
-         * <p> Construct from source List. </p>
+         * <p> Construct from the source {@link List container}. </p>
          *
          * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in List instead. </p>
+         * <p> Do not create the iterator directly, by yourself. </p>
+         * <p> Use {@link List.begin begin()}, {@link List.end end()} in {@link List container} instead. </p>
          *
-         * @param list The source vector to reference.
+         * @param source The source {@link List container} to reference.
+         * @param prev A refenrece of previous node ({@link ListIterator iterator}).
+         * @param next A refenrece of next node ({@link ListIterator iterator}).
+         * @param value Value to be stored in the node (iterator).
          */
         function ListIterator(source, prev, next, value) {
             _super.call(this, source);
@@ -4524,6 +5068,11 @@ var std;
         /**
          * @inheritdoc
          */
+        Vector.prototype.reserve = function (size) {
+        };
+        /**
+         * @inheritdoc
+         */
         Vector.prototype.clear = function () {
             this.erase(this.begin(), this.end());
         };
@@ -4534,7 +5083,7 @@ var std;
          * @inheritdoc
          */
         Vector.prototype.begin = function () {
-            if (this.size() == 0)
+            if (this.empty() == true)
                 return this.end();
             else
                 return new std.VectorIterator(this, 0);
@@ -4551,6 +5100,9 @@ var std;
         Vector.prototype.size = function () {
             return this.length;
         };
+        /**
+         * @inheritdoc
+         */
         Vector.prototype.capacity = function () {
             return this.length;
         };
@@ -4561,19 +5113,7 @@ var std;
             return this.length == 0;
         };
         /**
-         * <p> Access element. </p>
-         * <p> Returns a value to the element at position <i>index</i> in the Vector.</p>
-         *
-         * <p> The function automatically checks whether n is within the bounds of valid elements in the
-         * Vector, throwing an OutOfRange exception if it is not (i.e., if <i>index</i> is greater or
-         * equal than its size). This is in contrast with member operator[], that does not check against
-         * bounds. </p>
-         *
-         * @param index Position of an element in the container.
-         *			  If this is greater than or equal to the vector size, an exception of type OutOfRange
-         *			  is thrown. Notice that the first element has a position of 0 (not 1).
-         *
-         * @return The element at the specified position in the container.
+         * @inheritdoc
          */
         Vector.prototype.at = function (index) {
             if (index < this.size())
@@ -4582,58 +5122,7 @@ var std;
                 throw new std.OutOfRange("Target index is greater than Vector's size.");
         };
         /**
-         * <p> Access first element. </p>
-         * <p> Returns a value in the first element of the Vector. </p>
-         *
-         * <p> Unlike member {@link begin begin()}, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the first element of the Vector.
-         */
-        Vector.prototype.front = function () {
-            return this.at(0);
-        };
-        /**
-         * <p> Access last element. </p>
-         * <p> Returns a value in the last element of the Vector. </p>
-         *
-         * <p> Unlike member <{@link end end()}, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the last element of the Vector.
-         */
-        Vector.prototype.back = function () {
-            return this.at(this.length - 1);
-        };
-        /* ---------------------------------------------------------
-            ELEMENTS I/O
-        --------------------------------------------------------- */
-        /**
-         * <p> Add element at the end. </p>
-         *
-         * <p> Adds a new element at the end of the {@link Vector}, after its current last element. The
-         * content of <i>val</i> is copied to the new element. </p>
-         *
-         * <p> This effectively increases the container {@link size} by one, which causes an automatic
-         * reallocation of the allocated storage space if -and only if- the new {@link size}
-         * surpasses the current {@link capacity}.
-         *
-         * @param val Value to be copied to the new element.
-         */
-        Vector.prototype.pushBack = function (val) {
-            this.push(val);
-        };
-        /**
-         * Replaces the element at the specified position in this list with the specified element.
-         *
-         * @param index A specified position of the value to replace.
-         * @param val A value to be stored at the specified position.
-         *
-         * @return The previous element had stored at the specified position.
+         * @inheritdoc
          */
         Vector.prototype.set = function (index, val) {
             if (index > this.length)
@@ -4643,10 +5132,28 @@ var std;
             return prev;
         };
         /**
-         * <p> Delete last element. </p>
-         *
-         * <p> Removes the last element in the Vector container, effectively reducing the container
-         * {@link size} by one. </p>
+         * @inheritdoc
+         */
+        Vector.prototype.front = function () {
+            return this.at(0);
+        };
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.back = function () {
+            return this.at(this.length - 1);
+        };
+        /* ---------------------------------------------------------
+            ELEMENTS I/O
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.pushBack = function (val) {
+            this.push(val);
+        };
+        /**
+         * @inheritdoc
          */
         Vector.prototype.popBack = function () {
             this.erase(this.end().prev());
@@ -4716,14 +5223,14 @@ var std;
             CONSTRUCTORS
         --------------------------------------------------------- */
         /**
-         * <p> Construct from source and index number. </p>
+         * <p> Construct from the source {@link Vector container}. </p>
          *
          * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in Vector instead. </p>
+         * <p> Do not create the iterator directly, by yourself. </p>
+         * <p> Use {@link Vector.begin begin()}, {@link Vector.end end()} in {@link Vector container} instead. </p>
          *
-         * @param vector The source vector to reference.
-         * @param index Sequence number of the element in the surce vector.
+         * @param source The source {@link Vector container} to reference.
+         * @param index Sequence number of the element in the source {@link Vector}.
          */
         function VectorIterator(source, index) {
             _super.call(this, source);
@@ -4774,7 +5281,9 @@ var std;
          * @inheritdoc
          */
         VectorIterator.prototype.prev = function () {
-            if (this.index <= 0)
+            if (this.index == -1)
+                return new VectorIterator(this.vector, this.vector.size() - 1);
+            else if (this.index - 1 < 0)
                 return this.vector.end();
             else
                 return new VectorIterator(this.vector, this.index - 1);
@@ -4783,7 +5292,7 @@ var std;
          * @inheritdoc
          */
         VectorIterator.prototype.next = function () {
-            if (this.index >= this.source.size() - 1)
+            if (this.index + 1 > this.source.size())
                 return this.vector.end();
             else
                 return new VectorIterator(this.vector, this.index + 1);

@@ -2,15 +2,18 @@ namespace std.base.container
 {
 	export abstract class Iterator<T>
 	{
+		/**
+		 * Source container of the iteerator is directing for.
+		 */
 		protected source: IContainer<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
-		 * Construct from the source Container.
+		 * Construct from the source {@link IContainer container}.
 		 *
-		 * @param source The source Container.
+		 * @param source The source container.
 		 */
 		public constructor(source: IContainer<T>)
 		{

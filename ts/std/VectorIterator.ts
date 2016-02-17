@@ -21,14 +21,14 @@ namespace std
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Construct from source and index number. </p>
+		 * <p> Construct from the source {@link Vector container}. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> Do not create iterator directly. </p>
-		 * <p> Use begin(), find() or end() in Vector instead. </p> 
+		 * <p> Do not create the iterator directly, by yourself. </p>
+		 * <p> Use {@link Vector.begin begin()}, {@link Vector.end end()} in {@link Vector container} instead. </p> 
 		 *
-		 * @param vector The source vector to reference.
-		 * @param index Sequence number of the element in the surce vector.
+		 * @param source The source {@link Vector container} to reference.
+		 * @param index Sequence number of the element in the source {@link Vector}.
 		 */
 		public constructor(source: Vector<T>, index: number)
 		{
@@ -85,7 +85,9 @@ namespace std
 		 */
 		public prev(): VectorIterator<T>
 		{
-			if (this.index <= 0)
+			if (this.index == -1)
+				return new VectorIterator(this.vector, this.vector.size() - 1);
+			else if (this.index - 1 < 0)
 				return this.vector.end();
 			else
 				return new VectorIterator<T>(this.vector, this.index - 1);
@@ -96,7 +98,7 @@ namespace std
 		 */
 		public next(): VectorIterator<T>
 		{
-			if (this.index >= this.source.size() - 1)
+			if (this.index + 1 > this.source.size())
 				return this.vector.end();
 			else
 				return new VectorIterator<T>(this.vector, this.index + 1);

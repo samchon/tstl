@@ -176,6 +176,82 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
+    interface IArray<T> extends IList<T> {
+        /**
+         * <p> Request a change in capacity. </p>
+         * <p> Requests that the {@link IArray container} {@link capacity} be at least enough to contain
+         * <i>n</i> elements. </p>
+         *
+         * <p> If <i>n</i> is greater than the current {@link IArray container} {@link capacity}, the
+         * function causes the {@link IArray container} to reallocate its storage increasing its
+         * {@link capacity} to <i>n</i> (or greater). </p>
+         *
+         * <p> In all other cases, the function call does not cause a reallocation and the
+         * {@link IArray container} {@link capacity} is not affected. </p>
+         *
+         * <p> This function has no effect on the {@link IArray container} {@link size} and cannot alter
+         * its elements. </p>
+         *
+         * @param n Minimum {@link capacity} for the {@link IArray container}.
+         *			Note that the resulting vector {@link capacity} may be equal or greater than <i>n</i>.
+         */
+        reserve(n: number): void;
+        /**
+         * <p> Return size of allocated storage capacity. </p>
+         * <p> Returns the size of the storage space currently allocated for the {@link IArray container},
+         * expressed in terms of elements. </p>
+         *
+         * <p> This <i>capacity</i> is not necessarily equal to the {@link IArray container} {@link size}.
+         * It can be equal or greater, with the extra space allowing to accommodate for growth without the
+         * need to reallocate on each insertion. </p>
+         *
+         * <p> Notice that this <i>capacity</i> does not suppose a limit on the {@link size} of the
+         * {@link IArray container}. When this <i>capacity</i> is exhausted and more is needed, it is
+         * automatically expanded by the {@link IArray container} (reallocating it storage space).
+         * The theoretical limit on the {@link size} of a {@link IArray container} is given by member
+         * {@link max_size}. </p>
+         *
+         * <p> The <i>capacity</i> of a {@link IArray container} can be explicitly altered by calling member
+         * {@link IArray.reserve}.
+         *
+         * @return The size of the currently allocated storage capacity in the {@link IArray container},
+         *		   measured in terms of the number elements it can hold.
+         */
+        capacity(): number;
+        /**
+         * <p> Access element. </p>
+         * <p> Returns a value to the element at position <i>index</i> in the {@link IArray container}.</p>
+         *
+         * <p> The function automatically checks whether <i>index</i> is within the bounds of valid elements
+         * in the {@link IArray container}, throwing an {@link OutOfRange} exception if it is not (i.e.,
+         * if <i>index</i> is greater or equal than its {@link size}). </p>
+         *
+         * @param index Position of an element in the container.
+         *				If this is greater than or equal to the {@link IArray container} {@link size}, an
+         *				exception of type {@link OutOfRange} is thrown. Notice that the first
+         *				element has a position of 0 (not 1).
+         *
+         * @return The element at the specified position in the container.
+         */
+        at(index: number): T;
+        /**
+         * <p> Modify element. </p>
+         * <p> Replaces an element at the specified position (<i>index</i>) in this {@link IArray container}
+         * with the specified element (<i>val</i>). </p>
+         *
+         * <p> The function automatically checks whether <i>index</i> is within the bounds of valid elements
+         * in the {@link IArray container}, throwing an {@link OutOfRange} exception if it is not (i.e., if
+         * <i>index</i> is greater or equal than its {@link size}). </p>
+         *
+         * @param index A specified position of the value to replace.
+         * @param val A value to be stored at the specified position.
+         *
+         * @return The previous element had stored at the specified position.
+         */
+        set(index: number, val: T): void;
+    }
+}
+declare namespace std.base.container {
     /**
      * <p> An interface of container. </p>
      *
@@ -319,12 +395,142 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
+    interface IDeque<T> extends IList<T> {
+        /**
+         * <p> Insert element at beginning. </p>
+         *
+         * <p> Inserts a new element at the beginning of the {@link IDeque container}, right before its
+         * current first element. This effectively increases the {@link IDeque container} {@link size} by
+         * one. </p>
+         *
+         * @param val Value to be inserted as an element.
+         */
+        pushFront(val: T): void;
+        /**
+         * <p> Delete first element. </p>
+         *
+         * <p> Removes the first element in the {@link IDeque container}, effectively reducing its
+         * {@link size} by one. </p>
+         */
+        popFront(): void;
+    }
+}
+declare namespace std.base.container {
+    interface IList<T> extends IContainer<T> {
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        /**
+         * <p> Assign container content. </p>
+         *
+         * <p> Assigns new contents to the {@link IList container}, replacing its current contents,
+         * and modifying its {@link size} accordingly. </p>
+         *
+         * @param n New size for the container.
+         * @param val Value to fill the container with. Each of the <u>n</u> elements in the container will
+         *			  be initialized to a copy of this value.
+         */
+        assign(n: number, val: T): void;
+        /**
+         * <p> Access first element. </p>
+         * <p> Returns a value of the first element in the {@link IList container}. </p>
+         *
+         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
+         * this function returns a direct value. </p>
+         *
+         * <p> Calling this function on an {@link empty} {@link IList container} causes undefined behavior. </p>
+         *
+         * @return A value of the first element of the {@link IList container}.
+         */
+        front(): T;
+        /**
+         * <p> Access last element. </p>
+         * <p> Returns a value of the last element in the {@link IList container}. </p>
+         *
+         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
+         * this function returns a direct value. </p>
+         *
+         * <p> Calling this function on an {@link empty} {@link IList container} causes undefined behavior. </p>
+         *
+         * @return A value of the last element of the {@link IList container}.
+         */
+        back(): T;
+        /**
+         * <p> Add element at the end. </p>
+         *
+         * <p> Adds a new element at the end of the {@link IList container}, after its current last element.
+         * This effectively increases the {@link IList container} {@link size} by one. </p>
+         *
+         * @param val Value to be copied to the new element.
+         */
+        pushBack(val: T): void;
+        /**
+         * <p> Delete last element. </p>
+         *
+         * <p> Removes the last element in the {@link IList container}, effectively reducing the
+         * {@link IList container} {@link size} by one. </p>
+         */
+        popBack(val: T): void;
+        /**
+         * <p> Insert an element. </p>
+         *
+         * <p> The {@link IList conatiner} is extended by inserting new element before the element at the
+         * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by
+         * one. </p>
+         *
+         * @param position Position in the {@link IList container} where the new elements are inserted.
+         *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator}
+         *				   type that points to elements.
+         * @param val Value to be copied to the inserted element.
+         *
+         * @return An iterator that points to the newly inserted element.
+         */
+        insert(position: Iterator<T>, val: T): Iterator<T>;
+        /**
+         * <p> Insert elements by range iterators. </p>
+         *
+         * <p> The {@link IList container} is extended by inserting new elements before the element at the
+         * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by
+         * the number of repeating elements </i>n</i>. </p>
+         *
+         * @param position Position in the {@link IList container} where the new elements are inserted.
+         *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator}
+         *				   type that points to elements.
+         * @param n Number of elements to insert. Each element is initialized to a copy of <i>val</i>.
+         * @param val Value to be copied (or moved) to the inserted elements.
+         *
+         * @return An iterator that points to the first of the newly inserted elements.
+         */
+        insert(position: Iterator<T>, n: number, val: T): Iterator<T>;
+        /**
+         * <p> Insert elements by range iterators. </p>
+         *
+         * <p> The {@link IList container} is extended by inserting new elements before the element at the
+         * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by
+         * the number of elements inserted by range iterators. </p>
+         *
+         * @param position Position in the {@link IList container} where the new elements are inserted.
+         *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator}
+         *				   type that points to elements.
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         *
+         * @return An iterator that points to the first of the newly inserted elements.
+         */
+        insert<U extends T>(position: Iterator<T>, begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+    }
+}
+declare namespace std.base.container {
     abstract class Iterator<T> {
+        /**
+         * Source container of the iteerator is directing for.
+         */
         protected source: IContainer<T>;
         /**
-         * Construct from the source Container.
+         * Construct from the source {@link IContainer container}.
          *
-         * @param source The source Container.
+         * @param source The source container.
          */
         constructor(source: IContainer<T>);
         /**
@@ -897,6 +1103,71 @@ declare namespace std.base.system {
     }
 }
 declare namespace std.base.tree {
+    /**
+     * <p> Red-black Tree. </p>
+     *
+     *
+     * <h3> Definition in Wekipedia </h3>
+     *
+     * <p> A red–black tree is a kind of self-balancing binary search tree. Each node of the binary tree has an
+     * extra bit, and that bit is often interpreted as the color (red or black) of the node. These color bits are
+     * used to ensure the tree remains approximately balanced during insertions and deletions. </p>
+     *
+     * <p> Balance is preserved by painting each node of the tree with one of two colors (typically called 'red'
+     * and 'black') in a way that satisfies certain properties, which collectively constrain how unbalanced the
+     * tree can become in the worst case. When the tree is modified, the new tree is subsequently rearranged and
+     * repainted to restore the coloring properties. The properties are designed in such a way that this
+     * rearranging and recoloring can be performed efficiently. </p>
+     *
+     * <p> The balancing of the tree is not perfect but it is good enough to allow it to guarantee searching in
+     * O(log n) time, where n is the total number of elements in the tree. The insertion and deletion operations,
+     * along with the tree rearrangement and recoloring, are also performed in O(log n) time. </p>
+     *
+     * <p> Tracking the color of each node requires only 1 bit of information per node because there are only two
+     * colors. The tree does not contain any other data specific to its being a red–black tree so its memory
+     * footprint is almost identical to a classic (uncolored) binary search tree. In many cases the additional bit
+     * of information can be stored at no additional memory cost. </p>
+     *
+     * <h4> Properties </h4>
+     * <p> In addition to the requirements imposed on a binary search tree the following must be satisfied by a
+     * red–black tree: </p>
+     *
+     * <ol>
+     *	<li> A node is either red or black. </li>
+     *	<li> The root is black. This rule is sometimes omitted. Since the root can always be changed from red to
+     *		 black, but not necessarily vice versa, this rule has little effect on analysis. </li>
+     *	<li> All leaves (NIL; <code>null</code>) are black. </li>
+     *  <li> If a node is red, then both its children are black. </li>
+     *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of black
+     *		 nodes. Some definitions: the number of black nodes from the root to a node is the node's black depth;
+     *		 the uniform number of black nodes in all paths from root to the leaves is called the black-height of
+     *		 the red–black tree. </li>
+     * </ol>
+     *
+     * <p> These constraints enforce a critical property of red–black trees: the path from the root to the
+     * farthest leaf is no more than twice as long as the path from the root to the nearest leaf. The result is
+     * that the tree is roughly height-balanced. Since operations such as inserting, deleting, and finding values
+     * require worst-case time proportional to the height of the tree, this theoretical upper bound on the height
+     * allows red–black trees to be efficient in the worst case, unlike ordinary binary search trees. </p>
+     *
+     * <p> To see why this is guaranteed, it suffices to consider the effect of properties 4 and 5 together. For a
+     * red–black tree T, let B be the number of black nodes in property 5. Let the shortest possible path from the
+     * root of T to any leaf consist of B black nodes. Longer possible paths may be constructed by inserting red
+     * nodes. However, property 4 makes it impossible to insert more than one consecutive red node. Therefore,
+     * ignoring any black NIL leaves, the longest possible path consists of 2*B nodes, alternating black and red
+     * (this is the worst case). Counting the black NIL leaves, the longest possible path consists of 2*B-1 nodes. </p>
+     *
+     * <p> The shortest possible path has all black nodes, and the longest possible path alternates between red
+     * and black nodes. Since all maximal paths have the same number of black nodes, by property 5, this shows
+     * that no path is more than twice as long as any other path. </p>
+     *
+     * <ul>
+     *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
+     * </ul>
+     *
+     * @inventor Rudolf Bayer
+     * @author Migrated by Jeongho Nam
+     */
     abstract class XTree<T> {
         protected root: XTreeNode<T>;
         /**
@@ -941,12 +1212,39 @@ declare namespace std.base.tree {
 }
 declare namespace std.base.tree {
     /**
-     * Static class holding enumeration codes of color of Red-black tree.
+     * <p> Static class holding enumeration codes of color of Red-black tree. </p>
      *
-     * @author Jeongho Nam
+     * <p> Color codes imposed to nodes of RB-Tree are following those rules: </p>
+     *
+     * <ol>
+     *	<li> A node is either red or black. </li>
+     *	<li> The root is black. This rule is sometimes omitted. Since the root can always be changed from red to
+     *		 black, but not necessarily vice versa, this rule has little effect on analysis. </li>
+     *	<li> All leaves (NIL; <code>null</code>) are black. </li>
+     *  <li> If a node is red, then both its children are black. </li>
+     *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of black
+     *		 nodes. Some definitions: the number of black nodes from the root to a node is the node's black depth;
+     *		 the uniform number of black nodes in all paths from root to the leaves is called the black-height of
+     *		 the red–black tree. </li>
+     * </ol>
+     *
+     * @author Migrated by Jeongho Nam
      */
     class Color {
+        /**
+         * <p> Code of color black. </p>
+         *
+         * <ul>
+         *	<li> Those are clearly black: root, leaf nodes or children nodes of red. </li>
+         *	<li> Every path from a given nodes containes the same number of black nodes exclude NIL(s). </li>
+         * </ul>
+         */
         static BLACK: boolean;
+        /**
+         * <p> Code of color red. </p>
+         *
+         *
+         */
         static RED: boolean;
     }
 }
@@ -992,6 +1290,228 @@ declare namespace std {
         constructor(func: Listener, thisArg: This);
         apply(...args: any[]): any;
         equals<U extends Listener, T extends This>(obj: Bind<U, T>): boolean;
+    }
+}
+declare namespace std {
+    /**
+     * <p> Double ended queue. </p>
+     *
+     * <p> {@link Deque} (usually pronounced like "<i>deck</i>") is an irregular acronym of
+     * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic
+     * sizes that can be expanded or contracted on both ends (either its front or its back). </p>
+     *
+     * <p> Specific libraries may implement deques in different ways, generally as some form of dynamic
+     * array. But in any case, they allow for the individual elements to be accessed directly through
+     * random access iterators, with storage handled automatically by expanding and contracting the
+     * container as needed. </p>
+     *
+     * <p> Therefore, they provide a functionality similar to vectors, but with efficient insertion and
+     * deletion of elements also at the beginning of the sequence, and not only at its end. But, unlike
+     * {@link Vector}s, {@link Deque}s are not guaranteed to store all its elements in contiguous storage
+     * locations: accessing elements in a <u>deque</u> by offsetting a pointer to another element causes
+     * undefined behavior. </p>
+     *
+     * <p> Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for
+     * similar purposes, but internally both work in quite different ways: While {@link Vector}s use a
+     * single array that needs to be occasionally reallocated for growth, the elements of a {@link Deque}
+     * can be scattered in different chunks of storage, with the container keeping the necessary information
+     * internally to provide direct access to any of its elements in constant time and with a uniform
+     * sequential interface (through iterators). Therefore, {@link Deque}s are a little more complex
+     * internally than {@link Vector}s, but this allows them to grow more efficiently under certain
+     * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
+     *
+     * <p> For operations that involve frequent insertion or removals of elements at positions other than
+     * the beginning or the end, {@link Deque}s perform worse and have less consistent iterators and
+     * references than {@link List}s. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Sequence </dt>
+     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements
+     *		 are accessed by their position in this sequence. </dd>
+     *
+     *	<dt> Dynamic array </dt>
+     *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the
+     *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end
+     *		 of the sequence. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/deque/deque/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam
+     */
+    class Deque<T> extends base.container.Container<T> implements base.container.IArray<T>, base.container.IDeque<T> {
+        private static ROW;
+        private static MIN_CAPACITY;
+        static iterator: typeof DequeIterator;
+        private matrix;
+        private size_;
+        private capacity_;
+        private lastArray;
+        private colSize;
+        /**
+         * <p> Default Constructor. </p>
+         *
+         * <p> Constructs an empty container, with no elements. </p>
+         */
+        constructor();
+        /**
+         * <p> Initializer list Constructor. </p>
+         *
+         * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
+         *
+         * @param array An array containing elements to be copied and contained.
+         */
+        constructor(items: Array<T>);
+        /**
+         * <p> Fill Constructor. </p>
+         *
+         * <p> Constructs a container with <i>n</i> elements. Each element is a copy of <i>val</i> (if provided). </p>
+         *
+         * @param n Initial container size (i.e., the number of elements in the container at construction).
+         * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is
+         *			  initialized to a copy of this value.
+         */
+        constructor(size: number, val: T);
+        /**
+         * <p> Copy Constructor. </p>
+         *
+         * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
+         *
+         * @param container Another container object of the same type (with the same class template
+         *					arguments <code>T</code>), whose contents are either copied or acquired.
+         */
+        constructor(container: base.container.IContainer<T>);
+        /**
+         * <p> Range Constructor. </p>
+         *
+         * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each
+         * element emplace-constructed from its corresponding element in that range, in the same order. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        /**
+         * @inheritdoc
+         */
+        assign(n: number, val: T): void;
+        reserve(capacity: number): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        begin(): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        end(): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        size(): number;
+        /**
+         * @inheritdoc
+         */
+        capacity(): number;
+        /**
+         * @inheritdoc
+         */
+        at(index: number): T;
+        /**
+         * @inheritdoc
+         */
+        set(index: number, val: T): void;
+        /**
+         * @inheritdoc
+         */
+        front(): T;
+        /**
+         * @inheritdoc
+         */
+        back(): T;
+        private fetchIndex(index);
+        /**
+         * @inheritdoc
+         */
+        push(...items: T[]): number;
+        /**
+         * @inheritdoc
+         */
+        pushFront(val: T): void;
+        /**
+         * @inheritdoc
+         */
+        pushBack(val: T): void;
+        /**
+         * @inheritdoc
+         */
+        popFront(): void;
+        /**
+         * @inheritdoc
+         */
+        popBack(): void;
+        insert(position: DequeIterator<T>, val: T): DequeIterator<T>;
+        insert(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
+        insert<U extends T>(position: DequeIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): DequeIterator<T>;
+        private insertByItems(position, items);
+        erase(position: DequeIterator<T>): DequeIterator<T>;
+        erase(begin: DequeIterator<T>, end: DequeIterator<T>): DequeIterator<T>;
+    }
+}
+declare namespace std {
+    class DequeIterator<T> extends base.container.Iterator<T> {
+        private deque;
+        /**
+         * <p> Sequence number of iterator in the source Deque. </p>
+         */
+        private index;
+        /**
+         * <p> Construct from the source {@link Deque container}. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Do not create the iterator directly, by yourself. </p>
+         * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p>
+         *
+         * @param vector The source {@link Deque container} to reference.
+         * @param index Sequence number of the element in the source {@link Deque}.
+         */
+        constructor(source: Deque<T>, index: number);
+        /**
+         * @inheritdoc
+         */
+        value: T;
+        /**
+         * @inheritdoc
+         */
+        equals<U extends T>(obj: DequeIterator<U>): boolean;
+        /**
+         * Get index.
+         */
+        getIndex(): number;
+        /**
+         * @inheritdoc
+         */
+        prev(): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): DequeIterator<T>;
     }
 }
 declare namespace std {
@@ -1908,7 +2428,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class List<T> extends base.container.Container<T> {
+    class List<T> extends base.container.Container<T> implements base.container.IDeque<T> {
         static iterator: typeof ListIterator;
         /**
          * An iterator of beginning.
@@ -1923,11 +2443,17 @@ declare namespace std {
          */
         protected size_: number;
         /**
-         * @inheritdoc
+         * <p> Default Constructor. </p>
+         *
+         * <p> Constructs an empty container, with no elements. </p>
          */
         constructor();
         /**
-         * @inheritdoc
+         * <p> Initializer list Constructor. </p>
+         *
+         * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
+         *
+         * @param array An array containing elements to be copied and contained.
          */
         constructor(items: Array<T>);
         /**
@@ -1941,28 +2467,32 @@ declare namespace std {
          */
         constructor(size: number, val: T);
         /**
-         * @inheritdoc
+         * <p> Copy Constructor. </p>
+         *
+         * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
+         *
+         * @param container Another container object of the same type (with the same class template
+         *					arguments <code>T</code>), whose contents are either copied or acquired.
          */
         constructor(container: base.container.IContainer<T>);
         /**
-         * @inheritdoc
+         * <p> Range Constructor. </p>
+         *
+         * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each
+         * element emplace-constructed from its corresponding element in that range, in the same order. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
         /**
-         * <p> Assign container content. </p>
-         *
-         * <p> Assigns new contents to the Container, replacing its current contents, and modifying its size
-         * accordingly. </p>
-         *
-         * @param size New size of the container.
-         * @param val Value to fill the container with. Each of the <i>n</i> elements in the container will be
-         *			  initialized to a copy of this value.
+         * @inheritdoc
          */
-        assign(size: number, val: T): void;
+        assign(n: number, val: T): void;
         /**
          * @inheritdoc
          */
-        assign(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
         /**
          * @inheritdoc
          */
@@ -1980,63 +2510,31 @@ declare namespace std {
          */
         size(): number;
         /**
-         * <p> Access first element. </p>
-         * <p> Returns a value in the first element of the List. </p>
-         *
-         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the first element of the List.
+         * @inheritdoc
          */
         front(): T;
         /**
-         * <p> Access last element. </p>
-         * <p> Returns a value in the last element of the List. </p>
-         *
-         * <p> Unlike member {@link end end()}, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the last element of the List.
+         * @inheritdoc
          */
         back(): T;
         /**
          * @inheritdoc
          */
-        push(...items: T[]): number;
+        push<U extends T>(...items: U[]): number;
         /**
-         * <p> Insert element at beginning. </p>
-         *
-         * <p> Inserts a new element at the beginning of the list, right before its current first element.
-         * This effectively increases the container size by one. </p>
-         *
-         * @param val Value to be inserted as an element.
+         * @inheritdoc
          */
         pushFront(val: T): void;
         /**
-         * <p> Add element at the end. </p>
-         *
-         * <p> Adds a new element at the lend of the {@link List} container, after its current last
-         * element. This effectively increases the container {@link size} by one. </p>
-         *
-         * @param val Value to be copied to the new element.
+         * @inheritdoc
          */
         pushBack(val: T): void;
         /**
-         * <p> Delete first element. </p>
-         *
-         * <p> Removes first last element in the List container, effectively reducing the container
-         * {@link size} by one. </p>
+         * @inheritdoc
          */
         popFront(): void;
         /**
-         * <p> Delete last element. </p>
-         *
-         * <p> Removes the last element in the List container, effectively reducing the container
-         * {@link size} by one. </p>
+         * @inheritdoc
          */
         popBack(): void;
         /**
@@ -2048,8 +2546,6 @@ declare namespace std {
          *
          * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be
          * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
-         *
-         * <p> The arguments determine how many elements are inserted and to which values they are initialized. </p>
          *
          * @param position Position in the container where the new element is inserted.
          *				   {@link iterator}> is a member type, defined as a
@@ -2145,13 +2641,16 @@ declare namespace std {
         protected prev_: ListIterator<T>;
         protected next_: ListIterator<T>;
         /**
-         * <p> Construct from source List. </p>
+         * <p> Construct from the source {@link List container}. </p>
          *
          * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in List instead. </p>
+         * <p> Do not create the iterator directly, by yourself. </p>
+         * <p> Use {@link List.begin begin()}, {@link List.end end()} in {@link List container} instead. </p>
          *
-         * @param list The source vector to reference.
+         * @param source The source {@link List container} to reference.
+         * @param prev A refenrece of previous node ({@link ListIterator iterator}).
+         * @param next A refenrece of next node ({@link ListIterator iterator}).
+         * @param value Value to be stored in the node (iterator).
          */
         constructor(source: List<T>, prev: ListIterator<T>, next: ListIterator<T>, value: T);
         /**
@@ -3037,10 +3536,12 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class Vector<T> extends Array<T> implements base.container.IContainer<T> {
+    class Vector<T> extends Array<T> implements base.container.IArray<T> {
         static iterator: typeof VectorIterator;
         /**
-         * @inheritdoc
+         * <p> Default Constructor. </p>
+         *
+         * <p> Constructs an empty container, with no elements. </p>
          */
         constructor();
         /**
@@ -3048,9 +3549,11 @@ declare namespace std {
          */
         constructor(array: Array<T>);
         /**
-         * Consturct from capacity size.
+         * <p> Initializer list Constructor. </p>
          *
-         * @param n Capacity number to reserve.
+         * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
+         *
+         * @param array An array containing elements to be copied and contained.
          */
         constructor(n: number);
         /**
@@ -3062,13 +3565,24 @@ declare namespace std {
          * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is
          *			  initialized to a copy of this value.
          */
-        constructor(size: number, val: T);
+        constructor(n: number, val: T);
         /**
-         * @inheritdoc
+         * <p> Copy Constructor. </p>
+         *
+         * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
+         *
+         * @param container Another container object of the same type (with the same class template
+         *					arguments <code>T</code>), whose contents are either copied or acquired.
          */
         constructor(container: base.container.IContainer<T>);
         /**
-         * @inheritdoc
+         * <p> Range Constructor. </p>
+         *
+         * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each
+         * element emplace-constructed from its corresponding element in that range, in the same order. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
         /**
@@ -3076,16 +3590,13 @@ declare namespace std {
          */
         assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
         /**
-         * <p> Assign container content. </p>
-         *
-         * <p> Assigns new contents to the Container, replacing its current contents,
-         * and modifying its size accordingly. </p>
-         *
-         * @param size New size of the container.
-         * @param val Value to fill the container with. Each of the <u>n</u> elements in the container will be
-         *			  initialized to a copy of this value.
+         * @inheritdoc
          */
         assign(n: number, val: T): void;
+        /**
+         * @inheritdoc
+         */
+        reserve(size: number): void;
         /**
          * @inheritdoc
          */
@@ -3102,85 +3613,43 @@ declare namespace std {
          * @inheritdoc
          */
         size(): number;
+        /**
+         * @inheritdoc
+         */
         capacity(): number;
         /**
          * @inheritdoc
          */
         empty(): boolean;
         /**
-         * <p> Access element. </p>
-         * <p> Returns a value to the element at position <i>index</i> in the Vector.</p>
-         *
-         * <p> The function automatically checks whether n is within the bounds of valid elements in the
-         * Vector, throwing an OutOfRange exception if it is not (i.e., if <i>index</i> is greater or
-         * equal than its size). This is in contrast with member operator[], that does not check against
-         * bounds. </p>
-         *
-         * @param index Position of an element in the container.
-         *			  If this is greater than or equal to the vector size, an exception of type OutOfRange
-         *			  is thrown. Notice that the first element has a position of 0 (not 1).
-         *
-         * @return The element at the specified position in the container.
+         * @inheritdoc
          */
         at(index: number): T;
         /**
-         * <p> Access first element. </p>
-         * <p> Returns a value in the first element of the Vector. </p>
-         *
-         * <p> Unlike member {@link begin begin()}, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the first element of the Vector.
-         */
-        front(): T;
-        /**
-         * <p> Access last element. </p>
-         * <p> Returns a value in the last element of the Vector. </p>
-         *
-         * <p> Unlike member <{@link end end()}, which returns an iterator just past this element,
-         * this function returns a direct value. </p>
-         *
-         * <p> Calling this function on an empty container causes undefined behavior. </p>
-         *
-         * @return A value in the last element of the Vector.
-         */
-        back(): T;
-        /**
-         * <p> Add element at the end. </p>
-         *
-         * <p> Adds a new element at the end of the {@link Vector}, after its current last element. The
-         * content of <i>val</i> is copied to the new element. </p>
-         *
-         * <p> This effectively increases the container {@link size} by one, which causes an automatic
-         * reallocation of the allocated storage space if -and only if- the new {@link size}
-         * surpasses the current {@link capacity}.
-         *
-         * @param val Value to be copied to the new element.
-         */
-        pushBack(val: T): void;
-        /**
-         * Replaces the element at the specified position in this list with the specified element.
-         *
-         * @param index A specified position of the value to replace.
-         * @param val A value to be stored at the specified position.
-         *
-         * @return The previous element had stored at the specified position.
+         * @inheritdoc
          */
         set(index: number, val: T): T;
         /**
-         * <p> Delete last element. </p>
-         *
-         * <p> Removes the last element in the Vector container, effectively reducing the container
-         * {@link size} by one. </p>
+         * @inheritdoc
+         */
+        front(): T;
+        /**
+         * @inheritdoc
+         */
+        back(): T;
+        /**
+         * @inheritdoc
+         */
+        pushBack(val: T): void;
+        /**
+         * @inheritdoc
          */
         popBack(): void;
         /**
          * <p> Insert an element. </p>
          *
          * <p> The {@link Vector} is extended by inserting new element before the element at the specified
-         * <i>position</i>, effectively increasing the container size to be more one. </p>
+         * <i>position</i>, effectively increasing the container size by one. </p>
          *
          * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
          * {@link size} surpasses the current {@link capacity}. </p>
@@ -3305,14 +3774,14 @@ declare namespace std {
          */
         private index;
         /**
-         * <p> Construct from source and index number. </p>
+         * <p> Construct from the source {@link Vector container}. </p>
          *
          * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in Vector instead. </p>
+         * <p> Do not create the iterator directly, by yourself. </p>
+         * <p> Use {@link Vector.begin begin()}, {@link Vector.end end()} in {@link Vector container} instead. </p>
          *
-         * @param vector The source vector to reference.
-         * @param index Sequence number of the element in the surce vector.
+         * @param source The source {@link Vector container} to reference.
+         * @param index Sequence number of the element in the source {@link Vector}.
          */
         constructor(source: Vector<T>, index: number);
         private vector;

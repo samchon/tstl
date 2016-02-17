@@ -45,7 +45,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="std\base\container\Container.ts" />
     <TypeScriptCompile Include="std\base\container\FOContainer.ts" />
+    <TypeScriptCompile Include="std\base\container\IArray.ts" />
     <TypeScriptCompile Include="std\base\container\IContainer.ts" />
+    <TypeScriptCompile Include="std\base\container\IDeque.ts" />
+    <TypeScriptCompile Include="std\base\container\IList.ts" />
     <TypeScriptCompile Include="std\base\container\Iterator.ts" />
     <TypeScriptCompile Include="std\base\container\MapContainer.ts" />
     <TypeScriptCompile Include="std\base\container\MultiMap.ts" />
@@ -64,6 +67,8 @@
     <TypeScriptCompile Include="std\base\tree\XTree.ts" />
     <TypeScriptCompile Include="std\base\tree\XTreeNode.ts" />
     <TypeScriptCompile Include="std\Bind.ts" />
+    <TypeScriptCompile Include="std\Deque.ts" />
+    <TypeScriptCompile Include="std\DequeIterator.ts" />
     <TypeScriptCompile Include="std\ErrorCategory.ts" />
     <TypeScriptCompile Include="std\ErrorCode.ts" />
     <TypeScriptCompile Include="std\ErrorCondition.ts" />

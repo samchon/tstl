@@ -14,13 +14,16 @@ namespace std
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
 		/**
-		 * <p> Construct from source List. </p>
+		 * <p> Construct from the source {@link List container}. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> Do not create iterator directly. </p>
-		 * <p> Use begin(), find() or end() in List instead. </p> 
+		 * <p> Do not create the iterator directly, by yourself. </p>
+		 * <p> Use {@link List.begin begin()}, {@link List.end end()} in {@link List container} instead. </p> 
 		 *
-		 * @param list The source vector to reference.
+		 * @param source The source {@link List container} to reference.
+		 * @param prev A refenrece of previous node ({@link ListIterator iterator}).
+		 * @param next A refenrece of next node ({@link ListIterator iterator}).
+		 * @param value Value to be stored in the node (iterator).
 		 */
 		public constructor(source: List<T>, prev: ListIterator<T>, next: ListIterator<T>, value: T)
 		{

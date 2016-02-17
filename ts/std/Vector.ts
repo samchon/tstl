@@ -54,7 +54,7 @@ namespace std
 	 */
 	export class Vector<T>
 		extends Array<T>
-		implements base.container.IContainer<T>
+		implements base.container.IArray<T>
 	{
 		public static get iterator() { return VectorIterator; }
 
@@ -66,7 +66,9 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * <p> Default Constructor. </p>
+		 *
+		 * <p> Constructs an empty container, with no elements. </p>
 		 */
 		public constructor();
 
@@ -76,9 +78,11 @@ namespace std
 		public constructor(array: Array<T>);
 
 		/**
-		 * Consturct from capacity size.
+		 * <p> Initializer list Constructor. </p>
 		 *
-		 * @param n Capacity number to reserve.
+		 * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
+		 *
+		 * @param array An array containing elements to be copied and contained.
 		 */
 		public constructor(n: number);
 
@@ -91,15 +95,26 @@ namespace std
 		 * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is 
 		 *			  initialized to a copy of this value.
 		 */
-		public constructor(size: number, val: T);
+		public constructor(n: number, val: T);
 
 		/**
-		 * @inheritdoc
+		 * <p> Copy Constructor. </p>
+		 *
+		 * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
+		 *
+		 * @param container Another container object of the same type (with the same class template 
+		 *					arguments <code>T</code>), whose contents are either copied or acquired.
 		 */
 		public constructor(container: base.container.IContainer<T>);
 
 		/**
-		 * @inheritdoc
+		 * <p> Range Constructor. </p>
+		 *
+		 * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each 
+		 * element emplace-constructed from its corresponding element in that range, in the same order. </p>
+		 *
+		 * @param begin Input interator of the initial position in a sequence.
+		 * @param end Input interator of the final position in a sequence.
 		 */
 		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 		
@@ -159,14 +174,7 @@ namespace std
 		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
 
 		/**
-		 * <p> Assign container content. </p>
-		 *
-		 * <p> Assigns new contents to the Container, replacing its current contents, 
-		 * and modifying its size accordingly. </p>
-		 *
-		 * @param size New size of the container.
-		 * @param val Value to fill the container with. Each of the <u>n</u> elements in the container will be 
-		 *			  initialized to a copy of this value.
+		 * @inheritdoc
 		 */
 		public assign(n: number, val: T): void;
 
@@ -197,6 +205,13 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public reserve(size: number): void
+		{
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public clear(): void
 		{
 			this.erase(this.begin(), this.end());
@@ -210,7 +225,7 @@ namespace std
 		 */
 		public begin(): VectorIterator<T>
 		{
-			if (this.size() == 0)
+			if (this.empty() == true)
 				return this.end();
 			else
 				return new VectorIterator<T>(this, 0);
@@ -232,6 +247,9 @@ namespace std
 			return this.length;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public capacity(): number
 		{
 			return this.length;
@@ -246,19 +264,7 @@ namespace std
 		}
 
 		/**
-		 * <p> Access element. </p>
-		 * <p> Returns a value to the element at position <i>index</i> in the Vector.</p>
-		 *
-		 * <p> The function automatically checks whether n is within the bounds of valid elements in the 
-		 * Vector, throwing an OutOfRange exception if it is not (i.e., if <i>index</i> is greater or 
-		 * equal than its size). This is in contrast with member operator[], that does not check against 
-		 * bounds. </p>
-		 *
-		 * @param index Position of an element in the container.
-		 *			  If this is greater than or equal to the vector size, an exception of type OutOfRange 
-		 *			  is thrown. Notice that the first element has a position of 0 (not 1).
-		 *
-		 * @return The element at the specified position in the container.
+		 * @inheritdoc
 		 */
 		public at(index: number): T
 		{
@@ -269,64 +275,7 @@ namespace std
 		}
 
 		/**
-		 * <p> Access first element. </p>
-		 * <p> Returns a value in the first element of the Vector. </p>
-		 *
-		 * <p> Unlike member {@link begin begin()}, which returns an iterator just past this element, 
-		 * this function returns a direct value. </p>
-		 *
-		 * <p> Calling this function on an empty container causes undefined behavior. </p>
-		 *
-		 * @return A value in the first element of the Vector.
-		 */
-		public front(): T
-		{
-			return this.at(0);
-		}
-
-		/**
-		 * <p> Access last element. </p>
-		 * <p> Returns a value in the last element of the Vector. </p>
-		 *
-		 * <p> Unlike member <{@link end end()}, which returns an iterator just past this element, 
-		 * this function returns a direct value. </p>
-		 *
-		 * <p> Calling this function on an empty container causes undefined behavior. </p>
-		 *
-		 * @return A value in the last element of the Vector.
-		 */
-		public back(): T
-		{
-			return this.at(this.length - 1);
-		}
-
-		/* ---------------------------------------------------------
-			ELEMENTS I/O
-		--------------------------------------------------------- */
-		/**
-		 * <p> Add element at the end. </p> 
-		 *
-		 * <p> Adds a new element at the end of the {@link Vector}, after its current last element. The 
-		 * content of <i>val</i> is copied to the new element. </p>
-		 *
-		 * <p> This effectively increases the container {@link size} by one, which causes an automatic 
-		 * reallocation of the allocated storage space if -and only if- the new {@link size} 
-		 * surpasses the current {@link capacity}.
-		 *
-		 * @param val Value to be copied to the new element.
-		 */
-		public pushBack(val: T): void
-		{
-			this.push(val);
-		}
-
-		/**
-		 * Replaces the element at the specified position in this list with the specified element. 
-		 * 
-		 * @param index A specified position of the value to replace.
-		 * @param val A value to be stored at the specified position.
-		 *
-		 * @return The previous element had stored at the specified position.
+		 * @inheritdoc
 		 */
 		public set(index: number, val: T): T
 		{
@@ -340,10 +289,34 @@ namespace std
 		}
 
 		/**
-		 * <p> Delete last element. </p>
-		 * 
-		 * <p> Removes the last element in the Vector container, effectively reducing the container 
-		 * {@link size} by one. </p>
+		 * @inheritdoc
+		 */
+		public front(): T
+		{
+			return this.at(0);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public back(): T
+		{
+			return this.at(this.length - 1);
+		}
+
+		/* ---------------------------------------------------------
+			ELEMENTS I/O
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public pushBack(val: T): void
+		{
+			this.push(val);
+		}
+
+		/**
+		 * @inheritdoc
 		 */
 		public popBack(): void
 		{
@@ -354,7 +327,7 @@ namespace std
 		 * <p> Insert an element. </p>
 		 *
 		 * <p> The {@link Vector} is extended by inserting new element before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size to be more one. </p>
+		 * <i>position</i>, effectively increasing the container size by one. </p>
 		 *
 		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
 		 * {@link size} surpasses the current {@link capacity}. </p>
@@ -425,7 +398,7 @@ namespace std
 		 */
 		public insert<U extends T>(position: VectorIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): VectorIterator<T>;
 
-		public insert<U extends T>(...args: any[]): any
+		public insert<U extends T>(...args: any[]): VectorIterator<T>
 		{
 			let position: VectorIterator<T> = args[0];
 
