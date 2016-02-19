@@ -18,22 +18,69 @@
 			return codeByObject(par);
 	}
 
+	/**
+	 * @private
+	 */
 	function codeByNumber(val: number): number
 	{
-		return Math.abs(Math.round(val));
+		// ------------------------------------------
+		//	IN C++
+		//		CONSIDER A NUMBER AS A STRING
+		//		HASH<STRING>((CHAR*)&VAL, 8)
+		// ------------------------------------------
+		// CONSTRUCT BUFFER AND BYTE_ARRAY
+		let buffer: ArrayBuffer = new ArrayBuffer(8);
+		let byteArray: Int8Array = new Int8Array(buffer);
+		let valueArray: Float64Array = new Float64Array(buffer);
+
+		valueArray[0] = val;
+
+		let code: number = 2166136261;
+		
+		for (let i: number = 0; i < byteArray.length; i++)
+		{
+			let byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
+
+			code ^= byte;
+			code *= 16777619;
+		}
+		return code;
 	}
+
+	/**
+	 * @private
+	 */
 	function codeByString(str: string): number
 	{
-		let val: number = 0;
+		// ------------------------
+		//	IN C++
+		// ------------------------
+		let code: number = 2166136261;
 
 		for (let i: number = 0; i < str.length; i++)
-			val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+		{
+			code ^= str.charCodeAt(i);
+			code *= 16777619;
+		}
+		return code;
 
-		return val;
+		// ------------------------
+		//	IN JAVA
+		// ------------------------
+		//let val: number = 0;
+
+		//for (let i: number = 0; i < str.length; i++)
+		//	val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+
+		//return val;
 	}
+
+	/**
+	 * @private
+	 */
 	function codeByObject(obj: Object): number
 	{
-		if (obj.hasOwnProperty("hashCode") == true)
+		if ((<any>obj).hashCode != undefined)
 			return (<any>obj).hashCode();
 		else
 			return (<any>obj).__getUID();

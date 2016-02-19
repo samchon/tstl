@@ -229,14 +229,10 @@ namespace std.base.container
 		private insertByHint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			// INSERT
-			let list_it: ListIterator<Pair<Key, T>> = (<MapIterator<Key, T>>hint).getListIterator();
-
-			list_it = <ListIterator<Pair<Key, T>>>
-				this.data.insert((<MapIterator<Key, T>>hint).getListIterator(), pair);
+			let list_it = this.data.insert(hint.getListIterator(), pair);
 
 			// POST-PROCESS
 			let it = new MapIterator<Key, T>(this, list_it);
-
 			this.handleInsert(it);
 
 			return it;
@@ -287,8 +283,7 @@ namespace std.base.container
 		private eraseByIterator(it: MapIterator<Key, T>): MapIterator<Key, T>
 		{
 			// ERASE
-			let listIterator = <ListIterator<Pair<Key, T>>>
-				this.data.erase((<MapIterator<Key, T>>it).getListIterator());
+			let listIterator = this.data.erase(it.getListIterator());
 			
 			// POST-PROCESS
 			this.handleErase(<MapIterator<Key, T>>it);
@@ -302,16 +297,11 @@ namespace std.base.container
 		private eraseByRange(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>
 		{
 			// ERASE
-			let listIterator = <ListIterator<Pair<Key, T>>>
-				this.data.erase
-				(
-					(<MapIterator<Key, T>>begin).getListIterator(),
-					(<MapIterator<Key, T>>end).getListIterator()
-				);
+			let listIterator = this.data.erase(begin.getListIterator(), end.getListIterator());
 			
 			// POST-PROCESS
 			for (let it = begin; it.equals(this.end()) == false; it = it.next())
-				this.handleErase(<MapIterator<Key, T>>it);
+				this.handleErase(it);
 
 			return new MapIterator<Key, T>(this, listIterator);
 		}

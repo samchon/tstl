@@ -1,6 +1,7 @@
 namespace std
 {
 	export class MapIterator<K, T>
+		implements IComparable<MapIterator<K, T>>
 	{
 		protected source: base.container.MapContainer<K, T>;
 
@@ -124,16 +125,25 @@ namespace std
 		/* ---------------------------------------------------------
 			COMPARISONS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean 
 		{
 			return this.source == obj.source && this.listIterator == obj.listIterator;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public less<L extends K, U extends T>(obj: MapIterator<L, U>): boolean
 		{
 			return std.less(this.first, obj.first);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public hashCode(): number
 		{
 			return std.hashCode(this.first);

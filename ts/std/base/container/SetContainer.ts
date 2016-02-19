@@ -61,20 +61,26 @@ namespace std.base.container
 			//}
 		}
 		
+		/**
+		 * @private
+		 */
 		protected constructByArray(items: Array<T>): void
 		{
 			for (let i: number = 0; i < items.length; i++)
-			{
-				if (this.has(items[i]) == true)
-					continue;
-
 				this.insertByVal(items[i]);
-			}
 		}
+
+		/**
+		 * @private
+		 */
 		protected constructByContainer(container: Container<T>): void
 		{
 			this.constructByRange(container.begin(), container.end());
 		}
+
+		/**
+		 * @private
+		 */
 		protected constructByRange(begin: Iterator<T>, end: Iterator<T>): void
 		{
 			this.assign(begin, end);
@@ -295,10 +301,12 @@ namespace std.base.container
 		public erase(...args: any[]): any
 		{
 			if (args.length == 1)
+			{
 				if (args[0] instanceof Iterator && args[0].getSource() == this)
 					return this.eraseByIterator(args[0]);
 				else
 					return this.eraseByKey(args[0]);
+			}
 			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 				return this.eraseByRange(args[0], args[1]);
 		}
@@ -344,7 +352,7 @@ namespace std.base.container
 			for (let it = begin; !it.equals(this.end()); it = it.next())
 				this.handleErase(it);
 
-			return begin.prev();
+			return new SetIterator<T>(this, listIterator);//begin.prev();
 		}
 
 		/* ---------------------------------------------------------

@@ -1,7 +1,12 @@
 ﻿namespace std.base.container
 {
-	export interface IDeque<T> 
-		extends IList<T>
+	/**
+	 * <p> Deque container. </p>
+	 *
+	 * @author Jeongho Nam
+	 */
+	export interface IDequeContainer<T> 
+		extends ILinearContainer<T>
 	{
 		/**
 		 * <p> Insert element at beginning. </p>

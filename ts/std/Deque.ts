@@ -55,8 +55,8 @@ namespace std
 	 */
 	export class Deque<T>
 		extends base.container.Container<T>
-		implements base.container.IArray<T>, 
-				   base.container.IDeque<T>
+		implements base.container.IArrayContainer<T>, 
+				   base.container.IDequeContainer<T>
 	{
 		private static get ROW(): number { return 10; }
 		private static get MIN_CAPACITY(): number { return 100; }

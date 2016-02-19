@@ -766,8 +766,17 @@ declare namespace std.base.container {
          * Default Constructor.
          */
         constructor();
+        /**
+         * @private
+         */
         protected constructByArray(items: Array<T>): void;
+        /**
+         * @private
+         */
         protected constructByContainer(container: Container<T>): void;
+        /**
+         * @private
+         */
         protected constructByRange(begin: Iterator<T>, end: Iterator<T>): void;
         /**
          * @inheritdoc
@@ -988,6 +997,7 @@ declare namespace std.base.hash {
     class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
         private set;
         constructor(set: container.SetContainer<T>);
+        insert(val: SetIterator<T>): void;
         find(val: T): SetIterator<T>;
     }
 }
@@ -2687,7 +2697,7 @@ declare namespace std {
     }
 }
 declare namespace std {
-    class MapIterator<K, T> {
+    class MapIterator<K, T> implements IComparable<MapIterator<K, T>> {
         protected source: base.container.MapContainer<K, T>;
         protected listIterator: ListIterator<Pair<K, T>>;
         /**
@@ -2727,8 +2737,17 @@ declare namespace std {
          * Get second, value element.
          */
         second: T;
+        /**
+         * @inheritdoc
+         */
         equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean;
+        /**
+         * @inheritdoc
+         */
         less<L extends K, U extends T>(obj: MapIterator<L, U>): boolean;
+        /**
+         * @inheritdoc
+         */
         hashCode(): number;
     }
 }
@@ -2916,7 +2935,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class SetIterator<T> extends base.container.Iterator<T> {
+    class SetIterator<T> extends base.container.Iterator<T> implements IComparable<SetIterator<T>> {
         private listIterator;
         /**
          * <p> Construct from source and index number. </p>
@@ -2951,7 +2970,13 @@ declare namespace std {
          * @inheritdoc
          */
         equals<U extends T>(obj: SetIterator<U>): boolean;
+        /**
+         * @inheritdoc
+         */
         less<U extends T>(obj: SetIterator<U>): boolean;
+        /**
+         * @inheritdoc
+         */
         hashCode(): number;
     }
 }

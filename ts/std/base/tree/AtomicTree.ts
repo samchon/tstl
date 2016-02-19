@@ -62,7 +62,7 @@ namespace std.base.tree
 
 		public isLess(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
-			return std.less(left, right);
+			return std.less(left.value, right.value);
 		}
 	}
 }

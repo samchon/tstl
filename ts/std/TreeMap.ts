@@ -118,6 +118,8 @@ namespace std
 		public clear(): void
 		{
 			super.clear();
+
+			this.tree = new base.tree.PairTree<Key, T>();
 		}
 
 		/* =========================================================

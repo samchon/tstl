@@ -59,7 +59,7 @@ namespace std
 		 */
 		public equals(obj: ListIterator<T>): boolean
 		{
-			return super.equals(obj) == true && this.prev_ == obj.prev_ && this.next_ == obj.next_;
+			return this == obj;
 		}
 		
 		/**

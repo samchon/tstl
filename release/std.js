@@ -371,8 +371,7 @@ var std;
                 };
                 MapContainer.prototype.insertByHint = function (hint, pair) {
                     // INSERT
-                    var list_it = hint.getListIterator();
-                    list_it = this.data.insert(hint.getListIterator(), pair);
+                    var list_it = this.data.insert(hint.getListIterator(), pair);
                     // POST-PROCESS
                     var it = new std.MapIterator(this, list_it);
                     this.handleInsert(it);
@@ -524,16 +523,22 @@ var std;
                     //	this.constructByRange(args[0], args[1]);
                     //}
                 }
+                /**
+                 * @private
+                 */
                 SetContainer.prototype.constructByArray = function (items) {
-                    for (var i = 0; i < items.length; i++) {
-                        if (this.has(items[i]) == true)
-                            continue;
+                    for (var i = 0; i < items.length; i++)
                         this.insertByVal(items[i]);
-                    }
                 };
+                /**
+                 * @private
+                 */
                 SetContainer.prototype.constructByContainer = function (container) {
                     this.constructByRange(container.begin(), container.end());
                 };
+                /**
+                 * @private
+                 */
                 SetContainer.prototype.constructByRange = function (begin, end) {
                     this.assign(begin, end);
                 };
@@ -643,11 +648,12 @@ var std;
                     for (var _i = 0; _i < arguments.length; _i++) {
                         args[_i - 0] = arguments[_i];
                     }
-                    if (args.length == 1)
+                    if (args.length == 1) {
                         if (args[0] instanceof container_5.Iterator && args[0].getSource() == this)
                             return this.eraseByIterator(args[0]);
                         else
                             return this.eraseByKey(args[0]);
+                    }
                     else if (args.length == 2 && args[0] instanceof container_5.Iterator && args[1] instanceof container_5.Iterator)
                         return this.eraseByRange(args[0], args[1]);
                 };
@@ -682,7 +688,7 @@ var std;
                     // POST-PROCESS
                     for (var it = begin; !it.equals(this.end()); it = it.next())
                         this.handleErase(it);
-                    return begin.prev();
+                    return new std.SetIterator(this, listIterator); //begin.prev();
                 };
                 return SetContainer;
             })(container_5.Container);
@@ -820,17 +826,51 @@ var std;
                     return codeByObject(par);
             }
             hash.code = code;
+            /**
+             * @private
+             */
             function codeByNumber(val) {
-                return Math.abs(Math.round(val));
+                // ------------------------------------------
+                //	IN C++
+                //		CONSIDER A NUMBER AS A STRING
+                //		HASH<STRING>((CHAR*)&VAL, 8)
+                // ------------------------------------------
+                // CONSTRUCT BUFFER AND BYTE_ARRAY
+                var buffer = new ArrayBuffer(8);
+                var byteArray = new Int8Array(buffer);
+                var valueArray = new Float64Array(buffer);
+                valueArray[0] = val;
+                var code = 2166136261;
+                for (var i = 0; i < byteArray.length; i++) {
+                    var byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
+                    code ^= byte;
+                    code *= 16777619;
+                }
+                return code;
             }
+            /**
+             * @private
+             */
             function codeByString(str) {
-                var val = 0;
-                for (var i = 0; i < str.length; i++)
-                    val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-                return val;
+                // ------------------------
+                //	IN C++
+                // ------------------------
+                var code = 2166136261;
+                for (var i = 0; i < str.length; i++) {
+                    code ^= str.charCodeAt(i);
+                    code *= 16777619;
+                }
+                return code;
+                // ------------------------
+                //	IN JAVA
+                // ------------------------
+                //let val: number = 0;
+                //for (let i: number = 0; i < str.length; i++)
+                //	val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+                //return val;
             }
             function codeByObject(obj) {
-                if (obj.hasOwnProperty("hashCode") == true)
+                if (obj.hashCode != undefined)
                     return obj.hashCode();
                 else
                     return obj.__getUID();
@@ -957,6 +997,9 @@ var std;
                     _super.call(this);
                     this.set = set;
                 }
+                SetHashBuckets.prototype.insert = function (val) {
+                    _super.prototype.insert.call(this, val);
+                };
                 SetHashBuckets.prototype.find = function (val) {
                     var index = hash.code(val) % this.size();
                     var bucket = this.at(index);
@@ -1471,7 +1514,7 @@ var std;
                     return std.equals(left, right);
                 };
                 AtomicTree.prototype.isLess = function (left, right) {
-                    return std.less(left, right);
+                    return std.less(left.value, right.value);
                 };
                 return AtomicTree;
             })(tree.XTree);
@@ -2297,7 +2340,7 @@ var std;
         var ContainerTest = (function () {
             function ContainerTest() {
                 document.write("<h3> Container Test </h3>\n\n");
-                //this.testList();
+                this.testList();
                 this.testUnorderedSet();
                 this.testUnorderedMap();
             }
@@ -2322,17 +2365,16 @@ var std;
                 document.write("</ul>\n\n");
             };
             ContainerTest.prototype.testUnorderedSet = function () {
-                document.write("<h4> UnorderedSet </h4>\n");
+                document.write("<h4> HashSet </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.HashMultiSet();
+                var container = new std.HashSet();
                 for (var i = 0; i < 10; i++)
                     container.insert(i);
                 // ELEMENTS I/O
                 document.write("Erase 7<br>\n" +
-                    "Insert -5<br>\n" +
+                    "Insert -5 (x3)<br>\n" +
                     "Erase 3<br><br>\n\n");
                 container.erase(7);
-                container.insert(-5);
                 container.insert(-5);
                 container.insert(-5);
                 container.insert(-5);
@@ -2348,17 +2390,16 @@ var std;
                 document.write("</ul>\n\n");
             };
             ContainerTest.prototype.testUnorderedMap = function () {
-                document.write("<h4> UnorderedMap </h4>\n");
+                document.write("<h4> TreeMultiMap </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
                 var container = new std.TreeMultiMap();
                 for (var i = 0; i < 10; i++)
                     container.insert(new std.Pair(i, i));
                 // ELEMENTS I/O
                 document.write("Erase 7<br>\n" +
-                    "Insert -5<br>\n" +
+                    "Insert -5 (x3)<br>\n" +
                     "Erase 3<br><br>\n\n");
                 container.erase(7);
-                container.insert(new std.Pair(-5, -5));
                 container.insert(new std.Pair(-5, -5));
                 container.insert(new std.Pair(-5, -5));
                 container.insert(new std.Pair(-5, -5));
@@ -2375,11 +2416,6 @@ var std;
             };
             ContainerTest.main = function () {
                 new ContainerTest();
-                var obj = new Object();
-                obj["id"] = "samchon";
-                obj["name"] = "Jeongho Nam";
-                std.less(obj, {});
-                document.writeln(JSON.stringify(obj));
             };
             return ContainerTest;
         })();
@@ -3357,7 +3393,7 @@ var std;
      * @return Whether the arguments are equal.
      */
     function equals(left, right) {
-        if (left instanceof Object && left.hasOwnProperty("equals"))
+        if (left instanceof Object && left.equals != undefined)
             return left.equals(right);
         else
             return left == right;
@@ -3385,7 +3421,7 @@ var std;
      */
     function less(left, right) {
         if (left instanceof Object)
-            if (left.hasOwnProperty("less") == true)
+            if (left.less != undefined)
                 return left.less(right);
             else
                 return left.__getUID() < right.__getUID();
@@ -3824,7 +3860,7 @@ var std;
          * @inheritdoc
          */
         ListIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) == true && this.prev_ == obj.prev_ && this.next_ == obj.next_;
+            return this == obj;
         };
         /**
          * @inheritdoc
@@ -3964,12 +4000,21 @@ var std;
         /* ---------------------------------------------------------
             COMPARISONS
         --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
         MapIterator.prototype.equals = function (obj) {
             return this.source == obj.source && this.listIterator == obj.listIterator;
         };
+        /**
+         * @inheritdoc
+         */
         MapIterator.prototype.less = function (obj) {
             return std.less(this.first, obj.first);
         };
+        /**
+         * @inheritdoc
+         */
         MapIterator.prototype.hashCode = function () {
             return std.hashCode(this.first);
         };
@@ -4224,9 +4269,15 @@ var std;
         SetIterator.prototype.equals = function (obj) {
             return _super.prototype.equals.call(this, obj) && this.listIterator == obj.listIterator;
         };
+        /**
+         * @inheritdoc
+         */
         SetIterator.prototype.less = function (obj) {
             return std.less(this.value, obj.value);
         };
+        /**
+         * @inheritdoc
+         */
         SetIterator.prototype.hashCode = function () {
             return std.base.hash.code(this.value);
         };
@@ -4455,6 +4506,7 @@ var std;
          */
         TreeMap.prototype.clear = function () {
             _super.prototype.clear.call(this);
+            this.tree = new std.base.tree.PairTree();
         };
         /* =========================================================
             ACCESSORS

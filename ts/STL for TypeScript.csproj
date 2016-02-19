@@ -45,10 +45,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="std\base\container\Container.ts" />
     <TypeScriptCompile Include="std\base\container\FOContainer.ts" />
-    <TypeScriptCompile Include="std\base\container\IArray.ts" />
+    <TypeScriptCompile Include="std\base\container\IArrayContainer.ts" />
     <TypeScriptCompile Include="std\base\container\IContainer.ts" />
     <TypeScriptCompile Include="std\base\container\IDeque.ts" />
-    <TypeScriptCompile Include="std\base\container\IList.ts" />
+    <TypeScriptCompile Include="std\base\container\ILinearContainer.ts" />
     <TypeScriptCompile Include="std\base\container\Iterator.ts" />
     <TypeScriptCompile Include="std\base\container\MapContainer.ts" />
     <TypeScriptCompile Include="std\base\container\MultiMap.ts" />

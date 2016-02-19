@@ -9,6 +9,7 @@ namespace std
 	 */
 	export class SetIterator<T>
 		extends base.container.Iterator<T>
+		implements IComparable<SetIterator<T>>
 	{
 		private listIterator: ListIterator<T>;
 
@@ -88,11 +89,17 @@ namespace std
 			return super.equals(obj) && this.listIterator == obj.listIterator;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public less<U extends T>(obj: SetIterator<U>): boolean
 		{
 			return std.less(this.value, obj.value);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public hashCode(): number
 		{
 			return base.hash.code(this.value);

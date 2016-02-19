@@ -51,7 +51,7 @@ namespace std
 	 */
 	export class List<T>
 		extends base.container.Container<T>
-		implements base.container.IDeque<T>
+		implements base.container.IDequeContainer<T>
 	{
 		public static get iterator() { return ListIterator; }
 

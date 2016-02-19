@@ -23,7 +23,7 @@ namespace std
 	 */
 	export function equals<T>(left: T, right: T): boolean
 	{
-		if (left instanceof Object && left.hasOwnProperty("equals"))
+		if (left instanceof Object && (<any>left).equals != undefined)
 			return (<any>left).equals(right);
 		else
 			return left == right;
@@ -52,7 +52,7 @@ namespace std
 	export function less<T>(left: T, right: T): boolean
 	{
 		if (left instanceof Object)
-			if (left.hasOwnProperty("less") == true)
+			if ((<any>left).less != undefined) // has less()
 				return (<any>left).less(right);
 			else
 				return (<any>left).__getUID() < (<any>right).__getUID();
