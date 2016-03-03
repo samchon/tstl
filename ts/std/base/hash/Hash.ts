@@ -44,7 +44,7 @@
 			code ^= byte;
 			code *= 16777619;
 		}
-		return code;
+		return Math.abs(code);
 	}
 
 	/**
@@ -62,7 +62,7 @@
 			code ^= str.charCodeAt(i);
 			code *= 16777619;
 		}
-		return code;
+		return Math.abs(code);
 
 		// ------------------------
 		//	IN JAVA

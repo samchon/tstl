@@ -176,7 +176,12 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
-    interface IArray<T> extends IList<T> {
+    /**
+     * <p> Array container. </p>
+     *
+     * @author Jeongho Nam
+     */
+    interface IArrayContainer<T> extends ILinearContainer<T> {
         /**
          * <p> Request a change in capacity. </p>
          * <p> Requests that the {@link IArray container} {@link capacity} be at least enough to contain
@@ -395,7 +400,12 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
-    interface IDeque<T> extends IList<T> {
+    /**
+     * <p> Deque container. </p>
+     *
+     * @author Jeongho Nam
+     */
+    interface IDequeContainer<T> extends ILinearContainer<T> {
         /**
          * <p> Insert element at beginning. </p>
          *
@@ -416,7 +426,12 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
-    interface IList<T> extends IContainer<T> {
+    /**
+     * <p> Linear container. </p>
+     *
+     * @author Jeonngho Nam
+     */
+    interface ILinearContainer<T> extends IContainer<T> {
         /**
          * @inheritdoc
          */
@@ -925,7 +940,7 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
-    abstract class UniqueMap<K, T> extends MapContainer<K, T> {
+    abstract class UniqueMap<Key, T> extends MapContainer<Key, T> {
         /**
          * Default Constructor.
          */
@@ -933,16 +948,18 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        count(key: K): number;
-        insert<L extends K, U extends T>(pair: Pair<L, U>): Pair<MapIterator<K, T>, boolean>;
+        count(key: Key): number;
+        get(key: Key): T;
+        set(key: Key, val: T): void;
+        insert<L extends Key, U extends T>(pair: Pair<L, U>): Pair<MapIterator<Key, T>, boolean>;
         /**
          * @inheritdoc
          */
-        insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
+        insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
          * @inheritdoc
          */
-        insert<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        insert<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
     }
 }
 declare namespace std.base.container {
@@ -997,7 +1014,6 @@ declare namespace std.base.hash {
     class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
         private set;
         constructor(set: container.SetContainer<T>);
-        insert(val: SetIterator<T>): void;
         find(val: T): SetIterator<T>;
     }
 }
@@ -1354,7 +1370,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class Deque<T> extends base.container.Container<T> implements base.container.IArray<T>, base.container.IDeque<T> {
+    class Deque<T> extends base.container.Container<T> implements base.container.IArrayContainer<T>, base.container.IDequeContainer<T> {
         private static ROW;
         private static MIN_CAPACITY;
         static iterator: typeof DequeIterator;
@@ -2438,7 +2454,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class List<T> extends base.container.Container<T> implements base.container.IDeque<T> {
+    class List<T> extends base.container.Container<T> implements base.container.IDequeContainer<T> {
         static iterator: typeof ListIterator;
         /**
          * An iterator of beginning.
@@ -3561,7 +3577,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class Vector<T> extends Array<T> implements base.container.IArray<T> {
+    class Vector<T> extends Array<T> implements base.container.IArrayContainer<T> {
         static iterator: typeof VectorIterator;
         /**
          * <p> Default Constructor. </p>

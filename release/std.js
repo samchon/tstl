@@ -754,11 +754,27 @@ var std;
                 function UniqueMap() {
                     _super.call(this);
                 }
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
                 /**
                  * @inheritdoc
                  */
                 UniqueMap.prototype.count = function (key) {
                     return this.find(key).equals(this.end()) ? 0 : 1;
+                };
+                UniqueMap.prototype.get = function (key) {
+                    var it = this.find(key);
+                    if (it.equals(this.end()) == true)
+                        throw new std.OutOfRange("unable to find the matched key.");
+                    return it.second;
+                };
+                UniqueMap.prototype.set = function (key, val) {
+                    var it = this.find(key);
+                    if (it.equals(this.end()) == true)
+                        this.insert(new std.Pair(key, val));
+                    else
+                        it.second = val;
                 };
                 UniqueMap.prototype.insert = function () {
                     var args = [];
@@ -846,7 +862,7 @@ var std;
                     code ^= byte;
                     code *= 16777619;
                 }
-                return code;
+                return Math.abs(code);
             }
             /**
              * @private
@@ -860,7 +876,7 @@ var std;
                     code ^= str.charCodeAt(i);
                     code *= 16777619;
                 }
-                return code;
+                return Math.abs(code);
                 // ------------------------
                 //	IN JAVA
                 // ------------------------
@@ -869,6 +885,9 @@ var std;
                 //	val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
                 //return val;
             }
+            /**
+             * @private
+             */
             function codeByObject(obj) {
                 if (obj.hashCode != undefined)
                     return obj.hashCode();
@@ -997,9 +1016,6 @@ var std;
                     _super.call(this);
                     this.set = set;
                 }
-                SetHashBuckets.prototype.insert = function (val) {
-                    _super.prototype.insert.call(this, val);
-                };
                 SetHashBuckets.prototype.find = function (val) {
                     var index = hash.code(val) % this.size();
                     var bucket = this.at(index);
@@ -2339,7 +2355,6 @@ var std;
     (function (example) {
         var ContainerTest = (function () {
             function ContainerTest() {
-                document.write("<h3> Container Test </h3>\n\n");
                 this.testList();
                 this.testUnorderedSet();
                 this.testUnorderedMap();

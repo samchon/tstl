@@ -4,8 +4,6 @@ namespace std.example
 	{
 		public constructor()
 		{
-			document.write("<h3> Container Test </h3>\n\n");
-
 			this.testList();
 			this.testUnorderedSet();
 			this.testUnorderedMap();
