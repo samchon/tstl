@@ -54,7 +54,7 @@ namespace std
 	 */
 	export class Vector<T>
 		extends Array<T>
-		implements base.container.IArrayContainer<T>
+		implements base.container.IArray<T>
 	{
 		public static get iterator() { return VectorIterator; }
 

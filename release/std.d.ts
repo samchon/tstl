@@ -96,92 +96,11 @@ declare namespace std.base.container {
 }
 declare namespace std.base.container {
     /**
-     * <p> First-out container. </p>
-     *
-     * <p> <code>FOContainer</code> is an abstract class, a type of container adaptor, specifically designed to
-     * operate in a FIFO and LIFO, like <code>Queue</code> and <code>Stack</code>. </p>
-     *
-     * <p> <code>FOContainer</code>s are implemented as containers adaptors, which are classes that use an
-     * encapsulated object of a specific container class as its <i>underlying container</i>, providing a specific
-     * set of member functions to access its elements. Elements are pushed/popped from the <code>accessor</code>
-     * method of the (derived) specific container. </p>
-     *
-     * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular <code>FOContainer</code> class
-     * instantiation, the standard container {@link List} is used. </p>
-     *
-     * @param <T> Type of elements.
-     *
-     * @author Jeongho Nam
-     */
-    abstract class FOContainer<T> {
-        /**
-         * The <i>underlying object</i> for implementing the <i>First-out</i>.
-         */
-        protected data: List<T>;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a LIFO or FIFO container.
-         *
-         * @param container An abstract container of LIFO and FIFO to copy.
-         */
-        constructor(container: FOContainer<T>);
-        /**
-         * <p> Return size. </p>
-         * <p> Returns the number of elements in the <code>FOStack</code>. </p>
-         *
-         * <p> This member function effectively calls member {@link size} of the
-         * <i>underlying container</i> object. </p>
-         *
-         * @return The number of elements in the <i>underlying container</i>.
-         */
-        size(): number;
-        /**
-         * <p> Test whether container is empty. </p>
-         * <p> returns whether the <code>FOContainer</code> is empty: i.e. whether its <i>size</i> is zero. </p>
-         *
-         * <p> This member function efeectively calls member <code>empty()</code> of the
-         * <i>underlying container</i> object. </p>
-         *
-         * @return <code>true</code> if the <i>underlying container</i>'s size is 0,
-         *		   <code>false</code> otherwise. </p>
-         */
-        empty(): boolean;
-        /**
-         * <p> Insert element. </p>
-         *
-         * <p> Inserts a new element at the first or last of the <code>FOContainer</code>. </p>
-         *
-         * <p> This member function effectively calls the member function <code>pushFront()</code> or
-         * <code>pushBack()</code> of the <i>underlying container</i> object. </p>
-         *
-         * @param val Value to which the inserted element is initialized.
-         */
-        abstract push(val: T): void;
-        /**
-         * <p> Remove next element. </p>
-         *
-         * <p> Removes the next element in the <code>FOContainer</code>, effectively reducing its size by one. </p>
-         *
-         * <p> The element removed is the "first" or "last" element in the <code>FOContainer</code> whose value
-         * can be retrieved by calling member its derived <code>accessor</code> method. </p>.
-         *
-         * <p> This member function effectively calls the member function <code>popFront()</code>
-         * <code>popBack()</code> of the <i>underlying container</i> object. </p>
-         */
-        abstract pop(): void;
-    }
-}
-declare namespace std.base.container {
-    /**
      * <p> Array container. </p>
      *
      * @author Jeongho Nam
      */
-    interface IArrayContainer<T> extends ILinearContainer<T> {
+    interface IArray<T> extends ILinearContainer<T> {
         /**
          * <p> Request a change in capacity. </p>
          * <p> Requests that the {@link IArray container} {@link capacity} be at least enough to contain
@@ -405,7 +324,7 @@ declare namespace std.base.container {
      *
      * @author Jeongho Nam
      */
-    interface IDequeContainer<T> extends ILinearContainer<T> {
+    interface IDeque<T> extends ILinearContainer<T> {
         /**
          * <p> Insert element at beginning. </p>
          *
@@ -486,7 +405,7 @@ declare namespace std.base.container {
          * <p> Removes the last element in the {@link IList container}, effectively reducing the
          * {@link IList container} {@link size} by one. </p>
          */
-        popBack(val: T): void;
+        popBack(): void;
         /**
          * <p> Insert an element. </p>
          *
@@ -2233,7 +2152,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class List<T> extends base.container.Container<T> implements base.container.IDequeContainer<T> {
+    class List<T> extends base.container.Container<T> implements base.container.IDeque<T> {
         static iterator: typeof ListIterator;
         /**
          * An iterator of beginning.
@@ -2547,16 +2466,16 @@ declare namespace std {
     }
 }
 /**
- * <p> A namespace of STL library. </p>
- *
- * <ul>
- *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
- *	<li> Github: https://github.com/samchon/stl/ </li>
- *	<li> Reference: http://www.cplusplus.com/reference/ </li>
- * </ul>
- *
- * @author Jeongho Nam
- */
+* <p> A namespace of STL library. </p>
+*
+* <ul>
+*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+*	<li> Github: https://github.com/samchon/stl/ </li>
+*	<li> Reference: http://www.cplusplus.com/reference/ </li>
+* </ul>
+*
+* @author Jeongho Nam
+*/
 declare namespace std {
 }
 declare namespace std.base {
@@ -2630,17 +2549,18 @@ declare namespace std {
     /**
      * <p> FIFO queue. </p>
      *
-     * <p> <code>Queue</code>s are a type of container adaptor, specifically designed to operate in a FIFO
+     * <p> {@link Queue}s are a type of container adaptor, specifically designed to operate in a FIFO
      * context (first-in first-out), where elements are inserted into one end of the container and extracted
      * from the other. </p>
      *
-     * <p> <code>Queue</code>s are implemented as containers adaptors, which are classes that use an encapsulated
+     * <p> {@link Queue}s are implemented as containers adaptors, which are classes that use an encapsulated
      * object of a specific container class as its underlying container, providing a specific set of member
-     * functions to access its elements. Elements are pushed into the <code>back()</code> of the specific
-     * container and popped from its <code>front()</code>. </p>
+     * functions to access its elements. Elements are pushed into the {@link IDeque.back back()} of the specific
+     * container and popped from its {@link IDeque.front front()}. </p>
      *
-     * <p> The underlying container may be one of the standard container class template or some other specifically
-     * designed container class. This underlying container shall support at least the following operations: </p>
+     * <p> {@link data The underlying container} may be one of the standard container class template or some other
+     * specifically designed container class. This underlying container shall support at least the following
+     * operations: </p>
      *
      * <ul>
      *	<li> empty </li>
@@ -2652,7 +2572,7 @@ declare namespace std {
      * </ul>
      *
      * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular <code>Queue</code> class instantiation,
+     * By default, if no container class is specified for a particular {@link Queue} class instantiation,
      * the standard container {@link List} is used. </p>
      *
      * <ul>
@@ -2663,27 +2583,51 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class Queue<T> extends base.container.FOContainer<T> {
+    class Queue<T> {
+        /**
+         * The <i>underlying object</i> for implementing the <i>FIFO</i> container.
+         */
+        private data;
         /**
          * Default Constructor.
          */
         constructor();
         /**
-         * Construct from a LIFO or FIFO container.
-         *
-         * @param container An abstract container of LIFO and FIFO.
+         * Copy Constructor.
          */
-        constructor(container: base.container.FOContainer<T>);
+        constructor(container: Queue<T>);
+        /**
+         * <p> Return size. </p>
+         * <p> Returns the number of elements in the {@link Queue}. </p>
+         *
+         * <p> This member function effectively calls member {@link IDeque.size size()} of the
+         * {@link data underlying container} object. </p>
+         *
+         * @return The number of elements in the {@link data underlying container}.
+         */
+        size(): number;
+        /**
+         * <p> Test whether container is empty. </p>
+         * <p> returns whether the {@link Queue} is empty: i.e. whether its <i>size</i> is zero. </p>
+         *
+         * <p> This member function efeectively calls member {@link IDeque.empty empty()} of the
+         * {@link data underlying container} object. </p>
+         *
+         * @return <code>true</code> if the {@link data underlying container}'s size is 0,
+         *		   <code>false</code> otherwise. </p>
+         */
+        empty(): boolean;
         /**
          * <p> Access next element. </p>
-         * <p> Returns a value of the next element in the <code>Queue</code>. </p>
+         * <p> Returns a value of the next element in the {@link Queue}. </p>
          *
-         * <p> The next element is the "oldest" element in the <code>Queue</code> and the same element that is
-         * popped out from the queue when <code>Queue::pop()</code> is called. </p>
+         * <p> The next element is the "oldest" element in the {@link Queue} and the same element that is
+         * popped out from the queue when {@link pop Queue.pop()} is called. </p>
          *
-         * <p> This member function effectively calls <code>member()</code> front of the <i>underlying container</i> sobject. </p>
+         * <p> This member function effectively calls member {@link IDeque.front front()} of the
+         * {@link data underlying container} object. </p>
          *
-         * @return A value of the next element in the <code>Queue</code>.
+         * @return A value of the next element in the {@link Queue}.
          */
         front(): T;
         /**
@@ -2692,20 +2636,20 @@ declare namespace std {
          * <p> Returns a vaue of the last element in the queue. This is the "newest" element in the queue
          * (i.e. the last element pushed into the queue). </p>
          *
-         * <p> This member function effectively calls member <code>back()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.back back()} of the
+         * {@link data underlying container} object. </p>
          *
-         * @return A value of the last element in the <code>Queue</code>.
+         * @return A value of the last element in the {@link Queue}.
          */
         back(): T;
         /**
          * <p> Insert element. </p>
          *
-         * <p> Inserts a new element at the end of the <code>Queue</code>, after its current last element.
+         * <p> Inserts a new element at the end of the {@link Queue}, after its current last element.
          * The content of this new element is initialized to val. </p>
          *
-         * <p> This member function effectively calls the member function <code>pushBack()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.pushBack pushBack()} of
+         * the {@link data underlying container} object. </p>
          *
          * @param val Value to which the inserted element is initialized.
          */
@@ -2713,13 +2657,13 @@ declare namespace std {
         /**
          * <p> Remove next element. </p>
          *
-         * <p> Removes the next element in the <code>Queue</code>, effectively reducing its size by one. </p>
+         * <p> Removes the next element in the {@link Queue}, effectively reducing its size by one. </p>
          *
-         * <p> The element removed is the "oldest" element in the <code>Queue</code> whose value can be retrieved
-         * by calling member <code>Queue::front()</code> </p>.
+         * <p> The element removed is the "oldest" element in the {@link Queue} whose value can be retrieved
+         * by calling member {@link front Queue.front()} </p>.
          *
-         * <p> This member function effectively calls the member function <code>popFront()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.popFront popFront()} of
+         * the {@link data underlying container} object. </p>
          */
         pop(): void;
     }
@@ -2779,15 +2723,15 @@ declare namespace std {
     /**
      * <p> LIFO stack. </p>
      *
-     * <p> <code>Stack</code>s are a type of container adaptor, specifically designed to operate in a LIFO context
+     * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context
      * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
      *
-     * <p> <code>Stack</code>s are implemented as containers adaptors, which are classes that use an encapsulated
+     * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated
      * object of a specific container class as its <i>underlying container</i>, providing a specific set of member
-     * functions to access its elements. Elements are pushed/popped from the <code>back()</code> of the specific
-     * container, which is known as the top of the <code>Stack</code>. </p>
+     * functions to access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()}
+     * of the {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
      *
-     * <p> The underlying container may be any of the standard container class templates or some other
+     * <p> {@link data The underlying container} may be any of the standard container class templates or some other
      * specifically designed container class. The container shall support the following operations: </p>
      *
      * <ul>
@@ -2796,11 +2740,11 @@ declare namespace std {
      *	<li> front </li>
      *	<li> back </li>
      *	<li> pushBack </li>
-     *	<li> popFront </li>
+     *	<li> popBack </li>
      * </ul>
      *
-     * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular <code>Stack</code> class instantiation,
+     * <p> The standard container classes {@link Vector}, {@link Deque} and {@link List} fulfill these requirements.
+     * By default, if no container class is specified for a particular {@link Stack} class instantiation,
      * the standard container {@link List} is used. </p>
      *
      * <ul>
@@ -2811,38 +2755,61 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class Stack<T> extends base.container.FOContainer<T> {
+    class Stack<T> {
+        /**
+         * The <i>underlying object</i> for implementing the <i>LIFO</i> container.
+         */
+        protected data: base.container.ILinearContainer<T>;
         /**
          * Default Constructor.
          */
         constructor();
         /**
-         * Construct from a LIFO or FIFO container.
-         *
-         * @param container An abstract container of LIFO and FIFO.
+         * Copy Constructor.
          */
-        constructor(container: base.container.FOContainer<T>);
+        constructor(stack: Stack<T>);
+        /**
+         * <p> Return size. </p>
+         * <p> Returns the number of elements in the {@link Stack}. </p>
+         *
+         * <p> This member function effectively calls member {@link ILinearContainer.size size()} of the
+         * {@link data underlying container} object. </p>
+         *
+         * @return The number of elements in the {@link data underlying container}.
+         */
+        size(): number;
+        /**
+         * <p> Test whether container is empty. </p>
+         * <p> returns whether the {@link Stack} is empty: i.e. whether its <i>size</i> is zero. </p>
+         *
+         * <p> This member function effectively calls member {@link ILinearContainer.empty empty()} of the
+         * {@link data underlying container} object. </p>
+         *
+         * @return <code>true</code> if the <i>underlying container</i>'s size is 0,
+         *		   <code>false</code> otherwise. </p>
+         */
+        empty(): boolean;
         /**
          * <p> Access next element. </p>
          *
-         * <p> Returns a value of the top element in the <code>Stack</code> </p>.
+         * <p> Returns a value of the top element in the {@link Stack} </p>.
          *
-         * <p> Since <code>Stack</code>s are last-in first-out containers, the top element is the last element
-         * inserted into the <code>Stack</code>. </p>
+         * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element
+         * inserted into the {@link Stack}. </p>
          *
-         * <p> This member function effectively calls member <code>back()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls member {@link ILinearContainer.back back()} of the
+         * {@link data underlying container} object. </p>
          *
-         * @return A value of the top element in the <code>Stack</code>.
+         * @return A value of the top element in the {@link Stack}.
          */
         top(): T;
         /**
          * <p> Insert element. </p>
          *
-         * <p> Inserts a new element at the top of the <code>Stack</code>, above its current top element. </p>
+         * <p> Inserts a new element at the top of the {@link Stack}, above its current top element. </p>
          *
-         * <p> This member function effectively calls the member function <code>pushBack()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function
+         * {@link ILinearContainer.pushBack pushBack()} of the {@link data underlying container} object. </p>
          *
          * @param val Value to which the inserted element is initialized.
          */
@@ -2850,13 +2817,13 @@ declare namespace std {
         /**
          * <p> Remove top element. </p>
          *
-         * <p> Removes the element on top of the <code>Stack</code>, effectively reducing its size by one. </p>
+         * <p> Removes the element on top of the {@link Stack}, effectively reducing its size by one. </p>
          *
-         * <p> The element removed is the latest element inserted into the <code>Stack</code>, whose value can be
-         * retrieved by calling member <code>Stack::top()</code> </p>.
+         * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be
+         * retrieved by calling member {@link top Stack.top()} </p>.
          *
-         * <p> This member function effectively calls the member function <code>popBack()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function
+         * {@link ILinearContainer.popBack popBack()} of the {@link data underlying container} object. </p>
          */
         pop(): void;
     }
@@ -3643,7 +3610,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class Vector<T> extends Array<T> implements base.container.IArrayContainer<T> {
+    class Vector<T> extends Array<T> implements base.container.IArray<T> {
         static iterator: typeof VectorIterator;
         /**
          * <p> Default Constructor. </p>

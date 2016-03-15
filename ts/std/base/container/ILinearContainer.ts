@@ -76,7 +76,7 @@
 		 * <p> Removes the last element in the {@link IList container}, effectively reducing the 
 		 * {@link IList container} {@link size} by one. </p>
 		 */
-		popBack(val: T): void;
+		popBack(): void;
 
 		/**
 		 * <p> Insert an element. </p>

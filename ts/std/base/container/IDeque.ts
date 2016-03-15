@@ -5,7 +5,7 @@
 	 *
 	 * @author Jeongho Nam
 	 */
-	export interface IDequeContainer<T> 
+	export interface IDeque<T> 
 		extends ILinearContainer<T>
 	{
 		/**

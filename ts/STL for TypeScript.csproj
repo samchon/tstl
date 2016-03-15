@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -44,8 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="std\base\container\Container.ts" />
-    <TypeScriptCompile Include="std\base\container\FOContainer.ts" />
-    <TypeScriptCompile Include="std\base\container\IArrayContainer.ts" />
+    <TypeScriptCompile Include="std\base\container\IArray.ts" />
     <TypeScriptCompile Include="std\base\container\IContainer.ts" />
     <TypeScriptCompile Include="std\base\container\IDeque.ts" />
     <TypeScriptCompile Include="std\base\container\ILinearContainer.ts" />

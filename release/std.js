@@ -1,3 +1,8 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var std;
 (function (std) {
     var base;
@@ -52,74 +57,8 @@ var std;
                     return this.size() == 0;
                 };
                 return Container;
-            })();
+            }());
             container_1.Container = Container;
-        })(container = base.container || (base.container = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var container;
-        (function (container_3) {
-            /**
-             * <p> First-out container. </p>
-             *
-             * <p> <code>FOContainer</code> is an abstract class, a type of container adaptor, specifically designed to
-             * operate in a FIFO and LIFO, like <code>Queue</code> and <code>Stack</code>. </p>
-             *
-             * <p> <code>FOContainer</code>s are implemented as containers adaptors, which are classes that use an
-             * encapsulated object of a specific container class as its <i>underlying container</i>, providing a specific
-             * set of member functions to access its elements. Elements are pushed/popped from the <code>accessor</code>
-             * method of the (derived) specific container. </p>
-             *
-             * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
-             * By default, if no container class is specified for a particular <code>FOContainer</code> class
-             * instantiation, the standard container {@link List} is used. </p>
-             *
-             * @param <T> Type of elements.
-             *
-             * @author Jeongho Nam
-             */
-            var FOContainer = (function () {
-                function FOContainer(container) {
-                    if (container === void 0) { container = null; }
-                    this.data = new std.List();
-                    if (container != null)
-                        this.data.assign(container.data.begin(), container.data.end());
-                }
-                /* ---------------------------------------------------------
-                    ACCESSORS
-                --------------------------------------------------------- */
-                /**
-                 * <p> Return size. </p>
-                 * <p> Returns the number of elements in the <code>FOStack</code>. </p>
-                 *
-                 * <p> This member function effectively calls member {@link size} of the
-                 * <i>underlying container</i> object. </p>
-                 *
-                 * @return The number of elements in the <i>underlying container</i>.
-                 */
-                FOContainer.prototype.size = function () {
-                    return this.data.size();
-                };
-                /**
-                 * <p> Test whether container is empty. </p>
-                 * <p> returns whether the <code>FOContainer</code> is empty: i.e. whether its <i>size</i> is zero. </p>
-                 *
-                 * <p> This member function efeectively calls member <code>empty()</code> of the
-                 * <i>underlying container</i> object. </p>
-                 *
-                 * @return <code>true</code> if the <i>underlying container</i>'s size is 0,
-                 *		   <code>false</code> otherwise. </p>
-                 */
-                FOContainer.prototype.empty = function () {
-                    return this.data.empty();
-                };
-                return FOContainer;
-            })();
-            container_3.FOContainer = FOContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -209,7 +148,7 @@ var std;
                     configurable: true
                 });
                 return Iterator;
-            })();
+            }());
             container.Iterator = Iterator;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -219,7 +158,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container_4) {
+        (function (container_3) {
             /**
              * <p> An abstract map. </p>
              *
@@ -428,17 +367,12 @@ var std;
                     return new std.MapIterator(this, listIterator);
                 };
                 return MapContainer;
-            })();
-            container_4.MapContainer = MapContainer;
+            }());
+            container_3.MapContainer = MapContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="MapContainer.ts" />
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var std;
 (function (std) {
     var base;
@@ -476,7 +410,7 @@ var std;
                     return _super.prototype.insert.apply(this, args);
                 };
                 return MultiMap;
-            })(container.MapContainer);
+            }(container.MapContainer));
             container.MultiMap = MultiMap;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -487,7 +421,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container_5) {
+        (function (container_4) {
             /**
              * Abstract Set.
              *
@@ -618,8 +552,8 @@ var std;
                     }
                     if (args.length == 1)
                         return this.insertByVal(args[0]);
-                    else if (args.length == 2 && args[0] instanceof container_5.Iterator) {
-                        if (args[1] instanceof container_5.Iterator && args[0].getSource() != this && args[1].getSource() != this)
+                    else if (args.length == 2 && args[0] instanceof container_4.Iterator) {
+                        if (args[1] instanceof container_4.Iterator && args[0].getSource() != this && args[1].getSource() != this)
                             return this.insertByRange(args[0], args[1]);
                         else
                             return this.insertByHint(args[0], args[1]);
@@ -649,12 +583,12 @@ var std;
                         args[_i - 0] = arguments[_i];
                     }
                     if (args.length == 1) {
-                        if (args[0] instanceof container_5.Iterator && args[0].getSource() == this)
+                        if (args[0] instanceof container_4.Iterator && args[0].getSource() == this)
                             return this.eraseByIterator(args[0]);
                         else
                             return this.eraseByKey(args[0]);
                     }
-                    else if (args.length == 2 && args[0] instanceof container_5.Iterator && args[1] instanceof container_5.Iterator)
+                    else if (args.length == 2 && args[0] instanceof container_4.Iterator && args[1] instanceof container_4.Iterator)
                         return this.eraseByRange(args[0], args[1]);
                 };
                 /**
@@ -691,8 +625,8 @@ var std;
                     return new std.SetIterator(this, listIterator); //begin.prev();
                 };
                 return SetContainer;
-            })(container_5.Container);
-            container_5.SetContainer = SetContainer;
+            }(container_4.Container));
+            container_4.SetContainer = SetContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -731,7 +665,7 @@ var std;
                     return _super.prototype.insert.apply(this, args);
                 };
                 return MultiSet;
-            })(container.SetContainer);
+            }(container.SetContainer));
             container.MultiSet = MultiSet;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -784,7 +718,7 @@ var std;
                     return _super.prototype.insert.apply(this, args);
                 };
                 return UniqueMap;
-            })(container.MapContainer);
+            }(container.MapContainer));
             container.UniqueMap = UniqueMap;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -818,7 +752,7 @@ var std;
                     return _super.prototype.insert.apply(this, args);
                 };
                 return UniqueSet;
-            })(container.SetContainer);
+            }(container.SetContainer));
             container.UniqueSet = UniqueSet;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -971,7 +905,7 @@ var std;
                         }
                 };
                 return HashBuckets;
-            })();
+            }());
             hash.HashBuckets = HashBuckets;
         })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
@@ -998,7 +932,7 @@ var std;
                     return this.map.end();
                 };
                 return MapHashBuckets;
-            })(hash.HashBuckets);
+            }(hash.HashBuckets));
             hash.MapHashBuckets = MapHashBuckets;
         })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
@@ -1025,7 +959,7 @@ var std;
                     return this.set.end();
                 };
                 return SetHashBuckets;
-            })(hash.HashBuckets);
+            }(hash.HashBuckets));
             hash.SetHashBuckets = SetHashBuckets;
         })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
@@ -1158,7 +1092,7 @@ var std;
                     return this.value_ != 0;
                 };
                 return ErrorInstance;
-            })();
+            }());
             system.ErrorInstance = ErrorInstance;
         })(system = base.system || (base.system = {}));
     })(base = std.base || (std.base = {}));
@@ -1477,7 +1411,7 @@ var std;
                         return node.color;
                 };
                 return XTree;
-            })();
+            }());
             tree.XTree = XTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -1536,7 +1470,7 @@ var std;
                     return std.less(left.value, right.value);
                 };
                 return AtomicTree;
-            })(tree.XTree);
+            }(tree.XTree));
             tree.AtomicTree = AtomicTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -1593,7 +1527,7 @@ var std;
                     configurable: true
                 });
                 return Color;
-            })();
+            }());
             tree.Color = Color;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -1652,7 +1586,7 @@ var std;
                     return std.less(left.first, right.first);
                 };
                 return PairTree;
-            })(tree.XTree);
+            }(tree.XTree));
             tree.PairTree = PairTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -1708,7 +1642,7 @@ var std;
                     configurable: true
                 });
                 return XTreeNode;
-            })();
+            }());
             tree.XTreeNode = XTreeNode;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -1731,7 +1665,7 @@ var std;
             return this.func == obj.func && this.thisArg == obj.thisArg;
         };
         return Bind;
-    })();
+    }());
     std.Bind = Bind;
 })(std || (std = {}));
 ///// <reference path="base/container/Container.ts" />
@@ -2364,7 +2298,7 @@ var std;
             return false;
         };
         return ErrorCategory;
-    })();
+    }());
     std.ErrorCategory = ErrorCategory;
 })(std || (std = {}));
 /// <reference path="base/system/ErrorInstance.ts" />
@@ -2396,7 +2330,7 @@ var std;
             _super.call(this, val, category);
         }
         return ErrorCode;
-    })(std.base.system.ErrorInstance);
+    }(std.base.system.ErrorInstance));
     std.ErrorCode = ErrorCode;
 })(std || (std = {}));
 /// <reference path="base/system/ErrorInstance.ts" />
@@ -2433,7 +2367,7 @@ var std;
             _super.call(this, val, category);
         }
         return ErrorCondition;
-    })(std.base.system.ErrorInstance);
+    }(std.base.system.ErrorInstance));
     std.ErrorCondition = ErrorCondition;
 })(std || (std = {}));
 var std;
@@ -2537,7 +2471,7 @@ var std;
                 new ContainerTest();
             };
             return ContainerTest;
-        })();
+        }());
         example.ContainerTest = ContainerTest;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
@@ -2587,7 +2521,7 @@ var std;
             return this.message;
         };
         return Exception;
-    })();
+    }());
     std.Exception = Exception;
     /* =========================================================
         + LOGIC_ERROR
@@ -2623,7 +2557,7 @@ var std;
             _super.call(this, what);
         }
         return LogicError;
-    })(Exception);
+    }(Exception));
     std.LogicError = LogicError;
     /**
      * <p> Domain error exception. </p>
@@ -2654,7 +2588,7 @@ var std;
             _super.call(this, what);
         }
         return DomainError;
-    })(LogicError);
+    }(LogicError));
     std.DomainError = DomainError;
     /**
      * <p> Invalid argument exception. </p>
@@ -2681,7 +2615,7 @@ var std;
             _super.call(this, what);
         }
         return InvalidArgument;
-    })(LogicError);
+    }(LogicError));
     std.InvalidArgument = InvalidArgument;
     /**
      * <p> Length error exception. </p>
@@ -2708,7 +2642,7 @@ var std;
             _super.call(this, what);
         }
         return LengthError;
-    })(LogicError);
+    }(LogicError));
     std.LengthError = LengthError;
     /**
      * <p> Out-of-range exception. </p>
@@ -2736,7 +2670,7 @@ var std;
             _super.call(this, what);
         }
         return OutOfRange;
-    })(LogicError);
+    }(LogicError));
     std.OutOfRange = OutOfRange;
     /* =========================================================
         + RUNTIME_ERROR
@@ -2770,7 +2704,7 @@ var std;
             _super.call(this, what);
         }
         return RuntimeError;
-    })(Exception);
+    }(Exception));
     std.RuntimeError = RuntimeError;
     /**
      * <p> Overflow error exception. </p>
@@ -2797,7 +2731,7 @@ var std;
             _super.call(this, what);
         }
         return OverflowError;
-    })(RuntimeError);
+    }(RuntimeError));
     std.OverflowError = OverflowError;
     /**
      * <p> Underflow error exception. </p>
@@ -2824,7 +2758,7 @@ var std;
             _super.call(this, what);
         }
         return UnderflowError;
-    })(RuntimeError);
+    }(RuntimeError));
     std.UnderflowError = UnderflowError;
     /**
      * <p> Range error exception. </p>
@@ -2852,7 +2786,7 @@ var std;
             _super.call(this, what);
         }
         return RangeError;
-    })(RuntimeError);
+    }(RuntimeError));
     std.RangeError = RangeError;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueMap.ts" />
@@ -3020,7 +2954,7 @@ var std;
             this.hashBuckets.erase(it);
         };
         return HashMap;
-    })(std.base.container.UniqueMap);
+    }(std.base.container.UniqueMap));
     std.HashMap = HashMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiMap.ts" />
@@ -3181,7 +3115,7 @@ var std;
             this.hashBuckets.erase(it);
         };
         return HashMultiMap;
-    })(std.base.container.MultiMap);
+    }(std.base.container.MultiMap));
     std.HashMultiMap = HashMultiMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiSet.ts" />
@@ -3340,7 +3274,7 @@ var std;
             this.hashBuckets.erase(it);
         };
         return HashMultiSet;
-    })(std.base.container.MultiSet);
+    }(std.base.container.MultiSet));
     std.HashMultiSet = HashMultiSet;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueSet.ts" />
@@ -3494,7 +3428,7 @@ var std;
             this.hashBuckets.erase(item);
         };
         return HashSet;
-    })(std.base.container.UniqueSet);
+    }(std.base.container.UniqueSet));
     std.HashSet = HashSet;
 })(std || (std = {}));
 var std;
@@ -3688,7 +3622,7 @@ var std;
                 var end = par2;
                 // BODY
                 var prev = null;
-                var item;
+                var item = void 0;
                 var it = begin;
                 while (true) {
                     // CONSTRUCT ELEMENT ITEM
@@ -3931,7 +3865,7 @@ var std;
             return prev;
         };
         return List;
-    })(std.base.container.Container);
+    }(std.base.container.Container));
     std.List = List;
 })(std || (std = {}));
 /// <reference path="base/container/Iterator.ts" />
@@ -4019,7 +3953,7 @@ var std;
             configurable: true
         });
         return ListIterator;
-    })(std.base.container.Iterator);
+    }(std.base.container.Iterator));
     std.ListIterator = ListIterator;
 })(std || (std = {}));
 var std;
@@ -4138,7 +4072,7 @@ var std;
             return std.hashCode(this.first);
         };
         return MapIterator;
-    })();
+    }());
     std.MapIterator = MapIterator;
 })(std || (std = {}));
 var std;
@@ -4197,26 +4131,26 @@ var std;
                 return std.less(this.second, pair.second);
         };
         return Pair;
-    })();
+    }());
     std.Pair = Pair;
 })(std || (std = {}));
-/// <reference path="base/container/FOContainer.ts" />
 var std;
 (function (std) {
     /**
      * <p> FIFO queue. </p>
      *
-     * <p> <code>Queue</code>s are a type of container adaptor, specifically designed to operate in a FIFO
+     * <p> {@link Queue}s are a type of container adaptor, specifically designed to operate in a FIFO
      * context (first-in first-out), where elements are inserted into one end of the container and extracted
      * from the other. </p>
      *
-     * <p> <code>Queue</code>s are implemented as containers adaptors, which are classes that use an encapsulated
+     * <p> {@link Queue}s are implemented as containers adaptors, which are classes that use an encapsulated
      * object of a specific container class as its underlying container, providing a specific set of member
-     * functions to access its elements. Elements are pushed into the <code>back()</code> of the specific
-     * container and popped from its <code>front()</code>. </p>
+     * functions to access its elements. Elements are pushed into the {@link IDeque.back back()} of the specific
+     * container and popped from its {@link IDeque.front front()}. </p>
      *
-     * <p> The underlying container may be one of the standard container class template or some other specifically
-     * designed container class. This underlying container shall support at least the following operations: </p>
+     * <p> {@link data The underlying container} may be one of the standard container class template or some other
+     * specifically designed container class. This underlying container shall support at least the following
+     * operations: </p>
      *
      * <ul>
      *	<li> empty </li>
@@ -4228,7 +4162,7 @@ var std;
      * </ul>
      *
      * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular <code>Queue</code> class instantiation,
+     * By default, if no container class is specified for a particular {@link Queue} class instantiation,
      * the standard container {@link List} is used. </p>
      *
      * <ul>
@@ -4239,25 +4173,52 @@ var std;
      *
      * @author Jeongho Nam
      */
-    var Queue = (function (_super) {
-        __extends(Queue, _super);
-        function Queue(container) {
-            if (container === void 0) { container = null; }
-            _super.call(this, container);
+    var Queue = (function () {
+        function Queue(queue) {
+            if (queue === void 0) { queue = null; }
+            this.data = new std.List();
+            if (queue != null)
+                this.data.assign(queue.data.begin(), queue.data.end());
         }
         /* ---------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------- */
         /**
+         * <p> Return size. </p>
+         * <p> Returns the number of elements in the {@link Queue}. </p>
+         *
+         * <p> This member function effectively calls member {@link IDeque.size size()} of the
+         * {@link data underlying container} object. </p>
+         *
+         * @return The number of elements in the {@link data underlying container}.
+         */
+        Queue.prototype.size = function () {
+            return this.data.size();
+        };
+        /**
+         * <p> Test whether container is empty. </p>
+         * <p> returns whether the {@link Queue} is empty: i.e. whether its <i>size</i> is zero. </p>
+         *
+         * <p> This member function efeectively calls member {@link IDeque.empty empty()} of the
+         * {@link data underlying container} object. </p>
+         *
+         * @return <code>true</code> if the {@link data underlying container}'s size is 0,
+         *		   <code>false</code> otherwise. </p>
+         */
+        Queue.prototype.empty = function () {
+            return this.data.empty();
+        };
+        /**
          * <p> Access next element. </p>
-         * <p> Returns a value of the next element in the <code>Queue</code>. </p>
+         * <p> Returns a value of the next element in the {@link Queue}. </p>
          *
-         * <p> The next element is the "oldest" element in the <code>Queue</code> and the same element that is
-         * popped out from the queue when <code>Queue::pop()</code> is called. </p>
+         * <p> The next element is the "oldest" element in the {@link Queue} and the same element that is
+         * popped out from the queue when {@link pop Queue.pop()} is called. </p>
          *
-         * <p> This member function effectively calls <code>member()</code> front of the <i>underlying container</i> sobject. </p>
+         * <p> This member function effectively calls member {@link IDeque.front front()} of the
+         * {@link data underlying container} object. </p>
          *
-         * @return A value of the next element in the <code>Queue</code>.
+         * @return A value of the next element in the {@link Queue}.
          */
         Queue.prototype.front = function () {
             return this.data.front();
@@ -4268,10 +4229,10 @@ var std;
          * <p> Returns a vaue of the last element in the queue. This is the "newest" element in the queue
          * (i.e. the last element pushed into the queue). </p>
          *
-         * <p> This member function effectively calls member <code>back()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.back back()} of the
+         * {@link data underlying container} object. </p>
          *
-         * @return A value of the last element in the <code>Queue</code>.
+         * @return A value of the last element in the {@link Queue}.
          */
         Queue.prototype.back = function () {
             return this.data.back();
@@ -4282,11 +4243,11 @@ var std;
         /**
          * <p> Insert element. </p>
          *
-         * <p> Inserts a new element at the end of the <code>Queue</code>, after its current last element.
+         * <p> Inserts a new element at the end of the {@link Queue}, after its current last element.
          * The content of this new element is initialized to val. </p>
          *
-         * <p> This member function effectively calls the member function <code>pushBack()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.pushBack pushBack()} of
+         * the {@link data underlying container} object. </p>
          *
          * @param val Value to which the inserted element is initialized.
          */
@@ -4296,19 +4257,19 @@ var std;
         /**
          * <p> Remove next element. </p>
          *
-         * <p> Removes the next element in the <code>Queue</code>, effectively reducing its size by one. </p>
+         * <p> Removes the next element in the {@link Queue}, effectively reducing its size by one. </p>
          *
-         * <p> The element removed is the "oldest" element in the <code>Queue</code> whose value can be retrieved
-         * by calling member <code>Queue::front()</code> </p>.
+         * <p> The element removed is the "oldest" element in the {@link Queue} whose value can be retrieved
+         * by calling member {@link front Queue.front()} </p>.
          *
-         * <p> This member function effectively calls the member function <code>popFront()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.popFront popFront()} of
+         * the {@link data underlying container} object. </p>
          */
         Queue.prototype.pop = function () {
             this.data.popFront();
         };
         return Queue;
-    })(std.base.container.FOContainer);
+    }());
     std.Queue = Queue;
 })(std || (std = {}));
 /// <refe0rence path="base/container/Iterator.ts" />
@@ -4401,24 +4362,23 @@ var std;
             return std.base.hash.code(this.value);
         };
         return SetIterator;
-    })(std.base.container.Iterator);
+    }(std.base.container.Iterator));
     std.SetIterator = SetIterator;
 })(std || (std = {}));
-/// <reference path="base/container/FOContainer.ts" />
 var std;
 (function (std) {
     /**
      * <p> LIFO stack. </p>
      *
-     * <p> <code>Stack</code>s are a type of container adaptor, specifically designed to operate in a LIFO context
+     * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context
      * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
      *
-     * <p> <code>Stack</code>s are implemented as containers adaptors, which are classes that use an encapsulated
+     * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated
      * object of a specific container class as its <i>underlying container</i>, providing a specific set of member
-     * functions to access its elements. Elements are pushed/popped from the <code>back()</code> of the specific
-     * container, which is known as the top of the <code>Stack</code>. </p>
+     * functions to access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()}
+     * of the {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
      *
-     * <p> The underlying container may be any of the standard container class templates or some other
+     * <p> {@link data The underlying container} may be any of the standard container class templates or some other
      * specifically designed container class. The container shall support the following operations: </p>
      *
      * <ul>
@@ -4427,11 +4387,11 @@ var std;
      *	<li> front </li>
      *	<li> back </li>
      *	<li> pushBack </li>
-     *	<li> popFront </li>
+     *	<li> popBack </li>
      * </ul>
      *
-     * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular <code>Stack</code> class instantiation,
+     * <p> The standard container classes {@link Vector}, {@link Deque} and {@link List} fulfill these requirements.
+     * By default, if no container class is specified for a particular {@link Stack} class instantiation,
      * the standard container {@link List} is used. </p>
      *
      * <ul>
@@ -4442,30 +4402,56 @@ var std;
      *
      * @author Jeongho Nam
      */
-    var Stack = (function (_super) {
-        __extends(Stack, _super);
-        function Stack(container) {
-            if (container === void 0) { container = null; }
-            _super.call(this, container);
+    var Stack = (function () {
+        function Stack(stack) {
+            if (stack === void 0) { stack = null; }
+            this.data = new std.List();
+            if (stack != null)
+                this.data.assign(stack.data.begin(), stack.data.end());
         }
         /* ---------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------- */
         /**
+         * <p> Return size. </p>
+         * <p> Returns the number of elements in the {@link Stack}. </p>
+         *
+         * <p> This member function effectively calls member {@link ILinearContainer.size size()} of the
+         * {@link data underlying container} object. </p>
+         *
+         * @return The number of elements in the {@link data underlying container}.
+         */
+        Stack.prototype.size = function () {
+            return this.data.size();
+        };
+        /**
+         * <p> Test whether container is empty. </p>
+         * <p> returns whether the {@link Stack} is empty: i.e. whether its <i>size</i> is zero. </p>
+         *
+         * <p> This member function effectively calls member {@link ILinearContainer.empty empty()} of the
+         * {@link data underlying container} object. </p>
+         *
+         * @return <code>true</code> if the <i>underlying container</i>'s size is 0,
+         *		   <code>false</code> otherwise. </p>
+         */
+        Stack.prototype.empty = function () {
+            return this.data.empty();
+        };
+        /**
          * <p> Access next element. </p>
          *
-         * <p> Returns a value of the top element in the <code>Stack</code> </p>.
+         * <p> Returns a value of the top element in the {@link Stack} </p>.
          *
-         * <p> Since <code>Stack</code>s are last-in first-out containers, the top element is the last element
-         * inserted into the <code>Stack</code>. </p>
+         * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element
+         * inserted into the {@link Stack}. </p>
          *
-         * <p> This member function effectively calls member <code>back()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls member {@link ILinearContainer.back back()} of the
+         * {@link data underlying container} object. </p>
          *
-         * @return A value of the top element in the <code>Stack</code>.
+         * @return A value of the top element in the {@link Stack}.
          */
         Stack.prototype.top = function () {
-            return this.data.front();
+            return this.data.back();
         };
         /* ---------------------------------------------------------
             ELEMENTS I/O
@@ -4473,32 +4459,32 @@ var std;
         /**
          * <p> Insert element. </p>
          *
-         * <p> Inserts a new element at the top of the <code>Stack</code>, above its current top element. </p>
+         * <p> Inserts a new element at the top of the {@link Stack}, above its current top element. </p>
          *
-         * <p> This member function effectively calls the member function <code>pushBack()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function
+         * {@link ILinearContainer.pushBack pushBack()} of the {@link data underlying container} object. </p>
          *
          * @param val Value to which the inserted element is initialized.
          */
         Stack.prototype.push = function (val) {
-            this.data.pushFront(val);
+            this.data.pushBack(val);
         };
         /**
          * <p> Remove top element. </p>
          *
-         * <p> Removes the element on top of the <code>Stack</code>, effectively reducing its size by one. </p>
+         * <p> Removes the element on top of the {@link Stack}, effectively reducing its size by one. </p>
          *
-         * <p> The element removed is the latest element inserted into the <code>Stack</code>, whose value can be
-         * retrieved by calling member <code>Stack::top()</code> </p>.
+         * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be
+         * retrieved by calling member {@link top Stack.top()} </p>.
          *
-         * <p> This member function effectively calls the member function <code>popBack()</code> of the
-         * <i>underlying container</i> object. </p>
+         * <p> This member function effectively calls the member function
+         * {@link ILinearContainer.popBack popBack()} of the {@link data underlying container} object. </p>
          */
         Stack.prototype.pop = function () {
-            this.data.popFront();
+            this.data.popBack();
         };
         return Stack;
-    })(std.base.container.FOContainer);
+    }());
     std.Stack = Stack;
 })(std || (std = {}));
 /// <reference path="Exception.ts" />
@@ -4546,7 +4532,7 @@ var std;
             return this.code_;
         };
         return SystemError;
-    })(std.RuntimeError);
+    }(std.RuntimeError));
     std.SystemError = SystemError;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueMap.ts" />
@@ -4770,7 +4756,7 @@ var std;
             this.tree.erase(item);
         };
         return TreeMap;
-    })(std.base.container.UniqueMap);
+    }(std.base.container.UniqueMap));
     std.TreeMap = TreeMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiMap.ts" />
@@ -4999,7 +4985,7 @@ var std;
             this.tree.erase(item);
         };
         return TreeMultiMap;
-    })(std.base.container.MultiMap);
+    }(std.base.container.MultiMap));
     std.TreeMultiMap = TreeMultiMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiSet.ts" />
@@ -5226,7 +5212,7 @@ var std;
             this.tree.erase(item);
         };
         return TreeMultiSet;
-    })(std.base.container.MultiSet);
+    }(std.base.container.MultiSet));
     std.TreeMultiSet = TreeMultiSet;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueSet.ts" />
@@ -5444,7 +5430,7 @@ var std;
             this.tree.erase(item);
         };
         return TreeSet;
-    })(std.base.container.UniqueSet);
+    }(std.base.container.UniqueSet));
     std.TreeSet = TreeSet;
 })(std || (std = {}));
 var std;
@@ -5699,7 +5685,7 @@ var std;
             return new std.VectorIterator(this, startIndex);
         };
         return Vector;
-    })(Array);
+    }(Array));
     std.Vector = Vector;
 })(std || (std = {}));
 /// <reference path="base/container/Iterator.ts" />
@@ -5803,7 +5789,7 @@ var std;
                 return new VectorIterator(this.vector, newIndex);
         };
         return VectorIterator;
-    })(std.base.container.Iterator);
+    }(std.base.container.Iterator));
     std.VectorIterator = VectorIterator;
 })(std || (std = {}));
 //# sourceMappingURL=std.js.map
