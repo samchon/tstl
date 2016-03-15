@@ -2,8 +2,8 @@
 
 namespace std.base.tree
 {
-	export class PairTree<K, T>
-		extends XTree<MapIterator<K, T>>
+	export class PairTree<Key, T>
+		extends XTree<MapIterator<Key, T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
@@ -16,38 +16,42 @@ namespace std.base.tree
 			super();
 		}
 
-		public find(key: K): XTreeNode<MapIterator<K, T>>;
-		public find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
+		public find(key: Key): XTreeNode<MapIterator<Key, T>>;
+		public find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
 
-		public find(val: any): XTreeNode<MapIterator<K, T>>
+		public find(val: any): XTreeNode<MapIterator<Key, T>>
 		{
-			if (val instanceof MapIterator && (<MapIterator<K, T>>val).first instanceof SetIterator == false)
+			if (val instanceof MapIterator && (<MapIterator<Key, T>>val).first instanceof SetIterator == false)
 				return super.find(val);
 			else
 				return this.findByKey(val);
 		}
 
-		private findByKey(key: K): XTreeNode<MapIterator<K, T>>
+		private findByKey(key: Key): XTreeNode<MapIterator<Key, T>>
 		{
-			let node = this.root;
+			if (this.root == null)
+				return null;
 
-			if (node != null)
-				while (true)
-				{
-					let newNode: XTreeNode<MapIterator<K, T>> = null;
+			let node: XTreeNode<MapIterator<Key, T>> = this.root;
 
-					if (std.equals(key, node.value.first))
-						break;
-					else if (std.less(key, node.value.first))
-						newNode = node.left;
-					else
-						newNode = node.right;
+			while (true)
+			{
+				let newNode: XTreeNode<MapIterator<Key, T>> = null;
 
-					if (newNode == null)
-						break;
-					else
-						node = newNode;
-				}
+				if (std.equals(key, node.value.first))
+					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+				else if (std.less(key, node.value.first))
+					newNode = node.left; // LESS, THEN TO THE LEFT
+				else
+					newNode = node.right; // GREATER, THEN TO THE RIGHT
+
+				// ULTIL CHILD NODE EXISTS
+				if (newNode == null)
+					break;
+				
+				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+				node = newNode;
+			}
 
 			return node;
 		}
@@ -55,12 +59,12 @@ namespace std.base.tree
 		/* ---------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------- */
-		public isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean
+		public isEquals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
 			return std.equals(left.first, right.first);
 		}
 
-		public isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean
+		public isLess(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
 			return std.less(left.first, right.first);
 		}

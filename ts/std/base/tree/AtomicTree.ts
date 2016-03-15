@@ -29,25 +29,29 @@ namespace std.base.tree
 
 		private findByVal(val: T): XTreeNode<SetIterator<T>>
 		{
-			let node = this.root;
+			if (this.root == null)
+				return null;
 
-			if (node != null)
-				while (true)
-				{
-					let newNode: XTreeNode<SetIterator<T>> = null;
+			let node: XTreeNode<SetIterator<T>> = this.root;
 
-					if (std.equals(val, node.value.value))
-						break;
-					else if (std.less(val, node.value.value))
-						newNode = node.left;
-					else
-						newNode = node.right;
+			while (true)
+			{
+				let newNode: XTreeNode<SetIterator<T>> = null;
 
-					if (newNode == null)
-						break;
-					else
-						node = newNode;
-				}
+				if (std.equals(val, node.value.value))
+					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+				else if (std.less(val, node.value.value))
+					newNode = node.left; // LESS, THEN TO THE LEFT
+				else
+					newNode = node.right; // GREATER, THEN TO THE RIGHT
+
+				// ULTIL CHILD NODE EXISTS
+				if (newNode == null)
+					break;
+				
+				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+				node = newNode;
+			}
 
 			return node;
 		}

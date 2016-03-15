@@ -96,26 +96,29 @@
 
 		public find(val: T): XTreeNode<T>
 		{
-			let node = this.root;
+			if (this.root == null)
+				return null;
 
-			if (node != null)
-				while(true)
-				{
-					let newNode: XTreeNode<T> = null;
+			let node: XTreeNode<T> = this.root;
 
-					if (this.isEquals(val, node.value))
-						break;
-					else if (this.isLess(val, node.value))
-						newNode = node.left;
-					else
-						newNode = node.right;
+			while(true)
+			{
+				let newNode: XTreeNode<T> = null;
 
-					if (newNode == null)
-						break;
-					else
-						node = newNode;
-				}
+				if (this.isEquals(val, node.value))
+					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+				else if (this.isLess(val, node.value)) 
+					newNode = node.left; // LESS, THEN TO THE LEFT
+				else //
+					newNode = node.right; // GREATER, THEN TO THE RIGHT
 
+				// ULTIL CHILD NODE EXISTS
+				if (newNode == null)
+					break;
+				
+				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+				node = newNode;
+			}
 			return node;
 		}
 
@@ -126,12 +129,6 @@
 
 			return node;
 		}
-
-		//public debug(): void
-		//{
-		//	if (this.root != null)
-		//		this.root.debug();
-		//}
 
 		/* ---------------------------------------------------------
 			COMPARISON
@@ -166,8 +163,6 @@
 			}
 
 			this.insertCase1(node);
-
-			//this.size_++;
 		}
 
 		private insertCase1(node: XTreeNode<T>): void

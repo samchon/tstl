@@ -1257,21 +1257,23 @@ var std;
                 //	return  this.size_;
                 //}
                 XTree.prototype.find = function (val) {
+                    if (this.root == null)
+                        return null;
                     var node = this.root;
-                    if (node != null)
-                        while (true) {
-                            var newNode = null;
-                            if (this.isEquals(val, node.value))
-                                break;
-                            else if (this.isLess(val, node.value))
-                                newNode = node.left;
-                            else
-                                newNode = node.right;
-                            if (newNode == null)
-                                break;
-                            else
-                                node = newNode;
-                        }
+                    while (true) {
+                        var newNode = null;
+                        if (this.isEquals(val, node.value))
+                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                        else if (this.isLess(val, node.value))
+                            newNode = node.left; // LESS, THEN TO THE LEFT
+                        else
+                            newNode = node.right; // GREATER, THEN TO THE RIGHT
+                        // ULTIL CHILD NODE EXISTS
+                        if (newNode == null)
+                            break;
+                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                        node = newNode;
+                    }
                     return node;
                 };
                 XTree.prototype.fetchMaximum = function (node) {
@@ -1300,7 +1302,6 @@ var std;
                             parent.right = node;
                     }
                     this.insertCase1(node);
-                    //this.size_++;
                 };
                 XTree.prototype.insertCase1 = function (node) {
                     if (node.parent == null)
@@ -1506,21 +1507,23 @@ var std;
                         return this.findByVal(val);
                 };
                 AtomicTree.prototype.findByVal = function (val) {
+                    if (this.root == null)
+                        return null;
                     var node = this.root;
-                    if (node != null)
-                        while (true) {
-                            var newNode = null;
-                            if (std.equals(val, node.value.value))
-                                break;
-                            else if (std.less(val, node.value.value))
-                                newNode = node.left;
-                            else
-                                newNode = node.right;
-                            if (newNode == null)
-                                break;
-                            else
-                                node = newNode;
-                        }
+                    while (true) {
+                        var newNode = null;
+                        if (std.equals(val, node.value.value))
+                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                        else if (std.less(val, node.value.value))
+                            newNode = node.left; // LESS, THEN TO THE LEFT
+                        else
+                            newNode = node.right; // GREATER, THEN TO THE RIGHT
+                        // ULTIL CHILD NODE EXISTS
+                        if (newNode == null)
+                            break;
+                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                        node = newNode;
+                    }
                     return node;
                 };
                 /* ---------------------------------------------------------
@@ -1620,21 +1623,23 @@ var std;
                         return this.findByKey(val);
                 };
                 PairTree.prototype.findByKey = function (key) {
+                    if (this.root == null)
+                        return null;
                     var node = this.root;
-                    if (node != null)
-                        while (true) {
-                            var newNode = null;
-                            if (std.equals(key, node.value.first))
-                                break;
-                            else if (std.less(key, node.value.first))
-                                newNode = node.left;
-                            else
-                                newNode = node.right;
-                            if (newNode == null)
-                                break;
-                            else
-                                node = newNode;
-                        }
+                    while (true) {
+                        var newNode = null;
+                        if (std.equals(key, node.value.first))
+                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                        else if (std.less(key, node.value.first))
+                            newNode = node.left; // LESS, THEN TO THE LEFT
+                        else
+                            newNode = node.right; // GREATER, THEN TO THE RIGHT
+                        // ULTIL CHILD NODE EXISTS
+                        if (newNode == null)
+                            break;
+                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                        node = newNode;
+                    }
                     return node;
                 };
                 /* ---------------------------------------------------------
@@ -1729,488 +1734,570 @@ var std;
     })();
     std.Bind = Bind;
 })(std || (std = {}));
-/// <reference path="base/container/Container.ts" />
-var std;
-(function (std) {
-    /**
-     * <p> Double ended queue. </p>
-     *
-     * <p> {@link Deque} (usually pronounced like "<i>deck</i>") is an irregular acronym of
-     * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic
-     * sizes that can be expanded or contracted on both ends (either its front or its back). </p>
-     *
-     * <p> Specific libraries may implement deques in different ways, generally as some form of dynamic
-     * array. But in any case, they allow for the individual elements to be accessed directly through
-     * random access iterators, with storage handled automatically by expanding and contracting the
-     * container as needed. </p>
-     *
-     * <p> Therefore, they provide a functionality similar to vectors, but with efficient insertion and
-     * deletion of elements also at the beginning of the sequence, and not only at its end. But, unlike
-     * {@link Vector}s, {@link Deque}s are not guaranteed to store all its elements in contiguous storage
-     * locations: accessing elements in a <u>deque</u> by offsetting a pointer to another element causes
-     * undefined behavior. </p>
-     *
-     * <p> Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for
-     * similar purposes, but internally both work in quite different ways: While {@link Vector}s use a
-     * single array that needs to be occasionally reallocated for growth, the elements of a {@link Deque}
-     * can be scattered in different chunks of storage, with the container keeping the necessary information
-     * internally to provide direct access to any of its elements in constant time and with a uniform
-     * sequential interface (through iterators). Therefore, {@link Deque}s are a little more complex
-     * internally than {@link Vector}s, but this allows them to grow more efficiently under certain
-     * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
-     *
-     * <p> For operations that involve frequent insertion or removals of elements at positions other than
-     * the beginning or the end, {@link Deque}s perform worse and have less consistent iterators and
-     * references than {@link List}s. </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Sequence </dt>
-     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements
-     *		 are accessed by their position in this sequence. </dd>
-     *
-     *	<dt> Dynamic array </dt>
-     *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the
-     *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end
-     *		 of the sequence. </dd>
-     * </dl>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/deque/deque/ </li>
-     * </ul>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @author Jeongho Nam
-     */
-    var Deque = (function (_super) {
-        __extends(Deque, _super);
-        function Deque() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            if (args.length == 0) {
-                this.clear();
-            }
-            if (args.length == 1 && args[0] instanceof Array) {
-                var array = args[0];
-                this.clear();
-                this.push.apply(this, array);
-            }
-            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
-                var container = args[0];
-                this.assign(container.begin(), container.end());
-            }
-            else if (args.length == 2 &&
-                args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
-                var begin = args[0];
-                var end = args[1];
-                this.assign(begin, end);
-            }
-        }
-        Object.defineProperty(Deque, "ROW", {
-            get: function () { return 10; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Deque, "MIN_CAPACITY", {
-            get: function () { return 100; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Deque, "iterator", {
-            get: function () { return std.DequeIterator; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Deque.prototype, "lastArray", {
-            get: function () {
-                return this.matrix[this.matrix.length - 1];
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Deque.prototype, "colSize", {
-            get: function () {
-                return Math.ceil(this.capacity_ / Deque.ROW);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Deque.prototype.assign = function (first, second) {
-            if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
-                var begin = first;
-                var end = second;
-                var size = 0;
-                for (var it = begin; !it.equals(end); it = it.next())
-                    size++;
-                this.capacity_ = Math.min(size, 100);
-                for (var it = begin; !it.equals(end); it = it.next())
-                    this.pushBack(it.value);
-            }
-            else {
-                var size = first;
-                var val = second;
-                this.capacity_ = Math.min(size, 100);
-                for (var i = 0; i < size; i++)
-                    this.pushBack(val);
-            }
-        };
-        Deque.prototype.reserve = function (capacity) {
-            var prevMatrix = this.matrix;
-            var prevSize = this.size_;
-            this.clear();
-            this.size_ = prevSize;
-            this.capacity_ = capacity;
-            if (prevMatrix == null)
-                return;
-            for (var i = 0; i < prevMatrix.length; i++)
-                for (var j = 0; j < prevMatrix[i].length; j++) {
-                    if (prevMatrix[i].length + 1 > this.colSize)
-                        this.matrix.push(new Array());
-                    this.lastArray.push(prevMatrix[i][j]);
-                }
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.clear = function () {
-            this.matrix = new Array();
-            this.matrix.push(new Array());
-            this.size_ = 0;
-            this.capacity_ = Deque.MIN_CAPACITY;
-        };
-        /* =========================================================
-            ACCESSORS
-                - GETTERS & SETTERS
-                - ITERATORS
-        ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.begin = function () {
-            if (this.empty() == true)
-                return this.end();
-            else
-                return new std.DequeIterator(this, 0);
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.end = function () {
-            return new std.DequeIterator(this, -1);
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.size = function () {
-            return this.size_;
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.capacity = function () {
-            return this.capacity_;
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.at = function (index) {
-            if (index > this.size())
-                throw new std.OutOfRange("Target index is greater than Deque's size.");
-            var indexPair = this.fetchIndex(index);
-            return this.matrix[indexPair.first][indexPair.second];
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.set = function (index, val) {
-            if (index > this.size())
-                throw new std.OutOfRange("Target index is greater than Deque's size.");
-            var indexPair = this.fetchIndex(index);
-            this.matrix[indexPair.first][indexPair.second] = val;
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.front = function () {
-            return this.matrix[0][0];
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.back = function () {
-            return this.lastArray[this.lastArray.length - 1];
-        };
-        Deque.prototype.fetchIndex = function (index) {
-            var row;
-            for (row = 0; row < this.matrix.length; row++) {
-                if (index < this.matrix[row].length)
-                    break;
-                index -= this.matrix[row].length;
-            }
-            return new std.Pair(row, index);
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - PUSH & POP
-                - INSERT
-                - ERASE
-        ============================================================
-            PUSH & POP
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.push = function () {
-            var items = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                items[_i - 0] = arguments[_i];
-            }
-            return this.size();
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.pushFront = function (val) {
-            this.matrix[0] = [val].concat(this.matrix[0]);
-            this.size_++;
-            if (this.size_ > this.capacity_)
-                this.reserve(this.capacity_ * 2);
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.pushBack = function (val) {
-            if (this.lastArray.length + 1 > this.colSize)
-                this.matrix.push(new Array());
-            this.lastArray.push(val);
-            this.size_++;
-            if (this.size_ > this.capacity_)
-                this.reserve(this.capacity_ * 2);
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.popFront = function () {
-            if (this.empty() == true)
-                return; // SOMEWHERE PLACE TO THROW EXCEPTION
-            this.matrix[0].splice(0, 1);
-            this.size_--;
-            if (this.matrix[0].length == 0)
-                this.matrix.splice(0, 1);
-        };
-        /**
-         * @inheritdoc
-         */
-        Deque.prototype.popBack = function () {
-            if (this.empty() == true)
-                return; // SOMEWHERE PLACE TO THROW EXCEPTION
-            this.lastArray.splice(this.lastArray.length - 1, 1);
-            this.size_--;
-            if (this.lastArray.length)
-                this.matrix.splice(this.matrix.length - 1, 1);
-        };
-        Deque.prototype.insert = function (position) {
-            var args = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                args[_i - 1] = arguments[_i];
-            }
-            var items = [];
-            if (args.length == 1) {
-                var val = args[0];
-                items.push(val);
-            }
-            else if (args.length == 2 && typeof args[0] == "number") {
-                var n = args[0];
-                var val = args[1];
-                for (var i = 0; i < n; i++)
-                    items.push(val);
-            }
-            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
-                var begin = args[0];
-                var end = args[1];
-                for (var it = begin; !it.equals(end); it = it.next())
-                    items.push(it.value);
-            }
-            return this.insertByItems(position, items);
-        };
-        Deque.prototype.insertByItems = function (position, items) {
-            // ALLOCATE THE NEW SIZE
-            this.size_ += items.length;
-            if (this.size_ <= this.capacity_) {
-                // -----------------------------------------------------
-                // WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
-                // -----------------------------------------------------
-                // INSERTS CAREFULLY
-                if (position.equals(this.end()) == true) {
-                    // WHEN INSERTS TO THE BACK SIDE
-                    while (items.length != 0)
-                        this.matrix.push(items.splice(0, Math.min(Deque.ROW, items.length)));
-                }
-                else {
-                    // WHEN INSERTING TO A MIDDLE POSITION.
-                    var indexPair = this.fetchIndex(position.getIndex());
-                    var index = indexPair.first;
-                    var splicedValues = this.matrix[index].splice(indexPair.second);
-                    if (splicedValues.length != 0)
-                        items = items.concat.apply(items, splicedValues);
-                    if (this.matrix[index].length < Deque.ROW) {
-                        this.matrix[index] =
-                            (_a = this.matrix[index]).concat.apply(_a, items.splice(0, Deque.ROW - this.matrix[index].length));
-                    }
-                    var splicedArray = this.matrix.splice(index + 1);
-                    // INSERTS
-                    while (items.length != 0)
-                        this.matrix.push(items.splice(0, Math.min(Deque.ROW, items.length)));
-                    // CONCAT WITH BACKS
-                    this.matrix = (_b = this.matrix).concat.apply(_b, splicedArray);
-                }
-            }
-            else {
-                // -----------------------------------------------------
-                // WHEN CANNOT BE FIT INTO THE RESERVED CAPACITY
-                // -----------------------------------------------------
-                // JUST INSERT CARELESSLY
-                // AND KEEP BLANACE BY THE RESERVE() METHOD
-                if (position.equals(this.end()) == true) {
-                    this.matrix.push(items); // ALL TO THE LAST
-                }
-                else {
-                    var indexPair = this.fetchIndex(position.getIndex());
-                    var index = indexPair.first;
-                    var splicedValues = this.matrix[index].splice(indexPair.second);
-                    if (splicedValues.length != 0)
-                        items = items.concat.apply(items, splicedValues);
-                    // ALL TO THE MIDDLE
-                    this.matrix[index] = (_c = this.matrix[index]).concat.apply(_c, items);
-                }
-                // AND KEEP BALANCE BY RESERVE()
-                var newCapacity = this.capacity_;
-                while (this.size_ + items.length > newCapacity)
-                    newCapacity *= 2;
-                this.reserve(newCapacity);
-            }
-            return position;
-            var _a, _b, _c;
-        };
-        Deque.prototype.erase = function (begin, end) {
-            if (end === void 0) { end = null; }
-            if (end == null)
-                end = begin.next();
-            var index = begin.getIndex();
-            var deleteIndex = index;
-            var deleteSize = (index == -1) ? this.size_ - index : end.getIndex() - index;
-            while (deleteSize != 0) {
-                var indexPair = this.fetchIndex(index);
-                var array = this.matrix[indexPair.first];
-                var myDeleteSize = Math.min(deleteSize, array.length - indexPair.second);
-                array.splice(indexPair.second, myDeleteSize);
-                if (array.length == 0)
-                    this.matrix.splice(indexPair.first, 1);
-                deleteSize -= myDeleteSize;
-            }
-            this.size_ -= deleteSize;
-            return begin;
-        };
-        return Deque;
-    })(std.base.container.Container);
-    std.Deque = Deque;
-})(std || (std = {}));
-/// <reference path="base/container/Iterator.ts" />
-var std;
-(function (std) {
-    var DequeIterator = (function (_super) {
-        __extends(DequeIterator, _super);
-        /* ---------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------- */
-        /**
-         * <p> Construct from the source {@link Deque container}. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create the iterator directly, by yourself. </p>
-         * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p>
-         *
-         * @param vector The source {@link Deque container} to reference.
-         * @param index Sequence number of the element in the source {@link Deque}.
-         */
-        function DequeIterator(source, index) {
-            _super.call(this, source);
-            this.index = index;
-        }
-        Object.defineProperty(DequeIterator.prototype, "deque", {
-            get: function () { return this.source; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DequeIterator.prototype, "value", {
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.deque.at(this.index);
-            },
-            set: function (val) {
-                this.deque.set(this.index, val);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @inheritdoc
-         */
-        DequeIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.index == obj.index;
-        };
-        /**
-         * Get index.
-         */
-        DequeIterator.prototype.getIndex = function () {
-            return this.index;
-        };
-        /* ---------------------------------------------------------
-            MOVERS
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        DequeIterator.prototype.prev = function () {
-            if (this.index == -1)
-                return new DequeIterator(this.deque, this.deque.size() - 1);
-            else if (this.index - 1 < 0)
-                return this.deque.end();
-            else
-                return new DequeIterator(this.deque, this.index - 1);
-        };
-        /**
-         * @inheritdoc
-         */
-        DequeIterator.prototype.next = function () {
-            if (this.index >= this.source.size() - 1)
-                return this.deque.end();
-            else
-                return new DequeIterator(this.deque, this.index + 1);
-        };
-        /**
-         * @inheritdoc
-         */
-        DequeIterator.prototype.advance = function (n) {
-            var newIndex = this.index + n;
-            if (newIndex < 0 || newIndex >= this.deque.size())
-                return this.deque.end();
-            else
-                return new DequeIterator(this.deque, newIndex);
-        };
-        return DequeIterator;
-    })(std.base.container.Iterator);
-    std.DequeIterator = DequeIterator;
-})(std || (std = {}));
+///// <reference path="base/container/Container.ts" />
+//namespace std
+//{
+//	/**
+//	 * <p> Double ended queue. </p>
+//	 * 
+//	 * <p> {@link Deque} (usually pronounced like "<i>deck</i>") is an irregular acronym of 
+//	 * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic 
+//	 * sizes that can be expanded or contracted on both ends (either its front or its back). </p>
+//	 * 
+//	 * <p> Specific libraries may implement deques in different ways, generally as some form of dynamic 
+//	 * array. But in any case, they allow for the individual elements to be accessed directly through 
+//	 * random access iterators, with storage handled automatically by expanding and contracting the 
+//	 * container as needed. </p>
+//	 * 
+//	 * <p> Therefore, they provide a functionality similar to vectors, but with efficient insertion and 
+//	 * deletion of elements also at the beginning of the sequence, and not only at its end. But, unlike 
+//	 * {@link Vector}s, {@link Deque}s are not guaranteed to store all its elements in contiguous storage 
+//	 * locations: accessing elements in a <u>deque</u> by offsetting a pointer to another element causes 
+//	 * undefined behavior. </p>
+//	 * 
+//	 * <p> Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for 
+//	 * similar purposes, but internally both work in quite different ways: While {@link Vector}s use a 
+//	 * single array that needs to be occasionally reallocated for growth, the elements of a {@link Deque} 
+//	 * can be scattered in different chunks of storage, with the container keeping the necessary information 
+//	 * internally to provide direct access to any of its elements in constant time and with a uniform 
+//	 * sequential interface (through iterators). Therefore, {@link Deque}s are a little more complex 
+//	 * internally than {@link Vector}s, but this allows them to grow more efficiently under certain 
+//	 * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
+//	 * 
+//	 * <p> For operations that involve frequent insertion or removals of elements at positions other than 
+//	 * the beginning or the end, {@link Deque}s perform worse and have less consistent iterators and 
+//	 * references than {@link List}s. </p>
+//	 *
+//	 * <h3> Container properties </h3>
+//	 * <dl>
+//	 *	<dt> Sequence </dt>
+//	 *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements 
+//	 *		 are accessed by their position in this sequence. </dd>
+//	 *
+//	 *	<dt> Dynamic array </dt>
+//	 *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the 
+//	 *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end 
+//	 *		 of the sequence. </dd>
+//	 * </dl>
+//	 * 
+//	 * <ul>
+//	 *  <li> Reference: http://www.cplusplus.com/reference/deque/deque/ </li>
+//	 * </ul>
+//	 *
+//	 * @param <T> Type of the elements.
+//	 *
+//	 * @author Jeongho Nam
+//	 */
+//	export class Deque<T>
+//		extends base.container.Container<T>
+//		implements base.container.IArrayContainer<T>, 
+//				   base.container.IDequeContainer<T>
+//	{
+//		private static get ROW(): number { return 8; }
+//		private static get MIN_CAPACITY(): number { return 100; }
+//		public static get iterator() { return DequeIterator; }
+//		private matrix: Vector<Vector<T>>;
+//		private size_: number;
+//		private capacity_: number;
+//		/* =========================================================
+//			CONSTRUCTORS & SEMI-CONSTRUCTORS
+//				- CONSTRUCTORS
+//				- ASSIGN, RESERVE & CLEAR
+//				- RESERVE
+//		============================================================
+//			CONSTURCTORS
+//		--------------------------------------------------------- */
+//		/**
+//		 * <p> Default Constructor. </p>
+//		 *
+//		 * <p> Constructs an empty container, with no elements. </p>
+//		 */
+//		public constructor();
+//		/**
+//		 * <p> Initializer list Constructor. </p>
+//		 *
+//		 * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
+//		 *
+//		 * @param array An array containing elements to be copied and contained.
+//		 */
+//		public constructor(items: Array<T>);
+//		/**
+//		 * <p> Fill Constructor. </p>
+//		 *
+//		 * <p> Constructs a container with <i>n</i> elements. Each element is a copy of <i>val</i> (if provided). </p>
+//		 *
+//		 * @param n Initial container size (i.e., the number of elements in the container at construction).
+//		 * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is 
+//		 *			  initialized to a copy of this value.
+//		 */
+//		public constructor(size: number, val: T);
+//		/**
+//		 * <p> Copy Constructor. </p>
+//		 *
+//		 * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
+//		 *
+//		 * @param container Another container object of the same type (with the same class template 
+//		 *					arguments <code>T</code>), whose contents are either copied or acquired.
+//		 */
+//		public constructor(container: base.container.IContainer<T>);
+//		/**
+//		 * <p> Range Constructor. </p>
+//		 *
+//		 * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each 
+//		 * element emplace-constructed from its corresponding element in that range, in the same order. </p>
+//		 *
+//		 * @param begin Input interator of the initial position in a sequence.
+//		 * @param end Input interator of the final position in a sequence.
+//		 */
+//		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+//		public constructor(...args: any[])
+//		{
+//			super();
+//			if (args.length == 0)
+//			{
+//				this.clear();
+//			}
+//			if (args.length == 1 && args[0] instanceof Array)
+//			{
+//				let array: Array<T> = args[0];
+//				this.clear();
+//				this.push(...array);
+//			}
+//			else if (args.length == 1 && args[0] instanceof base.container.Container)
+//			{
+//				let container: base.container.Container<T> = args[0];
+//				this.assign(container.begin(), container.end());
+//			}
+//			else if (args.length == 2 && 
+//				args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
+//			{
+//				let begin: base.container.Iterator<T> = args[0];
+//				let end: base.container.Iterator<T> = args[1];
+//				this.assign(begin, end);
+//			}
+//		}
+//		/* ---------------------------------------------------------
+//			ASSIGN, RESERVE & CLEAR
+//		--------------------------------------------------------- */
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public assign(n: number, val: T): void;
+//		public assign(first: any, second: any): void
+//		{
+//			if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
+//			{
+//				let begin: base.container.Iterator<T> = first;
+//				let end: base.container.Iterator<T> = second;
+//				let size: number = 0;
+//				for (let it = begin; !it.equals(end); it = it.next())
+//					size++;
+//				this.capacity_ = Math.min(size, 100);
+//				for (let it = begin; !it.equals(end); it = it.next())
+//					this.pushBack(it.value);
+//			}
+//			else
+//			{
+//				let size: number = first;
+//				let val: T = second;
+//				this.capacity_ = Math.min(size, 100);
+//				for (let i = 0; i < size; i++)
+//					this.pushBack(val);
+//			}
+//		}
+//		public reserve(capacity: number): void
+//		{
+//			let prevMatrix = this.matrix;
+//			let prevSize = this.size_;
+//			this.clear();
+//			this.size_ = prevSize;
+//			this.capacity_ = capacity;
+//			if (prevMatrix == null)
+//				return;
+//			for (let i = 0; i < prevMatrix.length; i++)
+//				for (let j = 0; j < prevMatrix[i].length; j++)
+//				{
+//					if (prevMatrix[i].length + 1 > this.colSize)
+//						this.matrix.push(new Vector<T>());
+//					this.lastArray.push(prevMatrix[i][j]);
+//				}
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public clear(): void
+//		{
+//			this.matrix = new Vector<Vector<T>>();
+//			this.matrix.push(new Vector<T>());
+//			this.size_ = 0;
+//			this.capacity_ = Deque.MIN_CAPACITY;
+//		}
+//		/* =========================================================
+//			ACCESSORS
+//				- GETTERS & SETTERS
+//				- ITERATORS
+//		========================================================= */
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public begin(): DequeIterator<T>
+//		{
+//			if (this.empty() == true)
+//				return this.end();
+//			else
+//				return new DequeIterator<T>(this, 0);
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public end(): DequeIterator<T>
+//		{
+//			return new DequeIterator<T>(this, -1);
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public size(): number
+//		{
+//			return this.size_;
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public capacity(): number
+//		{
+//			return this.capacity_;
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public at(index: number): T
+//		{
+//			if (index > this.size())
+//				throw new std.OutOfRange("Target index is greater than Deque's size.");
+//			let indexPair = this.fetchIndex(index);
+//			return this.matrix[indexPair.first][indexPair.second];
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public set(index: number, val: T): void
+//		{
+//			if (index > this.size())
+//				throw new std.OutOfRange("Target index is greater than Deque's size.");
+//			let indexPair = this.fetchIndex(index);
+//			this.matrix[indexPair.first][indexPair.second] = val;
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public front(): T
+//		{
+//			return this.matrix.front().front();
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public back(): T
+//		{
+//			return this.matrix.back().back();
+//		}
+//		private fetchIndex(index: number): Pair<number, number>
+//		{
+//			let row: number;
+//			for (row = 0; row < this.matrix.size(); row++)
+//			{
+//				if (index < this.matrix[row].size())
+//					break;
+//				index -= this.matrix[row].size();
+//			}
+//			return new Pair<number, number>(row, index);
+//		}
+//		/* =========================================================
+//			ELEMENTS I/O
+//				- PUSH & POP
+//				- INSERT
+//				- ERASE
+//		============================================================
+//			PUSH & POP
+//		--------------------------------------------------------- */
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public push(...items: T[]): number
+//		{
+//			return this.size();
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public pushFront(val: T): void
+//		{
+//			this.matrix.front().insert(this.matrix[0].begin(), val);
+//			this.size_++;
+//			if (this.size_ > this.capacity_)
+//				this.reserve(this.capacity_ * 2);
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public pushBack(val: T): void
+//		{
+//			this.lastArray.push(val);
+//			this.size_++;
+//			if (this.size_ > this.capacity_)
+//				this.reserve(this.capacity_ * 2);
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public popFront(): void
+//		{
+//			if (this.empty() == true)
+//				return; // SOMEWHERE PLACE TO THROW EXCEPTION
+//			this.matrix[0].splice(0, 1);
+//			this.size_--;
+//			if (this.matrix[0].length == 0)
+//				this.matrix.splice(0, 1);
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public popBack(): void
+//		{
+//			if (this.empty() == true)
+//				return; // SOMEWHERE PLACE TO THROW EXCEPTION
+//			this.lastArray.splice(this.lastArray.length - 1, 1);
+//			this.size_--;
+//			if (this.lastArray.length)
+//				this.matrix.splice(this.matrix.length - 1, 1);
+//		}
+//		/* ---------------------------------------------------------
+//			INSERT
+//		--------------------------------------------------------- */
+//		public insert(position: DequeIterator<T>, val: T): DequeIterator<T>;
+//		public insert(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
+//		public insert<U extends T>(position: DequeIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): DequeIterator<T>;
+//		public insert<U extends T>
+//			(position: DequeIterator<T>, ...args: any[]): DequeIterator<T>
+//		{
+//			let items: Array<T> = [];
+//			if (args.length == 1)
+//			{
+//				let val: T = args[0];
+//				items.push(val);
+//			}
+//			else if (args.length == 2 && typeof args[0] == "number")
+//			{
+//				let n: number = args[0];
+//				let val: T = args[1];
+//				for (let i = 0; i < n; i++)
+//					items.push(val);
+//			}
+//			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
+//			{
+//				let begin: base.container.Iterator<U> = args[0];
+//				let end: base.container.Iterator<U> = args[1];
+//				for (let it = begin; !it.equals(end); it = it.next())
+//					items.push(it.value);
+//			}
+//			return this.insertByItems(position, items);
+//		}
+//		private insertByItems(position: DequeIterator<T>, items: Array<T>): DequeIterator<T>
+//		{
+//			// ALLOCATE THE NEW SIZE
+//			this.size_ += items.length;
+//			if (this.size_ <= this.capacity_)
+//			{
+//				// -----------------------------------------------------
+//				// WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
+//				// -----------------------------------------------------
+//				// INSERTS CAREFULLY
+//				if (position.equals(this.end()) == true)
+//				{
+//					// WHEN INSERTS TO THE BACK SIDE
+//					while (items.length != 0)
+//						this.matrix.push(items.splice(0, Math.min(Deque.ROW, items.length)));
+//				}
+//				else
+//				{
+//					// WHEN INSERTING TO A MIDDLE POSITION.
+//					let indexPair = this.fetchIndex(position.getIndex());
+//					let index = indexPair.first;
+//					let splicedValues = this.matrix[index].splice(indexPair.second);
+//					if (splicedValues.length != 0)
+//						items = items.concat(...splicedValues);
+//					if (this.matrix[index].length < Deque.ROW)
+//					{
+//						this.matrix[index] =
+//							this.matrix[index].concat
+//								(
+//								...items.splice(0, Deque.ROW - this.matrix[index].length)
+//								);
+//					}
+//					let splicedArray = this.matrix.splice(index + 1);
+//					// INSERTS
+//					while (items.length != 0)
+//						this.matrix.push(items.splice(0, Math.min(Deque.ROW, items.length)));
+//					// CONCAT WITH BACKS
+//					this.matrix = this.matrix.concat(...splicedArray);
+//				}
+//			}
+//			else
+//			{
+//				// -----------------------------------------------------
+//				// WHEN CANNOT BE FIT INTO THE RESERVED CAPACITY
+//				// -----------------------------------------------------
+//				// JUST INSERT CARELESSLY
+//				// AND KEEP BLANACE BY THE RESERVE() METHOD
+//				if (position.equals(this.end()) == true)
+//				{
+//					this.matrix.push(items); // ALL TO THE LAST
+//				}
+//				else
+//				{
+//					let indexPair = this.fetchIndex(position.getIndex());
+//					let index = indexPair.first;
+//					let splicedValues = this.matrix[index].splice(indexPair.second);
+//					if (splicedValues.length != 0)
+//						items = items.concat(...splicedValues);
+//					// ALL TO THE MIDDLE
+//					this.matrix[index] = this.matrix[index].concat(...items);
+//				}
+//				// AND KEEP BALANCE BY RESERVE()
+//				let newCapacity = this.capacity_;
+//				while (this.size_ + items.length > newCapacity)
+//					newCapacity *= 2;
+//				this.reserve(newCapacity);
+//			}
+//			return position;
+//		}
+//		/* ---------------------------------------------------------
+//			ERASE
+//		--------------------------------------------------------- */
+//		public erase(position: DequeIterator<T>): DequeIterator<T>
+//		public erase(begin: DequeIterator<T>, end: DequeIterator<T>): DequeIterator<T>;
+//		public erase(begin: DequeIterator<T>, end: DequeIterator<T> = null): DequeIterator<T>
+//		{
+//			if (end == null)
+//				end = begin.next();
+//			let index = begin.getIndex();
+//			let deleteIndex = index;
+//			let deleteSize = (index == -1) ? this.size_ - index : end.getIndex() - index;
+//			while (deleteSize != 0)
+//			{
+//				let indexPair: Pair<number, number> = this.fetchIndex(index);
+//				let array: Array<T> = this.matrix[indexPair.first];
+//				let myDeleteSize: number = Math.min(deleteSize, array.length - indexPair.second);
+//				array.splice(indexPair.second, myDeleteSize);
+//				if (array.length == 0)
+//					this.matrix.splice(indexPair.first, 1);
+//				deleteSize -= myDeleteSize;
+//			}
+//			this.size_ -= deleteSize;
+//			return begin;
+//		}
+//	}
+//} 
+///// <reference path="base/container/Iterator.ts" />
+//namespace std
+//{
+//	export class DequeIterator<T>
+//		extends base.container.Iterator<T>
+//	{
+//		private get deque(): Deque<T> { return <Deque<T>>this.source; }
+//		/**
+//		 * <p> Sequence number of iterator in the source Deque. </p>
+//		 */
+//		private index: number;
+//		/* ---------------------------------------------------------
+//			CONSTRUCTORS
+//		--------------------------------------------------------- */
+//		/**
+//		 * <p> Construct from the source {@link Deque container}. </p>
+//		 *
+//		 * <h4> Note </h4>
+//		 * <p> Do not create the iterator directly, by yourself. </p>
+//		 * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p> 
+//		 *
+//		 * @param vector The source {@link Deque container} to reference.
+//		 * @param index Sequence number of the element in the source {@link Deque}.
+//		 */
+//		public constructor(source: Deque<T>, index: number)
+//		{
+//			super(source);
+//			this.index = index;
+//		}
+//		/* ---------------------------------------------------------
+//			ACCESSORS
+//		--------------------------------------------------------- */
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public get value(): T
+//		{
+//			return this.deque.at(this.index);
+//		}
+//		public set value(val: T)
+//		{
+//			this.deque.set(this.index, val);
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public equals<U extends T>(obj: DequeIterator<U>): boolean
+//		{
+//			return super.equals(obj) && this.index == obj.index;
+//		}
+//		/**
+//		 * Get index.
+//		 */
+//		public getIndex(): number
+//		{
+//			return this.index;
+//		}
+//		/* ---------------------------------------------------------
+//			MOVERS
+//		--------------------------------------------------------- */
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public prev(): DequeIterator<T>
+//		{
+//			if (this.index == -1)
+//				return new DequeIterator(this.deque, this.deque.size() - 1);
+//			else if (this.index - 1 < 0)
+//				return this.deque.end();
+//			else
+//				return new DequeIterator<T>(this.deque, this.index - 1);
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public next(): DequeIterator<T>
+//		{
+//			if (this.index >= this.source.size() - 1)
+//				return this.deque.end();
+//			else
+//				return new DequeIterator<T>(this.deque, this.index + 1);
+//		}
+//		/**
+//		 * @inheritdoc
+//		 */
+//		public advance(n: number): DequeIterator<T>
+//		{
+//			let newIndex: number = this.index + n;
+//			if (newIndex < 0 || newIndex >= this.deque.size())
+//				return this.deque.end();
+//			else
+//				return new DequeIterator<T>(this.deque, newIndex);
+//		}
+//	}
+//} 
 var std;
 (function (std) {
     /**
@@ -2358,6 +2445,7 @@ var std;
                 this.testList();
                 this.testUnorderedSet();
                 this.testUnorderedMap();
+                this.testEqualRange();
             }
             ContainerTest.prototype.testList = function () {
                 document.write("<h4> List </h4>\n");
@@ -2428,6 +2516,22 @@ var std;
                     document.write("<li>" + it.first + ": " + it.second + "</li>\n");
                 document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
                 document.write("</ul>\n\n");
+            };
+            ContainerTest.prototype.testEqualRange = function () {
+                var intSet = new std.TreeMultiMap();
+                for (var i = 0; i <= 70; i += 2)
+                    //for (let j = 0; j < 4; j++)
+                    intSet.insert(new std.Pair(i, i));
+                document.write("Matched node: 4<br>\n");
+                document.write("&nbsp;&nbsp;&nbsp;&nbsp;lower bound: " + intSet.lowerBound(4).first + "<br>\n");
+                document.write("&nbsp;&nbsp;&nbsp;&nbsp;upper bound: " + intSet.upperBound(4).first + "<br>\n");
+                document.write("<br>\n");
+                for (var i = 1; i <= 50; i += 2) {
+                    document.write("Mis-matched node: " + i + "<br>\n");
+                    document.write("&nbsp;&nbsp;&nbsp;&nbsp;lower bound: " + intSet.lowerBound(i).first + "<br>\n");
+                    document.write("&nbsp;&nbsp;&nbsp;&nbsp;upper bound: " + intSet.upperBound(i).first + "<br>\n");
+                    document.write("<br>\n");
+                }
             };
             ContainerTest.main = function () {
                 new ContainerTest();
@@ -4536,12 +4640,92 @@ var std;
             else
                 return node.value;
         };
-        TreeMap.prototype.findNear = function (key) {
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container whose key is not considered to
+         * go before <i>k</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false. </p>
+         *
+         * <p> If the {@link TreeMap} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
+         *
+         * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, except
+         * in the case that the {@link TreeMap} contains an element with a key equivalent to <i>k</i>: In this
+         * case, {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound}
+         * returns an iterator pointing to the next element. </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return An iterator to the the first element in the container whose key is not considered to go before
+         *		   <i>k</i>, or {@link TreeMap.end} if all keys are considered to go before <i>k</i>.
+         */
+        TreeMap.prototype.lowerBound = function (key) {
             var node = this.tree.find(key);
             if (node == null)
                 return this.end();
+            else if (std.less(node.value.first, key))
+                return node.value.next();
             else
                 return node.value;
+        };
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container whose key is considered to
+         * go after <i>k</i> </p>.
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true. </p>
+         *
+         * <p> If the {@link TreeMap} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
+         *
+         * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except
+         * in the case that the map contains an element with a key equivalent to <i>k</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound} returns an
+         * iterator pointing to the next element. </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return An iterator to the the first element in the container whose key is considered to go after
+         *		   <i>k</i>, or {@link TreeMap.end} if no keys are considered to go after <i>k</i>.
+         */
+        TreeMap.prototype.upperBound = function (key) {
+            var node = this.tree.find(key);
+            if (node == null)
+                return this.end();
+            else if (!std.equals(node.value.first, key) && !std.less(node.value.first, key))
+                return node.value;
+            else
+                return node.value.next();
+        };
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Returns the bounds of a range that includes all the elements in the container which have a key
+         * equivalent to <i>k</i> </p>.
+         *
+         * <p> Because the elements in a {@link TreeMap} container have unique keys, the range returned will
+         * contain a single element at most. </p>
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that has a key considered to go after <i>k</i> according to the container's internal
+         * comparison object (key_comp). </p>
+         *
+         * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively
+         * (i.e., no matter the order in which the keys are passed as arguments). </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upperBound}).
+         */
+        TreeMap.prototype.equalRange = function (key) {
+            return new std.Pair(this.lowerBound(key), this.upperBound(key));
         };
         /* =========================================================
             ELEMENTS I/O
@@ -4680,12 +4864,95 @@ var std;
             else
                 return node.value;
         };
-        TreeMultiMap.prototype.findNear = function (key) {
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container whose key is not considered to
+         * go before <i>k</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false. </p>
+         *
+         * <p> If the {@link TreeMultiMap} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
+         *
+         * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, except
+         * in the case that the {@link TreeMultiMap} contains an element with keys equivalent to <i>k</i>:
+         * In this case, {@link lowerBound} returns an iterator pointing to the first of such elements,
+         * whereas {@link upperBound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return An iterator to the the first element in the container whose key is not considered to go before
+         *		   <i>k</i>, or {@link TreeMultiMap.end} if all keys are considered to go before <i>k</i>.
+         */
+        TreeMultiMap.prototype.lowerBound = function (key) {
             var node = this.tree.find(key);
             if (node == null)
                 return this.end();
-            else
+            else if (std.equals(node.value.first, key))
                 return node.value;
+            else {
+                var it = node.value;
+                while (!std.equals(it, this.end()) && std.less(it.first, key))
+                    it = it.next();
+                return it;
+            }
+        };
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container whose key is considered to
+         * go after <i>k</i> </p>.
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true. </p>
+         *
+         * <p> If the {@link TreeMultiMap} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
+         *
+         * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except
+         * in the case that the {@link TreeMultiMap} contains an element with keys equivalent to <i>k</i>:
+         * In this case {@link lowerBound} returns an iterator pointing to first of such element, whereas
+         * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return An iterator to the the first element in the container whose key is considered to go after
+         *		   <i>k</i>, or {@link TreeMultiMap.end} if no keys are considered to go after <i>k</i>.
+         */
+        TreeMultiMap.prototype.upperBound = function (key) {
+            var node = this.tree.find(key);
+            if (node == null)
+                return this.end();
+            else {
+                var it = node.value;
+                while (!std.equals(it, this.end()) && (std.equals(it.first, key) || std.less(it.first, key)))
+                    it = it.next();
+                return it;
+            }
+        };
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Returns the bounds of a range that includes all the elements in the container which have a key
+         * equivalent to <i>k</i> </p>.
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that has a key considered to go after <i>k</i> according to the container's internal
+         * comparison object (key_comp). </p>
+         *
+         * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively
+         * (i.e., no matter the order in which the keys are passed as arguments). </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upperBound}).
+         */
+        TreeMultiMap.prototype.equalRange = function (key) {
+            return new std.Pair(this.lowerBound(key), this.upperBound(key));
         };
         /* =========================================================
             ELEMENTS I/O
@@ -4823,12 +5090,95 @@ var std;
             else
                 return node.value;
         };
-        TreeMultiSet.prototype.findNear = function (val) {
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is not considered to
+         * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(element,val) would return false. </p>
+         *
+         * <p> If the {@link TreeMultiSet} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
+
+         * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, except
+         * in the case that the {@link TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to the first of such elements, whereas
+         * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is not considered to go before
+         *		   <i>val</i>, or {@link TreeMultiSet.end} if all elements are considered to go before <i>val</i>.
+         */
+        TreeMultiSet.prototype.lowerBound = function (val) {
             var node = this.tree.find(val);
             if (node == null)
                 return this.end();
-            else
+            else if (std.equals(node.value.value, val))
                 return node.value;
+            else {
+                var it = node.value;
+                while (!std.equals(it, this.end()) && std.less(it.value, val))
+                    it = it.next();
+                return it;
+            }
+        };
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is considered to go after
+         * <i>val</i>. </p>
+
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(val,element) would return true. </p>
+
+         * <p> If the {@code TreeMultiSet} class is instantiated with the default comparison type (less), the
+         * function returns an iterator to the first element that is greater than <i>val</i>. </p>
+         *
+         * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except
+         * in the case that the {@TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to the first of such elements, whereas
+         * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is considered to go after
+         *		   <i>val</i>, or {@link TreeMultiSet.end} if no elements are considered to go after <i>val</i>.
+         */
+        TreeMultiSet.prototype.upperBound = function (val) {
+            var node = this.tree.find(val);
+            if (node == null)
+                return this.end();
+            else {
+                var it = node.value;
+                while (!std.equals(it, this.end()) && (std.equals(it.value, val) || std.less(it.value, val)))
+                    it = it.next();
+                return it;
+            }
+        };
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent
+         * to <i>val</i>. </p>
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that is considered to go after val according to the container's
+         * internal comparison object (key_comp). </p>
+         *
+         * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns
+         * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+         *
+         * @param key Value to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upperBound}).
+         */
+        TreeMultiSet.prototype.equalRange = function (val) {
+            return new std.Pair(this.lowerBound(val), this.upperBound(val));
         };
         /* =========================================================
             ELEMENTS I/O
@@ -4892,8 +5242,8 @@ var std;
      * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
      * can be inserted or removed from the container. </p>
      *
-     * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering
-     * criterion indicated by its internal comparison method (of {@link less}). </p>
+     * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
+     * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
      *
      * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access
      * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
@@ -4966,12 +5316,90 @@ var std;
             else
                 return node.value;
         };
-        TreeSet.prototype.findNear = function (val) {
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is not considered to go
+         * before <i>val</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(element, val) would return false. </p>
+         *
+         * <p> If the {@link Set} class is instantiated with the default comparison type ({@link less}), the
+         * function returns an iterator to the first element that is not less than <i>val</i>. </p>
+         *
+         * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound},
+         * except in the case that the {@link Set} contains an element equivalent to <i>val</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound} returns
+         * an iterator pointing to the next element. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is not considered to go before
+         *		   <i>val</i>, or {@link Set.end} if all elements are considered to go before <i>val</i>.
+         */
+        TreeSet.prototype.lowerBound = function (val) {
             var node = this.tree.find(val);
             if (node == null)
                 return this.end();
+            else if (std.less(node.value.value, val))
+                return node.value.next();
             else
                 return node.value;
+        };
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is not considered to go
+         * after <i>val</i>. </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(element, val) would return true. </p>
+         *
+         * <p> If the {@link Set} class is instantiated with the default comparison type ({@link less}), the
+         * function returns an iterator to the first element that is greater than <i>val</i>. </p>
+         *
+         * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except
+         * in the case that the {@link Set} contains an element equivalent to <i>val</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound} returns
+         * an iterator pointing to the next element. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is not considered to go before
+         *		   <i>val</i>, or {@link Set.end} if all elements are considered to go after <i>val</i>.
+         */
+        TreeSet.prototype.upperBound = function (val) {
+            var node = this.tree.find(val);
+            if (node == null)
+                return this.end();
+            else if (!std.equals(node.value.value, val) && !std.less(node.value.value, val))
+                return node.value;
+            else
+                return node.value.next();
+        };
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Because all elements in a {@link Set} container are unique, the range returned will contain a
+         * single element at most. </p>
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that is considered to go after <i>val</i> according to the container's
+         * internal comparison object (key_comp). </p>
+         *
+         * <p> Two elements of a {@link Set} are considered equivalent if the container's comparison object
+         * returns false reflexively (i.e., no matter the order in which the elements are passed as arguments).
+         * </p>
+         *
+         * @param val Value to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upperBound}).
+         */
+        TreeSet.prototype.equalRange = function (val) {
+            return new std.Pair(this.lowerBound(val), this.upperBound(val));
         };
         /* =========================================================
             ELEMENTS I/O

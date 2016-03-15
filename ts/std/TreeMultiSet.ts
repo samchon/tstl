@@ -70,8 +70,17 @@ namespace std
 
 		public constructor(array: Array<T>);
 
+		/**
+		 * Copy Constructor.
+		 */
 		public constructor(container: base.container.Container<T>);
 
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param begin
+		 * @param end
+		 */
 		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
 
 		public constructor(...args: any[])
@@ -118,14 +127,106 @@ namespace std
 				return node.value;
 		}
 
-		public findNear(val: T): SetIterator<T>
+		/**
+		 * <p> Return iterator to lower bound. </p>
+		 * 
+		 * <p> Returns an iterator pointing to the first element in the container which is not considered to 
+		 * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
+		 * 
+		 * <p> The function uses its internal comparison object (key_comp) to determine this, returning an 
+		 * iterator to the first element for which key_comp(element,val) would return false. </p>
+		 * 
+		 * <p> If the {@link TreeMultiSet} class is instantiated with the default comparison type ({@link less}), 
+		 * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
+
+		 * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, except 
+		 * in the case that the {@link TreeMultiSet} contains elements equivalent to <i>val</i>: In this case 
+		 * {@link lowerBound} returns an iterator pointing to the first of such elements, whereas 
+		 * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+		 * 
+		 * @param val Value to compare.
+		 *
+		 * @return An iterator to the the first element in the container which is not considered to go before 
+		 *		   <i>val</i>, or {@link TreeMultiSet.end} if all elements are considered to go before <i>val</i>.
+		 */
+		public lowerBound(val: T): SetIterator<T>
 		{
-			var node = this.tree.find(val);
+			let node: base.tree.XTreeNode<SetIterator<T>> = this.tree.find(val);
+
+			if (node == null)
+				return this.end();
+			else if (std.equals(node.value.value, val))
+				return node.value;
+			else
+			{
+				let it: SetIterator<T> = node.value;
+				while (!std.equals(it, this.end()) && std.less(it.value, val))
+					it = it.next();
+
+				return it;
+			}
+		}
+
+		/**
+		 * <p> Return iterator to upper bound. </p>
+		 * 
+		 * <p> Returns an iterator pointing to the first element in the container which is considered to go after 
+		 * <i>val</i>. </p>
+
+		 * <p> The function uses its internal comparison object (key_comp) to determine this, returning an 
+		 * iterator to the first element for which key_comp(val,element) would return true. </p>
+
+		 * <p> If the {@code TreeMultiSet} class is instantiated with the default comparison type (less), the 
+		 * function returns an iterator to the first element that is greater than <i>val</i>. </p>
+		 * 
+		 * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except 
+		 * in the case that the {@TreeMultiSet} contains elements equivalent to <i>val</i>: In this case 
+		 * {@link lowerBound} returns an iterator pointing to the first of such elements, whereas 
+		 * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+		 * 
+		 * @param val Value to compare.
+		 *
+		 * @return An iterator to the the first element in the container which is considered to go after 
+		 *		   <i>val</i>, or {@link TreeMultiSet.end} if no elements are considered to go after <i>val</i>.
+		 */
+		public upperBound(val: T): SetIterator<T>
+		{
+			let node: base.tree.XTreeNode<SetIterator<T>> = this.tree.find(val);
 
 			if (node == null)
 				return this.end();
 			else
-				return node.value;
+			{
+				let it: SetIterator<T> = node.value;
+				while (!std.equals(it, this.end()) && (std.equals(it.value, val) || std.less(it.value, val)))
+					it = it.next();
+
+				return it;
+			}
+		}
+
+		/**
+		 * <p> Get range of equal elements. </p>
+		 * 
+		 * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent 
+		 * to <i>val</i>. </p>
+		 * 
+		 * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to 
+		 * the first element that is considered to go after val according to the container's 
+		 * internal comparison object (key_comp). </p>
+		 * 
+		 * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns 
+		 * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 *
+		 * @param key Value to search for.
+		 * 
+		 * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of 
+		 *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound 
+		 *		   (the same as {@link upperBound}).
+		 */
+		public equalRange(val: T): Pair<SetIterator<T>, SetIterator<T>>
+		{
+			return new Pair<SetIterator<T>, SetIterator<T>>(this.lowerBound(val), this.upperBound(val));
 		}
 
 		/* =========================================================

@@ -1275,16 +1275,16 @@ declare namespace std.base.tree {
     }
 }
 declare namespace std.base.tree {
-    class PairTree<K, T> extends XTree<MapIterator<K, T>> {
+    class PairTree<Key, T> extends XTree<MapIterator<Key, T>> {
         /**
          * Default Constructor.
          */
         constructor();
-        find(key: K): XTreeNode<MapIterator<K, T>>;
-        find(it: MapIterator<K, T>): XTreeNode<MapIterator<K, T>>;
+        find(key: Key): XTreeNode<MapIterator<Key, T>>;
+        find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
         private findByKey(key);
-        isEquals(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
-        isLess(left: MapIterator<K, T>, right: MapIterator<K, T>): boolean;
+        isEquals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean;
+        isLess(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean;
     }
 }
 declare namespace std.base.tree {
@@ -1316,228 +1316,6 @@ declare namespace std {
         constructor(func: Listener, thisArg: This);
         apply(...args: any[]): any;
         equals<U extends Listener, T extends This>(obj: Bind<U, T>): boolean;
-    }
-}
-declare namespace std {
-    /**
-     * <p> Double ended queue. </p>
-     *
-     * <p> {@link Deque} (usually pronounced like "<i>deck</i>") is an irregular acronym of
-     * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic
-     * sizes that can be expanded or contracted on both ends (either its front or its back). </p>
-     *
-     * <p> Specific libraries may implement deques in different ways, generally as some form of dynamic
-     * array. But in any case, they allow for the individual elements to be accessed directly through
-     * random access iterators, with storage handled automatically by expanding and contracting the
-     * container as needed. </p>
-     *
-     * <p> Therefore, they provide a functionality similar to vectors, but with efficient insertion and
-     * deletion of elements also at the beginning of the sequence, and not only at its end. But, unlike
-     * {@link Vector}s, {@link Deque}s are not guaranteed to store all its elements in contiguous storage
-     * locations: accessing elements in a <u>deque</u> by offsetting a pointer to another element causes
-     * undefined behavior. </p>
-     *
-     * <p> Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for
-     * similar purposes, but internally both work in quite different ways: While {@link Vector}s use a
-     * single array that needs to be occasionally reallocated for growth, the elements of a {@link Deque}
-     * can be scattered in different chunks of storage, with the container keeping the necessary information
-     * internally to provide direct access to any of its elements in constant time and with a uniform
-     * sequential interface (through iterators). Therefore, {@link Deque}s are a little more complex
-     * internally than {@link Vector}s, but this allows them to grow more efficiently under certain
-     * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
-     *
-     * <p> For operations that involve frequent insertion or removals of elements at positions other than
-     * the beginning or the end, {@link Deque}s perform worse and have less consistent iterators and
-     * references than {@link List}s. </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Sequence </dt>
-     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements
-     *		 are accessed by their position in this sequence. </dd>
-     *
-     *	<dt> Dynamic array </dt>
-     *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the
-     *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end
-     *		 of the sequence. </dd>
-     * </dl>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/deque/deque/ </li>
-     * </ul>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @author Jeongho Nam
-     */
-    class Deque<T> extends base.container.Container<T> implements base.container.IArrayContainer<T>, base.container.IDequeContainer<T> {
-        private static ROW;
-        private static MIN_CAPACITY;
-        static iterator: typeof DequeIterator;
-        private matrix;
-        private size_;
-        private capacity_;
-        private lastArray;
-        private colSize;
-        /**
-         * <p> Default Constructor. </p>
-         *
-         * <p> Constructs an empty container, with no elements. </p>
-         */
-        constructor();
-        /**
-         * <p> Initializer list Constructor. </p>
-         *
-         * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
-         *
-         * @param array An array containing elements to be copied and contained.
-         */
-        constructor(items: Array<T>);
-        /**
-         * <p> Fill Constructor. </p>
-         *
-         * <p> Constructs a container with <i>n</i> elements. Each element is a copy of <i>val</i> (if provided). </p>
-         *
-         * @param n Initial container size (i.e., the number of elements in the container at construction).
-         * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is
-         *			  initialized to a copy of this value.
-         */
-        constructor(size: number, val: T);
-        /**
-         * <p> Copy Constructor. </p>
-         *
-         * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
-         *
-         * @param container Another container object of the same type (with the same class template
-         *					arguments <code>T</code>), whose contents are either copied or acquired.
-         */
-        constructor(container: base.container.IContainer<T>);
-        /**
-         * <p> Range Constructor. </p>
-         *
-         * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each
-         * element emplace-constructed from its corresponding element in that range, in the same order. </p>
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
-        /**
-         * @inheritdoc
-         */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
-        /**
-         * @inheritdoc
-         */
-        assign(n: number, val: T): void;
-        reserve(capacity: number): void;
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        begin(): DequeIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        end(): DequeIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        size(): number;
-        /**
-         * @inheritdoc
-         */
-        capacity(): number;
-        /**
-         * @inheritdoc
-         */
-        at(index: number): T;
-        /**
-         * @inheritdoc
-         */
-        set(index: number, val: T): void;
-        /**
-         * @inheritdoc
-         */
-        front(): T;
-        /**
-         * @inheritdoc
-         */
-        back(): T;
-        private fetchIndex(index);
-        /**
-         * @inheritdoc
-         */
-        push(...items: T[]): number;
-        /**
-         * @inheritdoc
-         */
-        pushFront(val: T): void;
-        /**
-         * @inheritdoc
-         */
-        pushBack(val: T): void;
-        /**
-         * @inheritdoc
-         */
-        popFront(): void;
-        /**
-         * @inheritdoc
-         */
-        popBack(): void;
-        insert(position: DequeIterator<T>, val: T): DequeIterator<T>;
-        insert(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
-        insert<U extends T>(position: DequeIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): DequeIterator<T>;
-        private insertByItems(position, items);
-        erase(position: DequeIterator<T>): DequeIterator<T>;
-        erase(begin: DequeIterator<T>, end: DequeIterator<T>): DequeIterator<T>;
-    }
-}
-declare namespace std {
-    class DequeIterator<T> extends base.container.Iterator<T> {
-        private deque;
-        /**
-         * <p> Sequence number of iterator in the source Deque. </p>
-         */
-        private index;
-        /**
-         * <p> Construct from the source {@link Deque container}. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create the iterator directly, by yourself. </p>
-         * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p>
-         *
-         * @param vector The source {@link Deque container} to reference.
-         * @param index Sequence number of the element in the source {@link Deque}.
-         */
-        constructor(source: Deque<T>, index: number);
-        /**
-         * @inheritdoc
-         */
-        value: T;
-        /**
-         * @inheritdoc
-         */
-        equals<U extends T>(obj: DequeIterator<U>): boolean;
-        /**
-         * Get index.
-         */
-        getIndex(): number;
-        /**
-         * @inheritdoc
-         */
-        prev(): DequeIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        next(): DequeIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        advance(n: number): DequeIterator<T>;
     }
 }
 declare namespace std {
@@ -1706,6 +1484,7 @@ declare namespace std.example {
         private testList();
         private testUnorderedSet();
         private testUnorderedMap();
+        private testEqualRange();
         static main(): void;
     }
 }
@@ -3235,7 +3014,75 @@ declare namespace std {
          * @inheritdoc
          */
         find(key: Key): MapIterator<Key, T>;
-        findNear(key: Key): MapIterator<Key, T>;
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container whose key is not considered to
+         * go before <i>k</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false. </p>
+         *
+         * <p> If the {@link TreeMap} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
+         *
+         * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, except
+         * in the case that the {@link TreeMap} contains an element with a key equivalent to <i>k</i>: In this
+         * case, {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound}
+         * returns an iterator pointing to the next element. </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return An iterator to the the first element in the container whose key is not considered to go before
+         *		   <i>k</i>, or {@link TreeMap.end} if all keys are considered to go before <i>k</i>.
+         */
+        lowerBound(key: Key): MapIterator<Key, T>;
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container whose key is considered to
+         * go after <i>k</i> </p>.
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true. </p>
+         *
+         * <p> If the {@link TreeMap} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
+         *
+         * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except
+         * in the case that the map contains an element with a key equivalent to <i>k</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound} returns an
+         * iterator pointing to the next element. </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return An iterator to the the first element in the container whose key is considered to go after
+         *		   <i>k</i>, or {@link TreeMap.end} if no keys are considered to go after <i>k</i>.
+         */
+        upperBound(key: Key): MapIterator<Key, T>;
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Returns the bounds of a range that includes all the elements in the container which have a key
+         * equivalent to <i>k</i> </p>.
+         *
+         * <p> Because the elements in a {@link TreeMap} container have unique keys, the range returned will
+         * contain a single element at most. </p>
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that has a key considered to go after <i>k</i> according to the container's internal
+         * comparison object (key_comp). </p>
+         *
+         * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively
+         * (i.e., no matter the order in which the keys are passed as arguments). </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upperBound}).
+         */
+        equalRange(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>;
         /**
          * @private
          */
@@ -3322,7 +3169,7 @@ declare namespace std {
         /**
          * Range Constructor.
          *
-         * @param begin nput interator of the initial position in a sequence.
+         * @param begin Input interator of the initial position in a sequence.
          * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
@@ -3338,7 +3185,72 @@ declare namespace std {
          * @inheritdoc
          */
         find(key: Key): MapIterator<Key, T>;
-        findNear(key: Key): MapIterator<Key, T>;
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container whose key is not considered to
+         * go before <i>k</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false. </p>
+         *
+         * <p> If the {@link TreeMultiMap} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
+         *
+         * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, except
+         * in the case that the {@link TreeMultiMap} contains an element with keys equivalent to <i>k</i>:
+         * In this case, {@link lowerBound} returns an iterator pointing to the first of such elements,
+         * whereas {@link upperBound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return An iterator to the the first element in the container whose key is not considered to go before
+         *		   <i>k</i>, or {@link TreeMultiMap.end} if all keys are considered to go before <i>k</i>.
+         */
+        lowerBound(key: Key): MapIterator<Key, T>;
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container whose key is considered to
+         * go after <i>k</i> </p>.
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true. </p>
+         *
+         * <p> If the {@link TreeMultiMap} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
+         *
+         * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except
+         * in the case that the {@link TreeMultiMap} contains an element with keys equivalent to <i>k</i>:
+         * In this case {@link lowerBound} returns an iterator pointing to first of such element, whereas
+         * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return An iterator to the the first element in the container whose key is considered to go after
+         *		   <i>k</i>, or {@link TreeMultiMap.end} if no keys are considered to go after <i>k</i>.
+         */
+        upperBound(key: Key): MapIterator<Key, T>;
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Returns the bounds of a range that includes all the elements in the container which have a key
+         * equivalent to <i>k</i> </p>.
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that has a key considered to go after <i>k</i> according to the container's internal
+         * comparison object (key_comp). </p>
+         *
+         * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively
+         * (i.e., no matter the order in which the keys are passed as arguments). </p>
+         *
+         * @param k Key to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upperBound}).
+         */
+        equalRange(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>;
         /**
          * @private
          */
@@ -3410,7 +3322,16 @@ declare namespace std {
          */
         constructor();
         constructor(array: Array<T>);
+        /**
+         * Copy Constructor.
+         */
         constructor(container: base.container.Container<T>);
+        /**
+         * Range Constructor.
+         *
+         * @param begin
+         * @param end
+         */
         constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
         /**
          * @inheritdoc
@@ -3424,7 +3345,72 @@ declare namespace std {
          * @inheritdoc
          */
         find(val: T): SetIterator<T>;
-        findNear(val: T): SetIterator<T>;
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is not considered to
+         * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(element,val) would return false. </p>
+         *
+         * <p> If the {@link TreeMultiSet} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
+
+         * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, except
+         * in the case that the {@link TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to the first of such elements, whereas
+         * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is not considered to go before
+         *		   <i>val</i>, or {@link TreeMultiSet.end} if all elements are considered to go before <i>val</i>.
+         */
+        lowerBound(val: T): SetIterator<T>;
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is considered to go after
+         * <i>val</i>. </p>
+
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(val,element) would return true. </p>
+
+         * <p> If the {@code TreeMultiSet} class is instantiated with the default comparison type (less), the
+         * function returns an iterator to the first element that is greater than <i>val</i>. </p>
+         *
+         * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except
+         * in the case that the {@TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to the first of such elements, whereas
+         * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is considered to go after
+         *		   <i>val</i>, or {@link TreeMultiSet.end} if no elements are considered to go after <i>val</i>.
+         */
+        upperBound(val: T): SetIterator<T>;
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent
+         * to <i>val</i>. </p>
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that is considered to go after val according to the container's
+         * internal comparison object (key_comp). </p>
+         *
+         * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns
+         * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+         *
+         * @param key Value to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upperBound}).
+         */
+        equalRange(val: T): Pair<SetIterator<T>, SetIterator<T>>;
         /**
          * @private
          */
@@ -3450,8 +3436,8 @@ declare namespace std {
      * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
      * can be inserted or removed from the container. </p>
      *
-     * <p> Internally, the elements in a set are always sorted following a specific strict weak ordering
-     * criterion indicated by its internal comparison method (of {@link less}). </p>
+     * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
+     * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
      *
      * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access
      * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their
@@ -3494,8 +3480,22 @@ declare namespace std {
          * Default Constructor
          */
         constructor();
+        /**
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
+         */
         constructor(array: Array<T>);
+        /**
+         * Copy Constructor.
+         */
         constructor(container: base.container.Container<T>);
+        /**
+         * Range Constructor.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
         constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
         /**
          * @inheritdoc
@@ -3509,7 +3509,73 @@ declare namespace std {
          * @inheritdoc
          */
         find(val: T): SetIterator<T>;
-        findNear(val: T): SetIterator<T>;
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is not considered to go
+         * before <i>val</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(element, val) would return false. </p>
+         *
+         * <p> If the {@link Set} class is instantiated with the default comparison type ({@link less}), the
+         * function returns an iterator to the first element that is not less than <i>val</i>. </p>
+         *
+         * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound},
+         * except in the case that the {@link Set} contains an element equivalent to <i>val</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound} returns
+         * an iterator pointing to the next element. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is not considered to go before
+         *		   <i>val</i>, or {@link Set.end} if all elements are considered to go before <i>val</i>.
+         */
+        lowerBound(val: T): SetIterator<T>;
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is not considered to go
+         * after <i>val</i>. </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(element, val) would return true. </p>
+         *
+         * <p> If the {@link Set} class is instantiated with the default comparison type ({@link less}), the
+         * function returns an iterator to the first element that is greater than <i>val</i>. </p>
+         *
+         * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except
+         * in the case that the {@link Set} contains an element equivalent to <i>val</i>: In this case
+         * {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound} returns
+         * an iterator pointing to the next element. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is not considered to go before
+         *		   <i>val</i>, or {@link Set.end} if all elements are considered to go after <i>val</i>.
+         */
+        upperBound(val: T): SetIterator<T>;
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Because all elements in a {@link Set} container are unique, the range returned will contain a
+         * single element at most. </p>
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that is considered to go after <i>val</i> according to the container's
+         * internal comparison object (key_comp). </p>
+         *
+         * <p> Two elements of a {@link Set} are considered equivalent if the container's comparison object
+         * returns false reflexively (i.e., no matter the order in which the elements are passed as arguments).
+         * </p>
+         *
+         * @param val Value to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upperBound}).
+         */
+        equalRange(val: T): Pair<SetIterator<T>, SetIterator<T>>;
         /**
          * @private
          */

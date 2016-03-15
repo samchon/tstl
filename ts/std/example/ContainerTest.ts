@@ -7,6 +7,7 @@ namespace std.example
 			this.testList();
 			this.testUnorderedSet();
 			this.testUnorderedMap();
+			this.testEqualRange();
 		}
 
 		private testList(): void
@@ -112,6 +113,27 @@ namespace std.example
 			document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
 
 			document.write("</ul>\n\n");
+		}
+
+		private testEqualRange(): void
+		{
+			let intSet = new TreeMultiMap<number, number>();
+			for (let i = 0; i <= 70; i += 2)
+				//for (let j = 0; j < 4; j++)
+					intSet.insert(new Pair<number, number>(i, i));
+
+			document.write("Matched node: 4<br>\n");
+			document.write("&nbsp;&nbsp;&nbsp;&nbsp;lower bound: " + intSet.lowerBound(4).first + "<br>\n");
+			document.write("&nbsp;&nbsp;&nbsp;&nbsp;upper bound: " + intSet.upperBound(4).first + "<br>\n");
+			document.write("<br>\n");
+
+			for (let i = 1; i <= 50; i += 2)
+			{
+				document.write("Mis-matched node: " + i + "<br>\n");
+				document.write("&nbsp;&nbsp;&nbsp;&nbsp;lower bound: " + intSet.lowerBound(i).first + "<br>\n");
+				document.write("&nbsp;&nbsp;&nbsp;&nbsp;upper bound: " + intSet.upperBound(i).first + "<br>\n");
+				document.write("<br>\n");
+			}
 		}
 
 		public static main(): void
