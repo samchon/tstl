@@ -1,16 +1,38 @@
-namespace std.base.tree
+﻿namespace std.base.tree
 {
 	/**
-	 * Reference: http://jiniya.net/tt/444
+	 * <p> A node in an XTree. </p>
+	 *
+	 * @inventor Rudolf Bayer
+	 * @see XTree
+	 *
+	 * @author Migrated by Jeongho Nam
 	 */
 	export class XTreeNode<T>
 	{
+		/**
+		 * Parent of the node.
+		 */
 		public parent: XTreeNode<T>;
+		
+		/**
+		 * Left child in the node.
+		 */
 		public left: XTreeNode<T>;
+		
+		/**
+		 * Right child in the node.
+		 */
 		public right: XTreeNode<T>;
 
+		/**
+		 * Value stored in the node.
+		 */
 		public value: T;
 
+		/**
+		 * Color of the node.
+		 */
 		public color: boolean;
 
 		/* ---------------------------------------------------------
@@ -32,10 +54,17 @@ namespace std.base.tree
 			this.right = null;
 		}
 
+		/**
+		 * Get grand-parent.
+		 */
 		public get grandParent(): XTreeNode<T>
 		{
 			return this.parent.parent;
 		}
+
+		/**
+		 * Get sibling, opposite side node in same parent.
+		 */
 		public get sibling(): XTreeNode<T>
 		{
 			if (this == this.parent.left)
@@ -43,26 +72,13 @@ namespace std.base.tree
 			else
 				return this.parent.left;
 		}
+
+		/**
+		 * Get uncle, parent's sibling.
+		 */
 		public get uncle(): XTreeNode<T>
 		{
 			return this.parent.sibling;
 		}
-
-		//public debug(header: string = "ROOT", level: number = 0): void
-		//{
-		//	// TABS
-		//	let tab: string = "";
-		//	for (let i = 0; i < level; i++)
-		//		tab += "\t";
-			
-		//	console.log(tab + header + ": " + this.value);
-
-		//	// LEFT AND  RIGHT
-		//	if (this.left != null)
-		//		this.left.debug("Left", level + 1);
-
-		//	if (this.right != null)
-		//		this.right.debug("Right", level + 1);
-		//}
 	}
 }

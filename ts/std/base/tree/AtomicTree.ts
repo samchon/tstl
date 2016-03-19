@@ -1,9 +1,9 @@
-/// <reference path="XTree.ts" />
+/// <reference path="RBTree.ts" />
 
 namespace std.base.tree
 {
 	export class AtomicTree<T>
-		extends XTree<SetIterator<T>>
+		extends RBTree<SetIterator<T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTOR

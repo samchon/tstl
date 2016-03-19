@@ -63,6 +63,7 @@
     <TypeScriptCompile Include="std\base\tree\AtomicTree.ts" />
     <TypeScriptCompile Include="std\base\tree\Color.ts" />
     <TypeScriptCompile Include="std\base\tree\PairTree.ts" />
+    <TypeScriptCompile Include="std\base\tree\RBTree.ts" />
     <TypeScriptCompile Include="std\base\tree\XTree.ts" />
     <TypeScriptCompile Include="std\base\tree\XTreeNode.ts" />
     <TypeScriptCompile Include="std\Bind.ts" />

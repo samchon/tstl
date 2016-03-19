@@ -1,9 +1,9 @@
-﻿/// <reference path="XTree.ts" />
+﻿/// <reference path="RBTree.ts" />
 
 namespace std.base.tree
 {
 	export class PairTree<Key, T>
-		extends XTree<MapIterator<Key, T>>
+		extends RBTree<MapIterator<Key, T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
