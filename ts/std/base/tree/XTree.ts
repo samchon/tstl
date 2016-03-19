@@ -417,7 +417,7 @@
 		 *		 diagram. </li>
 		 *	<li> A numbered triangle represents a subtree of unspecified depth. A black circle atop a triangle means 
 		 *		 that black-height of subtree is greater by one compared to subtree without this circle. </li>
-		 * </ul>
+		 * </ol>
 		 *
 		 * <p> If both N and its original parent are black, then deleting this original parent causes paths which 
 		 * proceed through N to have one fewer black node than paths that do not. As this violates property 5 
