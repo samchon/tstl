@@ -55,8 +55,8 @@
 //	 */
 //	export class Deque<T>
 //		extends base.container.Container<T>
-//		implements base.container.IArrayContainer<T>, 
-//				   base.container.IDequeContainer<T>
+//		implements base.container.IArray<T>, 
+//				   base.container.IDeque<T>
 //	{
 //		private static get ROW(): number { return 8; }
 //		private static get MIN_CAPACITY(): number { return 100; }
