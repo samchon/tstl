@@ -38,14 +38,14 @@
 		/**
 		 * <p> Return category name. </p>
 		 *
-		 * <p> In derived classes, the function returns a <code>string</code> naming the category. </p>
+		 * <p> In derived classes, the function returns a string naming the category. </p>
 		 *
 		 * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
 		 *
 		 * <ul>
-		 *	<li> In the <code>GenericCategory</code> object, it returns <i>"generic"</i>. </li>
-		 *	<li> In the <code>SystemCategory</code> object, it returns <i>"system"</i>. </li>
-		 *	<li> In the <code>IOStreamCategory</code> object, it returns <i>"iostream"</i>. </li>
+		 *	<li> In the {@link GenericCategory} object, it returns <i>"generic"</i>. </li>
+		 *	<li> In the {@link SystemCategory} object, it returns <i>"system"</i>. </li>
+		 *	<li> In the {@link IOStreamCategory} object, it returns <i>"iostream"</i>. </li>
 		 * </ul>
 		 *
 		 * @return The category name.
@@ -55,7 +55,7 @@
 		/**
 		 * <p> Error message. </p>
 		 *
-		 * <p> In derived classes, the function returns a <code>string</code> object with a message describing 
+		 * <p> In derived classes, the function returns a string object with a message describing 
 		 * the error condition denoted by <i>val</i>. </p>
 		 *
 		 * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
@@ -63,14 +63,14 @@
 		 * <p> This function is called both by {@link ErrorCode.message ErrorCode.message()} and 
 		 * {@link ErrorCondition.message ErrorCondition.message()}
 		 * to obtain the corresponding message in the {@link category}. Therefore, numerical values used by 
-		 * custom <code>error codes</code> and {@link ErrorCondition error conditions} should only match for a category 
+		 * custom <i>error codes</i> and {@link ErrorCondition error conditions} should only match for a category 
 		 * if they describe the same error. </p>
 		 * 
 		 * @param val A numerical value identifying an error condition.
-		 *			  If the {@link ErrorCategory} object is the <code>GenericCategory</code>, this argument 
-		 *			  is equivalent to an <code>errno</code> value.
+		 *			  If the {@link ErrorCategory} object is the {@link GenericCategory}, this argument 
+		 *			  is equivalent to an {@link errno} value.
 		 *
-		 * @return A <code>string</code> object with the message.
+		 * @return A string object with the message.
 		 */
 		public abstract message(val: number): string;
 
@@ -90,7 +90,7 @@
 		 *
 		 * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
 		 *
-		 * <p> This function is called by the default definition of member <code>equivalent()</code>, which is 
+		 * <p> This function is called by the default definition of member {@link equivalent equivalent()}, which is 
 		 * used to compare {@link ErrorCondition error conditions} with error codes. </p>
 		 *
 		 * @param val A numerical value identifying an error condition.

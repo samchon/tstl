@@ -5,25 +5,25 @@ namespace std
 	/**
 	 * <p> Tree-structured multiple-key map. </p>
 	 *
-	 * <p> <code>TreeMultiMap</code>s are associative containers that store elements formed by a combination of 
+	 * <p> {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of 
 	 * a <i>key value</i> and a <i>mapped value</i>, following a specific order, and where multiple elements can 
 	 * have equivalent keys. </p>
 	 *
-	 * <p> In a <code>TreeMultiMap</code>, the <i>key values</i> are generally used to sort and uniquely identify 
+	 * <p> In a {@link TreeMultiMap}, the <i>key values</i> are generally used to sort and uniquely identify 
 	 * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of 
 	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type 
-	 * <code>value_type</code>, which is a <code>Pair</code> type combining both:
+	 * <code>value_type</code>, which is a {@link Pair} type combining both:
 	 * 
 	 * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
 	 * 
-	 * <p> Internally, the elements in a <code>TreeMultiMap</code> are always sorted by its key following a 
+	 * <p> Internally, the elements in a {@link TreeMultiMap}are always sorted by its key following a 
 	 * strict weak ordering criterion indicated by its internal comparison method (of {@link less}). </p>
 	 *
-	 * <p> <code>TreeMultiMap</code> containers are generally slower than <code>HashMultiMap</code> containers 
+	 * <p> {@link TreeMultiMap}containers are generally slower than {@link HashMap} containers 
 	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based 
 	 * on their order. </p>
 	 *
-	 * <p> <code>TreeMultiMap</code>s are typically implemented as binary search trees. </p>
+	 * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>

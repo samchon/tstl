@@ -757,6 +757,10 @@ var std;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
+// Type definitions for STL (Standard Template Library) v0.8.0
+// Project: https://github.com/samchon/stl
+// Definitions by: Jeongho Nam <http://samchon.org>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped 
 var std;
 (function (std) {
     var base;
@@ -1047,7 +1051,7 @@ var std;
                  *
                  * <p> <code>category().message(value())</code> </p>
                  *
-                 * @return A <code>string</code> object with the message associated with the {@link ErrorCode}.
+                 * @return A string object with the message associated with the {@link ErrorCode}.
                  */
                 ErrorInstance.prototype.message = function () {
                     if (this.category_ == null || this.value_ == 0)
@@ -1104,6 +1108,128 @@ var std;
         var tree;
         (function (tree) {
             /**
+             * Abstract Tree.
+             *
+             * @param <T> Type of elements.
+             *
+             * @author Jeongho Nam
+             */
+            var XTree = (function () {
+                /* =========================================================
+                    CONSTRUCTOR
+                ========================================================= */
+                /**
+                 * Default Constructor.
+                 */
+                function XTree() {
+                    this.root = null;
+                }
+                /* =========================================================
+                    ACCESSORS
+                        - GETTERS
+                        - COMPARISON
+                ============================================================
+                    GETTERS
+                --------------------------------------------------------- */
+                /**
+                 * Find a node from its contained value.
+                 *
+                 * @param val Value to find.
+                 */
+                XTree.prototype.find = function (val) {
+                    if (this.root == null)
+                        return null;
+                    var node = this.root;
+                    while (true) {
+                        var newNode = null;
+                        if (this.isEquals(val, node.value))
+                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                        else if (this.isLess(val, node.value))
+                            newNode = node.left; // LESS, THEN TO THE LEFT
+                        else
+                            newNode = node.right; // GREATER, THEN TO THE RIGHT
+                        // ULTIL CHILD NODE EXISTS
+                        if (newNode == null)
+                            break;
+                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                        node = newNode;
+                    }
+                    return node;
+                };
+                /**
+                 * Fetch maximum (the rightes?) node from one.
+                 *
+                 * @param node A node to fetch its maximum node.
+                 * @return The maximum node.
+                 */
+                XTree.prototype.fetchMaximum = function (node) {
+                    while (node.right != null)
+                        node = node.right;
+                    return node;
+                };
+                /* ---------------------------------------------------------
+                    ROTATION
+                --------------------------------------------------------- */
+                /**
+                 * Rotate a node left.
+                 *
+                 * @param node Node to rotate left.
+                 */
+                XTree.prototype.rotateLeft = function (node) {
+                    var right = node.right;
+                    this.replaceNode(node, right);
+                    node.right = right.left;
+                    if (right.left != null)
+                        right.left.parent = node;
+                    right.left = node;
+                    node.parent = right;
+                };
+                /**
+                 * Rotate a node to right.
+                 *
+                 * @param node A node to rotate right.
+                 */
+                XTree.prototype.rotateRight = function (node) {
+                    var left = node.left;
+                    this.replaceNode(node, left);
+                    node.left = left.right;
+                    if (left.right != null)
+                        left.right.parent = node;
+                    left.right = node;
+                    node.parent = left;
+                };
+                /**
+                 * Replace a node.
+                 *
+                 * @param oldNode Ordinary node to be replaced.
+                 * @param newNode Target node to replace.
+                 */
+                XTree.prototype.replaceNode = function (oldNode, newNode) {
+                    if (oldNode.parent == null)
+                        this.root = newNode;
+                    else {
+                        if (oldNode == oldNode.parent.left)
+                            oldNode.parent.left = newNode;
+                        else
+                            oldNode.parent.right = newNode;
+                    }
+                    if (newNode != null)
+                        newNode.parent = oldNode.parent;
+                };
+                return XTree;
+            }());
+            tree.XTree = XTree;
+        })(tree = base.tree || (base.tree = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="XTree.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var tree;
+        (function (tree) {
+            /**
              * <p> Red-black Tree. </p>
              *
              * <p> A red-black tree is a kind of self-balancing
@@ -1153,7 +1279,7 @@ var std;
              *	</li>
              * </ol>
              *
-             * <p> <img src="images/rbtree/Red-black_tree_example.svg" /> </p>
+             * <p> <img src="../assets/images/tree/Red-black_tree_example.svg" width="100%" /> </p>
              *
              * <p> These constraints enforce a critical property of red-black trees: the path from the root to the farthest
              * leaf is no more than twice as long as the path from the root to the nearest leaf. The result is that the tree
@@ -1180,10 +1306,13 @@ var std;
              *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
              * </ul>
              *
+             * @param <T> Type of elements.
+             *
              * @inventor Rudolf Bayer
              * @author Migrated by Jeongho Nam
              */
-            var RBTree = (function () {
+            var RBTree = (function (_super) {
+                __extends(RBTree, _super);
                 /* =========================================================
                     CONSTRUCTOR
                 ========================================================= */
@@ -1191,54 +1320,21 @@ var std;
                  * Default Constructor.
                  */
                 function RBTree() {
-                    this.root = null;
-                    //this.size_ = 0;
+                    _super.call(this);
                 }
-                /* =========================================================
-                    ACCESSORS
-                        - GETTERS
-                        - COMPARISON
-                ============================================================
-                    GETTERS
-                --------------------------------------------------------- */
-                RBTree.prototype.find = function (val) {
-                    if (this.root == null)
-                        return null;
-                    var node = this.root;
-                    while (true) {
-                        var newNode = null;
-                        if (this.isEquals(val, node.value))
-                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-                        else if (this.isLess(val, node.value))
-                            newNode = node.left; // LESS, THEN TO THE LEFT
-                        else
-                            newNode = node.right; // GREATER, THEN TO THE RIGHT
-                        // ULTIL CHILD NODE EXISTS
-                        if (newNode == null)
-                            break;
-                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-                        node = newNode;
-                    }
-                    return node;
-                };
-                RBTree.prototype.fetchMaximum = function (node) {
-                    while (node.right != null)
-                        node = node.right;
-                    return node;
-                };
                 /* =========================================================
                     ELEMENTS I/O
                         - INSERT
                         - ERASE
-                        - ROTATION
+                        - COLOR
                 ============================================================
                     INSERT
                 --------------------------------------------------------- */
                 /**
                  * <p> Insert an element with a new node. </p>
                  *
-                 * <p> Insertion begins by adding the node as any binary search tree insertion does and by coloring it \
-                 * <font color='red'>red</font>. Whereas in the binary search tree, we always add a leaf, in the red-black \
+                 * <p> Insertion begins by adding the node as any binary search tree insertion does and by coloring it
+                 * <font color='red'>red</font>. Whereas in the binary search tree, we always add a leaf, in the red-black
                  * tree, leaves contain no information, so instead we add a <font color='red'>red</font> interior node, with
                  * two <font color='darkBlue'>black</font> leaves, in place of an existing
                  * <font color='darkBlue'>black</font> leaf. </p>
@@ -1265,13 +1361,14 @@ var std;
                  * <h4> Notes </h4>
                  * <ol>
                  *	<li>
-                 *		The label <i>N</i> will be used to denote the current node (colored <font color='red'>red</font>).
-                 *		In the diagrams <i>N</i> carries a blue contour. At the beginning, this is the new node being
-                 *		inserted, but the entire procedure may also be applied recursively to other nodes (see case 3).
-                 *		{@link XTreeNode.parent U} will denote <i>N</i>'s parent node, {@link XTreeNode.grandParent G} will
-                 *		denote <i>N</i>'s grandparent, and {@link XTreeNode.uncle U} will denote <i>N</i>'s uncle. In
-                 *		between some cases, the roles and labels of the nodes are exchanged, but in each case, every label
-                 *		continues to represent the same node it represented at the beginning of the case.
+                 *		The label <i><b>N</b></i> will be used to denote the current node (colored
+                 *		<font color='red'>red</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
+                 *		beginning, this is the new node being inserted, but the entire procedure may also be applied
+                 *		recursively to other nodes (see case 3). {@link XTreeNode.parent <b>P</b>} will denote
+                 *		<i><b>N</b></i>'s parent node, {@link XTreeNode.grandParent <b>G</b>} will denote <i><b>N</b></i>'s
+                 *		grandparent, and {@link XTreeNode.uncle <b>U</b>} will denote <i><b>N</b></i>'s uncle. In between
+                 *		some cases, the roles and labels of the nodes are exchanged, but in each case, every label continues
+                 *		to represent the same node it represented at the beginning of the case.
                  *	</li>
                  *	<li>
                  *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
@@ -1287,21 +1384,23 @@ var std;
                  * <p> There are several cases of red-black tree insertion to handle: </p>
                  *
                  * <ul>
-                 *	<li> <i>N</i> is the root node, i.e., first node of red-black tree. </li>
-                 *	<li> <i>N</i>'s parent ({@link XTreeNode.parent U}) is <font color='darkBlue'>black</font>. </li>
+                 *	<li> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </li>
                  *	<li>
-                 *		<i>N</i>'s parent ({@link XTreeNode.parent U}) and uncle ({@link XTreeNode.uncle U}) are
-                 *		<font color='red'>red</font>.
+                 *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>.
                  *	</li>
                  *	<li>
-                 *		<i>N</i> is added to right of left child of grandparent, or <i>N</i> is added to left of right
-                 *		child of grandparent ({@link XTreeNode.parent U} is <font color='red'>red</font> and
-                 *		{@link XTreeNode.uncle U} is <font color='darkBlue'>black</font>).
+                 *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
+                 *		({@link XTreeNode.uncle <b>U</b>}) are <font color='red'>red</font>.
                  *	</li>
                  *	<li>
-                 *		<i>N</i> is added to left of left child of grandparent, or <i>N</i> is added to right of right
-                 *		child of grandparent ({@link XTreeNode.parent U} is <font color='red'>red</font> and
-                 *		{@link XTreeNode.uncle U} is <font color='darkBlue'>black</font>).
+                 *		<i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
+                 *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+                 *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
+                 *	</li>
+                 *	<li>
+                 *		<i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
+                 *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+                 *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
                  *	</li>
                  * </ul>
                  *
@@ -1331,9 +1430,9 @@ var std;
                     this.insertCase1(node);
                 };
                 /**
-                 * <p> <i>N</i> is the root node, i.e., first node of red-black tree. </p>
+                 * <p> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </p>
                  *
-                 * <p> The current node <i>N</i> is at the {@link root} of the tree. </p>
+                 * <p> The current node <i><b>N</b></i> is at the {@link root} of the tree. </p>
                  *
                  * <p> In this case, it is repainted <font color='darkBlue'>black</font> to satisfy property 2 (the root is
                  * <font color='darkBlue'>black</font>). Since this adds one <font color='darkBlue'>black</font> node to
@@ -1342,97 +1441,102 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                RBTree.prototype.insertCase1 = function (node) {
-                    if (node.parent == null)
-                        node.color = tree.Color.BLACK;
+                RBTree.prototype.insertCase1 = function (N) {
+                    if (N.parent == null)
+                        N.color = tree.Color.BLACK;
                     else
-                        this.insertCase2(node);
+                        this.insertCase2(N);
                 };
                 /**
-                 * <p> <i>N</i>'s parent ({@link XTreeNode.parent U}) is <font color='darkBlue'>black</font>. </p>
+                 * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>. </p>
                  *
-                 * <p> The current node's parent {@link XTreeNode.parent U} is <font color='darkBlue'>black</font>, so
-                 * property 4 (both children of every <font color='red'>red</font> node are
+                 * <p> The current node's parent {@link XTreeNode.parent <b>P</b>} is <font color='darkBlue'>black</font>,
+                 * so property 4 (both children of every <font color='red'>red</font> node are
                  * <font color='darkBlue'>black</font>) is not invalidated. </p>
                  *
-                 * <p? In this case, the tree is still valid. Property 5 (all paths from any given node to
-                 * its leaf nodes contain the same number of <font color='darkBlue'>black</font> nodes) is not threatened,
-                 * because the current node <i>N</i> has two <font color='darkBlue'>black</font> leaf children, but because
-                 * <i>N</i> is <font color='red'>red</font>, the paths through each of its children have the same number of
-                 * <font color='darkBlue'>black</font> nodes as the path through the leaf it replaced, which was
+                 * <p> In this case, the tree is still valid. Property 5 (all paths from any given node to its leaf nodes
+                 * contain the same number of <font color='darkBlue'>black</font> nodes) is not threatened, because the
+                 * current node <i><b>N</b></i> has two <font color='darkBlue'>black</font> leaf children, but because
+                 * <i><b>N</b></i> is <font color='red'>red</font>, the paths through each of its children have the same
+                 * number of <font color='darkBlue'>black</font> nodes as the path through the leaf it replaced, which was
                  * <font color='darkBlue'>black</font>, and so this property remains satisfied. </p>
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                RBTree.prototype.insertCase2 = function (node) {
-                    if (this.fetchColor(node.parent) == tree.Color.BLACK)
+                RBTree.prototype.insertCase2 = function (N) {
+                    if (this.fetchColor(N.parent) == tree.Color.BLACK)
                         return;
                     else
-                        this.insertCase3(node);
+                        this.insertCase3(N);
                 };
                 /**
-                 * <p> <i>N</i>'s parent ({@link XTreeNode.parent U}) and uncle (<i>{@link XTreeNode.uncle U}</i>) are
-                 * <font color='red'>red</font>. </p>
+                 * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
+                 * (<i>{@link XTreeNode.uncle <b>U</b>}</i>) are <font color='red'>red</font>. </p>
                  *
-                 * <p> If both the parent {@link XTreeNode.parent U} and the uncle {@link XTreeNode.uncle U} are
-                 * <font color='red'>red</font>, then both of them can be repainted <font color='darkBlue'>black</font> and
-                 * the grandparent {@link XTreeNode.grandParent G} becomes <font color='red'>red</font> (to maintain
-                 * property 5 (all paths from any given node to its leaf nodes contain the same number of
-                 * <font color='darkBlue'>black</font> nodes)). Now, the current <font color='red'>red</font> node <i>N</i>
-                 * has a <font color='darkBlue'>black</font> parent. Since any path through the parent or uncle must pass
-                 * through the grandparent, the number of <font color='darkBlue'>black</font> nodes on these paths has not
-                 * changed. However, the grandparent {@link XTreeNode.grandParent G} may now violate properties 2 (The root
-                 * is <font color='darkBlue'>black</font>) or 4 (Both children of every <font color='red'>red</font> node
-                 * are <font color='darkBlue'>black</font>) (property 4 possibly being violated since
-                 * {@link XTreeNode.grandParent G} may have a <font color='red'>red</font> parent). </p>
+                 * <p> If both the parent {@link XTreeNode.parent <b>P</b>} and the uncle {@link XTreeNode.uncle <b>U</b>}
+                 * are <font color='red'>red</font>, then both of them can be repainted <font color='darkBlue'>black</font>
+                 * and the grandparent {@link XTreeNode.grandParent <b>G</b>} becomes <font color='red'>red</font> (to
+                 * maintain property 5 (all paths from any given node to its leaf nodes contain the same number of
+                 * <font color='darkBlue'>black</font> nodes)). </p>
                  *
-                 * <p> To fix this, the entire procedure is recursively performed on {@link XTreeNode.grandParent G} from
-                 * case 1. Note that this is a tail-recursive call, so it could be rewritten as a loop; since this is the
-                 * only loop, and any rotations occur after this loop, this proves that a constant number of rotations
+                 * <p> Now, the current <font color='red'>red</font> node <i><b>N</b></i> has a
+                 * <font color='darkBlue'>black</font> parent. Since any path through the parent or uncle must pass through
+                 * the grandparent, the number of <font color='darkBlue'>black</font> nodes on these paths has not changed.
+                 *
+                 * <p> However, the grandparent {@link XTreeNode.grandParent <b>G</b>} may now violate properties 2 (The
+                 * root is <font color='darkBlue'>black</font>) or 4 (Both children of every <font color='red'>red</font>
+                 * node are <font color='darkBlue'>black</font>) (property 4 possibly being violated since
+                 * {@link XTreeNode.grandParent <b>G</b>} may have a <font color='red'>red</font> parent). </p>
+                 *
+                 * <p> To fix this, the entire procedure is recursively performed on {@link XTreeNode.grandParent <b>G</b>}
+                 * from case 1. Note that this is a tail-recursive call, so it could be rewritten as a loop; since this is
+                 * the only loop, and any rotations occur after this loop, this proves that a constant number of rotations
                  * occur. </p>
                  *
-                 * <p> <img src="images/rbtree/Red-black_tree_insert_case_3.svg" /> </p>
+                 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_3.svg" /> </p>
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                RBTree.prototype.insertCase3 = function (node) {
-                    if (this.fetchColor(node.uncle) == tree.Color.RED) {
-                        node.parent.color = tree.Color.BLACK;
-                        node.uncle.color = tree.Color.BLACK;
-                        node.grandParent.color = tree.Color.RED;
-                        this.insertCase1(node.grandParent);
+                RBTree.prototype.insertCase3 = function (N) {
+                    if (this.fetchColor(N.uncle) == tree.Color.RED) {
+                        N.parent.color = tree.Color.BLACK;
+                        N.uncle.color = tree.Color.BLACK;
+                        N.grandParent.color = tree.Color.RED;
+                        this.insertCase1(N.grandParent);
                     }
                     else {
-                        this.insertCase4(node);
+                        this.insertCase4(N);
                     }
                 };
                 /**
-                 * <p> <i>N</i> is added to right of left child of grandparent, or <i>N</i> is added to left of right child
-                 * of grandparent ({@link XTreeNode.parent U} is <font color='red'>red</font> and {@link XTreeNode.uncle U}
-                 * is <font color='darkBlue'>black</font>). </p>
+                 * <p> <i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
+                 * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+                 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
                  *
-                 * <p> The parent {@link XTreeNode.parent U} is <font color='red'>red</font> but the uncle
-                 * {@link XTreeNode.uncle U} is <font color='darkBlue'>black</font>; also, the current node <i>N</i> is the
-                 * right child of {@link XTreeNode.parent U}, and {@link XTreeNode.parent U} in turn is the left child of
-                 * its parent {@link XTreeNode.grandParent G}. </p>
+                 * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
+                 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>; also, the current node
+                 * <i><b>N</b></i> is the right child of {@link XTreeNode.parent <b>P</b>}, and
+                 * {@link XTreeNode.parent <b>P</b>} in turn is the left child of its parent
+                 * {@link XTreeNode.grandParent <b>G</b>}. </p>
                  *
-                 * <p> In this case, a left rotation on {@link XTreeNode.parent U} that switches the roles of the current
-                 * node <i>N</i> and its parent {@link XTreeNode.parent U} can be performed; then, the former parent node
-                 * {@link XTreeNode.parent U} is dealt with using case 5 (relabeling <i>N</i> and {@link XTreeNode.parent U})
-                 * because property 4 (both children of every <font color='red'>red</font> node are
-                 * <font color='darkBlue'>black</font>) is still violated. </p>
+                 * <p> In this case, a left rotation on {@link XTreeNode.parent <b>P</b>} that switches the roles of the
+                 * current node <i><b>N</b></i> and its parent {@link XTreeNode.parent <b>P</b>} can be performed; then,
+                 * the former parent node {@link XTreeNode.parent <b>P</b>} is dealt with using case 5
+                 * (relabeling <i><b>N</b></i> and {@link XTreeNode.parent <b>P</b>}) because property 4 (both children of
+                 * every <font color='red'>red</font> node are <font color='darkBlue'>black</font>) is still violated. </p>
                  *
-                 * The rotation
-                 * causes some paths (those in the sub-tree labelled "1") to pass through the node <i>N</i> where they did
-                 * not before. It also causes some paths (those in the sub-tree labelled "3") not to pass through the node
-                 * {@link XTreeNode.parent U} where they did before. However, both of these nodes are
-                 * <font color='red'>red</font>, so property 5 (all paths from any given node to its leaf nodes contain the
-                 * same number of <font color='darkBlue'>black</font> nodes) is not violated by the rotation. After this
-                 * case has been completed, property 4 (both children of every <font color='red'>red</font> node are
-                 * <font color='darkBlue'>black</font>) is still violated, but now we can resolve this by continuing to
-                 * case 5. </p>
+                 * <p> The rotation causes some paths (those in the sub-tree labelled "1") to pass through the node
+                 * <i><b>N</b></i> where they did not before. It also causes some paths (those in the sub-tree labelled "3")
+                 * not to pass through the node {@link XTreeNode.parent <b>P</b>} where they did before. However, both of
+                 * these nodes are <font color='red'>red</font>, so property 5 (all paths from any given node to its leaf
+                 * nodes contain the same number of <font color='darkBlue'>black</font> nodes) is not violated by the
+                 * rotation. </p>
                  *
-                 * <p> <img src="images/rbtree/Red-black_tree_insert_case_4.svg" /> </p>
+                 * <p> After this case has been completed, property 4 (both children of every <font color='red'>red</font>
+                 * node are <font color='darkBlue'>black</font>) is still violated, but now we can resolve this by
+                 * continuing to case 5. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_4.svg" /> </p>
                  *
                  * @param N A node to be inserted or swapped.
                  */
@@ -1448,30 +1552,31 @@ var std;
                     this.insertCase5(node);
                 };
                 /**
-                 * <p> <i>N</i> is added to left of left child of grandparent, or <i>N</i> is added to right
-                 * of right child of grandparent ({@link XTreeNode.parent U} is <font color='red'>red</font> and
-                 * {@link XTreeNode.uncle U} is <font color='darkBlue'>black</font>). </p>
+                 * <p> <i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
+                 * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+                 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
                  *
-                 * <p> The parent {@link XTreeNode.parent U} is <font color='red'>red</font> but the uncle
-                 * {@link XTreeNode.uncle U} is <font color='darkBlue'>black</font>, the current node <i>N</i> is the left
-                 * child of {@link XTreeNode.parent U}, and {@link XTreeNode.parent U} is the left child of its parent
-                 * {@link XTreeNode.grandParent G}. </p>
+                 * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
+                 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>, the current node <i><b>N</b></i>
+                 * is the left child of {@link XTreeNode.parent <b>P</b>}, and {@link XTreeNode.parent <b>P</b>} is the left
+                 * child of its parent {@link XTreeNode.grandParent <b>G</b>}. </p>
                  *
-                 * <p>In this case, a right rotation on {@link XTreeNode.grandParent G} is performed; the result is a tree
-                 * where the former parent {@link XTreeNode.parent U} is now the parent of both the current node <i>N</i>
-                 * and the former grandparent {@link XTreeNode.grandParent G}. </p>
+                 * <p>In this case, a right rotation on {@link XTreeNode.grandParent <b>G</b>} is performed; the result is a
+                 * tree where the former parent {@link XTreeNode.parent <b>P</b>} is now the parent of both the current node
+                 * <i><b>N</b></i> and the former grandparent {@link XTreeNode.grandParent <b>G</b>}. </p>
                  *
-                 * {@link XTreeNode.grandParent G} is known to be <font color='darkBlue'>black</font>, since its former
-                 * child {@link XTreeNode.parent U} could not have been <font color='red'>red</font> otherwise (without
-                 * violating property 4). Then, the colors of {@link XTreeNode.parent U} and {@link XTreeNode.grandParent G}
-                 * are switched, and the resulting tree satisfies property 4 (both children of every
-                 * <font color='red'>red</font> node are <font color='darkBlue'>black</font>). Property 5 (all paths from any
-                 * given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font> nodes) also
-                 * remains satisfied, since all paths that went through any of these three nodes went through
-                 * {@link XTreeNode.grandParent G} before, and now they all go through {@link XTreeNode.parent U}. In each
-                 * case, this is the only <font color='darkBlue'>black</font> node of the three. </p>
+                 * <p> {@link XTreeNode.grandParent <b>G</b>} is known to be <font color='darkBlue'>black</font>, since its
+                 * former child {@link XTreeNode.parent <b>P</b>} could not have been <font color='red'>red</font> otherwise
+                 * (without violating property 4). Then, the colors of {@link XTreeNode.parent <b>P</b>} and
+                 * {@link XTreeNode.grandParent <b>G</b>} are switched, and the resulting tree satisfies property 4 (both
+                 * children of every <font color='red'>red</font> node are <font color='darkBlue'>black</font>). Property 5
+                 * (all paths from any given node to its leaf nodes contain the same number of
+                 * <font color='darkBlue'>black</font> nodes) also remains satisfied, since all paths that went through any
+                 * of these three nodes went through {@link XTreeNode.grandParent <b>G</b>} before, and now they all go
+                 * through {@link XTreeNode.parent <b>P</b>}. In each case, this is the only
+                 * <font color='darkBlue'>black</font> node of the three. </p>
                  *
-                 * <p> <img src="images/rbtree/Red-black_tree_insert_case_5.svg" /> </p>
+                 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_5.svg" /> </p>
                  *
                  * @param N A node to be inserted or swapped.
                  */
@@ -1531,24 +1636,25 @@ var std;
                  * non-leaf child on one side but just a leaf child on the other side, then the count of
                  * <font color='darkBlue'>black</font> nodes on both sides would be different, thus the tree would have been
                  * an invalid red-black tree by violation of property 5.) We begin by replacing <b>M</b> with its child
-                 * <b>C</b>. We will relabel this child <b>C</b> (in its new position) <i>N</i>, and its sibling (its new
-                 * parent's other child) {@link XTreeNode.sibling S}. ({@link XTreeNode.sibling S} was previously the
-                 * sibling of <b>M</b>.) </p>
+                 * <b>C</b>. We will relabel this child <b>C</b> (in its new position) <i><b>N</b></i>, and its sibling (its
+                 * new parent's other child) {@link XTreeNode.sibling <b>S</b>}. ({@link XTreeNode.sibling <b>S</b>} was
+                 * previously the sibling of <b>M</b>.) </p>
                  *
-                 * <p> In the diagrams below, we will also use {@link XTreeNode.parent U} for <i>N</i>'s new parent
-                 * (<b>M</b>'s old parent), <b>SL</b> for {@link XTreeNode.sibling S}'s left child, and <b>SR</b> for
-                 * {@link XTreeNode.sibling S}'s right child ({@link XTreeNode.sibling S} cannot be a leaf because if
-                 * <b>M</b> and <b>C</b> were <font color='darkBlue'>black</font>, then {@link XTreeNode.parent U}'s one
-                 * subtree which included <b>M</b> counted two <font color='darkBlue'>black</font>-height and thus
-                 * {@link XTreeNode.parent U}'s other subtree which includes {@link XTreeNode.sibling S} must also count two
-                 * <font color='darkBlue'>black</font>-height, which cannot be the case if {@link XTreeNode.sibling S} is a
-                 * leaf node). </p>
+                 * <p> In the diagrams below, we will also use {@link XTreeNode.parent <b>P</b>} for <i><b>N</b></i>'s new
+                 * parent (<b>M</b>'s old parent), <b>SL</b> for {@link XTreeNode.sibling <b>S</b>}'s left child, and
+                 * <b>SR</b> for {@link XTreeNode.sibling <b>S</b>}'s right child ({@link XTreeNode.sibling <b>S</b>} cannot
+                 * be a leaf because if <b>M</b> and <b>C</b> were <font color='darkBlue'>black</font>, then
+                 * {@link XTreeNode.parent <b>P</b>}'s one subtree which included <b>M</b> counted two
+                 * <font color='darkBlue'>black</font>-height and thus {@link XTreeNode.parent <b>P</b>}'s other subtree
+                 * which includes {@link XTreeNode.sibling <b>S</b>} must also count two
+                 * <font color='darkBlue'>black</font>-height, which cannot be the case if {@link XTreeNode.sibling <b>S</b>}
+                 * is a leaf node). </p>
                  *
                  * <h4> Notes </h4>
                  * <ol>
                  *	<li>
-                 *		The label <i>N</i> will be used to denote the current node (colored
-                 *		<font color='darkBlue'>black</font>). In the diagrams <i>N</i> carries a blue contour. At the
+                 *		The label <i><b>N</b></i> will be used to denote the current node (colored
+                 *		<font color='darkBlue'>black</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
                  *		beginning, this is the replacement node and a leaf, but the entire procedure may also be applied
                  *		recursively to other nodes (see case 3). In between some cases, the roles and labels of the nodes
                  *		are exchanged, but in each case, every label continues to represent the same node it represented at
@@ -1568,31 +1674,33 @@ var std;
                  *	</li>
                  * </ol>
                  *
-                 * <p> If both <i>N</i> and its original parent are <font color='darkBlue'>black</font>, then deleting this
-                 * original parent causes paths which proceed through <i>N</i> to have one fewer
+                 * <p> If both <i><b>N</b></i> and its original parent are <font color='darkBlue'>black</font>, then
+                 * deleting this original parent causes paths which proceed through <i><b>N</b></i> to have one fewer
                  * <font color='darkBlue'>black</font> node than paths that do not. As this violates property 5 (all paths
                  * from any given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font>
                  * nodes), the tree must be rebalanced. There are several cases to consider: </p>
                  *
                  * <ol>
-                 *	<li> <i>N</i> is the new root. </li>
-                 *	<li> {@link XTreeNode.sibling S} is <font color='red'>red</font>. </li>
+                 *	<li> <i><b>N</b></i> is the new root. </li>
+                 *	<li> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </li>
                  *	<li>
-                 *		{@link XTreeNode.parent U}, {@link XTreeNode.sibling S}, and {@link XTreeNode.sibling S}'s children
-                 *		are <font color='darkBlue'>black</font>. </li>
+                 *		{@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and
+                 *		{@link XTreeNode.sibling <b>S</b>}'s children are <font color='darkBlue'>black</font>. </li>
                  *	<li>
-                 *		{@link XTreeNode.sibling S} and {@link XTreeNode.sibling S}'s children are
-                 *		<font color='darkBlue'>black</font>, but {@link XTreeNode.parent U} is <font color='red'>red</font>.
+                 *		{@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
+                 *		<font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is
+                 *		<font color='red'>red</font>.
                  *	</li>
                  *	<li>
-                 *		{@link XTreeNode.sibling S} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling S}'s
-                 *		left child is <font color='red'>red</font>, {@link XTreeNode.sibling S}'s right child is
-                 *		<font color='darkBlue'>black</font>, and <i>N</i> is the left child of its parent.
+                 *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+                 *		{@link XTreeNode.sibling <b>S</b>}'s left child is <font color='red'>red</font>,
+                 *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='darkBlue'>black</font>, and
+                 *		<i><b>N</b></i> is the left child of its parent.
                  *	</li>
                  *	<li>
-                 *		{@link XTreeNode.sibling S} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling S}'s
-                 *		right child is <font color='red'>red</font>, and <i>N</i> is the left child of its parent
-                 *		{@link XTreeNode.parent U}.
+                 *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+                 *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and
+                 *		<i><b>N</b></i> is the left child of its parent {@link XTreeNode.parent <b>P</b>}.
                  *	</li>
                  * </ol>
                  *
@@ -1606,8 +1714,8 @@ var std;
                  *
                  * <p> Additionally, no tail recursion ever occurs on a child node, so the tail recursion loop can only
                  * move from a child back to its successive ancestors. If a rotation occurs in case 2 (which is the only
-                 * possibility of rotation within the loop of cases 1–3), then the parent of the node <i>N</i> becomes
-                 * <font color='red'>red</font> after the rotation and we will exit the loop. Therefore, at most one
+                 * possibility of rotation within the loop of cases 1–3), then the parent of the node <i><b>N</b></i>
+                 * becomes <font color='red'>red</font> after the rotation and we will exit the loop. Therefore, at most one
                  * rotation will occur within this loop. Since no more than two additional rotations will occur after
                  * exiting the loop, at most three rotations occur in total. </p>
                  *
@@ -1630,189 +1738,194 @@ var std;
                     this.replaceNode(node, child);
                 };
                 /**
-                 * <p> <i>N</i> is the new root. </p>
+                 * <p> <i><b>N</b></i> is the new root. </p>
                  *
                  * <p> In this case, we are done. We removed one <font color='darkBlue'>black</font> node from every path,
                  * and the new root is <font color='darkBlue'>black</font>, so the properties are preserved. </p>
                  *
                  * <h4> Note </h4>
-                 * <p> In cases 2, 5, and 6, we assume <i>N</i> is the left child of its parent {@link XTreeNode.parent U}.
-                 * If it is the right child, left and right should be reversed throughout these three cases. Again, the code
-                 * examples take both cases into account. </p>
+                 * <p> In cases 2, 5, and 6, we assume <i><b>N</b></i> is the left child of its parent
+                 * {@link XTreeNode.parent <b>P</b>}. If it is the right child, left and right should be reversed throughout
+                 * these three cases. Again, the code examples take both cases into account. </p>
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.eraseCase1 = function (node) {
-                    if (node.parent == null)
+                RBTree.prototype.eraseCase1 = function (N) {
+                    if (N.parent == null)
                         return;
                     else
-                        this.eraseCase2(node);
+                        this.eraseCase2(N);
                 };
                 /**
-                 * <p> {@link XTreeNode.sibling S} is <font color='red'>red</font>. </p>
+                 * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
                  *
-                 * <p> <img src="images/rbtree/Red-black_tree_delete_case_2.svg" /> </p>
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_2.svg" /> </p>
                  *
-                 * <p> In this case we reverse the colors of {@link XTreeNode.parent U} and {@link XTreeNode.sibling S},
-                 * and then rotate left at {@link XTreeNode.parent U}, turning {@link XTreeNode.sibling S} into <i>N</i>'s
-                 * grandparent. </p>
+                 * <p> In this case we reverse the colors of {@link XTreeNode.parent <b>P</b>} and
+                 * {@link XTreeNode.sibling <b>S</b>}, and then rotate left at {@link XTreeNode.parent <b>P</b>}, turning
+                 * {@link XTreeNode.sibling <b>S</b>} into <i><b>N</b></i>'s grandparent. </p>
                  *
-                 * <p> Note that {@link XTreeNode.parent U} has to be <font color='darkBlue'>black</font> as it had a
+                 * <p> Note that {@link XTreeNode.parent <b>P</b>} has to be <font color='darkBlue'>black</font> as it had a
                  * <font color='red'>red</font> child. The resulting subtree has a path short one
-                 * <font color='darkBlue'>black</font> node so we are not done. Now <i>N</i> has a
-                 * <font color='darkBlue'>black</font> sibling and a <font color='red'>red</font> parent, so we can proceed to
-                 * step 4, 5, or 6. (Its new sibling is <font color='darkBlue'>black</font> because it was once the child of
-                 * the <font color='red'>red</font> {@link XTreeNode.sibling S}.) In later cases, we will re-label <i>N</i>'s
-                 * new sibling as {@link XTreeNode.sibling S}. </p>
+                 * <font color='darkBlue'>black</font> node so we are not done. Now <i><b>N</b></i> has a
+                 * <font color='darkBlue'>black</font> sibling and a <font color='red'>red</font> parent, so we can proceed
+                 * to step 4, 5, or 6. (Its new sibling is <font color='darkBlue'>black</font> because it was once the child
+                 * of the <font color='red'>red</font> {@link XTreeNode.sibling <b>S</b>}.) In later cases, we will re-label
+                 * <i><b>N</b></i>'s new sibling as {@link XTreeNode.sibling <b>S</b>}. </p>
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.eraseCase2 = function (node) {
-                    if (this.fetchColor(node.sibling) == tree.Color.RED) {
-                        node.parent.color = tree.Color.RED;
-                        node.sibling.color = tree.Color.BLACK;
-                        if (node == node.parent.left)
-                            this.rotateLeft(node.parent);
+                RBTree.prototype.eraseCase2 = function (N) {
+                    if (this.fetchColor(N.sibling) == tree.Color.RED) {
+                        N.parent.color = tree.Color.RED;
+                        N.sibling.color = tree.Color.BLACK;
+                        if (N == N.parent.left)
+                            this.rotateLeft(N.parent);
                         else
-                            this.rotateRight(node.parent);
+                            this.rotateRight(N.parent);
                     }
-                    this.eraseCase3(node);
+                    this.eraseCase3(N);
                 };
                 /**
-                 * <p> {@link XTreeNode.parent U}, {@link XTreeNode.sibling S}, and {@link XTreeNode.sibling S}'s children
-                 * are <font color='darkBlue'>black</font>. </p>
+                 * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling
+                 * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
                  *
-                 * <p> <img src="images/rbtree/Red-black_tree_delete_case_3.svg" /> </p>
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_3.svg" /> </p>
                  *
-                 * <p> In this case, we simply repaint {@link XTreeNode.sibling S} <font color='red'>red</font>. The result is
-                 * that all paths passing through {@link XTreeNode.sibling S}, which are precisely those paths not passing
-                 * through <i>N</i>, have one less <font color='darkBlue'>black</font> node. Because deleting <i>N</i>'s
-                 * original parent made all paths passing through <i>N</i> have one less <font color='darkBlue'>black</font>
-                 * node, this evens things up. </p>
+                 * <p> In this case, we simply repaint {@link XTreeNode.sibling <b>S</b>} <font color='red'>red</font>. The
+                 * result is that all paths passing through {@link XTreeNode.sibling <b>S</b>}, which are precisely those
+                 * paths not passing through <i><b>N</b></i>, have one less <font color='darkBlue'>black</font> node.
+                 * Because deleting <i><b>N</b></i>'s original parent made all paths passing through <i><b>N</b></i> have
+                 * one less <font color='darkBlue'>black</font> node, this evens things up. </p>
                  *
-                 * <p> However, all paths through {@link XTreeNode.parent U} now have one fewer
-                 * <font color='darkBlue'>black</font> node than paths that do not pass through {@link XTreeNode.parent U},
-                 * so property 5 (all paths from any given node to its leaf nodes contain the same number of
-                 * <font color='darkBlue'>black</font> nodes) is still violated. </p>
+                 * <p> However, all paths through {@link XTreeNode.parent <b>P</b>} now have one fewer
+                 * <font color='darkBlue'>black</font> node than paths that do not pass through
+                 * {@link XTreeNode.parent <b>P</b>}, so property 5 (all paths from any given node to its leaf nodes contain
+                 * the same number of <font color='darkBlue'>black</font> nodes) is still violated. </p>
                  *
-                 * <p> To correct this, we perform the rebalancing procedure on {@link XTreeNode.parent U}, starting at
-                 * case 1. </p>
+                 * <p> To correct this, we perform the rebalancing procedure on {@link XTreeNode.parent <b>P</b>}, starting
+                 * at case 1. </p>
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.eraseCase3 = function (node) {
-                    if (this.fetchColor(node.parent) == tree.Color.BLACK &&
-                        this.fetchColor(node.sibling) == tree.Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == tree.Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == tree.Color.BLACK) {
-                        node.sibling.color = tree.Color.RED;
-                        this.eraseCase1(node.parent);
+                RBTree.prototype.eraseCase3 = function (N) {
+                    if (this.fetchColor(N.parent) == tree.Color.BLACK &&
+                        this.fetchColor(N.sibling) == tree.Color.BLACK &&
+                        this.fetchColor(N.sibling.left) == tree.Color.BLACK &&
+                        this.fetchColor(N.sibling.right) == tree.Color.BLACK) {
+                        N.sibling.color = tree.Color.RED;
+                        this.eraseCase1(N.parent);
                     }
                     else
-                        this.eraseCase4(node);
+                        this.eraseCase4(N);
                 };
                 /**
-                 * <p> {@link XTreeNode.sibling S} and {@link XTreeNode.sibling S}'s children are
-                 * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent U} is <font color='red'>red</font>. </p>
+                 * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
+                 * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
                  *
-                 * <p> <img src="images/rbtree/Red-black_tree_delete_case_4.svg" /> </p>
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_4.svg" /> </p>
                  *
-                 * <p> In this case, we simply exchange the colors of {@link XTreeNode.sibling S} and
-                 * {@link XTreeNode.parent U}. This does not affect the number of <font color='darkBlue'>black</font> nodes
-                 * on paths going through {@link XTreeNode.sibling S}, but it does add one to the number of
-                 * <font color='darkBlue'>black</font> nodes on paths going through <i>N</i>, making up for the deleted
-                 * <font color='darkBlue'>black</font> node on those paths. </p>
+                 * <p> In this case, we simply exchange the colors of {@link XTreeNode.sibling <b>S</b>} and
+                 * {@link XTreeNode.parent <b>P</b>}. This does not affect the number of <font color='darkBlue'>black</font>
+                 * nodes on paths going through {@link XTreeNode.sibling <b>S</b>}, but it does add one to the number of
+                 * <font color='darkBlue'>black</font> nodes on paths going through <i><b>N</b></i>, making up for the
+                 * deleted <font color='darkBlue'>black</font> node on those paths. </p>
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.eraseCase4 = function (node) {
-                    if (this.fetchColor(node.parent) == tree.Color.RED &&
-                        node.sibling != null &&
-                        this.fetchColor(node.sibling) == tree.Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == tree.Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == tree.Color.BLACK) {
-                        node.sibling.color = tree.Color.RED;
-                        node.parent.color = tree.Color.BLACK;
+                RBTree.prototype.eraseCase4 = function (N) {
+                    if (this.fetchColor(N.parent) == tree.Color.RED &&
+                        N.sibling != null &&
+                        this.fetchColor(N.sibling) == tree.Color.BLACK &&
+                        this.fetchColor(N.sibling.left) == tree.Color.BLACK &&
+                        this.fetchColor(N.sibling.right) == tree.Color.BLACK) {
+                        N.sibling.color = tree.Color.RED;
+                        N.parent.color = tree.Color.BLACK;
                     }
                     else
-                        this.eraseCase5(node);
+                        this.eraseCase5(N);
                 };
                 /**
-                 * <p> {@link XTreeNode.sibling S} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling S}'s
-                 * left child is <font color='red'>red</font>, {@link XTreeNode.sibling S}'s right child is
-                 * <font color='darkBlue'>black</font>, and <i>N</i> is the left child of its parent. </p>
+                 * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling <b>S</b>}'s
+                 * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is
+                 * <font color='darkBlue'>black</font>, and <i><b>N</b></i> is the left child of its parent. </p>
                  *
-                 * <p> <img src="images/rbtree/Red-black_tree_delete_case_5.svg" /> </p>
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_5.svg" /> </p>
                  *
-                 * <p> In this case we rotate right at {@link XTreeNode.sibling S}, so that {@link XTreeNode.sibling S}'s
-                 * left child becomes {@link XTreeNode.sibling S}'s parent and <i>N</i>'s new sibling. We then exchange the
-                 * colors of {@link XTreeNode.sibling S} and its new parent. </p>
+                 * <p> In this case we rotate right at {@link XTreeNode.sibling <b>S</b>}, so that
+                 * {@link XTreeNode.sibling <b>S</b>}'s left child becomes {@link XTreeNode.sibling <b>S</b>}'s parent and
+                 * <i><b>N</b></i>'s new sibling. We then exchange the colors of {@link XTreeNode.sibling <b>S</b>} and its
+                 * new parent. </p>
                  *
-                 * <p> All paths still have the same number of <font color='darkBlue'>black</font> nodes, but now <i>N</i>
-                 * has a <font color='darkBlue'>black</font> sibling whose right child is <font color='red'>red</font>, so
-                 * we fall into case 6. Neither <i>N</i> nor its parent are affected by this transformation. (Again, for
-                 * case 6, we relabel <i>N</i>'s new sibling as {@link XTreeNode.sibling S}.) </p>
+                 * <p> All paths still have the same number of <font color='darkBlue'>black</font> nodes, but now
+                 * <i><b>N</b></i> has a <font color='darkBlue'>black</font> sibling whose right child is
+                 * <font color='red'>red</font>, so we fall into case 6. Neither <i><b>N</b></i> nor its parent are affected
+                 * by this transformation. (Again, for case 6, we relabel <i><b>N</b></i>'s new sibling as
+                 * {@link XTreeNode.sibling <b>S</b>}.) </p>
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.eraseCase5 = function (node) {
-                    if (node == node.parent.left &&
-                        node.sibling != null &&
-                        this.fetchColor(node.sibling) == tree.Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == tree.Color.RED &&
-                        this.fetchColor(node.sibling.right) == tree.Color.BLACK) {
-                        node.sibling.color = tree.Color.RED;
-                        node.sibling.left.color = tree.Color.BLACK;
-                        this.rotateRight(node.sibling);
+                RBTree.prototype.eraseCase5 = function (N) {
+                    if (N == N.parent.left &&
+                        N.sibling != null &&
+                        this.fetchColor(N.sibling) == tree.Color.BLACK &&
+                        this.fetchColor(N.sibling.left) == tree.Color.RED &&
+                        this.fetchColor(N.sibling.right) == tree.Color.BLACK) {
+                        N.sibling.color = tree.Color.RED;
+                        N.sibling.left.color = tree.Color.BLACK;
+                        this.rotateRight(N.sibling);
                     }
-                    else if (node == node.parent.right &&
-                        node.sibling != null &&
-                        this.fetchColor(node.sibling) == tree.Color.BLACK &&
-                        this.fetchColor(node.sibling.left) == tree.Color.BLACK &&
-                        this.fetchColor(node.sibling.right) == tree.Color.RED) {
-                        node.sibling.color = tree.Color.RED;
-                        node.sibling.right.color = tree.Color.BLACK;
-                        this.rotateLeft(node.sibling);
+                    else if (N == N.parent.right &&
+                        N.sibling != null &&
+                        this.fetchColor(N.sibling) == tree.Color.BLACK &&
+                        this.fetchColor(N.sibling.left) == tree.Color.BLACK &&
+                        this.fetchColor(N.sibling.right) == tree.Color.RED) {
+                        N.sibling.color = tree.Color.RED;
+                        N.sibling.right.color = tree.Color.BLACK;
+                        this.rotateLeft(N.sibling);
                     }
                 };
                 /**
-                 * <p> {@link XTreeNode.sibling S} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling S}'s
-                 * right child is <font color='red'>red</font>, and <i>N</i> is the left child of its parent
-                 * {@link XTreeNode.parent U}. </p>
+                 * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+                 * {@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and <i><b>N</b></i> is
+                 * the left child of its parent {@link XTreeNode.parent <b>P</b>}. </p>
                  *
-                 * <p> In this case we rotate left at {@link XTreeNode.parent U}, so that {@link XTreeNode.sibling S}
-                 * becomes the parent of {@link XTreeNode.parent U} and {@link XTreeNode.sibling S}'s right child. We then
-                 * exchange the colors of {@link XTreeNode.parent U} and {@link XTreeNode.sibling S}, and make
-                 * {@link XTreeNode.sibling S}'s right child <font color='darkBlue'>black</font>. The subtree still has the
-                 * same color at its root, so Properties 4 (Both children of every <font color='red'>red</font> node are
-                 * <font color='darkBlue'>black</font>) and 5 (All paths from any given node to its leaf nodes contain the
-                 * same number of <font color='darkBlue'>black</font> nodes) are not violated. However, <i>N</i> now has one
-                 * additional <font color='darkBlue'>black</font> ancestor: either {@link XTreeNode.parent U} has become
-                 * <font color='darkBlue'>black</font>, or it was <font color='darkBlue'>black</font> and
-                 * {@link XTreeNode.sibling S} was added as a <font color='darkBlue'>black</font> grandparent. </p>
+                 * <p> In this case we rotate left at {@link XTreeNode.parent <b>P</b>}, so that
+                 * {@link XTreeNode.sibling <b>S</b>} becomes the parent of {@link XTreeNode.parent <b>P</b>} and
+                 * {@link XTreeNode.sibling <b>S</b>}'s right child. We then exchange the colors of
+                 * {@link XTreeNode.parent <b>P</b>} and {@link XTreeNode.sibling <b>S</b>}, and make
+                 * {@link XTreeNode.sibling <b>S</b>}'s right child <font color='darkBlue'>black</font>. </p>
                  *
-                 * <p> Thus, the paths passing through <i>N</i> pass through one additional
+                 * <p> The subtree still has the same color at its root, so Properties 4 (Both children of every
+                 * <font color='red'>red</font> node are <font color='darkBlue'>black</font>) and 5 (All paths from any
+                 * given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font> nodes) are
+                 * not violated. However, <i><b>N</b></i> now has one additional <font color='darkBlue'>black</font>
+                 * ancestor: either {@link XTreeNode.parent <b>P</b>} has become <font color='darkBlue'>black</font>, or it
+                 * was <font color='darkBlue'>black</font> and {@link XTreeNode.sibling <b>S</b>} was added as a
+                 * <font color='darkBlue'>black</font> grandparent. </p>
+                 *
+                 * <p> Thus, the paths passing through <i><b>N</b></i> pass through one additional
                  * <font color='darkBlue'>black</font> node. </p>
                  *
-                 * <p> <img src="images/rbtree/Red-black_tree_delete_case_6.svg" /> </p>
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_6.svg" /> </p>
                  *
-                 * <p> Meanwhile, if a path does not go through <i>N</i>, then there are two possibilities: </p>
+                 * <p> Meanwhile, if a path does not go through <i><b>N</b></i>, then there are two possibilities: </p>
                  * <ol>
                  *	<li>
-                 *		It goes through <i>N</i>'s new sibling <b>SL</b>, a node with arbitrary color and the root of the
-                 *		subtree labeled 3 (s. diagram). Then, it must go through {@link XTreeNode.sibling S} and
-                 *		{@link XTreeNode.parent U}, both formerly and currently, as they have only exchanged colors and
-                 *		places. Thus the path contains the same number of <font color='darkBlue'>black</font> nodes.
+                 *		It goes through <i><b>N</b></i>'s new sibling <b>SL</b>, a node with arbitrary color and the root of
+                 *		the subtree labeled 3 (s. diagram). Then, it must go through {@link XTreeNode.sibling <b>S</b>} and
+                 *		{@link XTreeNode.parent <b>P</b>}, both formerly and currently, as they have only exchanged colors
+                 *		and places. Thus the path contains the same number of <font color='darkBlue'>black</font> nodes.
                  *	</li>
                  *	<li>
-                 *		It goes through <i>N</i>'s new uncle, {@link XTreeNode.sibling S}'s right child. Then, it formerly
-                 *		went through {@link XTreeNode.sibling S}, {@link XTreeNode.sibling S}'s parent, and
-                 *		{@link XTreeNode.sibling S}'s right child <b>SR</b> (which was <font color='red'>red</font>), but
-                 *		now only goes through {@link XTreeNode.sibling S}, which has assumed the color of its former parent,
-                 *		and {@link XTreeNode.sibling S}'s right child, which has changed from <font color='red'>red</font>
-                 *		to <font color='darkBlue'>black</font> (assuming {@link XTreeNode.sibling S}'s color:
-                 *		<font color='darkBlue'>black</font>). The net effect is that this path goes through the same number
-                 *		of <font color='darkBlue'>black</font> nodes.
+                 *		It goes through <i><b>N</b></i>'s new uncle, {@link XTreeNode.sibling <b>S</b>}'s right child. Then,
+                 *		it formerly went through {@link XTreeNode.sibling <b>S</b>}, {@link XTreeNode.sibling <b>S</b>}'s
+                 *		parent, and {@link XTreeNode.sibling <b>S</b>}'s right child <b>SR</b> (which was
+                 *		<font color='red'>red</font>), but now only goes through {@link XTreeNode.sibling <b>S</b>}, which
+                 *		has assumed the color of its former parent, and {@link XTreeNode.sibling <b>S</b>}'s right child,
+                 *		which has changed from <font color='red'>red</font> to <font color='darkBlue'>black</font> (assuming
+                 *		{@link XTreeNode.sibling <b>S</b>}'s color: <font color='darkBlue'>black</font>). The net effect is
+                 *		that this path goes through the same number of <font color='darkBlue'>black</font> nodes.
                  *	</li>
                  * </ol>
                  *
@@ -1838,38 +1951,14 @@ var std;
                     }
                 };
                 /* ---------------------------------------------------------
-                    ROTATION
+                    COLOR
                 --------------------------------------------------------- */
-                RBTree.prototype.rotateLeft = function (node) {
-                    var right = node.right;
-                    this.replaceNode(node, right);
-                    node.right = right.left;
-                    if (right.left != null)
-                        right.left.parent = node;
-                    right.left = node;
-                    node.parent = right;
-                };
-                RBTree.prototype.rotateRight = function (node) {
-                    var left = node.left;
-                    this.replaceNode(node, left);
-                    node.left = left.right;
-                    if (left.right != null)
-                        left.right.parent = node;
-                    left.right = node;
-                    node.parent = left;
-                };
-                RBTree.prototype.replaceNode = function (oldNode, newNode) {
-                    if (oldNode.parent == null)
-                        this.root = newNode;
-                    else {
-                        if (oldNode == oldNode.parent.left)
-                            oldNode.parent.left = newNode;
-                        else
-                            oldNode.parent.right = newNode;
-                    }
-                    if (newNode != null)
-                        newNode.parent = oldNode.parent;
-                };
+                /**
+                 * Fetch color from a node.
+                 *
+                 * @param node A node to fetch color.
+                 * @retur color.
+                 */
                 RBTree.prototype.fetchColor = function (node) {
                     if (node == null)
                         return tree.Color.BLACK;
@@ -1877,7 +1966,7 @@ var std;
                         return node.color;
                 };
                 return RBTree;
-            }());
+            }(tree.XTree));
             tree.RBTree = RBTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -2066,37 +2155,9 @@ var std;
         var tree;
         (function (tree) {
             /**
-             * <p> A node in a RB-Tree. </p>
+             * <p> A node in an XTree. </p>
              *
-             * <p> A <font color='red'>red</font>–<font color='darkBlue'>black</font> tree is a kind of self-balancing binary
-             * search tree and {@link XTeeNode} is a node belonged into the red-black tree. Each node of the binary tree has
-             * an extra bit, and that bit is often interpreted as the color (<font color='red'>red</font> or
-             * <font color='darkBlue'>black</font>) of the node. These color bits are used to ensure the tree remains
-             * approximately balanced during insertions and deletions. </p>
-             *
-             * <h4> Properties </h4>
-             * <p> In addition to the requirements imposed on a binary search tree the following must be satisfied by a
-             * <font color='red'>red</font>–<font color='darkBlue'>black</font> tree: </p>
-             *
-             * <ol>
-             *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
-             *	<li> The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
-             *		 always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
-             *		 necessarily vice versa, this rule has little effect on analysis. </li>
-             *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
-             *  <li> If a node is <font color='red'>red</font>, then both its children are
-             *		 <font color='darkBlue'>black</font>. </li>
-             *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of
-             *		 <font color='darkBlue'>black</font> nodes. Some definitions: the number of
-             *		 <font color='darkBlue'>black</font> nodes from the root to a node is the node's
-             *		 <font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
-             *		 nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
-             *		 the red-black tree. </li>
-             * </ol>
-             *
-             * <ul>
-             *	<li>Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
-             * </ul>
+             * @param <T> Type of elements.
              *
              * @inventor Rudolf Bayer
              * @see XTree
@@ -2283,7 +2344,7 @@ var std;
 //		 * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
 //		 *
 //		 * @param container Another container object of the same type (with the same class template 
-//		 *					arguments <code>T</code>), whose contents are either copied or acquired.
+//		 *					arguments <i>T</i>), whose contents are either copied or acquired.
 //		 */
 //		public constructor(container: base.container.IContainer<T>);
 //		/**
@@ -2791,7 +2852,7 @@ var std;
          *
          * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
          *
-         * <p> This function is called by the default definition of member <code>equivalent()</code>, which is
+         * <p> This function is called by the default definition of member {@link equivalent equivalent()}, which is
          * used to compare {@link ErrorCondition error conditions} with error codes. </p>
          *
          * @param val A numerical value identifying an error condition.
@@ -3475,15 +3536,15 @@ var std;
     /**
      * <p> Hashed, unordered Multimap. </p>
      *
-     * <p> <code>HashMultiMap</code>s are associative containers that store elements formed by the combination of
+     * <p> {@link HashMap}s are associative containers that store elements formed by the combination of
      * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMap} containers, but allowing
      * different elements to have equivalent <i>keys</i>. </p>
      *
-     * <p> In an <code>HashMultiMap</code>, the <i>key value</i> is generally used to uniquely identify the
+     * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify the
      * element, while the <i>mapped value</i> is an object with the content associated to this <i>key</i>.
      * Types of <i>key</i> and <i>mapped value</i> may differ. </p>
      *
-     * <p> Internally, the elements in the <code>HashMultiMap</code> are not sorted in any particular order with
+     * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order with
      * respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on
      * their hash values to allow for fast access to individual elements directly by their <i>key values</i>
      * (with a constant average time complexity on average). </p>
@@ -3514,9 +3575,9 @@ var std;
      * </ul>
      *
      * @param <K> Type of the key values.
-     *			  Each element in an <code>HashMultiMap</code> is identified by a key value.
+     *			  Each element in an {@link HashMap} is identified by a key value.
      * @param <T> Type of the mapped value.
-     *			  Each element in an <code>HashMultiMap</code> is used to store some data as its mapped value.
+     *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
      * @author Jeongho Nam
      */
@@ -3636,15 +3697,15 @@ var std;
     /**
      * <p> Hashed, unordered Multiset. </p>
      *
-     * <p> <code>HashMultiSet</code>s are containers that store elements in no particular order, allowing fast
-     * retrieval of individual elements based on their value, much like <code>UnorderedSet</code> containers,
+     * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
+     * retrieval of individual elements based on their value, much like {@link UnorderedSet} containers,
      * but allowing different elements to have equivalent values. </p>
      *
-     * <p> In an <code>HashMultiSet</code>, the value of an element is at the same time its <i>key</i>, used to
-     * identify it. <i>Keys</i> are immutable, therefore, the elements in an <code>HashMultiSet</code> cannot be
+     * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be
      * modified once in the container - they can be inserted and removed, though. </p>
      *
-     * <p> Internally, the elements in the <code>HashMultiSet</code> are not sorted in any particular, but
+     * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but
      * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
      * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
      *
@@ -3673,7 +3734,7 @@ var std;
      * </ul>
      *
      * @param <T> Type of the elements.
-     *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+     *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
      *
      * @author Jeongho Nam
      */
@@ -3806,7 +3867,7 @@ var std;
      * organized into buckets depending on their hash values to allow for fast access to individual elements
      * directly by their <i>values</i> (with a constant average time complexity on average). </p>
      *
-     * <p> {@link HashSet} containers are faster than <codeTreeSet<code> containers to access individual
+     * <p> {@link HashSet} containers are faster than {@link TreeSet} containers to access individual
      * elements by their <i>key</i>, although they are generally less efficient for range iteration through a
      * subset of their elements. </p>
      *
@@ -3969,15 +4030,15 @@ var std;
      *
      * <p> Binary function returns whether the its first argument compares less than the second. </p>
      *
-     * <p> Generically, function objects are instances of a class with member function {@link less}
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less}
      * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
      * This member function allows the object to be used with the same syntax as a function call. </p>
      *
-     * <p> Objects of this class can be used on standard algorithms such as <code>sort()</code>,
-     * <code>merge<()/code> or <code>lower_bound()</code>. </p>
+     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>,
+     * {@link merge merge()} or {@link TreeMap.lowerBound lowerBound()}. </p>
      *
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <code>operator<()</code> or method {@link less}.
+     *			  <i>operator<()</i> or method {@link IComparable.less less}.
      *
      * @param first First element, the standard of comparison.
      * @param second Second element compare with the first.
@@ -4000,15 +4061,15 @@ var std;
      * <p> Binary function returns whether the its first argument compares greater than the second. </p>
      *
      * <p> Generically, function objects are instances of a class with member function {@link less} and
-     * <code>equals()</code> defined. If an object doesn't have those methods, then its own uid will be used
+     * {@link equals equals()} defined. If an object doesn't have those methods, then its own uid will be used
      * to compare insteadly. This member function allows the object to be used with the same syntax as a function
      * call. </p>
      *
-     * <p> Objects of this class can be used on standard algorithms such as <code>sort()</code>,
-     * <code>merge<()/code> or <code>lower_bound()</code>. </p>
+     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()},
+     * {@link merge merge()} or {@link TreeMap.lowerBound lowerBound()}. </p>
      *
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <code>operator>()</code> or method {@link less} and <code>equals()</code>.
+     *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
      *
      * @param left
      * @param right
@@ -4592,16 +4653,16 @@ var std;
     /**
      * <p> Pair of values. </p>
      *
-     * <p> This class couples together a pair of values, which may be of different types (<code>T1</code> and
-     * <code>T2</code>). The individual values can be accessed through its public members <code>first</code> and
-     * <code>second</code>. </p>
+     * <p> This class couples together a pair of values, which may be of different types (<i>T1</i> and
+     * <i>T2</i>). The individual values can be accessed through its public members {@link first} and
+     * {@link second}. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/utility/pair/ </li>
      * </ul>
      *
-     * @param <K> Type of member <code>first</code>.
-     * @param <T> Type of member <code>second</code>.
+     * @param <K> Type of member {@link first}.
+     * @param <T> Type of member {@link second}.
      *
      * @author Jeongho Nam
      */
@@ -5036,7 +5097,7 @@ var std;
          * <p> Returns the {@link ErrorCode} object associated with the exception. </p>
          *
          * <p> This value is either the {@link ErrorCode} passed to the construction or its equivalent
-         * (if constructed with a value and a <code>category</code>). </p>
+         * (if constructed with a value and a {@link category}. </p>
          *
          * @return The {@link ErrorCode} associated with the object.
          */
@@ -5054,12 +5115,12 @@ var std;
      * <p> Tree-structured map, <code>std::map</code> of STL. </p>
      *
      * <p> {@link TreeMap}s are associative containers that store elements formed by a combination of a
-     * <i>key value</i> (<code>Key</code>) and a <i>mapped value</i> (<code>T</code>), following order. </p>
+     * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), following order. </p>
      *
      * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify
      * the elements, while the <i>mapped values</i> store the content associated to this key. The types of
-     * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
-     * <code>value_type</code>, which is a {@link Pair} type combining both:
+     * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>,
+     * which is a {@link Pair} type combining both:
      *
      * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
      *
@@ -5277,25 +5338,25 @@ var std;
     /**
      * <p> Tree-structured multiple-key map. </p>
      *
-     * <p> <code>TreeMultiMap</code>s are associative containers that store elements formed by a combination of
+     * <p> {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of
      * a <i>key value</i> and a <i>mapped value</i>, following a specific order, and where multiple elements can
      * have equivalent keys. </p>
      *
-     * <p> In a <code>TreeMultiMap</code>, the <i>key values</i> are generally used to sort and uniquely identify
+     * <p> In a {@link TreeMultiMap}, the <i>key values</i> are generally used to sort and uniquely identify
      * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of
      * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
-     * <code>value_type</code>, which is a <code>Pair</code> type combining both:
+     * <code>value_type</code>, which is a {@link Pair} type combining both:
      *
      * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
      *
-     * <p> Internally, the elements in a <code>TreeMultiMap</code> are always sorted by its key following a
+     * <p> Internally, the elements in a {@link TreeMultiMap}are always sorted by its key following a
      * strict weak ordering criterion indicated by its internal comparison method (of {@link less}). </p>
      *
-     * <p> <code>TreeMultiMap</code> containers are generally slower than <code>HashMultiMap</code> containers
+     * <p> {@link TreeMultiMap}containers are generally slower than {@link HashMap} containers
      * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based
      * on their order. </p>
      *
-     * <p> <code>TreeMultiMap</code>s are typically implemented as binary search trees. </p>
+     * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5506,22 +5567,22 @@ var std;
     /**
      * <p> Tree-structured multiple-key set. </p>
      *
-     * <p> <code>TreeMultiSet</code>s are containers that store elements following a specific order, and where
-     * multiple elements can have equivalent values. </p>
+     * <p> {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and
+     * where multiple elements can have equivalent values. </p>
      *
-     * <p> In a <code>TreeMultiSet</code>, the value of an element also identifies it (the value is itself
-     * the <i>key</i>, of type <code>T</code>). The value of the elements in a <code>TreeMultiSet</code> cannot
+     * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself
+     * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot
      * be modified once in the container (the elements are always const), but they can be inserted or removed
      * from the container. </p>
      *
-     * <p> Internally, the elements in a <code>TreeMultiSet</code>s are always sorted following a strict weak
-     * ordering criterion indicated by its internal comparison method (of {@link less}).
+     * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict
+     * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
      *
-     * <p> <code>TreeMultiSet</code> containers are generally slower than <code>HashMultiSet</code> containers
+     * <p> {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers
      * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
      * their order. </p>
      *
-     * <p> <code>TreeMultiSet</code>s are typically implemented as binary search trees. </p>
+     * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5544,7 +5605,7 @@ var std;
      *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
      * </ul>
      *
-     * @param <T> Type of the elements. Each element in a <code>TreeMultiSet</code> container is also identified
+     * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
      *			  by this value (each value is itself also the element's <i>key</i>).
      *
      * @author Jeongho Nam
@@ -5736,7 +5797,7 @@ var std;
      * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
      *
      * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
-     * <i>key</i>, of type <code>T</code>), and each value must be unique. The value of the elements in a
+     * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a
      * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
      * can be inserted or removed from the container. </p>
      *

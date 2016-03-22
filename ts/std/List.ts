@@ -110,7 +110,7 @@ namespace std
 		 * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
 		 *
 		 * @param container Another container object of the same type (with the same class template 
-		 *					arguments <code>T</code>), whose contents are either copied or acquired.
+		 *					arguments <i>T</i>), whose contents are either copied or acquired.
 		 */
 		public constructor(container: base.container.IContainer<T>);
 

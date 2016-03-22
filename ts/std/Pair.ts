@@ -3,16 +3,16 @@ namespace std
 	/**
 	 * <p> Pair of values. </p>
 	 *
-	 * <p> This class couples together a pair of values, which may be of different types (<code>T1</code> and 
-	 * <code>T2</code>). The individual values can be accessed through its public members <code>first</code> and 
-	 * <code>second</code>. </p>
+	 * <p> This class couples together a pair of values, which may be of different types (<i>T1</i> and 
+	 * <i>T2</i>). The individual values can be accessed through its public members {@link first} and 
+	 * {@link second}. </p>
 	 *
 	 * <ul>
 	 *	<li> Reference: http://www.cplusplus.com/reference/utility/pair/ </li>
 	 * </ul>
 	 *
-	 * @param <K> Type of member <code>first</code>.
-	 * @param <T> Type of member <code>second</code>.
+	 * @param <K> Type of member {@link first}.
+	 * @param <T> Type of member {@link second}.
 	 *
 	 * @author Jeongho Nam
 	 */

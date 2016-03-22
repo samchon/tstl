@@ -112,7 +112,7 @@
 		 *
 		 * <p> <code>category().message(value())</code> </p>
 		 *
-		 * @return A <code>string</code> object with the message associated with the {@link ErrorCode}.
+		 * @return A string object with the message associated with the {@link ErrorCode}.
 		 */
 		public message(): string
 		{

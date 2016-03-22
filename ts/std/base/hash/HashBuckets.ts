@@ -21,7 +21,7 @@ namespace std.base.hash
 		 *
 		 * @param size Number of bucket size to reserve.
 		 */
-		public reserve(size): void
+		public reserve(size: number): void
 		{
 			if (size < hash.MIN_SIZE)
 				size = hash.MIN_SIZE;

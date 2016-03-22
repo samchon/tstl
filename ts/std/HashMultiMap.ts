@@ -5,15 +5,15 @@ namespace std
 	/**
 	 * <p> Hashed, unordered Multimap. </p>
 	 * 
-	 * <p> <code>HashMultiMap</code>s are associative containers that store elements formed by the combination of 
+	 * <p> {@link HashMap}s are associative containers that store elements formed by the combination of 
 	 * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMap} containers, but allowing 
 	 * different elements to have equivalent <i>keys</i>. </p>
 	 *
-	 * <p> In an <code>HashMultiMap</code>, the <i>key value</i> is generally used to uniquely identify the 
+	 * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify the 
 	 * element, while the <i>mapped value</i> is an object with the content associated to this <i>key</i>. 
 	 * Types of <i>key</i> and <i>mapped value</i> may differ. </p>
 	 *
-	 * <p> Internally, the elements in the <code>HashMultiMap</code> are not sorted in any particular order with 
+	 * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order with 
 	 * respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on 
 	 * their hash values to allow for fast access to individual elements directly by their <i>key values</i> 
 	 * (with a constant average time complexity on average). </p>
@@ -44,9 +44,9 @@ namespace std
 	 * </ul>
 	 *
 	 * @param <K> Type of the key values. 
-	 *			  Each element in an <code>HashMultiMap</code> is identified by a key value.
+	 *			  Each element in an {@link HashMap} is identified by a key value.
 	 * @param <T> Type of the mapped value. 
-	 *			  Each element in an <code>HashMultiMap</code> is used to store some data as its mapped value.
+	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
 	 *
 	 * @author Jeongho Nam
 	 */

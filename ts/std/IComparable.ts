@@ -34,15 +34,15 @@ namespace std
 	 *
 	 * <p> Binary function returns whether the its first argument compares less than the second. </p>
 	 *
-	 * <p> Generically, function objects are instances of a class with member function {@link less} 
+	 * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less} 
 	 * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly. 
 	 * This member function allows the object to be used with the same syntax as a function call. </p>
 	 * 
-	 * <p> Objects of this class can be used on standard algorithms such as <code>sort()</code>, 
-	 * <code>merge<()/code> or <code>lower_bound()</code>. </p>
+	 * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>, 
+	 * {@link merge merge()} or {@link TreeMap.lowerBound lowerBound()}. </p>
 	 *
 	 * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation 
-	 *			  <code>operator<()</code> or method {@link less}.
+	 *			  <i>operator<()</i> or method {@link IComparable.less less}.
 	 *
 	 * @param first First element, the standard of comparison.
 	 * @param second Second element compare with the first.
@@ -66,15 +66,15 @@ namespace std
 	 * <p> Binary function returns whether the its first argument compares greater than the second. </p>
 	 *
 	 * <p> Generically, function objects are instances of a class with member function {@link less} and
-	 * <code>equals()</code> defined. If an object doesn't have those methods, then its own uid will be used
+	 * {@link equals equals()} defined. If an object doesn't have those methods, then its own uid will be used
 	 * to compare insteadly. This member function allows the object to be used with the same syntax as a function 
 	 * call. </p>
 	 * 
-	 * <p> Objects of this class can be used on standard algorithms such as <code>sort()</code>, 
-	 * <code>merge<()/code> or <code>lower_bound()</code>. </p>
+	 * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}, 
+	 * {@link merge merge()} or {@link TreeMap.lowerBound lowerBound()}. </p>
 	 *
 	 * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation 
-	 *			  <code>operator>()</code> or method {@link less} and <code>equals()</code>.
+	 *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
 	 *
 	 * @param left
 	 * @param right

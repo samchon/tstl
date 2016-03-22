@@ -55,6 +55,7 @@
     <TypeScriptCompile Include="std\base\container\SetContainer.ts" />
     <TypeScriptCompile Include="std\base\container\UniqueMap.ts" />
     <TypeScriptCompile Include="std\base\container\UniqueSet.ts" />
+    <TypeScriptCompile Include="std\documentation\DefinitelyTyped.ts" />
     <TypeScriptCompile Include="std\base\hash\Hash.ts" />
     <TypeScriptCompile Include="std\base\hash\HashBuckets.ts" />
     <TypeScriptCompile Include="std\base\hash\MapHashBuckets.ts" />
@@ -69,6 +70,7 @@
     <TypeScriptCompile Include="std\Bind.ts" />
     <TypeScriptCompile Include="std\Deque.ts" />
     <TypeScriptCompile Include="std\DequeIterator.ts" />
+    <TypeScriptCompile Include="std\documentation\namespace.ts" />
     <TypeScriptCompile Include="std\ErrorCategory.ts" />
     <TypeScriptCompile Include="std\ErrorCode.ts" />
     <TypeScriptCompile Include="std\ErrorCondition.ts" />
@@ -128,7 +130,8 @@
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptModuleKind>
+    </TypeScriptModuleKind>
     <TypeScriptOutFile>std.js</TypeScriptOutFile>
     <TypeScriptOutDir>../release/</TypeScriptOutDir>
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>

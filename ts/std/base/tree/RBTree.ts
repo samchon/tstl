@@ -79,6 +79,8 @@ namespace std.base.tree
 	 *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
 	 * </ul>
 	 *
+	 * @param <T> Type of elements.
+	 *
 	 * @inventor Rudolf Bayer
 	 * @author Migrated by Jeongho Nam
 	 */

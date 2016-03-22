@@ -3,6 +3,8 @@
 	/**
 	 * <p> A node in an XTree. </p>
 	 *
+	 * @param <T> Type of elements.
+	 * 
 	 * @inventor Rudolf Bayer
 	 * @see XTree
 	 *

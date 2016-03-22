@@ -3,8 +3,8 @@ namespace std.base.container
 	/**
 	 * <p> An interface of container. </p>
 	 *
-	 * <p> <code>IContainer</code> is an interface designed for sequence containers. Sequence containers of STL
-	 * (Standard Template Library) are based on the <code>IContainer</code>. </p>
+	 * <p> {@link IContainer} is an interface designed for sequence containers. Sequence containers of STL
+	 * (Standard Template Library) are based on the {@link IContainer}. </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -93,7 +93,7 @@ namespace std.base.container
 		 * <p> Returns whether the container is empty (i.e. whether its size is 0). </p>
 		 *
 		 * <p> This function does not modify the container in any way. To clear the content of the container,
-		 * see <code>clear()</code>. </p>
+		 * see {@link clear clear()}. </p>
 		 *
 		 * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
 		 */
@@ -105,7 +105,7 @@ namespace std.base.container
 		/**
 		 * <p> Insert elements. </p>
 		 *
-		 * <p> Appends new elements to the container, and returns the new size of the <code>Container</code>. </p>
+		 * <p> Appends new elements to the container, and returns the new size of the {@link Container}. </p>
 		 * 
 		 * @param items New elements to insert.
 		 * 
@@ -132,14 +132,14 @@ namespace std.base.container
 		/**
 		 * <p> Erase an element. </p>
 		 *
-		 * <p> Removes from the <code>Container</code> a single element. </p>
+		 * <p> Removes from the {@link Container} a single element. </p>
 		 *
 		 * <p> This effectively reduces the container size by the number of element removed. </p>
 		 *
 		 * @param position Iterator pointing to a single element to be removed from the Container.
 		 *
 		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 *		   call. This is the <code>Container.end</code> if the operation erased the last element in the 
+		 *		   call. This is the {@link end Container.end} if the operation erased the last element in the 
 		 *		   sequence.
 		 */
 		erase(position: Iterator<T>): Iterator<T>;
@@ -147,7 +147,7 @@ namespace std.base.container
 		/**
 		 * <p> Erase elements. </p>
 		 *
-		 * <p> Removes from the <code>Container</code> a range of elements. </p>
+		 * <p> Removes from the {@link Container} a range of elements. </p>
 		 *
 		 * <p> This effectively reduces the container size by the number of elements removed. </p>
 		 *
@@ -155,7 +155,7 @@ namespace std.base.container
 		 * @param end An iterator specifying a range of end to erase.
 		 *
 		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 *		   call. This is the <code>Container.end</code> if the operation erased the last element in the 
+		 *		   call. This is the {@link end Container.end} if the operation erased the last element in the 
 		 *		   sequence.
 		 */
 		erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;

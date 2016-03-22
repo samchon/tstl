@@ -3,6 +3,8 @@
 	/**
 	 * Abstract Tree.
 	 * 
+	 * @param <T> Type of elements.
+	 * 
 	 * @author Jeongho Nam
 	 */
 	export abstract class XTree<T>

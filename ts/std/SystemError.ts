@@ -40,7 +40,7 @@ namespace std
 		 * Construct from an error code and message. 
 		 *
 		 * @param code An {@link ErrorCode} object.
-		 * @param message A message incorporated in the string returned by member <code>what()</code>.
+		 * @param message A message incorporated in the string returned by member {@link what what()}.
 		 */
 		public constructor(code: ErrorCode, message: string);
 
@@ -57,7 +57,7 @@ namespace std
 		 * 
 		 * @param val A numerical value identifying an error code.
 		 * @param category A reference to an {@link ErrorCode} object.
-		 * @param message A message incorporated in the string returned by member <code>what()</code>.
+		 * @param message A message incorporated in the string returned by member {@link what what()}.
 		 */
 		public constructor(val: number, category: ErrorCategory, message: string);
 
@@ -75,7 +75,7 @@ namespace std
 		 * <p> Returns the {@link ErrorCode} object associated with the exception. </p>
 		 *
 		 * <p> This value is either the {@link ErrorCode} passed to the construction or its equivalent 
-		 * (if constructed with a value and a <code>category</code>). </p>
+		 * (if constructed with a value and a {@link category}. </p>
 		 *
 		 * @return The {@link ErrorCode} associated with the object.
 		 */

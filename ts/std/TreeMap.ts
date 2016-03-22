@@ -6,12 +6,12 @@ namespace std
 	 * <p> Tree-structured map, <code>std::map</code> of STL. </p>
 	 *
 	 * <p> {@link TreeMap}s are associative containers that store elements formed by a combination of a 
-	 * <i>key value</i> (<code>Key</code>) and a <i>mapped value</i> (<code>T</code>), following order. </p>
+	 * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), following order. </p>
 	 *
 	 * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify 
 	 * the elements, while the <i>mapped values</i> store the content associated to this key. The types of 
-	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type 
-	 * <code>value_type</code>, which is a {@link Pair} type combining both:
+	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, 
+	 * which is a {@link Pair} type combining both:
 	 *
 	 * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
 	 *

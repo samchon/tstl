@@ -5,15 +5,15 @@ namespace std
 	/**
 	 * <p> Hashed, unordered Multiset. </p>
 	 *
-	 * <p> <code>HashMultiSet</code>s are containers that store elements in no particular order, allowing fast 
-	 * retrieval of individual elements based on their value, much like <code>UnorderedSet</code> containers, 
+	 * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast 
+	 * retrieval of individual elements based on their value, much like {@link UnorderedSet} containers, 
 	 * but allowing different elements to have equivalent values. </p>
 	 *
-	 * <p> In an <code>HashMultiSet</code>, the value of an element is at the same time its <i>key</i>, used to 
-	 * identify it. <i>Keys</i> are immutable, therefore, the elements in an <code>HashMultiSet</code> cannot be 
+	 * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to 
+	 * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be 
 	 * modified once in the container - they can be inserted and removed, though. </p>
 	 *
-	 * <p> Internally, the elements in the <code>HashMultiSet</code> are not sorted in any particular, but 
+	 * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but 
 	 * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual 
 	 * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
 	 * 
@@ -42,7 +42,7 @@ namespace std
 	 * </ul>
 	 *
 	 * @param <T> Type of the elements. 
-	 *		   Each element in an <code>UnorderedMultiSet</code> is also identified by this value..
+	 *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
 	 *
 	 * @author Jeongho Nam
 	 */

@@ -117,17 +117,16 @@ namespace std.base.container
 		/**
 		 * <p> Get iterator to element. </p>
 		 * 
-		 * <p> Searches the container for an element with <code>key</code> as value and returns an iterator to it 
-		 * if found, otherwise it returns an iterator to <code>end()</code> (the element past the end of the 
-		 * container). </p>
+		 * <p> Searches the container for an element with <i>key</i> as value and returns an iterator to it if found, 
+		 * otherwise it returns an iterator to {@link end end()} (the element past the end of the container). </p>
 		 *
-		 * <p> Another member function, <code>count()</code>, can be used to just check whether a particular 
-		 * element exists. </p>
+		 * <p> Another member function, {@link count count()}, can be used to just check whether a particular element
+		 * exists. </p>
 		 *
 		 * @param key Key to be searched for.
 		 *
-		 * @return An iterator to the element, if the specified value is found, 
-		 *		 or <code>end()</code> if it is not found in the container.
+		 * @return An iterator to the element, if the specified value is found, or {@link end end()} if it is not 
+		 *		   found in the container.
 		 */
 		public abstract find(val: T): SetIterator<T>;
 
@@ -169,7 +168,7 @@ namespace std.base.container
 		 *
 		 * @param key Value of the elements to be counted.
 		 *
-		 * @return The number of elements in the container with a <code>key</code>.
+		 * @return The number of elements in the container with a <i>key</i>.
 		 */
 		public abstract count(val: T): number;
 
@@ -272,7 +271,7 @@ namespace std.base.container
 		--------------------------------------------------------- */
 		/**
 		 * <p> Erase an element. </p>
-		 * <p> Removes from the set container the elements whose value is <code>key</code>. </p>
+		 * <p> Removes from the set container the elements whose value is <i>key</i>. </p>
 		 *
 		 * <p> This effectively reduces the container size by the number of elements removed. </p>
 		 *

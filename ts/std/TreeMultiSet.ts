@@ -5,22 +5,22 @@ namespace std
 	/**
 	 * <p> Tree-structured multiple-key set. </p>
 	 *
-	 * <p> <code>TreeMultiSet</code>s are containers that store elements following a specific order, and where 
-	 * multiple elements can have equivalent values. </p>
+	 * <p> {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and 
+	 * where multiple elements can have equivalent values. </p>
 	 *
-	 * <p> In a <code>TreeMultiSet</code>, the value of an element also identifies it (the value is itself 
-	 * the <i>key</i>, of type <code>T</code>). The value of the elements in a <code>TreeMultiSet</code> cannot 
+	 * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself 
+	 * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot 
 	 * be modified once in the container (the elements are always const), but they can be inserted or removed 
 	 * from the container. </p>
 	 *
-	 * <p> Internally, the elements in a <code>TreeMultiSet</code>s are always sorted following a strict weak 
-	 * ordering criterion indicated by its internal comparison method (of {@link less}).
+	 * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict 
+	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
 	 *
-	 * <p> <code>TreeMultiSet</code> containers are generally slower than <code>HashMultiSet</code> containers 
+	 * <p> {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers 
 	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 
 	 * their order. </p>
 	 *
-	 * <p> <code>TreeMultiSet</code>s are typically implemented as binary search trees. </p>
+	 * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -43,7 +43,7 @@ namespace std
 	 *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
 	 * </ul>
 	 * 
-	 * @param <T> Type of the elements. Each element in a <code>TreeMultiSet</code> container is also identified 
+	 * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified 
 	 *			  by this value (each value is itself also the element's <i>key</i>).
 	 *
 	 * @author Jeongho Nam
@@ -52,7 +52,7 @@ namespace std
 		extends base.container.MultiSet<T>
 	{
 		/**
-		 * <i>RB-Tree+</i> object for implemeting the <code>TreeMultiSet</code>.
+		 * <i>RB-Tree+</i> object for implemeting the {@link TreeMultiSet}.
 		 */
 		private tree: base.tree.AtomicTree<T>;
 

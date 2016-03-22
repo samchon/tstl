@@ -16,7 +16,7 @@ namespace std
 	 * organized into buckets depending on their hash values to allow for fast access to individual elements 
 	 * directly by their <i>values</i> (with a constant average time complexity on average). </p>
 	 *
-	 * <p> {@link HashSet} containers are faster than <codeTreeSet<code> containers to access individual 
+	 * <p> {@link HashSet} containers are faster than {@link TreeSet} containers to access individual 
 	 * elements by their <i>key</i>, although they are generally less efficient for range iteration through a 
 	 * subset of their elements. </p>
 	 *

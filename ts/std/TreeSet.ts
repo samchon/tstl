@@ -8,7 +8,7 @@ namespace std
 	 * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
 	 *
 	 * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the 
-	 * <i>key</i>, of type <code>T</code>), and each value must be unique. The value of the elements in a 
+	 * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a 
 	 * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they 
 	 * can be inserted or removed from the container. </p>
 	 *
