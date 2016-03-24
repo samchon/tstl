@@ -580,5 +580,24 @@ namespace std
 
 			return prev;
 		}
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		public swap(obj: List<T>): void
+		{
+			let supplement: List<T> = <List<T>>new Object();
+			supplement.begin_ = this.begin_;
+			supplement.end_ = this.end_;
+			supplement.size_ = this.size_;
+
+			this.begin_ = obj.begin_;
+			this.end_ = obj.end_;
+			this.size_ = obj.size_;
+
+			obj.begin_ = supplement.begin_;
+			obj.end_ = supplement.end_;
+			obj.size_ = supplement.size_;
+		}
 	}
 }

@@ -15,9 +15,11 @@ namespace std.example
 			document.write("<h4> List </h4>\n");
 
 			// CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-			let container = new List<number>();
+			let container = new Vector<number>();
 			for (let i: number = 0; i < 10; i++)
-				container.pushBack(i);
+			{
+				container.pushBack(Math.random() * 100.0);
+			}
 
 			// ELEMENTS I/O
 			document.write
@@ -30,7 +32,17 @@ namespace std.example
 			container.erase(container.begin().advance(7));
 			container.insert(container.begin().advance(5), -5);
 			container.erase(container.begin().advance(3));
-			
+
+			// PRINTS
+			document.write("Elements in the List: #" + container.size() + "<br>\n");
+			document.write("<ul>\n");
+
+			for (let it = container.begin(); it.equals(container.end()) == false; it = it.next())
+				document.write("\t<li>" + it.value + "</li>\n");
+
+			// SORTING
+			sort(container.begin(), container.end());
+
 			// PRINTS
 			document.write("Elements in the List: #" + container.size() + "<br>\n");
 			document.write("<ul>\n");

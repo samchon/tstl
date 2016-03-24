@@ -286,5 +286,18 @@ namespace std
 		{
 			this.tree.erase(item);
 		}
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		public swap(obj: TreeMap<Key, T>): void
+		{
+			super.swap(obj);
+
+			let supplement: base.tree.PairTree<Key, T> = this.tree;
+
+			this.tree = obj.tree;
+			obj.tree = supplement;
+		}
 	}
 }

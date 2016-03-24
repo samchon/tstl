@@ -1,3 +1,6 @@
+declare namespace std {
+    function sort<T>(begin: base.container.ILinearIterator<T>, end: base.container.ILinearIterator<T>, compare?: (left: T, right: T) => boolean): void;
+}
 declare namespace std.base.container {
     /**
      * <p> An abstract container. </p>
@@ -92,6 +95,7 @@ declare namespace std.base.container {
          * @inheritdoc
          */
         empty(): boolean;
+        abstract swap(obj: Container<T>): void;
     }
 }
 declare namespace std.base.container {
@@ -316,6 +320,7 @@ declare namespace std.base.container {
          *		   sequence.
          */
         erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+        swap(obj: IContainer<T>): void;
     }
 }
 declare namespace std.base.container {
@@ -520,6 +525,14 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
+    interface ILinearIterator<T> extends Iterator<T> {
+        value: T;
+        swap(obj: ILinearIterator<T>): void;
+        prev(): ILinearIterator<T>;
+        next(): ILinearIterator<T>;
+    }
+}
+declare namespace std.base.container {
     /**
      * <p> An abstract map. </p>
      *
@@ -665,6 +678,7 @@ declare namespace std.base.container {
         private eraseByRange(begin, end);
         protected abstract handleInsert(item: MapIterator<Key, T>): void;
         protected abstract handleErase(item: MapIterator<Key, T>): void;
+        swap(obj: MapContainer<Key, T>): void;
     }
 }
 declare namespace std.base.container {
@@ -791,7 +805,7 @@ declare namespace std.base.container {
          * @param begin An iterator specifying range of the begining element.
          * @param end An iterator specifying range of the ending element.
          */
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): any;
         /**
          * @private
          */
@@ -843,6 +857,7 @@ declare namespace std.base.container {
         private eraseByRange(begin, end);
         protected abstract handleInsert(item: SetIterator<T>): void;
         protected abstract handleErase(item: SetIterator<T>): void;
+        swap(obj: SetContainer<T>): void;
     }
 }
 declare namespace std.base.container {
@@ -886,9 +901,21 @@ declare namespace std.base.container {
          * Default Constructor.
          */
         constructor();
+        /**
+         * @inheritdoc
+         */
         count(key: T): number;
+        /**
+         * @inheritdoc
+         */
         insert(val: T): Pair<SetIterator<T>, boolean>;
+        /**
+         * @inheritdoc
+         */
         insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
         insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
     }
 }
@@ -1820,6 +1847,244 @@ declare namespace std {
         constructor(func: Listener, thisArg: This);
         apply(...args: any[]): any;
         equals<U extends Listener, T extends This>(obj: Bind<U, T>): boolean;
+    }
+}
+declare namespace std {
+    /**
+     * <p> Double ended queue. </p>
+     *
+     * <p> {@link Deque} (usually pronounced like "<i>deck</i>") is an irregular acronym of
+     * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic
+     * sizes that can be expanded or contracted on both ends (either its front or its back). </p>
+     *
+     * <p> Specific libraries may implement deques in different ways, generally as some form of dynamic
+     * array. But in any case, they allow for the individual elements to be accessed directly through
+     * random access iterators, with storage handled automatically by expanding and contracting the
+     * container as needed. </p>
+     *
+     * <p> Therefore, they provide a functionality similar to vectors, but with efficient insertion and
+     * deletion of elements also at the beginning of the sequence, and not only at its end. But, unlike
+     * {@link Vector}s, {@link Deque}s are not guaranteed to store all its elements in contiguous storage
+     * locations: accessing elements in a <u>deque</u> by offsetting a pointer to another element causes
+     * undefined behavior. </p>
+     *
+     * <p> Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for
+     * similar purposes, but internally both work in quite different ways: While {@link Vector}s use a
+     * single array that needs to be occasionally reallocated for growth, the elements of a {@link Deque}
+     * can be scattered in different chunks of storage, with the container keeping the necessary information
+     * internally to provide direct access to any of its elements in constant time and with a uniform
+     * sequential interface (through iterators). Therefore, {@link Deque}s are a little more complex
+     * internally than {@link Vector}s, but this allows them to grow more efficiently under certain
+     * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
+     *
+     * <p> For operations that involve frequent insertion or removals of elements at positions other than
+     * the beginning or the end, {@link Deque}s perform worse and have less consistent iterators and
+     * references than {@link List}s. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Sequence </dt>
+     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements
+     *		 are accessed by their position in this sequence. </dd>
+     *
+     *	<dt> Dynamic array </dt>
+     *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the
+     *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end
+     *		 of the sequence. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/deque/deque/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam
+     */
+    class Deque<T> extends base.container.Container<T> implements base.container.IArray<T>, base.container.IDeque<T> {
+        private static ROW;
+        private static MIN_CAPACITY;
+        private matrix;
+        private size_;
+        private capacity_;
+        private colSize;
+        /**
+         * <p> Default Constructor. </p>
+         *
+         * <p> Constructs an empty container, with no elements. </p>
+         */
+        constructor();
+        /**
+         * <p> Initializer list Constructor. </p>
+         *
+         * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
+         *
+         * @param array An array containing elements to be copied and contained.
+         */
+        constructor(items: Array<T>);
+        /**
+         * <p> Fill Constructor. </p>
+         *
+         * <p> Constructs a container with <i>n</i> elements. Each element is a copy of <i>val</i> (if provided). </p>
+         *
+         * @param n Initial container size (i.e., the number of elements in the container at construction).
+         * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is
+         *			  initialized to a copy of this value.
+         */
+        constructor(size: number, val: T);
+        /**
+         * <p> Copy Constructor. </p>
+         *
+         * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
+         *
+         * @param container Another container object of the same type (with the same class template
+         *					arguments <i>T</i>), whose contents are either copied or acquired.
+         */
+        constructor(container: base.container.IContainer<T>);
+        /**
+         * <p> Range Constructor. </p>
+         *
+         * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each
+         * element emplace-constructed from its corresponding element in that range, in the same order. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        /**
+         * @inheritdoc
+         */
+        assign(n: number, val: T): void;
+        /**
+         * @inheritdoc
+         */
+        reserve(capacity: number): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        begin(): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        end(): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        size(): number;
+        /**
+         * @inheritdoc
+         */
+        capacity(): number;
+        /**
+         * @inheritdoc
+         */
+        at(index: number): T;
+        /**
+         * @inheritdoc
+         */
+        set(index: number, val: T): void;
+        /**
+         * @inheritdoc
+         */
+        front(): T;
+        /**
+         * @inheritdoc
+         */
+        back(): T;
+        private fetchIndex(index);
+        /**
+         * @inheritdoc
+         */
+        push(...items: T[]): number;
+        /**
+         * @inheritdoc
+         */
+        pushFront(val: T): void;
+        /**
+         * @inheritdoc
+         */
+        pushBack(val: T): void;
+        /**
+         * @inheritdoc
+         */
+        popFront(): void;
+        /**
+         * @inheritdoc
+         */
+        popBack(): void;
+        /**
+         * @inheritdoc
+         */
+        insert(position: DequeIterator<T>, val: T): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        insert(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        insert<U extends T>(position: DequeIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): DequeIterator<T>;
+        erase(position: DequeIterator<T>): DequeIterator<T>;
+        erase(begin: DequeIterator<T>, end: DequeIterator<T>): DequeIterator<T>;
+        swap(obj: Deque<T>): void;
+    }
+}
+declare namespace std {
+    /**
+     * An iterator of {@link Deque}.
+     *
+     * @author Jeongho Nam
+     */
+    class DequeIterator<T> extends base.container.Iterator<T> implements base.container.ILinearIterator<T> {
+        private deque;
+        /**
+         * Sequence number in the source Deque.
+         */
+        private index;
+        /**
+         * <p> Construct from the source {@link Deque container}. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Do not create the iterator directly, by yourself. </p>
+         * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p>
+         *
+         * @param vector The source {@link Deque container} to reference.
+         * @param index Sequence number of the element in the source {@link Deque}.
+         */
+        constructor(source: Deque<T>, index: number);
+        /**
+         * @inheritdoc
+         */
+        value: T;
+        /**
+         * @inheritdoc
+         */
+        equals<U extends T>(obj: DequeIterator<U>): boolean;
+        /**
+         * Get index.
+         */
+        getIndex(): number;
+        /**
+         * @inheritdoc
+         */
+        prev(): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): DequeIterator<T>;
+        swap(obj: DequeIterator<T>): void;
     }
 }
 /**
@@ -2949,13 +3214,14 @@ declare namespace std {
          * @private
          */
         private eraseByRange(begin, end);
+        swap(obj: List<T>): void;
     }
 }
 declare namespace std {
-    class ListIterator<T> extends base.container.Iterator<T> {
-        protected value_: T;
+    class ListIterator<T> extends base.container.Iterator<T> implements base.container.ILinearIterator<T> {
         protected prev_: ListIterator<T>;
         protected next_: ListIterator<T>;
+        protected value_: T;
         /**
          * <p> Construct from the source {@link List container}. </p>
          *
@@ -3000,6 +3266,7 @@ declare namespace std {
          * @inheritdoc
          */
         value: T;
+        swap(obj: ListIterator<T>): void;
     }
 }
 declare namespace std {
@@ -3654,6 +3921,7 @@ declare namespace std {
          * @inheritdoc
          */
         protected handleErase(item: MapIterator<Key, T>): void;
+        swap(obj: TreeMap<Key, T>): void;
     }
 }
 declare namespace std {
@@ -3822,6 +4090,7 @@ declare namespace std {
          * @inheritdoc
          */
         protected handleErase(item: MapIterator<Key, T>): void;
+        swap(obj: TreeMultiMap<Key, T>): void;
     }
 }
 declare namespace std {
@@ -3982,6 +4251,7 @@ declare namespace std {
          * @inheritdoc
          */
         protected handleErase(item: SetIterator<T>): void;
+        swap(obj: TreeMultiSet<T>): void;
     }
 }
 declare namespace std {
@@ -4147,6 +4417,7 @@ declare namespace std {
          * @inheritdoc
          */
         protected handleErase(item: SetIterator<T>): void;
+        swap(obj: TreeSet<T>): void;
     }
 }
 declare namespace std {
@@ -4424,6 +4695,7 @@ declare namespace std {
          *		   element in the sequence.
          */
         erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;
+        swap(obj: Vector<T>): void;
     }
 }
 declare namespace std {
@@ -4434,7 +4706,7 @@ declare namespace std {
      *
      * @author Jeongho Nam
      */
-    class VectorIterator<T> extends base.container.Iterator<T> {
+    class VectorIterator<T> extends base.container.Iterator<T> implements base.container.ILinearIterator<T> {
         /**
          * <p> Sequence number of iterator in the source Vector. </p>
          */
@@ -4478,5 +4750,6 @@ declare namespace std {
          * @inheritdoc
          */
         advance(n: number): VectorIterator<T>;
+        swap(obj: VectorIterator<T>): void;
     }
 }

@@ -499,5 +499,16 @@ namespace std
 
 			return new VectorIterator<T>(this, startIndex);
 		}
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		public swap(obj: Vector<T>): void
+		{
+			let supplement: Vector<T> = new Vector<T>(this.begin(), this.end());
+
+			this.assign(obj.begin(), obj.end());
+			obj.assign(supplement.begin(), supplement.end());
+		}
 	}
 }

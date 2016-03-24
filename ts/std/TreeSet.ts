@@ -276,5 +276,18 @@ namespace std
 		{
 			this.tree.erase(item);
 		}
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		public swap(obj: TreeSet<T>): void
+		{
+			super.swap(obj);
+
+			let supplement: base.tree.AtomicTree<T> = this.tree;
+
+			this.tree = obj.tree;
+			obj.tree = supplement;
+		}
 	}
 }

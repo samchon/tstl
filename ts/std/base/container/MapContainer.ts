@@ -312,5 +312,16 @@ namespace std.base.container
 		protected abstract handleInsert(item: MapIterator<Key, T>): void;
 
 		protected abstract handleErase(item: MapIterator<Key, T>): void;
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		public swap(obj: MapContainer<Key, T>): void
+		{
+			let supplement: List<Pair<Key, T>> = this.data;
+
+			this.data = obj.data;
+			obj.data = supplement;
+		}
 	}
 }

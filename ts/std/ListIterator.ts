@@ -2,13 +2,14 @@
 
 namespace std
 {
-	 export class ListIterator<T>
-		 extends base.container.Iterator<T>
+	export class ListIterator<T>
+		extends base.container.Iterator<T>
+		implements base.container.ILinearIterator<T>
 	{
-		protected value_: T;
-
 		protected prev_: ListIterator<T>;
 		protected next_: ListIterator<T>;
+
+		protected value_: T;
 
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
@@ -104,6 +105,27 @@ namespace std
 		public set value(val: T)
 		{
 			this.value_ = val;
+		}
+
+		public swap(obj: ListIterator<T>): void
+		{
+			let suppPrev = this.prev_;
+			let suppNext = this.next_;
+
+			this.prev_ = obj.prev_;
+			this.next_ = obj.next_;
+			obj.prev_ = suppPrev;
+			obj.next_ = suppNext;
+
+			if (this.source.end() == this)
+				(<any>this.source).end_ = obj;
+			else if (this.source.end() == obj)
+				(<any>this.source).end_ = this;
+
+			if (this.source.begin() == this)
+				(<any>this.source).begin_ = obj;
+			else if (this.source.begin() == obj)
+				(<any>this.source).begin_ = this;
 		}
 	}
 }

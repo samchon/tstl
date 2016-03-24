@@ -140,5 +140,10 @@ namespace std.base.container
 		{
 			return this.size() == 0;
 		}
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		public abstract swap(obj: Container<T>): void;
 	}
 }

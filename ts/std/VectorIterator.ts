@@ -11,6 +11,7 @@ namespace std
 	 */
 	export class VectorIterator<T>
 		extends base.container.Iterator<T>
+		implements base.container.ILinearIterator<T>
 	{
 		/**
 		 * <p> Sequence number of iterator in the source Vector. </p>
@@ -98,7 +99,7 @@ namespace std
 		 */
 		public next(): VectorIterator<T>
 		{
-			if (this.index + 1 > this.source.size())
+			if (this.index >= this.source.size() - 1)
 				return this.vector.end();
 			else
 				return new VectorIterator<T>(this.vector, this.index + 1);
@@ -115,6 +116,14 @@ namespace std
 				return this.vector.end();
 			else
 				return new VectorIterator<T>(this.vector, newIndex);
+		}
+
+		public swap(obj: VectorIterator<T>): void
+		{
+			let supplement = this.value;
+
+			this.value = obj.value;
+			obj.value = supplement;
 		}
 	}
 }

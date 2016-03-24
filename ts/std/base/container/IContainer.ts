@@ -159,5 +159,10 @@ namespace std.base.container
 		 *		   sequence.
 		 */
 		erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+
+		/* ---------------------------------------------------------------
+			UTILITIES
+		--------------------------------------------------------------- */
+		swap(obj: IContainer<T>): void;
 	}
 }

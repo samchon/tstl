@@ -222,7 +222,7 @@ namespace std.base.container
 		 * @param begin An iterator specifying range of the begining element.
 		 * @param end An iterator specifying range of the ending element.
 		 */
-		public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+		public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): any;
 
 		public insert(...args: any[]): any
 		{
@@ -360,5 +360,16 @@ namespace std.base.container
 		protected abstract handleInsert(item: SetIterator<T>): void;
 
 		protected abstract handleErase(item: SetIterator<T>): void;
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		public swap(obj: SetContainer<T>): void
+		{
+			let supplement: List<T> = this.data;
+
+			this.data = obj.data;
+			obj.data = supplement;
+		}
 	}
 }

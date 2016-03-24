@@ -10,9 +10,9 @@
           <StartPageUrl>
           </StartPageUrl>
           <StartAction>CurrentPage</StartAction>
-          <AspNetDebugging>True</AspNetDebugging>
+          <AspNetDebugging>False</AspNetDebugging>
           <SilverlightDebugging>False</SilverlightDebugging>
-          <NativeDebugging>False</NativeDebugging>
+          <NativeDebugging>True</NativeDebugging>
           <SQLDebugging>False</SQLDebugging>
           <ExternalProgram>
           </ExternalProgram>

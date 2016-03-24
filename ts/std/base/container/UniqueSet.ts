@@ -16,6 +16,9 @@ namespace std.base.container
 			super();
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public count(key: T): number
 		{
 			return this.find(key).equals(this.end()) ? 0 : 1;
@@ -24,10 +27,19 @@ namespace std.base.container
 		/* =========================================================
 			ELEMENTS I/O
 		========================================================= */
+		/**
+		 * @inheritdoc
+		 */
 		public insert(val: T): Pair<SetIterator<T>, boolean>;
 
+		/**
+		 * @inheritdoc
+		 */
 		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
 
+		/**
+		 * @inheritdoc
+		 */
 		public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
 
 		public insert(...args: any[]): any
