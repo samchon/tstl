@@ -403,10 +403,12 @@ namespace std
 
 		public insert(...args: any[]): ListIterator<T>
 		{
-			if (args.length = 2)
+			if (args.length == 2)
 				return this.insertByVal(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
+			{
 				return this.insertByRepeatingVal(args[0], args[1], args[2]);
+			}
 			else
 				return this.insertByRange(args[0], args[1], args[2]);
 		}
@@ -427,18 +429,20 @@ namespace std
 		{
 			if (this != position.getSource())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
-
+			
 			let prev: ListIterator<T> = <ListIterator<T>>position.prev();
 			let first: ListIterator<T> = null;
 
-			for (let i: number = 0; i < size; i++) {
+			for (let i: number = 0; i < size; i++) 
+			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: ListIterator<T> = new ListIterator(this, prev, null, val);
-
-				if (i == 0) first = item;
-				if (prev != null) prev.setNext(item);
+				if (i == 0) 
+					first = item;
 				
-				// SHIFT CURRENT ITEM TO PREVIOUS
+				prev.setNext(item);
+				
+				// SHIFT ITEM LEFT TO BE PREV
 				prev = item;
 			}
 
@@ -446,9 +450,9 @@ namespace std
 			if (this.empty() == true || first.prev().equals(this.end()) == true)
 				this.begin_ = first;
 
-			// CONNECT BETWEEN LAST AND POSITION
-			prev.setNext(<ListIterator<T>>position);
-			(<ListIterator<T>>position).setPrev(prev);
+			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
+			prev.setNext(position);
+			position.setPrev(prev);
 
 			this.size_ += size;
 
@@ -561,7 +565,6 @@ namespace std
 
 			// FIND PREV AND NEXT
 			let prev: ListIterator<T> = <ListIterator<T>>begin.prev();
-			let next: ListIterator<T> = <ListIterator<T>>end;
 
 			// CALCULATE THE SIZE
 			let size: number = 0;
@@ -570,15 +573,14 @@ namespace std
 				size++;
 
 			// SHRINK
-			prev.setNext(next);
-			next.setPrev(prev);
-
-			if (next.prev().equals(this.end()) == true)
-				this.begin_ = next;
+			prev.setNext(end);
+			end.setPrev(prev);
 
 			this.size_ -= size;
+			if (this.size_ == 0)
+				this.begin_ = end;
 
-			return prev;
+			return end;
 		}
 
 		/* ===============================================================

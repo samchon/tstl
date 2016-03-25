@@ -2948,37 +2948,36 @@ var std;
         var ContainerTest = (function () {
             function ContainerTest() {
                 this.testList();
-                this.testUnorderedSet();
-                this.testUnorderedMap();
-                this.testEqualRange();
+                //this.testUnorderedSet();
+                //this.testUnorderedMap();
+                //this.testEqualRange();
             }
             ContainerTest.prototype.testList = function () {
                 document.write("<h4> List </h4>\n");
                 // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.Vector();
+                var container = new std.List();
                 for (var i = 0; i < 10; i++) {
-                    container.pushBack(Math.random() * 100.0);
+                    container.pushBack(i);
                 }
-                // ELEMENTS I/O
-                document.write("Erase of 7th element<br>\n" +
-                    "Insert (-5) as 5th element<br>\n" +
-                    "Erase of 3rd element<br><br>\n\n");
-                container.erase(container.begin().advance(7));
-                container.insert(container.begin().advance(5), -5);
-                container.erase(container.begin().advance(3));
+                //// ELEMENTS I/O
+                //document.write
+                //(
+                //	"Erase of 7th element<br>\n" +
+                //	"Insert (-5) as 5th element twice<br>\n" +
+                //	"Erase of 3rd element<br><br>\n\n"
+                //);
+                //container.erase(container.begin().advance(7));
+                //console.log("insert 3 -5");
+                //container.insert(container.begin().advance(5), 2, -5);
+                //container.erase(container.begin().advance(3));
+                var it = container.erase(container.begin(), container.end());
+                console.log(it.equals(container.end()));
                 // PRINTS
-                document.write("Elements in the List: #" + container.size() + "<br>\n");
-                document.write("<ul>\n");
-                for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
-                    document.write("\t<li>" + it.value + "</li>\n");
-                // SORTING
-                std.sort(container.begin(), container.end());
-                // PRINTS
-                document.write("Elements in the List: #" + container.size() + "<br>\n");
-                document.write("<ul>\n");
-                for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
-                    document.write("\t<li>" + it.value + "</li>\n");
-                document.write("</ul>\n\n");
+                document.writeln("Elements in the List: #" + container.size() + "<br>");
+                document.writeln("<ul>");
+                for (var it_1 = container.begin(); it_1.equals(container.end()) == false; it_1 = it_1.next())
+                    document.writeln("\t<li>" + it_1.value + "</li>");
+                document.writeln("</ul>\n");
             };
             ContainerTest.prototype.testUnorderedSet = function () {
                 document.write("<h4> HashSet </h4>\n");
@@ -4336,10 +4335,11 @@ var std;
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
-            if (args.length = 2)
+            if (args.length == 2)
                 return this.insertByVal(args[0], args[1]);
-            else if (args.length == 3 && typeof args[1] == "number")
+            else if (args.length == 3 && typeof args[1] == "number") {
                 return this.insertByRepeatingVal(args[0], args[1], args[2]);
+            }
             else
                 return this.insertByRange(args[0], args[1], args[2]);
         };
@@ -4363,15 +4363,14 @@ var std;
                 var item = new std.ListIterator(this, prev, null, val);
                 if (i == 0)
                     first = item;
-                if (prev != null)
-                    prev.setNext(item);
-                // SHIFT CURRENT ITEM TO PREVIOUS
+                prev.setNext(item);
+                // SHIFT ITEM LEFT TO BE PREV
                 prev = item;
             }
             // IF WAS EMPTY, VAL IS THE BEGIN
             if (this.empty() == true || first.prev().equals(this.end()) == true)
                 this.begin_ = first;
-            // CONNECT BETWEEN LAST AND POSITION
+            // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
             prev.setNext(position);
             position.setPrev(prev);
             this.size_ += size;
@@ -4430,18 +4429,17 @@ var std;
                 throw new std.InvalidArgument("Parametric iterator is not this container's own.");
             // FIND PREV AND NEXT
             var prev = begin.prev();
-            var next = end;
             // CALCULATE THE SIZE
             var size = 0;
             for (var it = begin; it.equals(end) == false; it = it.next())
                 size++;
             // SHRINK
-            prev.setNext(next);
-            next.setPrev(prev);
-            if (next.prev().equals(this.end()) == true)
-                this.begin_ = next;
+            prev.setNext(end);
+            end.setPrev(prev);
             this.size_ -= size;
-            return prev;
+            if (this.size_ == 0)
+                this.begin_ = end;
+            return end;
         };
         /* ===============================================================
             UTILITIES
@@ -6302,8 +6300,8 @@ var std;
                 var inserts = [];
                 for (var i = 0; i < size; i++)
                     inserts.push(val);
-                this.push.apply(this, spliced);
                 this.push.apply(this, inserts);
+                this.push.apply(this, spliced);
                 return new std.VectorIterator(this, position.getIndex() + inserts.length);
             }
             else if (args.length == 3 && args[1] instanceof std.base.container.Iterator && args[2] instanceof std.base.container.Iterator) {

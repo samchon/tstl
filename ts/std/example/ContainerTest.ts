@@ -5,9 +5,9 @@ namespace std.example
 		public constructor()
 		{
 			this.testList();
-			this.testUnorderedSet();
-			this.testUnorderedMap();
-			this.testEqualRange();
+			//this.testUnorderedSet();
+			//this.testUnorderedMap();
+			//this.testEqualRange();
 		}
 
 		private testList(): void
@@ -15,42 +15,36 @@ namespace std.example
 			document.write("<h4> List </h4>\n");
 
 			// CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-			let container = new Vector<number>();
+			let container = new List<number>();
 			for (let i: number = 0; i < 10; i++)
 			{
-				container.pushBack(Math.random() * 100.0);
+				container.pushBack(i);
 			}
 
-			// ELEMENTS I/O
-			document.write
-			(
-				"Erase of 7th element<br>\n" +
-				"Insert (-5) as 5th element<br>\n" +
-				"Erase of 3rd element<br><br>\n\n"
-			);
+			//// ELEMENTS I/O
+			//document.write
+			//(
+			//	"Erase of 7th element<br>\n" +
+			//	"Insert (-5) as 5th element twice<br>\n" +
+			//	"Erase of 3rd element<br><br>\n\n"
+			//);
 
-			container.erase(container.begin().advance(7));
-			container.insert(container.begin().advance(5), -5);
-			container.erase(container.begin().advance(3));
+			//container.erase(container.begin().advance(7));
+			//console.log("insert 3 -5");
+			//container.insert(container.begin().advance(5), 2, -5);
+			//container.erase(container.begin().advance(3));
 
+			let it = container.erase(container.begin(), container.end());
+			console.log(it.equals(container.end()));
+			
 			// PRINTS
-			document.write("Elements in the List: #" + container.size() + "<br>\n");
-			document.write("<ul>\n");
+			document.writeln("Elements in the List: #" + container.size() + "<br>");
+			document.writeln("<ul>");
 
 			for (let it = container.begin(); it.equals(container.end()) == false; it = it.next())
-				document.write("\t<li>" + it.value + "</li>\n");
+				document.writeln("\t<li>" + it.value + "</li>");
 
-			// SORTING
-			sort(container.begin(), container.end());
-
-			// PRINTS
-			document.write("Elements in the List: #" + container.size() + "<br>\n");
-			document.write("<ul>\n");
-
-			for (let it = container.begin(); it.equals(container.end()) == false; it = it.next())
-				document.write("\t<li>" + it.value + "</li>\n");
-
-			document.write("</ul>\n\n");
+			document.writeln("</ul>\n");
 		}
 
 		private testUnorderedSet(): void

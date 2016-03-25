@@ -419,8 +419,8 @@ namespace std
 				for (let i: number = 0; i < size; i++)
 					inserts.push(val);
 
-				this.push(...spliced);
 				this.push(...inserts);
+				this.push(...spliced);
 
 				return new VectorIterator(this, position.getIndex() + inserts.length);
 			}
