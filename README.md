@@ -53,7 +53,7 @@ function testHashMap(): void
     // INSERT AN ELEMENT
     it = map.begin().advance(2) // [it] points key 2 (0 ----> 2)
     it = map.insert(it, new Pair<number, string>(-1, "Its key is -1"); 
-        // [it] points key -1
+        // [it] points key -1=
         // key list: [0, 1, -1, 2, 4, 5, 6, 7, 8, 9]
     console.log(it.next().first); // prints 2, next of [it] (-1 -> 2)
     
@@ -65,7 +65,7 @@ function testHashMap(): void
     // key list: [0, 1, -1, 2, 4, 5, 9]
     console.log("has 7:", map.has(7));
     console.log("count 5:", map.count(5));
-    console.log("it is end():", (it == map.end()));
+    console.log("it is end():", it.equals(map.end()));
     
     /////////////////////////////////////
     // PRINT ALL ELEMENTS
@@ -73,7 +73,7 @@ function testHashMap(): void
     console.log("------------------------------");
     
     // key list: [0, 1, -1, 2, 4, 5, 9]
-    for (let it = map.begin(); it != map.end(); it = it.next())
+    for (let it = map.begin(); !it.equals(map.end()); it = it.next())
         console.log(it.second);
         
     /* OUTPUT
