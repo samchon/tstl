@@ -35,7 +35,7 @@
 	 * 
 	 * @param <T> Type of elements.
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Queue<T>
 	{

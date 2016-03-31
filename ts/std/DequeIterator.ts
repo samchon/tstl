@@ -5,7 +5,7 @@ namespace std
 	/**
 	 * An iterator of {@link Deque}.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class DequeIterator<T>
 		extends base.container.Iterator<T>

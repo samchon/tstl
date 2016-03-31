@@ -4,47 +4,40 @@ namespace std.example
 	{
 		public constructor()
 		{
-			this.testList();
+			this.testList("vector");
+			this.testList("list");
 			//this.testUnorderedSet();
 			//this.testUnorderedMap();
 			//this.testEqualRange();
 		}
 
-		private testList(): void
+		private testList(type: string): void
 		{
-			document.write("<h4> List </h4>\n");
+			let intList;
+			if (type == "vector")
+				intList = new Vector<number>();
+			else
+				intList = new List<number>();
 
-			// CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-			let container = new List<number>();
 			for (let i: number = 0; i < 10; i++)
-			{
-				container.pushBack(i);
-			}
+				intList.pushBack(i);
 
-			//// ELEMENTS I/O
-			//document.write
-			//(
-			//	"Erase of 7th element<br>\n" +
-			//	"Insert (-5) as 5th element twice<br>\n" +
-			//	"Erase of 3rd element<br><br>\n\n"
-			//);
+			let it = intList.begin().advance(3);
+			it = intList.erase(it); // erase 3
+			console.log(it.value); // print 4
 
-			//container.erase(container.begin().advance(7));
-			//console.log("insert 3 -5");
-			//container.insert(container.begin().advance(5), 2, -5);
-			//container.erase(container.begin().advance(3));
+			it = intList.begin().advance(2);
+			it = intList.insert(it, -1); // insert -1
+			console.log(it.next().value); // print 2
 
-			let it = container.erase(container.begin(), container.end());
-			console.log(it.equals(container.end()));
-			
-			// PRINTS
-			document.writeln("Elements in the List: #" + container.size() + "<br>");
-			document.writeln("<ul>");
+			it = intList.begin().advance(6);
+			it = intList.erase(it, it.advance(3)); // erase from 6 to 9
+			//console.log(it.value); // print 9
+			console.log(it.equals(intList.end()));
 
-			for (let it = container.begin(); it.equals(container.end()) == false; it = it.next())
-				document.writeln("\t<li>" + it.value + "</li>");
-
-			document.writeln("</ul>\n");
+			console.log("-------------------------------------");
+			for (let it = intList.begin(); !it.equals(intList.end()); it = it.next())
+				console.log(it.value);
 		}
 
 		private testUnorderedSet(): void

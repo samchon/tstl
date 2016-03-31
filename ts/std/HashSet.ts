@@ -44,7 +44,7 @@ namespace std
 	 * @param <T> Type of the elements. 
 	 *			  Each element in an {@link HashSet} is also uniquely identified by this value.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashSet<T>
 		extends base.container.UniqueSet<T>

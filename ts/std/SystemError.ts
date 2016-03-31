@@ -16,7 +16,7 @@ namespace std
      *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
 	 */
     export class SystemError
         extends RuntimeError

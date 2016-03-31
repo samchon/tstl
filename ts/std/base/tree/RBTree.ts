@@ -82,7 +82,7 @@ namespace std.base.tree
 	 * @param <T> Type of elements.
 	 *
 	 * @inventor Rudolf Bayer
-	 * @author Migrated by Jeongho Nam
+	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class RBTree<T>
 		extends XTree<T>

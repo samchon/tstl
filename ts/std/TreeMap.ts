@@ -49,7 +49,7 @@ namespace std
 	 * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
 	 * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMap<Key, T>
 		extends base.container.UniqueMap<Key, T>

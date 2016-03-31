@@ -46,7 +46,7 @@ namespace std
 	 * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified 
 	 *			  by this value (each value is itself also the element's <i>key</i>).
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMultiSet<T>
 		extends base.container.MultiSet<T>

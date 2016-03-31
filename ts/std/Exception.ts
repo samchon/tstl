@@ -25,7 +25,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/exception/exception/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     export class Exception
     {
@@ -86,7 +86,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/logic_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     export class LogicError
         extends Exception
@@ -118,7 +118,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/domain_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
 	 */
     export class DomainError
         extends LogicError
@@ -146,7 +146,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/invalid_argument/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
 	 */
     export class InvalidArgument
         extends LogicError
@@ -174,7 +174,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/length_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
 	 */
     export class LengthError
         extends LogicError
@@ -203,7 +203,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/out_of_range/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
 	 */
     export class OutOfRange
         extends LogicError
@@ -238,7 +238,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/runtime_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     export class RuntimeError
         extends Exception
@@ -266,7 +266,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/outflow_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
 	 */
     export class OverflowError
         extends RuntimeError
@@ -294,7 +294,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/underflow_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
 	 */
     export class UnderflowError
         extends RuntimeError
@@ -323,7 +323,7 @@
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/range_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
 	 */
     export class RangeError
         extends RuntimeError

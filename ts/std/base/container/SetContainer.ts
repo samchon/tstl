@@ -5,7 +5,7 @@ namespace std.base.container
 	/**
 	 * Abstract Set.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class SetContainer<T>
 		extends Container<T>

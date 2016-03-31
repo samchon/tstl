@@ -50,7 +50,7 @@ namespace std
 	 *
 	 * @param <T> Type of the elements.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Vector<T>
 		extends Array<T>
@@ -422,7 +422,7 @@ namespace std
 				this.push(...inserts);
 				this.push(...spliced);
 
-				return new VectorIterator(this, position.getIndex() + inserts.length);
+				return new VectorIterator(this, position.getIndex() + inserts.length - 1);
 			}
 			else if (args.length == 3 && args[1] instanceof base.container.Iterator && args[2] instanceof base.container.Iterator)
 			{
@@ -439,7 +439,7 @@ namespace std
 				this.push(...spliced);
 				this.push(...inserts);
 
-				return new VectorIterator(this, myEnd.getIndex() + inserts.length);
+				return new VectorIterator(this, myEnd.getIndex() + inserts.length - 1);
 			}
 			else
 				throw new std.InvalidArgument("invalid parameters.");
@@ -490,10 +490,16 @@ namespace std
 
 		public erase(begin: VectorIterator<T>, end: VectorIterator<T> = null): VectorIterator<T>
 		{
-			let startIndex: number = (<VectorIterator<T>>begin).getIndex();
+			let startIndex: number = begin.getIndex();
 
 			if (end == null)
 				this.splice(startIndex, 1);
+			else if (end.getIndex() == -1)
+			{
+				this.splice(startIndex);
+
+				return this.end();
+			}
 			else
 				this.splice(startIndex, (<VectorIterator<T>>end).getIndex() - startIndex);
 

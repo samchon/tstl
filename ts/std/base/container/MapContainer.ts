@@ -14,7 +14,7 @@ namespace std.base.container
 	 *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
 	 * </dl>
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class MapContainer<Key, T>
 	{

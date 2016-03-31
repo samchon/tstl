@@ -21,7 +21,7 @@
 	 *		 the red-black tree. </li>
 	 * </ol>
 	 *
-	 * @author Migrated by Jeongho Nam
+	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */
 	export class Color
 	{

@@ -17,7 +17,7 @@ namespace std.base.container
 	 *
 	 * @param <T> Type of elements.
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class Container<T>
 		implements IContainer<T>

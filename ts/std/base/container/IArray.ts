@@ -3,7 +3,7 @@
 	/**
 	 * <p> Array container. </p>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IArray<T> 
 		extends ILinearContainer<T>

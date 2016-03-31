@@ -49,7 +49,7 @@ namespace std
 	 * @param <T> Type of the mapped value. 
 	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashMap<K, T>
 		extends base.container.UniqueMap<K, T>

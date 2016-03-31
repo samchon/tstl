@@ -7,7 +7,7 @@
  *	<li> Reference: http://www.cplusplus.com/reference/ </li>
  * </ul>
  * 
- * @author Jeongho Nam
+ * @author Jeongho Nam <http://samchon.org>
  */
 namespace std
 {
@@ -24,7 +24,7 @@ namespace std.base
  * 	<li> Reference: http://www.cplusplus.com/reference/stl/ </li>
  * </ul>
  * 
- * @author Jeongho Nam
+ * @author Jeongho Nam <http://samchon.org>
  */
 namespace std.base.container
 {

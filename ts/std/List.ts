@@ -47,7 +47,7 @@ namespace std
 	 *
 	 * @param <T> Type of the elements.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class List<T>
 		extends base.container.Container<T>

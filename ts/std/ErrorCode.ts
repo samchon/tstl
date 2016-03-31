@@ -18,7 +18,7 @@ namespace std
 	 *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
 	 * </ul>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ErrorCode
 		extends base.system.ErrorInstance

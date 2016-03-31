@@ -19,7 +19,7 @@ declare namespace std.base.container {
      *
      * @param <T> Type of elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     abstract class Container<T> implements IContainer<T> {
         /**
@@ -102,7 +102,7 @@ declare namespace std.base.container {
     /**
      * <p> Array container. </p>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     interface IArray<T> extends ILinearContainer<T> {
         /**
@@ -200,7 +200,7 @@ declare namespace std.base.container {
      *
      * @param <T> Type of elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     interface IContainer<T> {
         /**
@@ -327,7 +327,7 @@ declare namespace std.base.container {
     /**
      * <p> Deque container. </p>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     interface IDeque<T> extends ILinearContainer<T> {
         /**
@@ -547,7 +547,7 @@ declare namespace std.base.container {
      *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
      * </dl>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     abstract class MapContainer<Key, T> {
         protected data: List<Pair<Key, T>>;
@@ -706,7 +706,7 @@ declare namespace std.base.container {
     /**
      * Abstract Set.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     abstract class SetContainer<T> extends Container<T> {
         protected data: List<T>;
@@ -977,7 +977,7 @@ declare namespace std.base.system {
      * so that they can be interpreted when needed as more abstract (and portable)
      * {@link ErrorCondition error conditions}. </p>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class ErrorInstance {
         /**
@@ -1079,7 +1079,7 @@ declare namespace std.base.tree {
      *
      * @param <T> Type of elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     abstract class XTree<T> {
         /**
@@ -1219,7 +1219,7 @@ declare namespace std.base.tree {
      * @param <T> Type of elements.
      *
      * @inventor Rudolf Bayer
-     * @author Migrated by Jeongho Nam
+     * @author Migrated by Jeongho Nam <http://samchon.org>
      */
     abstract class RBTree<T> extends XTree<T> {
         /**
@@ -1756,7 +1756,7 @@ declare namespace std.base.tree {
      *		 the red-black tree. </li>
      * </ol>
      *
-     * @author Migrated by Jeongho Nam
+     * @author Migrated by Jeongho Nam <http://samchon.org>
      */
     class Color {
         /**
@@ -1796,7 +1796,7 @@ declare namespace std.base.tree {
      * @inventor Rudolf Bayer
      * @see XTree
      *
-     * @author Migrated by Jeongho Nam
+     * @author Migrated by Jeongho Nam <http://samchon.org>
      */
     class XTreeNode<T> {
         /**
@@ -1899,7 +1899,7 @@ declare namespace std {
      *
      * @param <T> Type of the elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class Deque<T> extends base.container.Container<T> implements base.container.IArray<T>, base.container.IDeque<T> {
         private static ROW;
@@ -2041,7 +2041,7 @@ declare namespace std {
     /**
      * An iterator of {@link Deque}.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class DequeIterator<T> extends base.container.Iterator<T> implements base.container.ILinearIterator<T> {
         private deque;
@@ -2088,10 +2088,10 @@ declare namespace std {
     }
 }
 /**
-* STL (Standard Template Library) Containers for TypeScript.
-*
-* @author Jeongho Nam
-*/
+ * STL (Standard Template Library) Containers for TypeScript.
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 declare namespace std {
@@ -2113,7 +2113,7 @@ declare namespace std {
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     abstract class ErrorCategory {
         /**
@@ -2200,7 +2200,7 @@ declare namespace std {
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class ErrorCode extends base.system.ErrorInstance {
         /**
@@ -2238,7 +2238,7 @@ declare namespace std {
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class ErrorCondition extends base.system.ErrorInstance {
         /**
@@ -2257,7 +2257,7 @@ declare namespace std {
 declare namespace std.example {
     class ContainerTest {
         constructor();
-        private testList();
+        private testList(type);
         private testUnorderedSet();
         private testUnorderedMap();
         private testEqualRange();
@@ -2277,7 +2277,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/exception/exception/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class Exception {
         /**
@@ -2318,7 +2318,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/logic_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class LogicError extends Exception {
         /**
@@ -2344,7 +2344,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/domain_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class DomainError extends LogicError {
         /**
@@ -2366,7 +2366,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/invalid_argument/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class InvalidArgument extends LogicError {
         /**
@@ -2388,7 +2388,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/length_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class LengthError extends LogicError {
         /**
@@ -2411,7 +2411,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/out_of_range/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class OutOfRange extends LogicError {
         /**
@@ -2433,7 +2433,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/runtime_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class RuntimeError extends Exception {
         /**
@@ -2455,7 +2455,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/outflow_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class OverflowError extends RuntimeError {
         /**
@@ -2477,7 +2477,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/underflow_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class UnderflowError extends RuntimeError {
         /**
@@ -2500,7 +2500,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/range_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class RangeError extends RuntimeError {
         /**
@@ -2559,7 +2559,7 @@ declare namespace std {
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class HashMap<K, T> extends base.container.UniqueMap<K, T> {
         private hashBuckets;
@@ -2660,7 +2660,7 @@ declare namespace std {
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class HashMultiMap<K, T> extends base.container.MultiMap<K, T> {
         private hashBuckets;
@@ -2757,7 +2757,7 @@ declare namespace std {
      * @param <T> Type of the elements.
      *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class HashMultiSet<T> extends base.container.MultiSet<T> {
         private hashBuckets;
@@ -2854,7 +2854,7 @@ declare namespace std {
      * @param <T> Type of the elements.
      *			  Each element in an {@link HashSet} is also uniquely identified by this value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class HashSet<T> extends base.container.UniqueSet<T> {
         private hashBuckets;
@@ -3007,7 +3007,7 @@ declare namespace std {
      *
      * @param <T> Type of the elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class List<T> extends base.container.Container<T> implements base.container.IDeque<T> {
         static iterator: typeof ListIterator;
@@ -3325,16 +3325,16 @@ declare namespace std {
     }
 }
 /**
-* <p> A namespace of STL library. </p>
-*
-* <ul>
-*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
-*	<li> Github: https://github.com/samchon/stl/ </li>
-*	<li> Reference: http://www.cplusplus.com/reference/ </li>
-* </ul>
-*
-* @author Jeongho Nam
-*/
+ * <p> A namespace of STL library. </p>
+ *
+ * <ul>
+ *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+ *	<li> Github: https://github.com/samchon/stl/ </li>
+ *	<li> Reference: http://www.cplusplus.com/reference/ </li>
+ * </ul>
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 declare namespace std.base {
@@ -3346,7 +3346,7 @@ declare namespace std.base {
  * 	<li> Reference: http://www.cplusplus.com/reference/stl/ </li>
  * </ul>
  *
- * @author Jeongho Nam
+ * @author Jeongho Nam <http://samchon.org>
  */
 declare namespace std.base.container {
 }
@@ -3371,7 +3371,7 @@ declare namespace std {
      * @param <K> Type of member {@link first}.
      * @param <T> Type of member {@link second}.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class Pair<T1, T2> {
         /**
@@ -3440,7 +3440,7 @@ declare namespace std {
      *
      * @param <T> Type of elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class Queue<T> {
         /**
@@ -3531,7 +3531,7 @@ declare namespace std {
     /**
      * <p> An iterator of a Set. </p>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class SetIterator<T> extends base.container.Iterator<T> implements IComparable<SetIterator<T>> {
         private listIterator;
@@ -3612,7 +3612,7 @@ declare namespace std {
      *
      * @param <T> Type of elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class Stack<T> {
         /**
@@ -3702,7 +3702,7 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class SystemError extends RuntimeError {
         /**
@@ -3798,7 +3798,7 @@ declare namespace std {
      * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
      * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMap<Key, T> extends base.container.UniqueMap<Key, T> {
         /**
@@ -3973,7 +3973,7 @@ declare namespace std {
      * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
      * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMultiMap<Key, T> extends base.container.MultiMap<Key, T> {
         private tree;
@@ -4138,7 +4138,7 @@ declare namespace std {
      * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
      *			  by this value (each value is itself also the element's <i>key</i>).
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMultiSet<T> extends base.container.MultiSet<T> {
         /**
@@ -4298,7 +4298,7 @@ declare namespace std {
      * @param <T> Type of the elements.
      *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class TreeSet<T> extends base.container.UniqueSet<T> {
         /**
@@ -4471,7 +4471,7 @@ declare namespace std {
      *
      * @param <T> Type of the elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class Vector<T> extends Array<T> implements base.container.IArray<T> {
         static iterator: typeof VectorIterator;
@@ -4704,7 +4704,7 @@ declare namespace std {
      *
      * @param <T> Type of the elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     class VectorIterator<T> extends base.container.Iterator<T> implements base.container.ILinearIterator<T> {
         /**

@@ -14,7 +14,7 @@ namespace std
 	 * @param <K> Type of member {@link first}.
 	 * @param <T> Type of member {@link second}.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Pair<T1, T2>
 	{

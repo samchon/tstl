@@ -18,7 +18,7 @@
 	 *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
 	 * </ul>
 	 *
-	 * @author Jeongho Nam 
+	 * @author Jeongho Nam <http://samchon.org> 
 	 */
 	export abstract class ErrorCategory
 	{

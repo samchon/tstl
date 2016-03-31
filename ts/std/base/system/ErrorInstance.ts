@@ -14,7 +14,7 @@
 	 * so that they can be interpreted when needed as more abstract (and portable) 
 	 * {@link ErrorCondition error conditions}. </p>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ErrorInstance
 	{

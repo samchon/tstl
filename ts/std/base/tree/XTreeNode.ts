@@ -8,7 +8,7 @@
 	 * @inventor Rudolf Bayer
 	 * @see XTree
 	 *
-	 * @author Migrated by Jeongho Nam
+	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */
 	export class XTreeNode<T>
 	{

@@ -5,7 +5,7 @@ namespace std
 	/**
 	 * <p> An iterator of a Set. </p>
 	 * 
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetIterator<T>
 		extends base.container.Iterator<T>

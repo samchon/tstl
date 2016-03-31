@@ -51,7 +51,7 @@ namespace std
 	 *
 	 * @param <T> Type of the elements.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Deque<T>
 		extends base.container.Container<T>

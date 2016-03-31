@@ -45,7 +45,7 @@ namespace std
 	 * @param <T> Type of the elements. 
 	 *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeSet<T>
 		extends base.container.UniqueSet<T>

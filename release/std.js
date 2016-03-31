@@ -2947,37 +2947,33 @@ var std;
     (function (example) {
         var ContainerTest = (function () {
             function ContainerTest() {
-                this.testList();
+                this.testList("vector");
+                this.testList("list");
                 //this.testUnorderedSet();
                 //this.testUnorderedMap();
                 //this.testEqualRange();
             }
-            ContainerTest.prototype.testList = function () {
-                document.write("<h4> List </h4>\n");
-                // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.List();
-                for (var i = 0; i < 10; i++) {
-                    container.pushBack(i);
-                }
-                //// ELEMENTS I/O
-                //document.write
-                //(
-                //	"Erase of 7th element<br>\n" +
-                //	"Insert (-5) as 5th element twice<br>\n" +
-                //	"Erase of 3rd element<br><br>\n\n"
-                //);
-                //container.erase(container.begin().advance(7));
-                //console.log("insert 3 -5");
-                //container.insert(container.begin().advance(5), 2, -5);
-                //container.erase(container.begin().advance(3));
-                var it = container.erase(container.begin(), container.end());
-                console.log(it.equals(container.end()));
-                // PRINTS
-                document.writeln("Elements in the List: #" + container.size() + "<br>");
-                document.writeln("<ul>");
-                for (var it_1 = container.begin(); it_1.equals(container.end()) == false; it_1 = it_1.next())
-                    document.writeln("\t<li>" + it_1.value + "</li>");
-                document.writeln("</ul>\n");
+            ContainerTest.prototype.testList = function (type) {
+                var intList;
+                if (type == "vector")
+                    intList = new std.Vector();
+                else
+                    intList = new std.List();
+                for (var i = 0; i < 10; i++)
+                    intList.pushBack(i);
+                var it = intList.begin().advance(3);
+                it = intList.erase(it); // erase 3
+                console.log(it.value); // print 4
+                it = intList.begin().advance(2);
+                it = intList.insert(it, -1); // insert -1
+                console.log(it.next().value); // print 2
+                it = intList.begin().advance(6);
+                it = intList.erase(it, it.advance(3)); // erase from 6 to 9
+                //console.log(it.value); // print 9
+                console.log(it.equals(intList.end()));
+                console.log("-------------------------------------");
+                for (var it_1 = intList.begin(); !it_1.equals(intList.end()); it_1 = it_1.next())
+                    console.log(it_1.value);
             };
             ContainerTest.prototype.testUnorderedSet = function () {
                 document.write("<h4> HashSet </h4>\n");
@@ -6302,7 +6298,7 @@ var std;
                     inserts.push(val);
                 this.push.apply(this, inserts);
                 this.push.apply(this, spliced);
-                return new std.VectorIterator(this, position.getIndex() + inserts.length);
+                return new std.VectorIterator(this, position.getIndex() + inserts.length - 1);
             }
             else if (args.length == 3 && args[1] instanceof std.base.container.Iterator && args[2] instanceof std.base.container.Iterator) {
                 var myEnd = args[0];
@@ -6314,7 +6310,7 @@ var std;
                     inserts.push(it.value);
                 this.push.apply(this, spliced);
                 this.push.apply(this, inserts);
-                return new std.VectorIterator(this, myEnd.getIndex() + inserts.length);
+                return new std.VectorIterator(this, myEnd.getIndex() + inserts.length - 1);
             }
             else
                 throw new std.InvalidArgument("invalid parameters.");
@@ -6324,6 +6320,10 @@ var std;
             var startIndex = begin.getIndex();
             if (end == null)
                 this.splice(startIndex, 1);
+            else if (end.getIndex() == -1) {
+                this.splice(startIndex);
+                return this.end();
+            }
             else
                 this.splice(startIndex, end.getIndex() - startIndex);
             return new std.VectorIterator(this, startIndex);

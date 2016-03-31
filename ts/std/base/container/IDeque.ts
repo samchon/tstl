@@ -3,7 +3,7 @@
 	/**
 	 * <p> Deque container. </p>
 	 *
-	 * @author Jeongho Nam
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IDeque<T> 
 		extends ILinearContainer<T>
