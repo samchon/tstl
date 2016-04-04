@@ -2088,10 +2088,10 @@ declare namespace std {
     }
 }
 /**
- * STL (Standard Template Library) Containers for TypeScript.
- *
- * @author Jeongho Nam <http://samchon.org>
- */
+* STL (Standard Template Library) Containers for TypeScript.
+*
+* @author Jeongho Nam <http://samchon.org>
+*/
 declare namespace std {
 }
 declare namespace std {
@@ -2254,15 +2254,17 @@ declare namespace std {
         constructor(val: number, category: ErrorCategory);
     }
 }
-declare namespace std.example {
-    class ContainerTest {
-        constructor();
-        private testList(type);
-        private testUnorderedSet();
-        private testUnorderedMap();
-        private testEqualRange();
-        static main(): void;
-    }
+declare namespace std.test {
+    function hash_map(): void;
+}
+declare namespace std.test {
+    function test_list(): void;
+}
+declare namespace std.test {
+    function sorting(): void;
+}
+declare namespace std.test {
+    function tree_set(): void;
 }
 declare namespace std {
     /**
@@ -3325,16 +3327,16 @@ declare namespace std {
     }
 }
 /**
- * <p> A namespace of STL library. </p>
- *
- * <ul>
- *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
- *	<li> Github: https://github.com/samchon/stl/ </li>
- *	<li> Reference: http://www.cplusplus.com/reference/ </li>
- * </ul>
- *
- * @author Jeongho Nam <http://samchon.org>
- */
+* <p> A namespace of STL library. </p>
+*
+* <ul>
+*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+*	<li> Github: https://github.com/samchon/stl/ </li>
+*	<li> Reference: http://www.cplusplus.com/reference/ </li>
+* </ul>
+*
+* @author Jeongho Nam <http://samchon.org>
+*/
 declare namespace std {
 }
 declare namespace std.base {

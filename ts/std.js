@@ -37,7 +37,7 @@ var std;
              *
              * @param <T> Type of elements.
              *
-             * @author Jeongho Nam
+             * @author Jeongho Nam <http://samchon.org>
              */
             var Container = (function () {
                 function Container() {
@@ -184,7 +184,7 @@ var std;
              *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
              * </dl>
              *
-             * @author Jeongho Nam
+             * @author Jeongho Nam <http://samchon.org>
              */
             var MapContainer = (function () {
                 /* =========================================================
@@ -444,7 +444,7 @@ var std;
             /**
              * Abstract Set.
              *
-             * @author Jeongho Nam
+             * @author Jeongho Nam <http://samchon.org>
              */
             var SetContainer = (function (_super) {
                 __extends(SetContainer, _super);
@@ -787,7 +787,7 @@ var std;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-// Type definitions for STL (Standard Template Library) v0.8.0
+// Type definitions for STL (Standard Template Library) Containers v0.8
 // Project: https://github.com/samchon/stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped 
@@ -1018,7 +1018,7 @@ var std;
              * so that they can be interpreted when needed as more abstract (and portable)
              * {@link ErrorCondition error conditions}. </p>
              *
-             * @author Jeongho Nam
+             * @author Jeongho Nam <http://samchon.org>
              */
             var ErrorInstance = (function () {
                 function ErrorInstance(val, category) {
@@ -1142,7 +1142,7 @@ var std;
              *
              * @param <T> Type of elements.
              *
-             * @author Jeongho Nam
+             * @author Jeongho Nam <http://samchon.org>
              */
             var XTree = (function () {
                 /* =========================================================
@@ -1339,7 +1339,7 @@ var std;
              * @param <T> Type of elements.
              *
              * @inventor Rudolf Bayer
-             * @author Migrated by Jeongho Nam
+             * @author Migrated by Jeongho Nam <http://samchon.org>
              */
             var RBTree = (function (_super) {
                 __extends(RBTree, _super);
@@ -2087,7 +2087,7 @@ var std;
              *		 the red-black tree. </li>
              * </ol>
              *
-             * @author Migrated by Jeongho Nam
+             * @author Migrated by Jeongho Nam <http://samchon.org>
              */
             var Color = (function () {
                 function Color() {
@@ -2192,7 +2192,7 @@ var std;
              * @inventor Rudolf Bayer
              * @see XTree
              *
-             * @author Migrated by Jeongho Nam
+             * @author Migrated by Jeongho Nam <http://samchon.org>
              */
             var XTreeNode = (function () {
                 /* ---------------------------------------------------------
@@ -2323,7 +2323,7 @@ var std;
      *
      * @param <T> Type of the elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var Deque = (function (_super) {
         __extends(Deque, _super);
@@ -2707,7 +2707,7 @@ var std;
     /**
      * An iterator of {@link Deque}.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var DequeIterator = (function (_super) {
         __extends(DequeIterator, _super);
@@ -2823,7 +2823,7 @@ var std;
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var ErrorCategory = (function () {
         /* ---------------------------------------------------------
@@ -2891,7 +2891,7 @@ var std;
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var ErrorCode = (function (_super) {
         __extends(ErrorCode, _super);
@@ -2928,7 +2928,7 @@ var std;
      *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var ErrorCondition = (function (_super) {
         __extends(ErrorCondition, _super);
@@ -2943,111 +2943,173 @@ var std;
 })(std || (std = {}));
 var std;
 (function (std) {
-    var example;
-    (function (example) {
-        var ContainerTest = (function () {
-            function ContainerTest() {
-                this.testList("vector");
-                this.testList("list");
-                //this.testUnorderedSet();
-                //this.testUnorderedMap();
-                //this.testEqualRange();
-            }
-            ContainerTest.prototype.testList = function (type) {
-                var intList;
-                if (type == "vector")
-                    intList = new std.Vector();
+    var test;
+    (function (test) {
+        function hash_map() {
+            /////////////////////////////////////
+            // CONSTRUCT DATA FROM 1 TO 10
+            /////////////////////////////////////
+            var map = new std.HashMap();
+            for (var i = 0; i < 10; i++)
+                map.set(i, "Its key is " + i);
+            /////////////////////////////////////
+            //  ELEMENT I/O
+            /////////////////////////////////////
+            // ERASE AN ELEMENT
+            var it = map.find(3); // find 3.
+            it = map.erase(it); // erase 3. [it] points key 4.
+            console.log(it.first); // prints key 4.
+            // INSERT AN ELEMENT
+            it = map.begin().advance(2); // [it] points key 2 (0 ----> 2)
+            it = map.insert(it, new std.Pair(-1, "Its key is -1"));
+            // [it] points key -1=
+            // key list: [0, 1, -1, 2, 4, 5, 6, 7, 8, 9]
+            console.log(it.next().first); // prints 2, next of [it] (-1 -> 2)
+            // RANGE ERASER
+            it = map.erase(map.begin().advance(6), map.begin().advance(9));
+            // erase elements from 6th until 9th.
+            // INSPECT ELEMENTS BY THEIR KEY
+            // key list: [0, 1, -1, 2, 4, 5, 9]
+            console.log("has 7:", map.has(7));
+            console.log("count 5:", map.count(5));
+            console.log("it is end():", it.equals(map.end()));
+            /////////////////////////////////////
+            // PRINT ALL ELEMENTS
+            /////////////////////////////////////
+            console.log("------------------------------");
+            // key list: [0, 1, -1, 2, 4, 5, 9]
+            for (var it_1 = map.begin(); !it_1.equals(map.end()); it_1 = it_1.next())
+                console.log(it_1.second);
+            /* OUTPUT
+            =========================================
+                4
+                2
+                has 7: true
+                count 5: 1
+                it is end(): false
+                ------------------------------
+                Its key is 0
+                Its key is 1
+                Its key is -1
+                Its key is 2
+                Its key is 4
+                Its key is 5
+                Its key is 9
+            =========================================
+            */
+        }
+        test.hash_map = hash_map;
+    })(test = std.test || (std.test = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var test;
+    (function (test) {
+        function test_list() {
+            var intList = new std.List();
+            for (var i = 0; i < 10; i++)
+                intList.pushBack(i);
+            var it = intList.begin().advance(3);
+            it = intList.erase(it); // erase 3
+            console.log(it.value); // print 4
+            it = intList.begin().advance(2);
+            it = intList.insert(it, -1); // insert -1
+            console.log(it.next().value); // print 2
+            it = intList.begin().advance(6);
+            it = intList.erase(it, it.advance(3)); // erase from 6 to 9
+            //console.log(it.value); // print 9
+            console.log(it.equals(intList.end()));
+            console.log("-------------------------------------");
+            for (var it_2 = intList.begin(); !it_2.equals(intList.end()); it_2 = it_2.next())
+                console.log(it_2.value);
+        }
+        test.test_list = test_list;
+    })(test = std.test || (std.test = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var test;
+    (function (test) {
+        function sorting() {
+            var cubeList = new std.List();
+            for (var i = 0; i < 10; i++)
+                cubeList.pushBack(new Cube());
+            ///////////////////////////////
+            // SORT BY Cube.less()
+            ///////////////////////////////
+            std.sort(cubeList.begin(), cubeList.end());
+            for (var it = cubeList.begin(); !it.equals(cubeList.end()); it = it.next())
+                it.value.debug_size();
+            console.log("------------------------------");
+            ///////////////////////////////
+            // SORT BY inline function
+            ///////////////////////////////
+            std.sort(cubeList.begin(), cubeList.end(), function (left, right) {
+                if (left.x != right.x)
+                    return left.x < right.x;
+                else if (left.y != right.y)
+                    return left.y < right.y;
                 else
-                    intList = new std.List();
-                for (var i = 0; i < 10; i++)
-                    intList.pushBack(i);
-                var it = intList.begin().advance(3);
-                it = intList.erase(it); // erase 3
-                console.log(it.value); // print 4
-                it = intList.begin().advance(2);
-                it = intList.insert(it, -1); // insert -1
-                console.log(it.next().value); // print 2
-                it = intList.begin().advance(6);
-                it = intList.erase(it, it.advance(3)); // erase from 6 to 9
-                //console.log(it.value); // print 9
-                console.log(it.equals(intList.end()));
-                console.log("-------------------------------------");
-                for (var it_1 = intList.begin(); !it_1.equals(intList.end()); it_1 = it_1.next())
-                    console.log(it_1.value);
+                    return left.z < right.z;
+            });
+            for (var it = cubeList.begin(); !it.equals(cubeList.end()); it = it.next())
+                it.value.debug_position();
+        }
+        test.sorting = sorting;
+        var Cube = (function () {
+            function Cube() {
+                this.width = Math.random() * 10;
+                this.height = Math.random() * 10;
+                this.length = Math.random() * 10;
+                this.x = Math.random() * 100 - 50;
+                this.y = Math.random() * 100 - 50;
+                this.z = Math.random() * 100 - 50;
+            }
+            Object.defineProperty(Cube.prototype, "volume", {
+                get: function () {
+                    return this.width * this.height * this.length;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Cube.prototype.less = function (obj) {
+                return this.volume < obj.volume;
             };
-            ContainerTest.prototype.testUnorderedSet = function () {
-                document.write("<h4> HashSet </h4>\n");
-                // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.HashSet();
-                for (var i = 0; i < 10; i++)
-                    container.insert(i);
-                // ELEMENTS I/O
-                document.write("Erase 7<br>\n" +
-                    "Insert -5 (x3)<br>\n" +
-                    "Erase 3<br><br>\n\n");
-                container.erase(7);
-                container.insert(-5);
-                container.insert(-5);
-                container.insert(-5);
-                container.erase(3);
-                container.erase(3);
-                container.erase(100);
-                // PRINTS
-                document.write("Elements in the UnorderedSet: #" + container.size() + "<br>\n");
-                document.write("<ul>\n");
-                for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
-                    document.write("<li>" + it.value + "</li>\n");
-                document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
-                document.write("</ul>\n\n");
+            Cube.prototype.debug_size = function () {
+                console.log(this.width, this.height, this.length + " => " + this.volume);
             };
-            ContainerTest.prototype.testUnorderedMap = function () {
-                document.write("<h4> TreeMultiMap </h4>\n");
-                // CONSTRUCT LIST WITH ELEMENTS 0 TO 9
-                var container = new std.TreeMultiMap();
-                for (var i = 0; i < 10; i++)
-                    container.insert(new std.Pair(i, i));
-                // ELEMENTS I/O
-                document.write("Erase 7<br>\n" +
-                    "Insert -5 (x3)<br>\n" +
-                    "Erase 3<br><br>\n\n");
-                container.erase(7);
-                container.insert(new std.Pair(-5, -5));
-                container.insert(new std.Pair(-5, -5));
-                container.insert(new std.Pair(-5, -5));
-                container.erase(3);
-                container.erase(3);
-                container.erase(100);
-                // PRINTS
-                document.write("Elements in the UnorderedMap: #" + container.size() + "<br>\n");
-                document.write("<ul>\n");
-                for (var it = container.begin(); it.equals(container.end()) == false; it = it.next())
-                    document.write("<li>" + it.first + ": " + it.second + "</li>\n");
-                document.write("<li>count(-5): #" + container.count(-5) + "</li>\n");
-                document.write("</ul>\n\n");
+            Cube.prototype.debug_position = function () {
+                console.log(this.x, this.y, this.z);
             };
-            ContainerTest.prototype.testEqualRange = function () {
-                var intSet = new std.TreeMultiMap();
-                for (var i = 0; i <= 70; i += 2)
-                    //for (let j = 0; j < 4; j++)
-                    intSet.insert(new std.Pair(i, i));
-                document.write("Matched node: 4<br>\n");
-                document.write("&nbsp;&nbsp;&nbsp;&nbsp;lower bound: " + intSet.lowerBound(4).first + "<br>\n");
-                document.write("&nbsp;&nbsp;&nbsp;&nbsp;upper bound: " + intSet.upperBound(4).first + "<br>\n");
-                document.write("<br>\n");
-                for (var i = 1; i <= 50; i += 2) {
-                    document.write("Mis-matched node: " + i + "<br>\n");
-                    document.write("&nbsp;&nbsp;&nbsp;&nbsp;lower bound: " + intSet.lowerBound(i).first + "<br>\n");
-                    document.write("&nbsp;&nbsp;&nbsp;&nbsp;upper bound: " + intSet.upperBound(i).first + "<br>\n");
-                    document.write("<br>\n");
-                }
-            };
-            ContainerTest.main = function () {
-                new ContainerTest();
-            };
-            return ContainerTest;
+            return Cube;
         }());
-        example.ContainerTest = ContainerTest;
-    })(example = std.example || (std.example = {}));
+    })(test = std.test || (std.test = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    var test;
+    (function (test) {
+        function tree_set() {
+            var intSet = new std.TreeMultiSet();
+            // INSERTS EVEN NUMBERS
+            for (var i = 0; i <= 10; i += 2)
+                for (var j = 0; j < 3; j++)
+                    intSet.insert(i);
+            // FIND 4 -> HAS
+            console.log("Matched node: 4");
+            console.log("	lower bound: " + intSet.lowerBound(4).value);
+            console.log("	upper bound: " + intSet.upperBound(4).value);
+            console.log(" ");
+            // FIND ODD NUMBERS -> NOT EXIST
+            for (var i = 1; i <= 10; i += 2) {
+                console.log("Mis-matched node: " + i);
+                console.log("	lower bound: " + intSet.lowerBound(i).value);
+                console.log("	upper bound: " + intSet.upperBound(i).value);
+                console.log(" ");
+            }
+        }
+        test.tree_set = tree_set;
+    })(test = std.test || (std.test = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -3076,7 +3138,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/exception/exception/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var Exception = (function () {
         function Exception(what) {
@@ -3118,7 +3180,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/logic_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var LogicError = (function (_super) {
         __extends(LogicError, _super);
@@ -3149,7 +3211,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/domain_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var DomainError = (function (_super) {
         __extends(DomainError, _super);
@@ -3176,7 +3238,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/invalid_argument/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var InvalidArgument = (function (_super) {
         __extends(InvalidArgument, _super);
@@ -3203,7 +3265,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/length_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var LengthError = (function (_super) {
         __extends(LengthError, _super);
@@ -3231,7 +3293,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/out_of_range/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var OutOfRange = (function (_super) {
         __extends(OutOfRange, _super);
@@ -3265,7 +3327,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/runtime_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var RuntimeError = (function (_super) {
         __extends(RuntimeError, _super);
@@ -3292,7 +3354,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/outflow_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var OverflowError = (function (_super) {
         __extends(OverflowError, _super);
@@ -3319,7 +3381,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/underflow_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var UnderflowError = (function (_super) {
         __extends(UnderflowError, _super);
@@ -3347,7 +3409,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/range_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var RangeError = (function (_super) {
         __extends(RangeError, _super);
@@ -3413,7 +3475,7 @@ var std;
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var HashMap = (function (_super) {
         __extends(HashMap, _super);
@@ -3580,7 +3642,7 @@ var std;
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var HashMultiMap = (function (_super) {
         __extends(HashMultiMap, _super);
@@ -3737,7 +3799,7 @@ var std;
      * @param <T> Type of the elements.
      *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var HashMultiSet = (function (_super) {
         __extends(HashMultiSet, _super);
@@ -3896,7 +3958,7 @@ var std;
      * @param <T> Type of the elements.
      *			  Each element in an {@link HashSet} is also uniquely identified by this value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var HashSet = (function (_super) {
         __extends(HashSet, _super);
@@ -4151,7 +4213,7 @@ var std;
      *
      * @param <T> Type of the elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var List = (function (_super) {
         __extends(List, _super);
@@ -4695,7 +4757,7 @@ var std;
      * @param <K> Type of member {@link first}.
      * @param <T> Type of member {@link second}.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var Pair = (function () {
         /* ---------------------------------------------------------
@@ -4775,7 +4837,7 @@ var std;
      *
      * @param <T> Type of elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var Queue = (function () {
         function Queue(queue) {
@@ -4882,7 +4944,7 @@ var std;
     /**
      * <p> An iterator of a Set. </p>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var SetIterator = (function (_super) {
         __extends(SetIterator, _super);
@@ -5004,7 +5066,7 @@ var std;
      *
      * @param <T> Type of elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var Stack = (function () {
         function Stack(stack) {
@@ -5108,7 +5170,7 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
      * </ul>
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var SystemError = (function (_super) {
         __extends(SystemError, _super);
@@ -5189,7 +5251,7 @@ var std;
      * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
      * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var TreeMap = (function (_super) {
         __extends(TreeMap, _super);
@@ -5423,7 +5485,7 @@ var std;
      * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
      * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var TreeMultiMap = (function (_super) {
         __extends(TreeMultiMap, _super);
@@ -5657,7 +5719,7 @@ var std;
      * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
      *			  by this value (each value is itself also the element's <i>key</i>).
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var TreeMultiSet = (function (_super) {
         __extends(TreeMultiSet, _super);
@@ -5892,7 +5954,7 @@ var std;
      * @param <T> Type of the elements.
      *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var TreeSet = (function (_super) {
         __extends(TreeSet, _super);
@@ -6125,7 +6187,7 @@ var std;
      *
      * @param <T> Type of the elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var Vector = (function (_super) {
         __extends(Vector, _super);
@@ -6348,7 +6410,7 @@ var std;
      *
      * @param <T> Type of the elements.
      *
-     * @author Jeongho Nam
+     * @author Jeongho Nam <http://samchon.org>
      */
     var VectorIterator = (function (_super) {
         __extends(VectorIterator, _super);
