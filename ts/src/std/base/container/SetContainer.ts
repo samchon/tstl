@@ -126,7 +126,8 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void
+		public assign<U extends T, InputIterator extends Iterator<U>>
+			(begin: Iterator<U>, end: Iterator<U>): void
 		{
 			// INSERT
 			for (let it = begin; it.equals(end) == false; it = it.next())
@@ -185,6 +186,7 @@ namespace std.base.container
 		--------------------------------------------------------- */
 		/**
 		 * <p> Whether have the item or not. </p>
+		 * 
 		 * <p> Indicates whether a set has an item having the specified identifier. </p>
 		 *
 		 * @param key Key value of the element whose mapped value is accessed.
@@ -255,10 +257,9 @@ namespace std.base.container
 		 *
 		 * @param begin An iterator specifying range of the begining element.
 		 * @param end An iterator specifying range of the ending element.
-		 *
-		 * @return Not specified yet. The returned type will be determined in derived classes.
 		 */
-		public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): any;
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
@@ -296,9 +297,10 @@ namespace std.base.container
 		/**
 		 * Abstract method inserting elements from range iterator of other container.
 		 */
-		protected insert_by_range(begin: Iterator<T>, end: Iterator<T>): void
+		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void
 		{
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
 				this.insert_by_val(it.value);
 		}
 

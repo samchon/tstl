@@ -14,7 +14,7 @@ namespace std
 		implements base.container.IArrayIterator<T>
 	{
 		/**
-		 * <p> Sequence number of iterator in the source Vector. </p>
+		 * Sequence number of iterator in the source {@link Vector}.
 		 */
 		private index_: number;
 
@@ -41,9 +41,12 @@ namespace std
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		private get vector(): Vector<T>
+		/**
+		 * @hidden
+		 */
+		public get vector(): Vector<T>
 		{
-			return <Vector<T>>this.source_;
+			return this.source_ as Vector<T>;
 		}
 
 		/**
@@ -71,7 +74,7 @@ namespace std
 		}
 
 		/**
-		 * Get index.
+		 * @inheritdoc
 		 */
 		public get index(): number
 		{
@@ -118,6 +121,9 @@ namespace std
 				return new VectorIterator<T>(this.vector, newIndex);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public swap(obj: VectorIterator<T>): void
 		{
 			let supplement = this.value;

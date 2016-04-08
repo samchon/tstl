@@ -106,8 +106,8 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		public assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
+			(begin: InputIterator, end: InputIterator): void
 		{
 			super.assign(begin, end);
 		}
@@ -244,7 +244,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any
+		protected insert_by_pair(pair: Pair<Key, T>): any
 		{
 			let node = this.tree_.find(pair.first);
 

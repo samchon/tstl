@@ -1,7 +1,7 @@
 ﻿namespace std.base.container
 {
 	/**
-	 * <p> Deque container. </p>
+	 * <p> An interface for deque container. </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

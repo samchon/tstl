@@ -22,9 +22,21 @@
 	export interface IArrayIterator<T>
 		extends Iterator<T>
 	{
+		/**
+		 * Get index, sequence number of the iterator in the source {@link IArray array}.
+		 *
+		 * @return Sequence number of the iterator in the source {@link IArray array}.
+		 */
 		index: number;
 
+		/**
+		 * @inheritdoc
+		 */
 		prev(): IArrayIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
 		next(): IArrayIterator<T>;
 	}
 }

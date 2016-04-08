@@ -173,14 +173,16 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
-		public assign<U extends T>(par1: any, par2: any): void
+		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+			(par1: any, par2: any): void
 		{
 			if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator) {
 				// PARAMETERS
-				let begin: base.container.Iterator<U> = par1;
-				let end: base.container.Iterator<U> = par2;
+				let begin: InputIterator = par1;
+				let end: InputIterator = par2;
 
 				// BODY
 				let prev: ListIterator<T> = null;
@@ -213,7 +215,7 @@ namespace std
 
 					// ADD COUNTS AND STEP TO THE NEXT
 					this.size_++;
-					it = it.next();
+					it = it.next() as InputIterator;
 				}
 			}
 		}
@@ -399,7 +401,8 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert(position: ListIterator<T>, begin: base.container.Iterator<T>, end: base.container.Iterator<T>): ListIterator<T>;
+		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
 
 		public insert(...args: any[]): ListIterator<T>
 		{
@@ -462,8 +465,8 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range(position: ListIterator<T>, 
-			begin: base.container.Iterator<T>, end: base.container.Iterator<T>): ListIterator<T>
+		private insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>
+			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>
 		{
 			if (this != position.get_source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
@@ -473,7 +476,7 @@ namespace std
 
 			let size: number = 0;
 
-			for (let it = begin; it.equals(end) == false; it = it.next()) 
+			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
@@ -491,8 +494,8 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST AND POSITION
-			prev.setNext(<ListIterator<T>>position);
-			(<ListIterator<T>>position).setPrev(prev);
+			prev.setNext(position);
+			position.setPrev(prev);
 
 			this.size_ += size;
 

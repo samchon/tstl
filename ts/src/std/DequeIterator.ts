@@ -14,7 +14,7 @@ namespace std
 		private get deque(): Deque<T> { return this.source_ as Deque<T>; }
 
 		/**
-		 * Sequence number in the source Deque.
+		 * Sequence number of iterator in the source {@link Deque}.
 		 */
 		private index_: number;
 
@@ -28,7 +28,7 @@ namespace std
 		 * <p> Do not create the iterator directly, by yourself. </p>
 		 * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p> 
 		 *
-		 * @param vector The source {@link Deque container} to reference.
+		 * @param source The source {@link Deque container} to reference.
 		 * @param index Sequence number of the element in the source {@link Deque}.
 		 */
 		public constructor(source: Deque<T>, index: number)
@@ -63,7 +63,7 @@ namespace std
 		}
 
 		/**
-		 * Get index.
+		 * @inheritdoc
 		 */
 		public get index(): number
 		{
@@ -110,6 +110,9 @@ namespace std
 				return new DequeIterator<T>(this.deque, new_index);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public swap(obj: DequeIterator<T>): void
 		{
 			let supplement = this.value;

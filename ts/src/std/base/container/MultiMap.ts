@@ -2,6 +2,9 @@
 
 namespace std.base.container
 {
+	/**
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class MultiMap<Key, T>
 		extends MapContainer<Key, T>
 	{
@@ -35,8 +38,16 @@ namespace std.base.container
 		/* ---------------------------------------------------------
 			ELEMENTS I/O
 		--------------------------------------------------------- */
-		public insert<L extends Key, U extends T>(pair: Pair<L, U>): MapIterator<Key, T>;
+		/**
+		 * 
+		 * @param pair
+		 */
+		public insert(pair: Pair<Key, T>): MapIterator<Key, T>;
 
+		/**
+		 * 
+		 * @param tuple
+		 */
 		public insert<L extends Key, U extends T>(tuple: [L, U]): MapIterator<Key, T>;
 
 		/**
@@ -44,14 +55,17 @@ namespace std.base.container
 		 */
 		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
 		
+		/**
+		 * @inheritdoc
+		 */
 		public insert<L extends Key, U extends T>
 			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+		public insert<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{

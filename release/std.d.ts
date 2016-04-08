@@ -86,7 +86,7 @@ declare namespace std {
      * @reference http://www.cplusplus.com/reference/algorithm/all_of/
      * @author Jeongho Nam <http://samchon.org>
      */
-    function all_of<T, InputIterator extends base.container.Iterator<T>, Predicate extends (val: T) => boolean>(begin: InputIterator, end: InputIterator, pred: Predicate): boolean;
+    function all_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
     /**
      * <p> Test if any element in range fulfills condition. </p>
      *
@@ -112,7 +112,7 @@ declare namespace std {
      * @reference http://www.cplusplus.com/reference/algorithm/any_of/
      * @author Jeongho Nam <http://samchon.org>
      */
-    function any_of<T, InputIterator extends base.container.Iterator<T>, Predicate extends (val: T) => boolean>(begin: InputIterator, end: InputIterator, pred: Predicate): boolean;
+    function any_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
     /**
      * <p> Test if no elements fulfill condition. </p>
      *
@@ -136,7 +136,7 @@ declare namespace std {
      * @reference http://www.cplusplus.com/reference/algorithm/none_of/
      * @author Jeongho Nam <http://samchon.org>
      */
-    function none_of<T, InputIterator extends base.container.Iterator<T>, Predicate extends (val: T) => boolean>(begin: InputIterator, end: InputIterator, pred: Predicate): boolean;
+    function none_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
 }
 declare namespace std.base.container {
     /**
@@ -337,8 +337,19 @@ declare namespace std.base.container {
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IArrayIterator<T> extends Iterator<T> {
+        /**
+         * Get index, sequence number of the iterator in the source {@link IArray array}.
+         *
+         * @return Sequence number of the iterator in the source {@link IArray array}.
+         */
         index: number;
+        /**
+         * @inheritdoc
+         */
         prev(): IArrayIterator<T>;
+        /**
+         * @inheritdoc
+         */
         next(): IArrayIterator<T>;
     }
 }
@@ -483,12 +494,17 @@ declare namespace std.base.container {
          *		   sequence.
          */
         erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+        /**
+         * Swap two containers contents.
+         *
+         * @param obj A container to swap with.
+         */
         swap(obj: IContainer<T>): void;
     }
 }
 declare namespace std.base.container {
     /**
-     * <p> Deque container. </p>
+     * <p> An interface for deque container. </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -676,17 +692,14 @@ declare namespace std.base.container {
          */
         advance(n: number): Iterator<T>;
         /**
-         * Get source.
+         * Get source container.
          */
         get_source(): Container<T>;
         /**
          * <p> Whether an iterator is equal with the iterator. </p>
-         *
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
-         *
          * <h4> Note </h4>
-         *
          * <p> Iterator's equals() only compare souce map and index number. </p>
          *
          * <p> Although elements in a pair, key and value are equals, if the source map or
@@ -877,7 +890,7 @@ declare namespace std.base.container {
          * @param hint Hint for the position where the element can be inserted.
          * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
          */
-        insert<L extends Key, U extends T>(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
+        insert<L extends Key, U extends T>(hint: MapIterator<Key, T>, tuple: [L, U]): void;
         /**
          *
          *
@@ -958,6 +971,9 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
+    /**
+     * @author Jeongho Nam <http://samchon.org>
+     */
     abstract class MultiMap<Key, T> extends MapContainer<Key, T> {
         /**
          * Default Constructor.
@@ -967,17 +983,28 @@ declare namespace std.base.container {
          * @inheritdoc
          */
         count(key: Key): number;
-        insert<L extends Key, U extends T>(pair: Pair<L, U>): MapIterator<Key, T>;
+        /**
+         *
+         * @param pair
+         */
+        insert(pair: Pair<Key, T>): MapIterator<Key, T>;
+        /**
+         *
+         * @param tuple
+         */
         insert<L extends Key, U extends T>(tuple: [L, U]): MapIterator<Key, T>;
         /**
          * @inheritdoc
          */
         insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+        /**
+         * @inheritdoc
+         */
         insert<L extends Key, U extends T>(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
         /**
          * @inheritdoc
          */
-        insert<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        insert<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
     }
 }
 declare namespace std.base.container {
@@ -1052,7 +1079,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        assign<U extends T, InputIterator extends Iterator<U>>(begin: Iterator<U>, end: Iterator<U>): void;
         /**
          * @inheritdoc
          */
@@ -1082,6 +1109,7 @@ declare namespace std.base.container {
         end(): SetIterator<T>;
         /**
          * <p> Whether have the item or not. </p>
+         *
          * <p> Indicates whether a set has an item having the specified identifier. </p>
          *
          * @param key Key value of the element whose mapped value is accessed.
@@ -1127,10 +1155,8 @@ declare namespace std.base.container {
          *
          * @param begin An iterator specifying range of the begining element.
          * @param end An iterator specifying range of the ending element.
-         *
-         * @return Not specified yet. The returned type will be determined in derived classes.
          */
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): any;
+        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * Abstract method inserting an element by its val.
          */
@@ -1142,7 +1168,7 @@ declare namespace std.base.container {
         /**
          * Abstract method inserting elements from range iterator of other container.
          */
-        protected insert_by_range(begin: Iterator<T>, end: Iterator<T>): void;
+        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * <p> Erase an element. </p>
          * <p> Removes from the set container the elements whose value is <i>key</i>. </p>
@@ -1223,15 +1249,32 @@ declare namespace std.base.container {
     }
 }
 declare namespace std.base.container {
+    /**
+     * @author Jeongho Nam <http://samchon.org>
+     */
     abstract class MultiSet<T> extends SetContainer<T> {
         /**
          * Default Constructor.
          */
         constructor();
+        /**
+         *
+         * @param val
+         */
         count(val: T): number;
+        /**
+         *
+         * @param val
+         */
         insert(val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
         insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
     }
 }
 declare namespace std.base.container {
@@ -1287,7 +1330,7 @@ declare namespace std.base.container {
          *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or
          *		   false if an equivalent key already existed.
          */
-        insert<L extends Key, U extends T>(pair: Pair<L, U>): Pair<MapIterator<Key, T>, boolean>;
+        insert(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
         /**
          * <p> Insert an element. </p>
          *
@@ -1312,7 +1355,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        insert<L extends Key, U extends T>(hint: MapIterator<Key, T>, pair: Pair<L, U>): MapIterator<Key, T>;
+        insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
          * @inheritdoc
          */
@@ -1320,7 +1363,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        insert<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        insert<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
     }
 }
 declare namespace std.base.container {
@@ -1363,7 +1406,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
+        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
     }
 }
 declare namespace std.base.hash {
@@ -2179,7 +2222,7 @@ declare namespace std.base.tree {
         /**
          * @hidden
          */
-        private findByVal(val);
+        private find_by_val(val);
         is_equals(left: SetIterator<T>, right: SetIterator<T>): boolean;
         is_less(left: SetIterator<T>, right: SetIterator<T>): boolean;
     }
@@ -2294,7 +2337,13 @@ declare namespace std {
     class Bind<Listener extends Function, This extends Object> {
         protected func_: Listener;
         protected this_arg_: This;
-        constructor(func: Listener, thisArg: This);
+        /**
+         * Construct from function and this argument.
+         *
+         * @param func
+         * @param this_arg
+         */
+        constructor(func: Listener, this_arg: This);
         apply(...args: any[]): any;
         equals<U extends Listener, T extends This>(obj: Bind<U, T>): boolean;
     }
@@ -2405,7 +2454,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -2482,9 +2531,12 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        insert<U extends T>(position: DequeIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): DequeIterator<T>;
+        insert<U extends T, InputIterator extends base.container.Iterator<U>>(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
         erase(position: DequeIterator<T>): DequeIterator<T>;
         erase(begin: DequeIterator<T>, end: DequeIterator<T>): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
         swap(obj: Deque<T>): void;
     }
 }
@@ -2497,7 +2549,7 @@ declare namespace std {
     class DequeIterator<T> extends base.container.Iterator<T> implements base.container.IArrayIterator<T> {
         private deque;
         /**
-         * Sequence number in the source Deque.
+         * Sequence number of iterator in the source {@link Deque}.
          */
         private index_;
         /**
@@ -2507,7 +2559,7 @@ declare namespace std {
          * <p> Do not create the iterator directly, by yourself. </p>
          * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p>
          *
-         * @param vector The source {@link Deque container} to reference.
+         * @param source The source {@link Deque container} to reference.
          * @param index Sequence number of the element in the source {@link Deque}.
          */
         constructor(source: Deque<T>, index: number);
@@ -2520,7 +2572,7 @@ declare namespace std {
          */
         equals<U extends T>(obj: DequeIterator<U>): boolean;
         /**
-         * Get index.
+         * @inheritdoc
          */
         index: number;
         /**
@@ -2535,6 +2587,9 @@ declare namespace std {
          * @inheritdoc
          */
         advance(n: number): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
         swap(obj: DequeIterator<T>): void;
     }
 }
@@ -3027,14 +3082,14 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
      * </ul>
      *
-     * @param <K> Type of the key values.
-     *			  Each element in an {@link HashMap} is uniquely identified by its key value.
+     * @param <Key> Type of the key values.
+     *				Each element in an {@link HashMap} is uniquely identified by its key value.
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class HashMap<K, T> extends base.container.UniqueMap<K, T> {
+    class HashMap<Key, T> extends base.container.UniqueMap<Key, T> {
         private hash_buckets_;
         /**
          * Default Constructor.
@@ -3043,23 +3098,23 @@ declare namespace std {
         /**
          * Construct from elements.
          */
-        constructor(array: Array<Pair<K, T>>);
+        constructor(array: Array<Pair<Key, T>>);
         /**
          * Copy Constructor.
          */
-        constructor(container: base.container.MapContainer<K, T>);
+        constructor(container: base.container.MapContainer<Key, T>);
         /**
          * Construct from range iterators.
          */
-        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
+        constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
         /**
          * @hidden
          */
-        protected construct_from_array(items: Array<Pair<K, T>>): void;
+        protected construct_from_array(items: Array<Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        assign<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -3067,23 +3122,23 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        find(key: K): MapIterator<K, T>;
+        find(key: Key): MapIterator<Key, T>;
         /**
          * @hidden
          */
-        protected insert_by_pair<L extends K, U extends T>(pair: Pair<L, U>): any;
+        protected insert_by_pair(pair: Pair<Key, T>): any;
         /**
          * @hidden
          */
-        protected insert_by_range<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @hidden
          */
-        protected handle_insert(it: MapIterator<K, T>): void;
+        protected handle_insert(it: MapIterator<Key, T>): void;
         /**
          * @hidden
          */
-        protected handle_erase(it: MapIterator<K, T>): void;
+        protected handle_erase(it: MapIterator<Key, T>): void;
     }
 }
 declare namespace std {
@@ -3128,14 +3183,14 @@ declare namespace std {
      *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
      * </ul>
      *
-     * @param <K> Type of the key values.
-     *			  Each element in an {@link HashMap} is identified by a key value.
+     * @param <Key> Type of the key values.
+     *				Each element in an {@link HashMap} is identified by a key value.
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class HashMultiMap<K, T> extends base.container.MultiMap<K, T> {
+    class HashMultiMap<Key, T> extends base.container.MultiMap<Key, T> {
         private hash_buckets_;
         /**
          * Default Constructor.
@@ -3144,23 +3199,23 @@ declare namespace std {
         /**
          * Construct from elements.
          */
-        constructor(array: Array<Pair<K, T>>);
+        constructor(array: Array<Pair<Key, T>>);
         /**
          * Copy Constructor.
          */
-        constructor(container: base.container.MapContainer<K, T>);
+        constructor(container: base.container.MapContainer<Key, T>);
         /**
          * Construct from range iterators.
          */
-        constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
+        constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
         /**
          * @hidden
          */
-        protected construct_from_array(items: Array<Pair<K, T>>): void;
+        protected construct_from_array(items: Array<Pair<Key, T>>): void;
         /**
          * @inheritdoc
          */
-        assign<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -3168,23 +3223,23 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        find(key: K): MapIterator<K, T>;
+        find(key: Key): MapIterator<Key, T>;
         /**
          * @hidden
          */
-        protected insert_by_pair<L extends K, U extends T>(pair: Pair<L, U>): any;
+        protected insert_by_pair(pair: Pair<Key, T>): any;
         /**
          * @hidden
          */
-        protected insert_by_range<L extends K, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @hidden
          */
-        protected handle_insert(it: MapIterator<K, T>): void;
+        protected handle_insert(it: MapIterator<Key, T>): void;
         /**
          * @hidden
          */
-        protected handle_erase(it: MapIterator<K, T>): void;
+        protected handle_erase(it: MapIterator<Key, T>): void;
     }
 }
 declare namespace std {
@@ -3257,7 +3312,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -3273,7 +3328,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_range(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+        protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @hidden
          */
@@ -3354,7 +3409,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -3370,7 +3425,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_range(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+        protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @hidden
          */
@@ -3555,7 +3610,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -3640,7 +3695,7 @@ declare namespace std {
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert(position: ListIterator<T>, begin: base.container.Iterator<T>, end: base.container.Iterator<T>): ListIterator<T>;
+        insert<U extends T, InputIterator extends base.container.Iterator<U>>(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
         /**
          * @hidden
          */
@@ -3652,7 +3707,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private insert_by_range(position, begin, end);
+        private insert_by_range<U, InputIterator>(position, begin, end);
         /**
          * <p> Erase an element. </p>
          *
@@ -4541,7 +4596,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -4622,7 +4677,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
+        protected insert_by_pair(pair: Pair<Key, T>): any;
         /**
          * @hidden
          */
@@ -4713,7 +4768,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+        assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -4791,7 +4846,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
+        protected insert_by_pair(pair: Pair<Key, T>): any;
         /**
          * @hidden
          */
@@ -4874,7 +4929,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -4961,6 +5016,9 @@ declare namespace std {
          * @hidden
          */
         protected handle_erase(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
         swap(obj: TreeMultiSet<T>): void;
     }
 }
@@ -5039,7 +5097,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -5127,6 +5185,9 @@ declare namespace std {
          * @hidden
          */
         protected handle_erase(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
         swap(obj: TreeSet<T>): void;
     }
 }
@@ -5235,7 +5296,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -5363,7 +5424,7 @@ declare namespace std {
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert<U extends T>(position: VectorIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): VectorIterator<T>;
+        insert<U extends T, InputIterator extends base.container.Iterator<U>>(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
         /**
          * <p> Erase element. </p>
          *
@@ -5405,6 +5466,9 @@ declare namespace std {
          *		   element in the sequence.
          */
         erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;
+        /**
+         * @inheritdoc
+         */
         swap(obj: Vector<T>): void;
     }
 }
@@ -5418,7 +5482,7 @@ declare namespace std {
      */
     class VectorIterator<T> extends base.container.Iterator<T> implements base.container.IArrayIterator<T> {
         /**
-         * <p> Sequence number of iterator in the source Vector. </p>
+         * Sequence number of iterator in the source {@link Vector}.
          */
         private index_;
         /**
@@ -5432,7 +5496,10 @@ declare namespace std {
          * @param index Sequence number of the element in the source {@link Vector}.
          */
         constructor(source: Vector<T>, index: number);
-        private vector;
+        /**
+         * @hidden
+         */
+        vector: Vector<T>;
         /**
          * @inheritdoc
          */
@@ -5445,7 +5512,7 @@ declare namespace std {
          */
         equals<U extends T>(obj: VectorIterator<U>): boolean;
         /**
-         * Get index.
+         * @inheritdoc
          */
         index: number;
         /**
@@ -5460,6 +5527,9 @@ declare namespace std {
          * @inheritdoc
          */
         advance(n: number): VectorIterator<T>;
+        /**
+         * @inheritdoc
+         */
         swap(obj: VectorIterator<T>): void;
     }
 }

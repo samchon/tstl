@@ -95,7 +95,7 @@ namespace std.base.container
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Get source.
+		 * Get source container.
 		 */
 		public get_source(): Container<T>
 		{
@@ -104,12 +104,9 @@ namespace std.base.container
 
 		/**
 		 * <p> Whether an iterator is equal with the iterator. </p>
-		 *
 		 * <p> Compare two iterators and returns whether they are equal or not. </p>
-		 *
 		 * 
 		 * <h4> Note </h4> 
-		 *
 		 * <p> Iterator's equals() only compare souce map and index number. </p>
 		 *
 		 * <p> Although elements in a pair, key and value are equals, if the source map or

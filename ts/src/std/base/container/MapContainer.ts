@@ -72,6 +72,9 @@ namespace std.base.container
 		public constructor(...args: any[])
 		{
 			this.data_ = new List<Pair<Key, T>>();
+
+			// THIS IS ABSTRACT CLASS
+			// NOTHING TO DO ESPECIALLY
 		}
 
 		/**
@@ -260,7 +263,7 @@ namespace std.base.container
 		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
 		 */
 		public insert<L extends Key, U extends T>
-			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
+			(hint: MapIterator<Key, T>, tuple: [L, U]): void;
 		
 		/**
 		 * 
@@ -296,7 +299,6 @@ namespace std.base.container
 		}
 
 		protected abstract insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
-		
 		private insert_by_tuple<L extends Key, U extends T>(tuple: [L, U]): any
 		{
 			return this.insert_by_pair(new Pair<L, U>(tuple[0], tuple[1]));

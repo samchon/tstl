@@ -44,17 +44,17 @@ namespace std
 	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
 	 * </ul>
 	 *
-	 * @param <K> Type of the key values. 
-	 *			  Each element in an {@link HashMap} is uniquely identified by its key value.
+	 * @param <Key> Type of the key values. 
+	 *				Each element in an {@link HashMap} is uniquely identified by its key value.
 	 * @param <T> Type of the mapped value. 
 	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class HashMap<K, T>
-		extends base.container.UniqueMap<K, T>
+	export class HashMap<Key, T>
+		extends base.container.UniqueMap<Key, T>
 	{
-		private hash_buckets_: base.hash.MapHashBuckets<K, T>;
+		private hash_buckets_: base.hash.MapHashBuckets<Key, T>;
 	
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -71,24 +71,24 @@ namespace std
 		/**
 		 * Construct from elements.
 		 */
-		public constructor(array: Array<Pair<K, T>>);
+		public constructor(array: Array<Pair<Key, T>>);
 
 		/**
 		 * Copy Constructor.
 		 */
-		public constructor(container: base.container.MapContainer<K, T>);
+		public constructor(container: base.container.MapContainer<Key, T>);
 
 		/**
 		 * Construct from range iterators.
 		 */
-		public constructor(begin: MapIterator<K, T>, end: MapIterator<K, T>);
+		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
 
 		public constructor(...args: any[])
 		{
 			super();
 
 			// HASH_BUCKET
-			this.hash_buckets_ = new base.hash.MapHashBuckets<K, T>(this);
+			this.hash_buckets_ = new base.hash.MapHashBuckets<Key, T>(this);
 
 			// OVERLOADINGS
 			if (args.length == 1 && args[0] instanceof Array)
@@ -108,7 +108,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected construct_from_array(items: Array<Pair<K, T>>): void
+		protected construct_from_array(items: Array<Pair<Key, T>>): void
 		{
 			this.hash_buckets_.reserve(items.length * base.hash.RATIO);
 
@@ -121,8 +121,8 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends K, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		public assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
+			(begin: InputIterator, end: InputIterator): void
 		{
 			let it: MapIterator<L, U>;
 			let size: number = 0;
@@ -154,7 +154,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: K): MapIterator<K, T>
+		public find(key: Key): MapIterator<Key, T>
 		{
 			return this.hash_buckets_.find(key);
 		}
@@ -169,32 +169,32 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_pair<L extends K, U extends T>(pair: Pair<L, U>): any
+		protected insert_by_pair(pair: Pair<Key, T>): any
 		{
 			// TEST WHETHER EXIST
 			let it = this.find(pair.first);
 			if (it.equals(this.end()) == false)
-				return new Pair<MapIterator<K, T>, boolean>(it, false);
+				return new Pair<MapIterator<Key, T>, boolean>(it, false);
 
 			// INSERT
 			this.data_.push_back(pair);
 			it = it.prev();
 
 			// POST-PROCESS
-			this.handle_insert(<MapIterator<K, T>>it);
+			this.handle_insert(<MapIterator<Key, T>>it);
 
-			return new Pair<MapIterator<K, T>, boolean>(it, true);
+			return new Pair<MapIterator<Key, T>, boolean>(it, true);
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends K, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
+			(begin: InputIterator, end: InputIterator): void
 		{
 			// CALCULATE INSERTING SIZE
 			let size: number = 0;
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
@@ -211,7 +211,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected handle_insert(it: MapIterator<K, T>): void
+		protected handle_insert(it: MapIterator<Key, T>): void
 		{
 			this.hash_buckets_.insert(it);
 		}
@@ -219,7 +219,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected handle_erase(it: MapIterator<K, T>): void
+		protected handle_erase(it: MapIterator<Key, T>): void
 		{
 			this.hash_buckets_.erase(it);
 		}

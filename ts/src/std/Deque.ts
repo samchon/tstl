@@ -166,7 +166,8 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		/**
 		 * @inheritdoc
@@ -406,7 +407,7 @@ namespace std
 		public push_front(val: T): void
 		{
 			// INSERT TO THE FRONT
-			this.matrix_[0] = [val].concat(this.matrix_[0]);
+			this.matrix_[0].unshift(val);
 			this.size_++;
 
 			if (this.size_ > this.capacity_)
@@ -440,11 +441,11 @@ namespace std
 			if (this.empty() == true)
 				return; // SOMEWHERE PLACE TO THROW EXCEPTION
 			
-			this.matrix_[0].splice(0, 1);
+			this.matrix_[0].shift();
 			this.size_--;
 
 			if (this.matrix_[0].length == 0)
-				this.matrix_.splice(0, 1);
+				this.matrix_.shift();
 		}
 
 		/**
@@ -458,7 +459,7 @@ namespace std
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
 			lastArray.splice(lastArray.length - 1, 1);
 			this.size_--;
-
+			
 			if (lastArray.length == 0)
 				this.matrix_.splice(this.matrix_.length - 1, 1);
 		}
@@ -479,8 +480,8 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public insert<U extends T>
-			(position: DequeIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): DequeIterator<T>;
+		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
 
 		public insert<U extends T>
 			(position: DequeIterator<T>, ...args: any[]): DequeIterator<T>
@@ -622,6 +623,9 @@ namespace std
 		/* ===============================================================
 			UTILITIES
 		=============================================================== */
+		/**
+		 * @inheritdoc
+		 */
 		public swap(obj: Deque<T>): void
 		{
 			let supplement: Deque<T> = <Deque<T>>new Object();

@@ -18,7 +18,7 @@
 	 *				and <i>end</i>, including the element pointed by <i>begin</i> but not the element pointed by 
 	 *				<i>begin</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which 
 	 *				{@link Iterator.swap swap} is properly defined.
-	 *			  
+	 * 
 	 * @param end {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
 	 *			  The range used is [<i>begin</i>, <i>end</i>], which contains all the elements between <i>begin</i>
 	 *			  and <i>end</i>, including the element pointed by <i>begin</i> but not the element pointed by
@@ -179,8 +179,8 @@
 	 * @reference http://www.cplusplus.com/reference/algorithm/all_of/
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export function all_of<T, InputIterator extends base.container.Iterator<T>, Predicate extends (val: T) => boolean>
-		(begin: InputIterator, end: InputIterator, pred: Predicate): boolean
+	export function all_of<T, InputIterator extends base.container.Iterator<T>>
+		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean
 	{
 		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
 			if (pred(it.value) == false)
@@ -214,8 +214,8 @@
 	 * @reference http://www.cplusplus.com/reference/algorithm/any_of/
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export function any_of<T, InputIterator extends base.container.Iterator<T>, Predicate extends (val: T) => boolean>
-		(begin: InputIterator, end: InputIterator, pred: Predicate): boolean
+	export function any_of<T, InputIterator extends base.container.Iterator<T>>
+		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean
 	{
 		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
 			if (pred(it.value) == true)
@@ -247,8 +247,8 @@
 	 * @reference http://www.cplusplus.com/reference/algorithm/none_of/
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export function none_of<T, InputIterator extends base.container.Iterator<T>, Predicate extends (val: T) => boolean>
-		(begin: InputIterator, end: InputIterator, pred: Predicate): boolean
+	export function none_of<T, InputIterator extends base.container.Iterator<T>>
+		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean
 	{
 		return !any_of(begin, end, pred);
 	}

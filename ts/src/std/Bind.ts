@@ -5,10 +5,16 @@
         protected func_: Listener;
         protected this_arg_: This;
 		
-        public constructor(func: Listener, thisArg: This)
+		/**
+		 * Construct from function and this argument.
+		 * 
+		 * @param func
+		 * @param this_arg
+		 */
+        public constructor(func: Listener, this_arg: This)
         {
             this.func_ = func;
-            this.this_arg_ = thisArg;
+            this.this_arg_ = this_arg;
         }
 
         public apply(...args: any[]): any

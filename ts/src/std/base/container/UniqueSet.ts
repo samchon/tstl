@@ -59,7 +59,8 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{

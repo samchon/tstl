@@ -116,13 +116,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void
+		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void
 		{
 			let it: base.container.Iterator<U>;
 			let size: number = 0;
 			
 			// RESERVE HASH_BUCKET SIZE
-			for (it = begin; it.equals(end) == false; it = it.next())
+			for (it = begin; it.equals(end) == false; it = it.next() as InputIterator)
 				size++;
 
 			this.hash_buckets_.clear();
@@ -183,11 +184,12 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void
+		protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<T>>
+			(begin: InputIterator, end: InputIterator): void
 		{
 			// CALCULATE INSERTING SIZE
 			let size: number = 0;
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE

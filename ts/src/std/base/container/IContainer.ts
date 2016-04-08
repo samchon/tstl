@@ -164,6 +164,11 @@ namespace std.base.container
 		/* ---------------------------------------------------------------
 			UTILITIES
 		--------------------------------------------------------------- */
+		/**
+		 * Swap two containers contents.
+		 *
+		 * @param obj A container to swap with.
+		 */
 		swap(obj: IContainer<T>): void;
 	}
 }

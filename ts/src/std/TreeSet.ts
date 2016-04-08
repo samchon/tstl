@@ -100,7 +100,8 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void
+		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void
 		{
 			super.assign(begin, end);
 		}
@@ -280,6 +281,9 @@ namespace std
 		/* ===============================================================
 			UTILITIES
 		=============================================================== */
+		/**
+		 * @inheritdoc
+		 */
 		public swap(obj: TreeSet<T>): void
 		{
 			super.swap(obj);

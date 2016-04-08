@@ -24,13 +24,13 @@ namespace std.base.tree
 			if (val instanceof SetIterator && (<SetIterator<T>>val).value instanceof SetIterator == false)
 				return super.find(val);
 			else
-				return this.findByVal(val);
+				return this.find_by_val(val);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private findByVal(val: T): XTreeNode<SetIterator<T>>
+		private find_by_val(val: T): XTreeNode<SetIterator<T>>
 		{
 			if (this.root_ == null)
 				return null;

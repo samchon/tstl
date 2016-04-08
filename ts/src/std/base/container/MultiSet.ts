@@ -2,6 +2,9 @@
 
 namespace std.base.container
 {
+	/**
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class MultiSet<T>
 		extends SetContainer<T>
 	{
@@ -16,6 +19,10 @@ namespace std.base.container
 			super();
 		}
 
+		/**
+		 * 
+		 * @param val
+		 */
 		public count(val: T): number
 		{
 			let myIt = this.find(val);
@@ -32,11 +39,22 @@ namespace std.base.container
 		/* ---------------------------------------------------------
 			ELEMENTS I/O
 		--------------------------------------------------------- */
+		/**
+		 * 
+		 * @param val
+		 */
 		public insert(val: T): SetIterator<T>;
 
+		/**
+		 * @inheritdoc
+		 */
 		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
 
-		public insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): SetIterator<T>;
+		/**
+		 * @inheritdoc
+		 */
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{

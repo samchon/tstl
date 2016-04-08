@@ -204,15 +204,8 @@ var std;
                     for (var _i = 0; _i < arguments.length; _i++) {
                         args[_i - 0] = arguments[_i];
                     }
-                    if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof Container)) {
-                        var container_2 = args[0];
-                        this.assign(container_2.begin(), container_2.end());
-                    }
-                    else if (args.length == 2 && args[0] instanceof container_1.Iterator && args[1] instanceof container_1.Iterator) {
-                        var begin = args[0];
-                        var end = args[1];
-                        this.assign(begin, end);
-                    }
+                    // THIS IS ABSTRACT CLASS
+                    // NOTHING TO DO ESPECIALLY
                 }
                 /**
                  * @inheritdoc
@@ -298,19 +291,16 @@ var std;
                     ACCESSORS
                 --------------------------------------------------------- */
                 /**
-                 * Get source.
+                 * Get source container.
                  */
                 Iterator.prototype.get_source = function () {
                     return this.source_;
                 };
                 /**
                  * <p> Whether an iterator is equal with the iterator. </p>
-                 *
                  * <p> Compare two iterators and returns whether they are equal or not. </p>
                  *
-                 *
                  * <h4> Note </h4>
-                 *
                  * <p> Iterator's equals() only compare souce map and index number. </p>
                  *
                  * <p> Although elements in a pair, key and value are equals, if the source map or
@@ -346,7 +336,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container_3) {
+        (function (container_2) {
             /**
              * <p> An abstract map. </p>
              *
@@ -382,6 +372,8 @@ var std;
                         args[_i - 0] = arguments[_i];
                     }
                     this.data_ = new std.List();
+                    // THIS IS ABSTRACT CLASS
+                    // NOTHING TO DO ESPECIALLY
                 }
                 Object.defineProperty(MapContainer, "iterator", {
                     get: function () { return std.MapIterator; },
@@ -587,7 +579,7 @@ var std;
                 };
                 return MapContainer;
             }());
-            container_3.MapContainer = MapContainer;
+            container_2.MapContainer = MapContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -598,6 +590,9 @@ var std;
     (function (base) {
         var container;
         (function (container) {
+            /**
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var MultiMap = (function (_super) {
                 __extends(MultiMap, _super);
                 /* ---------------------------------------------------------
@@ -640,7 +635,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container_4) {
+        (function (container_3) {
             /**
              * <p> An abstract set. </p>
              *
@@ -752,6 +747,7 @@ var std;
                 --------------------------------------------------------- */
                 /**
                  * <p> Whether have the item or not. </p>
+                 *
                  * <p> Indicates whether a set has an item having the specified identifier. </p>
                  *
                  * @param key Key value of the element whose mapped value is accessed.
@@ -794,8 +790,8 @@ var std;
                     }
                     if (args.length == 1)
                         return this.insert_by_val(args[0]);
-                    else if (args.length == 2 && args[0] instanceof container_4.Iterator) {
-                        if (args[1] instanceof container_4.Iterator && args[0].get_source() != this && args[1].get_source() != this)
+                    else if (args.length == 2 && args[0] instanceof container_3.Iterator) {
+                        if (args[1] instanceof container_3.Iterator && args[0].get_source() != this && args[1].get_source() != this)
                             return this.insert_by_range(args[0], args[1]);
                         else
                             return this.insert_by_hint(args[0], args[1]);
@@ -825,12 +821,12 @@ var std;
                         args[_i - 0] = arguments[_i];
                     }
                     if (args.length == 1) {
-                        if (args[0] instanceof container_4.Iterator && args[0].get_source() == this)
+                        if (args[0] instanceof container_3.Iterator && args[0].get_source() == this)
                             return this.erase_by_iterator(args[0]);
                         else
                             return this.erase_by_val(args[0]);
                     }
-                    else if (args.length == 2 && args[0] instanceof container_4.Iterator && args[1] instanceof container_4.Iterator)
+                    else if (args.length == 2 && args[0] instanceof container_3.Iterator && args[1] instanceof container_3.Iterator)
                         return this.erase_by_range(args[0], args[1]);
                 };
                 /**
@@ -878,8 +874,8 @@ var std;
                     obj.data_ = supplement;
                 };
                 return SetContainer;
-            }(container_4.Container));
-            container_4.SetContainer = SetContainer;
+            }(container_3.Container));
+            container_3.SetContainer = SetContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -890,6 +886,9 @@ var std;
     (function (base) {
         var container;
         (function (container) {
+            /**
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var MultiSet = (function (_super) {
                 __extends(MultiSet, _super);
                 /* ---------------------------------------------------------
@@ -901,6 +900,10 @@ var std;
                 function MultiSet() {
                     _super.call(this);
                 }
+                /**
+                 *
+                 * @param val
+                 */
                 MultiSet.prototype.count = function (val) {
                     var myIt = this.find(val);
                     if (myIt.equals(this.end()))
@@ -2273,12 +2276,12 @@ var std;
                     if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
                         return _super.prototype.find.call(this, val);
                     else
-                        return this.findByVal(val);
+                        return this.find_by_val(val);
                 };
                 /**
                  * @hidden
                  */
-                AtomicTree.prototype.findByVal = function (val) {
+                AtomicTree.prototype.find_by_val = function (val) {
                     if (this.root_ == null)
                         return null;
                     var node = this.root_;
@@ -2495,9 +2498,15 @@ var std;
 var std;
 (function (std) {
     var Bind = (function () {
-        function Bind(func, thisArg) {
+        /**
+         * Construct from function and this argument.
+         *
+         * @param func
+         * @param this_arg
+         */
+        function Bind(func, this_arg) {
             this.func_ = func;
-            this.this_arg_ = thisArg;
+            this.this_arg_ = this_arg;
         }
         Bind.prototype.apply = function () {
             var args = [];
@@ -2788,7 +2797,7 @@ var std;
          */
         Deque.prototype.push_front = function (val) {
             // INSERT TO THE FRONT
-            this.matrix_[0] = [val].concat(this.matrix_[0]);
+            this.matrix_[0].unshift(val);
             this.size_++;
             if (this.size_ > this.capacity_)
                 this.reserve(this.size_ * 2);
@@ -2813,10 +2822,10 @@ var std;
         Deque.prototype.pop_front = function () {
             if (this.empty() == true)
                 return; // SOMEWHERE PLACE TO THROW EXCEPTION
-            this.matrix_[0].splice(0, 1);
+            this.matrix_[0].shift();
             this.size_--;
             if (this.matrix_[0].length == 0)
-                this.matrix_.splice(0, 1);
+                this.matrix_.shift();
         };
         /**
          * @inheritdoc
@@ -2928,6 +2937,9 @@ var std;
         /* ===============================================================
             UTILITIES
         =============================================================== */
+        /**
+         * @inheritdoc
+         */
         Deque.prototype.swap = function (obj) {
             var supplement = new Object();
             supplement.matrix_ = this.matrix_;
@@ -2964,7 +2976,7 @@ var std;
          * <p> Do not create the iterator directly, by yourself. </p>
          * <p> Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. </p>
          *
-         * @param vector The source {@link Deque container} to reference.
+         * @param source The source {@link Deque container} to reference.
          * @param index Sequence number of the element in the source {@link Deque}.
          */
         function DequeIterator(source, index) {
@@ -3000,7 +3012,7 @@ var std;
         };
         Object.defineProperty(DequeIterator.prototype, "index", {
             /**
-             * Get index.
+             * @inheritdoc
              */
             get: function () {
                 return this.index_;
@@ -3041,6 +3053,9 @@ var std;
             else
                 return new DequeIterator(this.deque, new_index);
         };
+        /**
+         * @inheritdoc
+         */
         DequeIterator.prototype.swap = function (obj) {
             var supplement = this.value;
             this.value = obj.value;
@@ -3795,8 +3810,8 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
      * </ul>
      *
-     * @param <K> Type of the key values.
-     *			  Each element in an {@link HashMap} is uniquely identified by its key value.
+     * @param <Key> Type of the key values.
+     *				Each element in an {@link HashMap} is uniquely identified by its key value.
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
@@ -3962,8 +3977,8 @@ var std;
      *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
      * </ul>
      *
-     * @param <K> Type of the key values.
-     *			  Each element in an {@link HashMap} is identified by a key value.
+     * @param <Key> Type of the key values.
+     *				Each element in an {@link HashMap} is identified by a key value.
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
@@ -6370,6 +6385,9 @@ var std;
         /* ===============================================================
             UTILITIES
         =============================================================== */
+        /**
+         * @inheritdoc
+         */
         TreeMultiSet.prototype.swap = function (obj) {
             _super.prototype.swap.call(this, obj);
             var supplement = this.tree_;
@@ -6597,6 +6615,9 @@ var std;
         /* ===============================================================
             UTILITIES
         =============================================================== */
+        /**
+         * @inheritdoc
+         */
         TreeSet.prototype.swap = function (obj) {
             _super.prototype.swap.call(this, obj);
             var supplement = this.tree_;
@@ -6865,6 +6886,9 @@ var std;
         /* ===============================================================
             UTILITIES
         =============================================================== */
+        /**
+         * @inheritdoc
+         */
         Vector.prototype.swap = function (obj) {
             var supplement = new Vector(this.begin(), this.end());
             this.assign(obj.begin(), obj.end());
@@ -6907,6 +6931,9 @@ var std;
             /* ---------------------------------------------------------
                 ACCESSORS
             --------------------------------------------------------- */
+            /**
+             * @hidden
+             */
             get: function () {
                 return this.source_;
             },
@@ -6937,7 +6964,7 @@ var std;
         };
         Object.defineProperty(VectorIterator.prototype, "index", {
             /**
-             * Get index.
+             * @inheritdoc
              */
             get: function () {
                 return this.index_;
@@ -6978,6 +7005,9 @@ var std;
             else
                 return new VectorIterator(this.vector, newIndex);
         };
+        /**
+         * @inheritdoc
+         */
         VectorIterator.prototype.swap = function (obj) {
             var supplement = this.value;
             this.value = obj.value;

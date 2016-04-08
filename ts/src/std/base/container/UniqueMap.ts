@@ -90,7 +90,7 @@ namespace std.base.container
 		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or 
 		 *		   false if an equivalent key already existed.
 		 */
-		public insert<L extends Key, U extends T>(pair: Pair<L, U>): Pair<MapIterator<Key, T>, boolean>;
+		public insert(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
 		
 		/**
 		 * <p> Insert an element. </p>
@@ -117,8 +117,7 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public insert<L extends Key, U extends T>
-			(hint: MapIterator<Key, T>, pair: Pair<L, U>): MapIterator<Key, T>;
+		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
@@ -129,8 +128,8 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public insert<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+		public insert<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
+			(begin: InputIterator, end: InputIterator): void;
 		
 		public insert(...args: any[]): any
 		{

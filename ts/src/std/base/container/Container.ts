@@ -22,9 +22,13 @@ namespace std.base.container
 	export abstract class Container<T>
 		implements IContainer<T>
 	{
-		/* ---------------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------------- */
+		/* =========================================================
+			CONSTRUCTORS & SEMI-CONSTRUCTORS
+				- CONSTRUCTORS
+				- ASSIGN & CLEAR
+		============================================================
+			CONSTURCTORS
+		--------------------------------------------------------- */
 		/**
 		 * <p> Default Constructor. </p>
 		 *
@@ -64,21 +68,13 @@ namespace std.base.container
 		
 		public constructor(...args: any[])
 		{
-			if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof Container))
-			{
-				let container: IContainer<T> = args[0];
-
-				this.assign(container.begin(), container.end());
-			}
-			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-			{
-				let begin: Iterator<T> = args[0];
-				let end: Iterator<T> = args[1];
-
-				this.assign(begin, end);
-			}
+			// THIS IS ABSTRACT CLASS
+			// NOTHING TO DO ESPECIALLY
 		}
 
+		/* ---------------------------------------------------------
+			ASSIGN & CLEAR
+		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
