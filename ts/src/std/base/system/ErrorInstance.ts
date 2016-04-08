@@ -131,17 +131,17 @@
 		 *
 		 * <p> <code>category().default_error_condition(value())</code> </p>
 		 *
-		 * <p> {@link ErrorCategory.defaultErrorCondition ErrorCategory.defaultErrorCondition()} 
+		 * <p> {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()} 
 		 * is a virtual member function, that can operate differently for each category. </p>
 		 * 
 		 * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
 		 */
-		public defaultErrorCondition(): ErrorCondition
+		public default_error_condition(): ErrorCondition
 		{
 			if (this.category_ == null || this.value_ == 0)
 				return null;
 			else
-				return this.category_.defaultErrorCondition(this.value_);
+				return this.category_.default_error_condition(this.value_);
 		}
 
 		/* ---------------------------------------------------------
@@ -157,7 +157,7 @@
 		 * @return <code>true</code> if the error's numerical value is not zero. 
 		 *		   <code>false</code> otherwise.
 		 */
-		public toBoolean(): boolean
+		public to_bool(): boolean
 		{
 			return this.value_ != 0;
 		}

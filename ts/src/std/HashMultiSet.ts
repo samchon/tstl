@@ -6,7 +6,7 @@ namespace std
 	 * <p> Hashed, unordered Multiset. </p>
 	 *
 	 * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast 
-	 * retrieval of individual elements based on their value, much like {@link UnorderedSet} containers, 
+	 * retrieval of individual elements based on their value, much like {@link HashSet} containers, 
 	 * but allowing different elements to have equivalent values. </p>
 	 *
 	 * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to 
@@ -49,7 +49,7 @@ namespace std
 	export class HashMultiSet<T>
 		extends base.container.MultiSet<T>
 	{
-		private hashBuckets: base.hash.SetHashBuckets<T>;
+		private hash_buckets_: base.hash.SetHashBuckets<T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -83,31 +83,31 @@ namespace std
 			super();
 			
 			// BUCKET
-			this.hashBuckets = new base.hash.SetHashBuckets<T>(this);
+			this.hash_buckets_ = new base.hash.SetHashBuckets<T>(this);
 
 			// OVERLOADINGS
 			if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
 			{
-				this.constructByArray(args[0]);
+				this.construct_from_array(args[0]);
 			}
 			else if (args.length == 1 && args[0] instanceof base.container.Container)
 		   { 
-				this.constructByContainer(args[0]);
+				this.construct_from_container(args[0]);
 			}
 			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
 			{
-				this.constructByRange(args[0], args[1]);
+				this.construct_from_range(args[0], args[1]);
 			}
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
-		protected constructByArray(items: Array<T>): void
+		protected construct_from_array(items: Array<T>): void
 		{
-			this.hashBuckets.reserve(items.length * base.hash.RATIO);
+			this.hash_buckets_.reserve(items.length * base.hash.RATIO);
 
-			super.constructByArray(items);
+			super.construct_from_array(items);
 		}
 
 		/* ---------------------------------------------------------
@@ -125,8 +125,8 @@ namespace std
 			for (it = begin; it.equals(end) == false; it = it.next())
 				size++;
 
-			this.hashBuckets.clear();
-			this.hashBuckets.reserve(size * base.hash.RATIO);
+			this.hash_buckets_.clear();
+			this.hash_buckets_.reserve(size * base.hash.RATIO);
 
 			// SUPER; INSERT
 			super.assign(begin, end);
@@ -139,7 +139,7 @@ namespace std
 		{
 			super.clear();
 
-			this.hashBuckets.clear();
+			this.hash_buckets_.clear();
 		}
 
 		/* =========================================================
@@ -150,7 +150,7 @@ namespace std
 		 */
 		public find(val: T): SetIterator<T>
 		{
-			return this.hashBuckets.find(val);
+			return this.hash_buckets_.find(val);
 		}
 		
 		/* =========================================================
@@ -161,25 +161,25 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @private
+		 * @hidden
 		 */
-		protected insertByVal(val: T): any
+		protected insert_by_val(val: T): any
 		{
 			// INSERT
-			let listIterator = this.data.insert(this.data.end(), val);
+			let listIterator = this.data_.insert(this.data_.end(), val);
 
 			let it = new SetIterator<T>(this, listIterator);
 
 			// POST-PROCESS
-			this.handleInsert(it);
+			this.handle_insert(it);
 
 			return it;
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
-		protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void
+		protected insert_by_range(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void
 		{
 			// CALCULATE INSERTING SIZE
 			let size: number = 0;
@@ -187,30 +187,30 @@ namespace std
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hashBuckets.itemSize() * base.hash.MAX_RATIO)
-				this.hashBuckets.reserve((this.size() + size) * base.hash.RATIO);
+			if (this.size() + size > this.hash_buckets_.item_size() * base.hash.MAX_RATIO)
+				this.hash_buckets_.reserve((this.size() + size) * base.hash.RATIO);
 
 			// INSERTS
-			super.insertByRange(begin, end);
+			super.insert_by_range(begin, end);
 		}
 
 		/* ---------------------------------------------------------
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleInsert(it: SetIterator<T>): void
+		protected handle_insert(it: SetIterator<T>): void
 		{
-			this.hashBuckets.insert(it);
+			this.hash_buckets_.insert(it);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleErase(it: SetIterator<T>): void
+		protected handle_erase(it: SetIterator<T>): void
 		{
-			this.hashBuckets.erase(it);
+			this.hash_buckets_.erase(it);
 		}
 	}
 }

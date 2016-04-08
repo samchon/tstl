@@ -2,8 +2,8 @@
 
 namespace std.base.container
 {
-	export abstract class MultiMap<K, T>
-		extends MapContainer<K, T>
+	export abstract class MultiMap<Key, T>
+		extends MapContainer<Key, T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -19,7 +19,7 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public count(key: K): number
+		public count(key: Key): number
 		{
 			let myIt = this.find(key);
 			if (myIt.equals(this.end()))
@@ -35,17 +35,22 @@ namespace std.base.container
 		/* ---------------------------------------------------------
 			ELEMENTS I/O
 		--------------------------------------------------------- */
-		public insert<L extends K, U extends T>(pair: Pair<L, U>): MapIterator<K, T>;
+		public insert<L extends Key, U extends T>(pair: Pair<L, U>): MapIterator<Key, T>;
+
+		public insert<L extends Key, U extends T>(tuple: [L, U]): MapIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapIterator<K, T>, pair: Pair<K, T>): MapIterator<K, T>;
+		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
 		
+		public insert<L extends Key, U extends T>
+			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
+
 		/**
 		 * @inheritdoc
 		 */
-		public insert<L extends K, U extends T>
+		public insert<L extends Key, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
 
 		public insert(...args: any[]): any

@@ -54,7 +54,7 @@ namespace std
 	export class HashMap<K, T>
 		extends base.container.UniqueMap<K, T>
 	{
-		private hashBuckets: base.hash.MapHashBuckets<K, T>;
+		private hash_buckets_: base.hash.MapHashBuckets<K, T>;
 	
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -88,31 +88,31 @@ namespace std
 			super();
 
 			// HASH_BUCKET
-			this.hashBuckets = new base.hash.MapHashBuckets<K, T>(this);
+			this.hash_buckets_ = new base.hash.MapHashBuckets<K, T>(this);
 
 			// OVERLOADINGS
 			if (args.length == 1 && args[0] instanceof Array)
 			{
-				this.constructByArray(args[0]);
+				this.construct_from_array(args[0]);
 			}
 			else if (args.length == 1 && args[0] instanceof base.container.MapContainer)
 			{
-				this.constructByContainer(args[0]);
+				this.construct_from_container(args[0]);
 			}
 			else if (args.length == 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
 			{
-				this.constructByRange(args[0], args[1]);
+				this.construct_from_range(args[0], args[1]);
 			}
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
-		protected constructByArray(items: Array<Pair<K, T>>): void
+		protected construct_from_array(items: Array<Pair<K, T>>): void
 		{
-			this.hashBuckets.reserve(items.length * base.hash.RATIO);
+			this.hash_buckets_.reserve(items.length * base.hash.RATIO);
 
-			super.constructByArray(items);
+			super.construct_from_array(items);
 		}
 		
 		/* ---------------------------------------------------------
@@ -131,8 +131,8 @@ namespace std
 			for (it = begin; it.equals(end) == false; it = it.next())
 				size++;
 
-			this.hashBuckets.clear();
-			this.hashBuckets.reserve(size * base.hash.RATIO);
+			this.hash_buckets_.clear();
+			this.hash_buckets_.reserve(size * base.hash.RATIO);
 
 			// SUPER; INSERT
 			super.assign(begin, end);
@@ -145,7 +145,7 @@ namespace std
 		{
 			super.clear();
 
-			this.hashBuckets.clear();
+			this.hash_buckets_.clear();
 		}
 
 		/* =========================================================
@@ -156,7 +156,7 @@ namespace std
 		 */
 		public find(key: K): MapIterator<K, T>
 		{
-			return this.hashBuckets.find(key);
+			return this.hash_buckets_.find(key);
 		}
 
 		/* =========================================================
@@ -167,9 +167,9 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @private
+		 * @hidden
 		 */
-		protected insertByPair<L extends K, U extends T>(pair: Pair<L, U>): any
+		protected insert_by_pair<L extends K, U extends T>(pair: Pair<L, U>): any
 		{
 			// TEST WHETHER EXIST
 			let it = this.find(pair.first);
@@ -177,19 +177,19 @@ namespace std
 				return new Pair<MapIterator<K, T>, boolean>(it, false);
 
 			// INSERT
-			this.data.pushBack(pair);
+			this.data_.push_back(pair);
 			it = it.prev();
 
 			// POST-PROCESS
-			this.handleInsert(<MapIterator<K, T>>it);
+			this.handle_insert(<MapIterator<K, T>>it);
 
 			return new Pair<MapIterator<K, T>, boolean>(it, true);
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
-		protected insertByRange<L extends K, U extends T>
+		protected insert_by_range<L extends K, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			// CALCULATE INSERTING SIZE
@@ -198,30 +198,30 @@ namespace std
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hashBuckets.itemSize() * base.hash.MAX_RATIO)
-				this.hashBuckets.reserve((this.size() + size) * base.hash.RATIO);
+			if (this.size() + size > this.hash_buckets_.item_size() * base.hash.MAX_RATIO)
+				this.hash_buckets_.reserve((this.size() + size) * base.hash.RATIO);
 
 			// INSERTS
-			super.insertByRange(begin, end);
+			super.insert_by_range(begin, end);
 		}
 
 		/* ---------------------------------------------------------
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleInsert(it: MapIterator<K, T>): void
+		protected handle_insert(it: MapIterator<K, T>): void
 		{
-			this.hashBuckets.insert(it);
+			this.hash_buckets_.insert(it);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleErase(it: MapIterator<K, T>): void
+		protected handle_erase(it: MapIterator<K, T>): void
 		{
-			this.hashBuckets.erase(it);
+			this.hash_buckets_.erase(it);
 		}
 	}
 }

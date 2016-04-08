@@ -55,7 +55,7 @@ namespace std
 	export class TreeMultiMap<Key, T>
 		extends base.container.MultiMap<Key, T>
 	{
-		private tree: base.tree.PairTree<Key, T>;
+		private tree_: base.tree.PairTree<Key, T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -95,7 +95,7 @@ namespace std
 		{
 			super();
 
-			this.tree = new base.tree.PairTree<Key, T>();
+			this.tree_ = new base.tree.PairTree<Key, T>();
 		}
 
 		/* ---------------------------------------------------------
@@ -125,7 +125,7 @@ namespace std
 		 */
 		public find(key: Key): MapIterator<Key, T>
 		{
-			let node = this.tree.find(key);
+			let node = this.tree_.find(key);
 
 			if (node == null || std.equals(node.value.first, key) == false)
 				return this.end();
@@ -145,19 +145,19 @@ namespace std
 		 * <p> If the {@link TreeMultiMap} class is instantiated with the default comparison type ({@link less}), 
 		 * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
 		 * 
-		 * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, except 
+		 * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except 
 		 * in the case that the {@link TreeMultiMap} contains an element with keys equivalent to <i>k</i>: 
-		 * In this case, {@link lowerBound} returns an iterator pointing to the first of such elements, 
-		 * whereas {@link upperBound} returns an iterator pointing to the element following the last. </p>
+		 * In this case, {@link lower_bound} returns an iterator pointing to the first of such elements, 
+		 * whereas {@link upper_bound} returns an iterator pointing to the element following the last. </p>
 		 * 
 		 * @param k Key to search for.
 		 *
 		 * @return An iterator to the the first element in the container whose key is not considered to go before 
 		 *		   <i>k</i>, or {@link TreeMultiMap.end} if all keys are considered to go before <i>k</i>.
 		 */
-		public lowerBound(key: Key): MapIterator<Key, T>
+		public lower_bound(key: Key): MapIterator<Key, T>
 		{
-			let node: base.tree.XTreeNode<MapIterator<Key, T>> = this.tree.find(key);
+			let node: base.tree.XTreeNode<MapIterator<Key, T>> = this.tree_.find(key);
 
 			if (node == null)
 				return this.end();
@@ -185,19 +185,19 @@ namespace std
 		 * <p> If the {@link TreeMultiMap} class is instantiated with the default comparison type ({@link less}), 
 		 * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
 		 *
-		 * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except 
+		 * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except 
 		 * in the case that the {@link TreeMultiMap} contains an element with keys equivalent to <i>k</i>: 
-		 * In this case {@link lowerBound} returns an iterator pointing to first of such element, whereas 
-		 * {@link upperBound} returns an iterator pointing to the element following the last. </p>
+		 * In this case {@link lower_bound} returns an iterator pointing to first of such element, whereas 
+		 * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
 		 * 
 		 * @param k Key to search for.
 		 * 
 		 * @return An iterator to the the first element in the container whose key is considered to go after 
 		 *		   <i>k</i>, or {@link TreeMultiMap.end} if no keys are considered to go after <i>k</i>.
 		 */
-		public upperBound(key: Key): MapIterator<Key, T>
+		public upper_bound(key: Key): MapIterator<Key, T>
 		{
-			let node: base.tree.XTreeNode<MapIterator<Key, T>> = this.tree.find(key);
+			let node: base.tree.XTreeNode<MapIterator<Key, T>> = this.tree_.find(key);
 
 			if (node == null)
 				return this.end();
@@ -227,12 +227,12 @@ namespace std
 		 * @param k Key to search for.
 		 *
 		 * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of 
-		 *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound 
-		 *		   (the same as {@link upperBound}).
+		 *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound 
+		 *		   (the same as {@link upper_bound}).
 		 */
-		public equalRange(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>
+		public equal_range(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>
 		{
-			return new Pair<MapIterator<Key, T>, MapIterator<Key, T>>(this.lowerBound(key), this.upperBound(key));
+			return new Pair<MapIterator<Key, T>, MapIterator<Key, T>>(this.lower_bound(key), this.upper_bound(key));
 		}
 
 		/* =========================================================
@@ -243,11 +243,11 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @private
+		 * @hidden
 		 */
-		protected insertByPair<L extends Key, U extends T>(pair: Pair<L, U>): any
+		protected insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any
 		{
-			let node = this.tree.find(pair.first);
+			let node = this.tree_.find(pair.first);
 			let it: MapIterator<Key, T>;
 
 			if (node == null)
@@ -276,19 +276,19 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleInsert(item: MapIterator<Key, T>): void
+		protected handle_insert(item: MapIterator<Key, T>): void
 		{
-			this.tree.insert(item);
+			this.tree_.insert(item);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleErase(item: MapIterator<Key, T>): void
+		protected handle_erase(item: MapIterator<Key, T>): void
 		{
-			this.tree.erase(item);
+			this.tree_.erase(item);
 		}
 
 		/* ===============================================================
@@ -298,10 +298,10 @@ namespace std
 		{
 			super.swap(obj);
 
-			let supplement: base.tree.PairTree<Key, T> = this.tree;
+			let supplement: base.tree.PairTree<Key, T> = this.tree_;
 
-			this.tree = obj.tree;
-			obj.tree = supplement;
+			this.tree_ = obj.tree_;
+			obj.tree_ = supplement;
 		}
 	}
 }

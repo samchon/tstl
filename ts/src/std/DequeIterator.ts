@@ -9,14 +9,14 @@ namespace std
 	 */
 	export class DequeIterator<T>
 		extends base.container.Iterator<T>
-		implements base.container.ILinearIterator<T>
+		implements base.container.IArrayIterator<T>
 	{
-		private get deque(): Deque<T> { return <Deque<T>>this.source; }
+		private get deque(): Deque<T> { return this.source_ as Deque<T>; }
 
 		/**
 		 * Sequence number in the source Deque.
 		 */
-		private index: number;
+		private index_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -35,7 +35,7 @@ namespace std
 		{
 			super(source);
 
-			this.index = index;
+			this.index_ = index;
 		}
 
 		/* ---------------------------------------------------------
@@ -46,12 +46,12 @@ namespace std
 		 */
 		public get value(): T
 		{
-			return this.deque.at(this.index);
+			return this.deque.at(this.index_);
 		}
 
 		public set value(val: T)
 		{
-			this.deque.set(this.index, val);
+			this.deque.set(this.index_, val);
 		}
 
 		/**
@@ -59,15 +59,15 @@ namespace std
 		 */
 		public equals<U extends T>(obj: DequeIterator<U>): boolean
 		{
-			return super.equals(obj) && this.index == obj.index;
+			return super.equals(obj) && this.index_ == obj.index_;
 		}
 
 		/**
 		 * Get index.
 		 */
-		public getIndex(): number
+		public get index(): number
 		{
-			return this.index;
+			return this.index_;
 		}
 
 		/* ---------------------------------------------------------
@@ -78,12 +78,12 @@ namespace std
 		 */
 		public prev(): DequeIterator<T>
 		{
-			if (this.index == -1)
+			if (this.index_ == -1)
 				return new DequeIterator(this.deque, this.deque.size() - 1);
-			else if (this.index - 1 < 0)
+			else if (this.index_ - 1 < 0)
 				return this.deque.end();
 			else
-				return new DequeIterator<T>(this.deque, this.index - 1);
+				return new DequeIterator<T>(this.deque, this.index_ - 1);
 		}
 
 		/**
@@ -91,10 +91,10 @@ namespace std
 		 */
 		public next(): DequeIterator<T>
 		{
-			if (this.index >= this.source.size() - 1)
+			if (this.index_ >= this.source_.size() - 1)
 				return this.deque.end();
 			else
-				return new DequeIterator<T>(this.deque, this.index + 1);
+				return new DequeIterator<T>(this.deque, this.index_ + 1);
 		}
 
 		/**
@@ -102,12 +102,12 @@ namespace std
 		 */
 		public advance(n: number): DequeIterator<T>
 		{
-			let newIndex: number = this.index + n;
+			let new_index: number = this.index_ + n;
 
-			if (newIndex < 0 || newIndex >= this.deque.size())
+			if (new_index < 0 || new_index >= this.deque.size())
 				return this.deque.end();
 			else
-				return new DequeIterator<T>(this.deque, newIndex);
+				return new DequeIterator<T>(this.deque, new_index);
 		}
 
 		public swap(obj: DequeIterator<T>): void

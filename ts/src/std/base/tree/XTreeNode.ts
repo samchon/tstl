@@ -35,7 +35,7 @@
 		/**
 		 * Color of the node.
 		 */
-		public color: boolean;
+		public color: Color;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -46,11 +46,11 @@
 		 * @param value Value to be stored in.
 		 * @param color Color of the node, red or black.
 		 */
-		public constructor(value: T, color: boolean)
+		public constructor(value: T, color: Color)
 		{
 			this.value = value;
 			this.color = color;
-
+			
 			this.parent = null;
 			this.left = null;
 			this.right = null;
@@ -59,7 +59,7 @@
 		/**
 		 * Get grand-parent.
 		 */
-		public get grandParent(): XTreeNode<T>
+		public get grand_parent(): XTreeNode<T>
 		{
 			return this.parent.parent;
 		}

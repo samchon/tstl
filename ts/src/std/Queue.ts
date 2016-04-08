@@ -21,8 +21,8 @@
 	 *	<li> size </li>
 	 *	<li> front </li>
 	 *	<li> back </li>
-	 *	<li> pushBack </li>
-	 *	<li> popFront </li>
+	 *	<li> push_back </li>
+	 *	<li> pop_front </li>
 	 * </ul>
 	 * 
 	 * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements. 
@@ -139,14 +139,14 @@
 		 * <p> Inserts a new element at the end of the {@link Queue}, after its current last element. 
 		 * The content of this new element is initialized to val. </p>
 		 *
-		 * <p> This member function effectively calls the member function {@link IDeque.pushBack pushBack()} of 
+		 * <p> This member function effectively calls the member function {@link IDeque.push_back push_back()} of 
 		 * the {@link data underlying container} object. </p>
 		 *
 		 * @param val Value to which the inserted element is initialized.
 		 */
 		public push(val: T): void
 		{
-			this.data.pushBack(val);
+			this.data.push_back(val);
 		}
 
 		/**
@@ -157,12 +157,12 @@
 		 * <p> The element removed is the "oldest" element in the {@link Queue} whose value can be retrieved 
 		 * by calling member {@link front Queue.front()} </p>.
 		 *
-		 * <p> This member function effectively calls the member function {@link IDeque.popFront popFront()} of 
+		 * <p> This member function effectively calls the member function {@link IDeque.pop_front pop_front()} of 
 		 * the {@link data underlying container} object. </p>
 		 */
 		public pop(): void
 		{
-			this.data.popFront();
+			this.data.pop_front();
 		}
 	}
 }

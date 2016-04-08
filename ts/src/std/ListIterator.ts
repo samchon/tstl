@@ -4,7 +4,6 @@ namespace std
 {
 	export class ListIterator<T>
 		extends base.container.Iterator<T>
-		implements base.container.ILinearIterator<T>
 	{
 		protected prev_: ListIterator<T>;
 		protected next_: ListIterator<T>;
@@ -109,23 +108,23 @@ namespace std
 
 		public swap(obj: ListIterator<T>): void
 		{
-			let suppPrev = this.prev_;
-			let suppNext = this.next_;
+			let supp_prev: ListIterator<T> = this.prev_;
+			let supp_next: ListIterator<T> = this.next_;
 
 			this.prev_ = obj.prev_;
 			this.next_ = obj.next_;
-			obj.prev_ = suppPrev;
-			obj.next_ = suppNext;
+			obj.prev_ = supp_prev;
+			obj.next_ = supp_next;
 
-			if (this.source.end() == this)
-				(<any>this.source).end_ = obj;
-			else if (this.source.end() == obj)
-				(<any>this.source).end_ = this;
+			if (this.source_.end() == this)
+				(<any>this.source_).end_ = obj;
+			else if (this.source_.end() == obj)
+				(<any>this.source_).end_ = this;
 
-			if (this.source.begin() == this)
-				(<any>this.source).begin_ = obj;
-			else if (this.source.begin() == obj)
-				(<any>this.source).begin_ = this;
+			if (this.source_.begin() == this)
+				(<any>this.source_).begin_ = obj;
+			else if (this.source_.begin() == obj)
+				(<any>this.source_).begin_ = this;
 		}
 	}
 }

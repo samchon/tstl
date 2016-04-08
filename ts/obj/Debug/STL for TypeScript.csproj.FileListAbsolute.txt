@@ -3,3 +3,4 @@ D:\OneDrive\Project\Samchon\stl\ts\bin\STL for TypeScript.dll
 D:\OneDrive\Project\Samchon\stl\ts\bin\STL for TypeScript.pdb
 D:\OneDrive\Project\Samchon\stl\ts\obj\Debug\STL for TypeScript.dll
 D:\OneDrive\Project\Samchon\stl\ts\obj\Debug\STL for TypeScript.pdb
+D:\OneDrive\Project\Samchon\stl\ts\obj\Debug\STL for TypeScript.csprojResolveAssemblyReference.cache

@@ -141,7 +141,7 @@ namespace std.base.tree
 		 *		<font color='red'>red</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the 
 		 *		beginning, this is the new node being inserted, but the entire procedure may also be applied 
 		 *		recursively to other nodes (see case 3). {@link XTreeNode.parent <b>P</b>} will denote 
-		 *		<i><b>N</b></i>'s parent node, {@link XTreeNode.grandParent <b>G</b>} will denote <i><b>N</b></i>'s 
+		 *		<i><b>N</b></i>'s parent node, {@link XTreeNode.grand_parent <b>G</b>} will denote <i><b>N</b></i>'s 
 		 *		grandparent, and {@link XTreeNode.uncle <b>U</b>} will denote <i><b>N</b></i>'s uncle. In between 
 		 *		some cases, the roles and labels of the nodes are exchanged, but in each case, every label continues 
 		 *		to represent the same node it represented at the beginning of the case. 
@@ -197,24 +197,24 @@ namespace std.base.tree
 			let node = new XTreeNode<T>(val, Color.RED);
 
 			if (parent == null)
-				this.root = node;
+				this.root_ = node;
 			else
 			{
 				node.parent = parent;
 
-				if (this.isLess(node.value, parent.value))
+				if (this.is_less(node.value, parent.value))
 					parent.left = node;
 				else
 					parent.right = node;
 			}
 
-			this.insertCase1(node);
+			this.insert_case1(node);
 		}
 
 		/**
 		 * <p> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </p>
 		 *
-		 * <p> The current node <i><b>N</b></i> is at the {@link root} of the tree. </p> 
+		 * <p> The current node <i><b>N</b></i> is at the {@link root_ root} of the tree. </p> 
 		 * 
 		 * <p> In this case, it is repainted <font color='darkBlue'>black</font> to satisfy property 2 (the root is 
 		 * <font color='darkBlue'>black</font>). Since this adds one <font color='darkBlue'>black</font> node to 
@@ -223,12 +223,12 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insertCase1(N: XTreeNode<T>): void
+		private insert_case1(N: XTreeNode<T>): void
 		{
 			if (N.parent == null)
 				N.color = Color.BLACK;
 			else
-				this.insertCase2(N);
+				this.insert_case2(N);
 		}
 
 		/**
@@ -247,12 +247,12 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insertCase2(N: XTreeNode<T>): void
+		private insert_case2(N: XTreeNode<T>): void
 		{
-			if (this.fetchColor(N.parent) == Color.BLACK)
+			if (this.fetch_color(N.parent) == Color.BLACK)
 				return;
 			else
-				this.insertCase3(N);
+				this.insert_case3(N);
 		}
 
 
@@ -262,7 +262,7 @@ namespace std.base.tree
 		 *
 		 * <p> If both the parent {@link XTreeNode.parent <b>P</b>} and the uncle {@link XTreeNode.uncle <b>U</b>} 
 		 * are <font color='red'>red</font>, then both of them can be repainted <font color='darkBlue'>black</font> 
-		 * and the grandparent {@link XTreeNode.grandParent <b>G</b>} becomes <font color='red'>red</font> (to 
+		 * and the grandparent {@link XTreeNode.grand_parent <b>G</b>} becomes <font color='red'>red</font> (to 
 		 * maintain property 5 (all paths from any given node to its leaf nodes contain the same number of 
 		 * <font color='darkBlue'>black</font> nodes)). </p>
 		 * 
@@ -270,12 +270,12 @@ namespace std.base.tree
 		 * <font color='darkBlue'>black</font> parent. Since any path through the parent or uncle must pass through 
 		 * the grandparent, the number of <font color='darkBlue'>black</font> nodes on these paths has not changed. 
 		 * 
-		 * <p> However, the grandparent {@link XTreeNode.grandParent <b>G</b>} may now violate properties 2 (The 
+		 * <p> However, the grandparent {@link XTreeNode.grand_parent <b>G</b>} may now violate properties 2 (The 
 		 * root is <font color='darkBlue'>black</font>) or 4 (Both children of every <font color='red'>red</font> 
 		 * node are <font color='darkBlue'>black</font>) (property 4 possibly being violated since 
-		 * {@link XTreeNode.grandParent <b>G</b>} may have a <font color='red'>red</font> parent). </p> 
+		 * {@link XTreeNode.grand_parent <b>G</b>} may have a <font color='red'>red</font> parent). </p> 
 		 *
-		 * <p> To fix this, the entire procedure is recursively performed on {@link XTreeNode.grandParent <b>G</b>} 
+		 * <p> To fix this, the entire procedure is recursively performed on {@link XTreeNode.grand_parent <b>G</b>} 
 		 * from case 1. Note that this is a tail-recursive call, so it could be rewritten as a loop; since this is 
 		 * the only loop, and any rotations occur after this loop, this proves that a constant number of rotations 
 		 * occur. </p>
@@ -284,19 +284,19 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insertCase3(N: XTreeNode<T>): void
+		private insert_case3(N: XTreeNode<T>): void
 		{
-			if (this.fetchColor(N.uncle) == Color.RED)
+			if (this.fetch_color(N.uncle) == Color.RED)
 			{
 				N.parent.color = Color.BLACK;
 				N.uncle.color = Color.BLACK;
-				N.grandParent.color = Color.RED;
+				N.grand_parent.color = Color.RED;
 
-				this.insertCase1(N.grandParent);
+				this.insert_case1(N.grand_parent);
 			}
 			else
 			{
-				this.insertCase4(N);
+				this.insert_case4(N);
 			}
 		}
 
@@ -309,7 +309,7 @@ namespace std.base.tree
 		 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>; also, the current node 
 		 * <i><b>N</b></i> is the right child of {@link XTreeNode.parent <b>P</b>}, and 
 		 * {@link XTreeNode.parent <b>P</b>} in turn is the left child of its parent 
-		 * {@link XTreeNode.grandParent <b>G</b>}. </p>
+		 * {@link XTreeNode.grand_parent <b>G</b>}. </p>
 		 *
 		 * <p> In this case, a left rotation on {@link XTreeNode.parent <b>P</b>} that switches the roles of the 
 		 * current node <i><b>N</b></i> and its parent {@link XTreeNode.parent <b>P</b>} can be performed; then, 
@@ -332,20 +332,20 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insertCase4(node: XTreeNode<T>): void
+		private insert_case4(node: XTreeNode<T>): void
 		{
-			if (node == node.parent.right && node.parent == node.grandParent.left)
+			if (node == node.parent.right && node.parent == node.grand_parent.left)
 			{
-				this.rotateLeft(node.parent);
+				this.rotate_left(node.parent);
 				node = node.left;
 			}
-			else if (node == node.parent.left && node.parent == node.grandParent.right)
+			else if (node == node.parent.left && node.parent == node.grand_parent.right)
 			{
-				this.rotateRight(node.parent);
+				this.rotate_right(node.parent);
 				node = node.right;
 			}
 
-			this.insertCase5(node);
+			this.insert_case5(node);
 		}
 
 		/**
@@ -356,20 +356,20 @@ namespace std.base.tree
 		 * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle 
 		 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>, the current node <i><b>N</b></i> 
 		 * is the left child of {@link XTreeNode.parent <b>P</b>}, and {@link XTreeNode.parent <b>P</b>} is the left 
-		 * child of its parent {@link XTreeNode.grandParent <b>G</b>}. </p>
+		 * child of its parent {@link XTreeNode.grand_parent <b>G</b>}. </p>
 		 * 
-		 * <p>In this case, a right rotation on {@link XTreeNode.grandParent <b>G</b>} is performed; the result is a 
+		 * <p>In this case, a right rotation on {@link XTreeNode.grand_parent <b>G</b>} is performed; the result is a 
 		 * tree where the former parent {@link XTreeNode.parent <b>P</b>} is now the parent of both the current node 
-		 * <i><b>N</b></i> and the former grandparent {@link XTreeNode.grandParent <b>G</b>}. </p>
+		 * <i><b>N</b></i> and the former grandparent {@link XTreeNode.grand_parent <b>G</b>}. </p>
 		 * 
-		 * <p> {@link XTreeNode.grandParent <b>G</b>} is known to be <font color='darkBlue'>black</font>, since its 
+		 * <p> {@link XTreeNode.grand_parent <b>G</b>} is known to be <font color='darkBlue'>black</font>, since its 
 		 * former child {@link XTreeNode.parent <b>P</b>} could not have been <font color='red'>red</font> otherwise 
 		 * (without violating property 4). Then, the colors of {@link XTreeNode.parent <b>P</b>} and 
-		 * {@link XTreeNode.grandParent <b>G</b>} are switched, and the resulting tree satisfies property 4 (both 
+		 * {@link XTreeNode.grand_parent <b>G</b>} are switched, and the resulting tree satisfies property 4 (both 
 		 * children of every <font color='red'>red</font> node are <font color='darkBlue'>black</font>). Property 5 
 		 * (all paths from any given node to its leaf nodes contain the same number of 
 		 * <font color='darkBlue'>black</font> nodes) also remains satisfied, since all paths that went through any 
-		 * of these three nodes went through {@link XTreeNode.grandParent <b>G</b>} before, and now they all go 
+		 * of these three nodes went through {@link XTreeNode.grand_parent <b>G</b>} before, and now they all go 
 		 * through {@link XTreeNode.parent <b>P</b>}. In each case, this is the only 
 		 * <font color='darkBlue'>black</font> node of the three. </p>
 		 * 
@@ -377,15 +377,15 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insertCase5(node: XTreeNode<T>): void
+		private insert_case5(node: XTreeNode<T>): void
 		{
 			node.parent.color = Color.BLACK;
-			node.grandParent.color = Color.RED;
+			node.grand_parent.color = Color.RED;
 
-			if (node == node.parent.left && node.parent == node.grandParent.left)
-				this.rotateRight(node.grandParent);
+			if (node == node.parent.left && node.parent == node.grand_parent.left)
+				this.rotate_right(node.grand_parent);
 			else
-				this.rotateLeft(node.grandParent);
+				this.rotate_left(node.grand_parent);
 		}
 
 		/* ---------------------------------------------------------
@@ -524,12 +524,12 @@ namespace std.base.tree
 		public erase(val: T): void
 		{
 			let node = this.find(val);
-			if (node == null || this.isEquals(val, node.value) == false)
+			if (node == null || this.is_equals(val, node.value) == false)
 				return;
 
 			if (node.left != null && node.right != null)
 			{
-				let pred: XTreeNode<T> = this.fetchMaximum(node.left);
+				let pred: XTreeNode<T> = this.fetch_maximum(node.left);
 
 				node.value = pred.value;
 				node = pred;
@@ -537,13 +537,13 @@ namespace std.base.tree
 
 			let child = (node.right == null) ? node.left : node.right;
 			
-			if (this.fetchColor(node) == Color.BLACK)
+			if (this.fetch_color(node) == Color.BLACK)
 			{
-				node.color = this.fetchColor(child);
-				this.eraseCase1(node);
+				node.color = this.fetch_color(child);
+				this.erase_case1(node);
 			}
 
-			this.replaceNode(node, child);
+			this.replace_node(node, child);
 		}
 		
 		/**
@@ -559,12 +559,12 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private eraseCase1(N: XTreeNode<T>): void
+		private erase_case1(N: XTreeNode<T>): void
 		{
 			if (N.parent == null)
 				return;
 			else
-				this.eraseCase2(N);
+				this.erase_case2(N);
 		}
 
 		/**
@@ -586,20 +586,20 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private eraseCase2(N: XTreeNode<T>): void
+		private erase_case2(N: XTreeNode<T>): void
 		{
-			if (this.fetchColor(N.sibling) == Color.RED)
+			if (this.fetch_color(N.sibling) == Color.RED)
 			{
 				N.parent.color = Color.RED;
 				N.sibling.color = Color.BLACK;
 
 				if (N == N.parent.left)
-					this.rotateLeft(N.parent);
+					this.rotate_left(N.parent);
 				else
-					this.rotateRight(N.parent);
+					this.rotate_right(N.parent);
 			}
 
-			this.eraseCase3(N);
+			this.erase_case3(N);
 		}
 
 		/**
@@ -624,19 +624,19 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private eraseCase3(N: XTreeNode<T>): void
+		private erase_case3(N: XTreeNode<T>): void
 		{
-			if (this.fetchColor(N.parent) == Color.BLACK &&
-				this.fetchColor(N.sibling) == Color.BLACK &&
-				this.fetchColor(N.sibling.left) == Color.BLACK &&
-				this.fetchColor(N.sibling.right) == Color.BLACK)
+			if (this.fetch_color(N.parent) == Color.BLACK &&
+				this.fetch_color(N.sibling) == Color.BLACK &&
+				this.fetch_color(N.sibling.left) == Color.BLACK &&
+				this.fetch_color(N.sibling.right) == Color.BLACK)
 			{
 				N.sibling.color = Color.RED;
 
-				this.eraseCase1(N.parent);
+				this.erase_case1(N.parent);
 			}
 			else
-				this.eraseCase4(N);
+				this.erase_case4(N);
 		}
 
 		/**
@@ -653,19 +653,19 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private eraseCase4(N: XTreeNode<T>): void
+		private erase_case4(N: XTreeNode<T>): void
 		{
-			if (this.fetchColor(N.parent) == Color.RED &&
+			if (this.fetch_color(N.parent) == Color.RED &&
 				N.sibling != null &&
-				this.fetchColor(N.sibling) == Color.BLACK &&
-				this.fetchColor(N.sibling.left) == Color.BLACK &&
-				this.fetchColor(N.sibling.right) == Color.BLACK)
+				this.fetch_color(N.sibling) == Color.BLACK &&
+				this.fetch_color(N.sibling.left) == Color.BLACK &&
+				this.fetch_color(N.sibling.right) == Color.BLACK)
 			{
 				N.sibling.color = Color.RED;
 				N.parent.color = Color.BLACK;
 			}
 			else
-				this.eraseCase5(N);
+				this.erase_case5(N);
 		}
 
 		/**
@@ -688,29 +688,29 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private eraseCase5(N: XTreeNode<T>): void
+		private erase_case5(N: XTreeNode<T>): void
 		{
 			if (N == N.parent.left &&
 				N.sibling != null &&
-				this.fetchColor(N.sibling) == Color.BLACK &&
-				this.fetchColor(N.sibling.left) == Color.RED &&
-				this.fetchColor(N.sibling.right) == Color.BLACK)
+				this.fetch_color(N.sibling) == Color.BLACK &&
+				this.fetch_color(N.sibling.left) == Color.RED &&
+				this.fetch_color(N.sibling.right) == Color.BLACK)
 			{
 				N.sibling.color = Color.RED;
 				N.sibling.left.color = Color.BLACK;
 
-				this.rotateRight(N.sibling);
+				this.rotate_right(N.sibling);
 			}
 			else if (N == N.parent.right &&
 				N.sibling != null &&
-				this.fetchColor(N.sibling) == Color.BLACK &&
-				this.fetchColor(N.sibling.left) == Color.BLACK &&
-				this.fetchColor(N.sibling.right) == Color.RED)
+				this.fetch_color(N.sibling) == Color.BLACK &&
+				this.fetch_color(N.sibling.left) == Color.BLACK &&
+				this.fetch_color(N.sibling.right) == Color.RED)
 			{
 				N.sibling.color = Color.RED;
 				N.sibling.right.color = Color.BLACK;
 
-				this.rotateLeft(N.sibling);
+				this.rotate_left(N.sibling);
 			}
 		}
 
@@ -767,22 +767,22 @@ namespace std.base.tree
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private eraseCase6(node: XTreeNode<T>): void
+		private erase_case6(node: XTreeNode<T>): void
 		{
-			node.sibling.color = this.fetchColor(node.parent);
+			node.sibling.color = this.fetch_color(node.parent);
 			node.parent.color = Color.BLACK;
 
 			if (node == node.parent.left)
 			{
 				node.sibling.right.color = Color.BLACK;
 
-				this.rotateLeft(node.parent);
+				this.rotate_left(node.parent);
 			}
 			else
 			{
 				node.sibling.left.color = Color.BLACK;
 				
-				this.rotateRight(node.parent);
+				this.rotate_right(node.parent);
 			}
 		}
 
@@ -795,7 +795,7 @@ namespace std.base.tree
 		 * @param node A node to fetch color.
 		 * @retur color.
 		 */
-		private fetchColor(node: XTreeNode<T>): boolean
+		private fetch_color(node: XTreeNode<T>): Color
 		{
 			if (node == null)
 				return Color.BLACK;

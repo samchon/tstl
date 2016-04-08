@@ -3,9 +3,9 @@ namespace std
 	export class MapIterator<K, T>
 		implements IComparable<MapIterator<K, T>>
 	{
-		protected source: base.container.MapContainer<K, T>;
+		protected source_: base.container.MapContainer<K, T>;
 
-		protected listIterator: ListIterator<Pair<K, T>>;
+		protected list_iterator_: ListIterator<Pair<K, T>>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -17,17 +17,17 @@ namespace std
 		 */
 		public constructor(source: base.container.MapContainer<K, T>, listIterator: ListIterator<Pair<K, T>>)
 		{
-			this.source = source;
+			this.source_ = source;
 
-			this.listIterator = listIterator;
+			this.list_iterator_ = listIterator;
 		}
 
 		/**
 		 * Get listIterator.
 		 */
-		public getListIterator(): ListIterator<Pair<K, T>>
+		public get_list_iterator(): ListIterator<Pair<K, T>>
 		{
-			return this.listIterator;
+			return this.list_iterator_;
 		}
 
 		/* ---------------------------------------------------------
@@ -40,8 +40,8 @@ namespace std
 		{
 			return new MapIterator<K, T>
 			(
-				<base.container.MapContainer<K, T>>this.source,
-				<ListIterator<Pair<K, T>>>this.listIterator.prev()
+				<base.container.MapContainer<K, T>>this.source_,
+				this.list_iterator_.prev()
 			);
 		}
 
@@ -52,8 +52,8 @@ namespace std
 		{
 			return new MapIterator<K, T>
 			(
-				<base.container.MapContainer<K, T>>this.source,
-				<ListIterator<Pair<K, T>>>this.listIterator.next()
+				<base.container.MapContainer<K, T>>this.source_,
+				this.list_iterator_.next()
 			);
 		}
 
@@ -71,8 +71,8 @@ namespace std
 			if (n >= 0 )
 			{
 				for (i = 0; i < n; i++)
-					if (it.equals(this.source.end()))
-						return this.source.end();
+					if (it.equals(this.source_.end()))
+						return this.source_.end();
 					else
 						it = it.next();
 			}
@@ -81,8 +81,8 @@ namespace std
 				n = n * -1;
 
 				for (i = 0; i < n; i++)
-					if (it.equals(this.source.end()))
-						return this.source.end();
+					if (it.equals(this.source_.end()))
+						return this.source_.end();
 					else
 						it = it.prev();
 			}
@@ -96,9 +96,9 @@ namespace std
 		/**
 		 * Get source.
 		 */
-		public getSource(): base.container.MapContainer<K, T>
+		public get_source(): base.container.MapContainer<K, T>
 		{
-			return this.source;
+			return this.source_;
 		}
 		
 		/**
@@ -106,7 +106,7 @@ namespace std
 		 */
 		public get first(): K
 		{
-			return this.listIterator.value.first;
+			return this.list_iterator_.value.first;
 		}
 
 		/**
@@ -114,12 +114,12 @@ namespace std
 		 */
 		public get second(): T
 		{
-			return this.listIterator.value.second;
+			return this.list_iterator_.value.second;
 		}
 
 		public set second(val: T)
 		{
-			this.listIterator.value.second = val;
+			this.list_iterator_.value.second = val;
 		}
 
 		/* ---------------------------------------------------------
@@ -130,7 +130,7 @@ namespace std
 		 */
 		public equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean 
 		{
-			return this.source == obj.source && this.listIterator == obj.listIterator;
+			return this.source_ == obj.source_ && this.list_iterator_ == obj.list_iterator_;
 		}
 
 		/**
@@ -144,9 +144,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public hashCode(): number
+		public hash(): number
 		{
-			return std.hashCode(this.first);
+			return std.hash(this.first);
 		}
 	}
 }

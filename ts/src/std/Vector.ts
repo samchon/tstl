@@ -22,7 +22,7 @@ namespace std
 	 * for growth to balance between memory usage and reallocations, but in any case, reallocations should only 
 	 * happen at logarithmically growing intervals of {@link size} so that the insertion of individual 
 	 * elements at the end of the {@link Vector} can be provided with amortized constant time complexity 
-	 * (see {@link pushBack pushBack()}). </p>
+	 * (see {@link push_back push_back()}). </p>
 	 *
 	 * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability 
 	 * to manage storage and grow dynamically in an efficient way. </p>
@@ -310,7 +310,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public pushBack(val: T): void
+		public push_back(val: T): void
 		{
 			this.push(val);
 		}
@@ -318,7 +318,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public popBack(): void
+		public pop_back(): void
 		{
 			this.erase(this.end().prev());
 		}
@@ -413,7 +413,7 @@ namespace std
 				let size: number = <number>args[1];
 				let val: T = args[2];
 
-				let spliced: Array<T> = this.splice(position.getIndex());
+				let spliced: Array<T> = this.splice(position.index);
 				let inserts: Array<T> = [];
 
 				for (let i: number = 0; i < size; i++)
@@ -422,7 +422,7 @@ namespace std
 				this.push(...inserts);
 				this.push(...spliced);
 
-				return new VectorIterator(this, position.getIndex() + inserts.length - 1);
+				return new VectorIterator(this, position.index + inserts.length - 1);
 			}
 			else if (args.length == 3 && args[1] instanceof base.container.Iterator && args[2] instanceof base.container.Iterator)
 			{
@@ -430,7 +430,7 @@ namespace std
 				let begin: base.container.Iterator<U> = args[1];
 				let end: base.container.Iterator<U> = args[2];
 
-				let spliced: Array<T> = this.splice(position.getIndex());
+				let spliced: Array<T> = this.splice(position.index);
 				let inserts: Array<T> = [];
 
 				for (let it = begin; it.equals(end) == false; it = it.next())
@@ -439,7 +439,7 @@ namespace std
 				this.push(...spliced);
 				this.push(...inserts);
 
-				return new VectorIterator(this, myEnd.getIndex() + inserts.length - 1);
+				return new VectorIterator(this, myEnd.index + inserts.length - 1);
 			}
 			else
 				throw new std.InvalidArgument("invalid parameters.");
@@ -490,18 +490,18 @@ namespace std
 
 		public erase(begin: VectorIterator<T>, end: VectorIterator<T> = null): VectorIterator<T>
 		{
-			let startIndex: number = begin.getIndex();
+			let startIndex: number = begin.index;
 
 			if (end == null)
 				this.splice(startIndex, 1);
-			else if (end.getIndex() == -1)
+			else if (end.index == -1)
 			{
 				this.splice(startIndex);
 
 				return this.end();
 			}
 			else
-				this.splice(startIndex, (<VectorIterator<T>>end).getIndex() - startIndex);
+				this.splice(startIndex, (<VectorIterator<T>>end).index - startIndex);
 
 			return new VectorIterator<T>(this, startIndex);
 		}

@@ -17,7 +17,7 @@
 		 *
 		 * @param val Value to be inserted as an element.
 		 */
-		pushFront(val: T): void;
+		push_front(val: T): void;
 
 		/**
 		 * <p> Delete first element. </p>
@@ -25,6 +25,6 @@
 		 * <p> Removes the first element in the {@link IDeque container}, effectively reducing its 
 		 * {@link size} by one. </p>
 		 */
-		popFront(): void;
+		pop_front(): void;
 	}
 }

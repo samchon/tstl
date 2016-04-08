@@ -14,7 +14,8 @@
 		/**
 		 * @inheritdoc
 		 */
-		assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+		assign<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 		
 		/**
 		 * <p> Assign container content. </p>
@@ -68,7 +69,7 @@
 		 *
 		 * @param val Value to be copied to the new element.
 		 */
-		pushBack(val: T): void;
+		push_back(val: T): void;
 
 		/**
 		 * <p> Delete last element. </p>
@@ -76,7 +77,7 @@
 		 * <p> Removes the last element in the {@link IList container}, effectively reducing the 
 		 * {@link IList container} {@link size} by one. </p>
 		 */
-		popBack(): void;
+		pop_back(): void;
 
 		/**
 		 * <p> Insert an element. </p>
@@ -126,6 +127,7 @@
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		insert<U extends T>(position: Iterator<T>, begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+		insert<U extends T, InputIterator extends Iterator<U>>
+			(position: Iterator<T>, begin: InputIterator, end: InputIterator): Iterator<T>;
 	}
 }

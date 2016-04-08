@@ -24,15 +24,15 @@ namespace std.base.tree
 			if (val instanceof MapIterator && (<MapIterator<Key, T>>val).first instanceof SetIterator == false)
 				return super.find(val);
 			else
-				return this.findByKey(val);
+				return this.find_by_key(val);
 		}
 
-		private findByKey(key: Key): XTreeNode<MapIterator<Key, T>>
+		private find_by_key(key: Key): XTreeNode<MapIterator<Key, T>>
 		{
-			if (this.root == null)
+			if (this.root_ == null)
 				return null;
 
-			let node: XTreeNode<MapIterator<Key, T>> = this.root;
+			let node: XTreeNode<MapIterator<Key, T>> = this.root_;
 
 			while (true)
 			{
@@ -59,12 +59,12 @@ namespace std.base.tree
 		/* ---------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------- */
-		public isEquals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
+		public is_equals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
 			return std.equals(left.first, right.first);
 		}
 
-		public isLess(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
+		public is_less(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
 			return std.less(left.first, right.first);
 		}

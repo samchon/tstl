@@ -58,15 +58,17 @@ namespace std
 		implements base.container.IArray<T>, 
 				   base.container.IDeque<T>
 	{
+		public static get iterator() { return ListIterator; }
+
 		private static get ROW(): number { return 8; }
 		private static get MIN_CAPACITY(): number { return 2; }
 		
-		private matrix: Array<Array<T>>;
+		private matrix_: Array<Array<T>>;
 
 		private size_: number;
 		private capacity_: number;
 
-		private get colSize(): number
+		private get_col_size(): number
 		{
 			return Math.floor(this.capacity_ / Deque.ROW);
 		}
@@ -190,14 +192,14 @@ namespace std
 				this.size_ = size;
 
 				// ASSIGN CONTENTS
-				let array: Array<T> = this.matrix[0];
+				let array: Array<T> = this.matrix_[0];
 
 				for (let it = begin; !it.equals(end); it = it.next())
 				{
-					if (array.length >= this.colSize)
+					if (array.length >= this.get_col_size())
 					{
 						array = new Array<T>();
-						this.matrix.push(array);
+						this.matrix_.push(array);
 					}
 					array.push(it.value);
 				}
@@ -212,14 +214,14 @@ namespace std
 				this.size_ = size;
 
 				// ASSIGN CONTENTS
-				let array: Array<T> = this.matrix[0];
+				let array: Array<T> = this.matrix_[0];
 
 				for (let i = 0; i < size; i++)
 				{
-					if (array.length >= this.colSize)
+					if (array.length >= this.get_col_size())
 					{
 						array = new Array<T>();
-						this.matrix.push(array);
+						this.matrix_.push(array);
 					}
 					array.push(val);
 				}
@@ -231,7 +233,7 @@ namespace std
 		 */
 		public reserve(capacity: number): void
 		{
-			let prevMatrix = this.matrix;
+			let prevMatrix = this.matrix_;
 			let prevSize = this.size_;
 			
 			this.clear();
@@ -239,15 +241,15 @@ namespace std
 			// RESERVE
 			this.size_ = prevSize;
 			
-			let array: Array<T> = this.matrix[0];
+			let array: Array<T> = this.matrix_[0];
 
 			for (let i = 0; i < prevMatrix.length; i++)
 				for (let j = 0; j < prevMatrix[i].length; j++)
 				{
-					if (array.length >= this.colSize)
+					if (array.length >= this.get_col_size())
 					{
 						array = new Array<T>();
-						this.matrix.push(array);
+						this.matrix_.push(array);
 					}
 					array.push(prevMatrix[i][j]);
 				}
@@ -258,8 +260,8 @@ namespace std
 		 */
 		public clear(): void
 		{
-			this.matrix = new Array<Array<T>>();
-			this.matrix.push(new Array<T>());
+			this.matrix_ = new Array<Array<T>>();
+			this.matrix_.push(new Array<T>());
 
 			this.size_ = 0;
 			this.capacity_ = Deque.MIN_CAPACITY;
@@ -313,8 +315,8 @@ namespace std
 			if (index > this.size())
 				throw new OutOfRange("Target index is greater than Deque's size.");
 
-			let indexPair: Pair<number, number> = this.fetchIndex(index);
-			return this.matrix[indexPair.first][indexPair.second];
+			let indexPair: Pair<number, number> = this.fetch_index(index);
+			return this.matrix_[indexPair.first][indexPair.second];
 		}
 
 		/**
@@ -325,8 +327,8 @@ namespace std
 			if (index > this.size())
 				throw new OutOfRange("Target index is greater than Deque's size.");
 
-			let indexPair: Pair<number, number> = this.fetchIndex(index);
-			this.matrix[indexPair.first][indexPair.second] = val;
+			let indexPair: Pair<number, number> = this.fetch_index(index);
+			this.matrix_[indexPair.first][indexPair.second] = val;
 		}
 
 		/**
@@ -334,7 +336,7 @@ namespace std
 		 */
 		public front(): T
 		{
-			return this.matrix[0][0];
+			return this.matrix_[0][0];
 		}
 
 		/**
@@ -342,25 +344,25 @@ namespace std
 		 */
 		public back(): T
 		{
-			let lastArray: Array<T> = this.matrix[this.matrix.length - 1];
+			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
 
 			return lastArray[lastArray.length - 1];
 		}
 
-		private fetchIndex(index: number): Pair<number, number>
+		private fetch_index(index: number): Pair<number, number>
 		{
 			let row: number;
 
-			for (row = 0; row < this.matrix.length; row++)
+			for (row = 0; row < this.matrix_.length; row++)
 			{
-				let array: Array<T> = this.matrix[row];
+				let array: Array<T> = this.matrix_[row];
 				if (index < array.length)
 					break;
 
 				index -= array.length;
 			}
 
-			if (row == this.matrix.length)
+			if (row == this.matrix_.length)
 				row--;
 			
 			return new Pair<number, number>(row, index);
@@ -382,14 +384,14 @@ namespace std
 			if (this.size_ + items.length > this.capacity_)
 				this.reserve(this.size_ + items.length);
 
-			let array: Array<T> = this.matrix[this.matrix.length - 1];
+			let array: Array<T> = this.matrix_[this.matrix_.length - 1];
 
 			for (let i: number = 0; i < items.length; i++)
 			{
-				if (array.length >= this.colSize)
+				if (array.length >= this.get_col_size())
 				{
 					array = new Array<T>();
-					this.matrix.push(array);
+					this.matrix_.push(array);
 				}
 				array.push(items[i]);
 			}
@@ -401,10 +403,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public pushFront(val: T): void
+		public push_front(val: T): void
 		{
 			// INSERT TO THE FRONT
-			this.matrix[0] = [val].concat(this.matrix[0]);
+			this.matrix_[0] = [val].concat(this.matrix_[0]);
 			this.size_++;
 
 			if (this.size_ > this.capacity_)
@@ -414,13 +416,13 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public pushBack(val: T): void
+		public push_back(val: T): void
 		{
-			let lastArray: Array<T> = this.matrix[this.matrix.length - 1];
-			if (lastArray.length >= this.colSize && this.matrix.length < Deque.ROW)
+			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
+			if (lastArray.length >= this.get_col_size() && this.matrix_.length < Deque.ROW)
 			{
 				lastArray = new Array<T>();
-				this.matrix.push(lastArray);
+				this.matrix_.push(lastArray);
 			}
 
 			lastArray.push(val);
@@ -433,32 +435,32 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public popFront(): void
+		public pop_front(): void
 		{
 			if (this.empty() == true)
 				return; // SOMEWHERE PLACE TO THROW EXCEPTION
 			
-			this.matrix[0].splice(0, 1);
+			this.matrix_[0].splice(0, 1);
 			this.size_--;
 
-			if (this.matrix[0].length == 0)
-				this.matrix.splice(0, 1);
+			if (this.matrix_[0].length == 0)
+				this.matrix_.splice(0, 1);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public popBack(): void
+		public pop_back(): void
 		{
 			if (this.empty() == true)
 				return; // SOMEWHERE PLACE TO THROW EXCEPTION
 
-			let lastArray: Array<T> = this.matrix[this.matrix.length - 1];
+			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
 			lastArray.splice(lastArray.length - 1, 1);
 			this.size_--;
 
 			if (lastArray.length == 0)
-				this.matrix.splice(this.matrix.length - 1, 1);
+				this.matrix_.splice(this.matrix_.length - 1, 1);
 		}
 
 		/* ---------------------------------------------------------
@@ -527,30 +529,30 @@ namespace std
 				// WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
 				// ------------------------------------------------------
 				// INSERTS CAREFULLY CONSIDERING THE COL_SIZE
-				let indexPair = this.fetchIndex(position.getIndex());
+				let indexPair = this.fetch_index(position.index);
 				let index = indexPair.first;
 
-				let splicedValues = this.matrix[index].splice(indexPair.second);
+				let splicedValues = this.matrix_[index].splice(indexPair.second);
 				if (splicedValues.length != 0)
 					items = items.concat(...splicedValues);
 
-				if (this.matrix[index].length < Deque.ROW)
+				if (this.matrix_[index].length < Deque.ROW)
 				{
-					this.matrix[index] =
-						this.matrix[index].concat
+					this.matrix_[index] =
+						this.matrix_[index].concat
 							(
-							...items.splice(0, Deque.ROW - this.matrix[index].length)
+							...items.splice(0, Deque.ROW - this.matrix_[index].length)
 							);
 				}
 
-				let splicedArray = this.matrix.splice(index + 1);
+				let splicedArray = this.matrix_.splice(index + 1);
 
 				// INSERTS
 				while (items.length != 0)
-					this.matrix.push(items.splice(0, Math.min(Deque.ROW, items.length)));
+					this.matrix_.push(items.splice(0, Math.min(Deque.ROW, items.length)));
 
 				// CONCAT WITH BACKS
-				this.matrix = this.matrix.concat(...splicedArray);
+				this.matrix_ = this.matrix_.concat(...splicedArray);
 			}
 			else
 			{
@@ -561,19 +563,19 @@ namespace std
 				// AND KEEP BLANACE BY THE RESERVE() METHOD
 				if (position.equals(this.end()) == true)
 				{
-					this.matrix.push(items); // ALL TO THE LAST
+					this.matrix_.push(items); // ALL TO THE LAST
 				}
 				else
 				{
-					let indexPair = this.fetchIndex(position.getIndex());
+					let indexPair = this.fetch_index(position.index);
 					let index = indexPair.first;
 
-					let splicedValues = this.matrix[index].splice(indexPair.second);
+					let splicedValues = this.matrix_[index].splice(indexPair.second);
 					if (splicedValues.length != 0)
 						items = items.concat(...splicedValues);
 
 					// ALL TO THE MIDDLE
-					this.matrix[index] = this.matrix[index].concat(...items);
+					this.matrix_[index] = this.matrix_[index].concat(...items);
 				}
 
 				// AND KEEP BALANCE BY RESERVE()
@@ -595,21 +597,21 @@ namespace std
 			if (end == null)
 				end = begin.next();
 
-			let index = begin.getIndex();
-			let size = end.getIndex() - index;
+			let index = begin.index;
+			let size = end.index - index;
 
 			this.size_ -= size;
 
 			while (size != 0)
 			{
-				let indexPair: Pair<number, number> = this.fetchIndex(index);
-				let array: Array<T> = this.matrix[indexPair.first];
+				let indexPair: Pair<number, number> = this.fetch_index(index);
+				let array: Array<T> = this.matrix_[indexPair.first];
 
 				let myDeleteSize: number = Math.min(size, array.length - indexPair.second);
 				array.splice(indexPair.second, myDeleteSize);
 
 				if (array.length == 0)
-					this.matrix.splice(indexPair.first, 1);
+					this.matrix_.splice(indexPair.first, 1);
 
 				size -= myDeleteSize;
 			}
@@ -623,15 +625,15 @@ namespace std
 		public swap(obj: Deque<T>): void
 		{
 			let supplement: Deque<T> = <Deque<T>>new Object();
-			supplement.matrix = this.matrix;
+			supplement.matrix_ = this.matrix_;
 			supplement.size_ = this.size_;
 			supplement.capacity_ = this.capacity_;
 
-			this.matrix = obj.matrix;
+			this.matrix_ = obj.matrix_;
 			this.size_ = obj.size_;
 			this.capacity_ = obj.capacity_;
 
-			obj.matrix = supplement.matrix;
+			obj.matrix_ = supplement.matrix_;
 			obj.size_ = supplement.size_;
 			obj.capacity_ = supplement.capacity_;
 		}

@@ -6,7 +6,7 @@ namespace std
 
 		less(obj: T): boolean;
 
-		hashCode(): number;
+		hash(): number;
 	}
 
 	/**
@@ -39,7 +39,7 @@ namespace std
 	 * This member function allows the object to be used with the same syntax as a function call. </p>
 	 * 
 	 * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>, 
-	 * {@link merge merge()} or {@link TreeMap.lowerBound lowerBound()}. </p>
+	 * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
 	 *
 	 * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation 
 	 *			  <i>operator<()</i> or method {@link IComparable.less less}.
@@ -71,7 +71,7 @@ namespace std
 	 * call. </p>
 	 * 
 	 * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}, 
-	 * {@link merge merge()} or {@link TreeMap.lowerBound lowerBound()}. </p>
+	 * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
 	 *
 	 * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation 
 	 *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
@@ -84,7 +84,7 @@ namespace std
 		return !std.less(left, right) && !std.equals(left, right);
 	}
 
-	export function hashCode(obj: any): number
+	export function hash(obj: any): number
 	{
 		return base.hash.code(obj);
 	}

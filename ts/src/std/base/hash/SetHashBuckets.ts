@@ -23,7 +23,7 @@ namespace std.base.hash
 				if (std.equals(bucket.at(i).value, val))
 					return bucket.at(i);
 
-			return <SetIterator<T>>this.set.end();
+			return this.set.end();
 		}
 	}
 }

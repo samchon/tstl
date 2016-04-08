@@ -11,17 +11,17 @@
 		let type: string = typeof par;
 
 		if (type == "number")
-			return codeByNumber(par);
+			return code_of_number(par);
 		else if (type == "string")
-			return codeByString(par);
+			return code_of_string(par);
 		else
-			return codeByObject(par);
+			return code_of_object(par);
 	}
 
 	/**
-	 * @private
+	 * @hidden
 	 */
-	function codeByNumber(val: number): number
+	function code_of_number(val: number): number
 	{
 		// ------------------------------------------
 		//	IN C++
@@ -48,9 +48,9 @@
 	}
 
 	/**
-	 * @private
+	 * @hidden
 	 */
-	function codeByString(str: string): number
+	function code_of_string(str: string): number
 	{
 		// ------------------------
 		//	IN C++
@@ -76,12 +76,12 @@
 	}
 
 	/**
-	 * @private
+	 * @hidden
 	 */
-	function codeByObject(obj: Object): number
+	function code_of_object(obj: Object): number
 	{
-		if ((<any>obj).hashCode != undefined)
-			return (<any>obj).hashCode();
+		if ((<any>obj).hash != undefined)
+			return (<any>obj).hash();
 		else
 			return (<any>obj).__getUID();
 	}

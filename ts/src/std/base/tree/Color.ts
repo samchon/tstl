@@ -23,7 +23,7 @@
 	 *
 	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */
-	export class Color
+	export enum Color
 	{
 		/**
 		 * <p> Code of color black. </p>
@@ -33,11 +33,11 @@
 		 *	<li> Every path from a given nodes containes the same number of black nodes exclude NIL(s). </li>
 		 * </ul>
 		 */
-		public static get BLACK(): boolean { return false; }
+		BLACK,
 		
 		/**
 		 * <p> Code of color red. </p>
 		 */
-		public static get RED(): boolean { return true; }
+		RED
 	}
 }

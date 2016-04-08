@@ -12,7 +12,7 @@
 		/**
 		 * Root node.
 		 */
-		protected root: XTreeNode<T>;
+		protected root_: XTreeNode<T>;
 
 		/* =========================================================
 			CONSTRUCTOR
@@ -22,7 +22,7 @@
 		 */
 		public constructor()
 		{
-			this.root = null;
+			this.root_ = null;
 		}
 
 		/* =========================================================
@@ -39,18 +39,18 @@
 		 */
 		public find(val: T): XTreeNode<T>
 		{
-			if (this.root == null)
+			if (this.root_ == null)
 				return null;
 
-			let node: XTreeNode<T> = this.root;
+			let node: XTreeNode<T> = this.root_;
 
 			while (true)
 			{
 				let newNode: XTreeNode<T> = null;
 
-				if (this.isEquals(val, node.value))
+				if (this.is_equals(val, node.value))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-				else if (this.isLess(val, node.value))
+				else if (this.is_less(val, node.value))
 					newNode = node.left; // LESS, THEN TO THE LEFT
 				else //
 					newNode = node.right; // GREATER, THEN TO THE RIGHT
@@ -71,7 +71,7 @@
 		 * @param node A node to fetch its maximum node.
 		 * @return The maximum node.
 		 */
-		protected fetchMaximum(node: XTreeNode<T>): XTreeNode<T>
+		protected fetch_maximum(node: XTreeNode<T>): XTreeNode<T>
 		{
 			while (node.right != null)
 				node = node.right;
@@ -82,9 +82,9 @@
 		/* ---------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------- */
-		public abstract isEquals(left: T, right: T): boolean;
+		public abstract is_equals(left: T, right: T): boolean;
 
-		public abstract isLess(left: T, right: T): boolean;
+		public abstract is_less(left: T, right: T): boolean;
 
 		/* =========================================================
 			ELEMENTS I/O
@@ -115,10 +115,10 @@
 		 * 
 		 * @param node Node to rotate left.
 		 */
-		protected rotateLeft(node: XTreeNode<T>): void
+		protected rotate_left(node: XTreeNode<T>): void
 		{
 			let right = node.right;
-			this.replaceNode(node, right);
+			this.replace_node(node, right);
 
 			node.right = right.left;
 			if (right.left != null)
@@ -133,10 +133,10 @@
 		 * 
 		 * @param node A node to rotate right.
 		 */
-		protected rotateRight(node: XTreeNode<T>): void
+		protected rotate_right(node: XTreeNode<T>): void
 		{
 			let left = node.left;
-			this.replaceNode(node, left);
+			this.replace_node(node, left);
 
 			node.left = left.right;
 			if (left.right != null)
@@ -152,10 +152,10 @@
 		 * @param oldNode Ordinary node to be replaced.
 		 * @param newNode Target node to replace.
 		 */
-		protected replaceNode(oldNode: XTreeNode<T>, newNode: XTreeNode<T>): void
+		protected replace_node(oldNode: XTreeNode<T>, newNode: XTreeNode<T>): void
 		{
 			if (oldNode.parent == null)
-				this.root = newNode;
+				this.root_ = newNode;
 			else
 			{
 				if (oldNode == oldNode.parent.left)

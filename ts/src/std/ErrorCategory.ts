@@ -98,12 +98,12 @@
 		 * @return The default {@link ErrorCondition}object associated with condition value <i>val</i> 
 		 *		   for this category.
 		 */
-		public defaultErrorCondition(val: number): ErrorCondition
+		public default_error_condition(val: number): ErrorCondition
 		{
 			return null;
 		}
 
-		public equivalent(valCode: number, cond: ErrorCondition): boolean;
+		public equivalent(val_code: number, cond: ErrorCondition): boolean;
 
 		public equivalent(code: ErrorCode, valCond: number): boolean;
 

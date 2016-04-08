@@ -11,7 +11,7 @@
 	 * functions to access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()} 
 	 * of the {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
 	 * 
-	 * <p> {@link data The underlying container} may be any of the standard container class templates or some other 
+	 * <p> {@link container_ The underlying container} may be any of the standard container class templates or some other 
 	 * specifically designed container class. The container shall support the following operations: </p>
 	 * 
 	 * <ul>
@@ -19,8 +19,8 @@
 	 *	<li> size </li>
 	 *	<li> front </li>
 	 *	<li> back </li>
-	 *	<li> pushBack </li>
-	 *	<li> popBack </li>
+	 *	<li> push_back </li>
+	 *	<li> pop_back </li>
 	 * </ul>
 	 * 
 	 * <p> The standard container classes {@link Vector}, {@link Deque} and {@link List} fulfill these requirements. 
@@ -40,7 +40,7 @@
 		/**
 		 * The <i>underlying object</i> for implementing the <i>LIFO</i> container.
 		 */
-		protected data: base.container.ILinearContainer<T>;
+		protected container_: base.container.ILinearContainer<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -57,10 +57,10 @@
 
 		public constructor(stack: Stack<T> = null)
 		{
-			this.data = new List<T>();
+			this.container_ = new List<T>();
 
 			if (stack != null)
-				this.data.assign(stack.data.begin(), stack.data.end());
+				this.container_.assign(stack.container_.begin(), stack.container_.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -71,13 +71,13 @@
 		 * <p> Returns the number of elements in the {@link Stack}. </p> 
 		 *
 		 * <p> This member function effectively calls member {@link ILinearContainer.size size()} of the 
-		 * {@link data underlying container} object. </p>
+		 * {@link container_ underlying container} object. </p>
 		 *
-		 * @return The number of elements in the {@link data underlying container}.
+		 * @return The number of elements in the {@link container_ underlying container}.
 		 */
 		public size(): number
 		{
-			return this.data.size();
+			return this.container_.size();
 		}
 
 		/**
@@ -85,14 +85,14 @@
 		 * <p> returns whether the {@link Stack} is empty: i.e. whether its <i>size</i> is zero. </p>
 		 *
 		 * <p> This member function effectively calls member {@link ILinearContainer.empty empty()} of the
-		 * {@link data underlying container} object. </p>
+		 * {@link container_ underlying container} object. </p>
 		 *
 		 * @return <code>true</code> if the <i>underlying container</i>'s size is 0, 
 		 *		   <code>false</code> otherwise. </p>
 		 */
 		public empty(): boolean
 		{
-			return this.data.empty();
+			return this.container_.empty();
 		}
 
 		/**
@@ -104,13 +104,13 @@
 		 * inserted into the {@link Stack}. </p>
 		 *
 		 * <p> This member function effectively calls member {@link ILinearContainer.back back()} of the 
-		 * {@link data underlying container} object. </p>
+		 * {@link container_ underlying container} object. </p>
 		 *
 		 * @return A value of the top element in the {@link Stack}.
 		 */
 		public top(): T
 		{
-			return this.data.back();
+			return this.container_.back();
 		}
 
 		/* ---------------------------------------------------------
@@ -122,13 +122,13 @@
 		 * <p> Inserts a new element at the top of the {@link Stack}, above its current top element. </p>
 		 *
 		 * <p> This member function effectively calls the member function 
-		 * {@link ILinearContainer.pushBack pushBack()} of the {@link data underlying container} object. </p>
+		 * {@link ILinearContainer.push_back push_back()} of the {@link container_ underlying container} object. </p>
 		 *
 		 * @param val Value to which the inserted element is initialized.
 		 */
 		public push(val: T): void
 		{
-			this.data.pushBack(val);
+			this.container_.push_back(val);
 		}
 
 		/**
@@ -140,11 +140,11 @@
 		 * retrieved by calling member {@link top Stack.top()} </p>.
 		 *
 		 * <p> This member function effectively calls the member function 
-		 * {@link ILinearContainer.popBack popBack()} of the {@link data underlying container} object. </p>
+		 * {@link ILinearContainer.pop_back pop_back()} of the {@link container_ underlying container} object. </p>
 		 */
 		public pop(): void
 		{
-			this.data.popBack();
+			this.container_.pop_back();
 		}
 	}
 }

@@ -11,12 +11,12 @@ namespace std
 	 */
 	export class VectorIterator<T>
 		extends base.container.Iterator<T>
-		implements base.container.ILinearIterator<T>
+		implements base.container.IArrayIterator<T>
 	{
 		/**
 		 * <p> Sequence number of iterator in the source Vector. </p>
 		 */
-		private index: number;
+		private index_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -35,7 +35,7 @@ namespace std
 		{
 			super(source);
 
-			this.index = index;
+			this.index_ = index;
 		}
 
 		/* ---------------------------------------------------------
@@ -43,7 +43,7 @@ namespace std
 		--------------------------------------------------------- */
 		private get vector(): Vector<T>
 		{
-			return <Vector<T>>this.source;
+			return <Vector<T>>this.source_;
 		}
 
 		/**
@@ -51,7 +51,7 @@ namespace std
 		 */
 		public get value(): T
 		{
-			return this.vector.at(this.index);
+			return this.vector.at(this.index_);
 		}
 
 		/**
@@ -59,7 +59,7 @@ namespace std
 		 */
 		public set value(val: T)
 		{
-			this.vector.set(this.index, val);
+			this.vector.set(this.index_, val);
 		}
 		
 		/**
@@ -67,15 +67,15 @@ namespace std
 		 */
 		public equals<U extends T>(obj: VectorIterator<U>): boolean
 		{
-			return super.equals(obj) && this.index == obj.index;
+			return super.equals(obj) && this.index_ == obj.index_;
 		}
 
 		/**
 		 * Get index.
 		 */
-		public getIndex(): number
+		public get index(): number
 		{
-			return this.index;
+			return this.index_;
 		}
 
 		/* ---------------------------------------------------------
@@ -86,12 +86,12 @@ namespace std
 		 */
 		public prev(): VectorIterator<T>
 		{
-			if (this.index == -1)
+			if (this.index_ == -1)
 				return new VectorIterator(this.vector, this.vector.size() - 1);
-			else if (this.index - 1 < 0)
+			else if (this.index_ - 1 < 0)
 				return this.vector.end();
 			else
-				return new VectorIterator<T>(this.vector, this.index - 1);
+				return new VectorIterator<T>(this.vector, this.index_ - 1);
 		}
 
 		/**
@@ -99,10 +99,10 @@ namespace std
 		 */
 		public next(): VectorIterator<T>
 		{
-			if (this.index >= this.source.size() - 1)
+			if (this.index_ >= this.source_.size() - 1)
 				return this.vector.end();
 			else
-				return new VectorIterator<T>(this.vector, this.index + 1);
+				return new VectorIterator<T>(this.vector, this.index_ + 1);
 		}
 
 		/**
@@ -110,7 +110,7 @@ namespace std
 		 */
 		public advance(n: number): VectorIterator<T>
 		{
-			let newIndex: number = this.index + n;
+			let newIndex: number = this.index_ + n;
 
 			if (newIndex < 0 || newIndex >= this.vector.size())
 				return this.vector.end();

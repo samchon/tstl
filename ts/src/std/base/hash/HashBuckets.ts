@@ -2,8 +2,8 @@ namespace std.base.hash
 {
 	export class HashBuckets<T>
 	{
-		private buckets: Vector<Vector<T>>;
-		private itemSize_: number;
+		private buckets_: Vector<Vector<T>>;
+		private item_size_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -26,29 +26,29 @@ namespace std.base.hash
 			if (size < hash.MIN_SIZE)
 				size = hash.MIN_SIZE;
 
-			let prevMatrix: Vector<Vector<T>> = this.buckets;
-			this.buckets = new Vector<Vector<T>>();
+			let prevMatrix: Vector<Vector<T>> = this.buckets_;
+			this.buckets_ = new Vector<Vector<T>>();
 
 			for (let i: number = 0; i < size; i++)
-				this.buckets.pushBack(new Vector<T>());
+				this.buckets_.push_back(new Vector<T>());
 
 			for (let i: number = 0; i < prevMatrix.size(); i++)
 				for (let j: number = 0; j < prevMatrix.at(i).size(); j++)
 				{
 					let val: T = prevMatrix.at(i).at(j);
 
-					this.buckets.at(this.hashIndex(val)).pushBack(val);
-					this.itemSize_++;
+					this.buckets_.at(this.hash_index(val)).push_back(val);
+					this.item_size_++;
 				}
 		}
 
 		public clear(): void
 		{
-			this.buckets = new Vector<Vector<T>>();
-			this.itemSize_ = 0;
+			this.buckets_ = new Vector<Vector<T>>();
+			this.item_size_ = 0;
 
 			for (let i: number = 0; i < hash.MIN_SIZE; i++)
-				this.buckets.pushBack(new Vector<T>());
+				this.buckets_.push_back(new Vector<T>());
 		}
 
 		/* ---------------------------------------------------------
@@ -56,23 +56,23 @@ namespace std.base.hash
 		--------------------------------------------------------- */
 		public size(): number
 		{
-			return this.buckets.size();
+			return this.buckets_.size();
 		}
 
-		public itemSize(): number
+		public item_size(): number
 		{
-			return this.itemSize_;
+			return this.item_size_;
 		}
 
 
 		public at(index: number): Vector<T>
 		{
-			return this.buckets.at(index);
+			return this.buckets_.at(index);
 		}
 
-		private hashIndex(val: T): number
+		private hash_index(val: T): number
 		{
-			return hash.code(val) % this.buckets.size();
+			return hash.code(val) % this.buckets_.size();
 		}
 
 		/* ---------------------------------------------------------
@@ -80,21 +80,21 @@ namespace std.base.hash
 		--------------------------------------------------------- */
 		public insert(val: T): void
 		{
-			this.buckets.at(this.hashIndex(val)).pushBack(val);
+			this.buckets_.at(this.hash_index(val)).push_back(val);
 
-			if (++this.itemSize_ > this.buckets.size() * hash.MAX_RATIO)
-				this.reserve(this.itemSize_ * hash.RATIO);
+			if (++this.item_size_ > this.buckets_.size() * hash.MAX_RATIO)
+				this.reserve(this.item_size_ * hash.RATIO);
 		}
 
 		public erase(val: T): void
 		{
-			let hashes: Vector<T> = this.buckets.at(this.hashIndex(val));
+			let hashes: Vector<T> = this.buckets_.at(this.hash_index(val));
 
 			for (let i: number = 0; i < hashes.size(); i++)
 				if (hashes.at(i) == val)
 				{
 					hashes.splice(i, 1);
-					this.itemSize_--;
+					this.item_size_--;
 
 					break;
 				}

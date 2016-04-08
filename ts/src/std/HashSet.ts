@@ -49,7 +49,7 @@ namespace std
 	export class HashSet<T>
 		extends base.container.UniqueSet<T>
 	{
-		private hashBuckets: base.hash.SetHashBuckets<T>;
+		private hash_buckets_: base.hash.SetHashBuckets<T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -83,28 +83,31 @@ namespace std
 			super();
 
 			// BUCKET
-			this.hashBuckets = new base.hash.SetHashBuckets<T>(this);
+			this.hash_buckets_ = new base.hash.SetHashBuckets<T>(this);
 
 			// OVERLOADINGS
 			if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
 			{
-				this.constructByArray(args[0]);
+				this.construct_from_array(args[0]);
 			}
 			else if (args.length == 1 && args[0] instanceof base.container.Container)
 			{
-				this.constructByContainer(args[0]);
+				this.construct_from_container(args[0]);
 			}
 			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
 			{
-				this.constructByRange(args[0], args[1]);
+				this.construct_from_range(args[0], args[1]);
 			}
 		}
 		
-		protected constructByArray(items: Array<T>): void
+		/**
+		 * @hidden
+		 */
+		protected construct_from_array(items: Array<T>): void
 		{
-			this.hashBuckets.reserve(items.length * base.hash.RATIO);
+			this.hash_buckets_.reserve(items.length * base.hash.RATIO);
 
-			super.constructByArray(items);
+			super.construct_from_array(items);
 		}
 
 		/* ---------------------------------------------------------
@@ -122,8 +125,8 @@ namespace std
 			for (it = begin; it.equals(end) == false; it = it.next())
 				size++;
 
-			this.hashBuckets.clear();
-			this.hashBuckets.reserve(size * base.hash.RATIO);
+			this.hash_buckets_.clear();
+			this.hash_buckets_.reserve(size * base.hash.RATIO);
 
 			// SUPER; INSERT
 			super.assign(begin, end);
@@ -136,7 +139,7 @@ namespace std
 		{
 			super.clear();
 
-			this.hashBuckets.clear();
+			this.hash_buckets_.clear();
 		}
 
 		/* =========================================================
@@ -147,7 +150,7 @@ namespace std
 		 */
 		public find(val: T): SetIterator<T>
 		{
-			return this.hashBuckets.find(val);
+			return this.hash_buckets_.find(val);
 		}
 		
 		/* =========================================================
@@ -157,7 +160,10 @@ namespace std
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
-		protected insertByVal(val: T): any
+		/**
+		 * @hidden
+		 */
+		protected insert_by_val(val: T): any
 		{
 			// TEST WHETHER EXIST
 			let it = this.find(val);
@@ -165,16 +171,19 @@ namespace std
 				return new Pair<SetIterator<T>, boolean>(it, false);
 
 			// INSERT
-			this.data.pushBack(val);
+			this.data_.push_back(val);
 			it = it.prev();
 
 			// POST-PROCESS
-			this.handleInsert(<SetIterator<T>>it);
+			this.handle_insert(<SetIterator<T>>it);
 
 			return new Pair<SetIterator<T>, boolean>(it, true);
 		}
 
-		protected insertByRange(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void
+		/**
+		 * @hidden
+		 */
+		protected insert_by_range(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void
 		{
 			// CALCULATE INSERTING SIZE
 			let size: number = 0;
@@ -182,30 +191,30 @@ namespace std
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hashBuckets.size() * base.hash.MAX_RATIO)
-				this.hashBuckets.reserve((this.size() + size) * base.hash.RATIO);
+			if (this.size() + size > this.hash_buckets_.size() * base.hash.MAX_RATIO)
+				this.hash_buckets_.reserve((this.size() + size) * base.hash.RATIO);
 
 			// INSERTS
-			super.insertByRange(begin, end);
+			super.insert_by_range(begin, end);
 		}
 
 		/* ---------------------------------------------------------
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleInsert(item: SetIterator<T>): void
+		protected handle_insert(item: SetIterator<T>): void
 		{
-			this.hashBuckets.insert(item);
+			this.hash_buckets_.insert(item);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleErase(item: SetIterator<T>): void
+		protected handle_erase(item: SetIterator<T>): void
 		{
-			this.hashBuckets.erase(item);
+			this.hash_buckets_.erase(item);
 		}
 	}
 }

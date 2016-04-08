@@ -27,12 +27,15 @@ namespace std.base.tree
 				return this.findByVal(val);
 		}
 
+		/**
+		 * @hidden
+		 */
 		private findByVal(val: T): XTreeNode<SetIterator<T>>
 		{
-			if (this.root == null)
+			if (this.root_ == null)
 				return null;
 
-			let node: XTreeNode<SetIterator<T>> = this.root;
+			let node: XTreeNode<SetIterator<T>> = this.root_;
 
 			while (true)
 			{
@@ -59,12 +62,12 @@ namespace std.base.tree
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public isEquals(left: SetIterator<T>, right: SetIterator<T>): boolean
+		public is_equals(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
 			return std.equals(left, right);
 		}
 
-		public isLess(left: SetIterator<T>, right: SetIterator<T>): boolean
+		public is_less(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
 			return std.less(left.value, right.value);
 		}

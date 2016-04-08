@@ -53,7 +53,7 @@ namespace std
 		/**
 		 * <i>RB-Tree+</i> object for implemeting the {@link TreeSet}.
 		 */
-		private tree: base.tree.AtomicTree<T>;
+		private tree_: base.tree.AtomicTree<T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -91,7 +91,7 @@ namespace std
 		{
 			super();
 
-			this.tree = new base.tree.AtomicTree<T>();
+			this.tree_ = new base.tree.AtomicTree<T>();
 		}
 
 		/* ---------------------------------------------------------
@@ -112,7 +112,7 @@ namespace std
 		{
 			super.clear();
 
-			this.tree = new base.tree.AtomicTree<T>();
+			this.tree_ = new base.tree.AtomicTree<T>();
 		}
 		
 		/* =========================================================
@@ -123,7 +123,7 @@ namespace std
 		 */
 		public find(val: T): SetIterator<T>
 		{
-			let node = this.tree.find(val);
+			let node = this.tree_.find(val);
 
 			if (node == null || std.equals(node.value.value, val) == false)
 				return this.end();
@@ -143,9 +143,9 @@ namespace std
 		 * <p> If the {@link Set} class is instantiated with the default comparison type ({@link less}), the 
 		 * function returns an iterator to the first element that is not less than <i>val</i>. </p>
 		 * 
-		 * <p> A similar member function, {@link upperBound}, has the same behavior as {@link lowerBound}, 
+		 * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, 
 		 * except in the case that the {@link Set} contains an element equivalent to <i>val</i>: In this case 
-		 * {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound} returns 
+		 * {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound} returns 
 		 * an iterator pointing to the next element. </p>
 		 * 
 		 * @param val Value to compare.
@@ -153,9 +153,9 @@ namespace std
 		 * @return An iterator to the the first element in the container which is not considered to go before 
 		 *		   <i>val</i>, or {@link Set.end} if all elements are considered to go before <i>val</i>.
 		 */
-		public lowerBound(val: T): SetIterator<T>
+		public lower_bound(val: T): SetIterator<T>
 		{
-			let node: base.tree.XTreeNode<SetIterator<T>> = this.tree.find(val);
+			let node: base.tree.XTreeNode<SetIterator<T>> = this.tree_.find(val);
 
 			if (node == null)
 				return this.end();
@@ -177,9 +177,9 @@ namespace std
 		 * <p> If the {@link Set} class is instantiated with the default comparison type ({@link less}), the 
 		 * function returns an iterator to the first element that is greater than <i>val</i>. </p>
 		 * 
-		 * <p> A similar member function, {@link lowerBound}, has the same behavior as {@link upperBound}, except 
+		 * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except 
 		 * in the case that the {@link Set} contains an element equivalent to <i>val</i>: In this case 
-		 * {@link lowerBound} returns an iterator pointing to that element, whereas {@link upperBound} returns 
+		 * {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound} returns 
 		 * an iterator pointing to the next element. </p>
 		 * 
 		 * @param val Value to compare.
@@ -187,9 +187,9 @@ namespace std
 		 * @return An iterator to the the first element in the container which is not considered to go before 
 		 *		   <i>val</i>, or {@link Set.end} if all elements are considered to go after <i>val</i>.
 		 */
-		public upperBound(val: T): SetIterator<T>
+		public upper_bound(val: T): SetIterator<T>
 		{
-			let node: base.tree.XTreeNode<SetIterator<T>> = this.tree.find(val);
+			let node: base.tree.XTreeNode<SetIterator<T>> = this.tree_.find(val);
 
 			if (node == null)
 				return this.end();
@@ -216,12 +216,12 @@ namespace std
 		 * @param val Value to search for.
 		 *
 		 * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
-		 *		   the range (the same as {@link lowerBound}), and {@link Pair.second} is the upper bound
-		 *		   (the same as {@link upperBound}).
+		 *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
+		 *		   (the same as {@link upper_bound}).
 		 */
-		public equalRange(val: T): Pair<SetIterator<T>, SetIterator<T>>
+		public equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>
 		{
-			return new Pair<SetIterator<T>, SetIterator<T>>(this.lowerBound(val), this.upperBound(val));
+			return new Pair<SetIterator<T>, SetIterator<T>>(this.lower_bound(val), this.upper_bound(val));
 		}
 
 		/* =========================================================
@@ -232,11 +232,11 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @private
+		 * @hidden
 		 */
-		protected insertByVal(val: T): any
+		protected insert_by_val(val: T): any
 		{
-			let node = this.tree.find(val);
+			let node = this.tree_.find(val);
 
 			// IF EQUALS, THEN RETURN FALSE
 			if (node != null && std.equals(node.value.value, val) == true)
@@ -262,19 +262,19 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleInsert(item: SetIterator<T>): void
+		protected handle_insert(item: SetIterator<T>): void
 		{
-			this.tree.insert(item);
+			this.tree_.insert(item);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
-		protected handleErase(item: SetIterator<T>): void
+		protected handle_erase(item: SetIterator<T>): void
 		{
-			this.tree.erase(item);
+			this.tree_.erase(item);
 		}
 
 		/* ===============================================================
@@ -284,10 +284,10 @@ namespace std
 		{
 			super.swap(obj);
 
-			let supplement: base.tree.AtomicTree<T> = this.tree;
+			let supplement: base.tree.AtomicTree<T> = this.tree_;
 
-			this.tree = obj.tree;
-			obj.tree = supplement;
+			this.tree_ = obj.tree_;
+			obj.tree_ = supplement;
 		}
 	}
 }

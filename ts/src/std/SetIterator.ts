@@ -11,7 +11,7 @@ namespace std
 		extends base.container.Iterator<T>
 		implements IComparable<SetIterator<T>>
 	{
-		private listIterator: ListIterator<T>;
+		private iist_iterator_: ListIterator<T>;
 
 		/**
 		 * <p> Construct from source and index number. </p>
@@ -27,12 +27,12 @@ namespace std
 		{
 			super(source);
 
-			this.listIterator = it;
+			this.iist_iterator_ = it;
 		}
 
-		public getListIterator(): ListIterator<T>
+		public get_list_iterator(): ListIterator<T>
 		{
-			return this.listIterator;
+			return this.iist_iterator_;
 		}
 
 		/* ---------------------------------------------------------
@@ -43,7 +43,7 @@ namespace std
 		 */
 		public prev(): SetIterator<T>
 		{
-			return new SetIterator<T>(this.set, this.listIterator.prev());
+			return new SetIterator<T>(this.set, this.iist_iterator_.prev());
 		}
 
 		/**
@@ -51,7 +51,7 @@ namespace std
 		 */
 		public next(): SetIterator<T>
 		{
-			return new SetIterator<T>(<base.container.SetContainer<T>>this.source, this.listIterator.next());
+			return new SetIterator<T>(<base.container.SetContainer<T>>this.source_, this.iist_iterator_.next());
 		}
 
 		/**
@@ -59,7 +59,7 @@ namespace std
 		 */
 		public advance(size: number): SetIterator<T>
 		{
-			return new SetIterator<T>(this.set, this.listIterator.advance(size));
+			return new SetIterator<T>(this.set, this.iist_iterator_.advance(size));
 		}
 
 		/* ---------------------------------------------------------
@@ -67,7 +67,7 @@ namespace std
 		--------------------------------------------------------- */
 		private get set(): TreeSet<T>
 		{
-			return <TreeSet<T>>this.source;
+			return <TreeSet<T>>this.source_;
 		}
 
 		/**
@@ -75,7 +75,7 @@ namespace std
 		 */
 		public get value(): T
 		{
-			return this.listIterator.value;
+			return this.iist_iterator_.value;
 		}
 		
 		/* ---------------------------------------------------------
@@ -86,7 +86,7 @@ namespace std
 		 */
 		public equals<U extends T>(obj: SetIterator<U>): boolean 
 		{
-			return super.equals(obj) && this.listIterator == obj.listIterator;
+			return super.equals(obj) && this.iist_iterator_ == obj.iist_iterator_;
 		}
 
 		/**
@@ -100,7 +100,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public hashCode(): number
+		public hash(): number
 		{
 			return base.hash.code(this.value);
 		}

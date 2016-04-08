@@ -291,7 +291,7 @@ namespace std
 		public push<U extends T>(...items: U[]): number 
 		{
 			for (let i: number = 0; i < items.length; i++)
-				this.pushBack(items[i]);
+				this.push_back(items[i]);
 
 			return this.size();
 		}
@@ -299,7 +299,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public pushFront(val: T): void
+		public push_front(val: T): void
 		{
 			let item: ListIterator<T> = new ListIterator(this, null, this.begin_, val);
 
@@ -323,7 +323,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public pushBack(val: T): void
+		public push_back(val: T): void
 		{
 			let prev: ListIterator<T> = <ListIterator<T>>this.end_.prev();
 			let item: ListIterator<T> = new ListIterator(this, <ListIterator<T>>this.end_.prev(), this.end_, val);
@@ -341,7 +341,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public popFront(): void
+		public pop_front(): void
 		{
 			this.erase(this.begin_);
 		}
@@ -349,7 +349,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public popBack(): void
+		public pop_back(): void
 		{
 			this.erase(this.end_.prev());
 		}
@@ -404,30 +404,30 @@ namespace std
 		public insert(...args: any[]): ListIterator<T>
 		{
 			if (args.length == 2)
-				return this.insertByVal(args[0], args[1]);
+				return this.insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
 			{
 				return this.insertByRepeatingVal(args[0], args[1], args[2]);
 			}
 			else
-				return this.insertByRange(args[0], args[1], args[2]);
+				return this.insert_by_range(args[0], args[1], args[2]);
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
-		private insertByVal(position: ListIterator<T>, val: T): ListIterator<T>
+		private insert_by_val(position: ListIterator<T>, val: T): ListIterator<T>
 		{
 			// SHIFT TO INSERT OF THE REPEATING VAL
 			return this.insertByRepeatingVal(position, 1, val);
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
 		private insertByRepeatingVal(position: ListIterator<T>, size: number, val: T): ListIterator<T>
 		{
-			if (this != position.getSource())
+			if (this != position.get_source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 			
 			let prev: ListIterator<T> = <ListIterator<T>>position.prev();
@@ -460,12 +460,12 @@ namespace std
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
-		private insertByRange(position: ListIterator<T>, 
+		private insert_by_range(position: ListIterator<T>, 
 			begin: base.container.Iterator<T>, end: base.container.Iterator<T>): ListIterator<T>
 		{
-			if (this != position.getSource())
+			if (this != position.get_source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			let prev: ListIterator<T> = <ListIterator<T>>position.prev();
@@ -542,25 +542,25 @@ namespace std
 		public erase(...args: any[]): ListIterator<T>
 		{
 			if (args.length == 1)
-				return this.eraseByIterator(args[0]);
+				return this.erase_by_iterator(args[0]);
 			else if (args.length == 2)
-				return this.eraseByRange(args[0], args[1]);
+				return this.erase_by_range(args[0], args[1]);
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
-		private eraseByIterator(it: ListIterator<T>): ListIterator<T>
+		private erase_by_iterator(it: ListIterator<T>): ListIterator<T>
 		{
-			return this.eraseByRange(it, it.next());
+			return this.erase_by_range(it, it.next());
 		}
 
 		/**
-		 * @private
+		 * @hidden
 		 */
-		private eraseByRange(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>
+		private erase_by_range(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>
 		{
-			if (this != begin.getSource() || begin.getSource() != end.getSource())
+			if (this != begin.get_source() || begin.get_source() != end.get_source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			// FIND PREV AND NEXT
@@ -584,8 +584,397 @@ namespace std
 		}
 
 		/* ===============================================================
-			UTILITIES
-		=============================================================== */
+			ALGORITHMS
+				- UNIQUE & REMOVE (IF)
+				- MERGE & SPLICE
+				- SORT
+				- SWAP
+		==================================================================
+			UNIQUE & REMOVE (IF)
+		--------------------------------------------------------------- */
+		/**
+		 * <p> Remove duplicate values. </p>
+		 *
+		 * <p> Removes all but the first element from every consecutive group of equal elements in the container. </p>
+		 *
+		 * <p> Notice that an element is only removed from the {@link List} container if it compares equal to the
+		 * element immediately preceding it. Thus, this function is especially useful for sorted lists. </p>
+		 */
+		public unique(): void;
+
+		/**
+		 * <p> Remove duplicate values. </p>
+		 * 
+		 * <p> Removes all but the first element from every consecutive group of equal elements in the container. </p>
+		 * 
+		 * <p> The argument <i>binary_pred</i> is a specific comparison function that determine the <u>uniqueness</u> 
+		 * of an element. In fact, any behavior can be implemented (and not only an equality comparison), but notice 
+		 * that the function will call <code>binary_pred(it.value, it.prev().value)</code> for all pairs of elements 
+		 * (where <code>it</code> is an iterator to an element, starting from the second) and remove <code>it</code> 
+		 * from the {@link List} if the predicate returns <code>true</code>.
+		 *
+		 * <p> Notice that an element is only removed from the {@link List} container if it compares equal to the 
+		 * element immediately preceding it. Thus, this function is especially useful for sorted lists. </p>
+		 * 
+		 * @param binary_pred Binary predicate that, taking two values of the same type than those contained in the 
+		 *					  {@link List}, returns <code>true</code> to remove the element passed as first argument 
+		 *					  from the container, and <code>false</code> otherwise. This shall be a function pointer 
+		 *					  or a function object.
+		 */
+		public unique(binary_pred: (left: T, right: T) => boolean): void;
+
+		public unique(binary_pred: (left: T, right: T) => boolean = std.equals): void
+		{
+			let it = this.begin().next();
+
+			while (!it.equals(this.end()))
+			{
+				if (std.equals(it.value, it.prev().value) == true)
+					it = this.erase(it);
+				else
+					it = it.next();
+			}
+		}
+
+		/**
+		 * <p> Remove elements with specific value. </p>
+		 * 
+		 * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the destructor 
+		 * of these objects and reduces the container {@link size} by the number of elements removed. </p>
+		 * 
+		 * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an iterator), 
+		 * this function ({@link List.remove}) removes elements by their value. </p>
+		 * 
+		 * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an equality 
+		 * comparison to determine whether an element is removed. </p>
+		 *
+		 * @param val Value of the elements to be removed.
+		 */
+		public remove(val: T): void
+		{
+			let it = this.begin();
+
+			while (!it.equals(this.end()))
+			{
+				if (std.equals(it.value, val) == true)
+					it = this.erase(it);
+				else
+					it = it.next();
+			}
+		}
+
+		/**
+		 * <p> Remove elements fulfilling condition. </p>
+		 * 
+		 * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This calls 
+		 * the destructor of these objects and reduces the container {@link size} by the number of elements removed. 
+		 * </p>
+		 * 
+		 * <p> The function calls <code>pred(it.value)</code> for each element (where <code>it</code> is an iterator 
+		 * to that element). Any of the elements in the list for which this returns <code>true</code>, are removed 
+		 * from the container. </p>
+		 * 
+		 * @param pred Unary predicate that, taking a value of the same type as those contained in the forward_list 
+		 *			   object, returns <code>true</code> for those values to be removed from the container, and 
+		 *			   <code>false</code> for those remaining. This can either be a function pointer or a function 
+		 *			   object.
+		 */
+		public remove_if(pred: (val: T) => boolean): void
+		{
+			let it = this.begin();
+
+			while (!it.equals(this.end()))
+			{
+				if (pred(it.value) == true)
+					it = this.erase(it);
+				else
+					it = it.next();
+			}
+		}
+
+		/* ---------------------------------------------------------
+			MERGE & SPLICE
+		--------------------------------------------------------- */
+		/**
+		 * <p> Merge sorted {@link List Lists}. </p>
+		 *
+		 * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective ordered 
+		 * positions into the container (<font color='red'>both containers shall already be ordered</font>). </p>
+		 * 
+		 * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts them 
+		 * into their ordered position within container (which expands in {@link size} by the number of elements 
+		 * transferred). The operation is performed without constructing nor destroying any element: they are 
+		 * transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type supports 
+		 * move-construction or not. </p>
+		 * 
+		 * <p> This function requires that the {@link List} containers have their elements already ordered by value 
+		 * ({@link less}) before the call. For an alternative on unordered {@link List Lists}, see 
+		 * {@link List.splice}. </p>
+		 * 
+		 * <p> Assuming such ordering, each element of <i>obj</i> is inserted at the position that corresponds to its 
+		 * value according to the strict weak ordering defined by {@link less}. The resulting order of equivalent 
+		 * elements is stable (i.e., equivalent elements preserve the relative order they had before the call, and 
+		 * existing elements precede those equivalent inserted from <i>obj</i>). </p>
+		 * 
+		 * The function does nothing if <code>this == obj</code>.
+		 * 
+		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
+		 * 			  Note that this function modifies <i>obj</i> no matter whether an lvalue or rvalue reference is 
+		 *			  passed.
+		 */
+		public merge<U extends T>(obj: List<U>): void;
+
+		/**
+		 * <p> Merge sorted {@link List Lists}. </p>
+		 *
+		 * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective ordered 
+		 * positions into the container (<font color='red'>both containers shall already be ordered</font>). </p>
+		 * 
+		 * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts them 
+		 * into their ordered position within container (which expands in {@link size} by the number of elements 
+		 * transferred). The operation is performed without constructing nor destroying any element: they are 
+		 * transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type supports 
+		 * move-construction or not. </p>
+		 *
+		 * <p> The argument <i>compare</i> is a specific predicate to perform the comparison operation between 
+		 * elements. This comparison shall produce a strict weak ordering of the elements (i.e., a consistent 
+		 * transitive comparison, without considering its reflexiveness).
+		 * 
+		 * <p> This function requires that the {@link List} containers have their elements already ordered by 
+		 * <i>compare</i> before the call. For an alternative on unordered {@link List Lists}, see 
+		 * {@link List.splice}. </p>
+		 * 
+		 * <p> Assuming such ordering, each element of <i>obj</i> is inserted at the position that corresponds to its 
+		 * value according to the strict weak ordering defined by <i>compare</i>. The resulting order of equivalent 
+		 * elements is stable (i.e., equivalent elements preserve the relative order they had before the call, and 
+		 * existing elements precede those equivalent inserted from <i>obj</i>). </p>
+		 * 
+		 * The function does nothing if <code>this == obj</code>.
+		 * 
+		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
+		 * 			  Note that this function modifies <i>obj</i> no matter whether an lvalue or rvalue reference is 
+		 *			  passed.
+		 * @param compare Binary predicate that, taking two values of the same type than those contained in the 
+		 *				  {@link list}, returns <code>true</code> if the first argument is considered to go before 
+		 *				  the second in the strict weak ordering it defines, and <code>false</code> otherwise. 
+		 *				  This shall be a function pointer or a function object.
+		 */
+		public merge<U extends T>(obj: List<U>, compare: (left: T, right: T) => boolean): void;
+
+		public merge<U extends T>(obj: List<U>, compare: (left: T, right: T) => boolean = std.less): void
+		{
+			if (this == <List<T>>obj)
+				return;
+
+			let it = this.begin();
+
+			while (obj.empty() == false)
+			{
+				let begin = obj.begin();
+				while (!it.equals(this.end()) && compare(it.value, begin.value) == true)
+					it = it.next();
+
+				this.splice(it, obj, begin);
+			}
+		}
+
+		/**
+		 * <p> Transfer elements from {@link List} to {@link List}. </p>
+		 * 
+		 * <p> Transfers elements from <i>obj</i> into the container, inserting them at <i>position</i>. </p>
+		 * 
+		 * <p> This effectively inserts all elements into the container and removes them from <i>obj</i>, altering the 
+		 * sizes of both containers. The operation does not involve the construction or destruction of any element. 
+		 * They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type 
+		 * supports move-construction or not. </p>
+		 *
+		 * <p> This first version (1) transfers all the elements of <i>obj</i> into the container. </p>
+		 * 
+		 * @param position Position within the container where the elements of <i>obj</i> are inserted.
+		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
+		 */
+		public splice<U extends T>(position: ListIterator<T>, obj: List<U>): void;
+		
+		/**
+		 * <p> Transfer an element from {@link List} to {@link List}. </p>
+		 * 
+		 * <p> Transfers an element from <i>obj</i>, which is pointed by an {@link ListIterator iterator} <i>it</i>, 
+		 * into the container, inserting the element at specified <i>position</i>. </p>
+		 * 
+		 * <p> This effectively inserts an element into the container and removes it from <i>obj</i>, altering the 
+		 * sizes of both containers. The operation does not involve the construction or destruction of any element. 
+		 * They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type 
+		 * supports move-construction or not. </p>
+		 *
+		 * <p> This second version (2) transfers only the element pointed by <i>it</i> from <i>obj</i> into the 
+		 * container. </p>
+		 * 
+		 * @param position Position within the container where the element of <i>obj</i> is inserted.
+		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
+		 *			  This parameter may be <code>this</code> if <i>position</i> points to an element not actually 
+		 *			  being spliced.
+		 * @param it {@link ListIterator Iterator} to an element in <i>obj</i>. Only this single element is transferred.
+		 */
+		public splice<U extends T>(position: ListIterator<T>, obj: List<U>, it: ListIterator<U>): void;
+		
+		/**
+		 * <p> Transfer elements from {@link List} to {@link List}. </p>
+		 *
+		 * <p> Transfers elements from <i>obj</i> into the container, inserting them at <i>position</i>. </p>
+		 *
+		 * <p> This effectively inserts those elements into the container and removes them from <i>obj</i>, altering 
+		 * the sizes of both containers. The operation does not involve the construction or destruction of any 
+		 * element. They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the 
+		 * value_type supports move-construction or not. </p>
+		 *
+		 * <p> This third version (3) transfers the range [<i>begin</i>, <i>end</i>] from <i>obj</i> into the 
+		 * container. </p>
+		 * 
+		 * @param position Position within the container where the elements of <i>obj</i> are inserted.
+		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
+		 *			  This parameter may be <code>this</code> if <i>position</i> points to an element not actually
+		 *			  being spliced.
+		 * @param begin {@link ListIterator An Iterator} specifying initial position of a range of elements in
+		 *				<i>obj</i>. Transfers the elements in the range [<b><i>begin</i></b>, <i>end</i>) to 
+		 *				<i>position</i>.
+		 * @param end {@link ListIterator An Iterator} specifying final position of a range of elements in
+		 *			  <i>obj</i>. Transfers the elements in the range [<i>begin</i>, <b><i>end</i></b>) to
+		 *			  <i>position</i>. Notice that the range includes all the elements between <i>begin<i/> and 
+		 *			  <i>end</i>, including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
+		 */
+		public splice<U extends T>
+			(position: ListIterator<T>, obj: List<U>, begin: ListIterator<U>, end: ListIterator<U>): void;
+
+		public splice<U extends T>
+			(
+				position: ListIterator<T>, obj: List<U>, 
+				begin: ListIterator<U> = null, end: ListIterator<U> = null): void
+		{
+			if (begin == null)
+			{
+				begin = obj.begin();
+				end = obj.end();
+			}
+			else if (end == null)
+			{
+				end = begin.next();
+			}
+
+			this.insert(position, begin, end);
+			obj.erase(begin, end);
+		}
+
+		/* ---------------------------------------------------------
+			SORT
+		--------------------------------------------------------- */
+		/**
+		 * <p> Sort elements in container. </p>
+		 * 
+		 * <p> Sorts the elements in the {@link List}, altering their position within the container. </p>
+		 * 
+		 * <p> The sorting is performed by applying an algorithm that uses {@link less}. This comparison shall produce 
+		 * a strict weak ordering of the elements (i.e., a consistent transitive comparison, without considering its 
+		 * reflexiveness). </p>
+		 * 
+		 * <p> The resulting order of equivalent elements is stable: i.e., equivalent elements preserve the relative 
+		 * order they had before the call. </p>
+		 * 
+		 * <p> The entire operation does not involve the construction, destruction or copy of any element object. 
+		 * Elements are moved within the container. </p>
+		 */
+		public sort(): void;
+
+		/**
+		 * <p> Sort elements in container. </p>
+		 * 
+		 * <p> Sorts the elements in the {@link List}, altering their position within the container. </p>
+		 * 
+		 * <p> The sorting is performed by applying an algorithm that uses <i>compare</i>. This comparison shall 
+		 * produce a strict weak ordering of the elements (i.e., a consistent transitive comparison, without 
+		 * considering its reflexiveness). </p>
+		 * 
+		 * <p> The resulting order of equivalent elements is stable: i.e., equivalent elements preserve the relative 
+		 * order they had before the call. </p>
+		 * 
+		 * <p> The entire operation does not involve the construction, destruction or copy of any element object. 
+		 * Elements are moved within the container. </p>
+		 *
+		 * @param compare Binary predicate that, taking two values of the same type of those contained in the 
+		 *				  {@link List}, returns <code>true</code> if the first argument goes before the second 
+		 *				  argument in the strict weak ordering it defines, and <code>false</code> otherwise. This 
+		 *				  shall be a function pointer or a function object.
+		 */
+		public sort(compare: (left: T, right: T) => boolean): void;
+
+		public sort(compare: (left: T, right: T) => boolean = std.less): void
+		{
+			//let whole: Vector<T> = new Vector<T>(this);
+			//let part: Vector<T> = new Vector<T>(this);
+
+			//this.msort(whole, part, 0, this.size(), compare);
+			//this.assign(whole.begin(), whole.end());
+
+			let vector: Vector<T> = new Vector<T>(this.begin(), this.end());
+			sort(vector.begin(), vector.end());
+
+			this.assign(vector.begin(), vector.end());
+		}
+
+		///**
+		// * @hidden
+		// */
+		//private msort
+		//	(
+		//		whole: Array<T>, part: Array<T>, 
+		//		begin: number, end: number, compare: (left: T, right: T) => boolean
+		//	): void
+		//{
+		//	if (begin >= end - 1)
+		//		return;
+
+		//	let mid = begin + Math.floor((end - begin) / 2);
+
+		//	this.msort(whole, part, begin, mid, compare);
+		//	this.msort(whole, part, mid, end, compare);
+
+		//	this.msort_merge(whole, part, begin, mid, end, compare);
+		//}
+
+		///**
+		// * @hidden
+		// */
+		//private msort_merge
+		//	(
+		//		whole: Array<T>, part: Array<T>, 
+		//		begin: number, mid: number, end: number, 
+		//		compare: (left: T, right: T) => boolean
+		//	): void
+		//{
+		//	for (let i: number = begin; i < end; i++)
+		//		part[i] = whole[i];
+
+		//	let x: number = begin;
+		//	let y: number = mid;
+
+		//	for (let i: number = mid; i < end; i++)
+		//	{
+		//		if (x >= mid)
+		//			whole[i] = part[y++];
+		//		else if (y >= end)
+		//			whole[i] = part[x++];
+		//		else if (part[x] < part[y])
+		//			whole[i] = part[y++];
+		//		else
+		//			whole[i] = part[x++];
+		//	}
+		//}
+
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public swap(obj: List<T>): void
 		{
 			let supplement: List<T> = <List<T>>new Object();

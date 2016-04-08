@@ -1,11 +1,29 @@
 namespace std.base.container
 {
+	/**
+	 * <p> Bi-directional iterator. </p>
+	 *
+	 * <p> {@link Iterator Bidirectional iterators} are iterators that can be used to access the sequence of elements 
+	 * in a range in both directions (towards the end and towards the beginning). </p>
+	 *
+	 * <p> All {@link IArrayIterator random-access iterators} are also valid 
+	 * {@link Iterrator bidirectional iterators}. </p>
+	 *
+	 * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container} 
+	 * may define its own specific iterator type able to iterate through it and access its elements. </p>
+	 *
+	 * <ul>
+	 *	<li> Reference: http://www.cplusplus.com/reference/iterator/BidirectionalIterator/ </li>
+	 * </ul>
+	 *
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class Iterator<T>
 	{
 		/**
 		 * Source container of the iteerator is directing for.
 		 */
-		protected source: IContainer<T>;
+		protected source_: IContainer<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -17,7 +35,7 @@ namespace std.base.container
 		 */
 		public constructor(source: IContainer<T>)
 		{
-			this.source = source;
+			this.source_ = source;
 		}
 
 		/* ---------------------------------------------------------
@@ -54,8 +72,8 @@ namespace std.base.container
 			if (n >= 0 )
 			{
 				for (i = 0; i < n; i++)
-					if (it.equals(this.source.end()))
-						return this.source.end();
+					if (it.equals(this.source_.end()))
+						return this.source_.end();
 					else
 						it = it.next();
 			}
@@ -64,8 +82,8 @@ namespace std.base.container
 				n = n * -1;
 
 				for (i = 0; i < n; i++)
-					if (it.equals(this.source.end()))
-						return this.source.end();
+					if (it.equals(this.source_.end()))
+						return this.source_.end();
 					else
 						it = it.prev();
 			}
@@ -79,9 +97,9 @@ namespace std.base.container
 		/**
 		 * Get source.
 		 */
-		public getSource(): Container<T>
+		public get_source(): Container<T>
 		{
-			return this.source;
+			return this.source_;
 		}
 
 		/**
@@ -103,7 +121,7 @@ namespace std.base.container
 		 */
 		public equals<U extends T>(obj: Iterator<U>): boolean
 		{
-			return this.source == obj.source;
+			return this.source_ == obj.source_;
 		}
 		
 		/**
