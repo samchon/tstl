@@ -60,14 +60,73 @@ namespace std
 	{
 		public static get iterator() { return ListIterator; }
 
+		/**
+		 * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
+		 *
+		 * <p> Note that the {@link ROW} affects on time complexity of accessing and inserting element. 
+		 * Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element 
+		 * in middle position is {@link ROW} times faster than ordinary {@link Vector}. </p>
+		 *
+		 * <p> When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting 
+		 * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
+		 * and inserting element is O(N)). </p>
+		 */
 		private static get ROW(): number { return 8; }
-		private static get MIN_CAPACITY(): number { return 2; }
 		
+		/**
+		 * <p> Minimum {@link capacity}. </p>
+		 *
+		 * <p> Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque} 
+		 * keeps the minimum {@link capacity} at least. </p>
+		 */
+		private static get MIN_CAPACITY(): number { return 100; }
+		
+		/**
+		 * <p> A matrix containing elements. </p>
+		 *
+		 * <p> This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
+		 * Its number of rows follows {@link ROW} and number of columns follows {@link get_col_size} which 
+		 * returns divide of {@link capacity} and {@link ROW}. </p>
+		 * 
+		 * By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
+		 * advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW}
+		 * times faster than {@link Vector} when inserting elements in middle position. </p>
+		 *
+		 * <p> However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
+		 * time complexity on accessing element. {@link Deque} is {@link ROW} times slower than {@link Vector}
+		 * when accessing element. </p>
+		 */
 		private matrix_: Array<Array<T>>;
 
+		/**
+		 * Number of elements in the {@link Deque}.
+		 */
 		private size_: number;
+		
+		/**
+		 * <p> Size of allocated storage capacity. </p>
+		 * 
+		 * <p> The {@link capacity_ capacity} is size of the storage space currently allocated for the 
+		 * {@link Deque container}, expressed in terms of elements. </p>
+		 *
+		 * <p> This {@link capacity_ capacity} is not necessarily equal to the {@link Deque container} 
+		 * {@link size}. It can be equal or greater, with the extra space allowing to accommodate for growth 
+		 * without the need to reallocate on each insertion. </p>
+		 *
+		 * <p> Notice that this {@link capacity_ capacity} does not suppose a limit on the {@link size} of 
+		 * the {@link Deque container}. When this {@link capacity} is exhausted and more is needed, it is
+		 * automatically expanded by the {@link Deque container} (reallocating it storage space). 
+		 * The theoretical limit on the {@link size} of a {@link Deque container} is given by member
+		 * {@link max_size}. </p>
+		 *
+		 * <p> The {@link capacity_ capacity} of a {@link Deque container} can be explicitly altered by 
+		 * calling member {@link Deque.reserve}. </p>
+		 */
 		private capacity_: number;
 
+		/**
+		 * Get column size; {@link capacity_ capacity} / {@link ROW row}.
+		 */
 		private get_col_size(): number
 		{
 			return Math.floor(this.capacity_ / Deque.ROW);
@@ -350,6 +409,13 @@ namespace std
 			return lastArray[lastArray.length - 1];
 		}
 
+		/**
+		 * <p> Fetch row and column's index. </p>
+		 * 
+		 * <p> Fetches index of row and column of {@link matrix_} from sequence number. </p>
+		 * 
+		 * @param index Sequence number
+		 */
 		private fetch_index(index: number): Pair<number, number>
 		{
 			let row: number;
@@ -483,7 +549,7 @@ namespace std
 		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
 			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
 
-		public insert<U extends T>
+		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
 			(position: DequeIterator<T>, ...args: any[]): DequeIterator<T>
 		{
 			let items: Array<T> = [];
@@ -504,10 +570,10 @@ namespace std
 			}
 			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
 			{
-				let begin: base.container.Iterator<U> = args[0];
-				let end: base.container.Iterator<U> = args[1];
+				let begin: InputIterator = args[0];
+				let end: InputIterator = args[1];
 
-				for (let it = begin; !it.equals(end); it = it.next())
+				for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
 					items.push(it.value);
 			}
 
@@ -589,8 +655,14 @@ namespace std
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public erase(position: DequeIterator<T>): DequeIterator<T>
 		
+		/**
+		 * @inheritdoc
+		 */
 		public erase(begin: DequeIterator<T>, end: DequeIterator<T>): DequeIterator<T>;
 
 		public erase(begin: DequeIterator<T>, end: DequeIterator<T> = null): DequeIterator<T>

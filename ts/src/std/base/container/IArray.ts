@@ -13,6 +13,7 @@
 		--------------------------------------------------------- */
 		/**
 		 * <p> Request a change in capacity. </p>
+		 * 
 		 * <p> Requests that the {@link IArray container} {@link capacity} be at least enough to contain 
 		 * <i>n</i> elements. </p>
 		 * 
@@ -36,21 +37,22 @@
 		--------------------------------------------------------- */
 		/**
 		 * <p> Return size of allocated storage capacity. </p>
+		 * 
 		 * <p> Returns the size of the storage space currently allocated for the {@link IArray container}, 
 		 * expressed in terms of elements. </p>
 		 * 
-		 * <p> This <i>capacity</i> is not necessarily equal to the {@link IArray container} {@link size}. 
+		 * <p> This {@link capacity} is not necessarily equal to the {@link IArray container} {@link size}. 
 		 * It can be equal or greater, with the extra space allowing to accommodate for growth without the 
 		 * need to reallocate on each insertion. </p>
 		 * 
-		 * <p> Notice that this <i>capacity</i> does not suppose a limit on the {@link size} of the 
-		 * {@link IArray container}. When this <i>capacity</i> is exhausted and more is needed, it is 
+		 * <p> Notice that this {@link capacity} does not suppose a limit on the {@link size} of the 
+		 * {@link IArray container}. When this {@link capacity} is exhausted and more is needed, it is 
 		 * automatically expanded by the {@link IArray container} (reallocating it storage space). 
 		 * The theoretical limit on the {@link size} of a {@link IArray container} is given by member 
 		 * {@link max_size}. </p>
 		 * 
-		 * <p> The <i>capacity</i> of a {@link IArray container} can be explicitly altered by calling member 
-		 * {@link IArray.reserve}.
+		 * <p> The {@link capacity} of a {@link IArray container} can be explicitly altered by calling member 
+		 * {@link IArray.reserve}. </p>
 		 *
 		 * @return The size of the currently allocated storage capacity in the {@link IArray container}, 
 		 *		   measured in terms of the number elements it can hold.

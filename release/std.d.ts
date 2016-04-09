@@ -244,6 +244,7 @@ declare namespace std.base.container {
     interface IArray<T> extends ILinearContainer<T> {
         /**
          * <p> Request a change in capacity. </p>
+         *
          * <p> Requests that the {@link IArray container} {@link capacity} be at least enough to contain
          * <i>n</i> elements. </p>
          *
@@ -263,21 +264,22 @@ declare namespace std.base.container {
         reserve(n: number): void;
         /**
          * <p> Return size of allocated storage capacity. </p>
+         *
          * <p> Returns the size of the storage space currently allocated for the {@link IArray container},
          * expressed in terms of elements. </p>
          *
-         * <p> This <i>capacity</i> is not necessarily equal to the {@link IArray container} {@link size}.
+         * <p> This {@link capacity} is not necessarily equal to the {@link IArray container} {@link size}.
          * It can be equal or greater, with the extra space allowing to accommodate for growth without the
          * need to reallocate on each insertion. </p>
          *
-         * <p> Notice that this <i>capacity</i> does not suppose a limit on the {@link size} of the
-         * {@link IArray container}. When this <i>capacity</i> is exhausted and more is needed, it is
+         * <p> Notice that this {@link capacity} does not suppose a limit on the {@link size} of the
+         * {@link IArray container}. When this {@link capacity} is exhausted and more is needed, it is
          * automatically expanded by the {@link IArray container} (reallocating it storage space).
          * The theoretical limit on the {@link size} of a {@link IArray container} is given by member
          * {@link max_size}. </p>
          *
-         * <p> The <i>capacity</i> of a {@link IArray container} can be explicitly altered by calling member
-         * {@link IArray.reserve}.
+         * <p> The {@link capacity} of a {@link IArray container} can be explicitly altered by calling member
+         * {@link IArray.reserve}. </p>
          *
          * @return The size of the currently allocated storage capacity in the {@link IArray container},
          *		   measured in terms of the number elements it can hold.
@@ -2334,8 +2336,19 @@ declare namespace std.base.tree {
     }
 }
 declare namespace std {
+    /**
+     * Bind function arguments.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     class Bind<Listener extends Function, This extends Object> {
+        /**
+         *
+         */
         protected func_: Listener;
+        /**
+         *
+         */
         protected this_arg_: This;
         /**
          * Construct from function and this argument.
@@ -2344,6 +2357,10 @@ declare namespace std {
          * @param this_arg
          */
         constructor(func: Listener, this_arg: This);
+        /**
+         *
+         * @param args
+         */
         apply(...args: any[]): any;
         equals<U extends Listener, T extends This>(obj: Bind<U, T>): boolean;
     }
@@ -2402,11 +2419,68 @@ declare namespace std {
      */
     class Deque<T> extends base.container.Container<T> implements base.container.IArray<T>, base.container.IDeque<T> {
         static iterator: typeof ListIterator;
+        /**
+         * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
+         *
+         * <p> Note that the {@link ROW} affects on time complexity of accessing and inserting element.
+         * Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element
+         * in middle position is {@link ROW} times faster than ordinary {@link Vector}. </p>
+         *
+         * <p> When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting
+         * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
+         * and inserting element is O(N)). </p>
+         */
         private static ROW;
+        /**
+         * <p> Minimum {@link capacity}. </p>
+         *
+         * <p> Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque}
+         * keeps the minimum {@link capacity} at least. </p>
+         */
         private static MIN_CAPACITY;
+        /**
+         * <p> A matrix containing elements. </p>
+         *
+         * <p> This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
+         * Its number of rows follows {@link ROW} and number of columns follows {@link get_col_size} which
+         * returns divide of {@link capacity} and {@link ROW}. </p>
+         *
+         * By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
+         * advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW}
+         * times faster than {@link Vector} when inserting elements in middle position. </p>
+         *
+         * <p> However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
+         * time complexity on accessing element. {@link Deque} is {@link ROW} times slower than {@link Vector}
+         * when accessing element. </p>
+         */
         private matrix_;
+        /**
+         * Number of elements in the {@link Deque}.
+         */
         private size_;
+        /**
+         * <p> Size of allocated storage capacity. </p>
+         *
+         * <p> The {@link capacity_ capacity} is size of the storage space currently allocated for the
+         * {@link Deque container}, expressed in terms of elements. </p>
+         *
+         * <p> This {@link capacity_ capacity} is not necessarily equal to the {@link Deque container}
+         * {@link size}. It can be equal or greater, with the extra space allowing to accommodate for growth
+         * without the need to reallocate on each insertion. </p>
+         *
+         * <p> Notice that this {@link capacity_ capacity} does not suppose a limit on the {@link size} of
+         * the {@link Deque container}. When this {@link capacity} is exhausted and more is needed, it is
+         * automatically expanded by the {@link Deque container} (reallocating it storage space).
+         * The theoretical limit on the {@link size} of a {@link Deque container} is given by member
+         * {@link max_size}. </p>
+         *
+         * <p> The {@link capacity_ capacity} of a {@link Deque container} can be explicitly altered by
+         * calling member {@link Deque.reserve}. </p>
+         */
         private capacity_;
+        /**
+         * Get column size; {@link capacity_ capacity} / {@link ROW row}.
+         */
         private get_col_size();
         /**
          * <p> Default Constructor. </p>
@@ -2499,6 +2573,13 @@ declare namespace std {
          * @inheritdoc
          */
         back(): T;
+        /**
+         * <p> Fetch row and column's index. </p>
+         *
+         * <p> Fetches index of row and column of {@link matrix_} from sequence number. </p>
+         *
+         * @param index Sequence number
+         */
         private fetch_index(index);
         /**
          * @inheritdoc
@@ -2532,7 +2613,13 @@ declare namespace std {
          * @inheritdoc
          */
         insert<U extends T, InputIterator extends base.container.Iterator<U>>(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
         erase(position: DequeIterator<T>): DequeIterator<T>;
+        /**
+         * @inheritdoc
+         */
         erase(begin: DequeIterator<T>, end: DequeIterator<T>): DequeIterator<T>;
         /**
          * @inheritdoc
@@ -2594,10 +2681,10 @@ declare namespace std {
     }
 }
 /**
-* STL (Standard Template Library) Containers for TypeScript.
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
+ * STL (Standard Template Library) Containers for TypeScript.
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 /**
@@ -4090,16 +4177,16 @@ declare namespace std {
     }
 }
 /**
-* <p> A namespace of STL library. </p>
-*
-* <ul>
-*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
-*	<li> Github: https://github.com/samchon/stl/ </li>
-*	<li> Reference: http://www.cplusplus.com/reference/ </li>
-* </ul>
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
+ * <p> A namespace of STL library. </p>
+ *
+ * <ul>
+ *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+ *	<li> Github: https://github.com/samchon/stl/ </li>
+ *	<li> Reference: http://www.cplusplus.com/reference/ </li>
+ * </ul>
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 declare namespace std.base {
