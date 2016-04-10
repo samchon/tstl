@@ -156,8 +156,8 @@ namespace std.base.container
 		 * @param end An iterator specifying a range of end to erase.
 		 *
 		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 *		   call. This is the {@link end Container.end} if the operation erased the last element in the 
-		 *		   sequence.
+		 *		   call. This is the {@link end Container.end} if the operation erased the last element in 
+		 *		   the sequence.
 		 */
 		erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
 
@@ -165,9 +165,21 @@ namespace std.base.container
 			UTILITIES
 		--------------------------------------------------------------- */
 		/**
-		 * Swap two containers contents.
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link IContainer container} object with same type of elements. Sizes and container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i> 
+		 * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and 
+		 * pointers remain valid for the swapped objects. </p>
 		 *
-		 * @param obj A container to swap with.
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link IContainer container} of the same type of elements (i.e., instantiated 
+		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
+		 *			  {@link container IContainer}.
 		 */
 		swap(obj: IContainer<T>): void;
 	}

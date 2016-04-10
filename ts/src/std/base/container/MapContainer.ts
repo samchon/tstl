@@ -4,12 +4,15 @@ namespace std.base.container
 	 * <p> An abstract map. </p>
 	 *
 	 * <p> {@link MapContainer MapContainers} are associative containers that store elements formed by a combination 
-	 * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), following order. </p>
+	 * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval 
+	 * of individual elements based on their keys. </p>
 	 *
 	 * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the 
-	 * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and <i>mapped value</i> 
-	 * may differ, and are grouped together in member type <i>value_type</i>, which is a {@link Pair} type combining 
-	 * both:
+	 * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and 
+	 * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a 
+	 * {@link Pair} type combining both: </p>
+	 *
+	 * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
 	 *
 	 * <p> {@link MapContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
@@ -18,13 +21,20 @@ namespace std.base.container
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
-	 *	<dd> Elements in associative containers are referenced by their key and not by their absolute position in 
-	 *		 the container. </dd>
-	 *
+	 *	<dd> 
+	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position 
+	 *		in the container. 
+	 *	</dd>
+	 * 
 	 *	<dt> Map </dt>
-	 *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>: 
-	 *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+	 *	<dd> 
+	 *		Each element associates a <i>key</i> to a <i>mapped value</i>: 
+	 *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. 
+	 *	</dd>
 	 * </dl>
+	 *
+	 * @param <Key> Type of the keys. Each element in a map is identified by its key value.
+	 * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -108,8 +118,8 @@ namespace std.base.container
 		/**
 		 * <p> Assign new content to content. </p>
 		 *
-		 * <p> Assigns new contents to the Container, replacing its current contents, 
-		 * and modifying its size accordingly. </p>
+		 * <p> Assigns new contents to the Container, replacing its current contents, and modifying its {@link size} 
+		 * accordingly. </p>
 		 *
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
@@ -142,11 +152,11 @@ namespace std.base.container
 		/**
 		 * <p> Get iterator to element. </p>
 		 * 
-		 * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and 
-		 * returns an iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
+		 * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and returns an 
+		 * iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
 		 *
-		 * <p> Two keys are considered equivalent if the container's comparison object returns false 
-		 * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively 
+		 * (i.e., no matter the order in which the elements are passed as arguments). </p>
 		 *
 		 * <p> Another member functions, {@link has has()} and {@link count count()}, can be used to just check 
 		 * whether a particular <i>key</i> exists. </p>
@@ -165,7 +175,7 @@ namespace std.base.container
 		 * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
 		 *
 		 * @return An iterator to the first element in the container.
-		 * The iterator containes the first element's value.
+		 *		   The iterator containes the first element's value.
 		 */
 		public begin(): MapIterator<Key, T>
 		{
@@ -176,16 +186,17 @@ namespace std.base.container
 		 * <p> Return iterator to end. </p>
 		 * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
 		 *
-		 * <p> The past-the-end element is the theoretical element that would follow the last element in 
-		 * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+		 * <p> The past-the-end element is the theoretical element that would follow the last element in the 
+		 * container. It does not point to any element, and thus shall not be dereferenced. </p>
 		 *
-		 * <p> Because the ranges used by functions of the Container do not include the element reference 
-		 * by their closing iterator, this function is often used in combination with Container::begin() to specify 
-		 * a range including all the elements in the container. </p>
+		 * <p> Because the ranges used by functions of the Container do not include the element reference by their 
+		 * closing iterator, this function is often used in combination with Container::begin() to specify a range 
+		 * including all the elements in the container. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing 
-		 * element by the iterator will cause throwing exception (out of range). </p>
+		 * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing element by 
+		 * the iterator will cause throwing exception (out of range). </p>
+		 * 
 		 * <p> If the container is empty, this function returns the same as {@link begin}. </p>
 		 * 
 		 * @return An iterator to the end element in the container.
@@ -247,6 +258,10 @@ namespace std.base.container
 			INSERT
 		--------------------------------------------------------- */
 		/**
+		 * <p> Insert an element. </p>
+		 * 
+		 * <p> Extends the container by inserting a new element, effectively increasing the container {@link size} 
+		 * by the number of element inserted (zero or one). </p>
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param pair {@link Pair} to be inserted as an element.
@@ -257,19 +272,30 @@ namespace std.base.container
 		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
 
 		/**
-		 * 
+		 * <p> Insert an element. </p>
+		 *
+		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} 
+		 * by the number of elements inserted. </p>
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
+		 * 
+		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
+		 *		   equivalent key in the {@link MapContainer}.
 		 */
 		public insert<L extends Key, U extends T>
-			(hint: MapIterator<Key, T>, tuple: [L, U]): void;
+			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
 		
 		/**
-		 * 
-		 * 
-		 * @param begin
-		 * @param end
+		 * <p> Insert elements from range iterators. </p>
+		 *
+		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
+		 * the number of elements inserted. </p> 
+		 *
+		 * @param begin Input iterator specifying initial position of a range of elements.
+		 * @param end Input iterator specifying final position of a range of elements.
+		 *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>, 
+		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
 		 */
 		public insert<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
 			(begin: InputIterator, end: InputIterator): void;
@@ -298,12 +324,22 @@ namespace std.base.container
 			}
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected abstract insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
+		
+		/**
+		 * @hidden
+		 */
 		private insert_by_tuple<L extends Key, U extends T>(tuple: [L, U]): any
 		{
 			return this.insert_by_pair(new Pair<L, U>(tuple[0], tuple[1]));
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			// INSERT
@@ -315,12 +351,19 @@ namespace std.base.container
 
 			return it;
 		}
+
+		/**
+		 * @hidden
+		 */
 		private insert_by_hint_with_tuple<L extends Key, U extends T>
 			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>
 		{
 			return this.insert_by_hint(hint, new Pair<L, U>(tuple[0], tuple[1]));
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
 			(begin: InputIterator, end: InputIterator): void
 		{
@@ -333,21 +376,43 @@ namespace std.base.container
 			ERASE
 		--------------------------------------------------------- */
 		/**
+		 * <p> Erase an elemet by key. </p>
+		 *
+		 * <p> Removes from the {@link MapContainer map container} a single element. </p>
+		 *
+		 * <p> This effectively reduces the container {@link size} by the number of element removed (zero or one), 
+		 * which are destroyed. </p>
 		 * 
-		 * @param key
+		 * @param key Key of the element to be removed from the {@link MapContainer}.
 		 */
 		public erase(key: Key): number;
 		
 		/**
+		 * <p> Erase an elemet by iterator. </p>
+		 *
+		 * <p> Removes from the {@link MapContainer map container} a single element. </p>
+		 *
+		 * <p> This effectively reduces the container {@link size} by the number of element removed (zero or one), 
+		 * which are destroyed. </p>
 		 * 
-		 * @param it
+		 * @param it Iterator specifying position winthin the {@link MapContainer map contaier} to be removed.
 		 */
 		public erase(it: MapIterator<Key, T>): MapIterator<Key, T>;
 		
 		/**
+		 * <p> Erase elements by range iterators. </p>
+		 *
+		 * <p> Removes from the {@link MapContainer map container} a range of elements. </p>
+		 *
+		 * <p> This effectively reduces the container {@link size} by the number of elements removed, which are 
+		 * destroyed. </p>
 		 * 
-		 * @param begin
-		 * @param end
+		 * @param begin An iterator specifying initial position of a range within {@link MApContainer map container}
+		 *				to be removed.
+		 * @param end An iterator specifying initial position of a range within {@link MApContainer map container}
+		 *			  to be removed.
+		 *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>,
+		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
 		 */
 		public erase(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>;
 
@@ -450,12 +515,29 @@ namespace std.base.container
 		/* ===============================================================
 			UTILITIES
 		=============================================================== */
+		/**
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link MapContainer map} of the same type. Sizes abd container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
+		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 *
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link MapContainer map container} of the same type of elements as this (i.e., 
+		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
+		 *			  with that of this {@link MapContaier container}.
+		 */
 		public swap(obj: MapContainer<Key, T>): void
 		{
-			let supplement: List<Pair<Key, T>> = this.data_;
-
-			this.data_ = obj.data_;
-			obj.data_ = supplement;
+			let supplement: HashMultiMap<Key, T> = new HashMultiMap<Key, T>(this.begin(), this.end());
+			
+			this.assign(obj.begin(), obj.end());
+			obj.assign(supplement.begin(), supplement.end());
 		}
 	}
 }

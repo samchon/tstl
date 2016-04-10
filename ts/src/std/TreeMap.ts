@@ -11,7 +11,7 @@ namespace std
 	 * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify 
 	 * the elements, while the <i>mapped values</i> store the content associated to this key. The types of 
 	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, 
-	 * which is a {@link Pair} type combining both:
+	 * which is a {@link Pair} type combining both: </p>
 	 *
 	 * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
 	 *
@@ -272,7 +272,7 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_insert(item: MapIterator<Key, T>): void
 		{
@@ -280,7 +280,7 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_erase(item: MapIterator<Key, T>): void
 		{
@@ -290,14 +290,31 @@ namespace std
 		/* ===============================================================
 			UTILITIES
 		=============================================================== */
-		public swap(obj: TreeMap<Key, T>): void
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: base.container.MapContainer<Key, T>): void
 		{
-			super.swap(obj);
+			if (obj instanceof TreeMap)
+				this.swap_tree_map(obj);
+			else
+				super.swap(obj);
+		}
 
-			let supplement: base.tree.PairTree<Key, T> = this.tree_;
+		/**
+		 * @hidden
+		 */
+		private swap_tree_map(obj: TreeMap<Key, T>): void
+		{
+			let supplement: TreeMap<Key, T> = new TreeMap<Key, T>();
+			supplement.data_ = this.data_;
+			supplement.tree_ = this.tree_;
 
+			this.data_ = obj.data_;
 			this.tree_ = obj.tree_;
-			obj.tree_ = supplement;
+
+			obj.data_ = supplement.data_;
+			obj.tree_ = supplement.tree_;
 		}
 	}
 }

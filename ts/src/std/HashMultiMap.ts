@@ -201,7 +201,7 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_insert(it: MapIterator<Key, T>): void
 		{
@@ -209,11 +209,41 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_erase(it: MapIterator<Key, T>): void
 		{
 			this.hash_buckets_.erase(it);
+		}
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: base.container.MapContainer<Key, T>): void
+		{
+			if (obj instanceof HashMultiMap)
+				this.swap_hash_multimap(obj);
+			else
+				super.swap(obj);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private swap_hash_multimap(obj: HashMultiMap<Key, T>): void
+		{
+			let supplement: HashMultiMap<Key, T> = new HashMultiMap<Key, T>();
+			supplement.data_ = this.data_;
+			supplement.hash_buckets_ = this.hash_buckets_;
+
+			this.data_ = obj.data_;
+			this.hash_buckets_ = obj.hash_buckets_;
+
+			obj.data_ = supplement.data_;
+			obj.hash_buckets_ = supplement.hash_buckets_;
 		}
 	}
 }

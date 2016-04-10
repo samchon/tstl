@@ -5,33 +5,31 @@ namespace std
 	 *
 	 * <p> {@link Vector}s are sequence containers representing arrays that can change in size. </p>
 	 *
-	 * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which 
-	 * means that their elements can also be accessed using offsets on regular pointers to its elements, and 
-	 * just as efficiently as in arrays. But unlike arrays, their size can change dynamically, with their 
-	 * storage being handled automatically by the container. </p>
+	 * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that 
+	 * their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently 
+	 * as in arrays. But unlike arrays, their size can change dynamically, with their storage being handled 
+	 * automatically by the container. </p>
 	 *
-	 * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This 
-	 * array may need to be reallocated in order to grow in size when new elements are inserted, which implies 
-	 * allocating a new array and moving all elements to it. This is a relatively expensive task in terms of 
-	 * processing time, and thus, {@link Vector}s do not reallocate each time an element is added to the 
-	 * container. </p>
+	 * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need 
+	 * to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new 
+	 * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and 
+	 * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
 	 *
-	 * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible 
-	 * growth, and thus the container may have an actual {@link capacity} greater than the storage strictly 
-	 * needed to contain its elements (i.e., its {@link size}). Libraries can implement different strategies 
-	 * for growth to balance between memory usage and reallocations, but in any case, reallocations should only 
-	 * happen at logarithmically growing intervals of {@link size} so that the insertion of individual 
-	 * elements at the end of the {@link Vector} can be provided with amortized constant time complexity 
-	 * (see {@link push_back push_back()}). </p>
+	 * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and 
+	 * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its 
+	 * elements (i.e., its {@link size}). Libraries can implement different strategies for growth to balance between 
+	 * memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing 
+	 * intervals of {@link size} so that the insertion of individual elements at the end of the {@link Vector} can be 
+	 * provided with amortized constant time complexity (see {@link push_back push_back()}). </p>
 	 *
-	 * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability 
-	 * to manage storage and grow dynamically in an efficient way. </p>
+	 * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability to manage 
+	 * storage and grow dynamically in an efficient way. </p>
 	 *
-	 * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), 
-	 * {@link Vector}s are very efficient accessing its elements (just like arrays) and relatively 
-	 * efficient adding or removing elements from its end. For operations that involve inserting or removing 
-	 * elements at positions other than the end, they perform worse than the others, and have less consistent 
-	 * iterators and references than {@link List}s. </p>
+	 * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors} 
+	 * are very efficient accessing its elements (just like arrays) and relatively efficient adding or removing 
+	 * elements from its end. For operations that involve inserting or removing elements at positions other than the 
+	 * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s. 
+	 * </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -334,11 +332,10 @@ namespace std
 		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
 		 * {@link size} surpasses the current {@link capacity}. </p>
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting 
-		 * element in positions other than the {@link end end()} causes the container to relocate all the 
-		 * elements that were after <i>position</i> to its new position. This is generally an inefficient 
-		 * operation compared to the one performed for the same operation by other kinds of sequence containers 
-		 * (such as {@link List}). </p>
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
+		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
+		 * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one 
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
 		 *
 		 * @param position Position in the {@link Vector} where the new element is inserted.
 		 *				   {@link iterator} is a member type, defined as a 
@@ -358,11 +355,10 @@ namespace std
 		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
 		 * {@link size} surpasses the current {@link capacity}. </p>
 		 * 
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting 
-		 * elements in positions other than the {@link end end()} causes the container to relocate all the 
-		 * elements that were after <i>position</i> to their new positions. This is generally an inefficient 
-		 * operation compared to the one performed for the same operation by other kinds of sequence containers 
-		 * (such as {@link List}).
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
+		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
+		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
+		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
 		 * 
 		 * @param position Position in the {@link Vector} where the new elements are inserted.
 		 *				   {@link iterator} is a member type, defined as a 
@@ -378,17 +374,16 @@ namespace std
 		 * <p> Insert elements by range iterators. </p>
 		 *
 		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by 
-		 * range iterators. </p>
+		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by range 
+		 * iterators. </p>
 		 * 
 		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
 		 * {@link size} surpasses the current {@link capacity}. </p>
-
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting 
-		 * elements in positions other than the {@link end end()} causes the container to relocate all the 
-		 * elements that were after <i>position</i> to their new positions. This is generally an inefficient 
-		 * operation compared to the one performed for the same operation by other kinds of sequence containers 
-		 * (such as {@link List}).
+		 * 
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
+		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
+		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
+		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
 		 *
 		 * @param position Position in the {@link Vector} where the new elements are inserted.
 		 *				   {@link iterator} is a member type, defined as a 
@@ -455,17 +450,16 @@ namespace std
 		 *
 		 * <p> This effectively reduces the container size by the number of element removed. </p>
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an 
-		 * element in position other than the {@link end end()} causes the container to relocate all the 
-		 * elements after the segment erased to their new positions. This is generally an inefficient operation 
-		 * compared to the one performed for the same operation by other kinds of sequence containers 
-		 * (such as {@link List}). </p>
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in 
+		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
+		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
 		 * 
 		 * @param position Iterator pointing to a single element to be removed from the {@link Vector}.
 		 *
-		 * @return An iterator pointing to the new location of the element that followed the last element erased 
-		 *		   by the function call. This is the {@link end end()} if the operation erased the last 
-		 *		   element in the sequence.
+		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
+		 *		   the function call. This is the {@link end end()} if the operation erased the last element in the 
+		 *		   sequence.
 		 */
 		public erase(position: VectorIterator<T>): VectorIterator<T>;
 		
@@ -476,18 +470,17 @@ namespace std
 		 *
 		 * <p> This effectively reduces the container size by the number of elements removed. </p>
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing  
-		 * elements in position other than the {@link end end()} causes the container to relocate all the 
-		 * elements after the segment erased to their new positions. This is generally an inefficient operation 
-		 * compared to the one performed for the same operation by other kinds of sequence containers 
-		 * (such as {@link List}). </p>
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in 
+		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
+		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
 		 * 
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
 		 *
-		 * @return An iterator pointing to the new location of the element that followed the last element erased 
-		 *		   by the function call. This is the {@link end end()} if the operation erased the last 
-		 *		   element in the sequence.
+		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
+		 *		   the function call. This is the {@link end end()} if the operation erased the last element in the 
+		 *		   sequence.
 		 */
 		public erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;
 
@@ -515,7 +508,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: Vector<T>): void
+		public swap(obj: base.container.IContainer<T>): void
 		{
 			let supplement: Vector<T> = new Vector<T>(this.begin(), this.end());
 

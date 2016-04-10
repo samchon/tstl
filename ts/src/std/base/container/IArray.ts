@@ -5,7 +5,7 @@
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IArray<T> 
+	export interface IArray<T>
 		extends ILinearContainer<T>
 	{
 		/* ---------------------------------------------------------

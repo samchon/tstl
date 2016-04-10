@@ -204,7 +204,7 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_insert(item: SetIterator<T>): void
 		{
@@ -212,11 +212,41 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_erase(item: SetIterator<T>): void
 		{
 			this.hash_buckets_.erase(item);
+		}
+
+		/* ===============================================================
+			UTILITIES
+		=============================================================== */
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: base.container.IContainer<T>): void
+		{
+			if (obj instanceof HashSet)
+				this.swap_tree_set(obj);
+			else
+				super.swap(obj);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private swap_tree_set(obj: HashSet<T>): void
+		{
+			let supplement: HashSet<T> = new HashSet<T>();
+			supplement.data_ = this.data_;
+			supplement.hash_buckets_ = this.hash_buckets_;
+
+			this.data_ = obj.data_;
+			this.hash_buckets_ = obj.hash_buckets_;
+
+			obj.data_ = supplement.data_;
+			obj.hash_buckets_ = supplement.hash_buckets_;
 		}
 	}
 }

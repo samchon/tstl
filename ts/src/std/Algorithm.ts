@@ -4,6 +4,7 @@
 		SORT
 			- STANDARD DEFINITION
 			- QUICK SORT
+			- SWAP
 	============================================================
 		STANDARD DEFINITION
 	--------------------------------------------------------- */
@@ -108,17 +109,31 @@
 				break;
 
 			// SWAP; AT(I) WITH AT(J)
-			let supp: T = container.at(i);
+			let supplement: T = container.at(i);
 			container.set(i, container.at(j));
-			container.set(j, supp);
+			container.set(j, supplement);
 		}
 
 		// SWAO; AT(BEGIN) WITH AT(J)
-		let supp:T = container.at(begin);
+		let supplement:T = container.at(begin);
 		container.set(begin, container.at(j));
-		container.set(j, supp);
+		container.set(j, supplement);
 
 		return j;
+	}
+
+	/* ---------------------------------------------------------
+		SWAP
+	--------------------------------------------------------- */
+	export function swap<T, ContainerT extends base.container.IContainer<T>>
+		(left: ContainerT, right: ContainerT): void;
+
+	export function swap<Key, T, MapT extends base.container.MapContainer<Key, T>>
+		(left: MapT, right: MapT): void;
+
+	export function swap(left: any, right: any)
+	{
+		left.swap(right);
 	}
 
 	/* =========================================================

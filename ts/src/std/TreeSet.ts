@@ -24,12 +24,16 @@ namespace std
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
-	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the container. </dd>
+	 *	<dd> 
+	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
+	 *		position in the container. 
+	 *	</dd>
 	 * 
 	 *	<dt> Ordered </dt>
-	 *	<dd> The elements in the container follow a strict order at all times. All inserted elements are 
-	 *		 given a position in this order. </dd>
+	 *	<dd> 
+	 *		The elements in the container follow a strict order at all times. All inserted elements are 
+	 *		given a position in this order. 
+	 *	</dd>
 	 *
 	 *	<dt> Set </dt>
 	 *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -263,7 +267,7 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_insert(item: SetIterator<T>): void
 		{
@@ -271,7 +275,7 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_erase(item: SetIterator<T>): void
 		{
@@ -284,14 +288,28 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: TreeSet<T>): void
+		public swap(obj: base.container.IContainer<T>): void
 		{
-			super.swap(obj);
+			if (obj instanceof TreeSet)
+				this.swap_tree_set(obj);
+			else
+				super.swap(obj);
+		}
 
-			let supplement: base.tree.AtomicTree<T> = this.tree_;
+		/**
+		 * @hidden
+		 */
+		private swap_tree_set(obj: TreeSet<T>): void
+		{
+			let supplement: TreeSet<T> = new TreeSet<T>();
+			supplement.data_ = this.data_;
+			supplement.tree_ = this.tree_;
 
+			this.data_ = obj.data_;
 			this.tree_ = obj.tree_;
-			obj.tree_ = supplement;
+
+			obj.data_ = supplement.data_;
+			obj.tree_ = supplement.tree_;
 		}
 	}
 }

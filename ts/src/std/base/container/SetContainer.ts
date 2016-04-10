@@ -19,8 +19,10 @@ namespace std.base.container
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
-	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-	 *		 position in the container. </dd>
+	 *	<dd> 
+	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+	 *		position in the container. 
+	 *	</dd>
 	 * 
 	 *	<dt> Set </dt>
 	 *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -200,6 +202,7 @@ namespace std.base.container
 
 		/**
 		 * <p> Count elements with a specific key. </p>
+		 * 
 		 * <p> Searches the container for elements with a value of k and returns the number of elements found. </p>
 		 *
 		 * @param key Value of the elements to be counted.
@@ -275,12 +278,12 @@ namespace std.base.container
 		}
 
 		/**
-		 * Abstract method inserting an element by its val.
+		 * @hidden
 		 */
 		protected abstract insert_by_val(val: T): any;
 		
 		/**
-		 * Abstract method inserting an element with hint of position to be inserted.
+		 * @hidden
 		 */
 		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
@@ -295,7 +298,7 @@ namespace std.base.container
 		}
 
 		/**
-		 * Abstract method inserting elements from range iterator of other container.
+		 * @hidden
 		 */
 		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void
@@ -349,7 +352,7 @@ namespace std.base.container
 		}
 
 		/**
-		 * Abstract method erasing an element with its val.
+		 * @hidden
 		 */
 		private erase_by_val(val: T): number
 		{
@@ -364,7 +367,7 @@ namespace std.base.container
 		}
 
 		/**
-		 * Abstract method erasing an element with iterator.
+		 * @hidden
 		 */
 		private erase_by_iterator(it: SetIterator<T>): SetIterator<T>
 		{
@@ -378,7 +381,7 @@ namespace std.base.container
 		}
 
 		/**
-		 * Abstract method erasing elements by those range iterators.
+		 * @hidden
 		 */
 		private erase_by_range(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>
 		{
@@ -432,19 +435,5 @@ namespace std.base.container
 		 * @param item Iterator of erased item.
 		 */
 		protected abstract handle_erase(item: SetIterator<T>): void;
-
-		/* ===============================================================
-			UTILITIES
-		=============================================================== */
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: SetContainer<T>): void
-		{
-			let supplement: List<T> = this.data_;
-
-			this.data_ = obj.data_;
-			obj.data_ = supplement;
-		}
 	}
 }

@@ -49,6 +49,8 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     function sort<T, InputIterator extends base.container.IArrayIterator<T>>(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
+    function swap<T, ContainerT extends base.container.IContainer<T>>(left: ContainerT, right: ContainerT): void;
+    function swap<Key, T, MapT extends base.container.MapContainer<Key, T>>(left: MapT, right: MapT): void;
     /**
      * <p> Apply function to range. </p>
      *
@@ -232,7 +234,10 @@ declare namespace std.base.container {
          * @inheritdoc
          */
         empty(): boolean;
-        abstract swap(obj: Container<T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: Container<T>): void;
     }
 }
 declare namespace std.base.container {
@@ -492,14 +497,26 @@ declare namespace std.base.container {
          * @param end An iterator specifying a range of end to erase.
          *
          * @return An iterator pointing to the element that followed the last element erased by the function
-         *		   call. This is the {@link end Container.end} if the operation erased the last element in the
-         *		   sequence.
+         *		   call. This is the {@link end Container.end} if the operation erased the last element in
+         *		   the sequence.
          */
         erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
         /**
-         * Swap two containers contents.
+         * <p> Swap content. </p>
          *
-         * @param obj A container to swap with.
+         * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another
+         * {@link IContainer container} object with same type of elements. Sizes and container type may differ. </p>
+         *
+         * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i>
+         * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and
+         * pointers remain valid for the swapped objects. </p>
+         *
+         * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that
+         * algorithm with an optimization that behaves like this member function. </p>
+         *
+         * @param obj Another {@link IContainer container} of the same type of elements (i.e., instantiated
+         *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this
+         *			  {@link container IContainer}.
          */
         swap(obj: IContainer<T>): void;
     }
@@ -725,12 +742,15 @@ declare namespace std.base.container {
      * <p> An abstract map. </p>
      *
      * <p> {@link MapContainer MapContainers} are associative containers that store elements formed by a combination
-     * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), following order. </p>
+     * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval
+     * of individual elements based on their keys. </p>
      *
      * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the
-     * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and <i>mapped value</i>
-     * may differ, and are grouped together in member type <i>value_type</i>, which is a {@link Pair} type combining
-     * both:
+     * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
+     * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+     * {@link Pair} type combining both: </p>
+     *
+     * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
      *
      * <p> {@link MapContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
@@ -739,13 +759,20 @@ declare namespace std.base.container {
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their key and not by their absolute position in
-     *		 the container. </dd>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+     *		in the container.
+     *	</dd>
      *
      *	<dt> Map </dt>
-     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
-     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *	<dd>
+     *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+     *	</dd>
      * </dl>
+     *
+     * @param <Key> Type of the keys. Each element in a map is identified by its key value.
+     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -791,8 +818,8 @@ declare namespace std.base.container {
         /**
          * <p> Assign new content to content. </p>
          *
-         * <p> Assigns new contents to the Container, replacing its current contents,
-         * and modifying its size accordingly. </p>
+         * <p> Assigns new contents to the Container, replacing its current contents, and modifying its {@link size}
+         * accordingly. </p>
          *
          * @param begin Input interator of the initial position in a sequence.
          * @param end Input interator of the final position in a sequence.
@@ -807,11 +834,11 @@ declare namespace std.base.container {
         /**
          * <p> Get iterator to element. </p>
          *
-         * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and
-         * returns an iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
+         * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and returns an
+         * iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
          *
-         * <p> Two keys are considered equivalent if the container's comparison object returns false
-         * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+         * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively
+         * (i.e., no matter the order in which the elements are passed as arguments). </p>
          *
          * <p> Another member functions, {@link has has()} and {@link count count()}, can be used to just check
          * whether a particular <i>key</i> exists. </p>
@@ -829,23 +856,24 @@ declare namespace std.base.container {
          * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
          *
          * @return An iterator to the first element in the container.
-         * The iterator containes the first element's value.
+         *		   The iterator containes the first element's value.
          */
         begin(): MapIterator<Key, T>;
         /**
          * <p> Return iterator to end. </p>
          * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
          *
-         * <p> The past-the-end element is the theoretical element that would follow the last element in
-         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+         * <p> The past-the-end element is the theoretical element that would follow the last element in the
+         * container. It does not point to any element, and thus shall not be dereferenced. </p>
          *
-         * <p> Because the ranges used by functions of the Container do not include the element reference
-         * by their closing iterator, this function is often used in combination with Container::begin() to specify
-         * a range including all the elements in the container. </p>
+         * <p> Because the ranges used by functions of the Container do not include the element reference by their
+         * closing iterator, this function is often used in combination with Container::begin() to specify a range
+         * including all the elements in the container. </p>
          *
          * <h4> Note </h4>
-         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-         * element by the iterator will cause throwing exception (out of range). </p>
+         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing element by
+         * the iterator will cause throwing exception (out of range). </p>
+         *
          * <p> If the container is empty, this function returns the same as {@link begin}. </p>
          *
          * @return An iterator to the end element in the container.
@@ -878,6 +906,10 @@ declare namespace std.base.container {
          */
         empty(): boolean;
         /**
+         * <p> Insert an element. </p>
+         *
+         * <p> Extends the container by inserting a new element, effectively increasing the container {@link size}
+         * by the number of element inserted (zero or one). </p>
          *
          * @param hint Hint for the position where the element can be inserted.
          * @param pair {@link Pair} to be inserted as an element.
@@ -887,38 +919,86 @@ declare namespace std.base.container {
          */
         insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
+         * <p> Insert an element. </p>
          *
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size}
+         * by the number of elements inserted. </p>
          *
          * @param hint Hint for the position where the element can be inserted.
          * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
+         *
+         * @return An iterator pointing to either the newly inserted element or to the element that already had an
+         *		   equivalent key in the {@link MapContainer}.
          */
-        insert<L extends Key, U extends T>(hint: MapIterator<Key, T>, tuple: [L, U]): void;
+        insert<L extends Key, U extends T>(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
         /**
+         * <p> Insert elements from range iterators. </p>
          *
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
+         * the number of elements inserted. </p>
          *
-         * @param begin
-         * @param end
+         * @param begin Input iterator specifying initial position of a range of elements.
+         * @param end Input iterator specifying final position of a range of elements.
+         *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>,
+         *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
          */
         insert<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
+        /**
+         * @hidden
+         */
         protected abstract insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
+        /**
+         * @hidden
+         */
         private insert_by_tuple<L, U>(tuple);
+        /**
+         * @hidden
+         */
         protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+        /**
+         * @hidden
+         */
         private insert_by_hint_with_tuple<L, U>(hint, tuple);
+        /**
+         * @hidden
+         */
         protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
+         * <p> Erase an elemet by key. </p>
          *
-         * @param key
+         * <p> Removes from the {@link MapContainer map container} a single element. </p>
+         *
+         * <p> This effectively reduces the container {@link size} by the number of element removed (zero or one),
+         * which are destroyed. </p>
+         *
+         * @param key Key of the element to be removed from the {@link MapContainer}.
          */
         erase(key: Key): number;
         /**
+         * <p> Erase an elemet by iterator. </p>
          *
-         * @param it
+         * <p> Removes from the {@link MapContainer map container} a single element. </p>
+         *
+         * <p> This effectively reduces the container {@link size} by the number of element removed (zero or one),
+         * which are destroyed. </p>
+         *
+         * @param it Iterator specifying position winthin the {@link MapContainer map contaier} to be removed.
          */
         erase(it: MapIterator<Key, T>): MapIterator<Key, T>;
         /**
+         * <p> Erase elements by range iterators. </p>
          *
-         * @param begin
-         * @param end
+         * <p> Removes from the {@link MapContainer map container} a range of elements. </p>
+         *
+         * <p> This effectively reduces the container {@link size} by the number of elements removed, which are
+         * destroyed. </p>
+         *
+         * @param begin An iterator specifying initial position of a range within {@link MApContainer map container}
+         *				to be removed.
+         * @param end An iterator specifying initial position of a range within {@link MApContainer map container}
+         *			  to be removed.
+         *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>,
+         *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
          */
         erase(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>;
         /**
@@ -969,11 +1049,66 @@ declare namespace std.base.container {
          * @param item Iterator of erased item.
          */
         protected abstract handle_erase(item: MapIterator<Key, T>): void;
+        /**
+         * <p> Swap content. </p>
+         *
+         * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another
+         * {@link MapContainer map} of the same type. Sizes abd container type may differ. </p>
+         *
+         * <p> After the call to this member function, the elements in this container are those which were
+         * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All
+         * iterators, references and pointers remain valid for the swapped objects. </p>
+         *
+         * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that
+         * algorithm with an optimization that behaves like this member function. </p>
+         *
+         * @param obj Another {@link MapContainer map container} of the same type of elements as this (i.e.,
+         *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped
+         *			  with that of this {@link MapContaier container}.
+         */
         swap(obj: MapContainer<Key, T>): void;
     }
 }
 declare namespace std.base.container {
     /**
+     * <p> An abstract multi-map. </p>
+     *
+     * <p> {@link MultiMap MultiMaps} are associative containers that store elements formed by a combination of a
+     * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
+     * individual elements based on their keys. </p>
+     *
+     * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the
+     * <i>mapped values</i> store the content associated to this <i>key</i>. The types of <i>key</i> and
+     * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+     * {@link Pair} type combining both: </p>
+     *
+     * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+     *
+     * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+     * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+     * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+     *		in the container.
+     *	</dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd>
+     *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+     *	</dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <Key> Type of the keys. Each element in a map is identified by its key value.
+     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class MultiMap<Key, T> extends MapContainer<Key, T> {
@@ -986,13 +1121,25 @@ declare namespace std.base.container {
          */
         count(key: Key): number;
         /**
+         * <p> Insert elements. </p>
          *
-         * @param pair
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
+         * the number of elements inserted. </p>
+         *
+         * @param pair {@link Pair} to be inserted as an element.
+         *
+         * @return An iterator pointing to the newly inserted element.
          */
         insert(pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
+         * <p> Insert elements. </p>
          *
-         * @param tuple
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
+         * the number of elements inserted. </p>
+         *
+         * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
+         *
+         * @return An iterator pointing to the newly inserted element.
          */
         insert<L extends Key, U extends T>(tuple: [L, U]): MapIterator<Key, T>;
         /**
@@ -1027,8 +1174,10 @@ declare namespace std.base.container {
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
      *
      *	<dt> Set </dt>
      *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -1121,6 +1270,7 @@ declare namespace std.base.container {
         has(val: T): boolean;
         /**
          * <p> Count elements with a specific key. </p>
+         *
          * <p> Searches the container for elements with a value of k and returns the number of elements found. </p>
          *
          * @param key Value of the elements to be counted.
@@ -1160,15 +1310,15 @@ declare namespace std.base.container {
          */
         insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
-         * Abstract method inserting an element by its val.
+         * @hidden
          */
         protected abstract insert_by_val(val: T): any;
         /**
-         * Abstract method inserting an element with hint of position to be inserted.
+         * @hidden
          */
         protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
         /**
-         * Abstract method inserting elements from range iterator of other container.
+         * @hidden
          */
         protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
@@ -1197,15 +1347,15 @@ declare namespace std.base.container {
          */
         erase(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>;
         /**
-         * Abstract method erasing an element with its val.
+         * @hidden
          */
         private erase_by_val(val);
         /**
-         * Abstract method erasing an element with iterator.
+         * @hidden
          */
         private erase_by_iterator(it);
         /**
-         * Abstract method erasing elements by those range iterators.
+         * @hidden
          */
         private erase_by_range(begin, end);
         /**
@@ -1244,14 +1394,41 @@ declare namespace std.base.container {
          * @param item Iterator of erased item.
          */
         protected abstract handle_erase(item: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        swap(obj: SetContainer<T>): void;
     }
 }
 declare namespace std.base.container {
     /**
+     * <p> An abstract set. </p>
+     *
+     * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+     * individual elements based on their value. </p>
+     *
+     * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+     * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+     * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+     *			  by this value (each value is itself also the element's <i>key</i>).
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class MultiSet<T> extends SetContainer<T> {
@@ -1260,13 +1437,18 @@ declare namespace std.base.container {
          */
         constructor();
         /**
-         *
-         * @param val
+         * @inheritdoc
          */
         count(val: T): number;
         /**
+         * <p> Insert an element. </p>
          *
-         * @param val
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
+         * the number of elements inserted. </p>
+         *
+         * @param key Value to be inserted as an element.
+         *
+         * @return An iterator to the newly inserted element.
          */
         insert(val: T): SetIterator<T>;
         /**
@@ -1281,6 +1463,44 @@ declare namespace std.base.container {
 }
 declare namespace std.base.container {
     /**
+     * <p> An abstract unique-map. </p>
+     *
+     * <p> {@link UniqueMap UniqueMaps} are associative containers that store elements formed by a combination of a
+     * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
+     * individual elements based on their keys. </p>
+     *
+     * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to uniquely identify the elements,
+     * while the <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
+     * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+     * {@link Pair} type combining both: </p>
+     *
+     * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+     *
+     * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+     * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+     * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+     *		in the container.
+     *	</dd>
+     *
+     *	<dt> Map </dt>
+     *	<dd>
+     *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+     *	</dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+     * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class UniqueMap<Key, T> extends MapContainer<Key, T> {
@@ -1305,8 +1525,8 @@ declare namespace std.base.container {
         /**
          * <p> Set an item as the specified identifier. </p>
          *
-         * <p>If the identifier is already in map, change value of the identifier. If not, then insert the object with
-         * the identifier. </p>
+         * <p>If the identifier is already in map, change value of the identifier. If not, then insert the object
+         * with the identifier. </p>
          *
          * @param key Key value of the element whose mapped value is accessed.
          * @param val Value, the item.
@@ -1315,8 +1535,8 @@ declare namespace std.base.container {
         /**
          * <p> Insert an element. </p>
          *
-         * <p> Extends the container by inserting new elements, effectively increasing the container size by the
-         * number of elements inserted. </p>
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
+         * one. </p>
          *
          * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
          * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
@@ -1336,7 +1556,7 @@ declare namespace std.base.container {
         /**
          * <p> Insert an element. </p>
          *
-         * <p> Extends the container by inserting new elements, effectively increasing the container size by the
+         * <p> Extends the container by inserting a new element, effectively increasing the container size by the
          * number of elements inserted. </p>
          *
          * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
@@ -1370,6 +1590,37 @@ declare namespace std.base.container {
 }
 declare namespace std.base.container {
     /**
+     * <p> An abstract set. </p>
+     *
+     * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+     * individual elements based on their value. </p>
+     *
+     * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to uniquely
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be modified
+     * once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+     * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+     * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Unique keys </dt>
+     *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+     *			  by this value (each value is itself also the element's <i>key</i>).
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class UniqueSet<T> extends SetContainer<T> {
@@ -1384,8 +1635,8 @@ declare namespace std.base.container {
         /**
          * <p> Insert an element. </p>
          *
-         * <p> Extends the container by inserting new elements, effectively increasing the container size by the
-         * number of elements inserted. </p>
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
+         * the number of element inserted (zero or one). </p>
          *
          * <p> Because elements in a {@link UniqueSet UniqueSets} are unique, the insertion operation checks whether
          * each inserted element is equivalent to an element already in the container, and if so, the element is not
@@ -2681,10 +2932,10 @@ declare namespace std {
     }
 }
 /**
- * STL (Standard Template Library) Containers for TypeScript.
- *
- * @author Jeongho Nam <http://samchon.org>
- */
+* STL (Standard Template Library) Containers for TypeScript.
+*
+* @author Jeongho Nam <http://samchon.org>
+*/
 declare namespace std {
 }
 /**
@@ -3219,13 +3470,21 @@ declare namespace std {
          */
         protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_insert(it: MapIterator<Key, T>): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_erase(it: MapIterator<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.container.MapContainer<Key, T>): void;
+        /**
+         * @hidden
+         */
+        private swap_hash_map(obj);
     }
 }
 declare namespace std {
@@ -3320,13 +3579,21 @@ declare namespace std {
          */
         protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>(begin: InputIterator, end: InputIterator): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_insert(it: MapIterator<Key, T>): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_erase(it: MapIterator<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.container.MapContainer<Key, T>): void;
+        /**
+         * @hidden
+         */
+        private swap_hash_multimap(obj);
     }
 }
 declare namespace std {
@@ -3417,13 +3684,21 @@ declare namespace std {
          */
         protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_insert(it: SetIterator<T>): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_erase(it: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.container.IContainer<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_set(obj);
     }
 }
 declare namespace std {
@@ -3514,13 +3789,21 @@ declare namespace std {
          */
         protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_insert(item: SetIterator<T>): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_erase(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.container.IContainer<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_set(obj);
     }
 }
 declare namespace std {
@@ -3589,29 +3872,27 @@ declare namespace std {
     /**
      * <p> Doubly linked list. </p>
      *
-     * <p> {@link List}s are sequence containers that allow constant time insert and erase operations
-     * anywhere within the sequence, and iteration in both directions. </p>
+     * <p> {@link List}s are sequence containers that allow constant time insert and erase operations anywhere
+     * within the sequence, and iteration in both directions. </p>
      *
-     * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of
-     * the elements they contain in different and unrelated storage locations. The ordering is kept
-     * internally by the association to each element of a link to the element preceding it and a link to
-     * the element following it. </p>
+     * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements
+     * they contain in different and unrelated storage locations. The ordering is kept internally by the association
+     * to each element of a link to the element preceding it and a link to the element following it. </p>
      *
      * <p> They are very similar to forward_list: The main difference being that forward_list objects are
-     * single-linked lists, and thus they can only be iterated forwards, in exchange for being somewhat
-     * smaller and more efficient. </p>
+     * single-linked lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and
+     * more efficient. </p>
      *
-     * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform
-     * generally better in inserting, extracting and moving elements in any position within the container
-     * for which an iterator has already been obtained, and therefore also in algorithms that make
-     * intensive use of these, like sorting algorithms. </p>
+     * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform generally
+     * better in inserting, extracting and moving elements in any position within the container for which an iterator
+     * has already been obtained, and therefore also in algorithms that make intensive use of these, like sorting
+     * algorithms. </p>
      *
-     * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that
-     * they lack direct access to the elements by their position; For example, to access the sixth element
-     * in a list, one has to iterate from a known position (like the beginning or the end) to that position,
-     * which takes linear time in the distance between these. They also consume some extra memory to keep
-     * the linking information associated to each element (which may be an important factor for large lists
-     * of small-sized elements). </p>
+     * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that they lack
+     * direct access to the elements by their position; For example, to access the sixth element in a list, one has
+     * to iterate from a known position (like the beginning or the end) to that position, which takes linear time in
+     * the distance between these. They also consume some extra memory to keep the linking information associated to
+     * each element (which may be an important factor for large lists of small-sized elements). </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -3620,9 +3901,9 @@ declare namespace std {
      *		 accessed by their position in this sequence. </dd>
      *
      * 	<dt> Doubly-linked list </dt>
-     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing
-     *		 constant time insert and erase operations before or after a specific element (even of entire ranges),
-     *		 but no direct random access. </dd>
+     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant
+     *		 time insert and erase operations before or after a specific element (even of entire ranges), but no
+     *		 direct random access. </dd>
      * </dl>
      *
      * <ul>
@@ -3749,8 +4030,8 @@ declare namespace std {
          * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
          * inserted. </p>
          *
-         * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be
-         * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+         * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
+         * inserting and removing elements in any position, even in the middle of the sequence. </p>
          *
          * @param position Position in the container where the new element is inserted.
          *				   {@link iterator}> is a member type, defined as a
@@ -3763,9 +4044,9 @@ declare namespace std {
         /**
          * <p> Insert elements by repeated filling. </p>
          *
-         * @param position Position in the container where the new elements are inserted.
-         *				   {@link iterator}> is a member type, defined as a
-         *				   {@link ListIterator bidirectional iterator} type that points to elements.
+         * @param position Position in the container where the new elements are inserted. The {@link iterator} is a
+         *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to
+         *				   elements.
          * @param size Number of elements to insert.
          * @param val Value to be inserted as an element.
          *
@@ -3774,9 +4055,9 @@ declare namespace std {
         insert(position: ListIterator<T>, size: number, val: T): ListIterator<T>;
         /**
          *
-         * @param position Position in the container where the new elements are inserted.
-         *				   {@link iterator}> is a member type, defined as a
-         *				   {@link ListIterator bidirectional iterator} type that points to elements.
+         * @param position Position in the container where the new elements are inserted. The {@link iterator} is a
+         *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to
+         *				   elements.
          * @param begin An iterator specifying range of the begining element.
          * @param end An iterator specifying range of the ending element.
          *
@@ -3802,14 +4083,13 @@ declare namespace std {
          *
          * <p> This effectively reduces the container size by the number of element removed. </p>
          *
-         * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to
-         * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+         * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to be
+         * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
          *
          * @param position Iterator pointing to a single element to be removed from the {@link List}.
          *
-         * @return An iterator pointing to the element that followed the last element erased by the function
-         *		   call. This is the {@link end end()} if the operation erased the last element in the
-         *		   sequence.
+         * @return An iterator pointing to the element that followed the last element erased by the function call.
+         *		   This is the {@link end end()} if the operation erased the last element in the sequence.
          */
         erase(position: ListIterator<T>): ListIterator<T>;
         /**
@@ -3819,15 +4099,14 @@ declare namespace std {
          *
          * <p> This effectively reduces the container {@link size} by the number of elements removed. </p>
          *
-         * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to
-         * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+         * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to be
+         * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
          *
          * @param begin An iterator specifying a range of beginning to erase.
          * @param end An iterator specifying a range of end to erase.
          *
-         * @return An iterator pointing to the element that followed the last element erased by the function
-         *		   call. This is the {@link end end()} if the operation erased the last element in the
-         *		   sequence.
+         * @return An iterator pointing to the element that followed the last element erased by the function call.
+         *		   This is the {@link end end()} if the operation erased the last element in the sequence.
          */
         erase(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>;
         /**
@@ -3870,14 +4149,14 @@ declare namespace std {
         /**
          * <p> Remove elements with specific value. </p>
          *
-         * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the destructor
-         * of these objects and reduces the container {@link size} by the number of elements removed. </p>
+         * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the
+         * destructor of these objects and reduces the container {@link size} by the number of elements removed. </p>
          *
-         * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an iterator),
-         * this function ({@link List.remove}) removes elements by their value. </p>
+         * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an
+         * iterator), this function ({@link List.remove}) removes elements by their value. </p>
          *
-         * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an equality
-         * comparison to determine whether an element is removed. </p>
+         * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an
+         * equality comparison to determine whether an element is removed. </p>
          *
          * @param val Value of the elements to be removed.
          */
@@ -3885,9 +4164,9 @@ declare namespace std {
         /**
          * <p> Remove elements fulfilling condition. </p>
          *
-         * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This calls
-         * the destructor of these objects and reduces the container {@link size} by the number of elements removed.
-         * </p>
+         * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This
+         * calls the destructor of these objects and reduces the container {@link size} by the number of elements
+         * removed. </p>
          *
          * <p> The function calls <code>pred(it.value)</code> for each element (where <code>it</code> is an iterator
          * to that element). Any of the elements in the list for which this returns <code>true</code>, are removed
@@ -3902,11 +4181,12 @@ declare namespace std {
         /**
          * <p> Merge sorted {@link List Lists}. </p>
          *
-         * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective ordered
-         * positions into the container (<font color='red'>both containers shall already be ordered</font>). </p>
+         * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective
+         * ordered positions into the container (<font color='red'>both containers shall already be ordered</font>).
+         * </p>
          *
-         * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts them
-         * into their ordered position within container (which expands in {@link size} by the number of elements
+         * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts
+         * them into their ordered position within container (which expands in {@link size} by the number of elements
          * transferred). The operation is performed without constructing nor destroying any element: they are
          * transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type supports
          * move-construction or not. </p>
@@ -3930,11 +4210,12 @@ declare namespace std {
         /**
          * <p> Merge sorted {@link List Lists}. </p>
          *
-         * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective ordered
-         * positions into the container (<font color='red'>both containers shall already be ordered</font>). </p>
+         * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective
+         * ordered positions into the container (<font color='red'>both containers shall already be ordered</font>).
+         * </p>
          *
-         * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts them
-         * into their ordered position within container (which expands in {@link size} by the number of elements
+         * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts
+         * them into their ordered position within container (which expands in {@link size} by the number of elements
          * transferred). The operation is performed without constructing nor destroying any element: they are
          * transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type supports
          * move-construction or not. </p>
@@ -3968,10 +4249,10 @@ declare namespace std {
          *
          * <p> Transfers elements from <i>obj</i> into the container, inserting them at <i>position</i>. </p>
          *
-         * <p> This effectively inserts all elements into the container and removes them from <i>obj</i>, altering the
-         * sizes of both containers. The operation does not involve the construction or destruction of any element.
-         * They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type
-         * supports move-construction or not. </p>
+         * <p> This effectively inserts all elements into the container and removes them from <i>obj</i>, altering
+         * the sizes of both containers. The operation does not involve the construction or destruction of any
+         * element. They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the
+         * value_type supports move-construction or not. </p>
          *
          * <p> This first version (1) transfers all the elements of <i>obj</i> into the container. </p>
          *
@@ -3997,7 +4278,8 @@ declare namespace std {
          * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
          *			  This parameter may be <code>this</code> if <i>position</i> points to an element not actually
          *			  being spliced.
-         * @param it {@link ListIterator Iterator} to an element in <i>obj</i>. Only this single element is transferred.
+         * @param it {@link ListIterator Iterator} to an element in <i>obj</i>. Only this single element is
+         *			 transferred.
          */
         splice<U extends T>(position: ListIterator<T>, obj: List<U>, it: ListIterator<U>): void;
         /**
@@ -4031,9 +4313,9 @@ declare namespace std {
          *
          * <p> Sorts the elements in the {@link List}, altering their position within the container. </p>
          *
-         * <p> The sorting is performed by applying an algorithm that uses {@link less}. This comparison shall produce
-         * a strict weak ordering of the elements (i.e., a consistent transitive comparison, without considering its
-         * reflexiveness). </p>
+         * <p> The sorting is performed by applying an algorithm that uses {@link less}. This comparison shall
+         * produce a strict weak ordering of the elements (i.e., a consistent transitive comparison, without
+         * considering its reflexiveness). </p>
          *
          * <p> The resulting order of equivalent elements is stable: i.e., equivalent elements preserve the relative
          * order they had before the call. </p>
@@ -4066,7 +4348,11 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: List<T>): void;
+        swap(obj: base.container.IContainer<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_list(obj);
     }
 }
 declare namespace std {
@@ -4177,16 +4463,16 @@ declare namespace std {
     }
 }
 /**
- * <p> A namespace of STL library. </p>
- *
- * <ul>
- *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
- *	<li> Github: https://github.com/samchon/stl/ </li>
- *	<li> Reference: http://www.cplusplus.com/reference/ </li>
- * </ul>
- *
- * @author Jeongho Nam <http://samchon.org>
- */
+* <p> A namespace of STL library. </p>
+*
+* <ul>
+*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+*	<li> Github: https://github.com/samchon/stl/ </li>
+*	<li> Reference: http://www.cplusplus.com/reference/ </li>
+* </ul>
+*
+* @author Jeongho Nam <http://samchon.org>
+*/
 declare namespace std {
 }
 declare namespace std.base {
@@ -4612,7 +4898,7 @@ declare namespace std {
      * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify
      * the elements, while the <i>mapped values</i> store the content associated to this key. The types of
      * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>,
-     * which is a {@link Pair} type combining both:
+     * which is a {@link Pair} type combining both: </p>
      *
      * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
      *
@@ -4766,14 +5052,21 @@ declare namespace std {
          */
         protected insert_by_pair(pair: Pair<Key, T>): any;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_insert(item: MapIterator<Key, T>): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_erase(item: MapIterator<Key, T>): void;
-        swap(obj: TreeMap<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.container.MapContainer<Key, T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_map(obj);
     }
 }
 declare namespace std {
@@ -4787,7 +5080,7 @@ declare namespace std {
      * <p> In a {@link TreeMultiMap}, the <i>key values</i> are generally used to sort and uniquely identify
      * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of
      * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
-     * <code>value_type</code>, which is a {@link Pair} type combining both:
+     * <code>value_type</code>, which is a {@link Pair} type combining both: </p>
      *
      * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
      *
@@ -4803,16 +5096,22 @@ declare namespace std {
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
      *
      *	<dt> Ordered </dt>
-     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
-     *		 given a position in this order. </dd>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
      *
      *	<dt> Map </dt>
-     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
-     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *	<dd>
+     *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+     *	</dd>
      *
      *	<dt> Multiple equivalent keys </dt>
      *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
@@ -4935,14 +5234,21 @@ declare namespace std {
          */
         protected insert_by_pair(pair: Pair<Key, T>): any;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_insert(item: MapIterator<Key, T>): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_erase(item: MapIterator<Key, T>): void;
-        swap(obj: TreeMultiMap<Key, T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.container.MapContainer<Key, T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_multimap(obj);
     }
 }
 declare namespace std {
@@ -4958,7 +5264,7 @@ declare namespace std {
      * from the container. </p>
      *
      * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict
-     * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
+     * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
      *
      * <p> {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers
      * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
@@ -4969,12 +5275,16 @@ declare namespace std {
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
      *
      *	<dt> Ordered </dt>
-     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
-     *		 given a position in this order. </dd>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
      *
      *	<dt> Set </dt>
      *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -5096,17 +5406,21 @@ declare namespace std {
          */
         protected insert_by_val(val: T): any;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_insert(item: SetIterator<T>): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_erase(item: SetIterator<T>): void;
         /**
          * @inheritdoc
          */
-        swap(obj: TreeMultiSet<T>): void;
+        swap(obj: base.container.IContainer<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_set(obj);
     }
 }
 declare namespace std {
@@ -5132,12 +5446,16 @@ declare namespace std {
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
      *
      *	<dt> Ordered </dt>
-     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
-     *		 given a position in this order. </dd>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
      *
      *	<dt> Set </dt>
      *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -5265,17 +5583,21 @@ declare namespace std {
          */
         protected insert_by_val(val: T): any;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_insert(item: SetIterator<T>): void;
         /**
-         * @hidden
+         * @inheritdoc
          */
         protected handle_erase(item: SetIterator<T>): void;
         /**
          * @inheritdoc
          */
-        swap(obj: TreeSet<T>): void;
+        swap(obj: base.container.IContainer<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_set(obj);
     }
 }
 declare namespace std {
@@ -5284,33 +5606,31 @@ declare namespace std {
      *
      * <p> {@link Vector}s are sequence containers representing arrays that can change in size. </p>
      *
-     * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which
-     * means that their elements can also be accessed using offsets on regular pointers to its elements, and
-     * just as efficiently as in arrays. But unlike arrays, their size can change dynamically, with their
-     * storage being handled automatically by the container. </p>
+     * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that
+     * their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently
+     * as in arrays. But unlike arrays, their size can change dynamically, with their storage being handled
+     * automatically by the container. </p>
      *
-     * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This
-     * array may need to be reallocated in order to grow in size when new elements are inserted, which implies
-     * allocating a new array and moving all elements to it. This is a relatively expensive task in terms of
-     * processing time, and thus, {@link Vector}s do not reallocate each time an element is added to the
-     * container. </p>
+     * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need
+     * to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new
+     * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and
+     * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
      *
-     * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible
-     * growth, and thus the container may have an actual {@link capacity} greater than the storage strictly
-     * needed to contain its elements (i.e., its {@link size}). Libraries can implement different strategies
-     * for growth to balance between memory usage and reallocations, but in any case, reallocations should only
-     * happen at logarithmically growing intervals of {@link size} so that the insertion of individual
-     * elements at the end of the {@link Vector} can be provided with amortized constant time complexity
-     * (see {@link push_back push_back()}). </p>
+     * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and
+     * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its
+     * elements (i.e., its {@link size}). Libraries can implement different strategies for growth to balance between
+     * memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing
+     * intervals of {@link size} so that the insertion of individual elements at the end of the {@link Vector} can be
+     * provided with amortized constant time complexity (see {@link push_back push_back()}). </p>
      *
-     * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability
-     * to manage storage and grow dynamically in an efficient way. </p>
+     * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability to manage
+     * storage and grow dynamically in an efficient way. </p>
      *
-     * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s),
-     * {@link Vector}s are very efficient accessing its elements (just like arrays) and relatively
-     * efficient adding or removing elements from its end. For operations that involve inserting or removing
-     * elements at positions other than the end, they perform worse than the others, and have less consistent
-     * iterators and references than {@link List}s. </p>
+     * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors}
+     * are very efficient accessing its elements (just like arrays) and relatively efficient adding or removing
+     * elements from its end. For operations that involve inserting or removing elements at positions other than the
+     * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s.
+     * </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5449,11 +5769,10 @@ declare namespace std {
          * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
          * {@link size} surpasses the current {@link capacity}. </p>
          *
-         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting
-         * element in positions other than the {@link end end()} causes the container to relocate all the
-         * elements that were after <i>position</i> to its new position. This is generally an inefficient
-         * operation compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as {@link List}). </p>
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in
+         * positions other than the {@link end end()} causes the container to relocate all the elements that were
+         * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one
+         * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
          *
          * @param position Position in the {@link Vector} where the new element is inserted.
          *				   {@link iterator} is a member type, defined as a
@@ -5472,11 +5791,10 @@ declare namespace std {
          * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
          * {@link size} surpasses the current {@link capacity}. </p>
          *
-         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting
-         * elements in positions other than the {@link end end()} causes the container to relocate all the
-         * elements that were after <i>position</i> to their new positions. This is generally an inefficient
-         * operation compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as {@link List}).
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in
+         * positions other than the {@link end end()} causes the container to relocate all the elements that were
+         * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the
+         * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
          *
          * @param position Position in the {@link Vector} where the new elements are inserted.
          *				   {@link iterator} is a member type, defined as a
@@ -5491,17 +5809,16 @@ declare namespace std {
          * <p> Insert elements by range iterators. </p>
          *
          * <p> The {@link Vector} is extended by inserting new elements before the element at the specified
-         * <i>position</i>, effectively increasing the container size by the number of elements inserted by
-         * range iterators. </p>
+         * <i>position</i>, effectively increasing the container size by the number of elements inserted by range
+         * iterators. </p>
          *
          * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
          * {@link size} surpasses the current {@link capacity}. </p>
-
-         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting
-         * elements in positions other than the {@link end end()} causes the container to relocate all the
-         * elements that were after <i>position</i> to their new positions. This is generally an inefficient
-         * operation compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as {@link List}).
+         *
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in
+         * positions other than the {@link end end()} causes the container to relocate all the elements that were
+         * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the
+         * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
          *
          * @param position Position in the {@link Vector} where the new elements are inserted.
          *				   {@link iterator} is a member type, defined as a
@@ -5519,17 +5836,16 @@ declare namespace std {
          *
          * <p> This effectively reduces the container size by the number of element removed. </p>
          *
-         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an
-         * element in position other than the {@link end end()} causes the container to relocate all the
-         * elements after the segment erased to their new positions. This is generally an inefficient operation
-         * compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as {@link List}). </p>
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in
+         * position other than the {@link end end()} causes the container to relocate all the elements after the
+         * segment erased to their new positions. This is generally an inefficient operation compared to the one
+         * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
          *
          * @param position Iterator pointing to a single element to be removed from the {@link Vector}.
          *
-         * @return An iterator pointing to the new location of the element that followed the last element erased
-         *		   by the function call. This is the {@link end end()} if the operation erased the last
-         *		   element in the sequence.
+         * @return An iterator pointing to the new location of the element that followed the last element erased by
+         *		   the function call. This is the {@link end end()} if the operation erased the last element in the
+         *		   sequence.
          */
         erase(position: VectorIterator<T>): VectorIterator<T>;
         /**
@@ -5539,24 +5855,23 @@ declare namespace std {
          *
          * <p> This effectively reduces the container size by the number of elements removed. </p>
          *
-         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing
-         * elements in position other than the {@link end end()} causes the container to relocate all the
-         * elements after the segment erased to their new positions. This is generally an inefficient operation
-         * compared to the one performed for the same operation by other kinds of sequence containers
-         * (such as {@link List}). </p>
+         * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in
+         * position other than the {@link end end()} causes the container to relocate all the elements after the
+         * segment erased to their new positions. This is generally an inefficient operation compared to the one
+         * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
          *
          * @param begin An iterator specifying a range of beginning to erase.
          * @param end An iterator specifying a range of end to erase.
          *
-         * @return An iterator pointing to the new location of the element that followed the last element erased
-         *		   by the function call. This is the {@link end end()} if the operation erased the last
-         *		   element in the sequence.
+         * @return An iterator pointing to the new location of the element that followed the last element erased by
+         *		   the function call. This is the {@link end end()} if the operation erased the last element in the
+         *		   sequence.
          */
         erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;
         /**
          * @inheritdoc
          */
-        swap(obj: Vector<T>): void;
+        swap(obj: base.container.IContainer<T>): void;
     }
 }
 declare namespace std {

@@ -5,29 +5,27 @@ namespace std
 	/**
 	 * <p> Doubly linked list. </p>
 	 *
-	 * <p> {@link List}s are sequence containers that allow constant time insert and erase operations 
-	 * anywhere within the sequence, and iteration in both directions. </p>
+	 * <p> {@link List}s are sequence containers that allow constant time insert and erase operations anywhere 
+	 * within the sequence, and iteration in both directions. </p>
 	 *
-	 * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of 
-	 * the elements they contain in different and unrelated storage locations. The ordering is kept 
-	 * internally by the association to each element of a link to the element preceding it and a link to 
-	 * the element following it. </p>
+	 * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements 
+	 * they contain in different and unrelated storage locations. The ordering is kept internally by the association 
+	 * to each element of a link to the element preceding it and a link to the element following it. </p>
 	 *
 	 * <p> They are very similar to forward_list: The main difference being that forward_list objects are 
-	 * single-linked lists, and thus they can only be iterated forwards, in exchange for being somewhat 
-	 * smaller and more efficient. </p>
+	 * single-linked lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and 
+	 * more efficient. </p>
 	 *
-	 * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform 
-	 * generally better in inserting, extracting and moving elements in any position within the container 
-	 * for which an iterator has already been obtained, and therefore also in algorithms that make 
-	 * intensive use of these, like sorting algorithms. </p>
+	 * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform generally 
+	 * better in inserting, extracting and moving elements in any position within the container for which an iterator 
+	 * has already been obtained, and therefore also in algorithms that make intensive use of these, like sorting 
+	 * algorithms. </p>
 	 *
-	 * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that 
-	 * they lack direct access to the elements by their position; For example, to access the sixth element 
-	 * in a list, one has to iterate from a known position (like the beginning or the end) to that position, 
-	 * which takes linear time in the distance between these. They also consume some extra memory to keep 
-	 * the linking information associated to each element (which may be an important factor for large lists 
-	 * of small-sized elements). </p>
+	 * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that they lack 
+	 * direct access to the elements by their position; For example, to access the sixth element in a list, one has 
+	 * to iterate from a known position (like the beginning or the end) to that position, which takes linear time in 
+	 * the distance between these. They also consume some extra memory to keep the linking information associated to 
+	 * each element (which may be an important factor for large lists of small-sized elements). </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -36,9 +34,9 @@ namespace std
 	 *		 accessed by their position in this sequence. </dd>
 	 *
 	 * 	<dt> Doubly-linked list </dt>
-	 *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing 
-	 *		 constant time insert and erase operations before or after a specific element (even of entire ranges), 
-	 *		 but no direct random access. </dd>
+	 *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant 
+	 *		 time insert and erase operations before or after a specific element (even of entire ranges), but no 
+	 *		 direct random access. </dd>
 	 * </dl>
 	 *
 	 * <ul>
@@ -366,8 +364,8 @@ namespace std
 		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements 
 		 * inserted. </p>
 		 *
-		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be 
-		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient 
+		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
 		 *
 		 * @param position Position in the container where the new element is inserted.
 		 *				   {@link iterator}> is a member type, defined as a 
@@ -381,9 +379,9 @@ namespace std
 		/**
 		 * <p> Insert elements by repeated filling. </p> 
 		 *
-		 * @param position Position in the container where the new elements are inserted.
-		 *				   {@link iterator}> is a member type, defined as a 
-		 *				   {@link ListIterator bidirectional iterator} type that points to elements.
+		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
+		 *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to 
+		 *				   elements.
 		 * @param size Number of elements to insert.
 		 * @param val Value to be inserted as an element.
 		 *
@@ -393,9 +391,9 @@ namespace std
 
 		/**
 		 * 
-		 * @param position Position in the container where the new elements are inserted.
-		 *				   {@link iterator}> is a member type, defined as a 
-		 *				   {@link ListIterator bidirectional iterator} type that points to elements.
+		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
+		 *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to 
+		 *				   elements.
 		 * @param begin An iterator specifying range of the begining element.
 		 * @param end An iterator specifying range of the ending element.
 		 *
@@ -512,14 +510,13 @@ namespace std
 		 *
 		 * <p> This effectively reduces the container size by the number of element removed. </p>
 		 *
-		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to 
-		 * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
+		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
 		 * 
 		 * @param position Iterator pointing to a single element to be removed from the {@link List}.
 		 *
-		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 *		   call. This is the {@link end end()} if the operation erased the last element in the 
-		 *		   sequence.
+		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
+		 *		   This is the {@link end end()} if the operation erased the last element in the sequence.
 		 */
 		public erase(position: ListIterator<T>): ListIterator<T>;
 		
@@ -530,15 +527,14 @@ namespace std
 		 *
 		 * <p> This effectively reduces the container {@link size} by the number of elements removed. </p>
 		 *
-		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to 
-		 * be efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
+		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
 		 *
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
 		 * 
-		 * @return An iterator pointing to the element that followed the last element erased by the function 
-		 *		   call. This is the {@link end end()} if the operation erased the last element in the 
-		 *		   sequence.
+		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
+		 *		   This is the {@link end end()} if the operation erased the last element in the sequence.
 		 */
 		public erase(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>;
 
@@ -600,7 +596,7 @@ namespace std
 		 *
 		 * <p> Removes all but the first element from every consecutive group of equal elements in the container. </p>
 		 *
-		 * <p> Notice that an element is only removed from the {@link List} container if it compares equal to the
+		 * <p> Notice that an element is only removed from the {@link List} container if it compares equal to the 
 		 * element immediately preceding it. Thus, this function is especially useful for sorted lists. </p>
 		 */
 		public unique(): void;
@@ -642,14 +638,14 @@ namespace std
 		/**
 		 * <p> Remove elements with specific value. </p>
 		 * 
-		 * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the destructor 
-		 * of these objects and reduces the container {@link size} by the number of elements removed. </p>
+		 * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the 
+		 * destructor of these objects and reduces the container {@link size} by the number of elements removed. </p>
 		 * 
-		 * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an iterator), 
-		 * this function ({@link List.remove}) removes elements by their value. </p>
+		 * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an 
+		 * iterator), this function ({@link List.remove}) removes elements by their value. </p>
 		 * 
-		 * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an equality 
-		 * comparison to determine whether an element is removed. </p>
+		 * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an 
+		 * equality comparison to determine whether an element is removed. </p>
 		 *
 		 * @param val Value of the elements to be removed.
 		 */
@@ -669,9 +665,9 @@ namespace std
 		/**
 		 * <p> Remove elements fulfilling condition. </p>
 		 * 
-		 * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This calls 
-		 * the destructor of these objects and reduces the container {@link size} by the number of elements removed. 
-		 * </p>
+		 * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This 
+		 * calls the destructor of these objects and reduces the container {@link size} by the number of elements 
+		 * removed. </p>
 		 * 
 		 * <p> The function calls <code>pred(it.value)</code> for each element (where <code>it</code> is an iterator 
 		 * to that element). Any of the elements in the list for which this returns <code>true</code>, are removed 
@@ -701,11 +697,12 @@ namespace std
 		/**
 		 * <p> Merge sorted {@link List Lists}. </p>
 		 *
-		 * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective ordered 
-		 * positions into the container (<font color='red'>both containers shall already be ordered</font>). </p>
+		 * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective 
+		 * ordered positions into the container (<font color='red'>both containers shall already be ordered</font>). 
+		 * </p>
 		 * 
-		 * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts them 
-		 * into their ordered position within container (which expands in {@link size} by the number of elements 
+		 * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts 
+		 * them into their ordered position within container (which expands in {@link size} by the number of elements 
 		 * transferred). The operation is performed without constructing nor destroying any element: they are 
 		 * transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type supports 
 		 * move-construction or not. </p>
@@ -730,11 +727,12 @@ namespace std
 		/**
 		 * <p> Merge sorted {@link List Lists}. </p>
 		 *
-		 * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective ordered 
-		 * positions into the container (<font color='red'>both containers shall already be ordered</font>). </p>
+		 * <p> Merges <i>obj</i> into the {@link List} by transferring all of its elements at their respective 
+		 * ordered positions into the container (<font color='red'>both containers shall already be ordered</font>). 
+		 * </p>
 		 * 
-		 * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts them 
-		 * into their ordered position within container (which expands in {@link size} by the number of elements 
+		 * <p> This effectively removes all the elements in <i>obj</i> (which becomes {@link empty}), and inserts 
+		 * them into their ordered position within container (which expands in {@link size} by the number of elements 
 		 * transferred). The operation is performed without constructing nor destroying any element: they are 
 		 * transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type supports 
 		 * move-construction or not. </p>
@@ -786,10 +784,10 @@ namespace std
 		 * 
 		 * <p> Transfers elements from <i>obj</i> into the container, inserting them at <i>position</i>. </p>
 		 * 
-		 * <p> This effectively inserts all elements into the container and removes them from <i>obj</i>, altering the 
-		 * sizes of both containers. The operation does not involve the construction or destruction of any element. 
-		 * They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the value_type 
-		 * supports move-construction or not. </p>
+		 * <p> This effectively inserts all elements into the container and removes them from <i>obj</i>, altering 
+		 * the sizes of both containers. The operation does not involve the construction or destruction of any 
+		 * element. They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the 
+		 * value_type supports move-construction or not. </p>
 		 *
 		 * <p> This first version (1) transfers all the elements of <i>obj</i> into the container. </p>
 		 * 
@@ -816,7 +814,8 @@ namespace std
 		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
 		 *			  This parameter may be <code>this</code> if <i>position</i> points to an element not actually 
 		 *			  being spliced.
-		 * @param it {@link ListIterator Iterator} to an element in <i>obj</i>. Only this single element is transferred.
+		 * @param it {@link ListIterator Iterator} to an element in <i>obj</i>. Only this single element is 
+		 *			 transferred.
 		 */
 		public splice<U extends T>(position: ListIterator<T>, obj: List<U>, it: ListIterator<U>): void;
 		
@@ -875,9 +874,9 @@ namespace std
 		 * 
 		 * <p> Sorts the elements in the {@link List}, altering their position within the container. </p>
 		 * 
-		 * <p> The sorting is performed by applying an algorithm that uses {@link less}. This comparison shall produce 
-		 * a strict weak ordering of the elements (i.e., a consistent transitive comparison, without considering its 
-		 * reflexiveness). </p>
+		 * <p> The sorting is performed by applying an algorithm that uses {@link less}. This comparison shall 
+		 * produce a strict weak ordering of the elements (i.e., a consistent transitive comparison, without 
+		 * considering its reflexiveness). </p>
 		 * 
 		 * <p> The resulting order of equivalent elements is stable: i.e., equivalent elements preserve the relative 
 		 * order they had before the call. </p>
@@ -978,7 +977,18 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: List<T>): void
+		public swap(obj: base.container.IContainer<T>): void
+		{
+			if (obj instanceof List)
+				this.swap_list(obj);
+			else
+				super.swap(obj);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private swap_list(obj: List<T>): void
 		{
 			let supplement: List<T> = <List<T>>new Object();
 			supplement.begin_ = this.begin_;

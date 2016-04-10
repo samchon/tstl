@@ -141,6 +141,15 @@ namespace std.base.container
 		/* ===============================================================
 			UTILITIES
 		=============================================================== */
-		public abstract swap(obj: Container<T>): void;
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: Container<T>): void
+		{
+			let supplement: Vector<T> = new Vector<T>(this.begin(), this.end());
+
+			this.assign(obj.begin(), obj.end());
+			obj.assign(supplement.begin(), supplement.end());
+		}
 	}
 }

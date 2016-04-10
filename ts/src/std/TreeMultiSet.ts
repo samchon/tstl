@@ -14,7 +14,7 @@ namespace std
 	 * from the container. </p>
 	 *
 	 * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict 
-	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
+	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
 	 *
 	 * <p> {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers 
 	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 
@@ -25,12 +25,16 @@ namespace std
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
-	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the container. </dd>
+	 *	<dd> 
+	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
+	 *		position in the container. 
+	 *	</dd>
 	 * 
 	 *	<dt> Ordered </dt>
-	 *	<dd> The elements in the container follow a strict order at all times. All inserted elements are 
-	 *		 given a position in this order. </dd>
+	 *	<dd> 
+	 *		The elements in the container follow a strict order at all times. All inserted elements are 
+	 *		given a position in this order. 
+	 *	</dd>
 	 *
 	 *	<dt> Set </dt>
 	 *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -273,7 +277,7 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_insert(item: SetIterator<T>): void
 		{
@@ -281,7 +285,7 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_erase(item: SetIterator<T>): void
 		{
@@ -294,14 +298,28 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: TreeMultiSet<T>): void
+		public swap(obj: base.container.IContainer<T>): void
 		{
-			super.swap(obj);
+			if (obj instanceof TreeMultiSet)
+				this.swap_tree_set(obj);
+			else
+				super.swap(obj);
+		}
 
-			let supplement: base.tree.AtomicTree<T> = this.tree_;
+		/**
+		 * @hidden
+		 */
+		private swap_tree_set(obj: TreeMultiSet<T>): void
+		{
+			let supplement: TreeMultiSet<T> = new TreeMultiSet<T>();
+			supplement.data_ = this.data_;
+			supplement.tree_ = this.tree_;
 
+			this.data_ = obj.data_;
 			this.tree_ = obj.tree_;
-			obj.tree_ = supplement;
+
+			obj.data_ = supplement.data_;
+			obj.tree_ = supplement.tree_;
 		}
 	}
 }

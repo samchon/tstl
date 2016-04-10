@@ -12,7 +12,7 @@ namespace std
 	 * <p> In a {@link TreeMultiMap}, the <i>key values</i> are generally used to sort and uniquely identify 
 	 * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of 
 	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type 
-	 * <code>value_type</code>, which is a {@link Pair} type combining both:
+	 * <code>value_type</code>, which is a {@link Pair} type combining both: </p>
 	 * 
 	 * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
 	 * 
@@ -28,17 +28,23 @@ namespace std
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
-	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the container. </dd>
+	 *	<dd> 
+	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
+	 *		position in the container. 
+	 *	</dd>
 	 * 
 	 *	<dt> Ordered </dt>
-	 *	<dd> The elements in the container follow a strict order at all times. All inserted elements are 
-	 *		 given a position in this order. </dd>
-	 *
+	 *	<dd> 
+	 *		The elements in the container follow a strict order at all times. All inserted elements are 
+	 *		given a position in this order. 
+	 *	</dd>
+	 * 
 	 *	<dt> Map </dt>
-	 *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>: 
-	 *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
-	 *
+	 *	<dd> 
+	 *		Each element associates a <i>key</i> to a <i>mapped value</i>: 
+	 *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. 
+	 *	</dd>
+	 * 
 	 *	<dt> Multiple equivalent keys </dt>
 	 *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
 	 * </dl>
@@ -277,7 +283,7 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_insert(item: MapIterator<Key, T>): void
 		{
@@ -285,7 +291,7 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
 		protected handle_erase(item: MapIterator<Key, T>): void
 		{
@@ -295,14 +301,31 @@ namespace std
 		/* ===============================================================
 			UTILITIES
 		=============================================================== */
-		public swap(obj: TreeMultiMap<Key, T>): void
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: base.container.MapContainer<Key, T>): void
 		{
-			super.swap(obj);
+			if (obj instanceof TreeMultiMap)
+				this.swap_tree_multimap(obj);
+			else
+				super.swap(obj);
+		}
 
-			let supplement: base.tree.PairTree<Key, T> = this.tree_;
+		/**
+		 * @hidden
+		 */
+		private swap_tree_multimap(obj: TreeMultiMap<Key, T>): void
+		{
+			let supplement: TreeMultiMap<Key, T> = new TreeMultiMap<Key, T>();
+			supplement.data_ = this.data_;
+			supplement.tree_ = this.tree_;
 
+			this.data_ = obj.data_;
 			this.tree_ = obj.tree_;
-			obj.tree_ = supplement;
+
+			obj.data_ = supplement.data_;
+			obj.tree_ = supplement.tree_;
 		}
 	}
 }

@@ -41,16 +41,20 @@ var std;
             if (i >= j)
                 break;
             // SWAP; AT(I) WITH AT(J)
-            var supp_1 = container.at(i);
+            var supplement_1 = container.at(i);
             container.set(i, container.at(j));
-            container.set(j, supp_1);
+            container.set(j, supplement_1);
         }
         // SWAO; AT(BEGIN) WITH AT(J)
-        var supp = container.at(begin);
+        var supplement = container.at(begin);
         container.set(begin, container.at(j));
-        container.set(j, supp);
+        container.set(j, supplement);
         return j;
     }
+    function swap(left, right) {
+        left.swap(right);
+    }
+    std.swap = swap;
     /* =========================================================
         ITERATIONS
             - FOR_EACH
@@ -219,6 +223,17 @@ var std;
                 Container.prototype.empty = function () {
                     return this.size() == 0;
                 };
+                /* ===============================================================
+                    UTILITIES
+                =============================================================== */
+                /**
+                 * @inheritdoc
+                 */
+                Container.prototype.swap = function (obj) {
+                    var supplement = new std.Vector(this.begin(), this.end());
+                    this.assign(obj.begin(), obj.end());
+                    obj.assign(supplement.begin(), supplement.end());
+                };
                 return Container;
             }());
             container_1.Container = Container;
@@ -341,12 +356,15 @@ var std;
              * <p> An abstract map. </p>
              *
              * <p> {@link MapContainer MapContainers} are associative containers that store elements formed by a combination
-             * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), following order. </p>
+             * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval
+             * of individual elements based on their keys. </p>
              *
              * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the
-             * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and <i>mapped value</i>
-             * may differ, and are grouped together in member type <i>value_type</i>, which is a {@link Pair} type combining
-             * both:
+             * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
+             * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+             * {@link Pair} type combining both: </p>
+             *
+             * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
              *
              * <p> {@link MapContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
              * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
@@ -355,13 +373,20 @@ var std;
              * <h3> Container properties </h3>
              * <dl>
              *	<dt> Associative </dt>
-             *	<dd> Elements in associative containers are referenced by their key and not by their absolute position in
-             *		 the container. </dd>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+             *		in the container.
+             *	</dd>
              *
              *	<dt> Map </dt>
-             *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
-             *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+             *	<dd>
+             *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+             *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+             *	</dd>
              * </dl>
+             *
+             * @param <Key> Type of the keys. Each element in a map is identified by its key value.
+             * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
              *
              * @author Jeongho Nam <http://samchon.org>
              */
@@ -405,8 +430,8 @@ var std;
                 /**
                  * <p> Assign new content to content. </p>
                  *
-                 * <p> Assigns new contents to the Container, replacing its current contents,
-                 * and modifying its size accordingly. </p>
+                 * <p> Assigns new contents to the Container, replacing its current contents, and modifying its {@link size}
+                 * accordingly. </p>
                  *
                  * @param begin Input interator of the initial position in a sequence.
                  * @param end Input interator of the final position in a sequence.
@@ -432,7 +457,7 @@ var std;
                  * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
                  *
                  * @return An iterator to the first element in the container.
-                 * The iterator containes the first element's value.
+                 *		   The iterator containes the first element's value.
                  */
                 MapContainer.prototype.begin = function () {
                     return new std.MapIterator(this, this.data_.begin());
@@ -441,16 +466,17 @@ var std;
                  * <p> Return iterator to end. </p>
                  * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
                  *
-                 * <p> The past-the-end element is the theoretical element that would follow the last element in
-                 * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+                 * <p> The past-the-end element is the theoretical element that would follow the last element in the
+                 * container. It does not point to any element, and thus shall not be dereferenced. </p>
                  *
-                 * <p> Because the ranges used by functions of the Container do not include the element reference
-                 * by their closing iterator, this function is often used in combination with Container::begin() to specify
-                 * a range including all the elements in the container. </p>
+                 * <p> Because the ranges used by functions of the Container do not include the element reference by their
+                 * closing iterator, this function is often used in combination with Container::begin() to specify a range
+                 * including all the elements in the container. </p>
                  *
                  * <h4> Note </h4>
-                 * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-                 * element by the iterator will cause throwing exception (out of range). </p>
+                 * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing element by
+                 * the iterator will cause throwing exception (out of range). </p>
+                 *
                  * <p> If the container is empty, this function returns the same as {@link begin}. </p>
                  *
                  * @return An iterator to the end element in the container.
@@ -505,9 +531,15 @@ var std;
                         return this.insert_by_range(args[0], args[1]);
                     }
                 };
+                /**
+                 * @hidden
+                 */
                 MapContainer.prototype.insert_by_tuple = function (tuple) {
                     return this.insert_by_pair(new std.Pair(tuple[0], tuple[1]));
                 };
+                /**
+                 * @hidden
+                 */
                 MapContainer.prototype.insert_by_hint = function (hint, pair) {
                     // INSERT
                     var list_it = this.data_.insert(hint.get_list_iterator(), pair);
@@ -516,9 +548,15 @@ var std;
                     this.handle_insert(it);
                     return it;
                 };
+                /**
+                 * @hidden
+                 */
                 MapContainer.prototype.insert_by_hint_with_tuple = function (hint, tuple) {
                     return this.insert_by_hint(hint, new std.Pair(tuple[0], tuple[1]));
                 };
+                /**
+                 * @hidden
+                 */
                 MapContainer.prototype.insert_by_range = function (begin, end) {
                     for (var it = begin; it.equals(end) == false; it = it.next())
                         this.insert_by_pair(new std.Pair(it.first, it.second));
@@ -572,10 +610,27 @@ var std;
                 /* ===============================================================
                     UTILITIES
                 =============================================================== */
+                /**
+                 * <p> Swap content. </p>
+                 *
+                 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another
+                 * {@link MapContainer map} of the same type. Sizes abd container type may differ. </p>
+                 *
+                 * <p> After the call to this member function, the elements in this container are those which were
+                 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All
+                 * iterators, references and pointers remain valid for the swapped objects. </p>
+                 *
+                 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that
+                 * algorithm with an optimization that behaves like this member function. </p>
+                 *
+                 * @param obj Another {@link MapContainer map container} of the same type of elements as this (i.e.,
+                 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped
+                 *			  with that of this {@link MapContaier container}.
+                 */
                 MapContainer.prototype.swap = function (obj) {
-                    var supplement = this.data_;
-                    this.data_ = obj.data_;
-                    obj.data_ = supplement;
+                    var supplement = new std.HashMultiMap(this.begin(), this.end());
+                    this.assign(obj.begin(), obj.end());
+                    obj.assign(supplement.begin(), supplement.end());
                 };
                 return MapContainer;
             }());
@@ -591,6 +646,44 @@ var std;
         var container;
         (function (container) {
             /**
+             * <p> An abstract multi-map. </p>
+             *
+             * <p> {@link MultiMap MultiMaps} are associative containers that store elements formed by a combination of a
+             * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
+             * individual elements based on their keys. </p>
+             *
+             * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the
+             * <i>mapped values</i> store the content associated to this <i>key</i>. The types of <i>key</i> and
+             * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+             * {@link Pair} type combining both: </p>
+             *
+             * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+             *
+             * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+             *		in the container.
+             *	</dd>
+             *
+             *	<dt> Map </dt>
+             *	<dd>
+             *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+             *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+             *	</dd>
+             *
+             *	<dt> Multiple equivalent keys </dt>
+             *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+             * </dl>
+             *
+             * @param <Key> Type of the keys. Each element in a map is identified by its key value.
+             * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+             *
              * @author Jeongho Nam <http://samchon.org>
              */
             var MultiMap = (function (_super) {
@@ -653,8 +746,10 @@ var std;
              * <h3> Container properties </h3>
              * <dl>
              *	<dt> Associative </dt>
-             *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-             *		 position in the container. </dd>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+             *		position in the container.
+             *	</dd>
              *
              *	<dt> Set </dt>
              *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -798,7 +893,7 @@ var std;
                     }
                 };
                 /**
-                 * Abstract method inserting an element with hint of position to be inserted.
+                 * @hidden
                  */
                 SetContainer.prototype.insert_by_hint = function (hint, val) {
                     // INSERT
@@ -809,7 +904,7 @@ var std;
                     return it;
                 };
                 /**
-                 * Abstract method inserting elements from range iterator of other container.
+                 * @hidden
                  */
                 SetContainer.prototype.insert_by_range = function (begin, end) {
                     for (var it = begin; it.equals(end) == false; it = it.next())
@@ -830,7 +925,7 @@ var std;
                         return this.erase_by_range(args[0], args[1]);
                 };
                 /**
-                 * Abstract method erasing an element with its val.
+                 * @hidden
                  */
                 SetContainer.prototype.erase_by_val = function (val) {
                     // TEST WHETHER EXISTS
@@ -842,7 +937,7 @@ var std;
                     return 1;
                 };
                 /**
-                 * Abstract method erasing an element with iterator.
+                 * @hidden
                  */
                 SetContainer.prototype.erase_by_iterator = function (it) {
                     // ERASE
@@ -852,7 +947,7 @@ var std;
                     return new std.SetIterator(this, list_iterator);
                 };
                 /**
-                 * Abstract method erasing elements by those range iterators.
+                 * @hidden
                  */
                 SetContainer.prototype.erase_by_range = function (begin, end) {
                     // ERASE
@@ -861,17 +956,6 @@ var std;
                     for (var it = begin; !it.equals(end); it = it.next())
                         this.handle_erase(it);
                     return new std.SetIterator(this, list_iterator); //begin.prev();
-                };
-                /* ===============================================================
-                    UTILITIES
-                =============================================================== */
-                /**
-                 * @inheritdoc
-                 */
-                SetContainer.prototype.swap = function (obj) {
-                    var supplement = this.data_;
-                    this.data_ = obj.data_;
-                    obj.data_ = supplement;
                 };
                 return SetContainer;
             }(container_3.Container));
@@ -887,6 +971,37 @@ var std;
         var container;
         (function (container) {
             /**
+             * <p> An abstract set. </p>
+             *
+             * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+             * individual elements based on their value. </p>
+             *
+             * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
+             * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
+             * modified once in the container - they can be inserted and removed, though. </p>
+             *
+             * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+             *		position in the container.
+             *	</dd>
+             *
+             *	<dt> Set </dt>
+             *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+             *
+             *	<dt> Multiple equivalent keys </dt>
+             *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+             * </dl>
+             *
+             * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+             *			  by this value (each value is itself also the element's <i>key</i>).
+             *
              * @author Jeongho Nam <http://samchon.org>
              */
             var MultiSet = (function (_super) {
@@ -901,8 +1016,7 @@ var std;
                     _super.call(this);
                 }
                 /**
-                 *
-                 * @param val
+                 * @inheritdoc
                  */
                 MultiSet.prototype.count = function (val) {
                     var myIt = this.find(val);
@@ -934,6 +1048,44 @@ var std;
         var container;
         (function (container) {
             /**
+             * <p> An abstract unique-map. </p>
+             *
+             * <p> {@link UniqueMap UniqueMaps} are associative containers that store elements formed by a combination of a
+             * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
+             * individual elements based on their keys. </p>
+             *
+             * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to uniquely identify the elements,
+             * while the <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
+             * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+             * {@link Pair} type combining both: </p>
+             *
+             * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+             *
+             * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+             *		in the container.
+             *	</dd>
+             *
+             *	<dt> Map </dt>
+             *	<dd>
+             *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+             *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+             *	</dd>
+             *
+             *	<dt> Unique keys </dt>
+             *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+             * </dl>
+             *
+             * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+             * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+             *
              * @author Jeongho Nam <http://samchon.org>
              */
             var UniqueMap = (function (_super) {
@@ -974,8 +1126,8 @@ var std;
                 /**
                  * <p> Set an item as the specified identifier. </p>
                  *
-                 * <p>If the identifier is already in map, change value of the identifier. If not, then insert the object with
-                 * the identifier. </p>
+                 * <p>If the identifier is already in map, change value of the identifier. If not, then insert the object
+                 * with the identifier. </p>
                  *
                  * @param key Key value of the element whose mapped value is accessed.
                  * @param val Value, the item.
@@ -1008,6 +1160,37 @@ var std;
         var container;
         (function (container) {
             /**
+             * <p> An abstract set. </p>
+             *
+             * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+             * individual elements based on their value. </p>
+             *
+             * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to uniquely
+             * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be modified
+             * once in the container - they can be inserted and removed, though. </p>
+             *
+             * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+             *		position in the container.
+             *	</dd>
+             *
+             *	<dt> Set </dt>
+             *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+             *
+             *	<dt> Unique keys </dt>
+             *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+             * </dl>
+             *
+             * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+             *			  by this value (each value is itself also the element's <i>key</i>).
+             *
              * @author Jeongho Nam <http://samchon.org>
              */
             var UniqueSet = (function (_super) {
@@ -2497,6 +2680,11 @@ var std;
 })(std || (std = {}));
 var std;
 (function (std) {
+    /**
+     * Bind function arguments.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     var Bind = (function () {
         /**
          * Construct from function and this argument.
@@ -2508,6 +2696,10 @@ var std;
             this.func_ = func;
             this.this_arg_ = this_arg;
         }
+        /**
+         *
+         * @param args
+         */
         Bind.prototype.apply = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -2609,15 +2801,35 @@ var std;
             configurable: true
         });
         Object.defineProperty(Deque, "ROW", {
+            /**
+             * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
+             *
+             * <p> Note that the {@link ROW} affects on time complexity of accessing and inserting element.
+             * Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element
+             * in middle position is {@link ROW} times faster than ordinary {@link Vector}. </p>
+             *
+             * <p> When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting
+             * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
+             * and inserting element is O(N)). </p>
+             */
             get: function () { return 8; },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Deque, "MIN_CAPACITY", {
-            get: function () { return 2; },
+            /**
+             * <p> Minimum {@link capacity}. </p>
+             *
+             * <p> Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque}
+             * keeps the minimum {@link capacity} at least. </p>
+             */
+            get: function () { return 100; },
             enumerable: true,
             configurable: true
         });
+        /**
+         * Get column size; {@link capacity_ capacity} / {@link ROW row}.
+         */
         Deque.prototype.get_col_size = function () {
             return Math.floor(this.capacity_ / Deque.ROW);
         };
@@ -2751,6 +2963,13 @@ var std;
             var lastArray = this.matrix_[this.matrix_.length - 1];
             return lastArray[lastArray.length - 1];
         };
+        /**
+         * <p> Fetch row and column's index. </p>
+         *
+         * <p> Fetches index of row and column of {@link matrix_} from sequence number. </p>
+         *
+         * @param index Sequence number
+         */
         Deque.prototype.fetch_index = function (index) {
             var row;
             for (row = 0; row < this.matrix_.length; row++) {
@@ -3918,16 +4137,40 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @hidden
+         * @inheritdoc
          */
         HashMap.prototype.handle_insert = function (it) {
             this.hash_buckets_.insert(it);
         };
         /**
-         * @hidden
+         * @inheritdoc
          */
         HashMap.prototype.handle_erase = function (it) {
             this.hash_buckets_.erase(it);
+        };
+        /* ===============================================================
+            UTILITIES
+        =============================================================== */
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.swap = function (obj) {
+            if (obj instanceof HashMap)
+                this.swap_hash_map(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        HashMap.prototype.swap_hash_map = function (obj) {
+            var supplement = new HashMap();
+            supplement.data_ = this.data_;
+            supplement.hash_buckets_ = this.hash_buckets_;
+            this.data_ = obj.data_;
+            this.hash_buckets_ = obj.hash_buckets_;
+            obj.data_ = supplement.data_;
+            obj.hash_buckets_ = supplement.hash_buckets_;
         };
         return HashMap;
     }(std.base.container.UniqueMap));
@@ -4079,16 +4322,40 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @hidden
+         * @inheritdoc
          */
         HashMultiMap.prototype.handle_insert = function (it) {
             this.hash_buckets_.insert(it);
         };
         /**
-         * @hidden
+         * @inheritdoc
          */
         HashMultiMap.prototype.handle_erase = function (it) {
             this.hash_buckets_.erase(it);
+        };
+        /* ===============================================================
+            UTILITIES
+        =============================================================== */
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.swap = function (obj) {
+            if (obj instanceof HashMultiMap)
+                this.swap_hash_multimap(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        HashMultiMap.prototype.swap_hash_multimap = function (obj) {
+            var supplement = new HashMultiMap();
+            supplement.data_ = this.data_;
+            supplement.hash_buckets_ = this.hash_buckets_;
+            this.data_ = obj.data_;
+            this.hash_buckets_ = obj.hash_buckets_;
+            obj.data_ = supplement.data_;
+            obj.hash_buckets_ = supplement.hash_buckets_;
         };
         return HashMultiMap;
     }(std.base.container.MultiMap));
@@ -4238,16 +4505,40 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @hidden
+         * @inheritdoc
          */
         HashMultiSet.prototype.handle_insert = function (it) {
             this.hash_buckets_.insert(it);
         };
         /**
-         * @hidden
+         * @inheritdoc
          */
         HashMultiSet.prototype.handle_erase = function (it) {
             this.hash_buckets_.erase(it);
+        };
+        /* ===============================================================
+            UTILITIES
+        =============================================================== */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.swap = function (obj) {
+            if (obj instanceof HashMultiSet)
+                this.swap_tree_set(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        HashMultiSet.prototype.swap_tree_set = function (obj) {
+            var supplement = new HashMultiSet();
+            supplement.data_ = this.data_;
+            supplement.hash_buckets_ = this.hash_buckets_;
+            this.data_ = obj.data_;
+            this.hash_buckets_ = obj.hash_buckets_;
+            obj.data_ = supplement.data_;
+            obj.hash_buckets_ = supplement.hash_buckets_;
         };
         return HashMultiSet;
     }(std.base.container.MultiSet));
@@ -4401,16 +4692,40 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @hidden
+         * @inheritdoc
          */
         HashSet.prototype.handle_insert = function (item) {
             this.hash_buckets_.insert(item);
         };
         /**
-         * @hidden
+         * @inheritdoc
          */
         HashSet.prototype.handle_erase = function (item) {
             this.hash_buckets_.erase(item);
+        };
+        /* ===============================================================
+            UTILITIES
+        =============================================================== */
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.swap = function (obj) {
+            if (obj instanceof HashSet)
+                this.swap_tree_set(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        HashSet.prototype.swap_tree_set = function (obj) {
+            var supplement = new HashSet();
+            supplement.data_ = this.data_;
+            supplement.hash_buckets_ = this.hash_buckets_;
+            this.data_ = obj.data_;
+            this.hash_buckets_ = obj.hash_buckets_;
+            obj.data_ = supplement.data_;
+            obj.hash_buckets_ = supplement.hash_buckets_;
         };
         return HashSet;
     }(std.base.container.UniqueSet));
@@ -4520,29 +4835,27 @@ var std;
     /**
      * <p> Doubly linked list. </p>
      *
-     * <p> {@link List}s are sequence containers that allow constant time insert and erase operations
-     * anywhere within the sequence, and iteration in both directions. </p>
+     * <p> {@link List}s are sequence containers that allow constant time insert and erase operations anywhere
+     * within the sequence, and iteration in both directions. </p>
      *
-     * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of
-     * the elements they contain in different and unrelated storage locations. The ordering is kept
-     * internally by the association to each element of a link to the element preceding it and a link to
-     * the element following it. </p>
+     * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements
+     * they contain in different and unrelated storage locations. The ordering is kept internally by the association
+     * to each element of a link to the element preceding it and a link to the element following it. </p>
      *
      * <p> They are very similar to forward_list: The main difference being that forward_list objects are
-     * single-linked lists, and thus they can only be iterated forwards, in exchange for being somewhat
-     * smaller and more efficient. </p>
+     * single-linked lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and
+     * more efficient. </p>
      *
-     * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform
-     * generally better in inserting, extracting and moving elements in any position within the container
-     * for which an iterator has already been obtained, and therefore also in algorithms that make
-     * intensive use of these, like sorting algorithms. </p>
+     * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform generally
+     * better in inserting, extracting and moving elements in any position within the container for which an iterator
+     * has already been obtained, and therefore also in algorithms that make intensive use of these, like sorting
+     * algorithms. </p>
      *
-     * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that
-     * they lack direct access to the elements by their position; For example, to access the sixth element
-     * in a list, one has to iterate from a known position (like the beginning or the end) to that position,
-     * which takes linear time in the distance between these. They also consume some extra memory to keep
-     * the linking information associated to each element (which may be an important factor for large lists
-     * of small-sized elements). </p>
+     * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that they lack
+     * direct access to the elements by their position; For example, to access the sixth element in a list, one has
+     * to iterate from a known position (like the beginning or the end) to that position, which takes linear time in
+     * the distance between these. They also consume some extra memory to keep the linking information associated to
+     * each element (which may be an important factor for large lists of small-sized elements). </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -4551,9 +4864,9 @@ var std;
      *		 accessed by their position in this sequence. </dd>
      *
      * 	<dt> Doubly-linked list </dt>
-     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing
-     *		 constant time insert and erase operations before or after a specific element (even of entire ranges),
-     *		 but no direct random access. </dd>
+     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant
+     *		 time insert and erase operations before or after a specific element (even of entire ranges), but no
+     *		 direct random access. </dd>
      * </dl>
      *
      * <ul>
@@ -4861,14 +5174,14 @@ var std;
         /**
          * <p> Remove elements with specific value. </p>
          *
-         * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the destructor
-         * of these objects and reduces the container {@link size} by the number of elements removed. </p>
+         * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the
+         * destructor of these objects and reduces the container {@link size} by the number of elements removed. </p>
          *
-         * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an iterator),
-         * this function ({@link List.remove}) removes elements by their value. </p>
+         * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an
+         * iterator), this function ({@link List.remove}) removes elements by their value. </p>
          *
-         * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an equality
-         * comparison to determine whether an element is removed. </p>
+         * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an
+         * equality comparison to determine whether an element is removed. </p>
          *
          * @param val Value of the elements to be removed.
          */
@@ -4884,9 +5197,9 @@ var std;
         /**
          * <p> Remove elements fulfilling condition. </p>
          *
-         * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This calls
-         * the destructor of these objects and reduces the container {@link size} by the number of elements removed.
-         * </p>
+         * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This
+         * calls the destructor of these objects and reduces the container {@link size} by the number of elements
+         * removed. </p>
          *
          * <p> The function calls <code>pred(it.value)</code> for each element (where <code>it</code> is an iterator
          * to that element). Any of the elements in the list for which this returns <code>true</code>, are removed
@@ -4990,6 +5303,15 @@ var std;
          * @inheritdoc
          */
         List.prototype.swap = function (obj) {
+            if (obj instanceof List)
+                this.swap_list(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        List.prototype.swap_list = function (obj) {
             var supplement = new Object();
             supplement.begin_ = this.begin_;
             supplement.end_ = this.end_;
@@ -5700,7 +6022,7 @@ var std;
      * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify
      * the elements, while the <i>mapped values</i> store the content associated to this key. The types of
      * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>,
-     * which is a {@link Pair} type combining both:
+     * which is a {@link Pair} type combining both: </p>
      *
      * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
      *
@@ -5897,13 +6219,13 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @hidden
+         * @inheritdoc
          */
         TreeMap.prototype.handle_insert = function (item) {
             this.tree_.insert(item);
         };
         /**
-         * @hidden
+         * @inheritdoc
          */
         TreeMap.prototype.handle_erase = function (item) {
             this.tree_.erase(item);
@@ -5911,11 +6233,26 @@ var std;
         /* ===============================================================
             UTILITIES
         =============================================================== */
+        /**
+         * @inheritdoc
+         */
         TreeMap.prototype.swap = function (obj) {
-            _super.prototype.swap.call(this, obj);
-            var supplement = this.tree_;
+            if (obj instanceof TreeMap)
+                this.swap_tree_map(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        TreeMap.prototype.swap_tree_map = function (obj) {
+            var supplement = new TreeMap();
+            supplement.data_ = this.data_;
+            supplement.tree_ = this.tree_;
+            this.data_ = obj.data_;
             this.tree_ = obj.tree_;
-            obj.tree_ = supplement;
+            obj.data_ = supplement.data_;
+            obj.tree_ = supplement.tree_;
         };
         return TreeMap;
     }(std.base.container.UniqueMap));
@@ -5934,7 +6271,7 @@ var std;
      * <p> In a {@link TreeMultiMap}, the <i>key values</i> are generally used to sort and uniquely identify
      * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of
      * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
-     * <code>value_type</code>, which is a {@link Pair} type combining both:
+     * <code>value_type</code>, which is a {@link Pair} type combining both: </p>
      *
      * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
      *
@@ -5950,16 +6287,22 @@ var std;
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
      *
      *	<dt> Ordered </dt>
-     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
-     *		 given a position in this order. </dd>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
      *
      *	<dt> Map </dt>
-     *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>:
-     *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
+     *	<dd>
+     *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+     *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+     *	</dd>
      *
      *	<dt> Multiple equivalent keys </dt>
      *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
@@ -6135,13 +6478,13 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @hidden
+         * @inheritdoc
          */
         TreeMultiMap.prototype.handle_insert = function (item) {
             this.tree_.insert(item);
         };
         /**
-         * @hidden
+         * @inheritdoc
          */
         TreeMultiMap.prototype.handle_erase = function (item) {
             this.tree_.erase(item);
@@ -6149,11 +6492,26 @@ var std;
         /* ===============================================================
             UTILITIES
         =============================================================== */
+        /**
+         * @inheritdoc
+         */
         TreeMultiMap.prototype.swap = function (obj) {
-            _super.prototype.swap.call(this, obj);
-            var supplement = this.tree_;
+            if (obj instanceof TreeMultiMap)
+                this.swap_tree_multimap(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        TreeMultiMap.prototype.swap_tree_multimap = function (obj) {
+            var supplement = new TreeMultiMap();
+            supplement.data_ = this.data_;
+            supplement.tree_ = this.tree_;
+            this.data_ = obj.data_;
             this.tree_ = obj.tree_;
-            obj.tree_ = supplement;
+            obj.data_ = supplement.data_;
+            obj.tree_ = supplement.tree_;
         };
         return TreeMultiMap;
     }(std.base.container.MultiMap));
@@ -6174,7 +6532,7 @@ var std;
      * from the container. </p>
      *
      * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict
-     * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
+     * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
      *
      * <p> {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers
      * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
@@ -6185,12 +6543,16 @@ var std;
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
      *
      *	<dt> Ordered </dt>
-     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
-     *		 given a position in this order. </dd>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
      *
      *	<dt> Set </dt>
      *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -6371,13 +6733,13 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @hidden
+         * @inheritdoc
          */
         TreeMultiSet.prototype.handle_insert = function (item) {
             this.tree_.insert(item);
         };
         /**
-         * @hidden
+         * @inheritdoc
          */
         TreeMultiSet.prototype.handle_erase = function (item) {
             this.tree_.erase(item);
@@ -6389,10 +6751,22 @@ var std;
          * @inheritdoc
          */
         TreeMultiSet.prototype.swap = function (obj) {
-            _super.prototype.swap.call(this, obj);
-            var supplement = this.tree_;
+            if (obj instanceof TreeMultiSet)
+                this.swap_tree_set(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        TreeMultiSet.prototype.swap_tree_set = function (obj) {
+            var supplement = new TreeMultiSet();
+            supplement.data_ = this.data_;
+            supplement.tree_ = this.tree_;
+            this.data_ = obj.data_;
             this.tree_ = obj.tree_;
-            obj.tree_ = supplement;
+            obj.data_ = supplement.data_;
+            obj.tree_ = supplement.tree_;
         };
         return TreeMultiSet;
     }(std.base.container.MultiSet));
@@ -6423,12 +6797,16 @@ var std;
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the container. </dd>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the container.
+     *	</dd>
      *
      *	<dt> Ordered </dt>
-     *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
-     *		 given a position in this order. </dd>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
      *
      *	<dt> Set </dt>
      *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
@@ -6601,13 +6979,13 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @hidden
+         * @inheritdoc
          */
         TreeSet.prototype.handle_insert = function (item) {
             this.tree_.insert(item);
         };
         /**
-         * @hidden
+         * @inheritdoc
          */
         TreeSet.prototype.handle_erase = function (item) {
             this.tree_.erase(item);
@@ -6619,10 +6997,22 @@ var std;
          * @inheritdoc
          */
         TreeSet.prototype.swap = function (obj) {
-            _super.prototype.swap.call(this, obj);
-            var supplement = this.tree_;
+            if (obj instanceof TreeSet)
+                this.swap_tree_set(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        TreeSet.prototype.swap_tree_set = function (obj) {
+            var supplement = new TreeSet();
+            supplement.data_ = this.data_;
+            supplement.tree_ = this.tree_;
+            this.data_ = obj.data_;
             this.tree_ = obj.tree_;
-            obj.tree_ = supplement;
+            obj.data_ = supplement.data_;
+            obj.tree_ = supplement.tree_;
         };
         return TreeSet;
     }(std.base.container.UniqueSet));
@@ -6635,33 +7025,31 @@ var std;
      *
      * <p> {@link Vector}s are sequence containers representing arrays that can change in size. </p>
      *
-     * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which
-     * means that their elements can also be accessed using offsets on regular pointers to its elements, and
-     * just as efficiently as in arrays. But unlike arrays, their size can change dynamically, with their
-     * storage being handled automatically by the container. </p>
+     * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that
+     * their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently
+     * as in arrays. But unlike arrays, their size can change dynamically, with their storage being handled
+     * automatically by the container. </p>
      *
-     * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This
-     * array may need to be reallocated in order to grow in size when new elements are inserted, which implies
-     * allocating a new array and moving all elements to it. This is a relatively expensive task in terms of
-     * processing time, and thus, {@link Vector}s do not reallocate each time an element is added to the
-     * container. </p>
+     * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need
+     * to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new
+     * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and
+     * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
      *
-     * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible
-     * growth, and thus the container may have an actual {@link capacity} greater than the storage strictly
-     * needed to contain its elements (i.e., its {@link size}). Libraries can implement different strategies
-     * for growth to balance between memory usage and reallocations, but in any case, reallocations should only
-     * happen at logarithmically growing intervals of {@link size} so that the insertion of individual
-     * elements at the end of the {@link Vector} can be provided with amortized constant time complexity
-     * (see {@link push_back push_back()}). </p>
+     * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and
+     * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its
+     * elements (i.e., its {@link size}). Libraries can implement different strategies for growth to balance between
+     * memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing
+     * intervals of {@link size} so that the insertion of individual elements at the end of the {@link Vector} can be
+     * provided with amortized constant time complexity (see {@link push_back push_back()}). </p>
      *
-     * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability
-     * to manage storage and grow dynamically in an efficient way. </p>
+     * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability to manage
+     * storage and grow dynamically in an efficient way. </p>
      *
-     * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s),
-     * {@link Vector}s are very efficient accessing its elements (just like arrays) and relatively
-     * efficient adding or removing elements from its end. For operations that involve inserting or removing
-     * elements at positions other than the end, they perform worse than the others, and have less consistent
-     * iterators and references than {@link List}s. </p>
+     * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors}
+     * are very efficient accessing its elements (just like arrays) and relatively efficient adding or removing
+     * elements from its end. For operations that involve inserting or removing elements at positions other than the
+     * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s.
+     * </p>
      *
      * <h3> Container properties </h3>
      * <dl>
