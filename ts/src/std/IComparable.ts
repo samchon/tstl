@@ -90,7 +90,7 @@ namespace std
 	}
 
 	/**
-	 * Incremental sequence of unique id allocated to Object.
+	 * Incremental sequence of unique id for objects.
 	 */
 	var __s_iUID: number = 0;
 

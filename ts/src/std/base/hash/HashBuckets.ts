@@ -3,6 +3,7 @@ namespace std.base.hash
 	export class HashBuckets<T>
 	{
 		private buckets_: Vector<Vector<T>>;
+
 		private item_size_: number;
 
 		/* ---------------------------------------------------------

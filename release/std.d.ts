@@ -49,8 +49,31 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     function sort<T, InputIterator extends base.container.IArrayIterator<T>>(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
+    /**
+     * <p> Exchange contents of {@link IContainers containers}. </p>
+     *
+     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects
+     * must have same type of elements (same template parameters), although sizes may differ. </p>
+     *
+     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
+     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators,
+     * references and pointers remain valid for the swapped objects. </p>
+     *
+     * This is an overload of the generic algorithm swap that improves its performance by mutually transferring ownership over their assets to the other container (i.e., the containers exchange references to their data, without actually performing any element copy or movement): It behaves as if x.swap(y) was called.
+     *
+     * @param left
+     * @param right
+     */
     function swap<T, ContainerT extends base.container.IContainer<T>>(left: ContainerT, right: ContainerT): void;
+    /**
+     *
+     *
+     * @param left
+     * @param right
+     */
     function swap<Key, T, MapT extends base.container.MapContainer<Key, T>>(left: MapT, right: MapT): void;
+    function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(begin: RandomAccessIterator, end: RandomAccessIterator): void;
+    function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(begin: RandomAccessIterator, end: RandomAccessIterator): void;
     /**
      * <p> Apply function to range. </p>
      *
@@ -139,6 +162,10 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     function none_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
+    function find<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, val: T): InputIterator;
+    function find_if<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): InputIterator;
+    function count<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, val: T): number;
+    function count_if<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): number;
 }
 declare namespace std.base.container {
     /**
@@ -244,6 +271,49 @@ declare namespace std.base.container {
     /**
      * <p> Array container. </p>
      *
+     * <p> {@link IArray} is an interface for sequence containers representing <i>arrays</i> that can change in
+     * {@link size}. However, compared to <i>arrays</i>, {@link IArray} objectss consume more memory in exchange for
+     * the ability to manage storage and grow dynamically in an efficient way. </p> </p>
+     *
+     * <p> Both {@link Vector Vectors} and {@link Deque Deques} who implemented {@link IArray} provide a very
+     * similar interface and can be used for similar purposes, but internally both work in quite different ways:
+     * While {@link Vector Vectors} use a single array that needs to be occasionally reallocated for growth, the
+     * elements of a {@link Deque} can be scattered in different chunks of storage, with the container keeping the
+     * necessary information internally to provide direct access to any of its elements in constant time and with a
+     * uniform sequential interface (through iterators). Therefore, {@link Deque Deques} are a little more complex
+     * internally than {@link Vector Vectors}, but this allows them to grow more efficiently under certain
+     * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
+     *
+     * <p> Both {@link Vector Vectors} and {@link Deque Deques} provide a very similar interface and can be used for
+     * similar purposes, but internally both work in quite different ways: While {@link Vector Vectors} use a single
+     * array that needs to be occasionally reallocated for growth, the elements of a {@link Deque} can be scattered
+     * in different chunks of storage, with the container keeping the necessary information internally to provide
+     * direct access to any of its elements in constant time and with a uniform sequential interface (through
+     * iterators). Therefore, {@link Deque Deques} are a little more complex internally than {@link Vector Vectors},
+     * but this allows them to grow more efficiently under certain circumstances, especially with very long
+     * sequences, where reallocations become more expensive. </p>
+     *
+     * <p> For operations that involve frequent insertion or removals of elements at positions other than the
+     * beginning or the end, {@link IArray} objects perform worse and have less consistent iterators and references
+     * than {@link List Lists} </p>.
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Sequence </dt>
+     *	<dd>
+     *		Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+     *		accessed by their position in this sequence.
+     *	</dd>
+     *
+     *	<dt> Dynamic array </dt>
+     *	<dd>
+     *		Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
+     *		relatively fast addition/removal of elements at the end of the sequence.
+     *	</dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements.
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IArray<T> extends ILinearContainer<T> {
@@ -264,7 +334,7 @@ declare namespace std.base.container {
          * its elements. </p>
          *
          * @param n Minimum {@link capacity} for the {@link IArray container}.
-         *			Note that the resulting vector {@link capacity} may be equal or greater than <i>n</i>.
+         *			Note that the resulting {@link capacity} may be equal or greater than <i>n</i>.
          */
         reserve(n: number): void;
         /**
@@ -315,7 +385,7 @@ declare namespace std.base.container {
          * in the {@link IArray container}, throwing an {@link OutOfRange} exception if it is not (i.e., if
          * <i>index</i> is greater or equal than its {@link size}). </p>
          *
-         * @param index A specified position of the value to replace.
+         * @.param index A specified position of the value to replace.
          * @param val A value to be stored at the specified position.
          *
          * @return The previous element had stored at the specified position.
@@ -735,6 +805,7 @@ declare namespace std.base.container {
          * @return A value of the iterator.
          */
         value: T;
+        abstract swap(obj: Iterator<T>): void;
     }
 }
 declare namespace std.base.container {
@@ -796,9 +867,15 @@ declare namespace std.base.container {
          */
         constructor(items: Array<Pair<Key, T>>);
         /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         */
+        constructor(array: Array<[Key, T]>);
+        /**
          * Copy Constructor.
          */
-        constructor(cnotainer: MapContainer<Key, T>);
+        constructor(container: MapContainer<Key, T>);
         /**
          * Construct from range iterators.
          */
@@ -806,7 +883,7 @@ declare namespace std.base.container {
         /**
          * @hidden
          */
-        protected construct_from_array(items: Array<Pair<Key, T>>): void;
+        protected construct_from_array(items: Array<Pair<Key, T> | [Key, T]>): void;
         /**
          * @hidden
          */
@@ -1116,6 +1193,24 @@ declare namespace std.base.container {
          * Default Constructor.
          */
         constructor();
+        /**
+         * Construct from elements.
+         */
+        constructor(items: Array<Pair<Key, T>>);
+        /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         */
+        constructor(array: Array<[Key, T]>);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: MapContainer<Key, T>);
+        /**
+         * Construct from range iterators.
+         */
+        constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
         /**
          * @inheritdoc
          */
@@ -1508,6 +1603,24 @@ declare namespace std.base.container {
          * Default Constructor.
          */
         constructor();
+        /**
+         * Construct from elements.
+         */
+        constructor(items: Array<Pair<Key, T>>);
+        /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         */
+        constructor(array: Array<[Key, T]>);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: MapContainer<Key, T>);
+        /**
+         * Construct from range iterators.
+         */
+        constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
         /**
          * @inheritdoc
          */
@@ -2465,6 +2578,9 @@ declare namespace std.base.tree {
     }
 }
 declare namespace std.base.tree {
+    /**
+     * @author Jeongho Nam <http://samchon.org>
+     */
     class AtomicTree<T> extends RBTree<SetIterator<T>> {
         /**
          * Default Constructor.
@@ -2476,7 +2592,13 @@ declare namespace std.base.tree {
          * @hidden
          */
         private find_by_val(val);
+        /**
+         * @inheritdoc
+         */
         is_equals(left: SetIterator<T>, right: SetIterator<T>): boolean;
+        /**
+         * @inheritdoc
+         */
         is_less(left: SetIterator<T>, right: SetIterator<T>): boolean;
     }
 }
@@ -2521,6 +2643,9 @@ declare namespace std.base.tree {
     }
 }
 declare namespace std.base.tree {
+    /**
+     * @author Jeongho Nam <http://samchon.org>
+     */
     class PairTree<Key, T> extends RBTree<MapIterator<Key, T>> {
         /**
          * Default Constructor.
@@ -2529,7 +2654,13 @@ declare namespace std.base.tree {
         find(key: Key): XTreeNode<MapIterator<Key, T>>;
         find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
         private find_by_key(key);
+        /**
+         * @inheritdoc
+         */
         is_equals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean;
+        /**
+         * @inheritdoc
+         */
         is_less(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean;
     }
 }
@@ -2932,10 +3063,10 @@ declare namespace std {
     }
 }
 /**
-* STL (Standard Template Library) Containers for TypeScript.
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
+ * STL (Standard Template Library) Containers for TypeScript.
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 /**
@@ -3434,15 +3565,28 @@ declare namespace std {
          */
         constructor();
         /**
-         * Construct from elements.
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
          */
         constructor(array: Array<Pair<Key, T>>);
         /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         */
+        constructor(array: Array<[Key, T]>);
+        /**
          * Copy Constructor.
+         *
+         * @param container Another map to copy.
          */
         constructor(container: base.container.MapContainer<Key, T>);
         /**
-         * Construct from range iterators.
+         * Range Constructor.
+         *
+         * @param begin nput interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
         /**
@@ -3543,15 +3687,28 @@ declare namespace std {
          */
         constructor();
         /**
-         * Construct from elements.
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
          */
         constructor(array: Array<Pair<Key, T>>);
         /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         */
+        constructor(array: Array<[Key, T]>);
+        /**
          * Copy Constructor.
+         *
+         * @param container Another map to copy.
          */
         constructor(container: base.container.MapContainer<Key, T>);
         /**
-         * Construct from range iterators.
+         * Range Constructor.
+         *
+         * @param begin nput interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
         /**
@@ -4404,6 +4561,9 @@ declare namespace std {
          * @inheritdoc
          */
         value: T;
+        /**
+         * @inheritdoc
+         */
         swap(obj: ListIterator<T>): void;
     }
 }
@@ -4463,16 +4623,16 @@ declare namespace std {
     }
 }
 /**
-* <p> A namespace of STL library. </p>
-*
-* <ul>
-*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
-*	<li> Github: https://github.com/samchon/stl/ </li>
-*	<li> Reference: http://www.cplusplus.com/reference/ </li>
-* </ul>
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
+ * <p> A namespace of STL library. </p>
+ *
+ * <ul>
+ *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+ *	<li> Github: https://github.com/samchon/stl/ </li>
+ *	<li> Reference: http://www.cplusplus.com/reference/ </li>
+ * </ul>
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 declare namespace std.base {
@@ -4944,7 +5104,7 @@ declare namespace std {
          */
         private tree_;
         /**
-         * Default Constructor
+         * Default Constructor.
          */
         constructor();
         /**
@@ -4953,6 +5113,12 @@ declare namespace std {
          * @param array Elements to be contained.
          */
         constructor(array: Array<Pair<Key, T>>);
+        /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         */
+        constructor(array: Array<[Key, T]>);
         /**
          * Copy Constructor.
          *
@@ -5129,7 +5295,7 @@ declare namespace std {
     class TreeMultiMap<Key, T> extends base.container.MultiMap<Key, T> {
         private tree_;
         /**
-         * Default Constructor
+         * Default Constructor.
          */
         constructor();
         /**
@@ -5139,6 +5305,12 @@ declare namespace std {
          */
         constructor(array: Array<Pair<Key, T>>);
         /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         */
+        constructor(array: Array<[Key, T]>);
+        /**
          * Copy Constructor.
          *
          * @param container Another map to copy.
@@ -5147,7 +5319,7 @@ declare namespace std {
         /**
          * Range Constructor.
          *
-         * @param begin Input interator of the initial position in a sequence.
+         * @param begin nput interator of the initial position in a sequence.
          * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
@@ -5635,12 +5807,16 @@ declare namespace std {
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Sequence </dt>
-     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
-     *		 accessed by their position in this sequence. </dd>
+     *	<dd>
+     *		Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+     *		accessed by their position in this sequence.
+     *	</dd>
      *
      *	<dt> Dynamic array </dt>
-     *	<dd> Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
-     *		 relatively fast addition/removal of elements at the end of the sequence. </dd>
+     *	<dd>
+     *		Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
+     *		relatively fast addition/removal of elements at the end of the sequence.
+     *	</dd>
      * </dl>
      *
      * <ul>

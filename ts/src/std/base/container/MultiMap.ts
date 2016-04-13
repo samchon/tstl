@@ -52,9 +52,39 @@ namespace std.base.container
 		/**
 		 * Default Constructor.
 		 */
+		public constructor();
+
+		/**
+		 * Construct from elements.
+		 */
+		public constructor(items: Array<Pair<Key, T>>);
+
+		/**
+		 * Contruct from tuples.
+		 *
+		 * @param array Tuples to be contained.
+		 */
+		public constructor(array: Array<[Key, T]>);
+
+		/**
+		 * Copy Constructor.
+		 */
+		public constructor(container: MapContainer<Key, T>);
+
+		/**
+		 * Construct from range iterators.
+		 */
+		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
+
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			super();
+
+			// THIS IS ABSTRACT CLASS
+			// NOTHING TO DO ESPECIALLY
 		}
 
 		/**

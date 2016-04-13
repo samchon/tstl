@@ -2,6 +2,9 @@
 
 namespace std.base.tree
 {
+	/**
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class PairTree<Key, T>
 		extends RBTree<MapIterator<Key, T>>
 	{
@@ -17,6 +20,7 @@ namespace std.base.tree
 		}
 
 		public find(key: Key): XTreeNode<MapIterator<Key, T>>;
+
 		public find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
 
 		public find(val: any): XTreeNode<MapIterator<Key, T>>
@@ -59,11 +63,17 @@ namespace std.base.tree
 		/* ---------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public is_equals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
 			return std.equals(left.first, right.first);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public is_less(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
 			return std.less(left.first, right.first);

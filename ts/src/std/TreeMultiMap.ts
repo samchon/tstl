@@ -71,7 +71,7 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
-		 * Default Constructor
+		 * Default Constructor.
 		 */
 		public constructor();
 
@@ -83,6 +83,13 @@ namespace std
 		public constructor(array: Array<Pair<Key, T>>);
 
 		/**
+		 * Contruct from tuples.
+		 *
+		 * @param array Tuples to be contained.
+		 */
+		public constructor(array: Array<[Key, T]>);
+
+		/**
 		 * Copy Constructor.
 		 *
 		 * @param container Another map to copy.
@@ -92,7 +99,7 @@ namespace std
 		/**
 		 * Range Constructor.
 		 *
-		 * @param begin Input interator of the initial position in a sequence.
+		 * @param begin nput interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
 		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
@@ -101,7 +108,22 @@ namespace std
 		{
 			super();
 
+			// TREE
 			this.tree_ = new base.tree.PairTree<Key, T>();
+
+			// OVERLOADINGS
+			if (args.length == 1 && args[0] instanceof Array)
+			{
+				this.construct_from_array(args[0]);
+			}
+			else if (args.length == 1 && args[0] instanceof base.container.MapContainer)
+			{
+				this.construct_from_container(args[0]);
+			}
+			else if (args.length == 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
+			{
+				this.construct_from_range(args[0], args[1]);
+			}
 		}
 
 		/* ---------------------------------------------------------

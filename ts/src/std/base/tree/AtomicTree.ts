@@ -2,6 +2,9 @@
 
 namespace std.base.tree
 {
+	/**
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class AtomicTree<T>
 		extends RBTree<SetIterator<T>>
 	{
@@ -62,11 +65,17 @@ namespace std.base.tree
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public is_equals(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
 			return std.equals(left, right);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public is_less(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
 			return std.less(left.value, right.value);

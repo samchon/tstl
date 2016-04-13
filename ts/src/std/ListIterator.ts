@@ -106,6 +106,9 @@ namespace std
 			this.value_ = val;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public swap(obj: ListIterator<T>): void
 		{
 			let supp_prev: ListIterator<T> = this.prev_;

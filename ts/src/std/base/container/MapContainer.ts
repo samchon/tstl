@@ -70,9 +70,16 @@ namespace std.base.container
 		public constructor(items: Array<Pair<Key, T>>);
 
 		/**
+		 * Contruct from tuples.
+		 *
+		 * @param array Tuples to be contained.
+		 */
+		public constructor(array: Array<[Key, T]>);
+
+		/**
 		 * Copy Constructor.
 		 */
-		public constructor(cnotainer: MapContainer<Key, T>);
+		public constructor(container: MapContainer<Key, T>);
 
 		/**
 		 * Construct from range iterators.
@@ -90,10 +97,13 @@ namespace std.base.container
 		/**
 		 * @hidden
 		 */
-		protected construct_from_array(items: Array<Pair<Key, T>>): void
+		protected construct_from_array(items: Array<Pair<Key, T> | [Key, T]>): void
 		{
 			for (let i: number = 0; i < items.length; i++)
-				this.insert_by_pair(items[i]);
+				if (items[i] instanceof Pair)
+					this.insert_by_pair(items[i] as Pair<Key, T>);
+				else
+					this.insert_by_tuple(items[i] as [Key, T]);
 		}
 
 		/**

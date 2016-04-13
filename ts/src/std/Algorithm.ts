@@ -125,15 +125,56 @@
 	/* ---------------------------------------------------------
 		SWAP
 	--------------------------------------------------------- */
+	/**
+	 * <p> Exchange contents of {@link IContainers containers}. </p>
+	 * 
+	 * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects 
+	 * must have same type of elements (same template parameters), although sizes may differ. </p>
+	 * 
+	 * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> 
+	 * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, 
+	 * references and pointers remain valid for the swapped objects. </p>
+	 * 
+	 * This is an overload of the generic algorithm swap that improves its performance by mutually transferring ownership over their assets to the other container (i.e., the containers exchange references to their data, without actually performing any element copy or movement): It behaves as if x.swap(y) was called.
+	 * 
+	 * @param left
+	 * @param right
+	 */
 	export function swap<T, ContainerT extends base.container.IContainer<T>>
 		(left: ContainerT, right: ContainerT): void;
 
+	/**
+	 * 
+	 * 
+	 * @param left
+	 * @param right
+	 */
 	export function swap<Key, T, MapT extends base.container.MapContainer<Key, T>>
 		(left: MapT, right: MapT): void;
 
 	export function swap(left: any, right: any)
 	{
 		left.swap(right);
+	}
+
+	export function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
+		(begin: RandomAccessIterator, end: RandomAccessIterator): void
+	{
+		for (let it = begin; !it.equals(end); it = it.next() as RandomAccessIterator)
+		{
+			let rand_index: number = Math.floor(Math.random() * (end.index - begin.index));
+			it.swap(begin.advance(rand_index));
+		}
+	}
+
+	export function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
+		(begin: RandomAccessIterator, end: RandomAccessIterator): void
+	{
+		for (let it = begin; !it.equals(end); it = it.next() as RandomAccessIterator)
+		{
+			let rand_index: number = Math.floor(Math.random() * (end.index - begin.index));
+			it.swap(begin.advance(rand_index));
+		}
 	}
 
 	/* =========================================================
@@ -271,4 +312,50 @@
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
+	export function find<T, InputIterator extends base.container.Iterator<T>>
+		(begin: InputIterator, end: InputIterator, val: T): InputIterator
+	{
+		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
+			if (std.equals(it.value, val))
+				return it;
+
+		return end;
+	}
+
+	export function find_if<T, InputIterator extends base.container.Iterator<T>>
+		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): InputIterator
+	{
+		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
+			if (pred(it.value))
+				return it;
+
+		return end;
+	}
+
+	/* ---------------------------------------------------------
+		COUNTERS
+	--------------------------------------------------------- */
+	export function count<T, InputIterator extends base.container.Iterator<T>>
+		(begin: InputIterator, end: InputIterator, val: T): number
+	{
+		let cnt: number = 0;
+
+		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
+			if (std.equals(it.value, val))
+				return cnt++;
+
+		return cnt;
+	}
+
+	export function count_if<T, InputIterator extends base.container.Iterator<T>>
+		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): number
+	{
+		let cnt: number = 0;
+
+		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
+			if (pred(it.value))
+				return cnt++;
+
+		return cnt;
+	}
 }

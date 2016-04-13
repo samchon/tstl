@@ -68,17 +68,31 @@ namespace std
 		public constructor();
 
 		/**
-		 * Construct from elements.
+		 * Contruct from elements.
+		 *
+		 * @param array Elements to be contained.
 		 */
 		public constructor(array: Array<Pair<Key, T>>);
 
 		/**
+		 * Contruct from tuples.
+		 *
+		 * @param array Tuples to be contained.
+		 */
+		public constructor(array: Array<[Key, T]>);
+
+		/**
 		 * Copy Constructor.
+		 *
+		 * @param container Another map to copy.
 		 */
 		public constructor(container: base.container.MapContainer<Key, T>);
 
 		/**
-		 * Construct from range iterators.
+		 * Range Constructor.
+		 *
+		 * @param begin nput interator of the initial position in a sequence.
+		 * @param end Input interator of the final position in a sequence.
 		 */
 		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
 

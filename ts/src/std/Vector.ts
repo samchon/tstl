@@ -34,12 +34,16 @@ namespace std
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Sequence </dt>
-	 *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are 
-	 *		 accessed by their position in this sequence. </dd>
+	 *	<dd> 
+	 *		Elements in sequence containers are ordered in a strict linear sequence. Individual elements are 
+	 *		accessed by their position in this sequence. 
+	 *	</dd>
 	 *
 	 *	<dt> Dynamic array </dt>
-	 *	<dd> Allows direct access to any element in the sequence, even through pointer arithmetics, and provides 
-	 *		 relatively fast addition/removal of elements at the end of the sequence. </dd>
+	 *	<dd> 
+	 *		Allows direct access to any element in the sequence, even through pointer arithmetics, and provides 
+	 *		relatively fast addition/removal of elements at the end of the sequence. 
+	 *	</dd>
 	 * </dl>
 	 *
 	 * <ul>

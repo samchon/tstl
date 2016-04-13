@@ -3,6 +3,49 @@
 	/**
 	 * <p> Array container. </p>
 	 *
+	 * <p> {@link IArray} is an interface for sequence containers representing <i>arrays</i> that can change in 
+	 * {@link size}. However, compared to <i>arrays</i>, {@link IArray} objectss consume more memory in exchange for 
+	 * the ability to manage storage and grow dynamically in an efficient way. </p> </p>
+	 * 
+	 * <p> Both {@link Vector Vectors} and {@link Deque Deques} who implemented {@link IArray} provide a very 
+	 * similar interface and can be used for similar purposes, but internally both work in quite different ways: 
+	 * While {@link Vector Vectors} use a single array that needs to be occasionally reallocated for growth, the 
+	 * elements of a {@link Deque} can be scattered in different chunks of storage, with the container keeping the 
+	 * necessary information internally to provide direct access to any of its elements in constant time and with a 
+	 * uniform sequential interface (through iterators). Therefore, {@link Deque Deques} are a little more complex 
+	 * internally than {@link Vector Vectors}, but this allows them to grow more efficiently under certain 
+	 * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
+	 * 
+	 * <p> Both {@link Vector Vectors} and {@link Deque Deques} provide a very similar interface and can be used for 
+	 * similar purposes, but internally both work in quite different ways: While {@link Vector Vectors} use a single 
+	 * array that needs to be occasionally reallocated for growth, the elements of a {@link Deque} can be scattered 
+	 * in different chunks of storage, with the container keeping the necessary information internally to provide 
+	 * direct access to any of its elements in constant time and with a uniform sequential interface (through 
+	 * iterators). Therefore, {@link Deque Deques} are a little more complex internally than {@link Vector Vectors}, 
+	 * but this allows them to grow more efficiently under certain circumstances, especially with very long 
+	 * sequences, where reallocations become more expensive. </p>
+	 *
+	 * <p> For operations that involve frequent insertion or removals of elements at positions other than the 
+	 * beginning or the end, {@link IArray} objects perform worse and have less consistent iterators and references 
+	 * than {@link List Lists} </p>.
+	 * 
+	 * <h3> Container properties </h3>
+	 * <dl>
+	 *	<dt> Sequence </dt>
+	 *	<dd>
+	 *		Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+	 *		accessed by their position in this sequence.
+	 *	</dd>
+	 *
+	 *	<dt> Dynamic array </dt>
+	 *	<dd>
+	 *		Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
+	 *		relatively fast addition/removal of elements at the end of the sequence.
+	 *	</dd>
+	 * </dl>
+	 *
+	 * @param <T> Type of the elements.
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IArray<T>
@@ -28,7 +71,7 @@
 		 * its elements. </p>
 		 *
 		 * @param n Minimum {@link capacity} for the {@link IArray container}.
-		 *			Note that the resulting vector {@link capacity} may be equal or greater than <i>n</i>.
+		 *			Note that the resulting {@link capacity} may be equal or greater than <i>n</i>.
 		 */
 		reserve(n: number): void;
 
@@ -85,7 +128,7 @@
 		 * in the {@link IArray container}, throwing an {@link OutOfRange} exception if it is not (i.e., if 
 		 * <i>index</i> is greater or equal than its {@link size}). </p>
 		 * 
-		 * @param index A specified position of the value to replace.
+		 * @.param index A specified position of the value to replace.
 		 * @param val A value to be stored at the specified position.
 		 *
 		 * @return The previous element had stored at the specified position.
