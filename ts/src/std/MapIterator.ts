@@ -1,11 +1,11 @@
 namespace std
 {
-	export class MapIterator<K, T>
-		implements IComparable<MapIterator<K, T>>
+	export class MapIterator<Key, T>
+		implements IComparable<MapIterator<Key, T>>
 	{
-		protected source_: base.container.MapContainer<K, T>;
+		protected source_: base.container.MapContainer<Key, T>;
 
-		protected list_iterator_: ListIterator<Pair<K, T>>;
+		protected list_iterator_: ListIterator<Pair<Key, T>>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -15,7 +15,7 @@ namespace std
 		 *
 		 * @param source The source PairContainer.
 		 */
-		public constructor(source: base.container.MapContainer<K, T>, listIterator: ListIterator<Pair<K, T>>)
+		public constructor(source: base.container.MapContainer<Key, T>, listIterator: ListIterator<Pair<Key, T>>)
 		{
 			this.source_ = source;
 
@@ -25,7 +25,7 @@ namespace std
 		/**
 		 * Get listIterator.
 		 */
-		public get_list_iterator(): ListIterator<Pair<K, T>>
+		public get_list_iterator(): ListIterator<Pair<Key, T>>
 		{
 			return this.list_iterator_;
 		}
@@ -36,11 +36,11 @@ namespace std
 		/**
 		 * Get iterator to previous element.
 		 */
-		public prev(): MapIterator<K, T>
+		public prev(): MapIterator<Key, T>
 		{
-			return new MapIterator<K, T>
+			return new MapIterator<Key, T>
 			(
-				<base.container.MapContainer<K, T>>this.source_,
+				<base.container.MapContainer<Key, T>>this.source_,
 				this.list_iterator_.prev()
 			);
 		}
@@ -48,11 +48,11 @@ namespace std
 		/**
 		 * Get iterator to next element.
 		 */
-		public next(): MapIterator<K, T>
+		public next(): MapIterator<Key, T>
 		{
-			return new MapIterator<K, T>
+			return new MapIterator<Key, T>
 			(
-				<base.container.MapContainer<K, T>>this.source_,
+				<base.container.MapContainer<Key, T>>this.source_,
 				this.list_iterator_.next()
 			);
 		}
@@ -63,9 +63,9 @@ namespace std
 		 * @param n Number of element positions to advance.
 		 * @return An advanced Iterator.
 		 */
-		public advance(n: number): MapIterator<K, T>
+		public advance(n: number): MapIterator<Key, T>
 		{
-			let it: MapIterator<K, T> = this;
+			let it: MapIterator<Key, T> = this;
 			let i: number;
 
 			if (n >= 0 )
@@ -96,7 +96,7 @@ namespace std
 		/**
 		 * Get source.
 		 */
-		public get_source(): base.container.MapContainer<K, T>
+		public get_source(): base.container.MapContainer<Key, T>
 		{
 			return this.source_;
 		}
@@ -104,7 +104,7 @@ namespace std
 		/**
 		 * Get first, key element.
 		 */
-		public get first(): K
+		public get first(): Key
 		{
 			return this.list_iterator_.value.first;
 		}
@@ -128,7 +128,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean 
+		public equals<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean 
 		{
 			return this.source_ == obj.source_ && this.list_iterator_ == obj.list_iterator_;
 		}
@@ -136,7 +136,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public less<L extends K, U extends T>(obj: MapIterator<L, U>): boolean
+		public less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean
 		{
 			return std.less(this.first, obj.first);
 		}
@@ -147,6 +147,14 @@ namespace std
 		public hash(): number
 		{
 			return std.hash(this.first);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: MapIterator<Key, T>): void
+		{
+			this.list_iterator_.swap(obj.list_iterator_);
 		}
 	}
 }

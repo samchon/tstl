@@ -72,6 +72,13 @@ namespace std
 		public constructor();
 
 		/**
+		 * Construct from compare.
+		 * 
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor(compare: (left: T, right: T) => boolean);
+
+		/**
 		 * Contruct from elements.
 		 *
 		 * @param array Elements to be contained.
@@ -79,9 +86,25 @@ namespace std
 		public constructor(array: Array<T>);
 
 		/**
+		 * Contruct from elements with compare.
+		 *
+		 * @param array Elements to be contained.
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
+
+		/**
 		 * Copy Constructor.
 		 */
 		public constructor(container: base.container.Container<T>);
+
+		/**
+		 * Copy Constructor with compare.
+		 * 
+		 * @param container A container to be copied.
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor(container: base.container.Container<T>, compare: (left: T, right: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -90,14 +113,28 @@ namespace std
 		 * @param end Input interator of the final position in a sequence.
 		 */
 		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+
+		/**
+		 * Range Constructor with compare.
+		 * 
+		 * @param begin Input interator of the initial position in a sequence.
+		 * @param end Input interator of the final position in a sequence.
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor
+			(
+				begin: base.container.Iterator<T>, end: base.container.Iterator<T>,
+				compare: (left: T, right: T) => boolean
+			);
 		
 		public constructor(...args: any[])
 		{
 			super();
 
-			// CONSTRUCT TREE
+			// CONSTRUCT TREE WITH COMPARE
 			let compare: (left: T, right: T) => boolean;
-			if (args.length == 0 || args[args.length - 1] instanceof Function)
+
+			if (args.length == 0 || args[args.length - 1] instanceof Function == false)
 				compare = std.less;
 			else
 				compare = args[args.length - 1];
@@ -105,6 +142,18 @@ namespace std
 			this.tree_ = new base.tree.AtomicTree<T>(compare);
 
 			// OVERLOADINGS
+			if (args.length >= 1 && args[0] instanceof Array)
+			{
+				this.construct_from_array(args[0]);
+			}
+			else if (args.length >= 1 && args[0] instanceof base.container.SetContainer)
+			{
+				this.construct_from_container(args[0]);
+			}
+			else if (args.length >= 2 && args[0] instanceof SetIterator && args[1] instanceof SetIterator)
+			{
+				this.construct_from_range(args[0], args[1]);
+			}
 		}
 
 		/* ---------------------------------------------------------

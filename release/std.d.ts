@@ -4625,42 +4625,42 @@ declare namespace std {
     }
 }
 declare namespace std {
-    class MapIterator<K, T> implements IComparable<MapIterator<K, T>> {
-        protected source_: base.container.MapContainer<K, T>;
-        protected list_iterator_: ListIterator<Pair<K, T>>;
+    class MapIterator<Key, T> implements IComparable<MapIterator<Key, T>> {
+        protected source_: base.container.MapContainer<Key, T>;
+        protected list_iterator_: ListIterator<Pair<Key, T>>;
         /**
          * Construct from the source PairContainer.
          *
          * @param source The source PairContainer.
          */
-        constructor(source: base.container.MapContainer<K, T>, listIterator: ListIterator<Pair<K, T>>);
+        constructor(source: base.container.MapContainer<Key, T>, listIterator: ListIterator<Pair<Key, T>>);
         /**
          * Get listIterator.
          */
-        get_list_iterator(): ListIterator<Pair<K, T>>;
+        get_list_iterator(): ListIterator<Pair<Key, T>>;
         /**
          * Get iterator to previous element.
          */
-        prev(): MapIterator<K, T>;
+        prev(): MapIterator<Key, T>;
         /**
          * Get iterator to next element.
          */
-        next(): MapIterator<K, T>;
+        next(): MapIterator<Key, T>;
         /**
          * Advances the Iterator by n element positions.
          *
          * @param n Number of element positions to advance.
          * @return An advanced Iterator.
          */
-        advance(n: number): MapIterator<K, T>;
+        advance(n: number): MapIterator<Key, T>;
         /**
          * Get source.
          */
-        get_source(): base.container.MapContainer<K, T>;
+        get_source(): base.container.MapContainer<Key, T>;
         /**
          * Get first, key element.
          */
-        first: K;
+        first: Key;
         /**
          * Get second, value element.
          */
@@ -4668,15 +4668,19 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        equals<L extends K, U extends T>(obj: MapIterator<L, U>): boolean;
+        equals<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
         /**
          * @inheritdoc
          */
-        less<L extends K, U extends T>(obj: MapIterator<L, U>): boolean;
+        less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
         /**
          * @inheritdoc
          */
         hash(): number;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: MapIterator<Key, T>): void;
     }
 }
 /**
@@ -4760,9 +4764,60 @@ declare namespace std {
     }
 }
 declare namespace std {
+    /**
+     * <p> Priority queue. </p>
+     *
+     * <p> {@link PriorityQueue Priority queues} are a type of container adaptors, specifically designed such that its
+     * first element is always the greatest of the elements it contains, according to some <i>strict weak ordering</i>
+     * criterion. </p>
+     *
+     * <p> This context is similar to a <i>heap</i>, where elements can be inserted at any moment, and only the
+     * <i>max heap</i> element can be retrieved (the one at the top in the {@link PriorityQueue priority queue}). </p>
+     *
+     * <p> {@link PriorityQueue Priority queues} are implemented as <i>container adaptors</i>, which are classes that
+     * use an encapsulated object of a specific container class as its {@link container_ underlying container},
+     * providing a specific set of member functions to access its elements. Elements are popped from the <i>"back"</i>
+     * of the specific container, which is known as the <i>top</i> of the {@link PriorityQueue Priority queue}. </p>
+     *
+     * <p> The {@link container_ underlying container} may be any of the standard container class templates or some
+     * other specifically designed container class. The container shall be accessible through
+     * {@link IArrayIterator random access iterators} and support the following operations: </p>
+     *
+     * <ul>
+     *	<li> empty() </li>
+     *	<li> size() </li>
+     *	<li> front() </li>
+     *	<li> push_back() </li>
+     *	<li> pop_back() </li>
+     * </ul>
+     *
+     * <p> The standard container classes {@link Vector} and {@link Deque} fulfill these requirements. By default, if
+     * no container class is specified for a particular {@link PriorityQueue} class instantiation, the standard
+     * container {@link Vector} is used. </p>
+     *
+     * <p> Support of {@link IArrayIterator random access iterators} is required to keep a heap structure internally
+     * at all times. This is done automatically by the container adaptor by automatically calling the algorithm
+     * functions make_heap, push_heap and pop_heap when needed. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @reference http://www.cplusplus.com/reference/queue/priority_queue/
+     * @author Jeongho Nam
+     */
     class PriorityQueue<T> {
+        /**
+         * The <i>underlying object</i> for implementing the <i>priority queue</i>.
+         */
         private container_;
         size(): number;
+        /**
+         * <p> Test whether container is empty. </p>
+         *
+         * <p> Returns whether the {@link PriorityQueue} is empty: i.e. whether its {@link size} is zero. </p>
+         *
+         * <p> This member function effectively calls member {@link IContainer.empty empty} of the
+         * {@link container_ underlying container} object. </p>
+         */
         empty(): boolean;
         top(): T;
         push(val: T): void;
@@ -4912,7 +4967,7 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class SetIterator<T> extends base.container.Iterator<T> implements IComparable<SetIterator<T>> {
-        private iist_iterator_;
+        private list_iterator_;
         /**
          * <p> Construct from source and index number. </p>
          *
@@ -4954,6 +5009,10 @@ declare namespace std {
          * @inheritdoc
          */
         hash(): number;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: SetIterator<T>): void;
     }
 }
 declare namespace std {
@@ -5202,11 +5261,24 @@ declare namespace std {
          */
         constructor();
         /**
+         * Construct from compare.
+         *
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(compare: (left: Key, right: Key) => boolean);
+        /**
          * Contruct from elements.
          *
          * @param array Elements to be contained.
          */
         constructor(array: Array<Pair<Key, T>>);
+        /**
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<Pair<Key, T>>, compare: (left: Key, right: Key) => boolean);
         /**
          * Contruct from tuples.
          *
@@ -5214,11 +5286,25 @@ declare namespace std {
          */
         constructor(array: Array<[Key, T]>);
         /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<[Key, T]>, compare: (left: Key, right: Key) => boolean);
+        /**
          * Copy Constructor.
          *
          * @param container Another map to copy.
          */
         constructor(container: base.container.MapContainer<Key, T>);
+        /**
+         * Copy Constructor.
+         *
+         * @param container Another map to copy.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(container: base.container.MapContainer<Key, T>, compare: (left: Key, right: Key) => boolean);
         /**
          * Range Constructor.
          *
@@ -5226,6 +5312,14 @@ declare namespace std {
          * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
+        /**
+         * Range Constructor.
+         *
+         * @param begin nput interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>, compare: (left: Key, right: Key) => boolean);
         /**
          * @inheritdoc
          */
@@ -5393,11 +5487,24 @@ declare namespace std {
          */
         constructor();
         /**
+         * Construct from compare.
+         *
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(compare: (left: Key, right: Key) => boolean);
+        /**
          * Contruct from elements.
          *
          * @param array Elements to be contained.
          */
         constructor(array: Array<Pair<Key, T>>);
+        /**
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<Pair<Key, T>>, compare: (left: Key, right: Key) => boolean);
         /**
          * Contruct from tuples.
          *
@@ -5405,11 +5512,25 @@ declare namespace std {
          */
         constructor(array: Array<[Key, T]>);
         /**
+         * Contruct from tuples.
+         *
+         * @param array Tuples to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<[Key, T]>, compare: (left: Key, right: Key) => boolean);
+        /**
          * Copy Constructor.
          *
          * @param container Another map to copy.
          */
         constructor(container: base.container.MapContainer<Key, T>);
+        /**
+         * Copy Constructor.
+         *
+         * @param container Another map to copy.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(container: base.container.MapContainer<Key, T>, compare: (left: Key, right: Key) => boolean);
         /**
          * Range Constructor.
          *
@@ -5417,6 +5538,14 @@ declare namespace std {
          * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
+        /**
+         * Range Constructor.
+         *
+         * @param begin nput interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>, compare: (left: Key, right: Key) => boolean);
         /**
          * @inheritdoc
          */
@@ -5577,18 +5706,51 @@ declare namespace std {
          * Default Constructor.
          */
         constructor();
+        /**
+         * Construct from compare.
+         *
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(compare: (left: T, right: T) => boolean);
+        /**
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
+         */
         constructor(array: Array<T>);
+        /**
+         * Contruct from elements with compare.
+         *
+         * @param array Elements to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
         /**
          * Copy Constructor.
          */
         constructor(container: base.container.Container<T>);
         /**
+         * Copy Constructor with compare.
+         *
+         * @param container A container to be copied.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(container: base.container.Container<T>, compare: (left: T, right: T) => boolean);
+        /**
          * Range Constructor.
          *
-         * @param begin
-         * @param end
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        /**
+         * Construct from range and compare.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, compare: (left: T, right: T) => boolean);
         /**
          * @inheritdoc
          */
@@ -5749,15 +5911,35 @@ declare namespace std {
          */
         constructor();
         /**
+         * Construct from compare.
+         *
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(compare: (left: T, right: T) => boolean);
+        /**
          * Contruct from elements.
          *
          * @param array Elements to be contained.
          */
         constructor(array: Array<T>);
         /**
+         * Contruct from elements with compare.
+         *
+         * @param array Elements to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
+        /**
          * Copy Constructor.
          */
         constructor(container: base.container.Container<T>);
+        /**
+         * Copy Constructor with compare.
+         *
+         * @param container A container to be copied.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(container: base.container.Container<T>, compare: (left: T, right: T) => boolean);
         /**
          * Range Constructor.
          *
@@ -5765,6 +5947,14 @@ declare namespace std {
          * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+        /**
+         * Range Constructor with compare.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, compare: (left: T, right: T) => boolean);
         /**
          * @inheritdoc
          */

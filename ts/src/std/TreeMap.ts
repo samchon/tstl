@@ -72,11 +72,26 @@ namespace std
 		public constructor();
 
 		/**
+		 * Construct from compare.
+		 * 
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor(compare: (left: Key, right: Key) => boolean);
+
+		/**
 		 * Contruct from elements.
 		 *
 		 * @param array Elements to be contained.
 		 */
 		public constructor(array: Array<Pair<Key, T>>);
+
+		/**
+		 * Contruct from elements.
+		 *
+		 * @param array Elements to be contained.
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor(array: Array<Pair<Key, T>>, compare: (left: Key, right: Key) => boolean);
 
 		/**
 		 * Contruct from tuples.
@@ -86,11 +101,27 @@ namespace std
 		public constructor(array: Array<[Key, T]>);
 
 		/**
+		 * Contruct from tuples.
+		 *
+		 * @param array Tuples to be contained.
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor(array: Array<[Key, T]>, compare: (left: Key, right: Key) => boolean);
+
+		/**
 		 * Copy Constructor.
 		 *
 		 * @param container Another map to copy.
 		 */
 		public constructor(container: base.container.MapContainer<Key, T>);
+
+		/**
+		 * Copy Constructor.
+		 *
+		 * @param container Another map to copy.
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor(container: base.container.MapContainer<Key, T>, compare: (left: Key, right: Key) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -99,24 +130,44 @@ namespace std
 		 * @param end Input interator of the final position in a sequence.
 		 */
 		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
+
+		/**
+		 * Range Constructor.
+		 *
+		 * @param begin nput interator of the initial position in a sequence.
+		 * @param end Input interator of the final position in a sequence.
+		 * @param compare A binary predicate determines order of elements.
+		 */
+		public constructor
+			(
+				begin: MapIterator<Key, T>, end: MapIterator<Key, T>, 
+				compare: (left: Key, right: Key) => boolean
+			);
 		
 		public constructor(...args: any[])
 		{
 			super();
 
-			// TREE
-			this.tree_ = new base.tree.PairTree<Key, T>();
+			// CONSTRUCT TREE WITH COMPARE
+			let compare: (left: Key, right: Key) => boolean;
+
+			if (args.length == 0 || args[args.length - 1] instanceof Function == false)
+				compare = std.less;
+			else
+				compare = args[args.length - 1];
+
+			this.tree_ = new base.tree.PairTree<Key, T>(compare);
 
 			// OVERLOADINGS
-			if (args.length == 1 && args[0] instanceof Array)
+			if (args.length >= 1 && args[0] instanceof Array)
 			{
 				this.construct_from_array(args[0]);
 			}
-			else if (args.length == 1 && args[0] instanceof base.container.MapContainer)
+			else if (args.length >= 1 && args[0] instanceof base.container.MapContainer)
 			{
 				this.construct_from_container(args[0]);
 			}
-			else if (args.length == 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
+			else if (args.length >= 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
 			{
 				this.construct_from_range(args[0], args[1]);
 			}

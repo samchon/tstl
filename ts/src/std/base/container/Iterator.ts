@@ -131,6 +131,6 @@ namespace std.base.container
 			throw new LogicError("Have to be overriden.");
 		}
 
-		abstract public swap(obj: Iterator<T>): void;
+		public abstract swap(obj: Iterator<T>): void;
 	}
 }

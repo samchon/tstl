@@ -11,7 +11,7 @@ namespace std
 		extends base.container.Iterator<T>
 		implements IComparable<SetIterator<T>>
 	{
-		private iist_iterator_: ListIterator<T>;
+		private list_iterator_: ListIterator<T>;
 
 		/**
 		 * <p> Construct from source and index number. </p>
@@ -27,12 +27,12 @@ namespace std
 		{
 			super(source);
 
-			this.iist_iterator_ = it;
+			this.list_iterator_ = it;
 		}
 
 		public get_list_iterator(): ListIterator<T>
 		{
-			return this.iist_iterator_;
+			return this.list_iterator_;
 		}
 
 		/* ---------------------------------------------------------
@@ -43,7 +43,7 @@ namespace std
 		 */
 		public prev(): SetIterator<T>
 		{
-			return new SetIterator<T>(this.set, this.iist_iterator_.prev());
+			return new SetIterator<T>(this.set, this.list_iterator_.prev());
 		}
 
 		/**
@@ -51,7 +51,7 @@ namespace std
 		 */
 		public next(): SetIterator<T>
 		{
-			return new SetIterator<T>(<base.container.SetContainer<T>>this.source_, this.iist_iterator_.next());
+			return new SetIterator<T>(<base.container.SetContainer<T>>this.source_, this.list_iterator_.next());
 		}
 
 		/**
@@ -59,7 +59,7 @@ namespace std
 		 */
 		public advance(size: number): SetIterator<T>
 		{
-			return new SetIterator<T>(this.set, this.iist_iterator_.advance(size));
+			return new SetIterator<T>(this.set, this.list_iterator_.advance(size));
 		}
 
 		/* ---------------------------------------------------------
@@ -75,7 +75,7 @@ namespace std
 		 */
 		public get value(): T
 		{
-			return this.iist_iterator_.value;
+			return this.list_iterator_.value;
 		}
 		
 		/* ---------------------------------------------------------
@@ -86,7 +86,7 @@ namespace std
 		 */
 		public equals<U extends T>(obj: SetIterator<U>): boolean 
 		{
-			return super.equals(obj) && this.iist_iterator_ == obj.iist_iterator_;
+			return super.equals(obj) && this.list_iterator_ == obj.list_iterator_;
 		}
 
 		/**
@@ -103,6 +103,14 @@ namespace std
 		public hash(): number
 		{
 			return base.hash.code(this.value);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: SetIterator<T>): void
+		{
+			this.list_iterator_.swap(obj.list_iterator_);
 		}
 	}
 }

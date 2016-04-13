@@ -3,6 +3,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+// Standard Template Library: Algorithms
+// The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
+//
+// A range is any sequence of objects that can be accessed through iterators or pointers, such as an array or an 
+// instance of some of the STL containers. Notice though, that algorithms operate through iterators directly on the 
+// values, not affecting in any way the structure of any possible container (it never affects the size or storage 
+// allocation of the container).
+//
+// @reference http://www.cplusplus.com/reference/algorithm/
+// @author Jeongho Nam <http://samchon.org>
 var std;
 (function (std) {
     function sort(begin, end, compare) {
@@ -55,6 +65,20 @@ var std;
         left.swap(right);
     }
     std.swap = swap;
+    function random_shuffle(begin, end) {
+        for (var it = begin; !it.equals(end); it = it.next()) {
+            var rand_index = Math.floor(Math.random() * (end.index - begin.index));
+            it.swap(begin.advance(rand_index));
+        }
+    }
+    std.random_shuffle = random_shuffle;
+    function shuffle(begin, end) {
+        for (var it = begin; !it.equals(end); it = it.next()) {
+            var rand_index = Math.floor(Math.random() * (end.index - begin.index));
+            it.swap(begin.advance(rand_index));
+        }
+    }
+    std.shuffle = shuffle;
     /* =========================================================
         ITERATIONS
             - FOR_EACH
@@ -106,9 +130,6 @@ var std;
      *
      * @return <code>true</code> if pred returns true for all the elements in the range or if the range is
      *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
-     *
-     * @reference http://www.cplusplus.com/reference/algorithm/all_of/
-     * @author Jeongho Nam <http://samchon.org>
      */
     function all_of(begin, end, pred) {
         for (var it = begin; !it.equals(end); it = it.next())
@@ -138,9 +159,6 @@ var std;
      * @return <code>true</code> if <i>pred</i> returns <code>true</code> for any of the elements in the range
      *		   [<i>begin</i>, <i>end<i>], and <code>false</code> otherwise. If [<i>begin</i>, <i>end</i>] is an
      *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
-     *
-     * @reference http://www.cplusplus.com/reference/algorithm/any_of/
-     * @author Jeongho Nam <http://samchon.org>
      */
     function any_of(begin, end, pred) {
         for (var it = begin; !it.equals(end); it = it.next())
@@ -168,14 +186,98 @@ var std;
      * @return <code>true</code> if <i>pred</i> returns <code>false</code> for all the elements in the range
      *		   [<i>begin</i>, <i>end<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code>
      *		   otherwise.
-     *
-     * @reference http://www.cplusplus.com/reference/algorithm/none_of/
-     * @author Jeongho Nam <http://samchon.org>
      */
     function none_of(begin, end, pred) {
         return !any_of(begin, end, pred);
     }
     std.none_of = none_of;
+    /* ---------------------------------------------------------
+        FINDERS
+    --------------------------------------------------------- */
+    /**
+     * <p> Find value in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>) that compares equal to
+     * <i>val</i>. If no such element is found, the function returns <i>end</i>. </p>
+     *
+     * <p> The function uses {@link std.equals equals} to compare the individual elements to <i>val</i>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param val Value to search for in the range.
+     */
+    function find(begin, end, val) {
+        for (var it = begin; !it.equals(end); it = it.next())
+            if (std.equals(it.value, val))
+                return it;
+        return end;
+    }
+    std.find = find;
+    /**
+     * <p> Find element in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>] for which pred returns
+     * <code>true</code>. If no such element is found, the function returns <i>end</i>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
+     *			   the context of this function. The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
+     */
+    function find_if(begin, end, pred) {
+        for (var it = begin; !it.equals(end); it = it.next())
+            if (pred(it.value))
+                return it;
+        return end;
+    }
+    std.find_if = find_if;
+    /**
+     * <p> Find element in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>] for which pred returns
+     * <code>true</code>. If no such element is found, the function returns <i>end</i>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
+     *			   the context of this function. The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
+     */
+    function find_if_not(begin, end, pred) {
+        for (var it = begin; !it.equals(end); it = it.next())
+            if (pred(it.value) == false)
+                return it;
+        return end;
+    }
+    std.find_if_not = find_if_not;
+    /* ---------------------------------------------------------
+        COUNTERS
+    --------------------------------------------------------- */
+    function count(begin, end, val) {
+        var cnt = 0;
+        for (var it = begin; !it.equals(end); it = it.next())
+            if (std.equals(it.value, val))
+                return cnt++;
+        return cnt;
+    }
+    std.count = count;
+    function count_if(begin, end, pred) {
+        var cnt = 0;
+        for (var it = begin; !it.equals(end); it = it.next())
+            if (pred(it.value))
+                return cnt++;
+        return cnt;
+    }
+    std.count_if = count_if;
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -410,7 +512,10 @@ var std;
                  */
                 MapContainer.prototype.construct_from_array = function (items) {
                     for (var i = 0; i < items.length; i++)
-                        this.insert_by_pair(items[i]);
+                        if (items[i] instanceof std.Pair)
+                            this.insert_by_pair(items[i]);
+                        else
+                            this.insert_by_tuple(items[i]);
                 };
                 /**
                  * @hidden
@@ -644,7 +749,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container) {
+        (function (container_3) {
             /**
              * <p> An abstract multi-map. </p>
              *
@@ -688,14 +793,13 @@ var std;
              */
             var MultiMap = (function (_super) {
                 __extends(MultiMap, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
                 /**
                  * Default Constructor.
                  */
                 function MultiMap() {
                     _super.call(this);
+                    // THIS IS ABSTRACT CLASS
+                    // NOTHING TO DO ESPECIALLY
                 }
                 /**
                  * @inheritdoc
@@ -717,8 +821,8 @@ var std;
                     return _super.prototype.insert.apply(this, args);
                 };
                 return MultiMap;
-            }(container.MapContainer));
-            container.MultiMap = MultiMap;
+            }(container_3.MapContainer));
+            container_3.MultiMap = MultiMap;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -728,7 +832,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container_3) {
+        (function (container_4) {
             /**
              * <p> An abstract set. </p>
              *
@@ -885,8 +989,8 @@ var std;
                     }
                     if (args.length == 1)
                         return this.insert_by_val(args[0]);
-                    else if (args.length == 2 && args[0] instanceof container_3.Iterator) {
-                        if (args[1] instanceof container_3.Iterator && args[0].get_source() != this && args[1].get_source() != this)
+                    else if (args.length == 2 && args[0] instanceof container_4.Iterator) {
+                        if (args[1] instanceof container_4.Iterator && args[0].get_source() != this && args[1].get_source() != this)
                             return this.insert_by_range(args[0], args[1]);
                         else
                             return this.insert_by_hint(args[0], args[1]);
@@ -916,12 +1020,12 @@ var std;
                         args[_i - 0] = arguments[_i];
                     }
                     if (args.length == 1) {
-                        if (args[0] instanceof container_3.Iterator && args[0].get_source() == this)
+                        if (args[0] instanceof container_4.Iterator && args[0].get_source() == this)
                             return this.erase_by_iterator(args[0]);
                         else
                             return this.erase_by_val(args[0]);
                     }
-                    else if (args.length == 2 && args[0] instanceof container_3.Iterator && args[1] instanceof container_3.Iterator)
+                    else if (args.length == 2 && args[0] instanceof container_4.Iterator && args[1] instanceof container_4.Iterator)
                         return this.erase_by_range(args[0], args[1]);
                 };
                 /**
@@ -958,8 +1062,8 @@ var std;
                     return new std.SetIterator(this, list_iterator); //begin.prev();
                 };
                 return SetContainer;
-            }(container_3.Container));
-            container_3.SetContainer = SetContainer;
+            }(container_4.Container));
+            container_4.SetContainer = SetContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -1046,7 +1150,7 @@ var std;
     var base;
     (function (base) {
         var container;
-        (function (container) {
+        (function (container_5) {
             /**
              * <p> An abstract unique-map. </p>
              *
@@ -1090,14 +1194,13 @@ var std;
              */
             var UniqueMap = (function (_super) {
                 __extends(UniqueMap, _super);
-                /* ---------------------------------------------------------
-                    CONSTRUCTORS
-                --------------------------------------------------------- */
                 /**
                  * Default Constructor.
                  */
                 function UniqueMap() {
                     _super.call(this);
+                    // THIS IS ABSTRACT CLASS
+                    // NOTHING TO DO ESPECIALLY
                 }
                 /* ---------------------------------------------------------
                     ACCESSORS
@@ -1147,8 +1250,8 @@ var std;
                     return _super.prototype.insert.apply(this, args);
                 };
                 return UniqueMap;
-            }(container.MapContainer));
-            container.UniqueMap = UniqueMap;
+            }(container_5.MapContainer));
+            container_5.UniqueMap = UniqueMap;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -1574,128 +1677,6 @@ var std;
         var tree;
         (function (tree) {
             /**
-             * Abstract Tree.
-             *
-             * @param <T> Type of elements.
-             *
-             * @author Jeongho Nam <http://samchon.org>
-             */
-            var XTree = (function () {
-                /* =========================================================
-                    CONSTRUCTOR
-                ========================================================= */
-                /**
-                 * Default Constructor.
-                 */
-                function XTree() {
-                    this.root_ = null;
-                }
-                /* =========================================================
-                    ACCESSORS
-                        - GETTERS
-                        - COMPARISON
-                ============================================================
-                    GETTERS
-                --------------------------------------------------------- */
-                /**
-                 * Find a node from its contained value.
-                 *
-                 * @param val Value to find.
-                 */
-                XTree.prototype.find = function (val) {
-                    if (this.root_ == null)
-                        return null;
-                    var node = this.root_;
-                    while (true) {
-                        var newNode = null;
-                        if (this.is_equals(val, node.value))
-                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-                        else if (this.is_less(val, node.value))
-                            newNode = node.left; // LESS, THEN TO THE LEFT
-                        else
-                            newNode = node.right; // GREATER, THEN TO THE RIGHT
-                        // ULTIL CHILD NODE EXISTS
-                        if (newNode == null)
-                            break;
-                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-                        node = newNode;
-                    }
-                    return node;
-                };
-                /**
-                 * Fetch maximum (the rightes?) node from one.
-                 *
-                 * @param node A node to fetch its maximum node.
-                 * @return The maximum node.
-                 */
-                XTree.prototype.fetch_maximum = function (node) {
-                    while (node.right != null)
-                        node = node.right;
-                    return node;
-                };
-                /* ---------------------------------------------------------
-                    ROTATION
-                --------------------------------------------------------- */
-                /**
-                 * Rotate a node left.
-                 *
-                 * @param node Node to rotate left.
-                 */
-                XTree.prototype.rotate_left = function (node) {
-                    var right = node.right;
-                    this.replace_node(node, right);
-                    node.right = right.left;
-                    if (right.left != null)
-                        right.left.parent = node;
-                    right.left = node;
-                    node.parent = right;
-                };
-                /**
-                 * Rotate a node to right.
-                 *
-                 * @param node A node to rotate right.
-                 */
-                XTree.prototype.rotate_right = function (node) {
-                    var left = node.left;
-                    this.replace_node(node, left);
-                    node.left = left.right;
-                    if (left.right != null)
-                        left.right.parent = node;
-                    left.right = node;
-                    node.parent = left;
-                };
-                /**
-                 * Replace a node.
-                 *
-                 * @param oldNode Ordinary node to be replaced.
-                 * @param newNode Target node to replace.
-                 */
-                XTree.prototype.replace_node = function (oldNode, newNode) {
-                    if (oldNode.parent == null)
-                        this.root_ = newNode;
-                    else {
-                        if (oldNode == oldNode.parent.left)
-                            oldNode.parent.left = newNode;
-                        else
-                            oldNode.parent.right = newNode;
-                    }
-                    if (newNode != null)
-                        newNode.parent = oldNode.parent;
-                };
-                return XTree;
-            }());
-            tree.XTree = XTree;
-        })(tree = base.tree || (base.tree = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="XTree.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        var tree;
-        (function (tree) {
-            /**
              * <p> Red-black Tree. </p>
              *
              * <p> A red-black tree is a kind of self-balancing
@@ -1777,22 +1758,65 @@ var std;
              * @inventor Rudolf Bayer
              * @author Migrated by Jeongho Nam <http://samchon.org>
              */
-            var RBTree = (function (_super) {
-                __extends(RBTree, _super);
+            var XTree = (function () {
                 /* =========================================================
                     CONSTRUCTOR
                 ========================================================= */
                 /**
                  * Default Constructor.
                  */
-                function RBTree() {
-                    _super.call(this);
+                function XTree() {
+                    this.root_ = null;
                 }
+                /* =========================================================
+                    ACCESSORS
+                        - GETTERS
+                        - COMPARISON
+                ============================================================
+                    GETTERS
+                --------------------------------------------------------- */
+                /**
+                 * Find a node from its contained value.
+                 *
+                 * @param val Value to find.
+                 */
+                XTree.prototype.find = function (val) {
+                    if (this.root_ == null)
+                        return null;
+                    var node = this.root_;
+                    while (true) {
+                        var newNode = null;
+                        if (this.is_equals(val, node.value))
+                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                        else if (this.is_less(val, node.value))
+                            newNode = node.left; // LESS, THEN TO THE LEFT
+                        else
+                            newNode = node.right; // GREATER, THEN TO THE RIGHT
+                        // ULTIL CHILD NODE EXISTS
+                        if (newNode == null)
+                            break;
+                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                        node = newNode;
+                    }
+                    return node;
+                };
+                /**
+                 * Fetch maximum (the rightes?) node from one.
+                 *
+                 * @param node A node to fetch its maximum node.
+                 * @return The maximum node.
+                 */
+                XTree.prototype.fetch_maximum = function (node) {
+                    while (node.right != null)
+                        node = node.right;
+                    return node;
+                };
                 /* =========================================================
                     ELEMENTS I/O
                         - INSERT
                         - ERASE
                         - COLOR
+                        - ROTATION
                 ============================================================
                     INSERT
                 --------------------------------------------------------- */
@@ -1881,7 +1905,7 @@ var std;
                  *
                  * @param val An element to insert.
                  */
-                RBTree.prototype.insert = function (val) {
+                XTree.prototype.insert = function (val) {
                     var parent = this.find(val);
                     var node = new tree.XTreeNode(val, tree.Color.RED);
                     if (parent == null)
@@ -1907,7 +1931,7 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                RBTree.prototype.insert_case1 = function (N) {
+                XTree.prototype.insert_case1 = function (N) {
                     if (N.parent == null)
                         N.color = tree.Color.BLACK;
                     else
@@ -1929,7 +1953,7 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                RBTree.prototype.insert_case2 = function (N) {
+                XTree.prototype.insert_case2 = function (N) {
                     if (this.fetch_color(N.parent) == tree.Color.BLACK)
                         return;
                     else
@@ -1963,7 +1987,7 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                RBTree.prototype.insert_case3 = function (N) {
+                XTree.prototype.insert_case3 = function (N) {
                     if (this.fetch_color(N.uncle) == tree.Color.RED) {
                         N.parent.color = tree.Color.BLACK;
                         N.uncle.color = tree.Color.BLACK;
@@ -2006,7 +2030,7 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                RBTree.prototype.insert_case4 = function (node) {
+                XTree.prototype.insert_case4 = function (node) {
                     if (node == node.parent.right && node.parent == node.grand_parent.left) {
                         this.rotate_left(node.parent);
                         node = node.left;
@@ -2046,7 +2070,7 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                RBTree.prototype.insert_case5 = function (node) {
+                XTree.prototype.insert_case5 = function (node) {
                     node.parent.color = tree.Color.BLACK;
                     node.grand_parent.color = tree.Color.RED;
                     if (node == node.parent.left && node.parent == node.grand_parent.left)
@@ -2187,7 +2211,7 @@ var std;
                  *
                  * @param val An element to erase.
                  */
-                RBTree.prototype.erase = function (val) {
+                XTree.prototype.erase = function (val) {
                     var node = this.find(val);
                     if (node == null || this.is_equals(val, node.value) == false)
                         return;
@@ -2216,7 +2240,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.erase_case1 = function (N) {
+                XTree.prototype.erase_case1 = function (N) {
                     if (N.parent == null)
                         return;
                     else
@@ -2241,7 +2265,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.erase_case2 = function (N) {
+                XTree.prototype.erase_case2 = function (N) {
                     if (this.fetch_color(N.sibling) == tree.Color.RED) {
                         N.parent.color = tree.Color.RED;
                         N.sibling.color = tree.Color.BLACK;
@@ -2274,7 +2298,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.erase_case3 = function (N) {
+                XTree.prototype.erase_case3 = function (N) {
                     if (this.fetch_color(N.parent) == tree.Color.BLACK &&
                         this.fetch_color(N.sibling) == tree.Color.BLACK &&
                         this.fetch_color(N.sibling.left) == tree.Color.BLACK &&
@@ -2299,7 +2323,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.erase_case4 = function (N) {
+                XTree.prototype.erase_case4 = function (N) {
                     if (this.fetch_color(N.parent) == tree.Color.RED &&
                         N.sibling != null &&
                         this.fetch_color(N.sibling) == tree.Color.BLACK &&
@@ -2331,7 +2355,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.erase_case5 = function (N) {
+                XTree.prototype.erase_case5 = function (N) {
                     if (N == N.parent.left &&
                         N.sibling != null &&
                         this.fetch_color(N.sibling) == tree.Color.BLACK &&
@@ -2404,7 +2428,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                RBTree.prototype.erase_case6 = function (node) {
+                XTree.prototype.erase_case6 = function (node) {
                     node.sibling.color = this.fetch_color(node.parent);
                     node.parent.color = tree.Color.BLACK;
                     if (node == node.parent.left) {
@@ -2417,6 +2441,55 @@ var std;
                     }
                 };
                 /* ---------------------------------------------------------
+                    ROTATION
+                --------------------------------------------------------- */
+                /**
+                 * Rotate a node left.
+                 *
+                 * @param node Node to rotate left.
+                 */
+                XTree.prototype.rotate_left = function (node) {
+                    var right = node.right;
+                    this.replace_node(node, right);
+                    node.right = right.left;
+                    if (right.left != null)
+                        right.left.parent = node;
+                    right.left = node;
+                    node.parent = right;
+                };
+                /**
+                 * Rotate a node to right.
+                 *
+                 * @param node A node to rotate right.
+                 */
+                XTree.prototype.rotate_right = function (node) {
+                    var left = node.left;
+                    this.replace_node(node, left);
+                    node.left = left.right;
+                    if (left.right != null)
+                        left.right.parent = node;
+                    left.right = node;
+                    node.parent = left;
+                };
+                /**
+                 * Replace a node.
+                 *
+                 * @param oldNode Ordinary node to be replaced.
+                 * @param newNode Target node to replace.
+                 */
+                XTree.prototype.replace_node = function (oldNode, newNode) {
+                    if (oldNode.parent == null)
+                        this.root_ = newNode;
+                    else {
+                        if (oldNode == oldNode.parent.left)
+                            oldNode.parent.left = newNode;
+                        else
+                            oldNode.parent.right = newNode;
+                    }
+                    if (newNode != null)
+                        newNode.parent = oldNode.parent;
+                };
+                /* ---------------------------------------------------------
                     COLOR
                 --------------------------------------------------------- */
                 /**
@@ -2425,25 +2498,28 @@ var std;
                  * @param node A node to fetch color.
                  * @retur color.
                  */
-                RBTree.prototype.fetch_color = function (node) {
+                XTree.prototype.fetch_color = function (node) {
                     if (node == null)
                         return tree.Color.BLACK;
                     else
                         return node.color;
                 };
-                return RBTree;
-            }(tree.XTree));
-            tree.RBTree = RBTree;
+                return XTree;
+            }());
+            tree.XTree = XTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="RBTree.ts" />
+/// <reference path="XTree.ts" />
 var std;
 (function (std) {
     var base;
     (function (base) {
         var tree;
         (function (tree) {
+            /**
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var AtomicTree = (function (_super) {
                 __extends(AtomicTree, _super);
                 /* ---------------------------------------------------------
@@ -2452,8 +2528,10 @@ var std;
                 /**
                  * Default Constructor.
                  */
-                function AtomicTree() {
+                function AtomicTree(compare) {
+                    if (compare === void 0) { compare = std.less; }
                     _super.call(this);
+                    this.compare_ = compare;
                 }
                 AtomicTree.prototype.find = function (val) {
                     if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
@@ -2487,14 +2565,20 @@ var std;
                 /* ---------------------------------------------------------
                     CONSTRUCTOR
                 --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
                 AtomicTree.prototype.is_equals = function (left, right) {
                     return std.equals(left, right);
                 };
+                /**
+                 * @inheritdoc
+                 */
                 AtomicTree.prototype.is_less = function (left, right) {
-                    return std.less(left.value, right.value);
+                    return this.compare_(left.value, right.value);
                 };
                 return AtomicTree;
-            }(tree.RBTree));
+            }(tree.XTree));
             tree.AtomicTree = AtomicTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -2547,13 +2631,16 @@ var std;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="RBTree.ts" />
+/// <reference path="XTree.ts" />
 var std;
 (function (std) {
     var base;
     (function (base) {
         var tree;
         (function (tree) {
+            /**
+             * @author Jeongho Nam <http://samchon.org>
+             */
             var PairTree = (function (_super) {
                 __extends(PairTree, _super);
                 /* ---------------------------------------------------------
@@ -2562,8 +2649,10 @@ var std;
                 /**
                  * Default Constructor.
                  */
-                function PairTree() {
+                function PairTree(compare) {
+                    if (compare === void 0) { compare = std.less; }
                     _super.call(this);
+                    this.compare_ = compare;
                 }
                 PairTree.prototype.find = function (val) {
                     if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
@@ -2594,14 +2683,20 @@ var std;
                 /* ---------------------------------------------------------
                     COMPARISON
                 --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
                 PairTree.prototype.is_equals = function (left, right) {
                     return std.equals(left.first, right.first);
                 };
+                /**
+                 * @inheritdoc
+                 */
                 PairTree.prototype.is_less = function (left, right) {
-                    return std.less(left.first, right.first);
+                    return this.compare_(left.first, right.first);
                 };
                 return PairTree;
-            }(tree.RBTree));
+            }(tree.XTree));
             tree.PairTree = PairTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -2618,8 +2713,6 @@ var std;
              * @param <T> Type of elements.
              *
              * @inventor Rudolf Bayer
-             * @see XTree
-             *
              * @author Migrated by Jeongho Nam <http://samchon.org>
              */
             var XTreeNode = (function () {
@@ -3160,6 +3253,15 @@ var std;
          * @inheritdoc
          */
         Deque.prototype.swap = function (obj) {
+            if (obj instanceof Deque)
+                this.swap_deque(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        Deque.prototype.swap_deque = function (obj) {
             var supplement = new Object();
             supplement.matrix_ = this.matrix_;
             supplement.size_ = this.size_;
@@ -4810,7 +4912,7 @@ var std;
     }
     std.hash = hash;
     /**
-     * Incremental sequence of unique id allocated to Object.
+     * Incremental sequence of unique id for objects.
      */
     var __s_iUID = 0;
     Object.defineProperties(Object.prototype, {
@@ -5411,6 +5513,9 @@ var std;
             enumerable: true,
             configurable: true
         });
+        /**
+         * @inheritdoc
+         */
         ListIterator.prototype.swap = function (obj) {
             var supp_prev = this.prev_;
             var supp_next = this.next_;
@@ -5546,6 +5651,12 @@ var std;
         MapIterator.prototype.hash = function () {
             return std.hash(this.first);
         };
+        /**
+         * @inheritdoc
+         */
+        MapIterator.prototype.swap = function (obj) {
+            this.list_iterator_.swap(obj.list_iterator_);
+        };
         return MapIterator;
     }());
     std.MapIterator = MapIterator;
@@ -5611,20 +5722,47 @@ var std;
 })(std || (std = {}));
 var std;
 (function (std) {
+    var PriorityQueue = (function () {
+        function PriorityQueue() {
+        }
+        PriorityQueue.prototype.size = function () {
+            return this.container_.size();
+        };
+        PriorityQueue.prototype.empty = function () {
+            return this.container_.empty();
+        };
+        PriorityQueue.prototype.top = function () {
+            return this.container_.begin().value;
+        };
+        PriorityQueue.prototype.push = function (val) {
+            this.container_.insert(val);
+        };
+        PriorityQueue.prototype.pop = function () {
+            this.container_.erase(this.container_.begin());
+        };
+        PriorityQueue.prototype.swap = function (obj) {
+            this.container_.swap(obj.container_);
+        };
+        return PriorityQueue;
+    }());
+    std.PriorityQueue = PriorityQueue;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> FIFO queue. </p>
      *
-     * <p> {@link Queue}s are a type of container adaptor, specifically designed to operate in a FIFO
-     * context (first-in first-out), where elements are inserted into one end of the container and extracted
-     * from the other. </p>
+     * <p> {@link Queue}s are a type of container adaptor, specifically designed to operate in a FIFO context
+     * (first-in first-out), where elements are inserted into one end of the container and extracted from the other.
+     * </p>
      *
-     * <p> {@link Queue}s are implemented as containers adaptors, which are classes that use an encapsulated
-     * object of a specific container class as its underlying container, providing a specific set of member
-     * functions to access its elements. Elements are pushed into the {@link IDeque.back back()} of the specific
-     * container and popped from its {@link IDeque.front front()}. </p>
+     * <p> {@link Queue}s are implemented as containers adaptors, which are classes that use an encapsulated object of
+     * a specific container class as its underlying container, providing a specific set of member functions to access
+     * its elements. Elements are pushed into the {@link IDeque.back back()} of the specific container and popped from
+     * its {@link IDeque.front front()}. </p>
      *
-     * <p> {@link data The underlying container} may be one of the standard container class template or some other
-     * specifically designed container class. This underlying container shall support at least the following
+     * <p> {@link container_ The underlying container} may be one of the standard container class template or some
+     * other specifically designed container class. This underlying container shall support at least the following
      * operations: </p>
      *
      * <ul>
@@ -5637,8 +5775,8 @@ var std;
      * </ul>
      *
      * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular {@link Queue} class instantiation,
-     * the standard container {@link List} is used. </p>
+     * By default, if no container class is specified for a particular {@link Queue} class instantiation, the standard
+     * container {@link List} is used. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/queue/queue/ </li>
@@ -5651,9 +5789,9 @@ var std;
     var Queue = (function () {
         function Queue(queue) {
             if (queue === void 0) { queue = null; }
-            this.data = new std.List();
+            this.container_ = new std.List();
             if (queue != null)
-                this.data.assign(queue.data.begin(), queue.data.end());
+                this.container_.assign(queue.container_.begin(), queue.container_.end());
         }
         /* ---------------------------------------------------------
             ACCESSORS
@@ -5663,54 +5801,54 @@ var std;
          * <p> Returns the number of elements in the {@link Queue}. </p>
          *
          * <p> This member function effectively calls member {@link IDeque.size size()} of the
-         * {@link data underlying container} object. </p>
+         * {@link container_ underlying container} object. </p>
          *
-         * @return The number of elements in the {@link data underlying container}.
+         * @return The number of elements in the {@link container_ underlying container}.
          */
         Queue.prototype.size = function () {
-            return this.data.size();
+            return this.container_.size();
         };
         /**
          * <p> Test whether container is empty. </p>
          * <p> returns whether the {@link Queue} is empty: i.e. whether its <i>size</i> is zero. </p>
          *
          * <p> This member function efeectively calls member {@link IDeque.empty empty()} of the
-         * {@link data underlying container} object. </p>
+         * {@link container_ underlying container} object. </p>
          *
-         * @return <code>true</code> if the {@link data underlying container}'s size is 0,
+         * @return <code>true</code> if the {@link container_ underlying container}'s size is 0,
          *		   <code>false</code> otherwise. </p>
          */
         Queue.prototype.empty = function () {
-            return this.data.empty();
+            return this.container_.empty();
         };
         /**
          * <p> Access next element. </p>
          * <p> Returns a value of the next element in the {@link Queue}. </p>
          *
-         * <p> The next element is the "oldest" element in the {@link Queue} and the same element that is
-         * popped out from the queue when {@link pop Queue.pop()} is called. </p>
+         * <p> The next element is the "oldest" element in the {@link Queue} and the same element that is popped out
+         * from the queue when {@link pop Queue.pop()} is called. </p>
          *
          * <p> This member function effectively calls member {@link IDeque.front front()} of the
-         * {@link data underlying container} object. </p>
+         * {@link container_ underlying container} object. </p>
          *
          * @return A value of the next element in the {@link Queue}.
          */
         Queue.prototype.front = function () {
-            return this.data.front();
+            return this.container_.front();
         };
         /**
          * <p> Access last element. </p>
          *
-         * <p> Returns a vaue of the last element in the queue. This is the "newest" element in the queue
-         * (i.e. the last element pushed into the queue). </p>
+         * <p> Returns a vaue of the last element in the queue. This is the "newest" element in the queue (i.e. the
+         * last element pushed into the queue). </p>
          *
          * <p> This member function effectively calls the member function {@link IDeque.back back()} of the
-         * {@link data underlying container} object. </p>
+         * {@link container_ underlying container} object. </p>
          *
          * @return A value of the last element in the {@link Queue}.
          */
         Queue.prototype.back = function () {
-            return this.data.back();
+            return this.container_.back();
         };
         /* ---------------------------------------------------------
             ELEMENTS I/O
@@ -5721,27 +5859,41 @@ var std;
          * <p> Inserts a new element at the end of the {@link Queue}, after its current last element.
          * The content of this new element is initialized to val. </p>
          *
-         * <p> This member function effectively calls the member function {@link IDeque.push_back push_back()} of
-         * the {@link data underlying container} object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.push_back push_back()} of the
+         * {@link container_ underlying container} object. </p>
          *
          * @param val Value to which the inserted element is initialized.
          */
         Queue.prototype.push = function (val) {
-            this.data.push_back(val);
+            this.container_.push_back(val);
         };
         /**
          * <p> Remove next element. </p>
          *
          * <p> Removes the next element in the {@link Queue}, effectively reducing its size by one. </p>
          *
-         * <p> The element removed is the "oldest" element in the {@link Queue} whose value can be retrieved
-         * by calling member {@link front Queue.front()} </p>.
+         * <p> The element removed is the "oldest" element in the {@link Queue} whose value can be retrieved by calling
+         * member {@link front Queue.front()} </p>.
          *
-         * <p> This member function effectively calls the member function {@link IDeque.pop_front pop_front()} of
-         * the {@link data underlying container} object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.pop_front pop_front()} of the
+         * {@link container_ underlying container} object. </p>
          */
         Queue.prototype.pop = function () {
-            this.data.pop_front();
+            this.container_.pop_front();
+        };
+        /**
+         * <p> Swap contents. </p>
+         *
+         * <p> Exchanges the contents of the container adaptor (<i>this</i>) by those of <i>obj</i>. </p>
+         *
+         * <p> This member function calls the non-member function {@link IContainer.swap swap} (unqualified) to swap
+         * the {@link container_ underlying containers}. </p>
+         *
+         * @param obj Another {@link Queue} container adaptor of the same type (i.e., instantiated with the same
+         *			  template parameter, <b>T</b>). Sizes may differ. </p>
+         */
+        Queue.prototype.swap = function (obj) {
+            this.container_.swap(obj.container_);
         };
         return Queue;
     }());
@@ -5769,10 +5921,10 @@ var std;
          */
         function SetIterator(source, it) {
             _super.call(this, source);
-            this.iist_iterator_ = it;
+            this.list_iterator_ = it;
         }
         SetIterator.prototype.get_list_iterator = function () {
-            return this.iist_iterator_;
+            return this.list_iterator_;
         };
         /* ---------------------------------------------------------
             MOVERS
@@ -5781,19 +5933,19 @@ var std;
          * @inheritdoc
          */
         SetIterator.prototype.prev = function () {
-            return new SetIterator(this.set, this.iist_iterator_.prev());
+            return new SetIterator(this.set, this.list_iterator_.prev());
         };
         /**
          * @inheritdoc
          */
         SetIterator.prototype.next = function () {
-            return new SetIterator(this.source_, this.iist_iterator_.next());
+            return new SetIterator(this.source_, this.list_iterator_.next());
         };
         /**
          * @inheritdoc
          */
         SetIterator.prototype.advance = function (size) {
-            return new SetIterator(this.set, this.iist_iterator_.advance(size));
+            return new SetIterator(this.set, this.list_iterator_.advance(size));
         };
         Object.defineProperty(SetIterator.prototype, "set", {
             /* ---------------------------------------------------------
@@ -5810,7 +5962,7 @@ var std;
              * @inheritdoc
              */
             get: function () {
-                return this.iist_iterator_.value;
+                return this.list_iterator_.value;
             },
             enumerable: true,
             configurable: true
@@ -5822,7 +5974,7 @@ var std;
          * @inheritdoc
          */
         SetIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.iist_iterator_ == obj.iist_iterator_;
+            return _super.prototype.equals.call(this, obj) && this.list_iterator_ == obj.list_iterator_;
         };
         /**
          * @inheritdoc
@@ -5836,6 +5988,12 @@ var std;
         SetIterator.prototype.hash = function () {
             return std.base.hash.code(this.value);
         };
+        /**
+         * @inheritdoc
+         */
+        SetIterator.prototype.swap = function (obj) {
+            this.list_iterator_.swap(obj.list_iterator_);
+        };
         return SetIterator;
     }(std.base.container.Iterator));
     std.SetIterator = SetIterator;
@@ -5848,13 +6006,13 @@ var std;
      * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context
      * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
      *
-     * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated
-     * object of a specific container class as its <i>underlying container</i>, providing a specific set of member
-     * functions to access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()}
-     * of the {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
+     * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated object of
+     * a specific container class as its <i>underlying container</i>, providing a specific set of member functions to
+     * access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()} of the
+     * {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
      *
-     * <p> {@link container_ The underlying container} may be any of the standard container class templates or some other
-     * specifically designed container class. The container shall support the following operations: </p>
+     * <p> {@link container_ The underlying container} may be any of the standard container class templates or some
+     * other specifically designed container class. The container shall support the following operations: </p>
      *
      * <ul>
      *	<li> empty </li>
@@ -5866,8 +6024,8 @@ var std;
      * </ul>
      *
      * <p> The standard container classes {@link Vector}, {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular {@link Stack} class instantiation,
-     * the standard container {@link List} is used. </p>
+     * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard
+     * container {@link List} is used. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
@@ -5889,6 +6047,7 @@ var std;
         --------------------------------------------------------- */
         /**
          * <p> Return size. </p>
+         *
          * <p> Returns the number of elements in the {@link Stack}. </p>
          *
          * <p> This member function effectively calls member {@link ILinearContainer.size size()} of the
@@ -5901,6 +6060,7 @@ var std;
         };
         /**
          * <p> Test whether container is empty. </p>
+         *
          * <p> returns whether the {@link Stack} is empty: i.e. whether its <i>size</i> is zero. </p>
          *
          * <p> This member function effectively calls member {@link ILinearContainer.empty empty()} of the
@@ -5917,8 +6077,8 @@ var std;
          *
          * <p> Returns a value of the top element in the {@link Stack} </p>.
          *
-         * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element
-         * inserted into the {@link Stack}. </p>
+         * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element inserted into
+         * the {@link Stack}. </p>
          *
          * <p> This member function effectively calls member {@link ILinearContainer.back back()} of the
          * {@link container_ underlying container} object. </p>
@@ -5949,14 +6109,28 @@ var std;
          *
          * <p> Removes the element on top of the {@link Stack}, effectively reducing its size by one. </p>
          *
-         * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be
-         * retrieved by calling member {@link top Stack.top()} </p>.
+         * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be retrieved
+         * by calling member {@link top Stack.top()} </p>.
          *
-         * <p> This member function effectively calls the member function
-         * {@link ILinearContainer.pop_back pop_back()} of the {@link container_ underlying container} object. </p>
+         * <p> This member function effectively calls the member function {@link ILinearContainer.pop_back pop_back()}
+         * of the {@link container_ underlying container} object. </p>
          */
         Stack.prototype.pop = function () {
             this.container_.pop_back();
+        };
+        /**
+         * <p> Swap contents. </p>
+         *
+         * <p> Exchanges the contents of the container adaptor (<i>this</i>) by those of <i>obj</i>. </p>
+         *
+         * <p> This member function calls the non-member function {@link IContainer.swap swap} (unqualified) to swap
+         * the {@link container_ underlying containers}. </p>
+         *
+         * @param obj Another {@link Stack} container adaptor of the same type (i.e., instantiated with the same
+         *			  template parameter, <b>T</b>). Sizes may differ. </p>
+         */
+        Stack.prototype.swap = function (obj) {
+            this.container_.swap(obj.container_);
         };
         return Stack;
     }());
@@ -6070,7 +6244,23 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            this.tree_ = new std.base.tree.PairTree();
+            // CONSTRUCT TREE WITH COMPARE
+            var compare;
+            if (args.length == 0 || args[args.length - 1] instanceof Function == false)
+                compare = std.less;
+            else
+                compare = args[args.length - 1];
+            this.tree_ = new std.base.tree.PairTree(compare);
+            // OVERLOADINGS
+            if (args.length >= 1 && args[0] instanceof Array) {
+                this.construct_from_array(args[0]);
+            }
+            else if (args.length >= 1 && args[0] instanceof std.base.container.MapContainer) {
+                this.construct_from_container(args[0]);
+            }
+            else if (args.length >= 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
+                this.construct_from_range(args[0], args[1]);
+            }
         }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
@@ -6325,7 +6515,23 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            this.tree_ = new std.base.tree.PairTree();
+            // CONSTRUCT TREE WITH COMPARE
+            var compare;
+            if (args.length == 0 || args[args.length - 1] instanceof Function == false)
+                compare = std.less;
+            else
+                compare = args[args.length - 1];
+            this.tree_ = new std.base.tree.PairTree(compare);
+            // OVERLOADINGS
+            if (args.length >= 1 && args[0] instanceof Array) {
+                this.construct_from_array(args[0]);
+            }
+            else if (args.length >= 1 && args[0] instanceof std.base.container.MapContainer) {
+                this.construct_from_container(args[0]);
+            }
+            else if (args.length >= 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
+                this.construct_from_range(args[0], args[1]);
+            }
         }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
@@ -6578,7 +6784,23 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            this.tree_ = new std.base.tree.AtomicTree();
+            // CONSTRUCT TREE WITH COMPARE
+            var compare;
+            if (args.length == 0 || args[args.length - 1] instanceof Function == false)
+                compare = std.less;
+            else
+                compare = args[args.length - 1];
+            this.tree_ = new std.base.tree.AtomicTree(compare);
+            // OVERLOADINGS
+            if (args.length >= 1 && args[0] instanceof Array) {
+                this.construct_from_array(args[0]);
+            }
+            else if (args.length >= 1 && args[0] instanceof std.base.container.SetContainer) {
+                this.construct_from_container(args[0]);
+            }
+            else if (args.length >= 2 && args[0] instanceof std.SetIterator && args[1] instanceof std.SetIterator) {
+                this.construct_from_range(args[0], args[1]);
+            }
         }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
@@ -6832,7 +7054,23 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
-            this.tree_ = new std.base.tree.AtomicTree();
+            // CONSTRUCT TREE WITH COMPARE
+            var compare;
+            if (args.length == 0 || args[args.length - 1] instanceof Function == false)
+                compare = std.less;
+            else
+                compare = args[args.length - 1];
+            this.tree_ = new std.base.tree.AtomicTree(compare);
+            // OVERLOADINGS
+            if (args.length >= 1 && args[0] instanceof Array) {
+                this.construct_from_array(args[0]);
+            }
+            else if (args.length >= 1 && args[0] instanceof std.base.container.SetContainer) {
+                this.construct_from_container(args[0]);
+            }
+            else if (args.length >= 2 && args[0] instanceof std.SetIterator && args[1] instanceof std.SetIterator) {
+                this.construct_from_range(args[0], args[1]);
+            }
         }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
@@ -7054,12 +7292,16 @@ var std;
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Sequence </dt>
-     *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
-     *		 accessed by their position in this sequence. </dd>
+     *	<dd>
+     *		Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+     *		accessed by their position in this sequence.
+     *	</dd>
      *
      *	<dt> Dynamic array </dt>
-     *	<dd> Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
-     *		 relatively fast addition/removal of elements at the end of the sequence. </dd>
+     *	<dd>
+     *		Allows direct access to any element in the sequence, even through pointer arithmetics, and provides
+     *		relatively fast addition/removal of elements at the end of the sequence.
+     *	</dd>
      * </dl>
      *
      * <ul>
