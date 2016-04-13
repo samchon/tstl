@@ -1,4 +1,15 @@
-﻿namespace std
+﻿// Standard Template Library: Algorithms
+// The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
+//
+// A range is any sequence of objects that can be accessed through iterators or pointers, such as an array or an 
+// instance of some of the STL containers. Notice though, that algorithms operate through iterators directly on the 
+// values, not affecting in any way the structure of any possible container (it never affects the size or storage 
+// allocation of the container).
+//
+// @reference http://www.cplusplus.com/reference/algorithm/
+// @author Jeongho Nam <http://samchon.org>
+
+namespace std
 {
 	/* =========================================================
 		SORT
@@ -25,9 +36,6 @@
 	 *			  and <i>end</i>, including the element pointed by <i>begin</i> but not the element pointed by
 	 *			  <i>begin</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
 	 *			  {@link Iterator.swap swap} is properly defined.
-	 *
-	 * @reference http://www.cplusplus.com/reference/algorithm/sort/
-	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
 		(begin: InputIterator, end: InputIterator): void;
@@ -55,9 +63,6 @@
 	 *		  argument is considered to go before the second in the specific strict weak ordering it defines. The 
 	 *		  function shall not modify any of its arguments. This can either be a function pointer or a function 
 	 *		  object.
-	 *
-	 * @reference http://www.cplusplus.com/reference/algorithm/sort/
-	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
 		(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
@@ -134,14 +139,28 @@
 	 * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> 
 	 * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, 
 	 * references and pointers remain valid for the swapped objects. </p>
+	 *
+	 * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
+	 * ownership over their assets to the other container (i.e., the containers exchange references to their data, 
+	 * without actually performing any element copy or movement): It behaves as if 
+	 * <i>left</i>.{@link IContainer.swap swap}(<i>right</i>) was called. </p>
 	 * 
-	 * This is an overload of the generic algorithm swap that improves its performance by mutually transferring ownership over their assets to the other container (i.e., the containers exchange references to their data, without actually performing any element copy or movement): It behaves as if x.swap(y) was called.
-	 * 
-	 * @param left
-	 * @param right
+	 * @param left A {@link IContainer container} to swap its contents.
+	 * @param right A {@link IContainer container} to swap its contents.
 	 */
-	export function swap<T, ContainerT extends base.container.IContainer<T>>
-		(left: ContainerT, right: ContainerT): void;
+	export function swap<T>
+		(left: base.container.IContainer<T>, right: base.container.IContainer<T>): void;
+
+	/**
+	 * <p> Exchange contents of queues. </p>
+	 * 
+	 * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+	 * 
+	 * @param left A {@link Queue} container of the same type. Size may differ.
+	 * @param right A {@link Queue} container of the same type. Size may differ.
+	 */
+	export function swap<T>
+		(left: Queue<T>, right: Queue<T>): void;
 
 	/**
 	 * 
@@ -149,8 +168,50 @@
 	 * @param left
 	 * @param right
 	 */
-	export function swap<Key, T, MapT extends base.container.MapContainer<Key, T>>
-		(left: MapT, right: MapT): void;
+	export function swap<T>
+		(left: Stack<T>, right: Stack<T>): void;
+
+	/**
+	 * <p> Exchanges the contents of two {@link UniqueMap unique maps}. </p>
+	 * 
+	 * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must 
+	 * be of the same type (same template parameters), although sizes may differ. </p>
+	 * 
+	 * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> 
+	 * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references 
+	 * and pointers remain valid for the swapped objects. </p>
+	 * 
+	 * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
+	 * ownership over their assets to the other container (i.e., the containers exchange references to their data, 
+	 * without actually performing any element copy or movement): It behaves as if 
+	 * <i>left</i>.{@link UniqueMap.swap swap}(<i>right</i>) was called. </p>
+	 * 
+	 * @param left An {@link UniqueMap unique map} to swap its conents.
+	 * @param right An {@link UniqueMap unique map} to swap its conents.
+	 */
+	export function swap<Key, T>
+		(left: base.container.UniqueMap<Key, T>, right: base.container.UniqueMap<Key, T>): void;
+
+	/**
+	 * <p> Exchanges the contents of two {@link MultiMap multi maps}. </p>
+	 * 
+	 * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must 
+	 * be of the same type (same template parameters), although sizes may differ. </p>
+	 * 
+	 * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> 
+	 * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references 
+	 * and pointers remain valid for the swapped objects. </p>
+	 * 
+	 * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
+	 * ownership over their assets to the other container (i.e., the containers exchange references to their data, 
+	 * without actually performing any element copy or movement): It behaves as if 
+	 * <i>left</i>.{@link MultiMap.swap swap}(<i>right</i>) was called. </p>
+	 * 
+	 * @param left A {@link MultiMap multi map} to swap its conents.
+	 * @param right A {@link MultiMap multi map} to swap its conents.
+	 */
+	export function swap<Key, T>
+		(left: base.container.MultiMap<Key, T>, right: base.container.MultiMap<Key, T>): void;
 
 	export function swap(left: any, right: any)
 	{
@@ -231,9 +292,6 @@
 	 *
 	 * @return <code>true</code> if pred returns true for all the elements in the range or if the range is 
 	 *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
-	 *
-	 * @reference http://www.cplusplus.com/reference/algorithm/all_of/
-	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export function all_of<T, InputIterator extends base.container.Iterator<T>>
 		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean
@@ -266,9 +324,6 @@
 	 * @return <code>true</code> if <i>pred</i> returns <code>true</code> for any of the elements in the range 
 	 *		   [<i>begin</i>, <i>end<i>], and <code>false</code> otherwise. If [<i>begin</i>, <i>end</i>] is an 
 	 *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
-	 *
-	 * @reference http://www.cplusplus.com/reference/algorithm/any_of/
-	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export function any_of<T, InputIterator extends base.container.Iterator<T>>
 		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean
@@ -299,9 +354,6 @@
 	 * @return <code>true</code> if <i>pred</i> returns <code>false</code> for all the elements in the range 
 	 *		   [<i>begin</i>, <i>end<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code> 
 	 *		   otherwise.
-	 *
-	 * @reference http://www.cplusplus.com/reference/algorithm/none_of/
-	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export function none_of<T, InputIterator extends base.container.Iterator<T>>
 		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean
@@ -312,6 +364,20 @@
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
+	/**
+	 * <p> Find value in range. </p>
+	 * 
+	 * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>) that compares equal to 
+	 * <i>val</i>. If no such element is found, the function returns <i>end</i>. </p>
+	 * 
+	 * <p> The function uses {@link std.equals equals} to compare the individual elements to <i>val</i>. </p>
+	 * 
+	 * @param begin An {@link Iterator} to the initial position in a sequence.
+	 * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+	 *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
+	 * @param val Value to search for in the range.
+	 */
 	export function find<T, InputIterator extends base.container.Iterator<T>>
 		(begin: InputIterator, end: InputIterator, val: T): InputIterator
 	{
@@ -322,11 +388,51 @@
 		return end;
 	}
 
+	/**
+	 * <p> Find element in range. </p>
+	 * 
+	 * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>] for which pred returns 
+	 * <code>true</code>. If no such element is found, the function returns <i>end</i>. </p>
+	 * 
+	 * @param begin An {@link Iterator} to the initial position in a sequence.
+	 * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+	 *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
+	 * @param pred Unary function that accepts an element in the range as argument and returns a value convertible 
+	 *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in 
+	 *			   the context of this function. The function shall not modify its argument. This can either be a 
+	 *			   function pointer or a function object.
+	 */
 	export function find_if<T, InputIterator extends base.container.Iterator<T>>
 		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
 		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
 			if (pred(it.value))
+				return it;
+
+		return end;
+	}
+
+	/**
+	 * <p> Find element in range. </p>
+	 * 
+	 * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>] for which pred returns 
+	 * <code>true</code>. If no such element is found, the function returns <i>end</i>. </p>
+	 * 
+	 * @param begin An {@link Iterator} to the initial position in a sequence.
+	 * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+	 *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
+	 * @param pred Unary function that accepts an element in the range as argument and returns a value convertible 
+	 *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in 
+	 *			   the context of this function. The function shall not modify its argument. This can either be a 
+	 *			   function pointer or a function object.
+	 */
+	export function find_if_not<T, InputIterator extends base.container.Iterator<T>>
+		(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): InputIterator
+	{
+		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
+			if (pred(it.value) == false)
 				return it;
 
 		return end;

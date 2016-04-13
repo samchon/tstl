@@ -698,7 +698,18 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: Deque<T>): void
+		public swap(obj: base.container.IContainer<T>): void
+		{
+			if (obj instanceof Deque)
+				this.swap_deque(obj);
+			else
+				super.swap(obj);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private swap_deque(obj: Deque<T>): void
 		{
 			let supplement: Deque<T> = <Deque<T>>new Object();
 			supplement.matrix_ = this.matrix_;

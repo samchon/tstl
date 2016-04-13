@@ -1,4 +1,4 @@
-﻿/// <reference path="RBTree.ts" />
+﻿/// <reference path="XTree.ts" />
 
 namespace std.base.tree
 {
@@ -6,17 +6,21 @@ namespace std.base.tree
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class PairTree<Key, T>
-		extends RBTree<MapIterator<Key, T>>
+		extends XTree<MapIterator<Key, T>>
 	{
+		private compare_: (left: Key, right: Key) => boolean;
+
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
 		 */
-		public constructor()
+		public constructor(compare: (left: Key, right: Key) => boolean = std.less)
 		{
 			super();
+
+			this.compare_ = compare;
 		}
 
 		public find(key: Key): XTreeNode<MapIterator<Key, T>>;
@@ -76,7 +80,7 @@ namespace std.base.tree
 		 */
 		public is_less(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
-			return std.less(left.first, right.first);
+			return this.compare_(left.first, right.first);
 		}
 	}
 }

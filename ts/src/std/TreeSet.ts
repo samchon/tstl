@@ -67,7 +67,7 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
-		 * Default Constructor
+		 * Default Constructor.
 		 */
 		public constructor();
 
@@ -95,7 +95,16 @@ namespace std
 		{
 			super();
 
-			this.tree_ = new base.tree.AtomicTree<T>();
+			// CONSTRUCT TREE
+			let compare: (left: T, right: T) => boolean;
+			if (args.length == 0 || args[args.length - 1] instanceof Function)
+				compare = std.less;
+			else
+				compare = args[args.length - 1];
+
+			this.tree_ = new base.tree.AtomicTree<T>(compare);
+
+			// OVERLOADINGS
 		}
 
 		/* ---------------------------------------------------------

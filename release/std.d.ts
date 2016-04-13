@@ -16,9 +16,6 @@ declare namespace std {
      *			  and <i>end</i>, including the element pointed by <i>begin</i> but not the element pointed by
      *			  <i>begin</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
      *			  {@link Iterator.swap swap} is properly defined.
-     *
-     * @reference http://www.cplusplus.com/reference/algorithm/sort/
-     * @author Jeongho Nam <http://samchon.org>
      */
     function sort<T, InputIterator extends base.container.IArrayIterator<T>>(begin: InputIterator, end: InputIterator): void;
     /**
@@ -44,9 +41,6 @@ declare namespace std {
      *		  argument is considered to go before the second in the specific strict weak ordering it defines. The
      *		  function shall not modify any of its arguments. This can either be a function pointer or a function
      *		  object.
-     *
-     * @reference http://www.cplusplus.com/reference/algorithm/sort/
-     * @author Jeongho Nam <http://samchon.org>
      */
     function sort<T, InputIterator extends base.container.IArrayIterator<T>>(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
     /**
@@ -59,19 +53,69 @@ declare namespace std {
      * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators,
      * references and pointers remain valid for the swapped objects. </p>
      *
-     * This is an overload of the generic algorithm swap that improves its performance by mutually transferring ownership over their assets to the other container (i.e., the containers exchange references to their data, without actually performing any element copy or movement): It behaves as if x.swap(y) was called.
+     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
+     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
+     * without actually performing any element copy or movement): It behaves as if
+     * <i>left</i>.{@link IContainer.swap swap}(<i>right</i>) was called. </p>
      *
-     * @param left
-     * @param right
+     * @param left A {@link IContainer container} to swap its contents.
+     * @param right A {@link IContainer container} to swap its contents.
      */
-    function swap<T, ContainerT extends base.container.IContainer<T>>(left: ContainerT, right: ContainerT): void;
+    function swap<T>(left: base.container.IContainer<T>, right: base.container.IContainer<T>): void;
+    /**
+     * <p> Exchange contents of queues. </p>
+     *
+     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+     *
+     * @param left A {@link Queue} container of the same type. Size may differ.
+     * @param right A {@link Queue} container of the same type. Size may differ.
+     */
+    function swap<T>(left: Queue<T>, right: Queue<T>): void;
     /**
      *
      *
      * @param left
      * @param right
      */
-    function swap<Key, T, MapT extends base.container.MapContainer<Key, T>>(left: MapT, right: MapT): void;
+    function swap<T>(left: Stack<T>, right: Stack<T>): void;
+    /**
+     * <p> Exchanges the contents of two {@link UniqueMap unique maps}. </p>
+     *
+     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must
+     * be of the same type (same template parameters), although sizes may differ. </p>
+     *
+     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
+     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references
+     * and pointers remain valid for the swapped objects. </p>
+     *
+     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
+     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
+     * without actually performing any element copy or movement): It behaves as if
+     * <i>left</i>.{@link UniqueMap.swap swap}(<i>right</i>) was called. </p>
+     *
+     * @param left An {@link UniqueMap unique map} to swap its conents.
+     * @param right An {@link UniqueMap unique map} to swap its conents.
+     */
+    function swap<Key, T>(left: base.container.UniqueMap<Key, T>, right: base.container.UniqueMap<Key, T>): void;
+    /**
+     * <p> Exchanges the contents of two {@link MultiMap multi maps}. </p>
+     *
+     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must
+     * be of the same type (same template parameters), although sizes may differ. </p>
+     *
+     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
+     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references
+     * and pointers remain valid for the swapped objects. </p>
+     *
+     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
+     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
+     * without actually performing any element copy or movement): It behaves as if
+     * <i>left</i>.{@link MultiMap.swap swap}(<i>right</i>) was called. </p>
+     *
+     * @param left A {@link MultiMap multi map} to swap its conents.
+     * @param right A {@link MultiMap multi map} to swap its conents.
+     */
+    function swap<Key, T>(left: base.container.MultiMap<Key, T>, right: base.container.MultiMap<Key, T>): void;
     function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(begin: RandomAccessIterator, end: RandomAccessIterator): void;
     function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(begin: RandomAccessIterator, end: RandomAccessIterator): void;
     /**
@@ -107,9 +151,6 @@ declare namespace std {
      *
      * @return <code>true</code> if pred returns true for all the elements in the range or if the range is
      *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
-     *
-     * @reference http://www.cplusplus.com/reference/algorithm/all_of/
-     * @author Jeongho Nam <http://samchon.org>
      */
     function all_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
     /**
@@ -133,9 +174,6 @@ declare namespace std {
      * @return <code>true</code> if <i>pred</i> returns <code>true</code> for any of the elements in the range
      *		   [<i>begin</i>, <i>end<i>], and <code>false</code> otherwise. If [<i>begin</i>, <i>end</i>] is an
      *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
-     *
-     * @reference http://www.cplusplus.com/reference/algorithm/any_of/
-     * @author Jeongho Nam <http://samchon.org>
      */
     function any_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
     /**
@@ -157,13 +195,55 @@ declare namespace std {
      * @return <code>true</code> if <i>pred</i> returns <code>false</code> for all the elements in the range
      *		   [<i>begin</i>, <i>end<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code>
      *		   otherwise.
-     *
-     * @reference http://www.cplusplus.com/reference/algorithm/none_of/
-     * @author Jeongho Nam <http://samchon.org>
      */
     function none_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
+    /**
+     * <p> Find value in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>) that compares equal to
+     * <i>val</i>. If no such element is found, the function returns <i>end</i>. </p>
+     *
+     * <p> The function uses {@link std.equals equals} to compare the individual elements to <i>val</i>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param val Value to search for in the range.
+     */
     function find<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, val: T): InputIterator;
+    /**
+     * <p> Find element in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>] for which pred returns
+     * <code>true</code>. If no such element is found, the function returns <i>end</i>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
+     *			   the context of this function. The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
+     */
     function find_if<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): InputIterator;
+    /**
+     * <p> Find element in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>] for which pred returns
+     * <code>true</code>. If no such element is found, the function returns <i>end</i>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
+     *			   the context of this function. The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
+     */
+    function find_if_not<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): InputIterator;
     function count<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, val: T): number;
     function count_if<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): number;
 }
@@ -1931,71 +2011,6 @@ declare namespace std.base.system {
 }
 declare namespace std.base.tree {
     /**
-     * Abstract Tree.
-     *
-     * @param <T> Type of elements.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class XTree<T> {
-        /**
-         * Root node.
-         */
-        protected root_: XTreeNode<T>;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Find a node from its contained value.
-         *
-         * @param val Value to find.
-         */
-        find(val: T): XTreeNode<T>;
-        /**
-         * Fetch maximum (the rightes?) node from one.
-         *
-         * @param node A node to fetch its maximum node.
-         * @return The maximum node.
-         */
-        protected fetch_maximum(node: XTreeNode<T>): XTreeNode<T>;
-        abstract is_equals(left: T, right: T): boolean;
-        abstract is_less(left: T, right: T): boolean;
-        /**
-         * Insert an element with a new node.
-         *
-         * @param val An element to insert.
-         */
-        abstract insert(val: T): void;
-        /**
-         * Erase an element with its node.
-         *
-         * @param val An element to erase.
-         */
-        abstract erase(val: T): void;
-        /**
-         * Rotate a node left.
-         *
-         * @param node Node to rotate left.
-         */
-        protected rotate_left(node: XTreeNode<T>): void;
-        /**
-         * Rotate a node to right.
-         *
-         * @param node A node to rotate right.
-         */
-        protected rotate_right(node: XTreeNode<T>): void;
-        /**
-         * Replace a node.
-         *
-         * @param oldNode Ordinary node to be replaced.
-         * @param newNode Target node to replace.
-         */
-        protected replace_node(oldNode: XTreeNode<T>, newNode: XTreeNode<T>): void;
-    }
-}
-declare namespace std.base.tree {
-    /**
      * <p> Red-black Tree. </p>
      *
      * <p> A red-black tree is a kind of self-balancing
@@ -2077,11 +2092,30 @@ declare namespace std.base.tree {
      * @inventor Rudolf Bayer
      * @author Migrated by Jeongho Nam <http://samchon.org>
      */
-    abstract class RBTree<T> extends XTree<T> {
+    abstract class XTree<T> {
+        /**
+         * Root node.
+         */
+        protected root_: XTreeNode<T>;
         /**
          * Default Constructor.
          */
         constructor();
+        /**
+         * Find a node from its contained value.
+         *
+         * @param val Value to find.
+         */
+        find(val: T): XTreeNode<T>;
+        /**
+         * Fetch maximum (the rightes?) node from one.
+         *
+         * @param node A node to fetch its maximum node.
+         * @return The maximum node.
+         */
+        protected fetch_maximum(node: XTreeNode<T>): XTreeNode<T>;
+        abstract is_equals(left: T, right: T): boolean;
+        abstract is_less(left: T, right: T): boolean;
         /**
          * <p> Insert an element with a new node. </p>
          *
@@ -2569,6 +2603,25 @@ declare namespace std.base.tree {
          */
         private erase_case6(node);
         /**
+         * Rotate a node left.
+         *
+         * @param node Node to rotate left.
+         */
+        protected rotate_left(node: XTreeNode<T>): void;
+        /**
+         * Rotate a node to right.
+         *
+         * @param node A node to rotate right.
+         */
+        protected rotate_right(node: XTreeNode<T>): void;
+        /**
+         * Replace a node.
+         *
+         * @param oldNode Ordinary node to be replaced.
+         * @param newNode Target node to replace.
+         */
+        protected replace_node(oldNode: XTreeNode<T>, newNode: XTreeNode<T>): void;
+        /**
          * Fetch color from a node.
          *
          * @param node A node to fetch color.
@@ -2581,11 +2634,12 @@ declare namespace std.base.tree {
     /**
      * @author Jeongho Nam <http://samchon.org>
      */
-    class AtomicTree<T> extends RBTree<SetIterator<T>> {
+    class AtomicTree<T> extends XTree<SetIterator<T>> {
+        private compare_;
         /**
          * Default Constructor.
          */
-        constructor();
+        constructor(compare?: (left: T, right: T) => boolean);
         find(val: T): XTreeNode<SetIterator<T>>;
         find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
         /**
@@ -2646,11 +2700,12 @@ declare namespace std.base.tree {
     /**
      * @author Jeongho Nam <http://samchon.org>
      */
-    class PairTree<Key, T> extends RBTree<MapIterator<Key, T>> {
+    class PairTree<Key, T> extends XTree<MapIterator<Key, T>> {
+        private compare_;
         /**
          * Default Constructor.
          */
-        constructor();
+        constructor(compare?: (left: Key, right: Key) => boolean);
         find(key: Key): XTreeNode<MapIterator<Key, T>>;
         find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
         private find_by_key(key);
@@ -2671,8 +2726,6 @@ declare namespace std.base.tree {
      * @param <T> Type of elements.
      *
      * @inventor Rudolf Bayer
-     * @see XTree
-     *
      * @author Migrated by Jeongho Nam <http://samchon.org>
      */
     class XTreeNode<T> {
@@ -3006,7 +3059,11 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: Deque<T>): void;
+        swap(obj: base.container.IContainer<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_deque(obj);
     }
 }
 declare namespace std {
@@ -4703,20 +4760,31 @@ declare namespace std {
     }
 }
 declare namespace std {
+    class PriorityQueue<T> {
+        private container_;
+        size(): number;
+        empty(): boolean;
+        top(): T;
+        push(val: T): void;
+        pop(): void;
+        swap(obj: PriorityQueue<T>): void;
+    }
+}
+declare namespace std {
     /**
      * <p> FIFO queue. </p>
      *
-     * <p> {@link Queue}s are a type of container adaptor, specifically designed to operate in a FIFO
-     * context (first-in first-out), where elements are inserted into one end of the container and extracted
-     * from the other. </p>
+     * <p> {@link Queue}s are a type of container adaptor, specifically designed to operate in a FIFO context
+     * (first-in first-out), where elements are inserted into one end of the container and extracted from the other.
+     * </p>
      *
-     * <p> {@link Queue}s are implemented as containers adaptors, which are classes that use an encapsulated
-     * object of a specific container class as its underlying container, providing a specific set of member
-     * functions to access its elements. Elements are pushed into the {@link IDeque.back back()} of the specific
-     * container and popped from its {@link IDeque.front front()}. </p>
+     * <p> {@link Queue}s are implemented as containers adaptors, which are classes that use an encapsulated object of
+     * a specific container class as its underlying container, providing a specific set of member functions to access
+     * its elements. Elements are pushed into the {@link IDeque.back back()} of the specific container and popped from
+     * its {@link IDeque.front front()}. </p>
      *
-     * <p> {@link data The underlying container} may be one of the standard container class template or some other
-     * specifically designed container class. This underlying container shall support at least the following
+     * <p> {@link container_ The underlying container} may be one of the standard container class template or some
+     * other specifically designed container class. This underlying container shall support at least the following
      * operations: </p>
      *
      * <ul>
@@ -4729,8 +4797,8 @@ declare namespace std {
      * </ul>
      *
      * <p> The standard container classes {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular {@link Queue} class instantiation,
-     * the standard container {@link List} is used. </p>
+     * By default, if no container class is specified for a particular {@link Queue} class instantiation, the standard
+     * container {@link List} is used. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/queue/queue/ </li>
@@ -4744,7 +4812,7 @@ declare namespace std {
         /**
          * The <i>underlying object</i> for implementing the <i>FIFO</i> container.
          */
-        private data;
+        private container_;
         /**
          * Default Constructor.
          */
@@ -4758,9 +4826,9 @@ declare namespace std {
          * <p> Returns the number of elements in the {@link Queue}. </p>
          *
          * <p> This member function effectively calls member {@link IDeque.size size()} of the
-         * {@link data underlying container} object. </p>
+         * {@link container_ underlying container} object. </p>
          *
-         * @return The number of elements in the {@link data underlying container}.
+         * @return The number of elements in the {@link container_ underlying container}.
          */
         size(): number;
         /**
@@ -4768,9 +4836,9 @@ declare namespace std {
          * <p> returns whether the {@link Queue} is empty: i.e. whether its <i>size</i> is zero. </p>
          *
          * <p> This member function efeectively calls member {@link IDeque.empty empty()} of the
-         * {@link data underlying container} object. </p>
+         * {@link container_ underlying container} object. </p>
          *
-         * @return <code>true</code> if the {@link data underlying container}'s size is 0,
+         * @return <code>true</code> if the {@link container_ underlying container}'s size is 0,
          *		   <code>false</code> otherwise. </p>
          */
         empty(): boolean;
@@ -4778,11 +4846,11 @@ declare namespace std {
          * <p> Access next element. </p>
          * <p> Returns a value of the next element in the {@link Queue}. </p>
          *
-         * <p> The next element is the "oldest" element in the {@link Queue} and the same element that is
-         * popped out from the queue when {@link pop Queue.pop()} is called. </p>
+         * <p> The next element is the "oldest" element in the {@link Queue} and the same element that is popped out
+         * from the queue when {@link pop Queue.pop()} is called. </p>
          *
          * <p> This member function effectively calls member {@link IDeque.front front()} of the
-         * {@link data underlying container} object. </p>
+         * {@link container_ underlying container} object. </p>
          *
          * @return A value of the next element in the {@link Queue}.
          */
@@ -4790,11 +4858,11 @@ declare namespace std {
         /**
          * <p> Access last element. </p>
          *
-         * <p> Returns a vaue of the last element in the queue. This is the "newest" element in the queue
-         * (i.e. the last element pushed into the queue). </p>
+         * <p> Returns a vaue of the last element in the queue. This is the "newest" element in the queue (i.e. the
+         * last element pushed into the queue). </p>
          *
          * <p> This member function effectively calls the member function {@link IDeque.back back()} of the
-         * {@link data underlying container} object. </p>
+         * {@link container_ underlying container} object. </p>
          *
          * @return A value of the last element in the {@link Queue}.
          */
@@ -4805,8 +4873,8 @@ declare namespace std {
          * <p> Inserts a new element at the end of the {@link Queue}, after its current last element.
          * The content of this new element is initialized to val. </p>
          *
-         * <p> This member function effectively calls the member function {@link IDeque.push_back push_back()} of
-         * the {@link data underlying container} object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.push_back push_back()} of the
+         * {@link container_ underlying container} object. </p>
          *
          * @param val Value to which the inserted element is initialized.
          */
@@ -4816,13 +4884,25 @@ declare namespace std {
          *
          * <p> Removes the next element in the {@link Queue}, effectively reducing its size by one. </p>
          *
-         * <p> The element removed is the "oldest" element in the {@link Queue} whose value can be retrieved
-         * by calling member {@link front Queue.front()} </p>.
+         * <p> The element removed is the "oldest" element in the {@link Queue} whose value can be retrieved by calling
+         * member {@link front Queue.front()} </p>.
          *
-         * <p> This member function effectively calls the member function {@link IDeque.pop_front pop_front()} of
-         * the {@link data underlying container} object. </p>
+         * <p> This member function effectively calls the member function {@link IDeque.pop_front pop_front()} of the
+         * {@link container_ underlying container} object. </p>
          */
         pop(): void;
+        /**
+         * <p> Swap contents. </p>
+         *
+         * <p> Exchanges the contents of the container adaptor (<i>this</i>) by those of <i>obj</i>. </p>
+         *
+         * <p> This member function calls the non-member function {@link IContainer.swap swap} (unqualified) to swap
+         * the {@link container_ underlying containers}. </p>
+         *
+         * @param obj Another {@link Queue} container adaptor of the same type (i.e., instantiated with the same
+         *			  template parameter, <b>T</b>). Sizes may differ. </p>
+         */
+        swap(obj: Queue<T>): void;
     }
 }
 declare namespace std {
@@ -4883,13 +4963,13 @@ declare namespace std {
      * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context
      * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
      *
-     * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated
-     * object of a specific container class as its <i>underlying container</i>, providing a specific set of member
-     * functions to access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()}
-     * of the {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
+     * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated object of
+     * a specific container class as its <i>underlying container</i>, providing a specific set of member functions to
+     * access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()} of the
+     * {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
      *
-     * <p> {@link container_ The underlying container} may be any of the standard container class templates or some other
-     * specifically designed container class. The container shall support the following operations: </p>
+     * <p> {@link container_ The underlying container} may be any of the standard container class templates or some
+     * other specifically designed container class. The container shall support the following operations: </p>
      *
      * <ul>
      *	<li> empty </li>
@@ -4901,8 +4981,8 @@ declare namespace std {
      * </ul>
      *
      * <p> The standard container classes {@link Vector}, {@link Deque} and {@link List} fulfill these requirements.
-     * By default, if no container class is specified for a particular {@link Stack} class instantiation,
-     * the standard container {@link List} is used. </p>
+     * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard
+     * container {@link List} is used. </p>
      *
      * <ul>
      *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
@@ -4916,7 +4996,7 @@ declare namespace std {
         /**
          * The <i>underlying object</i> for implementing the <i>LIFO</i> container.
          */
-        protected container_: base.container.ILinearContainer<T>;
+        private container_;
         /**
          * Default Constructor.
          */
@@ -4927,6 +5007,7 @@ declare namespace std {
         constructor(stack: Stack<T>);
         /**
          * <p> Return size. </p>
+         *
          * <p> Returns the number of elements in the {@link Stack}. </p>
          *
          * <p> This member function effectively calls member {@link ILinearContainer.size size()} of the
@@ -4937,6 +5018,7 @@ declare namespace std {
         size(): number;
         /**
          * <p> Test whether container is empty. </p>
+         *
          * <p> returns whether the {@link Stack} is empty: i.e. whether its <i>size</i> is zero. </p>
          *
          * <p> This member function effectively calls member {@link ILinearContainer.empty empty()} of the
@@ -4951,8 +5033,8 @@ declare namespace std {
          *
          * <p> Returns a value of the top element in the {@link Stack} </p>.
          *
-         * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element
-         * inserted into the {@link Stack}. </p>
+         * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element inserted into
+         * the {@link Stack}. </p>
          *
          * <p> This member function effectively calls member {@link ILinearContainer.back back()} of the
          * {@link container_ underlying container} object. </p>
@@ -4976,13 +5058,25 @@ declare namespace std {
          *
          * <p> Removes the element on top of the {@link Stack}, effectively reducing its size by one. </p>
          *
-         * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be
-         * retrieved by calling member {@link top Stack.top()} </p>.
+         * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be retrieved
+         * by calling member {@link top Stack.top()} </p>.
          *
-         * <p> This member function effectively calls the member function
-         * {@link ILinearContainer.pop_back pop_back()} of the {@link container_ underlying container} object. </p>
+         * <p> This member function effectively calls the member function {@link ILinearContainer.pop_back pop_back()}
+         * of the {@link container_ underlying container} object. </p>
          */
         pop(): void;
+        /**
+         * <p> Swap contents. </p>
+         *
+         * <p> Exchanges the contents of the container adaptor (<i>this</i>) by those of <i>obj</i>. </p>
+         *
+         * <p> This member function calls the non-member function {@link IContainer.swap swap} (unqualified) to swap
+         * the {@link container_ underlying containers}. </p>
+         *
+         * @param obj Another {@link Stack} container adaptor of the same type (i.e., instantiated with the same
+         *			  template parameter, <b>T</b>). Sizes may differ. </p>
+         */
+        swap(obj: Stack<T>): void;
     }
 }
 declare namespace std {
@@ -5651,7 +5745,7 @@ declare namespace std {
          */
         private tree_;
         /**
-         * Default Constructor
+         * Default Constructor.
          */
         constructor();
         /**

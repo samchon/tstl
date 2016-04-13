@@ -6,13 +6,13 @@
 	 * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context 
 	 * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
 	 * 
-	 * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated 
-	 * object of a specific container class as its <i>underlying container</i>, providing a specific set of member 
-	 * functions to access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()} 
-	 * of the {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
+	 * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated object of 
+	 * a specific container class as its <i>underlying container</i>, providing a specific set of member functions to 
+	 * access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()} of the 
+	 * {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
 	 * 
-	 * <p> {@link container_ The underlying container} may be any of the standard container class templates or some other 
-	 * specifically designed container class. The container shall support the following operations: </p>
+	 * <p> {@link container_ The underlying container} may be any of the standard container class templates or some 
+	 * other specifically designed container class. The container shall support the following operations: </p>
 	 * 
 	 * <ul>
 	 *	<li> empty </li>
@@ -24,8 +24,8 @@
 	 * </ul>
 	 * 
 	 * <p> The standard container classes {@link Vector}, {@link Deque} and {@link List} fulfill these requirements. 
-	 * By default, if no container class is specified for a particular {@link Stack} class instantiation, 
-	 * the standard container {@link List} is used. </p>
+	 * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard 
+	 * container {@link List} is used. </p>
 	 * 
 	 * <ul>
 	 *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
@@ -40,7 +40,7 @@
 		/**
 		 * The <i>underlying object</i> for implementing the <i>LIFO</i> container.
 		 */
-		protected container_: base.container.ILinearContainer<T>;
+		private container_: base.container.ILinearContainer<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -68,6 +68,7 @@
 		--------------------------------------------------------- */
 		/**
 		 * <p> Return size. </p>
+		 * 
 		 * <p> Returns the number of elements in the {@link Stack}. </p> 
 		 *
 		 * <p> This member function effectively calls member {@link ILinearContainer.size size()} of the 
@@ -82,6 +83,7 @@
 
 		/**
 		 * <p> Test whether container is empty. </p>
+		 * 
 		 * <p> returns whether the {@link Stack} is empty: i.e. whether its <i>size</i> is zero. </p>
 		 *
 		 * <p> This member function effectively calls member {@link ILinearContainer.empty empty()} of the
@@ -100,8 +102,8 @@
 		 *
 		 * <p> Returns a value of the top element in the {@link Stack} </p>. 
 		 *
-		 * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element 
-		 * inserted into the {@link Stack}. </p>
+		 * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element inserted into 
+		 * the {@link Stack}. </p>
 		 *
 		 * <p> This member function effectively calls member {@link ILinearContainer.back back()} of the 
 		 * {@link container_ underlying container} object. </p>
@@ -136,15 +138,31 @@
 		 *
 		 * <p> Removes the element on top of the {@link Stack}, effectively reducing its size by one. </p>
 		 *
-		 * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be 
-		 * retrieved by calling member {@link top Stack.top()} </p>.
+		 * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be retrieved 
+		 * by calling member {@link top Stack.top()} </p>.
 		 *
-		 * <p> This member function effectively calls the member function 
-		 * {@link ILinearContainer.pop_back pop_back()} of the {@link container_ underlying container} object. </p>
+		 * <p> This member function effectively calls the member function {@link ILinearContainer.pop_back pop_back()} 
+		 * of the {@link container_ underlying container} object. </p>
 		 */
 		public pop(): void
 		{
 			this.container_.pop_back();
+		}
+
+		/**
+		 * <p> Swap contents. </p>
+		 * 
+		 * <p> Exchanges the contents of the container adaptor (<i>this</i>) by those of <i>obj</i>. </p>
+		 * 
+		 * <p> This member function calls the non-member function {@link IContainer.swap swap} (unqualified) to swap 
+		 * the {@link container_ underlying containers}. </p>
+		 * 
+		 * @param obj Another {@link Stack} container adaptor of the same type (i.e., instantiated with the same 
+		 *			  template parameter, <b>T</b>). Sizes may differ. </p>
+		 */
+		public swap(obj: Stack<T>): void
+		{
+			this.container_.swap(obj.container_);
 		}
 	}
 }

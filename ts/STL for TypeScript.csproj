@@ -66,7 +66,6 @@
     <TypeScriptCompile Include="src\std\base\tree\AtomicTree.ts" />
     <TypeScriptCompile Include="src\std\base\tree\Color.ts" />
     <TypeScriptCompile Include="src\std\base\tree\PairTree.ts" />
-    <TypeScriptCompile Include="src\std\base\tree\RBTree.ts" />
     <TypeScriptCompile Include="src\std\base\tree\XTree.ts" />
     <TypeScriptCompile Include="src\std\base\tree\XTreeNode.ts" />
     <TypeScriptCompile Include="src\std\Bind.ts" />
@@ -93,6 +92,7 @@
     <TypeScriptCompile Include="src\std\MapIterator.ts" />
     <TypeScriptCompile Include="src\std\namespace.ts" />
     <TypeScriptCompile Include="src\std\Pair.ts" />
+    <TypeScriptCompile Include="src\std\PriorityQueue.ts" />
     <TypeScriptCompile Include="src\std\Queue.ts" />
     <TypeScriptCompile Include="src\std\SetIterator.ts" />
     <TypeScriptCompile Include="src\std\Stack.ts" />

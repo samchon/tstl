@@ -6,8 +6,6 @@
 	 * @param <T> Type of elements.
 	 * 
 	 * @inventor Rudolf Bayer
-	 * @see XTree
-	 *
 	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */
 	export class XTreeNode<T>
@@ -16,12 +14,12 @@
 		 * Parent of the node.
 		 */
 		public parent: XTreeNode<T>;
-		
+
 		/**
 		 * Left child in the node.
 		 */
 		public left: XTreeNode<T>;
-		
+
 		/**
 		 * Right child in the node.
 		 */

@@ -1,4 +1,4 @@
-/// <reference path="RBTree.ts" />
+/// <reference path="XTree.ts" />
 
 namespace std.base.tree
 {
@@ -6,17 +6,21 @@ namespace std.base.tree
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class AtomicTree<T>
-		extends RBTree<SetIterator<T>>
+		extends XTree<SetIterator<T>>
 	{
+		private compare_: (left: T, right: T) => boolean;
+
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
 		 */
-		public constructor()
+		public constructor(compare: (left: T, right: T) => boolean = std.less)
 		{
 			super();
+
+			this.compare_ = compare;
 		}
 
 		public find(val: T): XTreeNode<SetIterator<T>>;
@@ -78,7 +82,7 @@ namespace std.base.tree
 		 */
 		public is_less(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
-			return std.less(left.value, right.value);
+			return this.compare_(left.value, right.value);
 		}
 	}
 }
