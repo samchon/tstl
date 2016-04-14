@@ -1,8 +1,3 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 // Standard Template Library: Algorithms
 // The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
 //
@@ -15,8 +10,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 // @author Jeongho Nam <http://samchon.org>
 var std;
 (function (std) {
-    function sort(begin, end, compare) {
-        if (compare === void 0) { compare = std.less; }
+    function sort(begin, end, compare = std.less) {
         qsort(begin.get_source(), begin.index, end.index, compare);
     }
     std.sort = sort;
@@ -30,7 +24,7 @@ var std;
         // QUICK SORT
         if (begin > end)
             return;
-        var index = qsort_partition(container, begin, end, compare);
+        let index = qsort_partition(container, begin, end, compare);
         qsort(container, begin, index, compare);
         qsort(container, index, end, compare);
     }
@@ -38,9 +32,9 @@ var std;
      * @hidden
      */
     function qsort_partition(container, begin, end, compare) {
-        var val = container.at(begin);
-        var i = begin;
-        var j = end;
+        let val = container.at(begin);
+        let i = begin;
+        let j = end;
         while (true) {
             while (compare(container.at(++i), val))
                 if (i == end - 1)
@@ -51,12 +45,12 @@ var std;
             if (i >= j)
                 break;
             // SWAP; AT(I) WITH AT(J)
-            var supplement_1 = container.at(i);
+            let supplement = container.at(i);
             container.set(i, container.at(j));
-            container.set(j, supplement_1);
+            container.set(j, supplement);
         }
         // SWAO; AT(BEGIN) WITH AT(J)
-        var supplement = container.at(begin);
+        let supplement = container.at(begin);
         container.set(begin, container.at(j));
         container.set(j, supplement);
         return j;
@@ -66,15 +60,15 @@ var std;
     }
     std.swap = swap;
     function random_shuffle(begin, end) {
-        for (var it = begin; !it.equals(end); it = it.next()) {
-            var rand_index = Math.floor(Math.random() * (end.index - begin.index));
+        for (let it = begin; !it.equals(end); it = it.next()) {
+            let rand_index = Math.floor(Math.random() * (end.index - begin.index));
             it.swap(begin.advance(rand_index));
         }
     }
     std.random_shuffle = random_shuffle;
     function shuffle(begin, end) {
-        for (var it = begin; !it.equals(end); it = it.next()) {
-            var rand_index = Math.floor(Math.random() * (end.index - begin.index));
+        for (let it = begin; !it.equals(end); it = it.next()) {
+            let rand_index = Math.floor(Math.random() * (end.index - begin.index));
             it.swap(begin.advance(rand_index));
         }
     }
@@ -104,7 +98,7 @@ var std;
      * @return Returns <i>fn</i>.
      */
     function for_each(begin, end, fn) {
-        for (var it = begin; !it.equals(end); it = it.next())
+        for (let it = begin; !it.equals(end); it = it.next())
             fn(it.value);
         return fn;
     }
@@ -132,7 +126,7 @@ var std;
      *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
      */
     function all_of(begin, end, pred) {
-        for (var it = begin; !it.equals(end); it = it.next())
+        for (let it = begin; !it.equals(end); it = it.next())
             if (pred(it.value) == false)
                 return false;
         return true;
@@ -161,7 +155,7 @@ var std;
      *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
      */
     function any_of(begin, end, pred) {
-        for (var it = begin; !it.equals(end); it = it.next())
+        for (let it = begin; !it.equals(end); it = it.next())
             if (pred(it.value) == true)
                 return true;
         return false;
@@ -209,7 +203,7 @@ var std;
      * @param val Value to search for in the range.
      */
     function find(begin, end, val) {
-        for (var it = begin; !it.equals(end); it = it.next())
+        for (let it = begin; !it.equals(end); it = it.next())
             if (std.equals(it.value, val))
                 return it;
         return end;
@@ -231,7 +225,7 @@ var std;
      *			   function pointer or a function object.
      */
     function find_if(begin, end, pred) {
-        for (var it = begin; !it.equals(end); it = it.next())
+        for (let it = begin; !it.equals(end); it = it.next())
             if (pred(it.value))
                 return it;
         return end;
@@ -253,7 +247,7 @@ var std;
      *			   function pointer or a function object.
      */
     function find_if_not(begin, end, pred) {
-        for (var it = begin; !it.equals(end); it = it.next())
+        for (let it = begin; !it.equals(end); it = it.next())
             if (pred(it.value) == false)
                 return it;
         return end;
@@ -263,16 +257,16 @@ var std;
         COUNTERS
     --------------------------------------------------------- */
     function count(begin, end, val) {
-        var cnt = 0;
-        for (var it = begin; !it.equals(end); it = it.next())
+        let cnt = 0;
+        for (let it = begin; !it.equals(end); it = it.next())
             if (std.equals(it.value, val))
                 return cnt++;
         return cnt;
     }
     std.count = count;
     function count_if(begin, end, pred) {
-        var cnt = 0;
-        for (var it = begin; !it.equals(end); it = it.next())
+        let cnt = 0;
+        for (let it = begin; !it.equals(end); it = it.next())
             if (pred(it.value))
                 return cnt++;
         return cnt;
@@ -304,40 +298,35 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var Container = (function () {
-                function Container() {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
+            class Container {
+                constructor(...args) {
                     // THIS IS ABSTRACT CLASS
                     // NOTHING TO DO ESPECIALLY
                 }
                 /**
                  * @inheritdoc
                  */
-                Container.prototype.clear = function () {
+                clear() {
                     this.erase(this.begin(), this.end());
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                Container.prototype.empty = function () {
+                empty() {
                     return this.size() == 0;
-                };
+                }
                 /* ===============================================================
                     UTILITIES
                 =============================================================== */
                 /**
                  * @inheritdoc
                  */
-                Container.prototype.swap = function (obj) {
-                    var supplement = new std.Vector(this.begin(), this.end());
+                swap(obj) {
+                    let supplement = new std.Vector(this.begin(), this.end());
                     this.assign(obj.begin(), obj.end());
                     obj.assign(supplement.begin(), supplement.end());
-                };
-                return Container;
-            }());
+                }
+            }
             container_1.Container = Container;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -366,7 +355,7 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var Iterator = (function () {
+            class Iterator {
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
@@ -375,7 +364,7 @@ var std;
                  *
                  * @param source The source container.
                  */
-                function Iterator(source) {
+                constructor(source) {
                     this.source_ = source;
                 }
                 /**
@@ -384,9 +373,9 @@ var std;
                  * @param n Number of element positions to advance.
                  * @return An advanced iterator.
                  */
-                Iterator.prototype.advance = function (n) {
-                    var it = this;
-                    var i;
+                advance(n) {
+                    let it = this;
+                    let i;
                     if (n >= 0) {
                         for (i = 0; i < n; i++)
                             if (it.equals(this.source_.end()))
@@ -403,16 +392,16 @@ var std;
                                 it = it.prev();
                     }
                     return it;
-                };
+                }
                 /* ---------------------------------------------------------
                     ACCESSORS
                 --------------------------------------------------------- */
                 /**
                  * Get source container.
                  */
-                Iterator.prototype.get_source = function () {
+                get_source() {
                     return this.source_;
-                };
+                }
                 /**
                  * <p> Whether an iterator is equal with the iterator. </p>
                  * <p> Compare two iterators and returns whether they are equal or not. </p>
@@ -427,23 +416,18 @@ var std;
                  * @param obj An iterator to compare
                  * @return Indicates whether equal or not.
                  */
-                Iterator.prototype.equals = function (obj) {
+                equals(obj) {
                     return this.source_ == obj.source_;
-                };
-                Object.defineProperty(Iterator.prototype, "value", {
-                    /**
-                     * <p> Get value of the iterator is pointing. </p>
-                     *
-                     * @return A value of the iterator.
-                     */
-                    get: function () {
-                        throw new std.LogicError("Have to be overriden.");
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                return Iterator;
-            }());
+                }
+                /**
+                 * <p> Get value of the iterator is pointing. </p>
+                 *
+                 * @return A value of the iterator.
+                 */
+                get value() {
+                    throw new std.LogicError("Have to be overriden.");
+                }
+            }
             container.Iterator = Iterator;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -492,43 +476,35 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var MapContainer = (function () {
-                function MapContainer() {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
+            class MapContainer {
+                constructor(...args) {
                     this.data_ = new std.List();
                     // THIS IS ABSTRACT CLASS
                     // NOTHING TO DO ESPECIALLY
                 }
-                Object.defineProperty(MapContainer, "iterator", {
-                    get: function () { return std.MapIterator; },
-                    enumerable: true,
-                    configurable: true
-                });
+                static get iterator() { return std.MapIterator; }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.construct_from_array = function (items) {
-                    for (var i = 0; i < items.length; i++)
+                construct_from_array(items) {
+                    for (let i = 0; i < items.length; i++)
                         if (items[i] instanceof std.Pair)
                             this.insert_by_pair(items[i]);
                         else
                             this.insert_by_tuple(items[i]);
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.construct_from_container = function (container) {
+                construct_from_container(container) {
                     this.construct_from_range(container.begin(), container.end());
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.construct_from_range = function (begin, end) {
+                construct_from_range(begin, end) {
                     this.assign(begin, end);
-                };
+                }
                 /* ---------------------------------------------------------
                     ASSIGN & CLEAR
                 --------------------------------------------------------- */
@@ -541,19 +517,19 @@ var std;
                  * @param begin Input interator of the initial position in a sequence.
                  * @param end Input interator of the final position in a sequence.
                  */
-                MapContainer.prototype.assign = function (begin, end) {
+                assign(begin, end) {
                     // INSERT
-                    for (var it = begin; it.equals(end) == false; it = it.next())
+                    for (let it = begin; it.equals(end) == false; it = it.next())
                         this.insert_by_pair(new std.Pair(it.first, it.second));
-                };
+                }
                 /**
                  * <p> Clear content. </p>
                  *
                  * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
                  */
-                MapContainer.prototype.clear = function () {
+                clear() {
                     this.data_.clear();
-                };
+                }
                 /**
                  * <p> Return iterator to beginning. </p>
                  * <p> Returns an iterator referring the first element in the Container. </p>
@@ -564,9 +540,9 @@ var std;
                  * @return An iterator to the first element in the container.
                  *		   The iterator containes the first element's value.
                  */
-                MapContainer.prototype.begin = function () {
+                begin() {
                     return new std.MapIterator(this, this.data_.begin());
-                };
+                }
                 /**
                  * <p> Return iterator to end. </p>
                  * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
@@ -586,9 +562,9 @@ var std;
                  *
                  * @return An iterator to the end element in the container.
                  */
-                MapContainer.prototype.end = function () {
+                end() {
                     return new std.MapIterator(this, this.data_.end());
-                };
+                }
                 /* ---------------------------------------------------------
                     ELEMENTS
                 --------------------------------------------------------- */
@@ -600,26 +576,22 @@ var std;
                  *
                  * @return Whether the map has an item having the specified identifier.
                  */
-                MapContainer.prototype.has = function (key) {
+                has(key) {
                     return this.count(key) != 0;
-                };
+                }
                 /**
                  * Return the number of elements in the map.
                  */
-                MapContainer.prototype.size = function () {
+                size() {
                     return this.data_.size();
-                };
+                }
                 /**
                  * Test whether the Container is empty.
                  */
-                MapContainer.prototype.empty = function () {
+                empty() {
                     return this.size() == 0;
-                };
-                MapContainer.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
+                }
+                insert(...args) {
                     if (args.length == 1 && args[0] instanceof std.Pair) {
                         return this.insert_by_pair(args[0]);
                     }
@@ -635,42 +607,38 @@ var std;
                     else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
                         return this.insert_by_range(args[0], args[1]);
                     }
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.insert_by_tuple = function (tuple) {
+                insert_by_tuple(tuple) {
                     return this.insert_by_pair(new std.Pair(tuple[0], tuple[1]));
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.insert_by_hint = function (hint, pair) {
+                insert_by_hint(hint, pair) {
                     // INSERT
-                    var list_it = this.data_.insert(hint.get_list_iterator(), pair);
+                    let list_it = this.data_.insert(hint.get_list_iterator(), pair);
                     // POST-PROCESS
-                    var it = new std.MapIterator(this, list_it);
+                    let it = new std.MapIterator(this, list_it);
                     this.handle_insert(it);
                     return it;
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.insert_by_hint_with_tuple = function (hint, tuple) {
+                insert_by_hint_with_tuple(hint, tuple) {
                     return this.insert_by_hint(hint, new std.Pair(tuple[0], tuple[1]));
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.insert_by_range = function (begin, end) {
-                    for (var it = begin; it.equals(end) == false; it = it.next())
+                insert_by_range(begin, end) {
+                    for (let it = begin; it.equals(end) == false; it = it.next())
                         this.insert_by_pair(new std.Pair(it.first, it.second));
-                };
-                MapContainer.prototype.erase = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
+                }
+                erase(...args) {
                     if (args.length == 1) {
                         if (args[0] instanceof std.MapIterator && args[0].get_source() == this)
                             return this.erase_by_iterator(args[0]);
@@ -679,39 +647,39 @@ var std;
                     }
                     else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator)
                         return this.erase_by_range(args[0], args[1]);
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.erase_by_key = function (key) {
-                    var it = this.find(key);
+                erase_by_key(key) {
+                    let it = this.find(key);
                     if (it.equals(this.end()) == true)
                         return 0;
                     this.erase_by_iterator(it);
                     return 1;
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.erase_by_iterator = function (it) {
+                erase_by_iterator(it) {
                     // ERASE
-                    var listIterator = this.data_.erase(it.get_list_iterator());
+                    let listIterator = this.data_.erase(it.get_list_iterator());
                     // POST-PROCESS
                     this.handle_erase(it);
                     return new std.MapIterator(this, listIterator);
                     ;
-                };
+                }
                 /**
                  * @hidden
                  */
-                MapContainer.prototype.erase_by_range = function (begin, end) {
+                erase_by_range(begin, end) {
                     // ERASE
-                    var listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
+                    let listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
                     // POST-PROCESS
-                    for (var it = begin; !it.equals(end); it = it.next())
+                    for (let it = begin; !it.equals(end); it = it.next())
                         this.handle_erase(it);
                     return new std.MapIterator(this, listIterator);
-                };
+                }
                 /* ===============================================================
                     UTILITIES
                 =============================================================== */
@@ -732,13 +700,12 @@ var std;
                  *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped
                  *			  with that of this {@link MapContaier container}.
                  */
-                MapContainer.prototype.swap = function (obj) {
-                    var supplement = new std.HashMultiMap(this.begin(), this.end());
+                swap(obj) {
+                    let supplement = new std.HashMultiMap(this.begin(), this.end());
                     this.assign(obj.begin(), obj.end());
                     obj.assign(supplement.begin(), supplement.end());
-                };
-                return MapContainer;
-            }());
+                }
+            }
             container_2.MapContainer = MapContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -791,37 +758,31 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var MultiMap = (function (_super) {
-                __extends(MultiMap, _super);
+            class MultiMap extends container_3.MapContainer {
                 /**
                  * Default Constructor.
                  */
-                function MultiMap() {
-                    _super.call(this);
+                constructor() {
+                    super();
                     // THIS IS ABSTRACT CLASS
                     // NOTHING TO DO ESPECIALLY
                 }
                 /**
                  * @inheritdoc
                  */
-                MultiMap.prototype.count = function (key) {
-                    var myIt = this.find(key);
+                count(key) {
+                    let myIt = this.find(key);
                     if (myIt.equals(this.end()))
                         return 0;
-                    var size = 0;
-                    for (var it = myIt.next(); !it.equals(this.end()) && std.equals(key, it.first); it = it.next())
+                    let size = 0;
+                    for (let it = myIt.next(); !it.equals(this.end()) && std.equals(key, it.first); it = it.next())
                         size++;
                     return size;
-                };
-                MultiMap.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    return _super.prototype.insert.apply(this, args);
-                };
-                return MultiMap;
-            }(container_3.MapContainer));
+                }
+                insert(...args) {
+                    return super.insert.apply(this, args);
+                }
+            }
             container_3.MultiMap = MultiMap;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -864,14 +825,9 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var SetContainer = (function (_super) {
-                __extends(SetContainer, _super);
-                function SetContainer() {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    _super.call(this);
+            class SetContainer extends container_4.Container {
+                constructor(...args) {
+                    super();
                     // INITIALIZATION
                     this.data_ = new std.List();
                     // OVERLOADINGS
@@ -888,59 +844,55 @@ var std;
                     //	this.construct_from_range(args[0], args[1]);
                     //}
                 }
-                Object.defineProperty(SetContainer, "iterator", {
-                    get: function () { return std.SetIterator; },
-                    enumerable: true,
-                    configurable: true
-                });
+                static get iterator() { return std.SetIterator; }
                 /**
                  * @hidden
                  */
-                SetContainer.prototype.construct_from_array = function (items) {
-                    for (var i = 0; i < items.length; i++)
+                construct_from_array(items) {
+                    for (let i = 0; i < items.length; i++)
                         this.insert_by_val(items[i]);
-                };
+                }
                 /**
                  * @hidden
                  */
-                SetContainer.prototype.construct_from_container = function (container) {
+                construct_from_container(container) {
                     this.construct_from_range(container.begin(), container.end());
-                };
+                }
                 /**
                  * @hidden
                  */
-                SetContainer.prototype.construct_from_range = function (begin, end) {
+                construct_from_range(begin, end) {
                     this.assign(begin, end);
-                };
+                }
                 /* ---------------------------------------------------------
                     ASSIGN & CLEAR
                 --------------------------------------------------------- */
                 /**
                  * @inheritdoc
                  */
-                SetContainer.prototype.assign = function (begin, end) {
+                assign(begin, end) {
                     // INSERT
-                    for (var it = begin; it.equals(end) == false; it = it.next())
+                    for (let it = begin; it.equals(end) == false; it = it.next())
                         this.insert_by_val(it.value);
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                SetContainer.prototype.clear = function () {
+                clear() {
                     this.data_.clear();
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                SetContainer.prototype.begin = function () {
+                begin() {
                     return new std.SetIterator(this, this.data_.begin());
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                SetContainer.prototype.end = function () {
+                end() {
                     return new std.SetIterator(this, this.data_.end());
-                };
+                }
                 /* ---------------------------------------------------------
                     ELEMENTS
                 --------------------------------------------------------- */
@@ -953,15 +905,15 @@ var std;
                  *
                  * @return Whether the set has an item having the specified identifier.
                  */
-                SetContainer.prototype.has = function (val) {
+                has(val) {
                     return this.count(val) != 0;
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                SetContainer.prototype.size = function () {
+                size() {
                     return this.data_.size();
-                };
+                }
                 /* =========================================================
                     ELEMENTS I/O
                         - INSERT
@@ -973,20 +925,12 @@ var std;
                 /**
                  * @inheritdoc
                  */
-                SetContainer.prototype.push = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    for (var i = 0; i < args.length; i++)
+                push(...args) {
+                    for (let i = 0; i < args.length; i++)
                         this.insert_by_val(args[i]);
                     return this.size();
-                };
-                SetContainer.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
+                }
+                insert(...args) {
                     if (args.length == 1)
                         return this.insert_by_val(args[0]);
                     else if (args.length == 2 && args[0] instanceof container_4.Iterator) {
@@ -995,30 +939,26 @@ var std;
                         else
                             return this.insert_by_hint(args[0], args[1]);
                     }
-                };
+                }
                 /**
                  * @hidden
                  */
-                SetContainer.prototype.insert_by_hint = function (hint, val) {
+                insert_by_hint(hint, val) {
                     // INSERT
-                    var list_iterator = this.data_.insert(hint.get_list_iterator(), val);
+                    let list_iterator = this.data_.insert(hint.get_list_iterator(), val);
                     // POST-PROCESS
-                    var it = new std.SetIterator(this, list_iterator);
+                    let it = new std.SetIterator(this, list_iterator);
                     this.handle_insert(it);
                     return it;
-                };
+                }
                 /**
                  * @hidden
                  */
-                SetContainer.prototype.insert_by_range = function (begin, end) {
-                    for (var it = begin; it.equals(end) == false; it = it.next())
+                insert_by_range(begin, end) {
+                    for (let it = begin; it.equals(end) == false; it = it.next())
                         this.insert_by_val(it.value);
-                };
-                SetContainer.prototype.erase = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
+                }
+                erase(...args) {
                     if (args.length == 1) {
                         if (args[0] instanceof container_4.Iterator && args[0].get_source() == this)
                             return this.erase_by_iterator(args[0]);
@@ -1027,42 +967,41 @@ var std;
                     }
                     else if (args.length == 2 && args[0] instanceof container_4.Iterator && args[1] instanceof container_4.Iterator)
                         return this.erase_by_range(args[0], args[1]);
-                };
+                }
                 /**
                  * @hidden
                  */
-                SetContainer.prototype.erase_by_val = function (val) {
+                erase_by_val(val) {
                     // TEST WHETHER EXISTS
-                    var it = this.find(val);
+                    let it = this.find(val);
                     if (it.equals(this.end()) == true)
                         return 0;
                     // ERASE
                     this.erase_by_iterator(it);
                     return 1;
-                };
+                }
                 /**
                  * @hidden
                  */
-                SetContainer.prototype.erase_by_iterator = function (it) {
+                erase_by_iterator(it) {
                     // ERASE
-                    var list_iterator = this.data_.erase(it.get_list_iterator());
+                    let list_iterator = this.data_.erase(it.get_list_iterator());
                     // POST-PROCESS
                     this.handle_erase(it);
                     return new std.SetIterator(this, list_iterator);
-                };
+                }
                 /**
                  * @hidden
                  */
-                SetContainer.prototype.erase_by_range = function (begin, end) {
+                erase_by_range(begin, end) {
                     // ERASE
-                    var list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
+                    let list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
                     // POST-PROCESS
-                    for (var it = begin; !it.equals(end); it = it.next())
+                    for (let it = begin; !it.equals(end); it = it.next())
                         this.handle_erase(it);
                     return new std.SetIterator(this, list_iterator); //begin.prev();
-                };
-                return SetContainer;
-            }(container_4.Container));
+                }
+            }
             container_4.SetContainer = SetContainer;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -1108,38 +1047,32 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var MultiSet = (function (_super) {
-                __extends(MultiSet, _super);
+            class MultiSet extends container.SetContainer {
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
                 /**
                  * Default Constructor.
                  */
-                function MultiSet() {
-                    _super.call(this);
+                constructor() {
+                    super();
                 }
                 /**
                  * @inheritdoc
                  */
-                MultiSet.prototype.count = function (val) {
-                    var myIt = this.find(val);
+                count(val) {
+                    let myIt = this.find(val);
                     if (myIt.equals(this.end()))
                         return 0;
-                    var size = 0;
-                    for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
+                    let size = 0;
+                    for (let it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
                         size++;
                     return size;
-                };
-                MultiSet.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    return _super.prototype.insert.apply(this, args);
-                };
-                return MultiSet;
-            }(container.SetContainer));
+                }
+                insert(...args) {
+                    return super.insert.apply(this, args);
+                }
+            }
             container.MultiSet = MultiSet;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -1192,13 +1125,12 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var UniqueMap = (function (_super) {
-                __extends(UniqueMap, _super);
+            class UniqueMap extends container_5.MapContainer {
                 /**
                  * Default Constructor.
                  */
-                function UniqueMap() {
-                    _super.call(this);
+                constructor() {
+                    super();
                     // THIS IS ABSTRACT CLASS
                     // NOTHING TO DO ESPECIALLY
                 }
@@ -1208,9 +1140,9 @@ var std;
                 /**
                  * @inheritdoc
                  */
-                UniqueMap.prototype.count = function (key) {
+                count(key) {
                     return this.find(key).equals(this.end()) ? 0 : 1;
-                };
+                }
                 /**
                  * <p> Get an element </p>
                  *
@@ -1220,12 +1152,12 @@ var std;
                  * @throw exception out of range
                  * @return A reference object of the mapped value (_Ty)
                  */
-                UniqueMap.prototype.get = function (key) {
-                    var it = this.find(key);
+                get(key) {
+                    let it = this.find(key);
                     if (it.equals(this.end()) == true)
                         throw new std.OutOfRange("unable to find the matched key.");
                     return it.second;
-                };
+                }
                 /**
                  * <p> Set an item as the specified identifier. </p>
                  *
@@ -1235,22 +1167,17 @@ var std;
                  * @param key Key value of the element whose mapped value is accessed.
                  * @param val Value, the item.
                  */
-                UniqueMap.prototype.set = function (key, val) {
-                    var it = this.find(key);
+                set(key, val) {
+                    let it = this.find(key);
                     if (it.equals(this.end()) == true)
                         this.insert(new std.Pair(key, val));
                     else
                         it.second = val;
-                };
-                UniqueMap.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    return _super.prototype.insert.apply(this, args);
-                };
-                return UniqueMap;
-            }(container_5.MapContainer));
+                }
+                insert(...args) {
+                    return super.insert.apply(this, args);
+                }
+            }
             container_5.UniqueMap = UniqueMap;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -1296,32 +1223,26 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var UniqueSet = (function (_super) {
-                __extends(UniqueSet, _super);
+            class UniqueSet extends container.SetContainer {
                 /* =========================================================
                     CONSTRUCTORS
                 ========================================================= */
                 /**
                  * Default Constructor.
                  */
-                function UniqueSet() {
-                    _super.call(this);
+                constructor() {
+                    super();
                 }
                 /**
                  * @inheritdoc
                  */
-                UniqueSet.prototype.count = function (key) {
+                count(key) {
                     return this.find(key).equals(this.end()) ? 0 : 1;
-                };
-                UniqueSet.prototype.insert = function () {
-                    var args = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        args[_i - 0] = arguments[_i];
-                    }
-                    return _super.prototype.insert.apply(this, args);
-                };
-                return UniqueSet;
-            }(container.SetContainer));
+                }
+                insert(...args) {
+                    return super.insert.apply(this, args);
+                }
+            }
             container.UniqueSet = UniqueSet;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
@@ -1340,7 +1261,7 @@ var std;
             hash.RATIO = 0.8;
             hash.MAX_RATIO = 2.0;
             function code(par) {
-                var type = typeof par;
+                let type = typeof par;
                 if (type == "number")
                     return code_of_number(par);
                 else if (type == "string")
@@ -1359,13 +1280,13 @@ var std;
                 //		HASH<STRING>((CHAR*)&VAL, 8)
                 // ------------------------------------------
                 // CONSTRUCT BUFFER AND BYTE_ARRAY
-                var buffer = new ArrayBuffer(8);
-                var byteArray = new Int8Array(buffer);
-                var valueArray = new Float64Array(buffer);
+                let buffer = new ArrayBuffer(8);
+                let byteArray = new Int8Array(buffer);
+                let valueArray = new Float64Array(buffer);
                 valueArray[0] = val;
-                var code = 2166136261;
-                for (var i = 0; i < byteArray.length; i++) {
-                    var byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
+                let code = 2166136261;
+                for (let i = 0; i < byteArray.length; i++) {
+                    let byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
                     code ^= byte;
                     code *= 16777619;
                 }
@@ -1378,8 +1299,8 @@ var std;
                 // ------------------------
                 //	IN C++
                 // ------------------------
-                var code = 2166136261;
-                for (var i = 0; i < str.length; i++) {
+                let code = 2166136261;
+                for (let i = 0; i < str.length; i++) {
                     code ^= str.charCodeAt(i);
                     code *= 16777619;
                 }
@@ -1410,14 +1331,14 @@ var std;
     (function (base) {
         var hash;
         (function (hash) {
-            var HashBuckets = (function () {
+            class HashBuckets {
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
                 /**
                  * Default Constructor.
                  */
-                function HashBuckets() {
+                constructor() {
                     this.clear();
                 }
                 /**
@@ -1425,60 +1346,59 @@ var std;
                  *
                  * @param size Number of bucket size to reserve.
                  */
-                HashBuckets.prototype.reserve = function (size) {
+                reserve(size) {
                     if (size < hash.MIN_SIZE)
                         size = hash.MIN_SIZE;
-                    var prevMatrix = this.buckets_;
+                    let prevMatrix = this.buckets_;
                     this.buckets_ = new std.Vector();
-                    for (var i = 0; i < size; i++)
+                    for (let i = 0; i < size; i++)
                         this.buckets_.push_back(new std.Vector());
-                    for (var i = 0; i < prevMatrix.size(); i++)
-                        for (var j = 0; j < prevMatrix.at(i).size(); j++) {
-                            var val = prevMatrix.at(i).at(j);
+                    for (let i = 0; i < prevMatrix.size(); i++)
+                        for (let j = 0; j < prevMatrix.at(i).size(); j++) {
+                            let val = prevMatrix.at(i).at(j);
                             this.buckets_.at(this.hash_index(val)).push_back(val);
                             this.item_size_++;
                         }
-                };
-                HashBuckets.prototype.clear = function () {
+                }
+                clear() {
                     this.buckets_ = new std.Vector();
                     this.item_size_ = 0;
-                    for (var i = 0; i < hash.MIN_SIZE; i++)
+                    for (let i = 0; i < hash.MIN_SIZE; i++)
                         this.buckets_.push_back(new std.Vector());
-                };
+                }
                 /* ---------------------------------------------------------
                     ACCESSORS
                 --------------------------------------------------------- */
-                HashBuckets.prototype.size = function () {
+                size() {
                     return this.buckets_.size();
-                };
-                HashBuckets.prototype.item_size = function () {
+                }
+                item_size() {
                     return this.item_size_;
-                };
-                HashBuckets.prototype.at = function (index) {
+                }
+                at(index) {
                     return this.buckets_.at(index);
-                };
-                HashBuckets.prototype.hash_index = function (val) {
+                }
+                hash_index(val) {
                     return hash.code(val) % this.buckets_.size();
-                };
+                }
                 /* ---------------------------------------------------------
                     ELEMENTS I/O
                 --------------------------------------------------------- */
-                HashBuckets.prototype.insert = function (val) {
+                insert(val) {
                     this.buckets_.at(this.hash_index(val)).push_back(val);
                     if (++this.item_size_ > this.buckets_.size() * hash.MAX_RATIO)
                         this.reserve(this.item_size_ * hash.RATIO);
-                };
-                HashBuckets.prototype.erase = function (val) {
-                    var hashes = this.buckets_.at(this.hash_index(val));
-                    for (var i = 0; i < hashes.size(); i++)
+                }
+                erase(val) {
+                    let hashes = this.buckets_.at(this.hash_index(val));
+                    for (let i = 0; i < hashes.size(); i++)
                         if (hashes.at(i) == val) {
                             hashes.splice(i, 1);
                             this.item_size_--;
                             break;
                         }
-                };
-                return HashBuckets;
-            }());
+                }
+            }
             hash.HashBuckets = HashBuckets;
         })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
@@ -1490,22 +1410,20 @@ var std;
     (function (base) {
         var hash;
         (function (hash) {
-            var MapHashBuckets = (function (_super) {
-                __extends(MapHashBuckets, _super);
-                function MapHashBuckets(map) {
-                    _super.call(this);
+            class MapHashBuckets extends hash.HashBuckets {
+                constructor(map) {
+                    super();
                     this.map = map;
                 }
-                MapHashBuckets.prototype.find = function (key) {
-                    var index = hash.code(key) % this.size();
-                    var bucket = this.at(index);
-                    for (var i = 0; i < bucket.size(); i++)
+                find(key) {
+                    let index = hash.code(key) % this.size();
+                    let bucket = this.at(index);
+                    for (let i = 0; i < bucket.size(); i++)
                         if (std.equals(bucket.at(i).first, key))
                             return bucket.at(i);
                     return this.map.end();
-                };
-                return MapHashBuckets;
-            }(hash.HashBuckets));
+                }
+            }
             hash.MapHashBuckets = MapHashBuckets;
         })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
@@ -1517,22 +1435,20 @@ var std;
     (function (base) {
         var hash;
         (function (hash) {
-            var SetHashBuckets = (function (_super) {
-                __extends(SetHashBuckets, _super);
-                function SetHashBuckets(set) {
-                    _super.call(this);
+            class SetHashBuckets extends hash.HashBuckets {
+                constructor(set) {
+                    super();
                     this.set = set;
                 }
-                SetHashBuckets.prototype.find = function (val) {
-                    var index = hash.code(val) % this.size();
-                    var bucket = this.at(index);
-                    for (var i = 0; i < bucket.size(); i++)
+                find(val) {
+                    let index = hash.code(val) % this.size();
+                    let bucket = this.at(index);
+                    for (let i = 0; i < bucket.size(); i++)
                         if (std.equals(bucket.at(i).value, val))
                             return bucket.at(i);
                     return this.set.end();
-                };
-                return SetHashBuckets;
-            }(hash.HashBuckets));
+                }
+            }
             hash.SetHashBuckets = SetHashBuckets;
         })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
@@ -1559,10 +1475,8 @@ var std;
              *
              * @author Jeongho Nam <http://samchon.org>
              */
-            var ErrorInstance = (function () {
-                function ErrorInstance(val, category) {
-                    if (val === void 0) { val = 0; }
-                    if (category === void 0) { category = null; }
+            class ErrorInstance {
+                constructor(val = 0, category = null) {
                     this.assign(val, category);
                 }
                 /**
@@ -1573,19 +1487,19 @@ var std;
                  * @param val A numerical value identifying an error instance.
                  * @param category A reference to an {@link ErrorCategory} object.
                  */
-                ErrorInstance.prototype.assign = function (val, category) {
+                assign(val, category) {
                     this.category_ = category;
                     this.value_ = val;
-                };
+                }
                 /**
                  * <p> Clear error instance. </p>
                  *
                  * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
                  * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
                  */
-                ErrorInstance.prototype.clear = function () {
+                clear() {
                     this.value_ = 0;
-                };
+                }
                 /* ---------------------------------------------------------
                     ACCESSORS
                 --------------------------------------------------------- */
@@ -1596,9 +1510,9 @@ var std;
                  *
                  * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
                  */
-                ErrorInstance.prototype.category = function () {
+                category() {
                     return this.category_;
-                };
+                }
                 /**
                  * <p> Error value. </p>
                  *
@@ -1606,9 +1520,9 @@ var std;
                  *
                  * @return The error value.
                  */
-                ErrorInstance.prototype.value = function () {
+                value() {
                     return this.value_;
-                };
+                }
                 /**
                  * <p> Get message. </p>
                  *
@@ -1622,12 +1536,12 @@ var std;
                  *
                  * @return A string object with the message associated with the {@link ErrorCode}.
                  */
-                ErrorInstance.prototype.message = function () {
+                message() {
                     if (this.category_ == null || this.value_ == 0)
                         return "";
                     else
                         return this.category_.message(this.value_);
-                };
+                }
                 /**
                  * <p> Default error condition. </p>
                  *
@@ -1642,12 +1556,12 @@ var std;
                  *
                  * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
                  */
-                ErrorInstance.prototype.default_error_condition = function () {
+                default_error_condition() {
                     if (this.category_ == null || this.value_ == 0)
                         return null;
                     else
                         return this.category_.default_error_condition(this.value_);
-                };
+                }
                 /* ---------------------------------------------------------
                     OPERATORS
                 --------------------------------------------------------- */
@@ -1661,11 +1575,10 @@ var std;
                  * @return <code>true</code> if the error's numerical value is not zero.
                  *		   <code>false</code> otherwise.
                  */
-                ErrorInstance.prototype.to_bool = function () {
+                to_bool() {
                     return this.value_ != 0;
-                };
-                return ErrorInstance;
-            }());
+                }
+            }
             system.ErrorInstance = ErrorInstance;
         })(system = base.system || (base.system = {}));
     })(base = std.base || (std.base = {}));
@@ -1758,14 +1671,14 @@ var std;
              * @inventor Rudolf Bayer
              * @author Migrated by Jeongho Nam <http://samchon.org>
              */
-            var XTree = (function () {
+            class XTree {
                 /* =========================================================
                     CONSTRUCTOR
                 ========================================================= */
                 /**
                  * Default Constructor.
                  */
-                function XTree() {
+                constructor() {
                     this.root_ = null;
                 }
                 /* =========================================================
@@ -1780,12 +1693,12 @@ var std;
                  *
                  * @param val Value to find.
                  */
-                XTree.prototype.find = function (val) {
+                find(val) {
                     if (this.root_ == null)
                         return null;
-                    var node = this.root_;
+                    let node = this.root_;
                     while (true) {
-                        var newNode = null;
+                        let newNode = null;
                         if (this.is_equals(val, node.value))
                             break; // EQUALS, MEANS MATCHED, THEN TERMINATE
                         else if (this.is_less(val, node.value))
@@ -1799,18 +1712,18 @@ var std;
                         node = newNode;
                     }
                     return node;
-                };
+                }
                 /**
                  * Fetch maximum (the rightes?) node from one.
                  *
                  * @param node A node to fetch its maximum node.
                  * @return The maximum node.
                  */
-                XTree.prototype.fetch_maximum = function (node) {
+                fetch_maximum(node) {
                     while (node.right != null)
                         node = node.right;
                     return node;
-                };
+                }
                 /* =========================================================
                     ELEMENTS I/O
                         - INSERT
@@ -1905,9 +1818,9 @@ var std;
                  *
                  * @param val An element to insert.
                  */
-                XTree.prototype.insert = function (val) {
-                    var parent = this.find(val);
-                    var node = new tree.XTreeNode(val, tree.Color.RED);
+                insert(val) {
+                    let parent = this.find(val);
+                    let node = new tree.XTreeNode(val, tree.Color.RED);
                     if (parent == null)
                         this.root_ = node;
                     else {
@@ -1918,7 +1831,7 @@ var std;
                             parent.right = node;
                     }
                     this.insert_case1(node);
-                };
+                }
                 /**
                  * <p> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </p>
                  *
@@ -1931,12 +1844,12 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                XTree.prototype.insert_case1 = function (N) {
+                insert_case1(N) {
                     if (N.parent == null)
                         N.color = tree.Color.BLACK;
                     else
                         this.insert_case2(N);
-                };
+                }
                 /**
                  * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>. </p>
                  *
@@ -1953,12 +1866,12 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                XTree.prototype.insert_case2 = function (N) {
+                insert_case2(N) {
                     if (this.fetch_color(N.parent) == tree.Color.BLACK)
                         return;
                     else
                         this.insert_case3(N);
-                };
+                }
                 /**
                  * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
                  * (<i>{@link XTreeNode.uncle <b>U</b>}</i>) are <font color='red'>red</font>. </p>
@@ -1987,7 +1900,7 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                XTree.prototype.insert_case3 = function (N) {
+                insert_case3(N) {
                     if (this.fetch_color(N.uncle) == tree.Color.RED) {
                         N.parent.color = tree.Color.BLACK;
                         N.uncle.color = tree.Color.BLACK;
@@ -1997,7 +1910,7 @@ var std;
                     else {
                         this.insert_case4(N);
                     }
-                };
+                }
                 /**
                  * <p> <i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
                  * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
@@ -2030,7 +1943,7 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                XTree.prototype.insert_case4 = function (node) {
+                insert_case4(node) {
                     if (node == node.parent.right && node.parent == node.grand_parent.left) {
                         this.rotate_left(node.parent);
                         node = node.left;
@@ -2040,7 +1953,7 @@ var std;
                         node = node.right;
                     }
                     this.insert_case5(node);
-                };
+                }
                 /**
                  * <p> <i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
                  * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
@@ -2070,14 +1983,14 @@ var std;
                  *
                  * @param N A node to be inserted or swapped.
                  */
-                XTree.prototype.insert_case5 = function (node) {
+                insert_case5(node) {
                     node.parent.color = tree.Color.BLACK;
                     node.grand_parent.color = tree.Color.RED;
                     if (node == node.parent.left && node.parent == node.grand_parent.left)
                         this.rotate_right(node.grand_parent);
                     else
                         this.rotate_left(node.grand_parent);
-                };
+                }
                 /* ---------------------------------------------------------
                     ERASE
                 --------------------------------------------------------- */
@@ -2211,22 +2124,22 @@ var std;
                  *
                  * @param val An element to erase.
                  */
-                XTree.prototype.erase = function (val) {
-                    var node = this.find(val);
+                erase(val) {
+                    let node = this.find(val);
                     if (node == null || this.is_equals(val, node.value) == false)
                         return;
                     if (node.left != null && node.right != null) {
-                        var pred = this.fetch_maximum(node.left);
+                        let pred = this.fetch_maximum(node.left);
                         node.value = pred.value;
                         node = pred;
                     }
-                    var child = (node.right == null) ? node.left : node.right;
+                    let child = (node.right == null) ? node.left : node.right;
                     if (this.fetch_color(node) == tree.Color.BLACK) {
                         node.color = this.fetch_color(child);
                         this.erase_case1(node);
                     }
                     this.replace_node(node, child);
-                };
+                }
                 /**
                  * <p> <i><b>N</b></i> is the new root. </p>
                  *
@@ -2240,12 +2153,12 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                XTree.prototype.erase_case1 = function (N) {
+                erase_case1(N) {
                     if (N.parent == null)
                         return;
                     else
                         this.erase_case2(N);
-                };
+                }
                 /**
                  * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
                  *
@@ -2265,7 +2178,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                XTree.prototype.erase_case2 = function (N) {
+                erase_case2(N) {
                     if (this.fetch_color(N.sibling) == tree.Color.RED) {
                         N.parent.color = tree.Color.RED;
                         N.sibling.color = tree.Color.BLACK;
@@ -2275,7 +2188,7 @@ var std;
                             this.rotate_right(N.parent);
                     }
                     this.erase_case3(N);
-                };
+                }
                 /**
                  * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling
                  * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
@@ -2298,7 +2211,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                XTree.prototype.erase_case3 = function (N) {
+                erase_case3(N) {
                     if (this.fetch_color(N.parent) == tree.Color.BLACK &&
                         this.fetch_color(N.sibling) == tree.Color.BLACK &&
                         this.fetch_color(N.sibling.left) == tree.Color.BLACK &&
@@ -2308,7 +2221,7 @@ var std;
                     }
                     else
                         this.erase_case4(N);
-                };
+                }
                 /**
                  * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
                  * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
@@ -2323,7 +2236,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                XTree.prototype.erase_case4 = function (N) {
+                erase_case4(N) {
                     if (this.fetch_color(N.parent) == tree.Color.RED &&
                         N.sibling != null &&
                         this.fetch_color(N.sibling) == tree.Color.BLACK &&
@@ -2334,7 +2247,7 @@ var std;
                     }
                     else
                         this.erase_case5(N);
-                };
+                }
                 /**
                  * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling <b>S</b>}'s
                  * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is
@@ -2355,7 +2268,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                XTree.prototype.erase_case5 = function (N) {
+                erase_case5(N) {
                     if (N == N.parent.left &&
                         N.sibling != null &&
                         this.fetch_color(N.sibling) == tree.Color.BLACK &&
@@ -2374,7 +2287,7 @@ var std;
                         N.sibling.right.color = tree.Color.BLACK;
                         this.rotate_left(N.sibling);
                     }
-                };
+                }
                 /**
                  * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
                  * {@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and <i><b>N</b></i> is
@@ -2428,7 +2341,7 @@ var std;
                  *
                  * @param N A node to be erased or swapped.
                  */
-                XTree.prototype.erase_case6 = function (node) {
+                erase_case6(node) {
                     node.sibling.color = this.fetch_color(node.parent);
                     node.parent.color = tree.Color.BLACK;
                     if (node == node.parent.left) {
@@ -2439,7 +2352,7 @@ var std;
                         node.sibling.left.color = tree.Color.BLACK;
                         this.rotate_right(node.parent);
                     }
-                };
+                }
                 /* ---------------------------------------------------------
                     ROTATION
                 --------------------------------------------------------- */
@@ -2448,36 +2361,36 @@ var std;
                  *
                  * @param node Node to rotate left.
                  */
-                XTree.prototype.rotate_left = function (node) {
-                    var right = node.right;
+                rotate_left(node) {
+                    let right = node.right;
                     this.replace_node(node, right);
                     node.right = right.left;
                     if (right.left != null)
                         right.left.parent = node;
                     right.left = node;
                     node.parent = right;
-                };
+                }
                 /**
                  * Rotate a node to right.
                  *
                  * @param node A node to rotate right.
                  */
-                XTree.prototype.rotate_right = function (node) {
-                    var left = node.left;
+                rotate_right(node) {
+                    let left = node.left;
                     this.replace_node(node, left);
                     node.left = left.right;
                     if (left.right != null)
                         left.right.parent = node;
                     left.right = node;
                     node.parent = left;
-                };
+                }
                 /**
                  * Replace a node.
                  *
                  * @param oldNode Ordinary node to be replaced.
                  * @param newNode Target node to replace.
                  */
-                XTree.prototype.replace_node = function (oldNode, newNode) {
+                replace_node(oldNode, newNode) {
                     if (oldNode.parent == null)
                         this.root_ = newNode;
                     else {
@@ -2488,7 +2401,7 @@ var std;
                     }
                     if (newNode != null)
                         newNode.parent = oldNode.parent;
-                };
+                }
                 /* ---------------------------------------------------------
                     COLOR
                 --------------------------------------------------------- */
@@ -2498,14 +2411,13 @@ var std;
                  * @param node A node to fetch color.
                  * @retur color.
                  */
-                XTree.prototype.fetch_color = function (node) {
+                fetch_color(node) {
                     if (node == null)
                         return tree.Color.BLACK;
                     else
                         return node.color;
-                };
-                return XTree;
-            }());
+                }
+            }
             tree.XTree = XTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -2520,34 +2432,32 @@ var std;
             /**
              * @author Jeongho Nam <http://samchon.org>
              */
-            var AtomicTree = (function (_super) {
-                __extends(AtomicTree, _super);
+            class AtomicTree extends tree.XTree {
                 /* ---------------------------------------------------------
                     CONSTRUCTOR
                 --------------------------------------------------------- */
                 /**
                  * Default Constructor.
                  */
-                function AtomicTree(compare) {
-                    if (compare === void 0) { compare = std.less; }
-                    _super.call(this);
+                constructor(compare = std.less) {
+                    super();
                     this.compare_ = compare;
                 }
-                AtomicTree.prototype.find = function (val) {
+                find(val) {
                     if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
-                        return _super.prototype.find.call(this, val);
+                        return super.find(val);
                     else
                         return this.find_by_val(val);
-                };
+                }
                 /**
                  * @hidden
                  */
-                AtomicTree.prototype.find_by_val = function (val) {
+                find_by_val(val) {
                     if (this.root_ == null)
                         return null;
-                    var node = this.root_;
+                    let node = this.root_;
                     while (true) {
-                        var newNode = null;
+                        let newNode = null;
                         if (std.equals(val, node.value.value))
                             break; // EQUALS, MEANS MATCHED, THEN TERMINATE
                         else if (std.less(val, node.value.value))
@@ -2561,27 +2471,26 @@ var std;
                         node = newNode;
                     }
                     return node;
-                };
+                }
                 /* ---------------------------------------------------------
                     COMPARISON
                 --------------------------------------------------------- */
-                AtomicTree.prototype.get_compare = function () {
+                get_compare() {
                     return this.compare_;
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                AtomicTree.prototype.is_equals = function (left, right) {
+                is_equals(left, right) {
                     return std.equals(left, right);
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                AtomicTree.prototype.is_less = function (left, right) {
+                is_less(left, right) {
                     return this.compare_(left.value, right.value);
-                };
-                return AtomicTree;
-            }(tree.XTree));
+                }
+            }
             tree.AtomicTree = AtomicTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -2644,34 +2553,32 @@ var std;
             /**
              * @author Jeongho Nam <http://samchon.org>
              */
-            var PairTree = (function (_super) {
-                __extends(PairTree, _super);
+            class PairTree extends tree.XTree {
                 /* ---------------------------------------------------------
                     CONSTRUCTOR
                 --------------------------------------------------------- */
                 /**
                  * Default Constructor.
                  */
-                function PairTree(compare) {
-                    if (compare === void 0) { compare = std.less; }
-                    _super.call(this);
+                constructor(compare = std.less) {
+                    super();
                     this.compare_ = compare;
                 }
-                PairTree.prototype.find = function (val) {
+                find(val) {
                     if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
-                        return _super.prototype.find.call(this, val);
+                        return super.find(val);
                     else
                         return this.find_by_key(val);
-                };
+                }
                 /**
                  * @hidden
                  */
-                PairTree.prototype.find_by_key = function (key) {
+                find_by_key(key) {
                     if (this.root_ == null)
                         return null;
-                    var node = this.root_;
+                    let node = this.root_;
                     while (true) {
-                        var newNode = null;
+                        let newNode = null;
                         if (std.equals(key, node.value.first))
                             break; // EQUALS, MEANS MATCHED, THEN TERMINATE
                         else if (std.less(key, node.value.first))
@@ -2685,27 +2592,26 @@ var std;
                         node = newNode;
                     }
                     return node;
-                };
+                }
                 /* ---------------------------------------------------------
                     COMPARISON
                 --------------------------------------------------------- */
-                PairTree.prototype.get_compare = function () {
+                get_compare() {
                     return this.compare_;
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                PairTree.prototype.is_equals = function (left, right) {
+                is_equals(left, right) {
                     return std.equals(left.first, right.first);
-                };
+                }
                 /**
                  * @inheritdoc
                  */
-                PairTree.prototype.is_less = function (left, right) {
+                is_less(left, right) {
                     return this.compare_(left.first, right.first);
-                };
-                return PairTree;
-            }(tree.XTree));
+                }
+            }
             tree.PairTree = PairTree;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -2724,7 +2630,7 @@ var std;
              * @inventor Rudolf Bayer
              * @author Migrated by Jeongho Nam <http://samchon.org>
              */
-            var XTreeNode = (function () {
+            class XTreeNode {
                 /* ---------------------------------------------------------
                     CONSTRUCTORS
                 --------------------------------------------------------- */
@@ -2734,48 +2640,35 @@ var std;
                  * @param value Value to be stored in.
                  * @param color Color of the node, red or black.
                  */
-                function XTreeNode(value, color) {
+                constructor(value, color) {
                     this.value = value;
                     this.color = color;
                     this.parent = null;
                     this.left = null;
                     this.right = null;
                 }
-                Object.defineProperty(XTreeNode.prototype, "grand_parent", {
-                    /**
-                     * Get grand-parent.
-                     */
-                    get: function () {
-                        return this.parent.parent;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(XTreeNode.prototype, "sibling", {
-                    /**
-                     * Get sibling, opposite side node in same parent.
-                     */
-                    get: function () {
-                        if (this == this.parent.left)
-                            return this.parent.right;
-                        else
-                            return this.parent.left;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(XTreeNode.prototype, "uncle", {
-                    /**
-                     * Get uncle, parent's sibling.
-                     */
-                    get: function () {
-                        return this.parent.sibling;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                return XTreeNode;
-            }());
+                /**
+                 * Get grand-parent.
+                 */
+                get grand_parent() {
+                    return this.parent.parent;
+                }
+                /**
+                 * Get sibling, opposite side node in same parent.
+                 */
+                get sibling() {
+                    if (this == this.parent.left)
+                        return this.parent.right;
+                    else
+                        return this.parent.left;
+                }
+                /**
+                 * Get uncle, parent's sibling.
+                 */
+                get uncle() {
+                    return this.parent.sibling;
+                }
+            }
             tree.XTreeNode = XTreeNode;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
@@ -2787,14 +2680,14 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var Bind = (function () {
+    class Bind {
         /**
          * Construct from function and this argument.
          *
          * @param func
          * @param this_arg
          */
-        function Bind(func, this_arg) {
+        constructor(func, this_arg) {
             this.func_ = func;
             this.this_arg_ = this_arg;
         }
@@ -2802,18 +2695,13 @@ var std;
          *
          * @param args
          */
-        Bind.prototype.apply = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
+        apply(...args) {
             return this.func_.apply(this.this_arg_, args);
-        };
-        Bind.prototype.equals = function (obj) {
+        }
+        equals(obj) {
             return this.func_ == obj.func_ && this.this_arg_ == obj.this_arg_;
-        };
-        return Bind;
-    }());
+        }
+    }
     std.Bind = Bind;
 })(std || (std = {}));
 /// <reference path="base/container/Container.ts" />
@@ -2870,86 +2758,69 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var Deque = (function (_super) {
-        __extends(Deque, _super);
-        function Deque() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class Deque extends std.base.container.Container {
+        constructor(...args) {
+            super();
             if (args.length == 0) {
                 this.clear();
             }
             if (args.length == 1 && args[0] instanceof Array) {
-                var array = args[0];
+                let array = args[0];
                 this.clear();
-                this.push.apply(this, array);
+                this.push(...array);
             }
             else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
-                var container = args[0];
+                let container = args[0];
                 this.assign(container.begin(), container.end());
             }
             else if (args.length == 2 &&
                 args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
-                var begin = args[0];
-                var end = args[1];
+                let begin = args[0];
+                let end = args[1];
                 this.assign(begin, end);
             }
         }
-        Object.defineProperty(Deque, "iterator", {
-            get: function () { return std.ListIterator; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Deque, "ROW", {
-            /**
-             * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
-             *
-             * <p> Note that the {@link ROW} affects on time complexity of accessing and inserting element.
-             * Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element
-             * in middle position is {@link ROW} times faster than ordinary {@link Vector}. </p>
-             *
-             * <p> When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting
-             * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
-             * and inserting element is O(N)). </p>
-             */
-            get: function () { return 8; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Deque, "MIN_CAPACITY", {
-            /**
-             * <p> Minimum {@link capacity}. </p>
-             *
-             * <p> Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque}
-             * keeps the minimum {@link capacity} at least. </p>
-             */
-            get: function () { return 100; },
-            enumerable: true,
-            configurable: true
-        });
+        static get iterator() { return std.ListIterator; }
+        /**
+         * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
+         *
+         * <p> Note that the {@link ROW} affects on time complexity of accessing and inserting element.
+         * Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element
+         * in middle position is {@link ROW} times faster than ordinary {@link Vector}. </p>
+         *
+         * <p> When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting
+         * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
+         * and inserting element is O(N)). </p>
+         */
+        static get ROW() { return 8; }
+        /**
+         * <p> Minimum {@link capacity}. </p>
+         *
+         * <p> Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque}
+         * keeps the minimum {@link capacity} at least. </p>
+         */
+        static get MIN_CAPACITY() { return 100; }
         /**
          * Get column size; {@link capacity_ capacity} / {@link ROW row}.
          */
-        Deque.prototype.get_col_size = function () {
+        get_col_size() {
             return Math.floor(this.capacity_ / Deque.ROW);
-        };
-        Deque.prototype.assign = function (first, second) {
+        }
+        assign(first, second) {
             // CLEAR PREVIOUS CONTENTS
             this.clear();
             if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
-                var begin = first;
-                var end = second;
-                var size = 0;
-                for (var it = begin; !it.equals(end); it = it.next())
+                let begin = first;
+                let end = second;
+                let size = 0;
+                for (let it = begin; !it.equals(end); it = it.next())
                     size++;
                 // RESERVE
                 this.reserve(size);
                 this.size_ = size;
                 // ASSIGN CONTENTS
-                var array = this.matrix_[0];
-                for (var it = begin; !it.equals(end); it = it.next()) {
+                let array = this.matrix_[0];
+                for (let it = begin; !it.equals(end); it = it.next()) {
                     if (array.length >= this.get_col_size()) {
                         array = new Array();
                         this.matrix_.push(array);
@@ -2958,14 +2829,14 @@ var std;
                 }
             }
             else {
-                var size = first;
-                var val = second;
+                let size = first;
+                let val = second;
                 // RESERVE
                 this.reserve(size);
                 this.size_ = size;
                 // ASSIGN CONTENTS
-                var array = this.matrix_[0];
-                for (var i = 0; i < size; i++) {
+                let array = this.matrix_[0];
+                for (let i = 0; i < size; i++) {
                     if (array.length >= this.get_col_size()) {
                         array = new Array();
                         this.matrix_.push(array);
@@ -2973,35 +2844,35 @@ var std;
                     array.push(val);
                 }
             }
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.reserve = function (capacity) {
-            var prevMatrix = this.matrix_;
-            var prevSize = this.size_;
+        reserve(capacity) {
+            let prevMatrix = this.matrix_;
+            let prevSize = this.size_;
             this.clear();
             // RESERVE
             this.size_ = prevSize;
-            var array = this.matrix_[0];
-            for (var i = 0; i < prevMatrix.length; i++)
-                for (var j = 0; j < prevMatrix[i].length; j++) {
+            let array = this.matrix_[0];
+            for (let i = 0; i < prevMatrix.length; i++)
+                for (let j = 0; j < prevMatrix[i].length; j++) {
                     if (array.length >= this.get_col_size()) {
                         array = new Array();
                         this.matrix_.push(array);
                     }
                     array.push(prevMatrix[i][j]);
                 }
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.clear = function () {
+        clear() {
             this.matrix_ = new Array();
             this.matrix_.push(new Array());
             this.size_ = 0;
             this.capacity_ = Deque.MIN_CAPACITY;
-        };
+        }
         /* =========================================================
             ACCESSORS
                 - GETTERS & SETTERS
@@ -3010,61 +2881,61 @@ var std;
         /**
          * @inheritdoc
          */
-        Deque.prototype.begin = function () {
+        begin() {
             if (this.empty() == true)
                 return this.end();
             else
                 return new std.DequeIterator(this, 0);
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.end = function () {
+        end() {
             return new std.DequeIterator(this, -1);
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.size = function () {
+        size() {
             return this.size_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.capacity = function () {
+        capacity() {
             return this.capacity_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.at = function (index) {
+        at(index) {
             if (index > this.size())
                 throw new std.OutOfRange("Target index is greater than Deque's size.");
-            var indexPair = this.fetch_index(index);
+            let indexPair = this.fetch_index(index);
             return this.matrix_[indexPair.first][indexPair.second];
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.set = function (index, val) {
+        set(index, val) {
             if (index > this.size())
                 throw new std.OutOfRange("Target index is greater than Deque's size.");
-            var indexPair = this.fetch_index(index);
+            let indexPair = this.fetch_index(index);
             this.matrix_[indexPair.first][indexPair.second] = val;
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.front = function () {
+        front() {
             return this.matrix_[0][0];
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.back = function () {
-            var lastArray = this.matrix_[this.matrix_.length - 1];
+        back() {
+            let lastArray = this.matrix_[this.matrix_.length - 1];
             return lastArray[lastArray.length - 1];
-        };
+        }
         /**
          * <p> Fetch row and column's index. </p>
          *
@@ -3072,10 +2943,10 @@ var std;
          *
          * @param index Sequence number
          */
-        Deque.prototype.fetch_index = function (index) {
-            var row;
+        fetch_index(index) {
+            let row;
             for (row = 0; row < this.matrix_.length; row++) {
-                var array = this.matrix_[row];
+                let array = this.matrix_[row];
                 if (index < array.length)
                     break;
                 index -= array.length;
@@ -3083,7 +2954,7 @@ var std;
             if (row == this.matrix_.length)
                 row--;
             return new std.Pair(row, index);
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - PUSH & POP
@@ -3095,15 +2966,11 @@ var std;
         /**
          * @inheritdoc
          */
-        Deque.prototype.push = function () {
-            var items = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                items[_i - 0] = arguments[_i];
-            }
+        push(...items) {
             if (this.size_ + items.length > this.capacity_)
                 this.reserve(this.size_ + items.length);
-            var array = this.matrix_[this.matrix_.length - 1];
-            for (var i = 0; i < items.length; i++) {
+            let array = this.matrix_[this.matrix_.length - 1];
+            for (let i = 0; i < items.length; i++) {
                 if (array.length >= this.get_col_size()) {
                     array = new Array();
                     this.matrix_.push(array);
@@ -3112,22 +2979,22 @@ var std;
             }
             this.size_ += items.length;
             return this.size_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.push_front = function (val) {
+        push_front(val) {
             // INSERT TO THE FRONT
             this.matrix_[0].unshift(val);
             this.size_++;
             if (this.size_ > this.capacity_)
                 this.reserve(this.size_ * 2);
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.push_back = function (val) {
-            var lastArray = this.matrix_[this.matrix_.length - 1];
+        push_back(val) {
+            let lastArray = this.matrix_[this.matrix_.length - 1];
             if (lastArray.length >= this.get_col_size() && this.matrix_.length < Deque.ROW) {
                 lastArray = new Array();
                 this.matrix_.push(lastArray);
@@ -3136,50 +3003,46 @@ var std;
             this.size_++;
             if (this.size_ > this.capacity_)
                 this.reserve(this.size_ * 2);
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.pop_front = function () {
+        pop_front() {
             if (this.empty() == true)
                 return; // SOMEWHERE PLACE TO THROW EXCEPTION
             this.matrix_[0].shift();
             this.size_--;
             if (this.matrix_[0].length == 0)
                 this.matrix_.shift();
-        };
+        }
         /**
          * @inheritdoc
          */
-        Deque.prototype.pop_back = function () {
+        pop_back() {
             if (this.empty() == true)
                 return; // SOMEWHERE PLACE TO THROW EXCEPTION
-            var lastArray = this.matrix_[this.matrix_.length - 1];
+            let lastArray = this.matrix_[this.matrix_.length - 1];
             lastArray.splice(lastArray.length - 1, 1);
             this.size_--;
             if (lastArray.length == 0)
                 this.matrix_.splice(this.matrix_.length - 1, 1);
-        };
-        Deque.prototype.insert = function (position) {
-            var args = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                args[_i - 1] = arguments[_i];
-            }
-            var items = [];
+        }
+        insert(position, ...args) {
+            let items = [];
             if (args.length == 1) {
-                var val = args[0];
+                let val = args[0];
                 items.push(val);
             }
             else if (args.length == 2 && typeof args[0] == "number") {
-                var n = args[0];
-                var val = args[1];
-                for (var i = 0; i < n; i++)
+                let n = args[0];
+                let val = args[1];
+                for (let i = 0; i < n; i++)
                     items.push(val);
             }
             else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
-                var begin = args[0];
-                var end = args[1];
-                for (var it = begin; !it.equals(end); it = it.next())
+                let begin = args[0];
+                let end = args[1];
+                for (let it = begin; !it.equals(end); it = it.next())
                     items.push(it.value);
             }
             // -----------------------------------------------------
@@ -3188,7 +3051,7 @@ var std;
             // INSERTS CAREFULLY
             if (position.equals(this.end()) == true) {
                 // WHEN INSERTS TO THE BACK SIDE
-                this.push.apply(this, items);
+                this.push(...items);
                 return;
             }
             this.size_ += items.length;
@@ -3197,21 +3060,21 @@ var std;
                 // WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
                 // ------------------------------------------------------
                 // INSERTS CAREFULLY CONSIDERING THE COL_SIZE
-                var indexPair = this.fetch_index(position.index);
-                var index = indexPair.first;
-                var splicedValues = this.matrix_[index].splice(indexPair.second);
+                let indexPair = this.fetch_index(position.index);
+                let index = indexPair.first;
+                let splicedValues = this.matrix_[index].splice(indexPair.second);
                 if (splicedValues.length != 0)
-                    items = items.concat.apply(items, splicedValues);
+                    items = items.concat(...splicedValues);
                 if (this.matrix_[index].length < Deque.ROW) {
                     this.matrix_[index] =
-                        (_a = this.matrix_[index]).concat.apply(_a, items.splice(0, Deque.ROW - this.matrix_[index].length));
+                        this.matrix_[index].concat(...items.splice(0, Deque.ROW - this.matrix_[index].length));
                 }
-                var splicedArray = this.matrix_.splice(index + 1);
+                let splicedArray = this.matrix_.splice(index + 1);
                 // INSERTS
                 while (items.length != 0)
                     this.matrix_.push(items.splice(0, Math.min(Deque.ROW, items.length)));
                 // CONCAT WITH BACKS
-                this.matrix_ = (_b = this.matrix_).concat.apply(_b, splicedArray);
+                this.matrix_ = this.matrix_.concat(...splicedArray);
             }
             else {
                 // -----------------------------------------------------
@@ -3223,55 +3086,53 @@ var std;
                     this.matrix_.push(items); // ALL TO THE LAST
                 }
                 else {
-                    var indexPair = this.fetch_index(position.index);
-                    var index = indexPair.first;
-                    var splicedValues = this.matrix_[index].splice(indexPair.second);
+                    let indexPair = this.fetch_index(position.index);
+                    let index = indexPair.first;
+                    let splicedValues = this.matrix_[index].splice(indexPair.second);
                     if (splicedValues.length != 0)
-                        items = items.concat.apply(items, splicedValues);
+                        items = items.concat(...splicedValues);
                     // ALL TO THE MIDDLE
-                    this.matrix_[index] = (_c = this.matrix_[index]).concat.apply(_c, items);
+                    this.matrix_[index] = this.matrix_[index].concat(...items);
                 }
                 // AND KEEP BALANCE BY RESERVE()
                 this.reserve(this.size_);
             }
             return position;
-            var _a, _b, _c;
-        };
-        Deque.prototype.erase = function (begin, end) {
-            if (end === void 0) { end = null; }
+        }
+        erase(begin, end = null) {
             if (end == null)
                 end = begin.next();
-            var index = begin.index;
-            var size = end.index - index;
+            let index = begin.index;
+            let size = end.index - index;
             this.size_ -= size;
             while (size != 0) {
-                var indexPair = this.fetch_index(index);
-                var array = this.matrix_[indexPair.first];
-                var myDeleteSize = Math.min(size, array.length - indexPair.second);
+                let indexPair = this.fetch_index(index);
+                let array = this.matrix_[indexPair.first];
+                let myDeleteSize = Math.min(size, array.length - indexPair.second);
                 array.splice(indexPair.second, myDeleteSize);
                 if (array.length == 0)
                     this.matrix_.splice(indexPair.first, 1);
                 size -= myDeleteSize;
             }
             return begin;
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        Deque.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof Deque)
                 this.swap_deque(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        Deque.prototype.swap_deque = function (obj) {
-            var supplement = new Object();
+        swap_deque(obj) {
+            let supplement = new Object();
             supplement.matrix_ = this.matrix_;
             supplement.size_ = this.size_;
             supplement.capacity_ = this.capacity_;
@@ -3281,9 +3142,8 @@ var std;
             obj.matrix_ = supplement.matrix_;
             obj.size_ = supplement.size_;
             obj.capacity_ = supplement.capacity_;
-        };
-        return Deque;
-    }(std.base.container.Container));
+        }
+    }
     std.Deque = Deque;
 })(std || (std = {}));
 /// <reference path="base/container/Iterator.ts" />
@@ -3294,8 +3154,7 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var DequeIterator = (function (_super) {
-        __extends(DequeIterator, _super);
+    class DequeIterator extends std.base.container.Iterator {
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
@@ -3309,90 +3168,77 @@ var std;
          * @param source The source {@link Deque container} to reference.
          * @param index Sequence number of the element in the source {@link Deque}.
          */
-        function DequeIterator(source, index) {
-            _super.call(this, source);
+        constructor(source, index) {
+            super(source);
             this.index_ = index;
         }
-        Object.defineProperty(DequeIterator.prototype, "deque", {
-            get: function () { return this.source_; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DequeIterator.prototype, "value", {
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.deque.at(this.index_);
-            },
-            set: function (val) {
-                this.deque.set(this.index_, val);
-            },
-            enumerable: true,
-            configurable: true
-        });
+        get deque() { return this.source_; }
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        DequeIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
-        };
-        Object.defineProperty(DequeIterator.prototype, "index", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.index_;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        get value() {
+            return this.deque.at(this.index_);
+        }
+        set value(val) {
+            this.deque.set(this.index_, val);
+        }
+        /**
+         * @inheritdoc
+         */
+        equals(obj) {
+            return super.equals(obj) && this.index_ == obj.index_;
+        }
+        /**
+         * @inheritdoc
+         */
+        get index() {
+            return this.index_;
+        }
         /* ---------------------------------------------------------
             MOVERS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        DequeIterator.prototype.prev = function () {
+        prev() {
             if (this.index_ == -1)
                 return new DequeIterator(this.deque, this.deque.size() - 1);
             else if (this.index_ - 1 < 0)
                 return this.deque.end();
             else
                 return new DequeIterator(this.deque, this.index_ - 1);
-        };
+        }
         /**
          * @inheritdoc
          */
-        DequeIterator.prototype.next = function () {
+        next() {
             if (this.index_ >= this.source_.size() - 1)
                 return this.deque.end();
             else
                 return new DequeIterator(this.deque, this.index_ + 1);
-        };
+        }
         /**
          * @inheritdoc
          */
-        DequeIterator.prototype.advance = function (n) {
-            var new_index = this.index_ + n;
+        advance(n) {
+            let new_index = this.index_ + n;
             if (new_index < 0 || new_index >= this.deque.size())
                 return this.deque.end();
             else
                 return new DequeIterator(this.deque, new_index);
-        };
+        }
         /**
          * @inheritdoc
          */
-        DequeIterator.prototype.swap = function (obj) {
-            var supplement = this.value;
+        swap(obj) {
+            let supplement = this.value;
             this.value = obj.value;
             obj.value = supplement;
-        };
-        return DequeIterator;
-    }(std.base.container.Iterator));
+        }
+    }
     std.DequeIterator = DequeIterator;
 })(std || (std = {}));
 /*
@@ -3455,14 +3301,14 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var ErrorCategory = (function () {
+    class ErrorCategory {
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
         /**
          * Default Constructor.
          */
-        function ErrorCategory() {
+        constructor() {
         }
         /* ---------------------------------------------------------
             OPERATORS
@@ -3488,18 +3334,13 @@ var std;
          * @return The default {@link ErrorCondition}object associated with condition value <i>val</i>
          *		   for this category.
          */
-        ErrorCategory.prototype.default_error_condition = function (val) {
+        default_error_condition(val) {
             return null;
-        };
-        ErrorCategory.prototype.equivalent = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
+        }
+        equivalent(...args) {
             return false;
-        };
-        return ErrorCategory;
-    }());
+        }
+    }
     std.ErrorCategory = ErrorCategory;
 })(std || (std = {}));
 /// <reference path="base/system/ErrorInstance.ts" />
@@ -3523,15 +3364,11 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var ErrorCode = (function (_super) {
-        __extends(ErrorCode, _super);
-        function ErrorCode(val, category) {
-            if (val === void 0) { val = 0; }
-            if (category === void 0) { category = null; }
-            _super.call(this, val, category);
+    class ErrorCode extends std.base.system.ErrorInstance {
+        constructor(val = 0, category = null) {
+            super(val, category);
         }
-        return ErrorCode;
-    }(std.base.system.ErrorInstance));
+    }
     std.ErrorCode = ErrorCode;
 })(std || (std = {}));
 /// <reference path="base/system/ErrorInstance.ts" />
@@ -3560,15 +3397,11 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var ErrorCondition = (function (_super) {
-        __extends(ErrorCondition, _super);
-        function ErrorCondition(val, category) {
-            if (val === void 0) { val = 0; }
-            if (category === void 0) { category = null; }
-            _super.call(this, val, category);
+    class ErrorCondition extends std.base.system.ErrorInstance {
+        constructor(val = 0, category = null) {
+            super(val, category);
         }
-        return ErrorCondition;
-    }(std.base.system.ErrorInstance));
+    }
     std.ErrorCondition = ErrorCondition;
 })(std || (std = {}));
 var std;
@@ -3576,10 +3409,10 @@ var std;
     var example;
     (function (example) {
         function test_deque() {
-            var deque = new std.Deque();
-            for (var i = 0; i < 10; i++)
+            let deque = new std.Deque();
+            for (let i = 0; i < 10; i++)
                 deque.push_back(i);
-            var it = deque.begin().advance(3);
+            let it = deque.begin().advance(3);
             it = deque.erase(it); // erase 3
             console.log(it.value); // print 4
             it = deque.begin().advance(2);
@@ -3590,8 +3423,8 @@ var std;
             //console.log(it.value); // print 9
             console.log(it.equals(deque.end()));
             console.log("-------------------------------------");
-            for (var it_1 = deque.begin(); !it_1.equals(deque.end()); it_1 = it_1.next())
-                console.log(it_1.value);
+            for (let it = deque.begin(); !it.equals(deque.end()); it = it.next())
+                console.log(it.value);
         }
         example.test_deque = test_deque;
     })(example = std.example || (std.example = {}));
@@ -3601,10 +3434,10 @@ var std;
     var example;
     (function (example) {
         function test_for_each() {
-            var array = new std.Vector();
-            for (var i = 0; i < 20; i++)
+            let array = new std.Vector();
+            for (let i = 0; i < 20; i++)
                 array.push_back(i);
-            var fn = std.for_each(array.begin(), array.end(), function (val) { console.log(val); });
+            let fn = std.for_each(array.begin(), array.end(), function (val) { console.log(val); });
         }
         example.test_for_each = test_for_each;
     })(example = std.example || (std.example = {}));
@@ -3617,14 +3450,14 @@ var std;
             /////////////////////////////////////
             // CONSTRUCT DATA FROM 1 TO 10
             /////////////////////////////////////
-            var map = new std.HashMap();
-            for (var i = 0; i < 10; i++)
+            let map = new std.HashMap();
+            for (let i = 0; i < 10; i++)
                 map.insert([i, "Its key is " + i]);
             /////////////////////////////////////
             //  ELEMENT I/O
             /////////////////////////////////////
             // ERASE AN ELEMENT
-            var it = map.find(3); // find 3.
+            let it = map.find(3); // find 3.
             it = map.erase(it); // erase 3. [it] points key 4.
             console.log(it.first); // prints key 4.
             // INSERT AN ELEMENT
@@ -3634,8 +3467,8 @@ var std;
             // key list: [0, 1, -1, 2, 4, 5, 6, 7, 8, 9]
             console.log(it.next().first); // prints 2, next of [it] (-1 -> 2)
             // RANGE ERASER
-            var px = map.begin().advance(6);
-            var py = map.begin().advance(9);
+            let px = map.begin().advance(6);
+            let py = map.begin().advance(9);
             it = map.erase(map.begin().advance(6), map.begin().advance(9));
             // erase elements from 6th until 9th.
             // INSPECT ELEMENTS BY THEIR KEY
@@ -3648,8 +3481,8 @@ var std;
             /////////////////////////////////////
             console.log("------------------------------");
             // key list: [0, 1, -1, 2, 4, 5, 9]
-            for (var it_2 = map.begin(); !it_2.equals(map.end()); it_2 = it_2.next())
-                console.log(it_2.second);
+            for (let it = map.begin(); !it.equals(map.end()); it = it.next())
+                console.log(it.second);
             /* OUTPUT
             =========================================
                 4
@@ -3676,10 +3509,10 @@ var std;
     var example;
     (function (example) {
         function test_list() {
-            var list = new std.List();
-            for (var i = 0; i < 10; i++)
+            let list = new std.List();
+            for (let i = 0; i < 10; i++)
                 list.push_back(i);
-            var it = list.begin().advance(3);
+            let it = list.begin().advance(3);
             it = list.erase(it); // erase 3
             console.log(it.value); // print 4
             it = list.begin().advance(2);
@@ -3690,8 +3523,8 @@ var std;
             //console.log(it.value); // print 9
             console.log(it.equals(list.end()));
             console.log("-------------------------------------");
-            for (var it_3 = list.begin(); !it_3.equals(list.end()); it_3 = it_3.next())
-                console.log(it_3.value);
+            for (let it = list.begin(); !it.equals(list.end()); it = it.next())
+                console.log(it.value);
         }
         example.test_list = test_list;
     })(example = std.example || (std.example = {}));
@@ -3701,14 +3534,14 @@ var std;
     var example;
     (function (example) {
         function sorting() {
-            var cubes = new std.Deque();
-            for (var i = 0; i < 10; i++)
+            let cubes = new std.Deque();
+            for (let i = 0; i < 10; i++)
                 cubes.push_back(new Cube());
             ///////////////////////////////
             // SORT BY Cube.less()
             ///////////////////////////////
             std.sort(cubes.begin(), cubes.end());
-            for (var it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
+            for (let it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
                 it.value.debug_size();
             console.log("------------------------------");
             ///////////////////////////////
@@ -3722,12 +3555,12 @@ var std;
                 else
                     return left.z < right.z;
             });
-            for (var it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
+            for (let it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
                 it.value.debug_position();
         }
         example.sorting = sorting;
-        var Cube = (function () {
-            function Cube() {
+        class Cube {
+            constructor() {
                 this.width = Math.random() * 10;
                 this.height = Math.random() * 10;
                 this.length = Math.random() * 10;
@@ -3735,24 +3568,19 @@ var std;
                 this.y = Math.random() * 100 - 50;
                 this.z = Math.random() * 100 - 50;
             }
-            Object.defineProperty(Cube.prototype, "volume", {
-                get: function () {
-                    return this.width * this.height * this.length;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Cube.prototype.less = function (obj) {
+            get volume() {
+                return this.width * this.height * this.length;
+            }
+            less(obj) {
                 return this.volume < obj.volume;
-            };
-            Cube.prototype.debug_size = function () {
+            }
+            debug_size() {
                 console.log(this.width, this.height, this.length + " => " + this.volume);
-            };
-            Cube.prototype.debug_position = function () {
+            }
+            debug_position() {
                 console.log(this.x, this.y, this.z);
-            };
-            return Cube;
-        }());
+            }
+        }
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
 var std;
@@ -3760,10 +3588,10 @@ var std;
     var example;
     (function (example) {
         function tree_set() {
-            var set = new std.TreeMultiSet();
+            let set = new std.TreeMultiSet();
             // INSERTS EVEN NUMBERS
-            for (var i = 0; i <= 10; i += 2)
-                for (var j = 0; j < 3; j++)
+            for (let i = 0; i <= 10; i += 2)
+                for (let j = 0; j < 3; j++)
                     set.insert(i);
             // FIND 4 -> HAS
             console.log("Matched node: 4");
@@ -3771,7 +3599,7 @@ var std;
             console.log("	upper bound: " + set.upper_bound(4).value);
             console.log(" ");
             // FIND ODD NUMBERS -> NOT EXIST
-            for (var i = 1; i <= 10; i += 2) {
+            for (let i = 1; i <= 10; i += 2) {
                 console.log("Mis-matched node: " + i);
                 console.log("	lower bound: " + set.lower_bound(i).value);
                 console.log("	upper bound: " + set.upper_bound(i).value);
@@ -3810,9 +3638,8 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var Exception = (function () {
-        function Exception(what) {
-            if (what === void 0) { what = ""; }
+    class Exception {
+        constructor(what = "") {
             this.message = what;
         }
         /**
@@ -3823,11 +3650,10 @@ var std;
          * As a virtual function, derived classes may redefine this function so that specify value are
          * returned. </p>
          */
-        Exception.prototype.what = function () {
+        what() {
             return this.message;
-        };
-        return Exception;
-    }());
+        }
+    }
     std.Exception = Exception;
     /* =========================================================
         + LOGIC_ERROR
@@ -3852,18 +3678,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var LogicError = (function (_super) {
-        __extends(LogicError, _super);
+    class LogicError extends Exception {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function LogicError(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return LogicError;
-    }(Exception));
+    }
     std.LogicError = LogicError;
     /**
      * <p> Domain error exception. </p>
@@ -3883,18 +3707,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var DomainError = (function (_super) {
-        __extends(DomainError, _super);
+    class DomainError extends LogicError {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function DomainError(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return DomainError;
-    }(LogicError));
+    }
     std.DomainError = DomainError;
     /**
      * <p> Invalid argument exception. </p>
@@ -3910,18 +3732,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var InvalidArgument = (function (_super) {
-        __extends(InvalidArgument, _super);
+    class InvalidArgument extends LogicError {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function InvalidArgument(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return InvalidArgument;
-    }(LogicError));
+    }
     std.InvalidArgument = InvalidArgument;
     /**
      * <p> Length error exception. </p>
@@ -3937,18 +3757,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var LengthError = (function (_super) {
-        __extends(LengthError, _super);
+    class LengthError extends LogicError {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function LengthError(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return LengthError;
-    }(LogicError));
+    }
     std.LengthError = LengthError;
     /**
      * <p> Out-of-range exception. </p>
@@ -3965,18 +3783,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var OutOfRange = (function (_super) {
-        __extends(OutOfRange, _super);
+    class OutOfRange extends LogicError {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function OutOfRange(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return OutOfRange;
-    }(LogicError));
+    }
     std.OutOfRange = OutOfRange;
     /* =========================================================
         + RUNTIME_ERROR
@@ -3999,18 +3815,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var RuntimeError = (function (_super) {
-        __extends(RuntimeError, _super);
+    class RuntimeError extends Exception {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function RuntimeError(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return RuntimeError;
-    }(Exception));
+    }
     std.RuntimeError = RuntimeError;
     /**
      * <p> Overflow error exception. </p>
@@ -4026,18 +3840,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var OverflowError = (function (_super) {
-        __extends(OverflowError, _super);
+    class OverflowError extends RuntimeError {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function OverflowError(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return OverflowError;
-    }(RuntimeError));
+    }
     std.OverflowError = OverflowError;
     /**
      * <p> Underflow error exception. </p>
@@ -4053,18 +3865,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var UnderflowError = (function (_super) {
-        __extends(UnderflowError, _super);
+    class UnderflowError extends RuntimeError {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function UnderflowError(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return UnderflowError;
-    }(RuntimeError));
+    }
     std.UnderflowError = UnderflowError;
     /**
      * <p> Range error exception. </p>
@@ -4081,18 +3891,16 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var RangeError = (function (_super) {
-        __extends(RangeError, _super);
+    class RangeError extends RuntimeError {
         /**
          * <p> Construct from a message. </p>
          *
          * @param message A message representing specification about the Exception.
          */
-        function RangeError(what) {
-            _super.call(this, what);
+        constructor(what) {
+            super(what);
         }
-        return RangeError;
-    }(RuntimeError));
+    }
     std.RangeError = RangeError;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueMap.ts" />
@@ -4147,14 +3955,9 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var HashMap = (function (_super) {
-        __extends(HashMap, _super);
-        function HashMap() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class HashMap extends std.base.container.UniqueMap {
+        constructor(...args) {
+            super();
             // HASH_BUCKET
             this.hash_buckets_ = new std.base.hash.MapHashBuckets(this);
             // OVERLOADINGS
@@ -4171,43 +3974,43 @@ var std;
         /**
          * @hidden
          */
-        HashMap.prototype.construct_from_array = function (items) {
+        construct_from_array(items) {
             this.hash_buckets_.reserve(items.length * std.base.hash.RATIO);
-            _super.prototype.construct_from_array.call(this, items);
-        };
+            super.construct_from_array(items);
+        }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashMap.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
+        assign(begin, end) {
+            let it;
+            let size = 0;
             // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
             this.hash_buckets_.reserve(size * std.base.hash.RATIO);
             // SUPER; INSERT
-            _super.prototype.assign.call(this, begin, end);
-        };
+            super.assign(begin, end);
+        }
         /**
          * @inheritdoc
          */
-        HashMap.prototype.clear = function () {
-            _super.prototype.clear.call(this);
+        clear() {
+            super.clear();
             this.hash_buckets_.clear();
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        HashMap.prototype.find = function (key) {
+        find(key) {
             return this.hash_buckets_.find(key);
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -4218,9 +4021,9 @@ var std;
         /**
          * @hidden
          */
-        HashMap.prototype.insert_by_pair = function (pair) {
+        insert_by_pair(pair) {
             // TEST WHETHER EXIST
-            var it = this.find(pair.first);
+            let it = this.find(pair.first);
             if (it.equals(this.end()) == false)
                 return new std.Pair(it, false);
             // INSERT
@@ -4229,62 +4032,61 @@ var std;
             // POST-PROCESS
             this.handle_insert(it);
             return new std.Pair(it, true);
-        };
+        }
         /**
          * @hidden
          */
-        HashMap.prototype.insert_by_range = function (begin, end) {
+        insert_by_range(begin, end) {
             // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            let size = 0;
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
                 this.hash_buckets_.reserve((this.size() + size) * std.base.hash.RATIO);
             // INSERTS
-            _super.prototype.insert_by_range.call(this, begin, end);
-        };
+            super.insert_by_range(begin, end);
+        }
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashMap.prototype.handle_insert = function (it) {
+        handle_insert(it) {
             this.hash_buckets_.insert(it);
-        };
+        }
         /**
          * @inheritdoc
          */
-        HashMap.prototype.handle_erase = function (it) {
+        handle_erase(it) {
             this.hash_buckets_.erase(it);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        HashMap.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof HashMap)
                 this.swap_hash_map(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        HashMap.prototype.swap_hash_map = function (obj) {
-            var supplement = new HashMap();
+        swap_hash_map(obj) {
+            let supplement = new HashMap();
             supplement.data_ = this.data_;
             supplement.hash_buckets_ = this.hash_buckets_;
             this.data_ = obj.data_;
             this.hash_buckets_ = obj.hash_buckets_;
             obj.data_ = supplement.data_;
             obj.hash_buckets_ = supplement.hash_buckets_;
-        };
-        return HashMap;
-    }(std.base.container.UniqueMap));
+        }
+    }
     std.HashMap = HashMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiMap.ts" />
@@ -4338,14 +4140,9 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var HashMultiMap = (function (_super) {
-        __extends(HashMultiMap, _super);
-        function HashMultiMap() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class HashMultiMap extends std.base.container.MultiMap {
+        constructor(...args) {
+            super();
             // HASH_BUCKET
             this.hash_buckets_ = new std.base.hash.MapHashBuckets(this);
             // OVERLOADINGS
@@ -4362,43 +4159,43 @@ var std;
         /**
          * @hidden
          */
-        HashMultiMap.prototype.construct_from_array = function (items) {
+        construct_from_array(items) {
             this.hash_buckets_.reserve(items.length * std.base.hash.RATIO);
-            _super.prototype.construct_from_array.call(this, items);
-        };
+            super.construct_from_array(items);
+        }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashMultiMap.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
+        assign(begin, end) {
+            let it;
+            let size = 0;
             // REVERSE HASH_GROUP SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
             this.hash_buckets_.reserve(size * std.base.hash.RATIO);
             // SUPER; INSERT
-            _super.prototype.assign.call(this, begin, end);
-        };
+            super.assign(begin, end);
+        }
         /**
          * @inheritdoc
          */
-        HashMultiMap.prototype.clear = function () {
-            _super.prototype.clear.call(this);
+        clear() {
+            super.clear();
             this.hash_buckets_.clear();
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        HashMultiMap.prototype.find = function (key) {
+        find(key) {
             return this.hash_buckets_.find(key);
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -4409,67 +4206,66 @@ var std;
         /**
          * @hidden
          */
-        HashMultiMap.prototype.insert_by_pair = function (pair) {
-            var listIterator = this.data_.insert(this.data_.end(), pair);
-            var it = new std.MapIterator(this, listIterator);
+        insert_by_pair(pair) {
+            let listIterator = this.data_.insert(this.data_.end(), pair);
+            let it = new std.MapIterator(this, listIterator);
             this.handle_insert(it);
             return it;
-        };
+        }
         /**
          * @hidden
          */
-        HashMultiMap.prototype.insert_by_range = function (begin, end) {
+        insert_by_range(begin, end) {
             // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            let size = 0;
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
                 this.hash_buckets_.reserve((this.size() + size) * std.base.hash.RATIO);
             // INSERTS
-            _super.prototype.insert_by_range.call(this, begin, end);
-        };
+            super.insert_by_range(begin, end);
+        }
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashMultiMap.prototype.handle_insert = function (it) {
+        handle_insert(it) {
             this.hash_buckets_.insert(it);
-        };
+        }
         /**
          * @inheritdoc
          */
-        HashMultiMap.prototype.handle_erase = function (it) {
+        handle_erase(it) {
             this.hash_buckets_.erase(it);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        HashMultiMap.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof HashMultiMap)
                 this.swap_hash_multimap(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        HashMultiMap.prototype.swap_hash_multimap = function (obj) {
-            var supplement = new HashMultiMap();
+        swap_hash_multimap(obj) {
+            let supplement = new HashMultiMap();
             supplement.data_ = this.data_;
             supplement.hash_buckets_ = this.hash_buckets_;
             this.data_ = obj.data_;
             this.hash_buckets_ = obj.hash_buckets_;
             obj.data_ = supplement.data_;
             obj.hash_buckets_ = supplement.hash_buckets_;
-        };
-        return HashMultiMap;
-    }(std.base.container.MultiMap));
+        }
+    }
     std.HashMultiMap = HashMultiMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiSet.ts" />
@@ -4519,14 +4315,9 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var HashMultiSet = (function (_super) {
-        __extends(HashMultiSet, _super);
-        function HashMultiSet() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class HashMultiSet extends std.base.container.MultiSet {
+        constructor(...args) {
+            super();
             // BUCKET
             this.hash_buckets_ = new std.base.hash.SetHashBuckets(this);
             // OVERLOADINGS
@@ -4543,43 +4334,43 @@ var std;
         /**
          * @hidden
          */
-        HashMultiSet.prototype.construct_from_array = function (items) {
+        construct_from_array(items) {
             this.hash_buckets_.reserve(items.length * std.base.hash.RATIO);
-            _super.prototype.construct_from_array.call(this, items);
-        };
+            super.construct_from_array(items);
+        }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashMultiSet.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
+        assign(begin, end) {
+            let it;
+            let size = 0;
             // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
             this.hash_buckets_.reserve(size * std.base.hash.RATIO);
             // SUPER; INSERT
-            _super.prototype.assign.call(this, begin, end);
-        };
+            super.assign(begin, end);
+        }
         /**
          * @inheritdoc
          */
-        HashMultiSet.prototype.clear = function () {
-            _super.prototype.clear.call(this);
+        clear() {
+            super.clear();
             this.hash_buckets_.clear();
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        HashMultiSet.prototype.find = function (val) {
+        find(val) {
             return this.hash_buckets_.find(val);
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -4590,69 +4381,68 @@ var std;
         /**
          * @hidden
          */
-        HashMultiSet.prototype.insert_by_val = function (val) {
+        insert_by_val(val) {
             // INSERT
-            var listIterator = this.data_.insert(this.data_.end(), val);
-            var it = new std.SetIterator(this, listIterator);
+            let listIterator = this.data_.insert(this.data_.end(), val);
+            let it = new std.SetIterator(this, listIterator);
             // POST-PROCESS
             this.handle_insert(it);
             return it;
-        };
+        }
         /**
          * @hidden
          */
-        HashMultiSet.prototype.insert_by_range = function (begin, end) {
+        insert_by_range(begin, end) {
             // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            let size = 0;
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
                 this.hash_buckets_.reserve((this.size() + size) * std.base.hash.RATIO);
             // INSERTS
-            _super.prototype.insert_by_range.call(this, begin, end);
-        };
+            super.insert_by_range(begin, end);
+        }
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashMultiSet.prototype.handle_insert = function (it) {
+        handle_insert(it) {
             this.hash_buckets_.insert(it);
-        };
+        }
         /**
          * @inheritdoc
          */
-        HashMultiSet.prototype.handle_erase = function (it) {
+        handle_erase(it) {
             this.hash_buckets_.erase(it);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        HashMultiSet.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof HashMultiSet)
                 this.swap_tree_set(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        HashMultiSet.prototype.swap_tree_set = function (obj) {
-            var supplement = new HashMultiSet();
+        swap_tree_set(obj) {
+            let supplement = new HashMultiSet();
             supplement.data_ = this.data_;
             supplement.hash_buckets_ = this.hash_buckets_;
             this.data_ = obj.data_;
             this.hash_buckets_ = obj.hash_buckets_;
             obj.data_ = supplement.data_;
             obj.hash_buckets_ = supplement.hash_buckets_;
-        };
-        return HashMultiSet;
-    }(std.base.container.MultiSet));
+        }
+    }
     std.HashMultiSet = HashMultiSet;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueSet.ts" />
@@ -4702,14 +4492,9 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var HashSet = (function (_super) {
-        __extends(HashSet, _super);
-        function HashSet() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class HashSet extends std.base.container.UniqueSet {
+        constructor(...args) {
+            super();
             // BUCKET
             this.hash_buckets_ = new std.base.hash.SetHashBuckets(this);
             // OVERLOADINGS
@@ -4726,43 +4511,43 @@ var std;
         /**
          * @hidden
          */
-        HashSet.prototype.construct_from_array = function (items) {
+        construct_from_array(items) {
             this.hash_buckets_.reserve(items.length * std.base.hash.RATIO);
-            _super.prototype.construct_from_array.call(this, items);
-        };
+            super.construct_from_array(items);
+        }
         /* ---------------------------------------------------------
             ASSIGN & CLEAR
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashSet.prototype.assign = function (begin, end) {
-            var it;
-            var size = 0;
+        assign(begin, end) {
+            let it;
+            let size = 0;
             // RESERVE HASH_BUCKET SIZE
             for (it = begin; it.equals(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
             this.hash_buckets_.reserve(size * std.base.hash.RATIO);
             // SUPER; INSERT
-            _super.prototype.assign.call(this, begin, end);
-        };
+            super.assign(begin, end);
+        }
         /**
          * @inheritdoc
          */
-        HashSet.prototype.clear = function () {
-            _super.prototype.clear.call(this);
+        clear() {
+            super.clear();
             this.hash_buckets_.clear();
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        HashSet.prototype.find = function (val) {
+        find(val) {
             return this.hash_buckets_.find(val);
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -4773,9 +4558,9 @@ var std;
         /**
          * @hidden
          */
-        HashSet.prototype.insert_by_val = function (val) {
+        insert_by_val(val) {
             // TEST WHETHER EXIST
-            var it = this.find(val);
+            let it = this.find(val);
             if (it.equals(this.end()) == false)
                 return new std.Pair(it, false);
             // INSERT
@@ -4784,62 +4569,61 @@ var std;
             // POST-PROCESS
             this.handle_insert(it);
             return new std.Pair(it, true);
-        };
+        }
         /**
          * @hidden
          */
-        HashSet.prototype.insert_by_range = function (begin, end) {
+        insert_by_range(begin, end) {
             // CALCULATE INSERTING SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            let size = 0;
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hash_buckets_.size() * std.base.hash.MAX_RATIO)
                 this.hash_buckets_.reserve((this.size() + size) * std.base.hash.RATIO);
             // INSERTS
-            _super.prototype.insert_by_range.call(this, begin, end);
-        };
+            super.insert_by_range(begin, end);
+        }
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashSet.prototype.handle_insert = function (item) {
+        handle_insert(item) {
             this.hash_buckets_.insert(item);
-        };
+        }
         /**
          * @inheritdoc
          */
-        HashSet.prototype.handle_erase = function (item) {
+        handle_erase(item) {
             this.hash_buckets_.erase(item);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        HashSet.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof HashSet)
                 this.swap_tree_set(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        HashSet.prototype.swap_tree_set = function (obj) {
-            var supplement = new HashSet();
+        swap_tree_set(obj) {
+            let supplement = new HashSet();
             supplement.data_ = this.data_;
             supplement.hash_buckets_ = this.hash_buckets_;
             this.data_ = obj.data_;
             this.hash_buckets_ = obj.hash_buckets_;
             obj.data_ = supplement.data_;
             obj.hash_buckets_ = supplement.hash_buckets_;
-        };
-        return HashSet;
-    }(std.base.container.UniqueSet));
+        }
+    }
     std.HashSet = HashSet;
 })(std || (std = {}));
 var std;
@@ -4988,51 +4772,42 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var List = (function (_super) {
-        __extends(List, _super);
-        function List() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class List extends std.base.container.Container {
+        constructor(...args) {
+            super();
             if (args.length == 0) {
                 this.clear();
             }
             else if (args.length == 1 && args[0] instanceof Array) {
-                var array = args[0];
+                let array = args[0];
                 this.clear();
-                this.push.apply(this, array);
+                this.push(...array);
             }
             else if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof std.base.container.Container)) {
-                var container = args[0];
+                let container = args[0];
                 this.assign(container.begin(), container.end());
             }
             else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
-                var begin = args[0];
-                var end = args[1];
+                let begin = args[0];
+                let end = args[1];
                 this.assign(begin, end);
             }
             else if (args.length == 2 && typeof args[0] == "number") {
-                var size = args[0];
-                var val = args[1];
+                let size = args[0];
+                let val = args[1];
                 this.assign(size, val);
             }
         }
-        Object.defineProperty(List, "iterator", {
-            get: function () { return std.ListIterator; },
-            enumerable: true,
-            configurable: true
-        });
-        List.prototype.assign = function (par1, par2) {
+        static get iterator() { return std.ListIterator; }
+        assign(par1, par2) {
             if (par1 instanceof std.base.container.Iterator && par2 instanceof std.base.container.Iterator) {
                 // PARAMETERS
-                var begin = par1;
-                var end = par2;
+                let begin = par1;
+                let end = par2;
                 // BODY
-                var prev = null;
-                var item = void 0;
-                var it = begin;
+                let prev = null;
+                let item;
+                let it = begin;
                 while (true) {
                     // CONSTRUCT ELEMENT ITEM
                     item = new std.ListIterator(this, prev, null, (it != end ? it.value : null));
@@ -5051,51 +4826,51 @@ var std;
                     it = it.next();
                 }
             }
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.clear = function () {
-            var it = new std.ListIterator(this, null, null, null);
+        clear() {
+            let it = new std.ListIterator(this, null, null, null);
             it.setPrev(it);
             it.setNext(it);
             this.begin_ = it;
             this.end_ = it;
             this.size_ = 0;
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        List.prototype.begin = function () {
+        begin() {
             return this.begin_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.end = function () {
+        end() {
             return this.end_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.size = function () {
+        size() {
             return this.size_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.front = function () {
+        front() {
             return this.begin_.value;
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.back = function () {
+        back() {
             return this.end_.prev().value;
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - ITERATOR FACTORY
@@ -5108,20 +4883,16 @@ var std;
         /**
          * @inheritdoc
          */
-        List.prototype.push = function () {
-            var items = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                items[_i - 0] = arguments[_i];
-            }
-            for (var i = 0; i < items.length; i++)
+        push(...items) {
+            for (let i = 0; i < items.length; i++)
                 this.push_back(items[i]);
             return this.size();
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.push_front = function (val) {
-            var item = new std.ListIterator(this, null, this.begin_, val);
+        push_front(val) {
+            let item = new std.ListIterator(this, null, this.begin_, val);
             // CONFIGURE BEGIN AND NEXT
             this.begin_.setPrev(item);
             if (this.size_ == 0) {
@@ -5134,13 +4905,13 @@ var std;
             // SET
             this.begin_ = item;
             this.size_++;
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.push_back = function (val) {
-            var prev = this.end_.prev();
-            var item = new std.ListIterator(this, this.end_.prev(), this.end_, val);
+        push_back(val) {
+            let prev = this.end_.prev();
+            let item = new std.ListIterator(this, this.end_.prev(), this.end_, val);
             prev.setNext(item);
             this.end_.setPrev(item);
             if (this.empty() == true) {
@@ -5148,24 +4919,20 @@ var std;
                 item.setPrev(this.end_);
             }
             this.size_++;
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.pop_front = function () {
+        pop_front() {
             this.erase(this.begin_);
-        };
+        }
         /**
          * @inheritdoc
          */
-        List.prototype.pop_back = function () {
+        pop_back() {
             this.erase(this.end_.prev());
-        };
-        List.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
+        }
+        insert(...args) {
             if (args.length == 2)
                 return this.insert_by_val(args[0], args[1]);
             else if (args.length == 3 && typeof args[1] == "number") {
@@ -5173,25 +4940,25 @@ var std;
             }
             else
                 return this.insert_by_range(args[0], args[1], args[2]);
-        };
+        }
         /**
          * @hidden
          */
-        List.prototype.insert_by_val = function (position, val) {
+        insert_by_val(position, val) {
             // SHIFT TO INSERT OF THE REPEATING VAL
             return this.insertByRepeatingVal(position, 1, val);
-        };
+        }
         /**
          * @hidden
          */
-        List.prototype.insertByRepeatingVal = function (position, size, val) {
+        insertByRepeatingVal(position, size, val) {
             if (this != position.get_source())
                 throw new std.InvalidArgument("Parametric iterator is not this container's own.");
-            var prev = position.prev();
-            var first = null;
-            for (var i = 0; i < size; i++) {
+            let prev = position.prev();
+            let first = null;
+            for (let i = 0; i < size; i++) {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new std.ListIterator(this, prev, null, val);
+                let item = new std.ListIterator(this, prev, null, val);
                 if (i == 0)
                     first = item;
                 prev.setNext(item);
@@ -5206,19 +4973,19 @@ var std;
             position.setPrev(prev);
             this.size_ += size;
             return first;
-        };
+        }
         /**
          * @hidden
          */
-        List.prototype.insert_by_range = function (position, begin, end) {
+        insert_by_range(position, begin, end) {
             if (this != position.get_source())
                 throw new std.InvalidArgument("Parametric iterator is not this container's own.");
-            var prev = position.prev();
-            var first = null;
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next()) {
+            let prev = position.prev();
+            let first = null;
+            let size = 0;
+            for (let it = begin; it.equals(end) == false; it = it.next()) {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new std.ListIterator(this, prev, null, it.value);
+                let item = new std.ListIterator(this, prev, null, it.value);
                 if (size == 0)
                     first = item;
                 if (prev != null)
@@ -5235,34 +5002,30 @@ var std;
             position.setPrev(prev);
             this.size_ += size;
             return first;
-        };
-        List.prototype.erase = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
+        }
+        erase(...args) {
             if (args.length == 1)
                 return this.erase_by_iterator(args[0]);
             else if (args.length == 2)
                 return this.erase_by_range(args[0], args[1]);
-        };
+        }
         /**
          * @hidden
          */
-        List.prototype.erase_by_iterator = function (it) {
+        erase_by_iterator(it) {
             return this.erase_by_range(it, it.next());
-        };
+        }
         /**
          * @hidden
          */
-        List.prototype.erase_by_range = function (begin, end) {
+        erase_by_range(begin, end) {
             if (this != begin.get_source() || begin.get_source() != end.get_source())
                 throw new std.InvalidArgument("Parametric iterator is not this container's own.");
             // FIND PREV AND NEXT
-            var prev = begin.prev();
+            let prev = begin.prev();
             // CALCULATE THE SIZE
-            var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            let size = 0;
+            for (let it = begin; it.equals(end) == false; it = it.next())
                 size++;
             // SHRINK
             prev.setNext(end);
@@ -5271,17 +5034,16 @@ var std;
             if (this.size_ == 0)
                 this.begin_ = end;
             return end;
-        };
-        List.prototype.unique = function (binary_pred) {
-            if (binary_pred === void 0) { binary_pred = std.equals; }
-            var it = this.begin().next();
+        }
+        unique(binary_pred = std.equals) {
+            let it = this.begin().next();
             while (!it.equals(this.end())) {
                 if (std.equals(it.value, it.prev().value) == true)
                     it = this.erase(it);
                 else
                     it = it.next();
             }
-        };
+        }
         /**
          * <p> Remove elements with specific value. </p>
          *
@@ -5296,15 +5058,15 @@ var std;
          *
          * @param val Value of the elements to be removed.
          */
-        List.prototype.remove = function (val) {
-            var it = this.begin();
+        remove(val) {
+            let it = this.begin();
             while (!it.equals(this.end())) {
                 if (std.equals(it.value, val) == true)
                     it = this.erase(it);
                 else
                     it = it.next();
             }
-        };
+        }
         /**
          * <p> Remove elements fulfilling condition. </p>
          *
@@ -5321,30 +5083,27 @@ var std;
          *			   <code>false</code> for those remaining. This can either be a function pointer or a function
          *			   object.
          */
-        List.prototype.remove_if = function (pred) {
-            var it = this.begin();
+        remove_if(pred) {
+            let it = this.begin();
             while (!it.equals(this.end())) {
                 if (pred(it.value) == true)
                     it = this.erase(it);
                 else
                     it = it.next();
             }
-        };
-        List.prototype.merge = function (obj, compare) {
-            if (compare === void 0) { compare = std.less; }
+        }
+        merge(obj, compare = std.less) {
             if (this == obj)
                 return;
-            var it = this.begin();
+            let it = this.begin();
             while (obj.empty() == false) {
-                var begin = obj.begin();
+                let begin = obj.begin();
                 while (!it.equals(this.end()) && compare(it.value, begin.value) == true)
                     it = it.next();
                 this.splice(it, obj, begin);
             }
-        };
-        List.prototype.splice = function (position, obj, begin, end) {
-            if (begin === void 0) { begin = null; }
-            if (end === void 0) { end = null; }
+        }
+        splice(position, obj, begin = null, end = null) {
             if (begin == null) {
                 begin = obj.begin();
                 end = obj.end();
@@ -5354,17 +5113,16 @@ var std;
             }
             this.insert(position, begin, end);
             obj.erase(begin, end);
-        };
-        List.prototype.sort = function (compare) {
+        }
+        sort(compare = std.less) {
             //let whole: Vector<T> = new Vector<T>(this);
             //let part: Vector<T> = new Vector<T>(this);
-            if (compare === void 0) { compare = std.less; }
             //this.msort(whole, part, 0, this.size(), compare);
             //this.assign(whole.begin(), whole.end());
-            var vector = new std.Vector(this.begin(), this.end());
+            let vector = new std.Vector(this.begin(), this.end());
             std.sort(vector.begin(), vector.end());
             this.assign(vector.begin(), vector.end());
-        };
+        }
         ///**
         // * @hidden
         // */
@@ -5413,17 +5171,17 @@ var std;
         /**
          * @inheritdoc
          */
-        List.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof List)
                 this.swap_list(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        List.prototype.swap_list = function (obj) {
-            var supplement = new Object();
+        swap_list(obj) {
+            let supplement = new Object();
             supplement.begin_ = this.begin_;
             supplement.end_ = this.end_;
             supplement.size_ = this.size_;
@@ -5433,16 +5191,14 @@ var std;
             obj.begin_ = supplement.begin_;
             obj.end_ = supplement.end_;
             obj.size_ = supplement.size_;
-        };
-        return List;
-    }(std.base.container.Container));
+        }
+    }
     std.List = List;
 })(std || (std = {}));
 /// <reference path="base/container/Iterator.ts" />
 var std;
 (function (std) {
-    var ListIterator = (function (_super) {
-        __extends(ListIterator, _super);
+    class ListIterator extends std.base.container.Iterator {
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
@@ -5458,8 +5214,8 @@ var std;
          * @param next A refenrece of next node ({@link ListIterator iterator}).
          * @param value Value to be stored in the node (iterator).
          */
-        function ListIterator(source, prev, next, value) {
-            _super.call(this, source);
+        constructor(source, prev, next, value) {
+            super(source);
             this.prev_ = prev;
             this.next_ = next;
             this.value_ = value;
@@ -5467,67 +5223,63 @@ var std;
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.setPrev = function (prev) {
+        setPrev(prev) {
             this.prev_ = prev;
-        };
+        }
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.setNext = function (next) {
+        setNext(next) {
             this.next_ = next;
-        };
+        }
         /* ---------------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.equals = function (obj) {
+        equals(obj) {
             return this == obj;
-        };
+        }
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.prev = function () {
+        prev() {
             return this.prev_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.next = function () {
+        next() {
             return this.next_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.advance = function (size) {
-            var it = this;
-            for (var i = 0; i < size; i++)
+        advance(size) {
+            let it = this;
+            for (let i = 0; i < size; i++)
                 it = it.next();
             return it;
-        };
-        Object.defineProperty(ListIterator.prototype, "value", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.value_;
-            },
-            /**
-             * @inheritdoc
-             */
-            set: function (val) {
-                this.value_ = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        }
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.swap = function (obj) {
-            var supp_prev = this.prev_;
-            var supp_next = this.next_;
+        get value() {
+            return this.value_;
+        }
+        /**
+         * @inheritdoc
+         */
+        set value(val) {
+            this.value_ = val;
+        }
+        /**
+         * @inheritdoc
+         */
+        swap(obj) {
+            let supp_prev = this.prev_;
+            let supp_next = this.next_;
             this.prev_ = obj.prev_;
             this.next_ = obj.next_;
             obj.prev_ = supp_prev;
@@ -5540,14 +5292,13 @@ var std;
                 this.source_.begin_ = obj;
             else if (this.source_.begin() == obj)
                 this.source_.begin_ = this;
-        };
-        return ListIterator;
-    }(std.base.container.Iterator));
+        }
+    }
     std.ListIterator = ListIterator;
 })(std || (std = {}));
 var std;
 (function (std) {
-    var MapIterator = (function () {
+    class MapIterator {
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
@@ -5556,40 +5307,40 @@ var std;
          *
          * @param source The source PairContainer.
          */
-        function MapIterator(source, listIterator) {
+        constructor(source, listIterator) {
             this.source_ = source;
             this.list_iterator_ = listIterator;
         }
         /**
          * Get listIterator.
          */
-        MapIterator.prototype.get_list_iterator = function () {
+        get_list_iterator() {
             return this.list_iterator_;
-        };
+        }
         /* ---------------------------------------------------------
             MOVERS
         --------------------------------------------------------- */
         /**
          * Get iterator to previous element.
          */
-        MapIterator.prototype.prev = function () {
+        prev() {
             return new MapIterator(this.source_, this.list_iterator_.prev());
-        };
+        }
         /**
          * Get iterator to next element.
          */
-        MapIterator.prototype.next = function () {
+        next() {
             return new MapIterator(this.source_, this.list_iterator_.next());
-        };
+        }
         /**
          * Advances the Iterator by n element positions.
          *
          * @param n Number of element positions to advance.
          * @return An advanced Iterator.
          */
-        MapIterator.prototype.advance = function (n) {
-            var it = this;
-            var i;
+        advance(n) {
+            let it = this;
+            let i;
             if (n >= 0) {
                 for (i = 0; i < n; i++)
                     if (it.equals(this.source_.end()))
@@ -5606,68 +5357,59 @@ var std;
                         it = it.prev();
             }
             return it;
-        };
+        }
         /* ---------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------- */
         /**
          * Get source.
          */
-        MapIterator.prototype.get_source = function () {
+        get_source() {
             return this.source_;
-        };
-        Object.defineProperty(MapIterator.prototype, "first", {
-            /**
-             * Get first, key element.
-             */
-            get: function () {
-                return this.list_iterator_.value.first;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(MapIterator.prototype, "second", {
-            /**
-             * Get second, value element.
-             */
-            get: function () {
-                return this.list_iterator_.value.second;
-            },
-            set: function (val) {
-                this.list_iterator_.value.second = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        }
+        /**
+         * Get first, key element.
+         */
+        get first() {
+            return this.list_iterator_.value.first;
+        }
+        /**
+         * Get second, value element.
+         */
+        get second() {
+            return this.list_iterator_.value.second;
+        }
+        set second(val) {
+            this.list_iterator_.value.second = val;
+        }
         /* ---------------------------------------------------------
             COMPARISONS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        MapIterator.prototype.equals = function (obj) {
+        equals(obj) {
             return this.source_ == obj.source_ && this.list_iterator_ == obj.list_iterator_;
-        };
+        }
         /**
          * @inheritdoc
          */
-        MapIterator.prototype.less = function (obj) {
+        less(obj) {
             return std.less(this.first, obj.first);
-        };
+        }
         /**
          * @inheritdoc
          */
-        MapIterator.prototype.hash = function () {
+        hash() {
             return std.hash(this.first);
-        };
+        }
         /**
          * @inheritdoc
          */
-        MapIterator.prototype.swap = function (obj) {
+        swap(obj) {
             this.list_iterator_.swap(obj.list_iterator_);
-        };
-        return MapIterator;
-    }());
+        }
+    }
     std.MapIterator = MapIterator;
 })(std || (std = {}));
 var std;
@@ -5688,7 +5430,7 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var Pair = (function () {
+    class Pair {
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
@@ -5698,7 +5440,7 @@ var std;
          * @param first The first value of the Pair
          * @param second The second value of the Pair
          */
-        function Pair(first, second) {
+        constructor(first, second) {
             this.first = first;
             this.second = second;
         }
@@ -5716,17 +5458,16 @@ var std;
          * @param obj A Map to compare
          * @return Indicates whether equal or not.
          */
-        Pair.prototype.equals = function (pair) {
+        equals(pair) {
             return std.equals(this.first, pair.first) && std.equals(this.second, pair.second);
-        };
-        Pair.prototype.less = function (pair) {
+        }
+        less(pair) {
             if (std.equals(this.first, pair.first) == false)
                 return std.less(this.first, pair.first);
             else
                 return std.less(this.second, pair.second);
-        };
-        return Pair;
-    }());
+        }
+    }
     std.Pair = Pair;
 })(std || (std = {}));
 var std;
@@ -5771,14 +5512,10 @@ var std;
      * @reference http://www.cplusplus.com/reference/queue/priority_queue/
      * @author Jeongho Nam
      */
-    var PriorityQueue = (function () {
-        function PriorityQueue() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
+    class PriorityQueue {
+        constructor(...args) {
             // CONSTRUCT UNDERLYING CONTAINER WITH COMPARE
-            var compare;
+            let compare;
             if (args.length == 0 || args[args.length - 1] instanceof Function == false)
                 compare = std.greater;
             else
@@ -5798,23 +5535,22 @@ var std;
         /**
          * @hidden
          */
-        PriorityQueue.prototype.construct_from_array = function (items) {
-            for (var i = 0; i < items.length; i++)
-                (_a = this.container_).push.apply(_a, items);
-            var _a;
-        };
+        construct_from_array(items) {
+            for (let i = 0; i < items.length; i++)
+                this.container_.push(...items);
+        }
         /**
          * @hidden
          */
-        PriorityQueue.prototype.construct_from_container = function (container) {
+        construct_from_container(container) {
             this.construct_from_range(container.begin(), container.end());
-        };
+        }
         /**
          * @hidden
          */
-        PriorityQueue.prototype.construct_from_range = function (begin, end) {
+        construct_from_range(begin, end) {
             this.container_.assign(begin, end);
-        };
+        }
         /* ---------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------- */
@@ -5828,9 +5564,9 @@ var std;
          *
          * @return The number of elements in the underlying container.
          */
-        PriorityQueue.prototype.size = function () {
+        size() {
             return this.container_.size();
-        };
+        }
         /**
          * <p> Test whether container is empty. </p>
          *
@@ -5839,9 +5575,9 @@ var std;
          * <p> This member function effectively calls member {@link IARray.empty empty} of the
          * {@link container_ underlying container} object. </p>
          */
-        PriorityQueue.prototype.empty = function () {
+        empty() {
             return this.container_.empty();
-        };
+        }
         /* ---------------------------------------------------------
             ELEMENTS I/O
         --------------------------------------------------------- */
@@ -5858,9 +5594,9 @@ var std;
          *
          * @return A reference to the top element in the {@link PriorityQueue}.
          */
-        PriorityQueue.prototype.top = function () {
+        top() {
             return this.container_.begin().value;
-        };
+        }
         /**
          * <p> Insert element. </p>
          *
@@ -5873,9 +5609,9 @@ var std;
          *
          * @param val Value to which the inserted element is initialized.
          */
-        PriorityQueue.prototype.push = function (val) {
+        push(val) {
             this.container_.insert(val);
-        };
+        }
         /**
          * <p> Remove top element. </p>
          *
@@ -5889,9 +5625,9 @@ var std;
          * {@link PriorityQueue PriorityQueues} and then calls the member function {@link IArray.pop_back pop_back} of
          * the {@link container_ underlying container} object to remove the element. </p>
          */
-        PriorityQueue.prototype.pop = function () {
+        pop() {
             this.container_.erase(this.container_.begin());
-        };
+        }
         /**
          * <p> Swap contents. </p>
          *
@@ -5906,11 +5642,10 @@ var std;
          * @param obj {@link PriorityQueue} container adaptor of the same type (i.e., instantiated with the same
          *			  template parameters, <b>T</b>). Sizes may differ.
          */
-        PriorityQueue.prototype.swap = function (obj) {
+        swap(obj) {
             this.container_.swap(obj.container_);
-        };
-        return PriorityQueue;
-    }());
+        }
+    }
     std.PriorityQueue = PriorityQueue;
 })(std || (std = {}));
 var std;
@@ -5952,9 +5687,8 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var Queue = (function () {
-        function Queue(queue) {
-            if (queue === void 0) { queue = null; }
+    class Queue {
+        constructor(queue = null) {
             this.container_ = new std.List();
             if (queue != null)
                 this.container_.assign(queue.container_.begin(), queue.container_.end());
@@ -5971,9 +5705,9 @@ var std;
          *
          * @return The number of elements in the {@link container_ underlying container}.
          */
-        Queue.prototype.size = function () {
+        size() {
             return this.container_.size();
-        };
+        }
         /**
          * <p> Test whether container is empty. </p>
          * <p> returns whether the {@link Queue} is empty: i.e. whether its <i>size</i> is zero. </p>
@@ -5984,9 +5718,9 @@ var std;
          * @return <code>true</code> if the {@link container_ underlying container}'s size is 0,
          *		   <code>false</code> otherwise. </p>
          */
-        Queue.prototype.empty = function () {
+        empty() {
             return this.container_.empty();
-        };
+        }
         /**
          * <p> Access next element. </p>
          * <p> Returns a value of the next element in the {@link Queue}. </p>
@@ -5999,9 +5733,9 @@ var std;
          *
          * @return A value of the next element in the {@link Queue}.
          */
-        Queue.prototype.front = function () {
+        front() {
             return this.container_.front();
-        };
+        }
         /**
          * <p> Access last element. </p>
          *
@@ -6013,9 +5747,9 @@ var std;
          *
          * @return A value of the last element in the {@link Queue}.
          */
-        Queue.prototype.back = function () {
+        back() {
             return this.container_.back();
-        };
+        }
         /* ---------------------------------------------------------
             ELEMENTS I/O
         --------------------------------------------------------- */
@@ -6030,9 +5764,9 @@ var std;
          *
          * @param val Value to which the inserted element is initialized.
          */
-        Queue.prototype.push = function (val) {
+        push(val) {
             this.container_.push_back(val);
-        };
+        }
         /**
          * <p> Remove next element. </p>
          *
@@ -6044,9 +5778,9 @@ var std;
          * <p> This member function effectively calls the member function {@link IDeque.pop_front pop_front()} of the
          * {@link container_ underlying container} object. </p>
          */
-        Queue.prototype.pop = function () {
+        pop() {
             this.container_.pop_front();
-        };
+        }
         /**
          * <p> Swap contents. </p>
          *
@@ -6058,11 +5792,10 @@ var std;
          * @param obj Another {@link Queue} container adaptor of the same type (i.e., instantiated with the same
          *			  template parameter, <b>T</b>). Sizes may differ. </p>
          */
-        Queue.prototype.swap = function (obj) {
+        swap(obj) {
             this.container_.swap(obj.container_);
-        };
-        return Queue;
-    }());
+        }
+    }
     std.Queue = Queue;
 })(std || (std = {}));
 /// <refe0rence path="base/container/Iterator.ts" />
@@ -6073,8 +5806,7 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var SetIterator = (function (_super) {
-        __extends(SetIterator, _super);
+    class SetIterator extends std.base.container.Iterator {
         /**
          * <p> Construct from source and index number. </p>
          *
@@ -6085,83 +5817,74 @@ var std;
          * @param map The source Set to reference.
          * @param index Sequence number of the element in the source Set.
          */
-        function SetIterator(source, it) {
-            _super.call(this, source);
+        constructor(source, it) {
+            super(source);
             this.list_iterator_ = it;
         }
-        SetIterator.prototype.get_list_iterator = function () {
+        get_list_iterator() {
             return this.list_iterator_;
-        };
+        }
         /* ---------------------------------------------------------
             MOVERS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.prev = function () {
+        prev() {
             return new SetIterator(this.set, this.list_iterator_.prev());
-        };
+        }
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.next = function () {
+        next() {
             return new SetIterator(this.source_, this.list_iterator_.next());
-        };
+        }
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.advance = function (size) {
+        advance(size) {
             return new SetIterator(this.set, this.list_iterator_.advance(size));
-        };
-        Object.defineProperty(SetIterator.prototype, "set", {
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            get: function () {
-                return this.source_;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(SetIterator.prototype, "value", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.list_iterator_.value;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        }
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
+        get set() {
+            return this.source_;
+        }
+        /**
+         * @inheritdoc
+         */
+        get value() {
+            return this.list_iterator_.value;
+        }
         /* ---------------------------------------------------------
             COMPARISONS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.list_iterator_ == obj.list_iterator_;
-        };
+        equals(obj) {
+            return super.equals(obj) && this.list_iterator_ == obj.list_iterator_;
+        }
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.less = function (obj) {
+        less(obj) {
             return std.less(this.value, obj.value);
-        };
+        }
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.hash = function () {
+        hash() {
             return std.base.hash.code(this.value);
-        };
+        }
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.swap = function (obj) {
+        swap(obj) {
             this.list_iterator_.swap(obj.list_iterator_);
-        };
-        return SetIterator;
-    }(std.base.container.Iterator));
+        }
+    }
     std.SetIterator = SetIterator;
 })(std || (std = {}));
 var std;
@@ -6201,9 +5924,8 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var Stack = (function () {
-        function Stack(stack) {
-            if (stack === void 0) { stack = null; }
+    class Stack {
+        constructor(stack = null) {
             this.container_ = new std.List();
             if (stack != null)
                 this.container_.assign(stack.container_.begin(), stack.container_.end());
@@ -6221,9 +5943,9 @@ var std;
          *
          * @return The number of elements in the {@link container_ underlying container}.
          */
-        Stack.prototype.size = function () {
+        size() {
             return this.container_.size();
-        };
+        }
         /**
          * <p> Test whether container is empty. </p>
          *
@@ -6235,9 +5957,9 @@ var std;
          * @return <code>true</code> if the <i>underlying container</i>'s size is 0,
          *		   <code>false</code> otherwise. </p>
          */
-        Stack.prototype.empty = function () {
+        empty() {
             return this.container_.empty();
-        };
+        }
         /**
          * <p> Access next element. </p>
          *
@@ -6251,9 +5973,9 @@ var std;
          *
          * @return A value of the top element in the {@link Stack}.
          */
-        Stack.prototype.top = function () {
+        top() {
             return this.container_.back();
-        };
+        }
         /* ---------------------------------------------------------
             ELEMENTS I/O
         --------------------------------------------------------- */
@@ -6267,9 +5989,9 @@ var std;
          *
          * @param val Value to which the inserted element is initialized.
          */
-        Stack.prototype.push = function (val) {
+        push(val) {
             this.container_.push_back(val);
-        };
+        }
         /**
          * <p> Remove top element. </p>
          *
@@ -6281,9 +6003,9 @@ var std;
          * <p> This member function effectively calls the member function {@link ILinearContainer.pop_back pop_back()}
          * of the {@link container_ underlying container} object. </p>
          */
-        Stack.prototype.pop = function () {
+        pop() {
             this.container_.pop_back();
-        };
+        }
         /**
          * <p> Swap contents. </p>
          *
@@ -6295,11 +6017,10 @@ var std;
          * @param obj Another {@link Stack} container adaptor of the same type (i.e., instantiated with the same
          *			  template parameter, <b>T</b>). Sizes may differ. </p>
          */
-        Stack.prototype.swap = function (obj) {
+        swap(obj) {
             this.container_.swap(obj.container_);
-        };
-        return Stack;
-    }());
+        }
+    }
     std.Stack = Stack;
 })(std || (std = {}));
 /// <reference path="Exception.ts" />
@@ -6321,14 +6042,9 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var SystemError = (function (_super) {
-        __extends(SystemError, _super);
-        function SystemError() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this, "");
+    class SystemError extends std.RuntimeError {
+        constructor(...args) {
+            super("");
         }
         /* ---------------------------------------------------------
             ACCESSORS
@@ -6343,11 +6059,10 @@ var std;
          *
          * @return The {@link ErrorCode} associated with the object.
          */
-        SystemError.prototype.code = function () {
+        code() {
             return this.code_;
-        };
-        return SystemError;
-    }(std.RuntimeError));
+        }
+    }
     std.SystemError = SystemError;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueMap.ts" />
@@ -6402,16 +6117,11 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var TreeMap = (function (_super) {
-        __extends(TreeMap, _super);
-        function TreeMap() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class TreeMap extends std.base.container.UniqueMap {
+        constructor(...args) {
+            super();
             // CONSTRUCT TREE WITH COMPARE
-            var compare;
+            let compare;
             if (args.length == 0 || args[args.length - 1] instanceof Function == false)
                 compare = std.less;
             else
@@ -6434,29 +6144,29 @@ var std;
         /**
          * @inheritdoc
          */
-        TreeMap.prototype.assign = function (begin, end) {
-            _super.prototype.assign.call(this, begin, end);
-        };
+        assign(begin, end) {
+            super.assign(begin, end);
+        }
         /**
          * @inheritdoc
          */
-        TreeMap.prototype.clear = function () {
-            _super.prototype.clear.call(this);
+        clear() {
+            super.clear();
             this.tree_ = new std.base.tree.PairTree();
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        TreeMap.prototype.find = function (key) {
-            var node = this.tree_.find(key);
+        find(key) {
+            let node = this.tree_.find(key);
             if (node == null || std.equals(node.value.first, key) == false)
                 return this.end();
             else
                 return node.value;
-        };
+        }
         /**
          * <p> Return iterator to lower bound. </p>
          *
@@ -6479,15 +6189,15 @@ var std;
          * @return An iterator to the the first element in the container whose key is not considered to go before
          *		   <i>k</i>, or {@link TreeMap.end} if all keys are considered to go before <i>k</i>.
          */
-        TreeMap.prototype.lower_bound = function (key) {
-            var node = this.tree_.find(key);
+        lower_bound(key) {
+            let node = this.tree_.find(key);
             if (node == null)
                 return this.end();
             else if (std.less(node.value.first, key))
                 return node.value.next();
             else
                 return node.value;
-        };
+        }
         /**
          * <p> Return iterator to upper bound. </p>
          *
@@ -6510,15 +6220,15 @@ var std;
          * @return An iterator to the the first element in the container whose key is considered to go after
          *		   <i>k</i>, or {@link TreeMap.end} if no keys are considered to go after <i>k</i>.
          */
-        TreeMap.prototype.upper_bound = function (key) {
-            var node = this.tree_.find(key);
+        upper_bound(key) {
+            let node = this.tree_.find(key);
             if (node == null)
                 return this.end();
             else if (!std.equals(node.value.first, key) && !std.less(node.value.first, key))
                 return node.value;
             else
                 return node.value.next();
-        };
+        }
         /**
          * <p> Get range of equal elements. </p>
          *
@@ -6541,9 +6251,9 @@ var std;
          *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
          *		   (the same as {@link upper_bound}).
          */
-        TreeMap.prototype.equal_range = function (key) {
+        equal_range(key) {
             return new std.Pair(this.lower_bound(key), this.upper_bound(key));
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -6554,13 +6264,13 @@ var std;
         /**
          * @hidden
          */
-        TreeMap.prototype.insert_by_pair = function (pair) {
-            var node = this.tree_.find(pair.first);
+        insert_by_pair(pair) {
+            let node = this.tree_.find(pair.first);
             // IF EQUALS, THEN RETURN FALSE
             if (node != null && std.equals(node.value.first, pair.first) == true)
                 return new std.Pair(node.value, false);
             // INSERTS
-            var it;
+            let it;
             if (node == null)
                 it = this.end();
             else if (std.less(node.value.first, pair.first) == true)
@@ -6570,48 +6280,47 @@ var std;
             // ITERATOR TO RETURN
             it = this.insert(it, pair);
             return new std.Pair(it, true);
-        };
+        }
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        TreeMap.prototype.handle_insert = function (item) {
+        handle_insert(item) {
             this.tree_.insert(item);
-        };
+        }
         /**
          * @inheritdoc
          */
-        TreeMap.prototype.handle_erase = function (item) {
+        handle_erase(item) {
             this.tree_.erase(item);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        TreeMap.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof TreeMap)
                 this.swap_tree_map(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        TreeMap.prototype.swap_tree_map = function (obj) {
-            var supplement = new TreeMap();
+        swap_tree_map(obj) {
+            let supplement = new TreeMap();
             supplement.data_ = this.data_;
             supplement.tree_ = this.tree_;
             this.data_ = obj.data_;
             this.tree_ = obj.tree_;
             obj.data_ = supplement.data_;
             obj.tree_ = supplement.tree_;
-        };
-        return TreeMap;
-    }(std.base.container.UniqueMap));
+        }
+    }
     std.TreeMap = TreeMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiMap.ts" />
@@ -6673,16 +6382,11 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var TreeMultiMap = (function (_super) {
-        __extends(TreeMultiMap, _super);
-        function TreeMultiMap() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class TreeMultiMap extends std.base.container.MultiMap {
+        constructor(...args) {
+            super();
             // CONSTRUCT TREE WITH COMPARE
-            var compare;
+            let compare;
             if (args.length == 0 || args[args.length - 1] instanceof Function == false)
                 compare = std.less;
             else
@@ -6705,28 +6409,28 @@ var std;
         /**
          * @inheritdoc
          */
-        TreeMultiMap.prototype.assign = function (begin, end) {
-            _super.prototype.assign.call(this, begin, end);
-        };
+        assign(begin, end) {
+            super.assign(begin, end);
+        }
         /**
          * @inheritdoc
          */
-        TreeMultiMap.prototype.clear = function () {
-            _super.prototype.clear.call(this);
-        };
+        clear() {
+            super.clear();
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        TreeMultiMap.prototype.find = function (key) {
-            var node = this.tree_.find(key);
+        find(key) {
+            let node = this.tree_.find(key);
             if (node == null || std.equals(node.value.first, key) == false)
                 return this.end();
             else
                 return node.value;
-        };
+        }
         /**
          * <p> Return iterator to lower bound. </p>
          *
@@ -6749,19 +6453,19 @@ var std;
          * @return An iterator to the the first element in the container whose key is not considered to go before
          *		   <i>k</i>, or {@link TreeMultiMap.end} if all keys are considered to go before <i>k</i>.
          */
-        TreeMultiMap.prototype.lower_bound = function (key) {
-            var node = this.tree_.find(key);
+        lower_bound(key) {
+            let node = this.tree_.find(key);
             if (node == null)
                 return this.end();
             else if (std.equals(node.value.first, key))
                 return node.value;
             else {
-                var it = node.value;
+                let it = node.value;
                 while (!std.equals(it, this.end()) && std.less(it.first, key))
                     it = it.next();
                 return it;
             }
-        };
+        }
         /**
          * <p> Return iterator to upper bound. </p>
          *
@@ -6784,17 +6488,17 @@ var std;
          * @return An iterator to the the first element in the container whose key is considered to go after
          *		   <i>k</i>, or {@link TreeMultiMap.end} if no keys are considered to go after <i>k</i>.
          */
-        TreeMultiMap.prototype.upper_bound = function (key) {
-            var node = this.tree_.find(key);
+        upper_bound(key) {
+            let node = this.tree_.find(key);
             if (node == null)
                 return this.end();
             else {
-                var it = node.value;
+                let it = node.value;
                 while (!std.equals(it, this.end()) && (std.equals(it.first, key) || std.less(it.first, key)))
                     it = it.next();
                 return it;
             }
-        };
+        }
         /**
          * <p> Get range of equal elements. </p>
          *
@@ -6814,9 +6518,9 @@ var std;
          *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
          *		   (the same as {@link upper_bound}).
          */
-        TreeMultiMap.prototype.equal_range = function (key) {
+        equal_range(key) {
             return new std.Pair(this.lower_bound(key), this.upper_bound(key));
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -6827,9 +6531,9 @@ var std;
         /**
          * @hidden
          */
-        TreeMultiMap.prototype.insert_by_pair = function (pair) {
-            var node = this.tree_.find(pair.first);
-            var it;
+        insert_by_pair(pair) {
+            let node = this.tree_.find(pair.first);
+            let it;
             if (node == null) {
                 it = this.end();
             }
@@ -6845,48 +6549,47 @@ var std;
                 it = node.value;
             // ITERATOR TO RETURN
             return this.insert(it, pair);
-        };
+        }
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        TreeMultiMap.prototype.handle_insert = function (item) {
+        handle_insert(item) {
             this.tree_.insert(item);
-        };
+        }
         /**
          * @inheritdoc
          */
-        TreeMultiMap.prototype.handle_erase = function (item) {
+        handle_erase(item) {
             this.tree_.erase(item);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        TreeMultiMap.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof TreeMultiMap)
                 this.swap_tree_multimap(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        TreeMultiMap.prototype.swap_tree_multimap = function (obj) {
-            var supplement = new TreeMultiMap();
+        swap_tree_multimap(obj) {
+            let supplement = new TreeMultiMap();
             supplement.data_ = this.data_;
             supplement.tree_ = this.tree_;
             this.data_ = obj.data_;
             this.tree_ = obj.tree_;
             obj.data_ = supplement.data_;
             obj.tree_ = supplement.tree_;
-        };
-        return TreeMultiMap;
-    }(std.base.container.MultiMap));
+        }
+    }
     std.TreeMultiMap = TreeMultiMap;
 })(std || (std = {}));
 /// <reference path="base/container/MultiSet.ts" />
@@ -6942,16 +6645,11 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var TreeMultiSet = (function (_super) {
-        __extends(TreeMultiSet, _super);
-        function TreeMultiSet() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class TreeMultiSet extends std.base.container.MultiSet {
+        constructor(...args) {
+            super();
             // CONSTRUCT TREE WITH COMPARE
-            var compare;
+            let compare;
             if (args.length == 0 || args[args.length - 1] instanceof Function == false)
                 compare = std.less;
             else
@@ -6974,29 +6672,29 @@ var std;
         /**
          * @inheritdoc
          */
-        TreeMultiSet.prototype.assign = function (begin, end) {
-            _super.prototype.assign.call(this, begin, end);
-        };
+        assign(begin, end) {
+            super.assign(begin, end);
+        }
         /**
          * @inheritdoc
          */
-        TreeMultiSet.prototype.clear = function () {
-            _super.prototype.clear.call(this);
+        clear() {
+            super.clear();
             this.tree_ = new std.base.tree.AtomicTree();
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        TreeMultiSet.prototype.find = function (val) {
+        find(val) {
             var node = this.tree_.find(val);
             if (node == null || std.equals(val, node.value.value) == false)
                 return this.end();
             else
                 return node.value;
-        };
+        }
         /**
          * <p> Return iterator to lower bound. </p>
          *
@@ -7019,19 +6717,19 @@ var std;
          * @return An iterator to the the first element in the container which is not considered to go before
          *		   <i>val</i>, or {@link TreeMultiSet.end} if all elements are considered to go before <i>val</i>.
          */
-        TreeMultiSet.prototype.lower_bound = function (val) {
-            var node = this.tree_.find(val);
+        lower_bound(val) {
+            let node = this.tree_.find(val);
             if (node == null)
                 return this.end();
             else if (std.equals(node.value.value, val))
                 return node.value;
             else {
-                var it = node.value;
+                let it = node.value;
                 while (!std.equals(it, this.end()) && std.less(it.value, val))
                     it = it.next();
                 return it;
             }
-        };
+        }
         /**
          * <p> Return iterator to upper bound. </p>
          *
@@ -7054,17 +6752,17 @@ var std;
          * @return An iterator to the the first element in the container which is considered to go after
          *		   <i>val</i>, or {@link TreeMultiSet.end} if no elements are considered to go after <i>val</i>.
          */
-        TreeMultiSet.prototype.upper_bound = function (val) {
-            var node = this.tree_.find(val);
+        upper_bound(val) {
+            let node = this.tree_.find(val);
             if (node == null)
                 return this.end();
             else {
-                var it = node.value;
+                let it = node.value;
                 while (!std.equals(it, this.end()) && (std.equals(it.value, val) || std.less(it.value, val)))
                     it = it.next();
                 return it;
             }
-        };
+        }
         /**
          * <p> Get range of equal elements. </p>
          *
@@ -7084,9 +6782,9 @@ var std;
          *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
          *		   (the same as {@link upper_bound}).
          */
-        TreeMultiSet.prototype.equal_range = function (val) {
+        equal_range(val) {
             return new std.Pair(this.lower_bound(val), this.upper_bound(val));
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -7097,7 +6795,7 @@ var std;
         /**
          * @hidden
          */
-        TreeMultiSet.prototype.insert_by_val = function (val) {
+        insert_by_val(val) {
             var node = this.tree_.find(val);
             var it;
             if (node == null) {
@@ -7116,48 +6814,47 @@ var std;
             }
             // ITERATOR TO RETURN
             return this.insert(it, val);
-        };
+        }
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        TreeMultiSet.prototype.handle_insert = function (item) {
+        handle_insert(item) {
             this.tree_.insert(item);
-        };
+        }
         /**
          * @inheritdoc
          */
-        TreeMultiSet.prototype.handle_erase = function (item) {
+        handle_erase(item) {
             this.tree_.erase(item);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        TreeMultiSet.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof TreeMultiSet)
                 this.swap_tree_set(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        TreeMultiSet.prototype.swap_tree_set = function (obj) {
-            var supplement = new TreeMultiSet();
+        swap_tree_set(obj) {
+            let supplement = new TreeMultiSet();
             supplement.data_ = this.data_;
             supplement.tree_ = this.tree_;
             this.data_ = obj.data_;
             this.tree_ = obj.tree_;
             obj.data_ = supplement.data_;
             obj.tree_ = supplement.tree_;
-        };
-        return TreeMultiSet;
-    }(std.base.container.MultiSet));
+        }
+    }
     std.TreeMultiSet = TreeMultiSet;
 })(std || (std = {}));
 /// <reference path="base/container/UniqueSet.ts" />
@@ -7212,16 +6909,11 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var TreeSet = (function (_super) {
-        __extends(TreeSet, _super);
-        function TreeSet() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class TreeSet extends std.base.container.UniqueSet {
+        constructor(...args) {
+            super();
             // CONSTRUCT TREE WITH COMPARE
-            var compare;
+            let compare;
             if (args.length == 0 || args[args.length - 1] instanceof Function == false)
                 compare = std.less;
             else
@@ -7244,29 +6936,29 @@ var std;
         /**
          * @inheritdoc
          */
-        TreeSet.prototype.assign = function (begin, end) {
-            _super.prototype.assign.call(this, begin, end);
-        };
+        assign(begin, end) {
+            super.assign(begin, end);
+        }
         /**
          * @inheritdoc
          */
-        TreeSet.prototype.clear = function () {
-            _super.prototype.clear.call(this);
+        clear() {
+            super.clear();
             this.tree_ = new std.base.tree.AtomicTree();
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        TreeSet.prototype.find = function (val) {
-            var node = this.tree_.find(val);
+        find(val) {
+            let node = this.tree_.find(val);
             if (node == null || std.equals(node.value.value, val) == false)
                 return this.end();
             else
                 return node.value;
-        };
+        }
         /**
          * <p> Return iterator to lower bound. </p>
          *
@@ -7289,15 +6981,15 @@ var std;
          * @return An iterator to the the first element in the container which is not considered to go before
          *		   <i>val</i>, or {@link Set.end} if all elements are considered to go before <i>val</i>.
          */
-        TreeSet.prototype.lower_bound = function (val) {
-            var node = this.tree_.find(val);
+        lower_bound(val) {
+            let node = this.tree_.find(val);
             if (node == null)
                 return this.end();
             else if (std.less(node.value.value, val))
                 return node.value.next();
             else
                 return node.value;
-        };
+        }
         /**
          * <p> Return iterator to upper bound. </p>
          *
@@ -7320,15 +7012,15 @@ var std;
          * @return An iterator to the the first element in the container which is not considered to go before
          *		   <i>val</i>, or {@link Set.end} if all elements are considered to go after <i>val</i>.
          */
-        TreeSet.prototype.upper_bound = function (val) {
-            var node = this.tree_.find(val);
+        upper_bound(val) {
+            let node = this.tree_.find(val);
             if (node == null)
                 return this.end();
             else if (!std.equals(node.value.value, val) && !std.less(node.value.value, val))
                 return node.value;
             else
                 return node.value.next();
-        };
+        }
         /**
          * <p> Get range of equal elements. </p>
          *
@@ -7349,9 +7041,9 @@ var std;
          *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
          *		   (the same as {@link upper_bound}).
          */
-        TreeSet.prototype.equal_range = function (val) {
+        equal_range(val) {
             return new std.Pair(this.lower_bound(val), this.upper_bound(val));
-        };
+        }
         /* =========================================================
             ELEMENTS I/O
                 - INSERT
@@ -7362,13 +7054,13 @@ var std;
         /**
          * @hidden
          */
-        TreeSet.prototype.insert_by_val = function (val) {
-            var node = this.tree_.find(val);
+        insert_by_val(val) {
+            let node = this.tree_.find(val);
             // IF EQUALS, THEN RETURN FALSE
             if (node != null && std.equals(node.value.value, val) == true)
                 return new std.Pair(node.value, false);
             // INSERTS
-            var it;
+            let it;
             if (node == null)
                 it = this.end();
             else if (std.less(node.value.value, val) == true)
@@ -7378,48 +7070,47 @@ var std;
             // ITERATOR TO RETURN
             it = this.insert(it, val);
             return new std.Pair(it, true);
-        };
+        }
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        TreeSet.prototype.handle_insert = function (item) {
+        handle_insert(item) {
             this.tree_.insert(item);
-        };
+        }
         /**
          * @inheritdoc
          */
-        TreeSet.prototype.handle_erase = function (item) {
+        handle_erase(item) {
             this.tree_.erase(item);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        TreeSet.prototype.swap = function (obj) {
+        swap(obj) {
             if (obj instanceof TreeSet)
                 this.swap_tree_set(obj);
             else
-                _super.prototype.swap.call(this, obj);
-        };
+                super.swap(obj);
+        }
         /**
          * @hidden
          */
-        TreeSet.prototype.swap_tree_set = function (obj) {
-            var supplement = new TreeSet();
+        swap_tree_set(obj) {
+            let supplement = new TreeSet();
             supplement.data_ = this.data_;
             supplement.tree_ = this.tree_;
             this.data_ = obj.data_;
             this.tree_ = obj.tree_;
             obj.data_ = supplement.data_;
             obj.tree_ = supplement.tree_;
-        };
-        return TreeSet;
-    }(std.base.container.UniqueSet));
+        }
+    }
     std.TreeSet = TreeSet;
 })(std || (std = {}));
 var std;
@@ -7478,197 +7169,183 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var Vector = (function (_super) {
-        __extends(Vector, _super);
-        function Vector() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
+    class Vector extends Array {
+        constructor(...args) {
+            super();
             if (args.length == 0) {
             }
             if (args.length == 1 && args[0] instanceof Array) {
                 // CONSTRUCT FROM AN ARRAY OF ITEMS
-                var array = args[0];
-                this.push.apply(this, array);
+                let array = args[0];
+                this.push(...array);
             }
             else if (args.length == 1 && typeof args[0] == "number") {
                 // CONSTRUCT FROM SIZE
-                var size = args[0];
+                let size = args[0];
                 this.length = size;
             }
             else if (args.length == 2 && typeof args[0] == "number") {
                 // CONSTRUCT FROM SIZE AND REPEATING VALUE
-                var size = args[0];
-                var val = args[1];
+                let size = args[0];
+                let val = args[1];
                 this.assign(size, val);
             }
             else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof std.base.container.Container)) {
                 // COPY CONSTRUCTOR
-                var container = args[0];
+                let container = args[0];
                 this.assign(container.begin(), container.end());
             }
             else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 // CONSTRUCT FROM INPUT ITERATORS
-                var begin = args[0];
-                var end = args[1];
+                let begin = args[0];
+                let end = args[1];
                 this.assign(begin, end);
             }
         }
-        Object.defineProperty(Vector, "iterator", {
-            get: function () { return std.VectorIterator; },
-            enumerable: true,
-            configurable: true
-        });
-        Vector.prototype.assign = function (first, second) {
+        static get iterator() { return std.VectorIterator; }
+        assign(first, second) {
             this.clear();
             if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
-                var begin = first;
-                var end = second;
-                for (var it = begin; it.equals(end) == false; it = it.next())
+                let begin = first;
+                let end = second;
+                for (let it = begin; it.equals(end) == false; it = it.next())
                     this.push(it.value);
             }
             else if (typeof first == "number") {
-                var size = first;
-                var val = second;
+                let size = first;
+                let val = second;
                 this.length = size;
-                for (var i = 0; i < size; i++)
+                for (let i = 0; i < size; i++)
                     this[i] = val;
             }
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.reserve = function (size) {
-        };
+        reserve(size) {
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.clear = function () {
+        clear() {
             this.erase(this.begin(), this.end());
-        };
+        }
         /* =========================================================
             ACCESSORS
         ========================================================= */
         /**
          * @inheritdoc
          */
-        Vector.prototype.begin = function () {
+        begin() {
             if (this.empty() == true)
                 return this.end();
             else
                 return new std.VectorIterator(this, 0);
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.end = function () {
+        end() {
             return new std.VectorIterator(this, -1);
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.size = function () {
+        size() {
             return this.length;
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.capacity = function () {
+        capacity() {
             return this.length;
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.empty = function () {
+        empty() {
             return this.length == 0;
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.at = function (index) {
+        at(index) {
             if (index < this.size())
                 return this[index];
             else
                 throw new std.OutOfRange("Target index is greater than Vector's size.");
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.set = function (index, val) {
+        set(index, val) {
             if (index > this.length)
                 throw new std.OutOfRange("Target index is greater than Vector's size.");
-            var prev = this[index];
+            let prev = this[index];
             this[index] = val;
             return prev;
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.front = function () {
+        front() {
             return this.at(0);
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.back = function () {
+        back() {
             return this.at(this.length - 1);
-        };
+        }
         /* ---------------------------------------------------------
             ELEMENTS I/O
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        Vector.prototype.push_back = function (val) {
+        push_back(val) {
             this.push(val);
-        };
+        }
         /**
          * @inheritdoc
          */
-        Vector.prototype.pop_back = function () {
+        pop_back() {
             this.erase(this.end().prev());
-        };
-        Vector.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            var position = args[0];
+        }
+        insert(...args) {
+            let position = args[0];
             if (args.length == 2 && args[1] instanceof std.base.container.Iterator == false) {
-                var val = args[1];
+                let val = args[1];
                 return this.insert(position, 1, val);
             }
             else if (args.length == 3 && typeof args[1] == "number") {
-                var size = args[1];
-                var val = args[2];
-                var spliced = this.splice(position.index);
-                var inserts = [];
-                for (var i = 0; i < size; i++)
+                let size = args[1];
+                let val = args[2];
+                let spliced = this.splice(position.index);
+                let inserts = [];
+                for (let i = 0; i < size; i++)
                     inserts.push(val);
-                this.push.apply(this, inserts);
-                this.push.apply(this, spliced);
+                this.push(...inserts);
+                this.push(...spliced);
                 return new std.VectorIterator(this, position.index + inserts.length - 1);
             }
             else if (args.length == 3 && args[1] instanceof std.base.container.Iterator && args[2] instanceof std.base.container.Iterator) {
-                var myEnd = args[0];
-                var begin = args[1];
-                var end = args[2];
-                var spliced = this.splice(position.index);
-                var inserts = [];
-                for (var it = begin; it.equals(end) == false; it = it.next())
+                let myEnd = args[0];
+                let begin = args[1];
+                let end = args[2];
+                let spliced = this.splice(position.index);
+                let inserts = [];
+                for (let it = begin; it.equals(end) == false; it = it.next())
                     inserts.push(it.value);
-                this.push.apply(this, spliced);
-                this.push.apply(this, inserts);
+                this.push(...spliced);
+                this.push(...inserts);
                 return new std.VectorIterator(this, myEnd.index + inserts.length - 1);
             }
             else
                 throw new std.InvalidArgument("invalid parameters.");
-        };
-        Vector.prototype.erase = function (begin, end) {
-            if (end === void 0) { end = null; }
-            var startIndex = begin.index;
+        }
+        erase(begin, end = null) {
+            let startIndex = begin.index;
             if (end == null)
                 this.splice(startIndex, 1);
             else if (end.index == -1) {
@@ -7678,20 +7355,19 @@ var std;
             else
                 this.splice(startIndex, end.index - startIndex);
             return new std.VectorIterator(this, startIndex);
-        };
+        }
         /* ===============================================================
             UTILITIES
         =============================================================== */
         /**
          * @inheritdoc
          */
-        Vector.prototype.swap = function (obj) {
-            var supplement = new Vector(this.begin(), this.end());
+        swap(obj) {
+            let supplement = new Vector(this.begin(), this.end());
             this.assign(obj.begin(), obj.end());
             obj.assign(supplement.begin(), supplement.end());
-        };
-        return Vector;
-    }(Array));
+        }
+    }
     std.Vector = Vector;
 })(std || (std = {}));
 /// <reference path="base/container/Iterator.ts" />
@@ -7704,8 +7380,7 @@ var std;
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    var VectorIterator = (function (_super) {
-        __extends(VectorIterator, _super);
+    class VectorIterator extends std.base.container.Iterator {
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
@@ -7719,98 +7394,84 @@ var std;
          * @param source The source {@link Vector container} to reference.
          * @param index Sequence number of the element in the source {@link Vector}.
          */
-        function VectorIterator(source, index) {
-            _super.call(this, source);
+        constructor(source, index) {
+            super(source);
             this.index_ = index;
         }
-        Object.defineProperty(VectorIterator.prototype, "vector", {
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * @hidden
-             */
-            get: function () {
-                return this.source_;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(VectorIterator.prototype, "value", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.vector.at(this.index_);
-            },
-            /**
-             * @inheritdoc
-             */
-            set: function (val) {
-                this.vector.set(this.index_, val);
-            },
-            enumerable: true,
-            configurable: true
-        });
+        /* ---------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------- */
+        /**
+         * @hidden
+         */
+        get vector() {
+            return this.source_;
+        }
         /**
          * @inheritdoc
          */
-        VectorIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
-        };
-        Object.defineProperty(VectorIterator.prototype, "index", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.index_;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        get value() {
+            return this.vector.at(this.index_);
+        }
+        /**
+         * @inheritdoc
+         */
+        set value(val) {
+            this.vector.set(this.index_, val);
+        }
+        /**
+         * @inheritdoc
+         */
+        equals(obj) {
+            return super.equals(obj) && this.index_ == obj.index_;
+        }
+        /**
+         * @inheritdoc
+         */
+        get index() {
+            return this.index_;
+        }
         /* ---------------------------------------------------------
             MOVERS
         --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        VectorIterator.prototype.prev = function () {
+        prev() {
             if (this.index_ == -1)
                 return new VectorIterator(this.vector, this.vector.size() - 1);
             else if (this.index_ - 1 < 0)
                 return this.vector.end();
             else
                 return new VectorIterator(this.vector, this.index_ - 1);
-        };
+        }
         /**
          * @inheritdoc
          */
-        VectorIterator.prototype.next = function () {
+        next() {
             if (this.index_ >= this.source_.size() - 1)
                 return this.vector.end();
             else
                 return new VectorIterator(this.vector, this.index_ + 1);
-        };
+        }
         /**
          * @inheritdoc
          */
-        VectorIterator.prototype.advance = function (n) {
-            var newIndex = this.index_ + n;
+        advance(n) {
+            let newIndex = this.index_ + n;
             if (newIndex < 0 || newIndex >= this.vector.size())
                 return this.vector.end();
             else
                 return new VectorIterator(this.vector, newIndex);
-        };
+        }
         /**
          * @inheritdoc
          */
-        VectorIterator.prototype.swap = function (obj) {
-            var supplement = this.value;
+        swap(obj) {
+            let supplement = this.value;
             this.value = obj.value;
             obj.value = supplement;
-        };
-        return VectorIterator;
-    }(std.base.container.Iterator));
+        }
+    }
     std.VectorIterator = VectorIterator;
 })(std || (std = {}));
-//# sourceMappingURL=std.js.map

@@ -23,6 +23,9 @@ namespace std.base.tree
 			this.compare_ = compare;
 		}
 
+		/* ---------------------------------------------------------
+			FINDERS
+		--------------------------------------------------------- */
 		public find(key: Key): XTreeNode<MapIterator<Key, T>>;
 
 		public find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
@@ -35,6 +38,9 @@ namespace std.base.tree
 				return this.find_by_key(val);
 		}
 
+		/**
+		 * @hidden
+		 */
 		private find_by_key(key: Key): XTreeNode<MapIterator<Key, T>>
 		{
 			if (this.root_ == null)
@@ -67,6 +73,11 @@ namespace std.base.tree
 		/* ---------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------- */
+		public get_compare(): (left: Key, right: Key) => boolean
+		{
+			return this.compare_;
+		}
+
 		/**
 		 * @inheritdoc
 		 */

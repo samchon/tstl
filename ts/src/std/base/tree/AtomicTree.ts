@@ -23,7 +23,11 @@ namespace std.base.tree
 			this.compare_ = compare;
 		}
 
+		/* ---------------------------------------------------------
+			FINDERS
+		--------------------------------------------------------- */
 		public find(val: T): XTreeNode<SetIterator<T>>;
+
 		public find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
 
 		public find(val: any): XTreeNode<SetIterator<T>>
@@ -67,8 +71,13 @@ namespace std.base.tree
 		}
 
 		/* ---------------------------------------------------------
-			CONSTRUCTOR
+			COMPARISON
 		--------------------------------------------------------- */
+		public get_compare(): (left: T, right: T) => boolean
+		{
+			return this.compare_;
+		}
+
 		/**
 		 * @inheritdoc
 		 */

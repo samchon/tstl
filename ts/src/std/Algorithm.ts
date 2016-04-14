@@ -169,6 +169,15 @@ namespace std
 	 * @param right
 	 */
 	export function swap<T>
+		(left: PriorityQueue<T>, right: PriorityQueue<T>): void;
+
+	/**
+	 * 
+	 * 
+	 * @param left
+	 * @param right
+	 */
+	export function swap<T>
 		(left: Stack<T>, right: Stack<T>): void;
 
 	/**

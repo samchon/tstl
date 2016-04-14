@@ -1,4 +1,4 @@
-﻿STL for TypeScript
+STL for TypeScript
 =========
 STL (Standard Template Library) and Containers for TypeScript
 
@@ -31,6 +31,7 @@ STL (Standard Template Library) and Containers for TypeScript
 - Etc.
     - [Queue](http://samchon.github.io/stl/api/classes/std.queue.html)
     - [Stack](http://samchon.github.io/stl/api/classes/std.stack.html)
+    - [PriorityQueue](http://samchon.github.io/stl/api/classes/std.priorityqueue.html)
 
 ##### Usage
 ```typescript

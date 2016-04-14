@@ -137,7 +137,7 @@
 		 * <p> Insert element. </p>
 		 *
 		 * <p> Inserts a new element at the end of the {@link Queue}, after its current last element. 
-		 * The content of this new element is initialized to val. </p>
+		 * The content of this new element is initialized to <i>val</i>. </p>
 		 *
 		 * <p> This member function effectively calls the member function {@link IDeque.push_back push_back()} of the 
 		 * {@link container_ underlying container} object. </p>
