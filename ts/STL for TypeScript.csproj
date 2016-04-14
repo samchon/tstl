@@ -162,7 +162,8 @@
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptModuleKind>
+    </TypeScriptModuleKind>
     <TypeScriptOutFile>../release/std.js</TypeScriptOutFile>
     <TypeScriptOutDir />
     <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>

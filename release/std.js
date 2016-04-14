@@ -79,12 +79,132 @@ var std;
         return ret;
     }
     std.unique = unique;
+    /**
+     * <p> Remove value from range. </p>
+     *
+     * <p> Transforms the range [<i>begin</i>, <i>end</i>] into a range with all the elements that compare equal to
+     * <i>val</i> removed, and returns an iterator to the new end of that range. </p>
+     *
+     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
+     * alter the size of an array or a container): The removal is done by replacing the elements that compare equal to
+     * <i>val</i> by the next element that does not, and signaling the new size of the shortened range by returning an
+     * iterator to the element that should be considered its new past-the-end element. </p>
+     *
+     * The relative order of the elements not removed is preserved, while the elements between the returned iterator and last are left in a valid but unspecified state.
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param val Value to be removed.
+     */
     function remove(begin, end, val) {
+        var ret = end;
+        for (var it = begin; !it.equals(end);) {
+            if (std.equals(it.value, val) == true)
+                it = it.get_source().erase(it);
+            else {
+                ret = it;
+                it = it.next();
+            }
+        }
+        return ret;
     }
     std.remove = remove;
+    /**
+     * <p> Remove elements from range. </p>
+     *
+     * <p> Transforms the range [<i>begin</i>, <i>end</i>) into a range with all the elements for which pred returns
+     * <code>true</code> removed, and returns an iterator to the new end of that range. </p>
+     *
+     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
+     * alter the size of an array or a container): The removal is done by replacing the elements for which pred returns
+     * <code>true</code> by the next element for which it does not, and signaling the new size of the shortened range
+     * by returning an iterator to the element that should be considered its new past-the-end element. </p>
+     *
+     * <p> The relative order of the elements not removed is preserved, while the elements between the returned
+     * iterator and last are left in a valid but unspecified state. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
+     *			   <code>bool</code>. The value returned indicates whether the element is to be removed (if
+     *			   <code>true</code>, it is removed). The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
+     */
+    function remove_if(begin, end, pred) {
+        var ret = end;
+        for (var it = begin; !it.equals(end);) {
+            if (pred(it.value) == true)
+                it = it.get_source().erase(it);
+            else {
+                ret = it;
+                it = it.next();
+            }
+        }
+        return ret;
+    }
+    std.remove_if = remove_if;
+    /**
+     * <p> Replace value in range. </p>
+     *
+     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>begin</i>, <i>end</i>] that compare equal to
+     * <i>old_val</i>. </p>
+     *
+     * <p> The function uses {@link equals} to compare the individual elements to old_val. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param old_val Value to be replaced.
+     * @param new_val Replacement value.
+     */
+    function replace(begin, end, old_val, new_val) {
+        for (var it = begin; !it.equals(end); it = it.next())
+            if (std.equals(it.value, old_val))
+                it.value = new_val;
+    }
+    std.replace = replace;
+    /**
+     * <p> Replace value in range. </p>
+     *
+     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>begin</i>, <i>end</i>] for which pred returns
+     * <code>true</code>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
+     *			   <code>bool</code>. The value returned indicates whether the element is to be replaced (if
+     *			   <code>true</code>, it is replaced). The function shall not modify its argument. This can either be
+     *			   a function pointer or a function object.
+     * @param new_val Value to assign to replaced elements.
+     */
+    function replace_if(begin, end, pred, new_val) {
+        for (var it = begin; !it.equals(end); it = it.next())
+            if (pred(it.value) == true)
+                it.value = new_val;
+    }
+    std.replace_if = replace_if;
     /* ---------------------------------------------------------
         RE-ARRANGEMENT
     --------------------------------------------------------- */
+    /**
+     * <p> Reverse range. </p>
+     *
+     * <p> Reverses the order of the elements in the range [<i>begin</i>, <i>end</i>]. </p>
+     *
+     * <p> The function calls {@link iter_swap} to swap the elements to their new locations. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     */
     function reverse(begin, end) {
         // begin != end && begin != --end
         while (begin.equals(end) == false && !begin.equals((end = end.prev())) == false) {
@@ -93,6 +213,21 @@ var std;
         }
     }
     std.reverse = reverse;
+    /**
+     * <p> Rotate left the elements in range. </p>
+     *
+     * <p> Rotates the order of the elements in the range [<i>begin</i>, <i>end</i>], in such a way that the element
+     * pointed by middle becomes the new first element. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param middle An {@link Iterator} pointing to the element within the range [<i>begin</i>, <i>end</i>] that is
+     *				 moved to the first position in the range.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     *
+     * @return An iterator pointing to the element that now contains the value previously pointed by <i>begin</i>.
+     */
     function rotate(begin, middle, end) {
         var next = middle;
         while (next.equals(end) == false) {
@@ -106,21 +241,43 @@ var std;
     }
     std.rotate = rotate;
     /**
+     * <p> Randomly rearrange elements in range. </p>
      *
-     * @param begin
-     * @param end
+     * <p> Rearranges the elements in the range [<i>begin</i>, <i>end</i>) randomly. </p>
+     *
+     * <p> The function swaps the value of each element with that of some other randomly picked element. When provided,
+     * the function gen determines which element is picked in every case. Otherwise, the function uses some unspecified
+     * source of randomness. </p>
+     *
+     * <p> To specify a uniform random generator, see {@link shuffle}. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
      */
     function random_shuffle(begin, end) {
-        for (var it = begin; !it.equals(end); it = it.next()) {
-            var rand_index = Math.floor(Math.random() * (end.index - begin.index));
-            it.swap(begin.advance(rand_index));
-        }
+        return std.shuffle(begin, end);
     }
     std.random_shuffle = random_shuffle;
     /**
+     * <p> Randomly rearrange elements in range using generator. </p>
      *
-     * @param begin
-     * @param end
+     * <p> Rearranges the elements in the range [<i>begin</i>, <i>end</i>] randomly, using <i>g</i> as uniform random number
+     * generator. </p>
+     *
+     * <p> The function swaps the value of each element with that of some other randomly picked element. The function
+     * determines the element picked by calling <i>g()</i>. </p>
+     *
+     * <p> To shuffle the elements of the range without such a generator, see {@link random_shuffle} instead. </p>
+     *
+     * <h5> Note </h5>
+     * <p> Using random generator engine is not implemented yet. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
      */
     function shuffle(begin, end) {
         for (var it = begin; !it.equals(end); it = it.next()) {
@@ -316,10 +473,17 @@ var std;
         COUNTERS
     --------------------------------------------------------- */
     /**
+     * <p> Count appearances of value in range. </p>
      *
-     * @param begin
-     * @param end
-     * @param val
+     * <p> Returns the number of elements in the range [<i>begin</i>, <i>end</i>] that compare equal to <i>val</i>. </p>
+     *
+     * <p> The function uses {@link equals} to compare the individual elements to <i>val</i>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param val Value to match.
      */
     function count(begin, end, val) {
         var cnt = 0;
@@ -330,10 +494,19 @@ var std;
     }
     std.count = count;
     /**
+     * <p> Return number of elements in range satisfying condition. </p>
      *
-     * @param begin
-     * @param end
-     * @param pred
+     * <p> Returns the number of elements in the range [<i>begin</i>, <i>end</i>] for which pred is <code>true</code>.
+     * </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is counted by this function.
+     *			   The function shall not modify its argument. This can either be a function pointer or a function
+     *			   object.
      */
     function count_if(begin, end, pred) {
         var cnt = 0;

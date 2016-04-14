@@ -72,17 +72,21 @@ declare namespace std {
      */
     function swap<T>(left: Queue<T>, right: Queue<T>): void;
     /**
+     * <p> Exchange contents of {@link PriorityQueue PriorityQueues}. </p>
      *
+     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
      *
-     * @param left
-     * @param right
+     * @param left A {@link PriorityQueue} container of the same type. Size may differ.
+     * @param right A {@link PriorityQueue} container of the same type. Size may differ.
      */
     function swap<T>(left: PriorityQueue<T>, right: PriorityQueue<T>): void;
     /**
+     * <p> Exchange contents of {@link Stack Stacks}. </p>
      *
+     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
      *
-     * @param left
-     * @param right
+     * @param left A {@link Stack} container of the same type. Size may differ.
+     * @param right A {@link Stack} container of the same type. Size may differ.
      */
     function swap<T>(left: Stack<T>, right: Stack<T>): void;
     /**
@@ -123,7 +127,198 @@ declare namespace std {
      * @param right A {@link MultiMap multi map} to swap its conents.
      */
     function swap<Key, T>(left: base.container.MultiMap<Key, T>, right: base.container.MultiMap<Key, T>): void;
+    /**
+     * <p> Remove consecutive duplicates in range. </p>
+     *
+     * <p> Removes all but the first element from every consecutive group of equivalent elements in the range
+     * [<i>begin</i>, <i>end</i>]. </p>
+     *
+     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
+     * alter the size of an array or a container): The removal is done by replacing the duplicate elements by the next
+     * element that is not a duplicate, and signaling the new size of the shortened range by returning an iterator to
+     * the element that should be considered its new past-the-end element. </p>
+     *
+     * <p> The relative order of the elements not removed is preserved, while the elements between the returned
+     * iterator and last are left in a valid but unspecified state. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     *
+     * @return An iterator to the element that follows the last element not removed. The range between <i>begin</i> and
+     *		   this iterator includes all the elements in the sequence that were not considered duplicates.
+     */
+    function unique<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator): Iterator;
+    /**
+     * <p> Remove consecutive duplicates in range. </p>
+     *
+     * <p> Removes all but the first element from every consecutive group of equivalent elements in the range
+     * [<i>begin</i>, <i>end</i>]. </p>
+     *
+     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
+     * alter the size of an array or a container): The removal is done by replacing the duplicate elements by the next
+     * element that is not a duplicate, and signaling the new size of the shortened range by returning an iterator to
+     * the element that should be considered its new past-the-end element. </p>
+     *
+     * <p> The relative order of the elements not removed is preserved, while the elements between the returned
+     * iterator and last are left in a valid but unspecified state. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Binary function that accepts two elements in the range as argument, and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether both arguments are considered equivalent
+     *			  (if <code>true</code>, they are equivalent and one of them is removed). The function shall not modify
+     *			  any of its arguments. This can either be a function pointer or a function object.
+     *
+     * @return An iterator to the element that follows the last element not removed. The range between <i>begin</i> and
+     *		   this iterator includes all the elements in the sequence that were not considered duplicates.
+     */
+    function unique<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (left: T, right: T) => boolean): Iterator;
+    /**
+     * <p> Remove value from range. </p>
+     *
+     * <p> Transforms the range [<i>begin</i>, <i>end</i>] into a range with all the elements that compare equal to
+     * <i>val</i> removed, and returns an iterator to the new end of that range. </p>
+     *
+     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
+     * alter the size of an array or a container): The removal is done by replacing the elements that compare equal to
+     * <i>val</i> by the next element that does not, and signaling the new size of the shortened range by returning an
+     * iterator to the element that should be considered its new past-the-end element. </p>
+     *
+     * The relative order of the elements not removed is preserved, while the elements between the returned iterator and last are left in a valid but unspecified state.
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param val Value to be removed.
+     */
+    function remove<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, val: T): Iterator;
+    /**
+     * <p> Remove elements from range. </p>
+     *
+     * <p> Transforms the range [<i>begin</i>, <i>end</i>) into a range with all the elements for which pred returns
+     * <code>true</code> removed, and returns an iterator to the new end of that range. </p>
+     *
+     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
+     * alter the size of an array or a container): The removal is done by replacing the elements for which pred returns
+     * <code>true</code> by the next element for which it does not, and signaling the new size of the shortened range
+     * by returning an iterator to the element that should be considered its new past-the-end element. </p>
+     *
+     * <p> The relative order of the elements not removed is preserved, while the elements between the returned
+     * iterator and last are left in a valid but unspecified state. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
+     *			   <code>bool</code>. The value returned indicates whether the element is to be removed (if
+     *			   <code>true</code>, it is removed). The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
+     */
+    function remove_if<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (left: T) => boolean): Iterator;
+    /**
+     * <p> Replace value in range. </p>
+     *
+     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>begin</i>, <i>end</i>] that compare equal to
+     * <i>old_val</i>. </p>
+     *
+     * <p> The function uses {@link equals} to compare the individual elements to old_val. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param old_val Value to be replaced.
+     * @param new_val Replacement value.
+     */
+    function replace<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, old_val: T, new_val: T): void;
+    /**
+     * <p> Replace value in range. </p>
+     *
+     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>begin</i>, <i>end</i>] for which pred returns
+     * <code>true</code>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
+     *			   <code>bool</code>. The value returned indicates whether the element is to be replaced (if
+     *			   <code>true</code>, it is replaced). The function shall not modify its argument. This can either be
+     *			   a function pointer or a function object.
+     * @param new_val Value to assign to replaced elements.
+     */
+    function replace_if<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean, new_val: T): void;
+    /**
+     * <p> Reverse range. </p>
+     *
+     * <p> Reverses the order of the elements in the range [<i>begin</i>, <i>end</i>]. </p>
+     *
+     * <p> The function calls {@link iter_swap} to swap the elements to their new locations. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     */
+    function reverse<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator): void;
+    /**
+     * <p> Rotate left the elements in range. </p>
+     *
+     * <p> Rotates the order of the elements in the range [<i>begin</i>, <i>end</i>], in such a way that the element
+     * pointed by middle becomes the new first element. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param middle An {@link Iterator} pointing to the element within the range [<i>begin</i>, <i>end</i>] that is
+     *				 moved to the first position in the range.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     *
+     * @return An iterator pointing to the element that now contains the value previously pointed by <i>begin</i>.
+     */
+    function rotate<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, middle: Iterator, end: Iterator): Iterator;
+    /**
+     * <p> Randomly rearrange elements in range. </p>
+     *
+     * <p> Rearranges the elements in the range [<i>begin</i>, <i>end</i>) randomly. </p>
+     *
+     * <p> The function swaps the value of each element with that of some other randomly picked element. When provided,
+     * the function gen determines which element is picked in every case. Otherwise, the function uses some unspecified
+     * source of randomness. </p>
+     *
+     * <p> To specify a uniform random generator, see {@link shuffle}. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     */
     function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(begin: RandomAccessIterator, end: RandomAccessIterator): void;
+    /**
+     * <p> Randomly rearrange elements in range using generator. </p>
+     *
+     * <p> Rearranges the elements in the range [<i>begin</i>, <i>end</i>] randomly, using <i>g</i> as uniform random number
+     * generator. </p>
+     *
+     * <p> The function swaps the value of each element with that of some other randomly picked element. The function
+     * determines the element picked by calling <i>g()</i>. </p>
+     *
+     * <p> To shuffle the elements of the range without such a generator, see {@link random_shuffle} instead. </p>
+     *
+     * <h5> Note </h5>
+     * <p> Using random generator engine is not implemented yet. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     */
     function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(begin: RandomAccessIterator, end: RandomAccessIterator): void;
     /**
      * <p> Apply function to range. </p>
@@ -139,7 +334,7 @@ declare namespace std {
      *
      * @return Returns <i>fn</i>.
      */
-    function for_each<T, InputIterator extends base.container.Iterator<T>, Func extends (val: T) => any>(begin: InputIterator, end: InputIterator, fn: Func): Func;
+    function for_each<T, Iterator extends base.container.Iterator<T>, Func extends (val: T) => any>(begin: Iterator, end: Iterator, fn: Func): Func;
     /**
      * <p> Test condition on all elements in range. </p>
      *
@@ -159,7 +354,7 @@ declare namespace std {
      * @return <code>true</code> if pred returns true for all the elements in the range or if the range is
      *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
      */
-    function all_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
+    function all_of<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean;
     /**
      * <p> Test if any element in range fulfills condition. </p>
      *
@@ -182,7 +377,7 @@ declare namespace std {
      *		   [<i>begin</i>, <i>end<i>], and <code>false</code> otherwise. If [<i>begin</i>, <i>end</i>] is an
      *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
      */
-    function any_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
+    function any_of<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean;
     /**
      * <p> Test if no elements fulfill condition. </p>
      *
@@ -203,7 +398,7 @@ declare namespace std {
      *		   [<i>begin</i>, <i>end<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code>
      *		   otherwise.
      */
-    function none_of<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): boolean;
+    function none_of<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean;
     /**
      * <p> Find value in range. </p>
      *
@@ -218,7 +413,7 @@ declare namespace std {
      *			  <i>begin</i> but not the element pointed by <i>end</i>.
      * @param val Value to search for in the range.
      */
-    function find<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, val: T): InputIterator;
+    function find<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, val: T): Iterator;
     /**
      * <p> Find element in range. </p>
      *
@@ -234,7 +429,7 @@ declare namespace std {
      *			   the context of this function. The function shall not modify its argument. This can either be a
      *			   function pointer or a function object.
      */
-    function find_if<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): InputIterator;
+    function find_if<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator;
     /**
      * <p> Find element in range. </p>
      *
@@ -250,9 +445,37 @@ declare namespace std {
      *			   the context of this function. The function shall not modify its argument. This can either be a
      *			   function pointer or a function object.
      */
-    function find_if_not<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): InputIterator;
-    function count<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, val: T): number;
-    function count_if<T, InputIterator extends base.container.Iterator<T>>(begin: InputIterator, end: InputIterator, pred: (val: T) => boolean): number;
+    function find_if_not<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator;
+    /**
+     * <p> Count appearances of value in range. </p>
+     *
+     * <p> Returns the number of elements in the range [<i>begin</i>, <i>end</i>] that compare equal to <i>val</i>. </p>
+     *
+     * <p> The function uses {@link equals} to compare the individual elements to <i>val</i>. </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param val Value to match.
+     */
+    function count<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, val: T): number;
+    /**
+     * <p> Return number of elements in range satisfying condition. </p>
+     *
+     * <p> Returns the number of elements in the range [<i>begin</i>, <i>end</i>] for which pred is <code>true</code>.
+     * </p>
+     *
+     * @param begin An {@link Iterator} to the initial position in a sequence.
+     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
+     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
+     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is counted by this function.
+     *			   The function shall not modify its argument. This can either be a function pointer or a function
+     *			   object.
+     */
+    function count_if<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): number;
 }
 declare namespace std.base.container {
     /**
