@@ -65,6 +65,51 @@ var std;
         left.swap(right);
     }
     std.swap = swap;
+    function unique(begin, end, pred) {
+        if (pred === void 0) { pred = std.equals; }
+        var ret = begin;
+        for (var it = begin.next(); !it.equals(end);) {
+            if (std.equals(it.value, it.prev().value) == true)
+                it = it.get_source().erase(it);
+            else {
+                ret = it;
+                it = it.next();
+            }
+        }
+        return ret;
+    }
+    std.unique = unique;
+    function remove(begin, end, val) {
+    }
+    std.remove = remove;
+    /* ---------------------------------------------------------
+        RE-ARRANGEMENT
+    --------------------------------------------------------- */
+    function reverse(begin, end) {
+        // begin != end && begin != --end
+        while (begin.equals(end) == false && !begin.equals((end = end.prev())) == false) {
+            begin.swap(end);
+            begin = begin.next();
+        }
+    }
+    std.reverse = reverse;
+    function rotate(begin, middle, end) {
+        var next = middle;
+        while (next.equals(end) == false) {
+            begin.swap(next);
+            begin = begin.next();
+            next = next.next();
+            if (begin.equals(middle))
+                break;
+        }
+        return begin;
+    }
+    std.rotate = rotate;
+    /**
+     *
+     * @param begin
+     * @param end
+     */
     function random_shuffle(begin, end) {
         for (var it = begin; !it.equals(end); it = it.next()) {
             var rand_index = Math.floor(Math.random() * (end.index - begin.index));
@@ -72,6 +117,11 @@ var std;
         }
     }
     std.random_shuffle = random_shuffle;
+    /**
+     *
+     * @param begin
+     * @param end
+     */
     function shuffle(begin, end) {
         for (var it = begin; !it.equals(end); it = it.next()) {
             var rand_index = Math.floor(Math.random() * (end.index - begin.index));
@@ -79,6 +129,9 @@ var std;
         }
     }
     std.shuffle = shuffle;
+    /* ---------------------------------------------------------
+        
+    --------------------------------------------------------- */
     /* =========================================================
         ITERATIONS
             - FOR_EACH
@@ -262,6 +315,12 @@ var std;
     /* ---------------------------------------------------------
         COUNTERS
     --------------------------------------------------------- */
+    /**
+     *
+     * @param begin
+     * @param end
+     * @param val
+     */
     function count(begin, end, val) {
         var cnt = 0;
         for (var it = begin; !it.equals(end); it = it.next())
@@ -270,6 +329,12 @@ var std;
         return cnt;
     }
     std.count = count;
+    /**
+     *
+     * @param begin
+     * @param end
+     * @param pred
+     */
     function count_if(begin, end, pred) {
         var cnt = 0;
         for (var it = begin; !it.equals(end); it = it.next())
