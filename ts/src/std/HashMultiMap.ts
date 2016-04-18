@@ -134,14 +134,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
-			(begin: InputIterator, end: InputIterator): void
+		public assign<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
-			let it: InputIterator;
+			let it: MapIterator<L, U>;
 			let size: number = 0;
 			
 			// REVERSE HASH_GROUP SIZE
-			for (it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+			for (it = begin; it.equals(end) == false; it = it.next())
 				size++;
 
 			this.hash_buckets_.clear();
@@ -195,12 +195,12 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
-			(begin: InputIterator, end: InputIterator): void
+		protected insert_by_range<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			// CALCULATE INSERTING SIZE
 			let size: number = 0;
-			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+			for (let it = begin; it.equals(end) == false; it = it.next())
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE

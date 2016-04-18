@@ -174,16 +174,20 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void;
+		public assign<U extends T>
+			(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
 
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		//public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		//	(begin: InputIterator, end: InputIterator): void;
+
+		public assign<U extends T>
 			(par1: any, par2: any): void
 		{
-			if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator) {
+			if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator)
+			{
 				// PARAMETERS
-				let begin: InputIterator = par1;
-				let end: InputIterator = par2;
+				let begin: base.container.Iterator<U> = par1;
+				let end: base.container.Iterator<U> = par2;
 
 				// BODY
 				let prev: ListIterator<T> = null;
@@ -195,12 +199,12 @@ namespace std
 				{
 					// CONSTRUCT ELEMENT ITEM
 					item = new ListIterator<T>
-					(
+						(
 						this,
 						prev,
 						null,
 						(it != end ? it.value : null)
-					);
+						);
 
 					// SET PREVIOUS NEXT POINTER
 					if (prev != null)
@@ -209,17 +213,62 @@ namespace std
 					// CONSTRUCT BEGIN AND END
 					if (it == begin)
 						this.begin_ = item;
-					else if (it == end) {
+					else if (it == end)
+					{
 						this.end_ = item;
 						break;
 					}
 
 					// ADD COUNTS AND STEP TO THE NEXT
 					this.size_++;
-					it = it.next() as InputIterator;
+					it = it.next();
 				}
 			}
 		}
+
+		//public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		//	(par1: any, par2: any): void
+		//{
+		//	if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator) {
+		//		// PARAMETERS
+		//		let begin: InputIterator = par1;
+		//		let end: InputIterator = par2;
+
+		//		// BODY
+		//		let prev: ListIterator<T> = null;
+		//		let item: ListIterator<T>;
+
+		//		let it = begin;
+
+		//		while (true) 
+		//		{
+		//			// CONSTRUCT ELEMENT ITEM
+		//			item = new ListIterator<T>
+		//			(
+		//				this,
+		//				prev,
+		//				null,
+		//				(it != end ? it.value : null)
+		//			);
+
+		//			// SET PREVIOUS NEXT POINTER
+		//			if (prev != null)
+		//				prev.setNext(item);
+
+		//			// CONSTRUCT BEGIN AND END
+		//			if (it == begin)
+		//				this.begin_ = item;
+		//			else if (it == end) {
+		//				this.end_ = item;
+		//				break;
+		//			}
+
+		//			// ADD COUNTS AND STEP TO THE NEXT
+		//			this.size_++;
+		//			it = it.next() as InputIterator;
+		//		}
+		//	}
+		//}
 
 		/**
 		 * @inheritdoc
@@ -421,8 +470,12 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
-			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
+		public insert<U extends T>
+			(position: ListIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>)
+				: ListIterator<T>;
+
+		//public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+		//	(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
 
 		public insert(...args: any[]): ListIterator<T>
 		{
@@ -485,8 +538,9 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>
-			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>
+		private insert_by_range<U extends T>
+			(position: ListIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>)
+				: ListIterator<T>
 		{
 			if (this != position.get_source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
@@ -496,7 +550,7 @@ namespace std
 
 			let size: number = 0;
 
-			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator) 
+			for (let it = begin; it.equals(end) == false; it = it.next()) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
@@ -521,6 +575,43 @@ namespace std
 
 			return first;
 		}
+
+		//private insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>
+		//	(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>
+		//{
+		//	if (this != position.get_source())
+		//		throw new InvalidArgument("Parametric iterator is not this container's own.");
+
+		//	let prev: ListIterator<T> = <ListIterator<T>>position.prev();
+		//	let first: ListIterator<T> = null;
+
+		//	let size: number = 0;
+
+		//	for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator) 
+		//	{
+		//		// CONSTRUCT ITEM, THE NEW ELEMENT
+		//		let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
+
+		//		if (size == 0) first = item;
+		//		if (prev != null) prev.setNext(item);
+
+		//		// SHIFT CURRENT ITEM TO PREVIOUS
+		//		prev = item;
+		//		size++;
+		//	}
+
+		//	// IF WAS EMPTY, FIRST ELEMENT IS THE BEGIN
+		//	if (this.empty() == true)
+		//		this.begin_ = first;
+
+		//	// CONNECT BETWEEN LAST AND POSITION
+		//	prev.setNext(position);
+		//	position.setPrev(prev);
+
+		//	this.size_ += size;
+
+		//	return first;
+		//}
 
 		/* ---------------------------------------------------------
 			ERASE

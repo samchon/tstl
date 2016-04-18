@@ -183,8 +183,8 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
-			(begin: InputIterator, end: InputIterator): void
+		public assign<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			super.assign(begin, end);
 		}

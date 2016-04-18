@@ -20,6 +20,13 @@ var std;
         qsort(begin.get_source(), begin.index, end.index, compare);
     }
     std.sort = sort;
+    //export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
+    //	(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
+    //export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
+    //	(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean = std.less): void
+    //{
+    //	qsort(begin.get_source() as base.container.IArray<T>, begin.index, end.index, compare);
+    //}
     /* ---------------------------------------------------------
         QUICK SORT
     --------------------------------------------------------- */
@@ -28,8 +35,12 @@ var std;
      */
     function qsort(container, begin, end, compare) {
         // QUICK SORT
-        if (begin > end)
-            return;
+        if (begin > end) {
+            // SWAP BEGIN A
+            var supp = begin;
+            begin = end;
+            end = begin;
+        }
         var index = qsort_partition(container, begin, end, compare);
         qsort(container, begin, index, compare);
         qsort(container, index, end, compare);
@@ -79,6 +90,24 @@ var std;
         return ret;
     }
     std.unique = unique;
+    //export function unique<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (left: T, right: T) => boolean): Iterator;
+    //export function unique<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (left: T, right: T) => boolean = std.equals): Iterator
+    //{
+    //	let ret: Iterator = begin;
+    //	for (let it = begin.next(); !it.equals(end);)
+    //	{
+    //		if (std.equals(it.value, it.prev().value) == true)
+    //			it = it.get_source().erase(it) as Iterator;
+    //		else
+    //		{
+    //			ret = it as Iterator;
+    //			it = it.next();
+    //		}
+    //	}
+    //	return ret;
+    //}
     /**
      * <p> Remove value from range. </p>
      *
@@ -111,6 +140,22 @@ var std;
         return ret;
     }
     std.remove = remove;
+    //export function remove<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, val: T): Iterator
+    //{
+    //	let ret: Iterator = end;
+    //	for (let it = begin; !it.equals(end); )
+    //	{
+    //		if (std.equals(it.value, val) == true)
+    //			it = it.get_source().erase(it) as Iterator;
+    //		else
+    //		{
+    //			ret = it;
+    //			it = it.next() as Iterator;
+    //		}
+    //	}
+    //	return ret;
+    //}
     /**
      * <p> Remove elements from range. </p>
      *
@@ -147,6 +192,22 @@ var std;
         return ret;
     }
     std.remove_if = remove_if;
+    //export function remove_if<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (left: T) => boolean): Iterator
+    //{
+    //	let ret: Iterator = end;
+    //	for (let it = begin; !it.equals(end);)
+    //	{
+    //		if (pred(it.value) == true)
+    //			it = it.get_source().erase(it) as Iterator;
+    //		else
+    //		{
+    //			ret = it;
+    //			it = it.next() as Iterator;
+    //		}
+    //	}
+    //	return ret;
+    //}
     /**
      * <p> Replace value in range. </p>
      *
@@ -168,6 +229,13 @@ var std;
                 it.value = new_val;
     }
     std.replace = replace;
+    //export function replace<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, old_val: T, new_val: T): void
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		if (std.equals(it.value, old_val))
+    //			it.value = new_val;
+    //}
     /**
      * <p> Replace value in range. </p>
      *
@@ -190,6 +258,13 @@ var std;
                 it.value = new_val;
     }
     std.replace_if = replace_if;
+    //export function replace_if<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean, new_val: T): void
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		if (pred(it.value) == true)
+    //			it.value = new_val;
+    //}
     /* ---------------------------------------------------------
         RE-ARRANGEMENT
     --------------------------------------------------------- */
@@ -213,6 +288,16 @@ var std;
         }
     }
     std.reverse = reverse;
+    //export function reverse<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator): void
+    //{
+    //	// begin != end && begin != --end
+    //	while (begin.equals(end) == false && !begin.equals((end = end.prev() as Iterator)) == false)
+    //	{
+    //		begin.swap(end);
+    //		begin = begin.next() as Iterator;
+    //	}
+    //}
     /**
      * <p> Rotate left the elements in range. </p>
      *
@@ -240,6 +325,20 @@ var std;
         return begin;
     }
     std.rotate = rotate;
+    //export function rotate<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, middle: Iterator, end: Iterator): Iterator
+    //{
+    //	let next: Iterator = middle;
+    //	while (next.equals(end) == false)
+    //	{
+    //		begin.swap(next);
+    //		begin = begin.next() as Iterator;
+    //		next = next.next() as Iterator;
+    //		if (begin.equals(middle))
+    //			break;
+    //	}
+    //	return begin;
+    //}
     /**
      * <p> Randomly rearrange elements in range. </p>
      *
@@ -260,6 +359,11 @@ var std;
         return std.shuffle(begin, end);
     }
     std.random_shuffle = random_shuffle;
+    //export function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
+    //	(begin: RandomAccessIterator, end: RandomAccessIterator): void
+    //{
+    //	return std.shuffle(begin, end);
+    //}
     /**
      * <p> Randomly rearrange elements in range using generator. </p>
      *
@@ -286,6 +390,15 @@ var std;
         }
     }
     std.shuffle = shuffle;
+    //export function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
+    //	(begin: RandomAccessIterator, end: RandomAccessIterator): void
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as RandomAccessIterator)
+    //	{
+    //		let rand_index: number = Math.floor(Math.random() * (end.index - begin.index));
+    //		it.swap(begin.advance(rand_index));
+    //	}
+    //}
     /* ---------------------------------------------------------
         
     --------------------------------------------------------- */
@@ -319,6 +432,13 @@ var std;
         return fn;
     }
     std.for_each = for_each;
+    //export function for_each<T, Iterator extends base.container.Iterator<T>, Func extends (val: T) => any>
+    //	(begin: Iterator, end: Iterator, fn: Func): Func
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		fn(it.value);
+    //	return fn;
+    //}
     /* ---------------------------------------------------------
         AGGREGATE CONDITIONS
     --------------------------------------------------------- */
@@ -348,6 +468,14 @@ var std;
         return true;
     }
     std.all_of = all_of;
+    //export function all_of<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		if (pred(it.value) == false)
+    //			return false;
+    //	return true;
+    //}
     /**
      * <p> Test if any element in range fulfills condition. </p>
      *
@@ -377,6 +505,14 @@ var std;
         return false;
     }
     std.any_of = any_of;
+    //export function any_of<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		if (pred(it.value) == true)
+    //			return true;
+    //	return false;
+    //}
     /**
      * <p> Test if no elements fulfill condition. </p>
      *
@@ -401,6 +537,11 @@ var std;
         return !any_of(begin, end, pred);
     }
     std.none_of = none_of;
+    //export function none_of<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
+    //{
+    //	return !any_of(begin, end, pred);
+    //}
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
@@ -425,6 +566,14 @@ var std;
         return end;
     }
     std.find = find;
+    //export function find<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, val: T): Iterator
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		if (std.equals(it.value, val))
+    //			return it;
+    //	return end;
+    //}
     /**
      * <p> Find element in range. </p>
      *
@@ -447,6 +596,14 @@ var std;
         return end;
     }
     std.find_if = find_if;
+    //export function find_if<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		if (pred(it.value))
+    //			return it;
+    //	return end;
+    //}
     /**
      * <p> Find element in range. </p>
      *
@@ -469,6 +626,14 @@ var std;
         return end;
     }
     std.find_if_not = find_if_not;
+    //export function find_if_not<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator
+    //{
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		if (pred(it.value) == false)
+    //			return it;
+    //	return end;
+    //}
     /* ---------------------------------------------------------
         COUNTERS
     --------------------------------------------------------- */
@@ -493,6 +658,15 @@ var std;
         return cnt;
     }
     std.count = count;
+    //export function count<T, Iterator extends base.container.Iterator<T>>
+    //	(begin: Iterator, end: Iterator, val: T): number
+    //{
+    //	let cnt: number = 0;
+    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
+    //		if (std.equals(it.value, val))
+    //			return cnt++;
+    //	return cnt;
+    //}
     /**
      * <p> Return number of elements in range satisfying condition. </p>
      *
@@ -551,6 +725,8 @@ var std;
                     // THIS IS ABSTRACT CLASS
                     // NOTHING TO DO ESPECIALLY
                 }
+                //public abstract assign<U extends T, InputIterator extends Iterator<U>>
+                //	(begin: InputIterator, end: InputIterator): void;
                 /**
                  * @inheritdoc
                  */
@@ -592,8 +768,8 @@ var std;
              * <p> {@link Iterator Bidirectional iterators} are iterators that can be used to access the sequence of elements
              * in a range in both directions (towards the end and towards the beginning). </p>
              *
-             * <p> All {@link IArrayIterator random-access iterators} are also valid
-             * {@link Iterrator bidirectional iterators}. </p>
+             * <p> All {@link IArrayIterator random-access iterators} are also valid {@link Iterrator bidirectional iterators}.
+             * </p>
              *
              * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container}
              * may define its own specific iterator type able to iterate through it and access its elements. </p>
@@ -653,10 +829,11 @@ var std;
                 };
                 /**
                  * <p> Whether an iterator is equal with the iterator. </p>
+                 *
                  * <p> Compare two iterators and returns whether they are equal or not. </p>
                  *
                  * <h4> Note </h4>
-                 * <p> Iterator's equals() only compare souce map and index number. </p>
+                 * <p> Iterator's equals() only compare souce container and index number. </p>
                  *
                  * <p> Although elements in a pair, key and value are equals, if the source map or
                  * index number is different, then the {@link equals equals()} will return false. If you want to
@@ -741,6 +918,9 @@ var std;
                     // NOTHING TO DO ESPECIALLY
                 }
                 Object.defineProperty(MapContainer, "iterator", {
+                    /**
+                     * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
+                     */
                     get: function () { return std.MapIterator; },
                     enumerable: true,
                     configurable: true
@@ -773,7 +953,7 @@ var std;
                 /**
                  * <p> Assign new content to content. </p>
                  *
-                 * <p> Assigns new contents to the Container, replacing its current contents, and modifying its {@link size}
+                 * <p> Assigns new contents to the container, replacing its current contents, and modifying its {@link size}
                  * accordingly. </p>
                  *
                  * @param begin Input interator of the initial position in a sequence.
@@ -787,45 +967,81 @@ var std;
                 /**
                  * <p> Clear content. </p>
                  *
-                 * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
+                 * <p> Removes all elements from the container, leaving the container with a size of 0. </p>
                  */
                 MapContainer.prototype.clear = function () {
                     this.data_.clear();
                 };
                 /**
                  * <p> Return iterator to beginning. </p>
-                 * <p> Returns an iterator referring the first element in the Container. </p>
+                 *
+                 * <p> Returns an iterator referring the first element in the container. </p>
                  *
                  * <h4> Note </h4>
-                 * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
+                 * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
                  *
-                 * @return An iterator to the first element in the container.
-                 *		   The iterator containes the first element's value.
+                 * @return An iterator to the first element in the container. The iterator containes the first element's value.
                  */
                 MapContainer.prototype.begin = function () {
                     return new std.MapIterator(this, this.data_.begin());
                 };
                 /**
                  * <p> Return iterator to end. </p>
-                 * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+                 * <p> Returns an iterator referring to the past-the-end element in the container. </p>
                  *
                  * <p> The past-the-end element is the theoretical element that would follow the last element in the
                  * container. It does not point to any element, and thus shall not be dereferenced. </p>
                  *
-                 * <p> Because the ranges used by functions of the Container do not include the element reference by their
-                 * closing iterator, this function is often used in combination with Container::begin() to specify a range
-                 * including all the elements in the container. </p>
+                 * <p> Because the ranges used by functions of the container do not include the element reference by their
+                 * closing iterator, this function is often used in combination with {@link MapContainer}.{@link begin} to
+                 * specify a range including all the elements in the container. </p>
                  *
                  * <h4> Note </h4>
-                 * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing element by
-                 * the iterator will cause throwing exception (out of range). </p>
+                 * <p> Returned iterator from {@link MapContainer}.{@link end} does not refer any element. Trying to accessing
+                 * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
                  *
-                 * <p> If the container is empty, this function returns the same as {@link begin}. </p>
+                 * <p> If the container is {@link empty}, this function returns the same as {@link begin}. </p>
                  *
                  * @return An iterator to the end element in the container.
                  */
                 MapContainer.prototype.end = function () {
                     return new std.MapIterator(this, this.data_.end());
+                };
+                /**
+                 * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+                 *
+                 * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the last element in the container
+                 * (i.e., its <i>reverse beginning</i>). </p>
+                 *
+                 * {@link MapReverseIterator Reverse iterators} iterate backwards: increasing them moves them towards the
+                 * beginning of the container. </p>
+                 *
+                 * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}.
+                 * </p>
+                 *
+                 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence
+                 *		   container.
+                 */
+                MapContainer.prototype.rbegin = function () {
+                    if (this.empty() == true)
+                        return this.rend();
+                    else
+                        return new std.MapReverseIterator(this, this.data_.end().prev());
+                };
+                /**
+                 * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+                 *
+                 * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the theoretical element right before
+                 * the first element in the {@link MapContainer map container} (which is considered its <i>reverse end</i>).
+                 * </p>
+                 *
+                 * <p> The range between {@link MapContainer}.{@link rbegin} and {@link MapContainer}.{@link rend} contains
+                 * all the elements of the container (in reverse order). </p>
+                 *
+                 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence container.
+                 */
+                MapContainer.prototype.rend = function () {
+                    return new std.MapReverseIterator(this, this.data_.end());
                 };
                 /* ---------------------------------------------------------
                     ELEMENTS
@@ -848,7 +1064,7 @@ var std;
                     return this.data_.size();
                 };
                 /**
-                 * Test whether the Container is empty.
+                 * Test whether the container is empty.
                  */
                 MapContainer.prototype.empty = function () {
                     return this.size() == 0;
@@ -1127,6 +1343,9 @@ var std;
                     //}
                 }
                 Object.defineProperty(SetContainer, "iterator", {
+                    /**
+                     * Type definition of {@link SetContainer}'s {@link SetIterator iterator}.
+                     */
                     get: function () { return std.SetIterator; },
                     enumerable: true,
                     configurable: true
@@ -1161,6 +1380,13 @@ var std;
                     for (var it = begin; it.equals(end) == false; it = it.next())
                         this.insert_by_val(it.value);
                 };
+                //public assign<U extends T, InputIterator extends Iterator<U>>
+                //	(begin: Iterator<U>, end: Iterator<U>): void
+                //{
+                //	// INSERT
+                //	for (let it = begin; it.equals(end) == false; it = it.next())
+                //		this.insert_by_val(it.value);
+                //}
                 /**
                  * @inheritdoc
                  */
@@ -1178,6 +1404,21 @@ var std;
                  */
                 SetContainer.prototype.end = function () {
                     return new std.SetIterator(this, this.data_.end());
+                };
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.rbegin = function () {
+                    if (this.empty() == true)
+                        return this.rend();
+                    else
+                        return new std.SetReverseIterator(this.end().prev());
+                };
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.rend = function () {
+                    return new std.SetReverseIterator(this.end());
                 };
                 /* ---------------------------------------------------------
                     ELEMENTS
@@ -1220,6 +1461,8 @@ var std;
                         this.insert_by_val(args[i]);
                     return this.size();
                 };
+                //public insert<U extends T, InputIterator extends Iterator<U>>
+                //	(begin: InputIterator, end: InputIterator): void;
                 SetContainer.prototype.insert = function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -1369,6 +1612,8 @@ var std;
                         size++;
                     return size;
                 };
+                //public insert<U extends T, InputIterator extends Iterator<U>>
+                //	(begin: InputIterator, end: InputIterator): void;
                 MultiSet.prototype.insert = function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -1379,6 +1624,56 @@ var std;
                 return MultiSet;
             }(container.SetContainer));
             container.MultiSet = MultiSet;
+        })(container = base.container || (base.container = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="Iterator.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        var container;
+        (function (container) {
+            /**
+             * A reverse and bi-directional iterator. </p>
+             *
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var ReverseIterator = (function (_super) {
+                __extends(ReverseIterator, _super);
+                /* ---------------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------------- */
+                function ReverseIterator(iterator) {
+                    _super.call(this, iterator.get_source());
+                    this.iterator_ = iterator;
+                }
+                ReverseIterator.prototype.equals = function (obj) {
+                    if (obj instanceof ReverseIterator) {
+                        return this.iterator_.equals(obj.iterator_);
+                    }
+                    else
+                        return this.iterator_.equals(obj);
+                };
+                Object.defineProperty(ReverseIterator.prototype, "value", {
+                    /**
+                     * @inheritdoc
+                     */
+                    get: function () {
+                        return this.iterator_.value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                ReverseIterator.prototype.swap = function (obj) {
+                    if (obj instanceof ReverseIterator)
+                        this.iterator_.swap(obj.iterator_);
+                    else
+                        this.iterator_.swap(obj);
+                };
+                return ReverseIterator;
+            }(container.Iterator));
+            container.ReverseIterator = ReverseIterator;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
@@ -1551,6 +1846,8 @@ var std;
                 UniqueSet.prototype.count = function (key) {
                     return this.find(key).equals(this.end()) ? 0 : 1;
                 };
+                //public insert<U extends T, InputIterator extends Iterator<U>>
+                //	(begin: InputIterator, end: InputIterator): void;
                 UniqueSet.prototype.insert = function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -1563,6 +1860,77 @@ var std;
             container.UniqueSet = UniqueSet;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="base/container/ReverseIterator.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> A reverse-iterator of Deque. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var DequeReverseIterator = (function (_super) {
+        __extends(DequeReverseIterator, _super);
+        /* ---------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------- */
+        function DequeReverseIterator(iterator) {
+            _super.call(this, iterator);
+        }
+        Object.defineProperty(DequeReverseIterator.prototype, "deque_iterator", {
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            /**
+             * @hidden
+             */
+            get: function () {
+                return this.iterator_;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DequeReverseIterator.prototype, "index", {
+            get: function () {
+                return this.deque_iterator.index;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DequeReverseIterator.prototype, "value", {
+            set: function (val) {
+                this.deque_iterator.value = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        DequeReverseIterator.prototype.prev = function () {
+            return new DequeReverseIterator(this.deque_iterator.next());
+        };
+        /**
+         * @inheritdoc
+         */
+        DequeReverseIterator.prototype.next = function () {
+            return new DequeReverseIterator(this.deque_iterator.prev());
+        };
+        /**
+         * @inheritdoc
+         */
+        DequeReverseIterator.prototype.advance = function (n) {
+            var iterator = this.deque_iterator.advance(-1 * n);
+            return new DequeReverseIterator(iterator);
+        };
+        return DequeReverseIterator;
+    }(std.base.container.ReverseIterator));
+    std.DequeReverseIterator = DequeReverseIterator;
 })(std || (std = {}));
 // Type definitions for STL (Standard Template Library) Containers v0.8
 // Project: https://github.com/samchon/stl
@@ -3136,7 +3504,10 @@ var std;
             }
         }
         Object.defineProperty(Deque, "iterator", {
-            get: function () { return std.ListIterator; },
+            /**
+             * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
+             */
+            get: function () { return std.DequeIterator; },
             enumerable: true,
             configurable: true
         });
@@ -3259,6 +3630,21 @@ var std;
          */
         Deque.prototype.end = function () {
             return new std.DequeIterator(this, -1);
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.rbegin = function () {
+            if (this.empty() == true)
+                return this.rend();
+            else
+                return new std.DequeReverseIterator(this.end().prev());
+        };
+        /**
+         * @inheritdoc
+         */
+        Deque.prototype.rend = function () {
+            return new std.DequeReverseIterator(this.end());
         };
         /**
          * @inheritdoc
@@ -3398,6 +3784,8 @@ var std;
             if (lastArray.length == 0)
                 this.matrix_.splice(this.matrix_.length - 1, 1);
         };
+        //public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
         Deque.prototype.insert = function (position) {
             var args = [];
             for (var _i = 1; _i < arguments.length; _i++) {
@@ -3573,7 +3961,19 @@ var std;
             configurable: true
         });
         /**
-         * @inheritdoc
+         * <p> Whether an iterator is equal with the iterator. </p>
+         *
+         * <p> Compare two iterators and returns whether they are equal or not. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Iterator's equals() only compare souce container and index number. </p>
+         *
+         * <p> Although elements in a pair, key and value are equals, if the source map or
+         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * compare the elements of a pair, compare them directly by yourself. </p>
+         *
+         * @param obj An iterator to compare
+         * @return Indicates whether equal or not.
          */
         DequeIterator.prototype.equals = function (obj) {
             return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
@@ -3808,6 +4208,19 @@ var std;
         return ErrorCondition;
     }(std.base.system.ErrorInstance));
     std.ErrorCondition = ErrorCondition;
+})(std || (std = {}));
+var std;
+(function (std) {
+    var example;
+    (function (example) {
+        function test_anything() {
+            var vec;
+            var deque;
+            var list;
+            //vec.assign(list.begin(), deque.end());
+        }
+        example.test_anything = test_anything;
+    })(example = std.example || (std.example = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -4802,6 +5215,19 @@ var std;
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
+        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(begin: InputIterator, end: InputIterator): void
+        //{
+        //	let it: base.container.Iterator<U>;
+        //	let size: number = 0;
+        //	// RESERVE HASH_BUCKET SIZE
+        //	for (it = begin; it.equals(end) == false; it = it.next())
+        //		size++;
+        //	this.hash_buckets_.clear();
+        //	this.hash_buckets_.reserve(size * base.hash.RATIO);
+        //	// SUPER; INSERT
+        //	super.assign(begin, end);
+        //}
         /**
          * @inheritdoc
          */
@@ -4850,6 +5276,19 @@ var std;
             // INSERTS
             _super.prototype.insert_by_range.call(this, begin, end);
         };
+        //protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(begin: InputIterator, end: InputIterator): void
+        //{
+        //	// CALCULATE INSERTING SIZE
+        //	let size: number = 0;
+        //	for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+        //		size++;
+        //	// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+        //	if (this.size() + size > this.hash_buckets_.item_size() * base.hash.MAX_RATIO)
+        //		this.hash_buckets_.reserve((this.size() + size) * base.hash.RATIO);
+        //	// INSERTS
+        //	super.insert_by_range(begin, end);
+        //}
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
@@ -4985,6 +5424,19 @@ var std;
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
+        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(begin: InputIterator, end: InputIterator): void
+        //{
+        //	let it: InputIterator;
+        //	let size: number = 0;
+        //	// RESERVE HASH_BUCKET SIZE
+        //	for (it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+        //		size++;
+        //	this.hash_buckets_.clear();
+        //	this.hash_buckets_.reserve(size * base.hash.RATIO);
+        //	// SUPER; INSERT
+        //	super.assign(begin, end);
+        //}
         /**
          * @inheritdoc
          */
@@ -5037,6 +5489,19 @@ var std;
             // INSERTS
             _super.prototype.insert_by_range.call(this, begin, end);
         };
+        //protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(begin: InputIterator, end: InputIterator): void
+        //{
+        //	// CALCULATE INSERTING SIZE
+        //	let size: number = 0;
+        //	for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+        //		size++;
+        //	// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+        //	if (this.size() + size > this.hash_buckets_.size() * base.hash.MAX_RATIO)
+        //		this.hash_buckets_.reserve((this.size() + size) * base.hash.RATIO);
+        //	// INSERTS
+        //	super.insert_by_range(begin, end);
+        //}
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
@@ -5258,10 +5723,15 @@ var std;
             }
         }
         Object.defineProperty(List, "iterator", {
+            /**
+             * Type definition of {@link List}'s {@link ListIterator iterator}.
+             */
             get: function () { return std.ListIterator; },
             enumerable: true,
             configurable: true
         });
+        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(begin: InputIterator, end: InputIterator): void;
         List.prototype.assign = function (par1, par2) {
             if (par1 instanceof std.base.container.Iterator && par2 instanceof std.base.container.Iterator) {
                 // PARAMETERS
@@ -5290,6 +5760,43 @@ var std;
                 }
             }
         };
+        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(par1: any, par2: any): void
+        //{
+        //	if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator) {
+        //		// PARAMETERS
+        //		let begin: InputIterator = par1;
+        //		let end: InputIterator = par2;
+        //		// BODY
+        //		let prev: ListIterator<T> = null;
+        //		let item: ListIterator<T>;
+        //		let it = begin;
+        //		while (true) 
+        //		{
+        //			// CONSTRUCT ELEMENT ITEM
+        //			item = new ListIterator<T>
+        //			(
+        //				this,
+        //				prev,
+        //				null,
+        //				(it != end ? it.value : null)
+        //			);
+        //			// SET PREVIOUS NEXT POINTER
+        //			if (prev != null)
+        //				prev.setNext(item);
+        //			// CONSTRUCT BEGIN AND END
+        //			if (it == begin)
+        //				this.begin_ = item;
+        //			else if (it == end) {
+        //				this.end_ = item;
+        //				break;
+        //			}
+        //			// ADD COUNTS AND STEP TO THE NEXT
+        //			this.size_++;
+        //			it = it.next() as InputIterator;
+        //		}
+        //	}
+        //}
         /**
          * @inheritdoc
          */
@@ -5315,6 +5822,21 @@ var std;
          */
         List.prototype.end = function () {
             return this.end_;
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.rbegin = function () {
+            if (this.empty() == true)
+                return this.rend();
+            else
+                return new std.ListReverseIterator(this.end().prev());
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.rend = function () {
+            return new std.ListReverseIterator(this.end());
         };
         /**
          * @inheritdoc
@@ -5399,6 +5921,8 @@ var std;
         List.prototype.pop_back = function () {
             this.erase(this.end_.prev());
         };
+        //public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
         List.prototype.insert = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -5679,6 +6203,9 @@ var std;
 /// <reference path="base/container/Iterator.ts" />
 var std;
 (function (std) {
+    /**
+     * An iterator, node of a List.
+     */
     var ListIterator = (function (_super) {
         __extends(ListIterator, _super);
         /* ---------------------------------------------------------------
@@ -5738,10 +6265,22 @@ var std;
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.advance = function (size) {
+        ListIterator.prototype.advance = function (step) {
             var it = this;
-            for (var i = 0; i < size; i++)
-                it = it.next();
+            if (step >= 0) {
+                for (var i = 0; i < step; i++) {
+                    it = it.next();
+                    if (it.equals(this.source_.end()))
+                        return it;
+                }
+            }
+            else {
+                for (var i = 0; i < step; i++) {
+                    it = it.prev();
+                    if (it.equals(this.source_.end()))
+                        return it;
+                }
+            }
             return it;
         };
         Object.defineProperty(ListIterator.prototype, "value", {
@@ -5751,9 +6290,6 @@ var std;
             get: function () {
                 return this.value_;
             },
-            /**
-             * @inheritdoc
-             */
             set: function (val) {
                 this.value_ = val;
             },
@@ -5783,27 +6319,90 @@ var std;
     }(std.base.container.Iterator));
     std.ListIterator = ListIterator;
 })(std || (std = {}));
+/// <reference path="base/container/ReverseIterator.ts" />
 var std;
 (function (std) {
+    /**
+     * <p> A reverse-iterator of List. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var ListReverseIterator = (function (_super) {
+        __extends(ListReverseIterator, _super);
+        /* ---------------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------------- */
+        function ListReverseIterator(iterator) {
+            _super.call(this, iterator);
+        }
+        Object.defineProperty(ListReverseIterator.prototype, "list_iterator", {
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            /**
+             * @hidden
+             */
+            get: function () {
+                return this.iterator_;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ListReverseIterator.prototype, "value", {
+            set: function (val) {
+                this.list_iterator.value = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        ListReverseIterator.prototype.prev = function () {
+            return new ListReverseIterator(this.list_iterator.next());
+        };
+        /**
+         * @inheritdoc
+         */
+        ListReverseIterator.prototype.next = function () {
+            return new ListReverseIterator(this.list_iterator.prev());
+        };
+        /**
+         * @inheritdoc
+         */
+        ListReverseIterator.prototype.advance = function (n) {
+            return new ListReverseIterator(this.list_iterator.advance(-1 * n));
+        };
+        return ListReverseIterator;
+    }(std.base.container.ReverseIterator));
+    std.ListReverseIterator = ListReverseIterator;
+})(std || (std = {}));
+var std;
+(function (std) {
+    /**
+     * An iterator of {@link MapColntainer map container}.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     var MapIterator = (function () {
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
         /**
-         * Construct from the source PairContainer.
+         * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}.
          *
-         * @param source The source PairContainer.
+         * @param source The source {@link MapContainer}.
+         * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
          */
-        function MapIterator(source, listIterator) {
+        function MapIterator(source, list_iterator) {
             this.source_ = source;
-            this.list_iterator_ = listIterator;
+            this.list_iterator_ = list_iterator;
         }
-        /**
-         * Get listIterator.
-         */
-        MapIterator.prototype.get_list_iterator = function () {
-            return this.list_iterator_;
-        };
         /* ---------------------------------------------------------
             MOVERS
         --------------------------------------------------------- */
@@ -5822,28 +6421,11 @@ var std;
         /**
          * Advances the Iterator by n element positions.
          *
-         * @param n Number of element positions to advance.
+         * @param step Number of element positions to advance.
          * @return An advanced Iterator.
          */
-        MapIterator.prototype.advance = function (n) {
-            var it = this;
-            var i;
-            if (n >= 0) {
-                for (i = 0; i < n; i++)
-                    if (it.equals(this.source_.end()))
-                        return this.source_.end();
-                    else
-                        it = it.next();
-            }
-            else {
-                n = n * -1;
-                for (i = 0; i < n; i++)
-                    if (it.equals(this.source_.end()))
-                        return this.source_.end();
-                    else
-                        it = it.prev();
-            }
-            return it;
+        MapIterator.prototype.advance = function (step) {
+            return new MapIterator(this.source_, this.list_iterator_.advance(step));
         };
         /* ---------------------------------------------------------
             ACCESSORS
@@ -5853,6 +6435,12 @@ var std;
          */
         MapIterator.prototype.get_source = function () {
             return this.source_;
+        };
+        /**
+         * Get ListIterator.
+         */
+        MapIterator.prototype.get_list_iterator = function () {
+            return this.list_iterator_;
         };
         Object.defineProperty(MapIterator.prototype, "first", {
             /**
@@ -5871,6 +6459,9 @@ var std;
             get: function () {
                 return this.list_iterator_.value.second;
             },
+            /**
+             * Set second value.
+             */
             set: function (val) {
                 this.list_iterator_.value.second = val;
             },
@@ -5881,32 +6472,75 @@ var std;
             COMPARISONS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * <p> Whether an iterator is equal with the iterator. </p>
+         *
+         * <p> Compare two iterators and returns whether they are equal or not. </p>
+         *
+         * @param obj An iterator to compare
+         * @return Indicates whether equal or not.
          */
         MapIterator.prototype.equals = function (obj) {
             return this.source_ == obj.source_ && this.list_iterator_ == obj.list_iterator_;
         };
-        /**
-         * @inheritdoc
-         */
         MapIterator.prototype.less = function (obj) {
             return std.less(this.first, obj.first);
         };
-        /**
-         * @inheritdoc
-         */
         MapIterator.prototype.hash = function () {
             return std.hash(this.first);
         };
-        /**
-         * @inheritdoc
-         */
         MapIterator.prototype.swap = function (obj) {
             this.list_iterator_.swap(obj.list_iterator_);
         };
         return MapIterator;
     }());
     std.MapIterator = MapIterator;
+})(std || (std = {}));
+/// <reference path="MapIterator.ts" />
+var std;
+(function (std) {
+    /**
+     * A reverse-iterator of {@link MapColntainer map container}.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var MapReverseIterator = (function (_super) {
+        __extends(MapReverseIterator, _super);
+        /* ---------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------- */
+        /**
+         * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}.
+         *
+         * @param source The source {@link MapContainer}.
+         * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
+         */
+        function MapReverseIterator(source, list_iterator) {
+            _super.call(this, source, list_iterator);
+        }
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        MapReverseIterator.prototype.prev = function () {
+            return new MapReverseIterator(this.source_, this.list_iterator_.next());
+        };
+        /**
+         * @inheritdoc
+         */
+        MapReverseIterator.prototype.next = function () {
+            return new MapReverseIterator(this.source_, this.list_iterator_.next());
+        };
+        /**
+         * @inheritdoc
+         */
+        MapReverseIterator.prototype.advance = function (step) {
+            return new MapReverseIterator(this.source_, this.list_iterator_.advance(-1 * step));
+        };
+        return MapReverseIterator;
+    }(std.MapIterator));
+    std.MapReverseIterator = MapReverseIterator;
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -6327,9 +6961,6 @@ var std;
             _super.call(this, source);
             this.list_iterator_ = it;
         }
-        SetIterator.prototype.get_list_iterator = function () {
-            return this.list_iterator_;
-        };
         /* ---------------------------------------------------------
             MOVERS
         --------------------------------------------------------- */
@@ -6343,7 +6974,7 @@ var std;
          * @inheritdoc
          */
         SetIterator.prototype.next = function () {
-            return new SetIterator(this.source_, this.list_iterator_.next());
+            return new SetIterator(this.set, this.list_iterator_.next());
         };
         /**
          * @inheritdoc
@@ -6355,12 +6986,18 @@ var std;
             /* ---------------------------------------------------------
                 ACCESSORS
             --------------------------------------------------------- */
+            /**
+             * @hidden
+             */
             get: function () {
                 return this.source_;
             },
             enumerable: true,
             configurable: true
         });
+        SetIterator.prototype.get_list_iterator = function () {
+            return this.list_iterator_;
+        };
         Object.defineProperty(SetIterator.prototype, "value", {
             /**
              * @inheritdoc
@@ -6401,6 +7038,62 @@ var std;
         return SetIterator;
     }(std.base.container.Iterator));
     std.SetIterator = SetIterator;
+})(std || (std = {}));
+/// <reference path="base/container/ReverseIterator.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> A reverse-iterator of Set. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var SetReverseIterator = (function (_super) {
+        __extends(SetReverseIterator, _super);
+        /* ---------------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------------- */
+        function SetReverseIterator(iterator) {
+            _super.call(this, iterator);
+        }
+        Object.defineProperty(SetReverseIterator.prototype, "set_iterator", {
+            /* ---------------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------------- */
+            /**
+             * @hidden
+             */
+            get: function () {
+                return this.iterator_;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        SetReverseIterator.prototype.prev = function () {
+            return new SetReverseIterator(this.set_iterator.next());
+        };
+        /**
+         * @inheritdoc
+         */
+        SetReverseIterator.prototype.next = function () {
+            return new SetReverseIterator(this.set_iterator.prev());
+        };
+        /**
+         * @inheritdoc
+         */
+        SetReverseIterator.prototype.advance = function (n) {
+            return new SetReverseIterator(this.set_iterator.advance(-1 * n));
+        };
+        return SetReverseIterator;
+    }(std.base.container.ReverseIterator));
+    std.SetReverseIterator = SetReverseIterator;
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -7215,6 +7908,11 @@ var std;
         TreeMultiSet.prototype.assign = function (begin, end) {
             _super.prototype.assign.call(this, begin, end);
         };
+        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(begin: InputIterator, end: InputIterator): void
+        //{
+        //	super.assign(begin, end);
+        //}
         /**
          * @inheritdoc
          */
@@ -7485,6 +8183,11 @@ var std;
         TreeSet.prototype.assign = function (begin, end) {
             _super.prototype.assign.call(this, begin, end);
         };
+        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(begin: InputIterator, end: InputIterator): void
+        //{
+        //	super.assign(begin, end);
+        //}
         /**
          * @inheritdoc
          */
@@ -7755,6 +8458,9 @@ var std;
             }
         }
         Object.defineProperty(Vector, "iterator", {
+            /**
+             * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
+             */
             get: function () { return std.VectorIterator; },
             enumerable: true,
             configurable: true
@@ -7775,6 +8481,26 @@ var std;
                     this[i] = val;
             }
         };
+        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(first: any, second: any): void
+        //{
+        //	this.clear();
+        //	if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
+        //	{
+        //		let begin: InputIterator = first;
+        //		let end: InputIterator = second;
+        //		for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+        //			this.push(it.value);
+        //	}
+        //	else if (typeof first == "number")
+        //	{
+        //		let size: number = <number>first;
+        //		let val: T = <T>second;
+        //		this.length = size;
+        //		for (let i: number = 0; i < size; i++)
+        //			this[i] = val;
+        //	}
+        //}
         /**
          * @inheritdoc
          */
@@ -7803,6 +8529,21 @@ var std;
          */
         Vector.prototype.end = function () {
             return new std.VectorIterator(this, -1);
+        };
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.rbegin = function () {
+            if (this.empty() == true)
+                return this.rend();
+            else
+                return new std.VectorReverseIterator(this.end().prev());
+        };
+        /**
+         * @inheritdoc
+         */
+        Vector.prototype.rend = function () {
+            return new std.VectorReverseIterator(this.end());
         };
         /**
          * @inheritdoc
@@ -7868,6 +8609,8 @@ var std;
         Vector.prototype.pop_back = function () {
             this.erase(this.end().prev());
         };
+        //public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+        //	(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
         Vector.prototype.insert = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -7936,7 +8679,7 @@ var std;
 var std;
 (function (std) {
     /**
-     * <p> A bi-directional iterator of a Set. </p>
+     * <p> An iterator of Vector. </p>
      *
      * @param <T> Type of the elements.
      *
@@ -7982,7 +8725,7 @@ var std;
                 return this.vector.at(this.index_);
             },
             /**
-             * @inheritdoc
+             * Set value.
              */
             set: function (val) {
                 this.vector.set(this.index_, val);
@@ -7991,15 +8734,24 @@ var std;
             configurable: true
         });
         /**
-         * @inheritdoc
+         * <p> Whether an iterator is equal with the iterator. </p>
+         *
+         * <p> Compare two iterators and returns whether they are equal or not. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Iterator's equals() only compare souce container and index number. </p>
+         *
+         * <p> Although elements in a pair, key and value are equals, if the source map or
+         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * compare the elements of a pair, compare them directly by yourself. </p>
+         *
+         * @param obj An iterator to compare
+         * @return Indicates whether equal or not.
          */
         VectorIterator.prototype.equals = function (obj) {
             return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
         };
         Object.defineProperty(VectorIterator.prototype, "index", {
-            /**
-             * @inheritdoc
-             */
             get: function () {
                 return this.index_;
             },
@@ -8050,5 +8802,76 @@ var std;
         return VectorIterator;
     }(std.base.container.Iterator));
     std.VectorIterator = VectorIterator;
+})(std || (std = {}));
+/// <reference path="base/container/ReverseIterator.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> A reverse-iterator of Vector. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var VectorReverseIterator = (function (_super) {
+        __extends(VectorReverseIterator, _super);
+        /* ---------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------- */
+        function VectorReverseIterator(iterator) {
+            _super.call(this, iterator);
+        }
+        Object.defineProperty(VectorReverseIterator.prototype, "vector_iterator", {
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            /**
+             * @hidden
+             */
+            get: function () {
+                return this.iterator_;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(VectorReverseIterator.prototype, "index", {
+            get: function () {
+                return this.vector_iterator.index;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(VectorReverseIterator.prototype, "value", {
+            set: function (val) {
+                this.vector_iterator.value = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /* ---------------------------------------------------------
+            MOVERS
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        VectorReverseIterator.prototype.prev = function () {
+            return new VectorReverseIterator(this.vector_iterator.next());
+        };
+        /**
+         * @inheritdoc
+         */
+        VectorReverseIterator.prototype.next = function () {
+            return new VectorReverseIterator(this.vector_iterator.prev());
+        };
+        /**
+         * @inheritdoc
+         */
+        VectorReverseIterator.prototype.advance = function (n) {
+            var iterator = this.vector_iterator.advance(-1 * n);
+            return new VectorReverseIterator(iterator);
+        };
+        return VectorReverseIterator;
+    }(std.base.container.ReverseIterator));
+    std.VectorReverseIterator = VectorReverseIterator;
 })(std || (std = {}));
 //# sourceMappingURL=std.js.map

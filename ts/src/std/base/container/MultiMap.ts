@@ -144,8 +144,8 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public insert<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
-			(begin: InputIterator, end: InputIterator): void;
+		public insert<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
 
 		public insert(...args: any[]): any
 		{

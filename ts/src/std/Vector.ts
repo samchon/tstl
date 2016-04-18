@@ -176,25 +176,28 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void;
+		public assign<U extends T>
+			(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+
+		//public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		//	(begin: InputIterator, end: InputIterator): void;
 
 		/**
 		 * @inheritdoc
 		 */
 		public assign(n: number, val: T): void;
 
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		public assign<U extends T>
 			(first: any, second: any): void
 		{
 			this.clear();
 
 			if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
 			{
-				let begin: InputIterator = first;
-				let end: InputIterator = second;
+				let begin: base.container.Iterator<U> = first;
+				let end: base.container.Iterator<U> = second;
 
-				for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+				for (let it = begin; it.equals(end) == false; it = it.next())
 					this.push(it.value);
 			}
 			else if (typeof first == "number")
@@ -208,6 +211,31 @@ namespace std
 					this[i] = val;
 			}
 		}
+
+		//public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		//	(first: any, second: any): void
+		//{
+		//	this.clear();
+
+		//	if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
+		//	{
+		//		let begin: InputIterator = first;
+		//		let end: InputIterator = second;
+
+		//		for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+		//			this.push(it.value);
+		//	}
+		//	else if (typeof first == "number")
+		//	{
+		//		let size: number = <number>first;
+		//		let val: T = <T>second;
+
+		//		this.length = size;
+
+		//		for (let i: number = 0; i < size; i++)
+		//			this[i] = val;
+		//	}
+		//}
 
 		/**
 		 * @inheritdoc
@@ -419,8 +447,12 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
-			(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
+		public insert<U extends T>
+			(position: VectorIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>)
+				: VectorIterator<T>;
+
+		//public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+		//	(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
 
 		public insert<U extends T>(...args: any[]): VectorIterator<T>
 		{

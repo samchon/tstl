@@ -137,11 +137,11 @@ namespace std.base.container
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public assign<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
-			(begin: InputIterator, end: InputIterator): void
+		public assign<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			// INSERT
-			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+			for (let it = begin; it.equals(end) == false; it = it.next())
 				this.insert_by_pair(new Pair<Key, T>(it.first, it.second));
 		}
 
@@ -350,8 +350,8 @@ namespace std.base.container
 		 *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>, 
 		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
 		 */
-		public insert<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
-			(begin: InputIterator, end: InputIterator): void;
+		public insert<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
 
 		public insert(...args: any[]): any
 		{
@@ -417,10 +417,10 @@ namespace std.base.container
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends Key, U extends T, InputIterator extends MapIterator<L, U>>
-			(begin: InputIterator, end: InputIterator): void
+		protected insert_by_range<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
-			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+			for (let it = begin; it.equals(end) == false; it = it.next())
 				this.insert_by_pair(new Pair<Key, T>(it.first, it.second));
 		}
 		

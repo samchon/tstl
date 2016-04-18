@@ -36,8 +36,11 @@ namespace std.base.container
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		assign<U extends T, InputIterator extends Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void;
+		assign<U extends T>
+			(begin: Iterator<U>, end: Iterator<U>): void;
+
+		//assign<U extends T, InputIterator extends Iterator<U>>
+		//	(begin: InputIterator, end: InputIterator): void;
 
 		/**
 		 * <p> Clear content. </p>
