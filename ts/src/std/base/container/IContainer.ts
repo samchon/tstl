@@ -52,35 +52,65 @@ namespace std.base.container
 		/**
 		 * <p> Return iterator to beginning. </p>
 		 *
-		 * <p> Returns an iterator referring the first element in the Container. </p>
+		 * <p> Returns an iterator referring the first element in the container. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> If the container is empty, the returned iterator is same with end(). </p>
+		 * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
 		 *
-		 * @return An iterator to the first element in the container.
-		 * The iterator containes the first element's value.
+		 * @return An iterator to the first element in the container. The iterator containes the first element's value.
 		 */
 		begin(): Iterator<T>;
 
 		/**
 		 * <p> Return iterator to end. </p>
-		 * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+		 * <p> Returns an iterator referring to the past-the-end element in the container. </p>
 		 *
-		 * <p> The past-the-end element is the theoretical element that would follow the last element in 
-		 * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+		 * <p> The past-the-end element is the theoretical element that would follow the last element in the container. 
+		 * It does not point to any element, and thus shall not be dereferenced. </p>
 		 *
-		 * <p> Because the ranges used by functions of the Container do not include the element reference 
-		 * by their closing iterator, this function is often used in combination with Container::begin() to specify 
-		 * a range including all the elements in the container. </p>
+		 * <p> Because the ranges used by functions of the Container do not include the element reference by their 
+		 * closing iterator, this function is often used in combination with {@link IContainer}.{@link begin} to 
+		 * specify a range including all the elements in the container. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing 
-		 * element by the iterator will cause throwing exception (out of range). </p>
-		 * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+		 * <p> Returned iterator from {@link IContainer}.{@link end} does not refer any element. Trying to accessing 
+		 * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
+		 * 
+		 * <p> If the container is {@link empty}, this function returns the same as {@link Container}.{@link begin}. 
+		 * </p>
 		 * 
 		 * @return An iterator to the end element in the container.
 		 */
 		end(): Iterator<T>;
+
+		/**
+		 * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+		 * 
+		 * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the last element in the container (i.e., 
+		 * its <i>reverse beginning</i>). </p>
+		 * 
+		 * <p> {@link ReverseIterator reverse iterators} iterate backwards: increasing them moves them towards the 
+		 * beginning of the container. </p>
+		 * 
+		 * <p> {@link rbegin} points to the element right before the one that would be pointed to by member {@link end}.
+		 * </p>
+		 * 
+		 * @return A {@link ReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence container.
+		 */
+		rbegin(): ReverseIterator<T>;
+
+		/**
+		 * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+		 * 
+		 * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the theoretical element preceding the 
+		 * first element in the container (which is considered its <i>reverse end</i>). </p>
+		 * 
+		 * <p> The range between {@link IContainer}.{@link rbegin} and {@link IContainer}.{@link rend} contains all 
+		 * the elements of the container (in reverse order).
+		 * 
+		 * @return A {@link ReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence container.
+		 */
+		rend(): ReverseIterator<T>;
 
 		/**
 		 * Return the number of elements in the Container.
@@ -106,7 +136,7 @@ namespace std.base.container
 		/**
 		 * <p> Insert elements. </p>
 		 *
-		 * <p> Appends new elements to the container, and returns the new size of the {@link Container}. </p>
+		 * <p> Appends new elements to the container, and returns the new size of the container. </p>
 		 * 
 		 * @param items New elements to insert.
 		 * 
@@ -133,7 +163,7 @@ namespace std.base.container
 		/**
 		 * <p> Erase an element. </p>
 		 *
-		 * <p> Removes from the {@link Container} a single element. </p>
+		 * <p> Removes from the container a single element. </p>
 		 *
 		 * <p> This effectively reduces the container size by the number of element removed. </p>
 		 *
@@ -148,7 +178,7 @@ namespace std.base.container
 		/**
 		 * <p> Erase elements. </p>
 		 *
-		 * <p> Removes from the {@link Container} a range of elements. </p>
+		 * <p> Removes from the container a range of elements. </p>
 		 *
 		 * <p> This effectively reduces the container size by the number of elements removed. </p>
 		 *

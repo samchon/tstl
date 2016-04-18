@@ -40,6 +40,9 @@ namespace std.base.container
 	 */
 	export abstract class MapContainer<Key, T>
 	{
+		/**
+		 * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
+		 */
 		public static get iterator() { return MapIterator; }
 
 		/**
@@ -128,7 +131,7 @@ namespace std.base.container
 		/**
 		 * <p> Assign new content to content. </p>
 		 *
-		 * <p> Assigns new contents to the Container, replacing its current contents, and modifying its {@link size} 
+		 * <p> Assigns new contents to the container, replacing its current contents, and modifying its {@link size} 
 		 * accordingly. </p>
 		 *
 		 * @param begin Input interator of the initial position in a sequence.
@@ -145,7 +148,7 @@ namespace std.base.container
 		/**
 		 * <p> Clear content. </p>
 		 *
-		 * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
+		 * <p> Removes all elements from the container, leaving the container with a size of 0. </p>
 		 */
 		public clear(): void
 		{
@@ -179,13 +182,13 @@ namespace std.base.container
 
 		/**
 		 * <p> Return iterator to beginning. </p>
-		 * <p> Returns an iterator referring the first element in the Container. </p>
+		 * 
+		 * <p> Returns an iterator referring the first element in the container. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
+		 * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
 		 *
-		 * @return An iterator to the first element in the container.
-		 *		   The iterator containes the first element's value.
+		 * @return An iterator to the first element in the container. The iterator containes the first element's value.
 		 */
 		public begin(): MapIterator<Key, T>
 		{
@@ -194,26 +197,66 @@ namespace std.base.container
 
 		/**
 		 * <p> Return iterator to end. </p>
-		 * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+		 * <p> Returns an iterator referring to the past-the-end element in the container. </p>
 		 *
 		 * <p> The past-the-end element is the theoretical element that would follow the last element in the 
 		 * container. It does not point to any element, and thus shall not be dereferenced. </p>
 		 *
-		 * <p> Because the ranges used by functions of the Container do not include the element reference by their 
-		 * closing iterator, this function is often used in combination with Container::begin() to specify a range 
-		 * including all the elements in the container. </p>
+		 * <p> Because the ranges used by functions of the container do not include the element reference by their 
+		 * closing iterator, this function is often used in combination with {@link MapContainer}.{@link begin} to 
+		 * specify a range including all the elements in the container. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing element by 
-		 * the iterator will cause throwing exception (out of range). </p>
+		 * <p> Returned iterator from {@link MapContainer}.{@link end} does not refer any element. Trying to accessing 
+		 * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
 		 * 
-		 * <p> If the container is empty, this function returns the same as {@link begin}. </p>
+		 * <p> If the container is {@link empty}, this function returns the same as {@link begin}. </p>
 		 * 
 		 * @return An iterator to the end element in the container.
 		 */
 		public end(): MapIterator<Key, T>
 		{
 			return new MapIterator<Key, T>(this, this.data_.end());
+		}
+
+		/**
+		 * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+		 * 
+		 * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the last element in the container 
+		 * (i.e., its <i>reverse beginning</i>). </p>
+		 * 
+		 * {@link MapReverseIterator Reverse iterators} iterate backwards: increasing them moves them towards the 
+		 * beginning of the container. </p>
+		 * 
+		 * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}. 
+		 * </p>
+		 *
+		 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence 
+		 *		   container.
+		 */
+		public rbegin(): MapReverseIterator<Key, T>
+		{
+			if (this.empty() == true)
+				return this.rend();
+			else
+				return new MapReverseIterator<Key, T>(this, this.data_.end().prev());
+		}
+
+		/**
+		 * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+		 * 
+		 * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the theoretical element right before 
+		 * the first element in the {@link MapContainer map container} (which is considered its <i>reverse end</i>). 
+		 * </p>
+		 * 
+		 * <p> The range between {@link MapContainer}.{@link rbegin} and {@link MapContainer}.{@link rend} contains 
+		 * all the elements of the container (in reverse order). </p>
+		 * 
+		 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence container.
+		 */
+		public rend(): MapReverseIterator<Key, T>
+		{
+			return new MapReverseIterator<Key, T>(this, this.data_.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -251,7 +294,7 @@ namespace std.base.container
 		}
 
 		/**
-		 * Test whether the Container is empty.
+		 * Test whether the container is empty.
 		 */
 		public empty(): boolean
 		{

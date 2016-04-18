@@ -2,6 +2,9 @@
 
 namespace std
 {
+	/**
+	 * An iterator, node of a List.
+	 */
 	export class ListIterator<T>
 		extends base.container.Iterator<T>
 	{
@@ -81,12 +84,31 @@ namespace std
 		 /**
 		  * @inheritdoc
 		  */
-		public advance(size: number): ListIterator<T>
+		public advance(step: number): ListIterator<T>
 		{
 			let it: ListIterator<T> = this;
-			for (let i: number = 0; i < size; i++)
-				it = it.next();
+			
+			if (step >= 0)
+			{
+				for (let i: number = 0; i < step; i++)
+				{
+					it = it.next();
 
+					if (it.equals(this.source_.end() as ListIterator<T>))
+						return it;
+				}
+			}
+			else
+			{
+				for (let i: number = 0; i < step; i++)
+				{
+					it = it.prev();
+
+					if (it.equals(this.source_.end() as ListIterator<T>))
+						return it;
+				}
+			}
+			
 			return it;
 		}
 
@@ -98,9 +120,6 @@ namespace std
 			return this.value_;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public set value(val: T)
 		{
 			this.value_ = val;

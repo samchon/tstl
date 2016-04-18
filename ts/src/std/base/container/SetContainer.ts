@@ -36,6 +36,9 @@ namespace std.base.container
 	export abstract class SetContainer<T>
 		extends Container<T>
 	{
+		/**
+		 * Type definition of {@link SetContainer}'s {@link SetIterator iterator}.
+		 */
 		public static get iterator() { return SetIterator; }
 
 		/**
@@ -181,6 +184,25 @@ namespace std.base.container
 		public end(): SetIterator<T>
 		{
 			return new SetIterator<T>(this, this.data_.end());
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rbegin(): SetReverseIterator<T>
+		{
+			if (this.empty() == true)
+				return this.rend();
+			else
+				return new SetReverseIterator<T>(this.end().prev());
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rend(): SetReverseIterator<T>
+		{
+			return new SetReverseIterator<T>(this.end());
 		}
 
 		/* ---------------------------------------------------------

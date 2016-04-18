@@ -30,11 +30,6 @@ namespace std
 			this.list_iterator_ = it;
 		}
 
-		public get_list_iterator(): ListIterator<T>
-		{
-			return this.list_iterator_;
-		}
-
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
@@ -51,7 +46,7 @@ namespace std
 		 */
 		public next(): SetIterator<T>
 		{
-			return new SetIterator<T>(<base.container.SetContainer<T>>this.source_, this.list_iterator_.next());
+			return new SetIterator<T>(this.set, this.list_iterator_.next());
 		}
 
 		/**
@@ -65,9 +60,17 @@ namespace std
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
 		private get set(): TreeSet<T>
 		{
 			return <TreeSet<T>>this.source_;
+		}
+
+		public get_list_iterator(): ListIterator<T>
+		{
+			return this.list_iterator_;
 		}
 
 		/**

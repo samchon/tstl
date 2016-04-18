@@ -1,33 +1,37 @@
 namespace std
 {
+	/**
+	 * An iterator of {@link MapColntainer map container}.
+	 *
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MapIterator<Key, T>
 		implements IComparable<MapIterator<Key, T>>
 	{
+		/**
+		 * The source {@link MapContainer} of the iterator is directing for.
+		 */
 		protected source_: base.container.MapContainer<Key, T>;
 
+		/**
+		 * A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
+		 */
 		protected list_iterator_: ListIterator<Pair<Key, T>>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
-		 * Construct from the source PairContainer. 
+		 * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}. 
 		 *
-		 * @param source The source PairContainer.
+		 * @param source The source {@link MapContainer}.
+		 * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
 		 */
-		public constructor(source: base.container.MapContainer<Key, T>, listIterator: ListIterator<Pair<Key, T>>)
+		public constructor(source: base.container.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>)
 		{
 			this.source_ = source;
 
-			this.list_iterator_ = listIterator;
-		}
-
-		/**
-		 * Get listIterator.
-		 */
-		public get_list_iterator(): ListIterator<Pair<Key, T>>
-		{
-			return this.list_iterator_;
+			this.list_iterator_ = list_iterator;
 		}
 
 		/* ---------------------------------------------------------
@@ -39,10 +43,10 @@ namespace std
 		public prev(): MapIterator<Key, T>
 		{
 			return new MapIterator<Key, T>
-			(
-				<base.container.MapContainer<Key, T>>this.source_,
-				this.list_iterator_.prev()
-			);
+				(
+					<base.container.MapContainer<Key, T>>this.source_,
+					this.list_iterator_.prev()
+				);
 		}
 
 		/**
@@ -51,43 +55,25 @@ namespace std
 		public next(): MapIterator<Key, T>
 		{
 			return new MapIterator<Key, T>
-			(
-				<base.container.MapContainer<Key, T>>this.source_,
-				this.list_iterator_.next()
-			);
+				(
+					<base.container.MapContainer<Key, T>>this.source_,
+					this.list_iterator_.next()
+				);
 		}
 
 		/**
 		 * Advances the Iterator by n element positions.
 		 *
-		 * @param n Number of element positions to advance.
+		 * @param step Number of element positions to advance.
 		 * @return An advanced Iterator.
 		 */
-		public advance(n: number): MapIterator<Key, T>
+		public advance(step: number): MapIterator<Key, T>
 		{
-			let it: MapIterator<Key, T> = this;
-			let i: number;
-
-			if (n >= 0 )
-			{
-				for (i = 0; i < n; i++)
-					if (it.equals(this.source_.end()))
-						return this.source_.end();
-					else
-						it = it.next();
-			}
-			else
-			{
-				n = n * -1;
-
-				for (i = 0; i < n; i++)
-					if (it.equals(this.source_.end()))
-						return this.source_.end();
-					else
-						it = it.prev();
-			}
-
-			return it;
+			return new MapIterator<Key, T>
+				(
+					<base.container.MapContainer<Key, T>>this.source_,
+					this.list_iterator_.advance(step)
+				);
 		}
 
 		/* ---------------------------------------------------------
@@ -99,6 +85,14 @@ namespace std
 		public get_source(): base.container.MapContainer<Key, T>
 		{
 			return this.source_;
+		}
+
+		/**
+		 * Get ListIterator.
+		 */
+		public get_list_iterator(): ListIterator<Pair<Key, T>>
+		{
+			return this.list_iterator_;
 		}
 		
 		/**
@@ -117,6 +111,9 @@ namespace std
 			return this.list_iterator_.value.second;
 		}
 
+		/**
+		 * Set second value.
+		 */
 		public set second(val: T)
 		{
 			this.list_iterator_.value.second = val;
@@ -126,32 +123,28 @@ namespace std
 			COMPARISONS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * <p> Whether an iterator is equal with the iterator. </p>
+		 * 
+		 * <p> Compare two iterators and returns whether they are equal or not. </p>
+		 *
+		 * @param obj An iterator to compare
+		 * @return Indicates whether equal or not.
 		 */
 		public equals<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean 
 		{
 			return this.source_ == obj.source_ && this.list_iterator_ == obj.list_iterator_;
 		}
-
-		/**
-		 * @inheritdoc
-		 */
+		
 		public less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean
 		{
 			return std.less(this.first, obj.first);
 		}
-
-		/**
-		 * @inheritdoc
-		 */
+		
 		public hash(): number
 		{
 			return std.hash(this.first);
 		}
-
-		/**
-		 * @inheritdoc
-		 */
+		
 		public swap(obj: MapIterator<Key, T>): void
 		{
 			this.list_iterator_.swap(obj.list_iterator_);

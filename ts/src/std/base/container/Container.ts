@@ -128,6 +128,16 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
+		public abstract rbegin(): ReverseIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public abstract rend(): ReverseIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
 		public abstract size(): number;
 		
 		/**

@@ -54,9 +54,11 @@
     <TypeScriptCompile Include="src\std\base\container\MapContainer.ts" />
     <TypeScriptCompile Include="src\std\base\container\MultiMap.ts" />
     <TypeScriptCompile Include="src\std\base\container\MultiSet.ts" />
+    <TypeScriptCompile Include="src\std\base\container\ReverseIterator.ts" />
     <TypeScriptCompile Include="src\std\base\container\SetContainer.ts" />
     <TypeScriptCompile Include="src\std\base\container\UniqueMap.ts" />
     <TypeScriptCompile Include="src\std\base\container\UniqueSet.ts" />
+    <TypeScriptCompile Include="src\std\DequeReverseIterator.ts" />
     <TypeScriptCompile Include="src\std\documentation\DefinitelyTyped.ts" />
     <TypeScriptCompile Include="src\std\base\hash\Hash.ts" />
     <TypeScriptCompile Include="src\std\base\hash\HashBuckets.ts" />
@@ -75,6 +77,7 @@
     <TypeScriptCompile Include="src\std\ErrorCategory.ts" />
     <TypeScriptCompile Include="src\std\ErrorCode.ts" />
     <TypeScriptCompile Include="src\std\ErrorCondition.ts" />
+    <TypeScriptCompile Include="src\std\example\test_anything.ts" />
     <TypeScriptCompile Include="src\std\example\test_deque.ts" />
     <TypeScriptCompile Include="src\std\example\test_for_each.ts" />
     <TypeScriptCompile Include="src\std\example\test_hash_map.ts" />
@@ -89,12 +92,15 @@
     <TypeScriptCompile Include="src\std\IComparable.ts" />
     <TypeScriptCompile Include="src\std\List.ts" />
     <TypeScriptCompile Include="src\std\ListIterator.ts" />
+    <TypeScriptCompile Include="src\std\ListReverseIterator.ts" />
     <TypeScriptCompile Include="src\std\MapIterator.ts" />
+    <TypeScriptCompile Include="src\std\MapReverseIterator.ts" />
     <TypeScriptCompile Include="src\std\namespace.ts" />
     <TypeScriptCompile Include="src\std\Pair.ts" />
     <TypeScriptCompile Include="src\std\PriorityQueue.ts" />
     <TypeScriptCompile Include="src\std\Queue.ts" />
     <TypeScriptCompile Include="src\std\SetIterator.ts" />
+    <TypeScriptCompile Include="src\std\SetReverseIterator.ts" />
     <TypeScriptCompile Include="src\std\Stack.ts" />
     <TypeScriptCompile Include="src\std\SystemError.ts" />
     <TypeScriptCompile Include="src\std\TreeMap.ts" />
@@ -103,7 +109,9 @@
     <TypeScriptCompile Include="src\std\TreeSet.ts" />
     <TypeScriptCompile Include="src\std\Vector.ts" />
     <TypeScriptCompile Include="src\std\VectorIterator.ts" />
+    <TypeScriptCompile Include="src\std\VectorReverseIterator.ts" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

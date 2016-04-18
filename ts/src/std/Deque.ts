@@ -58,7 +58,10 @@ namespace std
 		implements base.container.IArray<T>, 
 				   base.container.IDeque<T>
 	{
-		public static get iterator() { return ListIterator; }
+		/**
+		 * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
+		 */
+		public static get iterator() { return DequeIterator; }
 
 		/**
 		 * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
@@ -349,6 +352,25 @@ namespace std
 		public end(): DequeIterator<T>
 		{
 			return new DequeIterator<T>(this, -1);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rbegin(): DequeReverseIterator<T>
+		{
+			if (this.empty() == true)
+				return this.rend();
+			else
+				return new DequeReverseIterator<T>(this.end().prev());
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rend(): DequeReverseIterator<T>
+		{
+			return new DequeReverseIterator<T>(this.end());
 		}
 		
 		/**

@@ -566,6 +566,14 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
+        abstract rbegin(): ReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        abstract rend(): ReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
         abstract size(): number;
         /**
          * @inheritdoc
@@ -783,34 +791,62 @@ declare namespace std.base.container {
         /**
          * <p> Return iterator to beginning. </p>
          *
-         * <p> Returns an iterator referring the first element in the Container. </p>
+         * <p> Returns an iterator referring the first element in the container. </p>
          *
          * <h4> Note </h4>
-         * <p> If the container is empty, the returned iterator is same with end(). </p>
+         * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
          *
-         * @return An iterator to the first element in the container.
-         * The iterator containes the first element's value.
+         * @return An iterator to the first element in the container. The iterator containes the first element's value.
          */
         begin(): Iterator<T>;
         /**
          * <p> Return iterator to end. </p>
-         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+         * <p> Returns an iterator referring to the past-the-end element in the container. </p>
          *
-         * <p> The past-the-end element is the theoretical element that would follow the last element in
-         * the Container. It does not point to any element, and thus shall not be dereferenced. </p>
+         * <p> The past-the-end element is the theoretical element that would follow the last element in the container.
+         * It does not point to any element, and thus shall not be dereferenced. </p>
          *
-         * <p> Because the ranges used by functions of the Container do not include the element reference
-         * by their closing iterator, this function is often used in combination with Container::begin() to specify
-         * a range including all the elements in the container. </p>
+         * <p> Because the ranges used by functions of the Container do not include the element reference by their
+         * closing iterator, this function is often used in combination with {@link IContainer}.{@link begin} to
+         * specify a range including all the elements in the container. </p>
          *
          * <h4> Note </h4>
-         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing
-         * element by the iterator will cause throwing exception (out of range). </p>
-         * <p> If the container is empty, this function returns the same as Container::begin(). </p>
+         * <p> Returned iterator from {@link IContainer}.{@link end} does not refer any element. Trying to accessing
+         * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
+         *
+         * <p> If the container is {@link empty}, this function returns the same as {@link Container}.{@link begin}.
+         * </p>
          *
          * @return An iterator to the end element in the container.
          */
         end(): Iterator<T>;
+        /**
+         * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+         *
+         * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the last element in the container (i.e.,
+         * its <i>reverse beginning</i>). </p>
+         *
+         * <p> {@link ReverseIterator reverse iterators} iterate backwards: increasing them moves them towards the
+         * beginning of the container. </p>
+         *
+         * <p> {@link rbegin} points to the element right before the one that would be pointed to by member {@link end}.
+         * </p>
+         *
+         * @return A {@link ReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence container.
+         */
+        rbegin(): ReverseIterator<T>;
+        /**
+         * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+         *
+         * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the theoretical element preceding the
+         * first element in the container (which is considered its <i>reverse end</i>). </p>
+         *
+         * <p> The range between {@link IContainer}.{@link rbegin} and {@link IContainer}.{@link rend} contains all
+         * the elements of the container (in reverse order).
+         *
+         * @return A {@link ReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence container.
+         */
+        rend(): ReverseIterator<T>;
         /**
          * Return the number of elements in the Container.
          *
@@ -830,7 +866,7 @@ declare namespace std.base.container {
         /**
          * <p> Insert elements. </p>
          *
-         * <p> Appends new elements to the container, and returns the new size of the {@link Container}. </p>
+         * <p> Appends new elements to the container, and returns the new size of the container. </p>
          *
          * @param items New elements to insert.
          *
@@ -855,7 +891,7 @@ declare namespace std.base.container {
         /**
          * <p> Erase an element. </p>
          *
-         * <p> Removes from the {@link Container} a single element. </p>
+         * <p> Removes from the container a single element. </p>
          *
          * <p> This effectively reduces the container size by the number of element removed. </p>
          *
@@ -869,7 +905,7 @@ declare namespace std.base.container {
         /**
          * <p> Erase elements. </p>
          *
-         * <p> Removes from the {@link Container} a range of elements. </p>
+         * <p> Removes from the container a range of elements. </p>
          *
          * <p> This effectively reduces the container size by the number of elements removed. </p>
          *
@@ -1045,8 +1081,8 @@ declare namespace std.base.container {
      * <p> {@link Iterator Bidirectional iterators} are iterators that can be used to access the sequence of elements
      * in a range in both directions (towards the end and towards the beginning). </p>
      *
-     * <p> All {@link IArrayIterator random-access iterators} are also valid
-     * {@link Iterrator bidirectional iterators}. </p>
+     * <p> All {@link IArrayIterator random-access iterators} are also valid {@link Iterrator bidirectional iterators}.
+     * </p>
      *
      * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container}
      * may define its own specific iterator type able to iterate through it and access its elements. </p>
@@ -1059,7 +1095,7 @@ declare namespace std.base.container {
      */
     abstract class Iterator<T> {
         /**
-         * Source container of the iteerator is directing for.
+         * Source container of the iterator is directing for.
          */
         protected source_: IContainer<T>;
         /**
@@ -1096,10 +1132,11 @@ declare namespace std.base.container {
         get_source(): Container<T>;
         /**
          * <p> Whether an iterator is equal with the iterator. </p>
+         *
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
          * <h4> Note </h4>
-         * <p> Iterator's equals() only compare souce map and index number. </p>
+         * <p> Iterator's equals() only compare souce container and index number. </p>
          *
          * <p> Although elements in a pair, key and value are equals, if the source map or
          * index number is different, then the {@link equals equals()} will return false. If you want to
@@ -1158,6 +1195,9 @@ declare namespace std.base.container {
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class MapContainer<Key, T> {
+        /**
+         * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
+         */
         static iterator: typeof MapIterator;
         /**
          * <p> {@link List} storing elements. </p>
@@ -1205,7 +1245,7 @@ declare namespace std.base.container {
         /**
          * <p> Assign new content to content. </p>
          *
-         * <p> Assigns new contents to the Container, replacing its current contents, and modifying its {@link size}
+         * <p> Assigns new contents to the container, replacing its current contents, and modifying its {@link size}
          * accordingly. </p>
          *
          * @param begin Input interator of the initial position in a sequence.
@@ -1215,7 +1255,7 @@ declare namespace std.base.container {
         /**
          * <p> Clear content. </p>
          *
-         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
+         * <p> Removes all elements from the container, leaving the container with a size of 0. </p>
          */
         clear(): void;
         /**
@@ -1237,35 +1277,64 @@ declare namespace std.base.container {
         abstract find(key: Key): MapIterator<Key, T>;
         /**
          * <p> Return iterator to beginning. </p>
-         * <p> Returns an iterator referring the first element in the Container. </p>
+         *
+         * <p> Returns an iterator referring the first element in the container. </p>
          *
          * <h4> Note </h4>
-         * <p> If the container is empty, the returned iterator is same with {@link end()}. </p>
+         * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
          *
-         * @return An iterator to the first element in the container.
-         *		   The iterator containes the first element's value.
+         * @return An iterator to the first element in the container. The iterator containes the first element's value.
          */
         begin(): MapIterator<Key, T>;
         /**
          * <p> Return iterator to end. </p>
-         * <p> Returns an iterator referring to the past-the-end element in the Container. </p>
+         * <p> Returns an iterator referring to the past-the-end element in the container. </p>
          *
          * <p> The past-the-end element is the theoretical element that would follow the last element in the
          * container. It does not point to any element, and thus shall not be dereferenced. </p>
          *
-         * <p> Because the ranges used by functions of the Container do not include the element reference by their
-         * closing iterator, this function is often used in combination with Container::begin() to specify a range
-         * including all the elements in the container. </p>
+         * <p> Because the ranges used by functions of the container do not include the element reference by their
+         * closing iterator, this function is often used in combination with {@link MapContainer}.{@link begin} to
+         * specify a range including all the elements in the container. </p>
          *
          * <h4> Note </h4>
-         * <p> Returned iterator from Container.end() does not refer any element. Trying to accessing element by
-         * the iterator will cause throwing exception (out of range). </p>
+         * <p> Returned iterator from {@link MapContainer}.{@link end} does not refer any element. Trying to accessing
+         * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
          *
-         * <p> If the container is empty, this function returns the same as {@link begin}. </p>
+         * <p> If the container is {@link empty}, this function returns the same as {@link begin}. </p>
          *
          * @return An iterator to the end element in the container.
          */
         end(): MapIterator<Key, T>;
+        /**
+         * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+         *
+         * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the last element in the container
+         * (i.e., its <i>reverse beginning</i>). </p>
+         *
+         * {@link MapReverseIterator Reverse iterators} iterate backwards: increasing them moves them towards the
+         * beginning of the container. </p>
+         *
+         * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}.
+         * </p>
+         *
+         * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence
+         *		   container.
+         */
+        rbegin(): MapReverseIterator<Key, T>;
+        /**
+         * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+         *
+         * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the theoretical element right before
+         * the first element in the {@link MapContainer map container} (which is considered its <i>reverse end</i>).
+         * </p>
+         *
+         * <p> The range between {@link MapContainer}.{@link rbegin} and {@link MapContainer}.{@link rend} contains
+         * all the elements of the container (in reverse order). </p>
+         *
+         * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence container.
+         */
+        rend(): MapReverseIterator<Key, T>;
         /**
          * <p> Whether have the item or not. </p>
          * <p> Indicates whether a map has an item having the specified identifier. </p>
@@ -1289,7 +1358,7 @@ declare namespace std.base.container {
          */
         size(): number;
         /**
-         * Test whether the Container is empty.
+         * Test whether the container is empty.
          */
         empty(): boolean;
         /**
@@ -1594,6 +1663,9 @@ declare namespace std.base.container {
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class SetContainer<T> extends Container<T> {
+        /**
+         * Type definition of {@link SetContainer}'s {@link SetIterator iterator}.
+         */
         static iterator: typeof SetIterator;
         /**
          * <p> {@link List} storing elements. </p>
@@ -1663,6 +1735,14 @@ declare namespace std.base.container {
          * @inheritdoc
          */
         end(): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rbegin(): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rend(): SetReverseIterator<T>;
         /**
          * <p> Whether have the item or not. </p>
          *
@@ -1864,6 +1944,25 @@ declare namespace std.base.container {
          * @inheritdoc
          */
         insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+    }
+}
+declare namespace std.base.container {
+    /**
+     * A reverse and bi-directional iterator. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ReverseIterator<T> extends Iterator<T> {
+        protected iterator_: Iterator<T>;
+        constructor(iterator: Iterator<T>);
+        equals<U extends T>(obj: Iterator<U>): boolean;
+        equals<U extends T>(obj: ReverseIterator<U>): boolean;
+        /**
+         * @inheritdoc
+         */
+        value: T;
+        swap(obj: Iterator<T>): void;
+        swap(obj: ReverseIterator<T>): void;
     }
 }
 declare namespace std.base.container {
@@ -3088,7 +3187,10 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class Deque<T> extends base.container.Container<T> implements base.container.IArray<T>, base.container.IDeque<T> {
-        static iterator: typeof ListIterator;
+        /**
+         * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
+         */
+        static iterator: typeof DequeIterator;
         /**
          * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
          *
@@ -3222,6 +3324,14 @@ declare namespace std {
         /**
          * @inheritdoc
          */
+        rbegin(): DequeReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rend(): DequeReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
         size(): number;
         /**
          * @inheritdoc
@@ -3329,7 +3439,19 @@ declare namespace std {
          */
         value: T;
         /**
-         * @inheritdoc
+         * <p> Whether an iterator is equal with the iterator. </p>
+         *
+         * <p> Compare two iterators and returns whether they are equal or not. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Iterator's equals() only compare souce container and index number. </p>
+         *
+         * <p> Although elements in a pair, key and value are equals, if the source map or
+         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * compare the elements of a pair, compare them directly by yourself. </p>
+         *
+         * @param obj An iterator to compare
+         * @return Indicates whether equal or not.
          */
         equals<U extends T>(obj: DequeIterator<U>): boolean;
         /**
@@ -3354,11 +3476,41 @@ declare namespace std {
         swap(obj: DequeIterator<T>): void;
     }
 }
+declare namespace std {
+    /**
+     * <p> A reverse-iterator of Deque. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class DequeReverseIterator<T> extends base.container.ReverseIterator<T> implements base.container.IArrayIterator<T> {
+        constructor(iterator: DequeIterator<T>);
+        /**
+         * @hidden
+         */
+        private deque_iterator;
+        index: number;
+        value: T;
+        /**
+         * @inheritdoc
+         */
+        prev(): DequeReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): DequeReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): DequeReverseIterator<T>;
+    }
+}
 /**
-* STL (Standard Template Library) Containers for TypeScript.
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
+ * STL (Standard Template Library) Containers for TypeScript.
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 /**
@@ -3534,6 +3686,9 @@ declare namespace std {
          */
         constructor(val: number, category: ErrorCategory);
     }
+}
+declare namespace std.example {
+    function test_anything(): void;
 }
 declare namespace std.example {
     function test_deque(): void;
@@ -4364,6 +4519,9 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class List<T> extends base.container.Container<T> implements base.container.IDeque<T> {
+        /**
+         * Type definition of {@link List}'s {@link ListIterator iterator}.
+         */
         static iterator: typeof ListIterator;
         /**
          * An iterator of beginning.
@@ -4440,6 +4598,14 @@ declare namespace std {
          * @inheritdoc
          */
         end(): ListIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rbegin(): ListReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rend(): ListReverseIterator<T>;
         /**
          * @inheritdoc
          */
@@ -4805,6 +4971,9 @@ declare namespace std {
     }
 }
 declare namespace std {
+    /**
+     * An iterator, node of a List.
+     */
     class ListIterator<T> extends base.container.Iterator<T> {
         protected prev_: ListIterator<T>;
         protected next_: ListIterator<T>;
@@ -4845,10 +5014,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        advance(size: number): ListIterator<T>;
-        /**
-         * @inheritdoc
-         */
+        advance(step: number): ListIterator<T>;
         /**
          * @inheritdoc
          */
@@ -4860,19 +5026,56 @@ declare namespace std {
     }
 }
 declare namespace std {
+    /**
+     * <p> A reverse-iterator of List. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class ListReverseIterator<T> extends base.container.ReverseIterator<T> {
+        constructor(iterator: ListIterator<T>);
+        /**
+         * @hidden
+         */
+        private list_iterator;
+        value: T;
+        /**
+         * @inheritdoc
+         */
+        prev(): ListReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): ListReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): ListReverseIterator<T>;
+    }
+}
+declare namespace std {
+    /**
+     * An iterator of {@link MapColntainer map container}.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     class MapIterator<Key, T> implements IComparable<MapIterator<Key, T>> {
+        /**
+         * The source {@link MapContainer} of the iterator is directing for.
+         */
         protected source_: base.container.MapContainer<Key, T>;
+        /**
+         * A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
+         */
         protected list_iterator_: ListIterator<Pair<Key, T>>;
         /**
-         * Construct from the source PairContainer.
+         * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}.
          *
-         * @param source The source PairContainer.
+         * @param source The source {@link MapContainer}.
+         * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
          */
-        constructor(source: base.container.MapContainer<Key, T>, listIterator: ListIterator<Pair<Key, T>>);
-        /**
-         * Get listIterator.
-         */
-        get_list_iterator(): ListIterator<Pair<Key, T>>;
+        constructor(source: base.container.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>);
         /**
          * Get iterator to previous element.
          */
@@ -4884,14 +5087,18 @@ declare namespace std {
         /**
          * Advances the Iterator by n element positions.
          *
-         * @param n Number of element positions to advance.
+         * @param step Number of element positions to advance.
          * @return An advanced Iterator.
          */
-        advance(n: number): MapIterator<Key, T>;
+        advance(step: number): MapIterator<Key, T>;
         /**
          * Get source.
          */
         get_source(): base.container.MapContainer<Key, T>;
+        /**
+         * Get ListIterator.
+         */
+        get_list_iterator(): ListIterator<Pair<Key, T>>;
         /**
          * Get first, key element.
          */
@@ -4899,36 +5106,63 @@ declare namespace std {
         /**
          * Get second, value element.
          */
+        /**
+         * Set second value.
+         */
         second: T;
         /**
-         * @inheritdoc
+         * <p> Whether an iterator is equal with the iterator. </p>
+         *
+         * <p> Compare two iterators and returns whether they are equal or not. </p>
+         *
+         * @param obj An iterator to compare
+         * @return Indicates whether equal or not.
          */
         equals<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
-        /**
-         * @inheritdoc
-         */
         less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
-        /**
-         * @inheritdoc
-         */
         hash(): number;
-        /**
-         * @inheritdoc
-         */
         swap(obj: MapIterator<Key, T>): void;
     }
 }
+declare namespace std {
+    /**
+     * A reverse-iterator of {@link MapColntainer map container}.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MapReverseIterator<Key, T> extends MapIterator<Key, T> {
+        /**
+         * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}.
+         *
+         * @param source The source {@link MapContainer}.
+         * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
+         */
+        constructor(source: base.container.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>);
+        /**
+         * @inheritdoc
+         */
+        prev(): MapReverseIterator<Key, T>;
+        /**
+         * @inheritdoc
+         */
+        next(): MapReverseIterator<Key, T>;
+        /**
+         * @inheritdoc
+         */
+        advance(step: number): MapReverseIterator<Key, T>;
+    }
+}
 /**
-* <p> A namespace of STL library. </p>
-*
-* <ul>
-*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
-*	<li> Github: https://github.com/samchon/stl/ </li>
-*	<li> Reference: http://www.cplusplus.com/reference/ </li>
-* </ul>
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
+ * <p> A namespace of STL library. </p>
+ *
+ * <ul>
+ *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+ *	<li> Github: https://github.com/samchon/stl/ </li>
+ *	<li> Reference: http://www.cplusplus.com/reference/ </li>
+ * </ul>
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 declare namespace std.base {
@@ -5350,7 +5584,6 @@ declare namespace std {
          * @param index Sequence number of the element in the source Set.
          */
         constructor(source: base.container.SetContainer<T>, it: ListIterator<T>);
-        get_list_iterator(): ListIterator<T>;
         /**
          * @inheritdoc
          */
@@ -5363,7 +5596,11 @@ declare namespace std {
          * @inheritdoc
          */
         advance(size: number): SetIterator<T>;
+        /**
+         * @hidden
+         */
         private set;
+        get_list_iterator(): ListIterator<T>;
         /**
          * @inheritdoc
          */
@@ -5384,6 +5621,34 @@ declare namespace std {
          * @inheritdoc
          */
         swap(obj: SetIterator<T>): void;
+    }
+}
+declare namespace std {
+    /**
+     * <p> A reverse-iterator of Set. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class SetReverseIterator<T> extends base.container.ReverseIterator<T> {
+        constructor(iterator: SetIterator<T>);
+        /**
+         * @hidden
+         */
+        private set_iterator;
+        /**
+         * @inheritdoc
+         */
+        prev(): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): SetReverseIterator<T>;
     }
 }
 declare namespace std {
@@ -6483,6 +6748,9 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class Vector<T> extends Array<T> implements base.container.IArray<T> {
+        /**
+         * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
+         */
         static iterator: typeof VectorIterator;
         /**
          * <p> Default Constructor. </p>
@@ -6555,6 +6823,14 @@ declare namespace std {
          * @inheritdoc
          */
         end(): VectorIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rbegin(): VectorReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        rend(): VectorReverseIterator<T>;
         /**
          * @inheritdoc
          */
@@ -6707,7 +6983,7 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> A bi-directional iterator of a Set. </p>
+     * <p> An iterator of Vector. </p>
      *
      * @param <T> Type of the elements.
      *
@@ -6717,7 +6993,7 @@ declare namespace std {
         /**
          * Sequence number of iterator in the source {@link Vector}.
          */
-        private index_;
+        protected index_: number;
         /**
          * <p> Construct from the source {@link Vector container}. </p>
          *
@@ -6732,21 +7008,30 @@ declare namespace std {
         /**
          * @hidden
          */
-        vector: Vector<T>;
+        protected vector: Vector<T>;
         /**
          * @inheritdoc
          */
         /**
-         * @inheritdoc
+         * Set value.
          */
         value: T;
         /**
-         * @inheritdoc
+         * <p> Whether an iterator is equal with the iterator. </p>
+         *
+         * <p> Compare two iterators and returns whether they are equal or not. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Iterator's equals() only compare souce container and index number. </p>
+         *
+         * <p> Although elements in a pair, key and value are equals, if the source map or
+         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * compare the elements of a pair, compare them directly by yourself. </p>
+         *
+         * @param obj An iterator to compare
+         * @return Indicates whether equal or not.
          */
         equals<U extends T>(obj: VectorIterator<U>): boolean;
-        /**
-         * @inheritdoc
-         */
         index: number;
         /**
          * @inheritdoc
@@ -6764,5 +7049,35 @@ declare namespace std {
          * @inheritdoc
          */
         swap(obj: VectorIterator<T>): void;
+    }
+}
+declare namespace std {
+    /**
+     * <p> A reverse-iterator of Vector. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class VectorReverseIterator<T> extends base.container.ReverseIterator<T> implements base.container.IArrayIterator<T> {
+        constructor(iterator: VectorIterator<T>);
+        /**
+         * @hidden
+         */
+        private vector_iterator;
+        index: number;
+        value: T;
+        /**
+         * @inheritdoc
+         */
+        prev(): VectorReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): VectorReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): VectorReverseIterator<T>;
     }
 }

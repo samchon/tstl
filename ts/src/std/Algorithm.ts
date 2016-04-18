@@ -84,7 +84,12 @@ namespace std
 	{
 		// QUICK SORT
 		if (begin > end)
-			return;
+		{
+			// SWAP BEGIN A
+			let supp: number = begin;
+			begin = end;
+			end = begin;
+		}
 
 		let index: number = qsort_partition(container, begin, end, compare);
 		qsort(container, begin, index, compare);

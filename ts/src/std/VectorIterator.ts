@@ -3,7 +3,7 @@
 namespace std
 {
 	/**
-	 * <p> A bi-directional iterator of a Set. </p>
+	 * <p> An iterator of Vector. </p>
 	 *
 	 * @param <T> Type of the elements.
 	 * 
@@ -16,7 +16,7 @@ namespace std
 		/**
 		 * Sequence number of iterator in the source {@link Vector}.
 		 */
-		private index_: number;
+		protected index_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -44,7 +44,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		public get vector(): Vector<T>
+		protected get vector(): Vector<T>
 		{
 			return this.source_ as Vector<T>;
 		}
@@ -58,7 +58,7 @@ namespace std
 		}
 
 		/**
-		 * @inheritdoc
+		 * Set value.
 		 */
 		public set value(val: T)
 		{
@@ -66,16 +66,25 @@ namespace std
 		}
 		
 		/**
-		 * @inheritdoc
+		 * <p> Whether an iterator is equal with the iterator. </p>
+		 * 
+		 * <p> Compare two iterators and returns whether they are equal or not. </p>
+		 * 
+		 * <h4> Note </h4> 
+		 * <p> Iterator's equals() only compare souce container and index number. </p>
+		 *
+		 * <p> Although elements in a pair, key and value are equals, if the source map or
+		 * index number is different, then the {@link equals equals()} will return false. If you want to
+		 * compare the elements of a pair, compare them directly by yourself. </p>
+		 *
+		 * @param obj An iterator to compare
+		 * @return Indicates whether equal or not.
 		 */
 		public equals<U extends T>(obj: VectorIterator<U>): boolean
 		{
 			return super.equals(obj) && this.index_ == obj.index_;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public get index(): number
 		{
 			return this.index_;

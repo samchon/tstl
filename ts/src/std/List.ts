@@ -51,6 +51,9 @@ namespace std
 		extends base.container.Container<T>
 		implements base.container.IDeque<T>
 	{
+		/**
+		 * Type definition of {@link List}'s {@link ListIterator iterator}.
+		 */
 		public static get iterator() { return ListIterator; }
 
 		/**
@@ -250,6 +253,25 @@ namespace std
 		public end(): ListIterator<T>
 		{
 			return this.end_;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rbegin(): ListReverseIterator<T>
+		{
+			if (this.empty() == true)
+				return this.rend();
+			else
+				return new ListReverseIterator<T>(this.end().prev());
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rend(): ListReverseIterator<T>
+		{
+			return new ListReverseIterator<T>(this.end());
 		}
 
 		/**

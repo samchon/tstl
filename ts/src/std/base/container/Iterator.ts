@@ -6,8 +6,8 @@ namespace std.base.container
 	 * <p> {@link Iterator Bidirectional iterators} are iterators that can be used to access the sequence of elements 
 	 * in a range in both directions (towards the end and towards the beginning). </p>
 	 *
-	 * <p> All {@link IArrayIterator random-access iterators} are also valid 
-	 * {@link Iterrator bidirectional iterators}. </p>
+	 * <p> All {@link IArrayIterator random-access iterators} are also valid {@link Iterrator bidirectional iterators}. 
+	 * </p>
 	 *
 	 * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container} 
 	 * may define its own specific iterator type able to iterate through it and access its elements. </p>
@@ -21,7 +21,7 @@ namespace std.base.container
 	export abstract class Iterator<T>
 	{
 		/**
-		 * Source container of the iteerator is directing for.
+		 * Source container of the iterator is directing for.
 		 */
 		protected source_: IContainer<T>;
 
@@ -104,10 +104,11 @@ namespace std.base.container
 
 		/**
 		 * <p> Whether an iterator is equal with the iterator. </p>
+		 * 
 		 * <p> Compare two iterators and returns whether they are equal or not. </p>
 		 * 
 		 * <h4> Note </h4> 
-		 * <p> Iterator's equals() only compare souce map and index number. </p>
+		 * <p> Iterator's equals() only compare souce container and index number. </p>
 		 *
 		 * <p> Although elements in a pair, key and value are equals, if the source map or
 		 * index number is different, then the {@link equals equals()} will return false. If you want to

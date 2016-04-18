@@ -58,6 +58,9 @@ namespace std
 		extends Array<T>
 		implements base.container.IArray<T>
 	{
+		/**
+		 * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
+		 */
 		public static get iterator() { return VectorIterator; }
 
 		/* =========================================================
@@ -241,6 +244,25 @@ namespace std
 		public end(): VectorIterator<T>
 		{
 			return new VectorIterator<T>(this, -1);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rbegin(): VectorReverseIterator<T>
+		{
+			if (this.empty() == true)
+				return this.rend();
+			else
+				return new VectorReverseIterator<T>(this.end().prev());
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rend(): VectorReverseIterator<T>
+		{
+			return new VectorReverseIterator<T>(this.end());
 		}
 
 		/**
