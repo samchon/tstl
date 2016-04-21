@@ -30,7 +30,7 @@ namespace std
 	 * elements from its end. For operations that involve inserting or removing elements at positions other than the 
 	 * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s. 
 	 * </p>
-	 *
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Sequence </dt>
@@ -176,28 +176,25 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>
-			(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
-
-		//public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-		//	(begin: InputIterator, end: InputIterator): void;
+		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		/**
 		 * @inheritdoc
 		 */
 		public assign(n: number, val: T): void;
 
-		public assign<U extends T>
+		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
 			(first: any, second: any): void
 		{
 			this.clear();
 
 			if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
 			{
-				let begin: base.container.Iterator<U> = first;
-				let end: base.container.Iterator<U> = second;
+				let begin: InputIterator = first;
+				let end: InputIterator = second;
 
-				for (let it = begin; it.equals(end) == false; it = it.next())
+				for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
 					this.push(it.value);
 			}
 			else if (typeof first == "number")
@@ -211,31 +208,6 @@ namespace std
 					this[i] = val;
 			}
 		}
-
-		//public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-		//	(first: any, second: any): void
-		//{
-		//	this.clear();
-
-		//	if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
-		//	{
-		//		let begin: InputIterator = first;
-		//		let end: InputIterator = second;
-
-		//		for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
-		//			this.push(it.value);
-		//	}
-		//	else if (typeof first == "number")
-		//	{
-		//		let size: number = <number>first;
-		//		let val: T = <T>second;
-
-		//		this.length = size;
-
-		//		for (let i: number = 0; i < size; i++)
-		//			this[i] = val;
-		//	}
-		//}
 
 		/**
 		 * @inheritdoc
@@ -447,12 +419,8 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T>
-			(position: VectorIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>)
-				: VectorIterator<T>;
-
-		//public insert<U extends T, InputIterator extends base.container.Iterator<U>>
-		//	(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
+		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+			(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
 
 		public insert<U extends T>(...args: any[]): VectorIterator<T>
 		{

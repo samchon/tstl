@@ -78,11 +78,8 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public abstract assign<U extends T>
-			(begin: Iterator<U>, end: Iterator<U>): void;
-
-		//public abstract assign<U extends T, InputIterator extends Iterator<U>>
-		//	(begin: InputIterator, end: InputIterator): void;
+		public abstract assign<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		/**
 		 * @inheritdoc

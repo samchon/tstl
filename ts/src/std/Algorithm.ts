@@ -37,11 +37,8 @@ namespace std
 	 *			  <i>begin</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
 	 *			  {@link Iterator.swap swap} is properly defined.
 	 */
-	export function sort<T>
-		(begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>): void;
-
-	//export function sort<T, InputIterator extends >
-	//	(begin: InputIterator, end: InputIterator): void;
+	export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
+		(begin: InputIterator, end: InputIterator): void;
 
 	/**
 	 * <p> Sort elements in range. </p>
@@ -67,29 +64,14 @@ namespace std
 	 *		  function shall not modify any of its arguments. This can either be a function pointer or a function 
 	 *		  object.
 	 */
-	export function sort<T>
-		(
-			begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>, 
-			compare: (left: T, right: T) => boolean
-		): void;
+	export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
+		(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
 
-	export function sort<T>
-		(
-			begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>, 
-			compare: (left: T, right: T) => boolean = std.less
-		): void
+	export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
+		(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean = std.less): void
 	{
 		qsort(begin.get_source() as base.container.IArray<T>, begin.index, end.index, compare);
 	}
-
-	//export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
-	//	(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
-
-	//export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
-	//	(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean = std.less): void
-	//{
-	//	qsort(begin.get_source() as base.container.IArray<T>, begin.index, end.index, compare);
-	//}
 
 	/* ---------------------------------------------------------
 		QUICK SORT
@@ -289,11 +271,8 @@ namespace std
 	 * @return An iterator to the element that follows the last element not removed. The range between <i>begin</i> and
 	 *		   this iterator includes all the elements in the sequence that were not considered duplicates.
 	 */
-	export function unique<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): base.container.Iterator<T>;
-
-	//export function unique<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator): Iterator;
+	export function unique<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator): Iterator;
 
 	/**
 	 * <p> Remove consecutive duplicates in range. </p>
@@ -321,53 +300,26 @@ namespace std
 	 * @return An iterator to the element that follows the last element not removed. The range between <i>begin</i> and 
 	 *		   this iterator includes all the elements in the sequence that were not considered duplicates.
 	 */
-	export function unique<T>
-		(
-			begin: base.container.Iterator<T>, end: base.container.Iterator<T>, 
-			pred: (left: T, right: T) => boolean
-		): base.container.Iterator<T>;
+	export function unique<t, Iterator extends base.container.Iterator<t>>
+		(begin: Iterator, end: Iterator, pred: (left: t, right: t) => boolean): Iterator;
 
-	export function unique<T>
-		(
-			begin: base.container.Iterator<T>, end: base.container.Iterator<T>, 
-			pred: (left: T, right: T) => boolean = std.equals
-		): base.container.Iterator<T>
+	export function unique<t, Iterator extends base.container.Iterator<t>>
+		(begin: Iterator, end: Iterator, pred: (left: t, right: t) => boolean = std.equals): Iterator
 	{
-		let ret: base.container.Iterator<T> = begin;
+		let ret: Iterator = begin;
 
 		for (let it = begin.next(); !it.equals(end);)
 		{
 			if (std.equals(it.value, it.prev().value) == true)
-				it = it.get_source().erase(it);
+				it = it.get_source().erase(it) as Iterator;
 			else
 			{
-				ret = it;
+				ret = it as Iterator;
 				it = it.next();
 			}
 		}
 		return ret;
 	}
-
-	//export function unique<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (left: T, right: T) => boolean): Iterator;
-
-	//export function unique<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (left: T, right: T) => boolean = std.equals): Iterator
-	//{
-	//	let ret: Iterator = begin;
-
-	//	for (let it = begin.next(); !it.equals(end);)
-	//	{
-	//		if (std.equals(it.value, it.prev().value) == true)
-	//			it = it.get_source().erase(it) as Iterator;
-	//		else
-	//		{
-	//			ret = it as Iterator;
-	//			it = it.next();
-	//		}
-	//	}
-	//	return ret;
-	//}
 
 	/**
 	 * <p> Remove value from range. </p>
@@ -388,41 +340,23 @@ namespace std
 	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
 	 * @param val Value to be removed.
 	 */
-	export function remove<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, val: T): base.container.Iterator<T>
+	export function remove<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, val: T): Iterator
 	{
-		let ret: base.container.Iterator<T> = end;
+		let ret: Iterator = end;
 
-		for (let it = begin; !it.equals(end);)
+		for (let it = begin; !it.equals(end); )
 		{
 			if (std.equals(it.value, val) == true)
-				it = it.get_source().erase(it);
+				it = it.get_source().erase(it) as Iterator;
 			else
 			{
 				ret = it;
-				it = it.next();
+				it = it.next() as Iterator;
 			}
 		}
 		return ret;
 	}
-
-	//export function remove<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, val: T): Iterator
-	//{
-	//	let ret: Iterator = end;
-
-	//	for (let it = begin; !it.equals(end); )
-	//	{
-	//		if (std.equals(it.value, val) == true)
-	//			it = it.get_source().erase(it) as Iterator;
-	//		else
-	//		{
-	//			ret = it;
-	//			it = it.next() as Iterator;
-	//		}
-	//	}
-	//	return ret;
-	//}
 
 	/**
 	 * <p> Remove elements from range. </p>
@@ -447,44 +381,23 @@ namespace std
 	 *			   <code>true</code>, it is removed). The function shall not modify its argument. This can either be a 
 	 *			   function pointer or a function object.
 	 */
-	export function remove_if<T>
-		(
-			begin: base.container.Iterator<T>, end: base.container.Iterator<T>, 
-			pred: (left: T) => boolean
-		): base.container.Iterator<T>
+	export function remove_if<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, pred: (left: T) => boolean): Iterator
 	{
-		let ret: base.container.Iterator<T> = end;
+		let ret: Iterator = end;
 
 		for (let it = begin; !it.equals(end);)
 		{
 			if (pred(it.value) == true)
-				it = it.get_source().erase(it);
+				it = it.get_source().erase(it) as Iterator;
 			else
 			{
 				ret = it;
-				it = it.next();
+				it = it.next() as Iterator;
 			}
 		}
 		return ret;
 	}
-
-	//export function remove_if<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (left: T) => boolean): Iterator
-	//{
-	//	let ret: Iterator = end;
-
-	//	for (let it = begin; !it.equals(end);)
-	//	{
-	//		if (pred(it.value) == true)
-	//			it = it.get_source().erase(it) as Iterator;
-	//		else
-	//		{
-	//			ret = it;
-	//			it = it.next() as Iterator;
-	//		}
-	//	}
-	//	return ret;
-	//}
 
 	/**
 	 * <p> Replace value in range. </p>
@@ -501,21 +414,13 @@ namespace std
 	 * @param old_val Value to be replaced.
 	 * @param new_val Replacement value.
 	 */
-	export function replace<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, old_val: T, new_val: T): void
+	export function replace<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, old_val: T, new_val: T): void
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (std.equals(it.value, old_val))
 				it.value = new_val;
 	}
-
-	//export function replace<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, old_val: T, new_val: T): void
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (std.equals(it.value, old_val))
-	//			it.value = new_val;
-	//}
 
 	/**
 	 * <p> Replace value in range. </p>
@@ -533,24 +438,13 @@ namespace std
 	 *			   a function pointer or a function object.
 	 * @param new_val Value to assign to replaced elements.
 	 */
-	export function replace_if<T>
-		(
-			begin: base.container.Iterator<T>, end: base.container.Iterator<T>, 
-			pred: (val: T) => boolean, new_val: T
-		): void
+	export function replace_if<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, pred: (val: T) => boolean, new_val: T): void
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (pred(it.value) == true)
 				it.value = new_val;
 	}
-
-	//export function replace_if<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (val: T) => boolean, new_val: T): void
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (pred(it.value) == true)
-	//			it.value = new_val;
-	//}
 
 	/* ---------------------------------------------------------
 		RE-ARRANGEMENT
@@ -567,27 +461,16 @@ namespace std
 	 *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
 	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
 	 */
-	export function reverse<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void
+	export function reverse<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator): void
 	{
 		// begin != end && begin != --end
-		while (begin.equals(end) == false && !begin.equals((end = end.prev())) == false)
+		while (begin.equals(end) == false && !begin.equals((end = end.prev() as Iterator)) == false)
 		{
 			begin.swap(end);
-			begin = begin.next();
+			begin = begin.next() as Iterator;
 		}
 	}
-
-	//export function reverse<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator): void
-	//{
-	//	// begin != end && begin != --end
-	//	while (begin.equals(end) == false && !begin.equals((end = end.prev() as Iterator)) == false)
-	//	{
-	//		begin.swap(end);
-	//		begin = begin.next() as Iterator;
-	//	}
-	//}
 
 	/**
 	 * <p> Rotate left the elements in range. </p>
@@ -604,18 +487,17 @@ namespace std
 	 *
 	 * @return An iterator pointing to the element that now contains the value previously pointed by <i>begin</i>.
 	 */
-	export function rotate<T>
-		(begin: base.container.Iterator<T>, middle: base.container.Iterator<T>, end: base.container.Iterator<T>)
-			: base.container.Iterator<T>
+	export function rotate<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, middle: Iterator, end: Iterator): Iterator
 	{
-		let next: base.container.Iterator<T> = middle;
+		let next: Iterator = middle;
 
 		while (next.equals(end) == false)
 		{
 			begin.swap(next);
 
-			begin = begin.next();
-			next = next.next();
+			begin = begin.next() as Iterator;
+			next = next.next() as Iterator;
 
 			if (begin.equals(middle))
 				break;
@@ -623,25 +505,6 @@ namespace std
 
 		return begin;
 	}
-
-	//export function rotate<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, middle: Iterator, end: Iterator): Iterator
-	//{
-	//	let next: Iterator = middle;
-
-	//	while (next.equals(end) == false)
-	//	{
-	//		begin.swap(next);
-
-	//		begin = begin.next() as Iterator;
-	//		next = next.next() as Iterator;
-
-	//		if (begin.equals(middle))
-	//			break;
-	//	}
-
-	//	return begin;
-	//}
 	
 	/**
 	 * <p> Randomly rearrange elements in range. </p>
@@ -659,17 +522,11 @@ namespace std
 	 *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
 	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
 	 */
-	export function random_shuffle<T>
-		(begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>): void
+	export function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
+		(begin: RandomAccessIterator, end: RandomAccessIterator): void
 	{
 		return std.shuffle(begin, end);
 	}
-
-	//export function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
-	//	(begin: RandomAccessIterator, end: RandomAccessIterator): void
-	//{
-	//	return std.shuffle(begin, end);
-	//}
 
 	/**
 	 * <p> Randomly rearrange elements in range using generator. </p>
@@ -690,29 +547,19 @@ namespace std
 	 *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
 	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
 	 */
-	export function shuffle<T>
-		(begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>): void
+	export function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
+		(begin: RandomAccessIterator, end: RandomAccessIterator): void
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as RandomAccessIterator)
 		{
 			let rand_index: number = Math.floor(Math.random() * (end.index - begin.index));
 			it.swap(begin.advance(rand_index));
 		}
 	}
 
-	//export function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
-	//	(begin: RandomAccessIterator, end: RandomAccessIterator): void
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as RandomAccessIterator)
-	//	{
-	//		let rand_index: number = Math.floor(Math.random() * (end.index - begin.index));
-	//		it.swap(begin.advance(rand_index));
-	//	}
-	//}
-
 	/* ---------------------------------------------------------
 		
-	--------------------------------------------------------- */
+	--------------------------------------------------------- 
 
 	/* =========================================================
 		ITERATIONS
@@ -738,23 +585,14 @@ namespace std
 	 *
 	 * @return Returns <i>fn</i>.
 	 */
-	export function for_each<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, fn: (val: T) => any): (val: T) => any
+	export function for_each<T, Iterator extends base.container.Iterator<T>, Func extends (val: T) => any>
+		(begin: Iterator, end: Iterator, fn: Func): Func
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			fn(it.value);
 
 		return fn;
 	}
-
-	//export function for_each<T, Iterator extends base.container.Iterator<T>, Func extends (val: T) => any>
-	//	(begin: Iterator, end: Iterator, fn: Func): Func
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		fn(it.value);
-
-	//	return fn;
-	//}
 
 	/* ---------------------------------------------------------
 		AGGREGATE CONDITIONS
@@ -778,25 +616,15 @@ namespace std
 	 * @return <code>true</code> if pred returns true for all the elements in the range or if the range is 
 	 *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
 	 */
-	export function all_of<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): boolean
+	export function all_of<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (pred(it.value) == false)
 				return false;
 
 		return true;
 	}
-
-	//export function all_of<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (pred(it.value) == false)
-	//			return false;
-
-	//	return true;
-	//}
 
 	/**
 	 * <p> Test if any element in range fulfills condition. </p>
@@ -820,25 +648,15 @@ namespace std
 	 *		   [<i>begin</i>, <i>end<i>], and <code>false</code> otherwise. If [<i>begin</i>, <i>end</i>] is an 
 	 *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
 	 */
-	export function any_of<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): boolean
+	export function any_of<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (pred(it.value) == true)
 				return true;
 
 		return false;
 	}
-
-	//export function any_of<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (pred(it.value) == true)
-	//			return true;
-
-	//	return false;
-	//}
 
 	/**
 	 * <p> Test if no elements fulfill condition. </p>
@@ -860,17 +678,11 @@ namespace std
 	 *		   [<i>begin</i>, <i>end<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code> 
 	 *		   otherwise.
 	 */
-	export function none_of<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): boolean
+	export function none_of<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
 	{
 		return !any_of(begin, end, pred);
 	}
-
-	//export function none_of<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
-	//{
-	//	return !any_of(begin, end, pred);
-	//}
 
 	/* ---------------------------------------------------------
 		FINDERS
@@ -889,26 +701,16 @@ namespace std
 	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
 	 * @param val Value to search for in the range.
 	 */
-	export function find<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, val: T): base.container.Iterator<T>
+	export function find<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, val: T): Iterator
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (std.equals(it.value, val))
 				return it;
 
 		return end;
 	}
 
-	//export function find<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, val: T): Iterator
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (std.equals(it.value, val))
-	//			return it;
-
-	//	return end;
-	//}
-
 	/**
 	 * <p> Find element in range. </p>
 	 * 
@@ -924,27 +726,16 @@ namespace std
 	 *			   the context of this function. The function shall not modify its argument. This can either be a 
 	 *			   function pointer or a function object.
 	 */
-	export function find_if<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean)
-			: base.container.Iterator<T>
+	export function find_if<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (pred(it.value))
 				return it;
 
 		return end;
 	}
 
-	//export function find_if<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (pred(it.value))
-	//			return it;
-
-	//	return end;
-	//}
-
 	/**
 	 * <p> Find element in range. </p>
 	 * 
@@ -960,26 +751,15 @@ namespace std
 	 *			   the context of this function. The function shall not modify its argument. This can either be a 
 	 *			   function pointer or a function object.
 	 */
-	export function find_if_not<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean)
-			: base.container.Iterator<T>
+	export function find_if_not<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator
 	{
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (pred(it.value) == false)
 				return it;
 
 		return end;
 	}
-
-	//export function find_if_not<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator
-	//{
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (pred(it.value) == false)
-	//			return it;
-
-	//	return end;
-	//}
 
 	/* ---------------------------------------------------------
 		COUNTERS
@@ -996,30 +776,20 @@ namespace std
 	 *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
 	 *			  <i>begin</i> but not the element pointed by <i>end</i>.
 	 * @param val Value to match.
+	 *
+	 * @return The number of elements in the range [<i>begin</i>, <i>end</i>] that compare equal to <i>val</i>.
 	 */
-	export function count<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, val: T): number
+	export function count<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, val: T): number
 	{
 		let cnt: number = 0;
 
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (std.equals(it.value, val))
 				return cnt++;
 
 		return cnt;
 	}
-
-	//export function count<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, val: T): number
-	//{
-	//	let cnt: number = 0;
-
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (std.equals(it.value, val))
-	//			return cnt++;
-
-	//	return cnt;
-	//}
 
 	/**
 	 * <p> Return number of elements in range satisfying condition. </p>
@@ -1036,27 +806,15 @@ namespace std
 	 *			   The function shall not modify its argument. This can either be a function pointer or a function 
 	 *			   object.
 	 */
-	export function count_if<T>
-		(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): number
+	export function count_if<T, Iterator extends base.container.Iterator<T>>
+		(begin: Iterator, end: Iterator, pred: (val: T) => boolean): number
 	{
 		let cnt: number = 0;
 
-		for (let it = begin; !it.equals(end); it = it.next())
+		for (let it = begin; !it.equals(end); it = it.next() as Iterator)
 			if (pred(it.value))
 				return cnt++;
 
 		return cnt;
 	}
-
-	//export function count_if<T, Iterator extends base.container.Iterator<T>>
-	//	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): number
-	//{
-	//	let cnt: number = 0;
-
-	//	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-	//		if (pred(it.value))
-	//			return cnt++;
-
-	//	return cnt;
-	//}
 }

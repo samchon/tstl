@@ -17,7 +17,7 @@ declare namespace std {
      *			  <i>begin</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
      *			  {@link Iterator.swap swap} is properly defined.
      */
-    function sort<T>(begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>): void;
+    function sort<T, InputIterator extends base.container.IArrayIterator<T>>(begin: InputIterator, end: InputIterator): void;
     /**
      * <p> Sort elements in range. </p>
      *
@@ -42,7 +42,7 @@ declare namespace std {
      *		  function shall not modify any of its arguments. This can either be a function pointer or a function
      *		  object.
      */
-    function sort<T>(begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>, compare: (left: T, right: T) => boolean): void;
+    function sort<T, InputIterator extends base.container.IArrayIterator<T>>(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
     /**
      * <p> Exchange contents of {@link IContainers containers}. </p>
      *
@@ -149,7 +149,7 @@ declare namespace std {
      * @return An iterator to the element that follows the last element not removed. The range between <i>begin</i> and
      *		   this iterator includes all the elements in the sequence that were not considered duplicates.
      */
-    function unique<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): base.container.Iterator<T>;
+    function unique<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator): Iterator;
     /**
      * <p> Remove consecutive duplicates in range. </p>
      *
@@ -176,7 +176,7 @@ declare namespace std {
      * @return An iterator to the element that follows the last element not removed. The range between <i>begin</i> and
      *		   this iterator includes all the elements in the sequence that were not considered duplicates.
      */
-    function unique<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (left: T, right: T) => boolean): base.container.Iterator<T>;
+    function unique<t, Iterator extends base.container.Iterator<t>>(begin: Iterator, end: Iterator, pred: (left: t, right: t) => boolean): Iterator;
     /**
      * <p> Remove value from range. </p>
      *
@@ -196,7 +196,7 @@ declare namespace std {
      *			  <i>begin</i> but not the element pointed by <i>end</i>.
      * @param val Value to be removed.
      */
-    function remove<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, val: T): base.container.Iterator<T>;
+    function remove<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, val: T): Iterator;
     /**
      * <p> Remove elements from range. </p>
      *
@@ -220,7 +220,7 @@ declare namespace std {
      *			   <code>true</code>, it is removed). The function shall not modify its argument. This can either be a
      *			   function pointer or a function object.
      */
-    function remove_if<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (left: T) => boolean): base.container.Iterator<T>;
+    function remove_if<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (left: T) => boolean): Iterator;
     /**
      * <p> Replace value in range. </p>
      *
@@ -236,7 +236,7 @@ declare namespace std {
      * @param old_val Value to be replaced.
      * @param new_val Replacement value.
      */
-    function replace<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, old_val: T, new_val: T): void;
+    function replace<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, old_val: T, new_val: T): void;
     /**
      * <p> Replace value in range. </p>
      *
@@ -253,7 +253,7 @@ declare namespace std {
      *			   a function pointer or a function object.
      * @param new_val Value to assign to replaced elements.
      */
-    function replace_if<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean, new_val: T): void;
+    function replace_if<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean, new_val: T): void;
     /**
      * <p> Reverse range. </p>
      *
@@ -266,7 +266,7 @@ declare namespace std {
      *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
      *			  <i>begin</i> but not the element pointed by <i>end</i>.
      */
-    function reverse<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void;
+    function reverse<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator): void;
     /**
      * <p> Rotate left the elements in range. </p>
      *
@@ -282,7 +282,7 @@ declare namespace std {
      *
      * @return An iterator pointing to the element that now contains the value previously pointed by <i>begin</i>.
      */
-    function rotate<T>(begin: base.container.Iterator<T>, middle: base.container.Iterator<T>, end: base.container.Iterator<T>): base.container.Iterator<T>;
+    function rotate<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, middle: Iterator, end: Iterator): Iterator;
     /**
      * <p> Randomly rearrange elements in range. </p>
      *
@@ -299,7 +299,7 @@ declare namespace std {
      *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
      *			  <i>begin</i> but not the element pointed by <i>end</i>.
      */
-    function random_shuffle<T>(begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>): void;
+    function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(begin: RandomAccessIterator, end: RandomAccessIterator): void;
     /**
      * <p> Randomly rearrange elements in range using generator. </p>
      *
@@ -319,7 +319,7 @@ declare namespace std {
      *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
      *			  <i>begin</i> but not the element pointed by <i>end</i>.
      */
-    function shuffle<T>(begin: base.container.IArrayIterator<T>, end: base.container.IArrayIterator<T>): void;
+    function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(begin: RandomAccessIterator, end: RandomAccessIterator): void;
     /**
      * <p> Apply function to range. </p>
      *
@@ -334,7 +334,7 @@ declare namespace std {
      *
      * @return Returns <i>fn</i>.
      */
-    function for_each<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, fn: (val: T) => any): (val: T) => any;
+    function for_each<T, Iterator extends base.container.Iterator<T>, Func extends (val: T) => any>(begin: Iterator, end: Iterator, fn: Func): Func;
     /**
      * <p> Test condition on all elements in range. </p>
      *
@@ -354,7 +354,7 @@ declare namespace std {
      * @return <code>true</code> if pred returns true for all the elements in the range or if the range is
      *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
      */
-    function all_of<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): boolean;
+    function all_of<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean;
     /**
      * <p> Test if any element in range fulfills condition. </p>
      *
@@ -377,7 +377,7 @@ declare namespace std {
      *		   [<i>begin</i>, <i>end<i>], and <code>false</code> otherwise. If [<i>begin</i>, <i>end</i>] is an
      *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
      */
-    function any_of<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): boolean;
+    function any_of<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean;
     /**
      * <p> Test if no elements fulfill condition. </p>
      *
@@ -398,7 +398,7 @@ declare namespace std {
      *		   [<i>begin</i>, <i>end<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code>
      *		   otherwise.
      */
-    function none_of<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): boolean;
+    function none_of<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean;
     /**
      * <p> Find value in range. </p>
      *
@@ -413,7 +413,7 @@ declare namespace std {
      *			  <i>begin</i> but not the element pointed by <i>end</i>.
      * @param val Value to search for in the range.
      */
-    function find<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, val: T): base.container.Iterator<T>;
+    function find<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, val: T): Iterator;
     /**
      * <p> Find element in range. </p>
      *
@@ -429,7 +429,7 @@ declare namespace std {
      *			   the context of this function. The function shall not modify its argument. This can either be a
      *			   function pointer or a function object.
      */
-    function find_if<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): base.container.Iterator<T>;
+    function find_if<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator;
     /**
      * <p> Find element in range. </p>
      *
@@ -445,7 +445,7 @@ declare namespace std {
      *			   the context of this function. The function shall not modify its argument. This can either be a
      *			   function pointer or a function object.
      */
-    function find_if_not<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): base.container.Iterator<T>;
+    function find_if_not<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator;
     /**
      * <p> Count appearances of value in range. </p>
      *
@@ -458,8 +458,10 @@ declare namespace std {
      *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
      *			  <i>begin</i> but not the element pointed by <i>end</i>.
      * @param val Value to match.
+     *
+     * @return The number of elements in the range [<i>begin</i>, <i>end</i>] that compare equal to <i>val</i>.
      */
-    function count<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, val: T): number;
+    function count<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, val: T): number;
     /**
      * <p> Return number of elements in range satisfying condition. </p>
      *
@@ -475,7 +477,7 @@ declare namespace std {
      *			   The function shall not modify its argument. This can either be a function pointer or a function
      *			   object.
      */
-    function count_if<T>(begin: base.container.Iterator<T>, end: base.container.Iterator<T>, pred: (val: T) => boolean): number;
+    function count_if<T, Iterator extends base.container.Iterator<T>>(begin: Iterator, end: Iterator, pred: (val: T) => boolean): number;
 }
 declare namespace std.base.container {
     /**
@@ -534,7 +536,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        abstract assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        abstract assign<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -781,7 +783,7 @@ declare namespace std.base.container {
          * @param begin Input interator of the initial position in a sequence.
          * @param end Input interator of the final position in a sequence.
          */
-        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        assign<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * <p> Clear content. </p>
          *
@@ -973,7 +975,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        assign<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * <p> Assign container content. </p>
          *
@@ -1071,7 +1073,7 @@ declare namespace std.base.container {
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert<U extends T>(position: Iterator<T>, begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+        insert<U extends T, InputIterator extends Iterator<U>>(position: Iterator<T>, begin: InputIterator, end: InputIterator): Iterator<T>;
     }
 }
 declare namespace std.base.container {
@@ -1707,7 +1709,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        assign<U extends T, InputIterator extends Iterator<U>>(begin: Iterator<U>, end: Iterator<U>): void;
         /**
          * @inheritdoc
          */
@@ -1793,7 +1795,7 @@ declare namespace std.base.container {
          * @param begin An iterator specifying range of the begining element.
          * @param end An iterator specifying range of the ending element.
          */
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @hidden
          */
@@ -1805,7 +1807,7 @@ declare namespace std.base.container {
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * <p> Erase an element. </p>
          * <p> Removes from the set container the elements whose value is <i>key</i>. </p>
@@ -1943,7 +1945,7 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
     }
 }
 declare namespace std.base.container {
@@ -2181,7 +2183,37 @@ declare namespace std.base.container {
         /**
          * @inheritdoc
          */
-        insert<U extends T>(begin: Iterator<U>, end: Iterator<U>): void;
+        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+    }
+}
+declare namespace std {
+    /**
+     * <p> A reverse-iterator of Deque. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class DequeReverseIterator<T> extends base.container.ReverseIterator<T> implements base.container.IArrayIterator<T> {
+        constructor(iterator: DequeIterator<T>);
+        /**
+         * @hidden
+         */
+        private deque_iterator;
+        index: number;
+        value: T;
+        /**
+         * @inheritdoc
+         */
+        prev(): DequeReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): DequeReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): DequeReverseIterator<T>;
     }
 }
 declare namespace std.base.hash {
@@ -3300,7 +3332,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -3392,7 +3424,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        insert<U extends T>(position: DequeIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): DequeIterator<T>;
+        insert<U extends T, InputIterator extends base.container.Iterator<U>>(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
         /**
          * @inheritdoc
          */
@@ -3476,41 +3508,11 @@ declare namespace std {
         swap(obj: DequeIterator<T>): void;
     }
 }
-declare namespace std {
-    /**
-     * <p> A reverse-iterator of Deque. </p>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class DequeReverseIterator<T> extends base.container.ReverseIterator<T> implements base.container.IArrayIterator<T> {
-        constructor(iterator: DequeIterator<T>);
-        /**
-         * @hidden
-         */
-        private deque_iterator;
-        index: number;
-        value: T;
-        /**
-         * @inheritdoc
-         */
-        prev(): DequeReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        next(): DequeReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        advance(n: number): DequeReverseIterator<T>;
-    }
-}
 /**
- * STL (Standard Template Library) Containers for TypeScript.
- *
- * @author Jeongho Nam <http://samchon.org>
- */
+* STL (Standard Template Library) Containers for TypeScript.
+*
+* @author Jeongho Nam <http://samchon.org>
+*/
 declare namespace std {
 }
 /**
@@ -4270,7 +4272,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -4286,7 +4288,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -4375,7 +4377,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -4391,7 +4393,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -4585,7 +4587,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -4678,7 +4680,7 @@ declare namespace std {
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert<U extends T>(position: ListIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): ListIterator<T>;
+        insert<U extends T, InputIterator extends base.container.Iterator<U>>(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
         /**
          * @hidden
          */
@@ -4690,7 +4692,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private insert_by_range<U>(position, begin, end);
+        private insert_by_range<U, InputIterator>(position, begin, end);
         /**
          * <p> Erase an element. </p>
          *
@@ -5153,16 +5155,16 @@ declare namespace std {
     }
 }
 /**
- * <p> A namespace of STL library. </p>
- *
- * <ul>
- *	<li> Formal homepage: http://samchon.github.io/stl/ </li>
- *	<li> Github: https://github.com/samchon/stl/ </li>
- *	<li> Reference: http://www.cplusplus.com/reference/ </li>
- * </ul>
- *
- * @author Jeongho Nam <http://samchon.org>
- */
+* <p> A namespace of STL library. </p>
+*
+* <ul>
+*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
+*	<li> Github: https://github.com/samchon/stl/ </li>
+*	<li> Reference: http://www.cplusplus.com/reference/ </li>
+* </ul>
+*
+* @author Jeongho Nam <http://samchon.org>
+*/
 declare namespace std {
 }
 declare namespace std.base {
@@ -6390,7 +6392,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -6594,7 +6596,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -6802,7 +6804,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        assign<U extends T>(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
+        assign<U extends T, InputIterator extends base.container.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * @inheritdoc
          */
@@ -6935,7 +6937,7 @@ declare namespace std {
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert<U extends T>(position: VectorIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>): VectorIterator<T>;
+        insert<U extends T, InputIterator extends base.container.Iterator<U>>(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
         /**
          * <p> Erase element. </p>
          *

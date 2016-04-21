@@ -20,13 +20,6 @@ var std;
         qsort(begin.get_source(), begin.index, end.index, compare);
     }
     std.sort = sort;
-    //export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
-    //	(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean): void;
-    //export function sort<T, InputIterator extends base.container.IArrayIterator<T>>
-    //	(begin: InputIterator, end: InputIterator, compare: (left: T, right: T) => boolean = std.less): void
-    //{
-    //	qsort(begin.get_source() as base.container.IArray<T>, begin.index, end.index, compare);
-    //}
     /* ---------------------------------------------------------
         QUICK SORT
     --------------------------------------------------------- */
@@ -90,24 +83,6 @@ var std;
         return ret;
     }
     std.unique = unique;
-    //export function unique<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (left: T, right: T) => boolean): Iterator;
-    //export function unique<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (left: T, right: T) => boolean = std.equals): Iterator
-    //{
-    //	let ret: Iterator = begin;
-    //	for (let it = begin.next(); !it.equals(end);)
-    //	{
-    //		if (std.equals(it.value, it.prev().value) == true)
-    //			it = it.get_source().erase(it) as Iterator;
-    //		else
-    //		{
-    //			ret = it as Iterator;
-    //			it = it.next();
-    //		}
-    //	}
-    //	return ret;
-    //}
     /**
      * <p> Remove value from range. </p>
      *
@@ -140,22 +115,6 @@ var std;
         return ret;
     }
     std.remove = remove;
-    //export function remove<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, val: T): Iterator
-    //{
-    //	let ret: Iterator = end;
-    //	for (let it = begin; !it.equals(end); )
-    //	{
-    //		if (std.equals(it.value, val) == true)
-    //			it = it.get_source().erase(it) as Iterator;
-    //		else
-    //		{
-    //			ret = it;
-    //			it = it.next() as Iterator;
-    //		}
-    //	}
-    //	return ret;
-    //}
     /**
      * <p> Remove elements from range. </p>
      *
@@ -192,22 +151,6 @@ var std;
         return ret;
     }
     std.remove_if = remove_if;
-    //export function remove_if<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (left: T) => boolean): Iterator
-    //{
-    //	let ret: Iterator = end;
-    //	for (let it = begin; !it.equals(end);)
-    //	{
-    //		if (pred(it.value) == true)
-    //			it = it.get_source().erase(it) as Iterator;
-    //		else
-    //		{
-    //			ret = it;
-    //			it = it.next() as Iterator;
-    //		}
-    //	}
-    //	return ret;
-    //}
     /**
      * <p> Replace value in range. </p>
      *
@@ -229,13 +172,6 @@ var std;
                 it.value = new_val;
     }
     std.replace = replace;
-    //export function replace<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, old_val: T, new_val: T): void
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		if (std.equals(it.value, old_val))
-    //			it.value = new_val;
-    //}
     /**
      * <p> Replace value in range. </p>
      *
@@ -258,13 +194,6 @@ var std;
                 it.value = new_val;
     }
     std.replace_if = replace_if;
-    //export function replace_if<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean, new_val: T): void
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		if (pred(it.value) == true)
-    //			it.value = new_val;
-    //}
     /* ---------------------------------------------------------
         RE-ARRANGEMENT
     --------------------------------------------------------- */
@@ -288,16 +217,6 @@ var std;
         }
     }
     std.reverse = reverse;
-    //export function reverse<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator): void
-    //{
-    //	// begin != end && begin != --end
-    //	while (begin.equals(end) == false && !begin.equals((end = end.prev() as Iterator)) == false)
-    //	{
-    //		begin.swap(end);
-    //		begin = begin.next() as Iterator;
-    //	}
-    //}
     /**
      * <p> Rotate left the elements in range. </p>
      *
@@ -325,20 +244,6 @@ var std;
         return begin;
     }
     std.rotate = rotate;
-    //export function rotate<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, middle: Iterator, end: Iterator): Iterator
-    //{
-    //	let next: Iterator = middle;
-    //	while (next.equals(end) == false)
-    //	{
-    //		begin.swap(next);
-    //		begin = begin.next() as Iterator;
-    //		next = next.next() as Iterator;
-    //		if (begin.equals(middle))
-    //			break;
-    //	}
-    //	return begin;
-    //}
     /**
      * <p> Randomly rearrange elements in range. </p>
      *
@@ -359,11 +264,6 @@ var std;
         return std.shuffle(begin, end);
     }
     std.random_shuffle = random_shuffle;
-    //export function random_shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
-    //	(begin: RandomAccessIterator, end: RandomAccessIterator): void
-    //{
-    //	return std.shuffle(begin, end);
-    //}
     /**
      * <p> Randomly rearrange elements in range using generator. </p>
      *
@@ -390,18 +290,10 @@ var std;
         }
     }
     std.shuffle = shuffle;
-    //export function shuffle<T, RandomAccessIterator extends base.container.IArrayIterator<T>>
-    //	(begin: RandomAccessIterator, end: RandomAccessIterator): void
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as RandomAccessIterator)
-    //	{
-    //		let rand_index: number = Math.floor(Math.random() * (end.index - begin.index));
-    //		it.swap(begin.advance(rand_index));
-    //	}
-    //}
     /* ---------------------------------------------------------
         
-    --------------------------------------------------------- */
+    ---------------------------------------------------------
+
     /* =========================================================
         ITERATIONS
             - FOR_EACH
@@ -432,13 +324,6 @@ var std;
         return fn;
     }
     std.for_each = for_each;
-    //export function for_each<T, Iterator extends base.container.Iterator<T>, Func extends (val: T) => any>
-    //	(begin: Iterator, end: Iterator, fn: Func): Func
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		fn(it.value);
-    //	return fn;
-    //}
     /* ---------------------------------------------------------
         AGGREGATE CONDITIONS
     --------------------------------------------------------- */
@@ -468,14 +353,6 @@ var std;
         return true;
     }
     std.all_of = all_of;
-    //export function all_of<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		if (pred(it.value) == false)
-    //			return false;
-    //	return true;
-    //}
     /**
      * <p> Test if any element in range fulfills condition. </p>
      *
@@ -505,14 +382,6 @@ var std;
         return false;
     }
     std.any_of = any_of;
-    //export function any_of<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		if (pred(it.value) == true)
-    //			return true;
-    //	return false;
-    //}
     /**
      * <p> Test if no elements fulfill condition. </p>
      *
@@ -537,11 +406,6 @@ var std;
         return !any_of(begin, end, pred);
     }
     std.none_of = none_of;
-    //export function none_of<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): boolean
-    //{
-    //	return !any_of(begin, end, pred);
-    //}
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
@@ -566,14 +430,6 @@ var std;
         return end;
     }
     std.find = find;
-    //export function find<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, val: T): Iterator
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		if (std.equals(it.value, val))
-    //			return it;
-    //	return end;
-    //}
     /**
      * <p> Find element in range. </p>
      *
@@ -596,14 +452,6 @@ var std;
         return end;
     }
     std.find_if = find_if;
-    //export function find_if<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		if (pred(it.value))
-    //			return it;
-    //	return end;
-    //}
     /**
      * <p> Find element in range. </p>
      *
@@ -626,14 +474,6 @@ var std;
         return end;
     }
     std.find_if_not = find_if_not;
-    //export function find_if_not<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, pred: (val: T) => boolean): Iterator
-    //{
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		if (pred(it.value) == false)
-    //			return it;
-    //	return end;
-    //}
     /* ---------------------------------------------------------
         COUNTERS
     --------------------------------------------------------- */
@@ -649,6 +489,8 @@ var std;
      *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
      *			  <i>begin</i> but not the element pointed by <i>end</i>.
      * @param val Value to match.
+     *
+     * @return The number of elements in the range [<i>begin</i>, <i>end</i>] that compare equal to <i>val</i>.
      */
     function count(begin, end, val) {
         var cnt = 0;
@@ -658,15 +500,6 @@ var std;
         return cnt;
     }
     std.count = count;
-    //export function count<T, Iterator extends base.container.Iterator<T>>
-    //	(begin: Iterator, end: Iterator, val: T): number
-    //{
-    //	let cnt: number = 0;
-    //	for (let it = begin; !it.equals(end); it = it.next() as Iterator)
-    //		if (std.equals(it.value, val))
-    //			return cnt++;
-    //	return cnt;
-    //}
     /**
      * <p> Return number of elements in range satisfying condition. </p>
      *
@@ -725,8 +558,6 @@ var std;
                     // THIS IS ABSTRACT CLASS
                     // NOTHING TO DO ESPECIALLY
                 }
-                //public abstract assign<U extends T, InputIterator extends Iterator<U>>
-                //	(begin: InputIterator, end: InputIterator): void;
                 /**
                  * @inheritdoc
                  */
@@ -1380,13 +1211,6 @@ var std;
                     for (var it = begin; it.equals(end) == false; it = it.next())
                         this.insert_by_val(it.value);
                 };
-                //public assign<U extends T, InputIterator extends Iterator<U>>
-                //	(begin: Iterator<U>, end: Iterator<U>): void
-                //{
-                //	// INSERT
-                //	for (let it = begin; it.equals(end) == false; it = it.next())
-                //		this.insert_by_val(it.value);
-                //}
                 /**
                  * @inheritdoc
                  */
@@ -1461,8 +1285,6 @@ var std;
                         this.insert_by_val(args[i]);
                     return this.size();
                 };
-                //public insert<U extends T, InputIterator extends Iterator<U>>
-                //	(begin: InputIterator, end: InputIterator): void;
                 SetContainer.prototype.insert = function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -1612,8 +1434,6 @@ var std;
                         size++;
                     return size;
                 };
-                //public insert<U extends T, InputIterator extends Iterator<U>>
-                //	(begin: InputIterator, end: InputIterator): void;
                 MultiSet.prototype.insert = function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -1846,8 +1666,6 @@ var std;
                 UniqueSet.prototype.count = function (key) {
                     return this.find(key).equals(this.end()) ? 0 : 1;
                 };
-                //public insert<U extends T, InputIterator extends Iterator<U>>
-                //	(begin: InputIterator, end: InputIterator): void;
                 UniqueSet.prototype.insert = function () {
                     var args = [];
                     for (var _i = 0; _i < arguments.length; _i++) {
@@ -3784,8 +3602,6 @@ var std;
             if (lastArray.length == 0)
                 this.matrix_.splice(this.matrix_.length - 1, 1);
         };
-        //public insert<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
         Deque.prototype.insert = function (position) {
             var args = [];
             for (var _i = 1; _i < arguments.length; _i++) {
@@ -5215,19 +5031,6 @@ var std;
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
-        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(begin: InputIterator, end: InputIterator): void
-        //{
-        //	let it: base.container.Iterator<U>;
-        //	let size: number = 0;
-        //	// RESERVE HASH_BUCKET SIZE
-        //	for (it = begin; it.equals(end) == false; it = it.next())
-        //		size++;
-        //	this.hash_buckets_.clear();
-        //	this.hash_buckets_.reserve(size * base.hash.RATIO);
-        //	// SUPER; INSERT
-        //	super.assign(begin, end);
-        //}
         /**
          * @inheritdoc
          */
@@ -5276,19 +5079,6 @@ var std;
             // INSERTS
             _super.prototype.insert_by_range.call(this, begin, end);
         };
-        //protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(begin: InputIterator, end: InputIterator): void
-        //{
-        //	// CALCULATE INSERTING SIZE
-        //	let size: number = 0;
-        //	for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
-        //		size++;
-        //	// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-        //	if (this.size() + size > this.hash_buckets_.item_size() * base.hash.MAX_RATIO)
-        //		this.hash_buckets_.reserve((this.size() + size) * base.hash.RATIO);
-        //	// INSERTS
-        //	super.insert_by_range(begin, end);
-        //}
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
@@ -5424,19 +5214,6 @@ var std;
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
-        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(begin: InputIterator, end: InputIterator): void
-        //{
-        //	let it: InputIterator;
-        //	let size: number = 0;
-        //	// RESERVE HASH_BUCKET SIZE
-        //	for (it = begin; it.equals(end) == false; it = it.next() as InputIterator)
-        //		size++;
-        //	this.hash_buckets_.clear();
-        //	this.hash_buckets_.reserve(size * base.hash.RATIO);
-        //	// SUPER; INSERT
-        //	super.assign(begin, end);
-        //}
         /**
          * @inheritdoc
          */
@@ -5489,19 +5266,6 @@ var std;
             // INSERTS
             _super.prototype.insert_by_range.call(this, begin, end);
         };
-        //protected insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(begin: InputIterator, end: InputIterator): void
-        //{
-        //	// CALCULATE INSERTING SIZE
-        //	let size: number = 0;
-        //	for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
-        //		size++;
-        //	// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-        //	if (this.size() + size > this.hash_buckets_.size() * base.hash.MAX_RATIO)
-        //		this.hash_buckets_.reserve((this.size() + size) * base.hash.RATIO);
-        //	// INSERTS
-        //	super.insert_by_range(begin, end);
-        //}
         /* ---------------------------------------------------------
             POST-PROCESS
         --------------------------------------------------------- */
@@ -5730,8 +5494,6 @@ var std;
             enumerable: true,
             configurable: true
         });
-        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(begin: InputIterator, end: InputIterator): void;
         List.prototype.assign = function (par1, par2) {
             if (par1 instanceof std.base.container.Iterator && par2 instanceof std.base.container.Iterator) {
                 // PARAMETERS
@@ -5760,43 +5522,6 @@ var std;
                 }
             }
         };
-        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(par1: any, par2: any): void
-        //{
-        //	if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator) {
-        //		// PARAMETERS
-        //		let begin: InputIterator = par1;
-        //		let end: InputIterator = par2;
-        //		// BODY
-        //		let prev: ListIterator<T> = null;
-        //		let item: ListIterator<T>;
-        //		let it = begin;
-        //		while (true) 
-        //		{
-        //			// CONSTRUCT ELEMENT ITEM
-        //			item = new ListIterator<T>
-        //			(
-        //				this,
-        //				prev,
-        //				null,
-        //				(it != end ? it.value : null)
-        //			);
-        //			// SET PREVIOUS NEXT POINTER
-        //			if (prev != null)
-        //				prev.setNext(item);
-        //			// CONSTRUCT BEGIN AND END
-        //			if (it == begin)
-        //				this.begin_ = item;
-        //			else if (it == end) {
-        //				this.end_ = item;
-        //				break;
-        //			}
-        //			// ADD COUNTS AND STEP TO THE NEXT
-        //			this.size_++;
-        //			it = it.next() as InputIterator;
-        //		}
-        //	}
-        //}
         /**
          * @inheritdoc
          */
@@ -5921,8 +5646,6 @@ var std;
         List.prototype.pop_back = function () {
             this.erase(this.end_.prev());
         };
-        //public insert<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
         List.prototype.insert = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -7908,11 +7631,6 @@ var std;
         TreeMultiSet.prototype.assign = function (begin, end) {
             _super.prototype.assign.call(this, begin, end);
         };
-        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(begin: InputIterator, end: InputIterator): void
-        //{
-        //	super.assign(begin, end);
-        //}
         /**
          * @inheritdoc
          */
@@ -8183,11 +7901,6 @@ var std;
         TreeSet.prototype.assign = function (begin, end) {
             _super.prototype.assign.call(this, begin, end);
         };
-        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(begin: InputIterator, end: InputIterator): void
-        //{
-        //	super.assign(begin, end);
-        //}
         /**
          * @inheritdoc
          */
@@ -8481,26 +8194,6 @@ var std;
                     this[i] = val;
             }
         };
-        //public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(first: any, second: any): void
-        //{
-        //	this.clear();
-        //	if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
-        //	{
-        //		let begin: InputIterator = first;
-        //		let end: InputIterator = second;
-        //		for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
-        //			this.push(it.value);
-        //	}
-        //	else if (typeof first == "number")
-        //	{
-        //		let size: number = <number>first;
-        //		let val: T = <T>second;
-        //		this.length = size;
-        //		for (let i: number = 0; i < size; i++)
-        //			this[i] = val;
-        //	}
-        //}
         /**
          * @inheritdoc
          */
@@ -8609,8 +8302,6 @@ var std;
         Vector.prototype.pop_back = function () {
             this.erase(this.end().prev());
         };
-        //public insert<U extends T, InputIterator extends base.container.Iterator<U>>
-        //	(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
         Vector.prototype.insert = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {

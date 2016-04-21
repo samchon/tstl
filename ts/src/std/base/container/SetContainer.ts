@@ -131,21 +131,13 @@ namespace std.base.container
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>
+		public assign<U extends T, InputIterator extends Iterator<U>>
 			(begin: Iterator<U>, end: Iterator<U>): void
 		{
 			// INSERT
 			for (let it = begin; it.equals(end) == false; it = it.next())
 				this.insert_by_val(it.value);
 		}
-
-		//public assign<U extends T, InputIterator extends Iterator<U>>
-		//	(begin: Iterator<U>, end: Iterator<U>): void
-		//{
-		//	// INSERT
-		//	for (let it = begin; it.equals(end) == false; it = it.next())
-		//		this.insert_by_val(it.value);
-		//}
 
 		/**
 		 * @inheritdoc
@@ -291,11 +283,8 @@ namespace std.base.container
 		 * @param begin An iterator specifying range of the begining element.
 		 * @param end An iterator specifying range of the ending element.
 		 */
-		public insert<U extends T>
-			(begin: Iterator<U>, end: Iterator<U>): void;
-
-		//public insert<U extends T, InputIterator extends Iterator<U>>
-		//	(begin: InputIterator, end: InputIterator): void;
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
@@ -333,19 +322,12 @@ namespace std.base.container
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T>
-			(begin: Iterator<U>, end: Iterator<U>): void
+		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void
 		{
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
 				this.insert_by_val(it.value);
 		}
-
-		//protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
-		//	(begin: InputIterator, end: InputIterator): void
-		//{
-		//	for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
-		//		this.insert_by_val(it.value);
-		//}
 
 		/* ---------------------------------------------------------
 			ERASE

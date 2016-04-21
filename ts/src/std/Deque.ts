@@ -228,11 +228,8 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T>
-			(begin: base.container.Iterator<U>, end: base.container.Iterator<U>): void;
-
-		//public assign<U extends T, InputIterator extends base.container.Iterator<U>>
-		//	(begin: InputIterator, end: InputIterator): void;
+		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		/**
 		 * @inheritdoc
@@ -571,14 +568,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public insert<U extends T>
-			(position: DequeIterator<T>, begin: base.container.Iterator<U>, end: base.container.Iterator<U>)
-				: DequeIterator<T>;
-
-		//public insert<U extends T, InputIterator extends base.container.Iterator<U>>
-		//	(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
-
-		public insert<U extends T>
+		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
+		
+		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
 			(position: DequeIterator<T>, ...args: any[]): DequeIterator<T>
 		{
 			let items: Array<T> = [];
@@ -599,10 +592,10 @@ namespace std
 			}
 			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
 			{
-				let begin: base.container.Iterator<U> = args[0];
-				let end: base.container.Iterator<U> = args[1];
+				let begin: InputIterator = args[0];
+				let end: InputIterator = args[1];
 
-				for (let it = begin; !it.equals(end); it = it.next())
+				for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
 					items.push(it.value);
 			}
 
@@ -680,109 +673,6 @@ namespace std
 
 			return position;
 		}
-
-		//public insert<U extends T, InputIterator extends base.container.Iterator<U>>
-		//	(position: DequeIterator<T>, ...args: any[]): DequeIterator<T>
-		//{
-		//	let items: Array<T> = [];
-
-		//	if (args.length == 1)
-		//	{
-		//		let val: T = args[0];
-
-		//		items.push(val);
-		//	}
-		//	else if (args.length == 2 && typeof args[0] == "number")
-		//	{
-		//		let n: number = args[0];
-		//		let val: T = args[1];
-
-		//		for (let i = 0; i < n; i++)
-		//			items.push(val);
-		//	}
-		//	else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
-		//	{
-		//		let begin: InputIterator = args[0];
-		//		let end: InputIterator = args[1];
-
-		//		for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
-		//			items.push(it.value);
-		//	}
-
-		//	// -----------------------------------------------------
-		//	// INSERT ITEMS
-		//	// -----------------------------------------------------
-		//	// INSERTS CAREFULLY
-		//	if (position.equals(this.end()) == true)
-		//	{
-		//		// WHEN INSERTS TO THE BACK SIDE
-		//		this.push(...items);
-		//		return;
-		//	}
-
-		//	this.size_ += items.length;
-
-		//	if (this.size_ <= this.capacity_)
-		//	{
-		//		// ------------------------------------------------------
-		//		// WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
-		//		// ------------------------------------------------------
-		//		// INSERTS CAREFULLY CONSIDERING THE COL_SIZE
-		//		let indexPair = this.fetch_index(position.index);
-		//		let index = indexPair.first;
-
-		//		let splicedValues = this.matrix_[index].splice(indexPair.second);
-		//		if (splicedValues.length != 0)
-		//			items = items.concat(...splicedValues);
-
-		//		if (this.matrix_[index].length < Deque.ROW)
-		//		{
-		//			this.matrix_[index] =
-		//				this.matrix_[index].concat
-		//					(
-		//					...items.splice(0, Deque.ROW - this.matrix_[index].length)
-		//					);
-		//		}
-
-		//		let splicedArray = this.matrix_.splice(index + 1);
-
-		//		// INSERTS
-		//		while (items.length != 0)
-		//			this.matrix_.push(items.splice(0, Math.min(Deque.ROW, items.length)));
-
-		//		// CONCAT WITH BACKS
-		//		this.matrix_ = this.matrix_.concat(...splicedArray);
-		//	}
-		//	else
-		//	{
-		//		// -----------------------------------------------------
-		//		// WHEN CANNOT BE FIT INTO THE RESERVED CAPACITY
-		//		// -----------------------------------------------------
-		//		// JUST INSERT CARELESSLY
-		//		// AND KEEP BLANACE BY THE RESERVE() METHOD
-		//		if (position.equals(this.end()) == true)
-		//		{
-		//			this.matrix_.push(items); // ALL TO THE LAST
-		//		}
-		//		else
-		//		{
-		//			let indexPair = this.fetch_index(position.index);
-		//			let index = indexPair.first;
-
-		//			let splicedValues = this.matrix_[index].splice(indexPair.second);
-		//			if (splicedValues.length != 0)
-		//				items = items.concat(...splicedValues);
-
-		//			// ALL TO THE MIDDLE
-		//			this.matrix_[index] = this.matrix_[index].concat(...items);
-		//		}
-
-		//		// AND KEEP BALANCE BY RESERVE()
-		//		this.reserve(this.size_);
-		//	}
-
-		//	return position;
-		//}
 
 		/* ---------------------------------------------------------
 			ERASE
