@@ -140,7 +140,7 @@ namespace std
 			return std.less(this.first, obj.first);
 		}
 		
-		public hash(): number
+		public hash_code(): number
 		{
 			return std.hash(this.first);
 		}

@@ -103,7 +103,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public hash(): number
+		public hash_code(): number
 		{
 			return base.hash.code(this.value);
 		}

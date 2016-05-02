@@ -53,6 +53,9 @@ namespace std
 	export class HashMultiMap<Key, T>
 		extends base.container.MultiMap<Key, T>
 	{
+		/**
+		 * 
+		 */
 		private hash_buckets_: base.hash.MapHashBuckets<Key, T>;
 	
 		/* =========================================================

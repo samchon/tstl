@@ -15,64 +15,347 @@ var __extends = (this && this.__extends) || function (d, b) {
 // @author Jeongho Nam <http://samchon.org>
 var std;
 (function (std) {
-    function sort(begin, end, compare) {
-        if (compare === void 0) { compare = std.less; }
-        qsort(begin.get_source(), begin.index, end.index, compare);
-    }
-    std.sort = sort;
-    /* ---------------------------------------------------------
-        QUICK SORT
+    /* =========================================================
+        ITERATIONS (NON-MODIFYING SEQUENCE)
+            - FOR_EACH
+            - AGGREGATE CONDITIONS
+            - FINDERS
+            - COUNTERS
+    ============================================================
+        FOR_EACH
     --------------------------------------------------------- */
     /**
-     * @hidden
+     * <p> Apply function to range. </p>
+     *
+     * <p> Applies function <i>fn</i> to each of the elements in the range [<i>first</i>, <i>last</i>]. </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param fn Unary function that accepts an element in the range as argument. This can either be a function p
+     *			 ointer or a move constructible function object. Its return value, if any, is ignored.
+     *
+     * @return Returns <i>fn</i>.
      */
-    function qsort(container, begin, end, compare) {
-        // QUICK SORT
-        if (begin > end) {
-            // SWAP BEGIN A
-            var supp = begin;
-            begin = end;
-            end = begin;
-        }
-        var index = qsort_partition(container, begin, end, compare);
-        qsort(container, begin, index, compare);
-        qsort(container, index, end, compare);
+    function for_each(first, last, fn) {
+        for (var it = first; !it.equals(last); it = it.next())
+            fn(it.value);
+        return fn;
     }
+    std.for_each = for_each;
+    /* ---------------------------------------------------------
+        AGGREGATE CONDITIONS
+    --------------------------------------------------------- */
     /**
-     * @hidden
+     * <p> Test condition on all elements in range. </p>
+     *
+     * <p> Returns <code>true</code> if <i>pred</i> returns <code>true</code> for all the elements in the range
+     * [<i>first</i>, <i>last</i>] or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
+     * </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
+     *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
+     *			   checked by this function. The function shall not modify its argument. This can either be a function
+     *			   pointer or a function object.
+     *
+     * @return <code>true</code> if pred returns true for all the elements in the range or if the range is
+     *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
      */
-    function qsort_partition(container, begin, end, compare) {
-        var val = container.at(begin);
-        var i = begin;
-        var j = end;
-        while (true) {
-            while (compare(container.at(++i), val))
-                if (i == end - 1)
-                    break;
-            while (compare(val, container.at(--j)))
-                if (j == begin)
-                    break;
-            if (i >= j)
-                break;
-            // SWAP; AT(I) WITH AT(J)
-            var supplement_1 = container.at(i);
-            container.set(i, container.at(j));
-            container.set(j, supplement_1);
-        }
-        // SWAO; AT(BEGIN) WITH AT(J)
-        var supplement = container.at(begin);
-        container.set(begin, container.at(j));
-        container.set(j, supplement);
-        return j;
+    function all_of(first, last, pred) {
+        for (var it = first; !it.equals(last); it = it.next())
+            if (pred(it.value) == false)
+                return false;
+        return true;
     }
-    function swap(left, right) {
-        left.swap(right);
+    std.all_of = all_of;
+    /**
+     * <p> Test if any element in range fulfills condition. </p>
+     *
+     * <p> Returns <code>true</code> if <i>pred</i> returns true for any of the elements in the range
+     * [<i>first</i>, <i>last<i>], and <code>false</code> otherwise. </p>
+     *
+     * <p> If [<i>first</i>, <i>last</i>] is an {@link IContainer.empty empty} range, the function returns
+     * <code>false</code>. </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
+     *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
+     *			   checked by this function. The function shall not modify its argument. This can either be a function
+     *			   pointer or a function object.
+     *
+     * @return <code>true</code> if <i>pred</i> returns <code>true</code> for any of the elements in the range
+     *		   [<i>first</i>, <i>last<i>], and <code>false</code> otherwise. If [<i>first</i>, <i>last</i>] is an
+     *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
+     */
+    function any_of(first, last, pred) {
+        for (var it = first; !it.equals(last); it = it.next())
+            if (pred(it.value) == true)
+                return true;
+        return false;
     }
-    std.swap = swap;
-    function unique(begin, end, pred) {
+    std.any_of = any_of;
+    /**
+     * <p> Test if no elements fulfill condition. </p>
+     *
+     * <p> Returns <code>true</code> if <i>pred</i> returns false for all the elements in the range
+     * [<i>first</i>, <i>last</i>] or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
+     * </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
+     *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
+     *			   checked by this function. The function shall not modify its argument. This can either be a function
+     *			   pointer or a function object.
+     *
+     * @return <code>true</code> if <i>pred</i> returns <code>false</code> for all the elements in the range
+     *		   [<i>first</i>, <i>last<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code>
+     *		   otherwise.
+     */
+    function none_of(first, last, pred) {
+        return !any_of(first, last, pred);
+    }
+    std.none_of = none_of;
+    function equal(first1, last1, first2, pred) {
         if (pred === void 0) { pred = std.equals; }
-        var ret = begin;
-        for (var it = begin.next(); !it.equals(end);) {
+        while (!first1.equals(last1))
+            if (first2.equals(first2.get_source().end()) || !pred(first1.value, first2.value))
+                return false;
+            else {
+                first1 = first1.next();
+                first2 = first2.next();
+            }
+        return true;
+    }
+    std.equal = equal;
+    function is_permutation(first1, last1, first2, pred) {
+        if (pred === void 0) { pred = std.equals; }
+        // find the mismatched
+        var pair = mismatch(first1, last1, first2);
+        first1 = pair.first;
+        first2 = pair.second;
+        if (first1.equals(last1))
+            return true;
+        var last2 = first2.advance(std.distance(first1, last1));
+        for (var it = first1; !it.equals(last1); it = it.next())
+            if (find(first1, it, it.value).equals(it)) {
+                var n = count(first2, last2, it.value);
+                if (n == 0 || count(it, last1, it.value) != n)
+                    return false;
+            }
+        return true;
+    }
+    std.is_permutation = is_permutation;
+    function lexicographical_compare(first1, last1, first2, last2, compare) {
+        if (compare === void 0) { compare = std.less; }
+        while (!first1.equals(last1))
+            if (first2.equals(last2) || !compare(first1.value, first2.value))
+                return false;
+            else if (compare(first1.value, first2.value))
+                return true;
+            else {
+                first1 = first1.next();
+                first2 = first2.next();
+            }
+        return !std.equals(last2, last2.get_source().end()) && !std.equals(first2.value, last2.value);
+    }
+    std.lexicographical_compare = lexicographical_compare;
+    /* ---------------------------------------------------------
+        FINDERS
+    --------------------------------------------------------- */
+    /**
+     * <p> Find value in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) that compares equal to
+     * <i>val</i>. If no such element is found, the function returns <i>last</i>. </p>
+     *
+     * <p> The function uses {@link std.equals equals} to compare the individual elements to <i>val</i>. </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param val Value to search for in the range.
+     *
+     * @return An {@link Iterator} to the first element in the range that compares equal to <i>val</i>. If no elements
+     *		   match, the function returns <i>last</i>.
+     */
+    function find(first, last, val) {
+        for (var it = first; !it.equals(last); it = it.next())
+            if (std.equals(it.value, val))
+                return it;
+        return last;
+    }
+    std.find = find;
+    /**
+     * <p> Find element in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>] for which pred returns
+     * <code>true</code>. If no such element is found, the function returns <i>last</i>. </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
+     *			   the context of this function. The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
+     *
+     * @return An {@link Iterator} to the first element in the range for which <i>pred</i> does not return
+     *		   <code>false</code>. If <i>pred</i> is <code>false</code> for all elements, the function returns
+     *		   <i>last</i>.
+     */
+    function find_if(first, last, pred) {
+        for (var it = first; !it.equals(last); it = it.next())
+            if (pred(it.value))
+                return it;
+        return last;
+    }
+    std.find_if = find_if;
+    /**
+     * <p> Find element in range. </p>
+     *
+     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>] for which pred returns
+     * <code>true</code>. If no such element is found, the function returns <i>last</i>. </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
+     *			   the context of this function. The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
+     *
+     * @return An {@link Iterator} to the first element in the range for which <i>pred</i> returns <code>false</code>.
+     *		   If <i>pred</i> is <code>true</code> for all elements, the function returns <i>last</i>.
+     */
+    function find_if_not(first, last, pred) {
+        for (var it = first; !it.equals(last); it = it.next())
+            if (pred(it.value) == false)
+                return it;
+        return last;
+    }
+    std.find_if_not = find_if_not;
+    function find_end(first1, last1, first2, last2, compare) {
+        if (compare === void 0) { compare = std.equals; }
+        if (first2.equals(last2))
+            return last1;
+        var ret = last1;
+        for (; !first1.equals(last1); first1 = first1.next()) {
+            var it1 = first1;
+            var it2 = first2;
+            while (std.equals(it1.value, it2.value)) {
+                it1 = it1.next();
+                it2 = it2.next();
+                if (it2.equals(last2)) {
+                    ret = first1;
+                    break;
+                }
+                else if (it1.equals(last1))
+                    return ret;
+            }
+        }
+        return ret;
+    }
+    std.find_end = find_end;
+    function find_first_of(first1, last1, first2, last2, pred) {
+        if (pred === void 0) { pred = std.equals; }
+        for (; !first1.equals(last1); first1 = first1.next())
+            for (var it = first2; !it.equals(last2); it = it.next())
+                if (pred(it.value, first1.value))
+                    return first1;
+        return last1;
+    }
+    std.find_first_of = find_first_of;
+    function adjacent_find(first, last, pred) {
+        if (pred === void 0) { pred = std.equals; }
+        if (!first.equals(last)) {
+            var next = first.next();
+            while (!next.equals(last)) {
+                if (std.equals(first.value, last.value))
+                    return first;
+                first = first.next();
+                next = next.next();
+            }
+        }
+        return last;
+    }
+    std.adjacent_find = adjacent_find;
+    function mismatch(first1, last1, first2, compare) {
+        if (compare === void 0) { compare = std.equals; }
+        while (!first1.equals(last1) && !first2.equals(first2.get_source().end())
+            && std.equals(first1.value, first2.value)) {
+            first1 = first1.next();
+            first2 = first2.next();
+        }
+        return std.make_pair(first1, first2);
+    }
+    std.mismatch = mismatch;
+    /* ---------------------------------------------------------
+        COUNTERS
+    --------------------------------------------------------- */
+    /**
+     * <p> Count appearances of value in range. </p>
+     *
+     * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>] that compare equal to <i>val</i>. </p>
+     *
+     * <p> The function uses {@link equals} to compare the individual elements to <i>val</i>. </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param val Value to match.
+     *
+     * @return The number of elements in the range [<i>first</i>, <i>last</i>] that compare equal to <i>val</i>.
+     */
+    function count(first, last, val) {
+        var cnt = 0;
+        for (var it = first; !it.equals(last); it = it.next())
+            if (std.equals(it.value, val))
+                return cnt++;
+        return cnt;
+    }
+    std.count = count;
+    /**
+     * <p> Return number of elements in range satisfying condition. </p>
+     *
+     * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>] for which pred is <code>true</code>.
+     * </p>
+     *
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
+     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible
+     *			   to <code>bool</code>. The value returned indicates whether the element is counted by this function.
+     *			   The function shall not modify its argument. This can either be a function pointer or a function
+     *			   object.
+     */
+    function count_if(first, last, pred) {
+        var cnt = 0;
+        for (var it = first; !it.equals(last); it = it.next())
+            if (pred(it.value))
+                return cnt++;
+        return cnt;
+    }
+    std.count_if = count_if;
+    function unique(first, last, pred) {
+        if (pred === void 0) { pred = std.equals; }
+        var ret = first;
+        for (var it = first.next(); !it.equals(last);) {
             if (std.equals(it.value, it.prev().value) == true)
                 it = it.get_source().erase(it);
             else {
@@ -86,25 +369,25 @@ var std;
     /**
      * <p> Remove value from range. </p>
      *
-     * <p> Transforms the range [<i>begin</i>, <i>end</i>] into a range with all the elements that compare equal to
-     * <i>val</i> removed, and returns an iterator to the new end of that range. </p>
+     * <p> Transforms the range [<i>first</i>, <i>last</i>] into a range with all the elements that compare equal to
+     * <i>val</i> removed, and returns an iterator to the new last of that range. </p>
      *
      * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
      * alter the size of an array or a container): The removal is done by replacing the elements that compare equal to
      * <i>val</i> by the next element that does not, and signaling the new size of the shortened range by returning an
-     * iterator to the element that should be considered its new past-the-end element. </p>
+     * iterator to the element that should be considered its new past-the-last element. </p>
      *
      * The relative order of the elements not removed is preserved, while the elements between the returned iterator and last are left in a valid but unspecified state.
      *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param val Value to be removed.
      */
-    function remove(begin, end, val) {
-        var ret = end;
-        for (var it = begin; !it.equals(end);) {
+    function remove(first, last, val) {
+        var ret = last;
+        for (var it = first; !it.equals(last);) {
             if (std.equals(it.value, val) == true)
                 it = it.get_source().erase(it);
             else {
@@ -118,29 +401,29 @@ var std;
     /**
      * <p> Remove elements from range. </p>
      *
-     * <p> Transforms the range [<i>begin</i>, <i>end</i>) into a range with all the elements for which pred returns
-     * <code>true</code> removed, and returns an iterator to the new end of that range. </p>
+     * <p> Transforms the range [<i>first</i>, <i>last</i>) into a range with all the elements for which pred returns
+     * <code>true</code> removed, and returns an iterator to the new last of that range. </p>
      *
      * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
      * alter the size of an array or a container): The removal is done by replacing the elements for which pred returns
      * <code>true</code> by the next element for which it does not, and signaling the new size of the shortened range
-     * by returning an iterator to the element that should be considered its new past-the-end element. </p>
+     * by returning an iterator to the element that should be considered its new past-the-last element. </p>
      *
      * <p> The relative order of the elements not removed is preserved, while the elements between the returned
      * iterator and last are left in a valid but unspecified state. </p>
      *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
      *			   <code>bool</code>. The value returned indicates whether the element is to be removed (if
      *			   <code>true</code>, it is removed). The function shall not modify its argument. This can either be a
      *			   function pointer or a function object.
      */
-    function remove_if(begin, end, pred) {
-        var ret = end;
-        for (var it = begin; !it.equals(end);) {
+    function remove_if(first, last, pred) {
+        var ret = last;
+        for (var it = first; !it.equals(last);) {
             if (pred(it.value) == true)
                 it = it.get_source().erase(it);
             else {
@@ -154,20 +437,20 @@ var std;
     /**
      * <p> Replace value in range. </p>
      *
-     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>begin</i>, <i>end</i>] that compare equal to
+     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>] that compare equal to
      * <i>old_val</i>. </p>
      *
      * <p> The function uses {@link equals} to compare the individual elements to old_val. </p>
      *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param old_val Value to be replaced.
      * @param new_val Replacement value.
      */
-    function replace(begin, end, old_val, new_val) {
-        for (var it = begin; !it.equals(end); it = it.next())
+    function replace(first, last, old_val, new_val) {
+        for (var it = first; !it.equals(last); it = it.next())
             if (std.equals(it.value, old_val))
                 it.value = new_val;
     }
@@ -175,21 +458,21 @@ var std;
     /**
      * <p> Replace value in range. </p>
      *
-     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>begin</i>, <i>end</i>] for which pred returns
+     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>] for which pred returns
      * <code>true</code>. </p>
      *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
      *			   <code>bool</code>. The value returned indicates whether the element is to be replaced (if
      *			   <code>true</code>, it is replaced). The function shall not modify its argument. This can either be
      *			   a function pointer or a function object.
      * @param new_val Value to assign to replaced elements.
      */
-    function replace_if(begin, end, pred, new_val) {
-        for (var it = begin; !it.equals(end); it = it.next())
+    function replace_if(first, last, pred, new_val) {
+        for (var it = first; !it.equals(last); it = it.next())
             if (pred(it.value) == true)
                 it.value = new_val;
     }
@@ -200,54 +483,54 @@ var std;
     /**
      * <p> Reverse range. </p>
      *
-     * <p> Reverses the order of the elements in the range [<i>begin</i>, <i>end</i>]. </p>
+     * <p> Reverses the order of the elements in the range [<i>first</i>, <i>last</i>]. </p>
      *
      * <p> The function calls {@link iter_swap} to swap the elements to their new locations. </p>
      *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
      */
-    function reverse(begin, end) {
-        // begin != end && begin != --end
-        while (begin.equals(end) == false && !begin.equals((end = end.prev())) == false) {
-            begin.swap(end);
-            begin = begin.next();
+    function reverse(first, last) {
+        // first != last && first != --last
+        while (first.equals(last) == false && !first.equals((last = last.prev())) == false) {
+            first.swap(last);
+            first = first.next();
         }
     }
     std.reverse = reverse;
     /**
      * <p> Rotate left the elements in range. </p>
      *
-     * <p> Rotates the order of the elements in the range [<i>begin</i>, <i>end</i>], in such a way that the element
+     * <p> Rotates the order of the elements in the range [<i>first</i>, <i>last</i>], in such a way that the element
      * pointed by middle becomes the new first element. </p>
      *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param middle An {@link Iterator} pointing to the element within the range [<i>begin</i>, <i>end</i>] that is
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param middle An {@link Iterator} pointing to the element within the range [<i>first</i>, <i>last</i>] that is
      *				 moved to the first position in the range.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
      *
-     * @return An iterator pointing to the element that now contains the value previously pointed by <i>begin</i>.
+     * @return An iterator pointing to the element that now contains the value previously pointed by <i>first</i>.
      */
-    function rotate(begin, middle, end) {
+    function rotate(first, middle, last) {
         var next = middle;
-        while (next.equals(end) == false) {
-            begin.swap(next);
-            begin = begin.next();
+        while (next.equals(last) == false) {
+            first.swap(next);
+            first = first.next();
             next = next.next();
-            if (begin.equals(middle))
+            if (first.equals(middle))
                 break;
         }
-        return begin;
+        return first;
     }
     std.rotate = rotate;
     /**
      * <p> Randomly rearrange elements in range. </p>
      *
-     * <p> Rearranges the elements in the range [<i>begin</i>, <i>end</i>) randomly. </p>
+     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>) randomly. </p>
      *
      * <p> The function swaps the value of each element with that of some other randomly picked element. When provided,
      * the function gen determines which element is picked in every case. Otherwise, the function uses some unspecified
@@ -255,19 +538,19 @@ var std;
      *
      * <p> To specify a uniform random generator, see {@link shuffle}. </p>
      *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
      */
-    function random_shuffle(begin, end) {
-        return std.shuffle(begin, end);
+    function random_shuffle(first, last) {
+        return std.shuffle(first, last);
     }
     std.random_shuffle = random_shuffle;
     /**
      * <p> Randomly rearrange elements in range using generator. </p>
      *
-     * <p> Rearranges the elements in the range [<i>begin</i>, <i>end</i>] randomly, using <i>g</i> as uniform random number
+     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>] randomly, using <i>g</i> as uniform random number
      * generator. </p>
      *
      * <p> The function swaps the value of each element with that of some other randomly picked element. The function
@@ -278,251 +561,72 @@ var std;
      * <h5> Note </h5>
      * <p> Using random generator engine is not implemented yet. </p>
      *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
+     * @param first An {@link Iterator} to the initial position in a sequence.
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
+     *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
+     *			  <i>first</i> but not the element pointed by <i>last</i>.
      */
-    function shuffle(begin, end) {
-        for (var it = begin; !it.equals(end); it = it.next()) {
-            var rand_index = Math.floor(Math.random() * (end.index - begin.index));
-            it.swap(begin.advance(rand_index));
+    function shuffle(first, last) {
+        for (var it = first; !it.equals(last); it = it.next()) {
+            var rand_index = Math.floor(Math.random() * (last.index - first.index));
+            it.swap(first.advance(rand_index));
         }
     }
     std.shuffle = shuffle;
+    function sort(first, last, compare) {
+        if (compare === void 0) { compare = std.less; }
+        qsort(first.get_source(), first.index, last.index, compare);
+    }
+    std.sort = sort;
     /* ---------------------------------------------------------
-        
-    ---------------------------------------------------------
-
-    /* =========================================================
-        ITERATIONS
-            - FOR_EACH
-            - AGGREGATE CONDITIONS
-            - FINDERS
-            - COUNTERS
-            - RANGES
-    ============================================================
-        FOR_EACH
+        QUICK SORT
     --------------------------------------------------------- */
     /**
-     * <p> Apply function to range. </p>
-     *
-     * <p> Applies function <i>fn</i> to each of the elements in the range [<i>begin</i>, <i>end</i>]. </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param fn Unary function that accepts an element in the range as argument. This can either be a function p
-     *			 ointer or a move constructible function object. Its return value, if any, is ignored.
-     *
-     * @return Returns <i>fn</i>.
+     * @hidden
      */
-    function for_each(begin, end, fn) {
-        for (var it = begin; !it.equals(end); it = it.next())
-            fn(it.value);
-        return fn;
+    function qsort(container, first, last, compare) {
+        // QUICK SORT
+        if (first > last) {
+            // SWAP BEGIN A
+            var supp = first;
+            first = last;
+            last = first;
+        }
+        var index = qsort_partition(container, first, last, compare);
+        qsort(container, first, index, compare);
+        qsort(container, index, last, compare);
     }
-    std.for_each = for_each;
-    /* ---------------------------------------------------------
-        AGGREGATE CONDITIONS
-    --------------------------------------------------------- */
     /**
-     * <p> Test condition on all elements in range. </p>
-     *
-     * <p> Returns <code>true</code> if <i>pred</i> returns <code>true</code> for all the elements in the range
-     * [<i>begin</i>, <i>end</i>] or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
-     * </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
-     *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
-     *			   checked by this function. The function shall not modify its argument. This can either be a function
-     *			   pointer or a function object.
-     *
-     * @return <code>true</code> if pred returns true for all the elements in the range or if the range is
-     *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
+     * @hidden
      */
-    function all_of(begin, end, pred) {
-        for (var it = begin; !it.equals(end); it = it.next())
-            if (pred(it.value) == false)
-                return false;
-        return true;
+    function qsort_partition(container, first, last, compare) {
+        var val = container.at(first);
+        var i = first;
+        var j = last;
+        while (true) {
+            while (compare(container.at(++i), val))
+                if (i == last - 1)
+                    break;
+            while (compare(val, container.at(--j)))
+                if (j == first)
+                    break;
+            if (i >= j)
+                break;
+            // SWAP; AT(I) WITH AT(J)
+            var supplement_1 = container.at(i);
+            container.set(i, container.at(j));
+            container.set(j, supplement_1);
+        }
+        // SWAO; AT(BEGIN) WITH AT(J)
+        var supplement = container.at(first);
+        container.set(first, container.at(j));
+        container.set(j, supplement);
+        return j;
     }
-    std.all_of = all_of;
-    /**
-     * <p> Test if any element in range fulfills condition. </p>
-     *
-     * <p> Returns <code>true</code> if <i>pred</i> returns true for any of the elements in the range
-     * [<i>begin</i>, <i>end<i>], and <code>false</code> otherwise. </p>
-     *
-     * <p> If [<i>begin</i>, <i>end</i>] is an {@link IContainer.empty empty} range, the function returns
-     * <code>false</code>. </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
-     *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
-     *			   checked by this function. The function shall not modify its argument. This can either be a function
-     *			   pointer or a function object.
-     *
-     * @return <code>true</code> if <i>pred</i> returns <code>true</code> for any of the elements in the range
-     *		   [<i>begin</i>, <i>end<i>], and <code>false</code> otherwise. If [<i>begin</i>, <i>end</i>] is an
-     *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
-     */
-    function any_of(begin, end, pred) {
-        for (var it = begin; !it.equals(end); it = it.next())
-            if (pred(it.value) == true)
-                return true;
-        return false;
+    function swap(left, right) {
+        left.swap(right);
     }
-    std.any_of = any_of;
-    /**
-     * <p> Test if no elements fulfill condition. </p>
-     *
-     * <p> Returns <code>true</code> if <i>pred</i> returns false for all the elements in the range
-     * [<i>begin</i>, <i>end</i>] or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
-     * </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
-     *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
-     *			   checked by this function. The function shall not modify its argument. This can either be a function
-     *			   pointer or a function object.
-     *
-     * @return <code>true</code> if <i>pred</i> returns <code>false</code> for all the elements in the range
-     *		   [<i>begin</i>, <i>end<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code>
-     *		   otherwise.
-     */
-    function none_of(begin, end, pred) {
-        return !any_of(begin, end, pred);
-    }
-    std.none_of = none_of;
-    /* ---------------------------------------------------------
-        FINDERS
-    --------------------------------------------------------- */
-    /**
-     * <p> Find value in range. </p>
-     *
-     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>) that compares equal to
-     * <i>val</i>. If no such element is found, the function returns <i>end</i>. </p>
-     *
-     * <p> The function uses {@link std.equals equals} to compare the individual elements to <i>val</i>. </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param val Value to search for in the range.
-     */
-    function find(begin, end, val) {
-        for (var it = begin; !it.equals(end); it = it.next())
-            if (std.equals(it.value, val))
-                return it;
-        return end;
-    }
-    std.find = find;
-    /**
-     * <p> Find element in range. </p>
-     *
-     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>] for which pred returns
-     * <code>true</code>. If no such element is found, the function returns <i>end</i>. </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
-     *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
-     *			   the context of this function. The function shall not modify its argument. This can either be a
-     *			   function pointer or a function object.
-     */
-    function find_if(begin, end, pred) {
-        for (var it = begin; !it.equals(end); it = it.next())
-            if (pred(it.value))
-                return it;
-        return end;
-    }
-    std.find_if = find_if;
-    /**
-     * <p> Find element in range. </p>
-     *
-     * <p> Returns an iterator to the first element in the range [<i>begin</i>, <i>end</i>] for which pred returns
-     * <code>true</code>. If no such element is found, the function returns <i>end</i>. </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
-     *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
-     *			   the context of this function. The function shall not modify its argument. This can either be a
-     *			   function pointer or a function object.
-     */
-    function find_if_not(begin, end, pred) {
-        for (var it = begin; !it.equals(end); it = it.next())
-            if (pred(it.value) == false)
-                return it;
-        return end;
-    }
-    std.find_if_not = find_if_not;
-    /* ---------------------------------------------------------
-        COUNTERS
-    --------------------------------------------------------- */
-    /**
-     * <p> Count appearances of value in range. </p>
-     *
-     * <p> Returns the number of elements in the range [<i>begin</i>, <i>end</i>] that compare equal to <i>val</i>. </p>
-     *
-     * <p> The function uses {@link equals} to compare the individual elements to <i>val</i>. </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param val Value to match.
-     *
-     * @return The number of elements in the range [<i>begin</i>, <i>end</i>] that compare equal to <i>val</i>.
-     */
-    function count(begin, end, val) {
-        var cnt = 0;
-        for (var it = begin; !it.equals(end); it = it.next())
-            if (std.equals(it.value, val))
-                return cnt++;
-        return cnt;
-    }
-    std.count = count;
-    /**
-     * <p> Return number of elements in range satisfying condition. </p>
-     *
-     * <p> Returns the number of elements in the range [<i>begin</i>, <i>end</i>] for which pred is <code>true</code>.
-     * </p>
-     *
-     * @param begin An {@link Iterator} to the initial position in a sequence.
-     * @param end An {@link Iterator} to the final position in a sequence. The range used is [<i>begin</i>, <i>end<i>],
-     *			  which contains all the elements between <i>begin</i> and <i>end</i>, including the element pointed by
-     *			  <i>begin</i> but not the element pointed by <i>end</i>.
-     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible
-     *			   to <code>bool</code>. The value returned indicates whether the element is counted by this function.
-     *			   The function shall not modify its argument. This can either be a function pointer or a function
-     *			   object.
-     */
-    function count_if(begin, end, pred) {
-        var cnt = 0;
-        for (var it = begin; !it.equals(end); it = it.next())
-            if (pred(it.value))
-                return cnt++;
-        return cnt;
-    }
-    std.count_if = count_if;
+    std.swap = swap;
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -1820,8 +1924,8 @@ var std;
              * @hidden
              */
             function code_of_object(obj) {
-                if (obj.hash != undefined)
-                    return obj.hash();
+                if (obj.hash_code != undefined)
+                    return obj.hash_code();
                 else
                     return obj.__getUID();
             }
@@ -3204,42 +3308,6 @@ var std;
         })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-var std;
-(function (std) {
-    /**
-     * Bind function arguments.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    var Bind = (function () {
-        /**
-         * Construct from function and this argument.
-         *
-         * @param func
-         * @param this_arg
-         */
-        function Bind(func, this_arg) {
-            this.func_ = func;
-            this.this_arg_ = this_arg;
-        }
-        /**
-         *
-         * @param args
-         */
-        Bind.prototype.apply = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            return this.func_.apply(this.this_arg_, args);
-        };
-        Bind.prototype.equals = function (obj) {
-            return this.func_ == obj.func_ && this.this_arg_ == obj.this_arg_;
-        };
-        return Bind;
-    }());
-    std.Bind = Bind;
-})(std || (std = {}));
 /// <reference path="base/container/Container.ts" />
 var std;
 (function (std) {
@@ -4030,10 +4098,6 @@ var std;
     var example;
     (function (example) {
         function test_anything() {
-            var vec;
-            var deque;
-            var list;
-            //vec.assign(list.begin(), deque.end());
         }
         example.test_anything = test_anything;
     })(example = std.example || (std.example = {}));
@@ -5383,6 +5447,11 @@ var std;
         return !std.less(left, right) && !std.equals(left, right);
     }
     std.greater = greater;
+    /**
+     * Default hash function.
+     *
+     * @param obj
+     */
     function hash(obj) {
         return std.base.hash.code(obj);
     }
@@ -5406,6 +5475,31 @@ var std;
             }
         }
     });
+})(std || (std = {}));
+var std;
+(function (std) {
+    /**
+     * <p> Return distance between {@link Iterator iterators}. </p>
+     *
+     * <p> Calculates the number of elements between <i>first</i> and <i>last</i>. </p>
+     *
+     * <p> If it is a {@link IArrayIterator random-access iterator}, the function uses operator- to calculate this.
+     * Otherwise, the function uses the increase operator {@link Iterator.next next()} repeatedly. </p>
+     *
+     * @param first Iterator pointing to the initial element.
+     * @param last Iterator pointing to the final element. This must be reachable from first.
+     *
+     * @return The number of elements between first and last.
+     */
+    function distance(first, last) {
+        if (first instanceof std.VectorIterator || first instanceof std.DequeIterator)
+            return last.index - first.index;
+        var length = 0;
+        for (; !first.equals(last); first = first.next())
+            length++;
+        return length;
+    }
+    std.distance = distance;
 })(std || (std = {}));
 /// <reference path="base/container/Container.ts" />
 var std;
@@ -6208,7 +6302,7 @@ var std;
         MapIterator.prototype.less = function (obj) {
             return std.less(this.first, obj.first);
         };
-        MapIterator.prototype.hash = function () {
+        MapIterator.prototype.hash_code = function () {
             return std.hash(this.first);
         };
         MapIterator.prototype.swap = function (obj) {
@@ -6323,6 +6417,27 @@ var std;
         return Pair;
     }());
     std.Pair = Pair;
+    /**
+     * <p> Construct {@link Pair} object. </p>
+     *
+     * <p> Constructs a {@link Pair} object with its {@link Pair.first first} element set to <i>x</i> and its
+     * {@link Pair.second second} element set to <i>y</i>. </p>
+     *
+     * <p> The template types can be implicitly deduced from the arguments passed to {@link make_pair}. </p>
+     *
+     * <p> {@link Pair} objects can be constructed from other {@link Pair} objects containing different types, if the
+     * respective types are implicitly convertible. </p>
+     *
+     * @param x Value for member {@link Pair.first first}.
+     * @param y Value for member {@link Pair.second second}.
+     *
+     * @return A {@link Pair} object whose elements {@link Pair.first first} and {@link Pair.second second} are set to
+     *		   <i>x</i> and <i>y</i> respectivelly.
+     */
+    function make_pair(x, y) {
+        return new Pair(x, y);
+    }
+    std.make_pair = make_pair;
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -6749,7 +6864,7 @@ var std;
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.hash = function () {
+        SetIterator.prototype.hash_code = function () {
             return std.base.hash.code(this.value);
         };
         /**
