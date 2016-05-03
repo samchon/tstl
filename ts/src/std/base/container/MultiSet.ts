@@ -56,11 +56,11 @@ namespace std.base.container
 		public count(val: T): number
 		{
 			let myIt = this.find(val);
-			if (myIt.equals(this.end()))
+			if (myIt.equal_to(this.end()))
 				return 0;
 
 			let size: number = 0;
-			for (let it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
+			for (let it = myIt; !it.equal_to(this.end()) && std.equal_to(val, it.value); it = it.next())
 				size++;
 
 			return size;

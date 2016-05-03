@@ -52,7 +52,7 @@ namespace std.base.tree
 			{
 				let newNode: XTreeNode<SetIterator<T>> = null;
 
-				if (std.equals(val, node.value.value))
+				if (std.equal_to(val, node.value.value))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
 				else if (std.less(val, node.value.value))
 					newNode = node.left; // LESS, THEN TO THE LEFT
@@ -83,7 +83,7 @@ namespace std.base.tree
 		 */
 		public is_equals(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
-			return std.equals(left, right);
+			return std.equal_to(left, right);
 		}
 
 		/**

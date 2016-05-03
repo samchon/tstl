@@ -470,7 +470,7 @@ namespace std
 			}
 
 			// IF WAS EMPTY, VAL IS THE BEGIN
-			if (this.empty() == true || first.prev().equals(this.end()) == true)
+			if (this.empty() == true || first.prev().equal_to(this.end()) == true)
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
@@ -496,7 +496,7 @@ namespace std
 
 			let size: number = 0;
 
-			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator) 
+			for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
@@ -590,7 +590,7 @@ namespace std
 			// CALCULATE THE SIZE
 			let size: number = 0;
 
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equal_to(end) == false; it = it.next())
 				size++;
 
 			// SHRINK
@@ -644,13 +644,13 @@ namespace std
 		 */
 		public unique(binary_pred: (left: T, right: T) => boolean): void;
 
-		public unique(binary_pred: (left: T, right: T) => boolean = std.equals): void
+		public unique(binary_pred: (left: T, right: T) => boolean = std.equal_to): void
 		{
 			let it = this.begin().next();
 
-			while (!it.equals(this.end()))
+			while (!it.equal_to(this.end()))
 			{
-				if (std.equals(it.value, it.prev().value) == true)
+				if (std.equal_to(it.value, it.prev().value) == true)
 					it = this.erase(it);
 				else
 					it = it.next();
@@ -675,9 +675,9 @@ namespace std
 		{
 			let it = this.begin();
 
-			while (!it.equals(this.end()))
+			while (!it.equal_to(this.end()))
 			{
-				if (std.equals(it.value, val) == true)
+				if (std.equal_to(it.value, val) == true)
 					it = this.erase(it);
 				else
 					it = it.next();
@@ -704,7 +704,7 @@ namespace std
 		{
 			let it = this.begin();
 
-			while (!it.equals(this.end()))
+			while (!it.equal_to(this.end()))
 			{
 				if (pred(it.value) == true)
 					it = this.erase(it);
@@ -794,7 +794,7 @@ namespace std
 			while (obj.empty() == false)
 			{
 				let begin = obj.begin();
-				while (!it.equals(this.end()) && compare(it.value, begin.value) == true)
+				while (!it.equal_to(this.end()) && compare(it.value, begin.value) == true)
 					it = it.next();
 
 				this.splice(it, obj, begin);
@@ -1012,18 +1012,9 @@ namespace std
 		 */
 		private swap_list(obj: List<T>): void
 		{
-			let supplement: List<T> = <List<T>>new Object();
-			supplement.begin_ = this.begin_;
-			supplement.end_ = this.end_;
-			supplement.size_ = this.size_;
-
-			this.begin_ = obj.begin_;
-			this.end_ = obj.end_;
-			this.size_ = obj.size_;
-
-			obj.begin_ = supplement.begin_;
-			obj.end_ = supplement.end_;
-			obj.size_ = supplement.size_;
+			[this.begin_, obj.begin_] = [obj.begin_, this.begin_];
+			[this.end_,   obj.end_	] = [obj.end_,   this.end_  ];
+			[this.size_,  obj.size_	] = [obj.size_,  this.size_ ];
 		}
 	}
 }

@@ -34,7 +34,7 @@
 		// key list: [0, 1, -1, 2, 4, 5, 9]
 		console.log("has 7:", map.has(7));
 		console.log("count 5:", map.count(5));
-		console.log("it is end():", it.equals(map.end()));
+		console.log("it is end():", it.equal_to(map.end()));
 
 		/////////////////////////////////////
 		// PRINT ALL ELEMENTS
@@ -42,7 +42,7 @@
 		console.log("------------------------------");
 
 		// key list: [0, 1, -1, 2, 4, 5, 9]
-		for (let it = map.begin(); !it.equals(map.end()); it = it.next())
+		for (let it = map.begin(); !it.equal_to(map.end()); it = it.next())
 			console.log(it.second);
 
 		/* OUTPUT

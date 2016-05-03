@@ -142,7 +142,7 @@ namespace std
 			let size: number = 0;
 			
 			// RESERVE HASH_BUCKET SIZE
-			for (it = begin; it.equals(end) == false; it = it.next())
+			for (it = begin; it.equal_to(end) == false; it = it.next())
 				size++;
 
 			this.hash_buckets_.clear();
@@ -187,7 +187,7 @@ namespace std
 		{
 			// TEST WHETHER EXIST
 			let it = this.find(pair.first);
-			if (it.equals(this.end()) == false)
+			if (it.equal_to(this.end()) == false)
 				return new Pair<MapIterator<Key, T>, boolean>(it, false);
 
 			// INSERT
@@ -208,7 +208,7 @@ namespace std
 		{
 			// CALCULATE INSERTING SIZE
 			let size: number = 0;
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equal_to(end) == false; it = it.next())
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
@@ -257,15 +257,8 @@ namespace std
 		 */
 		private swap_hash_map(obj: HashMap<Key, T>): void
 		{
-			let supplement: HashMap<Key, T> = new HashMap<Key, T>();
-			supplement.data_ = this.data_;
-			supplement.hash_buckets_ = this.hash_buckets_;
-
-			this.data_ = obj.data_;
-			this.hash_buckets_ = obj.hash_buckets_;
-
-			obj.data_ = supplement.data_;
-			obj.hash_buckets_ = supplement.hash_buckets_;
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
 }

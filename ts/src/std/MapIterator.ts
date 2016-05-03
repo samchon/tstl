@@ -130,7 +130,7 @@ namespace std
 		 * @param obj An iterator to compare
 		 * @return Indicates whether equal or not.
 		 */
-		public equals<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean 
+		public equal_to<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean 
 		{
 			return this.source_ == obj.source_ && this.list_iterator_ == obj.list_iterator_;
 		}
@@ -140,7 +140,7 @@ namespace std
 			return std.less(this.first, obj.first);
 		}
 		
-		public hash_code(): number
+		public hash(): number
 		{
 			return std.hash(this.first);
 		}

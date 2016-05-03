@@ -55,7 +55,7 @@ namespace std.base.container
 		 */
 		public count(key: T): number
 		{
-			return this.find(key).equals(this.end()) ? 0 : 1;
+			return this.find(key).equal_to(this.end()) ? 0 : 1;
 		}
 
 		/* =========================================================

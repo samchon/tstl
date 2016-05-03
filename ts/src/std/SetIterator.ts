@@ -87,9 +87,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equals<U extends T>(obj: SetIterator<U>): boolean 
+		public equal_to<U extends T>(obj: SetIterator<U>): boolean 
 		{
-			return super.equals(obj) && this.list_iterator_ == obj.list_iterator_;
+			return super.equal_to(obj) && this.list_iterator_ == obj.list_iterator_;
 		}
 
 		/**
@@ -103,7 +103,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public hash_code(): number
+		public hash(): number
 		{
 			return base.hash.code(this.value);
 		}

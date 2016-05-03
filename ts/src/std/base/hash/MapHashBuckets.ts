@@ -20,7 +20,7 @@ namespace std.base.hash
 			let bucket = this.at(index);
 
 			for (let i: number = 0; i < bucket.size(); i++)
-				if (std.equals(bucket.at(i).first, key))
+				if (std.equal_to(bucket.at(i).first, key))
 					return bucket.at(i);
 
 			return this.map.end();

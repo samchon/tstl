@@ -60,7 +60,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equals(obj: ListIterator<T>): boolean
+		public equal_to(obj: ListIterator<T>): boolean
 		{
 			return this == obj;
 		}
@@ -94,7 +94,7 @@ namespace std
 				{
 					it = it.next();
 
-					if (it.equals(this.source_.end() as ListIterator<T>))
+					if (it.equal_to(this.source_.end() as ListIterator<T>))
 						return it;
 				}
 			}
@@ -104,7 +104,7 @@ namespace std
 				{
 					it = it.prev();
 
-					if (it.equals(this.source_.end() as ListIterator<T>))
+					if (it.equal_to(this.source_.end() as ListIterator<T>))
 						return it;
 				}
 			}

@@ -71,18 +71,18 @@ namespace std
 		 * <p> Compare two iterators and returns whether they are equal or not. </p>
 		 * 
 		 * <h4> Note </h4> 
-		 * <p> Iterator's equals() only compare souce container and index number. </p>
+		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
 		 *
-		 * <p> Although elements in a pair, key and value are equals, if the source map or
-		 * index number is different, then the {@link equals equals()} will return false. If you want to
+		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
+		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
 		 * compare the elements of a pair, compare them directly by yourself. </p>
 		 *
 		 * @param obj An iterator to compare
 		 * @return Indicates whether equal or not.
 		 */
-		public equals<U extends T>(obj: VectorIterator<U>): boolean
+		public equal_to<U extends T>(obj: VectorIterator<U>): boolean
 		{
-			return super.equals(obj) && this.index_ == obj.index_;
+			return super.equal_to(obj) && this.index_ == obj.index_;
 		}
 
 		public get index(): number
@@ -135,10 +135,7 @@ namespace std
 		 */
 		public swap(obj: VectorIterator<T>): void
 		{
-			let supplement = this.value;
-
-			this.value = obj.value;
-			obj.value = supplement;
+			[this.value, obj.value] = [obj.value, this.value];
 		}
 	}
 }

@@ -141,7 +141,7 @@ namespace std.base.container
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
 			// INSERT
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equal_to(end) == false; it = it.next())
 				this.insert_by_pair(new Pair<Key, T>(it.first, it.second));
 		}
 
@@ -420,7 +420,7 @@ namespace std.base.container
 		protected insert_by_range<L extends Key, U extends T>
 			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
 		{
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equal_to(end) == false; it = it.next())
 				this.insert_by_pair(new Pair<Key, T>(it.first, it.second));
 		}
 		
@@ -488,7 +488,7 @@ namespace std.base.container
 		private erase_by_key(key: Key): number
 		{
 			let it = this.find(key);
-			if (it.equals(this.end()) == true)
+			if (it.equal_to(this.end()) == true)
 				return 0;
 
 			this.erase_by_iterator(it);
@@ -518,7 +518,7 @@ namespace std.base.container
 			let listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
 			
 			// POST-PROCESS
-			for (let it = begin; !it.equals(end); it = it.next())
+			for (let it = begin; !it.equal_to(end); it = it.next())
 				this.handle_erase(it);
 
 			return new MapIterator<Key, T>(this, listIterator);

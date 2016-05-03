@@ -72,7 +72,7 @@ namespace std.base.container
 			if (n >= 0 )
 			{
 				for (i = 0; i < n; i++)
-					if (it.equals(this.source_.end()))
+					if (it.equal_to(this.source_.end()))
 						return this.source_.end();
 					else
 						it = it.next();
@@ -82,7 +82,7 @@ namespace std.base.container
 				n = n * -1;
 
 				for (i = 0; i < n; i++)
-					if (it.equals(this.source_.end()))
+					if (it.equal_to(this.source_.end()))
 						return this.source_.end();
 					else
 						it = it.prev();
@@ -108,16 +108,16 @@ namespace std.base.container
 		 * <p> Compare two iterators and returns whether they are equal or not. </p>
 		 * 
 		 * <h4> Note </h4> 
-		 * <p> Iterator's equals() only compare souce container and index number. </p>
+		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
 		 *
-		 * <p> Although elements in a pair, key and value are equals, if the source map or
-		 * index number is different, then the {@link equals equals()} will return false. If you want to
+		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
+		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
 		 * compare the elements of a pair, compare them directly by yourself. </p>
 		 *
 		 * @param obj An iterator to compare
 		 * @return Indicates whether equal or not.
 		 */
-		public equals<U extends T>(obj: Iterator<U>): boolean
+		public equal_to<U extends T>(obj: Iterator<U>): boolean
 		{
 			return this.source_ == obj.source_;
 		}

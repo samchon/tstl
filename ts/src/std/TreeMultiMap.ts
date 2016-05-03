@@ -207,7 +207,7 @@ namespace std
 		{
 			let node = this.tree_.find(key);
 
-			if (node == null || std.equals(node.value.first, key) == false)
+			if (node == null || std.equal_to(node.value.first, key) == false)
 				return this.end();
 			else
 				return node.value;
@@ -241,12 +241,12 @@ namespace std
 
 			if (node == null)
 				return this.end();
-			else if (std.equals(node.value.first, key))
+			else if (std.equal_to(node.value.first, key))
 				return node.value;
 			else
 			{
 				let it: MapIterator<Key, T> = node.value;
-				while (!std.equals(it, this.end()) && std.less(it.first, key))
+				while (!std.equal_to(it, this.end()) && std.less(it.first, key))
 					it = it.next();
 
 				return it;
@@ -284,7 +284,7 @@ namespace std
 			else
 			{
 				let it: MapIterator<Key, T> = node.value;
-				while (!std.equals(it, this.end()) && (std.equals(it.first, key) || std.less(it.first, key)))
+				while (!std.equal_to(it, this.end()) && (std.equal_to(it.first, key) || std.less(it.first, key)))
 					it = it.next();
 
 				return it;
@@ -334,7 +334,7 @@ namespace std
 			{
 				it = this.end();
 			}
-			else if (std.equals(node.value.first, pair.first) == true)
+			else if (std.equal_to(node.value.first, pair.first) == true)
 			{
 				it = node.value.next();
 			}
@@ -342,7 +342,7 @@ namespace std
 			{
 				it = node.value.next();
 
-				while (it.equals(this.end()) == false && std.less(it.first, pair.first))
+				while (it.equal_to(this.end()) == false && std.less(it.first, pair.first))
 					it = it.next();
 			}
 			else
@@ -390,15 +390,8 @@ namespace std
 		 */
 		private swap_tree_multimap(obj: TreeMultiMap<Key, T>): void
 		{
-			let supplement: TreeMultiMap<Key, T> = new TreeMultiMap<Key, T>();
-			supplement.data_ = this.data_;
-			supplement.tree_ = this.tree_;
-
-			this.data_ = obj.data_;
-			this.tree_ = obj.tree_;
-
-			obj.data_ = supplement.data_;
-			obj.tree_ = supplement.tree_;
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

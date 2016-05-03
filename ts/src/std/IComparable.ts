@@ -14,34 +14,34 @@ namespace std
 		/**
 		 * <p> Indicates whether some other object is &quot;equal to&quot; this one. </p>
 		 *
-		 * <p> The {@link equals} method implements an equivalence relation on non-null object references: </p>
+		 * <p> The {@link equal_to} method implements an equivalence relation on non-null object references: </p>
 		 * 
 		 * <ul>
 		 *	<li> 
-		 *		It is <b>reflexive</b>: for any non-null reference value <code>x</code>, <code>x.equals(x)</code> 
+		 *		It is <b>reflexive</b>: for any non-null reference value <code>x</code>, <code>x.equal_to(x)</code> 
 		 *		should return <code>true</code>. 
 		 *	</li>
 		 *	<li> 
 		 *		It is <b>symmetric</b>: for any non-null reference values <code>x</code> and <code>y</code>, 
-		 *		<code>x.equals(y)</code> should return <code>true</code> if and only if <code>y.equals(x)</code> 
+		 *		<code>x.equal_to(y)</code> should return <code>true</code> if and only if <code>y.equal_to(x)</code> 
 		 *		returns <code>true</code>. </li>
 		 *	<li> 
 		 *		It is <b>transitive</b>: for any non-null reference values <code>x</code>, <code>y</code>, and 
-		 *		<code>z</code>, if <code>x.equals(y)</code> returns <code>true</code> and <code>y.equals(z)</code> 
-		 *		returns <code>true</code>, then <code>x.equals(z)</code> should return <code>true</code>. 
+		 *		<code>z</code>, if <code>x.equal_to(y)</code> returns <code>true</code> and <code>y.equal_to(z)</code> 
+		 *		returns <code>true</code>, then <code>x.equal_to(z)</code> should return <code>true</code>. 
 		 *	</li>
 		 *	<li> 
 		 *		It is <b>consistent</b>: for any non-null reference values <code>x</code> and <code>y</code>, multiple 
-		 *		invocations of <code>x.equals(y)</code> consistently return <code>true</code> or consistently return 
-		 *		<code>false</code>, provided no information used in equals comparisons on the objects is modified. 
+		 *		invocations of <code>x.equal_to(y)</code> consistently return <code>true</code> or consistently return 
+		 *		<code>false</code>, provided no information used in equal_to comparisons on the objects is modified. 
 		 *	</li>
 		 *	<li> 
-		 *		For any non-null reference value <code>x</code>, <code>x.equals(null)</code> should return 
+		 *		For any non-null reference value <code>x</code>, <code>x.equal_to(null)</code> should return 
 		 *		<code>false</code>.
 		 *	</li>
 		 * </ul>
 		 * 
-		 * <p> The {@link equals} method for interface {@link IComparable} implements the most discriminating possible 
+		 * <p> The {@link equal_to} method for interface {@link IComparable} implements the most discriminating possible 
 		 * equivalence relation on objects; that is, for any non-null reference values <code>x</code> and 
 		 * <code>y</code>, this method returns <code>true</code> if and only if <code>x</code> and <code>y</code> 
 		 * refer to the same object (<code>x == y</code> has the value <code>true</code>). </p>
@@ -51,14 +51,14 @@ namespace std
 		 * equal objects must have equal hash codes. </p>
 		 *
 		 * <ul>
-		 *	<li> {@link IComparable.equals} is called by {@link std.equals}. </li>
+		 *	<li> {@link IComparable.equal_to} is called by {@link std.equal_to}. </li>
 		 * </ul>
 		 * 
 		 * @param obj the reference object with which to compare.
 		 * 
 		 * @return <code>true</code> if this object is the same as the obj argument; <code>false</code> otherwise.
 		 */
-		equals(obj: T): boolean;
+		equal_to(obj: T): boolean;
 
 		/**
 		 * <p> Less-than inequality comparison. </p>
@@ -100,82 +100,7 @@ namespace std
 		 * 
 		 * @return An hash code who represents the object.
 		 */
-		hash_code(): number;
-	}
-
-	/**
-	 * <p> For equality comparison. </p>
-	 *
-	 * <p> Binary fucntion returns whether the arguments are equal. </p> 
-	 *
-	 * @param <T> Type of arguments to compare.
-	 *
-	 * @param first First element to compare.
-	 * @param second Second element to compare.
-	 *
-	 * @return Whether the arguments are equal.
-	 */
-	export function equals<T>(left: T, right: T): boolean
-	{
-		if (left instanceof Object && (<any>left).equals != undefined)
-			return (<any>left).equals(right);
-		else
-			return left == right;
-	}
-
-	/**
-	 * <p> Function for less-than inequality comparison. </p>
-	 *
-	 * <p> Binary function returns whether the its first argument compares less than the second. </p>
-	 *
-	 * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less} 
-	 * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly. 
-	 * This member function allows the object to be used with the same syntax as a function call. </p>
-	 * 
-	 * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>, 
-	 * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
-	 *
-	 * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation 
-	 *			  <i>operator<()</i> or method {@link IComparable.less less}.
-	 *
-	 * @param first First element, the standard of comparison.
-	 * @param second Second element compare with the first.
-	 *
-	 * @return Whether the first parameter is less than the second.
-	 */
-	export function less<T>(left: T, right: T): boolean
-	{
-		if (left instanceof Object)
-			if ((<any>left).less != undefined) // has less()
-				return (<any>left).less(right);
-			else
-				return (<any>left).__getUID() < (<any>right).__getUID();
-		else
-			return left < right;
-	}
-
-	/**
-	 * <p> Function for greater-than inequality comparison. </p>
-	 *
-	 * <p> Binary function returns whether the its first argument compares greater than the second. </p>
-	 *
-	 * <p> Generically, function objects are instances of a class with member function {@link less} and
-	 * {@link equals equals()} defined. If an object doesn't have those methods, then its own uid will be used
-	 * to compare insteadly. This member function allows the object to be used with the same syntax as a function 
-	 * call. </p>
-	 * 
-	 * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}, 
-	 * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
-	 *
-	 * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation 
-	 *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
-	 *
-	 * @param left
-	 * @param right
-	 */
-	export function greater<T>(left: T, right: T): boolean
-	{
-		return !std.less(left, right) && !std.equals(left, right);
+		hash(): number;
 	}
 
 	/**

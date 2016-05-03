@@ -215,7 +215,7 @@ declare namespace std {
      * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) that compares equal to
      * <i>val</i>. If no such element is found, the function returns <i>last</i>. </p>
      *
-     * <p> The function uses {@link std.equals equals} to compare the individual elements to <i>val</i>. </p>
+     * <p> The function uses {@link std.equal_to equal_to} to compare the individual elements to <i>val</i>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -273,7 +273,7 @@ declare namespace std {
      * [<i>first2</i>, <i>last2</i>], and returns an {@link Iterator} to its first element, or <i>last1,/i> if no
      * occurrences are found. </p>
      *
-     * <p> The elements in both ranges are compared sequentially using {@link equals}: A subsequence of
+     * <p> The elements in both ranges are compared sequentially using {@link equal_to}: A subsequence of
      * [<i>first1</i>, <i>last1</i>] is considered a match only when this is <code>true</code> for all the elements of
      * [<i>first2</i>, <i>last2</i>]. </p>
      *
@@ -333,7 +333,7 @@ declare namespace std {
      * elements in [<i>first2</i>, <i>last2</i>]. If no such element is found, the function returns <i>last1</i>. </p>
      *
      * <p> The elements in [<i>first1</i>, <i>last1</i>] are sequentially compared to each of the values in
-     * [<i>first2</i>, <i>last2</i>] using {@link std.equals}, until a pair matches. </p>
+     * [<i>first2</i>, <i>last2</i>] using {@link std.equal_to}, until a pair matches. </p>
      *
      * @param first1 An {@link Iterator} to the initial position of the first sequence.
      * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -377,7 +377,7 @@ declare namespace std {
      * <p> Searches the range [<i>first</i>, <i>last</i>] for the first occurrence of two consecutive elements that match,
      * and returns an {@link Iterator} to the first of these two elements, or <i>last</i> if no such pair is found. </p>
      *
-     * <p> Two elements match if they compare equal using {@link std.equals}. </p>
+     * <p> Two elements match if they compare equal using {@link std.equal_to}. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -409,6 +409,108 @@ declare namespace std {
      *		   [<i>first</i>, <i>last</i>]. If no such pair is found, the function returns <i>last</i>.
      */
     function adjacent_find<T, Iterator extends base.container.Iterator<T>>(first: Iterator, last: Iterator, pred: (x: T, y: T) => boolean): Iterator;
+    /**
+     * <p> Search range for subsequence. </p>
+     *
+     * <p> Searches the range [<i>first1</i>, <i>last1</i>] for the first occurrence of the sequence defined by
+     * [<i>first2</i>, <i>last2</i>], and returns an iterator to its first element, or <i>last1</i> if no occurrences are
+     * found. </p>
+     *
+     * <p> The elements in both ranges are compared sequentially using {@link std.equal_to}: A subsequence of
+     * [<i>first1</i>, <i>last1</i>] is considered a match only when this is true for <b>all</b> the elements of
+     * [<i>first2</i>, <i>last2</i>]. </p>
+     *
+     * <p> This function returns the first of such occurrences. For an algorithm that returns the last instead, see
+     * {@link find_end}. </p>
+     *
+     * @param first1 {@link Iterator Forward iterator} to the initial position of the searched sequence.
+     * @param last1 {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is
+     *				[<i>first1</i>, <i>last1</i>], which contains all the elements between <i>first1</i> and <i>last1</i>,
+     *				including the element pointed by <i>first1</i> but not the element pointed by <i>last1</i>.
+     * @param first2 {@link Iterator Forward iterator} to the initial position of the sequence to be searched for.
+     * @param last2 {@link Iterator Forward iterator} to the final position of the sequence to be searched for. The range
+     *				used is [<i>first2</i>, <i>last2</i>].
+     *
+     * @return An iterator to the first element of the first occurrence of [first2,last2) in [first1,last1). If the
+     *		   sequence is not found, the function returns last1. Otherwise [first2,last2) is an empty range, the function
+     *		   returns first1.
+     */
+    function search<T, ForwardIterator1 extends base.container.Iterator<T>, ForwardIterator2 extends base.container.Iterator<T>>(first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2): ForwardIterator1;
+    /**
+     * <p> Search range for subsequence. </p>
+     *
+     * <p> Searches the range [<i>first1</i>, <i>last1</i>] for the first occurrence of the sequence defined by
+     * [<i>first2</i>, <i>last2</i>], and returns an iterator to its first element, or <i>last1</i> if no occurrences are
+     * found. </p>
+     *
+     * <p> The elements in both ranges are compared sequentially using <i>pred</i>: A subsequence of
+     * [<i>first1</i>, <i>last1</i>] is considered a match only when this is true for <b>all</b> the elements of
+     * [<i>first2</i>, <i>last2</i>]. </p>
+     *
+     * <p> This function returns the first of such occurrences. For an algorithm that returns the last instead, see
+     * {@link find_end}. </p>
+     *
+     * @param first1 {@link Iterator Forward iterator} to the initial position of the searched sequence.
+     * @param last1 {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is
+     *				[<i>first1</i>, <i>last1</i>], which contains all the elements between <i>first1</i> and <i>last1</i>,
+     *				including the element pointed by <i>first1</i> but not the element pointed by <i>last1</i>.
+     * @param first2 {@link Iterator Forward iterator} to the initial position of the sequence to be searched for.
+     * @param last2 {@link Iterator Forward iterator} to the final position of the sequence to be searched for. The range
+     *				used is [<i>first2</i>, <i>last2</i>].
+     * @param pred Binary function that accepts two elements as arguments (one of each of the two sequences, in the same
+     *			   order), and returns a value convertible to bool. The returned value indicates whether the elements are
+     *			   considered to match in the context of this function. The function shall not modify any of its
+     *			   arguments. This can either be a function pointer or a function object.
+     *
+     * @return An iterator to the first element of the first occurrence of [<i>first2</i>, <i>last2</i>] in
+     *		   [<i>first1</i>, <i>last1</i>]. If the sequence is not found, the function returns last1. Otherwise
+     *		   [<i>first2</i>, <i>last2</i>] is an empty range, the function returns <i>first1</i>.
+     */
+    function search<T, ForwardIterator1 extends base.container.Iterator<T>, ForwardIterator2 extends base.container.Iterator<T>>(first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2, pred: (x: T, y: T) => boolean): ForwardIterator1;
+    /**
+     * <p> Search range for elements. </p>
+     *
+     * <p> Searches the range [<i>first</i>, <i>last</i>] for a sequence of <i>count</i> elements, each comparing equal to
+     * <i>val</i>. </p>
+     *
+     * <p> The function returns an iterator to the first of such elements, or <i>last</i> if no such sequence is found.
+     * </p>
+     *
+     * @param first {@link Iterator Forward iterator} to the initial position of the searched sequence.
+     * @param last {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is
+     *			   [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param count Minimum number of successive elements to match.
+     * @param val Individual value to be compared, or to be used as argument for {@link std.equal_to}.
+     *
+     * @return An iterator to the first element of the sequence. If no such sequence is found, the function returns
+     *		   <i>last</i>.
+     */
+    function search_n<T, ForwardIterator extends base.container.IArrayIterator<T>>(first: ForwardIterator, last: ForwardIterator, count: number, val: T): ForwardIterator;
+    /**
+     * <p> Search range for elements. </p>
+     *
+     * <p> Searches the range [<i>first</i>, <i>last</i>] for a sequence of <i>count</i> elements, each comparing equal to
+     * <i>val</i>. </p>
+     *
+     * <p> The function returns an iterator to the first of such elements, or <i>last</i> if no such sequence is found.
+     * </p>
+     *
+     * @param first {@link Iterator Forward iterator} to the initial position of the searched sequence.
+     * @param last {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is
+     *			   [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param count Minimum number of successive elements to match.
+     * @param val Individual value to be compared, or to be used as argument for <i>pred</i>.
+     * @param pred Binary function that accepts two arguments (one element from the sequence as first, and <i>val</i> as
+     *			   second), and returns a value convertible to <code>bool</code>. The value returned indicates whether the
+     *			   element is considered a match in the context of this function. The function shall not modify any of its
+     *			   arguments. This can either be a function pointer or a function object.
+     *
+     * @return An {@link Iterator} to the first element of the sequence. If no such sequence is found, the function
+     *		   returns <i>last</i>.
+     */
+    function search_n<T, ForwardIterator extends base.container.IArrayIterator<T>>(first: ForwardIterator, last: ForwardIterator, count: number, val: T, pred: (x: T, y: T) => boolean): ForwardIterator;
     /**
      * <p> Return first position where two ranges differ. </p>
      *
@@ -463,7 +565,7 @@ declare namespace std {
      *
      * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>] that compare equal to <i>val</i>. </p>
      *
-     * <p> The function uses {@link equals} to compare the individual elements to <i>val</i>. </p>
+     * <p> The function uses {@link equal_to} to compare the individual elements to <i>val</i>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -546,12 +648,13 @@ declare namespace std {
      * <p> Transforms the range [<i>first</i>, <i>last</i>] into a range with all the elements that compare equal to
      * <i>val</i> removed, and returns an iterator to the new last of that range. </p>
      *
-     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
-     * alter the size of an array or a container): The removal is done by replacing the elements that compare equal to
+     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot alter
+     * the size of an array or a container): The removal is done by replacing the elements that compare equal to
      * <i>val</i> by the next element that does not, and signaling the new size of the shortened range by returning an
      * iterator to the element that should be considered its new past-the-last element. </p>
      *
-     * The relative order of the elements not removed is preserved, while the elements between the returned iterator and last are left in a valid but unspecified state.
+     * <p> The relative order of the elements not removed is preserved, while the elements between the returned iterator
+     * and last are left in a valid but unspecified state. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -590,7 +693,7 @@ declare namespace std {
      * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>] that compare equal to
      * <i>old_val</i>. </p>
      *
-     * <p> The function uses {@link equals} to compare the individual elements to old_val. </p>
+     * <p> The function uses {@link equal_to} to compare the individual elements to old_val. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -666,8 +769,8 @@ declare namespace std {
     /**
      * <p> Randomly rearrange elements in range using generator. </p>
      *
-     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>] randomly, using <i>g</i> as uniform random number
-     * generator. </p>
+     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>] randomly, using <i>g</i> as uniform random
+     * number generator. </p>
      *
      * <p> The function swaps the value of each element with that of some other randomly picked element. The function
      * determines the element picked by calling <i>g()</i>. </p>
@@ -698,10 +801,10 @@ declare namespace std {
      * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
      *			  The range used is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i>
      *			  and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-     *			  <i>first</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
+     *			  <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
      *			  {@link Iterator.swap swap} is properly defined.
      */
-    function sort<T, InputIterator extends base.container.IArrayIterator<T>>(first: InputIterator, last: InputIterator): void;
+    function sort<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator): void;
     /**
      * <p> Sort elements in range. </p>
      *
@@ -717,7 +820,7 @@ declare namespace std {
      * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
      *			  The range used is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i>
      *			  and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-     *			  <i>first</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
+     *			  <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
      *			  {@link Iterator.swap swap} is properly defined.
      *
      * @param compare Binary function that accepts two elements in the range as arguments, and returns a value
@@ -726,91 +829,299 @@ declare namespace std {
      *		  function shall not modify any of its arguments. This can either be a function pointer or a function
      *		  object.
      */
-    function sort<T, InputIterator extends base.container.IArrayIterator<T>>(first: InputIterator, last: InputIterator, compare: (left: T, right: T) => boolean): void;
+    function sort<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean): void;
     /**
-     * <p> Exchange contents of {@link IContainers containers}. </p>
+     * <p> Partially sort elements in range. </p>
      *
-     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects
-     * must have same type of elements (same template parameters), although sizes may differ. </p>
+     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>], in such a way that the elements before
+     * <i>middle</i> are the smallest elements in the entire range and are sorted in ascending order, while the remaining
+     * elements are left without any specific order. </p>
      *
-     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
-     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators,
-     * references and pointers remain valid for the swapped objects. </p>
+     * <p> The elements are compared using {@link std.less}. </p>
      *
-     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
-     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
-     * without actually performing any element copy or movement): It behaves as if
-     * <i>left</i>.{@link IContainer.swap swap}(<i>right</i>) was called. </p>
-     *
-     * @param left A {@link IContainer container} to swap its contents.
-     * @param right A {@link IContainer container} to swap its contents.
+     * @param last {@link IArrayIterator Random-access iterator} to the first position of the sequence to be sorted.
+     * @param middle {@link IArrayIterator Random-access iterator} pointing to the element within the range [<i>first</i>, <i>last</i>] that is used as the upper boundary of the elements that are fully sorted.
+     * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
+     *			  The range used is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i>
+     *			  and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
+     *			  <i>last</i>.
      */
-    function swap<T>(left: base.container.IContainer<T>, right: base.container.IContainer<T>): void;
+    function partial_sort<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator): void;
     /**
-     * <p> Exchange contents of queues. </p>
+     * <p> Partially sort elements in range. </p>
      *
-     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>], in such a way that the elements before
+     * <i>middle</i> are the smallest elements in the entire range and are sorted in ascending order, while the remaining
+     * elements are left without any specific order. </p>
      *
-     * @param left A {@link Queue} container of the same type. Size may differ.
-     * @param right A {@link Queue} container of the same type. Size may differ.
+     * <p> The elements are compared using <i>comp</i>. </p>
+     *
+     * @param last {@link IArrayIterator Random-access iterator} to the first position of the sequence to be sorted.
+     * @param middle {@link IArrayIterator Random-access iterator} pointing to the element within the range [<i>first</i>, <i>last</i>] that is used as the upper boundary of the elements that are fully sorted.
+     * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
+     *			  The range used is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i>
+     *			  and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
+     *			  <i>last</i>.
+     * @param compare Binary function that accepts two elements in the range as arguments, and returns a value
+     *				  convertible to <code>boolean</code>. The value returned indicates whether the element passed as
+     *				  first argument is considered to go before the second in the specific strict weak ordering it
+     *				  defines. The function shall not modify any of its arguments. This can either be a function pointer
+     *				  or a function object.
      */
-    function swap<T>(left: Queue<T>, right: Queue<T>): void;
+    function partial_sort<T, RandomAccessIterator extends base.container.IArrayIterator<T>>(first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
     /**
-     * <p> Exchange contents of {@link PriorityQueue PriorityQueues}. </p>
+     * <p> Check whether range is sorted. </p>
      *
-     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+     * <p> Returns <code>true</code> if the range [<i>first</i>, <i>last</i>] is sorted into ascending order. </p>
      *
-     * @param left A {@link PriorityQueue} container of the same type. Size may differ.
-     * @param right A {@link PriorityQueue} container of the same type. Size may differ.
+     * <p> The elements are compared using {@link std.less}. </p>
+     *
+     * @param first {@link Iterator Forward iterator} to the initial position of the sequence.
+     * @param last {@link Iterator Forward iterator} to the final position of the sequence. The range checked is
+     *			   [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     *
+     * @return <code>true</code> if the range [<i>first</i>, <i>last</i>] is sorted into ascending order,
+     *		   <code>false</code> otherwise. If the range [<i>first</i>, <i>last</i>] contains less than two elements,
+     *		   the function always returns <code>true</code>.
      */
-    function swap<T>(left: PriorityQueue<T>, right: PriorityQueue<T>): void;
+    function is_sorted<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator): boolean;
     /**
-     * <p> Exchange contents of {@link Stack Stacks}. </p>
+     * <p> Check whether range is sorted. </p>
      *
-     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+     * <p> Returns <code>true</code> if the range [<i>first</i>, <i>last</i>] is sorted into ascending order. </p>
      *
-     * @param left A {@link Stack} container of the same type. Size may differ.
-     * @param right A {@link Stack} container of the same type. Size may differ.
+     * <p> The elements are compared using <i>compare</i>. </p>
+     *
+     * @param first {@link Iterator Forward iterator} to the initial position of the sequence.
+     * @param last {@link Iterator Forward iterator} to the final position of the sequence. The range checked is
+     *			   [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
+     *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
+     *				  considered to go before the second in the specific strict weak ordering it defines. The function
+     *				  shall not modify any of its arguments. This can either be a function pointer or a function object.
+     *
+     * @return <code>true</code> if the range [<i>first</i>, <i>last</i>] is sorted into ascending order,
+     *		   <code>false</code> otherwise. If the range [<i>first</i>, <i>last</i>] contains less than two elements,
+     *		   the function always returns <code>true</code>.
      */
-    function swap<T>(left: Stack<T>, right: Stack<T>): void;
+    function is_sorted<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): boolean;
     /**
-     * <p> Exchanges the contents of two {@link UniqueMap unique maps}. </p>
+     * <p> Find first unsorted element in range. </p>
      *
-     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must
-     * be of the same type (same template parameters), although sizes may differ. </p>
+     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>] which does not follow an
+     * ascending order. </p>
      *
-     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
-     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references
-     * and pointers remain valid for the swapped objects. </p>
+     * <p> The range between <i>first</i> and the iterator returned {@link is_sorted is sorted}. </p>
      *
-     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
-     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
-     * without actually performing any element copy or movement): It behaves as if
-     * <i>left</i>.{@link UniqueMap.swap swap}(<i>right</i>) was called. </p>
+     * <p> If the entire range is sorted, the function returns <i>last</i>. </p>
      *
-     * @param left An {@link UniqueMap unique map} to swap its conents.
-     * @param right An {@link UniqueMap unique map} to swap its conents.
+     * <p> The elements are compared using {@link std.equal_to}. </p>
+     *
+     * @param first {@link Iterator Forward iterator} to the initial position of the sequence.
+     * @param last {@link Iterator Forward iterator} to the final position of the sequence. The range checked is
+     *			   [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
+     *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
+     *				  considered to go before the second in the specific strict weak ordering it defines. The function
+     *				  shall not modify any of its arguments. This can either be a function pointer or a function object.
+     *
+     * @return An iterator to the first element in the range which does not follow an ascending order, or <i>last</i> if
+     *		   all elements are sorted or if the range contains less than two elements.
      */
-    function swap<Key, T>(left: base.container.UniqueMap<Key, T>, right: base.container.UniqueMap<Key, T>): void;
+    function is_sorted_until<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
     /**
-     * <p> Exchanges the contents of two {@link MultiMap multi maps}. </p>
+     * <p> Find first unsorted element in range. </p>
      *
-     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must
-     * be of the same type (same template parameters), although sizes may differ. </p>
+     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>] which does not follow an
+     * ascending order. </p>
      *
-     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
-     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references
-     * and pointers remain valid for the swapped objects. </p>
+     * <p> The range between <i>first</i> and the iterator returned {@link is_sorted is sorted}. </p>
      *
-     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
-     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
-     * without actually performing any element copy or movement): It behaves as if
-     * <i>left</i>.{@link MultiMap.swap swap}(<i>right</i>) was called. </p>
+     * <p> If the entire range is sorted, the function returns <i>last</i>. </p>
      *
-     * @param left A {@link MultiMap multi map} to swap its conents.
-     * @param right A {@link MultiMap multi map} to swap its conents.
+     * <p> The elements are compared using <i>compare</i>. </p>
+     *
+     * @param first {@link Iterator Forward iterator} to the initial position of the sequence.
+     * @param last {@link Iterator Forward iterator} to the final position of the sequence. The range checked is
+     *			   [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
+     *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
+     *				  considered to go before the second in the specific strict weak ordering it defines. The function
+     *				  shall not modify any of its arguments. This can either be a function pointer or a function object.
+     *
+     * @return An iterator to the first element in the range which does not follow an ascending order, or <i>last</i> if
+     *		   all elements are sorted or if the range contains less than two elements.
      */
-    function swap<Key, T>(left: base.container.MultiMap<Key, T>, right: base.container.MultiMap<Key, T>): void;
+    function is_sorted_until<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
+    /**
+     * <p> Return the smallest. </p>
+     *
+     * <p> Returns the smallest of all the elements in the <i>args</i>. </p>
+     *
+     * @param args Values to compare.
+     *
+     * @return The lesser of the values passed as arguments.
+     */
+    function min<T>(...args: T[]): T;
+    /**
+     * <p> Return the largest. </p>
+     *
+     * <p> Returns the largest of all the elements in the <i>args</i>. </p>
+     *
+     * @param args Values to compare.
+     *
+     * @return The largest of the values passed as arguments.
+     */
+    function max<T>(...args: T[]): T;
+    /**
+     * <p> Return smallest and largest elements. </p>
+     *
+     * <p> Returns a {@link Pair} with the smallest of all the elements in the <i>args</i> as first element (the first of
+     * them, if there are more than one), and the largest as second (the last of them, if there are more than one). </p>
+     *
+     * @param args Values to compare.
+     *
+     * @return The lesser and greatest of the values passed as arguments.
+     */
+    function minmax<T>(...args: T[]): Pair<T, T>;
+    /**
+     * <p> Return smallest element in range. </p>
+     *
+     * <p> Returns an iterator pointing to the element with the smallest value in the range  [<i>first</i>, <i>last</i>].
+     * </p>
+     *
+     * <p> The comparisons are performed using either {@link std.less}; An element is the smallest if no other element
+     * compares less than it. If more than one element fulfills this condition, the iterator returned points to the first
+     * of such elements. </p>
+     *
+     * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
+     * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used
+     *			   is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     *
+     * @return An iterator to smallest value in the range, or <i>last</i> if the range is empty.
+     */
+    function min_element<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
+    /**
+     * <p> Return smallest element in range. </p>
+     *
+     * <p> Returns an iterator pointing to the element with the smallest value in the range  [<i>first</i>, <i>last</i>].
+     * </p>
+     *
+     * <p> The comparisons are performed using either <i>compare</i>; An element is the smallest if no other element
+     * compares less than it. If more than one element fulfills this condition, the iterator returned points to the first
+     * of such elements. </p>
+     *
+     * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
+     * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used
+     *			   is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
+     *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
+     *				  considered less than the second. The function shall not modify any of its arguments. This can either
+     *				  be a function pointer or a function object.
+     *
+     * @return An iterator to smallest value in the range, or <i>last</i> if the range is empty.
+     */
+    function min_element<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
+    /**
+     * <p> Return largest element in range. </p>
+     *
+     * <p> Returns an iterator pointing to the element with the largest value in the range  [<i>first</i>, <i>last</i>].
+     * </p>
+     *
+     * <p> The comparisons are performed using either {@link std.greater}; An element is the largest if no other element
+     * compares less than it. If more than one element fulfills this condition, the iterator returned points to the first
+     * of such elements. </p>
+     *
+     * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
+     * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used
+     *			   is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     *
+     * @return An iterator to largest value in the range, or <i>last</i> if the range is empty.
+     */
+    function max_element<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
+    /**
+     * <p> Return largest element in range. </p>
+     *
+     * <p> Returns an iterator pointing to the element with the largest value in the range  [<i>first</i>, <i>last</i>].
+     * </p>
+     *
+     * <p> The comparisons are performed using either <i>compare</i>; An element is the largest if no other element
+     * compares less than it. If more than one element fulfills this condition, the iterator returned points to the first
+     * of such elements. </p>
+     *
+     * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
+     * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used
+     *			   is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
+     *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
+     *				  considered less than the second. The function shall not modify any of its arguments. This can either
+     *				  be a function pointer or a function object.
+     *
+     * @return An iterator to largest value in the range, or <i>last</i> if the range is empty.
+     */
+    function max_element<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
+    /**
+     * <p> Return smallest and largest elements in range. </p>
+     *
+     * <p> Returns a {@link Pair} with an iterator pointing to the element with the smallest value in the range
+     * [<i>first</i>, <i>last</i>] as first element, and the largest as second. </p>
+     *
+     * <p> The comparisons are performed using either {@link std.less} and {@link std.greater}. </p>
+     *
+     * <p> If more than one equivalent element has the smallest value, the first iterator points to the first of such
+     * elements. </p>
+     *
+     * <p> If more than one equivalent element has the largest value, the second iterator points to the last of such
+     * elements. </p>
+     *
+     * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
+     * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used
+     *			   is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
+     *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
+     *				  considered less than the second. The function shall not modify any of its arguments. This can either
+     *				  be a function pointer or a function object.
+     *
+     * @return A {@link Pair} with an iterator pointing to the element with the smallest value in the range
+     *		   [<i>first</i>, <i>last</i>] as first element, and the largest as second.
+     */
+    function minmax_element<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator): Pair<ForwardIterator, ForwardIterator>;
+    /**
+     * <p> Return smallest and largest elements in range. </p>
+     *
+     * <p> Returns a {@link Pair} with an iterator pointing to the element with the smallest value in the range
+     * [<i>first</i>, <i>last</i>] as first element, and the largest as second. </p>
+     *
+     * <p> The comparisons are performed using either <i>compare</i>. </p>
+     *
+     * <p> If more than one equivalent element has the smallest value, the first iterator points to the first of such
+     * elements. </p>
+     *
+     * <p> If more than one equivalent element has the largest value, the second iterator points to the last of such
+     * elements. </p>
+     *
+     * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
+     * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used
+     *			   is [<i>first</i>, <i>last</i>], which contains all the elements between <i>first</i> and <i>last</i>,
+     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+     * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
+     *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
+     *				  considered less than the second. The function shall not modify any of its arguments. This can either
+     *				  be a function pointer or a function object.
+     *
+     * @return A {@link Pair} with an iterator pointing to the element with the smallest value in the range
+     *		   [<i>first</i>, <i>last</i>] as first element, and the largest as second.
+     */
+    function minmax_element<T, ForwardIterator extends base.container.Iterator<T>>(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): Pair<ForwardIterator, ForwardIterator>;
 }
 declare namespace std.base.container {
     /**
@@ -1471,16 +1782,16 @@ declare namespace std.base.container {
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
          * <h4> Note </h4>
-         * <p> Iterator's equals() only compare souce container and index number. </p>
+         * <p> Iterator's equal_to() only compare souce container and index number. </p>
          *
-         * <p> Although elements in a pair, key and value are equals, if the source map or
-         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * <p> Although elements in a pair, key and value are equal_to, if the source map or
+         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
          * compare the elements of a pair, compare them directly by yourself. </p>
          *
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        equals<U extends T>(obj: Iterator<U>): boolean;
+        equal_to<U extends T>(obj: Iterator<U>): boolean;
         /**
          * <p> Get value of the iterator is pointing. </p>
          *
@@ -2290,8 +2601,8 @@ declare namespace std.base.container {
     abstract class ReverseIterator<T> extends Iterator<T> {
         protected iterator_: Iterator<T>;
         constructor(iterator: Iterator<T>);
-        equals<U extends T>(obj: Iterator<U>): boolean;
-        equals<U extends T>(obj: ReverseIterator<U>): boolean;
+        equal_to<U extends T>(obj: Iterator<U>): boolean;
+        equal_to<U extends T>(obj: ReverseIterator<U>): boolean;
         /**
          * @inheritdoc
          */
@@ -2518,6 +2829,91 @@ declare namespace std.base.container {
          */
         insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
     }
+}
+declare namespace std {
+    /**
+     * <p> Bind function arguments. </p>
+     *
+     * <p> Applies a function object based on listener, but with its arguments bound to <i>args</i>. </p>
+     *
+     * <p> Each argument may either be bound to a value or be a placeholder: </p>
+     * <ul>
+     *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
+     *	<li> If a placeholder, calling the returned function object forwards an argument passed to the call (the one whose order number is specified by the placeholder). </li>
+     * </ul>
+     *
+     * @reference http://www.cplusplus.com/reference/functional/bind/
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class Bind<Fn extends Function> {
+        /**
+         * A function object, pointer to function or pointer to member.
+         */
+        private fn_;
+        /**
+         * Ownere class of the {@link listener_ listener}.
+         */
+        private this_arg_;
+        /**
+         * List of arguments to bind: either values, or placeholders.
+         */
+        private arguments_;
+        /**
+         * Construct from a listener with parameters.
+         *
+         * @param fn A function object, pointer to function or pointer to member.
+         * @param args List of arguments to bind: either values, or placeholders.
+         */
+        constructor(fn: Fn, ...args: any[]);
+        /**
+         *
+         *
+         * @param listener
+         * @param thisArgs
+         * @param args
+         */
+        constructor(fn: Fn, thisArgs: Object, ...args: any[]);
+        /**
+         * <p> Apply function. </p>
+         *
+         * @param items List of items to be parameters for <i>fn</i>.
+         */
+        apply(...items: any[]): any;
+    }
+    class PlaceHolder {
+        private index_;
+        constructor(index: number);
+        index: number;
+        equal_to(x: PlaceHolder): boolean;
+        less(x: PlaceHolder): boolean;
+        hash(): number;
+    }
+}
+/**
+ *
+ *
+ */
+declare namespace std.placeholders {
+    const _1: PlaceHolder;
+    const _2: PlaceHolder;
+    const _3: PlaceHolder;
+    const _4: PlaceHolder;
+    const _5: PlaceHolder;
+    const _6: PlaceHolder;
+    const _7: PlaceHolder;
+    const _8: PlaceHolder;
+    const _9: PlaceHolder;
+    const _10: PlaceHolder;
+    const _11: PlaceHolder;
+    const _12: PlaceHolder;
+    const _13: PlaceHolder;
+    const _14: PlaceHolder;
+    const _15: PlaceHolder;
+    const _16: PlaceHolder;
+    const _17: PlaceHolder;
+    const _18: PlaceHolder;
+    const _19: PlaceHolder;
+    const _20: PlaceHolder;
 }
 declare namespace std {
     /**
@@ -3779,16 +4175,16 @@ declare namespace std {
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
          * <h4> Note </h4>
-         * <p> Iterator's equals() only compare souce container and index number. </p>
+         * <p> Iterator's equal_to() only compare souce container and index number. </p>
          *
-         * <p> Although elements in a pair, key and value are equals, if the source map or
-         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * <p> Although elements in a pair, key and value are equal_to, if the source map or
+         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
          * compare the elements of a pair, compare them directly by yourself. </p>
          *
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        equals<U extends T>(obj: DequeIterator<U>): boolean;
+        equal_to<U extends T>(obj: DequeIterator<U>): boolean;
         /**
          * @inheritdoc
          */
@@ -4262,6 +4658,175 @@ declare namespace std {
 }
 declare namespace std {
     /**
+     * <p> Bind function arguments. </p>
+     *
+     * <p> Returns a function object based on fn, but with its arguments bound to args. </p>
+     *
+     * <p> Each argument may either be bound to a value or be a placeholder: </p>
+     * <ul>
+     *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
+     *	<li> If a placeholder, calling the returned function object forwards an argument passed to the call (the one whose order number is specified by the placeholder). </li>
+     * </ul>
+     *
+     * <p> Calling the returned object returns the same type as fn. </p>
+     *
+     * @param fn A function object, pointer to function or pointer to member.
+     * @param args List of arguments to bind: either values, or placeholders.
+     *
+     * @return A {@link Bind} object that, when {@link Bind.apply} is called, calls <i>fn</i> with its arguments bound to <i>args</i>. If <i>fn</i> is a pointer to member, the first argument expected by the returned function is an object of the class *fn is a member (or a reference to it, or a pointer to it).
+     */
+    function bind<Fn extends Function>(fn: Fn, ...args: any[]): Bind<Fn>;
+    function bind<Fn extends Function>(fn: Fn, thisArg: Object, ...args: any[]): Bind<Fn>;
+    /**
+     * <p> For equality comparison. </p>
+     *
+     * <p> Binary fucntion returns whether the arguments are equal. </p>
+     *
+     * @param <T> Type of arguments to compare.
+     *
+     * @param first First element to compare.
+     * @param second Second element to compare.
+     *
+     * @return Whether the arguments are equal.
+     */
+    function equal_to<T>(left: T, right: T): boolean;
+    function not_equal_to<T>(x: T, y: T): boolean;
+    /**
+     * <p> Function for less-than inequality comparison. </p>
+     *
+     * <p> Binary function returns whether the its first argument compares less than the second. </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less}
+     * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
+     * This member function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>,
+     * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
+     *
+     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
+     *			  <i>operator<()</i> or method {@link IComparable.less less}.
+     *
+     * @param first First element, the standard of comparison.
+     * @param second Second element compare with the first.
+     *
+     * @return Whether the first parameter is less than the second.
+     */
+    function less<T>(left: T, right: T): boolean;
+    function less_equal<T>(x: T, y: T): boolean;
+    /**
+     * <p> Function for greater-than inequality comparison. </p>
+     *
+     * <p> Binary function returns whether the its first argument compares greater than the second. </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function {@link less} and
+     * {@link equal_to equal_to()} defined. If an object doesn't have those methods, then its own uid will be used
+     * to compare insteadly. This member function allows the object to be used with the same syntax as a function
+     * call. </p>
+     *
+     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()},
+     * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
+     *
+     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
+     *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
+     *
+     * @param left
+     * @param right
+     */
+    function greater<T>(left: T, right: T): boolean;
+    function greater_equal<T>(x: T, y: T): boolean;
+    function logical_and<T>(x: T, y: T): boolean;
+    function logical_or<T>(x: T, y: T): boolean;
+    function logical_not<T>(x: T): boolean;
+    function bit_and(x: number, y: number): number;
+    function bit_or(x: number, y: number): number;
+    function bit_xor(x: number, y: number): number;
+    /**
+     * <p> Exchange contents of {@link IContainers containers}. </p>
+     *
+     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects
+     * must have same type of elements (same template parameters), although sizes may differ. </p>
+     *
+     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
+     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators,
+     * references and pointers remain valid for the swapped objects. </p>
+     *
+     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
+     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
+     * without actually performing any element copy or movement): It behaves as if
+     * <i>left</i>.{@link IContainer.swap swap}(<i>right</i>) was called. </p>
+     *
+     * @param left A {@link IContainer container} to swap its contents.
+     * @param right A {@link IContainer container} to swap its contents.
+     */
+    function swap<T>(left: base.container.IContainer<T>, right: base.container.IContainer<T>): void;
+    /**
+     * <p> Exchange contents of queues. </p>
+     *
+     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+     *
+     * @param left A {@link Queue} container of the same type. Size may differ.
+     * @param right A {@link Queue} container of the same type. Size may differ.
+     */
+    function swap<T>(left: Queue<T>, right: Queue<T>): void;
+    /**
+     * <p> Exchange contents of {@link PriorityQueue PriorityQueues}. </p>
+     *
+     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+     *
+     * @param left A {@link PriorityQueue} container of the same type. Size may differ.
+     * @param right A {@link PriorityQueue} container of the same type. Size may differ.
+     */
+    function swap<T>(left: PriorityQueue<T>, right: PriorityQueue<T>): void;
+    /**
+     * <p> Exchange contents of {@link Stack Stacks}. </p>
+     *
+     * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+     *
+     * @param left A {@link Stack} container of the same type. Size may differ.
+     * @param right A {@link Stack} container of the same type. Size may differ.
+     */
+    function swap<T>(left: Stack<T>, right: Stack<T>): void;
+    /**
+     * <p> Exchanges the contents of two {@link UniqueMap unique maps}. </p>
+     *
+     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must
+     * be of the same type (same template parameters), although sizes may differ. </p>
+     *
+     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
+     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references
+     * and pointers remain valid for the swapped objects. </p>
+     *
+     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
+     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
+     * without actually performing any element copy or movement): It behaves as if
+     * <i>left</i>.{@link UniqueMap.swap swap}(<i>right</i>) was called. </p>
+     *
+     * @param left An {@link UniqueMap unique map} to swap its conents.
+     * @param right An {@link UniqueMap unique map} to swap its conents.
+     */
+    function swap<Key, T>(left: base.container.UniqueMap<Key, T>, right: base.container.UniqueMap<Key, T>): void;
+    /**
+     * <p> Exchanges the contents of two {@link MultiMap multi maps}. </p>
+     *
+     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must
+     * be of the same type (same template parameters), although sizes may differ. </p>
+     *
+     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
+     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references
+     * and pointers remain valid for the swapped objects. </p>
+     *
+     * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
+     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
+     * without actually performing any element copy or movement): It behaves as if
+     * <i>left</i>.{@link MultiMap.swap swap}(<i>right</i>) was called. </p>
+     *
+     * @param left A {@link MultiMap multi map} to swap its conents.
+     * @param right A {@link MultiMap multi map} to swap its conents.
+     */
+    function swap<Key, T>(left: base.container.MultiMap<Key, T>, right: base.container.MultiMap<Key, T>): void;
+}
+declare namespace std {
+    /**
      * <p> Hashed, unordered map. </p>
      *
      * <p> {@link HashMap}s are associative containers that store elements formed by the
@@ -4731,34 +5296,34 @@ declare namespace std {
         /**
          * <p> Indicates whether some other object is &quot;equal to&quot; this one. </p>
          *
-         * <p> The {@link equals} method implements an equivalence relation on non-null object references: </p>
+         * <p> The {@link equal_to} method implements an equivalence relation on non-null object references: </p>
          *
          * <ul>
          *	<li>
-         *		It is <b>reflexive</b>: for any non-null reference value <code>x</code>, <code>x.equals(x)</code>
+         *		It is <b>reflexive</b>: for any non-null reference value <code>x</code>, <code>x.equal_to(x)</code>
          *		should return <code>true</code>.
          *	</li>
          *	<li>
          *		It is <b>symmetric</b>: for any non-null reference values <code>x</code> and <code>y</code>,
-         *		<code>x.equals(y)</code> should return <code>true</code> if and only if <code>y.equals(x)</code>
+         *		<code>x.equal_to(y)</code> should return <code>true</code> if and only if <code>y.equal_to(x)</code>
          *		returns <code>true</code>. </li>
          *	<li>
          *		It is <b>transitive</b>: for any non-null reference values <code>x</code>, <code>y</code>, and
-         *		<code>z</code>, if <code>x.equals(y)</code> returns <code>true</code> and <code>y.equals(z)</code>
-         *		returns <code>true</code>, then <code>x.equals(z)</code> should return <code>true</code>.
+         *		<code>z</code>, if <code>x.equal_to(y)</code> returns <code>true</code> and <code>y.equal_to(z)</code>
+         *		returns <code>true</code>, then <code>x.equal_to(z)</code> should return <code>true</code>.
          *	</li>
          *	<li>
          *		It is <b>consistent</b>: for any non-null reference values <code>x</code> and <code>y</code>, multiple
-         *		invocations of <code>x.equals(y)</code> consistently return <code>true</code> or consistently return
-         *		<code>false</code>, provided no information used in equals comparisons on the objects is modified.
+         *		invocations of <code>x.equal_to(y)</code> consistently return <code>true</code> or consistently return
+         *		<code>false</code>, provided no information used in equal_to comparisons on the objects is modified.
          *	</li>
          *	<li>
-         *		For any non-null reference value <code>x</code>, <code>x.equals(null)</code> should return
+         *		For any non-null reference value <code>x</code>, <code>x.equal_to(null)</code> should return
          *		<code>false</code>.
          *	</li>
          * </ul>
          *
-         * <p> The {@link equals} method for interface {@link IComparable} implements the most discriminating possible
+         * <p> The {@link equal_to} method for interface {@link IComparable} implements the most discriminating possible
          * equivalence relation on objects; that is, for any non-null reference values <code>x</code> and
          * <code>y</code>, this method returns <code>true</code> if and only if <code>x</code> and <code>y</code>
          * refer to the same object (<code>x == y</code> has the value <code>true</code>). </p>
@@ -4768,14 +5333,14 @@ declare namespace std {
          * equal objects must have equal hash codes. </p>
          *
          * <ul>
-         *	<li> {@link IComparable.equals} is called by {@link std.equals}. </li>
+         *	<li> {@link IComparable.equal_to} is called by {@link std.equal_to}. </li>
          * </ul>
          *
          * @param obj the reference object with which to compare.
          *
          * @return <code>true</code> if this object is the same as the obj argument; <code>false</code> otherwise.
          */
-        equals(obj: T): boolean;
+        equal_to(obj: T): boolean;
         /**
          * <p> Less-than inequality comparison. </p>
          *
@@ -4815,62 +5380,8 @@ declare namespace std {
          *
          * @return An hash code who represents the object.
          */
-        hash_code(): number;
+        hash(): number;
     }
-    /**
-     * <p> For equality comparison. </p>
-     *
-     * <p> Binary fucntion returns whether the arguments are equal. </p>
-     *
-     * @param <T> Type of arguments to compare.
-     *
-     * @param first First element to compare.
-     * @param second Second element to compare.
-     *
-     * @return Whether the arguments are equal.
-     */
-    function equals<T>(left: T, right: T): boolean;
-    /**
-     * <p> Function for less-than inequality comparison. </p>
-     *
-     * <p> Binary function returns whether the its first argument compares less than the second. </p>
-     *
-     * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less}
-     * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
-     * This member function allows the object to be used with the same syntax as a function call. </p>
-     *
-     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>,
-     * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
-     *
-     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <i>operator<()</i> or method {@link IComparable.less less}.
-     *
-     * @param first First element, the standard of comparison.
-     * @param second Second element compare with the first.
-     *
-     * @return Whether the first parameter is less than the second.
-     */
-    function less<T>(left: T, right: T): boolean;
-    /**
-     * <p> Function for greater-than inequality comparison. </p>
-     *
-     * <p> Binary function returns whether the its first argument compares greater than the second. </p>
-     *
-     * <p> Generically, function objects are instances of a class with member function {@link less} and
-     * {@link equals equals()} defined. If an object doesn't have those methods, then its own uid will be used
-     * to compare insteadly. This member function allows the object to be used with the same syntax as a function
-     * call. </p>
-     *
-     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()},
-     * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
-     *
-     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
-     *
-     * @param left
-     * @param right
-     */
-    function greater<T>(left: T, right: T): boolean;
     /**
      * Default hash function.
      *
@@ -5424,7 +5935,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        equals(obj: ListIterator<T>): boolean;
+        equal_to(obj: ListIterator<T>): boolean;
         /**
          * @inheritdoc
          */
@@ -5540,9 +6051,9 @@ declare namespace std {
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        equals<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
+        equal_to<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
         less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
-        hash_code(): number;
+        hash(): number;
         swap(obj: MapIterator<Key, T>): void;
     }
 }
@@ -5644,13 +6155,13 @@ declare namespace std {
          * <p> Compare each first and second value of two Pair(s) and returns whether they are equal or not. </p>
          *
          * <p> If stored key and value in a Pair are not number or string but an object like a class or struct,
-         * the comparison will be executed by a member method (SomeObject)::equals(). If the object does not have
-         * the member method equals(), only address of pointer will be compared. </p>
+         * the comparison will be executed by a member method (SomeObject)::equal_to(). If the object does not have
+         * the member method equal_to(), only address of pointer will be compared. </p>
          *
          * @param obj A Map to compare
          * @return Indicates whether equal or not.
          */
-        equals<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean;
+        equal_to<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean;
         less<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean;
     }
     /**
@@ -6048,7 +6559,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        equals<U extends T>(obj: SetIterator<U>): boolean;
+        equal_to<U extends T>(obj: SetIterator<U>): boolean;
         /**
          * @inheritdoc
          */
@@ -6056,7 +6567,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        hash_code(): number;
+        hash(): number;
         /**
          * @inheritdoc
          */
@@ -7462,16 +7973,16 @@ declare namespace std {
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
          * <h4> Note </h4>
-         * <p> Iterator's equals() only compare souce container and index number. </p>
+         * <p> Iterator's equal_to() only compare souce container and index number. </p>
          *
-         * <p> Although elements in a pair, key and value are equals, if the source map or
-         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * <p> Although elements in a pair, key and value are equal_to, if the source map or
+         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
          * compare the elements of a pair, compare them directly by yourself. </p>
          *
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        equals<U extends T>(obj: VectorIterator<U>): boolean;
+        equal_to<U extends T>(obj: VectorIterator<U>): boolean;
         index: number;
         /**
          * @inheritdoc

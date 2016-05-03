@@ -247,7 +247,7 @@ namespace std
 				let end: base.container.Iterator<T> = second;
 
 				let size: number = 0;
-				for (let it = begin; !it.equals(end); it = it.next())
+				for (let it = begin; !it.equal_to(end); it = it.next())
 					size++;
 
 				// RESERVE
@@ -257,7 +257,7 @@ namespace std
 				// ASSIGN CONTENTS
 				let array: Array<T> = this.matrix_[0];
 
-				for (let it = begin; !it.equals(end); it = it.next())
+				for (let it = begin; !it.equal_to(end); it = it.next())
 				{
 					if (array.length >= this.get_col_size())
 					{
@@ -595,7 +595,7 @@ namespace std
 				let begin: InputIterator = args[0];
 				let end: InputIterator = args[1];
 
-				for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
+				for (let it = begin; !it.equal_to(end); it = it.next() as InputIterator)
 					items.push(it.value);
 			}
 
@@ -603,7 +603,7 @@ namespace std
 			// INSERT ITEMS
 			// -----------------------------------------------------
 			// INSERTS CAREFULLY
-			if (position.equals(this.end()) == true)
+			if (position.equal_to(this.end()) == true)
 			{
 				// WHEN INSERTS TO THE BACK SIDE
 				this.push(...items);
@@ -650,7 +650,7 @@ namespace std
 				// -----------------------------------------------------
 				// JUST INSERT CARELESSLY
 				// AND KEEP BLANACE BY THE RESERVE() METHOD
-				if (position.equals(this.end()) == true)
+				if (position.equal_to(this.end()) == true)
 				{
 					this.matrix_.push(items); // ALL TO THE LAST
 				}
@@ -733,18 +733,9 @@ namespace std
 		 */
 		private swap_deque(obj: Deque<T>): void
 		{
-			let supplement: Deque<T> = <Deque<T>>new Object();
-			supplement.matrix_ = this.matrix_;
-			supplement.size_ = this.size_;
-			supplement.capacity_ = this.capacity_;
-
-			this.matrix_ = obj.matrix_;
-			this.size_ = obj.size_;
-			this.capacity_ = obj.capacity_;
-
-			obj.matrix_ = supplement.matrix_;
-			obj.size_ = supplement.size_;
-			obj.capacity_ = supplement.capacity_;
+			[this.matrix_,  obj.matrix_   ] = [obj.matrix_,   this.matrix_  ];
+			[this.size_,    obj.size_     ] = [obj.size_,     this.size_    ];
+			[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
 		}
 	}
 }

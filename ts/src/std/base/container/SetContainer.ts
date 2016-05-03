@@ -135,7 +135,7 @@ namespace std.base.container
 			(begin: Iterator<U>, end: Iterator<U>): void
 		{
 			// INSERT
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equal_to(end) == false; it = it.next())
 				this.insert_by_val(it.value);
 		}
 
@@ -325,7 +325,7 @@ namespace std.base.container
 		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void
 		{
-			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+			for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator)
 				this.insert_by_val(it.value);
 		}
 
@@ -380,7 +380,7 @@ namespace std.base.container
 		{
 			// TEST WHETHER EXISTS
 			let it = this.find(val);
-			if (it.equals(this.end()) == true)
+			if (it.equal_to(this.end()) == true)
 				return 0;
 
 			// ERASE
@@ -411,7 +411,7 @@ namespace std.base.container
 			let list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
 			
 			// POST-PROCESS
-			for (let it = begin; !it.equals(end); it = it.next())
+			for (let it = begin; !it.equal_to(end); it = it.next())
 				this.handle_erase(it);
 
 			return new SetIterator<T>(this, list_iterator);//begin.prev();

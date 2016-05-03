@@ -39,7 +39,7 @@ var std;
      * @return Returns <i>fn</i>.
      */
     function for_each(first, last, fn) {
-        for (var it = first; !it.equals(last); it = it.next())
+        for (var it = first; !it.equal_to(last); it = it.next())
             fn(it.value);
         return fn;
     }
@@ -67,7 +67,7 @@ var std;
      *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
      */
     function all_of(first, last, pred) {
-        for (var it = first; !it.equals(last); it = it.next())
+        for (var it = first; !it.equal_to(last); it = it.next())
             if (pred(it.value) == false)
                 return false;
         return true;
@@ -96,7 +96,7 @@ var std;
      *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
      */
     function any_of(first, last, pred) {
-        for (var it = first; !it.equals(last); it = it.next())
+        for (var it = first; !it.equal_to(last); it = it.next())
             if (pred(it.value) == true)
                 return true;
         return false;
@@ -127,9 +127,9 @@ var std;
     }
     std.none_of = none_of;
     function equal(first1, last1, first2, pred) {
-        if (pred === void 0) { pred = std.equals; }
-        while (!first1.equals(last1))
-            if (first2.equals(first2.get_source().end()) || !pred(first1.value, first2.value))
+        if (pred === void 0) { pred = std.equal_to; }
+        while (!first1.equal_to(last1))
+            if (first2.equal_to(first2.get_source().end()) || !pred(first1.value, first2.value))
                 return false;
             else {
                 first1 = first1.next();
@@ -139,16 +139,16 @@ var std;
     }
     std.equal = equal;
     function is_permutation(first1, last1, first2, pred) {
-        if (pred === void 0) { pred = std.equals; }
+        if (pred === void 0) { pred = std.equal_to; }
         // find the mismatched
         var pair = mismatch(first1, last1, first2);
         first1 = pair.first;
         first2 = pair.second;
-        if (first1.equals(last1))
+        if (first1.equal_to(last1))
             return true;
         var last2 = first2.advance(std.distance(first1, last1));
-        for (var it = first1; !it.equals(last1); it = it.next())
-            if (find(first1, it, it.value).equals(it)) {
+        for (var it = first1; !it.equal_to(last1); it = it.next())
+            if (find(first1, it, it.value).equal_to(it)) {
                 var n = count(first2, last2, it.value);
                 if (n == 0 || count(it, last1, it.value) != n)
                     return false;
@@ -158,8 +158,8 @@ var std;
     std.is_permutation = is_permutation;
     function lexicographical_compare(first1, last1, first2, last2, compare) {
         if (compare === void 0) { compare = std.less; }
-        while (!first1.equals(last1))
-            if (first2.equals(last2) || !compare(first1.value, first2.value))
+        while (!first1.equal_to(last1))
+            if (first2.equal_to(last2) || !compare(first1.value, first2.value))
                 return false;
             else if (compare(first1.value, first2.value))
                 return true;
@@ -167,7 +167,7 @@ var std;
                 first1 = first1.next();
                 first2 = first2.next();
             }
-        return !std.equals(last2, last2.get_source().end()) && !std.equals(first2.value, last2.value);
+        return !std.equal_to(last2, last2.get_source().end()) && !std.equal_to(first2.value, last2.value);
     }
     std.lexicographical_compare = lexicographical_compare;
     /* ---------------------------------------------------------
@@ -179,7 +179,7 @@ var std;
      * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) that compares equal to
      * <i>val</i>. If no such element is found, the function returns <i>last</i>. </p>
      *
-     * <p> The function uses {@link std.equals equals} to compare the individual elements to <i>val</i>. </p>
+     * <p> The function uses {@link std.equal_to equal_to} to compare the individual elements to <i>val</i>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -191,8 +191,8 @@ var std;
      *		   match, the function returns <i>last</i>.
      */
     function find(first, last, val) {
-        for (var it = first; !it.equals(last); it = it.next())
-            if (std.equals(it.value, val))
+        for (var it = first; !it.equal_to(last); it = it.next())
+            if (std.equal_to(it.value, val))
                 return it;
         return last;
     }
@@ -217,7 +217,7 @@ var std;
      *		   <i>last</i>.
      */
     function find_if(first, last, pred) {
-        for (var it = first; !it.equals(last); it = it.next())
+        for (var it = first; !it.equal_to(last); it = it.next())
             if (pred(it.value))
                 return it;
         return last;
@@ -242,28 +242,28 @@ var std;
      *		   If <i>pred</i> is <code>true</code> for all elements, the function returns <i>last</i>.
      */
     function find_if_not(first, last, pred) {
-        for (var it = first; !it.equals(last); it = it.next())
+        for (var it = first; !it.equal_to(last); it = it.next())
             if (pred(it.value) == false)
                 return it;
         return last;
     }
     std.find_if_not = find_if_not;
     function find_end(first1, last1, first2, last2, compare) {
-        if (compare === void 0) { compare = std.equals; }
-        if (first2.equals(last2))
+        if (compare === void 0) { compare = std.equal_to; }
+        if (first2.equal_to(last2))
             return last1;
         var ret = last1;
-        for (; !first1.equals(last1); first1 = first1.next()) {
+        for (; !first1.equal_to(last1); first1 = first1.next()) {
             var it1 = first1;
             var it2 = first2;
-            while (std.equals(it1.value, it2.value)) {
+            while (std.equal_to(it1.value, it2.value)) {
                 it1 = it1.next();
                 it2 = it2.next();
-                if (it2.equals(last2)) {
+                if (it2.equal_to(last2)) {
                     ret = first1;
                     break;
                 }
-                else if (it1.equals(last1))
+                else if (it1.equal_to(last1))
                     return ret;
             }
         }
@@ -271,20 +271,20 @@ var std;
     }
     std.find_end = find_end;
     function find_first_of(first1, last1, first2, last2, pred) {
-        if (pred === void 0) { pred = std.equals; }
-        for (; !first1.equals(last1); first1 = first1.next())
-            for (var it = first2; !it.equals(last2); it = it.next())
+        if (pred === void 0) { pred = std.equal_to; }
+        for (; !first1.equal_to(last1); first1 = first1.next())
+            for (var it = first2; !it.equal_to(last2); it = it.next())
                 if (pred(it.value, first1.value))
                     return first1;
         return last1;
     }
     std.find_first_of = find_first_of;
     function adjacent_find(first, last, pred) {
-        if (pred === void 0) { pred = std.equals; }
-        if (!first.equals(last)) {
+        if (pred === void 0) { pred = std.equal_to; }
+        if (!first.equal_to(last)) {
             var next = first.next();
-            while (!next.equals(last)) {
-                if (std.equals(first.value, last.value))
+            while (!next.equal_to(last)) {
+                if (std.equal_to(first.value, last.value))
                     return first;
                 first = first.next();
                 next = next.next();
@@ -293,10 +293,44 @@ var std;
         return last;
     }
     std.adjacent_find = adjacent_find;
+    function search(first1, last1, first2, last2, pred) {
+        if (pred === void 0) { pred = std.equal_to; }
+        if (first2.equal_to(last2))
+            return first1;
+        for (; !first1.equal_to(last1); first1 = first1.next()) {
+            var it1 = first1;
+            var it2 = first2;
+            while (std.equal_to(it1.value, it2.value)) {
+                it1 = it1.next();
+                it2 = it2.next();
+                if (it2.equal_to(last2))
+                    return first1;
+                else if (it1.equal_to(last1))
+                    return last1;
+            }
+        }
+        return last1;
+    }
+    std.search = search;
+    function search_n(first, last, count, val, pred) {
+        if (pred === void 0) { pred = std.equal_to; }
+        var limit = first.advance(std.distance(first, last) - count);
+        for (; !first.equal_to(limit); first = first.next()) {
+            var it = first;
+            var i = 0;
+            while (std.equal_to(it.value, val)) {
+                it = it.next();
+                if (++i == count)
+                    return first;
+            }
+        }
+        return last;
+    }
+    std.search_n = search_n;
     function mismatch(first1, last1, first2, compare) {
-        if (compare === void 0) { compare = std.equals; }
-        while (!first1.equals(last1) && !first2.equals(first2.get_source().end())
-            && std.equals(first1.value, first2.value)) {
+        if (compare === void 0) { compare = std.equal_to; }
+        while (!first1.equal_to(last1) && !first2.equal_to(first2.get_source().end())
+            && std.equal_to(first1.value, first2.value)) {
             first1 = first1.next();
             first2 = first2.next();
         }
@@ -311,7 +345,7 @@ var std;
      *
      * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>] that compare equal to <i>val</i>. </p>
      *
-     * <p> The function uses {@link equals} to compare the individual elements to <i>val</i>. </p>
+     * <p> The function uses {@link equal_to} to compare the individual elements to <i>val</i>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -323,8 +357,8 @@ var std;
      */
     function count(first, last, val) {
         var cnt = 0;
-        for (var it = first; !it.equals(last); it = it.next())
-            if (std.equals(it.value, val))
+        for (var it = first; !it.equal_to(last); it = it.next())
+            if (std.equal_to(it.value, val))
                 return cnt++;
         return cnt;
     }
@@ -346,17 +380,17 @@ var std;
      */
     function count_if(first, last, pred) {
         var cnt = 0;
-        for (var it = first; !it.equals(last); it = it.next())
+        for (var it = first; !it.equal_to(last); it = it.next())
             if (pred(it.value))
                 return cnt++;
         return cnt;
     }
     std.count_if = count_if;
     function unique(first, last, pred) {
-        if (pred === void 0) { pred = std.equals; }
+        if (pred === void 0) { pred = std.equal_to; }
         var ret = first;
-        for (var it = first.next(); !it.equals(last);) {
-            if (std.equals(it.value, it.prev().value) == true)
+        for (var it = first.next(); !it.equal_to(last);) {
+            if (std.equal_to(it.value, it.prev().value) == true)
                 it = it.get_source().erase(it);
             else {
                 ret = it;
@@ -372,12 +406,13 @@ var std;
      * <p> Transforms the range [<i>first</i>, <i>last</i>] into a range with all the elements that compare equal to
      * <i>val</i> removed, and returns an iterator to the new last of that range. </p>
      *
-     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot
-     * alter the size of an array or a container): The removal is done by replacing the elements that compare equal to
+     * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot alter
+     * the size of an array or a container): The removal is done by replacing the elements that compare equal to
      * <i>val</i> by the next element that does not, and signaling the new size of the shortened range by returning an
      * iterator to the element that should be considered its new past-the-last element. </p>
      *
-     * The relative order of the elements not removed is preserved, while the elements between the returned iterator and last are left in a valid but unspecified state.
+     * <p> The relative order of the elements not removed is preserved, while the elements between the returned iterator
+     * and last are left in a valid but unspecified state. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -387,8 +422,8 @@ var std;
      */
     function remove(first, last, val) {
         var ret = last;
-        for (var it = first; !it.equals(last);) {
-            if (std.equals(it.value, val) == true)
+        for (var it = first; !it.equal_to(last);) {
+            if (std.equal_to(it.value, val) == true)
                 it = it.get_source().erase(it);
             else {
                 ret = it;
@@ -423,7 +458,7 @@ var std;
      */
     function remove_if(first, last, pred) {
         var ret = last;
-        for (var it = first; !it.equals(last);) {
+        for (var it = first; !it.equal_to(last);) {
             if (pred(it.value) == true)
                 it = it.get_source().erase(it);
             else {
@@ -440,7 +475,7 @@ var std;
      * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>] that compare equal to
      * <i>old_val</i>. </p>
      *
-     * <p> The function uses {@link equals} to compare the individual elements to old_val. </p>
+     * <p> The function uses {@link equal_to} to compare the individual elements to old_val. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
      * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
@@ -450,8 +485,8 @@ var std;
      * @param new_val Replacement value.
      */
     function replace(first, last, old_val, new_val) {
-        for (var it = first; !it.equals(last); it = it.next())
-            if (std.equals(it.value, old_val))
+        for (var it = first; !it.equal_to(last); it = it.next())
+            if (std.equal_to(it.value, old_val))
                 it.value = new_val;
     }
     std.replace = replace;
@@ -472,7 +507,7 @@ var std;
      * @param new_val Value to assign to replaced elements.
      */
     function replace_if(first, last, pred, new_val) {
-        for (var it = first; !it.equals(last); it = it.next())
+        for (var it = first; !it.equal_to(last); it = it.next())
             if (pred(it.value) == true)
                 it.value = new_val;
     }
@@ -494,7 +529,7 @@ var std;
      */
     function reverse(first, last) {
         // first != last && first != --last
-        while (first.equals(last) == false && !first.equals((last = last.prev())) == false) {
+        while (first.equal_to(last) == false && !first.equal_to((last = last.prev())) == false) {
             first.swap(last);
             first = first.next();
         }
@@ -517,11 +552,11 @@ var std;
      */
     function rotate(first, middle, last) {
         var next = middle;
-        while (next.equals(last) == false) {
+        while (next.equal_to(last) == false) {
             first.swap(next);
             first = first.next();
             next = next.next();
-            if (first.equals(middle))
+            if (first.equal_to(middle))
                 break;
         }
         return first;
@@ -550,8 +585,8 @@ var std;
     /**
      * <p> Randomly rearrange elements in range using generator. </p>
      *
-     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>] randomly, using <i>g</i> as uniform random number
-     * generator. </p>
+     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>] randomly, using <i>g</i> as uniform random
+     * number generator. </p>
      *
      * <p> The function swaps the value of each element with that of some other randomly picked element. The function
      * determines the element picked by calling <i>g()</i>. </p>
@@ -567,7 +602,7 @@ var std;
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      */
     function shuffle(first, last) {
-        for (var it = first; !it.equals(last); it = it.next()) {
+        for (var it = first; !it.equal_to(last); it = it.next()) {
             var rand_index = Math.floor(Math.random() * (last.index - first.index));
             it.swap(first.advance(rand_index));
         }
@@ -578,23 +613,50 @@ var std;
         qsort(first.get_source(), first.index, last.index, compare);
     }
     std.sort = sort;
+    function partial_sort(first, middle, last, compare) {
+        if (compare === void 0) { compare = std.less; }
+        selection_sort(first.get_source(), first.index, middle.index, last.index, compare);
+    }
+    std.partial_sort = partial_sort;
+    function is_sorted(first, last, compare) {
+        if (compare === void 0) { compare = std.equal_to; }
+        if (first.equal_to(last))
+            return true;
+        for (var next = first.next(); !next.equal_to(last); next = next.next()) {
+            if (std.less(next.value, first.value))
+                return false;
+            first = first.next();
+        }
+        return true;
+    }
+    std.is_sorted = is_sorted;
+    function is_sorted_until(first, last, compare) {
+        if (compare === void 0) { compare = std.equal_to; }
+        if (first.equal_to(last))
+            return first;
+        for (var next = first.next(); !next.equal_to(last); next = next.next()) {
+            if (std.less(next.value, first.value))
+                return next;
+            first = first.next();
+        }
+        return last;
+    }
+    std.is_sorted_until = is_sorted_until;
     /* ---------------------------------------------------------
-        QUICK SORT
+        BACKGROUND
     --------------------------------------------------------- */
     /**
      * @hidden
      */
     function qsort(container, first, last, compare) {
-        // QUICK SORT
-        if (first > last) {
-            // SWAP BEGIN A
-            var supp = first;
-            first = last;
-            last = first;
-        }
+        if (first > last)
+            _a = [last, first], first = _a[0], last = _a[1];
+        if (last == -1)
+            last = container.size();
         var index = qsort_partition(container, first, last, compare);
         qsort(container, first, index, compare);
         qsort(container, index, last, compare);
+        var _a;
     }
     /**
      * @hidden
@@ -617,16 +679,190 @@ var std;
             container.set(i, container.at(j));
             container.set(j, supplement_1);
         }
-        // SWAO; AT(BEGIN) WITH AT(J)
+        // SWAP; AT(BEGIN) WITH AT(J)
         var supplement = container.at(first);
         container.set(first, container.at(j));
         container.set(j, supplement);
         return j;
     }
-    function swap(left, right) {
-        left.swap(right);
+    /**
+     * @hidden
+     */
+    function stable_qsort(container, first, last, compare) {
+        // QUICK SORT
+        if (first > last)
+            _a = [last, first], first = _a[0], last = _a[1];
+        var index = stable_qsort_partition(container, first, last, compare);
+        stable_qsort(container, first, index, compare);
+        stable_qsort(container, index, last, compare);
+        var _a;
     }
-    std.swap = swap;
+    /**
+     * @hidden
+     */
+    function stable_qsort_partition(container, first, last, compare) {
+        var val = container.at(first);
+        var i = first;
+        var j = last;
+        while (true) {
+            while (!std.equal_to(container.at(++i), val) && compare(container.at(i), val))
+                if (i == last - 1)
+                    break;
+            while (!std.equal_to(val, container.at(--j)) && compare(val, container.at(j)))
+                if (j == first)
+                    break;
+            if (i >= j)
+                break;
+            // SWAP; AT(I) WITH AT(J)
+            var supplement_2 = container.at(i);
+            container.set(i, container.at(j));
+            container.set(j, supplement_2);
+        }
+        // SWAP; AT(BEGIN) WITH AT(J)
+        var supplement = container.at(first);
+        container.set(first, container.at(j));
+        container.set(j, supplement);
+        return j;
+    }
+    /**
+     * @hidden
+     */
+    function selection_sort(container, first, middle, last, compare) {
+        if (last == -1)
+            last = container.size();
+        for (var i = first; i < middle; i++) {
+            var min_index = i;
+            for (var j = i + 1; j < last; j++)
+                if (compare(container.at(j), container.at(min_index)))
+                    min_index = j;
+            if (i != min_index) {
+                var supplement = container.at(i);
+                container.set(i, container.at(min_index));
+                container.set(min_index, supplement);
+            }
+        }
+    }
+    /* =========================================================
+        BINARY SEARCH
+    ========================================================= */
+    /* =========================================================
+        MERGE
+    ========================================================= */
+    /* =========================================================
+        HEAP
+    ========================================================= */
+    /* =========================================================
+        MIN & MAX
+            - VARADIC PARAMETERS
+            - ITERATORS
+    ============================================================
+        VARADIC PARAMETERS
+    --------------------------------------------------------- */
+    /**
+     * <p> Return the smallest. </p>
+     *
+     * <p> Returns the smallest of all the elements in the <i>args</i>. </p>
+     *
+     * @param args Values to compare.
+     *
+     * @return The lesser of the values passed as arguments.
+     */
+    function min() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        var minimum = args[0];
+        for (var i = 1; i < args.length; i++)
+            if (std.less(args[i], minimum))
+                minimum = args[i];
+        return minimum;
+    }
+    std.min = min;
+    /**
+     * <p> Return the largest. </p>
+     *
+     * <p> Returns the largest of all the elements in the <i>args</i>. </p>
+     *
+     * @param args Values to compare.
+     *
+     * @return The largest of the values passed as arguments.
+     */
+    function max() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        var maximum = args[0];
+        for (var i = 1; i < args.length; i++)
+            if (std.greater(args[i], maximum))
+                maximum = args[i];
+        return maximum;
+    }
+    std.max = max;
+    /**
+     * <p> Return smallest and largest elements. </p>
+     *
+     * <p> Returns a {@link Pair} with the smallest of all the elements in the <i>args</i> as first element (the first of
+     * them, if there are more than one), and the largest as second (the last of them, if there are more than one). </p>
+     *
+     * @param args Values to compare.
+     *
+     * @return The lesser and greatest of the values passed as arguments.
+     */
+    function minmax() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        var minimum = args[0];
+        var maximum = args[0];
+        for (var i = 1; i < args.length; i++) {
+            if (std.less(args[i], minimum))
+                minimum = args[i];
+            if (std.greater(args[i], maximum))
+                maximum = args[i];
+        }
+        return new std.Pair(minimum, maximum);
+    }
+    std.minmax = minmax;
+    function min_element(first, last, compare) {
+        if (compare === void 0) { compare = std.less; }
+        var smallest = first;
+        first = first.next();
+        for (; !first.equal_to(last); first = first.next())
+            if (compare(first.value, smallest.value))
+                smallest = first;
+        return smallest;
+    }
+    std.min_element = min_element;
+    ;
+    function max_element(first, last, compare) {
+        if (compare === void 0) { compare = std.greater; }
+        var largest = first;
+        first = first.next();
+        for (; !first.equal_to(last); first = first.next())
+            if (compare(first.value, largest.value))
+                largest = first;
+        return largest;
+    }
+    std.max_element = max_element;
+    ;
+    function minmax_element(first, last, compare) {
+        if (compare === void 0) { compare = std.greater; }
+        var smallest = first;
+        var largest = first;
+        first = first.next();
+        for (; !first.equal_to(last); first = first.next()) {
+            if (compare(first.value, smallest.value))
+                smallest = first;
+            if (!compare(first.value, largest.value))
+                largest = first;
+        }
+        return new std.Pair(smallest, largest);
+    }
+    std.minmax_element = minmax_element;
+    ;
 })(std || (std = {}));
 var std;
 (function (std) {
@@ -738,7 +974,7 @@ var std;
                     var i;
                     if (n >= 0) {
                         for (i = 0; i < n; i++)
-                            if (it.equals(this.source_.end()))
+                            if (it.equal_to(this.source_.end()))
                                 return this.source_.end();
                             else
                                 it = it.next();
@@ -746,7 +982,7 @@ var std;
                     else {
                         n = n * -1;
                         for (i = 0; i < n; i++)
-                            if (it.equals(this.source_.end()))
+                            if (it.equal_to(this.source_.end()))
                                 return this.source_.end();
                             else
                                 it = it.prev();
@@ -768,16 +1004,16 @@ var std;
                  * <p> Compare two iterators and returns whether they are equal or not. </p>
                  *
                  * <h4> Note </h4>
-                 * <p> Iterator's equals() only compare souce container and index number. </p>
+                 * <p> Iterator's equal_to() only compare souce container and index number. </p>
                  *
-                 * <p> Although elements in a pair, key and value are equals, if the source map or
-                 * index number is different, then the {@link equals equals()} will return false. If you want to
+                 * <p> Although elements in a pair, key and value are equal_to, if the source map or
+                 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
                  * compare the elements of a pair, compare them directly by yourself. </p>
                  *
                  * @param obj An iterator to compare
                  * @return Indicates whether equal or not.
                  */
-                Iterator.prototype.equals = function (obj) {
+                Iterator.prototype.equal_to = function (obj) {
                     return this.source_ == obj.source_;
                 };
                 Object.defineProperty(Iterator.prototype, "value", {
@@ -896,7 +1132,7 @@ var std;
                  */
                 MapContainer.prototype.assign = function (begin, end) {
                     // INSERT
-                    for (var it = begin; it.equals(end) == false; it = it.next())
+                    for (var it = begin; it.equal_to(end) == false; it = it.next())
                         this.insert_by_pair(new std.Pair(it.first, it.second));
                 };
                 /**
@@ -1052,7 +1288,7 @@ var std;
                  * @hidden
                  */
                 MapContainer.prototype.insert_by_range = function (begin, end) {
-                    for (var it = begin; it.equals(end) == false; it = it.next())
+                    for (var it = begin; it.equal_to(end) == false; it = it.next())
                         this.insert_by_pair(new std.Pair(it.first, it.second));
                 };
                 MapContainer.prototype.erase = function () {
@@ -1074,7 +1310,7 @@ var std;
                  */
                 MapContainer.prototype.erase_by_key = function (key) {
                     var it = this.find(key);
-                    if (it.equals(this.end()) == true)
+                    if (it.equal_to(this.end()) == true)
                         return 0;
                     this.erase_by_iterator(it);
                     return 1;
@@ -1097,7 +1333,7 @@ var std;
                     // ERASE
                     var listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
                     // POST-PROCESS
-                    for (var it = begin; !it.equals(end); it = it.next())
+                    for (var it = begin; !it.equal_to(end); it = it.next())
                         this.handle_erase(it);
                     return new std.MapIterator(this, listIterator);
                 };
@@ -1195,10 +1431,10 @@ var std;
                  */
                 MultiMap.prototype.count = function (key) {
                     var myIt = this.find(key);
-                    if (myIt.equals(this.end()))
+                    if (myIt.equal_to(this.end()))
                         return 0;
                     var size = 0;
-                    for (var it = myIt.next(); !it.equals(this.end()) && std.equals(key, it.first); it = it.next())
+                    for (var it = myIt.next(); !it.equal_to(this.end()) && std.equal_to(key, it.first); it = it.next())
                         size++;
                     return size;
                 };
@@ -1312,7 +1548,7 @@ var std;
                  */
                 SetContainer.prototype.assign = function (begin, end) {
                     // INSERT
-                    for (var it = begin; it.equals(end) == false; it = it.next())
+                    for (var it = begin; it.equal_to(end) == false; it = it.next())
                         this.insert_by_val(it.value);
                 };
                 /**
@@ -1418,7 +1654,7 @@ var std;
                  * @hidden
                  */
                 SetContainer.prototype.insert_by_range = function (begin, end) {
-                    for (var it = begin; it.equals(end) == false; it = it.next())
+                    for (var it = begin; it.equal_to(end) == false; it = it.next())
                         this.insert_by_val(it.value);
                 };
                 SetContainer.prototype.erase = function () {
@@ -1441,7 +1677,7 @@ var std;
                 SetContainer.prototype.erase_by_val = function (val) {
                     // TEST WHETHER EXISTS
                     var it = this.find(val);
-                    if (it.equals(this.end()) == true)
+                    if (it.equal_to(this.end()) == true)
                         return 0;
                     // ERASE
                     this.erase_by_iterator(it);
@@ -1464,7 +1700,7 @@ var std;
                     // ERASE
                     var list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
                     // POST-PROCESS
-                    for (var it = begin; !it.equals(end); it = it.next())
+                    for (var it = begin; !it.equal_to(end); it = it.next())
                         this.handle_erase(it);
                     return new std.SetIterator(this, list_iterator); //begin.prev();
                 };
@@ -1531,10 +1767,10 @@ var std;
                  */
                 MultiSet.prototype.count = function (val) {
                     var myIt = this.find(val);
-                    if (myIt.equals(this.end()))
+                    if (myIt.equal_to(this.end()))
                         return 0;
                     var size = 0;
-                    for (var it = myIt; !it.equals(this.end()) && std.equals(val, it.value); it = it.next())
+                    for (var it = myIt; !it.equal_to(this.end()) && std.equal_to(val, it.value); it = it.next())
                         size++;
                     return size;
                 };
@@ -1572,12 +1808,12 @@ var std;
                     _super.call(this, iterator.get_source());
                     this.iterator_ = iterator;
                 }
-                ReverseIterator.prototype.equals = function (obj) {
+                ReverseIterator.prototype.equal_to = function (obj) {
                     if (obj instanceof ReverseIterator) {
-                        return this.iterator_.equals(obj.iterator_);
+                        return this.iterator_.equal_to(obj.iterator_);
                     }
                     else
-                        return this.iterator_.equals(obj);
+                        return this.iterator_.equal_to(obj);
                 };
                 Object.defineProperty(ReverseIterator.prototype, "value", {
                     /**
@@ -1666,7 +1902,7 @@ var std;
                  * @inheritdoc
                  */
                 UniqueMap.prototype.count = function (key) {
-                    return this.find(key).equals(this.end()) ? 0 : 1;
+                    return this.find(key).equal_to(this.end()) ? 0 : 1;
                 };
                 /**
                  * <p> Get an element </p>
@@ -1679,7 +1915,7 @@ var std;
                  */
                 UniqueMap.prototype.get = function (key) {
                     var it = this.find(key);
-                    if (it.equals(this.end()) == true)
+                    if (it.equal_to(this.end()) == true)
                         throw new std.OutOfRange("unable to find the matched key.");
                     return it.second;
                 };
@@ -1694,7 +1930,7 @@ var std;
                  */
                 UniqueMap.prototype.set = function (key, val) {
                     var it = this.find(key);
-                    if (it.equals(this.end()) == true)
+                    if (it.equal_to(this.end()) == true)
                         this.insert(new std.Pair(key, val));
                     else
                         it.second = val;
@@ -1768,7 +2004,7 @@ var std;
                  * @inheritdoc
                  */
                 UniqueSet.prototype.count = function (key) {
-                    return this.find(key).equals(this.end()) ? 0 : 1;
+                    return this.find(key).equal_to(this.end()) ? 0 : 1;
                 };
                 UniqueSet.prototype.insert = function () {
                     var args = [];
@@ -1782,6 +2018,140 @@ var std;
             container.UniqueSet = UniqueSet;
         })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+var std;
+(function (std) {
+    /**
+     * <p> Bind function arguments. </p>
+     *
+     * <p> Applies a function object based on listener, but with its arguments bound to <i>args</i>. </p>
+     *
+     * <p> Each argument may either be bound to a value or be a placeholder: </p>
+     * <ul>
+     *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
+     *	<li> If a placeholder, calling the returned function object forwards an argument passed to the call (the one whose order number is specified by the placeholder). </li>
+     * </ul>
+     *
+     * @reference http://www.cplusplus.com/reference/functional/bind/
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var Bind = (function () {
+        function Bind(fn) {
+            var items = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                items[_i - 1] = arguments[_i];
+            }
+            this.fn_ = fn;
+            this.this_arg_ = null;
+            this.arguments_ = [];
+            for (var i = 0; i < items.length; i++) {
+                if (i == 0 && items[0] instanceof Object && items[0] instanceof PlaceHolder == false) {
+                    // is the 1st argument is this_arg?
+                    var is_this_arg = false;
+                    // retrieve the object; items[0]
+                    for (var key in items[0])
+                        if (items[0][key] == this.fn_) {
+                            // found the this_arg
+                            this.this_arg_ = items[0];
+                            is_this_arg = true;
+                            break;
+                        }
+                    if (is_this_arg == true)
+                        continue;
+                }
+                // the placeholder also fills parameters
+                this.arguments_.push(items[i]);
+            }
+        }
+        /* ---------------------------------------------------------
+            APPLY
+        --------------------------------------------------------- */
+        /**
+         * <p> Apply function. </p>
+         *
+         * @param items List of items to be parameters for <i>fn</i>.
+         */
+        Bind.prototype.apply = function () {
+            var items = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                items[_i - 0] = arguments[_i];
+            }
+            if (items.length == 0)
+                return this.fn_.apply(this.this_arg_, this.arguments_);
+            var thisArg = this.this_arg_;
+            var parameters = this.arguments_.slice();
+            var i = 0;
+            // 1st parameter is thisArg?
+            if (thisArg == null && parameters[0] instanceof PlaceHolder && items[0] instanceof Object)
+                for (var key in items[0])
+                    if (items[0][key] == this.fn_) {
+                        thisArg = items[0];
+                        parameters.splice(0, 1);
+                        i = 1;
+                        break;
+                    }
+            // fill argArray from placeholders
+            for (; i < parameters.length; i++)
+                if (parameters[i] instanceof PlaceHolder)
+                    parameters[i] = items[parameters[i].index - 1];
+            return this.fn_.apply(thisArg, parameters);
+        };
+        return Bind;
+    }());
+    std.Bind = Bind;
+    var PlaceHolder = (function () {
+        function PlaceHolder(index) {
+            this.index_ = index;
+        }
+        Object.defineProperty(PlaceHolder.prototype, "index", {
+            get: function () {
+                return this.index_;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PlaceHolder.prototype.equal_to = function (x) {
+            return this.index_ == x.index_;
+        };
+        PlaceHolder.prototype.less = function (x) {
+            return this.index_ < x.index_;
+        };
+        PlaceHolder.prototype.hash = function () {
+            return std.hash(this.index_);
+        };
+        return PlaceHolder;
+    }());
+    std.PlaceHolder = PlaceHolder;
+})(std || (std = {}));
+/**
+ *
+ *
+ */
+var std;
+(function (std) {
+    var placeholders;
+    (function (placeholders) {
+        placeholders._1 = new std.PlaceHolder(1);
+        placeholders._2 = new std.PlaceHolder(2);
+        placeholders._3 = new std.PlaceHolder(3);
+        placeholders._4 = new std.PlaceHolder(4);
+        placeholders._5 = new std.PlaceHolder(5);
+        placeholders._6 = new std.PlaceHolder(6);
+        placeholders._7 = new std.PlaceHolder(7);
+        placeholders._8 = new std.PlaceHolder(8);
+        placeholders._9 = new std.PlaceHolder(9);
+        placeholders._10 = new std.PlaceHolder(10);
+        placeholders._11 = new std.PlaceHolder(11);
+        placeholders._12 = new std.PlaceHolder(12);
+        placeholders._13 = new std.PlaceHolder(13);
+        placeholders._14 = new std.PlaceHolder(14);
+        placeholders._15 = new std.PlaceHolder(15);
+        placeholders._16 = new std.PlaceHolder(16);
+        placeholders._17 = new std.PlaceHolder(17);
+        placeholders._18 = new std.PlaceHolder(18);
+        placeholders._19 = new std.PlaceHolder(19);
+        placeholders._20 = new std.PlaceHolder(20);
+    })(placeholders = std.placeholders || (std.placeholders = {}));
 })(std || (std = {}));
 /// <reference path="base/container/ReverseIterator.ts" />
 var std;
@@ -1925,7 +2295,7 @@ var std;
              */
             function code_of_object(obj) {
                 if (obj.hash_code != undefined)
-                    return obj.hash_code();
+                    return obj.hash();
                 else
                     return obj.__getUID();
             }
@@ -2028,7 +2398,7 @@ var std;
                     var index = hash.code(key) % this.size();
                     var bucket = this.at(index);
                     for (var i = 0; i < bucket.size(); i++)
-                        if (std.equals(bucket.at(i).first, key))
+                        if (std.equal_to(bucket.at(i).first, key))
                             return bucket.at(i);
                     return this.map.end();
                 };
@@ -2055,7 +2425,7 @@ var std;
                     var index = hash.code(val) % this.size();
                     var bucket = this.at(index);
                     for (var i = 0; i < bucket.size(); i++)
-                        if (std.equals(bucket.at(i).value, val))
+                        if (std.equal_to(bucket.at(i).value, val))
                             return bucket.at(i);
                     return this.set.end();
                 };
@@ -3076,7 +3446,7 @@ var std;
                     var node = this.root_;
                     while (true) {
                         var newNode = null;
-                        if (std.equals(val, node.value.value))
+                        if (std.equal_to(val, node.value.value))
                             break; // EQUALS, MEANS MATCHED, THEN TERMINATE
                         else if (std.less(val, node.value.value))
                             newNode = node.left; // LESS, THEN TO THE LEFT
@@ -3100,7 +3470,7 @@ var std;
                  * @inheritdoc
                  */
                 AtomicTree.prototype.is_equals = function (left, right) {
-                    return std.equals(left, right);
+                    return std.equal_to(left, right);
                 };
                 /**
                  * @inheritdoc
@@ -3200,7 +3570,7 @@ var std;
                     var node = this.root_;
                     while (true) {
                         var newNode = null;
-                        if (std.equals(key, node.value.first))
+                        if (std.equal_to(key, node.value.first))
                             break; // EQUALS, MEANS MATCHED, THEN TERMINATE
                         else if (std.less(key, node.value.first))
                             newNode = node.left; // LESS, THEN TO THE LEFT
@@ -3224,7 +3594,7 @@ var std;
                  * @inheritdoc
                  */
                 PairTree.prototype.is_equals = function (left, right) {
-                    return std.equals(left.first, right.first);
+                    return std.equal_to(left.first, right.first);
                 };
                 /**
                  * @inheritdoc
@@ -3437,14 +3807,14 @@ var std;
                 var begin = first;
                 var end = second;
                 var size = 0;
-                for (var it = begin; !it.equals(end); it = it.next())
+                for (var it = begin; !it.equal_to(end); it = it.next())
                     size++;
                 // RESERVE
                 this.reserve(size);
                 this.size_ = size;
                 // ASSIGN CONTENTS
                 var array = this.matrix_[0];
-                for (var it = begin; !it.equals(end); it = it.next()) {
+                for (var it = begin; !it.equal_to(end); it = it.next()) {
                     if (array.length >= this.get_col_size()) {
                         array = new Array();
                         this.matrix_.push(array);
@@ -3689,14 +4059,14 @@ var std;
             else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 var begin = args[0];
                 var end = args[1];
-                for (var it = begin; !it.equals(end); it = it.next())
+                for (var it = begin; !it.equal_to(end); it = it.next())
                     items.push(it.value);
             }
             // -----------------------------------------------------
             // INSERT ITEMS
             // -----------------------------------------------------
             // INSERTS CAREFULLY
-            if (position.equals(this.end()) == true) {
+            if (position.equal_to(this.end()) == true) {
                 // WHEN INSERTS TO THE BACK SIDE
                 this.push.apply(this, items);
                 return;
@@ -3729,7 +4099,7 @@ var std;
                 // -----------------------------------------------------
                 // JUST INSERT CARELESSLY
                 // AND KEEP BLANACE BY THE RESERVE() METHOD
-                if (position.equals(this.end()) == true) {
+                if (position.equal_to(this.end()) == true) {
                     this.matrix_.push(items); // ALL TO THE LAST
                 }
                 else {
@@ -3781,16 +4151,10 @@ var std;
          * @hidden
          */
         Deque.prototype.swap_deque = function (obj) {
-            var supplement = new Object();
-            supplement.matrix_ = this.matrix_;
-            supplement.size_ = this.size_;
-            supplement.capacity_ = this.capacity_;
-            this.matrix_ = obj.matrix_;
-            this.size_ = obj.size_;
-            this.capacity_ = obj.capacity_;
-            obj.matrix_ = supplement.matrix_;
-            obj.size_ = supplement.size_;
-            obj.capacity_ = supplement.capacity_;
+            _a = [obj.matrix_, this.matrix_], this.matrix_ = _a[0], obj.matrix_ = _a[1];
+            _b = [obj.size_, this.size_], this.size_ = _b[0], obj.size_ = _b[1];
+            _c = [obj.capacity_, this.capacity_], this.capacity_ = _c[0], obj.capacity_ = _c[1];
+            var _a, _b, _c;
         };
         return Deque;
     }(std.base.container.Container));
@@ -3850,17 +4214,17 @@ var std;
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
          * <h4> Note </h4>
-         * <p> Iterator's equals() only compare souce container and index number. </p>
+         * <p> Iterator's equal_to() only compare souce container and index number. </p>
          *
-         * <p> Although elements in a pair, key and value are equals, if the source map or
-         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * <p> Although elements in a pair, key and value are equal_to, if the source map or
+         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
          * compare the elements of a pair, compare them directly by yourself. </p>
          *
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        DequeIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
+        DequeIterator.prototype.equal_to = function (obj) {
+            return _super.prototype.equal_to.call(this, obj) && this.index_ == obj.index_;
         };
         Object.defineProperty(DequeIterator.prototype, "index", {
             /**
@@ -3909,9 +4273,8 @@ var std;
          * @inheritdoc
          */
         DequeIterator.prototype.swap = function (obj) {
-            var supplement = this.value;
-            this.value = obj.value;
-            obj.value = supplement;
+            _a = [obj.value, this.value], this.value = _a[0], obj.value = _a[1];
+            var _a;
         };
         return DequeIterator;
     }(std.base.container.Iterator));
@@ -4098,6 +4461,10 @@ var std;
     var example;
     (function (example) {
         function test_anything() {
+            var vec = new std.Vector([1, 3, 2, 6, 7, 4, 5, 9, 8, 0]);
+            std.partial_sort(vec.begin(), vec.begin().advance(5), vec.end());
+            for (var it = vec.begin(); !it.equal_to(vec.end()); it = it.next())
+                console.log(it.value);
         }
         example.test_anything = test_anything;
     })(example = std.example || (std.example = {}));
@@ -4119,9 +4486,9 @@ var std;
             it = deque.begin().advance(6);
             it = deque.erase(it, it.advance(3)); // erase from 6 to 9
             //console.log(it.value); // print 9
-            console.log(it.equals(deque.end()));
+            console.log(it.equal_to(deque.end()));
             console.log("-------------------------------------");
-            for (var it_1 = deque.begin(); !it_1.equals(deque.end()); it_1 = it_1.next())
+            for (var it_1 = deque.begin(); !it_1.equal_to(deque.end()); it_1 = it_1.next())
                 console.log(it_1.value);
         }
         example.test_deque = test_deque;
@@ -4173,13 +4540,13 @@ var std;
             // key list: [0, 1, -1, 2, 4, 5, 9]
             console.log("has 7:", map.has(7));
             console.log("count 5:", map.count(5));
-            console.log("it is end():", it.equals(map.end()));
+            console.log("it is end():", it.equal_to(map.end()));
             /////////////////////////////////////
             // PRINT ALL ELEMENTS
             /////////////////////////////////////
             console.log("------------------------------");
             // key list: [0, 1, -1, 2, 4, 5, 9]
-            for (var it_2 = map.begin(); !it_2.equals(map.end()); it_2 = it_2.next())
+            for (var it_2 = map.begin(); !it_2.equal_to(map.end()); it_2 = it_2.next())
                 console.log(it_2.second);
             /* OUTPUT
             =========================================
@@ -4219,9 +4586,9 @@ var std;
             it = list.begin().advance(6);
             it = list.erase(it, it.advance(3)); // erase from 6 to 9
             //console.log(it.value); // print 9
-            console.log(it.equals(list.end()));
+            console.log(it.equal_to(list.end()));
             console.log("-------------------------------------");
-            for (var it_3 = list.begin(); !it_3.equals(list.end()); it_3 = it_3.next())
+            for (var it_3 = list.begin(); !it_3.equal_to(list.end()); it_3 = it_3.next())
                 console.log(it_3.value);
         }
         example.test_list = test_list;
@@ -4239,7 +4606,7 @@ var std;
             // SORT BY Cube.less()
             ///////////////////////////////
             std.sort(cubes.begin(), cubes.end());
-            for (var it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
+            for (var it = cubes.begin(); !it.equal_to(cubes.end()); it = it.next())
                 it.value.debug_size();
             console.log("------------------------------");
             ///////////////////////////////
@@ -4253,7 +4620,7 @@ var std;
                 else
                     return left.z < right.z;
             });
-            for (var it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
+            for (var it = cubes.begin(); !it.equal_to(cubes.end()); it = it.next())
                 it.value.debug_position();
         }
         example.sorting = sorting;
@@ -4626,6 +4993,136 @@ var std;
     }(RuntimeError));
     std.RangeError = RangeError;
 })(std || (std = {}));
+// Standard Template Library: Function objects
+// Function objects are objects specifically designed to be used with a syntax similar to that of functions.
+//
+// They are typically used as arguments to functions, such as predicates or comparison functions passed to standard algorithms.
+//
+// @reference http://www.cplusplus.com/reference/functional/
+// @author Jeongho Nam <http://samchon.org>
+var std;
+(function (std) {
+    function bind(fn) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        return new (std.Bind.bind.apply(std.Bind, [void 0].concat([fn], args)))();
+    }
+    std.bind = bind;
+    /**
+     * <p> For equality comparison. </p>
+     *
+     * <p> Binary fucntion returns whether the arguments are equal. </p>
+     *
+     * @param <T> Type of arguments to compare.
+     *
+     * @param first First element to compare.
+     * @param second Second element to compare.
+     *
+     * @return Whether the arguments are equal.
+     */
+    function equal_to(left, right) {
+        if (left instanceof Object && left.equal_to != undefined)
+            return left.equal_to(right);
+        else
+            return left == right;
+    }
+    std.equal_to = equal_to;
+    function not_equal_to(x, y) {
+        return !std.equal_to(x, y);
+    }
+    std.not_equal_to = not_equal_to;
+    /**
+     * <p> Function for less-than inequality comparison. </p>
+     *
+     * <p> Binary function returns whether the its first argument compares less than the second. </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less}
+     * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
+     * This member function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>,
+     * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
+     *
+     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
+     *			  <i>operator<()</i> or method {@link IComparable.less less}.
+     *
+     * @param first First element, the standard of comparison.
+     * @param second Second element compare with the first.
+     *
+     * @return Whether the first parameter is less than the second.
+     */
+    function less(left, right) {
+        if (left instanceof Object)
+            if (left.less != undefined)
+                return left.less(right);
+            else
+                return left.__getUID() < right.__getUID();
+        else
+            return left < right;
+    }
+    std.less = less;
+    function less_equal(x, y) {
+        return std.less(x, y) || std.equal_to(x, y);
+    }
+    std.less_equal = less_equal;
+    /**
+     * <p> Function for greater-than inequality comparison. </p>
+     *
+     * <p> Binary function returns whether the its first argument compares greater than the second. </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function {@link less} and
+     * {@link equal_to equal_to()} defined. If an object doesn't have those methods, then its own uid will be used
+     * to compare insteadly. This member function allows the object to be used with the same syntax as a function
+     * call. </p>
+     *
+     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()},
+     * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
+     *
+     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
+     *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
+     *
+     * @param left
+     * @param right
+     */
+    function greater(left, right) {
+        return !std.less_equal(left, right);
+    }
+    std.greater = greater;
+    function greater_equal(x, y) {
+        return !std.less(x, y);
+    }
+    std.greater_equal = greater_equal;
+    function logical_and(x, y) {
+        return x && y;
+    }
+    std.logical_and = logical_and;
+    function logical_or(x, y) {
+        return x || y;
+    }
+    std.logical_or = logical_or;
+    function logical_not(x) {
+        return !x;
+    }
+    std.logical_not = logical_not;
+    function bit_and(x, y) {
+        return x & y;
+    }
+    std.bit_and = bit_and;
+    function bit_or(x, y) {
+        return x | y;
+    }
+    std.bit_or = bit_or;
+    function bit_xor(x, y) {
+        return x ^ y;
+    }
+    std.bit_xor = bit_xor;
+    function swap(left, right) {
+        left.swap(right);
+    }
+    std.swap = swap;
+})(std || (std = {}));
 /// <reference path="base/container/UniqueMap.ts" />
 var std;
 (function (std) {
@@ -4716,7 +5213,7 @@ var std;
             var it;
             var size = 0;
             // RESERVE HASH_BUCKET SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
+            for (it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
             this.hash_buckets_.reserve(size * std.base.hash.RATIO);
@@ -4752,7 +5249,7 @@ var std;
         HashMap.prototype.insert_by_pair = function (pair) {
             // TEST WHETHER EXIST
             var it = this.find(pair.first);
-            if (it.equals(this.end()) == false)
+            if (it.equal_to(this.end()) == false)
                 return new std.Pair(it, false);
             // INSERT
             this.data_.push_back(pair);
@@ -4767,7 +5264,7 @@ var std;
         HashMap.prototype.insert_by_range = function (begin, end) {
             // CALCULATE INSERTING SIZE
             var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
@@ -4806,13 +5303,9 @@ var std;
          * @hidden
          */
         HashMap.prototype.swap_hash_map = function (obj) {
-            var supplement = new HashMap();
-            supplement.data_ = this.data_;
-            supplement.hash_buckets_ = this.hash_buckets_;
-            this.data_ = obj.data_;
-            this.hash_buckets_ = obj.hash_buckets_;
-            obj.data_ = supplement.data_;
-            obj.hash_buckets_ = supplement.hash_buckets_;
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.hash_buckets_, this.hash_buckets_], this.hash_buckets_ = _b[0], obj.hash_buckets_ = _b[1];
+            var _a, _b;
         };
         return HashMap;
     }(std.base.container.UniqueMap));
@@ -4907,7 +5400,7 @@ var std;
             var it;
             var size = 0;
             // REVERSE HASH_GROUP SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
+            for (it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
             this.hash_buckets_.reserve(size * std.base.hash.RATIO);
@@ -4952,7 +5445,7 @@ var std;
         HashMultiMap.prototype.insert_by_range = function (begin, end) {
             // CALCULATE INSERTING SIZE
             var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
@@ -4991,13 +5484,9 @@ var std;
          * @hidden
          */
         HashMultiMap.prototype.swap_hash_multimap = function (obj) {
-            var supplement = new HashMultiMap();
-            supplement.data_ = this.data_;
-            supplement.hash_buckets_ = this.hash_buckets_;
-            this.data_ = obj.data_;
-            this.hash_buckets_ = obj.hash_buckets_;
-            obj.data_ = supplement.data_;
-            obj.hash_buckets_ = supplement.hash_buckets_;
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.hash_buckets_, this.hash_buckets_], this.hash_buckets_ = _b[0], obj.hash_buckets_ = _b[1];
+            var _a, _b;
         };
         return HashMultiMap;
     }(std.base.container.MultiMap));
@@ -5088,7 +5577,7 @@ var std;
             var it;
             var size = 0;
             // RESERVE HASH_BUCKET SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
+            for (it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
             this.hash_buckets_.reserve(size * std.base.hash.RATIO);
@@ -5135,7 +5624,7 @@ var std;
         HashMultiSet.prototype.insert_by_range = function (begin, end) {
             // CALCULATE INSERTING SIZE
             var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
@@ -5174,13 +5663,9 @@ var std;
          * @hidden
          */
         HashMultiSet.prototype.swap_tree_set = function (obj) {
-            var supplement = new HashMultiSet();
-            supplement.data_ = this.data_;
-            supplement.hash_buckets_ = this.hash_buckets_;
-            this.data_ = obj.data_;
-            this.hash_buckets_ = obj.hash_buckets_;
-            obj.data_ = supplement.data_;
-            obj.hash_buckets_ = supplement.hash_buckets_;
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.hash_buckets_, this.hash_buckets_], this.hash_buckets_ = _b[0], obj.hash_buckets_ = _b[1];
+            var _a, _b;
         };
         return HashMultiSet;
     }(std.base.container.MultiSet));
@@ -5271,7 +5756,7 @@ var std;
             var it;
             var size = 0;
             // RESERVE HASH_BUCKET SIZE
-            for (it = begin; it.equals(end) == false; it = it.next())
+            for (it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
             this.hash_buckets_.reserve(size * std.base.hash.RATIO);
@@ -5307,7 +5792,7 @@ var std;
         HashSet.prototype.insert_by_val = function (val) {
             // TEST WHETHER EXIST
             var it = this.find(val);
-            if (it.equals(this.end()) == false)
+            if (it.equal_to(this.end()) == false)
                 return new std.Pair(it, false);
             // INSERT
             this.data_.push_back(val);
@@ -5322,7 +5807,7 @@ var std;
         HashSet.prototype.insert_by_range = function (begin, end) {
             // CALCULATE INSERTING SIZE
             var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
             if (this.size() + size > this.hash_buckets_.size() * std.base.hash.MAX_RATIO)
@@ -5361,13 +5846,9 @@ var std;
          * @hidden
          */
         HashSet.prototype.swap_tree_set = function (obj) {
-            var supplement = new HashSet();
-            supplement.data_ = this.data_;
-            supplement.hash_buckets_ = this.hash_buckets_;
-            this.data_ = obj.data_;
-            this.hash_buckets_ = obj.hash_buckets_;
-            obj.data_ = supplement.data_;
-            obj.hash_buckets_ = supplement.hash_buckets_;
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.hash_buckets_, this.hash_buckets_], this.hash_buckets_ = _b[0], obj.hash_buckets_ = _b[1];
+            var _a, _b;
         };
         return HashSet;
     }(std.base.container.UniqueSet));
@@ -5375,78 +5856,6 @@ var std;
 })(std || (std = {}));
 var std;
 (function (std) {
-    /**
-     * <p> For equality comparison. </p>
-     *
-     * <p> Binary fucntion returns whether the arguments are equal. </p>
-     *
-     * @param <T> Type of arguments to compare.
-     *
-     * @param first First element to compare.
-     * @param second Second element to compare.
-     *
-     * @return Whether the arguments are equal.
-     */
-    function equals(left, right) {
-        if (left instanceof Object && left.equals != undefined)
-            return left.equals(right);
-        else
-            return left == right;
-    }
-    std.equals = equals;
-    /**
-     * <p> Function for less-than inequality comparison. </p>
-     *
-     * <p> Binary function returns whether the its first argument compares less than the second. </p>
-     *
-     * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less}
-     * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
-     * This member function allows the object to be used with the same syntax as a function call. </p>
-     *
-     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>,
-     * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
-     *
-     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <i>operator<()</i> or method {@link IComparable.less less}.
-     *
-     * @param first First element, the standard of comparison.
-     * @param second Second element compare with the first.
-     *
-     * @return Whether the first parameter is less than the second.
-     */
-    function less(left, right) {
-        if (left instanceof Object)
-            if (left.less != undefined)
-                return left.less(right);
-            else
-                return left.__getUID() < right.__getUID();
-        else
-            return left < right;
-    }
-    std.less = less;
-    /**
-     * <p> Function for greater-than inequality comparison. </p>
-     *
-     * <p> Binary function returns whether the its first argument compares greater than the second. </p>
-     *
-     * <p> Generically, function objects are instances of a class with member function {@link less} and
-     * {@link equals equals()} defined. If an object doesn't have those methods, then its own uid will be used
-     * to compare insteadly. This member function allows the object to be used with the same syntax as a function
-     * call. </p>
-     *
-     * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()},
-     * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
-     *
-     * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
-     *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
-     *
-     * @param left
-     * @param right
-     */
-    function greater(left, right) {
-        return !std.less(left, right) && !std.equals(left, right);
-    }
-    std.greater = greater;
     /**
      * Default hash function.
      *
@@ -5495,7 +5904,7 @@ var std;
         if (first instanceof std.VectorIterator || first instanceof std.DequeIterator)
             return last.index - first.index;
         var length = 0;
-        for (; !first.equals(last); first = first.next())
+        for (; !first.equal_to(last); first = first.next())
             length++;
         return length;
     }
@@ -5778,7 +6187,7 @@ var std;
                 prev = item;
             }
             // IF WAS EMPTY, VAL IS THE BEGIN
-            if (this.empty() == true || first.prev().equals(this.end()) == true)
+            if (this.empty() == true || first.prev().equal_to(this.end()) == true)
                 this.begin_ = first;
             // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
             prev.setNext(position);
@@ -5795,7 +6204,7 @@ var std;
             var prev = position.prev();
             var first = null;
             var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next()) {
+            for (var it = begin; it.equal_to(end) == false; it = it.next()) {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
                 var item = new std.ListIterator(this, prev, null, it.value);
                 if (size == 0)
@@ -5841,7 +6250,7 @@ var std;
             var prev = begin.prev();
             // CALCULATE THE SIZE
             var size = 0;
-            for (var it = begin; it.equals(end) == false; it = it.next())
+            for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // SHRINK
             prev.setNext(end);
@@ -5852,10 +6261,10 @@ var std;
             return end;
         };
         List.prototype.unique = function (binary_pred) {
-            if (binary_pred === void 0) { binary_pred = std.equals; }
+            if (binary_pred === void 0) { binary_pred = std.equal_to; }
             var it = this.begin().next();
-            while (!it.equals(this.end())) {
-                if (std.equals(it.value, it.prev().value) == true)
+            while (!it.equal_to(this.end())) {
+                if (std.equal_to(it.value, it.prev().value) == true)
                     it = this.erase(it);
                 else
                     it = it.next();
@@ -5877,8 +6286,8 @@ var std;
          */
         List.prototype.remove = function (val) {
             var it = this.begin();
-            while (!it.equals(this.end())) {
-                if (std.equals(it.value, val) == true)
+            while (!it.equal_to(this.end())) {
+                if (std.equal_to(it.value, val) == true)
                     it = this.erase(it);
                 else
                     it = it.next();
@@ -5902,7 +6311,7 @@ var std;
          */
         List.prototype.remove_if = function (pred) {
             var it = this.begin();
-            while (!it.equals(this.end())) {
+            while (!it.equal_to(this.end())) {
                 if (pred(it.value) == true)
                     it = this.erase(it);
                 else
@@ -5916,7 +6325,7 @@ var std;
             var it = this.begin();
             while (obj.empty() == false) {
                 var begin = obj.begin();
-                while (!it.equals(this.end()) && compare(it.value, begin.value) == true)
+                while (!it.equal_to(this.end()) && compare(it.value, begin.value) == true)
                     it = it.next();
                 this.splice(it, obj, begin);
             }
@@ -6002,16 +6411,10 @@ var std;
          * @hidden
          */
         List.prototype.swap_list = function (obj) {
-            var supplement = new Object();
-            supplement.begin_ = this.begin_;
-            supplement.end_ = this.end_;
-            supplement.size_ = this.size_;
-            this.begin_ = obj.begin_;
-            this.end_ = obj.end_;
-            this.size_ = obj.size_;
-            obj.begin_ = supplement.begin_;
-            obj.end_ = supplement.end_;
-            obj.size_ = supplement.size_;
+            _a = [obj.begin_, this.begin_], this.begin_ = _a[0], obj.begin_ = _a[1];
+            _b = [obj.end_, this.end_], this.end_ = _b[0], obj.end_ = _b[1];
+            _c = [obj.size_, this.size_], this.size_ = _c[0], obj.size_ = _c[1];
+            var _a, _b, _c;
         };
         return List;
     }(std.base.container.Container));
@@ -6064,7 +6467,7 @@ var std;
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.equals = function (obj) {
+        ListIterator.prototype.equal_to = function (obj) {
             return this == obj;
         };
         /**
@@ -6087,14 +6490,14 @@ var std;
             if (step >= 0) {
                 for (var i = 0; i < step; i++) {
                     it = it.next();
-                    if (it.equals(this.source_.end()))
+                    if (it.equal_to(this.source_.end()))
                         return it;
                 }
             }
             else {
                 for (var i = 0; i < step; i++) {
                     it = it.prev();
-                    if (it.equals(this.source_.end()))
+                    if (it.equal_to(this.source_.end()))
                         return it;
                 }
             }
@@ -6296,13 +6699,13 @@ var std;
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        MapIterator.prototype.equals = function (obj) {
+        MapIterator.prototype.equal_to = function (obj) {
             return this.source_ == obj.source_ && this.list_iterator_ == obj.list_iterator_;
         };
         MapIterator.prototype.less = function (obj) {
             return std.less(this.first, obj.first);
         };
-        MapIterator.prototype.hash_code = function () {
+        MapIterator.prototype.hash = function () {
             return std.hash(this.first);
         };
         MapIterator.prototype.swap = function (obj) {
@@ -6399,17 +6802,17 @@ var std;
          * <p> Compare each first and second value of two Pair(s) and returns whether they are equal or not. </p>
          *
          * <p> If stored key and value in a Pair are not number or string but an object like a class or struct,
-         * the comparison will be executed by a member method (SomeObject)::equals(). If the object does not have
-         * the member method equals(), only address of pointer will be compared. </p>
+         * the comparison will be executed by a member method (SomeObject)::equal_to(). If the object does not have
+         * the member method equal_to(), only address of pointer will be compared. </p>
          *
          * @param obj A Map to compare
          * @return Indicates whether equal or not.
          */
-        Pair.prototype.equals = function (pair) {
-            return std.equals(this.first, pair.first) && std.equals(this.second, pair.second);
+        Pair.prototype.equal_to = function (pair) {
+            return std.equal_to(this.first, pair.first) && std.equal_to(this.second, pair.second);
         };
         Pair.prototype.less = function (pair) {
-            if (std.equals(this.first, pair.first) == false)
+            if (std.equal_to(this.first, pair.first) == false)
                 return std.less(this.first, pair.first);
             else
                 return std.less(this.second, pair.second);
@@ -6852,8 +7255,8 @@ var std;
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.list_iterator_ == obj.list_iterator_;
+        SetIterator.prototype.equal_to = function (obj) {
+            return _super.prototype.equal_to.call(this, obj) && this.list_iterator_ == obj.list_iterator_;
         };
         /**
          * @inheritdoc
@@ -6864,7 +7267,7 @@ var std;
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.hash_code = function () {
+        SetIterator.prototype.hash = function () {
             return std.base.hash.code(this.value);
         };
         /**
@@ -7221,7 +7624,7 @@ var std;
          */
         TreeMap.prototype.find = function (key) {
             var node = this.tree_.find(key);
-            if (node == null || std.equals(node.value.first, key) == false)
+            if (node == null || std.equal_to(node.value.first, key) == false)
                 return this.end();
             else
                 return node.value;
@@ -7283,7 +7686,7 @@ var std;
             var node = this.tree_.find(key);
             if (node == null)
                 return this.end();
-            else if (!std.equals(node.value.first, key) && !std.less(node.value.first, key))
+            else if (!std.equal_to(node.value.first, key) && !std.less(node.value.first, key))
                 return node.value;
             else
                 return node.value.next();
@@ -7326,7 +7729,7 @@ var std;
         TreeMap.prototype.insert_by_pair = function (pair) {
             var node = this.tree_.find(pair.first);
             // IF EQUALS, THEN RETURN FALSE
-            if (node != null && std.equals(node.value.first, pair.first) == true)
+            if (node != null && std.equal_to(node.value.first, pair.first) == true)
                 return new std.Pair(node.value, false);
             // INSERTS
             var it;
@@ -7371,13 +7774,9 @@ var std;
          * @hidden
          */
         TreeMap.prototype.swap_tree_map = function (obj) {
-            var supplement = new TreeMap();
-            supplement.data_ = this.data_;
-            supplement.tree_ = this.tree_;
-            this.data_ = obj.data_;
-            this.tree_ = obj.tree_;
-            obj.data_ = supplement.data_;
-            obj.tree_ = supplement.tree_;
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.tree_, this.tree_], this.tree_ = _b[0], obj.tree_ = _b[1];
+            var _a, _b;
         };
         return TreeMap;
     }(std.base.container.UniqueMap));
@@ -7491,7 +7890,7 @@ var std;
          */
         TreeMultiMap.prototype.find = function (key) {
             var node = this.tree_.find(key);
-            if (node == null || std.equals(node.value.first, key) == false)
+            if (node == null || std.equal_to(node.value.first, key) == false)
                 return this.end();
             else
                 return node.value;
@@ -7522,11 +7921,11 @@ var std;
             var node = this.tree_.find(key);
             if (node == null)
                 return this.end();
-            else if (std.equals(node.value.first, key))
+            else if (std.equal_to(node.value.first, key))
                 return node.value;
             else {
                 var it = node.value;
-                while (!std.equals(it, this.end()) && std.less(it.first, key))
+                while (!std.equal_to(it, this.end()) && std.less(it.first, key))
                     it = it.next();
                 return it;
             }
@@ -7559,7 +7958,7 @@ var std;
                 return this.end();
             else {
                 var it = node.value;
-                while (!std.equals(it, this.end()) && (std.equals(it.first, key) || std.less(it.first, key)))
+                while (!std.equal_to(it, this.end()) && (std.equal_to(it.first, key) || std.less(it.first, key)))
                     it = it.next();
                 return it;
             }
@@ -7602,12 +8001,12 @@ var std;
             if (node == null) {
                 it = this.end();
             }
-            else if (std.equals(node.value.first, pair.first) == true) {
+            else if (std.equal_to(node.value.first, pair.first) == true) {
                 it = node.value.next();
             }
             else if (std.less(node.value.first, pair.first) == true) {
                 it = node.value.next();
-                while (it.equals(this.end()) == false && std.less(it.first, pair.first))
+                while (it.equal_to(this.end()) == false && std.less(it.first, pair.first))
                     it = it.next();
             }
             else
@@ -7646,13 +8045,9 @@ var std;
          * @hidden
          */
         TreeMultiMap.prototype.swap_tree_multimap = function (obj) {
-            var supplement = new TreeMultiMap();
-            supplement.data_ = this.data_;
-            supplement.tree_ = this.tree_;
-            this.data_ = obj.data_;
-            this.tree_ = obj.tree_;
-            obj.data_ = supplement.data_;
-            obj.tree_ = supplement.tree_;
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.tree_, this.tree_], this.tree_ = _b[0], obj.tree_ = _b[1];
+            var _a, _b;
         };
         return TreeMultiMap;
     }(std.base.container.MultiMap));
@@ -7761,7 +8156,7 @@ var std;
          */
         TreeMultiSet.prototype.find = function (val) {
             var node = this.tree_.find(val);
-            if (node == null || std.equals(val, node.value.value) == false)
+            if (node == null || std.equal_to(val, node.value.value) == false)
                 return this.end();
             else
                 return node.value;
@@ -7792,11 +8187,11 @@ var std;
             var node = this.tree_.find(val);
             if (node == null)
                 return this.end();
-            else if (std.equals(node.value.value, val))
+            else if (std.equal_to(node.value.value, val))
                 return node.value;
             else {
                 var it = node.value;
-                while (!std.equals(it, this.end()) && std.less(it.value, val))
+                while (!std.equal_to(it, this.end()) && std.less(it.value, val))
                     it = it.next();
                 return it;
             }
@@ -7829,7 +8224,7 @@ var std;
                 return this.end();
             else {
                 var it = node.value;
-                while (!std.equals(it, this.end()) && (std.equals(it.value, val) || std.less(it.value, val)))
+                while (!std.equal_to(it, this.end()) && (std.equal_to(it.value, val) || std.less(it.value, val)))
                     it = it.next();
                 return it;
             }
@@ -7872,12 +8267,12 @@ var std;
             if (node == null) {
                 it = this.end();
             }
-            else if (std.equals(node.value.value, val) == true) {
+            else if (std.equal_to(node.value.value, val) == true) {
                 it = node.value.next();
             }
             else if (std.less(node.value.value, val) == true) {
                 it = node.value.next();
-                while (it.equals(this.end()) == false && std.less(it.value, val))
+                while (it.equal_to(this.end()) == false && std.less(it.value, val))
                     it = it.next();
             }
             else {
@@ -7917,13 +8312,9 @@ var std;
          * @hidden
          */
         TreeMultiSet.prototype.swap_tree_set = function (obj) {
-            var supplement = new TreeMultiSet();
-            supplement.data_ = this.data_;
-            supplement.tree_ = this.tree_;
-            this.data_ = obj.data_;
-            this.tree_ = obj.tree_;
-            obj.data_ = supplement.data_;
-            obj.tree_ = supplement.tree_;
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.tree_, this.tree_], this.tree_ = _b[0], obj.tree_ = _b[1];
+            var _a, _b;
         };
         return TreeMultiSet;
     }(std.base.container.MultiSet));
@@ -8031,7 +8422,7 @@ var std;
          */
         TreeSet.prototype.find = function (val) {
             var node = this.tree_.find(val);
-            if (node == null || std.equals(node.value.value, val) == false)
+            if (node == null || std.equal_to(node.value.value, val) == false)
                 return this.end();
             else
                 return node.value;
@@ -8093,7 +8484,7 @@ var std;
             var node = this.tree_.find(val);
             if (node == null)
                 return this.end();
-            else if (!std.equals(node.value.value, val) && !std.less(node.value.value, val))
+            else if (!std.equal_to(node.value.value, val) && !std.less(node.value.value, val))
                 return node.value;
             else
                 return node.value.next();
@@ -8134,7 +8525,7 @@ var std;
         TreeSet.prototype.insert_by_val = function (val) {
             var node = this.tree_.find(val);
             // IF EQUALS, THEN RETURN FALSE
-            if (node != null && std.equals(node.value.value, val) == true)
+            if (node != null && std.equal_to(node.value.value, val) == true)
                 return new std.Pair(node.value, false);
             // INSERTS
             var it;
@@ -8179,13 +8570,9 @@ var std;
          * @hidden
          */
         TreeSet.prototype.swap_tree_set = function (obj) {
-            var supplement = new TreeSet();
-            supplement.data_ = this.data_;
-            supplement.tree_ = this.tree_;
-            this.data_ = obj.data_;
-            this.tree_ = obj.tree_;
-            obj.data_ = supplement.data_;
-            obj.tree_ = supplement.tree_;
+            _a = [obj.data_, this.data_], this.data_ = _a[0], obj.data_ = _a[1];
+            _b = [obj.tree_, this.tree_], this.tree_ = _b[0], obj.tree_ = _b[1];
+            var _a, _b;
         };
         return TreeSet;
     }(std.base.container.UniqueSet));
@@ -8298,7 +8685,7 @@ var std;
             if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
                 var begin = first;
                 var end = second;
-                for (var it = begin; it.equals(end) == false; it = it.next())
+                for (var it = begin; it.equal_to(end) == false; it = it.next())
                     this.push(it.value);
             }
             else if (typeof first == "number") {
@@ -8444,7 +8831,7 @@ var std;
                 var end = args[2];
                 var spliced = this.splice(position.index);
                 var inserts = [];
-                for (var it = begin; it.equals(end) == false; it = it.next())
+                for (var it = begin; it.equal_to(end) == false; it = it.next())
                     inserts.push(it.value);
                 this.push.apply(this, spliced);
                 this.push.apply(this, inserts);
@@ -8545,17 +8932,17 @@ var std;
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
          * <h4> Note </h4>
-         * <p> Iterator's equals() only compare souce container and index number. </p>
+         * <p> Iterator's equal_to() only compare souce container and index number. </p>
          *
-         * <p> Although elements in a pair, key and value are equals, if the source map or
-         * index number is different, then the {@link equals equals()} will return false. If you want to
+         * <p> Although elements in a pair, key and value are equal_to, if the source map or
+         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
          * compare the elements of a pair, compare them directly by yourself. </p>
          *
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        VectorIterator.prototype.equals = function (obj) {
-            return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
+        VectorIterator.prototype.equal_to = function (obj) {
+            return _super.prototype.equal_to.call(this, obj) && this.index_ == obj.index_;
         };
         Object.defineProperty(VectorIterator.prototype, "index", {
             get: function () {
@@ -8601,9 +8988,8 @@ var std;
          * @inheritdoc
          */
         VectorIterator.prototype.swap = function (obj) {
-            var supplement = this.value;
-            this.value = obj.value;
-            obj.value = supplement;
+            _a = [obj.value, this.value], this.value = _a[0], obj.value = _a[1];
+            var _a;
         };
         return VectorIterator;
     }(std.base.container.Iterator));

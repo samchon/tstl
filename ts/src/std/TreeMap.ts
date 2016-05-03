@@ -205,7 +205,7 @@ namespace std
 		{
 			let node = this.tree_.find(key);
 
-			if (node == null || std.equals(node.value.first, key) == false)
+			if (node == null || std.equal_to(node.value.first, key) == false)
 				return this.end();
 			else
 				return node.value;
@@ -273,7 +273,7 @@ namespace std
 
 			if (node == null)
 				return this.end();
-			else if (!std.equals(node.value.first, key) && !std.less(node.value.first, key))
+			else if (!std.equal_to(node.value.first, key) && !std.less(node.value.first, key))
 				return node.value;
 			else
 				return node.value.next();
@@ -322,7 +322,7 @@ namespace std
 			let node = this.tree_.find(pair.first);
 
 			// IF EQUALS, THEN RETURN FALSE
-			if (node != null && std.equals(node.value.first, pair.first) == true)
+			if (node != null && std.equal_to(node.value.first, pair.first) == true)
 				return new Pair<MapIterator<Key, T>, boolean>(node.value, false);
 			
 			// INSERTS
@@ -379,15 +379,8 @@ namespace std
 		 */
 		private swap_tree_map(obj: TreeMap<Key, T>): void
 		{
-			let supplement: TreeMap<Key, T> = new TreeMap<Key, T>();
-			supplement.data_ = this.data_;
-			supplement.tree_ = this.tree_;
-
-			this.data_ = obj.data_;
-			this.tree_ = obj.tree_;
-
-			obj.data_ = supplement.data_;
-			obj.tree_ = supplement.tree_;
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

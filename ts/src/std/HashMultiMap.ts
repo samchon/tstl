@@ -144,7 +144,7 @@ namespace std
 			let size: number = 0;
 			
 			// REVERSE HASH_GROUP SIZE
-			for (it = begin; it.equals(end) == false; it = it.next())
+			for (it = begin; it.equal_to(end) == false; it = it.next())
 				size++;
 
 			this.hash_buckets_.clear();
@@ -203,7 +203,7 @@ namespace std
 		{
 			// CALCULATE INSERTING SIZE
 			let size: number = 0;
-			for (let it = begin; it.equals(end) == false; it = it.next())
+			for (let it = begin; it.equal_to(end) == false; it = it.next())
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
@@ -252,15 +252,8 @@ namespace std
 		 */
 		private swap_hash_multimap(obj: HashMultiMap<Key, T>): void
 		{
-			let supplement: HashMultiMap<Key, T> = new HashMultiMap<Key, T>();
-			supplement.data_ = this.data_;
-			supplement.hash_buckets_ = this.hash_buckets_;
-
-			this.data_ = obj.data_;
-			this.hash_buckets_ = obj.hash_buckets_;
-
-			obj.data_ = supplement.data_;
-			obj.hash_buckets_ = supplement.hash_buckets_;
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
 }

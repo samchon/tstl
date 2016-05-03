@@ -17,10 +17,10 @@
 		it = list.begin().advance(6);
 		it = list.erase(it, it.advance(3)); // erase from 6 to 9
 		//console.log(it.value); // print 9
-		console.log(it.equals(list.end()));
+		console.log(it.equal_to(list.end()));
 
 		console.log("-------------------------------------");
-		for (let it = list.begin(); !it.equals(list.end()); it = it.next())
+		for (let it = list.begin(); !it.equal_to(list.end()); it = it.next())
 			console.log(it.value);
 	}
 }

@@ -81,7 +81,7 @@
 	function code_of_object(obj: Object): number
 	{
 		if ((<any>obj).hash_code != undefined)
-			return (<any>obj).hash_code();
+			return (<any>obj).hash();
 		else
 			return (<any>obj).__getUID();
 	}

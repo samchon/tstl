@@ -194,7 +194,7 @@ namespace std
 				let begin: InputIterator = first;
 				let end: InputIterator = second;
 
-				for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator)
+				for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator)
 					this.push(it.value);
 			}
 			else if (typeof first == "number")
@@ -457,7 +457,7 @@ namespace std
 				let spliced: Array<T> = this.splice(position.index);
 				let inserts: Array<T> = [];
 
-				for (let it = begin; it.equals(end) == false; it = it.next())
+				for (let it = begin; it.equal_to(end) == false; it = it.next())
 					inserts.push(it.value);
 
 				this.push(...spliced);

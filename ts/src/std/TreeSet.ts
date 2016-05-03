@@ -188,7 +188,7 @@ namespace std
 		{
 			let node = this.tree_.find(val);
 
-			if (node == null || std.equals(node.value.value, val) == false)
+			if (node == null || std.equal_to(node.value.value, val) == false)
 				return this.end();
 			else
 				return node.value;
@@ -256,7 +256,7 @@ namespace std
 
 			if (node == null)
 				return this.end();
-			else if (!std.equals(node.value.value, val) && !std.less(node.value.value, val))
+			else if (!std.equal_to(node.value.value, val) && !std.less(node.value.value, val))
 				return node.value;
 			else
 				return node.value.next();
@@ -302,7 +302,7 @@ namespace std
 			let node = this.tree_.find(val);
 
 			// IF EQUALS, THEN RETURN FALSE
-			if (node != null && std.equals(node.value.value, val) == true)
+			if (node != null && std.equal_to(node.value.value, val) == true)
 				return new Pair<SetIterator<T>, boolean>(node.value, false);
 			
 			// INSERTS
@@ -359,15 +359,8 @@ namespace std
 		 */
 		private swap_tree_set(obj: TreeSet<T>): void
 		{
-			let supplement: TreeSet<T> = new TreeSet<T>();
-			supplement.data_ = this.data_;
-			supplement.tree_ = this.tree_;
-
-			this.data_ = obj.data_;
-			this.tree_ = obj.tree_;
-
-			obj.data_ = supplement.data_;
-			obj.tree_ = supplement.tree_;
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

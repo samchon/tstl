@@ -52,7 +52,7 @@ namespace std.base.tree
 			{
 				let newNode: XTreeNode<MapIterator<Key, T>> = null;
 
-				if (std.equals(key, node.value.first))
+				if (std.equal_to(key, node.value.first))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
 				else if (std.less(key, node.value.first))
 					newNode = node.left; // LESS, THEN TO THE LEFT
@@ -83,7 +83,7 @@ namespace std.base.tree
 		 */
 		public is_equals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
-			return std.equals(left.first, right.first);
+			return std.equal_to(left.first, right.first);
 		}
 
 		/**

@@ -189,7 +189,7 @@ namespace std
 		{
 			var node = this.tree_.find(val);
 
-			if (node == null || std.equals(val, node.value.value) == false)
+			if (node == null || std.equal_to(val, node.value.value) == false)
 				return this.end();
 			else
 				return node.value;
@@ -223,12 +223,12 @@ namespace std
 
 			if (node == null)
 				return this.end();
-			else if (std.equals(node.value.value, val))
+			else if (std.equal_to(node.value.value, val))
 				return node.value;
 			else
 			{
 				let it: SetIterator<T> = node.value;
-				while (!std.equals(it, this.end()) && std.less(it.value, val))
+				while (!std.equal_to(it, this.end()) && std.less(it.value, val))
 					it = it.next();
 
 				return it;
@@ -266,7 +266,7 @@ namespace std
 			else
 			{
 				let it: SetIterator<T> = node.value;
-				while (!std.equals(it, this.end()) && (std.equals(it.value, val) || std.less(it.value, val)))
+				while (!std.equal_to(it, this.end()) && (std.equal_to(it.value, val) || std.less(it.value, val)))
 					it = it.next();
 
 				return it;
@@ -316,7 +316,7 @@ namespace std
 			{
 				it = this.end();
 			}
-			else if (std.equals(node.value.value, val) == true)
+			else if (std.equal_to(node.value.value, val) == true)
 			{
 				it = node.value.next();
 			}
@@ -324,7 +324,7 @@ namespace std
 			{
 				it = node.value.next();
 
-				while (it.equals(this.end()) == false && std.less(it.value, val))
+				while (it.equal_to(this.end()) == false && std.less(it.value, val))
 					it = it.next();
 			}
 			else
@@ -374,15 +374,8 @@ namespace std
 		 */
 		private swap_tree_set(obj: TreeMultiSet<T>): void
 		{
-			let supplement: TreeMultiSet<T> = new TreeMultiSet<T>();
-			supplement.data_ = this.data_;
-			supplement.tree_ = this.tree_;
-
-			this.data_ = obj.data_;
-			this.tree_ = obj.tree_;
-
-			obj.data_ = supplement.data_;
-			obj.tree_ = supplement.tree_;
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }
