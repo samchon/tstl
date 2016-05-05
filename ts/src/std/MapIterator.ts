@@ -11,7 +11,7 @@ namespace std
 		/**
 		 * The source {@link MapContainer} of the iterator is directing for.
 		 */
-		protected source_: base.container.MapContainer<Key, T>;
+		protected source_: base.MapContainer<Key, T>;
 
 		/**
 		 * A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
@@ -27,7 +27,7 @@ namespace std
 		 * @param source The source {@link MapContainer}.
 		 * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
 		 */
-		public constructor(source: base.container.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>)
+		public constructor(source: base.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>)
 		{
 			this.source_ = source;
 
@@ -44,7 +44,7 @@ namespace std
 		{
 			return new MapIterator<Key, T>
 				(
-					<base.container.MapContainer<Key, T>>this.source_,
+					<base.MapContainer<Key, T>>this.source_,
 					this.list_iterator_.prev()
 				);
 		}
@@ -56,7 +56,7 @@ namespace std
 		{
 			return new MapIterator<Key, T>
 				(
-					<base.container.MapContainer<Key, T>>this.source_,
+					<base.MapContainer<Key, T>>this.source_,
 					this.list_iterator_.next()
 				);
 		}
@@ -71,7 +71,7 @@ namespace std
 		{
 			return new MapIterator<Key, T>
 				(
-					<base.container.MapContainer<Key, T>>this.source_,
+					<base.MapContainer<Key, T>>this.source_,
 					this.list_iterator_.advance(step)
 				);
 		}
@@ -82,7 +82,7 @@ namespace std
 		/**
 		 * Get source.
 		 */
-		public get_source(): base.container.MapContainer<Key, T>
+		public get_source(): base.MapContainer<Key, T>
 		{
 			return this.source_;
 		}

@@ -1,4 +1,4 @@
-/// <refe0rence path="base/container/Iterator.ts" />
+/// <refe0rence path="base/Iterator.ts" />
 
 namespace std
 {
@@ -8,7 +8,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetIterator<T>
-		extends base.container.Iterator<T>
+		extends base.Iterator<T>
 		implements IComparable<SetIterator<T>>
 	{
 		private list_iterator_: ListIterator<T>;
@@ -23,7 +23,7 @@ namespace std
 		 * @param map The source Set to reference.
 		 * @param index Sequence number of the element in the source Set.
 		 */
-		public constructor(source: base.container.SetContainer<T>, it: ListIterator<T>)
+		public constructor(source: base.SetContainer<T>, it: ListIterator<T>)
 		{
 			super(source);
 
@@ -105,7 +105,7 @@ namespace std
 		 */
 		public hash(): number
 		{
-			return base.hash.code(this.value);
+			return base.code(this.value);
 		}
 
 		/**

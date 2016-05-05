@@ -1,4 +1,4 @@
-/// <reference path="base/container/MultiMap.ts" />
+/// <reference path="base/MultiMap.ts" />
 
 namespace std
 {
@@ -25,7 +25,7 @@ namespace std
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the container. </dd>
+	 *		 position in the  </dd>
 	 * 
 	 *	<dt> Hashed </dt>
 	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
@@ -51,12 +51,12 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashMultiMap<Key, T>
-		extends base.container.MultiMap<Key, T>
+		extends base.MultiMap<Key, T>
 	{
 		/**
 		 * 
 		 */
-		private hash_buckets_: base.hash.MapHashBuckets<Key, T>;
+		private hash_buckets_: base.MapHashBuckets<Key, T>;
 	
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -89,7 +89,7 @@ namespace std
 		 *
 		 * @param container Another map to copy.
 		 */
-		public constructor(container: base.container.MapContainer<Key, T>);
+		public constructor(container: base.MapContainer<Key, T>);
 
 		/**
 		 * Range Constructor.
@@ -104,14 +104,14 @@ namespace std
 			super();
 			
 			// HASH_BUCKET
-			this.hash_buckets_ = new base.hash.MapHashBuckets<Key, T>(this);
+			this.hash_buckets_ = new base.MapHashBuckets<Key, T>(this);
 
 			// OVERLOADINGS
 			if (args.length == 1 && args[0] instanceof Array)
 			{
 				this.construct_from_array(args[0]);
 			}
-			else if (args.length == 1 && args[0] instanceof base.container.MapContainer)
+			else if (args.length == 1 && args[0] instanceof base.MapContainer)
 			{
 				this.construct_from_container(args[0]);
 			}
@@ -126,7 +126,7 @@ namespace std
 		 */
 		protected construct_from_array(items: Array<Pair<Key, T>>): void
 		{
-			this.hash_buckets_.reserve(items.length * base.hash.RATIO);
+			this.hash_buckets_.reserve(items.length * base.RATIO);
 
 			super.construct_from_array(items);
 		}
@@ -148,7 +148,7 @@ namespace std
 				size++;
 
 			this.hash_buckets_.clear();
-			this.hash_buckets_.reserve(size * base.hash.RATIO);
+			this.hash_buckets_.reserve(size * base.RATIO);
 
 			// SUPER; INSERT
 			super.assign(begin, end);
@@ -207,8 +207,8 @@ namespace std
 				size++;
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hash_buckets_.item_size() * base.hash.MAX_RATIO)
-				this.hash_buckets_.reserve((this.size() + size) * base.hash.RATIO);
+			if (this.size() + size > this.hash_buckets_.item_size() * base.MAX_RATIO)
+				this.hash_buckets_.reserve((this.size() + size) * base.RATIO);
 
 			// INSERTS
 			super.insert_by_range(begin, end);
@@ -239,7 +239,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.container.MapContainer<Key, T>): void
+		public swap(obj: base.MapContainer<Key, T>): void
 		{
 			if (obj instanceof HashMultiMap)
 				this.swap_hash_multimap(obj);

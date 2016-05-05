@@ -1,4 +1,4 @@
-﻿/// <reference path="base/container/Container.ts" />
+﻿/// <reference path="base/Container.ts" />
 
 namespace std
 {
@@ -54,9 +54,9 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Deque<T>
-		extends base.container.Container<T>
-		implements base.container.IArray<T>, 
-				   base.container.IDeque<T>
+		extends base.Container<T>
+		implements base.IArray<T>, 
+				   base.IDeque<T>
 	{
 		/**
 		 * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
@@ -178,7 +178,7 @@ namespace std
 		 * @param container Another container object of the same type (with the same class template 
 		 *					arguments <i>T</i>), whose contents are either copied or acquired.
 		 */
-		public constructor(container: base.container.IContainer<T>);
+		public constructor(container: base.IContainer<T>);
 
 		/**
 		 * <p> Range Constructor. </p>
@@ -189,7 +189,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -206,17 +206,17 @@ namespace std
 				this.clear();
 				this.push(...array);
 			}
-			else if (args.length == 1 && args[0] instanceof base.container.Container)
+			else if (args.length == 1 && args[0] instanceof base.Container)
 			{
-				let container: base.container.Container<T> = args[0];
+				let container: base.Container<T> = args[0];
 
 				this.assign(container.begin(), container.end());
 			}
 			else if (args.length == 2 && 
-				args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
+				args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
 			{
-				let begin: base.container.Iterator<T> = args[0];
-				let end: base.container.Iterator<T> = args[1];
+				let begin: base.Iterator<T> = args[0];
+				let end: base.Iterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -228,7 +228,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		public assign<U extends T, InputIterator extends base.Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/**
@@ -241,10 +241,10 @@ namespace std
 			// CLEAR PREVIOUS CONTENTS
 			this.clear();
 
-			if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
+			if (first instanceof base.Iterator && second instanceof base.Iterator)
 			{
-				let begin: base.container.Iterator<T> = first;
-				let end: base.container.Iterator<T> = second;
+				let begin: base.Iterator<T> = first;
+				let end: base.Iterator<T> = second;
 
 				let size: number = 0;
 				for (let it = begin; !it.equal_to(end); it = it.next())
@@ -568,10 +568,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+		public insert<U extends T, InputIterator extends base.Iterator<U>>
 			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
 		
-		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+		public insert<U extends T, InputIterator extends base.Iterator<U>>
 			(position: DequeIterator<T>, ...args: any[]): DequeIterator<T>
 		{
 			let items: Array<T> = [];
@@ -590,7 +590,7 @@ namespace std
 				for (let i = 0; i < n; i++)
 					items.push(val);
 			}
-			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
+			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
 			{
 				let begin: InputIterator = args[0];
 				let end: InputIterator = args[1];
@@ -720,7 +720,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.container.IContainer<T>): void
+		public swap(obj: base.IContainer<T>): void
 		{
 			if (obj instanceof Deque)
 				this.swap_deque(obj);

@@ -1,4 +1,4 @@
-/// <reference path="base/container/Iterator.ts" />
+/// <reference path="base/Iterator.ts" />
 
 namespace std
 {
@@ -6,7 +6,7 @@ namespace std
 	 * An iterator, node of a List.
 	 */
 	export class ListIterator<T>
-		extends base.container.Iterator<T>
+		extends base.Iterator<T>
 	{
 		protected prev_: ListIterator<T>;
 		protected next_: ListIterator<T>;

@@ -8,12 +8,12 @@ namespace std
 	 * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that 
 	 * their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently 
 	 * as in arrays. But unlike arrays, their size can change dynamically, with their storage being handled 
-	 * automatically by the container. </p>
+	 * automatically by the  </p>
 	 *
 	 * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need 
 	 * to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new 
 	 * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and 
-	 * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
+	 * thus, {@link Vector}s do not reallocate each time an element is added to the  </p>
 	 *
 	 * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and 
 	 * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its 
@@ -56,7 +56,7 @@ namespace std
 	 */
 	export class Vector<T>
 		extends Array<T>
-		implements base.container.IArray<T>
+		implements base.IArray<T>
 	{
 		/**
 		 * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
@@ -110,7 +110,7 @@ namespace std
 		 * @param container Another container object of the same type (with the same class template 
 		 *					arguments <i>T</i>), whose contents are either copied or acquired.
 		 */
-		public constructor(container: base.container.IContainer<T>);
+		public constructor(container: base.IContainer<T>);
 
 		/**
 		 * <p> Range Constructor. </p>
@@ -121,7 +121,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
 		
 		public constructor(...args: any[])
 		{
@@ -153,18 +153,18 @@ namespace std
 				
 				this.assign(size, val);
 			}
-			else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.container.Container))
+			else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.Container))
 			{
 				// COPY CONSTRUCTOR
-				let container: base.container.Container<T> = <base.container.Container<T>>args[0];
+				let container: base.Container<T> = <base.Container<T>>args[0];
 				
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator)
+			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
 			{
 				// CONSTRUCT FROM INPUT ITERATORS
-				let begin: base.container.Iterator<T> = args[0];
-				let end: base.container.Iterator<T> = args[1];
+				let begin: base.Iterator<T> = args[0];
+				let end: base.Iterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -176,7 +176,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		public assign<U extends T, InputIterator extends base.Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/**
@@ -184,12 +184,12 @@ namespace std
 		 */
 		public assign(n: number, val: T): void;
 
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		public assign<U extends T, InputIterator extends base.Iterator<U>>
 			(first: any, second: any): void
 		{
 			this.clear();
 
-			if (first instanceof base.container.Iterator && second instanceof base.container.Iterator)
+			if (first instanceof base.Iterator && second instanceof base.Iterator)
 			{
 				let begin: InputIterator = first;
 				let end: InputIterator = second;
@@ -419,14 +419,14 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+		public insert<U extends T, InputIterator extends base.Iterator<U>>
 			(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
 
 		public insert<U extends T>(...args: any[]): VectorIterator<T>
 		{
 			let position: VectorIterator<T> = args[0];
 
-			if (args.length == 2 && args[1] instanceof base.container.Iterator == false)
+			if (args.length == 2 && args[1] instanceof base.Iterator == false)
 			{
 				let val: T = args[1];
 
@@ -448,11 +448,11 @@ namespace std
 
 				return new VectorIterator(this, position.index + inserts.length - 1);
 			}
-			else if (args.length == 3 && args[1] instanceof base.container.Iterator && args[2] instanceof base.container.Iterator)
+			else if (args.length == 3 && args[1] instanceof base.Iterator && args[2] instanceof base.Iterator)
 			{
 				let myEnd: VectorIterator<T> = args[0];
-				let begin: base.container.Iterator<U> = args[1];
-				let end: base.container.Iterator<U> = args[2];
+				let begin: base.Iterator<U> = args[1];
+				let end: base.Iterator<U> = args[2];
 
 				let spliced: Array<T> = this.splice(position.index);
 				let inserts: Array<T> = [];
@@ -534,7 +534,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.container.IContainer<T>): void
+		public swap(obj: base.IContainer<T>): void
 		{
 			let supplement: Vector<T> = new Vector<T>(this.begin(), this.end());
 

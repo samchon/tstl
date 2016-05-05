@@ -27,10 +27,10 @@ var std;
     /**
      * <p> Apply function to range. </p>
      *
-     * <p> Applies function <i>fn</i> to each of the elements in the range [<i>first</i>, <i>last</i>). </p>
+     * <p> Applies function <i>fn</i> to each of the elements in the range [<i>first</i>, <i>last</i>]. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param fn Unary function that accepts an element in the range as argument. This can either be a function p
@@ -51,16 +51,17 @@ var std;
      * <p> Test condition on all elements in range. </p>
      *
      * <p> Returns <code>true</code> if <i>pred</i> returns <code>true</code> for all the elements in the range
-     * [<i>first</i>, <i>last</i>) or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
+     * [<i>first</i>, <i>last</i>] or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
      * </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
      *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
-     *			   checked by this function. The function shall not modify its argument.
+     *			   checked by this function. The function shall not modify its argument. This can either be a function
+     *			   pointer or a function object.
      *
      * @return <code>true</code> if pred returns true for all the elements in the range or if the range is
      *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
@@ -76,21 +77,22 @@ var std;
      * <p> Test if any element in range fulfills condition. </p>
      *
      * <p> Returns <code>true</code> if <i>pred</i> returns true for any of the elements in the range
-     * [<i>first</i>, <i>last</i>), and <code>false</code> otherwise. </p>
+     * [<i>first</i>, <i>last<i>], and <code>false</code> otherwise. </p>
      *
-     * <p> If [<i>first</i>, <i>last</i>) is an {@link IContainer.empty empty} range, the function returns
+     * <p> If [<i>first</i>, <i>last</i>] is an {@link IContainer.empty empty} range, the function returns
      * <code>false</code>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
      *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
-     *			   checked by this function. The function shall not modify its argument.
+     *			   checked by this function. The function shall not modify its argument. This can either be a function
+     *			   pointer or a function object.
      *
      * @return <code>true</code> if <i>pred</i> returns <code>true</code> for any of the elements in the range
-     *		   [<i>first</i>, <i>last</i>), and <code>false</code> otherwise. If [<i>first</i>, <i>last</i>) is an
+     *		   [<i>first</i>, <i>last<i>], and <code>false</code> otherwise. If [<i>first</i>, <i>last</i>] is an
      *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
      */
     function any_of(first, last, pred) {
@@ -104,19 +106,20 @@ var std;
      * <p> Test if no elements fulfill condition. </p>
      *
      * <p> Returns <code>true</code> if <i>pred</i> returns false for all the elements in the range
-     * [<i>first</i>, <i>last</i>) or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
+     * [<i>first</i>, <i>last</i>] or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
      * </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument and returns a value convertible to
      *			   <code>boolean</code>. The value returned indicates whether the element fulfills the condition
-     *			   checked by this function. The function shall not modify its argument.
+     *			   checked by this function. The function shall not modify its argument. This can either be a function
+     *			   pointer or a function object.
      *
      * @return <code>true</code> if <i>pred</i> returns <code>false</code> for all the elements in the range
-     *		   [<i>first</i>, <i>last</i>) or if the range is {@link IContainer.empty empty}, and <code>false</code>
+     *		   [<i>first</i>, <i>last<i>] or if the range is {@link IContainer.empty empty}, and <code>false</code>
      *		   otherwise.
      */
     function none_of(first, last, pred) {
@@ -176,10 +179,10 @@ var std;
      * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) that compares equal to
      * <i>val</i>. If no such element is found, the function returns <i>last</i>. </p>
      *
-     * <p> The function uses {@link equal_to equal_to} to compare the individual elements to <i>val</i>. </p>
+     * <p> The function uses {@link std.equal_to equal_to} to compare the individual elements to <i>val</i>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param val Value to search for in the range.
@@ -197,16 +200,17 @@ var std;
     /**
      * <p> Find element in range. </p>
      *
-     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) for which pred returns
+     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>] for which pred returns
      * <code>true</code>. If no such element is found, the function returns <i>last</i>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
      *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
-     *			   the context of this function. The function shall not modify its argument.
+     *			   the context of this function. The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
      *
      * @return An {@link Iterator} to the first element in the range for which <i>pred</i> does not return
      *		   <code>false</code>. If <i>pred</i> is <code>false</code> for all elements, the function returns
@@ -222,16 +226,17 @@ var std;
     /**
      * <p> Find element in range. </p>
      *
-     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) for which pred returns
+     * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>] for which pred returns
      * <code>true</code>. If no such element is found, the function returns <i>last</i>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument and returns a value convertible
      *			   to <code>bool</code>. The value returned indicates whether the element is considered a match in
-     *			   the context of this function. The function shall not modify its argument.
+     *			   the context of this function. The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
      *
      * @return An {@link Iterator} to the first element in the range for which <i>pred</i> returns <code>false</code>.
      *		   If <i>pred</i> is <code>true</code> for all elements, the function returns <i>last</i>.
@@ -338,17 +343,17 @@ var std;
     /**
      * <p> Count appearances of value in range. </p>
      *
-     * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>) that compare equal to <i>val</i>. </p>
+     * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>] that compare equal to <i>val</i>. </p>
      *
      * <p> The function uses {@link equal_to} to compare the individual elements to <i>val</i>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param val Value to match.
      *
-     * @return The number of elements in the range [<i>first</i>, <i>last</i>) that compare equal to <i>val</i>.
+     * @return The number of elements in the range [<i>first</i>, <i>last</i>] that compare equal to <i>val</i>.
      */
     function count(first, last, val) {
         var cnt = 0;
@@ -361,11 +366,11 @@ var std;
     /**
      * <p> Return number of elements in range satisfying condition. </p>
      *
-     * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>) for which pred is <code>true</code>.
+     * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>] for which pred is <code>true</code>.
      * </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible
@@ -381,249 +386,6 @@ var std;
         return cnt;
     }
     std.count_if = count_if;
-    /* =========================================================
-        MODIFIERS (MODIFYING SEQUENCE)
-            - FILL
-            - REMOVE
-            - REPLACE & SWAP
-            - RE-ARRANGEMENT
-    ============================================================
-        FILL
-    --------------------------------------------------------- */
-    /**
-     * <p> Copy range of elements. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) into the range beginning at <i>result</i>. </p>
-     *
-     * <p> The function returns an iterator to the end of the destination range (which points to the element following the
-     * last element copied). </p>
-     *
-     * <p> The ranges shall not overlap in such a way that result points to an element in the range
-     * [<i>first</i>, <i>last</i>). For such cases, see {@link copy_backward}. </p>
-     *
-     * @param first {@link Iterator Input iterator} to the initial position in a sequence to be copied.
-     * @param last {@link Iterator Input iterator} to the initial position in a sequence to be copied. The range used is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result {@link Iterator Output iterator} to the initial position in the destination sequence. This shall not
-     *				 point to any element in the range [<i>first</i>, <i>last</i>).
-     *
-     * @return An iterator to the end of the destination range where elements have been copied.
-     */
-    function copy(first, last, result) {
-        for (; !first.equal_to(last); first = first.next()) {
-            result.value = first.value;
-            result = result.next();
-        }
-        return result;
-    }
-    std.copy = copy;
-    /**
-     * <p> Copy elements. </p>
-     *
-     * <p> Copies the first <i>n</i> elements from the range beginning at <i>first</i> into the range beginning at
-     * <i>result</i>. </p>
-     *
-     * <p> The function returns an iterator to the end of the destination range (which points to one past the last element
-     * copied). </p>
-     *
-     * <p> If <i>n</i> is negative, the function does nothing. </p>
-     *
-     * <p> If the ranges overlap, some of the elements in the range pointed by result may have undefined but valid values.
-     * </p>
-     *
-     * @param first {@link Iterator Input iterator} to the initial position in a sequence of at least <i>n</i> elements to
-     *				be copied. <i>InputIterator</i> shall point to a type assignable to the elements pointed by
-     *				<i>OutputIterator</i>.
-     * @param n Number of elements to copy. If this value is negative, the function does nothing.
-     * @param result {@link Iterator Output iterator} to the initial position in the destination sequence of at least
-     *				 <i>n</i> elements. This shall not point to any element in the range [<i>first</i>, last].
-     *
-     * @return An iterator to the end of the destination range where elements have been copied.
-     */
-    function copy_n(first, n, result) {
-        for (var i = 0; i < n; i++) {
-            result.value = first.value;
-            first = first.next();
-            result = result.next();
-        }
-        return result;
-    }
-    std.copy_n = copy_n;
-    /**
-     * <p> Copy certain elements of range. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) for which pred returns <code>true</code> to the
-     * range beginning at <i>result</i>. </p>
-     *
-     * @param first {@link Iterator Input iterator} to the initial position in a sequence to be copied.
-     * @param last {@link Iterator Input iterator} to the initial position in a sequence to be copied. The range used is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result {@link Iterator Output iterator} to the initial position in the destination sequence. This shall not
-     *				 point to any element in the range [<i>first</i>, <i>last</i>).
-     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
-     *			   <code>bool</code>. The value returned indicates whether the element is to be copied (if
-     *			   <code>true</code>, it is copied). The function shall not modify any of its arguments.
-     *
-     * @return An iterator to the end of the destination range where elements have been copied.
-     */
-    function copy_if(first, last, result, pred) {
-        for (; !first.equal_to(last); first = first.next()) {
-            if (!pred(first.value))
-                continue;
-            result.value = first.value;
-            result = result.next();
-        }
-        return result;
-    }
-    std.copy_if = copy_if;
-    /**
-     * <p> Copy range of elements backward. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) starting from the end into the range terminating
-     * at <i>result</i>. </p>
-     *
-     * <p> The function returns an iterator to the first element in the destination range. </p>
-     *
-     * <p> The resulting range has the elements in the exact same order as [<i>first</i>, <i>last</i>). To reverse their
-     * order, see {@link reverse_copy}. </p>
-     *
-     * <p> The function begins by copying <code>*(last-1)</code> into <code>*(result-1)</code>, and then follows backward
-     * by the elements preceding these, until <i>first</i> is reached (and including it). </p>
-     *
-     * <p> The ranges shall not overlap in such a way that <i>result</i> (which is the <i>past-the-end element</i> in the
-     * destination range) points to an element in the range (first,last]. For such cases, see {@link copy}. </p>
-     *
-     * @param first {@link Iterator Bidirectional iterator} to the initial position in a sequence to be copied.
-     * @param last {@link Iterator Bidirectional iterator} to the initial position in a sequence to be copied. The range
-     *			   used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and
-     *			   <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result {@link Iterator Bidirectional iterator} to the initial position in the destination sequence. This
-     *				 shall not point to any element in the range [<i>first</i>, <i>last</i>).
-     *
-     * @return An iterator to the first element of the destination sequence where elements have been copied.
-     */
-    function copy_backward(first, last, result) {
-        last = last.prev();
-        for (; !last.equal_to(first); last = last.prev()) {
-            result.value = last.value;
-            result = result.prev();
-        }
-        return result;
-    }
-    std.copy_backward = copy_backward;
-    /**
-     * <p> Fill range with value. </p>
-     *
-     * <p> Assigns val to all the elements in the range [<i>first</i>, <i>last</i>). </p>
-     *
-     * @param first {@link Iterator Forward iterator} to the initial position in a sequence of elements that support being
-     *				assigned a value of type <i>T</i>.
-     * @param last {@link Iterator Forward iterator} to the final position in a sequence of elements that support being
-     *				assigned a value of type <i>T</i>.. The range filled is [<i>first</i>, <i>last</i>), which contains
-     *				all the elements between <i>first</i> and <i>last</i>, including the element pointed by <i>first</i>
-     *				but not the element pointed by <i>last</i>.
-     * @param val Value to assign to the elements in the filled range.
-     */
-    function fill(first, last, val) {
-        for (; !first.equal_to(last); first = first.next())
-            first.value = val;
-    }
-    std.fill = fill;
-    /**
-     * <p> Fill sequence with value. </p>
-     *
-     * <p> Assigns <i>val</i> to the first <i>n</i> elements of the sequence pointed by <i>first</i>. </p>
-     *
-     * @param first {@link Iterator Output iterator} to the initial position in a sequence of elements that support being
-     *				assigned a value of type <i>T</i>.
-     * @param n Number of elements to fill. If negative, the function does nothing.
-     * @param val Value to be used to fill the range.
-     *
-     * @return An iterator pointing to the element that follows the last element filled.
-     */
-    function fill_n(first, n, val) {
-        for (var i = 0; i < n; i++) {
-            first.value = val;
-            first = first.next();
-        }
-        return first;
-    }
-    std.fill_n = fill_n;
-    function transform() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i - 0] = arguments[_i];
-        }
-        if (args.length == 4)
-            return unary_transform.apply(null, args);
-        else
-            return binary_transform.apply(null, args);
-    }
-    std.transform = transform;
-    /**
-     * @hidden
-     */
-    function unary_transform(first, last, result, op) {
-        for (; !first.equal_to(last); first = first.next()) {
-            result.value = op(first.value);
-            result = result.next();
-        }
-        return result;
-    }
-    /**
-     * @hidden
-     */
-    function binary_transform(first1, last1, first2, result, binary_op) {
-        while (!first1.equal_to(last1)) {
-            result.value = binary_op(first1.value, first2.value);
-            first1 = first1.next();
-            first2 = first2.next();
-            result = result.next();
-        }
-        return result;
-    }
-    /**
-     * <p> Generate values for range with function. </p>
-     *
-     * <p> Assigns the value returned by successive calls to gen to the elements in the range [<i>first</i>, <i>last</i>).
-     * </p>
-     *
-     * @param first {@link Iterator Forward iterator} to the initial position in a sequence.
-     * @param last {@link Iterator Forward iterator} to the final position in a sequence. The range affected is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param gen Generator function that is called with no arguments and returns some value of a type convertible to
-     *			  those pointed by the iterators.
-     */
-    function generate(first, last, gen) {
-        for (; !first.equal_to(last); first = first.next())
-            first.value = gen();
-    }
-    std.generate = generate;
-    /**
-     * <p> Generate values for sequence with function. </p>
-     *
-     * <p> Assigns the value returned by successive calls to <i>gen</i> to the first <i>n</i> elements of the sequence
-     * pointed by <i>first</i>. </p>
-     *
-     * @param first {@link Iterator Output iterator} to the initial position in a sequence of at least <i>n</i> elements
-     *				that support being assigned a value of the type returned by <i>gen</i>.
-     * @param n Number of values to generate. If negative, the function does nothing.
-     * @param gen Generator function that is called with no arguments and returns some value of a type convertible to
-     *			  those pointed by the iterators.
-     *
-     * @return An iterator pointing to the element that follows the last element whose value has been generated.
-     */
-    function generate_n(first, n, gen) {
-        for (var i = 0; i < n; i++) {
-            first.value = gen();
-            first = first.next();
-        }
-        return first;
-    }
-    std.generate_n = generate_n;
     function unique(first, last, pred) {
         if (pred === void 0) { pred = std.equal_to; }
         var ret = first;
@@ -638,24 +400,10 @@ var std;
         return ret;
     }
     std.unique = unique;
-    function unique_copy(first, last, result, pred) {
-        if (pred === void 0) { pred = std.equal_to; }
-        if (first.equal_to(last))
-            return result;
-        result.value = first.value;
-        first = first.next();
-        for (; !first.equal_to(last); first = first.next())
-            if (!pred(first.value, result.value)) {
-                result = result.next();
-                result.value = first.value;
-            }
-        return result;
-    }
-    std.unique_copy = unique_copy;
     /**
      * <p> Remove value from range. </p>
      *
-     * <p> Transforms the range [<i>first</i>, <i>last</i>) into a range with all the elements that compare equal to
+     * <p> Transforms the range [<i>first</i>, <i>last</i>] into a range with all the elements that compare equal to
      * <i>val</i> removed, and returns an iterator to the new last of that range. </p>
      *
      * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot alter
@@ -667,7 +415,7 @@ var std;
      * and last are left in a valid but unspecified state. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param val Value to be removed.
@@ -700,12 +448,13 @@ var std;
      * iterator and last are left in a valid but unspecified state. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
      *			   <code>bool</code>. The value returned indicates whether the element is to be removed (if
-     *			   <code>true</code>, it is removed). The function shall not modify its argument.
+     *			   <code>true</code>, it is removed). The function shall not modify its argument. This can either be a
+     *			   function pointer or a function object.
      */
     function remove_if(first, last, pred) {
         var ret = last;
@@ -721,84 +470,15 @@ var std;
     }
     std.remove_if = remove_if;
     /**
-     * <p> Copy range removing value. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except
-     * those elements that compare equal to <i>val</i>. </p>
-     *
-     * <p> The resulting range is shorter than [<i>first</i>, <i>last</i>) by as many elements as matches in the sequence,
-     * which are "removed". </p>
-     *
-     * <p> The function uses {@link equal_to} to compare the individual elements to <i>val</i>. </p>
-     *
-     * @param first {@link Iterator InputIterator} to the initial position in a sequence.
-     * @param last {@link Iterator InputIterator} to the final position in a sequence. The range used is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result {@link Iterator Output iterator} to the initial position of the range where the resulting sequence is
-     *				 stored. The pointed type shall support being assigned the value of an element in the range
-     *				 [<i>first</i>, <i>last</i>).
-     * @param val Value to be removed.
-     *
-     * @return An iterator pointing to the end of the copied range, which includes all the elements in
-     *		   [<i>first</i>, <i>last</i>) except those that compare equal to <i>val</i>.
-     */
-    function remove_copy(first, last, result, val) {
-        for (; !first.equal_to(last); first = first.next()) {
-            if (std.equal_to(first.value, val))
-                continue;
-            result.value = first.value;
-            result = result.next();
-        }
-        return result;
-    }
-    std.remove_copy = remove_copy;
-    /**
-     * <p> Copy range removing values. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except
-     * those elements for which <i>pred</i> returns <code>true</code>. </p>
-     *
-     * <p> The resulting range is shorter than [<i>first</i>, <i>last</i>) by as many elements as matches, which are
-     * "removed". </p>
-     *
-     * @param first {@link Iterator InputIterator} to the initial position in a sequence.
-     * @param last {@link Iterator InputIterator} to the final position in a sequence. The range used is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result {@link Iterator Output iterator} to the initial position of the range where the resulting sequence is
-     *				 stored. The pointed type shall support being assigned the value of an element in the range
-     *				 [<i>first</i>, <i>last</i>).
-     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
-     *			   <code>bool</code>. The value returned indicates whether the element is to be removed from the copy (if
-     *			   <code>true</code>, it is not copied). The function shall not modify its argument.
-     *
-     * @return An iterator pointing to the end of the copied range, which includes all the elements in
-     *		   [<i>first</i>, <i>last</i>) except those for which <i>pred</i> returns <code>true</code>.
-     */
-    function remove_copy_if(first, last, result, pred) {
-        for (; !first.equal_to(last); first = first.next()) {
-            if (pred(first.value))
-                continue;
-            result.value = first.value;
-            result = result.next();
-        }
-        return result;
-    }
-    std.remove_copy_if = remove_copy_if;
-    /* ---------------------------------------------------------
-        REPLACE & SWAP
-    --------------------------------------------------------- */
-    /**
      * <p> Replace value in range. </p>
      *
-     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>) that compare equal to
+     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>] that compare equal to
      * <i>old_val</i>. </p>
      *
      * <p> The function uses {@link equal_to} to compare the individual elements to old_val. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param old_val Value to be replaced.
@@ -813,16 +493,17 @@ var std;
     /**
      * <p> Replace value in range. </p>
      *
-     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>) for which pred returns
+     * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>] for which pred returns
      * <code>true</code>. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
      *			   <code>bool</code>. The value returned indicates whether the element is to be replaced (if
-     *			   <code>true</code>, it is replaced). The function shall not modify its argument.
+     *			   <code>true</code>, it is replaced). The function shall not modify its argument. This can either be
+     *			   a function pointer or a function object.
      * @param new_val Value to assign to replaced elements.
      */
     function replace_if(first, last, pred, new_val) {
@@ -831,122 +512,18 @@ var std;
                 it.value = new_val;
     }
     std.replace_if = replace_if;
-    /**
-     * <p> Copy range replacing value. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, replacing
-     * the appearances of <i>old_value</i> by <i>new_value</i>. </p>
-     *
-     * <p> The function uses {@link std.equal_to} to compare the individual elements to <i>old_value</i>. </p>
-     *
-     * <p> The ranges shall not overlap in such a way that result points to an element in the range
-     * [<i>first</i>, <i>last</i>). </p>
-     *
-     * @param first {@link Iterator InputIterator} to the initial position in a sequence.
-     * @param last {@link Iterator InputIterator} to the final position in a sequence. The range used is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result {@link Iterator Output iterator} to the initial position of the range where the resulting sequence is
-     *				 stored. The pointed type shall support being assigned the value of an element in the range
-     *				 [<i>first</i>, <i>last</i>).
-     * @param old_val Value to be replaced.
-     * @param new_val Replacement value.
-     *
-     * @return An iterator pointing to the element that follows the last element written in the result sequence.
-     */
-    function replace_copy(first, last, result, old_val, new_val) {
-        for (; !first.equal_to(last); first = first.next()) {
-            if (std.equal_to(first.value, old_val))
-                result.value = new_val;
-            else
-                result.value = first.value;
-            result = result.next();
-        }
-        return result;
-    }
-    std.replace_copy = replace_copy;
-    /**
-     * <p> Copy range replacing value. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, replacing
-     * those for which <i>pred</i> returns <code>true</code> by <i>new_value</i>. </p>
-     *
-     * @param first {@link Iterator InputIterator} to the initial position in a sequence.
-     * @param last {@link Iterator InputIterator} to the final position in a sequence. The range used is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result {@link Iterator Output iterator} to the initial position of the range where the resulting sequence is
-     *				 stored. The pointed type shall support being assigned the value of an element in the range
-     *				 [<i>first</i>, <i>last</i>).
-     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
-     *			   <code>bool</code>. The value returned indicates whether the element is to be removed from the copy (if
-     *			   <code>true</code>, it is not copied). The function shall not modify its argument.
-     * @param new_val Value to assign to replaced values.
-     *
-     * @return An iterator pointing to the element that follows the last element written in the result sequence.
-     */
-    function replace_copy_if(first, last, result, pred, new_val) {
-        for (; !first.equal_to(last); first = first.next()) {
-            if (pred(first.value))
-                result.value = new_val;
-            else
-                result.value = first.value;
-            result = result.next();
-        }
-        return result;
-    }
-    std.replace_copy_if = replace_copy_if;
-    /**
-     * <p> Exchange values of objects pointed to by two iterators. </p>
-     *
-     * <p> Swaps the elements pointed to by <i>x</i> and <i>y</i>. </p>
-     *
-     * <p> The function calls {@link Iterator.swap} to exchange the elements. </p>
-     *
-     * @param x {@link Iterator Forward iterator} to the objects to swap.
-     * @param y {@link Iterator Forward iterator} to the objects to swap.
-     */
-    function iter_swap(x, y) {
-        x.swap(y);
-    }
-    std.iter_swap = iter_swap;
-    /**
-     * <p> Exchange values of two ranges. </p>
-     *
-     * <p> Exchanges the values of each of the elements in the range [<i>first1</i>, <i>last1</i>) with those of their
-     * respective elements in the range beginning at <i>first2</i>. </p>
-     *
-     * <p> The function calls {@link Iterator.swap} to exchange the elements. </p>
-     *
-     * @param first1 {@link Iterator Forward iterator} to the initial position of the first sequence.
-     * @param last1 {@link Iterator Forward iterator} to the final position of the first sequence. The range used is
-     *				[<i>first1</i>, <i>last1</i>), including the element pointed by <i>first1</i>, but not the element
-     *				pointed by <i>last1</i>.
-     * @param first2 {@link Iterator Forward iterator} to the initial position of the second range. The range includes as
-     *				 many elements as [<i>first1</i>, <i>last1</i>). The two ranges shall not overlap.
-     *
-     * @return An iterator to the last element swapped in the second sequence.
-     */
-    function swap_ranges(first1, last1, first2) {
-        for (; !first1.equal_to(last1); first1 = first1.next()) {
-            first1.swap(first2);
-            first2 = first2.next();
-        }
-        return first2;
-    }
-    std.swap_ranges = swap_ranges;
     /* ---------------------------------------------------------
         RE-ARRANGEMENT
     --------------------------------------------------------- */
     /**
      * <p> Reverse range. </p>
      *
-     * <p> Reverses the order of the elements in the range [<i>first</i>, <i>last</i>). </p>
+     * <p> Reverses the order of the elements in the range [<i>first</i>, <i>last</i>]. </p>
      *
      * <p> The function calls {@link iter_swap} to swap the elements to their new locations. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      */
@@ -959,41 +536,15 @@ var std;
     }
     std.reverse = reverse;
     /**
-     * <p> Copy range reversed. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, but in
-     * reverse order. </p>
-     *
-     * @param first {@link Iterator Bidirectional iterator} to the initial position in a sequence to be copied.
-     * @param last {@link Iterator Bidirectional iterator} to the initial position in a sequence to be copied. The range
-     *			   used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and
-     *			   <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result {@link Iterator Output iterator} to the initial position of the range where the reserved range is
-     *				 stored. The pointed type shall support being assigned the value of an element in the range
-     *				 [<i>first</i>, <i>last</i>).
-     *
-     * @return An output iterator pointing to the end of the copied range, which contains the same elements in reverse
-     *		   order.
-     */
-    function reverse_copy(first, last, result) {
-        while (!last.equal_to(first)) {
-            last = last.prev();
-            result.value = last.value;
-            result = result.next();
-        }
-        return result;
-    }
-    std.reverse_copy = reverse_copy;
-    /**
      * <p> Rotate left the elements in range. </p>
      *
-     * <p> Rotates the order of the elements in the range [<i>first</i>, <i>last</i>), in such a way that the element
+     * <p> Rotates the order of the elements in the range [<i>first</i>, <i>last</i>], in such a way that the element
      * pointed by middle becomes the new first element. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param middle An {@link Iterator} pointing to the element within the range [<i>first</i>, <i>last</i>) that is
+     * @param middle An {@link Iterator} pointing to the element within the range [<i>first</i>, <i>last</i>] that is
      *				 moved to the first position in the range.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      *
@@ -1012,30 +563,6 @@ var std;
     }
     std.rotate = rotate;
     /**
-     * <p> Copy range rotated left. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, but
-     * rotating the order of the elements in such a way that the element pointed by <i>middle</i> becomes the first
-     * element in the resulting range. </p>
-     *
-     * @param first {@link Iterator Forward iterator} to the initial position of the range to be copy-rotated.
-     * @param middle Forward iterator pointing to the element within the range [<i>first</i>, <i>last</i>) that is copied as the first element in the resulting range.
-     * @param last {@link Iterator Forward iterator} to the final positions of the range to be copy-rotated. The range
-     *			   used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and
-     *			   <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     *			   Notice that in this function, these are not consecutive parameters, but the first and <b>third</b> ones.
-     * @param result {@link Iterator Output iterator} to the initial position of the range where the reserved range is
-     *				 stored. The pointed type shall support being assigned the value of an element in the range
-     *				 [<i>first</i>, <i>last</i>).
-     *
-     * @return An output iterator pointing to the end of the copied range.
-     */
-    function rotate_copy(first, middle, last, result) {
-        result = copy(middle, last, result);
-        return copy(first, middle, result);
-    }
-    std.rotate_copy = rotate_copy;
-    /**
      * <p> Randomly rearrange elements in range. </p>
      *
      * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>) randomly. </p>
@@ -1047,7 +574,7 @@ var std;
      * <p> To specify a uniform random generator, see {@link shuffle}. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      */
@@ -1058,7 +585,7 @@ var std;
     /**
      * <p> Randomly rearrange elements in range using generator. </p>
      *
-     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>) randomly, using <i>g</i> as uniform random
+     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>] randomly, using <i>g</i> as uniform random
      * number generator. </p>
      *
      * <p> The function swaps the value of each element with that of some other randomly picked element. The function
@@ -1070,7 +597,7 @@ var std;
      * <p> Using random generator engine is not implemented yet. </p>
      *
      * @param first An {@link Iterator} to the initial position in a sequence.
-     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
+     * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last<i>],
      *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      */
@@ -1091,19 +618,6 @@ var std;
         selection_sort(first.get_source(), first.index, middle.index, last.index, compare);
     }
     std.partial_sort = partial_sort;
-    function partial_sort_copy(first, last, result_first, result_last, compare) {
-        if (compare === void 0) { compare = std.less; }
-        var input_size = std.distance(first, last);
-        var result_size = std.distance(result_first, result_last);
-        var vector = new std.Vector(first, last);
-        sort(vector.begin(), vector.end());
-        if (input_size > result_size)
-            result_first = copy(vector.begin(), vector.begin().advance(result_size), result_first);
-        else
-            result_first = copy(vector.begin(), vector.end(), result_first);
-        return result_first;
-    }
-    std.partial_sort_copy = partial_sort_copy;
     function is_sorted(first, last, compare) {
         if (compare === void 0) { compare = std.equal_to; }
         if (first.equal_to(last))
@@ -1228,348 +742,15 @@ var std;
             }
         }
     }
-    function lower_bound(first, last, val, compare) {
-        if (compare === void 0) { compare = std.less; }
-        var count = std.distance(first, last);
-        while (count > 0) {
-            var step = Math.floor(count / 2);
-            var it = first.advance(step);
-            if (!compare(it.value, val)) {
-                first = it.next();
-                count -= step + 1;
-            }
-            else
-                count = step;
-        }
-        return first;
-    }
-    std.lower_bound = lower_bound;
-    function upper_bound(first, last, val, compare) {
-        if (compare === void 0) { compare = std.less; }
-        var count = std.distance(first, last);
-        while (count > 0) {
-            var step = Math.floor(count / 2);
-            var it = first.advance(step);
-            if (!compare(val, it.value)) {
-                first = it.next();
-                count -= step + 1;
-            }
-            else
-                count = step;
-        }
-        return first;
-    }
-    std.upper_bound = upper_bound;
-    function equal_range(first, last, val, compare) {
-        if (compare === void 0) { compare = std.less; }
-        var it = lower_bound(first, last, val, compare);
-        return std.make_pair(it, upper_bound(it, last, val, compare));
-    }
-    std.equal_range = equal_range;
-    function binary_search(first, last, val, compare) {
-        if (compare === void 0) { compare = std.less; }
-        first = lower_bound(first, last, val, compare);
-        return !first.equal_to(last) && !compare(val, first.value);
-    }
-    std.binary_search = binary_search;
     /* =========================================================
-        PARTITION
+        BINARY SEARCH
     ========================================================= */
-    /**
-     * <p> Test whether range is partitioned. </p>
-     *
-     * <p> Returns <code>true</code> if all the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i>
-     * returns <code>true</code> precede those for which it returns <code>false</code>. </p>
-     *
-     * <p> If the range is {@link IContainer.empty empty}, the function returns <code>true</code>. </p>
-     *
-     * @param first {@link Iterator Input iterator} to the initial position of the sequence.
-     * @param last {@link Iterator Input iterator} to the final position of the sequence. The range used is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
-     *			   <code>bool</code>. The value returned indicates whether the element belongs to the first group (if
-     *			   <code>true</code>, the element is expected before all the elements for which it returns
-     *			   <code>false</code>). The function shall not modify its argument.
-     *
-     * @return <code>true</code> if all the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i> returns
-     *		   <code>true</code> precede those for which it returns <code>false</code>. Otherwise it returns
-     *		   <code>false</code>. If the range is {@link IContainer.empty empty}, the function returns <code>true</code>.
-     */
-    function is_partitioned(first, last, pred) {
-        while (!first.equal_to(last) && pred(first.value))
-            first = first.next();
-        for (; !first.equal_to(last); first = first.next())
-            if (pred(first.value))
-                return false;
-        return true;
-    }
-    std.is_partitioned = is_partitioned;
-    /**
-     * <p> Partition range in two. </p>
-     *
-     * <p> Rearranges the elements from the range [<i>first</i>, <i>last</i>), in such a way that all the elements for
-     * which <i>pred</i> returns <code>true</code> precede all those for which it returns <code>false</code>. The iterator
-     * returned points to the first element of the second group. </p>
-     *
-     * <p> The relative ordering within each group is not necessarily the same as before the call. See
-     * {@link stable_partition} for a function with a similar behavior but with stable ordering within each group. </p>
-     *
-     * @param first {@link Iterator Forward iterator} to the initial position of the sequence to partition.
-     * @param last {@link Iterator Forward iterator} to the final position of the sequence to partition. The range used is
-     *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-     *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
-     *			   <code>bool</code>. The value returned indicates whether the element belongs to the first group (if
-     *			   <code>true</code>, the element is expected before all the elements for which it returns
-     *			   <code>false</code>). The function shall not modify its argument.
-     *
-     * @return An iterator that points to the first element of the second group of elements (those for which <i>pred</i>
-     *		   returns <code>false</code>), or <i>last</i> if this group is {@link IContainer.empty empty}.
-     */
-    function partition(first, last, pred) {
-        while (!first.equal_to(last)) {
-            while (pred(first.value)) {
-                first = first.next();
-                if (first.equal_to(last))
-                    return first;
-            }
-            do {
-                last = last.prev();
-                if (first.equal_to(last))
-                    return first;
-            } while (!pred(last.value));
-            first.swap(last);
-            first = first.next();
-        }
-        return last;
-    }
-    std.partition = partition;
-    /**
-     * <p> Partition range in two - stable ordering. </p>
-     *
-     * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that all the elements for which
-     * <i>pred</i> returns <code>true</code> precede all those for which it returns <code>false</code>, and, unlike
-     * function {@link partition}, the relative order of elements within each group is preserved. </p>
-     *
-     * <p> This is generally implemented using an internal temporary buffer. </p>
-     *
-     * @param first {@link Iterator Bidirectional iterator} to the initial position of the sequence to partition.
-     * @param last {@link Iterator Bidirectional iterator} to the final position of the sequence to partition. The range
-     *			   used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and
-     *			   <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
-     *			   <code>bool</code>. The value returned indicates whether the element belongs to the first group (if
-     *			   <code>true</code>, the element is expected before all the elements for which it returns
-     *			   <code>false</code>). The function shall not modify its argument.
-     *
-     * @return An iterator that points to the first element of the second group of elements (those for which <i>pred</i>
-     *		   returns <code>false</code>), or <i>last</i> if this group is {@link IContainer.empty empty}.
-     */
-    function stable_partition(first, last, pred) {
-        return partition(first, last, pred);
-    }
-    std.stable_partition = stable_partition;
-    /**
-     * <p> Partition range into two. </p>
-     *
-     * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i> returns <code>true</code>
-     * into the range pointed by <i>result_true</i>, and those for which it does not into the range pointed by
-     * <i>result_false</i>. </p>
-     *
-     * @param first {@link Iterator Input iterator} to the initial position of the range to be copy-partitioned.
-     * @param last {@link Iterator Input iterator} to the final position of the range to be copy-partitioned. The range
-     *			   used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and
-     *			   <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param result_true {@link Iterator Output iterator} to the initial position of the range where the elements for
-     *					  which <i>pred</i> returns <code>true</code> are stored.
-     * @param result_false {@link Iterator Output iterator} to the initial position of the range where the elements for
-     *					   which <i>pred</i> returns <code>false</code> are stored.
-     * @param pred Unary function that accepts an element pointed by <i>InputIterator</i> as argument, and returns a value
-     *			   convertible to <code>bool</code>. The value returned indicates on which result range the element is
-     *			   copied. The function shall not modify its argument.
-     *
-     * @return A {@link Pair} of iterators with the end of the generated sequences pointed by <i>result_true</i> and
-     *		   <i>result_false</i>, respectivelly. Its member {@link Pair.first first} points to the element that follows
-     *		   the last element copied to the sequence of elements for which <i>pred</i> returned <code>true</code>. Its
-     *		   member {@link Pair.second second} points to the element that follows the last element copied to the sequence
-     *		   of elements for which <i>pred</i> returned <code>false</code>.
-     */
-    function partition_copy(first, last, result_true, result_false, pred) {
-        for (; !first.equal_to(last); first = first.next())
-            if (pred(first.value)) {
-                result_true.value = first.value;
-                result_true = result_true.next();
-            }
-            else {
-                result_false.value = first.value;
-                result_false = result_false.next();
-            }
-        return std.make_pair(result_true, result_false);
-    }
-    std.partition_copy = partition_copy;
-    /**
-     * <p> Get partition point. </p>
-     *
-     * <p> Returns an iterator to the first element in the partitioned range [<i>first</i>, <i>last</i>) for which
-     * <i>pred</i> is not <code>true</code>, indicating its partition point. </p>
-     *
-     * <p> The elements in the range shall already {@link is_partitioned be partitioned}, as if {@link partition} had been
-     * called with the same arguments. </p>
-     *
-     * <p> The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted
-     * range, which is specially efficient for {@link Iteartor random-access iterators}. </p>
-     *
-     * @param first {@link Iterator Forward iterator} to the initial position of the partitioned sequence.
-     * @param last {@link Iterator Forward iterator} to the final position of the partitioned sequence. The range checked
-     *		  is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> an <i>last</i>,
-     *		  including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-     * @param pred Unary function that accepts an element in the range as argument, and returns a value convertible to
-     *			   <code>bool</code>. The value returned indicates whether the element goes before the partition point (if
-     *			   <code>true</code>, it goes before; if <code>false</code> goes at or after it). The function shall not
-     *			   modify its argument.
-     *
-     * @return An iterator to the first element in the partitioned range [<i>first</i>, <i>last</i>) for which <i>pred</i>
-     *		   is not <code>true</code>, or <i>last</i> if it is not <code>true</code> for any element.
-     */
-    function partition_point(first, last, pred) {
-        var n = std.distance(first, last);
-        while (n > 0) {
-            var step = Math.floor(n / 2);
-            var it = first.advance(step);
-            if (pred(it.value)) {
-                first = it.next();
-                n -= step + 1;
-            }
-            else
-                n = step;
-        }
-        return first;
-    }
-    std.partition_point = partition_point;
-    function merge(first1, last1, first2, last2, result, compare) {
-        if (compare === void 0) { compare = std.less; }
-        while (true) {
-            if (first1.equal_to(last1))
-                return copy(first2, last2, result);
-            else if (first2.equal_to(last2))
-                return copy(first1, last1, result);
-            if (compare(first1.value, first2.value)) {
-                result.value = first1.value;
-                first1 = first1.next();
-            }
-            else {
-                result.value = first2.value;
-                first2 = first2.next();
-            }
-            result = result.next();
-        }
-    }
-    std.merge = merge;
-    function inplace_merge(first, middle, last, compare) {
-        if (compare === void 0) { compare = std.less; }
-        var vector = new std.Vector(std.distance(first, last), null);
-        merge(first, middle, middle, last, vector.begin());
-        copy(vector.begin(), vector.end(), first);
-    }
-    std.inplace_merge = inplace_merge;
-    function includes(first1, last1, first2, last2, compare) {
-        if (compare === void 0) { compare = std.less; }
-        while (!first2.equal_to(last2)) {
-            if (first1.equal_to(last2) || compare(first2.value, first1.value))
-                return false;
-            else if (!compare(first1.value, first2.value))
-                first2 = first2.next();
-            first1 = first1.next();
-        }
-        return true;
-    }
-    std.includes = includes;
-    function set_union(first1, last1, first2, last2, result, compare) {
-        if (compare === void 0) { compare = std.less; }
-        while (true) {
-            if (first1.equal_to(last1))
-                return copy(first2, last2, result);
-            else if (first2.equal_to(last2))
-                return copy(first1, last1, result);
-            if (compare(first1.value, first2.value)) {
-                result.value = first1.value;
-                first1 = first1.next();
-            }
-            else if (compare(first2.value, first1.value)) {
-                result.value = first2.value;
-                first2 = first2.next();
-            }
-            else {
-                result.value = first1.value;
-                first1 = first1.next();
-                first2 = first2.next();
-            }
-            result = result.next();
-        }
-    }
-    std.set_union = set_union;
-    function set_intersection(first1, last1, first2, last2, result, compare) {
-        if (compare === void 0) { compare = std.less; }
-        while (true) {
-            if (first1.equal_to(last1))
-                return copy(first2, last2, result);
-            else if (first2.equal_to(last2))
-                return copy(first1, last1, result);
-            if (compare(first1.value, first2.value))
-                first1 = first1.next();
-            else if (compare(first2.value, first1.value))
-                first2 = first2.next();
-            else {
-                result.value = first1.value;
-                result = result.next();
-                first1 = first1.next();
-                first2 = first2.next();
-            }
-        }
-    }
-    std.set_intersection = set_intersection;
-    function set_difference(first1, last1, first2, last2, result, compare) {
-        if (compare === void 0) { compare = std.less; }
-        while (!first1.equal_to(last1) && !first2.equal_to(last2))
-            if (std.less(first1.value, first2.value)) {
-                result.value = first1.value;
-                result = result.next();
-                first1 = first1.next();
-            }
-            else if (std.less(first2.value, first1.value))
-                first2 = first2.next();
-            else {
-                first1 = first1.next();
-                first2 = first2.next();
-            }
-        return copy(first1, last1, result);
-    }
-    std.set_difference = set_difference;
-    function set_symmetric_difference(first1, last1, first2, last2, result, compare) {
-        if (compare === void 0) { compare = std.less; }
-        while (true) {
-            if (first1.equal_to(last1))
-                return copy(first2, last2, result);
-            else if (first2.equal_to(last2))
-                return copy(first1, last1, result);
-            if (compare(first1.value, first2.value)) {
-                result.value = first1.value;
-                result = result.next();
-                first1 = first1.next();
-            }
-            else if (compare(first2.value, first1.value)) {
-                result.value = first2.value;
-                result = result.next();
-                first2 = first2.next();
-            }
-            else {
-                first1 = first1.next();
-                first2 = first2.next();
-            }
-        }
-    }
-    std.set_symmetric_difference = set_symmetric_difference;
+    /* =========================================================
+        MERGE
+    ========================================================= */
+    /* =========================================================
+        HEAP
+    ========================================================= */
     /* =========================================================
         MIN & MAX
             - VARADIC PARAMETERS
@@ -1642,7 +823,7 @@ var std;
             if (std.greater(args[i], maximum))
                 maximum = args[i];
         }
-        return std.make_pair(minimum, maximum);
+        return new std.Pair(minimum, maximum);
     }
     std.minmax = minmax;
     function min_element(first, last, compare) {
@@ -1655,6 +836,7 @@ var std;
         return smallest;
     }
     std.min_element = min_element;
+    ;
     function max_element(first, last, compare) {
         if (compare === void 0) { compare = std.greater; }
         var largest = first;
@@ -1665,6 +847,7 @@ var std;
         return largest;
     }
     std.max_element = max_element;
+    ;
     function minmax_element(first, last, compare) {
         if (compare === void 0) { compare = std.greater; }
         var smallest = first;
@@ -1676,503 +859,513 @@ var std;
             if (!compare(first.value, largest.value))
                 largest = first;
         }
-        return std.make_pair(smallest, largest);
+        return new std.Pair(smallest, largest);
     }
     std.minmax_element = minmax_element;
+    ;
 })(std || (std = {}));
 var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> An abstract  </p>
-         *
-         * <h3> Container properties </h3>
-         * <dl>
-         * 	<dt> Sequence </dt>
-         * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
-         *		 accessed by their position in this sequence. </dd>
-         *
-         * 	<dt> Doubly-linked list </dt>
-         *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing
-         *		 constant time insert and erase operations before or after a specific element (even of entire ranges),
-         *		 but no direct random access. </dd>
-         * </dl>
-         *
-         * @param <T> Type of elements.
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var Container = (function () {
-            function Container() {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+        var container;
+        (function (container_1) {
+            /**
+             * <p> An abstract container. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             * 	<dt> Sequence </dt>
+             * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
+             *		 accessed by their position in this sequence. </dd>
+             *
+             * 	<dt> Doubly-linked list </dt>
+             *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing
+             *		 constant time insert and erase operations before or after a specific element (even of entire ranges),
+             *		 but no direct random access. </dd>
+             * </dl>
+             *
+             * @param <T> Type of elements.
+             *
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var Container = (function () {
+                function Container() {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    // THIS IS ABSTRACT CLASS
+                    // NOTHING TO DO ESPECIALLY
                 }
-                // THIS IS ABSTRACT CLASS
-                // NOTHING TO DO ESPECIALLY
-            }
-            /**
-             * @inheritdoc
-             */
-            Container.prototype.clear = function () {
-                this.erase(this.begin(), this.end());
-            };
-            /**
-             * @inheritdoc
-             */
-            Container.prototype.empty = function () {
-                return this.size() == 0;
-            };
-            /* ===============================================================
-                UTILITIES
-            =============================================================== */
-            /**
-             * @inheritdoc
-             */
-            Container.prototype.swap = function (obj) {
-                var supplement = new std.Vector(this.begin(), this.end());
-                this.assign(obj.begin(), obj.end());
-                obj.assign(supplement.begin(), supplement.end());
-            };
-            return Container;
-        }());
-        base.Container = Container;
+                /**
+                 * @inheritdoc
+                 */
+                Container.prototype.clear = function () {
+                    this.erase(this.begin(), this.end());
+                };
+                /**
+                 * @inheritdoc
+                 */
+                Container.prototype.empty = function () {
+                    return this.size() == 0;
+                };
+                /* ===============================================================
+                    UTILITIES
+                =============================================================== */
+                /**
+                 * @inheritdoc
+                 */
+                Container.prototype.swap = function (obj) {
+                    var supplement = new std.Vector(this.begin(), this.end());
+                    this.assign(obj.begin(), obj.end());
+                    obj.assign(supplement.begin(), supplement.end());
+                };
+                return Container;
+            }());
+            container_1.Container = Container;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> Bi-directional iterator. </p>
-         *
-         * <p> {@link Iterator Bidirectional iterators} are iterators that can be used to access the sequence of elements
-         * in a range in both directions (towards the end and towards the beginning). </p>
-         *
-         * <p> All {@link IArrayIterator random-access iterators} are also valid {@link Iterrator bidirectional iterators}.
-         * </p>
-         *
-         * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container}
-         * may define its own specific iterator type able to iterate through it and access its elements. </p>
-         *
-         * <ul>
-         *	<li> Reference: http://www.cplusplus.com/reference/iterator/BidirectionalIterator/ </li>
-         * </ul>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var Iterator = (function () {
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
+        var container;
+        (function (container) {
             /**
-             * Construct from the source {@link IContainer container}.
+             * <p> Bi-directional iterator. </p>
              *
-             * @param source The source
+             * <p> {@link Iterator Bidirectional iterators} are iterators that can be used to access the sequence of elements
+             * in a range in both directions (towards the end and towards the beginning). </p>
+             *
+             * <p> All {@link IArrayIterator random-access iterators} are also valid {@link Iterrator bidirectional iterators}.
+             * </p>
+             *
+             * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container}
+             * may define its own specific iterator type able to iterate through it and access its elements. </p>
+             *
+             * <ul>
+             *	<li> Reference: http://www.cplusplus.com/reference/iterator/BidirectionalIterator/ </li>
+             * </ul>
+             *
+             * @author Jeongho Nam <http://samchon.org>
              */
-            function Iterator(source) {
-                this.source_ = source;
-            }
-            /**
-             * Advances the {@link Iterator} by <i>n</i> element positions.
-             *
-             * @param n Number of element positions to advance.
-             * @return An advanced iterator.
-             */
-            Iterator.prototype.advance = function (n) {
-                var it = this;
-                var i;
-                if (n >= 0) {
-                    for (i = 0; i < n; i++)
-                        if (it.equal_to(this.source_.end()))
-                            return this.source_.end();
-                        else
-                            it = it.next();
-                }
-                else {
-                    n = n * -1;
-                    for (i = 0; i < n; i++)
-                        if (it.equal_to(this.source_.end()))
-                            return this.source_.end();
-                        else
-                            it = it.prev();
-                }
-                return it;
-            };
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * Get source
-             */
-            Iterator.prototype.get_source = function () {
-                return this.source_;
-            };
-            /**
-             * <p> Whether an iterator is equal with the iterator. </p>
-             *
-             * <p> Compare two iterators and returns whether they are equal or not. </p>
-             *
-             * <h4> Note </h4>
-             * <p> Iterator's equal_to() only compare souce container and index number. </p>
-             *
-             * <p> Although elements in a pair, key and value are equal_to, if the source map or
-             * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-             * compare the elements of a pair, compare them directly by yourself. </p>
-             *
-             * @param obj An iterator to compare
-             * @return Indicates whether equal or not.
-             */
-            Iterator.prototype.equal_to = function (obj) {
-                return this.source_ == obj.source_;
-            };
-            Object.defineProperty(Iterator.prototype, "value", {
+            var Iterator = (function () {
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
                 /**
-                 * <p> Get value of the iterator is pointing. </p>
+                 * Construct from the source {@link IContainer container}.
                  *
-                 * @return A value of the iterator.
+                 * @param source The source container.
                  */
-                get: function () {
-                    throw new std.LogicError("Have to be overriden.");
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return Iterator;
-        }());
-        base.Iterator = Iterator;
+                function Iterator(source) {
+                    this.source_ = source;
+                }
+                /**
+                 * Advances the {@link Iterator} by <i>n</i> element positions.
+                 *
+                 * @param n Number of element positions to advance.
+                 * @return An advanced iterator.
+                 */
+                Iterator.prototype.advance = function (n) {
+                    var it = this;
+                    var i;
+                    if (n >= 0) {
+                        for (i = 0; i < n; i++)
+                            if (it.equal_to(this.source_.end()))
+                                return this.source_.end();
+                            else
+                                it = it.next();
+                    }
+                    else {
+                        n = n * -1;
+                        for (i = 0; i < n; i++)
+                            if (it.equal_to(this.source_.end()))
+                                return this.source_.end();
+                            else
+                                it = it.prev();
+                    }
+                    return it;
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * Get source container.
+                 */
+                Iterator.prototype.get_source = function () {
+                    return this.source_;
+                };
+                /**
+                 * <p> Whether an iterator is equal with the iterator. </p>
+                 *
+                 * <p> Compare two iterators and returns whether they are equal or not. </p>
+                 *
+                 * <h4> Note </h4>
+                 * <p> Iterator's equal_to() only compare souce container and index number. </p>
+                 *
+                 * <p> Although elements in a pair, key and value are equal_to, if the source map or
+                 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
+                 * compare the elements of a pair, compare them directly by yourself. </p>
+                 *
+                 * @param obj An iterator to compare
+                 * @return Indicates whether equal or not.
+                 */
+                Iterator.prototype.equal_to = function (obj) {
+                    return this.source_ == obj.source_;
+                };
+                Object.defineProperty(Iterator.prototype, "value", {
+                    /**
+                     * <p> Get value of the iterator is pointing. </p>
+                     *
+                     * @return A value of the iterator.
+                     */
+                    get: function () {
+                        throw new std.LogicError("Have to be overriden.");
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                return Iterator;
+            }());
+            container.Iterator = Iterator;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> An abstract map. </p>
-         *
-         * <p> {@link MapContainer MapContainers} are associative containers that store elements formed by a combination
-         * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval
-         * of individual elements based on their keys. </p>
-         *
-         * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the
-         * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
-         * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
-         * {@link Pair} type combining both: </p>
-         *
-         * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
-         *
-         * <p> {@link MapContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
-         * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-         * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-         *
-         * <h3> Container properties </h3>
-         * <dl>
-         *	<dt> Associative </dt>
-         *	<dd>
-         *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
-         *		in the
-         *	</dd>
-         *
-         *	<dt> Map </dt>
-         *	<dd>
-         *		Each element associates a <i>key</i> to a <i>mapped value</i>:
-         *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
-         *	</dd>
-         * </dl>
-         *
-         * @param <Key> Type of the keys. Each element in a map is identified by its key value.
-         * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var MapContainer = (function () {
-            function MapContainer() {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+        var container;
+        (function (container_2) {
+            /**
+             * <p> An abstract map. </p>
+             *
+             * <p> {@link MapContainer MapContainers} are associative containers that store elements formed by a combination
+             * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval
+             * of individual elements based on their keys. </p>
+             *
+             * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the
+             * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
+             * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+             * {@link Pair} type combining both: </p>
+             *
+             * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+             *
+             * <p> {@link MapContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+             *		in the container.
+             *	</dd>
+             *
+             *	<dt> Map </dt>
+             *	<dd>
+             *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+             *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+             *	</dd>
+             * </dl>
+             *
+             * @param <Key> Type of the keys. Each element in a map is identified by its key value.
+             * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+             *
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var MapContainer = (function () {
+                function MapContainer() {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    this.data_ = new std.List();
+                    // THIS IS ABSTRACT CLASS
+                    // NOTHING TO DO ESPECIALLY
                 }
-                this.data_ = new std.List();
-                // THIS IS ABSTRACT CLASS
-                // NOTHING TO DO ESPECIALLY
-            }
-            Object.defineProperty(MapContainer, "iterator", {
+                Object.defineProperty(MapContainer, "iterator", {
+                    /**
+                     * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
+                     */
+                    get: function () { return std.MapIterator; },
+                    enumerable: true,
+                    configurable: true
+                });
                 /**
-                 * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
+                 * @hidden
                  */
-                get: function () { return std.MapIterator; },
-                enumerable: true,
-                configurable: true
-            });
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.construct_from_array = function (items) {
-                for (var i = 0; i < items.length; i++)
-                    if (items[i] instanceof std.Pair)
-                        this.insert_by_pair(items[i]);
+                MapContainer.prototype.construct_from_array = function (items) {
+                    for (var i = 0; i < items.length; i++)
+                        if (items[i] instanceof std.Pair)
+                            this.insert_by_pair(items[i]);
+                        else
+                            this.insert_by_tuple(items[i]);
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.construct_from_container = function (container) {
+                    this.construct_from_range(container.begin(), container.end());
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.construct_from_range = function (begin, end) {
+                    this.assign(begin, end);
+                };
+                /* ---------------------------------------------------------
+                    ASSIGN & CLEAR
+                --------------------------------------------------------- */
+                /**
+                 * <p> Assign new content to content. </p>
+                 *
+                 * <p> Assigns new contents to the container, replacing its current contents, and modifying its {@link size}
+                 * accordingly. </p>
+                 *
+                 * @param begin Input interator of the initial position in a sequence.
+                 * @param end Input interator of the final position in a sequence.
+                 */
+                MapContainer.prototype.assign = function (begin, end) {
+                    // INSERT
+                    for (var it = begin; it.equal_to(end) == false; it = it.next())
+                        this.insert_by_pair(new std.Pair(it.first, it.second));
+                };
+                /**
+                 * <p> Clear content. </p>
+                 *
+                 * <p> Removes all elements from the container, leaving the container with a size of 0. </p>
+                 */
+                MapContainer.prototype.clear = function () {
+                    this.data_.clear();
+                };
+                /**
+                 * <p> Return iterator to beginning. </p>
+                 *
+                 * <p> Returns an iterator referring the first element in the container. </p>
+                 *
+                 * <h4> Note </h4>
+                 * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
+                 *
+                 * @return An iterator to the first element in the container. The iterator containes the first element's value.
+                 */
+                MapContainer.prototype.begin = function () {
+                    return new std.MapIterator(this, this.data_.begin());
+                };
+                /**
+                 * <p> Return iterator to end. </p>
+                 * <p> Returns an iterator referring to the past-the-end element in the container. </p>
+                 *
+                 * <p> The past-the-end element is the theoretical element that would follow the last element in the
+                 * container. It does not point to any element, and thus shall not be dereferenced. </p>
+                 *
+                 * <p> Because the ranges used by functions of the container do not include the element reference by their
+                 * closing iterator, this function is often used in combination with {@link MapContainer}.{@link begin} to
+                 * specify a range including all the elements in the container. </p>
+                 *
+                 * <h4> Note </h4>
+                 * <p> Returned iterator from {@link MapContainer}.{@link end} does not refer any element. Trying to accessing
+                 * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
+                 *
+                 * <p> If the container is {@link empty}, this function returns the same as {@link begin}. </p>
+                 *
+                 * @return An iterator to the end element in the container.
+                 */
+                MapContainer.prototype.end = function () {
+                    return new std.MapIterator(this, this.data_.end());
+                };
+                /**
+                 * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+                 *
+                 * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the last element in the container
+                 * (i.e., its <i>reverse beginning</i>). </p>
+                 *
+                 * {@link MapReverseIterator Reverse iterators} iterate backwards: increasing them moves them towards the
+                 * beginning of the container. </p>
+                 *
+                 * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}.
+                 * </p>
+                 *
+                 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence
+                 *		   container.
+                 */
+                MapContainer.prototype.rbegin = function () {
+                    if (this.empty() == true)
+                        return this.rend();
                     else
-                        this.insert_by_tuple(items[i]);
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.construct_from_container = function (container) {
-                this.construct_from_range(container.begin(), container.end());
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.construct_from_range = function (begin, end) {
-                this.assign(begin, end);
-            };
-            /* ---------------------------------------------------------
-                ASSIGN & CLEAR
-            --------------------------------------------------------- */
-            /**
-             * <p> Assign new content to content. </p>
-             *
-             * <p> Assigns new contents to the container, replacing its current contents, and modifying its {@link size}
-             * accordingly. </p>
-             *
-             * @param begin Input interator of the initial position in a sequence.
-             * @param end Input interator of the final position in a sequence.
-             */
-            MapContainer.prototype.assign = function (begin, end) {
-                // INSERT
-                for (var it = begin; it.equal_to(end) == false; it = it.next())
-                    this.insert_by_pair(new std.Pair(it.first, it.second));
-            };
-            /**
-             * <p> Clear content. </p>
-             *
-             * <p> Removes all elements from the container, leaving the container with a size of 0. </p>
-             */
-            MapContainer.prototype.clear = function () {
-                this.data_.clear();
-            };
-            /**
-             * <p> Return iterator to beginning. </p>
-             *
-             * <p> Returns an iterator referring the first element in the  </p>
-             *
-             * <h4> Note </h4>
-             * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
-             *
-             * @return An iterator to the first element in the  The iterator containes the first element's value.
-             */
-            MapContainer.prototype.begin = function () {
-                return new std.MapIterator(this, this.data_.begin());
-            };
-            /**
-             * <p> Return iterator to end. </p>
-             * <p> Returns an iterator referring to the past-the-end element in the  </p>
-             *
-             * <p> The past-the-end element is the theoretical element that would follow the last element in the
-             *  It does not point to any element, and thus shall not be dereferenced. </p>
-             *
-             * <p> Because the ranges used by functions of the container do not include the element reference by their
-             * closing iterator, this function is often used in combination with {@link MapContainer}.{@link begin} to
-             * specify a range including all the elements in the  </p>
-             *
-             * <h4> Note </h4>
-             * <p> Returned iterator from {@link MapContainer}.{@link end} does not refer any element. Trying to accessing
-             * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
-             *
-             * <p> If the container is {@link empty}, this function returns the same as {@link begin}. </p>
-             *
-             * @return An iterator to the end element in the
-             */
-            MapContainer.prototype.end = function () {
-                return new std.MapIterator(this, this.data_.end());
-            };
-            /**
-             * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
-             *
-             * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the last element in the container
-             * (i.e., its <i>reverse beginning</i>). </p>
-             *
-             * {@link MapReverseIterator Reverse iterators} iterate backwards: increasing them moves them towards the
-             * beginning of the  </p>
-             *
-             * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}.
-             * </p>
-             *
-             * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence
-             *
-             */
-            MapContainer.prototype.rbegin = function () {
-                if (this.empty() == true)
-                    return this.rend();
-                else
-                    return new std.MapReverseIterator(this, this.data_.end().prev());
-            };
-            /**
-             * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>. </p>
-             *
-             * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the theoretical element right before
-             * the first element in the {@link MapContainer map container} (which is considered its <i>reverse end</i>).
-             * </p>
-             *
-             * <p> The range between {@link MapContainer}.{@link rbegin} and {@link MapContainer}.{@link rend} contains
-             * all the elements of the container (in reverse order). </p>
-             *
-             * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence
-             */
-            MapContainer.prototype.rend = function () {
-                return new std.MapReverseIterator(this, this.data_.end());
-            };
-            /* ---------------------------------------------------------
-                ELEMENTS
-            --------------------------------------------------------- */
-            /**
-             * <p> Whether have the item or not. </p>
-             * <p> Indicates whether a map has an item having the specified identifier. </p>
-             *
-             * @param key Key value of the element whose mapped value is accessed.
-             *
-             * @return Whether the map has an item having the specified identifier.
-             */
-            MapContainer.prototype.has = function (key) {
-                return this.count(key) != 0;
-            };
-            /**
-             * Return the number of elements in the map.
-             */
-            MapContainer.prototype.size = function () {
-                return this.data_.size();
-            };
-            /**
-             * Test whether the container is empty.
-             */
-            MapContainer.prototype.empty = function () {
-                return this.size() == 0;
-            };
-            MapContainer.prototype.insert = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                if (args.length == 1 && args[0] instanceof std.Pair) {
-                    return this.insert_by_pair(args[0]);
-                }
-                else if (args.length == 1 && args[0] instanceof Array) {
-                    return this.insert_by_tuple(args[0]);
-                }
-                else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.Pair) {
-                    return this.insert_by_hint(args[0], args[1]);
-                }
-                else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof Array) {
-                    return this.insert_by_hint_with_tuple(args[0], args[1]);
-                }
-                else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
-                    return this.insert_by_range(args[0], args[1]);
-                }
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.insert_by_tuple = function (tuple) {
-                return this.insert_by_pair(new std.Pair(tuple[0], tuple[1]));
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.insert_by_hint = function (hint, pair) {
-                // INSERT
-                var list_it = this.data_.insert(hint.get_list_iterator(), pair);
-                // POST-PROCESS
-                var it = new std.MapIterator(this, list_it);
-                this.handle_insert(it);
-                return it;
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.insert_by_hint_with_tuple = function (hint, tuple) {
-                return this.insert_by_hint(hint, new std.Pair(tuple[0], tuple[1]));
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.insert_by_range = function (begin, end) {
-                for (var it = begin; it.equal_to(end) == false; it = it.next())
-                    this.insert_by_pair(new std.Pair(it.first, it.second));
-            };
-            MapContainer.prototype.erase = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                if (args.length == 1) {
-                    if (args[0] instanceof std.MapIterator && args[0].get_source() == this)
-                        return this.erase_by_iterator(args[0]);
-                    else
-                        return this.erase_by_key(args[0]);
-                }
-                else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator)
-                    return this.erase_by_range(args[0], args[1]);
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.erase_by_key = function (key) {
-                var it = this.find(key);
-                if (it.equal_to(this.end()) == true)
-                    return 0;
-                this.erase_by_iterator(it);
-                return 1;
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.erase_by_iterator = function (it) {
-                // ERASE
-                var listIterator = this.data_.erase(it.get_list_iterator());
-                // POST-PROCESS
-                this.handle_erase(it);
-                return new std.MapIterator(this, listIterator);
-                ;
-            };
-            /**
-             * @hidden
-             */
-            MapContainer.prototype.erase_by_range = function (begin, end) {
-                // ERASE
-                var listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
-                // POST-PROCESS
-                for (var it = begin; !it.equal_to(end); it = it.next())
+                        return new std.MapReverseIterator(this, this.data_.end().prev());
+                };
+                /**
+                 * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+                 *
+                 * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the theoretical element right before
+                 * the first element in the {@link MapContainer map container} (which is considered its <i>reverse end</i>).
+                 * </p>
+                 *
+                 * <p> The range between {@link MapContainer}.{@link rbegin} and {@link MapContainer}.{@link rend} contains
+                 * all the elements of the container (in reverse order). </p>
+                 *
+                 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence container.
+                 */
+                MapContainer.prototype.rend = function () {
+                    return new std.MapReverseIterator(this, this.data_.end());
+                };
+                /* ---------------------------------------------------------
+                    ELEMENTS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Whether have the item or not. </p>
+                 * <p> Indicates whether a map has an item having the specified identifier. </p>
+                 *
+                 * @param key Key value of the element whose mapped value is accessed.
+                 *
+                 * @return Whether the map has an item having the specified identifier.
+                 */
+                MapContainer.prototype.has = function (key) {
+                    return this.count(key) != 0;
+                };
+                /**
+                 * Return the number of elements in the map.
+                 */
+                MapContainer.prototype.size = function () {
+                    return this.data_.size();
+                };
+                /**
+                 * Test whether the container is empty.
+                 */
+                MapContainer.prototype.empty = function () {
+                    return this.size() == 0;
+                };
+                MapContainer.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    if (args.length == 1 && args[0] instanceof std.Pair) {
+                        return this.insert_by_pair(args[0]);
+                    }
+                    else if (args.length == 1 && args[0] instanceof Array) {
+                        return this.insert_by_tuple(args[0]);
+                    }
+                    else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.Pair) {
+                        return this.insert_by_hint(args[0], args[1]);
+                    }
+                    else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof Array) {
+                        return this.insert_by_hint_with_tuple(args[0], args[1]);
+                    }
+                    else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
+                        return this.insert_by_range(args[0], args[1]);
+                    }
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.insert_by_tuple = function (tuple) {
+                    return this.insert_by_pair(new std.Pair(tuple[0], tuple[1]));
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.insert_by_hint = function (hint, pair) {
+                    // INSERT
+                    var list_it = this.data_.insert(hint.get_list_iterator(), pair);
+                    // POST-PROCESS
+                    var it = new std.MapIterator(this, list_it);
+                    this.handle_insert(it);
+                    return it;
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.insert_by_hint_with_tuple = function (hint, tuple) {
+                    return this.insert_by_hint(hint, new std.Pair(tuple[0], tuple[1]));
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.insert_by_range = function (begin, end) {
+                    for (var it = begin; it.equal_to(end) == false; it = it.next())
+                        this.insert_by_pair(new std.Pair(it.first, it.second));
+                };
+                MapContainer.prototype.erase = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    if (args.length == 1) {
+                        if (args[0] instanceof std.MapIterator && args[0].get_source() == this)
+                            return this.erase_by_iterator(args[0]);
+                        else
+                            return this.erase_by_key(args[0]);
+                    }
+                    else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator)
+                        return this.erase_by_range(args[0], args[1]);
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.erase_by_key = function (key) {
+                    var it = this.find(key);
+                    if (it.equal_to(this.end()) == true)
+                        return 0;
+                    this.erase_by_iterator(it);
+                    return 1;
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.erase_by_iterator = function (it) {
+                    // ERASE
+                    var listIterator = this.data_.erase(it.get_list_iterator());
+                    // POST-PROCESS
                     this.handle_erase(it);
-                return new std.MapIterator(this, listIterator);
-            };
-            /* ===============================================================
-                UTILITIES
-            =============================================================== */
-            /**
-             * <p> Swap content. </p>
-             *
-             * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another
-             * {@link MapContainer map} of the same type. Sizes abd container type may differ. </p>
-             *
-             * <p> After the call to this member function, the elements in this container are those which were
-             * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All
-             * iterators, references and pointers remain valid for the swapped objects. </p>
-             *
-             * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that
-             * algorithm with an optimization that behaves like this member function. </p>
-             *
-             * @param obj Another {@link MapContainer map container} of the same type of elements as this (i.e.,
-             *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped
-             *			  with that of this {@link MapContaier container}.
-             */
-            MapContainer.prototype.swap = function (obj) {
-                var supplement = new std.HashMultiMap(this.begin(), this.end());
-                this.assign(obj.begin(), obj.end());
-                obj.assign(supplement.begin(), supplement.end());
-            };
-            return MapContainer;
-        }());
-        base.MapContainer = MapContainer;
+                    return new std.MapIterator(this, listIterator);
+                    ;
+                };
+                /**
+                 * @hidden
+                 */
+                MapContainer.prototype.erase_by_range = function (begin, end) {
+                    // ERASE
+                    var listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
+                    // POST-PROCESS
+                    for (var it = begin; !it.equal_to(end); it = it.next())
+                        this.handle_erase(it);
+                    return new std.MapIterator(this, listIterator);
+                };
+                /* ===============================================================
+                    UTILITIES
+                =============================================================== */
+                /**
+                 * <p> Swap content. </p>
+                 *
+                 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another
+                 * {@link MapContainer map} of the same type. Sizes abd container type may differ. </p>
+                 *
+                 * <p> After the call to this member function, the elements in this container are those which were
+                 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All
+                 * iterators, references and pointers remain valid for the swapped objects. </p>
+                 *
+                 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that
+                 * algorithm with an optimization that behaves like this member function. </p>
+                 *
+                 * @param obj Another {@link MapContainer map container} of the same type of elements as this (i.e.,
+                 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped
+                 *			  with that of this {@link MapContaier container}.
+                 */
+                MapContainer.prototype.swap = function (obj) {
+                    var supplement = new std.HashMultiMap(this.begin(), this.end());
+                    this.assign(obj.begin(), obj.end());
+                    obj.assign(supplement.begin(), supplement.end());
+                };
+                return MapContainer;
+            }());
+            container_2.MapContainer = MapContainer;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="MapContainer.ts" />
@@ -2180,79 +1373,82 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> An abstract multi-map. </p>
-         *
-         * <p> {@link MultiMap MultiMaps} are associative containers that store elements formed by a combination of a
-         * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
-         * individual elements based on their keys. </p>
-         *
-         * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the
-         * <i>mapped values</i> store the content associated to this <i>key</i>. The types of <i>key</i> and
-         * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
-         * {@link Pair} type combining both: </p>
-         *
-         * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
-         *
-         * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
-         * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-         * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-         *
-         * <h3> Container properties </h3>
-         * <dl>
-         *	<dt> Associative </dt>
-         *	<dd>
-         *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
-         *		in the
-         *	</dd>
-         *
-         *	<dt> Map </dt>
-         *	<dd>
-         *		Each element associates a <i>key</i> to a <i>mapped value</i>:
-         *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
-         *	</dd>
-         *
-         *	<dt> Multiple equivalent keys </dt>
-         *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
-         * </dl>
-         *
-         * @param <Key> Type of the keys. Each element in a map is identified by its key value.
-         * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var MultiMap = (function (_super) {
-            __extends(MultiMap, _super);
+        var container;
+        (function (container_3) {
             /**
-             * Default Constructor.
+             * <p> An abstract multi-map. </p>
+             *
+             * <p> {@link MultiMap MultiMaps} are associative containers that store elements formed by a combination of a
+             * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
+             * individual elements based on their keys. </p>
+             *
+             * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the
+             * <i>mapped values</i> store the content associated to this <i>key</i>. The types of <i>key</i> and
+             * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+             * {@link Pair} type combining both: </p>
+             *
+             * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+             *
+             * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+             *		in the container.
+             *	</dd>
+             *
+             *	<dt> Map </dt>
+             *	<dd>
+             *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+             *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+             *	</dd>
+             *
+             *	<dt> Multiple equivalent keys </dt>
+             *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+             * </dl>
+             *
+             * @param <Key> Type of the keys. Each element in a map is identified by its key value.
+             * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+             *
+             * @author Jeongho Nam <http://samchon.org>
              */
-            function MultiMap() {
-                _super.call(this);
-                // THIS IS ABSTRACT CLASS
-                // NOTHING TO DO ESPECIALLY
-            }
-            /**
-             * @inheritdoc
-             */
-            MultiMap.prototype.count = function (key) {
-                var myIt = this.find(key);
-                if (myIt.equal_to(this.end()))
-                    return 0;
-                var size = 0;
-                for (var it = myIt.next(); !it.equal_to(this.end()) && std.equal_to(key, it.first); it = it.next())
-                    size++;
-                return size;
-            };
-            MultiMap.prototype.insert = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+            var MultiMap = (function (_super) {
+                __extends(MultiMap, _super);
+                /**
+                 * Default Constructor.
+                 */
+                function MultiMap() {
+                    _super.call(this);
+                    // THIS IS ABSTRACT CLASS
+                    // NOTHING TO DO ESPECIALLY
                 }
-                return _super.prototype.insert.apply(this, args);
-            };
-            return MultiMap;
-        }(base.MapContainer));
-        base.MultiMap = MultiMap;
+                /**
+                 * @inheritdoc
+                 */
+                MultiMap.prototype.count = function (key) {
+                    var myIt = this.find(key);
+                    if (myIt.equal_to(this.end()))
+                        return 0;
+                    var size = 0;
+                    for (var it = myIt.next(); !it.equal_to(this.end()) && std.equal_to(key, it.first); it = it.next())
+                        size++;
+                    return size;
+                };
+                MultiMap.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    return _super.prototype.insert.apply(this, args);
+                };
+                return MultiMap;
+            }(container_3.MapContainer));
+            container_3.MultiMap = MultiMap;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="Container.ts" />
@@ -2260,255 +1456,258 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> An abstract set. </p>
-         *
-         * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
-         * individual elements based on their value. </p>
-         *
-         * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
-         * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
-         * modified once in the container - they can be inserted and removed, though. </p>
-         *
-         * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
-         * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-         * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-         *
-         * <h3> Container properties </h3>
-         * <dl>
-         *	<dt> Associative </dt>
-         *	<dd>
-         *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-         *		position in the
-         *	</dd>
-         *
-         *	<dt> Set </dt>
-         *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-         * </dl>
-         *
-         * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
-         *			  by this value (each value is itself also the element's <i>key</i>).
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var SetContainer = (function (_super) {
-            __extends(SetContainer, _super);
-            function SetContainer() {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+        var container;
+        (function (container_4) {
+            /**
+             * <p> An abstract set. </p>
+             *
+             * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+             * individual elements based on their value. </p>
+             *
+             * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
+             * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
+             * modified once in the container - they can be inserted and removed, though. </p>
+             *
+             * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+             *		position in the container.
+             *	</dd>
+             *
+             *	<dt> Set </dt>
+             *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+             * </dl>
+             *
+             * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+             *			  by this value (each value is itself also the element's <i>key</i>).
+             *
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var SetContainer = (function (_super) {
+                __extends(SetContainer, _super);
+                function SetContainer() {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    _super.call(this);
+                    // INITIALIZATION
+                    this.data_ = new std.List();
+                    // OVERLOADINGS
+                    //if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
+                    //{
+                    //	this.construct_from_array(args[0]);
+                    //}
+                    //else if (args.length == 1 && args[0] instanceof Container)
+                    //{
+                    //	this.construct_from_container(args[0]);
+                    //}
+                    //else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+                    //{
+                    //	this.construct_from_range(args[0], args[1]);
+                    //}
                 }
-                _super.call(this);
-                // INITIALIZATION
-                this.data_ = new std.List();
-                // OVERLOADINGS
-                //if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
-                //{
-                //	this.construct_from_array(args[0]);
-                //}
-                //else if (args.length == 1 && args[0] instanceof Container)
-                //{
-                //	this.construct_from_container(args[0]);
-                //}
-                //else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-                //{
-                //	this.construct_from_range(args[0], args[1]);
-                //}
-            }
-            Object.defineProperty(SetContainer, "iterator", {
+                Object.defineProperty(SetContainer, "iterator", {
+                    /**
+                     * Type definition of {@link SetContainer}'s {@link SetIterator iterator}.
+                     */
+                    get: function () { return std.SetIterator; },
+                    enumerable: true,
+                    configurable: true
+                });
                 /**
-                 * Type definition of {@link SetContainer}'s {@link SetIterator iterator}.
+                 * @hidden
                  */
-                get: function () { return std.SetIterator; },
-                enumerable: true,
-                configurable: true
-            });
-            /**
-             * @hidden
-             */
-            SetContainer.prototype.construct_from_array = function (items) {
-                for (var i = 0; i < items.length; i++)
-                    this.insert_by_val(items[i]);
-            };
-            /**
-             * @hidden
-             */
-            SetContainer.prototype.construct_from_container = function (container) {
-                this.construct_from_range(container.begin(), container.end());
-            };
-            /**
-             * @hidden
-             */
-            SetContainer.prototype.construct_from_range = function (begin, end) {
-                this.assign(begin, end);
-            };
-            /* ---------------------------------------------------------
-                ASSIGN & CLEAR
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            SetContainer.prototype.assign = function (begin, end) {
-                // INSERT
-                for (var it = begin; it.equal_to(end) == false; it = it.next())
-                    this.insert_by_val(it.value);
-            };
-            /**
-             * @inheritdoc
-             */
-            SetContainer.prototype.clear = function () {
-                this.data_.clear();
-            };
-            /**
-             * @inheritdoc
-             */
-            SetContainer.prototype.begin = function () {
-                return new std.SetIterator(this, this.data_.begin());
-            };
-            /**
-             * @inheritdoc
-             */
-            SetContainer.prototype.end = function () {
-                return new std.SetIterator(this, this.data_.end());
-            };
-            /**
-             * @inheritdoc
-             */
-            SetContainer.prototype.rbegin = function () {
-                if (this.empty() == true)
-                    return this.rend();
-                else
-                    return new std.SetReverseIterator(this.end().prev());
-            };
-            /**
-             * @inheritdoc
-             */
-            SetContainer.prototype.rend = function () {
-                return new std.SetReverseIterator(this.end());
-            };
-            /* ---------------------------------------------------------
-                ELEMENTS
-            --------------------------------------------------------- */
-            /**
-             * <p> Whether have the item or not. </p>
-             *
-             * <p> Indicates whether a set has an item having the specified identifier. </p>
-             *
-             * @param key Key value of the element whose mapped value is accessed.
-             *
-             * @return Whether the set has an item having the specified identifier.
-             */
-            SetContainer.prototype.has = function (val) {
-                return this.count(val) != 0;
-            };
-            /**
-             * @inheritdoc
-             */
-            SetContainer.prototype.size = function () {
-                return this.data_.size();
-            };
-            /* =========================================================
-                ELEMENTS I/O
-                    - INSERT
-                    - ERASE
-                    - POST-PROCESS
-            ============================================================
-                INSERT
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            SetContainer.prototype.push = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                for (var i = 0; i < args.length; i++)
-                    this.insert_by_val(args[i]);
-                return this.size();
-            };
-            SetContainer.prototype.insert = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                if (args.length == 1)
-                    return this.insert_by_val(args[0]);
-                else if (args.length == 2 && args[0] instanceof base.Iterator) {
-                    if (args[1] instanceof base.Iterator && args[0].get_source() != this && args[1].get_source() != this)
-                        return this.insert_by_range(args[0], args[1]);
+                SetContainer.prototype.construct_from_array = function (items) {
+                    for (var i = 0; i < items.length; i++)
+                        this.insert_by_val(items[i]);
+                };
+                /**
+                 * @hidden
+                 */
+                SetContainer.prototype.construct_from_container = function (container) {
+                    this.construct_from_range(container.begin(), container.end());
+                };
+                /**
+                 * @hidden
+                 */
+                SetContainer.prototype.construct_from_range = function (begin, end) {
+                    this.assign(begin, end);
+                };
+                /* ---------------------------------------------------------
+                    ASSIGN & CLEAR
+                --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.assign = function (begin, end) {
+                    // INSERT
+                    for (var it = begin; it.equal_to(end) == false; it = it.next())
+                        this.insert_by_val(it.value);
+                };
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.clear = function () {
+                    this.data_.clear();
+                };
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.begin = function () {
+                    return new std.SetIterator(this, this.data_.begin());
+                };
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.end = function () {
+                    return new std.SetIterator(this, this.data_.end());
+                };
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.rbegin = function () {
+                    if (this.empty() == true)
+                        return this.rend();
                     else
-                        return this.insert_by_hint(args[0], args[1]);
-                }
-            };
-            /**
-             * @hidden
-             */
-            SetContainer.prototype.insert_by_hint = function (hint, val) {
-                // INSERT
-                var list_iterator = this.data_.insert(hint.get_list_iterator(), val);
-                // POST-PROCESS
-                var it = new std.SetIterator(this, list_iterator);
-                this.handle_insert(it);
-                return it;
-            };
-            /**
-             * @hidden
-             */
-            SetContainer.prototype.insert_by_range = function (begin, end) {
-                for (var it = begin; it.equal_to(end) == false; it = it.next())
-                    this.insert_by_val(it.value);
-            };
-            SetContainer.prototype.erase = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                if (args.length == 1) {
-                    if (args[0] instanceof base.Iterator && args[0].get_source() == this)
-                        return this.erase_by_iterator(args[0]);
-                    else
-                        return this.erase_by_val(args[0]);
-                }
-                else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
-                    return this.erase_by_range(args[0], args[1]);
-            };
-            /**
-             * @hidden
-             */
-            SetContainer.prototype.erase_by_val = function (val) {
-                // TEST WHETHER EXISTS
-                var it = this.find(val);
-                if (it.equal_to(this.end()) == true)
-                    return 0;
-                // ERASE
-                this.erase_by_iterator(it);
-                return 1;
-            };
-            /**
-             * @hidden
-             */
-            SetContainer.prototype.erase_by_iterator = function (it) {
-                // ERASE
-                var list_iterator = this.data_.erase(it.get_list_iterator());
-                // POST-PROCESS
-                this.handle_erase(it);
-                return new std.SetIterator(this, list_iterator);
-            };
-            /**
-             * @hidden
-             */
-            SetContainer.prototype.erase_by_range = function (begin, end) {
-                // ERASE
-                var list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
-                // POST-PROCESS
-                for (var it = begin; !it.equal_to(end); it = it.next())
+                        return new std.SetReverseIterator(this.end().prev());
+                };
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.rend = function () {
+                    return new std.SetReverseIterator(this.end());
+                };
+                /* ---------------------------------------------------------
+                    ELEMENTS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Whether have the item or not. </p>
+                 *
+                 * <p> Indicates whether a set has an item having the specified identifier. </p>
+                 *
+                 * @param key Key value of the element whose mapped value is accessed.
+                 *
+                 * @return Whether the set has an item having the specified identifier.
+                 */
+                SetContainer.prototype.has = function (val) {
+                    return this.count(val) != 0;
+                };
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.size = function () {
+                    return this.data_.size();
+                };
+                /* =========================================================
+                    ELEMENTS I/O
+                        - INSERT
+                        - ERASE
+                        - POST-PROCESS
+                ============================================================
+                    INSERT
+                --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                SetContainer.prototype.push = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    for (var i = 0; i < args.length; i++)
+                        this.insert_by_val(args[i]);
+                    return this.size();
+                };
+                SetContainer.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    if (args.length == 1)
+                        return this.insert_by_val(args[0]);
+                    else if (args.length == 2 && args[0] instanceof container_4.Iterator) {
+                        if (args[1] instanceof container_4.Iterator && args[0].get_source() != this && args[1].get_source() != this)
+                            return this.insert_by_range(args[0], args[1]);
+                        else
+                            return this.insert_by_hint(args[0], args[1]);
+                    }
+                };
+                /**
+                 * @hidden
+                 */
+                SetContainer.prototype.insert_by_hint = function (hint, val) {
+                    // INSERT
+                    var list_iterator = this.data_.insert(hint.get_list_iterator(), val);
+                    // POST-PROCESS
+                    var it = new std.SetIterator(this, list_iterator);
+                    this.handle_insert(it);
+                    return it;
+                };
+                /**
+                 * @hidden
+                 */
+                SetContainer.prototype.insert_by_range = function (begin, end) {
+                    for (var it = begin; it.equal_to(end) == false; it = it.next())
+                        this.insert_by_val(it.value);
+                };
+                SetContainer.prototype.erase = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    if (args.length == 1) {
+                        if (args[0] instanceof container_4.Iterator && args[0].get_source() == this)
+                            return this.erase_by_iterator(args[0]);
+                        else
+                            return this.erase_by_val(args[0]);
+                    }
+                    else if (args.length == 2 && args[0] instanceof container_4.Iterator && args[1] instanceof container_4.Iterator)
+                        return this.erase_by_range(args[0], args[1]);
+                };
+                /**
+                 * @hidden
+                 */
+                SetContainer.prototype.erase_by_val = function (val) {
+                    // TEST WHETHER EXISTS
+                    var it = this.find(val);
+                    if (it.equal_to(this.end()) == true)
+                        return 0;
+                    // ERASE
+                    this.erase_by_iterator(it);
+                    return 1;
+                };
+                /**
+                 * @hidden
+                 */
+                SetContainer.prototype.erase_by_iterator = function (it) {
+                    // ERASE
+                    var list_iterator = this.data_.erase(it.get_list_iterator());
+                    // POST-PROCESS
                     this.handle_erase(it);
-                return new std.SetIterator(this, list_iterator); //begin.prev();
-            };
-            return SetContainer;
-        }(base.Container));
-        base.SetContainer = SetContainer;
+                    return new std.SetIterator(this, list_iterator);
+                };
+                /**
+                 * @hidden
+                 */
+                SetContainer.prototype.erase_by_range = function (begin, end) {
+                    // ERASE
+                    var list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
+                    // POST-PROCESS
+                    for (var it = begin; !it.equal_to(end); it = it.next())
+                        this.handle_erase(it);
+                    return new std.SetIterator(this, list_iterator); //begin.prev();
+                };
+                return SetContainer;
+            }(container_4.Container));
+            container_4.SetContainer = SetContainer;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="SetContainer.ts" />
@@ -2516,73 +1715,76 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> An abstract set. </p>
-         *
-         * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
-         * individual elements based on their value. </p>
-         *
-         * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
-         * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
-         * modified once in the container - they can be inserted and removed, though. </p>
-         *
-         * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
-         * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-         * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-         *
-         * <h3> Container properties </h3>
-         * <dl>
-         *	<dt> Associative </dt>
-         *	<dd>
-         *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-         *		position in the
-         *	</dd>
-         *
-         *	<dt> Set </dt>
-         *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-         *
-         *	<dt> Multiple equivalent keys </dt>
-         *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
-         * </dl>
-         *
-         * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
-         *			  by this value (each value is itself also the element's <i>key</i>).
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var MultiSet = (function (_super) {
-            __extends(MultiSet, _super);
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
+        var container;
+        (function (container) {
             /**
-             * Default Constructor.
+             * <p> An abstract set. </p>
+             *
+             * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+             * individual elements based on their value. </p>
+             *
+             * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
+             * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
+             * modified once in the container - they can be inserted and removed, though. </p>
+             *
+             * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+             *		position in the container.
+             *	</dd>
+             *
+             *	<dt> Set </dt>
+             *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+             *
+             *	<dt> Multiple equivalent keys </dt>
+             *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+             * </dl>
+             *
+             * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+             *			  by this value (each value is itself also the element's <i>key</i>).
+             *
+             * @author Jeongho Nam <http://samchon.org>
              */
-            function MultiSet() {
-                _super.call(this);
-            }
-            /**
-             * @inheritdoc
-             */
-            MultiSet.prototype.count = function (val) {
-                var myIt = this.find(val);
-                if (myIt.equal_to(this.end()))
-                    return 0;
-                var size = 0;
-                for (var it = myIt; !it.equal_to(this.end()) && std.equal_to(val, it.value); it = it.next())
-                    size++;
-                return size;
-            };
-            MultiSet.prototype.insert = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+            var MultiSet = (function (_super) {
+                __extends(MultiSet, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function MultiSet() {
+                    _super.call(this);
                 }
-                return _super.prototype.insert.apply(this, args);
-            };
-            return MultiSet;
-        }(base.SetContainer));
-        base.MultiSet = MultiSet;
+                /**
+                 * @inheritdoc
+                 */
+                MultiSet.prototype.count = function (val) {
+                    var myIt = this.find(val);
+                    if (myIt.equal_to(this.end()))
+                        return 0;
+                    var size = 0;
+                    for (var it = myIt; !it.equal_to(this.end()) && std.equal_to(val, it.value); it = it.next())
+                        size++;
+                    return size;
+                };
+                MultiSet.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    return _super.prototype.insert.apply(this, args);
+                };
+                return MultiSet;
+            }(container.SetContainer));
+            container.MultiSet = MultiSet;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="Iterator.ts" />
@@ -2590,46 +1792,49 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * A reverse and bi-directional iterator. </p>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var ReverseIterator = (function (_super) {
-            __extends(ReverseIterator, _super);
-            /* ---------------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------------- */
-            function ReverseIterator(iterator) {
-                _super.call(this, iterator.get_source());
-                this.iterator_ = iterator;
-            }
-            ReverseIterator.prototype.equal_to = function (obj) {
-                if (obj instanceof ReverseIterator) {
-                    return this.iterator_.equal_to(obj.iterator_);
+        var container;
+        (function (container) {
+            /**
+             * A reverse and bi-directional iterator. </p>
+             *
+             * @author Jeongho Nam <http://samchon.org>
+             */
+            var ReverseIterator = (function (_super) {
+                __extends(ReverseIterator, _super);
+                /* ---------------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------------- */
+                function ReverseIterator(iterator) {
+                    _super.call(this, iterator.get_source());
+                    this.iterator_ = iterator;
                 }
-                else
-                    return this.iterator_.equal_to(obj);
-            };
-            Object.defineProperty(ReverseIterator.prototype, "value", {
-                /**
-                 * @inheritdoc
-                 */
-                get: function () {
-                    return this.iterator_.value;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            ReverseIterator.prototype.swap = function (obj) {
-                if (obj instanceof ReverseIterator)
-                    this.iterator_.swap(obj.iterator_);
-                else
-                    this.iterator_.swap(obj);
-            };
-            return ReverseIterator;
-        }(base.Iterator));
-        base.ReverseIterator = ReverseIterator;
+                ReverseIterator.prototype.equal_to = function (obj) {
+                    if (obj instanceof ReverseIterator) {
+                        return this.iterator_.equal_to(obj.iterator_);
+                    }
+                    else
+                        return this.iterator_.equal_to(obj);
+                };
+                Object.defineProperty(ReverseIterator.prototype, "value", {
+                    /**
+                     * @inheritdoc
+                     */
+                    get: function () {
+                        return this.iterator_.value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                ReverseIterator.prototype.swap = function (obj) {
+                    if (obj instanceof ReverseIterator)
+                        this.iterator_.swap(obj.iterator_);
+                    else
+                        this.iterator_.swap(obj);
+                };
+                return ReverseIterator;
+            }(container.Iterator));
+            container.ReverseIterator = ReverseIterator;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="MapContainer.ts" />
@@ -2637,107 +1842,110 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> An abstract unique-map. </p>
-         *
-         * <p> {@link UniqueMap UniqueMaps} are associative containers that store elements formed by a combination of a
-         * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
-         * individual elements based on their keys. </p>
-         *
-         * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to uniquely identify the elements,
-         * while the <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
-         * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
-         * {@link Pair} type combining both: </p>
-         *
-         * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
-         *
-         * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
-         * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-         * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-         *
-         * <h3> Container properties </h3>
-         * <dl>
-         *	<dt> Associative </dt>
-         *	<dd>
-         *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
-         *		in the
-         *	</dd>
-         *
-         *	<dt> Map </dt>
-         *	<dd>
-         *		Each element associates a <i>key</i> to a <i>mapped value</i>:
-         *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
-         *	</dd>
-         *
-         *	<dt> Unique keys </dt>
-         *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
-         * </dl>
-         *
-         * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
-         * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var UniqueMap = (function (_super) {
-            __extends(UniqueMap, _super);
+        var container;
+        (function (container_5) {
             /**
-             * Default Constructor.
-             */
-            function UniqueMap() {
-                _super.call(this);
-                // THIS IS ABSTRACT CLASS
-                // NOTHING TO DO ESPECIALLY
-            }
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            UniqueMap.prototype.count = function (key) {
-                return this.find(key).equal_to(this.end()) ? 0 : 1;
-            };
-            /**
-             * <p> Get an element </p>
+             * <p> An abstract unique-map. </p>
              *
-             * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
+             * <p> {@link UniqueMap UniqueMaps} are associative containers that store elements formed by a combination of a
+             * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
+             * individual elements based on their keys. </p>
              *
-             * @param key Key value of the element whose mapped value is accessed.
-             * @throw exception out of range
-             * @return A reference object of the mapped value (_Ty)
+             * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to uniquely identify the elements,
+             * while the <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
+             * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
+             * {@link Pair} type combining both: </p>
+             *
+             * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+             *
+             * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position
+             *		in the container.
+             *	</dd>
+             *
+             *	<dt> Map </dt>
+             *	<dd>
+             *		Each element associates a <i>key</i> to a <i>mapped value</i>:
+             *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>.
+             *	</dd>
+             *
+             *	<dt> Unique keys </dt>
+             *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+             * </dl>
+             *
+             * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
+             * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
+             *
+             * @author Jeongho Nam <http://samchon.org>
              */
-            UniqueMap.prototype.get = function (key) {
-                var it = this.find(key);
-                if (it.equal_to(this.end()) == true)
-                    throw new std.OutOfRange("unable to find the matched key.");
-                return it.second;
-            };
-            /**
-             * <p> Set an item as the specified identifier. </p>
-             *
-             * <p>If the identifier is already in map, change value of the identifier. If not, then insert the object
-             * with the identifier. </p>
-             *
-             * @param key Key value of the element whose mapped value is accessed.
-             * @param val Value, the item.
-             */
-            UniqueMap.prototype.set = function (key, val) {
-                var it = this.find(key);
-                if (it.equal_to(this.end()) == true)
-                    this.insert(new std.Pair(key, val));
-                else
-                    it.second = val;
-            };
-            UniqueMap.prototype.insert = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+            var UniqueMap = (function (_super) {
+                __extends(UniqueMap, _super);
+                /**
+                 * Default Constructor.
+                 */
+                function UniqueMap() {
+                    _super.call(this);
+                    // THIS IS ABSTRACT CLASS
+                    // NOTHING TO DO ESPECIALLY
                 }
-                return _super.prototype.insert.apply(this, args);
-            };
-            return UniqueMap;
-        }(base.MapContainer));
-        base.UniqueMap = UniqueMap;
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * @inheritdoc
+                 */
+                UniqueMap.prototype.count = function (key) {
+                    return this.find(key).equal_to(this.end()) ? 0 : 1;
+                };
+                /**
+                 * <p> Get an element </p>
+                 *
+                 * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
+                 *
+                 * @param key Key value of the element whose mapped value is accessed.
+                 * @throw exception out of range
+                 * @return A reference object of the mapped value (_Ty)
+                 */
+                UniqueMap.prototype.get = function (key) {
+                    var it = this.find(key);
+                    if (it.equal_to(this.end()) == true)
+                        throw new std.OutOfRange("unable to find the matched key.");
+                    return it.second;
+                };
+                /**
+                 * <p> Set an item as the specified identifier. </p>
+                 *
+                 * <p>If the identifier is already in map, change value of the identifier. If not, then insert the object
+                 * with the identifier. </p>
+                 *
+                 * @param key Key value of the element whose mapped value is accessed.
+                 * @param val Value, the item.
+                 */
+                UniqueMap.prototype.set = function (key, val) {
+                    var it = this.find(key);
+                    if (it.equal_to(this.end()) == true)
+                        this.insert(new std.Pair(key, val));
+                    else
+                        it.second = val;
+                };
+                UniqueMap.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    return _super.prototype.insert.apply(this, args);
+                };
+                return UniqueMap;
+            }(container_5.MapContainer));
+            container_5.UniqueMap = UniqueMap;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="SetContainer.ts" />
@@ -2745,67 +1953,70 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> An abstract set. </p>
-         *
-         * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
-         * individual elements based on their value. </p>
-         *
-         * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to uniquely
-         * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be modified
-         * once in the container - they can be inserted and removed, though. </p>
-         *
-         * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
-         * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-         * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-         *
-         * <h3> Container properties </h3>
-         * <dl>
-         *	<dt> Associative </dt>
-         *	<dd>
-         *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-         *		position in the
-         *	</dd>
-         *
-         *	<dt> Set </dt>
-         *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-         *
-         *	<dt> Unique keys </dt>
-         *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
-         * </dl>
-         *
-         * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
-         *			  by this value (each value is itself also the element's <i>key</i>).
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var UniqueSet = (function (_super) {
-            __extends(UniqueSet, _super);
-            /* =========================================================
-                CONSTRUCTORS
-            ========================================================= */
+        var container;
+        (function (container) {
             /**
-             * Default Constructor.
+             * <p> An abstract set. </p>
+             *
+             * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of
+             * individual elements based on their value. </p>
+             *
+             * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to uniquely
+             * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be modified
+             * once in the container - they can be inserted and removed, though. </p>
+             *
+             * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+             * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
+             * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+             *
+             * <h3> Container properties </h3>
+             * <dl>
+             *	<dt> Associative </dt>
+             *	<dd>
+             *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+             *		position in the container.
+             *	</dd>
+             *
+             *	<dt> Set </dt>
+             *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+             *
+             *	<dt> Unique keys </dt>
+             *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+             * </dl>
+             *
+             * @param <T> Type of the elements. Each element in a {@link SetContainer} container is also identified
+             *			  by this value (each value is itself also the element's <i>key</i>).
+             *
+             * @author Jeongho Nam <http://samchon.org>
              */
-            function UniqueSet() {
-                _super.call(this);
-            }
-            /**
-             * @inheritdoc
-             */
-            UniqueSet.prototype.count = function (key) {
-                return this.find(key).equal_to(this.end()) ? 0 : 1;
-            };
-            UniqueSet.prototype.insert = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+            var UniqueSet = (function (_super) {
+                __extends(UniqueSet, _super);
+                /* =========================================================
+                    CONSTRUCTORS
+                ========================================================= */
+                /**
+                 * Default Constructor.
+                 */
+                function UniqueSet() {
+                    _super.call(this);
                 }
-                return _super.prototype.insert.apply(this, args);
-            };
-            return UniqueSet;
-        }(base.SetContainer));
-        base.UniqueSet = UniqueSet;
+                /**
+                 * @inheritdoc
+                 */
+                UniqueSet.prototype.count = function (key) {
+                    return this.find(key).equal_to(this.end()) ? 0 : 1;
+                };
+                UniqueSet.prototype.insert = function () {
+                    var args = [];
+                    for (var _i = 0; _i < arguments.length; _i++) {
+                        args[_i - 0] = arguments[_i];
+                    }
+                    return _super.prototype.insert.apply(this, args);
+                };
+                return UniqueSet;
+            }(container.SetContainer));
+            container.UniqueSet = UniqueSet;
+        })(container = base.container || (base.container = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
@@ -2888,64 +2099,6 @@ var std;
         return Bind;
     }());
     std.Bind = Bind;
-    /**
-     * <p> Bind argument placeholders. </p>
-     *
-     * <p> This namespace declares an unspecified number of objects: <i>_1</i>, <i>_2</i>, <i>_3</i>, ...</i>, which are
-     * used to specify placeholders in calls to function {@link std.bind}. </p>
-     *
-     * <p> When the function object returned by bind is called, an argument with placeholder {@link _1} is replaced by the
-     * first argument in the call, {@link _2} is replaced by the second argument in the call, and so on... For example: </p>
-     *
-     * <code>
-    let vec: Vector<number> = new Vector<number>();
-
-    let bind = std.bind(Vector.insert, _1, vec.end(), _2, _3);
-    bind.apply(vec, 5, 1); // vec.insert(vec.end(), 5, 1);
-        // [1, 1, 1, 1, 1]
-     * </code>
-     *
-     * <p> When a call to {@link bind} is used as a subexpression in another call to <i>bind</i>, the {@link placeholders}
-     * are relative to the outermost {@link bind} expression. </p>
-     *
-     * @reference http://www.cplusplus.com/reference/functional/placeholders/
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    var placeholders;
-    (function (placeholders) {
-        /**
-         * Replaced by the first argument in the function call.
-         */
-        placeholders._1 = new PlaceHolder(1);
-        /**
-         * Replaced by the second argument in the function call.
-         */
-        placeholders._2 = new PlaceHolder(2);
-        /**
-         * Replaced by the third argument in the function call.
-         */
-        placeholders._3 = new PlaceHolder(3);
-        placeholders._4 = new PlaceHolder(4);
-        placeholders._5 = new PlaceHolder(5);
-        placeholders._6 = new PlaceHolder(6);
-        placeholders._7 = new PlaceHolder(7);
-        placeholders._8 = new PlaceHolder(8);
-        placeholders._9 = new PlaceHolder(9);
-        placeholders._10 = new PlaceHolder(10);
-        placeholders._11 = new PlaceHolder(11);
-        placeholders._12 = new PlaceHolder(12);
-        placeholders._13 = new PlaceHolder(13);
-        placeholders._14 = new PlaceHolder(14);
-        placeholders._15 = new PlaceHolder(15);
-        placeholders._16 = new PlaceHolder(16);
-        placeholders._17 = new PlaceHolder(17);
-        placeholders._18 = new PlaceHolder(18);
-        placeholders._19 = new PlaceHolder(19);
-        placeholders._20 = new PlaceHolder(20);
-    })(placeholders || (placeholders = {}));
-    /**
-     * @hidden
-     */
     var PlaceHolder = (function () {
         function PlaceHolder(index) {
             this.index_ = index;
@@ -2957,10 +2110,50 @@ var std;
             enumerable: true,
             configurable: true
         });
+        PlaceHolder.prototype.equal_to = function (x) {
+            return this.index_ == x.index_;
+        };
+        PlaceHolder.prototype.less = function (x) {
+            return this.index_ < x.index_;
+        };
+        PlaceHolder.prototype.hash = function () {
+            return std.hash(this.index_);
+        };
         return PlaceHolder;
     }());
+    std.PlaceHolder = PlaceHolder;
 })(std || (std = {}));
-/// <reference path="base/ReverseIterator.ts" />
+/**
+ *
+ *
+ */
+var std;
+(function (std) {
+    var placeholders;
+    (function (placeholders) {
+        placeholders._1 = new std.PlaceHolder(1);
+        placeholders._2 = new std.PlaceHolder(2);
+        placeholders._3 = new std.PlaceHolder(3);
+        placeholders._4 = new std.PlaceHolder(4);
+        placeholders._5 = new std.PlaceHolder(5);
+        placeholders._6 = new std.PlaceHolder(6);
+        placeholders._7 = new std.PlaceHolder(7);
+        placeholders._8 = new std.PlaceHolder(8);
+        placeholders._9 = new std.PlaceHolder(9);
+        placeholders._10 = new std.PlaceHolder(10);
+        placeholders._11 = new std.PlaceHolder(11);
+        placeholders._12 = new std.PlaceHolder(12);
+        placeholders._13 = new std.PlaceHolder(13);
+        placeholders._14 = new std.PlaceHolder(14);
+        placeholders._15 = new std.PlaceHolder(15);
+        placeholders._16 = new std.PlaceHolder(16);
+        placeholders._17 = new std.PlaceHolder(17);
+        placeholders._18 = new std.PlaceHolder(18);
+        placeholders._19 = new std.PlaceHolder(19);
+        placeholders._20 = new std.PlaceHolder(20);
+    })(placeholders = std.placeholders || (std.placeholders = {}));
+})(std || (std = {}));
+/// <reference path="base/container/ReverseIterator.ts" />
 var std;
 (function (std) {
     /**
@@ -3028,7 +2221,7 @@ var std;
             return new DequeReverseIterator(iterator);
         };
         return DequeReverseIterator;
-    }(std.base.ReverseIterator));
+    }(std.base.container.ReverseIterator));
     std.DequeReverseIterator = DequeReverseIterator;
 })(std || (std = {}));
 // Type definitions for STL (Standard Template Library) Containers v0.8
@@ -3039,147 +2232,153 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        base.MIN_SIZE = 10;
-        base.RATIO = 0.8;
-        base.MAX_RATIO = 2.0;
-        function code(par) {
-            var type = typeof par;
-            if (type == "number")
-                return code_of_number(par);
-            else if (type == "string")
-                return code_of_string(par);
-            else
-                return code_of_object(par);
-        }
-        base.code = code;
-        /**
-         * @hidden
-         */
-        function code_of_number(val) {
-            // ------------------------------------------
-            //	IN C++
-            //		CONSIDER A NUMBER AS A STRING
-            //		HASH<STRING>((CHAR*)&VAL, 8)
-            // ------------------------------------------
-            // CONSTRUCT BUFFER AND BYTE_ARRAY
-            var buffer = new ArrayBuffer(8);
-            var byteArray = new Int8Array(buffer);
-            var valueArray = new Float64Array(buffer);
-            valueArray[0] = val;
-            var code = 2166136261;
-            for (var i = 0; i < byteArray.length; i++) {
-                var byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
-                code ^= byte;
-                code *= 16777619;
+        var hash;
+        (function (hash) {
+            hash.MIN_SIZE = 10;
+            hash.RATIO = 0.8;
+            hash.MAX_RATIO = 2.0;
+            function code(par) {
+                var type = typeof par;
+                if (type == "number")
+                    return code_of_number(par);
+                else if (type == "string")
+                    return code_of_string(par);
+                else
+                    return code_of_object(par);
             }
-            return Math.abs(code);
-        }
-        /**
-         * @hidden
-         */
-        function code_of_string(str) {
-            // ------------------------
-            //	IN C++
-            // ------------------------
-            var code = 2166136261;
-            for (var i = 0; i < str.length; i++) {
-                code ^= str.charCodeAt(i);
-                code *= 16777619;
+            hash.code = code;
+            /**
+             * @hidden
+             */
+            function code_of_number(val) {
+                // ------------------------------------------
+                //	IN C++
+                //		CONSIDER A NUMBER AS A STRING
+                //		HASH<STRING>((CHAR*)&VAL, 8)
+                // ------------------------------------------
+                // CONSTRUCT BUFFER AND BYTE_ARRAY
+                var buffer = new ArrayBuffer(8);
+                var byteArray = new Int8Array(buffer);
+                var valueArray = new Float64Array(buffer);
+                valueArray[0] = val;
+                var code = 2166136261;
+                for (var i = 0; i < byteArray.length; i++) {
+                    var byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
+                    code ^= byte;
+                    code *= 16777619;
+                }
+                return Math.abs(code);
             }
-            return Math.abs(code);
-            // ------------------------
-            //	IN JAVA
-            // ------------------------
-            //let val: number = 0;
-            //for (let i: number = 0; i < str.length; i++)
-            //	val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-            //return val;
-        }
-        /**
-         * @hidden
-         */
-        function code_of_object(obj) {
-            if (obj.hash_code != undefined)
-                return obj.hash();
-            else
-                return obj.__getUID();
-        }
+            /**
+             * @hidden
+             */
+            function code_of_string(str) {
+                // ------------------------
+                //	IN C++
+                // ------------------------
+                var code = 2166136261;
+                for (var i = 0; i < str.length; i++) {
+                    code ^= str.charCodeAt(i);
+                    code *= 16777619;
+                }
+                return Math.abs(code);
+                // ------------------------
+                //	IN JAVA
+                // ------------------------
+                //let val: number = 0;
+                //for (let i: number = 0; i < str.length; i++)
+                //	val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
+                //return val;
+            }
+            /**
+             * @hidden
+             */
+            function code_of_object(obj) {
+                if (obj.hash_code != undefined)
+                    return obj.hash();
+                else
+                    return obj.__getUID();
+            }
+        })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
     var base;
     (function (base) {
-        var HashBuckets = (function () {
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
-            /**
-             * Default Constructor.
-             */
-            function HashBuckets() {
-                this.clear();
-            }
-            /**
-             * Reserve the bucket size.
-             *
-             * @param size Number of bucket size to reserve.
-             */
-            HashBuckets.prototype.reserve = function (size) {
-                if (size < base.MIN_SIZE)
-                    size = base.MIN_SIZE;
-                var prevMatrix = this.buckets_;
-                this.buckets_ = new std.Vector();
-                for (var i = 0; i < size; i++)
-                    this.buckets_.push_back(new std.Vector());
-                for (var i = 0; i < prevMatrix.size(); i++)
-                    for (var j = 0; j < prevMatrix.at(i).size(); j++) {
-                        var val = prevMatrix.at(i).at(j);
-                        this.buckets_.at(this.hash_index(val)).push_back(val);
-                        this.item_size_++;
-                    }
-            };
-            HashBuckets.prototype.clear = function () {
-                this.buckets_ = new std.Vector();
-                this.item_size_ = 0;
-                for (var i = 0; i < base.MIN_SIZE; i++)
-                    this.buckets_.push_back(new std.Vector());
-            };
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            HashBuckets.prototype.size = function () {
-                return this.buckets_.size();
-            };
-            HashBuckets.prototype.item_size = function () {
-                return this.item_size_;
-            };
-            HashBuckets.prototype.at = function (index) {
-                return this.buckets_.at(index);
-            };
-            HashBuckets.prototype.hash_index = function (val) {
-                return base.code(val) % this.buckets_.size();
-            };
-            /* ---------------------------------------------------------
-                ELEMENTS I/O
-            --------------------------------------------------------- */
-            HashBuckets.prototype.insert = function (val) {
-                this.buckets_.at(this.hash_index(val)).push_back(val);
-                if (++this.item_size_ > this.buckets_.size() * base.MAX_RATIO)
-                    this.reserve(this.item_size_ * base.RATIO);
-            };
-            HashBuckets.prototype.erase = function (val) {
-                var hashes = this.buckets_.at(this.hash_index(val));
-                for (var i = 0; i < hashes.size(); i++)
-                    if (hashes.at(i) == val) {
-                        hashes.splice(i, 1);
-                        this.item_size_--;
-                        break;
-                    }
-            };
-            return HashBuckets;
-        }());
-        base.HashBuckets = HashBuckets;
+        var hash;
+        (function (hash) {
+            var HashBuckets = (function () {
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function HashBuckets() {
+                    this.clear();
+                }
+                /**
+                 * Reserve the bucket size.
+                 *
+                 * @param size Number of bucket size to reserve.
+                 */
+                HashBuckets.prototype.reserve = function (size) {
+                    if (size < hash.MIN_SIZE)
+                        size = hash.MIN_SIZE;
+                    var prevMatrix = this.buckets_;
+                    this.buckets_ = new std.Vector();
+                    for (var i = 0; i < size; i++)
+                        this.buckets_.push_back(new std.Vector());
+                    for (var i = 0; i < prevMatrix.size(); i++)
+                        for (var j = 0; j < prevMatrix.at(i).size(); j++) {
+                            var val = prevMatrix.at(i).at(j);
+                            this.buckets_.at(this.hash_index(val)).push_back(val);
+                            this.item_size_++;
+                        }
+                };
+                HashBuckets.prototype.clear = function () {
+                    this.buckets_ = new std.Vector();
+                    this.item_size_ = 0;
+                    for (var i = 0; i < hash.MIN_SIZE; i++)
+                        this.buckets_.push_back(new std.Vector());
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                HashBuckets.prototype.size = function () {
+                    return this.buckets_.size();
+                };
+                HashBuckets.prototype.item_size = function () {
+                    return this.item_size_;
+                };
+                HashBuckets.prototype.at = function (index) {
+                    return this.buckets_.at(index);
+                };
+                HashBuckets.prototype.hash_index = function (val) {
+                    return hash.code(val) % this.buckets_.size();
+                };
+                /* ---------------------------------------------------------
+                    ELEMENTS I/O
+                --------------------------------------------------------- */
+                HashBuckets.prototype.insert = function (val) {
+                    this.buckets_.at(this.hash_index(val)).push_back(val);
+                    if (++this.item_size_ > this.buckets_.size() * hash.MAX_RATIO)
+                        this.reserve(this.item_size_ * hash.RATIO);
+                };
+                HashBuckets.prototype.erase = function (val) {
+                    var hashes = this.buckets_.at(this.hash_index(val));
+                    for (var i = 0; i < hashes.size(); i++)
+                        if (hashes.at(i) == val) {
+                            hashes.splice(i, 1);
+                            this.item_size_--;
+                            break;
+                        }
+                };
+                return HashBuckets;
+            }());
+            hash.HashBuckets = HashBuckets;
+        })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="HashBuckets.ts" />
@@ -3187,23 +2386,26 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        var MapHashBuckets = (function (_super) {
-            __extends(MapHashBuckets, _super);
-            function MapHashBuckets(map) {
-                _super.call(this);
-                this.map = map;
-            }
-            MapHashBuckets.prototype.find = function (key) {
-                var index = base.code(key) % this.size();
-                var bucket = this.at(index);
-                for (var i = 0; i < bucket.size(); i++)
-                    if (std.equal_to(bucket.at(i).first, key))
-                        return bucket.at(i);
-                return this.map.end();
-            };
-            return MapHashBuckets;
-        }(base.HashBuckets));
-        base.MapHashBuckets = MapHashBuckets;
+        var hash;
+        (function (hash) {
+            var MapHashBuckets = (function (_super) {
+                __extends(MapHashBuckets, _super);
+                function MapHashBuckets(map) {
+                    _super.call(this);
+                    this.map = map;
+                }
+                MapHashBuckets.prototype.find = function (key) {
+                    var index = hash.code(key) % this.size();
+                    var bucket = this.at(index);
+                    for (var i = 0; i < bucket.size(); i++)
+                        if (std.equal_to(bucket.at(i).first, key))
+                            return bucket.at(i);
+                    return this.map.end();
+                };
+                return MapHashBuckets;
+            }(hash.HashBuckets));
+            hash.MapHashBuckets = MapHashBuckets;
+        })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="HashBuckets.ts" />
@@ -3211,990 +2413,999 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        var SetHashBuckets = (function (_super) {
-            __extends(SetHashBuckets, _super);
-            function SetHashBuckets(set) {
-                _super.call(this);
-                this.set = set;
-            }
-            SetHashBuckets.prototype.find = function (val) {
-                var index = base.code(val) % this.size();
-                var bucket = this.at(index);
-                for (var i = 0; i < bucket.size(); i++)
-                    if (std.equal_to(bucket.at(i).value, val))
-                        return bucket.at(i);
-                return this.set.end();
-            };
-            return SetHashBuckets;
-        }(base.HashBuckets));
-        base.SetHashBuckets = SetHashBuckets;
+        var hash;
+        (function (hash) {
+            var SetHashBuckets = (function (_super) {
+                __extends(SetHashBuckets, _super);
+                function SetHashBuckets(set) {
+                    _super.call(this);
+                    this.set = set;
+                }
+                SetHashBuckets.prototype.find = function (val) {
+                    var index = hash.code(val) % this.size();
+                    var bucket = this.at(index);
+                    for (var i = 0; i < bucket.size(); i++)
+                        if (std.equal_to(bucket.at(i).value, val))
+                            return bucket.at(i);
+                    return this.set.end();
+                };
+                return SetHashBuckets;
+            }(hash.HashBuckets));
+            hash.SetHashBuckets = SetHashBuckets;
+        })(hash = base.hash || (base.hash = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> An abstract error instance. </p>
-         *
-         * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
-         * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
-         *
-         * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-         * represent possible results. These numerical values may carry essential information for a specific platform,
-         * but be non-portable from one platform to another. </p>
-         *
-         * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
-         * so that they can be interpreted when needed as more abstract (and portable)
-         * {@link ErrorCondition error conditions}. </p>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var ErrorInstance = (function () {
-            function ErrorInstance(val, category) {
-                if (val === void 0) { val = 0; }
-                if (category === void 0) { category = null; }
-                this.assign(val, category);
-            }
+        var system;
+        (function (system) {
             /**
-             * <p> Assign error instance. </p>
+             * <p> An abstract error instance. </p>
              *
-             * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p>
+             * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
+             * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
              *
-             * @param val A numerical value identifying an error instance.
-             * @param category A reference to an {@link ErrorCategory} object.
+             * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+             * represent possible results. These numerical values may carry essential information for a specific platform,
+             * but be non-portable from one platform to another. </p>
+             *
+             * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
+             * so that they can be interpreted when needed as more abstract (and portable)
+             * {@link ErrorCondition error conditions}. </p>
+             *
+             * @author Jeongho Nam <http://samchon.org>
              */
-            ErrorInstance.prototype.assign = function (val, category) {
-                this.category_ = category;
-                this.value_ = val;
-            };
-            /**
-             * <p> Clear error instance. </p>
-             *
-             * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
-             * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
-             */
-            ErrorInstance.prototype.clear = function () {
-                this.value_ = 0;
-            };
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * <p> Get category. </p>
-             *
-             * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
-             *
-             * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
-             */
-            ErrorInstance.prototype.category = function () {
-                return this.category_;
-            };
-            /**
-             * <p> Error value. </p>
-             *
-             * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
-             *
-             * @return The error value.
-             */
-            ErrorInstance.prototype.value = function () {
-                return this.value_;
-            };
-            /**
-             * <p> Get message. </p>
-             *
-             * <p> Returns the message associated with the error instance. </p>
-             *
-             * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
-             *
-             * <p> This function returns the same as if the following member was called: </p>
-             *
-             * <p> <code>category().message(value())</code> </p>
-             *
-             * @return A string object with the message associated with the {@link ErrorCode}.
-             */
-            ErrorInstance.prototype.message = function () {
-                if (this.category_ == null || this.value_ == 0)
-                    return "";
-                else
-                    return this.category_.message(this.value_);
-            };
-            /**
-             * <p> Default error condition. </p>
-             *
-             * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
-             *
-             * <p> This function returns the same as if the following member was called: </p>
-             *
-             * <p> <code>category().default_error_condition(value())</code> </p>
-             *
-             * <p> {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()}
-             * is a virtual member function, that can operate differently for each category. </p>
-             *
-             * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
-             */
-            ErrorInstance.prototype.default_error_condition = function () {
-                if (this.category_ == null || this.value_ == 0)
-                    return null;
-                else
-                    return this.category_.default_error_condition(this.value_);
-            };
-            /* ---------------------------------------------------------
-                OPERATORS
-            --------------------------------------------------------- */
-            /**
-             * <p> Convert to bool. </p>
-             *
-             * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
-             *
-             * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
-             *
-             * @return <code>true</code> if the error's numerical value is not zero.
-             *		   <code>false</code> otherwise.
-             */
-            ErrorInstance.prototype.to_bool = function () {
-                return this.value_ != 0;
-            };
-            return ErrorInstance;
-        }());
-        base.ErrorInstance = ErrorInstance;
+            var ErrorInstance = (function () {
+                function ErrorInstance(val, category) {
+                    if (val === void 0) { val = 0; }
+                    if (category === void 0) { category = null; }
+                    this.assign(val, category);
+                }
+                /**
+                 * <p> Assign error instance. </p>
+                 *
+                 * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p>
+                 *
+                 * @param val A numerical value identifying an error instance.
+                 * @param category A reference to an {@link ErrorCategory} object.
+                 */
+                ErrorInstance.prototype.assign = function (val, category) {
+                    this.category_ = category;
+                    this.value_ = val;
+                };
+                /**
+                 * <p> Clear error instance. </p>
+                 *
+                 * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
+                 * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
+                 */
+                ErrorInstance.prototype.clear = function () {
+                    this.value_ = 0;
+                };
+                /* ---------------------------------------------------------
+                    ACCESSORS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Get category. </p>
+                 *
+                 * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
+                 *
+                 * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
+                 */
+                ErrorInstance.prototype.category = function () {
+                    return this.category_;
+                };
+                /**
+                 * <p> Error value. </p>
+                 *
+                 * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
+                 *
+                 * @return The error value.
+                 */
+                ErrorInstance.prototype.value = function () {
+                    return this.value_;
+                };
+                /**
+                 * <p> Get message. </p>
+                 *
+                 * <p> Returns the message associated with the error instance. </p>
+                 *
+                 * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
+                 *
+                 * <p> This function returns the same as if the following member was called: </p>
+                 *
+                 * <p> <code>category().message(value())</code> </p>
+                 *
+                 * @return A string object with the message associated with the {@link ErrorCode}.
+                 */
+                ErrorInstance.prototype.message = function () {
+                    if (this.category_ == null || this.value_ == 0)
+                        return "";
+                    else
+                        return this.category_.message(this.value_);
+                };
+                /**
+                 * <p> Default error condition. </p>
+                 *
+                 * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
+                 *
+                 * <p> This function returns the same as if the following member was called: </p>
+                 *
+                 * <p> <code>category().default_error_condition(value())</code> </p>
+                 *
+                 * <p> {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()}
+                 * is a virtual member function, that can operate differently for each category. </p>
+                 *
+                 * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
+                 */
+                ErrorInstance.prototype.default_error_condition = function () {
+                    if (this.category_ == null || this.value_ == 0)
+                        return null;
+                    else
+                        return this.category_.default_error_condition(this.value_);
+                };
+                /* ---------------------------------------------------------
+                    OPERATORS
+                --------------------------------------------------------- */
+                /**
+                 * <p> Convert to bool. </p>
+                 *
+                 * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
+                 *
+                 * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
+                 *
+                 * @return <code>true</code> if the error's numerical value is not zero.
+                 *		   <code>false</code> otherwise.
+                 */
+                ErrorInstance.prototype.to_bool = function () {
+                    return this.value_ != 0;
+                };
+                return ErrorInstance;
+            }());
+            system.ErrorInstance = ErrorInstance;
+        })(system = base.system || (base.system = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> Red-black Tree. </p>
-         *
-         * <p> A red-black tree is a kind of self-balancing
-         * binary search tree. Each node of the binary tree has an extra bit, and that bit is often interpreted as the
-         * color (<font color='red'>red</font> or <font color='darkBlue'>black</font>) of the node. These color bits
-         * are used to ensure the tree remains approximately balanced during insertions and deletions. </p>
-         *
-         * <p> Balance is preserved by painting each node of the tree with one of two colors (typically called
-         * '<font color='red'>red</font>' and '<font color='darkBlue'>black</font>') in a way that satisfies certain
-         * properties, which collectively constrain how unbalanced the tree can become in the worst case. When the tree
-         * is modified, the new tree is subsequently rearranged and repainted to restore the coloring properties. The
-         * properties are designed in such a way that this rearranging and recoloring can be performed efficiently. </p>
-         *
-         * <p> The balancing of the tree is not perfect but it is good enough to allow it to guarantee searching in
-         * O(log n) time, where n is the total number of elements in the tree. The insertion and deletion operations,
-         * along with the tree rearrangement and recoloring, are also performed in O(log n) time. </p>
-         *
-         * <p> Tracking the color of each node requires only 1 bit of information per node because there are only two
-         * colors. The tree does not contain any other data specific to its being a
-         * red-black tree so its memory footprint is almost
-         * identical to a classic (uncolored) binary search tree. In many cases the additional bit of information can
-         * be stored at no additional memory cost. </p>
-         *
-         * <h4> Properties </h4>
-         * <p> In addition to the requirements imposed on a binary search tree the following must be satisfied by a
-         * red-black tree: </p>
-         *
-         * <ol>
-         *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
-         *	<li>
-         *		The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
-         *		always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
-         *		necessarily vice versa, this rule has little effect on analysis.
-         *	</li>
-         *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
-         *  <li>
-         *		If a node is <font color='red'>red</font>, then both its children are
-         *		<font color='darkBlue'>black</font>.
-         *	</li>
-         *  <li>
-         *		Every path from a given node to any of its descendant NIL nodes contains the same number of
-         *		<font color='darkBlue'>black</font> nodes. Some definitions: the number of
-         *		<font color='darkBlue'>black</font> nodes from the root to a node is the node's
-         *		<font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
-         *		nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
-         *		the red-black tree.
-         *	</li>
-         * </ol>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_example.svg" width="100%" /> </p>
-         *
-         * <p> These constraints enforce a critical property of red-black trees: the path from the root to the farthest
-         * leaf is no more than twice as long as the path from the root to the nearest leaf. The result is that the tree
-         * is roughly height-balanced. Since operations such as inserting, deleting, and finding values require
-         * worst-case time proportional to the height of the tree, this theoretical upper bound on the height allows
-         * red-black trees to be efficient in the worst case, unlike ordinary binary search trees. </p>
-         *
-         * <p> To see why this is guaranteed, it suffices to consider the effect of properties 4 and 5 together. For a
-         * red-black tree T, let B be the number of <font color='darkBlue'>black</font> nodes in property 5. Let the
-         * shortest possible path from the root of T to any leaf consist of B <font color='darkBlue'>black</font> nodes.
-         * Longer possible paths may be constructed by inserting <font color='red'>red</font> nodes. However, property 4
-         * makes it impossible to insert more than one consecutive <font color='red'>red</font> node. Therefore,
-         * ignoring any <font color='darkBlue'>black</font> NIL leaves, the longest possible path consists of 2*B nodes,
-         * alternating <font color='darkBlue'>black</font> and <font color='red'>red</font> (this is the worst case).
-         * Counting the <font color='darkBlue'>black</font> NIL leaves, the longest possible path consists of 2*B-1
-         * nodes. </p>
-         *
-         * <p> The shortest possible path has all <font color='darkBlue'>black</font> nodes, and the longest possible
-         * path alternates between <font color='red'>red</font> and <font color='darkBlue'>black</font> nodes. Since all
-         * maximal paths have the same number of <font color='darkBlue'>black</font> nodes, by property 5, this shows
-         * that no path is more than twice as long as any other path. </p>
-         *
-         * <ul>
-         *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
-         * </ul>
-         *
-         * @param <T> Type of elements.
-         *
-         * @inventor Rudolf Bayer
-         * @author Migrated by Jeongho Nam <http://samchon.org>
-         */
-        var XTree = (function () {
-            /* =========================================================
-                CONSTRUCTOR
-            ========================================================= */
+        var tree;
+        (function (tree) {
             /**
-             * Default Constructor.
-             */
-            function XTree() {
-                this.root_ = null;
-            }
-            /* =========================================================
-                ACCESSORS
-                    - GETTERS
-                    - COMPARISON
-            ============================================================
-                GETTERS
-            --------------------------------------------------------- */
-            /**
-             * Find a node from its contained value.
+             * <p> Red-black Tree. </p>
              *
-             * @param val Value to find.
-             */
-            XTree.prototype.find = function (val) {
-                if (this.root_ == null)
-                    return null;
-                var node = this.root_;
-                while (true) {
-                    var newNode = null;
-                    if (this.is_equals(val, node.value))
-                        break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-                    else if (this.is_less(val, node.value))
-                        newNode = node.left; // LESS, THEN TO THE LEFT
-                    else
-                        newNode = node.right; // GREATER, THEN TO THE RIGHT
-                    // ULTIL CHILD NODE EXISTS
-                    if (newNode == null)
-                        break;
-                    // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-                    node = newNode;
-                }
-                return node;
-            };
-            /**
-             * Fetch maximum (the rightes?) node from one.
+             * <p> A red-black tree is a kind of self-balancing
+             * binary search tree. Each node of the binary tree has an extra bit, and that bit is often interpreted as the
+             * color (<font color='red'>red</font> or <font color='darkBlue'>black</font>) of the node. These color bits
+             * are used to ensure the tree remains approximately balanced during insertions and deletions. </p>
              *
-             * @param node A node to fetch its maximum node.
-             * @return The maximum node.
-             */
-            XTree.prototype.fetch_maximum = function (node) {
-                while (node.right != null)
-                    node = node.right;
-                return node;
-            };
-            /* =========================================================
-                ELEMENTS I/O
-                    - INSERT
-                    - ERASE
-                    - COLOR
-                    - ROTATION
-            ============================================================
-                INSERT
-            --------------------------------------------------------- */
-            /**
-             * <p> Insert an element with a new node. </p>
+             * <p> Balance is preserved by painting each node of the tree with one of two colors (typically called
+             * '<font color='red'>red</font>' and '<font color='darkBlue'>black</font>') in a way that satisfies certain
+             * properties, which collectively constrain how unbalanced the tree can become in the worst case. When the tree
+             * is modified, the new tree is subsequently rearranged and repainted to restore the coloring properties. The
+             * properties are designed in such a way that this rearranging and recoloring can be performed efficiently. </p>
              *
-             * <p> Insertion begins by adding the node as any binary search tree insertion does and by coloring it
-             * <font color='red'>red</font>. Whereas in the binary search tree, we always add a leaf, in the red-black
-             * tree, leaves contain no information, so instead we add a <font color='red'>red</font> interior node, with
-             * two <font color='darkBlue'>black</font> leaves, in place of an existing
-             * <font color='darkBlue'>black</font> leaf. </p>
+             * <p> The balancing of the tree is not perfect but it is good enough to allow it to guarantee searching in
+             * O(log n) time, where n is the total number of elements in the tree. The insertion and deletion operations,
+             * along with the tree rearrangement and recoloring, are also performed in O(log n) time. </p>
              *
-             * <p> What happens next depends on the color of other nearby nodes. The term uncle node will be used to
-             * refer to the sibling of a node's parent, as in human family trees. Note that: </p>
+             * <p> Tracking the color of each node requires only 1 bit of information per node because there are only two
+             * colors. The tree does not contain any other data specific to its being a
+             * red-black tree so its memory footprint is almost
+             * identical to a classic (uncolored) binary search tree. In many cases the additional bit of information can
+             * be stored at no additional memory cost. </p>
+             *
+             * <h4> Properties </h4>
+             * <p> In addition to the requirements imposed on a binary search tree the following must be satisfied by a
+             * red-black tree: </p>
+             *
+             * <ol>
+             *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
+             *	<li>
+             *		The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
+             *		always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
+             *		necessarily vice versa, this rule has little effect on analysis.
+             *	</li>
+             *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
+             *  <li>
+             *		If a node is <font color='red'>red</font>, then both its children are
+             *		<font color='darkBlue'>black</font>.
+             *	</li>
+             *  <li>
+             *		Every path from a given node to any of its descendant NIL nodes contains the same number of
+             *		<font color='darkBlue'>black</font> nodes. Some definitions: the number of
+             *		<font color='darkBlue'>black</font> nodes from the root to a node is the node's
+             *		<font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
+             *		nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
+             *		the red-black tree.
+             *	</li>
+             * </ol>
+             *
+             * <p> <img src="../assets/images/tree/Red-black_tree_example.svg" width="100%" /> </p>
+             *
+             * <p> These constraints enforce a critical property of red-black trees: the path from the root to the farthest
+             * leaf is no more than twice as long as the path from the root to the nearest leaf. The result is that the tree
+             * is roughly height-balanced. Since operations such as inserting, deleting, and finding values require
+             * worst-case time proportional to the height of the tree, this theoretical upper bound on the height allows
+             * red-black trees to be efficient in the worst case, unlike ordinary binary search trees. </p>
+             *
+             * <p> To see why this is guaranteed, it suffices to consider the effect of properties 4 and 5 together. For a
+             * red-black tree T, let B be the number of <font color='darkBlue'>black</font> nodes in property 5. Let the
+             * shortest possible path from the root of T to any leaf consist of B <font color='darkBlue'>black</font> nodes.
+             * Longer possible paths may be constructed by inserting <font color='red'>red</font> nodes. However, property 4
+             * makes it impossible to insert more than one consecutive <font color='red'>red</font> node. Therefore,
+             * ignoring any <font color='darkBlue'>black</font> NIL leaves, the longest possible path consists of 2*B nodes,
+             * alternating <font color='darkBlue'>black</font> and <font color='red'>red</font> (this is the worst case).
+             * Counting the <font color='darkBlue'>black</font> NIL leaves, the longest possible path consists of 2*B-1
+             * nodes. </p>
+             *
+             * <p> The shortest possible path has all <font color='darkBlue'>black</font> nodes, and the longest possible
+             * path alternates between <font color='red'>red</font> and <font color='darkBlue'>black</font> nodes. Since all
+             * maximal paths have the same number of <font color='darkBlue'>black</font> nodes, by property 5, this shows
+             * that no path is more than twice as long as any other path. </p>
              *
              * <ul>
-             *	<li> property 3 (all leaves are <font color='darkBlue'>black</font>) always holds. </li>
-             *	<li>
-             *		property 4 (both children of every <font color='red'>red</font> node are
-             *		<font color='darkBlue'>black</font>) is threatened only by adding a <font color='red'>red</font>
-             *		node, repainting a <font color='darkBlue'>black</font> node <font color='red'>red</font>, or a
-             *		rotation.
-             *	</li>
-             *	<li>
-             *		property 5 (all paths from any given node to its leaf nodes contain the same number of
-             *		<font color='darkBlue'>black</font> nodes) is threatened only by adding a
-             *		<font color='darkBlue'>black</font> node, repainting a <font color='red'>red</font> node
-             *		<font color='darkBlue'>black</font> (or vice versa), or a rotation.
-             *	</li>
+             *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
              * </ul>
              *
-             * <h4> Notes </h4>
-             * <ol>
-             *	<li>
-             *		The label <i><b>N</b></i> will be used to denote the current node (colored
-             *		<font color='red'>red</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
-             *		beginning, this is the new node being inserted, but the entire procedure may also be applied
-             *		recursively to other nodes (see case 3). {@link XTreeNode.parent <b>P</b>} will denote
-             *		<i><b>N</b></i>'s parent node, {@link XTreeNode.grand_parent <b>G</b>} will denote <i><b>N</b></i>'s
-             *		grandparent, and {@link XTreeNode.uncle <b>U</b>} will denote <i><b>N</b></i>'s uncle. In between
-             *		some cases, the roles and labels of the nodes are exchanged, but in each case, every label continues
-             *		to represent the same node it represented at the beginning of the case.
-             *	</li>
-             *	<li>
-             *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
-             *		node in the next iteration and there the other nodes will be newly assigned relative to it. Any
-             *		color shown in the diagram is either assumed in its case or implied by those assumptions.
-             *	</li>
-             *	<li>
-             *		A numbered triangle represents a subtree of unspecified depth. A <font color='darkBlue'>black</font>
-             *		circle atop a triangle means that <font color='darkBlue'>black</font>-height of subtree is greater
-             *		by one compared to subtree without this circle. </li>
-             * </ol>
+             * @param <T> Type of elements.
              *
-             * <p> There are several cases of red-black tree insertion to handle: </p>
-             *
-             * <ul>
-             *	<li> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </li>
-             *	<li>
-             *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>.
-             *	</li>
-             *	<li>
-             *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
-             *		({@link XTreeNode.uncle <b>U</b>}) are <font color='red'>red</font>.
-             *	</li>
-             *	<li>
-             *		<i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
-             *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
-             *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
-             *	</li>
-             *	<li>
-             *		<i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
-             *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
-             *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
-             *	</li>
-             * </ul>
-             *
-             * <h4> Note </h4>
-             * <p> Note that inserting is actually in-place, since all the calls above use tail recursion. </p>
-             *
-             * <p> In the algorithm above, all cases are chained in order, except in insert case 3 where it can recurse
-             * to case 1 back to the grandparent node: this is the only case where an iterative implementation will
-             * effectively loop. Because the problem of repair is escalated to the next higher level but one, it takes
-             * maximally h⁄2 iterations to repair the tree (where h is the height of the tree). Because the probability
-             * for escalation decreases exponentially with each iteration the average insertion cost is constant. </p>
-             *
-             * @param val An element to insert.
+             * @inventor Rudolf Bayer
+             * @author Migrated by Jeongho Nam <http://samchon.org>
              */
-            XTree.prototype.insert = function (val) {
-                var parent = this.find(val);
-                var node = new base.XTreeNode(val, base.Color.RED);
-                if (parent == null)
-                    this.root_ = node;
-                else {
-                    node.parent = parent;
-                    if (this.is_less(node.value, parent.value))
-                        parent.left = node;
+            var XTree = (function () {
+                /* =========================================================
+                    CONSTRUCTOR
+                ========================================================= */
+                /**
+                 * Default Constructor.
+                 */
+                function XTree() {
+                    this.root_ = null;
+                }
+                /* =========================================================
+                    ACCESSORS
+                        - GETTERS
+                        - COMPARISON
+                ============================================================
+                    GETTERS
+                --------------------------------------------------------- */
+                /**
+                 * Find a node from its contained value.
+                 *
+                 * @param val Value to find.
+                 */
+                XTree.prototype.find = function (val) {
+                    if (this.root_ == null)
+                        return null;
+                    var node = this.root_;
+                    while (true) {
+                        var newNode = null;
+                        if (this.is_equals(val, node.value))
+                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                        else if (this.is_less(val, node.value))
+                            newNode = node.left; // LESS, THEN TO THE LEFT
+                        else
+                            newNode = node.right; // GREATER, THEN TO THE RIGHT
+                        // ULTIL CHILD NODE EXISTS
+                        if (newNode == null)
+                            break;
+                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                        node = newNode;
+                    }
+                    return node;
+                };
+                /**
+                 * Fetch maximum (the rightes?) node from one.
+                 *
+                 * @param node A node to fetch its maximum node.
+                 * @return The maximum node.
+                 */
+                XTree.prototype.fetch_maximum = function (node) {
+                    while (node.right != null)
+                        node = node.right;
+                    return node;
+                };
+                /* =========================================================
+                    ELEMENTS I/O
+                        - INSERT
+                        - ERASE
+                        - COLOR
+                        - ROTATION
+                ============================================================
+                    INSERT
+                --------------------------------------------------------- */
+                /**
+                 * <p> Insert an element with a new node. </p>
+                 *
+                 * <p> Insertion begins by adding the node as any binary search tree insertion does and by coloring it
+                 * <font color='red'>red</font>. Whereas in the binary search tree, we always add a leaf, in the red-black
+                 * tree, leaves contain no information, so instead we add a <font color='red'>red</font> interior node, with
+                 * two <font color='darkBlue'>black</font> leaves, in place of an existing
+                 * <font color='darkBlue'>black</font> leaf. </p>
+                 *
+                 * <p> What happens next depends on the color of other nearby nodes. The term uncle node will be used to
+                 * refer to the sibling of a node's parent, as in human family trees. Note that: </p>
+                 *
+                 * <ul>
+                 *	<li> property 3 (all leaves are <font color='darkBlue'>black</font>) always holds. </li>
+                 *	<li>
+                 *		property 4 (both children of every <font color='red'>red</font> node are
+                 *		<font color='darkBlue'>black</font>) is threatened only by adding a <font color='red'>red</font>
+                 *		node, repainting a <font color='darkBlue'>black</font> node <font color='red'>red</font>, or a
+                 *		rotation.
+                 *	</li>
+                 *	<li>
+                 *		property 5 (all paths from any given node to its leaf nodes contain the same number of
+                 *		<font color='darkBlue'>black</font> nodes) is threatened only by adding a
+                 *		<font color='darkBlue'>black</font> node, repainting a <font color='red'>red</font> node
+                 *		<font color='darkBlue'>black</font> (or vice versa), or a rotation.
+                 *	</li>
+                 * </ul>
+                 *
+                 * <h4> Notes </h4>
+                 * <ol>
+                 *	<li>
+                 *		The label <i><b>N</b></i> will be used to denote the current node (colored
+                 *		<font color='red'>red</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
+                 *		beginning, this is the new node being inserted, but the entire procedure may also be applied
+                 *		recursively to other nodes (see case 3). {@link XTreeNode.parent <b>P</b>} will denote
+                 *		<i><b>N</b></i>'s parent node, {@link XTreeNode.grand_parent <b>G</b>} will denote <i><b>N</b></i>'s
+                 *		grandparent, and {@link XTreeNode.uncle <b>U</b>} will denote <i><b>N</b></i>'s uncle. In between
+                 *		some cases, the roles and labels of the nodes are exchanged, but in each case, every label continues
+                 *		to represent the same node it represented at the beginning of the case.
+                 *	</li>
+                 *	<li>
+                 *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
+                 *		node in the next iteration and there the other nodes will be newly assigned relative to it. Any
+                 *		color shown in the diagram is either assumed in its case or implied by those assumptions.
+                 *	</li>
+                 *	<li>
+                 *		A numbered triangle represents a subtree of unspecified depth. A <font color='darkBlue'>black</font>
+                 *		circle atop a triangle means that <font color='darkBlue'>black</font>-height of subtree is greater
+                 *		by one compared to subtree without this circle. </li>
+                 * </ol>
+                 *
+                 * <p> There are several cases of red-black tree insertion to handle: </p>
+                 *
+                 * <ul>
+                 *	<li> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </li>
+                 *	<li>
+                 *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>.
+                 *	</li>
+                 *	<li>
+                 *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
+                 *		({@link XTreeNode.uncle <b>U</b>}) are <font color='red'>red</font>.
+                 *	</li>
+                 *	<li>
+                 *		<i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
+                 *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+                 *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
+                 *	</li>
+                 *	<li>
+                 *		<i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
+                 *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+                 *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
+                 *	</li>
+                 * </ul>
+                 *
+                 * <h4> Note </h4>
+                 * <p> Note that inserting is actually in-place, since all the calls above use tail recursion. </p>
+                 *
+                 * <p> In the algorithm above, all cases are chained in order, except in insert case 3 where it can recurse
+                 * to case 1 back to the grandparent node: this is the only case where an iterative implementation will
+                 * effectively loop. Because the problem of repair is escalated to the next higher level but one, it takes
+                 * maximally h⁄2 iterations to repair the tree (where h is the height of the tree). Because the probability
+                 * for escalation decreases exponentially with each iteration the average insertion cost is constant. </p>
+                 *
+                 * @param val An element to insert.
+                 */
+                XTree.prototype.insert = function (val) {
+                    var parent = this.find(val);
+                    var node = new tree.XTreeNode(val, tree.Color.RED);
+                    if (parent == null)
+                        this.root_ = node;
+                    else {
+                        node.parent = parent;
+                        if (this.is_less(node.value, parent.value))
+                            parent.left = node;
+                        else
+                            parent.right = node;
+                    }
+                    this.insert_case1(node);
+                };
+                /**
+                 * <p> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </p>
+                 *
+                 * <p> The current node <i><b>N</b></i> is at the {@link root_ root} of the tree. </p>
+                 *
+                 * <p> In this case, it is repainted <font color='darkBlue'>black</font> to satisfy property 2 (the root is
+                 * <font color='darkBlue'>black</font>). Since this adds one <font color='darkBlue'>black</font> node to
+                 * every path at once, property 5 (all paths from any given node to its leaf nodes contain the same number
+                 * of <font color='darkBlue'>black</font> nodes) is not violated. </p>
+                 *
+                 * @param N A node to be inserted or swapped.
+                 */
+                XTree.prototype.insert_case1 = function (N) {
+                    if (N.parent == null)
+                        N.color = tree.Color.BLACK;
                     else
-                        parent.right = node;
-                }
-                this.insert_case1(node);
-            };
-            /**
-             * <p> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </p>
-             *
-             * <p> The current node <i><b>N</b></i> is at the {@link root_ root} of the tree. </p>
-             *
-             * <p> In this case, it is repainted <font color='darkBlue'>black</font> to satisfy property 2 (the root is
-             * <font color='darkBlue'>black</font>). Since this adds one <font color='darkBlue'>black</font> node to
-             * every path at once, property 5 (all paths from any given node to its leaf nodes contain the same number
-             * of <font color='darkBlue'>black</font> nodes) is not violated. </p>
-             *
-             * @param N A node to be inserted or swapped.
-             */
-            XTree.prototype.insert_case1 = function (N) {
-                if (N.parent == null)
-                    N.color = base.Color.BLACK;
-                else
-                    this.insert_case2(N);
-            };
-            /**
-             * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>. </p>
-             *
-             * <p> The current node's parent {@link XTreeNode.parent <b>P</b>} is <font color='darkBlue'>black</font>,
-             * so property 4 (both children of every <font color='red'>red</font> node are
-             * <font color='darkBlue'>black</font>) is not invalidated. </p>
-             *
-             * <p> In this case, the tree is still valid. Property 5 (all paths from any given node to its leaf nodes
-             * contain the same number of <font color='darkBlue'>black</font> nodes) is not threatened, because the
-             * current node <i><b>N</b></i> has two <font color='darkBlue'>black</font> leaf children, but because
-             * <i><b>N</b></i> is <font color='red'>red</font>, the paths through each of its children have the same
-             * number of <font color='darkBlue'>black</font> nodes as the path through the leaf it replaced, which was
-             * <font color='darkBlue'>black</font>, and so this property remains satisfied. </p>
-             *
-             * @param N A node to be inserted or swapped.
-             */
-            XTree.prototype.insert_case2 = function (N) {
-                if (this.fetch_color(N.parent) == base.Color.BLACK)
-                    return;
-                else
-                    this.insert_case3(N);
-            };
-            /**
-             * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
-             * (<i>{@link XTreeNode.uncle <b>U</b>}</i>) are <font color='red'>red</font>. </p>
-             *
-             * <p> If both the parent {@link XTreeNode.parent <b>P</b>} and the uncle {@link XTreeNode.uncle <b>U</b>}
-             * are <font color='red'>red</font>, then both of them can be repainted <font color='darkBlue'>black</font>
-             * and the grandparent {@link XTreeNode.grand_parent <b>G</b>} becomes <font color='red'>red</font> (to
-             * maintain property 5 (all paths from any given node to its leaf nodes contain the same number of
-             * <font color='darkBlue'>black</font> nodes)). </p>
-             *
-             * <p> Now, the current <font color='red'>red</font> node <i><b>N</b></i> has a
-             * <font color='darkBlue'>black</font> parent. Since any path through the parent or uncle must pass through
-             * the grandparent, the number of <font color='darkBlue'>black</font> nodes on these paths has not changed.
-             *
-             * <p> However, the grandparent {@link XTreeNode.grand_parent <b>G</b>} may now violate properties 2 (The
-             * root is <font color='darkBlue'>black</font>) or 4 (Both children of every <font color='red'>red</font>
-             * node are <font color='darkBlue'>black</font>) (property 4 possibly being violated since
-             * {@link XTreeNode.grand_parent <b>G</b>} may have a <font color='red'>red</font> parent). </p>
-             *
-             * <p> To fix this, the entire procedure is recursively performed on {@link XTreeNode.grand_parent <b>G</b>}
-             * from case 1. Note that this is a tail-recursive call, so it could be rewritten as a loop; since this is
-             * the only loop, and any rotations occur after this loop, this proves that a constant number of rotations
-             * occur. </p>
-             *
-             * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_3.svg" /> </p>
-             *
-             * @param N A node to be inserted or swapped.
-             */
-            XTree.prototype.insert_case3 = function (N) {
-                if (this.fetch_color(N.uncle) == base.Color.RED) {
-                    N.parent.color = base.Color.BLACK;
-                    N.uncle.color = base.Color.BLACK;
-                    N.grand_parent.color = base.Color.RED;
-                    this.insert_case1(N.grand_parent);
-                }
-                else {
-                    this.insert_case4(N);
-                }
-            };
-            /**
-             * <p> <i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
-             * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
-             * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
-             *
-             * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
-             * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>; also, the current node
-             * <i><b>N</b></i> is the right child of {@link XTreeNode.parent <b>P</b>}, and
-             * {@link XTreeNode.parent <b>P</b>} in turn is the left child of its parent
-             * {@link XTreeNode.grand_parent <b>G</b>}. </p>
-             *
-             * <p> In this case, a left rotation on {@link XTreeNode.parent <b>P</b>} that switches the roles of the
-             * current node <i><b>N</b></i> and its parent {@link XTreeNode.parent <b>P</b>} can be performed; then,
-             * the former parent node {@link XTreeNode.parent <b>P</b>} is dealt with using case 5
-             * (relabeling <i><b>N</b></i> and {@link XTreeNode.parent <b>P</b>}) because property 4 (both children of
-             * every <font color='red'>red</font> node are <font color='darkBlue'>black</font>) is still violated. </p>
-             *
-             * <p> The rotation causes some paths (those in the sub-tree labelled "1") to pass through the node
-             * <i><b>N</b></i> where they did not before. It also causes some paths (those in the sub-tree labelled "3")
-             * not to pass through the node {@link XTreeNode.parent <b>P</b>} where they did before. However, both of
-             * these nodes are <font color='red'>red</font>, so property 5 (all paths from any given node to its leaf
-             * nodes contain the same number of <font color='darkBlue'>black</font> nodes) is not violated by the
-             * rotation. </p>
-             *
-             * <p> After this case has been completed, property 4 (both children of every <font color='red'>red</font>
-             * node are <font color='darkBlue'>black</font>) is still violated, but now we can resolve this by
-             * continuing to case 5. </p>
-             *
-             * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_4.svg" /> </p>
-             *
-             * @param N A node to be inserted or swapped.
-             */
-            XTree.prototype.insert_case4 = function (node) {
-                if (node == node.parent.right && node.parent == node.grand_parent.left) {
-                    this.rotate_left(node.parent);
-                    node = node.left;
-                }
-                else if (node == node.parent.left && node.parent == node.grand_parent.right) {
-                    this.rotate_right(node.parent);
-                    node = node.right;
-                }
-                this.insert_case5(node);
-            };
-            /**
-             * <p> <i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
-             * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
-             * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
-             *
-             * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
-             * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>, the current node <i><b>N</b></i>
-             * is the left child of {@link XTreeNode.parent <b>P</b>}, and {@link XTreeNode.parent <b>P</b>} is the left
-             * child of its parent {@link XTreeNode.grand_parent <b>G</b>}. </p>
-             *
-             * <p>In this case, a right rotation on {@link XTreeNode.grand_parent <b>G</b>} is performed; the result is a
-             * tree where the former parent {@link XTreeNode.parent <b>P</b>} is now the parent of both the current node
-             * <i><b>N</b></i> and the former grandparent {@link XTreeNode.grand_parent <b>G</b>}. </p>
-             *
-             * <p> {@link XTreeNode.grand_parent <b>G</b>} is known to be <font color='darkBlue'>black</font>, since its
-             * former child {@link XTreeNode.parent <b>P</b>} could not have been <font color='red'>red</font> otherwise
-             * (without violating property 4). Then, the colors of {@link XTreeNode.parent <b>P</b>} and
-             * {@link XTreeNode.grand_parent <b>G</b>} are switched, and the resulting tree satisfies property 4 (both
-             * children of every <font color='red'>red</font> node are <font color='darkBlue'>black</font>). Property 5
-             * (all paths from any given node to its leaf nodes contain the same number of
-             * <font color='darkBlue'>black</font> nodes) also remains satisfied, since all paths that went through any
-             * of these three nodes went through {@link XTreeNode.grand_parent <b>G</b>} before, and now they all go
-             * through {@link XTreeNode.parent <b>P</b>}. In each case, this is the only
-             * <font color='darkBlue'>black</font> node of the three. </p>
-             *
-             * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_5.svg" /> </p>
-             *
-             * @param N A node to be inserted or swapped.
-             */
-            XTree.prototype.insert_case5 = function (node) {
-                node.parent.color = base.Color.BLACK;
-                node.grand_parent.color = base.Color.RED;
-                if (node == node.parent.left && node.parent == node.grand_parent.left)
-                    this.rotate_right(node.grand_parent);
-                else
-                    this.rotate_left(node.grand_parent);
-            };
-            /* ---------------------------------------------------------
-                ERASE
-            --------------------------------------------------------- */
-            /**
-             * <p> Erase an element with its node. </p>
-             *
-             * <p> In a regular binary search tree when deleting a node with two non-leaf children, we find either the
-             * maximum element in its left subtree (which is the in-order predecessor) or the minimum element in its
-             * right subtree (which is the in-order successor) and move its value into the node being deleted (as shown
-             * here). We then delete the node we copied the value from, which must have fewer than two non-leaf children.
-             * (Non-leaf children, rather than all children, are specified here because unlike normal binary search
-             * trees, red-black trees can have leaf nodes anywhere, so that all nodes are either internal nodes with
-             * two children or leaf nodes with, by definition, zero children. In effect, internal nodes having two leaf
-             * children in a red-black tree are like the leaf nodes in a regular binary search tree.) Because merely
-             * copying a value does not violate any red-black properties, this reduces to the problem of deleting a node
-             * with at most one non-leaf child. Once we have solved that problem, the solution applies equally to the
-             * case where the node we originally want to delete has at most one non-leaf child as to the case just
-             * considered where it has two non-leaf children. </p>
-             *
-             * <p> Therefore, for the remainder of this discussion we address the deletion of a node with at most one
-             * non-leaf child. We use the label <b>M</b> to denote the node to be deleted; <b>C</b> will denote a
-             * selected child of <b>M</b>, which we will also call "its child". If <b>M</b> does have a non-leaf child,
-             * call that its child, <b>C</b>; otherwise, choose either leaf as its child, <b>C</b>. </p>
-             *
-             * <p> If <b>M</b> is a <font color='red'>red</font> node, we simply replace it with its child <b>C</b>,
-             *  which must be <font color='darkBlue'>black</font> by property 4. (This can only occur when <b>M</b> has
-             * two leaf children, because if the <font color='red'>red</font> node <b>M</b> had a
-             * <font color='darkBlue'>black</font> non-leaf child on one side but just a leaf child on the other side,
-             * then the count of <font color='darkBlue'>black</font> nodes on both sides would be different, thus the
-             * tree would violate property 5.) All paths through the deleted node will simply pass through one fewer
-             * <font color='red'>red</font> node, and both the deleted node's parent and child must be
-             * <font color='darkBlue'>black</font>, so property 3 (all leaves are <font color='darkBlue'>black</font>)
-             * and property 4 (both children of every <font color='red'>red</font> node are
-             * <font color='darkBlue'>black</font>) still hold. </p>
-             *
-             * <p> Another simple case is when <b>M</b> is <font color='darkBlue'>black</font> and <b>C</b> is
-             * <font color='red'>red</font>. Simply removing a <font color='darkBlue'>black</font> node could break
-             * Properties 4 (“Both children of every <font color='red'>red</font> node are
-             * <font color='darkBlue'>black</font>”) and 5 (“All paths from any given node to its leaf nodes contain the
-             * same number of <font color='darkBlue'>black</font> nodes”), but if we repaint <b>C</b>
-             * <font color='darkBlue'>black</font>, both of these properties are preserved. </p>
-             *
-             * <p> The complex case is when both <b>M</b> and <b>C</b> are <font color='darkBlue'>black</font>. (This
-             * can only occur when deleting a <font color='darkBlue'>black</font> node which has two leaf children,
-             * because if the <font color='darkBlue'>black</font> node <b>M</b> had a <font color='darkBlue'>black</font>
-             * non-leaf child on one side but just a leaf child on the other side, then the count of
-             * <font color='darkBlue'>black</font> nodes on both sides would be different, thus the tree would have been
-             * an invalid red-black tree by violation of property 5.) We begin by replacing <b>M</b> with its child
-             * <b>C</b>. We will relabel this child <b>C</b> (in its new position) <i><b>N</b></i>, and its sibling (its
-             * new parent's other child) {@link XTreeNode.sibling <b>S</b>}. ({@link XTreeNode.sibling <b>S</b>} was
-             * previously the sibling of <b>M</b>.) </p>
-             *
-             * <p> In the diagrams below, we will also use {@link XTreeNode.parent <b>P</b>} for <i><b>N</b></i>'s new
-             * parent (<b>M</b>'s old parent), <b>SL</b> for {@link XTreeNode.sibling <b>S</b>}'s left child, and
-             * <b>SR</b> for {@link XTreeNode.sibling <b>S</b>}'s right child ({@link XTreeNode.sibling <b>S</b>} cannot
-             * be a leaf because if <b>M</b> and <b>C</b> were <font color='darkBlue'>black</font>, then
-             * {@link XTreeNode.parent <b>P</b>}'s one subtree which included <b>M</b> counted two
-             * <font color='darkBlue'>black</font>-height and thus {@link XTreeNode.parent <b>P</b>}'s other subtree
-             * which includes {@link XTreeNode.sibling <b>S</b>} must also count two
-             * <font color='darkBlue'>black</font>-height, which cannot be the case if {@link XTreeNode.sibling <b>S</b>}
-             * is a leaf node). </p>
-             *
-             * <h4> Notes </h4>
-             * <ol>
-             *	<li>
-             *		The label <i><b>N</b></i> will be used to denote the current node (colored
-             *		<font color='darkBlue'>black</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
-             *		beginning, this is the replacement node and a leaf, but the entire procedure may also be applied
-             *		recursively to other nodes (see case 3). In between some cases, the roles and labels of the nodes
-             *		are exchanged, but in each case, every label continues to represent the same node it represented at
-             *		the beginning of the case.
-             *	</li>
-             *	<li>
-             *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
-             *		node in the next iteration and there the other nodes will be newly assigned relative to it. Any
-             *		color shown in the diagram is either assumed in its case or implied by those assumptions.
-             *		White represents an arbitrary color (either <font color='red'>red</font> or
-             *		<font color='darkBlue'>black</font>), but the same in both halves of the diagram.
-             *	</li>
-             *	<li>
-             *		A numbered triangle represents a subtree of unspecified depth. A <font color='darkBlue'>black</font>
-             *		circle atop a triangle means that <font color='darkBlue'>black</font>-height of subtree is greater
-             *		by one compared to subtree without this circle.
-             *	</li>
-             * </ol>
-             *
-             * <p> If both <i><b>N</b></i> and its original parent are <font color='darkBlue'>black</font>, then
-             * deleting this original parent causes paths which proceed through <i><b>N</b></i> to have one fewer
-             * <font color='darkBlue'>black</font> node than paths that do not. As this violates property 5 (all paths
-             * from any given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font>
-             * nodes), the tree must be rebalanced. There are several cases to consider: </p>
-             *
-             * <ol>
-             *	<li> <i><b>N</b></i> is the new root. </li>
-             *	<li> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </li>
-             *	<li>
-             *		{@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and
-             *		{@link XTreeNode.sibling <b>S</b>}'s children are <font color='darkBlue'>black</font>. </li>
-             *	<li>
-             *		{@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
-             *		<font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is
-             *		<font color='red'>red</font>.
-             *	</li>
-             *	<li>
-             *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
-             *		{@link XTreeNode.sibling <b>S</b>}'s left child is <font color='red'>red</font>,
-             *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='darkBlue'>black</font>, and
-             *		<i><b>N</b></i> is the left child of its parent.
-             *	</li>
-             *	<li>
-             *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
-             *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and
-             *		<i><b>N</b></i> is the left child of its parent {@link XTreeNode.parent <b>P</b>}.
-             *	</li>
-             * </ol>
-             *
-             * <p> Again, the function calls all use tail recursion, so the algorithm is in-place. </p>
-             *
-             * <p> In the algorithm above, all cases are chained in order, except in delete case 3 where it can recurse
-             * to case 1 back to the parent node: this is the only case where an iterative implementation will
-             * effectively loop. No more than h loops back to case 1 will occur (where h is the height of the tree).
-             * And because the probability for escalation decreases exponentially with each iteration the average
-             * removal cost is constant. </p>
-             *
-             * <p> Additionally, no tail recursion ever occurs on a child node, so the tail recursion loop can only
-             * move from a child back to its successive ancestors. If a rotation occurs in case 2 (which is the only
-             * possibility of rotation within the loop of cases 1–3), then the parent of the node <i><b>N</b></i>
-             * becomes <font color='red'>red</font> after the rotation and we will exit the loop. Therefore, at most one
-             * rotation will occur within this loop. Since no more than two additional rotations will occur after
-             * exiting the loop, at most three rotations occur in total. </p>
-             *
-             * @param val An element to erase.
-             */
-            XTree.prototype.erase = function (val) {
-                var node = this.find(val);
-                if (node == null || this.is_equals(val, node.value) == false)
-                    return;
-                if (node.left != null && node.right != null) {
-                    var pred = this.fetch_maximum(node.left);
-                    node.value = pred.value;
-                    node = pred;
-                }
-                var child = (node.right == null) ? node.left : node.right;
-                if (this.fetch_color(node) == base.Color.BLACK) {
-                    node.color = this.fetch_color(child);
-                    this.erase_case1(node);
-                }
-                this.replace_node(node, child);
-            };
-            /**
-             * <p> <i><b>N</b></i> is the new root. </p>
-             *
-             * <p> In this case, we are done. We removed one <font color='darkBlue'>black</font> node from every path,
-             * and the new root is <font color='darkBlue'>black</font>, so the properties are preserved. </p>
-             *
-             * <h4> Note </h4>
-             * <p> In cases 2, 5, and 6, we assume <i><b>N</b></i> is the left child of its parent
-             * {@link XTreeNode.parent <b>P</b>}. If it is the right child, left and right should be reversed throughout
-             * these three cases. Again, the code examples take both cases into account. </p>
-             *
-             * @param N A node to be erased or swapped.
-             */
-            XTree.prototype.erase_case1 = function (N) {
-                if (N.parent == null)
-                    return;
-                else
-                    this.erase_case2(N);
-            };
-            /**
-             * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
-             *
-             * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_2.svg" /> </p>
-             *
-             * <p> In this case we reverse the colors of {@link XTreeNode.parent <b>P</b>} and
-             * {@link XTreeNode.sibling <b>S</b>}, and then rotate left at {@link XTreeNode.parent <b>P</b>}, turning
-             * {@link XTreeNode.sibling <b>S</b>} into <i><b>N</b></i>'s grandparent. </p>
-             *
-             * <p> Note that {@link XTreeNode.parent <b>P</b>} has to be <font color='darkBlue'>black</font> as it had a
-             * <font color='red'>red</font> child. The resulting subtree has a path short one
-             * <font color='darkBlue'>black</font> node so we are not done. Now <i><b>N</b></i> has a
-             * <font color='darkBlue'>black</font> sibling and a <font color='red'>red</font> parent, so we can proceed
-             * to step 4, 5, or 6. (Its new sibling is <font color='darkBlue'>black</font> because it was once the child
-             * of the <font color='red'>red</font> {@link XTreeNode.sibling <b>S</b>}.) In later cases, we will re-label
-             * <i><b>N</b></i>'s new sibling as {@link XTreeNode.sibling <b>S</b>}. </p>
-             *
-             * @param N A node to be erased or swapped.
-             */
-            XTree.prototype.erase_case2 = function (N) {
-                if (this.fetch_color(N.sibling) == base.Color.RED) {
-                    N.parent.color = base.Color.RED;
-                    N.sibling.color = base.Color.BLACK;
-                    if (N == N.parent.left)
-                        this.rotate_left(N.parent);
+                        this.insert_case2(N);
+                };
+                /**
+                 * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>. </p>
+                 *
+                 * <p> The current node's parent {@link XTreeNode.parent <b>P</b>} is <font color='darkBlue'>black</font>,
+                 * so property 4 (both children of every <font color='red'>red</font> node are
+                 * <font color='darkBlue'>black</font>) is not invalidated. </p>
+                 *
+                 * <p> In this case, the tree is still valid. Property 5 (all paths from any given node to its leaf nodes
+                 * contain the same number of <font color='darkBlue'>black</font> nodes) is not threatened, because the
+                 * current node <i><b>N</b></i> has two <font color='darkBlue'>black</font> leaf children, but because
+                 * <i><b>N</b></i> is <font color='red'>red</font>, the paths through each of its children have the same
+                 * number of <font color='darkBlue'>black</font> nodes as the path through the leaf it replaced, which was
+                 * <font color='darkBlue'>black</font>, and so this property remains satisfied. </p>
+                 *
+                 * @param N A node to be inserted or swapped.
+                 */
+                XTree.prototype.insert_case2 = function (N) {
+                    if (this.fetch_color(N.parent) == tree.Color.BLACK)
+                        return;
                     else
-                        this.rotate_right(N.parent);
-                }
-                this.erase_case3(N);
-            };
-            /**
-             * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling
-             * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
-             *
-             * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_3.svg" /> </p>
-             *
-             * <p> In this case, we simply repaint {@link XTreeNode.sibling <b>S</b>} <font color='red'>red</font>. The
-             * result is that all paths passing through {@link XTreeNode.sibling <b>S</b>}, which are precisely those
-             * paths not passing through <i><b>N</b></i>, have one less <font color='darkBlue'>black</font> node.
-             * Because deleting <i><b>N</b></i>'s original parent made all paths passing through <i><b>N</b></i> have
-             * one less <font color='darkBlue'>black</font> node, this evens things up. </p>
-             *
-             * <p> However, all paths through {@link XTreeNode.parent <b>P</b>} now have one fewer
-             * <font color='darkBlue'>black</font> node than paths that do not pass through
-             * {@link XTreeNode.parent <b>P</b>}, so property 5 (all paths from any given node to its leaf nodes contain
-             * the same number of <font color='darkBlue'>black</font> nodes) is still violated. </p>
-             *
-             * <p> To correct this, we perform the rebalancing procedure on {@link XTreeNode.parent <b>P</b>}, starting
-             * at case 1. </p>
-             *
-             * @param N A node to be erased or swapped.
-             */
-            XTree.prototype.erase_case3 = function (N) {
-                if (this.fetch_color(N.parent) == base.Color.BLACK &&
-                    this.fetch_color(N.sibling) == base.Color.BLACK &&
-                    this.fetch_color(N.sibling.left) == base.Color.BLACK &&
-                    this.fetch_color(N.sibling.right) == base.Color.BLACK) {
-                    N.sibling.color = base.Color.RED;
-                    this.erase_case1(N.parent);
-                }
-                else
-                    this.erase_case4(N);
-            };
-            /**
-             * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
-             * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
-             *
-             * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_4.svg" /> </p>
-             *
-             * <p> In this case, we simply exchange the colors of {@link XTreeNode.sibling <b>S</b>} and
-             * {@link XTreeNode.parent <b>P</b>}. This does not affect the number of <font color='darkBlue'>black</font>
-             * nodes on paths going through {@link XTreeNode.sibling <b>S</b>}, but it does add one to the number of
-             * <font color='darkBlue'>black</font> nodes on paths going through <i><b>N</b></i>, making up for the
-             * deleted <font color='darkBlue'>black</font> node on those paths. </p>
-             *
-             * @param N A node to be erased or swapped.
-             */
-            XTree.prototype.erase_case4 = function (N) {
-                if (this.fetch_color(N.parent) == base.Color.RED &&
-                    N.sibling != null &&
-                    this.fetch_color(N.sibling) == base.Color.BLACK &&
-                    this.fetch_color(N.sibling.left) == base.Color.BLACK &&
-                    this.fetch_color(N.sibling.right) == base.Color.BLACK) {
-                    N.sibling.color = base.Color.RED;
-                    N.parent.color = base.Color.BLACK;
-                }
-                else
-                    this.erase_case5(N);
-            };
-            /**
-             * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling <b>S</b>}'s
-             * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is
-             * <font color='darkBlue'>black</font>, and <i><b>N</b></i> is the left child of its parent. </p>
-             *
-             * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_5.svg" /> </p>
-             *
-             * <p> In this case we rotate right at {@link XTreeNode.sibling <b>S</b>}, so that
-             * {@link XTreeNode.sibling <b>S</b>}'s left child becomes {@link XTreeNode.sibling <b>S</b>}'s parent and
-             * <i><b>N</b></i>'s new sibling. We then exchange the colors of {@link XTreeNode.sibling <b>S</b>} and its
-             * new parent. </p>
-             *
-             * <p> All paths still have the same number of <font color='darkBlue'>black</font> nodes, but now
-             * <i><b>N</b></i> has a <font color='darkBlue'>black</font> sibling whose right child is
-             * <font color='red'>red</font>, so we fall into case 6. Neither <i><b>N</b></i> nor its parent are affected
-             * by this transformation. (Again, for case 6, we relabel <i><b>N</b></i>'s new sibling as
-             * {@link XTreeNode.sibling <b>S</b>}.) </p>
-             *
-             * @param N A node to be erased or swapped.
-             */
-            XTree.prototype.erase_case5 = function (N) {
-                if (N == N.parent.left &&
-                    N.sibling != null &&
-                    this.fetch_color(N.sibling) == base.Color.BLACK &&
-                    this.fetch_color(N.sibling.left) == base.Color.RED &&
-                    this.fetch_color(N.sibling.right) == base.Color.BLACK) {
-                    N.sibling.color = base.Color.RED;
-                    N.sibling.left.color = base.Color.BLACK;
-                    this.rotate_right(N.sibling);
-                }
-                else if (N == N.parent.right &&
-                    N.sibling != null &&
-                    this.fetch_color(N.sibling) == base.Color.BLACK &&
-                    this.fetch_color(N.sibling.left) == base.Color.BLACK &&
-                    this.fetch_color(N.sibling.right) == base.Color.RED) {
-                    N.sibling.color = base.Color.RED;
-                    N.sibling.right.color = base.Color.BLACK;
-                    this.rotate_left(N.sibling);
-                }
-            };
-            /**
-             * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
-             * {@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and <i><b>N</b></i> is
-             * the left child of its parent {@link XTreeNode.parent <b>P</b>}. </p>
-             *
-             * <p> In this case we rotate left at {@link XTreeNode.parent <b>P</b>}, so that
-             * {@link XTreeNode.sibling <b>S</b>} becomes the parent of {@link XTreeNode.parent <b>P</b>} and
-             * {@link XTreeNode.sibling <b>S</b>}'s right child. We then exchange the colors of
-             * {@link XTreeNode.parent <b>P</b>} and {@link XTreeNode.sibling <b>S</b>}, and make
-             * {@link XTreeNode.sibling <b>S</b>}'s right child <font color='darkBlue'>black</font>. </p>
-             *
-             * <p> The subtree still has the same color at its root, so Properties 4 (Both children of every
-             * <font color='red'>red</font> node are <font color='darkBlue'>black</font>) and 5 (All paths from any
-             * given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font> nodes) are
-             * not violated. However, <i><b>N</b></i> now has one additional <font color='darkBlue'>black</font>
-             * ancestor: either {@link XTreeNode.parent <b>P</b>} has become <font color='darkBlue'>black</font>, or it
-             * was <font color='darkBlue'>black</font> and {@link XTreeNode.sibling <b>S</b>} was added as a
-             * <font color='darkBlue'>black</font> grandparent. </p>
-             *
-             * <p> Thus, the paths passing through <i><b>N</b></i> pass through one additional
-             * <font color='darkBlue'>black</font> node. </p>
-             *
-             * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_6.svg" /> </p>
-             *
-             * <p> Meanwhile, if a path does not go through <i><b>N</b></i>, then there are two possibilities: </p>
-             * <ol>
-             *	<li>
-             *		It goes through <i><b>N</b></i>'s new sibling <b>SL</b>, a node with arbitrary color and the root of
-             *		the subtree labeled 3 (s. diagram). Then, it must go through {@link XTreeNode.sibling <b>S</b>} and
-             *		{@link XTreeNode.parent <b>P</b>}, both formerly and currently, as they have only exchanged colors
-             *		and places. Thus the path contains the same number of <font color='darkBlue'>black</font> nodes.
-             *	</li>
-             *	<li>
-             *		It goes through <i><b>N</b></i>'s new uncle, {@link XTreeNode.sibling <b>S</b>}'s right child. Then,
-             *		it formerly went through {@link XTreeNode.sibling <b>S</b>}, {@link XTreeNode.sibling <b>S</b>}'s
-             *		parent, and {@link XTreeNode.sibling <b>S</b>}'s right child <b>SR</b> (which was
-             *		<font color='red'>red</font>), but now only goes through {@link XTreeNode.sibling <b>S</b>}, which
-             *		has assumed the color of its former parent, and {@link XTreeNode.sibling <b>S</b>}'s right child,
-             *		which has changed from <font color='red'>red</font> to <font color='darkBlue'>black</font> (assuming
-             *		{@link XTreeNode.sibling <b>S</b>}'s color: <font color='darkBlue'>black</font>). The net effect is
-             *		that this path goes through the same number of <font color='darkBlue'>black</font> nodes.
-             *	</li>
-             * </ol>
-             *
-             * <p> Either way, the number of <font color='darkBlue'>black</font> nodes on these paths does not change.
-             * Thus, we have restored Properties 4 (Both children of every <font color='red'>red</font> node are
-             * <font color='darkBlue'>black</font>) and 5 (All paths from any given node to its leaf nodes contain the
-             * same number of <font color='darkBlue'>black</font> nodes). The white node in the diagram can be either
-             * <font color='red'>red</font> or <font color='darkBlue'>black</font>, but must refer to the same color
-             * both before and after the transformation. </p>
-             *
-             * @param N A node to be erased or swapped.
-             */
-            XTree.prototype.erase_case6 = function (node) {
-                node.sibling.color = this.fetch_color(node.parent);
-                node.parent.color = base.Color.BLACK;
-                if (node == node.parent.left) {
-                    node.sibling.right.color = base.Color.BLACK;
-                    this.rotate_left(node.parent);
-                }
-                else {
-                    node.sibling.left.color = base.Color.BLACK;
-                    this.rotate_right(node.parent);
-                }
-            };
-            /* ---------------------------------------------------------
-                ROTATION
-            --------------------------------------------------------- */
-            /**
-             * Rotate a node left.
-             *
-             * @param node Node to rotate left.
-             */
-            XTree.prototype.rotate_left = function (node) {
-                var right = node.right;
-                this.replace_node(node, right);
-                node.right = right.left;
-                if (right.left != null)
-                    right.left.parent = node;
-                right.left = node;
-                node.parent = right;
-            };
-            /**
-             * Rotate a node to right.
-             *
-             * @param node A node to rotate right.
-             */
-            XTree.prototype.rotate_right = function (node) {
-                var left = node.left;
-                this.replace_node(node, left);
-                node.left = left.right;
-                if (left.right != null)
-                    left.right.parent = node;
-                left.right = node;
-                node.parent = left;
-            };
-            /**
-             * Replace a node.
-             *
-             * @param oldNode Ordinary node to be replaced.
-             * @param newNode Target node to replace.
-             */
-            XTree.prototype.replace_node = function (oldNode, newNode) {
-                if (oldNode.parent == null)
-                    this.root_ = newNode;
-                else {
-                    if (oldNode == oldNode.parent.left)
-                        oldNode.parent.left = newNode;
+                        this.insert_case3(N);
+                };
+                /**
+                 * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
+                 * (<i>{@link XTreeNode.uncle <b>U</b>}</i>) are <font color='red'>red</font>. </p>
+                 *
+                 * <p> If both the parent {@link XTreeNode.parent <b>P</b>} and the uncle {@link XTreeNode.uncle <b>U</b>}
+                 * are <font color='red'>red</font>, then both of them can be repainted <font color='darkBlue'>black</font>
+                 * and the grandparent {@link XTreeNode.grand_parent <b>G</b>} becomes <font color='red'>red</font> (to
+                 * maintain property 5 (all paths from any given node to its leaf nodes contain the same number of
+                 * <font color='darkBlue'>black</font> nodes)). </p>
+                 *
+                 * <p> Now, the current <font color='red'>red</font> node <i><b>N</b></i> has a
+                 * <font color='darkBlue'>black</font> parent. Since any path through the parent or uncle must pass through
+                 * the grandparent, the number of <font color='darkBlue'>black</font> nodes on these paths has not changed.
+                 *
+                 * <p> However, the grandparent {@link XTreeNode.grand_parent <b>G</b>} may now violate properties 2 (The
+                 * root is <font color='darkBlue'>black</font>) or 4 (Both children of every <font color='red'>red</font>
+                 * node are <font color='darkBlue'>black</font>) (property 4 possibly being violated since
+                 * {@link XTreeNode.grand_parent <b>G</b>} may have a <font color='red'>red</font> parent). </p>
+                 *
+                 * <p> To fix this, the entire procedure is recursively performed on {@link XTreeNode.grand_parent <b>G</b>}
+                 * from case 1. Note that this is a tail-recursive call, so it could be rewritten as a loop; since this is
+                 * the only loop, and any rotations occur after this loop, this proves that a constant number of rotations
+                 * occur. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_3.svg" /> </p>
+                 *
+                 * @param N A node to be inserted or swapped.
+                 */
+                XTree.prototype.insert_case3 = function (N) {
+                    if (this.fetch_color(N.uncle) == tree.Color.RED) {
+                        N.parent.color = tree.Color.BLACK;
+                        N.uncle.color = tree.Color.BLACK;
+                        N.grand_parent.color = tree.Color.RED;
+                        this.insert_case1(N.grand_parent);
+                    }
+                    else {
+                        this.insert_case4(N);
+                    }
+                };
+                /**
+                 * <p> <i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
+                 * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+                 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
+                 *
+                 * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
+                 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>; also, the current node
+                 * <i><b>N</b></i> is the right child of {@link XTreeNode.parent <b>P</b>}, and
+                 * {@link XTreeNode.parent <b>P</b>} in turn is the left child of its parent
+                 * {@link XTreeNode.grand_parent <b>G</b>}. </p>
+                 *
+                 * <p> In this case, a left rotation on {@link XTreeNode.parent <b>P</b>} that switches the roles of the
+                 * current node <i><b>N</b></i> and its parent {@link XTreeNode.parent <b>P</b>} can be performed; then,
+                 * the former parent node {@link XTreeNode.parent <b>P</b>} is dealt with using case 5
+                 * (relabeling <i><b>N</b></i> and {@link XTreeNode.parent <b>P</b>}) because property 4 (both children of
+                 * every <font color='red'>red</font> node are <font color='darkBlue'>black</font>) is still violated. </p>
+                 *
+                 * <p> The rotation causes some paths (those in the sub-tree labelled "1") to pass through the node
+                 * <i><b>N</b></i> where they did not before. It also causes some paths (those in the sub-tree labelled "3")
+                 * not to pass through the node {@link XTreeNode.parent <b>P</b>} where they did before. However, both of
+                 * these nodes are <font color='red'>red</font>, so property 5 (all paths from any given node to its leaf
+                 * nodes contain the same number of <font color='darkBlue'>black</font> nodes) is not violated by the
+                 * rotation. </p>
+                 *
+                 * <p> After this case has been completed, property 4 (both children of every <font color='red'>red</font>
+                 * node are <font color='darkBlue'>black</font>) is still violated, but now we can resolve this by
+                 * continuing to case 5. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_4.svg" /> </p>
+                 *
+                 * @param N A node to be inserted or swapped.
+                 */
+                XTree.prototype.insert_case4 = function (node) {
+                    if (node == node.parent.right && node.parent == node.grand_parent.left) {
+                        this.rotate_left(node.parent);
+                        node = node.left;
+                    }
+                    else if (node == node.parent.left && node.parent == node.grand_parent.right) {
+                        this.rotate_right(node.parent);
+                        node = node.right;
+                    }
+                    this.insert_case5(node);
+                };
+                /**
+                 * <p> <i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
+                 * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+                 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
+                 *
+                 * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
+                 * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>, the current node <i><b>N</b></i>
+                 * is the left child of {@link XTreeNode.parent <b>P</b>}, and {@link XTreeNode.parent <b>P</b>} is the left
+                 * child of its parent {@link XTreeNode.grand_parent <b>G</b>}. </p>
+                 *
+                 * <p>In this case, a right rotation on {@link XTreeNode.grand_parent <b>G</b>} is performed; the result is a
+                 * tree where the former parent {@link XTreeNode.parent <b>P</b>} is now the parent of both the current node
+                 * <i><b>N</b></i> and the former grandparent {@link XTreeNode.grand_parent <b>G</b>}. </p>
+                 *
+                 * <p> {@link XTreeNode.grand_parent <b>G</b>} is known to be <font color='darkBlue'>black</font>, since its
+                 * former child {@link XTreeNode.parent <b>P</b>} could not have been <font color='red'>red</font> otherwise
+                 * (without violating property 4). Then, the colors of {@link XTreeNode.parent <b>P</b>} and
+                 * {@link XTreeNode.grand_parent <b>G</b>} are switched, and the resulting tree satisfies property 4 (both
+                 * children of every <font color='red'>red</font> node are <font color='darkBlue'>black</font>). Property 5
+                 * (all paths from any given node to its leaf nodes contain the same number of
+                 * <font color='darkBlue'>black</font> nodes) also remains satisfied, since all paths that went through any
+                 * of these three nodes went through {@link XTreeNode.grand_parent <b>G</b>} before, and now they all go
+                 * through {@link XTreeNode.parent <b>P</b>}. In each case, this is the only
+                 * <font color='darkBlue'>black</font> node of the three. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_5.svg" /> </p>
+                 *
+                 * @param N A node to be inserted or swapped.
+                 */
+                XTree.prototype.insert_case5 = function (node) {
+                    node.parent.color = tree.Color.BLACK;
+                    node.grand_parent.color = tree.Color.RED;
+                    if (node == node.parent.left && node.parent == node.grand_parent.left)
+                        this.rotate_right(node.grand_parent);
                     else
-                        oldNode.parent.right = newNode;
-                }
-                if (newNode != null)
-                    newNode.parent = oldNode.parent;
-            };
-            /* ---------------------------------------------------------
-                COLOR
-            --------------------------------------------------------- */
-            /**
-             * Fetch color from a node.
-             *
-             * @param node A node to fetch color.
-             * @retur color.
-             */
-            XTree.prototype.fetch_color = function (node) {
-                if (node == null)
-                    return base.Color.BLACK;
-                else
-                    return node.color;
-            };
-            return XTree;
-        }());
-        base.XTree = XTree;
+                        this.rotate_left(node.grand_parent);
+                };
+                /* ---------------------------------------------------------
+                    ERASE
+                --------------------------------------------------------- */
+                /**
+                 * <p> Erase an element with its node. </p>
+                 *
+                 * <p> In a regular binary search tree when deleting a node with two non-leaf children, we find either the
+                 * maximum element in its left subtree (which is the in-order predecessor) or the minimum element in its
+                 * right subtree (which is the in-order successor) and move its value into the node being deleted (as shown
+                 * here). We then delete the node we copied the value from, which must have fewer than two non-leaf children.
+                 * (Non-leaf children, rather than all children, are specified here because unlike normal binary search
+                 * trees, red-black trees can have leaf nodes anywhere, so that all nodes are either internal nodes with
+                 * two children or leaf nodes with, by definition, zero children. In effect, internal nodes having two leaf
+                 * children in a red-black tree are like the leaf nodes in a regular binary search tree.) Because merely
+                 * copying a value does not violate any red-black properties, this reduces to the problem of deleting a node
+                 * with at most one non-leaf child. Once we have solved that problem, the solution applies equally to the
+                 * case where the node we originally want to delete has at most one non-leaf child as to the case just
+                 * considered where it has two non-leaf children. </p>
+                 *
+                 * <p> Therefore, for the remainder of this discussion we address the deletion of a node with at most one
+                 * non-leaf child. We use the label <b>M</b> to denote the node to be deleted; <b>C</b> will denote a
+                 * selected child of <b>M</b>, which we will also call "its child". If <b>M</b> does have a non-leaf child,
+                 * call that its child, <b>C</b>; otherwise, choose either leaf as its child, <b>C</b>. </p>
+                 *
+                 * <p> If <b>M</b> is a <font color='red'>red</font> node, we simply replace it with its child <b>C</b>,
+                 *  which must be <font color='darkBlue'>black</font> by property 4. (This can only occur when <b>M</b> has
+                 * two leaf children, because if the <font color='red'>red</font> node <b>M</b> had a
+                 * <font color='darkBlue'>black</font> non-leaf child on one side but just a leaf child on the other side,
+                 * then the count of <font color='darkBlue'>black</font> nodes on both sides would be different, thus the
+                 * tree would violate property 5.) All paths through the deleted node will simply pass through one fewer
+                 * <font color='red'>red</font> node, and both the deleted node's parent and child must be
+                 * <font color='darkBlue'>black</font>, so property 3 (all leaves are <font color='darkBlue'>black</font>)
+                 * and property 4 (both children of every <font color='red'>red</font> node are
+                 * <font color='darkBlue'>black</font>) still hold. </p>
+                 *
+                 * <p> Another simple case is when <b>M</b> is <font color='darkBlue'>black</font> and <b>C</b> is
+                 * <font color='red'>red</font>. Simply removing a <font color='darkBlue'>black</font> node could break
+                 * Properties 4 (“Both children of every <font color='red'>red</font> node are
+                 * <font color='darkBlue'>black</font>”) and 5 (“All paths from any given node to its leaf nodes contain the
+                 * same number of <font color='darkBlue'>black</font> nodes”), but if we repaint <b>C</b>
+                 * <font color='darkBlue'>black</font>, both of these properties are preserved. </p>
+                 *
+                 * <p> The complex case is when both <b>M</b> and <b>C</b> are <font color='darkBlue'>black</font>. (This
+                 * can only occur when deleting a <font color='darkBlue'>black</font> node which has two leaf children,
+                 * because if the <font color='darkBlue'>black</font> node <b>M</b> had a <font color='darkBlue'>black</font>
+                 * non-leaf child on one side but just a leaf child on the other side, then the count of
+                 * <font color='darkBlue'>black</font> nodes on both sides would be different, thus the tree would have been
+                 * an invalid red-black tree by violation of property 5.) We begin by replacing <b>M</b> with its child
+                 * <b>C</b>. We will relabel this child <b>C</b> (in its new position) <i><b>N</b></i>, and its sibling (its
+                 * new parent's other child) {@link XTreeNode.sibling <b>S</b>}. ({@link XTreeNode.sibling <b>S</b>} was
+                 * previously the sibling of <b>M</b>.) </p>
+                 *
+                 * <p> In the diagrams below, we will also use {@link XTreeNode.parent <b>P</b>} for <i><b>N</b></i>'s new
+                 * parent (<b>M</b>'s old parent), <b>SL</b> for {@link XTreeNode.sibling <b>S</b>}'s left child, and
+                 * <b>SR</b> for {@link XTreeNode.sibling <b>S</b>}'s right child ({@link XTreeNode.sibling <b>S</b>} cannot
+                 * be a leaf because if <b>M</b> and <b>C</b> were <font color='darkBlue'>black</font>, then
+                 * {@link XTreeNode.parent <b>P</b>}'s one subtree which included <b>M</b> counted two
+                 * <font color='darkBlue'>black</font>-height and thus {@link XTreeNode.parent <b>P</b>}'s other subtree
+                 * which includes {@link XTreeNode.sibling <b>S</b>} must also count two
+                 * <font color='darkBlue'>black</font>-height, which cannot be the case if {@link XTreeNode.sibling <b>S</b>}
+                 * is a leaf node). </p>
+                 *
+                 * <h4> Notes </h4>
+                 * <ol>
+                 *	<li>
+                 *		The label <i><b>N</b></i> will be used to denote the current node (colored
+                 *		<font color='darkBlue'>black</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
+                 *		beginning, this is the replacement node and a leaf, but the entire procedure may also be applied
+                 *		recursively to other nodes (see case 3). In between some cases, the roles and labels of the nodes
+                 *		are exchanged, but in each case, every label continues to represent the same node it represented at
+                 *		the beginning of the case.
+                 *	</li>
+                 *	<li>
+                 *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
+                 *		node in the next iteration and there the other nodes will be newly assigned relative to it. Any
+                 *		color shown in the diagram is either assumed in its case or implied by those assumptions.
+                 *		White represents an arbitrary color (either <font color='red'>red</font> or
+                 *		<font color='darkBlue'>black</font>), but the same in both halves of the diagram.
+                 *	</li>
+                 *	<li>
+                 *		A numbered triangle represents a subtree of unspecified depth. A <font color='darkBlue'>black</font>
+                 *		circle atop a triangle means that <font color='darkBlue'>black</font>-height of subtree is greater
+                 *		by one compared to subtree without this circle.
+                 *	</li>
+                 * </ol>
+                 *
+                 * <p> If both <i><b>N</b></i> and its original parent are <font color='darkBlue'>black</font>, then
+                 * deleting this original parent causes paths which proceed through <i><b>N</b></i> to have one fewer
+                 * <font color='darkBlue'>black</font> node than paths that do not. As this violates property 5 (all paths
+                 * from any given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font>
+                 * nodes), the tree must be rebalanced. There are several cases to consider: </p>
+                 *
+                 * <ol>
+                 *	<li> <i><b>N</b></i> is the new root. </li>
+                 *	<li> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </li>
+                 *	<li>
+                 *		{@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and
+                 *		{@link XTreeNode.sibling <b>S</b>}'s children are <font color='darkBlue'>black</font>. </li>
+                 *	<li>
+                 *		{@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
+                 *		<font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is
+                 *		<font color='red'>red</font>.
+                 *	</li>
+                 *	<li>
+                 *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+                 *		{@link XTreeNode.sibling <b>S</b>}'s left child is <font color='red'>red</font>,
+                 *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='darkBlue'>black</font>, and
+                 *		<i><b>N</b></i> is the left child of its parent.
+                 *	</li>
+                 *	<li>
+                 *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+                 *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and
+                 *		<i><b>N</b></i> is the left child of its parent {@link XTreeNode.parent <b>P</b>}.
+                 *	</li>
+                 * </ol>
+                 *
+                 * <p> Again, the function calls all use tail recursion, so the algorithm is in-place. </p>
+                 *
+                 * <p> In the algorithm above, all cases are chained in order, except in delete case 3 where it can recurse
+                 * to case 1 back to the parent node: this is the only case where an iterative implementation will
+                 * effectively loop. No more than h loops back to case 1 will occur (where h is the height of the tree).
+                 * And because the probability for escalation decreases exponentially with each iteration the average
+                 * removal cost is constant. </p>
+                 *
+                 * <p> Additionally, no tail recursion ever occurs on a child node, so the tail recursion loop can only
+                 * move from a child back to its successive ancestors. If a rotation occurs in case 2 (which is the only
+                 * possibility of rotation within the loop of cases 1–3), then the parent of the node <i><b>N</b></i>
+                 * becomes <font color='red'>red</font> after the rotation and we will exit the loop. Therefore, at most one
+                 * rotation will occur within this loop. Since no more than two additional rotations will occur after
+                 * exiting the loop, at most three rotations occur in total. </p>
+                 *
+                 * @param val An element to erase.
+                 */
+                XTree.prototype.erase = function (val) {
+                    var node = this.find(val);
+                    if (node == null || this.is_equals(val, node.value) == false)
+                        return;
+                    if (node.left != null && node.right != null) {
+                        var pred = this.fetch_maximum(node.left);
+                        node.value = pred.value;
+                        node = pred;
+                    }
+                    var child = (node.right == null) ? node.left : node.right;
+                    if (this.fetch_color(node) == tree.Color.BLACK) {
+                        node.color = this.fetch_color(child);
+                        this.erase_case1(node);
+                    }
+                    this.replace_node(node, child);
+                };
+                /**
+                 * <p> <i><b>N</b></i> is the new root. </p>
+                 *
+                 * <p> In this case, we are done. We removed one <font color='darkBlue'>black</font> node from every path,
+                 * and the new root is <font color='darkBlue'>black</font>, so the properties are preserved. </p>
+                 *
+                 * <h4> Note </h4>
+                 * <p> In cases 2, 5, and 6, we assume <i><b>N</b></i> is the left child of its parent
+                 * {@link XTreeNode.parent <b>P</b>}. If it is the right child, left and right should be reversed throughout
+                 * these three cases. Again, the code examples take both cases into account. </p>
+                 *
+                 * @param N A node to be erased or swapped.
+                 */
+                XTree.prototype.erase_case1 = function (N) {
+                    if (N.parent == null)
+                        return;
+                    else
+                        this.erase_case2(N);
+                };
+                /**
+                 * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_2.svg" /> </p>
+                 *
+                 * <p> In this case we reverse the colors of {@link XTreeNode.parent <b>P</b>} and
+                 * {@link XTreeNode.sibling <b>S</b>}, and then rotate left at {@link XTreeNode.parent <b>P</b>}, turning
+                 * {@link XTreeNode.sibling <b>S</b>} into <i><b>N</b></i>'s grandparent. </p>
+                 *
+                 * <p> Note that {@link XTreeNode.parent <b>P</b>} has to be <font color='darkBlue'>black</font> as it had a
+                 * <font color='red'>red</font> child. The resulting subtree has a path short one
+                 * <font color='darkBlue'>black</font> node so we are not done. Now <i><b>N</b></i> has a
+                 * <font color='darkBlue'>black</font> sibling and a <font color='red'>red</font> parent, so we can proceed
+                 * to step 4, 5, or 6. (Its new sibling is <font color='darkBlue'>black</font> because it was once the child
+                 * of the <font color='red'>red</font> {@link XTreeNode.sibling <b>S</b>}.) In later cases, we will re-label
+                 * <i><b>N</b></i>'s new sibling as {@link XTreeNode.sibling <b>S</b>}. </p>
+                 *
+                 * @param N A node to be erased or swapped.
+                 */
+                XTree.prototype.erase_case2 = function (N) {
+                    if (this.fetch_color(N.sibling) == tree.Color.RED) {
+                        N.parent.color = tree.Color.RED;
+                        N.sibling.color = tree.Color.BLACK;
+                        if (N == N.parent.left)
+                            this.rotate_left(N.parent);
+                        else
+                            this.rotate_right(N.parent);
+                    }
+                    this.erase_case3(N);
+                };
+                /**
+                 * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling
+                 * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_3.svg" /> </p>
+                 *
+                 * <p> In this case, we simply repaint {@link XTreeNode.sibling <b>S</b>} <font color='red'>red</font>. The
+                 * result is that all paths passing through {@link XTreeNode.sibling <b>S</b>}, which are precisely those
+                 * paths not passing through <i><b>N</b></i>, have one less <font color='darkBlue'>black</font> node.
+                 * Because deleting <i><b>N</b></i>'s original parent made all paths passing through <i><b>N</b></i> have
+                 * one less <font color='darkBlue'>black</font> node, this evens things up. </p>
+                 *
+                 * <p> However, all paths through {@link XTreeNode.parent <b>P</b>} now have one fewer
+                 * <font color='darkBlue'>black</font> node than paths that do not pass through
+                 * {@link XTreeNode.parent <b>P</b>}, so property 5 (all paths from any given node to its leaf nodes contain
+                 * the same number of <font color='darkBlue'>black</font> nodes) is still violated. </p>
+                 *
+                 * <p> To correct this, we perform the rebalancing procedure on {@link XTreeNode.parent <b>P</b>}, starting
+                 * at case 1. </p>
+                 *
+                 * @param N A node to be erased or swapped.
+                 */
+                XTree.prototype.erase_case3 = function (N) {
+                    if (this.fetch_color(N.parent) == tree.Color.BLACK &&
+                        this.fetch_color(N.sibling) == tree.Color.BLACK &&
+                        this.fetch_color(N.sibling.left) == tree.Color.BLACK &&
+                        this.fetch_color(N.sibling.right) == tree.Color.BLACK) {
+                        N.sibling.color = tree.Color.RED;
+                        this.erase_case1(N.parent);
+                    }
+                    else
+                        this.erase_case4(N);
+                };
+                /**
+                 * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
+                 * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_4.svg" /> </p>
+                 *
+                 * <p> In this case, we simply exchange the colors of {@link XTreeNode.sibling <b>S</b>} and
+                 * {@link XTreeNode.parent <b>P</b>}. This does not affect the number of <font color='darkBlue'>black</font>
+                 * nodes on paths going through {@link XTreeNode.sibling <b>S</b>}, but it does add one to the number of
+                 * <font color='darkBlue'>black</font> nodes on paths going through <i><b>N</b></i>, making up for the
+                 * deleted <font color='darkBlue'>black</font> node on those paths. </p>
+                 *
+                 * @param N A node to be erased or swapped.
+                 */
+                XTree.prototype.erase_case4 = function (N) {
+                    if (this.fetch_color(N.parent) == tree.Color.RED &&
+                        N.sibling != null &&
+                        this.fetch_color(N.sibling) == tree.Color.BLACK &&
+                        this.fetch_color(N.sibling.left) == tree.Color.BLACK &&
+                        this.fetch_color(N.sibling.right) == tree.Color.BLACK) {
+                        N.sibling.color = tree.Color.RED;
+                        N.parent.color = tree.Color.BLACK;
+                    }
+                    else
+                        this.erase_case5(N);
+                };
+                /**
+                 * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling <b>S</b>}'s
+                 * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is
+                 * <font color='darkBlue'>black</font>, and <i><b>N</b></i> is the left child of its parent. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_5.svg" /> </p>
+                 *
+                 * <p> In this case we rotate right at {@link XTreeNode.sibling <b>S</b>}, so that
+                 * {@link XTreeNode.sibling <b>S</b>}'s left child becomes {@link XTreeNode.sibling <b>S</b>}'s parent and
+                 * <i><b>N</b></i>'s new sibling. We then exchange the colors of {@link XTreeNode.sibling <b>S</b>} and its
+                 * new parent. </p>
+                 *
+                 * <p> All paths still have the same number of <font color='darkBlue'>black</font> nodes, but now
+                 * <i><b>N</b></i> has a <font color='darkBlue'>black</font> sibling whose right child is
+                 * <font color='red'>red</font>, so we fall into case 6. Neither <i><b>N</b></i> nor its parent are affected
+                 * by this transformation. (Again, for case 6, we relabel <i><b>N</b></i>'s new sibling as
+                 * {@link XTreeNode.sibling <b>S</b>}.) </p>
+                 *
+                 * @param N A node to be erased or swapped.
+                 */
+                XTree.prototype.erase_case5 = function (N) {
+                    if (N == N.parent.left &&
+                        N.sibling != null &&
+                        this.fetch_color(N.sibling) == tree.Color.BLACK &&
+                        this.fetch_color(N.sibling.left) == tree.Color.RED &&
+                        this.fetch_color(N.sibling.right) == tree.Color.BLACK) {
+                        N.sibling.color = tree.Color.RED;
+                        N.sibling.left.color = tree.Color.BLACK;
+                        this.rotate_right(N.sibling);
+                    }
+                    else if (N == N.parent.right &&
+                        N.sibling != null &&
+                        this.fetch_color(N.sibling) == tree.Color.BLACK &&
+                        this.fetch_color(N.sibling.left) == tree.Color.BLACK &&
+                        this.fetch_color(N.sibling.right) == tree.Color.RED) {
+                        N.sibling.color = tree.Color.RED;
+                        N.sibling.right.color = tree.Color.BLACK;
+                        this.rotate_left(N.sibling);
+                    }
+                };
+                /**
+                 * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+                 * {@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and <i><b>N</b></i> is
+                 * the left child of its parent {@link XTreeNode.parent <b>P</b>}. </p>
+                 *
+                 * <p> In this case we rotate left at {@link XTreeNode.parent <b>P</b>}, so that
+                 * {@link XTreeNode.sibling <b>S</b>} becomes the parent of {@link XTreeNode.parent <b>P</b>} and
+                 * {@link XTreeNode.sibling <b>S</b>}'s right child. We then exchange the colors of
+                 * {@link XTreeNode.parent <b>P</b>} and {@link XTreeNode.sibling <b>S</b>}, and make
+                 * {@link XTreeNode.sibling <b>S</b>}'s right child <font color='darkBlue'>black</font>. </p>
+                 *
+                 * <p> The subtree still has the same color at its root, so Properties 4 (Both children of every
+                 * <font color='red'>red</font> node are <font color='darkBlue'>black</font>) and 5 (All paths from any
+                 * given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font> nodes) are
+                 * not violated. However, <i><b>N</b></i> now has one additional <font color='darkBlue'>black</font>
+                 * ancestor: either {@link XTreeNode.parent <b>P</b>} has become <font color='darkBlue'>black</font>, or it
+                 * was <font color='darkBlue'>black</font> and {@link XTreeNode.sibling <b>S</b>} was added as a
+                 * <font color='darkBlue'>black</font> grandparent. </p>
+                 *
+                 * <p> Thus, the paths passing through <i><b>N</b></i> pass through one additional
+                 * <font color='darkBlue'>black</font> node. </p>
+                 *
+                 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_6.svg" /> </p>
+                 *
+                 * <p> Meanwhile, if a path does not go through <i><b>N</b></i>, then there are two possibilities: </p>
+                 * <ol>
+                 *	<li>
+                 *		It goes through <i><b>N</b></i>'s new sibling <b>SL</b>, a node with arbitrary color and the root of
+                 *		the subtree labeled 3 (s. diagram). Then, it must go through {@link XTreeNode.sibling <b>S</b>} and
+                 *		{@link XTreeNode.parent <b>P</b>}, both formerly and currently, as they have only exchanged colors
+                 *		and places. Thus the path contains the same number of <font color='darkBlue'>black</font> nodes.
+                 *	</li>
+                 *	<li>
+                 *		It goes through <i><b>N</b></i>'s new uncle, {@link XTreeNode.sibling <b>S</b>}'s right child. Then,
+                 *		it formerly went through {@link XTreeNode.sibling <b>S</b>}, {@link XTreeNode.sibling <b>S</b>}'s
+                 *		parent, and {@link XTreeNode.sibling <b>S</b>}'s right child <b>SR</b> (which was
+                 *		<font color='red'>red</font>), but now only goes through {@link XTreeNode.sibling <b>S</b>}, which
+                 *		has assumed the color of its former parent, and {@link XTreeNode.sibling <b>S</b>}'s right child,
+                 *		which has changed from <font color='red'>red</font> to <font color='darkBlue'>black</font> (assuming
+                 *		{@link XTreeNode.sibling <b>S</b>}'s color: <font color='darkBlue'>black</font>). The net effect is
+                 *		that this path goes through the same number of <font color='darkBlue'>black</font> nodes.
+                 *	</li>
+                 * </ol>
+                 *
+                 * <p> Either way, the number of <font color='darkBlue'>black</font> nodes on these paths does not change.
+                 * Thus, we have restored Properties 4 (Both children of every <font color='red'>red</font> node are
+                 * <font color='darkBlue'>black</font>) and 5 (All paths from any given node to its leaf nodes contain the
+                 * same number of <font color='darkBlue'>black</font> nodes). The white node in the diagram can be either
+                 * <font color='red'>red</font> or <font color='darkBlue'>black</font>, but must refer to the same color
+                 * both before and after the transformation. </p>
+                 *
+                 * @param N A node to be erased or swapped.
+                 */
+                XTree.prototype.erase_case6 = function (node) {
+                    node.sibling.color = this.fetch_color(node.parent);
+                    node.parent.color = tree.Color.BLACK;
+                    if (node == node.parent.left) {
+                        node.sibling.right.color = tree.Color.BLACK;
+                        this.rotate_left(node.parent);
+                    }
+                    else {
+                        node.sibling.left.color = tree.Color.BLACK;
+                        this.rotate_right(node.parent);
+                    }
+                };
+                /* ---------------------------------------------------------
+                    ROTATION
+                --------------------------------------------------------- */
+                /**
+                 * Rotate a node left.
+                 *
+                 * @param node Node to rotate left.
+                 */
+                XTree.prototype.rotate_left = function (node) {
+                    var right = node.right;
+                    this.replace_node(node, right);
+                    node.right = right.left;
+                    if (right.left != null)
+                        right.left.parent = node;
+                    right.left = node;
+                    node.parent = right;
+                };
+                /**
+                 * Rotate a node to right.
+                 *
+                 * @param node A node to rotate right.
+                 */
+                XTree.prototype.rotate_right = function (node) {
+                    var left = node.left;
+                    this.replace_node(node, left);
+                    node.left = left.right;
+                    if (left.right != null)
+                        left.right.parent = node;
+                    left.right = node;
+                    node.parent = left;
+                };
+                /**
+                 * Replace a node.
+                 *
+                 * @param oldNode Ordinary node to be replaced.
+                 * @param newNode Target node to replace.
+                 */
+                XTree.prototype.replace_node = function (oldNode, newNode) {
+                    if (oldNode.parent == null)
+                        this.root_ = newNode;
+                    else {
+                        if (oldNode == oldNode.parent.left)
+                            oldNode.parent.left = newNode;
+                        else
+                            oldNode.parent.right = newNode;
+                    }
+                    if (newNode != null)
+                        newNode.parent = oldNode.parent;
+                };
+                /* ---------------------------------------------------------
+                    COLOR
+                --------------------------------------------------------- */
+                /**
+                 * Fetch color from a node.
+                 *
+                 * @param node A node to fetch color.
+                 * @retur color.
+                 */
+                XTree.prototype.fetch_color = function (node) {
+                    if (node == null)
+                        return tree.Color.BLACK;
+                    else
+                        return node.color;
+                };
+                return XTree;
+            }());
+            tree.XTree = XTree;
+        })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="XTree.ts" />
@@ -4202,117 +3413,123 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var AtomicTree = (function (_super) {
-            __extends(AtomicTree, _super);
-            /* ---------------------------------------------------------
-                CONSTRUCTOR
-            --------------------------------------------------------- */
+        var tree;
+        (function (tree) {
             /**
-             * Default Constructor.
+             * @author Jeongho Nam <http://samchon.org>
              */
-            function AtomicTree(compare) {
-                if (compare === void 0) { compare = std.less; }
-                _super.call(this);
-                this.compare_ = compare;
-            }
-            AtomicTree.prototype.find = function (val) {
-                if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
-                    return _super.prototype.find.call(this, val);
-                else
-                    return this.find_by_val(val);
-            };
-            /**
-             * @hidden
-             */
-            AtomicTree.prototype.find_by_val = function (val) {
-                if (this.root_ == null)
-                    return null;
-                var node = this.root_;
-                while (true) {
-                    var newNode = null;
-                    if (std.equal_to(val, node.value.value))
-                        break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-                    else if (std.less(val, node.value.value))
-                        newNode = node.left; // LESS, THEN TO THE LEFT
-                    else
-                        newNode = node.right; // GREATER, THEN TO THE RIGHT
-                    // ULTIL CHILD NODE EXISTS
-                    if (newNode == null)
-                        break;
-                    // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-                    node = newNode;
+            var AtomicTree = (function (_super) {
+                __extends(AtomicTree, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTOR
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function AtomicTree(compare) {
+                    if (compare === void 0) { compare = std.less; }
+                    _super.call(this);
+                    this.compare_ = compare;
                 }
-                return node;
-            };
-            /* ---------------------------------------------------------
-                COMPARISON
-            --------------------------------------------------------- */
-            AtomicTree.prototype.get_compare = function () {
-                return this.compare_;
-            };
-            /**
-             * @inheritdoc
-             */
-            AtomicTree.prototype.is_equals = function (left, right) {
-                return std.equal_to(left, right);
-            };
-            /**
-             * @inheritdoc
-             */
-            AtomicTree.prototype.is_less = function (left, right) {
-                return this.compare_(left.value, right.value);
-            };
-            return AtomicTree;
-        }(base.XTree));
-        base.AtomicTree = AtomicTree;
+                AtomicTree.prototype.find = function (val) {
+                    if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
+                        return _super.prototype.find.call(this, val);
+                    else
+                        return this.find_by_val(val);
+                };
+                /**
+                 * @hidden
+                 */
+                AtomicTree.prototype.find_by_val = function (val) {
+                    if (this.root_ == null)
+                        return null;
+                    var node = this.root_;
+                    while (true) {
+                        var newNode = null;
+                        if (std.equal_to(val, node.value.value))
+                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                        else if (std.less(val, node.value.value))
+                            newNode = node.left; // LESS, THEN TO THE LEFT
+                        else
+                            newNode = node.right; // GREATER, THEN TO THE RIGHT
+                        // ULTIL CHILD NODE EXISTS
+                        if (newNode == null)
+                            break;
+                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                        node = newNode;
+                    }
+                    return node;
+                };
+                /* ---------------------------------------------------------
+                    COMPARISON
+                --------------------------------------------------------- */
+                AtomicTree.prototype.get_compare = function () {
+                    return this.compare_;
+                };
+                /**
+                 * @inheritdoc
+                 */
+                AtomicTree.prototype.is_equals = function (left, right) {
+                    return std.equal_to(left, right);
+                };
+                /**
+                 * @inheritdoc
+                 */
+                AtomicTree.prototype.is_less = function (left, right) {
+                    return this.compare_(left.value, right.value);
+                };
+                return AtomicTree;
+            }(tree.XTree));
+            tree.AtomicTree = AtomicTree;
+        })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> Static class holding enumeration codes of color of Red-black tree. </p>
-         *
-         * <p> Color codes imposed to nodes of RB-Tree are following those rules: </p>
-         *
-         * <ol>
-         *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
-         *	<li> The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
-         *		 always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
-         *		 necessarily vice versa, this rule has little effect on analysis. </li>
-         *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
-         *  <li> If a node is <font color='red'>red</font>, then both its children are
-         *		 <font color='darkBlue'>black</font>. </li>
-         *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of
-         *		 <font color='darkBlue'>black</font> nodes. Some definitions: the number of
-         *		 <font color='darkBlue'>black</font> nodes from the root to a node is the node's
-         *		 <font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
-         *		 nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
-         *		 the red-black tree. </li>
-         * </ol>
-         *
-         * @author Migrated by Jeongho Nam <http://samchon.org>
-         */
-        (function (Color) {
+        var tree;
+        (function (tree) {
             /**
-             * <p> Code of color black. </p>
+             * <p> Static class holding enumeration codes of color of Red-black tree. </p>
              *
-             * <ul>
-             *	<li> Those are clearly black: root, leaf nodes or children nodes of red. </li>
-             *	<li> Every path from a given nodes containes the same number of black nodes exclude NIL(s). </li>
-             * </ul>
+             * <p> Color codes imposed to nodes of RB-Tree are following those rules: </p>
+             *
+             * <ol>
+             *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
+             *	<li> The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
+             *		 always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
+             *		 necessarily vice versa, this rule has little effect on analysis. </li>
+             *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
+             *  <li> If a node is <font color='red'>red</font>, then both its children are
+             *		 <font color='darkBlue'>black</font>. </li>
+             *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of
+             *		 <font color='darkBlue'>black</font> nodes. Some definitions: the number of
+             *		 <font color='darkBlue'>black</font> nodes from the root to a node is the node's
+             *		 <font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
+             *		 nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
+             *		 the red-black tree. </li>
+             * </ol>
+             *
+             * @author Migrated by Jeongho Nam <http://samchon.org>
              */
-            Color[Color["BLACK"] = 0] = "BLACK";
-            /**
-             * <p> Code of color red. </p>
-             */
-            Color[Color["RED"] = 1] = "RED";
-        })(base.Color || (base.Color = {}));
-        var Color = base.Color;
+            (function (Color) {
+                /**
+                 * <p> Code of color black. </p>
+                 *
+                 * <ul>
+                 *	<li> Those are clearly black: root, leaf nodes or children nodes of red. </li>
+                 *	<li> Every path from a given nodes containes the same number of black nodes exclude NIL(s). </li>
+                 * </ul>
+                 */
+                Color[Color["BLACK"] = 0] = "BLACK";
+                /**
+                 * <p> Code of color red. </p>
+                 */
+                Color[Color["RED"] = 1] = "RED";
+            })(tree.Color || (tree.Color = {}));
+            var Color = tree.Color;
+        })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="XTree.ts" />
@@ -4320,142 +3537,148 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var PairTree = (function (_super) {
-            __extends(PairTree, _super);
-            /* ---------------------------------------------------------
-                CONSTRUCTOR
-            --------------------------------------------------------- */
+        var tree;
+        (function (tree) {
             /**
-             * Default Constructor.
+             * @author Jeongho Nam <http://samchon.org>
              */
-            function PairTree(compare) {
-                if (compare === void 0) { compare = std.less; }
-                _super.call(this);
-                this.compare_ = compare;
-            }
-            PairTree.prototype.find = function (val) {
-                if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
-                    return _super.prototype.find.call(this, val);
-                else
-                    return this.find_by_key(val);
-            };
-            /**
-             * @hidden
-             */
-            PairTree.prototype.find_by_key = function (key) {
-                if (this.root_ == null)
-                    return null;
-                var node = this.root_;
-                while (true) {
-                    var newNode = null;
-                    if (std.equal_to(key, node.value.first))
-                        break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-                    else if (std.less(key, node.value.first))
-                        newNode = node.left; // LESS, THEN TO THE LEFT
-                    else
-                        newNode = node.right; // GREATER, THEN TO THE RIGHT
-                    // ULTIL CHILD NODE EXISTS
-                    if (newNode == null)
-                        break;
-                    // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-                    node = newNode;
+            var PairTree = (function (_super) {
+                __extends(PairTree, _super);
+                /* ---------------------------------------------------------
+                    CONSTRUCTOR
+                --------------------------------------------------------- */
+                /**
+                 * Default Constructor.
+                 */
+                function PairTree(compare) {
+                    if (compare === void 0) { compare = std.less; }
+                    _super.call(this);
+                    this.compare_ = compare;
                 }
-                return node;
-            };
-            /* ---------------------------------------------------------
-                COMPARISON
-            --------------------------------------------------------- */
-            PairTree.prototype.get_compare = function () {
-                return this.compare_;
-            };
-            /**
-             * @inheritdoc
-             */
-            PairTree.prototype.is_equals = function (left, right) {
-                return std.equal_to(left.first, right.first);
-            };
-            /**
-             * @inheritdoc
-             */
-            PairTree.prototype.is_less = function (left, right) {
-                return this.compare_(left.first, right.first);
-            };
-            return PairTree;
-        }(base.XTree));
-        base.PairTree = PairTree;
+                PairTree.prototype.find = function (val) {
+                    if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
+                        return _super.prototype.find.call(this, val);
+                    else
+                        return this.find_by_key(val);
+                };
+                /**
+                 * @hidden
+                 */
+                PairTree.prototype.find_by_key = function (key) {
+                    if (this.root_ == null)
+                        return null;
+                    var node = this.root_;
+                    while (true) {
+                        var newNode = null;
+                        if (std.equal_to(key, node.value.first))
+                            break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                        else if (std.less(key, node.value.first))
+                            newNode = node.left; // LESS, THEN TO THE LEFT
+                        else
+                            newNode = node.right; // GREATER, THEN TO THE RIGHT
+                        // ULTIL CHILD NODE EXISTS
+                        if (newNode == null)
+                            break;
+                        // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                        node = newNode;
+                    }
+                    return node;
+                };
+                /* ---------------------------------------------------------
+                    COMPARISON
+                --------------------------------------------------------- */
+                PairTree.prototype.get_compare = function () {
+                    return this.compare_;
+                };
+                /**
+                 * @inheritdoc
+                 */
+                PairTree.prototype.is_equals = function (left, right) {
+                    return std.equal_to(left.first, right.first);
+                };
+                /**
+                 * @inheritdoc
+                 */
+                PairTree.prototype.is_less = function (left, right) {
+                    return this.compare_(left.first, right.first);
+                };
+                return PairTree;
+            }(tree.XTree));
+            tree.PairTree = PairTree;
+        })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 var std;
 (function (std) {
     var base;
     (function (base) {
-        /**
-         * <p> A node in an XTree. </p>
-         *
-         * @param <T> Type of elements.
-         *
-         * @inventor Rudolf Bayer
-         * @author Migrated by Jeongho Nam <http://samchon.org>
-         */
-        var XTreeNode = (function () {
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
+        var tree;
+        (function (tree) {
             /**
-             * Construct from value and color of node.
+             * <p> A node in an XTree. </p>
              *
-             * @param value Value to be stored in.
-             * @param color Color of the node, red or black.
+             * @param <T> Type of elements.
+             *
+             * @inventor Rudolf Bayer
+             * @author Migrated by Jeongho Nam <http://samchon.org>
              */
-            function XTreeNode(value, color) {
-                this.value = value;
-                this.color = color;
-                this.parent = null;
-                this.left = null;
-                this.right = null;
-            }
-            Object.defineProperty(XTreeNode.prototype, "grand_parent", {
+            var XTreeNode = (function () {
+                /* ---------------------------------------------------------
+                    CONSTRUCTORS
+                --------------------------------------------------------- */
                 /**
-                 * Get grand-parent.
+                 * Construct from value and color of node.
+                 *
+                 * @param value Value to be stored in.
+                 * @param color Color of the node, red or black.
                  */
-                get: function () {
-                    return this.parent.parent;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(XTreeNode.prototype, "sibling", {
-                /**
-                 * Get sibling, opposite side node in same parent.
-                 */
-                get: function () {
-                    if (this == this.parent.left)
-                        return this.parent.right;
-                    else
-                        return this.parent.left;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(XTreeNode.prototype, "uncle", {
-                /**
-                 * Get uncle, parent's sibling.
-                 */
-                get: function () {
-                    return this.parent.sibling;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return XTreeNode;
-        }());
-        base.XTreeNode = XTreeNode;
+                function XTreeNode(value, color) {
+                    this.value = value;
+                    this.color = color;
+                    this.parent = null;
+                    this.left = null;
+                    this.right = null;
+                }
+                Object.defineProperty(XTreeNode.prototype, "grand_parent", {
+                    /**
+                     * Get grand-parent.
+                     */
+                    get: function () {
+                        return this.parent.parent;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(XTreeNode.prototype, "sibling", {
+                    /**
+                     * Get sibling, opposite side node in same parent.
+                     */
+                    get: function () {
+                        if (this == this.parent.left)
+                            return this.parent.right;
+                        else
+                            return this.parent.left;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(XTreeNode.prototype, "uncle", {
+                    /**
+                     * Get uncle, parent's sibling.
+                     */
+                    get: function () {
+                        return this.parent.sibling;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                return XTreeNode;
+            }());
+            tree.XTreeNode = XTreeNode;
+        })(tree = base.tree || (base.tree = {}));
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="base/Container.ts" />
+/// <reference path="base/container/Container.ts" />
 var std;
 (function (std) {
     /**
@@ -4525,12 +3748,12 @@ var std;
                 this.clear();
                 this.push.apply(this, array);
             }
-            else if (args.length == 1 && args[0] instanceof std.base.Container) {
+            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
                 var container = args[0];
                 this.assign(container.begin(), container.end());
             }
             else if (args.length == 2 &&
-                args[0] instanceof std.base.Iterator && args[1] instanceof std.base.Iterator) {
+                args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 var begin = args[0];
                 var end = args[1];
                 this.assign(begin, end);
@@ -4580,7 +3803,7 @@ var std;
         Deque.prototype.assign = function (first, second) {
             // CLEAR PREVIOUS CONTENTS
             this.clear();
-            if (first instanceof std.base.Iterator && second instanceof std.base.Iterator) {
+            if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
                 var begin = first;
                 var end = second;
                 var size = 0;
@@ -4833,7 +4056,7 @@ var std;
                 for (var i = 0; i < n; i++)
                     items.push(val);
             }
-            else if (args.length == 2 && args[0] instanceof std.base.Iterator && args[1] instanceof std.base.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 var begin = args[0];
                 var end = args[1];
                 for (var it = begin; !it.equal_to(end); it = it.next())
@@ -4934,10 +4157,10 @@ var std;
             var _a, _b, _c;
         };
         return Deque;
-    }(std.base.Container));
+    }(std.base.container.Container));
     std.Deque = Deque;
 })(std || (std = {}));
-/// <reference path="base/Iterator.ts" />
+/// <reference path="base/container/Iterator.ts" />
 var std;
 (function (std) {
     /**
@@ -5054,7 +4277,7 @@ var std;
             var _a;
         };
         return DequeIterator;
-    }(std.base.Iterator));
+    }(std.base.container.Iterator));
     std.DequeIterator = DequeIterator;
 })(std || (std = {}));
 /*
@@ -5164,7 +4387,7 @@ var std;
     }());
     std.ErrorCategory = ErrorCategory;
 })(std || (std = {}));
-/// <reference path="base/ErrorInstance.ts" />
+/// <reference path="base/system/ErrorInstance.ts" />
 var std;
 (function (std) {
     /**
@@ -5193,10 +4416,10 @@ var std;
             _super.call(this, val, category);
         }
         return ErrorCode;
-    }(std.base.ErrorInstance));
+    }(std.base.system.ErrorInstance));
     std.ErrorCode = ErrorCode;
 })(std || (std = {}));
-/// <reference path="base/ErrorInstance.ts" />
+/// <reference path="base/system/ErrorInstance.ts" />
 var std;
 (function (std) {
     /**
@@ -5230,7 +4453,7 @@ var std;
             _super.call(this, val, category);
         }
         return ErrorCondition;
-    }(std.base.ErrorInstance));
+    }(std.base.system.ErrorInstance));
     std.ErrorCondition = ErrorCondition;
 })(std || (std = {}));
 var std;
@@ -5900,7 +5123,7 @@ var std;
     }
     std.swap = swap;
 })(std || (std = {}));
-/// <reference path="base/UniqueMap.ts" />
+/// <reference path="base/container/UniqueMap.ts" />
 var std;
 (function (std) {
     /**
@@ -5927,7 +5150,7 @@ var std;
      * <dl>
      * 	<dt> Associative </dt>
      * 	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the  </dd>
+     *		 position in the container. </dd>
      *
      * 	<dt> Hashed </dt>
      * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
@@ -5961,12 +5184,12 @@ var std;
             }
             _super.call(this);
             // HASH_BUCKET
-            this.hash_buckets_ = new std.base.MapHashBuckets(this);
+            this.hash_buckets_ = new std.base.hash.MapHashBuckets(this);
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length == 1 && args[0] instanceof std.base.MapContainer) {
+            else if (args.length == 1 && args[0] instanceof std.base.container.MapContainer) {
                 this.construct_from_container(args[0]);
             }
             else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
@@ -5977,7 +5200,7 @@ var std;
          * @hidden
          */
         HashMap.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.reserve(items.length * std.base.RATIO);
+            this.hash_buckets_.reserve(items.length * std.base.hash.RATIO);
             _super.prototype.construct_from_array.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -5993,7 +5216,7 @@ var std;
             for (it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
-            this.hash_buckets_.reserve(size * std.base.RATIO);
+            this.hash_buckets_.reserve(size * std.base.hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -6044,8 +5267,8 @@ var std;
             for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hash_buckets_.item_size() * std.base.MAX_RATIO)
-                this.hash_buckets_.reserve((this.size() + size) * std.base.RATIO);
+            if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
+                this.hash_buckets_.reserve((this.size() + size) * std.base.hash.RATIO);
             // INSERTS
             _super.prototype.insert_by_range.call(this, begin, end);
         };
@@ -6085,10 +5308,10 @@ var std;
             var _a, _b;
         };
         return HashMap;
-    }(std.base.UniqueMap));
+    }(std.base.container.UniqueMap));
     std.HashMap = HashMap;
 })(std || (std = {}));
-/// <reference path="base/MultiMap.ts" />
+/// <reference path="base/container/MultiMap.ts" />
 var std;
 (function (std) {
     /**
@@ -6114,7 +5337,7 @@ var std;
      * <dl>
      *	<dt> Associative </dt>
      *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the  </dd>
+     *		 position in the container. </dd>
      *
      *	<dt> Hashed </dt>
      *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
@@ -6148,12 +5371,12 @@ var std;
             }
             _super.call(this);
             // HASH_BUCKET
-            this.hash_buckets_ = new std.base.MapHashBuckets(this);
+            this.hash_buckets_ = new std.base.hash.MapHashBuckets(this);
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length == 1 && args[0] instanceof std.base.MapContainer) {
+            else if (args.length == 1 && args[0] instanceof std.base.container.MapContainer) {
                 this.construct_from_container(args[0]);
             }
             else if (args.length == 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
@@ -6164,7 +5387,7 @@ var std;
          * @hidden
          */
         HashMultiMap.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.reserve(items.length * std.base.RATIO);
+            this.hash_buckets_.reserve(items.length * std.base.hash.RATIO);
             _super.prototype.construct_from_array.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -6180,7 +5403,7 @@ var std;
             for (it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
-            this.hash_buckets_.reserve(size * std.base.RATIO);
+            this.hash_buckets_.reserve(size * std.base.hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -6225,8 +5448,8 @@ var std;
             for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hash_buckets_.item_size() * std.base.MAX_RATIO)
-                this.hash_buckets_.reserve((this.size() + size) * std.base.RATIO);
+            if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
+                this.hash_buckets_.reserve((this.size() + size) * std.base.hash.RATIO);
             // INSERTS
             _super.prototype.insert_by_range.call(this, begin, end);
         };
@@ -6266,10 +5489,10 @@ var std;
             var _a, _b;
         };
         return HashMultiMap;
-    }(std.base.MultiMap));
+    }(std.base.container.MultiMap));
     std.HashMultiMap = HashMultiMap;
 })(std || (std = {}));
-/// <reference path="base/MultiSet.ts" />
+/// <reference path="base/container/MultiSet.ts" />
 var std;
 (function (std) {
     /**
@@ -6294,7 +5517,7 @@ var std;
      * <dl>
      *	<dt> Associative </dt>
      *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the  </dd>
+     *		 position in the container. </dd>
      *
      *	<dt> Hashed </dt>
      *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
@@ -6325,15 +5548,15 @@ var std;
             }
             _super.call(this);
             // BUCKET
-            this.hash_buckets_ = new std.base.SetHashBuckets(this);
+            this.hash_buckets_ = new std.base.hash.SetHashBuckets(this);
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length == 1 && args[0] instanceof std.base.Container) {
+            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
                 this.construct_from_container(args[0]);
             }
-            else if (args.length == 2 && args[0] instanceof std.base.Iterator && args[1] instanceof std.base.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 this.construct_from_range(args[0], args[1]);
             }
         }
@@ -6341,7 +5564,7 @@ var std;
          * @hidden
          */
         HashMultiSet.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.reserve(items.length * std.base.RATIO);
+            this.hash_buckets_.reserve(items.length * std.base.hash.RATIO);
             _super.prototype.construct_from_array.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -6357,7 +5580,7 @@ var std;
             for (it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
-            this.hash_buckets_.reserve(size * std.base.RATIO);
+            this.hash_buckets_.reserve(size * std.base.hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -6404,8 +5627,8 @@ var std;
             for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hash_buckets_.item_size() * std.base.MAX_RATIO)
-                this.hash_buckets_.reserve((this.size() + size) * std.base.RATIO);
+            if (this.size() + size > this.hash_buckets_.item_size() * std.base.hash.MAX_RATIO)
+                this.hash_buckets_.reserve((this.size() + size) * std.base.hash.RATIO);
             // INSERTS
             _super.prototype.insert_by_range.call(this, begin, end);
         };
@@ -6445,10 +5668,10 @@ var std;
             var _a, _b;
         };
         return HashMultiSet;
-    }(std.base.MultiSet));
+    }(std.base.container.MultiSet));
     std.HashMultiSet = HashMultiSet;
 })(std || (std = {}));
-/// <reference path="base/UniqueSet.ts" />
+/// <reference path="base/container/UniqueSet.ts" />
 var std;
 (function (std) {
     /**
@@ -6473,7 +5696,7 @@ var std;
      * <dl>
      *	<dt> Associative </dt>
      *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the  </dd>
+     *		 position in the container. </dd>
      *
      *	<dt> Hashed </dt>
      *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
@@ -6504,15 +5727,15 @@ var std;
             }
             _super.call(this);
             // BUCKET
-            this.hash_buckets_ = new std.base.SetHashBuckets(this);
+            this.hash_buckets_ = new std.base.hash.SetHashBuckets(this);
             // OVERLOADINGS
             if (args.length == 1 && args[0] instanceof Array && args[0] instanceof std.Vector == false) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length == 1 && args[0] instanceof std.base.Container) {
+            else if (args.length == 1 && args[0] instanceof std.base.container.Container) {
                 this.construct_from_container(args[0]);
             }
-            else if (args.length == 2 && args[0] instanceof std.base.Iterator && args[1] instanceof std.base.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 this.construct_from_range(args[0], args[1]);
             }
         }
@@ -6520,7 +5743,7 @@ var std;
          * @hidden
          */
         HashSet.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.reserve(items.length * std.base.RATIO);
+            this.hash_buckets_.reserve(items.length * std.base.hash.RATIO);
             _super.prototype.construct_from_array.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -6536,7 +5759,7 @@ var std;
             for (it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             this.hash_buckets_.clear();
-            this.hash_buckets_.reserve(size * std.base.RATIO);
+            this.hash_buckets_.reserve(size * std.base.hash.RATIO);
             // SUPER; INSERT
             _super.prototype.assign.call(this, begin, end);
         };
@@ -6587,8 +5810,8 @@ var std;
             for (var it = begin; it.equal_to(end) == false; it = it.next())
                 size++;
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hash_buckets_.size() * std.base.MAX_RATIO)
-                this.hash_buckets_.reserve((this.size() + size) * std.base.RATIO);
+            if (this.size() + size > this.hash_buckets_.size() * std.base.hash.MAX_RATIO)
+                this.hash_buckets_.reserve((this.size() + size) * std.base.hash.RATIO);
             // INSERTS
             _super.prototype.insert_by_range.call(this, begin, end);
         };
@@ -6628,7 +5851,7 @@ var std;
             var _a, _b;
         };
         return HashSet;
-    }(std.base.UniqueSet));
+    }(std.base.container.UniqueSet));
     std.HashSet = HashSet;
 })(std || (std = {}));
 var std;
@@ -6639,7 +5862,7 @@ var std;
      * @param obj
      */
     function hash(obj) {
-        return std.base.code(obj);
+        return std.base.hash.code(obj);
     }
     std.hash = hash;
     /**
@@ -6687,7 +5910,7 @@ var std;
     }
     std.distance = distance;
 })(std || (std = {}));
-/// <reference path="base/Container.ts" />
+/// <reference path="base/container/Container.ts" />
 var std;
 (function (std) {
     /**
@@ -6751,11 +5974,11 @@ var std;
                 this.clear();
                 this.push.apply(this, array);
             }
-            else if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof std.base.Container)) {
+            else if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof std.base.container.Container)) {
                 var container = args[0];
                 this.assign(container.begin(), container.end());
             }
-            else if (args.length == 2 && args[0] instanceof std.base.Iterator && args[1] instanceof std.base.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 var begin = args[0];
                 var end = args[1];
                 this.assign(begin, end);
@@ -6775,7 +5998,7 @@ var std;
             configurable: true
         });
         List.prototype.assign = function (par1, par2) {
-            if (par1 instanceof std.base.Iterator && par2 instanceof std.base.Iterator) {
+            if (par1 instanceof std.base.container.Iterator && par2 instanceof std.base.container.Iterator) {
                 // PARAMETERS
                 var begin = par1;
                 var end = par2;
@@ -7079,7 +6302,7 @@ var std;
          *
          * <p> The function calls <code>pred(it.value)</code> for each element (where <code>it</code> is an iterator
          * to that element). Any of the elements in the list for which this returns <code>true</code>, are removed
-         * from the  </p>
+         * from the container. </p>
          *
          * @param pred Unary predicate that, taking a value of the same type as those contained in the forward_list
          *			   object, returns <code>true</code> for those values to be removed from the container, and
@@ -7194,10 +6417,10 @@ var std;
             var _a, _b, _c;
         };
         return List;
-    }(std.base.Container));
+    }(std.base.container.Container));
     std.List = List;
 })(std || (std = {}));
-/// <reference path="base/Iterator.ts" />
+/// <reference path="base/container/Iterator.ts" />
 var std;
 (function (std) {
     /**
@@ -7313,10 +6536,10 @@ var std;
                 this.source_.begin_ = this;
         };
         return ListIterator;
-    }(std.base.Iterator));
+    }(std.base.container.Iterator));
     std.ListIterator = ListIterator;
 })(std || (std = {}));
-/// <reference path="base/ReverseIterator.ts" />
+/// <reference path="base/container/ReverseIterator.ts" />
 var std;
 (function (std) {
     /**
@@ -7376,7 +6599,7 @@ var std;
             return new ListReverseIterator(this.list_iterator.advance(-1 * n));
         };
         return ListReverseIterator;
-    }(std.base.ReverseIterator));
+    }(std.base.container.ReverseIterator));
     std.ListReverseIterator = ListReverseIterator;
 })(std || (std = {}));
 var std;
@@ -7678,7 +6901,7 @@ var std;
             if (args.length >= 1 && args[0] instanceof Array) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length >= 1 && args[0] instanceof std.base.SetContainer) {
+            else if (args.length >= 1 && args[0] instanceof std.base.container.SetContainer) {
                 this.construct_from_container(args[0]);
             }
             else if (args.length >= 2 && args[0] instanceof std.SetIterator && args[1] instanceof std.SetIterator) {
@@ -7716,7 +6939,7 @@ var std;
          * <p> This member function effectively calls member {@link IArray.size size} of the
          * {@link container_ underlying container} object. </p>
          *
-         * @return The number of elements in the underlying
+         * @return The number of elements in the underlying container.
          */
         PriorityQueue.prototype.size = function () {
             return this.container_.size();
@@ -7759,7 +6982,7 @@ var std;
          *
          * <p> This member function effectively calls the member function {@link IArray.push_back push_back} of the
          * {@link container_ underlying container} object, and then reorders it to its location in the heap by calling
-         * the <i>push_heap</i> algorithm on the range that includes all the elements of the  </p>
+         * the <i>push_heap</i> algorithm on the range that includes all the elements of the container. </p>
          *
          * @param val Value to which the inserted element is initialized.
          */
@@ -7955,7 +7178,7 @@ var std;
     }());
     std.Queue = Queue;
 })(std || (std = {}));
-/// <refe0rence path="base/Iterator.ts" />
+/// <refe0rence path="base/container/Iterator.ts" />
 var std;
 (function (std) {
     /**
@@ -8045,7 +7268,7 @@ var std;
          * @inheritdoc
          */
         SetIterator.prototype.hash = function () {
-            return std.base.code(this.value);
+            return std.base.hash.code(this.value);
         };
         /**
          * @inheritdoc
@@ -8054,10 +7277,10 @@ var std;
             this.list_iterator_.swap(obj.list_iterator_);
         };
         return SetIterator;
-    }(std.base.Iterator));
+    }(std.base.container.Iterator));
     std.SetIterator = SetIterator;
 })(std || (std = {}));
-/// <reference path="base/ReverseIterator.ts" />
+/// <reference path="base/container/ReverseIterator.ts" />
 var std;
 (function (std) {
     /**
@@ -8110,7 +7333,7 @@ var std;
             return new SetReverseIterator(this.set_iterator.advance(-1 * n));
         };
         return SetReverseIterator;
-    }(std.base.ReverseIterator));
+    }(std.base.container.ReverseIterator));
     std.SetReverseIterator = SetReverseIterator;
 })(std || (std = {}));
 var std;
@@ -8119,7 +7342,7 @@ var std;
      * <p> LIFO stack. </p>
      *
      * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context
-     * (last-in first-out), where elements are inserted and extracted only from one end of the  </p>
+     * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
      *
      * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated object of
      * a specific container class as its <i>underlying container</i>, providing a specific set of member functions to
@@ -8299,7 +7522,7 @@ var std;
     }(std.RuntimeError));
     std.SystemError = SystemError;
 })(std || (std = {}));
-/// <reference path="base/UniqueMap.ts" />
+/// <reference path="base/container/UniqueMap.ts" />
 var std;
 (function (std) {
     /**
@@ -8328,7 +7551,7 @@ var std;
      * <dl>
      *	<dt> Associative </dt>
      *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the  </dd>
+     *		 position in the container. </dd>
      *
      *	<dt> Ordered </dt>
      *	<dd> The elements in the container follow a strict order at all times. All inserted elements are
@@ -8365,12 +7588,12 @@ var std;
                 compare = std.less;
             else
                 compare = args[args.length - 1];
-            this.tree_ = new std.base.PairTree(compare);
+            this.tree_ = new std.base.tree.PairTree(compare);
             // OVERLOADINGS
             if (args.length >= 1 && args[0] instanceof Array) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length >= 1 && args[0] instanceof std.base.MapContainer) {
+            else if (args.length >= 1 && args[0] instanceof std.base.container.MapContainer) {
                 this.construct_from_container(args[0]);
             }
             else if (args.length >= 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
@@ -8391,7 +7614,7 @@ var std;
          */
         TreeMap.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.tree_ = new std.base.PairTree();
+            this.tree_ = new std.base.tree.PairTree();
         };
         /* =========================================================
             ACCESSORS
@@ -8556,10 +7779,10 @@ var std;
             var _a, _b;
         };
         return TreeMap;
-    }(std.base.UniqueMap));
+    }(std.base.container.UniqueMap));
     std.TreeMap = TreeMap;
 })(std || (std = {}));
-/// <reference path="base/MultiMap.ts" />
+/// <reference path="base/container/MultiMap.ts" />
 var std;
 (function (std) {
     /**
@@ -8590,7 +7813,7 @@ var std;
      *	<dt> Associative </dt>
      *	<dd>
      *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		position in the
+     *		position in the container.
      *	</dd>
      *
      *	<dt> Ordered </dt>
@@ -8632,12 +7855,12 @@ var std;
                 compare = std.less;
             else
                 compare = args[args.length - 1];
-            this.tree_ = new std.base.PairTree(compare);
+            this.tree_ = new std.base.tree.PairTree(compare);
             // OVERLOADINGS
             if (args.length >= 1 && args[0] instanceof Array) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length >= 1 && args[0] instanceof std.base.MapContainer) {
+            else if (args.length >= 1 && args[0] instanceof std.base.container.MapContainer) {
                 this.construct_from_container(args[0]);
             }
             else if (args.length >= 2 && args[0] instanceof std.MapIterator && args[1] instanceof std.MapIterator) {
@@ -8827,10 +8050,10 @@ var std;
             var _a, _b;
         };
         return TreeMultiMap;
-    }(std.base.MultiMap));
+    }(std.base.container.MultiMap));
     std.TreeMultiMap = TreeMultiMap;
 })(std || (std = {}));
-/// <reference path="base/MultiSet.ts" />
+/// <reference path="base/container/MultiSet.ts" />
 var std;
 (function (std) {
     /**
@@ -8842,7 +8065,7 @@ var std;
      * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself
      * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot
      * be modified once in the container (the elements are always const), but they can be inserted or removed
-     * from the  </p>
+     * from the container. </p>
      *
      * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict
      * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
@@ -8858,7 +8081,7 @@ var std;
      *	<dt> Associative </dt>
      *	<dd>
      *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		position in the
+     *		position in the container.
      *	</dd>
      *
      *	<dt> Ordered </dt>
@@ -8897,12 +8120,12 @@ var std;
                 compare = std.less;
             else
                 compare = args[args.length - 1];
-            this.tree_ = new std.base.AtomicTree(compare);
+            this.tree_ = new std.base.tree.AtomicTree(compare);
             // OVERLOADINGS
             if (args.length >= 1 && args[0] instanceof Array) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length >= 1 && args[0] instanceof std.base.SetContainer) {
+            else if (args.length >= 1 && args[0] instanceof std.base.container.SetContainer) {
                 this.construct_from_container(args[0]);
             }
             else if (args.length >= 2 && args[0] instanceof std.SetIterator && args[1] instanceof std.SetIterator) {
@@ -8923,7 +8146,7 @@ var std;
          */
         TreeMultiSet.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.tree_ = new std.base.AtomicTree();
+            this.tree_ = new std.base.tree.AtomicTree();
         };
         /* =========================================================
             ACCESSORS
@@ -9094,10 +8317,10 @@ var std;
             var _a, _b;
         };
         return TreeMultiSet;
-    }(std.base.MultiSet));
+    }(std.base.container.MultiSet));
     std.TreeMultiSet = TreeMultiSet;
 })(std || (std = {}));
-/// <reference path="base/UniqueSet.ts" />
+/// <reference path="base/container/UniqueSet.ts" />
 var std;
 (function (std) {
     /**
@@ -9108,7 +8331,7 @@ var std;
      * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
      * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a
      * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
-     * can be inserted or removed from the  </p>
+     * can be inserted or removed from the container. </p>
      *
      * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
      * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
@@ -9124,7 +8347,7 @@ var std;
      *	<dt> Associative </dt>
      *	<dd>
      *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		position in the
+     *		position in the container.
      *	</dd>
      *
      *	<dt> Ordered </dt>
@@ -9163,12 +8386,12 @@ var std;
                 compare = std.less;
             else
                 compare = args[args.length - 1];
-            this.tree_ = new std.base.AtomicTree(compare);
+            this.tree_ = new std.base.tree.AtomicTree(compare);
             // OVERLOADINGS
             if (args.length >= 1 && args[0] instanceof Array) {
                 this.construct_from_array(args[0]);
             }
-            else if (args.length >= 1 && args[0] instanceof std.base.SetContainer) {
+            else if (args.length >= 1 && args[0] instanceof std.base.container.SetContainer) {
                 this.construct_from_container(args[0]);
             }
             else if (args.length >= 2 && args[0] instanceof std.SetIterator && args[1] instanceof std.SetIterator) {
@@ -9189,7 +8412,7 @@ var std;
          */
         TreeSet.prototype.clear = function () {
             _super.prototype.clear.call(this);
-            this.tree_ = new std.base.AtomicTree();
+            this.tree_ = new std.base.tree.AtomicTree();
         };
         /* =========================================================
             ACCESSORS
@@ -9352,7 +8575,7 @@ var std;
             var _a, _b;
         };
         return TreeSet;
-    }(std.base.UniqueSet));
+    }(std.base.container.UniqueSet));
     std.TreeSet = TreeSet;
 })(std || (std = {}));
 var std;
@@ -9365,12 +8588,12 @@ var std;
      * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that
      * their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently
      * as in arrays. But unlike arrays, their size can change dynamically, with their storage being handled
-     * automatically by the  </p>
+     * automatically by the container. </p>
      *
      * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need
      * to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new
      * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and
-     * thus, {@link Vector}s do not reallocate each time an element is added to the  </p>
+     * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
      *
      * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and
      * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its
@@ -9437,12 +8660,12 @@ var std;
                 var val = args[1];
                 this.assign(size, val);
             }
-            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof std.base.Container)) {
+            else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof std.base.container.Container)) {
                 // COPY CONSTRUCTOR
                 var container = args[0];
                 this.assign(container.begin(), container.end());
             }
-            else if (args.length == 2 && args[0] instanceof std.base.Iterator && args[1] instanceof std.base.Iterator) {
+            else if (args.length == 2 && args[0] instanceof std.base.container.Iterator && args[1] instanceof std.base.container.Iterator) {
                 // CONSTRUCT FROM INPUT ITERATORS
                 var begin = args[0];
                 var end = args[1];
@@ -9459,7 +8682,7 @@ var std;
         });
         Vector.prototype.assign = function (first, second) {
             this.clear();
-            if (first instanceof std.base.Iterator && second instanceof std.base.Iterator) {
+            if (first instanceof std.base.container.Iterator && second instanceof std.base.container.Iterator) {
                 var begin = first;
                 var end = second;
                 for (var it = begin; it.equal_to(end) == false; it = it.next())
@@ -9587,7 +8810,7 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             var position = args[0];
-            if (args.length == 2 && args[1] instanceof std.base.Iterator == false) {
+            if (args.length == 2 && args[1] instanceof std.base.container.Iterator == false) {
                 var val = args[1];
                 return this.insert(position, 1, val);
             }
@@ -9602,7 +8825,7 @@ var std;
                 this.push.apply(this, spliced);
                 return new std.VectorIterator(this, position.index + inserts.length - 1);
             }
-            else if (args.length == 3 && args[1] instanceof std.base.Iterator && args[2] instanceof std.base.Iterator) {
+            else if (args.length == 3 && args[1] instanceof std.base.container.Iterator && args[2] instanceof std.base.container.Iterator) {
                 var myEnd = args[0];
                 var begin = args[1];
                 var end = args[2];
@@ -9645,7 +8868,7 @@ var std;
     }(Array));
     std.Vector = Vector;
 })(std || (std = {}));
-/// <reference path="base/Iterator.ts" />
+/// <reference path="base/container/Iterator.ts" />
 var std;
 (function (std) {
     /**
@@ -9769,10 +8992,10 @@ var std;
             var _a;
         };
         return VectorIterator;
-    }(std.base.Iterator));
+    }(std.base.container.Iterator));
     std.VectorIterator = VectorIterator;
 })(std || (std = {}));
-/// <reference path="base/ReverseIterator.ts" />
+/// <reference path="base/container/ReverseIterator.ts" />
 var std;
 (function (std) {
     /**
@@ -9840,7 +9063,6 @@ var std;
             return new VectorReverseIterator(iterator);
         };
         return VectorReverseIterator;
-    }(std.base.ReverseIterator));
+    }(std.base.container.ReverseIterator));
     std.VectorReverseIterator = VectorReverseIterator;
 })(std || (std = {}));
-//# sourceMappingURL=std.js.map

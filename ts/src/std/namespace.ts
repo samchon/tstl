@@ -26,15 +26,15 @@ namespace std.base
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-namespace std.base.container
+namespace std.base
 {
 }
 
-namespace std.base.hash
+namespace std.base
 {
 }
 
-namespace std.base.tree
+namespace std.base
 {
 }
 

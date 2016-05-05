@@ -97,7 +97,7 @@
 		/**
 		 * Copy Constructor.
 		 */
-		public constructor(container: base.container.Container<T>);
+		public constructor(container: base.Container<T>);
 
 		/**
 		 * Copy Constructor with compare.
@@ -105,7 +105,7 @@
 		 * @param container A container to be copied.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.container.Container<T>, compare: (left: T, right: T) => boolean);
+		public constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -113,7 +113,7 @@
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
 
 		/**
 		 * Range Constructor with compare.
@@ -124,7 +124,7 @@
 		 */
 		public constructor
 			(
-				begin: base.container.Iterator<T>, end: base.container.Iterator<T>,
+				begin: base.Iterator<T>, end: base.Iterator<T>,
 				compare: (left: T, right: T) => boolean
 			);
 
@@ -145,7 +145,7 @@
 			{
 				this.construct_from_array(args[0]);
 			}
-			else if (args.length >= 1 && args[0] instanceof base.container.SetContainer)
+			else if (args.length >= 1 && args[0] instanceof base.SetContainer)
 			{
 				this.construct_from_container(args[0]);
 			}
@@ -167,7 +167,7 @@
 		/**
 		 * @hidden
 		 */
-		protected construct_from_container(container: base.container.IContainer<T>): void
+		protected construct_from_container(container: base.IContainer<T>): void
 		{
 			this.construct_from_range(container.begin(), container.end());
 		}
@@ -175,7 +175,7 @@
 		/**
 		 * @hidden
 		 */
-		protected construct_from_range(begin: base.container.Iterator<T>, end: base.container.Iterator<T>): void
+		protected construct_from_range(begin: base.Iterator<T>, end: base.Iterator<T>): void
 		{
 			this.container_.assign(begin, end);
 		}
@@ -191,7 +191,7 @@
 		 * <p> This member function effectively calls member {@link IArray.size size} of the 
 		 * {@link container_ underlying container} object. </p>
 		 *
-		 * @return The number of elements in the underlying container.
+		 * @return The number of elements in the underlying 
 		 */
 		public size(): number
 		{
@@ -240,7 +240,7 @@
 		 * 
 		 * <p> This member function effectively calls the member function {@link IArray.push_back push_back} of the 
 		 * {@link container_ underlying container} object, and then reorders it to its location in the heap by calling 
-		 * the <i>push_heap</i> algorithm on the range that includes all the elements of the container. </p>
+		 * the <i>push_heap</i> algorithm on the range that includes all the elements of the  </p>
 		 * 
 		 * @param val Value to which the inserted element is initialized.
 		 */

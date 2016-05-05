@@ -1,4 +1,4 @@
-﻿/// <reference path="base/container/Iterator.ts" />
+﻿/// <reference path="base/Iterator.ts" />
 
 namespace std
 {
@@ -8,8 +8,8 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class DequeIterator<T>
-		extends base.container.Iterator<T>
-		implements base.container.IArrayIterator<T>
+		extends base.Iterator<T>
+		implements base.IArrayIterator<T>
 	{
 		private get deque(): Deque<T> { return this.source_ as Deque<T>; }
 

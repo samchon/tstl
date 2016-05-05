@@ -1,4 +1,4 @@
-/// <reference path="base/container/Container.ts" />
+/// <reference path="base/Container.ts" />
 
 namespace std
 {
@@ -48,8 +48,8 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class List<T>
-		extends base.container.Container<T>
-		implements base.container.IDeque<T>
+		extends base.Container<T>
+		implements base.IDeque<T>
 	{
 		/**
 		 * Type definition of {@link List}'s {@link ListIterator iterator}.
@@ -113,7 +113,7 @@ namespace std
 		 * @param container Another container object of the same type (with the same class template 
 		 *					arguments <i>T</i>), whose contents are either copied or acquired.
 		 */
-		public constructor(container: base.container.IContainer<T>);
+		public constructor(container: base.IContainer<T>);
 
 		/**
 		 * <p> Range Constructor. </p>
@@ -124,7 +124,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -141,16 +141,16 @@ namespace std
 				this.clear();
 				this.push(...array);
 			}
-			else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.container.Container)) 
+			else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.Container)) 
 			{
-				let container: base.container.IContainer<T> = args[0];
+				let container: base.IContainer<T> = args[0];
 
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && args[0] instanceof base.container.Iterator && args[1] instanceof base.container.Iterator) 
+			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator) 
 			{
-				let begin: base.container.Iterator<T> = args[0];
-				let end: base.container.Iterator<T> = args[1];
+				let begin: base.Iterator<T> = args[0];
+				let end: base.Iterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -174,13 +174,13 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		public assign<U extends T, InputIterator extends base.Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		public assign<U extends T, InputIterator extends base.Iterator<U>>
 			(par1: any, par2: any): void
 		{
-			if (par1 instanceof base.container.Iterator && par2 instanceof base.container.Iterator) {
+			if (par1 instanceof base.Iterator && par2 instanceof base.Iterator) {
 				// PARAMETERS
 				let begin: InputIterator = par1;
 				let end: InputIterator = par2;
@@ -421,7 +421,7 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends base.container.Iterator<U>>
+		public insert<U extends T, InputIterator extends base.Iterator<U>>
 			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
 
 		public insert(...args: any[]): ListIterator<T>
@@ -485,7 +485,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range<U extends T, InputIterator extends base.container.Iterator<U>>
+		private insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
 			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>
 		{
 			if (this != position.get_source())
@@ -616,7 +616,7 @@ namespace std
 		/**
 		 * <p> Remove duplicate values. </p>
 		 *
-		 * <p> Removes all but the first element from every consecutive group of equal elements in the container. </p>
+		 * <p> Removes all but the first element from every consecutive group of equal elements in the  </p>
 		 *
 		 * <p> Notice that an element is only removed from the {@link List} container if it compares equal to the 
 		 * element immediately preceding it. Thus, this function is especially useful for sorted lists. </p>
@@ -626,7 +626,7 @@ namespace std
 		/**
 		 * <p> Remove duplicate values. </p>
 		 * 
-		 * <p> Removes all but the first element from every consecutive group of equal elements in the container. </p>
+		 * <p> Removes all but the first element from every consecutive group of equal elements in the  </p>
 		 * 
 		 * <p> The argument <i>binary_pred</i> is a specific comparison function that determine the <u>uniqueness</u> 
 		 * of an element. In fact, any behavior can be implemented (and not only an equality comparison), but notice 
@@ -693,7 +693,7 @@ namespace std
 		 * 
 		 * <p> The function calls <code>pred(it.value)</code> for each element (where <code>it</code> is an iterator 
 		 * to that element). Any of the elements in the list for which this returns <code>true</code>, are removed 
-		 * from the container. </p>
+		 * from the  </p>
 		 * 
 		 * @param pred Unary predicate that, taking a value of the same type as those contained in the forward_list 
 		 *			   object, returns <code>true</code> for those values to be removed from the container, and 
@@ -811,7 +811,7 @@ namespace std
 		 * element. They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the 
 		 * value_type supports move-construction or not. </p>
 		 *
-		 * <p> This first version (1) transfers all the elements of <i>obj</i> into the container. </p>
+		 * <p> This first version (1) transfers all the elements of <i>obj</i> into the  </p>
 		 * 
 		 * @param position Position within the container where the elements of <i>obj</i> are inserted.
 		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
@@ -830,7 +830,7 @@ namespace std
 		 * supports move-construction or not. </p>
 		 *
 		 * <p> This second version (2) transfers only the element pointed by <i>it</i> from <i>obj</i> into the 
-		 * container. </p>
+		 *  </p>
 		 * 
 		 * @param position Position within the container where the element of <i>obj</i> is inserted.
 		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
@@ -851,8 +851,8 @@ namespace std
 		 * element. They are transferred, no matter whether <i>obj</i> is an lvalue or an rvalue, or whether the 
 		 * value_type supports move-construction or not. </p>
 		 *
-		 * <p> This third version (3) transfers the range [<i>begin</i>, <i>end</i>] from <i>obj</i> into the 
-		 * container. </p>
+		 * <p> This third version (3) transfers the range [<i>begin</i>, <i>end</i>) from <i>obj</i> into the 
+		 *  </p>
 		 * 
 		 * @param position Position within the container where the elements of <i>obj</i> are inserted.
 		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
@@ -892,9 +892,9 @@ namespace std
 			SORT
 		--------------------------------------------------------- */
 		/**
-		 * <p> Sort elements in container. </p>
+		 * <p> Sort elements in  </p>
 		 * 
-		 * <p> Sorts the elements in the {@link List}, altering their position within the container. </p>
+		 * <p> Sorts the elements in the {@link List}, altering their position within the  </p>
 		 * 
 		 * <p> The sorting is performed by applying an algorithm that uses {@link less}. This comparison shall 
 		 * produce a strict weak ordering of the elements (i.e., a consistent transitive comparison, without 
@@ -904,14 +904,14 @@ namespace std
 		 * order they had before the call. </p>
 		 * 
 		 * <p> The entire operation does not involve the construction, destruction or copy of any element object. 
-		 * Elements are moved within the container. </p>
+		 * Elements are moved within the  </p>
 		 */
 		public sort(): void;
 
 		/**
-		 * <p> Sort elements in container. </p>
+		 * <p> Sort elements in  </p>
 		 * 
-		 * <p> Sorts the elements in the {@link List}, altering their position within the container. </p>
+		 * <p> Sorts the elements in the {@link List}, altering their position within the  </p>
 		 * 
 		 * <p> The sorting is performed by applying an algorithm that uses <i>compare</i>. This comparison shall 
 		 * produce a strict weak ordering of the elements (i.e., a consistent transitive comparison, without 
@@ -921,7 +921,7 @@ namespace std
 		 * order they had before the call. </p>
 		 * 
 		 * <p> The entire operation does not involve the construction, destruction or copy of any element object. 
-		 * Elements are moved within the container. </p>
+		 * Elements are moved within the  </p>
 		 *
 		 * @param compare Binary predicate that, taking two values of the same type of those contained in the 
 		 *				  {@link List}, returns <code>true</code> if the first argument goes before the second 
@@ -999,7 +999,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.container.IContainer<T>): void
+		public swap(obj: base.IContainer<T>): void
 		{
 			if (obj instanceof List)
 				this.swap_list(obj);

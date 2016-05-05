@@ -110,7 +110,7 @@ namespace std
 	 */
 	export function hash(obj: any): number
 	{
-		return base.hash.code(obj);
+		return base.code(obj);
 	}
 
 	/**

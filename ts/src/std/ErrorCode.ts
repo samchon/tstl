@@ -1,4 +1,4 @@
-﻿/// <reference path="base/system/ErrorInstance.ts" />
+﻿/// <reference path="base/ErrorInstance.ts" />
 
 namespace std
 {
@@ -21,7 +21,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ErrorCode
-		extends base.system.ErrorInstance
+		extends base.ErrorInstance
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

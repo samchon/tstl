@@ -4,7 +4,7 @@
 	 * <p> LIFO stack. </p>
 	 * 
 	 * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context 
-	 * (last-in first-out), where elements are inserted and extracted only from one end of the container. </p>
+	 * (last-in first-out), where elements are inserted and extracted only from one end of the  </p>
 	 * 
 	 * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated object of 
 	 * a specific container class as its <i>underlying container</i>, providing a specific set of member functions to 
@@ -38,9 +38,9 @@
 	export class Stack<T>
 	{
 		/**
-		 * The <i>underlying object</i> for implementing the <i>LIFO</i> container.
+		 * The <i>underlying object</i> for implementing the <i>LIFO</i> 
 		 */
-		private container_: base.container.ILinearContainer<T>;
+		private container_: base.ILinearContainer<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

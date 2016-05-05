@@ -40,9 +40,9 @@
 	export class Queue<T>
 	{
 		/**
-		 * The <i>underlying object</i> for implementing the <i>FIFO</i> container.
+		 * The <i>underlying object</i> for implementing the <i>FIFO</i> 
 		 */
-		private container_: base.container.IDeque<T>;
+		private container_: base.IDeque<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

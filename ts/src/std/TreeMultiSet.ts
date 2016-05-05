@@ -1,4 +1,4 @@
-/// <reference path="base/container/MultiSet.ts" />
+/// <reference path="base/MultiSet.ts" />
 
 namespace std
 {
@@ -11,7 +11,7 @@ namespace std
 	 * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself 
 	 * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot 
 	 * be modified once in the container (the elements are always const), but they can be inserted or removed 
-	 * from the container. </p>
+	 * from the  </p>
 	 *
 	 * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict 
 	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
@@ -27,7 +27,7 @@ namespace std
 	 *	<dt> Associative </dt>
 	 *	<dd> 
 	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		position in the container. 
+	 *		position in the  
 	 *	</dd>
 	 * 
 	 *	<dt> Ordered </dt>
@@ -53,12 +53,12 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMultiSet<T>
-		extends base.container.MultiSet<T>
+		extends base.MultiSet<T>
 	{
 		/**
 		 * <i>RB-Tree+</i> object for implemeting the {@link TreeMultiSet}.
 		 */
-		private tree_: base.tree.AtomicTree<T>;
+		private tree_: base.AtomicTree<T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -97,7 +97,7 @@ namespace std
 		/**
 		 * Copy Constructor.
 		 */
-		public constructor(container: base.container.Container<T>);
+		public constructor(container: base.Container<T>);
 
 		/**
 		 * Copy Constructor with compare.
@@ -105,7 +105,7 @@ namespace std
 		 * @param container A container to be copied.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.container.Container<T>, compare: (left: T, right: T) => boolean);
+		public constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -113,7 +113,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.container.Iterator<T>, end: base.container.Iterator<T>);
+		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
 
 		/**
 		 * Construct from range and compare.
@@ -124,7 +124,7 @@ namespace std
 		 */
 		public constructor
 			(
-				begin: base.container.Iterator<T>, end: base.container.Iterator<T>,
+				begin: base.Iterator<T>, end: base.Iterator<T>,
 				compare: (left: T, right: T) => boolean
 			);
 		
@@ -140,14 +140,14 @@ namespace std
 			else
 				compare = args[args.length - 1];
 
-			this.tree_ = new base.tree.AtomicTree<T>(compare);
+			this.tree_ = new base.AtomicTree<T>(compare);
 
 			// OVERLOADINGS
 			if (args.length >= 1 && args[0] instanceof Array)
 			{
 				this.construct_from_array(args[0]);
 			}
-			else if (args.length >= 1 && args[0] instanceof base.container.SetContainer)
+			else if (args.length >= 1 && args[0] instanceof base.SetContainer)
 			{
 				this.construct_from_container(args[0]);
 			}
@@ -163,7 +163,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.container.Iterator<U>>
+		public assign<U extends T, InputIterator extends base.Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void
 		{
 			super.assign(begin, end);
@@ -176,7 +176,7 @@ namespace std
 		{
 			super.clear();
 
-			this.tree_ = new base.tree.AtomicTree<T>();
+			this.tree_ = new base.AtomicTree<T>();
 		}
 
 		/* =========================================================
@@ -219,7 +219,7 @@ namespace std
 		 */
 		public lower_bound(val: T): SetIterator<T>
 		{
-			let node: base.tree.XTreeNode<SetIterator<T>> = this.tree_.find(val);
+			let node: base.XTreeNode<SetIterator<T>> = this.tree_.find(val);
 
 			if (node == null)
 				return this.end();
@@ -259,7 +259,7 @@ namespace std
 		 */
 		public upper_bound(val: T): SetIterator<T>
 		{
-			let node: base.tree.XTreeNode<SetIterator<T>> = this.tree_.find(val);
+			let node: base.XTreeNode<SetIterator<T>> = this.tree_.find(val);
 
 			if (node == null)
 				return this.end();
@@ -361,7 +361,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.container.IContainer<T>): void
+		public swap(obj: base.IContainer<T>): void
 		{
 			if (obj instanceof TreeMultiSet)
 				this.swap_tree_set(obj);

@@ -1,4 +1,4 @@
-/// <reference path="base/container/MultiMap.ts" />
+/// <reference path="base/MultiMap.ts" />
 
 namespace std
 {
@@ -30,7 +30,7 @@ namespace std
 	 *	<dt> Associative </dt>
 	 *	<dd> 
 	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		position in the container. 
+	 *		position in the  
 	 *	</dd>
 	 * 
 	 *	<dt> Ordered </dt>
@@ -59,9 +59,9 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMultiMap<Key, T>
-		extends base.container.MultiMap<Key, T>
+		extends base.MultiMap<Key, T>
 	{
-		private tree_: base.tree.PairTree<Key, T>;
+		private tree_: base.PairTree<Key, T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -117,7 +117,7 @@ namespace std
 		 *
 		 * @param container Another map to copy.
 		 */
-		public constructor(container: base.container.MapContainer<Key, T>);
+		public constructor(container: base.MapContainer<Key, T>);
 
 		/**
 		 * Copy Constructor.
@@ -125,7 +125,7 @@ namespace std
 		 * @param container Another map to copy.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.container.MapContainer<Key, T>, compare: (left: Key, right: Key) => boolean);
+		public constructor(container: base.MapContainer<Key, T>, compare: (left: Key, right: Key) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -160,14 +160,14 @@ namespace std
 			else
 				compare = args[args.length - 1];
 
-			this.tree_ = new base.tree.PairTree<Key, T>(compare);
+			this.tree_ = new base.PairTree<Key, T>(compare);
 
 			// OVERLOADINGS
 			if (args.length >= 1 && args[0] instanceof Array)
 			{
 				this.construct_from_array(args[0]);
 			}
-			else if (args.length >= 1 && args[0] instanceof base.container.MapContainer)
+			else if (args.length >= 1 && args[0] instanceof base.MapContainer)
 			{
 				this.construct_from_container(args[0]);
 			}
@@ -237,7 +237,7 @@ namespace std
 		 */
 		public lower_bound(key: Key): MapIterator<Key, T>
 		{
-			let node: base.tree.XTreeNode<MapIterator<Key, T>> = this.tree_.find(key);
+			let node: base.XTreeNode<MapIterator<Key, T>> = this.tree_.find(key);
 
 			if (node == null)
 				return this.end();
@@ -277,7 +277,7 @@ namespace std
 		 */
 		public upper_bound(key: Key): MapIterator<Key, T>
 		{
-			let node: base.tree.XTreeNode<MapIterator<Key, T>> = this.tree_.find(key);
+			let node: base.XTreeNode<MapIterator<Key, T>> = this.tree_.find(key);
 
 			if (node == null)
 				return this.end();
@@ -377,7 +377,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.container.MapContainer<Key, T>): void
+		public swap(obj: base.MapContainer<Key, T>): void
 		{
 			if (obj instanceof TreeMultiMap)
 				this.swap_tree_multimap(obj);

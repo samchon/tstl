@@ -1,4 +1,4 @@
-/// <reference path="base/container/Iterator.ts" />
+/// <reference path="base/Iterator.ts" />
 
 namespace std
 {
@@ -10,8 +10,8 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class VectorIterator<T>
-		extends base.container.Iterator<T>
-		implements base.container.IArrayIterator<T>
+		extends base.Iterator<T>
+		implements base.IArrayIterator<T>
 	{
 		/**
 		 * Sequence number of iterator in the source {@link Vector}.
