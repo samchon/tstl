@@ -354,7 +354,7 @@ var std;
         var cnt = 0;
         for (var it = first; !it.equal_to(last); it = it.next())
             if (std.equal_to(it.value, val))
-                return cnt++;
+                cnt++;
         return cnt;
     }
     std.count = count;
@@ -377,7 +377,7 @@ var std;
         var cnt = 0;
         for (var it = first; !it.equal_to(last); it = it.next())
             if (pred(it.value))
-                return cnt++;
+                cnt++;
         return cnt;
     }
     std.count_if = count_if;
@@ -2027,6 +2027,7 @@ var std;
             --------------------------------------------------------- */
             /**
              * <p> Whether have the item or not. </p>
+             *
              * <p> Indicates whether a map has an item having the specified identifier. </p>
              *
              * @param key Key value of the element whose mapped value is accessed.
@@ -3014,7 +3015,9 @@ var std;
              * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
              *
              * @param key Key value of the element whose mapped value is accessed.
+             *
              * @throw exception out of range
+             *
              * @return A reference object of the mapped value (_Ty)
              */
             UniqueMap.prototype.get = function (key) {
@@ -5244,16 +5247,31 @@ var std;
 (function (std) {
     var example;
     (function (example) {
-        function test_anything() {
-            //let vec: Vector<number> = new Vector<number>([1, 3, 2, 6, 7, 4, 5, 9, 8, 0]);
-            //std.partial_sort(vec.begin(), vec.begin().advance(5), vec.end());
-            //for (let it = vec.begin(); !it.equal_to(vec.end()); it = it.next())
-            //	console.log(it.value);
-            //test_deque();
-            example.test_hash_map();
-            //test_list();
+        function test_bind() {
+            var list = new std.List();
+            // <List>???.insert(...)
+            // list.insert(list.end(), 5, 1)
+            var fn = std.bind(std.List.prototype.insert);
+            fn(list, list.end(), 5, 1);
+            debug_list();
+            // <List>???.clear(...)
+            // list.clear()
+            fn = std.bind(std.List.prototype.clear);
+            fn(list);
+            debug_list();
+            // <List>???.insert(_1, _2, 5, _3)
+            // list.insert(list.end(), 5, 2)
+            fn = std.bind(std.List.prototype.insert, std.placeholders._1, std.placeholders._2, 5, std.placeholders._3);
+            fn(list, list.end(), 2);
+            debug_list();
+            function debug_list() {
+                console.log("#" + list.size());
+                for (var it = list.begin(); !it.equal_to(list.end()); it = it.next())
+                    console.log(it.value);
+                console.log("----------------------------------------------------------");
+            }
         }
-        example.test_anything = test_anything;
+        example.test_bind = test_bind;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
 var std;
@@ -5789,33 +5807,41 @@ var std;
 // @author Jeongho Nam <http://samchon.org>
 var std;
 (function (std) {
-    function bind(fn) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        return new (Bind.bind.apply(Bind, [void 0].concat([fn], args)))();
-    }
-    std.bind = bind;
     /**
-     * <p> For equality comparison. </p>
+     * <p> Function object class for equality comparison. </p>
      *
-     * <p> Binary fucntion returns whether the arguments are equal. </p>
+     * <p> Binary function object class whose call returns whether its two arguments compare <i>equal</i> (as returned by
+     * operator ==). </p>
      *
-     * @param <T> Type of arguments to compare.
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.equal_to equal_to}
+     * defined. This member function allows the object to be used with the same syntax as a function call. </p>
      *
-     * @param first First element to compare.
-     * @param second Second element to compare.
+     * @param x First element to compare.
+     * @param y Second element to compare.
      *
      * @return Whether the arguments are equal.
      */
-    function equal_to(left, right) {
-        if (left instanceof Object && left.equal_to != undefined)
-            return left.equal_to(right);
+    function equal_to(x, y) {
+        if (x instanceof Object && x.equal_to != undefined)
+            return x.equal_to(y);
         else
-            return left == right;
+            return x == y;
     }
     std.equal_to = equal_to;
+    /**
+     * <p> Function object class for non-equality comparison. </p>
+     *
+     * <p> Binary function object class whose call returns whether its two arguments compare <i>not equal</i> (as returned
+     * by operator operator!=). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.equal_to equal_to}
+     * defined. This member function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x First element to compare.
+     * @param y Second element to compare.
+     *
+     * @return Whether the arguments are not equal.
+     */
     function not_equal_to(x, y) {
         return !std.equal_to(x, y);
     }
@@ -5835,21 +5861,36 @@ var std;
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
      *			  <i>operator<()</i> or method {@link IComparable.less less}.
      *
-     * @param first First element, the standard of comparison.
-     * @param second Second element compare with the first.
+     * @param x First element, the standard of comparison.
+     * @param y Second element compare with the first.
      *
      * @return Whether the first parameter is less than the second.
      */
-    function less(left, right) {
-        if (left instanceof Object)
-            if (left.less != undefined)
-                return left.less(right);
+    function less(x, y) {
+        if (x instanceof Object)
+            if (x.less != undefined)
+                return x.less(y);
             else
-                return left.__getUID() < right.__getUID();
+                return x.__getUID() < y.__getUID();
         else
-            return left < right;
+            return x < y;
     }
     std.less = less;
+    /**
+     * <p> Function object class for less-than-or-equal-to comparison. </p>
+     *
+     * <p> Binary function object class whose call returns whether the its first argument compares {@link less less than} or
+     * {@link equal_to equal to} the second (as returned by operator <=). </p>
+     *
+     * <p> Generically, <i>function objects</i> are instances of a class with member function {@link IComparable.less less}
+     * and {@link IComparable.equal_to equal_to} defined. This member function allows the object to be used with the same
+     * syntax as a function call. </p>
+     *
+     * @param x First element, the standard of comparison.
+     * @param y Second element compare with the first.
+     *
+     * @return Whether the <i>x</i> is {@link less less than} or {@link equal_to equal to} the <i>y</i>.
+     */
     function less_equal(x, y) {
         return std.less(x, y) || std.equal_to(x, y);
     }
@@ -5870,37 +5911,125 @@ var std;
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
      *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
      *
-     * @param left
-     * @param right
+     * @return Whether the <i>x</i> is greater than the <i>y</i>.
      */
-    function greater(left, right) {
-        return !std.less_equal(left, right);
+    function greater(x, y) {
+        return !std.less_equal(x, y);
     }
     std.greater = greater;
+    /**
+     * <p> Function object class for greater-than-or-equal-to comparison. </p>
+     *
+     * <p> Binary function object class whose call returns whether the its first argument compares
+     * {@link greater greater than} or {@link equal_to equal to} the second (as returned by operator >=). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less}
+     * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
+     * This member function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x First element, the standard of comparison.
+     * @param y Second element compare with the first.
+     *
+     * @return Whether the <i>x</i> is {@link greater greater than} or {@link equal_to equal to} the <i>y</i>.
+     */
     function greater_equal(x, y) {
         return !std.less(x, y);
     }
     std.greater_equal = greater_equal;
+    /**
+     * <p> Logical AND function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of the <i>logical "and"</i> operation between its two
+     * arguments (as returned by operator &&). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function operator() defined. This member
+     * function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of logical AND operation.
+     */
     function logical_and(x, y) {
         return x && y;
     }
     std.logical_and = logical_and;
+    /**
+     * <p> Logical OR function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of the <i>logical "or"</i> operation between its two
+     * arguments (as returned by operator ||). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function operator() defined. This member
+     * function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of logical OR operation.
+     */
     function logical_or(x, y) {
         return x || y;
     }
     std.logical_or = logical_or;
+    /**
+     * <p> Logical NOT function object class. </p>
+     *
+     * <p> Unary function object class whose call returns the result of the <i>logical "not"</i> operation on its argument
+     * (as returned by operator !). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function operator() defined. This member
+     * function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x Target element.
+     *
+     * @return Result of logical NOT operation.
+     */
     function logical_not(x) {
         return !x;
     }
     std.logical_not = logical_not;
+    /**
+     * <p> Bitwise AND function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of applying the <i>bitwise "and"</i> operation between
+     * its two arguments (as returned by operator &). </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of bitwise AND operation.
+     */
     function bit_and(x, y) {
         return x & y;
     }
     std.bit_and = bit_and;
+    /**
+     * <p> Bitwise OR function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of applying the <i>bitwise "and"</i> operation between
+     * its two arguments (as returned by operator &). </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of bitwise OR operation.
+     */
     function bit_or(x, y) {
         return x | y;
     }
     std.bit_or = bit_or;
+    /**
+     * <p> Bitwise XOR function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of applying the <i>bitwise "exclusive or"</i>
+     * operation between its two arguments (as returned by operator ^). </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of bitwise XOR operation.
+     */
     function bit_xor(x, y) {
         return x ^ y;
     }
@@ -5909,84 +6038,67 @@ var std;
         left.swap(right);
     }
     std.swap = swap;
-    /**
-     * <p> Bind function arguments. </p>
-     *
-     * <p> Applies a function object based on listener, but with its arguments bound to <i>args</i>. </p>
-     *
-     * <p> Each argument may either be bound to a value or be a placeholder: </p>
-     * <ul>
-     *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
-     *	<li> If a placeholder, calling the returned function object forwards an argument passed to the call (the one whose order number is specified by the placeholder). </li>
-     * </ul>
-     *
-     * @reference http://www.cplusplus.com/reference/functional/bind/
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    var Bind = (function () {
-        function Bind(fn) {
-            var items = [];
-            for (var _i = 1; _i < arguments.length; _i++) {
-                items[_i - 1] = arguments[_i];
-            }
-            this.fn_ = fn;
-            this.this_arg_ = null;
-            this.arguments_ = [];
-            for (var i = 0; i < items.length; i++) {
-                if (i == 0 && items[0] instanceof Object && items[0] instanceof placeholders.PlaceHolder == false) {
-                    // is the 1st argument is this_arg?
-                    var is_this_arg = false;
-                    // retrieve the object; items[0]
-                    for (var key in items[0])
-                        if (items[0][key] == this.fn_) {
-                            // found the this_arg
-                            this.this_arg_ = items[0];
-                            is_this_arg = true;
-                            break;
-                        }
-                    if (is_this_arg == true)
-                        continue;
-                }
-                // the placeholder also fills parameters
-                this.arguments_.push(items[i]);
-            }
+    function bind(fn) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
         }
-        /* ---------------------------------------------------------
-            APPLY
-        --------------------------------------------------------- */
-        /**
-         * <p> Apply function. </p>
-         *
-         * @param items List of items to be parameters for <i>fn</i>.
-         */
-        Bind.prototype.apply = function () {
-            var items = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                items[_i - 0] = arguments[_i];
+        var this_arg = null;
+        var parameters = [];
+        var placeholder_count = 0;
+        for (var i = 0; i < args.length; i++) {
+            if (i == 0 && args[0] instanceof Object && args[0] instanceof placeholders.PlaceHolder == false) {
+                // retrieve the object; items[0]
+                for (var key in args[0])
+                    if (args[0][key] == fn) {
+                        // found the this_arg
+                        this_arg = args[0];
+                        break;
+                    }
+                if (this_arg != null)
+                    continue;
             }
-            if (items.length == 0)
-                return this.fn_.apply(this.this_arg_, this.arguments_);
-            var thisArg = this.this_arg_;
-            var parameters = this.arguments_.slice();
-            var i = 0;
-            // 1st parameter is thisArg?
-            if (thisArg == null && parameters[0] instanceof placeholders.PlaceHolder && items[0] instanceof Object)
-                for (var key in items[0])
-                    if (items[0][key] == this.fn_) {
-                        thisArg = items[0];
-                        parameters.splice(0, 1);
-                        i = 1;
+            // the placeholder also fills parameters
+            if (args[i] instanceof placeholders.PlaceHolder)
+                placeholder_count++;
+            parameters.push(args[i]);
+        }
+        ////////////////////
+        // FUNCTION TO BE RETURNED
+        ////////////////////
+        return function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            if (args.length == 0)
+                return fn.apply(this_arg, parameters);
+            var thisArg = this_arg;
+            var argArray = parameters.slice();
+            // 1st argument is thisArg?
+            if (thisArg == null && (parameters.length == 0 || parameters[0] instanceof placeholders.PlaceHolder) && args[0] instanceof Object)
+                for (var key in args[0])
+                    if (args[0][key] == fn) {
+                        thisArg = args[0];
+                        argArray.splice(0, 1);
+                        //lastIndex++;
                         break;
                     }
             // fill argArray from placeholders
-            for (; i < parameters.length; i++)
-                if (parameters[i] instanceof placeholders.PlaceHolder)
-                    parameters[i] = items[parameters[i].index - 1];
-            return this.fn_.apply(thisArg, parameters);
+            for (var i = 0; i < argArray.length; i++)
+                if (argArray[i] instanceof placeholders.PlaceHolder)
+                    argArray[i] = args[argArray[i].index - 1];
+            // arguments are over the placeholder_count 
+            if (args.length > placeholder_count)
+                for (var i = placeholder_count; i < args.length; i++)
+                    if (i == 0 && (this_arg == null && thisArg != null))
+                        continue; // thisArg
+                    else
+                        argArray.push(args[i]);
+            return fn.apply(thisArg, argArray);
         };
-        return Bind;
-    }());
-    std.Bind = Bind;
+    }
+    std.bind = bind;
     /**
      * <p> Bind argument placeholders. </p>
      *
@@ -6058,7 +6170,7 @@ var std;
         placeholders._18 = new PlaceHolder(18);
         placeholders._19 = new PlaceHolder(19);
         placeholders._20 = new PlaceHolder(20);
-    })(placeholders || (placeholders = {}));
+    })(placeholders = std.placeholders || (std.placeholders = {}));
 })(std || (std = {}));
 /// <reference path="base/UniqueMap.ts" />
 /// <reference path="base/MultiMap.ts" />
@@ -6922,14 +7034,6 @@ var std;
                 this.assign(size, val);
             }
         }
-        Object.defineProperty(List, "iterator", {
-            /**
-             * Type definition of {@link List}'s {@link ListIterator iterator}.
-             */
-            get: function () { return ListIterator; },
-            enumerable: true,
-            configurable: true
-        });
         List.prototype.assign = function (par1, par2) {
             if (par1 instanceof std.base.Iterator && par2 instanceof std.base.Iterator) {
                 // PARAMETERS
@@ -9798,3 +9902,4 @@ var std;
     }(std.base.ReverseIterator));
     std.VectorReverseIterator = VectorReverseIterator;
 })(std || (std = {}));
+//# sourceMappingURL=std.js.map

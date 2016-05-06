@@ -54,11 +54,6 @@ namespace std
 		implements base.IDeque<T>
 	{
 		/**
-		 * Type definition of {@link List}'s {@link ListIterator iterator}.
-		 */
-		public static get iterator() { return ListIterator; }
-
-		/**
 		 * An iterator of beginning.
 		 */
 		protected begin_: ListIterator<T>;

@@ -2338,6 +2338,694 @@ declare namespace std {
 }
 declare namespace std.base {
     /**
+     * <p> Red-black Tree. </p>
+     *
+     * <p> A red-black tree is a kind of self-balancing
+     * binary search tree. Each node of the binary tree has an extra bit, and that bit is often interpreted as the
+     * color (<font color='red'>red</font> or <font color='darkBlue'>black</font>) of the node. These color bits
+     * are used to ensure the tree remains approximately balanced during insertions and deletions. </p>
+     *
+     * <p> Balance is preserved by painting each node of the tree with one of two colors (typically called
+     * '<font color='red'>red</font>' and '<font color='darkBlue'>black</font>') in a way that satisfies certain
+     * properties, which collectively constrain how unbalanced the tree can become in the worst case. When the tree
+     * is modified, the new tree is subsequently rearranged and repainted to restore the coloring properties. The
+     * properties are designed in such a way that this rearranging and recoloring can be performed efficiently. </p>
+     *
+     * <p> The balancing of the tree is not perfect but it is good enough to allow it to guarantee searching in
+     * O(log n) time, where n is the total number of elements in the tree. The insertion and deletion operations,
+     * along with the tree rearrangement and recoloring, are also performed in O(log n) time. </p>
+     *
+     * <p> Tracking the color of each node requires only 1 bit of information per node because there are only two
+     * colors. The tree does not contain any other data specific to its being a
+     * red-black tree so its memory footprint is almost
+     * identical to a classic (uncolored) binary search tree. In many cases the additional bit of information can
+     * be stored at no additional memory cost. </p>
+     *
+     * <h4> Properties </h4>
+     * <p> In addition to the requirements imposed on a binary search tree the following must be satisfied by a
+     * red-black tree: </p>
+     *
+     * <ol>
+     *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
+     *	<li>
+     *		The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
+     *		always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
+     *		necessarily vice versa, this rule has little effect on analysis.
+     *	</li>
+     *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
+     *  <li>
+     *		If a node is <font color='red'>red</font>, then both its children are
+     *		<font color='darkBlue'>black</font>.
+     *	</li>
+     *  <li>
+     *		Every path from a given node to any of its descendant NIL nodes contains the same number of
+     *		<font color='darkBlue'>black</font> nodes. Some definitions: the number of
+     *		<font color='darkBlue'>black</font> nodes from the root to a node is the node's
+     *		<font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
+     *		nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
+     *		the red-black tree.
+     *	</li>
+     * </ol>
+     *
+     * <p> <img src="../assets/images/tree/Red-black_tree_example.svg" width="100%" /> </p>
+     *
+     * <p> These constraints enforce a critical property of red-black trees: the path from the root to the farthest
+     * leaf is no more than twice as long as the path from the root to the nearest leaf. The result is that the tree
+     * is roughly height-balanced. Since operations such as inserting, deleting, and finding values require
+     * worst-case time proportional to the height of the tree, this theoretical upper bound on the height allows
+     * red-black trees to be efficient in the worst case, unlike ordinary binary search trees. </p>
+     *
+     * <p> To see why this is guaranteed, it suffices to consider the effect of properties 4 and 5 together. For a
+     * red-black tree T, let B be the number of <font color='darkBlue'>black</font> nodes in property 5. Let the
+     * shortest possible path from the root of T to any leaf consist of B <font color='darkBlue'>black</font> nodes.
+     * Longer possible paths may be constructed by inserting <font color='red'>red</font> nodes. However, property 4
+     * makes it impossible to insert more than one consecutive <font color='red'>red</font> node. Therefore,
+     * ignoring any <font color='darkBlue'>black</font> NIL leaves, the longest possible path consists of 2*B nodes,
+     * alternating <font color='darkBlue'>black</font> and <font color='red'>red</font> (this is the worst case).
+     * Counting the <font color='darkBlue'>black</font> NIL leaves, the longest possible path consists of 2*B-1
+     * nodes. </p>
+     *
+     * <p> The shortest possible path has all <font color='darkBlue'>black</font> nodes, and the longest possible
+     * path alternates between <font color='red'>red</font> and <font color='darkBlue'>black</font> nodes. Since all
+     * maximal paths have the same number of <font color='darkBlue'>black</font> nodes, by property 5, this shows
+     * that no path is more than twice as long as any other path. </p>
+     *
+     * <ul>
+     *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
+     * </ul>
+     *
+     * @param <T> Type of elements.
+     *
+     * @inventor Rudolf Bayer
+     * @author Migrated by Jeongho Nam <http://samchon.org>
+     */
+    abstract class XTree<T> {
+        /**
+         * Root node.
+         */
+        protected root_: XTreeNode<T>;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Find a node from its contained value.
+         *
+         * @param val Value to find.
+         */
+        find(val: T): XTreeNode<T>;
+        /**
+         * Fetch maximum (the rightes?) node from one.
+         *
+         * @param node A node to fetch its maximum node.
+         * @return The maximum node.
+         */
+        protected fetch_maximum(node: XTreeNode<T>): XTreeNode<T>;
+        abstract is_equals(left: T, right: T): boolean;
+        abstract is_less(left: T, right: T): boolean;
+        /**
+         * <p> Insert an element with a new node. </p>
+         *
+         * <p> Insertion begins by adding the node as any binary search tree insertion does and by coloring it
+         * <font color='red'>red</font>. Whereas in the binary search tree, we always add a leaf, in the red-black
+         * tree, leaves contain no information, so instead we add a <font color='red'>red</font> interior node, with
+         * two <font color='darkBlue'>black</font> leaves, in place of an existing
+         * <font color='darkBlue'>black</font> leaf. </p>
+         *
+         * <p> What happens next depends on the color of other nearby nodes. The term uncle node will be used to
+         * refer to the sibling of a node's parent, as in human family trees. Note that: </p>
+         *
+         * <ul>
+         *	<li> property 3 (all leaves are <font color='darkBlue'>black</font>) always holds. </li>
+         *	<li>
+         *		property 4 (both children of every <font color='red'>red</font> node are
+         *		<font color='darkBlue'>black</font>) is threatened only by adding a <font color='red'>red</font>
+         *		node, repainting a <font color='darkBlue'>black</font> node <font color='red'>red</font>, or a
+         *		rotation.
+         *	</li>
+         *	<li>
+         *		property 5 (all paths from any given node to its leaf nodes contain the same number of
+         *		<font color='darkBlue'>black</font> nodes) is threatened only by adding a
+         *		<font color='darkBlue'>black</font> node, repainting a <font color='red'>red</font> node
+         *		<font color='darkBlue'>black</font> (or vice versa), or a rotation.
+         *	</li>
+         * </ul>
+         *
+         * <h4> Notes </h4>
+         * <ol>
+         *	<li>
+         *		The label <i><b>N</b></i> will be used to denote the current node (colored
+         *		<font color='red'>red</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
+         *		beginning, this is the new node being inserted, but the entire procedure may also be applied
+         *		recursively to other nodes (see case 3). {@link XTreeNode.parent <b>P</b>} will denote
+         *		<i><b>N</b></i>'s parent node, {@link XTreeNode.grand_parent <b>G</b>} will denote <i><b>N</b></i>'s
+         *		grandparent, and {@link XTreeNode.uncle <b>U</b>} will denote <i><b>N</b></i>'s uncle. In between
+         *		some cases, the roles and labels of the nodes are exchanged, but in each case, every label continues
+         *		to represent the same node it represented at the beginning of the case.
+         *	</li>
+         *	<li>
+         *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
+         *		node in the next iteration and there the other nodes will be newly assigned relative to it. Any
+         *		color shown in the diagram is either assumed in its case or implied by those assumptions.
+         *	</li>
+         *	<li>
+         *		A numbered triangle represents a subtree of unspecified depth. A <font color='darkBlue'>black</font>
+         *		circle atop a triangle means that <font color='darkBlue'>black</font>-height of subtree is greater
+         *		by one compared to subtree without this circle. </li>
+         * </ol>
+         *
+         * <p> There are several cases of red-black tree insertion to handle: </p>
+         *
+         * <ul>
+         *	<li> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </li>
+         *	<li>
+         *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>.
+         *	</li>
+         *	<li>
+         *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
+         *		({@link XTreeNode.uncle <b>U</b>}) are <font color='red'>red</font>.
+         *	</li>
+         *	<li>
+         *		<i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
+         *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+         *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
+         *	</li>
+         *	<li>
+         *		<i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
+         *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+         *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
+         *	</li>
+         * </ul>
+         *
+         * <h4> Note </h4>
+         * <p> Note that inserting is actually in-place, since all the calls above use tail recursion. </p>
+         *
+         * <p> In the algorithm above, all cases are chained in order, except in insert case 3 where it can recurse
+         * to case 1 back to the grandparent node: this is the only case where an iterative implementation will
+         * effectively loop. Because the problem of repair is escalated to the next higher level but one, it takes
+         * maximally h⁄2 iterations to repair the tree (where h is the height of the tree). Because the probability
+         * for escalation decreases exponentially with each iteration the average insertion cost is constant. </p>
+         *
+         * @param val An element to insert.
+         */
+        insert(val: T): void;
+        /**
+         * <p> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </p>
+         *
+         * <p> The current node <i><b>N</b></i> is at the {@link root_ root} of the tree. </p>
+         *
+         * <p> In this case, it is repainted <font color='darkBlue'>black</font> to satisfy property 2 (the root is
+         * <font color='darkBlue'>black</font>). Since this adds one <font color='darkBlue'>black</font> node to
+         * every path at once, property 5 (all paths from any given node to its leaf nodes contain the same number
+         * of <font color='darkBlue'>black</font> nodes) is not violated. </p>
+         *
+         * @param N A node to be inserted or swapped.
+         */
+        private insert_case1(N);
+        /**
+         * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>. </p>
+         *
+         * <p> The current node's parent {@link XTreeNode.parent <b>P</b>} is <font color='darkBlue'>black</font>,
+         * so property 4 (both children of every <font color='red'>red</font> node are
+         * <font color='darkBlue'>black</font>) is not invalidated. </p>
+         *
+         * <p> In this case, the tree is still valid. Property 5 (all paths from any given node to its leaf nodes
+         * contain the same number of <font color='darkBlue'>black</font> nodes) is not threatened, because the
+         * current node <i><b>N</b></i> has two <font color='darkBlue'>black</font> leaf children, but because
+         * <i><b>N</b></i> is <font color='red'>red</font>, the paths through each of its children have the same
+         * number of <font color='darkBlue'>black</font> nodes as the path through the leaf it replaced, which was
+         * <font color='darkBlue'>black</font>, and so this property remains satisfied. </p>
+         *
+         * @param N A node to be inserted or swapped.
+         */
+        private insert_case2(N);
+        /**
+         * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
+         * (<i>{@link XTreeNode.uncle <b>U</b>}</i>) are <font color='red'>red</font>. </p>
+         *
+         * <p> If both the parent {@link XTreeNode.parent <b>P</b>} and the uncle {@link XTreeNode.uncle <b>U</b>}
+         * are <font color='red'>red</font>, then both of them can be repainted <font color='darkBlue'>black</font>
+         * and the grandparent {@link XTreeNode.grand_parent <b>G</b>} becomes <font color='red'>red</font> (to
+         * maintain property 5 (all paths from any given node to its leaf nodes contain the same number of
+         * <font color='darkBlue'>black</font> nodes)). </p>
+         *
+         * <p> Now, the current <font color='red'>red</font> node <i><b>N</b></i> has a
+         * <font color='darkBlue'>black</font> parent. Since any path through the parent or uncle must pass through
+         * the grandparent, the number of <font color='darkBlue'>black</font> nodes on these paths has not changed.
+         *
+         * <p> However, the grandparent {@link XTreeNode.grand_parent <b>G</b>} may now violate properties 2 (The
+         * root is <font color='darkBlue'>black</font>) or 4 (Both children of every <font color='red'>red</font>
+         * node are <font color='darkBlue'>black</font>) (property 4 possibly being violated since
+         * {@link XTreeNode.grand_parent <b>G</b>} may have a <font color='red'>red</font> parent). </p>
+         *
+         * <p> To fix this, the entire procedure is recursively performed on {@link XTreeNode.grand_parent <b>G</b>}
+         * from case 1. Note that this is a tail-recursive call, so it could be rewritten as a loop; since this is
+         * the only loop, and any rotations occur after this loop, this proves that a constant number of rotations
+         * occur. </p>
+         *
+         * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_3.svg" /> </p>
+         *
+         * @param N A node to be inserted or swapped.
+         */
+        private insert_case3(N);
+        /**
+         * <p> <i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
+         * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+         * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
+         *
+         * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
+         * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>; also, the current node
+         * <i><b>N</b></i> is the right child of {@link XTreeNode.parent <b>P</b>}, and
+         * {@link XTreeNode.parent <b>P</b>} in turn is the left child of its parent
+         * {@link XTreeNode.grand_parent <b>G</b>}. </p>
+         *
+         * <p> In this case, a left rotation on {@link XTreeNode.parent <b>P</b>} that switches the roles of the
+         * current node <i><b>N</b></i> and its parent {@link XTreeNode.parent <b>P</b>} can be performed; then,
+         * the former parent node {@link XTreeNode.parent <b>P</b>} is dealt with using case 5
+         * (relabeling <i><b>N</b></i> and {@link XTreeNode.parent <b>P</b>}) because property 4 (both children of
+         * every <font color='red'>red</font> node are <font color='darkBlue'>black</font>) is still violated. </p>
+         *
+         * <p> The rotation causes some paths (those in the sub-tree labelled "1") to pass through the node
+         * <i><b>N</b></i> where they did not before. It also causes some paths (those in the sub-tree labelled "3")
+         * not to pass through the node {@link XTreeNode.parent <b>P</b>} where they did before. However, both of
+         * these nodes are <font color='red'>red</font>, so property 5 (all paths from any given node to its leaf
+         * nodes contain the same number of <font color='darkBlue'>black</font> nodes) is not violated by the
+         * rotation. </p>
+         *
+         * <p> After this case has been completed, property 4 (both children of every <font color='red'>red</font>
+         * node are <font color='darkBlue'>black</font>) is still violated, but now we can resolve this by
+         * continuing to case 5. </p>
+         *
+         * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_4.svg" /> </p>
+         *
+         * @param N A node to be inserted or swapped.
+         */
+        private insert_case4(node);
+        /**
+         * <p> <i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
+         * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
+         * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
+         *
+         * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
+         * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>, the current node <i><b>N</b></i>
+         * is the left child of {@link XTreeNode.parent <b>P</b>}, and {@link XTreeNode.parent <b>P</b>} is the left
+         * child of its parent {@link XTreeNode.grand_parent <b>G</b>}. </p>
+         *
+         * <p>In this case, a right rotation on {@link XTreeNode.grand_parent <b>G</b>} is performed; the result is a
+         * tree where the former parent {@link XTreeNode.parent <b>P</b>} is now the parent of both the current node
+         * <i><b>N</b></i> and the former grandparent {@link XTreeNode.grand_parent <b>G</b>}. </p>
+         *
+         * <p> {@link XTreeNode.grand_parent <b>G</b>} is known to be <font color='darkBlue'>black</font>, since its
+         * former child {@link XTreeNode.parent <b>P</b>} could not have been <font color='red'>red</font> otherwise
+         * (without violating property 4). Then, the colors of {@link XTreeNode.parent <b>P</b>} and
+         * {@link XTreeNode.grand_parent <b>G</b>} are switched, and the resulting tree satisfies property 4 (both
+         * children of every <font color='red'>red</font> node are <font color='darkBlue'>black</font>). Property 5
+         * (all paths from any given node to its leaf nodes contain the same number of
+         * <font color='darkBlue'>black</font> nodes) also remains satisfied, since all paths that went through any
+         * of these three nodes went through {@link XTreeNode.grand_parent <b>G</b>} before, and now they all go
+         * through {@link XTreeNode.parent <b>P</b>}. In each case, this is the only
+         * <font color='darkBlue'>black</font> node of the three. </p>
+         *
+         * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_5.svg" /> </p>
+         *
+         * @param N A node to be inserted or swapped.
+         */
+        private insert_case5(node);
+        /**
+         * <p> Erase an element with its node. </p>
+         *
+         * <p> In a regular binary search tree when deleting a node with two non-leaf children, we find either the
+         * maximum element in its left subtree (which is the in-order predecessor) or the minimum element in its
+         * right subtree (which is the in-order successor) and move its value into the node being deleted (as shown
+         * here). We then delete the node we copied the value from, which must have fewer than two non-leaf children.
+         * (Non-leaf children, rather than all children, are specified here because unlike normal binary search
+         * trees, red-black trees can have leaf nodes anywhere, so that all nodes are either internal nodes with
+         * two children or leaf nodes with, by definition, zero children. In effect, internal nodes having two leaf
+         * children in a red-black tree are like the leaf nodes in a regular binary search tree.) Because merely
+         * copying a value does not violate any red-black properties, this reduces to the problem of deleting a node
+         * with at most one non-leaf child. Once we have solved that problem, the solution applies equally to the
+         * case where the node we originally want to delete has at most one non-leaf child as to the case just
+         * considered where it has two non-leaf children. </p>
+         *
+         * <p> Therefore, for the remainder of this discussion we address the deletion of a node with at most one
+         * non-leaf child. We use the label <b>M</b> to denote the node to be deleted; <b>C</b> will denote a
+         * selected child of <b>M</b>, which we will also call "its child". If <b>M</b> does have a non-leaf child,
+         * call that its child, <b>C</b>; otherwise, choose either leaf as its child, <b>C</b>. </p>
+         *
+         * <p> If <b>M</b> is a <font color='red'>red</font> node, we simply replace it with its child <b>C</b>,
+         *  which must be <font color='darkBlue'>black</font> by property 4. (This can only occur when <b>M</b> has
+         * two leaf children, because if the <font color='red'>red</font> node <b>M</b> had a
+         * <font color='darkBlue'>black</font> non-leaf child on one side but just a leaf child on the other side,
+         * then the count of <font color='darkBlue'>black</font> nodes on both sides would be different, thus the
+         * tree would violate property 5.) All paths through the deleted node will simply pass through one fewer
+         * <font color='red'>red</font> node, and both the deleted node's parent and child must be
+         * <font color='darkBlue'>black</font>, so property 3 (all leaves are <font color='darkBlue'>black</font>)
+         * and property 4 (both children of every <font color='red'>red</font> node are
+         * <font color='darkBlue'>black</font>) still hold. </p>
+         *
+         * <p> Another simple case is when <b>M</b> is <font color='darkBlue'>black</font> and <b>C</b> is
+         * <font color='red'>red</font>. Simply removing a <font color='darkBlue'>black</font> node could break
+         * Properties 4 (“Both children of every <font color='red'>red</font> node are
+         * <font color='darkBlue'>black</font>”) and 5 (“All paths from any given node to its leaf nodes contain the
+         * same number of <font color='darkBlue'>black</font> nodes”), but if we repaint <b>C</b>
+         * <font color='darkBlue'>black</font>, both of these properties are preserved. </p>
+         *
+         * <p> The complex case is when both <b>M</b> and <b>C</b> are <font color='darkBlue'>black</font>. (This
+         * can only occur when deleting a <font color='darkBlue'>black</font> node which has two leaf children,
+         * because if the <font color='darkBlue'>black</font> node <b>M</b> had a <font color='darkBlue'>black</font>
+         * non-leaf child on one side but just a leaf child on the other side, then the count of
+         * <font color='darkBlue'>black</font> nodes on both sides would be different, thus the tree would have been
+         * an invalid red-black tree by violation of property 5.) We begin by replacing <b>M</b> with its child
+         * <b>C</b>. We will relabel this child <b>C</b> (in its new position) <i><b>N</b></i>, and its sibling (its
+         * new parent's other child) {@link XTreeNode.sibling <b>S</b>}. ({@link XTreeNode.sibling <b>S</b>} was
+         * previously the sibling of <b>M</b>.) </p>
+         *
+         * <p> In the diagrams below, we will also use {@link XTreeNode.parent <b>P</b>} for <i><b>N</b></i>'s new
+         * parent (<b>M</b>'s old parent), <b>SL</b> for {@link XTreeNode.sibling <b>S</b>}'s left child, and
+         * <b>SR</b> for {@link XTreeNode.sibling <b>S</b>}'s right child ({@link XTreeNode.sibling <b>S</b>} cannot
+         * be a leaf because if <b>M</b> and <b>C</b> were <font color='darkBlue'>black</font>, then
+         * {@link XTreeNode.parent <b>P</b>}'s one subtree which included <b>M</b> counted two
+         * <font color='darkBlue'>black</font>-height and thus {@link XTreeNode.parent <b>P</b>}'s other subtree
+         * which includes {@link XTreeNode.sibling <b>S</b>} must also count two
+         * <font color='darkBlue'>black</font>-height, which cannot be the case if {@link XTreeNode.sibling <b>S</b>}
+         * is a leaf node). </p>
+         *
+         * <h4> Notes </h4>
+         * <ol>
+         *	<li>
+         *		The label <i><b>N</b></i> will be used to denote the current node (colored
+         *		<font color='darkBlue'>black</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
+         *		beginning, this is the replacement node and a leaf, but the entire procedure may also be applied
+         *		recursively to other nodes (see case 3). In between some cases, the roles and labels of the nodes
+         *		are exchanged, but in each case, every label continues to represent the same node it represented at
+         *		the beginning of the case.
+         *	</li>
+         *	<li>
+         *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
+         *		node in the next iteration and there the other nodes will be newly assigned relative to it. Any
+         *		color shown in the diagram is either assumed in its case or implied by those assumptions.
+         *		White represents an arbitrary color (either <font color='red'>red</font> or
+         *		<font color='darkBlue'>black</font>), but the same in both halves of the diagram.
+         *	</li>
+         *	<li>
+         *		A numbered triangle represents a subtree of unspecified depth. A <font color='darkBlue'>black</font>
+         *		circle atop a triangle means that <font color='darkBlue'>black</font>-height of subtree is greater
+         *		by one compared to subtree without this circle.
+         *	</li>
+         * </ol>
+         *
+         * <p> If both <i><b>N</b></i> and its original parent are <font color='darkBlue'>black</font>, then
+         * deleting this original parent causes paths which proceed through <i><b>N</b></i> to have one fewer
+         * <font color='darkBlue'>black</font> node than paths that do not. As this violates property 5 (all paths
+         * from any given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font>
+         * nodes), the tree must be rebalanced. There are several cases to consider: </p>
+         *
+         * <ol>
+         *	<li> <i><b>N</b></i> is the new root. </li>
+         *	<li> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </li>
+         *	<li>
+         *		{@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and
+         *		{@link XTreeNode.sibling <b>S</b>}'s children are <font color='darkBlue'>black</font>. </li>
+         *	<li>
+         *		{@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
+         *		<font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is
+         *		<font color='red'>red</font>.
+         *	</li>
+         *	<li>
+         *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+         *		{@link XTreeNode.sibling <b>S</b>}'s left child is <font color='red'>red</font>,
+         *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='darkBlue'>black</font>, and
+         *		<i><b>N</b></i> is the left child of its parent.
+         *	</li>
+         *	<li>
+         *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+         *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and
+         *		<i><b>N</b></i> is the left child of its parent {@link XTreeNode.parent <b>P</b>}.
+         *	</li>
+         * </ol>
+         *
+         * <p> Again, the function calls all use tail recursion, so the algorithm is in-place. </p>
+         *
+         * <p> In the algorithm above, all cases are chained in order, except in delete case 3 where it can recurse
+         * to case 1 back to the parent node: this is the only case where an iterative implementation will
+         * effectively loop. No more than h loops back to case 1 will occur (where h is the height of the tree).
+         * And because the probability for escalation decreases exponentially with each iteration the average
+         * removal cost is constant. </p>
+         *
+         * <p> Additionally, no tail recursion ever occurs on a child node, so the tail recursion loop can only
+         * move from a child back to its successive ancestors. If a rotation occurs in case 2 (which is the only
+         * possibility of rotation within the loop of cases 1–3), then the parent of the node <i><b>N</b></i>
+         * becomes <font color='red'>red</font> after the rotation and we will exit the loop. Therefore, at most one
+         * rotation will occur within this loop. Since no more than two additional rotations will occur after
+         * exiting the loop, at most three rotations occur in total. </p>
+         *
+         * @param val An element to erase.
+         */
+        erase(val: T): void;
+        /**
+         * <p> <i><b>N</b></i> is the new root. </p>
+         *
+         * <p> In this case, we are done. We removed one <font color='darkBlue'>black</font> node from every path,
+         * and the new root is <font color='darkBlue'>black</font>, so the properties are preserved. </p>
+         *
+         * <h4> Note </h4>
+         * <p> In cases 2, 5, and 6, we assume <i><b>N</b></i> is the left child of its parent
+         * {@link XTreeNode.parent <b>P</b>}. If it is the right child, left and right should be reversed throughout
+         * these three cases. Again, the code examples take both cases into account. </p>
+         *
+         * @param N A node to be erased or swapped.
+         */
+        private erase_case1(N);
+        /**
+         * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
+         *
+         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_2.svg" /> </p>
+         *
+         * <p> In this case we reverse the colors of {@link XTreeNode.parent <b>P</b>} and
+         * {@link XTreeNode.sibling <b>S</b>}, and then rotate left at {@link XTreeNode.parent <b>P</b>}, turning
+         * {@link XTreeNode.sibling <b>S</b>} into <i><b>N</b></i>'s grandparent. </p>
+         *
+         * <p> Note that {@link XTreeNode.parent <b>P</b>} has to be <font color='darkBlue'>black</font> as it had a
+         * <font color='red'>red</font> child. The resulting subtree has a path short one
+         * <font color='darkBlue'>black</font> node so we are not done. Now <i><b>N</b></i> has a
+         * <font color='darkBlue'>black</font> sibling and a <font color='red'>red</font> parent, so we can proceed
+         * to step 4, 5, or 6. (Its new sibling is <font color='darkBlue'>black</font> because it was once the child
+         * of the <font color='red'>red</font> {@link XTreeNode.sibling <b>S</b>}.) In later cases, we will re-label
+         * <i><b>N</b></i>'s new sibling as {@link XTreeNode.sibling <b>S</b>}. </p>
+         *
+         * @param N A node to be erased or swapped.
+         */
+        private erase_case2(N);
+        /**
+         * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling
+         * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
+         *
+         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_3.svg" /> </p>
+         *
+         * <p> In this case, we simply repaint {@link XTreeNode.sibling <b>S</b>} <font color='red'>red</font>. The
+         * result is that all paths passing through {@link XTreeNode.sibling <b>S</b>}, which are precisely those
+         * paths not passing through <i><b>N</b></i>, have one less <font color='darkBlue'>black</font> node.
+         * Because deleting <i><b>N</b></i>'s original parent made all paths passing through <i><b>N</b></i> have
+         * one less <font color='darkBlue'>black</font> node, this evens things up. </p>
+         *
+         * <p> However, all paths through {@link XTreeNode.parent <b>P</b>} now have one fewer
+         * <font color='darkBlue'>black</font> node than paths that do not pass through
+         * {@link XTreeNode.parent <b>P</b>}, so property 5 (all paths from any given node to its leaf nodes contain
+         * the same number of <font color='darkBlue'>black</font> nodes) is still violated. </p>
+         *
+         * <p> To correct this, we perform the rebalancing procedure on {@link XTreeNode.parent <b>P</b>}, starting
+         * at case 1. </p>
+         *
+         * @param N A node to be erased or swapped.
+         */
+        private erase_case3(N);
+        /**
+         * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
+         * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
+         *
+         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_4.svg" /> </p>
+         *
+         * <p> In this case, we simply exchange the colors of {@link XTreeNode.sibling <b>S</b>} and
+         * {@link XTreeNode.parent <b>P</b>}. This does not affect the number of <font color='darkBlue'>black</font>
+         * nodes on paths going through {@link XTreeNode.sibling <b>S</b>}, but it does add one to the number of
+         * <font color='darkBlue'>black</font> nodes on paths going through <i><b>N</b></i>, making up for the
+         * deleted <font color='darkBlue'>black</font> node on those paths. </p>
+         *
+         * @param N A node to be erased or swapped.
+         */
+        private erase_case4(N);
+        /**
+         * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling <b>S</b>}'s
+         * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is
+         * <font color='darkBlue'>black</font>, and <i><b>N</b></i> is the left child of its parent. </p>
+         *
+         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_5.svg" /> </p>
+         *
+         * <p> In this case we rotate right at {@link XTreeNode.sibling <b>S</b>}, so that
+         * {@link XTreeNode.sibling <b>S</b>}'s left child becomes {@link XTreeNode.sibling <b>S</b>}'s parent and
+         * <i><b>N</b></i>'s new sibling. We then exchange the colors of {@link XTreeNode.sibling <b>S</b>} and its
+         * new parent. </p>
+         *
+         * <p> All paths still have the same number of <font color='darkBlue'>black</font> nodes, but now
+         * <i><b>N</b></i> has a <font color='darkBlue'>black</font> sibling whose right child is
+         * <font color='red'>red</font>, so we fall into case 6. Neither <i><b>N</b></i> nor its parent are affected
+         * by this transformation. (Again, for case 6, we relabel <i><b>N</b></i>'s new sibling as
+         * {@link XTreeNode.sibling <b>S</b>}.) </p>
+         *
+         * @param N A node to be erased or swapped.
+         */
+        private erase_case5(N);
+        /**
+         * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
+         * {@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and <i><b>N</b></i> is
+         * the left child of its parent {@link XTreeNode.parent <b>P</b>}. </p>
+         *
+         * <p> In this case we rotate left at {@link XTreeNode.parent <b>P</b>}, so that
+         * {@link XTreeNode.sibling <b>S</b>} becomes the parent of {@link XTreeNode.parent <b>P</b>} and
+         * {@link XTreeNode.sibling <b>S</b>}'s right child. We then exchange the colors of
+         * {@link XTreeNode.parent <b>P</b>} and {@link XTreeNode.sibling <b>S</b>}, and make
+         * {@link XTreeNode.sibling <b>S</b>}'s right child <font color='darkBlue'>black</font>. </p>
+         *
+         * <p> The subtree still has the same color at its root, so Properties 4 (Both children of every
+         * <font color='red'>red</font> node are <font color='darkBlue'>black</font>) and 5 (All paths from any
+         * given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font> nodes) are
+         * not violated. However, <i><b>N</b></i> now has one additional <font color='darkBlue'>black</font>
+         * ancestor: either {@link XTreeNode.parent <b>P</b>} has become <font color='darkBlue'>black</font>, or it
+         * was <font color='darkBlue'>black</font> and {@link XTreeNode.sibling <b>S</b>} was added as a
+         * <font color='darkBlue'>black</font> grandparent. </p>
+         *
+         * <p> Thus, the paths passing through <i><b>N</b></i> pass through one additional
+         * <font color='darkBlue'>black</font> node. </p>
+         *
+         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_6.svg" /> </p>
+         *
+         * <p> Meanwhile, if a path does not go through <i><b>N</b></i>, then there are two possibilities: </p>
+         * <ol>
+         *	<li>
+         *		It goes through <i><b>N</b></i>'s new sibling <b>SL</b>, a node with arbitrary color and the root of
+         *		the subtree labeled 3 (s. diagram). Then, it must go through {@link XTreeNode.sibling <b>S</b>} and
+         *		{@link XTreeNode.parent <b>P</b>}, both formerly and currently, as they have only exchanged colors
+         *		and places. Thus the path contains the same number of <font color='darkBlue'>black</font> nodes.
+         *	</li>
+         *	<li>
+         *		It goes through <i><b>N</b></i>'s new uncle, {@link XTreeNode.sibling <b>S</b>}'s right child. Then,
+         *		it formerly went through {@link XTreeNode.sibling <b>S</b>}, {@link XTreeNode.sibling <b>S</b>}'s
+         *		parent, and {@link XTreeNode.sibling <b>S</b>}'s right child <b>SR</b> (which was
+         *		<font color='red'>red</font>), but now only goes through {@link XTreeNode.sibling <b>S</b>}, which
+         *		has assumed the color of its former parent, and {@link XTreeNode.sibling <b>S</b>}'s right child,
+         *		which has changed from <font color='red'>red</font> to <font color='darkBlue'>black</font> (assuming
+         *		{@link XTreeNode.sibling <b>S</b>}'s color: <font color='darkBlue'>black</font>). The net effect is
+         *		that this path goes through the same number of <font color='darkBlue'>black</font> nodes.
+         *	</li>
+         * </ol>
+         *
+         * <p> Either way, the number of <font color='darkBlue'>black</font> nodes on these paths does not change.
+         * Thus, we have restored Properties 4 (Both children of every <font color='red'>red</font> node are
+         * <font color='darkBlue'>black</font>) and 5 (All paths from any given node to its leaf nodes contain the
+         * same number of <font color='darkBlue'>black</font> nodes). The white node in the diagram can be either
+         * <font color='red'>red</font> or <font color='darkBlue'>black</font>, but must refer to the same color
+         * both before and after the transformation. </p>
+         *
+         * @param N A node to be erased or swapped.
+         */
+        private erase_case6(node);
+        /**
+         * Rotate a node left.
+         *
+         * @param node Node to rotate left.
+         */
+        protected rotate_left(node: XTreeNode<T>): void;
+        /**
+         * Rotate a node to right.
+         *
+         * @param node A node to rotate right.
+         */
+        protected rotate_right(node: XTreeNode<T>): void;
+        /**
+         * Replace a node.
+         *
+         * @param oldNode Ordinary node to be replaced.
+         * @param newNode Target node to replace.
+         */
+        protected replace_node(oldNode: XTreeNode<T>, newNode: XTreeNode<T>): void;
+        /**
+         * Fetch color from a node.
+         *
+         * @param node A node to fetch color.
+         * @retur color.
+         */
+        private fetch_color(node);
+    }
+}
+declare namespace std.base {
+    /**
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class AtomicTree<T> extends XTree<SetIterator<T>> {
+        private compare_;
+        /**
+         * Default Constructor.
+         */
+        constructor(compare?: (left: T, right: T) => boolean);
+        find(val: T): XTreeNode<SetIterator<T>>;
+        find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
+        /**
+         * @hidden
+         */
+        private find_by_val(val);
+        get_compare(): (left: T, right: T) => boolean;
+        /**
+         * @inheritdoc
+         */
+        is_equals(left: SetIterator<T>, right: SetIterator<T>): boolean;
+        /**
+         * @inheritdoc
+         */
+        is_less(left: SetIterator<T>, right: SetIterator<T>): boolean;
+    }
+}
+declare namespace std.base {
+    /**
+     * <p> Static class holding enumeration codes of color of Red-black tree. </p>
+     *
+     * <p> Color codes imposed to nodes of RB-Tree are following those rules: </p>
+     *
+     * <ol>
+     *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
+     *	<li> The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
+     *		 always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
+     *		 necessarily vice versa, this rule has little effect on analysis. </li>
+     *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
+     *  <li> If a node is <font color='red'>red</font>, then both its children are
+     *		 <font color='darkBlue'>black</font>. </li>
+     *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of
+     *		 <font color='darkBlue'>black</font> nodes. Some definitions: the number of
+     *		 <font color='darkBlue'>black</font> nodes from the root to a node is the node's
+     *		 <font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
+     *		 nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
+     *		 the red-black tree. </li>
+     * </ol>
+     *
+     * @author Migrated by Jeongho Nam <http://samchon.org>
+     */
+    enum Color {
+        /**
+         * <p> Code of color black. </p>
+         *
+         * <ul>
+         *	<li> Those are clearly black: root, leaf nodes or children nodes of red. </li>
+         *	<li> Every path from a given nodes containes the same number of black nodes exclude NIL(s). </li>
+         * </ul>
+         */
+        BLACK = 0,
+        /**
+         * <p> Code of color red. </p>
+         */
+        RED = 1,
+    }
+}
+declare namespace std.base {
+    /**
      * <p> An abstract  </p>
      *
      * <h3> Container properties </h3>
@@ -2442,6 +3130,151 @@ declare namespace std.base {
          * @inheritdoc
          */
         swap(obj: Container<T>): void;
+    }
+}
+declare namespace std.base {
+    /**
+     * <p> An abstract error instance. </p>
+     *
+     * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
+     * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
+     *
+     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+     * represent possible results. These numerical values may carry essential information for a specific platform,
+     * but be non-portable from one platform to another. </p>
+     *
+     * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
+     * so that they can be interpreted when needed as more abstract (and portable)
+     * {@link ErrorCondition error conditions}. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class ErrorInstance {
+        /**
+         * A reference to an {@link ErrorCategory} object.
+         */
+        protected category_: ErrorCategory;
+        /**
+         * A numerical value identifying an error instance.
+         */
+        protected value_: number;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from a numeric value and error category.
+         *
+         * @param val A numerical value identifying an error instance.
+         * @param category A reference to an {@link ErrorCategory} object.
+         */
+        constructor(val: number, category: ErrorCategory);
+        /**
+         * <p> Assign error instance. </p>
+         *
+         * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p>
+         *
+         * @param val A numerical value identifying an error instance.
+         * @param category A reference to an {@link ErrorCategory} object.
+         */
+        assign(val: number, category: ErrorCategory): void;
+        /**
+         * <p> Clear error instance. </p>
+         *
+         * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
+         * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
+         */
+        clear(): void;
+        /**
+         * <p> Get category. </p>
+         *
+         * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
+         *
+         * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
+         */
+        category(): ErrorCategory;
+        /**
+         * <p> Error value. </p>
+         *
+         * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
+         *
+         * @return The error value.
+         */
+        value(): number;
+        /**
+         * <p> Get message. </p>
+         *
+         * <p> Returns the message associated with the error instance. </p>
+         *
+         * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
+         *
+         * <p> This function returns the same as if the following member was called: </p>
+         *
+         * <p> <code>category().message(value())</code> </p>
+         *
+         * @return A string object with the message associated with the {@link ErrorCode}.
+         */
+        message(): string;
+        /**
+         * <p> Default error condition. </p>
+         *
+         * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
+         *
+         * <p> This function returns the same as if the following member was called: </p>
+         *
+         * <p> <code>category().default_error_condition(value())</code> </p>
+         *
+         * <p> {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()}
+         * is a virtual member function, that can operate differently for each category. </p>
+         *
+         * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
+         */
+        default_error_condition(): ErrorCondition;
+        /**
+         * <p> Convert to bool. </p>
+         *
+         * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
+         *
+         * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
+         *
+         * @return <code>true</code> if the error's numerical value is not zero.
+         *		   <code>false</code> otherwise.
+         */
+        to_bool(): boolean;
+    }
+}
+declare namespace std.base {
+    const MIN_SIZE: number;
+    const RATIO: number;
+    const MAX_RATIO: number;
+    function code(par: any): number;
+}
+declare namespace std.base {
+    /**
+     * <p> Hask buckets. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class HashBuckets<T> {
+        private buckets_;
+        private item_size_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Reserve the bucket size.
+         *
+         * @param size Number of bucket size to reserve.
+         */
+        reserve(size: number): void;
+        clear(): void;
+        size(): number;
+        item_size(): number;
+        at(index: number): Vector<T>;
+        private hash_index(val);
+        insert(val: T): void;
+        erase(val: T): void;
     }
 }
 declare namespace std.base {
@@ -3196,6 +4029,7 @@ declare namespace std.base {
         rend(): MapReverseIterator<Key, T>;
         /**
          * <p> Whether have the item or not. </p>
+         *
          * <p> Indicates whether a map has an item having the specified identifier. </p>
          *
          * @param key Key value of the element whose mapped value is accessed.
@@ -3205,7 +4039,8 @@ declare namespace std.base {
         has(key: Key): boolean;
         /**
          * <p> Count elements with a specific key. </p>
-         * <p> Searches the container for elements whose key is k and returns the number of elements found. </p>
+         *
+         * <p> Searches the container for elements whose key is <i>key</i> and returns the number of elements found. </p>
          *
          * @param key Key value to be searched for.
          *
@@ -3478,6 +4313,13 @@ declare namespace std {
          * @inheritdoc
          */
         advance(step: number): MapReverseIterator<Key, T>;
+    }
+}
+declare namespace std.base {
+    class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
+        private map;
+        constructor(map: MapContainer<K, T>);
+        find(key: K): MapIterator<K, T>;
     }
 }
 declare namespace std.base {
@@ -4006,6 +4848,40 @@ declare namespace std.base {
 }
 declare namespace std.base {
     /**
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class PairTree<Key, T> extends XTree<MapIterator<Key, T>> {
+        private compare_;
+        /**
+         * Default Constructor.
+         */
+        constructor(compare?: (left: Key, right: Key) => boolean);
+        find(key: Key): XTreeNode<MapIterator<Key, T>>;
+        find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
+        /**
+         * @hidden
+         */
+        private find_by_key(key);
+        get_compare(): (left: Key, right: Key) => boolean;
+        /**
+         * @inheritdoc
+         */
+        is_equals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean;
+        /**
+         * @inheritdoc
+         */
+        is_less(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean;
+    }
+}
+declare namespace std.base {
+    class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
+        private set;
+        constructor(set: SetContainer<T>);
+        find(val: T): SetIterator<T>;
+    }
+}
+declare namespace std.base {
+    /**
      * <p> An abstract unique-map. </p>
      *
      * <p> {@link UniqueMap UniqueMaps} are associative containers that store elements formed by a combination of a
@@ -4079,7 +4955,9 @@ declare namespace std.base {
          * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
          *
          * @param key Key value of the element whose mapped value is accessed.
+         *
          * @throw exception out of range
+         *
          * @return A reference object of the mapped value (_Ty)
          */
         get(key: Key): T;
@@ -4221,880 +5099,6 @@ declare namespace std.base {
          * @inheritdoc
          */
         insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
-    }
-}
-declare namespace std.base {
-    const MIN_SIZE: number;
-    const RATIO: number;
-    const MAX_RATIO: number;
-    function code(par: any): number;
-}
-declare namespace std.base {
-    /**
-     * <p> Hask buckets. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class HashBuckets<T> {
-        private buckets_;
-        private item_size_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Reserve the bucket size.
-         *
-         * @param size Number of bucket size to reserve.
-         */
-        reserve(size: number): void;
-        clear(): void;
-        size(): number;
-        item_size(): number;
-        at(index: number): Vector<T>;
-        private hash_index(val);
-        insert(val: T): void;
-        erase(val: T): void;
-    }
-}
-declare namespace std.base {
-    class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
-        private map;
-        constructor(map: MapContainer<K, T>);
-        find(key: K): MapIterator<K, T>;
-    }
-}
-declare namespace std.base {
-    class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
-        private set;
-        constructor(set: SetContainer<T>);
-        find(val: T): SetIterator<T>;
-    }
-}
-declare namespace std.base {
-    /**
-     * <p> An abstract error instance. </p>
-     *
-     * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
-     * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
-     *
-     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-     * represent possible results. These numerical values may carry essential information for a specific platform,
-     * but be non-portable from one platform to another. </p>
-     *
-     * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
-     * so that they can be interpreted when needed as more abstract (and portable)
-     * {@link ErrorCondition error conditions}. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class ErrorInstance {
-        /**
-         * A reference to an {@link ErrorCategory} object.
-         */
-        protected category_: ErrorCategory;
-        /**
-         * A numerical value identifying an error instance.
-         */
-        protected value_: number;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error instance.
-         * @param category A reference to an {@link ErrorCategory} object.
-         */
-        constructor(val: number, category: ErrorCategory);
-        /**
-         * <p> Assign error instance. </p>
-         *
-         * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p>
-         *
-         * @param val A numerical value identifying an error instance.
-         * @param category A reference to an {@link ErrorCategory} object.
-         */
-        assign(val: number, category: ErrorCategory): void;
-        /**
-         * <p> Clear error instance. </p>
-         *
-         * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
-         * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
-         */
-        clear(): void;
-        /**
-         * <p> Get category. </p>
-         *
-         * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
-         *
-         * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
-         */
-        category(): ErrorCategory;
-        /**
-         * <p> Error value. </p>
-         *
-         * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
-         *
-         * @return The error value.
-         */
-        value(): number;
-        /**
-         * <p> Get message. </p>
-         *
-         * <p> Returns the message associated with the error instance. </p>
-         *
-         * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
-         *
-         * <p> This function returns the same as if the following member was called: </p>
-         *
-         * <p> <code>category().message(value())</code> </p>
-         *
-         * @return A string object with the message associated with the {@link ErrorCode}.
-         */
-        message(): string;
-        /**
-         * <p> Default error condition. </p>
-         *
-         * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
-         *
-         * <p> This function returns the same as if the following member was called: </p>
-         *
-         * <p> <code>category().default_error_condition(value())</code> </p>
-         *
-         * <p> {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()}
-         * is a virtual member function, that can operate differently for each category. </p>
-         *
-         * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
-         */
-        default_error_condition(): ErrorCondition;
-        /**
-         * <p> Convert to bool. </p>
-         *
-         * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
-         *
-         * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
-         *
-         * @return <code>true</code> if the error's numerical value is not zero.
-         *		   <code>false</code> otherwise.
-         */
-        to_bool(): boolean;
-    }
-}
-declare namespace std.base {
-    /**
-     * <p> Red-black Tree. </p>
-     *
-     * <p> A red-black tree is a kind of self-balancing
-     * binary search tree. Each node of the binary tree has an extra bit, and that bit is often interpreted as the
-     * color (<font color='red'>red</font> or <font color='darkBlue'>black</font>) of the node. These color bits
-     * are used to ensure the tree remains approximately balanced during insertions and deletions. </p>
-     *
-     * <p> Balance is preserved by painting each node of the tree with one of two colors (typically called
-     * '<font color='red'>red</font>' and '<font color='darkBlue'>black</font>') in a way that satisfies certain
-     * properties, which collectively constrain how unbalanced the tree can become in the worst case. When the tree
-     * is modified, the new tree is subsequently rearranged and repainted to restore the coloring properties. The
-     * properties are designed in such a way that this rearranging and recoloring can be performed efficiently. </p>
-     *
-     * <p> The balancing of the tree is not perfect but it is good enough to allow it to guarantee searching in
-     * O(log n) time, where n is the total number of elements in the tree. The insertion and deletion operations,
-     * along with the tree rearrangement and recoloring, are also performed in O(log n) time. </p>
-     *
-     * <p> Tracking the color of each node requires only 1 bit of information per node because there are only two
-     * colors. The tree does not contain any other data specific to its being a
-     * red-black tree so its memory footprint is almost
-     * identical to a classic (uncolored) binary search tree. In many cases the additional bit of information can
-     * be stored at no additional memory cost. </p>
-     *
-     * <h4> Properties </h4>
-     * <p> In addition to the requirements imposed on a binary search tree the following must be satisfied by a
-     * red-black tree: </p>
-     *
-     * <ol>
-     *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
-     *	<li>
-     *		The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
-     *		always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
-     *		necessarily vice versa, this rule has little effect on analysis.
-     *	</li>
-     *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
-     *  <li>
-     *		If a node is <font color='red'>red</font>, then both its children are
-     *		<font color='darkBlue'>black</font>.
-     *	</li>
-     *  <li>
-     *		Every path from a given node to any of its descendant NIL nodes contains the same number of
-     *		<font color='darkBlue'>black</font> nodes. Some definitions: the number of
-     *		<font color='darkBlue'>black</font> nodes from the root to a node is the node's
-     *		<font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
-     *		nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
-     *		the red-black tree.
-     *	</li>
-     * </ol>
-     *
-     * <p> <img src="../assets/images/tree/Red-black_tree_example.svg" width="100%" /> </p>
-     *
-     * <p> These constraints enforce a critical property of red-black trees: the path from the root to the farthest
-     * leaf is no more than twice as long as the path from the root to the nearest leaf. The result is that the tree
-     * is roughly height-balanced. Since operations such as inserting, deleting, and finding values require
-     * worst-case time proportional to the height of the tree, this theoretical upper bound on the height allows
-     * red-black trees to be efficient in the worst case, unlike ordinary binary search trees. </p>
-     *
-     * <p> To see why this is guaranteed, it suffices to consider the effect of properties 4 and 5 together. For a
-     * red-black tree T, let B be the number of <font color='darkBlue'>black</font> nodes in property 5. Let the
-     * shortest possible path from the root of T to any leaf consist of B <font color='darkBlue'>black</font> nodes.
-     * Longer possible paths may be constructed by inserting <font color='red'>red</font> nodes. However, property 4
-     * makes it impossible to insert more than one consecutive <font color='red'>red</font> node. Therefore,
-     * ignoring any <font color='darkBlue'>black</font> NIL leaves, the longest possible path consists of 2*B nodes,
-     * alternating <font color='darkBlue'>black</font> and <font color='red'>red</font> (this is the worst case).
-     * Counting the <font color='darkBlue'>black</font> NIL leaves, the longest possible path consists of 2*B-1
-     * nodes. </p>
-     *
-     * <p> The shortest possible path has all <font color='darkBlue'>black</font> nodes, and the longest possible
-     * path alternates between <font color='red'>red</font> and <font color='darkBlue'>black</font> nodes. Since all
-     * maximal paths have the same number of <font color='darkBlue'>black</font> nodes, by property 5, this shows
-     * that no path is more than twice as long as any other path. </p>
-     *
-     * <ul>
-     *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
-     * </ul>
-     *
-     * @param <T> Type of elements.
-     *
-     * @inventor Rudolf Bayer
-     * @author Migrated by Jeongho Nam <http://samchon.org>
-     */
-    abstract class XTree<T> {
-        /**
-         * Root node.
-         */
-        protected root_: XTreeNode<T>;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Find a node from its contained value.
-         *
-         * @param val Value to find.
-         */
-        find(val: T): XTreeNode<T>;
-        /**
-         * Fetch maximum (the rightes?) node from one.
-         *
-         * @param node A node to fetch its maximum node.
-         * @return The maximum node.
-         */
-        protected fetch_maximum(node: XTreeNode<T>): XTreeNode<T>;
-        abstract is_equals(left: T, right: T): boolean;
-        abstract is_less(left: T, right: T): boolean;
-        /**
-         * <p> Insert an element with a new node. </p>
-         *
-         * <p> Insertion begins by adding the node as any binary search tree insertion does and by coloring it
-         * <font color='red'>red</font>. Whereas in the binary search tree, we always add a leaf, in the red-black
-         * tree, leaves contain no information, so instead we add a <font color='red'>red</font> interior node, with
-         * two <font color='darkBlue'>black</font> leaves, in place of an existing
-         * <font color='darkBlue'>black</font> leaf. </p>
-         *
-         * <p> What happens next depends on the color of other nearby nodes. The term uncle node will be used to
-         * refer to the sibling of a node's parent, as in human family trees. Note that: </p>
-         *
-         * <ul>
-         *	<li> property 3 (all leaves are <font color='darkBlue'>black</font>) always holds. </li>
-         *	<li>
-         *		property 4 (both children of every <font color='red'>red</font> node are
-         *		<font color='darkBlue'>black</font>) is threatened only by adding a <font color='red'>red</font>
-         *		node, repainting a <font color='darkBlue'>black</font> node <font color='red'>red</font>, or a
-         *		rotation.
-         *	</li>
-         *	<li>
-         *		property 5 (all paths from any given node to its leaf nodes contain the same number of
-         *		<font color='darkBlue'>black</font> nodes) is threatened only by adding a
-         *		<font color='darkBlue'>black</font> node, repainting a <font color='red'>red</font> node
-         *		<font color='darkBlue'>black</font> (or vice versa), or a rotation.
-         *	</li>
-         * </ul>
-         *
-         * <h4> Notes </h4>
-         * <ol>
-         *	<li>
-         *		The label <i><b>N</b></i> will be used to denote the current node (colored
-         *		<font color='red'>red</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
-         *		beginning, this is the new node being inserted, but the entire procedure may also be applied
-         *		recursively to other nodes (see case 3). {@link XTreeNode.parent <b>P</b>} will denote
-         *		<i><b>N</b></i>'s parent node, {@link XTreeNode.grand_parent <b>G</b>} will denote <i><b>N</b></i>'s
-         *		grandparent, and {@link XTreeNode.uncle <b>U</b>} will denote <i><b>N</b></i>'s uncle. In between
-         *		some cases, the roles and labels of the nodes are exchanged, but in each case, every label continues
-         *		to represent the same node it represented at the beginning of the case.
-         *	</li>
-         *	<li>
-         *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
-         *		node in the next iteration and there the other nodes will be newly assigned relative to it. Any
-         *		color shown in the diagram is either assumed in its case or implied by those assumptions.
-         *	</li>
-         *	<li>
-         *		A numbered triangle represents a subtree of unspecified depth. A <font color='darkBlue'>black</font>
-         *		circle atop a triangle means that <font color='darkBlue'>black</font>-height of subtree is greater
-         *		by one compared to subtree without this circle. </li>
-         * </ol>
-         *
-         * <p> There are several cases of red-black tree insertion to handle: </p>
-         *
-         * <ul>
-         *	<li> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </li>
-         *	<li>
-         *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>.
-         *	</li>
-         *	<li>
-         *		<i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
-         *		({@link XTreeNode.uncle <b>U</b>}) are <font color='red'>red</font>.
-         *	</li>
-         *	<li>
-         *		<i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
-         *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
-         *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
-         *	</li>
-         *	<li>
-         *		<i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
-         *		of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
-         *		{@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>).
-         *	</li>
-         * </ul>
-         *
-         * <h4> Note </h4>
-         * <p> Note that inserting is actually in-place, since all the calls above use tail recursion. </p>
-         *
-         * <p> In the algorithm above, all cases are chained in order, except in insert case 3 where it can recurse
-         * to case 1 back to the grandparent node: this is the only case where an iterative implementation will
-         * effectively loop. Because the problem of repair is escalated to the next higher level but one, it takes
-         * maximally h⁄2 iterations to repair the tree (where h is the height of the tree). Because the probability
-         * for escalation decreases exponentially with each iteration the average insertion cost is constant. </p>
-         *
-         * @param val An element to insert.
-         */
-        insert(val: T): void;
-        /**
-         * <p> <i><b>N</b></i> is the root node, i.e., first node of red-black tree. </p>
-         *
-         * <p> The current node <i><b>N</b></i> is at the {@link root_ root} of the tree. </p>
-         *
-         * <p> In this case, it is repainted <font color='darkBlue'>black</font> to satisfy property 2 (the root is
-         * <font color='darkBlue'>black</font>). Since this adds one <font color='darkBlue'>black</font> node to
-         * every path at once, property 5 (all paths from any given node to its leaf nodes contain the same number
-         * of <font color='darkBlue'>black</font> nodes) is not violated. </p>
-         *
-         * @param N A node to be inserted or swapped.
-         */
-        private insert_case1(N);
-        /**
-         * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>. </p>
-         *
-         * <p> The current node's parent {@link XTreeNode.parent <b>P</b>} is <font color='darkBlue'>black</font>,
-         * so property 4 (both children of every <font color='red'>red</font> node are
-         * <font color='darkBlue'>black</font>) is not invalidated. </p>
-         *
-         * <p> In this case, the tree is still valid. Property 5 (all paths from any given node to its leaf nodes
-         * contain the same number of <font color='darkBlue'>black</font> nodes) is not threatened, because the
-         * current node <i><b>N</b></i> has two <font color='darkBlue'>black</font> leaf children, but because
-         * <i><b>N</b></i> is <font color='red'>red</font>, the paths through each of its children have the same
-         * number of <font color='darkBlue'>black</font> nodes as the path through the leaf it replaced, which was
-         * <font color='darkBlue'>black</font>, and so this property remains satisfied. </p>
-         *
-         * @param N A node to be inserted or swapped.
-         */
-        private insert_case2(N);
-        /**
-         * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
-         * (<i>{@link XTreeNode.uncle <b>U</b>}</i>) are <font color='red'>red</font>. </p>
-         *
-         * <p> If both the parent {@link XTreeNode.parent <b>P</b>} and the uncle {@link XTreeNode.uncle <b>U</b>}
-         * are <font color='red'>red</font>, then both of them can be repainted <font color='darkBlue'>black</font>
-         * and the grandparent {@link XTreeNode.grand_parent <b>G</b>} becomes <font color='red'>red</font> (to
-         * maintain property 5 (all paths from any given node to its leaf nodes contain the same number of
-         * <font color='darkBlue'>black</font> nodes)). </p>
-         *
-         * <p> Now, the current <font color='red'>red</font> node <i><b>N</b></i> has a
-         * <font color='darkBlue'>black</font> parent. Since any path through the parent or uncle must pass through
-         * the grandparent, the number of <font color='darkBlue'>black</font> nodes on these paths has not changed.
-         *
-         * <p> However, the grandparent {@link XTreeNode.grand_parent <b>G</b>} may now violate properties 2 (The
-         * root is <font color='darkBlue'>black</font>) or 4 (Both children of every <font color='red'>red</font>
-         * node are <font color='darkBlue'>black</font>) (property 4 possibly being violated since
-         * {@link XTreeNode.grand_parent <b>G</b>} may have a <font color='red'>red</font> parent). </p>
-         *
-         * <p> To fix this, the entire procedure is recursively performed on {@link XTreeNode.grand_parent <b>G</b>}
-         * from case 1. Note that this is a tail-recursive call, so it could be rewritten as a loop; since this is
-         * the only loop, and any rotations occur after this loop, this proves that a constant number of rotations
-         * occur. </p>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_3.svg" /> </p>
-         *
-         * @param N A node to be inserted or swapped.
-         */
-        private insert_case3(N);
-        /**
-         * <p> <i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
-         * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
-         * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
-         *
-         * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
-         * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>; also, the current node
-         * <i><b>N</b></i> is the right child of {@link XTreeNode.parent <b>P</b>}, and
-         * {@link XTreeNode.parent <b>P</b>} in turn is the left child of its parent
-         * {@link XTreeNode.grand_parent <b>G</b>}. </p>
-         *
-         * <p> In this case, a left rotation on {@link XTreeNode.parent <b>P</b>} that switches the roles of the
-         * current node <i><b>N</b></i> and its parent {@link XTreeNode.parent <b>P</b>} can be performed; then,
-         * the former parent node {@link XTreeNode.parent <b>P</b>} is dealt with using case 5
-         * (relabeling <i><b>N</b></i> and {@link XTreeNode.parent <b>P</b>}) because property 4 (both children of
-         * every <font color='red'>red</font> node are <font color='darkBlue'>black</font>) is still violated. </p>
-         *
-         * <p> The rotation causes some paths (those in the sub-tree labelled "1") to pass through the node
-         * <i><b>N</b></i> where they did not before. It also causes some paths (those in the sub-tree labelled "3")
-         * not to pass through the node {@link XTreeNode.parent <b>P</b>} where they did before. However, both of
-         * these nodes are <font color='red'>red</font>, so property 5 (all paths from any given node to its leaf
-         * nodes contain the same number of <font color='darkBlue'>black</font> nodes) is not violated by the
-         * rotation. </p>
-         *
-         * <p> After this case has been completed, property 4 (both children of every <font color='red'>red</font>
-         * node are <font color='darkBlue'>black</font>) is still violated, but now we can resolve this by
-         * continuing to case 5. </p>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_4.svg" /> </p>
-         *
-         * @param N A node to be inserted or swapped.
-         */
-        private insert_case4(node);
-        /**
-         * <p> <i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
-         * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
-         * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>). </p>
-         *
-         * <p> The parent {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> but the uncle
-         * {@link XTreeNode.uncle <b>U</b>} is <font color='darkBlue'>black</font>, the current node <i><b>N</b></i>
-         * is the left child of {@link XTreeNode.parent <b>P</b>}, and {@link XTreeNode.parent <b>P</b>} is the left
-         * child of its parent {@link XTreeNode.grand_parent <b>G</b>}. </p>
-         *
-         * <p>In this case, a right rotation on {@link XTreeNode.grand_parent <b>G</b>} is performed; the result is a
-         * tree where the former parent {@link XTreeNode.parent <b>P</b>} is now the parent of both the current node
-         * <i><b>N</b></i> and the former grandparent {@link XTreeNode.grand_parent <b>G</b>}. </p>
-         *
-         * <p> {@link XTreeNode.grand_parent <b>G</b>} is known to be <font color='darkBlue'>black</font>, since its
-         * former child {@link XTreeNode.parent <b>P</b>} could not have been <font color='red'>red</font> otherwise
-         * (without violating property 4). Then, the colors of {@link XTreeNode.parent <b>P</b>} and
-         * {@link XTreeNode.grand_parent <b>G</b>} are switched, and the resulting tree satisfies property 4 (both
-         * children of every <font color='red'>red</font> node are <font color='darkBlue'>black</font>). Property 5
-         * (all paths from any given node to its leaf nodes contain the same number of
-         * <font color='darkBlue'>black</font> nodes) also remains satisfied, since all paths that went through any
-         * of these three nodes went through {@link XTreeNode.grand_parent <b>G</b>} before, and now they all go
-         * through {@link XTreeNode.parent <b>P</b>}. In each case, this is the only
-         * <font color='darkBlue'>black</font> node of the three. </p>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_5.svg" /> </p>
-         *
-         * @param N A node to be inserted or swapped.
-         */
-        private insert_case5(node);
-        /**
-         * <p> Erase an element with its node. </p>
-         *
-         * <p> In a regular binary search tree when deleting a node with two non-leaf children, we find either the
-         * maximum element in its left subtree (which is the in-order predecessor) or the minimum element in its
-         * right subtree (which is the in-order successor) and move its value into the node being deleted (as shown
-         * here). We then delete the node we copied the value from, which must have fewer than two non-leaf children.
-         * (Non-leaf children, rather than all children, are specified here because unlike normal binary search
-         * trees, red-black trees can have leaf nodes anywhere, so that all nodes are either internal nodes with
-         * two children or leaf nodes with, by definition, zero children. In effect, internal nodes having two leaf
-         * children in a red-black tree are like the leaf nodes in a regular binary search tree.) Because merely
-         * copying a value does not violate any red-black properties, this reduces to the problem of deleting a node
-         * with at most one non-leaf child. Once we have solved that problem, the solution applies equally to the
-         * case where the node we originally want to delete has at most one non-leaf child as to the case just
-         * considered where it has two non-leaf children. </p>
-         *
-         * <p> Therefore, for the remainder of this discussion we address the deletion of a node with at most one
-         * non-leaf child. We use the label <b>M</b> to denote the node to be deleted; <b>C</b> will denote a
-         * selected child of <b>M</b>, which we will also call "its child". If <b>M</b> does have a non-leaf child,
-         * call that its child, <b>C</b>; otherwise, choose either leaf as its child, <b>C</b>. </p>
-         *
-         * <p> If <b>M</b> is a <font color='red'>red</font> node, we simply replace it with its child <b>C</b>,
-         *  which must be <font color='darkBlue'>black</font> by property 4. (This can only occur when <b>M</b> has
-         * two leaf children, because if the <font color='red'>red</font> node <b>M</b> had a
-         * <font color='darkBlue'>black</font> non-leaf child on one side but just a leaf child on the other side,
-         * then the count of <font color='darkBlue'>black</font> nodes on both sides would be different, thus the
-         * tree would violate property 5.) All paths through the deleted node will simply pass through one fewer
-         * <font color='red'>red</font> node, and both the deleted node's parent and child must be
-         * <font color='darkBlue'>black</font>, so property 3 (all leaves are <font color='darkBlue'>black</font>)
-         * and property 4 (both children of every <font color='red'>red</font> node are
-         * <font color='darkBlue'>black</font>) still hold. </p>
-         *
-         * <p> Another simple case is when <b>M</b> is <font color='darkBlue'>black</font> and <b>C</b> is
-         * <font color='red'>red</font>. Simply removing a <font color='darkBlue'>black</font> node could break
-         * Properties 4 (“Both children of every <font color='red'>red</font> node are
-         * <font color='darkBlue'>black</font>”) and 5 (“All paths from any given node to its leaf nodes contain the
-         * same number of <font color='darkBlue'>black</font> nodes”), but if we repaint <b>C</b>
-         * <font color='darkBlue'>black</font>, both of these properties are preserved. </p>
-         *
-         * <p> The complex case is when both <b>M</b> and <b>C</b> are <font color='darkBlue'>black</font>. (This
-         * can only occur when deleting a <font color='darkBlue'>black</font> node which has two leaf children,
-         * because if the <font color='darkBlue'>black</font> node <b>M</b> had a <font color='darkBlue'>black</font>
-         * non-leaf child on one side but just a leaf child on the other side, then the count of
-         * <font color='darkBlue'>black</font> nodes on both sides would be different, thus the tree would have been
-         * an invalid red-black tree by violation of property 5.) We begin by replacing <b>M</b> with its child
-         * <b>C</b>. We will relabel this child <b>C</b> (in its new position) <i><b>N</b></i>, and its sibling (its
-         * new parent's other child) {@link XTreeNode.sibling <b>S</b>}. ({@link XTreeNode.sibling <b>S</b>} was
-         * previously the sibling of <b>M</b>.) </p>
-         *
-         * <p> In the diagrams below, we will also use {@link XTreeNode.parent <b>P</b>} for <i><b>N</b></i>'s new
-         * parent (<b>M</b>'s old parent), <b>SL</b> for {@link XTreeNode.sibling <b>S</b>}'s left child, and
-         * <b>SR</b> for {@link XTreeNode.sibling <b>S</b>}'s right child ({@link XTreeNode.sibling <b>S</b>} cannot
-         * be a leaf because if <b>M</b> and <b>C</b> were <font color='darkBlue'>black</font>, then
-         * {@link XTreeNode.parent <b>P</b>}'s one subtree which included <b>M</b> counted two
-         * <font color='darkBlue'>black</font>-height and thus {@link XTreeNode.parent <b>P</b>}'s other subtree
-         * which includes {@link XTreeNode.sibling <b>S</b>} must also count two
-         * <font color='darkBlue'>black</font>-height, which cannot be the case if {@link XTreeNode.sibling <b>S</b>}
-         * is a leaf node). </p>
-         *
-         * <h4> Notes </h4>
-         * <ol>
-         *	<li>
-         *		The label <i><b>N</b></i> will be used to denote the current node (colored
-         *		<font color='darkBlue'>black</font>). In the diagrams <i><b>N</b></i> carries a blue contour. At the
-         *		beginning, this is the replacement node and a leaf, but the entire procedure may also be applied
-         *		recursively to other nodes (see case 3). In between some cases, the roles and labels of the nodes
-         *		are exchanged, but in each case, every label continues to represent the same node it represented at
-         *		the beginning of the case.
-         *	</li>
-         *	<li>
-         *		If a node in the right (target) half of a diagram carries a blue contour it will become the current
-         *		node in the next iteration and there the other nodes will be newly assigned relative to it. Any
-         *		color shown in the diagram is either assumed in its case or implied by those assumptions.
-         *		White represents an arbitrary color (either <font color='red'>red</font> or
-         *		<font color='darkBlue'>black</font>), but the same in both halves of the diagram.
-         *	</li>
-         *	<li>
-         *		A numbered triangle represents a subtree of unspecified depth. A <font color='darkBlue'>black</font>
-         *		circle atop a triangle means that <font color='darkBlue'>black</font>-height of subtree is greater
-         *		by one compared to subtree without this circle.
-         *	</li>
-         * </ol>
-         *
-         * <p> If both <i><b>N</b></i> and its original parent are <font color='darkBlue'>black</font>, then
-         * deleting this original parent causes paths which proceed through <i><b>N</b></i> to have one fewer
-         * <font color='darkBlue'>black</font> node than paths that do not. As this violates property 5 (all paths
-         * from any given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font>
-         * nodes), the tree must be rebalanced. There are several cases to consider: </p>
-         *
-         * <ol>
-         *	<li> <i><b>N</b></i> is the new root. </li>
-         *	<li> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </li>
-         *	<li>
-         *		{@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and
-         *		{@link XTreeNode.sibling <b>S</b>}'s children are <font color='darkBlue'>black</font>. </li>
-         *	<li>
-         *		{@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
-         *		<font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is
-         *		<font color='red'>red</font>.
-         *	</li>
-         *	<li>
-         *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
-         *		{@link XTreeNode.sibling <b>S</b>}'s left child is <font color='red'>red</font>,
-         *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='darkBlue'>black</font>, and
-         *		<i><b>N</b></i> is the left child of its parent.
-         *	</li>
-         *	<li>
-         *		{@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
-         *		{@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and
-         *		<i><b>N</b></i> is the left child of its parent {@link XTreeNode.parent <b>P</b>}.
-         *	</li>
-         * </ol>
-         *
-         * <p> Again, the function calls all use tail recursion, so the algorithm is in-place. </p>
-         *
-         * <p> In the algorithm above, all cases are chained in order, except in delete case 3 where it can recurse
-         * to case 1 back to the parent node: this is the only case where an iterative implementation will
-         * effectively loop. No more than h loops back to case 1 will occur (where h is the height of the tree).
-         * And because the probability for escalation decreases exponentially with each iteration the average
-         * removal cost is constant. </p>
-         *
-         * <p> Additionally, no tail recursion ever occurs on a child node, so the tail recursion loop can only
-         * move from a child back to its successive ancestors. If a rotation occurs in case 2 (which is the only
-         * possibility of rotation within the loop of cases 1–3), then the parent of the node <i><b>N</b></i>
-         * becomes <font color='red'>red</font> after the rotation and we will exit the loop. Therefore, at most one
-         * rotation will occur within this loop. Since no more than two additional rotations will occur after
-         * exiting the loop, at most three rotations occur in total. </p>
-         *
-         * @param val An element to erase.
-         */
-        erase(val: T): void;
-        /**
-         * <p> <i><b>N</b></i> is the new root. </p>
-         *
-         * <p> In this case, we are done. We removed one <font color='darkBlue'>black</font> node from every path,
-         * and the new root is <font color='darkBlue'>black</font>, so the properties are preserved. </p>
-         *
-         * <h4> Note </h4>
-         * <p> In cases 2, 5, and 6, we assume <i><b>N</b></i> is the left child of its parent
-         * {@link XTreeNode.parent <b>P</b>}. If it is the right child, left and right should be reversed throughout
-         * these three cases. Again, the code examples take both cases into account. </p>
-         *
-         * @param N A node to be erased or swapped.
-         */
-        private erase_case1(N);
-        /**
-         * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_2.svg" /> </p>
-         *
-         * <p> In this case we reverse the colors of {@link XTreeNode.parent <b>P</b>} and
-         * {@link XTreeNode.sibling <b>S</b>}, and then rotate left at {@link XTreeNode.parent <b>P</b>}, turning
-         * {@link XTreeNode.sibling <b>S</b>} into <i><b>N</b></i>'s grandparent. </p>
-         *
-         * <p> Note that {@link XTreeNode.parent <b>P</b>} has to be <font color='darkBlue'>black</font> as it had a
-         * <font color='red'>red</font> child. The resulting subtree has a path short one
-         * <font color='darkBlue'>black</font> node so we are not done. Now <i><b>N</b></i> has a
-         * <font color='darkBlue'>black</font> sibling and a <font color='red'>red</font> parent, so we can proceed
-         * to step 4, 5, or 6. (Its new sibling is <font color='darkBlue'>black</font> because it was once the child
-         * of the <font color='red'>red</font> {@link XTreeNode.sibling <b>S</b>}.) In later cases, we will re-label
-         * <i><b>N</b></i>'s new sibling as {@link XTreeNode.sibling <b>S</b>}. </p>
-         *
-         * @param N A node to be erased or swapped.
-         */
-        private erase_case2(N);
-        /**
-         * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling
-         * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_3.svg" /> </p>
-         *
-         * <p> In this case, we simply repaint {@link XTreeNode.sibling <b>S</b>} <font color='red'>red</font>. The
-         * result is that all paths passing through {@link XTreeNode.sibling <b>S</b>}, which are precisely those
-         * paths not passing through <i><b>N</b></i>, have one less <font color='darkBlue'>black</font> node.
-         * Because deleting <i><b>N</b></i>'s original parent made all paths passing through <i><b>N</b></i> have
-         * one less <font color='darkBlue'>black</font> node, this evens things up. </p>
-         *
-         * <p> However, all paths through {@link XTreeNode.parent <b>P</b>} now have one fewer
-         * <font color='darkBlue'>black</font> node than paths that do not pass through
-         * {@link XTreeNode.parent <b>P</b>}, so property 5 (all paths from any given node to its leaf nodes contain
-         * the same number of <font color='darkBlue'>black</font> nodes) is still violated. </p>
-         *
-         * <p> To correct this, we perform the rebalancing procedure on {@link XTreeNode.parent <b>P</b>}, starting
-         * at case 1. </p>
-         *
-         * @param N A node to be erased or swapped.
-         */
-        private erase_case3(N);
-        /**
-         * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
-         * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_4.svg" /> </p>
-         *
-         * <p> In this case, we simply exchange the colors of {@link XTreeNode.sibling <b>S</b>} and
-         * {@link XTreeNode.parent <b>P</b>}. This does not affect the number of <font color='darkBlue'>black</font>
-         * nodes on paths going through {@link XTreeNode.sibling <b>S</b>}, but it does add one to the number of
-         * <font color='darkBlue'>black</font> nodes on paths going through <i><b>N</b></i>, making up for the
-         * deleted <font color='darkBlue'>black</font> node on those paths. </p>
-         *
-         * @param N A node to be erased or swapped.
-         */
-        private erase_case4(N);
-        /**
-         * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling <b>S</b>}'s
-         * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is
-         * <font color='darkBlue'>black</font>, and <i><b>N</b></i> is the left child of its parent. </p>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_5.svg" /> </p>
-         *
-         * <p> In this case we rotate right at {@link XTreeNode.sibling <b>S</b>}, so that
-         * {@link XTreeNode.sibling <b>S</b>}'s left child becomes {@link XTreeNode.sibling <b>S</b>}'s parent and
-         * <i><b>N</b></i>'s new sibling. We then exchange the colors of {@link XTreeNode.sibling <b>S</b>} and its
-         * new parent. </p>
-         *
-         * <p> All paths still have the same number of <font color='darkBlue'>black</font> nodes, but now
-         * <i><b>N</b></i> has a <font color='darkBlue'>black</font> sibling whose right child is
-         * <font color='red'>red</font>, so we fall into case 6. Neither <i><b>N</b></i> nor its parent are affected
-         * by this transformation. (Again, for case 6, we relabel <i><b>N</b></i>'s new sibling as
-         * {@link XTreeNode.sibling <b>S</b>}.) </p>
-         *
-         * @param N A node to be erased or swapped.
-         */
-        private erase_case5(N);
-        /**
-         * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
-         * {@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and <i><b>N</b></i> is
-         * the left child of its parent {@link XTreeNode.parent <b>P</b>}. </p>
-         *
-         * <p> In this case we rotate left at {@link XTreeNode.parent <b>P</b>}, so that
-         * {@link XTreeNode.sibling <b>S</b>} becomes the parent of {@link XTreeNode.parent <b>P</b>} and
-         * {@link XTreeNode.sibling <b>S</b>}'s right child. We then exchange the colors of
-         * {@link XTreeNode.parent <b>P</b>} and {@link XTreeNode.sibling <b>S</b>}, and make
-         * {@link XTreeNode.sibling <b>S</b>}'s right child <font color='darkBlue'>black</font>. </p>
-         *
-         * <p> The subtree still has the same color at its root, so Properties 4 (Both children of every
-         * <font color='red'>red</font> node are <font color='darkBlue'>black</font>) and 5 (All paths from any
-         * given node to its leaf nodes contain the same number of <font color='darkBlue'>black</font> nodes) are
-         * not violated. However, <i><b>N</b></i> now has one additional <font color='darkBlue'>black</font>
-         * ancestor: either {@link XTreeNode.parent <b>P</b>} has become <font color='darkBlue'>black</font>, or it
-         * was <font color='darkBlue'>black</font> and {@link XTreeNode.sibling <b>S</b>} was added as a
-         * <font color='darkBlue'>black</font> grandparent. </p>
-         *
-         * <p> Thus, the paths passing through <i><b>N</b></i> pass through one additional
-         * <font color='darkBlue'>black</font> node. </p>
-         *
-         * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_6.svg" /> </p>
-         *
-         * <p> Meanwhile, if a path does not go through <i><b>N</b></i>, then there are two possibilities: </p>
-         * <ol>
-         *	<li>
-         *		It goes through <i><b>N</b></i>'s new sibling <b>SL</b>, a node with arbitrary color and the root of
-         *		the subtree labeled 3 (s. diagram). Then, it must go through {@link XTreeNode.sibling <b>S</b>} and
-         *		{@link XTreeNode.parent <b>P</b>}, both formerly and currently, as they have only exchanged colors
-         *		and places. Thus the path contains the same number of <font color='darkBlue'>black</font> nodes.
-         *	</li>
-         *	<li>
-         *		It goes through <i><b>N</b></i>'s new uncle, {@link XTreeNode.sibling <b>S</b>}'s right child. Then,
-         *		it formerly went through {@link XTreeNode.sibling <b>S</b>}, {@link XTreeNode.sibling <b>S</b>}'s
-         *		parent, and {@link XTreeNode.sibling <b>S</b>}'s right child <b>SR</b> (which was
-         *		<font color='red'>red</font>), but now only goes through {@link XTreeNode.sibling <b>S</b>}, which
-         *		has assumed the color of its former parent, and {@link XTreeNode.sibling <b>S</b>}'s right child,
-         *		which has changed from <font color='red'>red</font> to <font color='darkBlue'>black</font> (assuming
-         *		{@link XTreeNode.sibling <b>S</b>}'s color: <font color='darkBlue'>black</font>). The net effect is
-         *		that this path goes through the same number of <font color='darkBlue'>black</font> nodes.
-         *	</li>
-         * </ol>
-         *
-         * <p> Either way, the number of <font color='darkBlue'>black</font> nodes on these paths does not change.
-         * Thus, we have restored Properties 4 (Both children of every <font color='red'>red</font> node are
-         * <font color='darkBlue'>black</font>) and 5 (All paths from any given node to its leaf nodes contain the
-         * same number of <font color='darkBlue'>black</font> nodes). The white node in the diagram can be either
-         * <font color='red'>red</font> or <font color='darkBlue'>black</font>, but must refer to the same color
-         * both before and after the transformation. </p>
-         *
-         * @param N A node to be erased or swapped.
-         */
-        private erase_case6(node);
-        /**
-         * Rotate a node left.
-         *
-         * @param node Node to rotate left.
-         */
-        protected rotate_left(node: XTreeNode<T>): void;
-        /**
-         * Rotate a node to right.
-         *
-         * @param node A node to rotate right.
-         */
-        protected rotate_right(node: XTreeNode<T>): void;
-        /**
-         * Replace a node.
-         *
-         * @param oldNode Ordinary node to be replaced.
-         * @param newNode Target node to replace.
-         */
-        protected replace_node(oldNode: XTreeNode<T>, newNode: XTreeNode<T>): void;
-        /**
-         * Fetch color from a node.
-         *
-         * @param node A node to fetch color.
-         * @retur color.
-         */
-        private fetch_color(node);
-    }
-}
-declare namespace std.base {
-    /**
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class AtomicTree<T> extends XTree<SetIterator<T>> {
-        private compare_;
-        /**
-         * Default Constructor.
-         */
-        constructor(compare?: (left: T, right: T) => boolean);
-        find(val: T): XTreeNode<SetIterator<T>>;
-        find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
-        /**
-         * @hidden
-         */
-        private find_by_val(val);
-        get_compare(): (left: T, right: T) => boolean;
-        /**
-         * @inheritdoc
-         */
-        is_equals(left: SetIterator<T>, right: SetIterator<T>): boolean;
-        /**
-         * @inheritdoc
-         */
-        is_less(left: SetIterator<T>, right: SetIterator<T>): boolean;
-    }
-}
-declare namespace std.base {
-    /**
-     * <p> Static class holding enumeration codes of color of Red-black tree. </p>
-     *
-     * <p> Color codes imposed to nodes of RB-Tree are following those rules: </p>
-     *
-     * <ol>
-     *	<li> A node is either <font color='red'>red</font> or <font color='darkBlue'>black</font>. </li>
-     *	<li> The root is <font color='darkBlue'>black</font>. This rule is sometimes omitted. Since the root can
-     *		 always be changed from <font color='red'>red</font> to <font color='darkBlue'>black</font>, but not
-     *		 necessarily vice versa, this rule has little effect on analysis. </li>
-     *	<li> All leaves (NIL; <code>null</code>) are <font color='darkBlue'>black</font>. </li>
-     *  <li> If a node is <font color='red'>red</font>, then both its children are
-     *		 <font color='darkBlue'>black</font>. </li>
-     *  <li> Every path from a given node to any of its descendant NIL nodes contains the same number of
-     *		 <font color='darkBlue'>black</font> nodes. Some definitions: the number of
-     *		 <font color='darkBlue'>black</font> nodes from the root to a node is the node's
-     *		 <font color='darkBlue'>black</font> depth; the uniform number of <font color='darkBlue'>black</font>
-     *		 nodes in all paths from root to the leaves is called the <font color='darkBlue'>black</font>-height of
-     *		 the red-black tree. </li>
-     * </ol>
-     *
-     * @author Migrated by Jeongho Nam <http://samchon.org>
-     */
-    enum Color {
-        /**
-         * <p> Code of color black. </p>
-         *
-         * <ul>
-         *	<li> Those are clearly black: root, leaf nodes or children nodes of red. </li>
-         *	<li> Every path from a given nodes containes the same number of black nodes exclude NIL(s). </li>
-         * </ul>
-         */
-        BLACK = 0,
-        /**
-         * <p> Code of color red. </p>
-         */
-        RED = 1,
-    }
-}
-declare namespace std.base {
-    /**
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class PairTree<Key, T> extends XTree<MapIterator<Key, T>> {
-        private compare_;
-        /**
-         * Default Constructor.
-         */
-        constructor(compare?: (left: Key, right: Key) => boolean);
-        find(key: Key): XTreeNode<MapIterator<Key, T>>;
-        find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
-        /**
-         * @hidden
-         */
-        private find_by_key(key);
-        get_compare(): (left: Key, right: Key) => boolean;
-        /**
-         * @inheritdoc
-         */
-        is_equals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean;
-        /**
-         * @inheritdoc
-         */
-        is_less(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean;
     }
 }
 declare namespace std.base {
@@ -5517,10 +5521,10 @@ declare namespace std {
     }
 }
 /**
-* STL (Standard Template Library) Containers for TypeScript.
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
+ * STL (Standard Template Library) Containers for TypeScript.
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 /**
@@ -5538,7 +5542,7 @@ declare namespace std.base {
 declare namespace std.example {
 }
 declare namespace std.example {
-    function test_anything(): void;
+    function test_bind(): void;
 }
 declare namespace std.example {
     function test_deque(): void;
@@ -5807,38 +5811,34 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> Bind function arguments. </p>
+     * <p> Function object class for equality comparison. </p>
      *
-     * <p> Returns a function object based on fn, but with its arguments bound to args. </p>
+     * <p> Binary function object class whose call returns whether its two arguments compare <i>equal</i> (as returned by
+     * operator ==). </p>
      *
-     * <p> Each argument may either be bound to a value or be a placeholder: </p>
-     * <ul>
-     *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
-     *	<li> If a placeholder, calling the returned function object forwards an argument passed to the call (the one whose order number is specified by the placeholder). </li>
-     * </ul>
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.equal_to equal_to}
+     * defined. This member function allows the object to be used with the same syntax as a function call. </p>
      *
-     * <p> Calling the returned object returns the same type as fn. </p>
-     *
-     * @param fn A function object, pointer to function or pointer to member.
-     * @param args List of arguments to bind: either values, or placeholders.
-     *
-     * @return A {@link Bind} object that, when {@link Bind.apply} is called, calls <i>fn</i> with its arguments bound to <i>args</i>. If <i>fn</i> is a pointer to member, the first argument expected by the returned function is an object of the class *fn is a member (or a reference to it, or a pointer to it).
-     */
-    function bind<Fn extends Function>(fn: Fn, ...args: any[]): Bind<Fn>;
-    function bind<Fn extends Function>(fn: Fn, thisArg: Object, ...args: any[]): Bind<Fn>;
-    /**
-     * <p> For equality comparison. </p>
-     *
-     * <p> Binary fucntion returns whether the arguments are equal. </p>
-     *
-     * @param <T> Type of arguments to compare.
-     *
-     * @param first First element to compare.
-     * @param second Second element to compare.
+     * @param x First element to compare.
+     * @param y Second element to compare.
      *
      * @return Whether the arguments are equal.
      */
-    function equal_to<T>(left: T, right: T): boolean;
+    function equal_to<T>(x: T, y: T): boolean;
+    /**
+     * <p> Function object class for non-equality comparison. </p>
+     *
+     * <p> Binary function object class whose call returns whether its two arguments compare <i>not equal</i> (as returned
+     * by operator operator!=). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.equal_to equal_to}
+     * defined. This member function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x First element to compare.
+     * @param y Second element to compare.
+     *
+     * @return Whether the arguments are not equal.
+     */
     function not_equal_to<T>(x: T, y: T): boolean;
     /**
      * <p> Function for less-than inequality comparison. </p>
@@ -5855,12 +5855,27 @@ declare namespace std {
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
      *			  <i>operator<()</i> or method {@link IComparable.less less}.
      *
-     * @param first First element, the standard of comparison.
-     * @param second Second element compare with the first.
+     * @param x First element, the standard of comparison.
+     * @param y Second element compare with the first.
      *
      * @return Whether the first parameter is less than the second.
      */
-    function less<T>(left: T, right: T): boolean;
+    function less<T>(x: T, y: T): boolean;
+    /**
+     * <p> Function object class for less-than-or-equal-to comparison. </p>
+     *
+     * <p> Binary function object class whose call returns whether the its first argument compares {@link less less than} or
+     * {@link equal_to equal to} the second (as returned by operator <=). </p>
+     *
+     * <p> Generically, <i>function objects</i> are instances of a class with member function {@link IComparable.less less}
+     * and {@link IComparable.equal_to equal_to} defined. This member function allows the object to be used with the same
+     * syntax as a function call. </p>
+     *
+     * @param x First element, the standard of comparison.
+     * @param y Second element compare with the first.
+     *
+     * @return Whether the <i>x</i> is {@link less less than} or {@link equal_to equal to} the <i>y</i>.
+     */
     function less_equal<T>(x: T, y: T): boolean;
     /**
      * <p> Function for greater-than inequality comparison. </p>
@@ -5878,31 +5893,119 @@ declare namespace std {
      * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation
      *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
      *
-     * @param left
-     * @param right
+     * @return Whether the <i>x</i> is greater than the <i>y</i>.
      */
-    function greater<T>(left: T, right: T): boolean;
+    function greater<T>(x: T, y: T): boolean;
+    /**
+     * <p> Function object class for greater-than-or-equal-to comparison. </p>
+     *
+     * <p> Binary function object class whose call returns whether the its first argument compares
+     * {@link greater greater than} or {@link equal_to equal to} the second (as returned by operator >=). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less}
+     * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
+     * This member function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x First element, the standard of comparison.
+     * @param y Second element compare with the first.
+     *
+     * @return Whether the <i>x</i> is {@link greater greater than} or {@link equal_to equal to} the <i>y</i>.
+     */
     function greater_equal<T>(x: T, y: T): boolean;
+    /**
+     * <p> Logical AND function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of the <i>logical "and"</i> operation between its two
+     * arguments (as returned by operator &&). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function operator() defined. This member
+     * function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of logical AND operation.
+     */
     function logical_and<T>(x: T, y: T): boolean;
+    /**
+     * <p> Logical OR function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of the <i>logical "or"</i> operation between its two
+     * arguments (as returned by operator ||). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function operator() defined. This member
+     * function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of logical OR operation.
+     */
     function logical_or<T>(x: T, y: T): boolean;
+    /**
+     * <p> Logical NOT function object class. </p>
+     *
+     * <p> Unary function object class whose call returns the result of the <i>logical "not"</i> operation on its argument
+     * (as returned by operator !). </p>
+     *
+     * <p> Generically, function objects are instances of a class with member function operator() defined. This member
+     * function allows the object to be used with the same syntax as a function call. </p>
+     *
+     * @param x Target element.
+     *
+     * @return Result of logical NOT operation.
+     */
     function logical_not<T>(x: T): boolean;
+    /**
+     * <p> Bitwise AND function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of applying the <i>bitwise "and"</i> operation between
+     * its two arguments (as returned by operator &). </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of bitwise AND operation.
+     */
     function bit_and(x: number, y: number): number;
+    /**
+     * <p> Bitwise OR function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of applying the <i>bitwise "and"</i> operation between
+     * its two arguments (as returned by operator &). </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of bitwise OR operation.
+     */
     function bit_or(x: number, y: number): number;
+    /**
+     * <p> Bitwise XOR function object class. </p>
+     *
+     * <p> Binary function object class whose call returns the result of applying the <i>bitwise "exclusive or"</i>
+     * operation between its two arguments (as returned by operator ^). </p>
+     *
+     * @param x First element.
+     * @param y Second element.
+     *
+     * @return Result of bitwise XOR operation.
+     */
     function bit_xor(x: number, y: number): number;
     /**
      * <p> Exchange contents of {@link IContainers containers}. </p>
      *
-     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects
-     * must have same type of elements (same template parameters), although sizes may differ. </p>
+     * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must have
+     * same type of elements (same template parameters), although sizes may differ. </p>
      *
-     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i>
-     * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators,
-     * references and pointers remain valid for the swapped objects. </p>
+     * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> before
+     * the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references and
+     * pointers remain valid for the swapped objects. </p>
      *
      * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring
-     * ownership over their assets to the other container (i.e., the containers exchange references to their data,
-     * without actually performing any element copy or movement): It behaves as if
-     * <i>left</i>.{@link IContainer.swap swap}(<i>right</i>) was called. </p>
+     * ownership over their assets to the other container (i.e., the containers exchange references to their data, without
+     * actually performing any element copy or movement): It behaves as if <i>left</i>.
+     * {@link IContainer.swap swap}(<i>right</i>) was called. </p>
      *
      * @param left A {@link IContainer container} to swap its contents.
      * @param right A {@link IContainer container} to swap its contents.
@@ -5976,51 +6079,113 @@ declare namespace std {
     /**
      * <p> Bind function arguments. </p>
      *
-     * <p> Applies a function object based on listener, but with its arguments bound to <i>args</i>. </p>
+     * <p> Returns a function object based on <i>fn</i>, but with its arguments bound to <i>args</i>. </p>
      *
-     * <p> Each argument may either be bound to a value or be a placeholder: </p>
+     * <p> Each argument may either be bound to a value or be a {@link placeholders placeholder}: </p>
      * <ul>
      *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
-     *	<li> If a placeholder, calling the returned function object forwards an argument passed to the call (the one whose order number is specified by the placeholder). </li>
+     *	<li>
+     *		If a {@link placeholders placeholder}, calling the returned function object forwards an argument passed to the
+     *		call (the one whose order number is specified by the placeholder).
+     *	</li>
      * </ul>
      *
-     * @reference http://www.cplusplus.com/reference/functional/bind/
+     * <p> Calling the returned object returns the same type as fn. </p>
+     *
+     * @param fn A function object, pointer to function or pointer to member.
+     * @param args List of arguments to bind: either values, or {@link placeholders}.
+     *
+     * @return A function object that, when called, calls <i>fn</i> with its arguments bound to <i>args</i>. If <i>fn</i> is
+     *		   a pointer to member, the first argument expected by the returned function is an object of the class <i>fn</i>
+     *		   is a member.
+     */
+    function bind<Fn extends Function>(fn: Fn, ...args: any[]): Function;
+    /**
+     * <p> Bind function arguments. </p>
+     *
+     * <p> Returns a function object based on <i>fn</i>, but with its arguments bound to <i>args</i>. </p>
+     *
+     * <p> Each argument may either be bound to a value or be a {@link placeholders placeholder}: </p>
+     * <ul>
+     *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
+     *	<li>
+     *		If a {@link placeholders placeholder}, calling the returned function object forwards an argument passed to the
+     *		call (the one whose order number is specified by the placeholder).
+     *	</li>
+     * </ul>
+     *
+     * <p> Calling the returned object returns the same type as fn. </p>
+     *
+     * @param fn A function object, pointer to function or pointer to member.
+     * @param thisArg This argument, owner object of the member method <i>fn</i>.
+     * @param args List of arguments to bind: either values, or {@link placeholders}.
+     *
+     * @return A function object that, when called, calls <i>fn</i> with its arguments bound to <i>args</i>. If <i>fn</i> is
+     *		   a pointer to member, the first argument expected by the returned function is an object of the class <i>fn</i>
+     *		   is a member.
+     */
+    function bind<Fn extends Function>(fn: Fn, thisArg: Object, ...args: any[]): Function;
+    /**
+     * <p> Bind argument placeholders. </p>
+     *
+     * <p> This namespace declares an unspecified number of objects: <i>_1</i>, <i>_2</i>, <i>_3</i>, ...</i>, which are
+     * used to specify placeholders in calls to function {@link std.bind}. </p>
+     *
+     * <p> When the function object returned by bind is called, an argument with placeholder {@link _1} is replaced by the
+     * first argument in the call, {@link _2} is replaced by the second argument in the call, and so on... For example: </p>
+     *
+     * <code>
+    let vec: Vector<number> = new Vector<number>();
+
+    let bind = std.bind(Vector.insert, _1, vec.end(), _2, _3);
+    bind.apply(vec, 5, 1); // vec.insert(vec.end(), 5, 1);
+        // [1, 1, 1, 1, 1]
+     * </code>
+     *
+     * <p> When a call to {@link bind} is used as a subexpression in another call to <i>bind</i>, the {@link placeholders}
+     * are relative to the outermost {@link bind} expression. </p>
+     *
+     * @reference http://www.cplusplus.com/reference/functional/placeholders/
      * @author Jeongho Nam <http://samchon.org>
      */
-    class Bind<Fn extends Function> {
+    namespace placeholders {
         /**
-         * A function object, pointer to function or pointer to member.
+         * @hidden
          */
-        private fn_;
+        class PlaceHolder {
+            private index_;
+            constructor(index: number);
+            index: number;
+        }
         /**
-         * Ownere class of the {@link listener_ listener}.
+         * Replaced by the first argument in the function call.
          */
-        private this_arg_;
+        const _1: PlaceHolder;
         /**
-         * List of arguments to bind: either values, or placeholders.
+         * Replaced by the second argument in the function call.
          */
-        private arguments_;
+        const _2: PlaceHolder;
         /**
-         * Construct from a listener with parameters.
-         *
-         * @param fn A function object, pointer to function or pointer to member.
-         * @param args List of arguments to bind: either values, or placeholders.
+         * Replaced by the third argument in the function call.
          */
-        constructor(fn: Fn, ...args: any[]);
-        /**
-         *
-         *
-         * @param listener
-         * @param thisArgs
-         * @param args
-         */
-        constructor(fn: Fn, thisArgs: Object, ...args: any[]);
-        /**
-         * <p> Apply function. </p>
-         *
-         * @param items List of items to be parameters for <i>fn</i>.
-         */
-        apply(...items: any[]): any;
+        const _3: PlaceHolder;
+        const _4: PlaceHolder;
+        const _5: PlaceHolder;
+        const _6: PlaceHolder;
+        const _7: PlaceHolder;
+        const _8: PlaceHolder;
+        const _9: PlaceHolder;
+        const _10: PlaceHolder;
+        const _11: PlaceHolder;
+        const _12: PlaceHolder;
+        const _13: PlaceHolder;
+        const _14: PlaceHolder;
+        const _15: PlaceHolder;
+        const _16: PlaceHolder;
+        const _17: PlaceHolder;
+        const _18: PlaceHolder;
+        const _19: PlaceHolder;
+        const _20: PlaceHolder;
     }
 }
 declare namespace std {
@@ -6647,10 +6812,6 @@ declare namespace std {
      */
     class List<T> extends base.Container<T> implements base.IDeque<T> {
         /**
-         * Type definition of {@link List}'s {@link ListIterator iterator}.
-         */
-        static iterator: typeof ListIterator;
-        /**
          * An iterator of beginning.
          */
         protected begin_: ListIterator<T>;
@@ -7176,72 +7337,6 @@ declare namespace std {
          */
         advance(n: number): ListReverseIterator<T>;
     }
-}
-declare namespace std {
-    /**
-     * <p> Pair of values. </p>
-     *
-     * <p> This class couples together a pair of values, which may be of different types (<i>T1</i> and
-     * <i>T2</i>). The individual values can be accessed through its public members {@link first} and
-     * {@link second}. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/utility/pair/ </li>
-     * </ul>
-     *
-     * @param <K> Type of member {@link first}.
-     * @param <T> Type of member {@link second}.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class Pair<T1, T2> {
-        /**
-         * <p> A first value in the Pair. </p>
-         */
-        first: T1;
-        /**
-         * <p> A second value in the Pair. </p>
-         */
-        second: T2;
-        /**
-         * <p> Construct from pair values. </p>
-         *
-         * @param first The first value of the Pair
-         * @param second The second value of the Pair
-         */
-        constructor(first: T1, second: T2);
-        /**
-         * <p> Whether a Pair is equal with the Pair. <p>
-         * <p> Compare each first and second value of two Pair(s) and returns whether they are equal or not. </p>
-         *
-         * <p> If stored key and value in a Pair are not number or string but an object like a class or struct,
-         * the comparison will be executed by a member method (SomeObject)::equal_to(). If the object does not have
-         * the member method equal_to(), only address of pointer will be compared. </p>
-         *
-         * @param obj A Map to compare
-         * @return Indicates whether equal or not.
-         */
-        equal_to<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean;
-        less<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean;
-    }
-    /**
-     * <p> Construct {@link Pair} object. </p>
-     *
-     * <p> Constructs a {@link Pair} object with its {@link Pair.first first} element set to <i>x</i> and its
-     * {@link Pair.second second} element set to <i>y</i>. </p>
-     *
-     * <p> The template types can be implicitly deduced from the arguments passed to {@link make_pair}. </p>
-     *
-     * <p> {@link Pair} objects can be constructed from other {@link Pair} objects containing different types, if the
-     * respective types are implicitly convertible. </p>
-     *
-     * @param x Value for member {@link Pair.first first}.
-     * @param y Value for member {@link Pair.second second}.
-     *
-     * @return A {@link Pair} object whose elements {@link Pair.first first} and {@link Pair.second second} are set to
-     *		   <i>x</i> and <i>y</i> respectivelly.
-     */
-    function make_pair<T1, T2>(x: T1, y: T2): Pair<T1, T2>;
 }
 declare namespace std {
     /**
@@ -8801,6 +8896,72 @@ declare namespace std {
          */
         private swap_tree_set(obj);
     }
+}
+declare namespace std {
+    /**
+     * <p> Pair of values. </p>
+     *
+     * <p> This class couples together a pair of values, which may be of different types (<i>T1</i> and
+     * <i>T2</i>). The individual values can be accessed through its public members {@link first} and
+     * {@link second}. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/utility/pair/ </li>
+     * </ul>
+     *
+     * @param <K> Type of member {@link first}.
+     * @param <T> Type of member {@link second}.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class Pair<T1, T2> {
+        /**
+         * <p> A first value in the Pair. </p>
+         */
+        first: T1;
+        /**
+         * <p> A second value in the Pair. </p>
+         */
+        second: T2;
+        /**
+         * <p> Construct from pair values. </p>
+         *
+         * @param first The first value of the Pair
+         * @param second The second value of the Pair
+         */
+        constructor(first: T1, second: T2);
+        /**
+         * <p> Whether a Pair is equal with the Pair. <p>
+         * <p> Compare each first and second value of two Pair(s) and returns whether they are equal or not. </p>
+         *
+         * <p> If stored key and value in a Pair are not number or string but an object like a class or struct,
+         * the comparison will be executed by a member method (SomeObject)::equal_to(). If the object does not have
+         * the member method equal_to(), only address of pointer will be compared. </p>
+         *
+         * @param obj A Map to compare
+         * @return Indicates whether equal or not.
+         */
+        equal_to<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean;
+        less<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean;
+    }
+    /**
+     * <p> Construct {@link Pair} object. </p>
+     *
+     * <p> Constructs a {@link Pair} object with its {@link Pair.first first} element set to <i>x</i> and its
+     * {@link Pair.second second} element set to <i>y</i>. </p>
+     *
+     * <p> The template types can be implicitly deduced from the arguments passed to {@link make_pair}. </p>
+     *
+     * <p> {@link Pair} objects can be constructed from other {@link Pair} objects containing different types, if the
+     * respective types are implicitly convertible. </p>
+     *
+     * @param x Value for member {@link Pair.first first}.
+     * @param y Value for member {@link Pair.second second}.
+     *
+     * @return A {@link Pair} object whose elements {@link Pair.first first} and {@link Pair.second second} are set to
+     *		   <i>x</i> and <i>y</i> respectivelly.
+     */
+    function make_pair<T1, T2>(x: T1, y: T2): Pair<T1, T2>;
 }
 declare namespace std {
     /**

@@ -938,7 +938,7 @@ namespace std
 
 		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
 			if (std.equal_to(it.value, val))
-				return cnt++;
+				cnt++;
 
 		return cnt;
 	}
@@ -965,7 +965,7 @@ namespace std
 
 		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
 			if (pred(it.value))
-				return cnt++;
+				cnt++;
 
 		return cnt;
 	}
