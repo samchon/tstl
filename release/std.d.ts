@@ -3384,6 +3384,102 @@ declare namespace std.base {
         swap(obj: MapContainer<Key, T>): void;
     }
 }
+declare namespace std {
+    /**
+     * An iterator of {@link MapColntainer map container}.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MapIterator<Key, T> implements IComparable<MapIterator<Key, T>> {
+        /**
+         * The source {@link MapContainer} of the iterator is directing for.
+         */
+        protected source_: base.MapContainer<Key, T>;
+        /**
+         * A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
+         */
+        protected list_iterator_: ListIterator<Pair<Key, T>>;
+        /**
+         * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}.
+         *
+         * @param source The source {@link MapContainer}.
+         * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
+         */
+        constructor(source: base.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>);
+        /**
+         * Get iterator to previous element.
+         */
+        prev(): MapIterator<Key, T>;
+        /**
+         * Get iterator to next element.
+         */
+        next(): MapIterator<Key, T>;
+        /**
+         * Advances the Iterator by n element positions.
+         *
+         * @param step Number of element positions to advance.
+         * @return An advanced Iterator.
+         */
+        advance(step: number): MapIterator<Key, T>;
+        /**
+         * Get source.
+         */
+        get_source(): base.MapContainer<Key, T>;
+        /**
+         * Get ListIterator.
+         */
+        get_list_iterator(): ListIterator<Pair<Key, T>>;
+        /**
+         * Get first, key element.
+         */
+        first: Key;
+        /**
+         * Get second, value element.
+         */
+        /**
+         * Set second value.
+         */
+        second: T;
+        /**
+         * <p> Whether an iterator is equal with the iterator. </p>
+         *
+         * <p> Compare two iterators and returns whether they are equal or not. </p>
+         *
+         * @param obj An iterator to compare
+         * @return Indicates whether equal or not.
+         */
+        equal_to<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
+        less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
+        hash(): number;
+        swap(obj: MapIterator<Key, T>): void;
+    }
+    /**
+     * A reverse-iterator of {@link MapColntainer map container}.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class MapReverseIterator<Key, T> extends MapIterator<Key, T> {
+        /**
+         * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}.
+         *
+         * @param source The source {@link MapContainer}.
+         * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
+         */
+        constructor(source: base.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>);
+        /**
+         * @inheritdoc
+         */
+        prev(): MapReverseIterator<Key, T>;
+        /**
+         * @inheritdoc
+         */
+        next(): MapReverseIterator<Key, T>;
+        /**
+         * @inheritdoc
+         */
+        advance(step: number): MapReverseIterator<Key, T>;
+    }
+}
 declare namespace std.base {
     /**
      * <p> An abstract multi-map. </p>
@@ -3487,6 +3583,25 @@ declare namespace std.base {
          * @inheritdoc
          */
         insert<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+    }
+}
+declare namespace std.base {
+    /**
+     * A reverse and bi-directional iterator. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ReverseIterator<T> extends Iterator<T> {
+        protected iterator_: Iterator<T>;
+        constructor(iterator: Iterator<T>);
+        equal_to<U extends T>(obj: Iterator<U>): boolean;
+        equal_to<U extends T>(obj: ReverseIterator<U>): boolean;
+        /**
+         * @inheritdoc
+         */
+        value: T;
+        swap(obj: Iterator<T>): void;
+        swap(obj: ReverseIterator<T>): void;
     }
 }
 declare namespace std.base {
@@ -3740,6 +3855,90 @@ declare namespace std.base {
         protected abstract handle_erase(item: SetIterator<T>): void;
     }
 }
+declare namespace std {
+    /**
+     * <p> An iterator of a Set. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class SetIterator<T> extends base.Iterator<T> implements IComparable<SetIterator<T>> {
+        private list_iterator_;
+        /**
+         * <p> Construct from source and index number. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Do not create iterator directly. </p>
+         * <p> Use begin(), find() or end() in Map instead. </p>
+         *
+         * @param map The source Set to reference.
+         * @param index Sequence number of the element in the source Set.
+         */
+        constructor(source: base.SetContainer<T>, it: ListIterator<T>);
+        /**
+         * @inheritdoc
+         */
+        prev(): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(size: number): SetIterator<T>;
+        /**
+         * @hidden
+         */
+        private set;
+        get_list_iterator(): ListIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        value: T;
+        /**
+         * @inheritdoc
+         */
+        equal_to<U extends T>(obj: SetIterator<U>): boolean;
+        /**
+         * @inheritdoc
+         */
+        less<U extends T>(obj: SetIterator<U>): boolean;
+        /**
+         * @inheritdoc
+         */
+        hash(): number;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: SetIterator<T>): void;
+    }
+    /**
+     * <p> A reverse-iterator of Set. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class SetReverseIterator<T> extends base.ReverseIterator<T> {
+        constructor(iterator: SetIterator<T>);
+        /**
+         * @hidden
+         */
+        private set_iterator;
+        /**
+         * @inheritdoc
+         */
+        prev(): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): SetReverseIterator<T>;
+    }
+}
 declare namespace std.base {
     /**
      * <p> An abstract set. </p>
@@ -3803,25 +4002,6 @@ declare namespace std.base {
          * @inheritdoc
          */
         insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
-    }
-}
-declare namespace std.base {
-    /**
-     * A reverse and bi-directional iterator. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ReverseIterator<T> extends Iterator<T> {
-        protected iterator_: Iterator<T>;
-        constructor(iterator: Iterator<T>);
-        equal_to<U extends T>(obj: Iterator<U>): boolean;
-        equal_to<U extends T>(obj: ReverseIterator<U>): boolean;
-        /**
-         * @inheritdoc
-         */
-        value: T;
-        swap(obj: Iterator<T>): void;
-        swap(obj: ReverseIterator<T>): void;
     }
 }
 declare namespace std.base {
@@ -4043,87 +4223,6 @@ declare namespace std.base {
         insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
     }
 }
-declare namespace std {
-    /**
-     * <p> Bind function arguments. </p>
-     *
-     * <p> Applies a function object based on listener, but with its arguments bound to <i>args</i>. </p>
-     *
-     * <p> Each argument may either be bound to a value or be a placeholder: </p>
-     * <ul>
-     *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
-     *	<li> If a placeholder, calling the returned function object forwards an argument passed to the call (the one whose order number is specified by the placeholder). </li>
-     * </ul>
-     *
-     * @reference http://www.cplusplus.com/reference/functional/bind/
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class Bind<Fn extends Function> {
-        /**
-         * A function object, pointer to function or pointer to member.
-         */
-        private fn_;
-        /**
-         * Ownere class of the {@link listener_ listener}.
-         */
-        private this_arg_;
-        /**
-         * List of arguments to bind: either values, or placeholders.
-         */
-        private arguments_;
-        /**
-         * Construct from a listener with parameters.
-         *
-         * @param fn A function object, pointer to function or pointer to member.
-         * @param args List of arguments to bind: either values, or placeholders.
-         */
-        constructor(fn: Fn, ...args: any[]);
-        /**
-         *
-         *
-         * @param listener
-         * @param thisArgs
-         * @param args
-         */
-        constructor(fn: Fn, thisArgs: Object, ...args: any[]);
-        /**
-         * <p> Apply function. </p>
-         *
-         * @param items List of items to be parameters for <i>fn</i>.
-         */
-        apply(...items: any[]): any;
-    }
-}
-declare namespace std {
-    /**
-     * <p> A reverse-iterator of Deque. </p>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class DequeReverseIterator<T> extends base.ReverseIterator<T> implements base.IArrayIterator<T> {
-        constructor(iterator: DequeIterator<T>);
-        /**
-         * @hidden
-         */
-        private deque_iterator;
-        index: number;
-        value: T;
-        /**
-         * @inheritdoc
-         */
-        prev(): DequeReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        next(): DequeReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        advance(n: number): DequeReverseIterator<T>;
-    }
-}
 declare namespace std.base {
     const MIN_SIZE: number;
     const RATIO: number;
@@ -4131,6 +4230,11 @@ declare namespace std.base {
     function code(par: any): number;
 }
 declare namespace std.base {
+    /**
+     * <p> Hask buckets. </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     class HashBuckets<T> {
         private buckets_;
         private item_size_;
@@ -5320,8 +5424,6 @@ declare namespace std {
          */
         private swap_deque(obj);
     }
-}
-declare namespace std {
     /**
      * An iterator of {@link Deque}.
      *
@@ -5385,6 +5487,34 @@ declare namespace std {
          */
         swap(obj: DequeIterator<T>): void;
     }
+    /**
+     * <p> A reverse-iterator of Deque. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class DequeReverseIterator<T> extends base.ReverseIterator<T> implements base.IArrayIterator<T> {
+        constructor(iterator: DequeIterator<T>);
+        /**
+         * @hidden
+         */
+        private deque_iterator;
+        index: number;
+        value: T;
+        /**
+         * @inheritdoc
+         */
+        prev(): DequeReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        next(): DequeReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        advance(n: number): DequeReverseIterator<T>;
+    }
 }
 /**
 * STL (Standard Template Library) Containers for TypeScript.
@@ -5406,166 +5536,6 @@ declare namespace std.base {
  * @author Jeongho Nam <http://samchon.org>
  */
 declare namespace std.example {
-}
-declare namespace std {
-    /**
-     * <p> Error category. </p>
-     *
-     * <p> This type serves as a base class for specific category types. </p>
-     *
-     * <p> Category types are used to identify the source of an error. They also define the relation between
-     * {@link ErrorCode} and {@link ErrorCondition}objects of its category, as well as the message
-     * set for {@link ErrorCode} objects.
-     *
-     * <p> Objects of these types have no distinct values and are not-copyable and not-assignable, and thus can
-     * only be passed by reference. As such, only one object of each of these types shall exist, each uniquely
-     * identifying its own category: all error codes and conditions of a same category shall return a reference
-     * to same object. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    abstract class ErrorCategory {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * <p> Return category name. </p>
-         *
-         * <p> In derived classes, the function returns a string naming the category. </p>
-         *
-         * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
-         *
-         * <ul>
-         *	<li> In the {@link GenericCategory} object, it returns <i>"generic"</i>. </li>
-         *	<li> In the {@link SystemCategory} object, it returns <i>"system"</i>. </li>
-         *	<li> In the {@link IOStreamCategory} object, it returns <i>"iostream"</i>. </li>
-         * </ul>
-         *
-         * @return The category name.
-         */
-        abstract name(): string;
-        /**
-         * <p> Error message. </p>
-         *
-         * <p> In derived classes, the function returns a string object with a message describing
-         * the error condition denoted by <i>val</i>. </p>
-         *
-         * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
-         *
-         * <p> This function is called both by {@link ErrorCode.message ErrorCode.message()} and
-         * {@link ErrorCondition.message ErrorCondition.message()}
-         * to obtain the corresponding message in the {@link category}. Therefore, numerical values used by
-         * custom <i>error codes</i> and {@link ErrorCondition error conditions} should only match for a category
-         * if they describe the same error. </p>
-         *
-         * @param val A numerical value identifying an error condition.
-         *			  If the {@link ErrorCategory} object is the {@link GenericCategory}, this argument
-         *			  is equivalent to an {@link errno} value.
-         *
-         * @return A string object with the message.
-         */
-        abstract message(val: number): string;
-        /**
-         * <p> Default error condition. </p>
-         *
-         * <p> Returns the default {@link ErrorCondition}object of this category that is associated with
-         * the {@link ErrorCode} identified by a value of <i>val</i>. </p>
-         *
-         * <p> Its definition in the base class {@link ErrorCategory} returns the same as constructing an
-         * {@link ErrorCondition}object with:
-         *
-         * <p> <code>new ErrorCondition(val, *this);</code> </p>
-         *
-         * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
-         *
-         * <p> This function is called by the default definition of member {@link equivalent equivalent()}, which is
-         * used to compare {@link ErrorCondition error conditions} with error codes. </p>
-         *
-         * @param val A numerical value identifying an error condition.
-         *
-         * @return The default {@link ErrorCondition}object associated with condition value <i>val</i>
-         *		   for this category.
-         */
-        default_error_condition(val: number): ErrorCondition;
-        equivalent(val_code: number, cond: ErrorCondition): boolean;
-        equivalent(code: ErrorCode, valCond: number): boolean;
-    }
-}
-declare namespace std {
-    /**
-     * <p> Error code. </p>
-     *
-     * <p> Objects of this type hold an error code {@link value} associated with a {@link category}. </p>
-     *
-     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-     * represent possible results. These numerical values may carry essential information for a specific platform,
-     * but be non-portable from one platform to another. </p>
-     *
-     * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they
-     * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class ErrorCode extends base.ErrorInstance {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error code.
-         * @param category A reference to an {@link ErrorCategory} object.
-         */
-        constructor(val: number, category: ErrorCategory);
-    }
-}
-declare namespace std {
-    /**
-     * <p> Error condition. </p>
-     *
-     * <p> Objects of this type hold a condition {@link value} associated with a {@link category}. </p>
-     *
-     * <p> Objects of this type describe errors in a generic way so that they may be portable across different
-     * systems. This is in contrast with {@link ErrorCode} objects, that may contain system-specific
-     * information. </p>
-     *
-     * <p> Because {@link ErrorCondition}objects can be compared with error_code objects directly by using
-     * <code>relational operators</code>, {@link ErrorCondition}objects are generally used to check whether
-     * a particular {@link ErrorCode} obtained from the system matches a specific error condition no matter
-     * the system. </p>
-     *
-     * <p> The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the
-     * {@link ErrorCode} define the equivalences between them. </p>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-     * </ul>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class ErrorCondition extends base.ErrorInstance {
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from a numeric value and error category.
-         *
-         * @param val A numerical value identifying an error condition.
-         * @param category A reference to an {@link ErrorCategory} object.
-         */
-        constructor(val: number, category: ErrorCategory);
-    }
 }
 declare namespace std.example {
     function test_anything(): void;
@@ -6003,6 +5973,55 @@ declare namespace std {
      * @param right A {@link MultiMap multi map} to swap its conents.
      */
     function swap<Key, T>(left: base.MultiMap<Key, T>, right: base.MultiMap<Key, T>): void;
+    /**
+     * <p> Bind function arguments. </p>
+     *
+     * <p> Applies a function object based on listener, but with its arguments bound to <i>args</i>. </p>
+     *
+     * <p> Each argument may either be bound to a value or be a placeholder: </p>
+     * <ul>
+     *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
+     *	<li> If a placeholder, calling the returned function object forwards an argument passed to the call (the one whose order number is specified by the placeholder). </li>
+     * </ul>
+     *
+     * @reference http://www.cplusplus.com/reference/functional/bind/
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class Bind<Fn extends Function> {
+        /**
+         * A function object, pointer to function or pointer to member.
+         */
+        private fn_;
+        /**
+         * Ownere class of the {@link listener_ listener}.
+         */
+        private this_arg_;
+        /**
+         * List of arguments to bind: either values, or placeholders.
+         */
+        private arguments_;
+        /**
+         * Construct from a listener with parameters.
+         *
+         * @param fn A function object, pointer to function or pointer to member.
+         * @param args List of arguments to bind: either values, or placeholders.
+         */
+        constructor(fn: Fn, ...args: any[]);
+        /**
+         *
+         *
+         * @param listener
+         * @param thisArgs
+         * @param args
+         */
+        constructor(fn: Fn, thisArgs: Object, ...args: any[]);
+        /**
+         * <p> Apply function. </p>
+         *
+         * @param items List of items to be parameters for <i>fn</i>.
+         */
+        apply(...items: any[]): any;
+    }
 }
 declare namespace std {
     /**
@@ -6126,8 +6145,6 @@ declare namespace std {
          */
         private swap_hash_map(obj);
     }
-}
-declare namespace std {
     /**
      * <p> Hashed, unordered Multimap. </p>
      *
@@ -6254,111 +6271,6 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> Hashed, unordered Multiset. </p>
-     *
-     * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
-     * retrieval of individual elements based on their value, much like {@link HashSet} containers,
-     * but allowing different elements to have equivalent values. </p>
-     *
-     * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to
-     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be
-     * modified once in the container - they can be inserted and removed, though. </p>
-     *
-     * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but
-     * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
-     * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
-     *
-     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
-     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		 position in the  </dd>
-     *
-     *	<dt> Hashed </dt>
-     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
-     *		 by their <i>key</i>. </dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
-     * </dl>
-     *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
-     * </ul>
-     *
-     * @param <T> Type of the elements.
-     *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class HashMultiSet<T> extends base.MultiSet<T> {
-        private hash_buckets_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from elements.
-         */
-        constructor(items: Array<T>);
-        /**
-         * Copy Constructor.
-         */
-        constructor(container: base.IContainer<T>);
-        /**
-         * Construct from range iterators.
-         */
-        constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
-        /**
-         * @hidden
-         */
-        protected construct_from_array(items: Array<T>): void;
-        /**
-         * @inheritdoc
-         */
-        assign<U extends T, InputIterator extends base.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(val: T): SetIterator<T>;
-        /**
-         * @hidden
-         */
-        protected insert_by_val(val: T): any;
-        /**
-         * @hidden
-         */
-        protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(it: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(it: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        swap(obj: base.IContainer<T>): void;
-        /**
-         * @hidden
-         */
-        private swap_tree_set(obj);
-    }
-}
-declare namespace std {
-    /**
      * <p> Hashed, unordered set. </p>
      *
      * <p> {@link HashSet}s are containers that store unique elements in no particular order, and which
@@ -6452,6 +6364,109 @@ declare namespace std {
          * @inheritdoc
          */
         protected handle_erase(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.IContainer<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_set(obj);
+    }
+    /**
+     * <p> Hashed, unordered Multiset. </p>
+     *
+     * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast
+     * retrieval of individual elements based on their value, much like {@link HashSet} containers,
+     * but allowing different elements to have equivalent values. </p>
+     *
+     * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to
+     * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be
+     * modified once in the container - they can be inserted and removed, though. </p>
+     *
+     * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but
+     * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual
+     * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
+     *
+     * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
+     * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		 position in the  </dd>
+     *
+     *	<dt> Hashed </dt>
+     *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements
+     *		 by their <i>key</i>. </dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements.
+     *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class HashMultiSet<T> extends base.MultiSet<T> {
+        private hash_buckets_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from elements.
+         */
+        constructor(items: Array<T>);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: base.IContainer<T>);
+        /**
+         * Construct from range iterators.
+         */
+        constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+        /**
+         * @hidden
+         */
+        protected construct_from_array(items: Array<T>): void;
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T, InputIterator extends base.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(val: T): SetIterator<T>;
+        /**
+         * @hidden
+         */
+        protected insert_by_val(val: T): any;
+        /**
+         * @hidden
+         */
+        protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_insert(it: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_erase(it: SetIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -7081,8 +7096,6 @@ declare namespace std {
          */
         private swap_list(obj);
     }
-}
-declare namespace std {
     /**
      * An iterator, node of a List.
      */
@@ -7136,8 +7149,6 @@ declare namespace std {
          */
         swap(obj: ListIterator<T>): void;
     }
-}
-declare namespace std {
     /**
      * <p> A reverse-iterator of List. </p>
      *
@@ -7165,136 +7176,6 @@ declare namespace std {
          */
         advance(n: number): ListReverseIterator<T>;
     }
-}
-declare namespace std {
-    /**
-     * An iterator of {@link MapColntainer map container}.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class MapIterator<Key, T> implements IComparable<MapIterator<Key, T>> {
-        /**
-         * The source {@link MapContainer} of the iterator is directing for.
-         */
-        protected source_: base.MapContainer<Key, T>;
-        /**
-         * A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
-         */
-        protected list_iterator_: ListIterator<Pair<Key, T>>;
-        /**
-         * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}.
-         *
-         * @param source The source {@link MapContainer}.
-         * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
-         */
-        constructor(source: base.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>);
-        /**
-         * Get iterator to previous element.
-         */
-        prev(): MapIterator<Key, T>;
-        /**
-         * Get iterator to next element.
-         */
-        next(): MapIterator<Key, T>;
-        /**
-         * Advances the Iterator by n element positions.
-         *
-         * @param step Number of element positions to advance.
-         * @return An advanced Iterator.
-         */
-        advance(step: number): MapIterator<Key, T>;
-        /**
-         * Get source.
-         */
-        get_source(): base.MapContainer<Key, T>;
-        /**
-         * Get ListIterator.
-         */
-        get_list_iterator(): ListIterator<Pair<Key, T>>;
-        /**
-         * Get first, key element.
-         */
-        first: Key;
-        /**
-         * Get second, value element.
-         */
-        /**
-         * Set second value.
-         */
-        second: T;
-        /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
-         */
-        equal_to<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
-        less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
-        hash(): number;
-        swap(obj: MapIterator<Key, T>): void;
-    }
-}
-declare namespace std {
-    /**
-     * A reverse-iterator of {@link MapColntainer map container}.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class MapReverseIterator<Key, T> extends MapIterator<Key, T> {
-        /**
-         * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}.
-         *
-         * @param source The source {@link MapContainer}.
-         * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
-         */
-        constructor(source: base.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>);
-        /**
-         * @inheritdoc
-         */
-        prev(): MapReverseIterator<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        next(): MapReverseIterator<Key, T>;
-        /**
-         * @inheritdoc
-         */
-        advance(step: number): MapReverseIterator<Key, T>;
-    }
-}
-/**
-* <p> A namespace of STL library. </p>
-*
-* <ul>
-*	<li> Formal homepage: http://samchon.github.io/stl/ </li>
-*	<li> Github: https://github.com/samchon/stl/ </li>
-*	<li> Reference: http://www.cplusplus.com/reference/ </li>
-* </ul>
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
-declare namespace std {
-}
-declare namespace std.base {
-}
-/**
- * <p> A namespace containing abstract container objects. </p>
- *
- * <ul>
- * 	<li> Reference: http://www.cplusplus.com/reference/stl/ </li>
- * </ul>
- *
- * @author Jeongho Nam <http://samchon.org>
- */
-declare namespace std.base {
-}
-declare namespace std.base {
-}
-declare namespace std.base {
-}
-declare namespace std.system {
 }
 declare namespace std {
     /**
@@ -7697,92 +7578,6 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> An iterator of a Set. </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class SetIterator<T> extends base.Iterator<T> implements IComparable<SetIterator<T>> {
-        private list_iterator_;
-        /**
-         * <p> Construct from source and index number. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create iterator directly. </p>
-         * <p> Use begin(), find() or end() in Map instead. </p>
-         *
-         * @param map The source Set to reference.
-         * @param index Sequence number of the element in the source Set.
-         */
-        constructor(source: base.SetContainer<T>, it: ListIterator<T>);
-        /**
-         * @inheritdoc
-         */
-        prev(): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        next(): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        advance(size: number): SetIterator<T>;
-        /**
-         * @hidden
-         */
-        private set;
-        get_list_iterator(): ListIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        value: T;
-        /**
-         * @inheritdoc
-         */
-        equal_to<U extends T>(obj: SetIterator<U>): boolean;
-        /**
-         * @inheritdoc
-         */
-        less<U extends T>(obj: SetIterator<U>): boolean;
-        /**
-         * @inheritdoc
-         */
-        hash(): number;
-        /**
-         * @inheritdoc
-         */
-        swap(obj: SetIterator<T>): void;
-    }
-}
-declare namespace std {
-    /**
-     * <p> A reverse-iterator of Set. </p>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class SetReverseIterator<T> extends base.ReverseIterator<T> {
-        constructor(iterator: SetIterator<T>);
-        /**
-         * @hidden
-         */
-        private set_iterator;
-        /**
-         * @inheritdoc
-         */
-        prev(): SetReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        next(): SetReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        advance(n: number): SetReverseIterator<T>;
-    }
-}
-declare namespace std {
-    /**
      * <p> LIFO stack. </p>
      *
      * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context
@@ -7965,6 +7760,195 @@ declare namespace std {
          * @return The {@link ErrorCode} associated with the object.
          */
         code(): ErrorCode;
+    }
+    /**
+     * <p> Error category. </p>
+     *
+     * <p> This type serves as a base class for specific category types. </p>
+     *
+     * <p> Category types are used to identify the source of an error. They also define the relation between
+     * {@link ErrorCode} and {@link ErrorCondition}objects of its category, as well as the message set for {@link ErrorCode}
+     * objects.
+     *
+     * <p> Objects of these types have no distinct values and are not-copyable and not-assignable, and thus can only be
+     * passed by reference. As such, only one object of each of these types shall exist, each uniquely identifying its own
+     * category: all error codes and conditions of a same category shall return a reference to same object. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    abstract class ErrorCategory {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * <p> Return category name. </p>
+         *
+         * <p> In derived classes, the function returns a string naming the category. </p>
+         *
+         * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
+         *
+         * <ul>
+         *	<li> In the {@link GenericCategory} object, it returns <i>"generic"</i>. </li>
+         *	<li> In the {@link SystemCategory} object, it returns <i>"system"</i>. </li>
+         *	<li> In the {@link IOStreamCategory} object, it returns <i>"iostream"</i>. </li>
+         * </ul>
+         *
+         * @return The category name.
+         */
+        abstract name(): string;
+        /**
+         * <p> Error message. </p>
+         *
+         * <p> In derived classes, the function returns a string object with a message describing the error condition
+         * denoted by <i>val</i>. </p>
+         *
+         * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
+         *
+         * <p> This function is called both by {@link ErrorCode.message ErrorCode.message()} and
+         * {@link ErrorCondition.message ErrorCondition.message()} to obtain the corresponding message in the
+         * {@link category}. Therefore, numerical values used by custom <i>error codes</i> and
+         * {@link ErrorCondition error conditions} should only match for a category if they describe the same error. </p>
+         *
+         * @param val A numerical value identifying an error condition.
+         *			  If the {@link ErrorCategory} object is the {@link GenericCategory}, this argument is equivalent to an
+         *			  {@link errno} value.
+         *
+         * @return A string object with the message.
+         */
+        abstract message(val: number): string;
+        /**
+         * <p> Default error condition. </p>
+         *
+         * <p> Returns the default {@link ErrorCondition}object of this category that is associated with the
+         * {@link ErrorCode} identified by a value of <i>val</i>. </p>
+         *
+         * <p> Its definition in the base class {@link ErrorCategory} returns the same as constructing an
+         * {@link ErrorCondition} object with:
+         *
+         * <p> <code>new ErrorCondition(val, *this);</code> </p>
+         *
+         * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
+         *
+         * <p> This function is called by the default definition of member {@link equivalent equivalent()}, which is used to
+         * compare {@link ErrorCondition error conditions} with error codes. </p>
+         *
+         * @param val A numerical value identifying an error condition.
+         *
+         * @return The default {@link ErrorCondition}object associated with condition value <i>val</i> for this category.
+         */
+        default_error_condition(val: number): ErrorCondition;
+        /**
+         * <p> Check error code equivalence. </p>
+         *
+         * <p> Checks whether, for the category, an {@link ErrorCode error code} is equivalent to an
+         * {@link ErrorCondition error condition. </p>
+         *
+         * <p> This function is called by the overloads of comparison operators when an {@link ErrorCondition} object is
+         * compared to an {@link ErrorCode} object to check for equality or inequality. If either one of those objects'
+         * {@link ErrorCategory categories} considers the other equivalent using this function, they are considered
+         * equivalent by the operator. </p>
+         *
+         * <p> As a virtual member function, this behavior can be overridden in derived classes to define a different
+         * correspondence mechanism for each {@link ErrorCategory} type. </p>
+         *
+         * @param val_code A numerical value identifying an error code.
+         * @param cond An object of an {@link ErrorCondition} type.
+         *
+         * @return <code>true</code> if the arguments are considered equivalent. <code>false</code> otherwise.
+         */
+        equivalent(val_code: number, cond: ErrorCondition): boolean;
+        /**
+         * <p> Check error code equivalence. </p>
+         *
+         * <p> Checks whether, for the category, an {@link ErrorCode error code} is equivalent to an
+         * {@link ErrorCondition error condition. </p>
+         *
+         * <p> This function is called by the overloads of comparison operators when an {@link ErrorCondition} object is
+         * compared to an {@link ErrorCode} object to check for equality or inequality. If either one of those objects'
+         * {@link ErrorCategory categories} considers the other equivalent using this function, they are considered
+         * equivalent by the operator. </p>
+         *
+         * <p> As a virtual member function, this behavior can be overridden in derived classes to define a different
+         * correspondence mechanism for each {@link ErrorCategory} type. </p>
+         *
+         * @param code An object of an {@link ErrorCode} type.
+         * @param val_cond A numerical value identifying an error code.
+         *
+         * @return <code>true</code> if the arguments are considered equivalent. <code>false</code> otherwise.
+         */
+        equivalent(code: ErrorCode, val_cond: number): boolean;
+    }
+    /**
+     * <p> Error condition. </p>
+     *
+     * <p> Objects of this type hold a condition {@link value} associated with a {@link category}. </p>
+     *
+     * <p> Objects of this type describe errors in a generic way so that they may be portable across different
+     * systems. This is in contrast with {@link ErrorCode} objects, that may contain system-specific
+     * information. </p>
+     *
+     * <p> Because {@link ErrorCondition}objects can be compared with error_code objects directly by using
+     * <code>relational operators</code>, {@link ErrorCondition}objects are generally used to check whether
+     * a particular {@link ErrorCode} obtained from the system matches a specific error condition no matter
+     * the system. </p>
+     *
+     * <p> The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the
+     * {@link ErrorCode} define the equivalences between them. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class ErrorCondition extends base.ErrorInstance {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from a numeric value and error category.
+         *
+         * @param val A numerical value identifying an error condition.
+         * @param category A reference to an {@link ErrorCategory} object.
+         */
+        constructor(val: number, category: ErrorCategory);
+    }
+    /**
+     * <p> Error code. </p>
+     *
+     * <p> Objects of this type hold an error code {@link value} associated with a {@link category}. </p>
+     *
+     * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+     * represent possible results. These numerical values may carry essential information for a specific platform,
+     * but be non-portable from one platform to another. </p>
+     *
+     * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they
+     * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
+     * </ul>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class ErrorCode extends base.ErrorInstance {
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from a numeric value and error category.
+         *
+         * @param val A numerical value identifying an error code.
+         * @param category A reference to an {@link ErrorCategory} object.
+         */
+        constructor(val: number, category: ErrorCategory);
     }
 }
 declare namespace std {
@@ -8188,8 +8172,6 @@ declare namespace std {
          */
         private swap_tree_map(obj);
     }
-}
-declare namespace std {
     /**
      * <p> Tree-structured multiple-key map. </p>
      *
@@ -8414,211 +8396,6 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> Tree-structured multiple-key set. </p>
-     *
-     * <p> {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and
-     * where multiple elements can have equivalent values. </p>
-     *
-     * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself
-     * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot
-     * be modified once in the container (the elements are always const), but they can be inserted or removed
-     * from the  </p>
-     *
-     * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict
-     * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
-     *
-     * <p> {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers
-     * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
-     * their order. </p>
-     *
-     * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     *	<dt> Associative </dt>
-     *	<dd>
-     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-     *		position in the
-     *	</dd>
-     *
-     *	<dt> Ordered </dt>
-     *	<dd>
-     *		The elements in the container follow a strict order at all times. All inserted elements are
-     *		given a position in this order.
-     *	</dd>
-     *
-     *	<dt> Set </dt>
-     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-     *
-     *	<dt> Multiple equivalent keys </dt>
-     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
-     * </dl>
-     *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
-     * </ul>
-     *
-     * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
-     *			  by this value (each value is itself also the element's <i>key</i>).
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    class TreeMultiSet<T> extends base.MultiSet<T> {
-        /**
-         * <i>RB-Tree+</i> object for implemeting the {@link TreeMultiSet}.
-         */
-        private tree_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from compare.
-         *
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(compare: (left: T, right: T) => boolean);
-        /**
-         * Contruct from elements.
-         *
-         * @param array Elements to be contained.
-         */
-        constructor(array: Array<T>);
-        /**
-         * Contruct from elements with compare.
-         *
-         * @param array Elements to be contained.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
-        /**
-         * Copy Constructor.
-         */
-        constructor(container: base.Container<T>);
-        /**
-         * Copy Constructor with compare.
-         *
-         * @param container A container to be copied.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
-        /**
-         * Range Constructor.
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
-        /**
-         * Construct from range and compare.
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(begin: base.Iterator<T>, end: base.Iterator<T>, compare: (left: T, right: T) => boolean);
-        /**
-         * @inheritdoc
-         */
-        assign<U extends T, InputIterator extends base.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
-        /**
-         * @inheritdoc
-         */
-        clear(): void;
-        /**
-         * @inheritdoc
-         */
-        find(val: T): SetIterator<T>;
-        /**
-         * <p> Return iterator to lower bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container which is not considered to
-         * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
-         *
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(element,val) would return false. </p>
-         *
-         * <p> If the {@link TreeMultiSet} class is instantiated with the default comparison type ({@link less}),
-         * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
-
-         * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except
-         * in the case that the {@link TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
-         * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas
-         * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
-         *
-         * @param val Value to compare.
-         *
-         * @return An iterator to the the first element in the container which is not considered to go before
-         *		   <i>val</i>, or {@link TreeMultiSet.end} if all elements are considered to go before <i>val</i>.
-         */
-        lower_bound(val: T): SetIterator<T>;
-        /**
-         * <p> Return iterator to upper bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container which is considered to go after
-         * <i>val</i>. </p>
-
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(val,element) would return true. </p>
-
-         * <p> If the {@code TreeMultiSet} class is instantiated with the default comparison type (less), the
-         * function returns an iterator to the first element that is greater than <i>val</i>. </p>
-         *
-         * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except
-         * in the case that the {@TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
-         * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas
-         * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
-         *
-         * @param val Value to compare.
-         *
-         * @return An iterator to the the first element in the container which is considered to go after
-         *		   <i>val</i>, or {@link TreeMultiSet.end} if no elements are considered to go after <i>val</i>.
-         */
-        upper_bound(val: T): SetIterator<T>;
-        /**
-         * <p> Get range of equal elements. </p>
-         *
-         * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent
-         * to <i>val</i>. </p>
-         *
-         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
-         * the first element that is considered to go after val according to the container's
-         * internal comparison object (key_comp). </p>
-         *
-         * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns
-         * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
-         *
-         * @param key Value to search for.
-         *
-         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
-         *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
-         *		   (the same as {@link upper_bound}).
-         */
-        equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>;
-        /**
-         * @hidden
-         */
-        protected insert_by_val(val: T): any;
-        /**
-         * @inheritdoc
-         */
-        protected handle_insert(item: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        protected handle_erase(item: SetIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        swap(obj: base.IContainer<T>): void;
-        /**
-         * @hidden
-         */
-        private swap_tree_set(obj);
-    }
-}
-declare namespace std {
-    /**
      * <p> Tree-structured set, <code>std::set</code> of STL. </p>
      *
      * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
@@ -8794,6 +8571,209 @@ declare namespace std {
          * </p>
          *
          * @param val Value to search for.
+         *
+         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+         *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
+         *		   (the same as {@link upper_bound}).
+         */
+        equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>;
+        /**
+         * @hidden
+         */
+        protected insert_by_val(val: T): any;
+        /**
+         * @inheritdoc
+         */
+        protected handle_insert(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        protected handle_erase(item: SetIterator<T>): void;
+        /**
+         * @inheritdoc
+         */
+        swap(obj: base.IContainer<T>): void;
+        /**
+         * @hidden
+         */
+        private swap_tree_set(obj);
+    }
+    /**
+     * <p> Tree-structured multiple-key set. </p>
+     *
+     * <p> {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and
+     * where multiple elements can have equivalent values. </p>
+     *
+     * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself
+     * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot
+     * be modified once in the container (the elements are always const), but they can be inserted or removed
+     * from the  </p>
+     *
+     * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict
+     * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
+     *
+     * <p> {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers
+     * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on
+     * their order. </p>
+     *
+     * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     *	<dt> Associative </dt>
+     *	<dd>
+     *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
+     *		position in the
+     *	</dd>
+     *
+     *	<dt> Ordered </dt>
+     *	<dd>
+     *		The elements in the container follow a strict order at all times. All inserted elements are
+     *		given a position in this order.
+     *	</dd>
+     *
+     *	<dt> Set </dt>
+     *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
+     *
+     *	<dt> Multiple equivalent keys </dt>
+     *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
+     * </dl>
+     *
+     * <ul>
+     *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
+     * </ul>
+     *
+     * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
+     *			  by this value (each value is itself also the element's <i>key</i>).
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    class TreeMultiSet<T> extends base.MultiSet<T> {
+        /**
+         * <i>RB-Tree+</i> object for implemeting the {@link TreeMultiSet}.
+         */
+        private tree_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from compare.
+         *
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(compare: (left: T, right: T) => boolean);
+        /**
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
+         */
+        constructor(array: Array<T>);
+        /**
+         * Contruct from elements with compare.
+         *
+         * @param array Elements to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: base.Container<T>);
+        /**
+         * Copy Constructor with compare.
+         *
+         * @param container A container to be copied.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
+        /**
+         * Range Constructor.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+        /**
+         * Construct from range and compare.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(begin: base.Iterator<T>, end: base.Iterator<T>, compare: (left: T, right: T) => boolean);
+        /**
+         * @inheritdoc
+         */
+        assign<U extends T, InputIterator extends base.Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+        /**
+         * @inheritdoc
+         */
+        clear(): void;
+        /**
+         * @inheritdoc
+         */
+        find(val: T): SetIterator<T>;
+        /**
+         * <p> Return iterator to lower bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is not considered to
+         * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
+         *
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(element,val) would return false. </p>
+         *
+         * <p> If the {@link TreeMultiSet} class is instantiated with the default comparison type ({@link less}),
+         * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
+
+         * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except
+         * in the case that the {@link TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
+         * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas
+         * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is not considered to go before
+         *		   <i>val</i>, or {@link TreeMultiSet.end} if all elements are considered to go before <i>val</i>.
+         */
+        lower_bound(val: T): SetIterator<T>;
+        /**
+         * <p> Return iterator to upper bound. </p>
+         *
+         * <p> Returns an iterator pointing to the first element in the container which is considered to go after
+         * <i>val</i>. </p>
+
+         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+         * iterator to the first element for which key_comp(val,element) would return true. </p>
+
+         * <p> If the {@code TreeMultiSet} class is instantiated with the default comparison type (less), the
+         * function returns an iterator to the first element that is greater than <i>val</i>. </p>
+         *
+         * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except
+         * in the case that the {@TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
+         * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas
+         * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
+         *
+         * @param val Value to compare.
+         *
+         * @return An iterator to the the first element in the container which is considered to go after
+         *		   <i>val</i>, or {@link TreeMultiSet.end} if no elements are considered to go after <i>val</i>.
+         */
+        upper_bound(val: T): SetIterator<T>;
+        /**
+         * <p> Get range of equal elements. </p>
+         *
+         * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent
+         * to <i>val</i>. </p>
+         *
+         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+         * the first element that is considered to go after val according to the container's
+         * internal comparison object (key_comp). </p>
+         *
+         * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns
+         * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+         *
+         * @param key Value to search for.
          *
          * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
          *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
@@ -9110,8 +9090,6 @@ declare namespace std {
          */
         swap(obj: base.IContainer<T>): void;
     }
-}
-declare namespace std {
     /**
      * <p> An iterator of Vector. </p>
      *
@@ -9180,8 +9158,6 @@ declare namespace std {
          */
         swap(obj: VectorIterator<T>): void;
     }
-}
-declare namespace std {
     /**
      * <p> A reverse-iterator of Vector. </p>
      *

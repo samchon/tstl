@@ -1,4 +1,6 @@
 /// <reference path="base/Container.ts" />
+/// <reference path="base/Iterator.ts" />
+/// <reference path="base/ReverseIterator.ts" />
 
 namespace std
 {
@@ -573,6 +575,9 @@ namespace std
 		 */
 		private erase_by_iterator(it: ListIterator<T>): ListIterator<T>
 		{
+			if (it.equal_to(this.end_))
+				throw new LogicError("Unable to erase end iterator.");
+
 			return this.erase_by_range(it, it.next());
 		}
 
@@ -1015,6 +1020,216 @@ namespace std
 			[this.begin_, obj.begin_] = [obj.begin_, this.begin_];
 			[this.end_,   obj.end_	] = [obj.end_,   this.end_  ];
 			[this.size_,  obj.size_	] = [obj.size_,  this.size_ ];
+		}
+	}
+
+	/**
+	 * An iterator, node of a List.
+	 */
+	export class ListIterator<T>
+		extends base.Iterator<T>
+	{
+		protected prev_: ListIterator<T>;
+		protected next_: ListIterator<T>;
+
+		protected value_: T;
+
+		/* ---------------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------------- */
+		/**
+		 * <p> Construct from the source {@link List container}. </p>
+		 *
+		 * <h4> Note </h4>
+		 * <p> Do not create the iterator directly, by yourself. </p>
+		 * <p> Use {@link List.begin begin()}, {@link List.end end()} in {@link List container} instead. </p> 
+		 *
+		 * @param source The source {@link List container} to reference.
+		 * @param prev A refenrece of previous node ({@link ListIterator iterator}).
+		 * @param next A refenrece of next node ({@link ListIterator iterator}).
+		 * @param value Value to be stored in the node (iterator).
+		 */
+		public constructor(source: List<T>, prev: ListIterator<T>, next: ListIterator<T>, value: T)
+		{
+			super(source);
+			
+			this.prev_ = prev;
+			this.next_ = next;
+
+			this.value_ = value;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public setPrev(prev: ListIterator<T>): void
+		{
+			this.prev_ = prev;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public setNext(next: ListIterator<T>): void
+		{
+			this.next_ = next;
+		}
+
+		/* ---------------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public equal_to(obj: ListIterator<T>): boolean
+		{
+			return this == obj;
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		public prev(): ListIterator<T>
+		{
+			return this.prev_;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public next(): ListIterator<T>
+		{
+			return this.next_;
+		}
+
+		 /**
+		  * @inheritdoc
+		  */
+		public advance(step: number): ListIterator<T>
+		{
+			let it: ListIterator<T> = this;
+			
+			if (step >= 0)
+			{
+				for (let i: number = 0; i < step; i++)
+				{
+					it = it.next();
+
+					if (it.equal_to(this.source_.end() as ListIterator<T>))
+						return it;
+				}
+			}
+			else
+			{
+				for (let i: number = 0; i < step; i++)
+				{
+					it = it.prev();
+
+					if (it.equal_to(this.source_.end() as ListIterator<T>))
+						return it;
+				}
+			}
+			
+			return it;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public get value(): T
+		{
+			return this.value_;
+		}
+
+		public set value(val: T)
+		{
+			this.value_ = val;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: ListIterator<T>): void
+		{
+			let supp_prev: ListIterator<T> = this.prev_;
+			let supp_next: ListIterator<T> = this.next_;
+
+			this.prev_ = obj.prev_;
+			this.next_ = obj.next_;
+			obj.prev_ = supp_prev;
+			obj.next_ = supp_next;
+
+			if (this.source_.end() == this)
+				(<any>this.source_).end_ = obj;
+			else if (this.source_.end() == obj)
+				(<any>this.source_).end_ = this;
+
+			if (this.source_.begin() == this)
+				(<any>this.source_).begin_ = obj;
+			else if (this.source_.begin() == obj)
+				(<any>this.source_).begin_ = this;
+		}
+	}
+
+	/**
+	 * <p> A reverse-iterator of List. </p>
+	 *
+	 * @param <T> Type of the elements.
+	 *
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class ListReverseIterator<T>
+		extends base.ReverseIterator<T>
+	{
+		/* ---------------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------------- */
+		public constructor(iterator: ListIterator<T>)
+		{
+			super(iterator);
+		}
+
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		private get list_iterator(): ListIterator<T>
+		{
+			return this.iterator_ as ListIterator<T>;
+		}
+
+		public set value(val: T)
+		{
+			this.list_iterator.value = val;
+		}
+
+		/* ---------------------------------------------------------
+			MOVERS
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public prev(): ListReverseIterator<T>
+		{
+			return new ListReverseIterator<T>(this.list_iterator.next());
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public next(): ListReverseIterator<T>
+		{
+			return new ListReverseIterator<T>(this.list_iterator.prev());
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public advance(n: number): ListReverseIterator<T>
+		{
+			return new ListReverseIterator<T>(this.list_iterator.advance(-1 * n));
 		}
 	}
 }

@@ -5,14 +5,14 @@
 		/////////////////////////////////////
 		// CONSTRUCT DATA FROM 1 TO 10
 		/////////////////////////////////////
-		let map: std.HashMap<number, string> = new std.HashMap<number, string>();
+		let map = new std.HashMap<number, string>();
 		for (let i: number = 0; i < 10; i++)
 			map.insert([i, "Its key is " + i]);
 
 		/////////////////////////////////////
 		//  ELEMENT I/O
 		/////////////////////////////////////
-		// ERASE AN ELEMENT
+		//// ERASE AN ELEMENT
 		let it = map.find(3); // find 3.
 		it = map.erase(it); // erase 3. [it] points key 4.
 		console.log(it.first); // prints key 4.

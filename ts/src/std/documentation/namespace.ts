@@ -26,11 +26,11 @@ namespace std.example
 }
 
 /*
-//////////////////////////////////////////
+//////////////////////////////////////////////////
 // List of ambigious names for notation
-//////////////////////////////////////////
+//////////////////////////////////////////////////
 // CLASSES
-// ---------------------------------------
+// -----------------------------------------------
 	- vector					Vector
 	- deque						Deque
 	- list						List
@@ -47,19 +47,5 @@ namespace std.example
 	- error_code				ErrorCode
 	- error_condition			ErrorCondition
 	- system_error				SystemError
-// ---------------------------------------
-//	METHOD
-// ---------------------------------------
-	- push_front				pushFront
-	- push_back					pushBack
-	- pop_front					popFront
-	- pop_back					popBack
-
-	- equal_range				equalRange
-	- lower_bound				lowerBound
-	- upper_bound				upperBound
-
-	- getSource					getSource
-	- get_list_iterator			getListIterator
-	- default_error_condition	defaultErrorCondition
+// -----------------------------------------------
 */
