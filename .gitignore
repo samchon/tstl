@@ -4,6 +4,3 @@
 *.bat
 *.ink
 ts/Debug
-ts/obj
-ts/bin
-ts/.vs
