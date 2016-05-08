@@ -374,7 +374,8 @@ namespace std
 	 *		   a pointer to member, the first argument expected by the returned function is an object of the class <i>fn</i> 
 	 *		   is a member.
 	 */
-	export function bind<Fn extends Function>(fn: Fn, ...args: any[]): Function;
+	export function bind<Ret>
+		(fn: (...args: any[]) => Ret, ...args: any[]): (...args: any[]) => Ret;
 
 	/**
 	 * <p> Bind function arguments. </p>
@@ -400,9 +401,11 @@ namespace std
 	 *		   a pointer to member, the first argument expected by the returned function is an object of the class <i>fn</i> 
 	 *		   is a member.
 	 */
-	export function bind<Fn extends Function>(fn: Fn, thisArg: Object, ...args: any[]): Function;
+	export function bind<Ret, T>
+		(fn: (...args: any[]) => Ret, thisArg: T, ...args: any[]): (...args: any[]) => Ret;
 
-	export function bind<Fn extends Function>(fn: Fn, ...args: any[]): Function
+	export function bind<Ret>
+		(fn: (...args: any[]) => Ret, ...args: any[]): (...args: any[]) => Ret
 	{
 		var this_arg: Object = null;
 		var parameters: any[] = [];
@@ -433,7 +436,7 @@ namespace std
 		////////////////////
 		// FUNCTION TO BE RETURNED
 		////////////////////
-		return function (...args: any[])
+		let ret = function (...args: any[]): Ret
 		{
 			if (args.length == 0)
 				return fn.apply(this_arg, parameters);
@@ -469,6 +472,7 @@ namespace std
 
 			return fn.apply(thisArg, argArray);
 		};
+		return ret;
 	}
 	
 	/**

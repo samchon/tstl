@@ -10,16 +10,14 @@
 		fn(list, list.end(), 5, 1);
 		debug_list();
 		
-		// <List>???.clear(...)
-		// list.clear()
-		fn = std.bind(std.List.prototype.clear);
-		fn(list);
+		let fn2 = std.bind(std.List.prototype.clear);
+		fn2(list);
 		debug_list();
 
 		// <List>???.insert(_1, _2, 5, _3)
 		// list.insert(list.end(), 5, 2)
-		fn = std.bind(std.List.prototype.insert, std.placeholders._1, std.placeholders._2, 5, std.placeholders._3);
-		fn(list, list.end(), 2);
+		let fn3 = std.bind(list.insert, std.placeholders._1, std.placeholders._2, 5, std.placeholders._3);
+		fn3(list, list.end(), 2);
 		debug_list();
 
 		function debug_list(): void
