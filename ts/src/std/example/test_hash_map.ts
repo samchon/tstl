@@ -1,4 +1,6 @@
-﻿namespace std.example
+﻿namespace std
+{
+export namespace example
 {
 	export function test_hash_map(): void
 	{
@@ -63,4 +65,5 @@
 		=========================================
 		*/
 	}
+}
 }

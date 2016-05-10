@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> A node in an XTree. </p>
@@ -81,4 +83,5 @@
 			return this.parent.sibling;
 		}
 	}
+}
 }

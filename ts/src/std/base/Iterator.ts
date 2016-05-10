@@ -1,4 +1,6 @@
-namespace std.base
+namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> Bi-directional iterator. </p>
@@ -134,4 +136,5 @@ namespace std.base
 
 		public abstract swap(obj: Iterator<T>): void;
 	}
+}
 }

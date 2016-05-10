@@ -1,4 +1,6 @@
-﻿namespace std.example
+﻿namespace std
+{
+export namespace example
 {
 	export function sorting(): void
 	{
@@ -69,4 +71,5 @@
 			console.log(this.x, this.y, this.z);
 		}
 	}
+}
 }

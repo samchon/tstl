@@ -1,6 +1,8 @@
 /// <reference path="MapContainer.ts" />
 
-namespace std.base
+namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> An abstract multi-map. </p>
@@ -152,4 +154,5 @@ namespace std.base
 			return super.insert.apply(this, args);
 		}
 	}
+}
 }

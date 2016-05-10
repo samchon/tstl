@@ -1,4 +1,6 @@
-namespace std.base
+namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> An abstract  </p>
@@ -162,4 +164,5 @@ namespace std.base
 			obj.assign(supplement.begin(), supplement.end());
 		}
 	}
+}
 }

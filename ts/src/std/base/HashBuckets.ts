@@ -1,4 +1,6 @@
-namespace std.base
+namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> Hask buckets. </p>
@@ -107,4 +109,5 @@ namespace std.base
 				}
 		}
 	}
+}
 }

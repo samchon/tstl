@@ -1,4 +1,6 @@
-﻿namespace std.example
+﻿namespace std
+{
+export namespace example
 {
 	export function test_bind(): void
 	{
@@ -28,4 +30,5 @@
 			console.log("----------------------------------------------------------");
 		}
 	}
+}
 }

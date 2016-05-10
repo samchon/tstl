@@ -2,7 +2,9 @@
 /// <reference path="Iterator.ts" />
 /// <reference path="ReverseIterator.ts" />
 
-namespace std.base
+namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> An abstract set. </p>
@@ -460,6 +462,7 @@ namespace std.base
 		 */
 		protected abstract handle_erase(item: SetIterator<T>): void;
 	}
+}
 }
 
 namespace std

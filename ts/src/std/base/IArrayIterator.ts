@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> Random-access iterator. </p>
@@ -39,4 +41,5 @@
 		 */
 		next(): IArrayIterator<T>;
 	}
+}
 }

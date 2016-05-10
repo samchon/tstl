@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> Array  </p>
@@ -135,4 +137,5 @@
 		 */
 		set(index: number, val: T): void;
 	}
+}
 }

@@ -1,4 +1,6 @@
-﻿namespace std.example
+﻿namespace std
+{
+export namespace example
 {
 	export function test_deque(): void
 	{
@@ -23,4 +25,5 @@
 		for (let it = deque.begin(); !it.equal_to(deque.end()); it = it.next())
 			console.log(it.value);
 	}
+}
 }

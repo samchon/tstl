@@ -1,6 +1,8 @@
 /// <reference path="SetContainer.ts" />
 
-namespace std.base
+namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> An abstract set. </p>
@@ -97,4 +99,5 @@ namespace std.base
 			return super.insert.apply(this, args);
 		}
 	}
+}
 }

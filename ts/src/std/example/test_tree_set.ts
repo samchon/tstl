@@ -1,4 +1,6 @@
-﻿namespace std.example
+﻿namespace std
+{
+export namespace example
 {
 	export function tree_set(): void
 	{
@@ -24,4 +26,5 @@
 			console.log(" ");
 		}
 	}
+}
 }

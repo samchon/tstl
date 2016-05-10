@@ -1,6 +1,8 @@
 /// <reference path="HashBuckets.ts" />
 
-namespace std.base
+namespace std
+{
+export namespace base
 {
 	export class SetHashBuckets<T>
 		extends HashBuckets<SetIterator<T>>
@@ -26,4 +28,5 @@ namespace std.base
 			return this.set.end();
 		}
 	}
+}
 }

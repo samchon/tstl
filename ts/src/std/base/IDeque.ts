@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> An interface for deque  </p>
@@ -27,4 +29,5 @@
 		 */
 		pop_front(): void;
 	}
+}
 }

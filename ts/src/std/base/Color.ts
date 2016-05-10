@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> Static class holding enumeration codes of color of Red-black tree. </p>
@@ -40,4 +42,5 @@
 		 */
 		RED
 	}
+}
 }

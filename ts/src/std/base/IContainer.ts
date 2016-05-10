@@ -1,4 +1,6 @@
-namespace std.base
+namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> An interface of  </p>
@@ -213,4 +215,5 @@ namespace std.base
 		 */
 		swap(obj: IContainer<T>): void;
 	}
+}
 }

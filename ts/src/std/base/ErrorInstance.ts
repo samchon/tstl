@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> An abstract error instance. </p> 
@@ -162,4 +164,5 @@
 			return this.value_ != 0;
 		}
 	}
+}
 }

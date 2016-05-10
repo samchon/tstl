@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	export const MIN_SIZE: number = 10;
 
@@ -85,4 +87,5 @@
 		else
 			return code_of_number((<any>obj).__getUID());
 	}
+}
 }

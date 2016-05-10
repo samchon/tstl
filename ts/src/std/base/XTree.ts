@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> Red-black Tree. </p>
@@ -929,4 +931,4 @@
 		}
 	}
 }
-
+}

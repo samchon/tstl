@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿namespace std
+{
+export namespace base
 {
 	/**
 	 * <p> Linear  </p>
@@ -130,4 +132,5 @@
 		insert<U extends T, InputIterator extends Iterator<U>>
 			(position: Iterator<T>, begin: InputIterator, end: InputIterator): Iterator<T>;
 	}
+}
 }
