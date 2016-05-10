@@ -1,3 +1,6 @@
+[![npm version](https://badge.fury.io/js/typescript-stl.svg)](https://badge.fury.io/js/typescript-stl)
+[![Downloads](https://img.shields.io/npm/dm/typescript-stl.svg)](https://www.npmjs.com/package/typescript-stl)
+
 TypeScript-STL
 =========
 STL (Standard Template Library) and Containers for TypeScript
@@ -37,14 +40,14 @@ STL (Standard Template Library) and Containers for TypeScript
 ## Usage
 #### Installation
 ``` command 
-npm install -g ts-stl
+npm install -g typescript-stl
 ```
-or download directly. (``ts-stl.js`` and ``ts-stl.d.ts`` in ``master/lib``)
+or download directly. (``typescript-stl.js`` and ``typescript-stl.d.ts`` in ``master/lib``)
 
 #### Node.JS or Require.JS
 ###### In JavaScript
 ``` javascript
-var std = require("ts-stl");
+var std = require("typescript-stl");
 
 var list = new std.List();
 list.push_back("First element");
@@ -55,10 +58,10 @@ list.push_back("First element");
 ///////////////////////////////
 // A TRICKY METHOD
 ///////////////////////////////
-/// <reference path="ts-stl.t.ds" />
+/// <reference path="typescript-stl.t.ds" />
 // declare var global: any;
 // declare var require: any;
-global["std"] = require("ts-stl"); // IMPORT
+global["std"] = require("typescript-stl"); // IMPORT
 
 // CODE
 let list: std.List<string> = new std.List<string>();
@@ -67,7 +70,7 @@ list.push_back("First element");
 
 #### Browser
 ``` javascript
-<script src="ts-stl.js"></script>
+<script src="typescript-stl.js"></script>
 <script>
 	var list = new std.List();
     list.push_back("First element");

@@ -1,15 +1,15 @@
 {
-  "name": "ts-stl",
+  "name": "typescript-stl",
   "description": "TypeScript-STL (Standard Template Library, migrated from C++)",
   "author": {
     "name": "Jeongho Nam",
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "0.9.5",
+  "version": "0.9.3",
 
-  "main": "./lib/ts-stl.js",
-  "typings": "./lib/ts-stl.d.ts",
+  "main": "./lib/typescript-stl.js",
+  "typings": "./lib/typescript-stl.d.ts",
 
   "homepage": "https://github.com/samchon/stl",
   "repository": {
