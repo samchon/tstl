@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "declaration": true,
+        "outFile": "../lib/typescript-stl.js"
+    }
+}

@@ -4,6 +4,7 @@
 ts/*
 d.ts
 !ts/src
+!ts/tsconfig.json
 
 *.bat
 *.ink

@@ -9308,10 +9308,10 @@ declare namespace std.base {
     }
 }
 /**
-* STL (Standard Template Library) Containers for TypeScript.
-*
-* @author Jeongho Nam <http://samchon.org>
-*/
+ * STL (Standard Template Library) Containers for TypeScript.
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
 declare namespace std {
 }
 /**

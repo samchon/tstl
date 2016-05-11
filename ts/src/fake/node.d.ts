@@ -1,7 +1,7 @@
 ﻿/// <reference path="../std/API.ts" />
 
-declare var exports;
+declare var exports: any;
 
-declare var global;
+declare var global: any;
 
-declare var require;
+declare var require: any;
