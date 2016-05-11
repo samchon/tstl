@@ -1,3 +1,5 @@
+/// <reference path="API.ts" />
+
 namespace std
 {
 	/**

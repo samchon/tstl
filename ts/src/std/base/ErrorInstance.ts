@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> An abstract error instance. </p> 
@@ -164,5 +164,4 @@ export namespace base
 			return this.value_ != 0;
 		}
 	}
-}
 }

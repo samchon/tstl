@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> An interface for deque  </p>
@@ -29,5 +29,4 @@ export namespace base
 		 */
 		pop_front(): void;
 	}
-}
 }

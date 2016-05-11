@@ -1,3 +1,5 @@
+/// <reference path="API.ts" />
+
 /// <reference path="base/UniqueSet.ts" />
 /// <reference path="base/MultiSet.ts" />
 

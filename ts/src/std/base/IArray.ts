@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> Array  </p>
@@ -137,5 +137,4 @@ export namespace base
 		 */
 		set(index: number, val: T): void;
 	}
-}
 }

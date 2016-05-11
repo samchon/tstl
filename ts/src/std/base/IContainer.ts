@@ -1,6 +1,6 @@
-namespace std
-{
-export namespace base
+/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> An interface of  </p>
@@ -215,5 +215,4 @@ export namespace base
 		 */
 		swap(obj: IContainer<T>): void;
 	}
-}
 }

@@ -1,10 +1,10 @@
+/// <reference path="../API.ts" />
+
 /// <reference path="Container.ts" />
 /// <reference path="Iterator.ts" />
 /// <reference path="ReverseIterator.ts" />
 
-namespace std
-{
-export namespace base
+namespace std.base
 {
 	/**
 	 * <p> An abstract set. </p>
@@ -462,7 +462,6 @@ export namespace base
 		 */
 		protected abstract handle_erase(item: SetIterator<T>): void;
 	}
-}
 }
 
 namespace std

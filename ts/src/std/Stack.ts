@@ -1,4 +1,6 @@
-﻿namespace std
+﻿/// <reference path="API.ts" />
+
+namespace std
 {
 	/**
 	 * <p> LIFO stack. </p>

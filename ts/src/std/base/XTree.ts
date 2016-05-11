@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> Red-black Tree. </p>
@@ -930,5 +930,4 @@ export namespace base
 				return node.color;
 		}
 	}
-}
 }

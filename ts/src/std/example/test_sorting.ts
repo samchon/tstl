@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace example
+﻿/// <reference path="../API.ts" />
+
+namespace std.example
 {
 	export function sorting(): void
 	{
@@ -71,5 +71,4 @@ export namespace example
 			console.log(this.x, this.y, this.z);
 		}
 	}
-}
 }

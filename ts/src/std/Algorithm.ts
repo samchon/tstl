@@ -1,4 +1,6 @@
-﻿// Standard Template Library: Algorithms
+﻿/// <reference path="API.ts" />
+
+// Standard Template Library: Algorithms
 // The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
 //
 // A range is any sequence of objects that can be accessed through iterators or pointers, such as an array or an 
@@ -2003,7 +2005,7 @@ namespace std
 	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = std.less): void
 	{
-		qsort(first.get_source() as base.IArray<T>, first.index, last.index, compare);
+		qsort(first.get_source() as base.IArray<T>, first.index, last.index - 1, compare);
 	}
 
 	/**
@@ -2292,15 +2294,14 @@ namespace std
 	function qsort<T>
 		(container: base.IArray<T>, first: number, last: number, compare: (left: T, right: T) => boolean): void
 	{
-		if (first > last) // SWAP BEGIN A
-			[first, last] = [last, first];
-
-		if (last == -1)
-			last = container.size();
+		if (last == -2)
+			last = container.size() - 1;
+		else if (first >= last)
+			return;
 
 		let index: number = qsort_partition(container, first, last, compare);
-		qsort(container, first, index, compare);
-		qsort(container, index, last, compare);
+		qsort(container, first, index - 1, compare);
+		qsort(container, index + 1, last, compare);
 	}
 
 	/**
@@ -2314,12 +2315,12 @@ namespace std
 	{
 		let val: T = container.at(first);
 		let i: number = first;
-		let j: number = last;
+		let j: number = last + 1;
 
 		while (true)
 		{
 			while (compare(container.at(++i), val))
-				if (i == last - 1)
+				if (i == last)
 					break;
 			while (compare(val, container.at(--j)))
 				if (j == first)
@@ -2352,12 +2353,14 @@ namespace std
 		): void
 	{
 		// QUICK SORT
-		if (first > last) // SWAP BEGIN A
-			[first, last] = [last, first];
+		if (last == -2)
+			last = container.size() - 1;
+		else if (first >= last)
+			return;
 
 		let index: number = stable_qsort_partition(container, first, last, compare);
-		stable_qsort(container, first, index, compare);
-		stable_qsort(container, index, last, compare);
+		stable_qsort(container, first, index - 1, compare);
+		stable_qsort(container, index + 1, last, compare);
 	}
 
 	/**
@@ -2371,7 +2374,7 @@ namespace std
 	{
 		let val: T = container.at(first);
 		let i: number = first;
-		let j: number = last;
+		let j: number = last + 1;
 
 		while (true)
 		{

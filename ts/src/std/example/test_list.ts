@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace example
+﻿/// <reference path="../API.ts" />
+
+namespace std.example
 {
 	export function test_list(): void
 	{
@@ -25,5 +25,4 @@ export namespace example
 		for (let it = list.begin(); !it.equal_to(list.end()); it = it.next())
 			console.log(it.value);
 	}
-}
 }

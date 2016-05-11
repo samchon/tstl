@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	export const MIN_SIZE: number = 10;
 
@@ -87,5 +87,4 @@ export namespace base
 		else
 			return code_of_number((<any>obj).__getUID());
 	}
-}
 }

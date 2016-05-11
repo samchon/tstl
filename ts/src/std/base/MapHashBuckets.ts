@@ -1,8 +1,8 @@
+/// <reference path="../API.ts" />
+
 /// <reference path="HashBuckets.ts" />
 
-namespace std
-{
-export namespace base
+namespace std.base
 {
 	export class MapHashBuckets<K, T>
 		extends HashBuckets<MapIterator<K, T>>
@@ -28,5 +28,4 @@ export namespace base
 			return this.map.end();
 		}
 	}
-}
 }

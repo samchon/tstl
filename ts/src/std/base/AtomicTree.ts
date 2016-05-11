@@ -1,8 +1,8 @@
+/// <reference path="../API.ts" />
+
 /// <reference path="XTree.ts" />
 
-namespace std
-{
-export namespace base
+namespace std.base
 {
 	/**
 	 * @author Jeongho Nam <http://samchon.org>
@@ -96,5 +96,4 @@ export namespace base
 			return this.compare_(left.value, right.value);
 		}
 	}
-}
 }

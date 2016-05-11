@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> Static class holding enumeration codes of color of Red-black tree. </p>
@@ -42,5 +42,4 @@ export namespace base
 		 */
 		RED
 	}
-}
 }

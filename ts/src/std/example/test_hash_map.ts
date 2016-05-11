@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace example
+﻿/// <reference path="../API.ts" />
+
+namespace std.example
 {
 	export function test_hash_map(): void
 	{
@@ -65,5 +65,4 @@ export namespace example
 		=========================================
 		*/
 	}
-}
 }

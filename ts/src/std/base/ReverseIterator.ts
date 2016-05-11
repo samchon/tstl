@@ -1,8 +1,8 @@
-﻿/// <reference path="Iterator.ts" />
+﻿/// <reference path="../API.ts" />
 
-namespace std
-{
-export namespace base
+/// <reference path="Iterator.ts" />
+
+namespace std.base
 {
 	/**
 	 * A reverse and bi-directional iterator. </p>
@@ -61,5 +61,4 @@ export namespace base
 				this.iterator_.swap(obj);
 		}
 	}
-}
 }

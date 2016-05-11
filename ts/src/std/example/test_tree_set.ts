@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace example
+﻿/// <reference path="../API.ts" />
+
+namespace std.example
 {
 	export function tree_set(): void
 	{
@@ -26,5 +26,4 @@ export namespace example
 			console.log(" ");
 		}
 	}
-}
 }

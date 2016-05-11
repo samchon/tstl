@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> Random-access iterator. </p>
@@ -41,5 +41,4 @@ export namespace base
 		 */
 		next(): IArrayIterator<T>;
 	}
-}
 }

@@ -1,6 +1,6 @@
-namespace std
-{
-export namespace base
+/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> An abstract map. </p>
@@ -598,7 +598,6 @@ export namespace base
 		}
 	}
 }
-}
 
 namespace std
 {
@@ -646,8 +645,8 @@ namespace std
 		{
 			return new MapIterator<Key, T>
 				(
-					<base.MapContainer<Key, T>>this.source_,
-					this.list_iterator_.prev()
+				<base.MapContainer<Key, T>>this.source_,
+				this.list_iterator_.prev()
 				);
 		}
 
@@ -658,8 +657,8 @@ namespace std
 		{
 			return new MapIterator<Key, T>
 				(
-					<base.MapContainer<Key, T>>this.source_,
-					this.list_iterator_.next()
+				<base.MapContainer<Key, T>>this.source_,
+				this.list_iterator_.next()
 				);
 		}
 
@@ -673,8 +672,8 @@ namespace std
 		{
 			return new MapIterator<Key, T>
 				(
-					<base.MapContainer<Key, T>>this.source_,
-					this.list_iterator_.advance(step)
+				<base.MapContainer<Key, T>>this.source_,
+				this.list_iterator_.advance(step)
 				);
 		}
 
@@ -696,7 +695,7 @@ namespace std
 		{
 			return this.list_iterator_;
 		}
-		
+
 		/**
 		 * Get first, key element.
 		 */
@@ -736,23 +735,26 @@ namespace std
 		{
 			return this.source_ == obj.source_ && this.list_iterator_.equal_to(obj.list_iterator_);
 		}
-		
+
 		public less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean
 		{
 			return std.less(this.first, obj.first);
 		}
-		
+
 		public hash(): number
 		{
 			return std.hash(this.first);
 		}
-		
+
 		public swap(obj: MapIterator<Key, T>): void
 		{
 			this.list_iterator_.swap(obj.list_iterator_);
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * A reverse-iterator of {@link MapColntainer map container}.
 	 *

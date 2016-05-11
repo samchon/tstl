@@ -1,3 +1,5 @@
+/// <reference path="API.ts" />
+
 /// <reference path="base/UniqueMap.ts" />
 /// <reference path="base/MultiMap.ts" />
 

@@ -1,6 +1,6 @@
-namespace std
-{
-export namespace base
+/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> Bi-directional iterator. </p>
@@ -136,5 +136,4 @@ export namespace base
 
 		public abstract swap(obj: Iterator<T>): void;
 	}
-}
 }

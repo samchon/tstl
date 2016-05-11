@@ -1,6 +1,6 @@
-namespace std
-{
-export namespace base
+/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> An abstract  </p>
@@ -164,5 +164,4 @@ export namespace base
 			obj.assign(supplement.begin(), supplement.end());
 		}
 	}
-}
 }

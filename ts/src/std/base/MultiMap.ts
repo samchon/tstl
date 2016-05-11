@@ -1,8 +1,8 @@
+/// <reference path="../API.ts" />
+
 /// <reference path="MapContainer.ts" />
 
-namespace std
-{
-export namespace base
+namespace std.base
 {
 	/**
 	 * <p> An abstract multi-map. </p>
@@ -154,5 +154,4 @@ export namespace base
 			return super.insert.apply(this, args);
 		}
 	}
-}
 }

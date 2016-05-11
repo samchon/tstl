@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace example
+﻿/// <reference path="../API.ts" />
+
+namespace std.example
 {
 	export function test_bind(): void
 	{
@@ -30,5 +30,4 @@ export namespace example
 			console.log("----------------------------------------------------------");
 		}
 	}
-}
 }

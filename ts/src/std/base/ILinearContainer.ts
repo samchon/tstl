@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> Linear  </p>
@@ -132,5 +132,4 @@ export namespace base
 		insert<U extends T, InputIterator extends Iterator<U>>
 			(position: Iterator<T>, begin: InputIterator, end: InputIterator): Iterator<T>;
 	}
-}
 }

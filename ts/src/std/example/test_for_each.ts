@@ -1,6 +1,6 @@
-﻿namespace std
-{
-export namespace example
+﻿/// <reference path="../API.ts" />
+
+namespace std.example
 {
 	export function test_for_each()
 	{
@@ -11,5 +11,4 @@ export namespace example
 
 		let fn = std.for_each(array.begin(), array.end(), function (val: number): void { console.log(val); });
 	}
-}
 }

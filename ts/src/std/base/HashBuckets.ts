@@ -1,6 +1,6 @@
-namespace std
-{
-export namespace base
+/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> Hask buckets. </p>
@@ -109,5 +109,4 @@ export namespace base
 				}
 		}
 	}
-}
 }
