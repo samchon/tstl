@@ -366,7 +366,7 @@ namespace std
 			if (this.empty() == true)
 				return this.rend();
 			else
-				return new DequeReverseIterator<T>(this.end().prev());
+				return new DequeReverseIterator<T>(this, this.size() - 1);
 		}
 
 		/**
@@ -374,7 +374,7 @@ namespace std
 		 */
 		public rend(): DequeReverseIterator<T>
 		{
-			return new DequeReverseIterator<T>(this.end());
+			return new DequeReverseIterator<T>(this, -1);
 		}
 		
 		/**
@@ -752,12 +752,10 @@ namespace std
 		extends base.Iterator<T>
 		implements base.IArrayIterator<T>
 	{
-		private get deque(): Deque<T> { return this.source_ as Deque<T>; }
-
 		/**
 		 * Sequence number of iterator in the source {@link Deque}.
 		 */
-		private index_: number;
+		protected index_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -782,6 +780,14 @@ namespace std
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		protected get deque(): Deque<T> 
+		{ 
+			return this.source_ as Deque<T>; 
+		}
+
 		/**
 		 * @inheritdoc
 		 */
@@ -880,38 +886,16 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class DequeReverseIterator<T>
-		extends base.ReverseIterator<T>
-		implements base.IArrayIterator<T>
+		extends DequeIterator<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(iterator: DequeIterator<T>)
+		public constructor(source: Deque<T>, index: number)
 		{
-			super(iterator);
+			super(source, index);
 		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * @hidden
-		 */
-		private get deque_iterator(): DequeIterator<T>
-		{
-			return this.iterator_ as DequeIterator<T>
-		}
-
-		public get index(): number
-		{
-			return this.deque_iterator.index;
-		}
-
-		public set value(val: T)
-		{
-			this.deque_iterator.value = val;
-		}
-
+		
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
@@ -920,7 +904,10 @@ namespace std
 		 */
 		public prev(): DequeReverseIterator<T>
 		{
-			return new DequeReverseIterator<T>(this.deque_iterator.next());
+			if (this.index_ >= this.source_.size() - 1)
+				return this.deque.end();
+			else
+				return new DequeReverseIterator<T>(this.deque, this.index_ + 1);
 		}
 
 		/**
@@ -928,7 +915,12 @@ namespace std
 		 */
 		public next(): DequeReverseIterator<T>
 		{
-			return new DequeReverseIterator<T>(this.deque_iterator.prev());
+			if (this.index_ == -1)
+				return new DequeReverseIterator(this.deque, this.deque.size() - 1);
+			else if (this.index_ - 1 < 0)
+				return this.deque.end();
+			else
+				return new DequeReverseIterator<T>(this.deque, this.index_ - 1);
 		}
 
 		/**
@@ -936,9 +928,12 @@ namespace std
 		 */
 		public advance(n: number): DequeReverseIterator<T>
 		{
-			let iterator: DequeIterator<T> = this.deque_iterator.advance(-1 * n);
+			let new_index: number = this.index_ - n;
 
-			return new DequeReverseIterator(iterator);
+			if (new_index < 0 || new_index >= this.deque.size())
+				return this.deque.end();
+			else
+				return new DequeReverseIterator<T>(this.deque, new_index);
 		}
 	}
 }

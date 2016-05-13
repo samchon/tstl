@@ -259,7 +259,7 @@ namespace std
 			if (this.empty() == true)
 				return this.rend();
 			else
-				return new VectorReverseIterator<T>(this.end().prev());
+				return new VectorReverseIterator<T>(this, this.size() - 1);
 		}
 
 		/**
@@ -267,7 +267,7 @@ namespace std
 		 */
 		public rend(): VectorReverseIterator<T>
 		{
-			return new VectorReverseIterator<T>(this.end());
+			return new VectorReverseIterator<T>(this, -1);
 		}
 
 		/**
@@ -693,36 +693,14 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class VectorReverseIterator<T>
-		extends base.ReverseIterator<T>
-		implements base.IArrayIterator<T>
+		extends VectorIterator<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(iterator: VectorIterator<T>)
+		public constructor(source: Vector<T>, index: number)
 		{
-			super(iterator);
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * @hidden
-		 */
-		private get vector_iterator(): VectorIterator<T>
-		{
-			return this.iterator_ as VectorIterator<T>
-		}
-
-		public get index(): number
-		{
-			return this.vector_iterator.index;
-		}
-
-		public set value(val: T)
-		{
-			this.vector_iterator.value = val;
+			super(source, index);
 		}
 		
 		/* ---------------------------------------------------------
@@ -733,15 +711,23 @@ namespace std
 		 */
 		public prev(): VectorReverseIterator<T>
 		{
-			return new VectorReverseIterator<T>(this.vector_iterator.next());
+			if (this.index_ >= this.source_.size() - 1)
+				return this.vector.end();
+			else
+				return new VectorIterator<T>(this.vector, this.index_ + 1);
 		}
-
+		
 		/**
 		 * @inheritdoc
 		 */
 		public next(): VectorReverseIterator<T>
 		{
-			return new VectorReverseIterator<T>(this.vector_iterator.prev());
+			if (this.index_ == -1)
+				return new VectorIterator(this.vector, this.vector.size() - 1);
+			else if (this.index_ - 1 < 0)
+				return this.vector.end();
+			else
+				return new VectorIterator<T>(this.vector, this.index_ - 1);
 		}
 
 		/**
@@ -749,9 +735,12 @@ namespace std
 		 */
 		public advance(n: number): VectorReverseIterator<T>
 		{
-			let iterator: VectorIterator<T> = this.vector_iterator.advance(-1*n);
+			let newIndex: number = this.index_ - n;
 
-			return new VectorReverseIterator(iterator);
+			if (newIndex < 0 || newIndex >= this.vector.size())
+				return this.vector.rend();
+			else
+				return new VectorReverseIterator<T>(this.vector, newIndex);
 		}
 	}
 }

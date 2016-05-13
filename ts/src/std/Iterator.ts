@@ -27,4 +27,10 @@ namespace std
 
 		return length;
 	}
+
+	export function advance<T, InputIterator extends base.Iterator<T>>
+		(it: InputIterator, n: number): InputIterator
+	{
+		return it.advance(n) as InputIterator;
+	}
 }

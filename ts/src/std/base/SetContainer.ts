@@ -89,19 +89,8 @@ namespace std.base
 			// INITIALIZATION
 			this.data_ = new List<T>();
 			
-			// OVERLOADINGS
-			//if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
-			//{
-			//	this.construct_from_array(args[0]);
-			//}
-			//else if (args.length == 1 && args[0] instanceof Container)
-			//{
-			//	this.construct_from_container(args[0]);
-			//}
-			//else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-			//{
-			//	this.construct_from_range(args[0], args[1]);
-			//}
+			// THIS IS ABSTRACT CLASS
+			// NOTHING TO DO ESPECIALLY
 		}
 		
 		/**
@@ -195,10 +184,7 @@ namespace std.base
 		 */
 		public rbegin(): SetReverseIterator<T>
 		{
-			if (this.empty() == true)
-				return this.rend();
-			else
-				return new SetReverseIterator<T>(this.end().prev());
+			return new SetReverseIterator<T>(this, this.data_.end().prev());
 		}
 
 		/**
@@ -206,7 +192,7 @@ namespace std.base
 		 */
 		public rend(): SetReverseIterator<T>
 		{
-			return new SetReverseIterator<T>(this.end());
+			return new SetReverseIterator<T>(this, this.data_.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -475,7 +461,7 @@ namespace std
 		extends base.Iterator<T>
 		implements IComparable<SetIterator<T>>
 	{
-		private list_iterator_: ListIterator<T>;
+		protected list_iterator_: ListIterator<T>;
 
 		/**
 		 * <p> Construct from source and index number. </p>
@@ -527,9 +513,9 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private get set(): TreeSet<T>
+		protected get set(): base.SetContainer<T>
 		{
-			return <TreeSet<T>>this.source_;
+			return this.source_ as base.SetContainer<T>;
 		}
 
 		public get_list_iterator(): ListIterator<T>
@@ -589,27 +575,16 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetReverseIterator<T>
-		extends base.ReverseIterator<T>
+		extends SetIterator<T>
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
-		public constructor(iterator: SetIterator<T>)
+		public constructor(source: base.SetContainer<T>, it: ListIterator<T>)
 		{
-			super(iterator);
+			super(source, it);
 		}
-
-		/* ---------------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------------- */
-		/**
-		 * @hidden
-		 */
-		private get set_iterator(): SetIterator<T>
-		{
-			return this.iterator_ as SetIterator<T>;
-		}
-
+		
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
@@ -618,7 +593,7 @@ namespace std
 		 */
 		public prev(): SetReverseIterator<T>
 		{
-			return new SetReverseIterator<T>(this.set_iterator.next());
+			return new SetReverseIterator<T>(this.set, this.list_iterator_.next());
 		}
 
 		/**
@@ -626,7 +601,7 @@ namespace std
 		 */
 		public next(): SetReverseIterator<T>
 		{
-			return new SetReverseIterator<T>(this.set_iterator.prev());
+			return new SetReverseIterator<T>(this.set, this.list_iterator_.prev());
 		}
 
 		/**
@@ -634,7 +609,7 @@ namespace std
 		 */
 		public advance(n: number): SetReverseIterator<T>
 		{
-			return new SetReverseIterator<T>(this.set_iterator.advance(-1 * n));
+			return new SetReverseIterator<T>(this.set, this.list_iterator_.advance(-1 * n));
 		}
 	}
 }

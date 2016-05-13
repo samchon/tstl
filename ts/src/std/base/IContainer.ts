@@ -99,7 +99,7 @@ namespace std.base
 		 * 
 		 * @return A {@link ReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence 
 		 */
-		rbegin(): ReverseIterator<T>;
+		rbegin(): Iterator<T>;
 
 		/**
 		 * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse end</i>. </p>
@@ -112,7 +112,7 @@ namespace std.base
 		 * 
 		 * @return A {@link ReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence 
 		 */
-		rend(): ReverseIterator<T>;
+		rend(): Iterator<T>;
 
 		/**
 		 * Return the number of elements in the Container.

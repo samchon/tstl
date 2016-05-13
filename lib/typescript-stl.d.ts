@@ -461,14 +461,8 @@ declare namespace std {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class VectorReverseIterator<T> extends base.ReverseIterator<T> implements base.IArrayIterator<T> {
-        constructor(iterator: VectorIterator<T>);
-        /**
-         * @hidden
-         */
-        private vector_iterator;
-        index: number;
-        value: T;
+    class VectorReverseIterator<T> extends VectorIterator<T> {
+        constructor(source: Vector<T>, index: number);
         /**
          * @inheritdoc
          */
@@ -572,11 +566,11 @@ declare namespace std.base {
         /**
          * @inheritdoc
          */
-        abstract rbegin(): ReverseIterator<T>;
+        abstract rbegin(): Iterator<T>;
         /**
          * @inheritdoc
          */
-        abstract rend(): ReverseIterator<T>;
+        abstract rend(): Iterator<T>;
         /**
          * @inheritdoc
          */
@@ -873,11 +867,10 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class DequeIterator<T> extends base.Iterator<T> implements base.IArrayIterator<T> {
-        private deque;
         /**
          * Sequence number of iterator in the source {@link Deque}.
          */
-        private index_;
+        protected index_: number;
         /**
          * <p> Construct from the source {@link Deque container}. </p>
          *
@@ -889,6 +882,10 @@ declare namespace std {
          * @param index Sequence number of the element in the source {@link Deque}.
          */
         constructor(source: Deque<T>, index: number);
+        /**
+         * @hidden
+         */
+        protected deque: Deque<T>;
         /**
          * @inheritdoc
          */
@@ -937,14 +934,8 @@ declare namespace std {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class DequeReverseIterator<T> extends base.ReverseIterator<T> implements base.IArrayIterator<T> {
-        constructor(iterator: DequeIterator<T>);
-        /**
-         * @hidden
-         */
-        private deque_iterator;
-        index: number;
-        value: T;
+    class DequeReverseIterator<T> extends DequeIterator<T> {
+        constructor(source: Deque<T>, index: number);
         /**
          * @inheritdoc
          */
@@ -2245,7 +2236,7 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class SetIterator<T> extends base.Iterator<T> implements IComparable<SetIterator<T>> {
-        private list_iterator_;
+        protected list_iterator_: ListIterator<T>;
         /**
          * <p> Construct from source and index number. </p>
          *
@@ -2272,7 +2263,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private set;
+        protected set: base.SetContainer<T>;
         get_list_iterator(): ListIterator<T>;
         /**
          * @inheritdoc
@@ -2302,12 +2293,8 @@ declare namespace std {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class SetReverseIterator<T> extends base.ReverseIterator<T> {
-        constructor(iterator: SetIterator<T>);
-        /**
-         * @hidden
-         */
-        private set_iterator;
+    class SetReverseIterator<T> extends SetIterator<T> {
+        constructor(source: base.SetContainer<T>, it: ListIterator<T>);
         /**
          * @inheritdoc
          */
@@ -2708,7 +2695,7 @@ declare namespace std.base {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class MapContainer<Key, T> {
+    abstract class MapContainer<Key, T> extends base.Container<Pair<Key, T>> {
         /**
          * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
          */
@@ -2757,19 +2744,11 @@ declare namespace std.base {
          */
         protected construct_from_range(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): void;
         /**
-         * <p> Assign new content to content. </p>
-         *
-         * <p> Assigns new contents to the container, replacing its current contents, and modifying its {@link size}
-         * accordingly. </p>
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
+         * @inheritdoc
          */
         assign<L extends Key, U extends T>(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
         /**
-         * <p> Clear content. </p>
-         *
-         * <p> Removes all elements from the container, leaving the container with a size of 0. </p>
+         * @inheritdoc
          */
         clear(): void;
         /**
@@ -2835,7 +2814,7 @@ declare namespace std.base {
          * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence
          *
          */
-        rbegin(): MapReverseIterator<Key, T>;
+        rbegin(): MapIterator<Key, T>;
         /**
          * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>. </p>
          *
@@ -2874,9 +2853,13 @@ declare namespace std.base {
          */
         size(): number;
         /**
-         * Test whether the container is empty.
+         * @inheritdoc
          */
-        empty(): boolean;
+        push<L extends Key, U extends T>(...args: Pair<L, U>[]): number;
+        /**
+         * @inheritdoc
+         */
+        push<L extends Key, U extends T>(...args: [Key, T][]): number;
         /**
          * <p> Insert an element. </p>
          *
@@ -3047,11 +3030,7 @@ declare namespace std {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    class MapIterator<Key, T> implements IComparable<MapIterator<Key, T>> {
-        /**
-         * The source {@link MapContainer} of the iterator is directing for.
-         */
-        protected source_: base.MapContainer<Key, T>;
+    class MapIterator<Key, T> extends base.Iterator<Pair<Key, T>> implements IComparable<MapIterator<Key, T>> {
         /**
          * A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
          */
@@ -3079,13 +3058,17 @@ declare namespace std {
          */
         advance(step: number): MapIterator<Key, T>;
         /**
-         * Get source.
+         * @hidden
          */
-        get_source(): base.MapContainer<Key, T>;
+        protected map: base.MapContainer<Key, T>;
         /**
          * Get ListIterator.
          */
         get_list_iterator(): ListIterator<Pair<Key, T>>;
+        /**
+         * @inheritdoc
+         */
+        value: Pair<Key, T>;
         /**
          * Get first, key element.
          */
@@ -3110,8 +3093,6 @@ declare namespace std {
         hash(): number;
         swap(obj: MapIterator<Key, T>): void;
     }
-}
-declare namespace std {
     /**
      * A reverse-iterator of {@link MapColntainer map container}.
      *
@@ -7324,6 +7305,7 @@ declare namespace std {
      * @return The number of elements between first and last.
      */
     function distance<T, Iterator extends base.Iterator<T>>(first: Iterator, last: Iterator): number;
+    function advance<T, InputIterator extends base.Iterator<T>>(it: InputIterator, n: number): InputIterator;
 }
 declare namespace std {
     /**
@@ -8975,7 +8957,7 @@ declare namespace std.base {
          *
          * @return A {@link ReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence
          */
-        rbegin(): ReverseIterator<T>;
+        rbegin(): Iterator<T>;
         /**
          * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse end</i>. </p>
          *
@@ -8987,7 +8969,7 @@ declare namespace std.base {
          *
          * @return A {@link ReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence
          */
-        rend(): ReverseIterator<T>;
+        rend(): Iterator<T>;
         /**
          * Return the number of elements in the Container.
          *
@@ -9308,10 +9290,10 @@ declare namespace std.base {
     }
 }
 /**
- * STL (Standard Template Library) Containers for TypeScript.
- *
- * @author Jeongho Nam <http://samchon.org>
- */
+* STL (Standard Template Library) Containers for TypeScript.
+*
+* @author Jeongho Nam <http://samchon.org>
+*/
 declare namespace std {
 }
 /**

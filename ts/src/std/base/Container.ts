@@ -130,12 +130,12 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public abstract rbegin(): ReverseIterator<T>;
+		public abstract rbegin(): Iterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public abstract rend(): ReverseIterator<T>;
+		public abstract rend(): Iterator<T>;
 
 		/**
 		 * @inheritdoc
