@@ -2,5 +2,5 @@
 ::	Git Commit
 :: ---------------------------------------------------------------------------------
 git add .
-git commit -m "v0.9.6"
+git commit -m "v0.9.7"
 git push origin master

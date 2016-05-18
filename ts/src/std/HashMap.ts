@@ -8,28 +8,27 @@ namespace std
 	/**
 	 * <p> Hashed, unordered map. </p>
 	 *
-	 * <p> {@link HashMap}s are associative containers that store elements formed by the 
-	 * combination of a <i>key value</i> and a <i>mapped value</i>, and which allows for fast 
-	 * retrieval of individual elements based on their <i>keys</i>. </p>
+	 * <p> {@link HashMap}s are associative containers that store elements formed by the combination of a <i>key value</i> 
+	 * and a <i>mapped value</i>, and which allows for fast retrieval of individual elements based on their <i>keys</i>. 
+	 * </p>
 	 *
-	 * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify  
-	 * the element, while the <i>mapped value</i> is an object with the content associated to this 
-	 * <i>key</i>. Types of <i>key</i> and <i>mapped value</i> may differ. </p>
+	 * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify the element, while the 
+	 * <i>mapped value</i> is an object with the content associated to this <i>key</i>. Types of <i>key</i> and 
+	 * <i>mapped value</i> may differ. </p>
 	 *
-	 * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order 
-	 * with respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> 
-	 * depending on their hash values to allow for fast access to individual elements directly by 
-	 * their <i>key values</i> (with a constant average time complexity on average). </p>
+	 * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order with respect to either 
+	 * their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on their hash values to allow 
+	 * for fast access to individual elements directly by their <i>key values</i> (with a constant average time complexity 
+	 * on average). </p>
 	 *
-	 * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access 
-	 * individual elements by their <i>key</i>, although they are generally less efficient for range 
-	 * iteration through a subset of their elements. </p>
+	 * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their 
+	 * <i>key</i>, although they are generally less efficient for range iteration through a subset of their elements. </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 * 	<dt> Associative </dt>
 	 * 	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the  </dd>
+	 *		 position in the container. </dd>
 	 * 
 	 * 	<dt> Hashed </dt>
 	 * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
@@ -191,35 +190,65 @@ namespace std
 			// TEST WHETHER EXIST
 			let it = this.find(pair.first);
 			if (it.equal_to(this.end()) == false)
-				return new Pair<MapIterator<Key, T>, boolean>(it, false);
+				return make_pair(it, false);
 
 			// INSERT
 			this.data_.push_back(pair);
 			it = it.prev();
 
 			// POST-PROCESS
-			this.handle_insert(<MapIterator<Key, T>>it);
+			this.handle_insert(it, it.next());
 
-			return new Pair<MapIterator<Key, T>, boolean>(it, true);
+			return make_pair(it, true);
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		{
+			// FIND KEY
+			if (this.has(pair.first) == true)
+				return this.end();
+
+			// INSERT
+			let list_it = this.data_.insert(hint.get_list_iterator(), pair);
+
+			// POST-PROCESS
+			let it = new MapIterator<Key, T>(this, list_it);
+			this.handle_insert(it, it.next());
+
+			return it;
 		}
 
 		/**
 		 * @hidden
 		 */
 		protected insert_by_range<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+			(first: MapIterator<L, U>, last: MapIterator<L, U>): void
 		{
-			// CALCULATE INSERTING SIZE
+			let my_first: MapIterator<Key, T> = this.end();
 			let size: number = 0;
-			for (let it = begin; it.equal_to(end) == false; it = it.next())
+
+			for (; !first.equal_to(last); first = first.next())
+			{
+				// TEST WHETER EXIST
+				let it = this.find(first.first);
+				if (!it.equal_to(this.end()))
+					continue;
+
+				// INSERTS
+				this.data_.push_back(make_pair<Key, T>(first.first, first.second));
+				it = it.prev();
 				size++;
+			}
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hash_buckets_.item_size() * base.MAX_RATIO)
+			if (this.size() + size > this.hash_buckets_.size() * base.MAX_RATIO)
 				this.hash_buckets_.reserve((this.size() + size) * base.RATIO);
 
 			// INSERTS
-			super.insert_by_range(begin, end);
+			this.handle_insert(my_first, this.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -228,17 +257,19 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(it: MapIterator<Key, T>): void
+		protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			this.hash_buckets_.insert(it);
+			for (; !first.equal_to(last); first = first.next())
+				this.hash_buckets_.insert(first);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(it: MapIterator<Key, T>): void
+		protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			this.hash_buckets_.erase(it);
+			for (; !first.equal_to(last); first = first.next())
+				this.hash_buckets_.erase(first);
 		}
 
 		/* ===============================================================
@@ -288,7 +319,7 @@ namespace std
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the  </dd>
+	 *		 position in the container. </dd>
 	 * 
 	 *	<dt> Hashed </dt>
 	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
@@ -450,10 +481,24 @@ namespace std
 		 */
 		protected insert_by_pair(pair: Pair<Key, T>): any
 		{
-			let listIterator = this.data_.insert(this.data_.end(), pair);
+			// INSERT
+			let it = new MapIterator<Key, T>(this, this.data_.insert(this.data_.end(), pair));
 
-			let it = new MapIterator<Key, T>(this, listIterator);
-			this.handle_insert(it);
+			this.handle_insert(it, it.next()); // POST-PROCESS
+			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		{
+			// INSERT
+			let list_it = this.data_.insert(hint.get_list_iterator(), pair);
+
+			// POST-PROCESS
+			let it = new MapIterator<Key, T>(this, list_it);
+			this.handle_insert(it, it.next());
 
 			return it;
 		}
@@ -462,19 +507,30 @@ namespace std
 		 * @hidden
 		 */
 		protected insert_by_range<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+			(first: MapIterator<L, U>, last: MapIterator<L, U>): void
 		{
-			// CALCULATE INSERTING SIZE
-			let size: number = 0;
-			for (let it = begin; it.equal_to(end) == false; it = it.next())
-				size++;
+			let size: number = distance(first, last);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
 			if (this.size() + size > this.hash_buckets_.item_size() * base.MAX_RATIO)
 				this.hash_buckets_.reserve((this.size() + size) * base.RATIO);
 
+			//////
 			// INSERTS
-			super.insert_by_range(begin, end);
+			//////
+			let my_first: MapIterator<Key, T> = null;
+
+			for (; !first.equal_to(last); first = first.next())
+			{
+				let list_it = this.data_.insert(this.data_.end(), make_pair<Key, T>(first.first, first.second));
+				let it = new MapIterator<Key, T>(this, list_it);
+
+				if (my_first == null)
+					my_first = it;
+			}
+			
+			// POST-PROCESS
+			this.handle_insert(my_first, this.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -483,17 +539,19 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(it: MapIterator<Key, T>): void
+		protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			this.hash_buckets_.insert(it);
+			for (; !first.equal_to(last); first = first.next())
+				this.hash_buckets_.insert(first);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(it: MapIterator<Key, T>): void
+		protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			this.hash_buckets_.erase(it);
+			for (; !first.equal_to(last); first = first.next())
+				this.hash_buckets_.erase(first);
 		}
 
 		/* ===============================================================

@@ -90,29 +90,6 @@ namespace std.base
 		{
 			this.erase(this.begin(), this.end());
 		}
-
-		/* ---------------------------------------------------------------
-			ELEMENTS I/O
-		--------------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public abstract push<U extends T>(...items: U[]): number;
-		
-		/**
-		 * @inheritdoc
-		 */
-		public abstract insert(position: Iterator<T>, val: T): Iterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public abstract erase(position: Iterator<T>): Iterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public abstract erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
 		
 		/* ---------------------------------------------------------------
 			GETTERS
@@ -150,13 +127,53 @@ namespace std.base
 			return this.size() == 0;
 		}
 
-		/* ===============================================================
-			UTILITIES
-		=============================================================== */
+		/* =========================================================
+			ELEMENTS I/O
+				- INSERT
+				- ERASE
+				- POST-PROCESS
+		============================================================
+			INSERT
+		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: Container<T>): void
+		public abstract push<U extends T>(...items: U[]): number;
+
+		/**
+		 * @inheritdoc
+		 */
+		public abstract insert(position: Iterator<T>, val: T): Iterator<T>;
+
+		/* ---------------------------------------------------------
+			ERASE
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public abstract erase(position: Iterator<T>): Iterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public abstract erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+
+		/* ---------------------------------------------------------------
+			POST-PROCESS
+		--------------------------------------------------------------- */
+		protected abstract handle_insert<InputIterator extends base.Iterator<T>>
+			(first: InputIterator, last: InputIterator): void;
+
+		protected abstract handle_erase<InputIterator extends base.Iterator<T>>
+			(first: InputIterator, last: InputIterator): void;
+
+		/* ---------------------------------------------------------------
+			UTILITIES
+		--------------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: IContainer<T>): void
 		{
 			let supplement: Vector<T> = new Vector<T>(this.begin(), this.end());
 

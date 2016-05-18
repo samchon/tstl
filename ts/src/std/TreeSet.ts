@@ -29,7 +29,7 @@ namespace std
 	 *	<dt> Associative </dt>
 	 *	<dd> 
 	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		position in the  
+	 *		position in the container.
 	 *	</dd>
 	 * 
 	 *	<dt> Ordered </dt>
@@ -306,9 +306,9 @@ namespace std
 
 			// IF EQUALS, THEN RETURN FALSE
 			if (node != null && std.equal_to(node.value.value, val) == true)
-				return new Pair<SetIterator<T>, boolean>(node.value, false);
+				return make_pair(node.value, false);
 			
-			// INSERTS
+			// FIND NODE
 			let it: SetIterator<T>;
 
 			if (node == null)
@@ -318,10 +318,57 @@ namespace std
 			else
 				it = node.value;
 
-			// ITERATOR TO RETURN
-			it = this.insert(it, val);
+			/////
+			// INSERTS
+			/////
+			it = new SetIterator<T>(this, this.data_.insert(it.get_list_iterator(), val));
+			this.handle_insert(it, it.next()); // POST-PROCESS
 
-			return new Pair<SetIterator<T>, boolean>(it, true);
+			return make_pair(it, true);
+		}
+
+		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		{
+			// FIND KEY
+			if (this.has(val) == true)
+				return this.end();
+
+			// VALIDATE HINT
+			let ret: SetIterator<T>;
+			let compare = this.tree_.get_compare();
+
+			// hint < current && current < next
+			if (compare(hint.value, val) == true
+				&& (hint.next().equal_to(this.end()) || compare(val, hint.next().value) == true))
+			{
+				///////
+				// RIGHT HINT
+				///////
+				// INSERT
+				ret = new SetIterator<T>(this, this.data_.insert(hint.get_list_iterator(), val));
+
+				// POST-PROCESS
+				this.handle_insert(ret, ret.next());
+			}
+			else
+			{
+				///////
+				// WRONG HINT
+				///////
+				// INSERT BY AUTOMATIC NODE FINDING
+				ret = this.insert_by_val(val).first;
+			}
+			return ret;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+			(first: InputIterator, last: InputIterator): void
+		{
+			for (; !first.equal_to(last); first = first.next() as InputIterator)
+				this.insert_by_val(first.value);
 		}
 
 		/* ---------------------------------------------------------
@@ -330,17 +377,18 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(item: SetIterator<T>): void
+		protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			this.tree_.insert(item);
+			this.tree_.insert(first);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(item: SetIterator<T>): void
+		protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			this.tree_.erase(item);
+			for (; !first.equal_to(last); first = first.next())
+				this.tree_.erase(last);
 		}
 
 		/* ===============================================================
@@ -392,7 +440,7 @@ namespace std
 	 *	<dt> Associative </dt>
 	 *	<dd> 
 	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		position in the  
+	 *		position in the container.
 	 *	</dd>
 	 * 
 	 *	<dt> Ordered </dt>
@@ -677,6 +725,7 @@ namespace std
 			var node = this.tree_.find(val);
 			var it: SetIterator<T>;
 
+			// FIND NODE
 			if (node == null)
 			{
 				it = this.end();
@@ -697,8 +746,56 @@ namespace std
 				it = node.value;
 			}
 
-			// ITERATOR TO RETURN
-			return this.insert(it, val);
+			/////
+			// INSERTS
+			/////
+			it = new SetIterator<T>(this, this.data_.insert(it.get_list_iterator(), val));
+			this.handle_insert(it, it.next()); // POST-PROCESS
+
+			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		{
+			// VALIDATE HINT
+			let ret: SetIterator<T>;
+			let compare = this.tree_.get_compare();
+
+			// hint <= current && current <= next
+			if ((compare(hint.value, val) || std.equal_to(hint.value, val))
+				&& (hint.next().equal_to(this.end()) || (compare(val, hint.next().value) || std.equal_to(val, hint.next().value))))
+			{
+				///////
+				// RIGHT HINT
+				///////
+				// INSERT
+				ret = new SetIterator<T>(this, this.data_.insert(hint.get_list_iterator(), val));
+
+				// POST-PROCESS
+				this.handle_insert(ret, ret.next());
+			}
+			else
+			{
+				///////
+				// WRONG HINT
+				///////
+				// INSERT BY AUTOMATIC NODE FINDING
+				ret = this.insert_by_val(val);
+			}
+			return ret;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+			(first: InputIterator, last: InputIterator): void
+		{
+			for (; !first.equal_to(last); first = first.next() as InputIterator)
+				this.insert_by_val(first.value);
 		}
 
 		/* ---------------------------------------------------------
@@ -707,17 +804,18 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(item: SetIterator<T>): void
+		protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			this.tree_.insert(item);
+			this.tree_.insert(first);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(item: SetIterator<T>): void
+		protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			this.tree_.erase(item);
+			for (; !first.equal_to(last); first = first.next())
+				this.tree_.erase(last);
 		}
 
 		/* ===============================================================

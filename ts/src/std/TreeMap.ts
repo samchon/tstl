@@ -11,19 +11,18 @@ namespace std
 	 * <p> {@link TreeMap TreeMaps} are associative containers that store elements formed by a combination of a 
 	 * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), following order. </p>
 	 *
-	 * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify 
-	 * the elements, while the <i>mapped values</i> store the content associated to this key. The types of 
-	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, 
-	 * which is a {@link Pair} type combining both: </p>
+	 * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify the elements, 
+	 * while the <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and 
+	 * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a {@link Pair} 
+	 * type combining both: </p>
 	 *
 	 * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
 	 *
-	 * <p> Internally, the elements in a {@link TreeMap} are always sorted by its <i>key</i> following 
-	 * a strict weak ordering criterion indicated by its internal comparison method {@link less}.
+	 * <p> Internally, the elements in a {@link TreeMap} are always sorted by its <i>key</i> following a 
+	 * <i>strict weak ordering</i> criterion indicated by its internal comparison method {@link less}.
 	 *
-	 * <p> {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to 
-	 * access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 
-	 * their order. </p>
+	 * <p> {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to access individual 
+	 * elements by their <i>key</i>, but they allow the direct iteration on subsets based on their order. </p>
 	 *
 	 * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
 	 *
@@ -31,7 +30,7 @@ namespace std
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the  </dd>
+	 *		 position in the container. </dd>
 	 * 
 	 *	<dt> Ordered </dt>
 	 *	<dd> The elements in the container follow a strict order at all times. All inserted elements are 
@@ -339,9 +338,57 @@ namespace std
 				it = node.value;
 
 			// ITERATOR TO RETURN
-			it = this.insert(it, pair);
+			it = new MapIterator<Key, T>(this, this.data_.insert(it.get_list_iterator(), pair));
+			this.handle_insert(it, it.next()); // POST-PROCESS
 
 			return new Pair<MapIterator<Key, T>, boolean>(it, true);
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		{
+			// FIND KEY
+			if (this.has(pair.first) == true)
+				return this.end();
+
+			// VALIDATE HINT
+			let ret: MapIterator<Key, T>;
+			let compare = this.tree_.get_compare();
+
+			// hint < current && current < next
+			if (compare(hint.first, pair.first) == true
+				&& (hint.next().equal_to(this.end()) || compare(pair.first, hint.next().first) == true))
+			{ 
+				///////
+				// RIGHT HINT
+				///////
+				// INSERT
+				ret = new MapIterator<Key, T>(this, this.data_.insert(hint.get_list_iterator(), pair));
+
+				// POST-PROCESS
+				this.handle_insert(ret, ret.next());
+			}
+			else
+			{ 
+				///////
+				// WRONG HINT
+				///////
+				// INSERT BY AUTOMATIC NODE FINDING
+				ret = this.insert_by_pair(pair).first;
+			}
+			return ret;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_range<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		{
+			for (; !begin.equal_to(end); begin = begin.next())
+				this.insert_by_pair(make_pair<Key, T>(begin.first, begin.second));
 		}
 
 		/* ---------------------------------------------------------
@@ -350,17 +397,18 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(item: MapIterator<Key, T>): void
+		protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			this.tree_.insert(item);
+			this.tree_.insert(first);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(item: MapIterator<Key, T>): void
+		protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			this.tree_.erase(item);
+			for (; !first.equal_to(last); first = first.next())
+				this.tree_.erase(last);
 		}
 
 		/* ===============================================================
@@ -415,7 +463,7 @@ namespace std
 	 *	<dt> Associative </dt>
 	 *	<dd> 
 	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		position in the  
+	 *		position in the container.
 	 *	</dd>
 	 * 
 	 *	<dt> Ordered </dt>
@@ -734,7 +782,57 @@ namespace std
 				it = node.value;
 
 			// ITERATOR TO RETURN
-			return this.insert(it, pair);
+			it = new MapIterator<Key, T>(this, this.data_.insert(it.get_list_iterator(), pair));
+			this.handle_insert(it, it.next()); // POST-PROCESS
+
+			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		{
+			// FIND KEY
+			if (this.has(pair.first) == true)
+				return this.end();
+
+			// VALIDATE HINT
+			let ret: MapIterator<Key, T>;
+			let compare = this.tree_.get_compare();
+
+			// hint <= current && current <= next
+			if ((compare(hint.first, pair.first) || std.equal_to(hint.first, pair.first))
+				&& (hint.next().equal_to(this.end()) || (compare(pair.first, hint.next().first) || std.equal_to(pair.first, hint.next().first))))
+			{
+				///////
+				// RIGHT HINT
+				///////
+				// INSERT
+				ret = new MapIterator<Key, T>(this, this.data_.insert(hint.get_list_iterator(), pair));
+
+				// POST-PROCESS
+				this.handle_insert(ret, ret.next());
+			}
+			else
+			{
+				///////
+				// WRONG HINT
+				///////
+				// INSERT BY AUTOMATIC NODE FINDING
+				ret = this.insert_by_pair(pair);
+			}
+			return ret;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_range<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		{
+			for (; !begin.equal_to(end); begin = begin.next())
+				this.insert_by_pair(make_pair<Key, T>(begin.first, begin.second));
 		}
 
 		/* ---------------------------------------------------------
@@ -743,17 +841,18 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(item: MapIterator<Key, T>): void
+		protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			this.tree_.insert(item);
+			this.tree_.insert(first);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(item: MapIterator<Key, T>): void
+		protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			this.tree_.erase(item);
+			for (; !first.equal_to(last); first = first.next())
+				this.tree_.erase(last);
 		}
 
 		/* ===============================================================

@@ -99,7 +99,7 @@ namespace std.base
 		/**
 		 * Get source 
 		 */
-		public get_source(): Container<T>
+		public get_source(): IContainer<T>
 		{
 			return this.source_;
 		}

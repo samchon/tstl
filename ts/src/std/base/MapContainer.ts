@@ -29,7 +29,7 @@ namespace std.base
 	 *	<dt> Associative </dt>
 	 *	<dd> 
 	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position 
-	 *		in the  
+	 *		in the container.
 	 *	</dd>
 	 * 
 	 *	<dt> Map </dt>
@@ -302,7 +302,6 @@ namespace std.base
 				- INSERT
 				- ERASE
 				- POST-PROCESS
-				- HASH CODE
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -410,36 +409,21 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		protected abstract insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+
+		/**
+		 * @hidden
+		 */
+		private insert_by_hint_with_tuple(hint: MapIterator<Key, T>, tuple: [Key, T]): MapIterator<Key, T>
 		{
-			// INSERT
-			let list_it = this.data_.insert(hint.get_list_iterator(), pair);
-
-			// POST-PROCESS
-			let it = new MapIterator<Key, T>(this, list_it);
-			this.handle_insert(it);
-
-			return it;
+			return this.insert_by_hint(hint, make_pair(tuple[0], tuple[1]));
 		}
 
 		/**
 		 * @hidden
 		 */
-		private insert_by_hint_with_tuple<L extends Key, U extends T>
-			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>
-		{
-			return this.insert_by_hint(hint, new Pair<L, U>(tuple[0], tuple[1]));
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected insert_by_range<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-		{
-			for (let it = begin; it.equal_to(end) == false; it = it.next())
-				this.insert_by_pair(new Pair<Key, T>(it.first, it.second));
-		}
+		protected abstract insert_by_range<L extends Key, U extends T>
+			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
 		
 
 		/* ---------------------------------------------------------
@@ -521,7 +505,7 @@ namespace std.base
 			let listIterator = this.data_.erase(it.get_list_iterator());
 			
 			// POST-PROCESS
-			this.handle_erase(<MapIterator<Key, T>>it);
+			this.handle_erase(it, it.next());
 
 			return new MapIterator<Key, T>(this, listIterator);;
 		}
@@ -535,8 +519,7 @@ namespace std.base
 			let listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
 			
 			// POST-PROCESS
-			for (let it = begin; !it.equal_to(end); it = it.next())
-				this.handle_erase(it);
+			this.handle_erase(begin, end);
 
 			return new MapIterator<Key, T>(this, listIterator);
 		}
@@ -545,42 +528,49 @@ namespace std.base
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Abstract method handling insertion for indexing. </p>
+		 * <p> Abstract method handling insertions for indexing. </p>
 		 *
-		 * <p> This method, {@link handle_insert} is designed to register the <i>item</i> to somewhere storing those
-		 * {@link MapIterator iterators} for indexing, fast accessment and retrievalance. </p>
-		 *
-		 * <p> When {@link insert} is called, a new element will be inserted into the {@link data_ list container} 
-		 * and a new {@link MapIterator iterator} <i>item</i>, pointing the element, will be created and the newly 
-		 * created iterator <i>item</i> will be shifted into this method {@link handle_insert} after the insertion. </p>
-		 *
-		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeMap}, the <i>item</i> will be 
-		 * registered into the {@link TreeMap.tree_ tree} as a {@link XTreeNode tree node item}. Else if the derived 
-		 * one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>item</i> will be registered into the 
-		 * {@link HashMap.hash_buckets_ hash bucket}. </p>
-		 *  
-		 * @param item Iterator of inserted item.
-		 */
-		protected abstract handle_insert(item: MapIterator<Key, T>): void;
-
-		/**
-		 * <p> Abstract method handling deletion for indexing. </p>
-		 * 
-		 * <p> This method, {@link handle_insert} is designed to unregister the <i>item</i> to somewhere storing 
+		 * <p> This method, {@link handle_insert} is designed to register the <i>first to last</i> to somewhere storing 
 		 * those {@link MapIterator iterators} for indexing, fast accessment and retrievalance. </p>
 		 *
-		 * <p> When {@link erase} is called with <i>item</i>, an {@link MapIterator iterator} positioning somewhere
-		 * place to be deleted, is memorized and shifted to this method {@link handle_erase} after the deletion
-		 * process is terminated. </p>
+		 * <p> When {@link insert} is called, new elements will be inserted into the {@link data_ list container} and new 
+		 * {@link MapIterator iterators} <i>first to last</i>, pointing the inserted elements, will be created and the
+		 * newly created iterators <i>first to last</i> will be shifted into this method {@link handle_insert} after the 
+		 * insertions. </p>
 		 *
-		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeMap}, the <i>item</i> will be
-		 * unregistered from the {@link TreeMap.tree_ tree} as a {@link XTreeNode tree node item}. Else if the 
-		 * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>item</i> will be unregistered 
-		 * from the {@link HashMap.hash_buckets_ hash bucket}. </p>
-		 * 
-		 * @param item Iterator of erased item.
+		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link MapIterator iterators}
+		 * will be registered into the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the 
+		 * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>first</i> to <i>last</i> will be 
+		 * registered into the {@link HashSet.hash_buckets_ hash bucket}. </p>
+		 *  
+		 * @param first An {@link MapIterator} to the initial position in a sequence.
+		 * @param last An {@link MapIterator} to the final position in a sequence. The range used is
+		 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>, 
+		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
-		protected abstract handle_erase(item: MapIterator<Key, T>): void;
+		protected abstract handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+
+		/**
+		 * <p> Abstract method handling deletions for indexing. </p>
+		 * 
+		 * <p> This method, {@link handle_insert} is designed to unregister the <i>first to last</i> to somewhere storing 
+		 * those {@link MapIterator iterators} for indexing, fast accessment and retrievalance. </p>
+		 *
+		 * <p> When {@link erase} is called with <i>first to last</i>, {@link MapIterator iterators} positioning somewhere
+		 * place to be deleted, is memorized and shifted to this method {@link handle_erase} after the deletion process is 
+		 * terminated. </p>
+		 *
+		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link MapIterator iterators}
+		 * will be unregistered from the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the 
+		 * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>first to last</i> will be 
+		 * unregistered from the {@link HashSet.hash_buckets_ hash bucket}. </p>
+		 * 
+		 * @param first An {@link MapIterator} to the initial position in a sequence.
+		 * @param last An {@link MapIterator} to the final position in a sequence. The range used is
+		 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
+		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+		 */
+		protected abstract handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
 
 		/* ===============================================================
 			UTILITIES

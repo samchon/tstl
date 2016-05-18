@@ -9,46 +9,41 @@ namespace std
 	/**
 	 * <p> Doubly linked list. </p>
 	 *
-	 * <p> {@link List}s are sequence containers that allow constant time insert and erase operations anywhere 
-	 * within the sequence, and iteration in both directions. </p>
+	 * <p> {@link List}s are sequence containers that allow constant time insert and erase operations anywhere within the 
+	 * sequence, and iteration in both directions. </p>
 	 *
-	 * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements 
-	 * they contain in different and unrelated storage locations. The ordering is kept internally by the association 
-	 * to each element of a link to the element preceding it and a link to the element following it. </p>
+	 * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements they 
+	 * contain in different and unrelated storage locations. The ordering is kept internally by the association to each 
+	 * element of a link to the element preceding it and a link to the element following it. </p>
 	 *
-	 * <p> They are very similar to forward_list: The main difference being that forward_list objects are 
-	 * single-linked lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and 
-	 * more efficient. </p>
+	 * <p> They are very similar to forward_list: The main difference being that forward_list objects are single-linked 
+	 * lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and more efficient. </p>
 	 *
-	 * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform generally 
-	 * better in inserting, extracting and moving elements in any position within the container for which an iterator 
-	 * has already been obtained, and therefore also in algorithms that make intensive use of these, like sorting 
-	 * algorithms. </p>
+	 * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform generally better 
+	 * in inserting, extracting and moving elements in any position within the container for which an iterator has already 
+	 * been obtained, and therefore also in algorithms that make intensive use of these, like sorting algorithms. </p>
 	 *
 	 * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that they lack 
-	 * direct access to the elements by their position; For example, to access the sixth element in a list, one has 
-	 * to iterate from a known position (like the beginning or the end) to that position, which takes linear time in 
-	 * the distance between these. They also consume some extra memory to keep the linking information associated to 
-	 * each element (which may be an important factor for large lists of small-sized elements). </p>
+	 * direct access to the elements by their position; For example, to access the sixth element in a list, one has to 
+	 * iterate from a known position (like the beginning or the end) to that position, which takes linear time in the 
+	 * distance between these. They also consume some extra memory to keep the linking information associated to each 
+	 * element (which may be an important factor for large lists of small-sized elements). </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 * 	<dt> Sequence </dt>
-	 * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are 
-	 *		 accessed by their position in this sequence. </dd>
+	 * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are accessed by 
+	 *		 their position in this sequence. </dd>
 	 *
 	 * 	<dt> Doubly-linked list </dt>
-	 *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant 
-	 *		 time insert and erase operations before or after a specific element (even of entire ranges), but no 
-	 *		 direct random access. </dd>
+	 *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant time 
+	 *		 insert and erase operations before or after a specific element (even of entire ranges), but no direct random 
+	 *		 access. </dd>
 	 * </dl>
-	 *
-	 * <ul>
-	 *  <li> Reference: http://www.cplusplus.com/reference/list/list/
-	 * </ul>
 	 *
 	 * @param <T> Type of the elements.
 	 *
+	 * @reference http://www.cplusplus.com/reference/list/list/
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class List<T>
@@ -179,45 +174,8 @@ namespace std
 		public assign<U extends T, InputIterator extends base.Iterator<U>>
 			(par1: any, par2: any): void
 		{
-			if (par1 instanceof base.Iterator && par2 instanceof base.Iterator) {
-				// PARAMETERS
-				let begin: InputIterator = par1;
-				let end: InputIterator = par2;
-
-				// BODY
-				let prev: ListIterator<T> = null;
-				let item: ListIterator<T>;
-
-				let it = begin;
-
-				while (true) 
-				{
-					// CONSTRUCT ELEMENT ITEM
-					item = new ListIterator<T>
-					(
-						this,
-						prev,
-						null,
-						(it != end ? it.value : null)
-					);
-
-					// SET PREVIOUS NEXT POINTER
-					if (prev != null)
-						prev.setNext(item);
-
-					// CONSTRUCT BEGIN AND END
-					if (it == begin)
-						this.begin_ = item;
-					else if (it == end) {
-						this.end_ = item;
-						break;
-					}
-
-					// ADD COUNTS AND STEP TO THE NEXT
-					this.size_++;
-					it = it.next() as InputIterator;
-				}
-			}
+			this.clear();
+			this.insert(this.end(), par1, par2);
 		}
 
 		/**
@@ -225,14 +183,21 @@ namespace std
 		 */
 		public clear(): void
 		{
+			if (this.empty() == true)
+				return;
+
 			let it = new ListIterator(this, null, null, null);
 			it.setPrev(it);
 			it.setNext(it);
 
+			let prev_begin = this.begin_;
+			let prev_end = this.end_;
+
 			this.begin_ = it;
 			this.end_ = it;
-
 			this.size_ = 0;
+
+			this.handle_erase(prev_begin, prev_end);
 		}
 		
 		/* =========================================================
@@ -299,10 +264,10 @@ namespace std
 
 		/* =========================================================
 			ELEMENTS I/O
-				- ITERATOR FACTORY
 				- PUSH & POP
 				- INSERT
 				- ERASE
+				- POST-PROCESS
 		============================================================
 			PUSH & POP
 		--------------------------------------------------------- */
@@ -311,9 +276,29 @@ namespace std
 		 */
 		public push<U extends T>(...items: U[]): number 
 		{
-			for (let i: number = 0; i < items.length; i++)
-				this.push_back(items[i]);
+			let prev: ListIterator<T> = this.end().prev();
+			let first: ListIterator<T> = null;
 
+			for (let i: number = 0; i < items.length; i++) 
+			{
+				// CONSTRUCT ITEM, THE NEW ELEMENT
+				let item: ListIterator<T> = new ListIterator(this, prev, null, items[i]);
+				if (i == 0)
+					first = item;
+
+				prev.setNext(item);
+				prev = item;
+			}
+
+			// IF WAS EMPTY, VAL IS THE BEGIN
+			if (this.empty() == true || first.prev().equal_to(this.end()) == true)
+				this.begin_ = first;
+
+			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
+			prev.setNext(this.end_);
+			this.end_.setPrev(prev);
+
+			this.size_ += items.length;
 			return this.size();
 		}
 		
@@ -322,23 +307,7 @@ namespace std
 		 */
 		public push_front(val: T): void
 		{
-			let item: ListIterator<T> = new ListIterator(this, null, this.begin_, val);
-
-			// CONFIGURE BEGIN AND NEXT
-			this.begin_.setPrev(item);
-
-			if (this.size_ == 0) 
-			{
-				// IT WAS EMPTY
-				this.end_ = new ListIterator(this, item, item, null);
-				item.setNext(this.end_);
-			}
-			else
-				this.end_.setNext(item);
-
-			// SET
-			this.begin_ = item;
-			this.size_++;
+			this.insert(this.begin(), val);
 		}
 
 		/**
@@ -346,17 +315,7 @@ namespace std
 		 */
 		public push_back(val: T): void
 		{
-			let prev: ListIterator<T> = <ListIterator<T>>this.end_.prev();
-			let item: ListIterator<T> = new ListIterator(this, <ListIterator<T>>this.end_.prev(), this.end_, val);
-
-			prev.setNext(item);
-			this.end_.setPrev(item);
-
-			if (this.empty() == true) {
-				this.begin_ = item;
-				item.setPrev(this.end_);
-			}
-			this.size_++;
+			this.insert(this.end(), val);
 		}
 
 		/**
@@ -429,7 +388,7 @@ namespace std
 				return this.insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
 			{
-				return this.insertByRepeatingVal(args[0], args[1], args[2]);
+				return this.insert_by_repeating_val(args[0], args[1], args[2]);
 			}
 			else
 				return this.insert_by_range(args[0], args[1], args[2]);
@@ -441,13 +400,13 @@ namespace std
 		private insert_by_val(position: ListIterator<T>, val: T): ListIterator<T>
 		{
 			// SHIFT TO INSERT OF THE REPEATING VAL
-			return this.insertByRepeatingVal(position, 1, val);
+			return this.insert_by_repeating_val(position, 1, val);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private insertByRepeatingVal(position: ListIterator<T>, size: number, val: T): ListIterator<T>
+		private insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>
 		{
 			if (this != position.get_source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
@@ -475,8 +434,11 @@ namespace std
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
 			prev.setNext(position);
 			position.setPrev(prev);
-
+			
 			this.size_ += size;
+			
+			// POST-PROCESS
+			this.handle_insert(first, position);
 
 			return first;
 		}
@@ -517,6 +479,9 @@ namespace std
 			position.setPrev(prev);
 
 			this.size_ += size;
+
+			// POST-PROCESS
+			this.handle_insert(first, position);
 
 			return first;
 		}
@@ -581,29 +546,44 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private erase_by_range(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>
+		private erase_by_range(first: ListIterator<T>, last: ListIterator<T>): ListIterator<T>
 		{
-			if (this != begin.get_source() || begin.get_source() != end.get_source())
-				throw new InvalidArgument("Parametric iterator is not this container's own.");
-
 			// FIND PREV AND NEXT
-			let prev: ListIterator<T> = <ListIterator<T>>begin.prev();
+			let prev: ListIterator<T> = <ListIterator<T>>first.prev();
 
 			// CALCULATE THE SIZE
 			let size: number = 0;
 
-			for (let it = begin; it.equal_to(end) == false; it = it.next())
+			for (let it = first; it.equal_to(last) == false; it = it.next())
 				size++;
 
 			// SHRINK
-			prev.setNext(end);
-			end.setPrev(prev);
+			prev.setNext(last);
+			last.setPrev(prev);
 
 			this.size_ -= size;
 			if (this.size_ == 0)
-				this.begin_ = end;
+				this.begin_ = last;
 
-			return end;
+			// POST-PROCESS
+			this.handle_erase(first, last);
+
+			return last;
+		}
+
+		/* ---------------------------------------------------------------
+			POST-PROCESS
+		--------------------------------------------------------------- */
+		protected handle_insert(first: ListIterator<T>, last: ListIterator<T>): void
+		{
+			// NOTHING TO DO ESPECIALLY
+			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
+		}
+
+		protected handle_erase(first: ListIterator<T>, last: ListIterator<T>): void
+		{
+			// NOTHING TO DO ESPECIALLY
+			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
 		}
 
 		/* ===============================================================
@@ -934,66 +914,35 @@ namespace std
 
 		public sort(compare: (left: T, right: T) => boolean = std.less): void
 		{
-			//let whole: Vector<T> = new Vector<T>(this);
-			//let part: Vector<T> = new Vector<T>(this);
-
-			//this.msort(whole, part, 0, this.size(), compare);
-			//this.assign(whole.begin(), whole.end());
-
 			let vector: Vector<T> = new Vector<T>(this.begin(), this.end());
 			sort(vector.begin(), vector.end());
 
-			this.assign(vector.begin(), vector.end());
+			// IT CALLS HANDLE_INSERT
+			// this.assign(vector.begin(), vector.end());
+
+			///////
+			// INSTEAD OF ASSIGN
+			///////
+			let prev: ListIterator<T> = this.end_;
+			let first: ListIterator<T> = null;
+
+			for (let i: number = 0; i < vector.length; i++) 
+			{
+				// CONSTRUCT ITEM, THE NEW ELEMENT
+				let item: ListIterator<T> = new ListIterator(this, prev, null, vector[i]);
+				if (i == 0)
+					first = item;
+
+				prev.setNext(item);
+				prev = item;
+			}
+
+			this.begin_ = first;
+
+			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
+			prev.setNext(this.end_);
+			this.end_.setPrev(prev);
 		}
-
-		///**
-		// * @hidden
-		// */
-		//private msort
-		//	(
-		//		whole: Array<T>, part: Array<T>, 
-		//		begin: number, end: number, compare: (left: T, right: T) => boolean
-		//	): void
-		//{
-		//	if (begin >= end - 1)
-		//		return;
-
-		//	let mid = begin + Math.floor((end - begin) / 2);
-
-		//	this.msort(whole, part, begin, mid, compare);
-		//	this.msort(whole, part, mid, end, compare);
-
-		//	this.msort_merge(whole, part, begin, mid, end, compare);
-		//}
-
-		///**
-		// * @hidden
-		// */
-		//private msort_merge
-		//	(
-		//		whole: Array<T>, part: Array<T>, 
-		//		begin: number, mid: number, end: number, 
-		//		compare: (left: T, right: T) => boolean
-		//	): void
-		//{
-		//	for (let i: number = begin; i < end; i++)
-		//		part[i] = whole[i];
-
-		//	let x: number = begin;
-		//	let y: number = mid;
-
-		//	for (let i: number = mid; i < end; i++)
-		//	{
-		//		if (x >= mid)
-		//			whole[i] = part[y++];
-		//		else if (y >= end)
-		//			whole[i] = part[x++];
-		//		else if (part[x] < part[y])
-		//			whole[i] = part[y++];
-		//		else
-		//			whole[i] = part[x++];
-		//	}
-		//}
 
 		/* ---------------------------------------------------------
 			SWAP

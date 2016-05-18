@@ -27,7 +27,7 @@ namespace std.base
 	 *	<dt> Associative </dt>
 	 *	<dd> 
 	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute position 
-	 *		in the  
+	 *		in the container.
 	 *	</dd>
 	 * 
 	 *	<dt> Map </dt>

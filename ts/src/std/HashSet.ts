@@ -27,7 +27,7 @@ namespace std
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the  </dd>
+	 *		 position in the container. </dd>
 	 *
 	 *	<dt> Hashed </dt>
 	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
@@ -172,35 +172,65 @@ namespace std
 			// TEST WHETHER EXIST
 			let it = this.find(val);
 			if (it.equal_to(this.end()) == false)
-				return new Pair<SetIterator<T>, boolean>(it, false);
+				return make_pair(it, false);
 
 			// INSERT
 			this.data_.push_back(val);
 			it = it.prev();
 
 			// POST-PROCESS
-			this.handle_insert(<SetIterator<T>>it);
+			this.handle_insert(it, it.next());
 
-			return new Pair<SetIterator<T>, boolean>(it, true);
+			return make_pair(it, true);
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		{
+			// FIND KEY
+			if (this.has(val) == true)
+				return this.end();
+
+			// INSERT
+			let list_iterator = this.data_.insert(hint.get_list_iterator(), val);
+
+			// POST-PROCESS
+			let it = new SetIterator<T>(this, list_iterator);
+			this.handle_insert(it, it.next());
+
+			return it;
 		}
 
 		/**
 		 * @hidden
 		 */
 		protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void
+			(first: InputIterator, last: InputIterator): void
 		{
-			// CALCULATE INSERTING SIZE
+			let my_first: SetIterator<T> = this.end();
 			let size: number = 0;
-			for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator)
-				size++;
 
+			for (; !first.equal_to(last); first = first.next() as InputIterator)
+			{
+				// TEST WHETER EXIST
+				let it = this.find(first.value);
+				if (!it.equal_to(this.end()))
+					continue;
+				
+				// INSERTS
+				this.data_.push_back(first.value);
+				it = it.prev();
+				size++;
+			}
+			
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
 			if (this.size() + size > this.hash_buckets_.size() * base.MAX_RATIO)
 				this.hash_buckets_.reserve((this.size() + size) * base.RATIO);
 
 			// INSERTS
-			super.insert_by_range(begin, end);
+			this.handle_insert(my_first, this.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -209,17 +239,19 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(item: SetIterator<T>): void
+		protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			this.hash_buckets_.insert(item);
+			for (; !first.equal_to(last); first = first.next())
+				this.hash_buckets_.insert(first);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(item: SetIterator<T>): void
+		protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			this.hash_buckets_.erase(item);
+			for (; !first.equal_to(last); first = first.next())
+				this.hash_buckets_.erase(first);
 		}
 
 		/* ===============================================================
@@ -268,7 +300,7 @@ namespace std
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		 position in the  </dd>
+	 *		 position in the container. </dd>
 	 *
 	 *	<dt> Hashed </dt>
 	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
@@ -411,12 +443,23 @@ namespace std
 		protected insert_by_val(val: T): any
 		{
 			// INSERT
-			let listIterator = this.data_.insert(this.data_.end(), val);
+			let it = new SetIterator<T>(this, this.data_.insert(this.data_.end(), val));
 
-			let it = new SetIterator<T>(this, listIterator);
+			this.handle_insert(it, it.next()); // POST-PROCESS
+			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		{
+			// INSERT
+			let list_iterator = this.data_.insert(hint.get_list_iterator(), val);
 
 			// POST-PROCESS
-			this.handle_insert(it);
+			let it = new SetIterator<T>(this, list_iterator);
+			this.handle_insert(it, it.next());
 
 			return it;
 		}
@@ -425,19 +468,19 @@ namespace std
 		 * @hidden
 		 */
 		protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void
+			(first: InputIterator, last: InputIterator): void
 		{
 			// CALCULATE INSERTING SIZE
-			let size: number = 0;
-			for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator)
-				size++;
+			let size: number = distance(first, last);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
 			if (this.size() + size > this.hash_buckets_.item_size() * base.MAX_RATIO)
 				this.hash_buckets_.reserve((this.size() + size) * base.RATIO);
 
 			// INSERTS
-			super.insert_by_range(begin, end);
+			let my_first = new SetIterator<T>(this, this.data_.insert(this.data_.end(), first, last));
+
+			this.handle_insert(my_first, this.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -446,17 +489,19 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(it: SetIterator<T>): void
+		protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			this.hash_buckets_.insert(it);
+			for (; !first.equal_to(last); first = first.next())
+				this.hash_buckets_.insert(first);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(it: SetIterator<T>): void
+		protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			this.hash_buckets_.erase(it);
+			for (; !first.equal_to(last); first = first.next())
+				this.hash_buckets_.erase(first);
 		}
 
 		/* ===============================================================

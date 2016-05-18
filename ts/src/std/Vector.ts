@@ -136,12 +136,12 @@ namespace std
 			{
 				// DEFAULT CONSTRUCTOR
 			}
-			if (args.length == 1 && args[0] instanceof Array)
+			else if (args.length == 1 && args[0] instanceof Array)
 			{
 				// CONSTRUCT FROM AN ARRAY OF ITEMS
 				let array: Array<T> = args[0];
 				
-				this.push(...array);
+				super.push(...array);
 			}
 			else if (args.length == 1 && typeof args[0] == "number")
 			{
@@ -193,25 +193,7 @@ namespace std
 			(first: any, second: any): void
 		{
 			this.clear();
-
-			if (first instanceof base.Iterator && second instanceof base.Iterator)
-			{
-				let begin: InputIterator = first;
-				let end: InputIterator = second;
-
-				for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator)
-					this.push(it.value);
-			}
-			else if (typeof first == "number")
-			{
-				let size: number = <number>first;
-				let val: T = <T>second;
-
-				this.length = size;
-
-				for (let i: number = 0; i < size; i++)
-					this[i] = val;
-			}
+			this.insert(this.end(), first, second);
 		}
 
 		/**
@@ -219,6 +201,7 @@ namespace std
 		 */
 		public reserve(size: number): void
 		{
+			// NOTHING TO DO ESPECIALLY
 		}
 
 		/**
@@ -335,23 +318,21 @@ namespace std
 			return this.at(this.length - 1);
 		}
 
-		/* ---------------------------------------------------------
+		/* =========================================================
 			ELEMENTS I/O
+				- INSERT
+				- ERASE
+				- ARRAY'S MEMBERS
+				- PRE & POST-PROCESS
+		============================================================
+			INSERT
 		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
 		public push_back(val: T): void
 		{
-			this.push(val);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public pop_back(): void
-		{
-			this.erase(this.end().prev());
+			super.push(val);
 		}
 
 		/**
@@ -429,51 +410,112 @@ namespace std
 
 		public insert<U extends T>(...args: any[]): VectorIterator<T>
 		{
-			let position: VectorIterator<T> = args[0];
-
-			if (args.length == 2 && args[1] instanceof base.Iterator == false)
-			{
-				let val: T = args[1];
-
-				return this.insert(position, 1, val);
-			}
+			if (args.length == 2)
+				return this.insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
-			{
-				let size: number = <number>args[1];
-				let val: T = args[2];
+				return this.insert_by_repeating_val(args[0], args[1], args[2]);
+			else
+				return this.insert_by_range(args[0], args[1], args[2]);
+		}
 
-				let spliced: Array<T> = this.splice(position.index);
-				let inserts: Array<T> = [];
+		/**
+		 * @hidden
+		 */
+		private insert_by_val(position: VectorIterator<T>, val: T): VectorIterator<T>
+		{
+			return this.insert_by_repeating_val(position, 1, val);
+		}
 
-				for (let i: number = 0; i < size; i++)
-					inserts.push(val);
+		/**
+		 * @hidden
+		 */
+		private insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>
+		{
+			if (position.equal_to(this.end()))
+			{ // WHEN INSERT TO THE LAST
+				// INSERT ELEMENTS
+				for (let i = 0; i < n; i++)
+					super.push(val);
 
-				this.push(...inserts);
-				this.push(...spliced);
+				// POST-PROCESS
+				if (this.empty() == false)
+					this.handle_insert(this.begin(), this.end());
 
-				return new VectorIterator(this, position.index + inserts.length - 1);
-			}
-			else if (args.length == 3 && args[1] instanceof base.Iterator && args[2] instanceof base.Iterator)
-			{
-				let myEnd: VectorIterator<T> = args[0];
-				let begin: base.Iterator<U> = args[1];
-				let end: base.Iterator<U> = args[2];
-
-				let spliced: Array<T> = this.splice(position.index);
-				let inserts: Array<T> = [];
-
-				for (let it = begin; it.equal_to(end) == false; it = it.next())
-					inserts.push(it.value);
-
-				this.push(...spliced);
-				this.push(...inserts);
-
-				return new VectorIterator(this, myEnd.index + inserts.length - 1);
+				return this.begin();
 			}
 			else
-				throw new std.InvalidArgument("invalid parameters.");
+			{ // INSERT TO THE MIDDLE POSITION
+				// CUT RIGHT SIDE
+				let spliced_array = super.splice(position.index);
+				let insert_size: number = 0;
+
+				// INSERT ELEMENTS
+				for (let i = 0; i < n; i++)
+				{
+					super.push(val);
+					insert_size++;
+				}
+				super.push(...spliced_array); // CONCAT THE SPLICEDS
+
+				// POST-PROCESS
+				if (insert_size != 0)
+					this.handle_erase(position, position.advance(insert_size));
+
+				return position;
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		private insert_by_range<InputIterator extends base.Iterator<T>>
+			(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>
+		{
+			if (position.equal_to(this.end()))
+			{ // WHEN INSERT TO THE LAST
+				// INSERT ELEMENTS
+				for (; !first.equal_to(last); first = first.next() as InputIterator)
+					super.push(first.value);
+
+				// POST-PROCESS
+				if (this.empty() == false)
+					this.handle_insert(this.begin(), this.end());
+				
+				return this.begin();
+			}
+			else
+			{ // INSERT TO THE MIDDLE POSITION
+				// CUT RIGHT SIDE
+				let spliced_array = super.splice(position.index);
+				let insert_size: number = 0;
+
+				// INSERT ELEMENTS
+				for (; !first.equal_to(last); first = first.next() as InputIterator)
+				{
+					super.push(first.value);
+					insert_size++;
+				}
+				super.push(...spliced_array); // CONCAT THE SPLICEDS
+
+				// POST-PROCESS
+				if (insert_size != 0)
+					this.handle_erase(position, position.advance(insert_size));
+				
+				return position;
+			}
 		}
 		
+		/* ---------------------------------------------------------
+			ERASE
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public pop_back(): void
+		{
+			this.erase(this.end().prev());
+		}
+
 		/**
 		 * <p> Erase element. </p>
 		 *
@@ -515,22 +557,107 @@ namespace std
 		 */
 		public erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;
 
-		public erase(begin: VectorIterator<T>, end: VectorIterator<T> = null): VectorIterator<T>
+		public erase(first: VectorIterator<T>, last: VectorIterator<T> = first.next()): VectorIterator<T>
 		{
-			let startIndex: number = begin.index;
+			if (first.equal_to(this.end()))
+				return first;
+			
+			// INDEXING
+			let start_index = Math.min(first.index, last.index);
+			let size = Math.abs(last.index - first.index);
 
-			if (end == null)
-				this.splice(startIndex, 1);
-			else if (end.index == -1)
+			// PRE-PROCESS
+			if (size != 0)
+				this.handle_erase(first, last);
+
+			// ERASE ELEMENTS
+			if (last.equal_to(this.end()))
 			{
-				this.splice(startIndex);
-
+				super.splice(start_index);
 				return this.end();
 			}
 			else
-				this.splice(startIndex, (<VectorIterator<T>>end).index - startIndex);
+				super.splice(start_index, size);
 
-			return new VectorIterator<T>(this, startIndex);
+			return first;
+		}
+
+		/* ---------------------------------------------------------------
+			ARRAY'S MEMBERS
+		--------------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public shift(): T
+		{
+			if (this.empty() == false)
+				this.handle_erase(this.begin(), this.make_iterator(1));
+			
+			return super.shift();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public unshift(...items: T[]): number
+		{
+			let ret: number = super.unshift(...items);
+
+			this.handle_insert(this.begin(), this.make_iterator(items.length));
+
+			return ret;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public pop(): T
+		{
+			if (this.empty() == false)
+				this.handle_erase(this.make_iterator(this.length - 1), this.end());
+
+			return super.pop();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public splice(start: number): T[];
+
+		/**
+		 * @inheritdoc
+		 */
+		public splice(start: number, deleteCount: number, ...items: T[]): T[];
+
+		public splice(start: number, deleteCount: number = this.length - 1, ...items: T[]): T[]
+		{
+			if (deleteCount > 0 && start + deleteCount <= this.length)
+				this.handle_erase(this.make_iterator(start), this.make_iterator(start + deleteCount));
+
+			return super.splice(start, deleteCount, ...items);
+		}
+
+		/* ---------------------------------------------------------------
+			PRE & POST-PROCESS
+		--------------------------------------------------------------- */
+		protected handle_insert(first: VectorIterator<T>, last: VectorIterator<T>): void
+		{
+			// NOTHING TO DO ESPECIALLY
+			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
+		}
+
+		protected handle_erase(first: VectorIterator<T>, last: VectorIterator<T>): void
+		{
+			// NOTHING TO DO ESPECIALLY
+			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
+		}
+
+		/**
+		 * @hidden
+		 */
+		private make_iterator(index: number): VectorIterator<T>
+		{
+			return new VectorIterator<T>(this, index);
 		}
 
 		/* ===============================================================
@@ -698,6 +825,16 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * <p> Construct from the source {@link Vector container}. </p>
+		 *
+		 * <h4> Note </h4>
+		 * <p> Do not create the iterator directly, by yourself. </p>
+		 * <p> Use {@link Vector.begin begin()}, {@link Vector.end end()} in {@link Vector container} instead. </p> 
+		 *
+		 * @param source The source {@link Vector container} to reference.
+		 * @param index Sequence number of the element in the source {@link Vector}.
+		 */
 		public constructor(source: Vector<T>, index: number)
 		{
 			super(source, index);

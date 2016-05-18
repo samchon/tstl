@@ -33,4 +33,16 @@ namespace std
 	{
 		return it.advance(n) as InputIterator;
 	}
+	
+	export function prev<T, BidirectionalIterator extends base.Iterator<T>>
+		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
+	{
+		return it.advance(n) as BidirectionalIterator;
+	}0
+	
+	export function next<T, BidirectionalIterator extends base.Iterator<T>>
+		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
+	{
+		return it.advance(n) as BidirectionalIterator;
+	}
 }

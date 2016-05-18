@@ -25,7 +25,7 @@ namespace std.base
 	 *	<dt> Associative </dt>
 	 *	<dd> 
 	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute
-	 *		position in the  
+	 *		position in the container.
 	 *	</dd>
 	 * 
 	 *	<dt> Set </dt>
@@ -297,27 +297,23 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
-		{
-			// INSERT
-			let list_iterator = this.data_.insert(hint.get_list_iterator(), val);
+		protected abstract insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+		//{
+		//	// INSERT
+		//	let list_iterator = this.data_.insert(hint.get_list_iterator(), val);
 			
-			// POST-PROCESS
-			let it = new SetIterator(this, list_iterator);
-			this.handle_insert(it);
+		//	// POST-PROCESS
+		//	let it = new SetIterator<T>(this, list_iterator);
+		//	this.handle_insert(it, it.next());
 
-			return it;
-		}
+		//	return it;
+		//}
 
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void
-		{
-			for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator)
-				this.insert_by_val(it.value);
-		}
+		protected abstract insert_by_range<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
 
 		/* ---------------------------------------------------------
 			ERASE
@@ -387,7 +383,7 @@ namespace std.base
 			let list_iterator = this.data_.erase(it.get_list_iterator());
 			
 			// POST-PROCESS
-			this.handle_erase(it);
+			this.handle_erase(it, it.next());
 
 			return new SetIterator<T>(this, list_iterator);
 		}
@@ -401,8 +397,7 @@ namespace std.base
 			let list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
 			
 			// POST-PROCESS
-			for (let it = begin; !it.equal_to(end); it = it.next())
-				this.handle_erase(it);
+			this.handle_erase(begin, end);
 
 			return new SetIterator<T>(this, list_iterator);//begin.prev();
 		}
@@ -411,42 +406,49 @@ namespace std.base
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Abstract method handling insertion for indexing. </p>
+		 * <p> Abstract method handling insertions for indexing. </p>
 		 *
-		 * <p> This method, {@link handle_insert} is designed to register the <i>item</i> to somewhere storing those
-		 * {@link SetIterator iterators} for indexing, fast accessment and retrievalance. </p>
-		 *
-		 * <p> When {@link insert} is called, a new element will be inserted into the {@link data_ list container} 
-		 * and a new {@link SetIterator iterator} <i>item</i>, pointing the element, will be created and the newly 
-		 * created iterator <i>item</i> will be shifted into this method {@link handle_insert} after the insertion. </p>
-		 *
-		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the <i>item</i> will be 
-		 * registered into the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the derived 
-		 * one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>item</i> will be registered into the 
-		 * {@link HashSet.hash_buckets_ hash bucket}. </p>
-		 *  
-		 * @param item Iterator of inserted item.
-		 */
-		protected abstract handle_insert(item: SetIterator<T>): void;
-
-		/**
-		 * <p> Abstract method handling deletion for indexing. </p>
-		 * 
-		 * <p> This method, {@link handle_insert} is designed to unregister the <i>item</i> to somewhere storing 
+		 * <p> This method, {@link handle_insert} is designed to register the <i>first to last</i> to somewhere storing 
 		 * those {@link SetIterator iterators} for indexing, fast accessment and retrievalance. </p>
 		 *
-		 * <p> When {@link erase} is called with <i>item</i>, an {@link SetIterator iterator} positioning somewhere
-		 * place to be deleted, is memorized and shifted to this method {@link handle_erase} after the deletion
-		 * process is terminated. </p>
+		 * <p> When {@link insert} is called, new elements will be inserted into the {@link data_ list container} and new 
+		 * {@link SetIterator iterators} <i>first to last</i>, pointing the inserted elements, will be created and the 
+		 * newly created iterators <i>first to last</i> will be shifted into this method {@link handle_insert} after the 
+		 * insertions. </p>
 		 *
-		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the <i>item</i> will be
-		 * unregistered from the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the 
-		 * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>item</i> will be unregistered 
-		 * from the {@link HashSet.hash_buckets_ hash bucket}. </p>
-		 * 
-		 * @param item Iterator of erased item.
+		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link SetIterator iterators} 
+		 * will be registered into the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the 
+		 * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>first</i> to <i>last</i> will be 
+		 * registered into the {@link HashSet.hash_buckets_ hash bucket}. </p>
+		 *  
+		 * @param first An {@link SetIterator} to the initial position in a sequence.
+		 * @param last An {@link SetIterator} to the final position in a sequence. The range used is 
+		 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>, 
+		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
-		protected abstract handle_erase(item: SetIterator<T>): void;
+		protected abstract handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+
+		/**
+		 * <p> Abstract method handling deletions for indexing. </p>
+		 * 
+		 * <p> This method, {@link handle_insert} is designed to unregister the <i>first to last</i> to somewhere storing 
+		 * those {@link SetIterator iterators} for indexing, fast accessment and retrievalance. </p>
+		 *
+		 * <p> When {@link erase} is called with <i>first to last</i>, {@link SetIterator iterators} positioning somewhere
+		 * place to be deleted, is memorized and shifted to this method {@link handle_erase} after the deletion process is 
+		 * terminated. </p>
+		 *
+		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link SetIterator iterators} 
+		 * will be unregistered from the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the 
+		 * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>first to last</i> will be 
+		 * unregistered from the {@link HashSet.hash_buckets_ hash bucket}. </p>
+		 * 
+		 * @param first An {@link SetIterator} to the initial position in a sequence.
+		 * @param last An {@link SetIterator} to the final position in a sequence. The range used is
+		 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
+		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+		 */
+		protected abstract handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
 	}
 }
 

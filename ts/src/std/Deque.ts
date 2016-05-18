@@ -10,32 +10,30 @@ namespace std
 	 * <p> Double ended queue. </p>
 	 * 
 	 * <p> {@link Deque} (usually pronounced like "<i>deck</i>") is an irregular acronym of 
-	 * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic 
-	 * sizes that can be expanded or contracted on both ends (either its front or its back). </p>
+	 * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic sizes that can be 
+	 * expanded or contracted on both ends (either its front or its back). </p>
 	 * 
-	 * <p> Specific libraries may implement deques in different ways, generally as some form of dynamic 
-	 * array. But in any case, they allow for the individual elements to be accessed directly through 
-	 * random access iterators, with storage handled automatically by expanding and contracting the 
-	 * container as needed. </p>
+	 * <p> Specific libraries may implement deques in different ways, generally as some form of dynamic array. But in any 
+	 * case, they allow for the individual elements to be accessed directly through random access iterators, with storage 
+	 * handled automatically by expanding and contracting the container as needed. </p>
 	 * 
-	 * <p> Therefore, they provide a functionality similar to vectors, but with efficient insertion and 
-	 * deletion of elements also at the beginning of the sequence, and not only at its end. But, unlike 
-	 * {@link Vector}s, {@link Deque}s are not guaranteed to store all its elements in contiguous storage 
-	 * locations: accessing elements in a <u>deque</u> by offsetting a pointer to another element causes 
-	 * undefined behavior. </p>
+	 * <p> Therefore, they provide a functionality similar to vectors, but with efficient insertion and deletion of 
+	 * elements also at the beginning of the sequence, and not only at its end. But, unlike {@link Vector Vectors}, 
+	 * {@link Deque Deques} are not guaranteed to store all its elements in contiguous storage locations: accessing 
+	 * elements in a <u>deque</u> by offsetting a pointer to another element causes undefined behavior. </p>
 	 * 
-	 * <p> Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for 
-	 * similar purposes, but internally both work in quite different ways: While {@link Vector}s use a 
-	 * single array that needs to be occasionally reallocated for growth, the elements of a {@link Deque} 
-	 * can be scattered in different chunks of storage, with the container keeping the necessary information 
-	 * internally to provide direct access to any of its elements in constant time and with a uniform 
-	 * sequential interface (through iterators). Therefore, {@link Deque}s are a little more complex 
-	 * internally than {@link Vector}s, but this allows them to grow more efficiently under certain 
-	 * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
+	 * <p> Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for similar purposes, 
+	 * but internally both work in quite different ways: While {@link Vector}s use a single array that needs to be 
+	 * occasionally reallocated for growth, the elements of a {@link Deque} can be scattered in different chunks of 
+	 * storage, with the container keeping the necessary information internally to provide direct access to any of its 
+	 * elements in constant time and with a uniform sequential interface (through iterators). Therefore, 
+	 * {@link Deque Deques} are a little more complex internally than {@link Vector}s, but this allows them to grow more 
+	 * efficiently under certain circumstances, especially with very long sequences, where reallocations become more 
+	 * expensive. </p>
 	 * 
-	 * <p> For operations that involve frequent insertion or removals of elements at positions other than 
-	 * the beginning or the end, {@link Deque}s perform worse and have less consistent iterators and 
-	 * references than {@link List}s. </p>
+	 * <p> For operations that involve frequent insertion or removals of elements at positions other than the beginning or 
+	 * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than 
+	 * {@link List Lists}. </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -48,19 +46,16 @@ namespace std
 	 *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end 
 	 *		 of the sequence. </dd>
 	 * </dl>
-	 * 
-	 * <ul>
-	 *  <li> Reference: http://www.cplusplus.com/reference/deque/deque/ </li>
-	 * </ul>
 	 *
 	 * @param <T> Type of the elements.
 	 *
+	 * @reference http://www.cplusplus.com/reference/deque/deque/
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Deque<T>
 		extends base.Container<T>
-		implements base.IArray<T>, 
-				   base.IDeque<T>
+		implements base.IArray<T>,
+		base.IDeque<T>
 	{
 		/**
 		 * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
@@ -79,7 +74,7 @@ namespace std
 		 * and inserting element is O(N)). </p>
 		 */
 		private static get ROW(): number { return 8; }
-		
+
 		/**
 		 * <p> Minimum {@link capacity}. </p>
 		 *
@@ -87,7 +82,7 @@ namespace std
 		 * keeps the minimum {@link capacity} at least. </p>
 		 */
 		private static get MIN_CAPACITY(): number { return 100; }
-		
+
 		/**
 		 * <p> A matrix containing elements. </p>
 		 *
@@ -109,7 +104,7 @@ namespace std
 		 * Number of elements in the {@link Deque}.
 		 */
 		private size_: number;
-		
+
 		/**
 		 * <p> Size of allocated storage capacity. </p>
 		 * 
@@ -173,7 +168,7 @@ namespace std
 		 *			  initialized to a copy of this value.
 		 */
 		public constructor(size: number, val: T);
-		
+
 		/**
 		 * <p> Copy Constructor. </p>
 		 *
@@ -216,7 +211,7 @@ namespace std
 
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && 
+			else if (args.length == 2 &&
 				args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
 			{
 				let begin: base.Iterator<T> = args[0];
@@ -293,6 +288,9 @@ namespace std
 					array.push(val);
 				}
 			}
+
+			// POST-PROCESS
+			this.handle_insert(this.begin(), this.end());
 		}
 
 		/**
@@ -300,14 +298,17 @@ namespace std
 		 */
 		public reserve(capacity: number): void
 		{
+			// MEMORIZE
 			let prevMatrix = this.matrix_;
 			let prevSize = this.size_;
-			
-			this.clear();
 
-			// RESERVE
-			this.size_ = prevSize;
-			
+			// REFRESH
+			this.matrix_ = new Array<Array<T>>();
+			this.matrix_.push(new Array<T>());
+
+			/////
+			// RE-FILL
+			/////
 			let array: Array<T> = this.matrix_[0];
 
 			for (let i = 0; i < prevMatrix.length; i++)
@@ -327,13 +328,18 @@ namespace std
 		 */
 		public clear(): void
 		{
+			// PRE-PROCESS
+			if (this.empty() == false)
+				this.handle_erase(this.begin(), this.end());
+
+			// CLEAR CONTENTS
 			this.matrix_ = new Array<Array<T>>();
 			this.matrix_.push(new Array<T>());
 
 			this.size_ = 0;
 			this.capacity_ = Deque.MIN_CAPACITY;
 		}
-		
+
 		/* =========================================================
 			ACCESSORS
 				- GETTERS & SETTERS
@@ -376,7 +382,7 @@ namespace std
 		{
 			return new DequeReverseIterator<T>(this, -1);
 		}
-		
+
 		/**
 		 * @inheritdoc
 		 */
@@ -457,8 +463,8 @@ namespace std
 
 			if (row == this.matrix_.length)
 				row--;
-			
-			return new Pair<number, number>(row, index);
+
+			return make_pair(row, index);
 		}
 
 		/* =========================================================
@@ -466,6 +472,7 @@ namespace std
 				- PUSH & POP
 				- INSERT
 				- ERASE
+				- PRE & POST-PROCESS
 		============================================================
 			PUSH & POP
 		--------------------------------------------------------- */
@@ -474,9 +481,11 @@ namespace std
 		 */
 		public push(...items: T[]): number
 		{
+			// RE-SIZE
 			if (this.size_ + items.length > this.capacity_)
 				this.reserve(this.size_ + items.length);
 
+			// INSERTS
 			let array: Array<T> = this.matrix_[this.matrix_.length - 1];
 
 			for (let i: number = 0; i < items.length; i++)
@@ -489,7 +498,10 @@ namespace std
 				array.push(items[i]);
 			}
 
-			this.size_ += items.length;
+			// AFTER INSERTION
+			this.size_ += items.length; // INDEXING
+			this.handle_insert(this.make_iterator(this.size() - 1), this.end()); // POST-PROCESS
+
 			return this.size_;
 		}
 
@@ -504,6 +516,9 @@ namespace std
 
 			if (this.size_ > this.capacity_)
 				this.reserve(this.size_ * 2);
+
+			// POST-PROCESS
+			this.handle_insert(this.begin(), this.make_iterator(1));
 		}
 
 		/**
@@ -523,6 +538,9 @@ namespace std
 
 			if (this.size_ > this.capacity_)
 				this.reserve(this.size_ * 2);
+
+			// POST-PROCESS
+			this.handle_insert(this.make_iterator(this.size() - 1), this.end());
 		}
 
 		/**
@@ -532,7 +550,11 @@ namespace std
 		{
 			if (this.empty() == true)
 				return; // SOMEWHERE PLACE TO THROW EXCEPTION
-			
+
+			// PRE-PROCESS
+			this.handle_erase(this.begin(), this.begin().next());
+
+			// EREASE FIRST ELEMENT
 			this.matrix_[0].shift();
 			this.size_--;
 
@@ -548,10 +570,14 @@ namespace std
 			if (this.empty() == true)
 				return; // SOMEWHERE PLACE TO THROW EXCEPTION
 
+			// PRE-PROCESS
+			this.handle_erase(this.end().prev(), this.end());
+
+			// ERASE LAST ELEMENT
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
 			lastArray.splice(lastArray.length - 1, 1);
 			this.size_--;
-			
+
 			if (lastArray.length == 0)
 				this.matrix_.splice(this.matrix_.length - 1, 1);
 		}
@@ -574,47 +600,77 @@ namespace std
 		 */
 		public insert<U extends T, InputIterator extends base.Iterator<U>>
 			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
-		
+
 		public insert<U extends T, InputIterator extends base.Iterator<U>>
-			(position: DequeIterator<T>, ...args: any[]): DequeIterator<T>
+			(...args: any[]): DequeIterator<T>
 		{
-			let items: Array<T> = [];
+			if (args.length == 2)
+				return this.insert_by_val(args[0], args[1]);
+			else if (args.length == 3 && typeof args[1] == "number")
+				return this.insert_by_repeating_val(args[0], args[1], args[2]);
+			else
+				return this.insert_by_range(args[0], args[1], args[2]);
+		}
 
-			if (args.length == 1)
+		/**
+		 * @hidden
+		 */
+		private insert_by_val(position: DequeIterator<T>, val: T): DequeIterator<T>
+		{
+			return this.insert_by_repeating_val(position, 1, val);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
+		{
+			// CONSTRUCT ITEMS
+			let items: T[] = [];
+			items.length = n;
+
+			for (let i = 0; i < n; i++)
+				items[i] = val;
+
+			// INSERT ELEMENTS
+			if (position.equal_to(this.end()))
 			{
-				let val: T = args[0];
-
-				items.push(val);
-			}
-			else if (args.length == 2 && typeof args[0] == "number")
-			{
-				let n: number = args[0];
-				let val: T = args[1];
-
-				for (let i = 0; i < n; i++)
-					items.push(val);
-			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
-			{
-				let begin: InputIterator = args[0];
-				let end: InputIterator = args[1];
-
-				for (let it = begin; !it.equal_to(end); it = it.next() as InputIterator)
-					items.push(it.value);
-			}
-
-			// -----------------------------------------------------
-			// INSERT ITEMS
-			// -----------------------------------------------------
-			// INSERTS CAREFULLY
-			if (position.equal_to(this.end()) == true)
-			{
-				// WHEN INSERTS TO THE BACK SIDE
 				this.push(...items);
-				return;
+				return this.make_iterator(this.size() - n);
 			}
+			else
+				return this.insert_by_items(position, items);
+		}
 
-			this.size_ += items.length;
+		/**
+		 * @hidden
+		 */
+		private insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>
+		{
+			// CONSTRUCT ITEMS
+			let items: T[] = [];
+
+			for (let it = begin; !it.equal_to(end); it = it.next() as InputIterator)
+				items.push(it.value);
+
+			// INSERT ELEMENTS
+			if (position.equal_to(this.end()))
+			{
+				this.push(...items);
+				return this.make_iterator(this.size() - items.length);
+			}
+			else
+				return this.insert_by_items(position, items);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private insert_by_items(position: DequeIterator<T>, items: Array<T>): DequeIterator<T>
+		{
+			let item_size: number = items.length;
+			this.size_ += item_size;
 
 			if (this.size_ <= this.capacity_)
 			{
@@ -622,20 +678,19 @@ namespace std
 				// WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
 				// ------------------------------------------------------
 				// INSERTS CAREFULLY CONSIDERING THE COL_SIZE
-				let indexPair = this.fetch_index(position.index);
-				let index = indexPair.first;
+				let index_pair = this.fetch_index(position.index);
+				let index = index_pair.first;
 
-				let splicedValues = this.matrix_[index].splice(indexPair.second);
-				if (splicedValues.length != 0)
-					items = items.concat(...splicedValues);
+				let spliced_values = this.matrix_[index].splice(index_pair.second);
+				if (spliced_values.length != 0)
+					items = items.concat(...spliced_values);
 
 				if (this.matrix_[index].length < Deque.ROW)
 				{
-					this.matrix_[index] =
-						this.matrix_[index].concat
-							(
+					this.matrix_[index] = this.matrix_[index].concat
+						(
 							...items.splice(0, Deque.ROW - this.matrix_[index].length)
-							);
+						);
 				}
 
 				let splicedArray = this.matrix_.splice(index + 1);
@@ -675,6 +730,10 @@ namespace std
 				this.reserve(this.size_);
 			}
 
+			// POST-PROCESS
+			if (item_size != 0)
+				this.handle_insert(position, position.advance(item_size));
+
 			return position;
 		}
 
@@ -689,21 +748,24 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public erase(begin: DequeIterator<T>, end: DequeIterator<T>): DequeIterator<T>;
+		public erase(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>;
 
-		public erase(begin: DequeIterator<T>, end: DequeIterator<T> = null): DequeIterator<T>
+		public erase(first: DequeIterator<T>, last: DequeIterator<T> = first.next()): DequeIterator<T>
 		{
-			if (end == null)
-				end = begin.next();
-
-			let index = begin.index;
-			let size = end.index - index;
+			// INDEXING
+			let start_index: number = Math.min(first.index, last.index);
+			let size = Math.abs(last.index - first.index);
 
 			this.size_ -= size;
 
+			// PRE-PROCESS
+			if (size != 0)
+				this.handle_erase(first, last);
+			 
+			// ERASING
 			while (size != 0)
 			{
-				let indexPair: Pair<number, number> = this.fetch_index(index);
+				let indexPair: Pair<number, number> = this.fetch_index(start_index);
 				let array: Array<T> = this.matrix_[indexPair.first];
 
 				let myDeleteSize: number = Math.min(size, array.length - indexPair.second);
@@ -715,7 +777,30 @@ namespace std
 				size -= myDeleteSize;
 			}
 			
-			return begin;
+			return first;
+		}
+
+		/* ---------------------------------------------------------------
+			PRE & POST-PROCESS
+		--------------------------------------------------------------- */
+		protected handle_insert(first: DequeIterator<T>, last: DequeIterator<T>): void
+		{
+			// NOTHING TO DO ESPECIALLY
+			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
+		}
+
+		protected handle_erase(first: DequeIterator<T>, last: DequeIterator<T>): void
+		{
+			// NOTHING TO DO ESPECIALLY
+			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
+		}
+
+		/**
+		 * @hidden
+		 */
+		private make_iterator(index: number): DequeIterator<T>
+		{
+			return new DequeIterator<T>(this, index);
 		}
 
 		/* ===============================================================
@@ -729,7 +814,7 @@ namespace std
 			if (obj instanceof Deque)
 				this.swap_deque(obj);
 			else
-				super.swap(obj);
+				super.swap(obj as base.Container<T>);
 		}
 
 		/**
