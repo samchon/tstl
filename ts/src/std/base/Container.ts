@@ -4,6 +4,8 @@ namespace std.base
 {
 	/**
 	 * <p> An abstract container. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>

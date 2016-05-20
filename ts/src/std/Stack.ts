@@ -29,12 +29,11 @@ namespace std
 	 * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard 
 	 * container {@link List} is used. </p>
 	 * 
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
-	 * </ul>
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
 	 * 
 	 * @param <T> Type of elements.
 	 * 
+	 * @reference http://www.cplusplus.com/reference/stack/stack
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Stack<T>

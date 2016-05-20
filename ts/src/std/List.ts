@@ -28,6 +28,8 @@ namespace std
 	 * distance between these. They also consume some extra memory to keep the linking information associated to each 
 	 * element (which may be an important factor for large lists of small-sized elements). </p>
 	 *
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 * 	<dt> Sequence </dt>
@@ -1074,7 +1076,11 @@ namespace std
 	}
 
 	/**
-	 * An iterator, node of a List.
+	 * <p> An iterator, node of a List. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ListIterator<T>
 		extends Iterator<T>
@@ -1231,6 +1237,8 @@ namespace std
 
 	/**
 	 * <p> A reverse-iterator of List. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
 	 *
 	 * @param <T> Type of the elements.
 	 *

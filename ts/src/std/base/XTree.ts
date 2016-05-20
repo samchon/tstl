@@ -75,12 +75,9 @@ namespace std.base
 	 * maximal paths have the same number of <font color='darkBlue'>black</font> nodes, by property 5, this shows 
 	 * that no path is more than twice as long as any other path. </p>
 	 *
-	 * <ul>
-	 *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
-	 * </ul>
-	 *
 	 * @param <T> Type of elements.
 	 *
+	 * @reference https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
 	 * @inventor Rudolf Bayer
 	 * @author Migrated by Jeongho Nam <http://samchon.org>
 	 */

@@ -26,6 +26,8 @@ namespace std
 	 *
 	 * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
 	 *
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -44,13 +46,10 @@ namespace std
 	 *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
 	 * </dl>
 	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/map/map/ </li>
-	 * </ul>
-	 *
 	 * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
 	 * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
 	 *
+	 * @reference http://www.cplusplus.com/reference/map/map
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMap<Key, T>
@@ -461,7 +460,9 @@ namespace std
 	 * on their order. </p>
 	 *
 	 * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
-	 *
+	 * 
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -486,13 +487,10 @@ namespace std
 	 *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
 	 * </dl>
 	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/map/multimap/ </li>
-	 * </ul>
-	 *
 	 * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
 	 * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
-	 * 
+	 *
+	 * @reference http://www.cplusplus.com/reference/map/multimap
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMultiMap<Key, T>

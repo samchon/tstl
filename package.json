@@ -1,23 +1,24 @@
 {
-  "name": "typescript-stl",
+  "name": "ts-stl",
   "description": "TypeScript-STL (Standard Template Library, migrated from C++)",
+  "readme": "This is renamed to **typescript-stl**.\n\n  - https://www.npmjs.com/package/typescript-stl",
+
   "author": {
     "name": "Jeongho Nam",
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "0.9.6",
+  "version": "0.9.7",
 
   "main": "./lib/typescript-stl.js",
   "typings": "./lib/typescript-stl.d.ts",
+
   "homepage": "https://github.com/samchon/stl",
   "repository": {
     "type": "git",
     "url": "https://github.com/samchon/stl.git"
   },
   "bugs": { "url": "https://github.com/samchon/stl/issues" },
-
-  "scripts": { "test": "node test/test.js" },
 
   "licenses": [
     {
@@ -29,5 +30,5 @@
     "stl",
     "standard template library",
     "typescript", "standard", "template", "container", "library", 
-    "vector", "deque", "list", "queue", "stack", "hash", "tree", "iterator"]
+    "vector", "deque", "list", "queue", "stack", "hash", "tree", "map", "set", "iterator"]
 }

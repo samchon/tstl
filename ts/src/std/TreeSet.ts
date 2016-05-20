@@ -23,7 +23,9 @@ namespace std
 	 * order. </p>
 	 *
 	 * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
-	 *
+	 * 
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -45,13 +47,10 @@ namespace std
 	 *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
 	 * </dl>
 	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
-	 * </ul>
-	 *
 	 * @param <T> Type of the elements. 
 	 *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
 	 *
+	 * @reference http://www.cplusplus.com/reference/set/set
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeSet<T>
@@ -438,7 +437,9 @@ namespace std
 	 * their order. </p>
 	 *
 	 * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
-	 *
+	 * 
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -459,14 +460,11 @@ namespace std
 	 *	<dt> Multiple equivalent keys </dt>
 	 *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
 	 * </dl>
-	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
-	 * </ul>
 	 * 
 	 * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified 
 	 *			  by this value (each value is itself also the element's <i>key</i>).
 	 *
+	 * @reference http://www.cplusplus.com/reference/set/multiset
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMultiSet<T>

@@ -3,11 +3,13 @@
 namespace std.base
 {
 	/**
-	 * <p> An interface of  </p>
+	 * <p> An interface of containers. </p>
 	 *
 	 * <p> {@link IContainer} is an interface designed for sequence containers. Sequence containers of STL
 	 * (Standard Template Library) are based on the {@link IContainer}. </p>
 	 *
+	 * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 * 	<dt> Sequence </dt>

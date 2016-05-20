@@ -5,6 +5,10 @@
 namespace std.base
 {
 	/**
+	 * <p> A red-black Tree storing {@link MapIterator MapIterators}. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class PairTree<Key, T>

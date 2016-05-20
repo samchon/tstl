@@ -35,6 +35,8 @@ namespace std
 	 * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s. 
 	 * </p>
 	 * 
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Sequence </dt>
@@ -50,12 +52,9 @@ namespace std
 	 *	</dd>
 	 * </dl>
 	 *
-	 * <ul>
-	 *  <li> Reference: http://www.cplusplus.com/reference/vector/vector/
-	 * </ul>
-	 *
 	 * @param <T> Type of the elements.
 	 *
+	 * @reference http://www.cplusplus.com/reference/vector/vector
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Vector<T>
@@ -736,6 +735,8 @@ namespace std
 
 	/**
 	 * <p> An iterator of Vector. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
 	 *
 	 * @param <T> Type of the elements.
 	 * 
@@ -879,6 +880,8 @@ namespace std
 
 	/**
 	 * <p> A reverse-iterator of Vector. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
 	 *
 	 * @param <T> Type of the elements.
 	 * 

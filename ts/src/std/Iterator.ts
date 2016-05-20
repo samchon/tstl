@@ -1,5 +1,10 @@
 ﻿/// <reference path="API.ts" />
 
+// Iterator definitions.
+//
+// @reference http://www.cplusplus.com/reference/iterator
+// @author Jeongho Nam <http://samchon.org>
+
 namespace std
 {
 	/**
@@ -14,10 +19,9 @@ namespace std
 	 * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container} 
 	 * may define its own specific iterator type able to iterate through it and access its elements. </p>
 	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/iterator/BidirectionalIterator/ </li>
-	 * </ul>
+	 * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
 	 *
+	 * @reference http://www.cplusplus.com/reference/iterator/BidirectionalIterator
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class Iterator<T>
@@ -153,7 +157,9 @@ namespace std
 	 * first element in a range is reversed, the reversed iterator points to the element before the first element (this 
 	 * would be the past-the-end element of the reversed range). </p>
 	 * 
-	 * @reference http://www.cplusplus.com/reference/iterator/reverse_iterator/
+	 * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
+	 * 
+	 * @reference http://www.cplusplus.com/reference/iterator/reverse_iterator
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class ReverseIterator<T, Base extends Iterator<T>, This extends ReverseIterator<T, Base, This>>
@@ -287,37 +293,124 @@ namespace std
 		return length;
 	}
 
-	export function advance<T, BidirectionalIterator extends Iterator<T>>
-		(it: BidirectionalIterator, n: number): BidirectionalIterator
+	/**
+	 * <p> Advance iterator. </p>
+	 * 
+	 * <p> Advances the iterator <i>it</i> by <i>n</i> elements positions. </p>
+	 * 
+	 * @param it Iterator to be advanced.
+	 * @param n Number of element positions to advance.
+	 * 
+	 * @return An iterator to the element <i>n</i> positions before <i>it</i>.
+	 */
+	export function advance<T, InputIterator extends Iterator<T>>
+		(it: InputIterator, n: number): InputIterator
 	{
-		return it.advance(n) as BidirectionalIterator;
+		return it.advance(n) as InputIterator;
 	}
 	
+	/**
+	 * <p> Get iterator to previous element. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the element that <i>it</i> would be pointing to if advanced <i>-n</i> positions. </p>
+	 * 
+	 * @param it Iterator to base position.
+	 * @param n Number of element positions offset (1 by default).
+	 * 
+	 * @return An iterator to the element <i>n</i> positions before <i>it</i>.
+	 */
 	export function prev<T, BidirectionalIterator extends Iterator<T>>
 		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 	{
 		return it.advance(n) as BidirectionalIterator;
 	}
 	
-	export function next<T, BidirectionalIterator extends Iterator<T>>
-		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
-	{
-		return it.advance(n) as BidirectionalIterator;
+	/**
+	 * <p> Get iterator to next element. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the element that <i>it</i> would be pointing to if advanced <i>n</i> positions. </p>
+	 * 
+	 * @param it Iterator to base position.
+	 * @param n Number of element positions offset (1 by default).
+	 * 
+	 * @return An iterator to the element <i>n</i> positions away from <i>it</i>.
+	 */
+	export function next<T, ForwardIterator extends Iterator<T>>
+		(it: ForwardIterator, n: number = 1): ForwardIterator
+	{	
+		return it.advance(n) as ForwardIterator;
 	}
 
 	/* ---------------------------------------------------------
 		BEGIN
 	--------------------------------------------------------- */
+	/**
+	 * <p> Iterator to beginning. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the first element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+	 * 
+	 * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.begin container.begin()}.
+	 */
 	export function begin<T>(container: Vector<T>): VectorIterator<T>;
 
+	/**
+	 * <p> Iterator to beginning. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the first element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+	 * 
+	 * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.begin container.begin()}.
+	 */
 	export function begin<T>(container: List<T>): ListIterator<T>;
 
+	/**
+	 * <p> Iterator to beginning. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the first element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+	 * 
+	 * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.begin container.begin()}.
+	 */
 	export function begin<T>(container: Deque<T>): DequeIterator<T>;
 
+	/**
+	 * <p> Iterator to beginning. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the first element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+	 * 
+	 * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.begin container.begin()}.
+	 */
 	export function begin<T>(container: base.SetContainer<T>): SetIterator<T>;
 
+	/**
+	 * <p> Iterator to beginning. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the first element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+	 * 
+	 * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.begin container.begin()}.
+	 */
 	export function begin<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 
+	// typedef is not specified in TypeScript yet.
+	// Instead, I listed all the containers and its iterators as overloaded functions
 	export function begin<T>(container: base.IContainer<T>): Iterator<T>
 	{
 		return container.begin();
@@ -327,16 +420,73 @@ namespace std
 	/* ---------------------------------------------------------
 		END
 	--------------------------------------------------------- */
+	/**
+	 * <p> Iterator to end. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+	 * 
+	 * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.end container.end()}.
+	 */
 	export function end<T>(container: Vector<T>): VectorIterator<T>;
 
+	/**
+	 * <p> Iterator to end. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+	 * 
+	 * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.end container.end()}.
+	 */
 	export function end<T>(container: List<T>): ListIterator<T>;
 
+	/**
+	 * <p> Iterator to end. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+	 * 
+	 * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.end container.end()}.
+	 */
 	export function end<T>(container: Deque<T>): DequeIterator<T>;
 
+	/**
+	 * <p> Iterator to end. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+	 * 
+	 * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.end container.end()}.
+	 */
 	export function end<T>(container: base.SetContainer<T>): SetIterator<T>;
 
+	/**
+	 * <p> Iterator to end. </p>
+	 * 
+	 * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+	 * 
+	 * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+	 * 
+	 * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+	 * 
+	 * @return The same as returned by {@link IContainer.end container.end()}.
+	 */
 	export function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 
+	// typedef is not specified in TypeScript yet.
+	// Instead, I listed all the containers and its iterators as overloaded functions
 	export function end<T>(container: base.IContainer<T>): Iterator<T>
 	{
 		return container.end();

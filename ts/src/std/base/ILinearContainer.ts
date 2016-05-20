@@ -3,7 +3,9 @@
 namespace std.base
 {
 	/**
-	 * <p> Linear  </p>
+	 * <p> An interface for linear containers.  </p>
+	 * 
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
 	 *
 	 * @author Jeonngho Nam
 	 */

@@ -14,11 +14,10 @@ namespace std.base
 	 *
 	 * <p> There is not a single type of {@link IArrayIterator random-access iterator}: Each container may define its 
 	 * own specific iterator type able to iterate through it and access its elements. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
 	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/iterator/RandomAccessIterator/ </li>
-	 * </ul>
-	 *
+	 * @reference http://www.cplusplus.com/reference/iterator/RandomAccessIterator
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IArrayIterator<T>

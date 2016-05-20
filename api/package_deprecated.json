@@ -8,7 +8,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "0.9.6",
+  "version": "0.9.7",
 
   "main": "./lib/typescript-stl.js",
   "typings": "./lib/typescript-stl.d.ts",
@@ -30,5 +30,5 @@
     "stl",
     "standard template library",
     "typescript", "standard", "template", "container", "library", 
-    "vector", "deque", "list", "queue", "stack", "hash", "tree", "iterator"]
+    "vector", "deque", "list", "queue", "stack", "hash", "tree", "map", "set", "iterator"]
 }

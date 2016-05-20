@@ -4,6 +4,13 @@
 
 namespace std.base
 {
+	/**
+	 * <p> Hash buckets storing {@link MapIterator MapIterators}. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class MapHashBuckets<K, T>
 		extends HashBuckets<MapIterator<K, T>>
 	{

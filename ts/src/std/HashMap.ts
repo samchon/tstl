@@ -24,6 +24,8 @@ namespace std
 	 * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their 
 	 * <i>key</i>, although they are generally less efficient for range iteration through a subset of their elements. </p>
 	 *
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 * 	<dt> Associative </dt>
@@ -42,15 +44,12 @@ namespace std
 	 * 	<dd> No two elements in the container can have equivalent keys. </dd>
 	 * </dl>
 	 *
-	 * <ul>
-	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
-	 * </ul>
-	 *
 	 * @param <Key> Type of the key values. 
 	 *				Each element in an {@link HashMap} is uniquely identified by its key value.
 	 * @param <T> Type of the mapped value. 
 	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
 	 *
+	 * @reference http://www.cplusplus.com/reference/unordered_map/unordered_map
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashMap<Key, T>
@@ -253,6 +252,8 @@ namespace std
 	 * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that 
 	 * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
 	 *
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -270,16 +271,13 @@ namespace std
 	 *	<dt> Multiple equivalent keys </dt>
 	 *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
 	 * </dl>
-	 * 
-	 * <ul>
-	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
-	 * </ul>
 	 *
 	 * @param <Key> Type of the key values. 
 	 *				Each element in an {@link HashMap} is identified by a key value.
 	 * @param <T> Type of the mapped value. 
 	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
 	 *
+	 * @reference http://www.cplusplus.com/reference/unordered_map/unordered_multimap
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashMultiMap<Key, T>

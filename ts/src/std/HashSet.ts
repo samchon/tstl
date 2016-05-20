@@ -22,7 +22,9 @@ namespace std
 	 * <p> {@link HashSet} containers are faster than {@link TreeSet} containers to access individual 
 	 * elements by their <i>key</i>, although they are generally less efficient for range iteration through a 
 	 * subset of their elements. </p>
-	 *
+	 * 
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -40,13 +42,10 @@ namespace std
 	 *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
 	 * </dl>
 	 * 
-	 * <ul>
-	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
-	 * </ul>
-	 * 
 	 * @param <T> Type of the elements. 
 	 *			  Each element in an {@link HashSet} is also uniquely identified by this value.
 	 *
+	 * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashSet<T>
@@ -247,6 +246,8 @@ namespace std
 	 * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an 
 	 * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
 	 *
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -264,13 +265,10 @@ namespace std
 	 *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
 	 * </dl> 
 	 *
-	 * <ul>
-	 *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
-	 * </ul>
-	 *
 	 * @param <T> Type of the elements. 
 	 *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
 	 *
+	 * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashMultiSet<T>

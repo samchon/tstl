@@ -4,6 +4,8 @@ namespace std.base
 {
 	/**
 	 * <p> An interface for deque  </p>
+	 * 
+	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

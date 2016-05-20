@@ -23,6 +23,8 @@ namespace std.base
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
 	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
 	 *
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -683,7 +685,9 @@ namespace std.base
 namespace std
 {
 	/**
-	 * An iterator of {@link MapColntainer map container}.
+	 * <p> An iterator of {@link MapContainer map container}. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -826,7 +830,9 @@ namespace std
 	}
 
 	/**
-	 * A reverse-iterator of {@link MapColntainer map container}.
+	 * <p> A reverse-iterator of {@link MapContainer map container}. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

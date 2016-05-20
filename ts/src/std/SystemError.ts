@@ -15,10 +15,9 @@ namespace std
 	 * <p> The class inherits from {@link RuntimeError}, to which it adds an {@link ErrorCode} as 
 	 * member code (and defines a specialized what member). </p>
 	 *
-	 * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
-     * </ul>
-     *
+	 * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
+	 * 
+	 * @reference http://www.cplusplus.com/reference/system_error/system_error
      * @author Jeongho Nam <http://samchon.org>
 	 */
     export class SystemError
@@ -101,10 +100,9 @@ namespace std
 	 * passed by reference. As such, only one object of each of these types shall exist, each uniquely identifying its own 
 	 * category: all error codes and conditions of a same category shall return a reference to same object. </p>
 	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
-	 * </ul>
-	 *
+	 * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
+	 * 
+	 * @reference http://www.cplusplus.com/reference/system_error/error_category
 	 * @author Jeongho Nam <http://samchon.org> 
 	 */
 	export abstract class ErrorCategory
@@ -266,10 +264,9 @@ namespace std
 	 * <p> The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the 
 	 * {@link ErrorCode} define the equivalences between them. </p>
 	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-	 * </ul>
-	 *
+	 * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
+	 * 
+	 * @reference http://www.cplusplus.com/reference/system_error/error_condition
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ErrorCondition
@@ -309,10 +306,9 @@ namespace std
 	 * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they 
 	 * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
 	 *
-	 * <ul>
-	 *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-	 * </ul>
-	 *
+	 * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
+	 * 
+	 * @reference http://www.cplusplus.com/reference/system_error/error_code
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ErrorCode

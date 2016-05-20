@@ -15,6 +15,8 @@ namespace std.base
 	 * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, 
 	 * so that they can be interpreted when needed as more abstract (and portable) 
 	 * {@link ErrorCondition error conditions}. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

@@ -1,5 +1,3 @@
-// Type definitions for TypeScript-STL v0.9.7
-// Project: https://github.com/samchon/stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
@@ -2360,6 +2358,8 @@ declare namespace std.base {
     /**
      * <p> An abstract container. </p>
      *
+     * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      * 	<dt> Sequence </dt>
@@ -2477,10 +2477,9 @@ declare namespace std {
      * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link IContainer Each container}
      * may define its own specific iterator type able to iterate through it and access its elements. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/iterator/BidirectionalIterator/ </li>
-     * </ul>
+     * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/iterator/BidirectionalIterator
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class Iterator<T> {
@@ -2560,7 +2559,9 @@ declare namespace std {
      * first element in a range is reversed, the reversed iterator points to the element before the first element (this
      * would be the past-the-end element of the reversed range). </p>
      *
-     * @reference http://www.cplusplus.com/reference/iterator/reverse_iterator/
+     * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
+     *
+     * @reference http://www.cplusplus.com/reference/iterator/reverse_iterator
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class ReverseIterator<T, Base extends Iterator<T>, This extends ReverseIterator<T, Base, This>> extends Iterator<T> {
@@ -2604,18 +2605,158 @@ declare namespace std {
      * @return The number of elements between first and last.
      */
     function distance<T, InputIterator extends Iterator<T>>(first: InputIterator, last: InputIterator): number;
-    function advance<T, BidirectionalIterator extends Iterator<T>>(it: BidirectionalIterator, n: number): BidirectionalIterator;
+    /**
+     * <p> Advance iterator. </p>
+     *
+     * <p> Advances the iterator <i>it</i> by <i>n</i> elements positions. </p>
+     *
+     * @param it Iterator to be advanced.
+     * @param n Number of element positions to advance.
+     *
+     * @return An iterator to the element <i>n</i> positions before <i>it</i>.
+     */
+    function advance<T, InputIterator extends Iterator<T>>(it: InputIterator, n: number): InputIterator;
+    /**
+     * <p> Get iterator to previous element. </p>
+     *
+     * <p> Returns an iterator pointing to the element that <i>it</i> would be pointing to if advanced <i>-n</i> positions. </p>
+     *
+     * @param it Iterator to base position.
+     * @param n Number of element positions offset (1 by default).
+     *
+     * @return An iterator to the element <i>n</i> positions before <i>it</i>.
+     */
     function prev<T, BidirectionalIterator extends Iterator<T>>(it: BidirectionalIterator, n?: number): BidirectionalIterator;
-    function next<T, BidirectionalIterator extends Iterator<T>>(it: BidirectionalIterator, n?: number): BidirectionalIterator;
+    /**
+     * <p> Get iterator to next element. </p>
+     *
+     * <p> Returns an iterator pointing to the element that <i>it</i> would be pointing to if advanced <i>n</i> positions. </p>
+     *
+     * @param it Iterator to base position.
+     * @param n Number of element positions offset (1 by default).
+     *
+     * @return An iterator to the element <i>n</i> positions away from <i>it</i>.
+     */
+    function next<T, ForwardIterator extends Iterator<T>>(it: ForwardIterator, n?: number): ForwardIterator;
+    /**
+     * <p> Iterator to beginning. </p>
+     *
+     * <p> Returns an iterator pointing to the first element in the sequence. </p>
+     *
+     * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+     *
+     * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+     *
+     * @return The same as returned by {@link IContainer.begin container.begin()}.
+     */
     function begin<T>(container: Vector<T>): VectorIterator<T>;
+    /**
+     * <p> Iterator to beginning. </p>
+     *
+     * <p> Returns an iterator pointing to the first element in the sequence. </p>
+     *
+     * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+     *
+     * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+     *
+     * @return The same as returned by {@link IContainer.begin container.begin()}.
+     */
     function begin<T>(container: List<T>): ListIterator<T>;
+    /**
+     * <p> Iterator to beginning. </p>
+     *
+     * <p> Returns an iterator pointing to the first element in the sequence. </p>
+     *
+     * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+     *
+     * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+     *
+     * @return The same as returned by {@link IContainer.begin container.begin()}.
+     */
     function begin<T>(container: Deque<T>): DequeIterator<T>;
+    /**
+     * <p> Iterator to beginning. </p>
+     *
+     * <p> Returns an iterator pointing to the first element in the sequence. </p>
+     *
+     * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+     *
+     * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+     *
+     * @return The same as returned by {@link IContainer.begin container.begin()}.
+     */
     function begin<T>(container: base.SetContainer<T>): SetIterator<T>;
+    /**
+     * <p> Iterator to beginning. </p>
+     *
+     * <p> Returns an iterator pointing to the first element in the sequence. </p>
+     *
+     * <p> If the sequence is empty, the returned value shall not be dereferenced. </p>
+     *
+     * @param container A container object of a class type for which member {@link IContainer.begin begin} is defined.
+     *
+     * @return The same as returned by {@link IContainer.begin container.begin()}.
+     */
     function begin<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
+    /**
+     * <p> Iterator to end. </p>
+     *
+     * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+     *
+     * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+     *
+     * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+     *
+     * @return The same as returned by {@link IContainer.end container.end()}.
+     */
     function end<T>(container: Vector<T>): VectorIterator<T>;
+    /**
+     * <p> Iterator to end. </p>
+     *
+     * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+     *
+     * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+     *
+     * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+     *
+     * @return The same as returned by {@link IContainer.end container.end()}.
+     */
     function end<T>(container: List<T>): ListIterator<T>;
+    /**
+     * <p> Iterator to end. </p>
+     *
+     * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+     *
+     * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+     *
+     * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+     *
+     * @return The same as returned by {@link IContainer.end container.end()}.
+     */
     function end<T>(container: Deque<T>): DequeIterator<T>;
+    /**
+     * <p> Iterator to end. </p>
+     *
+     * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+     *
+     * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+     *
+     * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+     *
+     * @return The same as returned by {@link IContainer.end container.end()}.
+     */
     function end<T>(container: base.SetContainer<T>): SetIterator<T>;
+    /**
+     * <p> Iterator to end. </p>
+     *
+     * <p> Returns an iterator pointing to the <i>past-the-end</i> element in the sequence. </p>
+     *
+     * <p> If the sequence is {@link IContainer.empty empty}, the returned value compares equal to the one returned by {@link begin} with the same argument. </p>
+     *
+     * @param container A container of a class type for which member {@link IContainer.end end} is defined.
+     *
+     * @return The same as returned by {@link IContainer.end container.end()}.
+     */
     function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 }
 declare namespace std {
@@ -2647,6 +2788,8 @@ declare namespace std {
      * <p> For operations that involve frequent insertion or removals of elements at positions other than the beginning or
      * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than
      * {@link List Lists}. </p>
+     *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -2930,7 +3073,9 @@ declare namespace std {
         private swap_deque(obj);
     }
     /**
-     * An iterator of {@link Deque}.
+     * <p> An iterator of {@link Deque}. </p>
+     *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -2998,6 +3143,8 @@ declare namespace std {
     /**
      * <p> A reverse-iterator of Deque. </p>
      *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+     *
      * @param <T> Type of the elements.
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -3027,10 +3174,9 @@ declare namespace std {
      * <p> All objects thrown by components of the standard library are derived from this class.
      * Therefore, all standard exceptions can be caught by catching this type by reference. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/exception/exception/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/exception/exception
      * @author Jeongho Nam <http://samchon.org>
      */
     class Exception {
@@ -3068,10 +3214,9 @@ declare namespace std {
      *
      * <p> It is used as a base class for several logical error exceptions. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/logic_error/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/logic_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class LogicError extends Exception {
@@ -3094,10 +3239,9 @@ declare namespace std {
      * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
      * exception to be thrown by programs. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/domain_error/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/domain_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class DomainError extends LogicError {
@@ -3116,10 +3260,9 @@ declare namespace std {
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal invalid arguments. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/invalid_argument/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/invalid_argument
      * @author Jeongho Nam <http://samchon.org>
      */
     class InvalidArgument extends LogicError {
@@ -3138,10 +3281,9 @@ declare namespace std {
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library,
      * such as vector and string also throw exceptions of this type to signal errors resizing. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/length_error/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/length_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class LengthError extends LogicError {
@@ -3161,10 +3303,9 @@ declare namespace std {
      * such as vector, deque, string and bitset also throw exceptions of this type to signal arguments
      * out of range. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/out_of_range/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/out_of_range
      * @author Jeongho Nam <http://samchon.org>
      */
     class OutOfRange extends LogicError {
@@ -3183,10 +3324,9 @@ declare namespace std {
      *
      * <p> It is used as a base class for several runtime error exceptions. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/runtime_error/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/runtime_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class RuntimeError extends Exception {
@@ -3205,10 +3345,9 @@ declare namespace std {
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal range errors. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/outflow_error/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/outflow_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class OverflowError extends RuntimeError {
@@ -3227,10 +3366,9 @@ declare namespace std {
      * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
      * exception to be thrown by programs. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/underflow_error/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/underflow_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class UnderflowError extends RuntimeError {
@@ -3250,10 +3388,9 @@ declare namespace std {
      * <p> It is a standard exception that can be thrown by programs. Some components of the standard library
      * also throw exceptions of this type to signal range errors. </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/stdexcept/range_error/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/stdexcept/range_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class RangeError extends RuntimeError {
@@ -3767,6 +3904,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -4164,7 +4303,9 @@ declare namespace std.base {
 }
 declare namespace std {
     /**
-     * An iterator of {@link MapColntainer map container}.
+     * <p> An iterator of {@link MapContainer map container}. </p>
+     *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -4232,7 +4373,9 @@ declare namespace std {
         swap(obj: MapIterator<Key, T>): void;
     }
     /**
-     * A reverse-iterator of {@link MapColntainer map container}.
+     * <p> A reverse-iterator of {@link MapContainer map container}. </p>
+     *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -4270,6 +4413,8 @@ declare namespace std.base {
      * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+     *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -4422,6 +4567,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -4528,6 +4675,8 @@ declare namespace std {
      * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their
      * <i>key</i>, although they are generally less efficient for range iteration through a subset of their elements. </p>
      *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      * 	<dt> Associative </dt>
@@ -4546,15 +4695,12 @@ declare namespace std {
      * 	<dd> No two elements in the container can have equivalent keys. </dd>
      * </dl>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_map/ </li>
-     * </ul>
-     *
      * @param <Key> Type of the key values.
      *				Each element in an {@link HashMap} is uniquely identified by its key value.
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
+     * @reference http://www.cplusplus.com/reference/unordered_map/unordered_map
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashMap<Key, T> extends base.UniqueMap<Key, T> {
@@ -4623,6 +4769,8 @@ declare namespace std {
      * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that
      * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -4641,15 +4789,12 @@ declare namespace std {
      *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
      * </dl>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_map/unordered_multimap/ </li>
-     * </ul>
-     *
      * @param <Key> Type of the key values.
      *				Each element in an {@link HashMap} is identified by a key value.
      * @param <T> Type of the mapped value.
      *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
      *
+     * @reference http://www.cplusplus.com/reference/unordered_map/unordered_multimap
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashMultiMap<Key, T> extends base.MultiMap<Key, T> {
@@ -4721,6 +4866,8 @@ declare namespace std.base {
      * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+     *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5000,6 +5147,8 @@ declare namespace std {
     /**
      * <p> An iterator of a Set. </p>
      *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     class SetIterator<T> extends Iterator<T> implements IComparable<SetIterator<T>> {
@@ -5056,6 +5205,8 @@ declare namespace std {
     /**
      * <p> A reverse-iterator of Set. </p>
      *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
      * @param <T> Type of the elements.
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -5082,6 +5233,8 @@ declare namespace std.base {
      * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+     *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5161,6 +5314,8 @@ declare namespace std.base {
      * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
      * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
      *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -5230,6 +5385,8 @@ declare namespace std {
      * elements by their <i>key</i>, although they are generally less efficient for range iteration through a
      * subset of their elements. </p>
      *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -5247,13 +5404,10 @@ declare namespace std {
      *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
      * </dl>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_set/ </li>
-     * </ul>
-     *
      * @param <T> Type of the elements.
      *			  Each element in an {@link HashSet} is also uniquely identified by this value.
      *
+     * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashSet<T> extends base.UniqueSet<T> {
@@ -5321,6 +5475,8 @@ declare namespace std {
      * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an
      * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -5338,13 +5494,10 @@ declare namespace std {
      *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
      * </dl>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/unordered_set/unordered_multiset/ </li>
-     * </ul>
-     *
      * @param <T> Type of the elements.
      *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
      *
+     * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
      * @author Jeongho Nam <http://samchon.org>
      */
     class HashMultiSet<T> extends base.MultiSet<T> {
@@ -5422,6 +5575,8 @@ declare namespace std {
      * iterate from a known position (like the beginning or the end) to that position, which takes linear time in the
      * distance between these. They also consume some extra memory to keep the linking information associated to each
      * element (which may be an important factor for large lists of small-sized elements). </p>
+     *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -5988,7 +6143,11 @@ declare namespace std {
         private swap_list(obj);
     }
     /**
-     * An iterator, node of a List.
+     * <p> An iterator, node of a List. </p>
+     *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
      */
     class ListIterator<T> extends Iterator<T> {
         private prev_;
@@ -6044,6 +6203,8 @@ declare namespace std {
     /**
      * <p> A reverse-iterator of List. </p>
      *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+     *
      * @param <T> Type of the elements.
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -6090,12 +6251,11 @@ declare namespace std {
      * By default, if no container class is specified for a particular {@link Queue} class instantiation, the standard
      * container {@link List} is used. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/queue/queue/ </li>
-     * </ul>
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
      *
      * @param <T> Type of elements.
      *
+     * @reference http://www.cplusplus.com/reference/queue/queue
      * @author Jeongho Nam <http://samchon.org>
      */
     class Queue<T> {
@@ -6419,12 +6579,11 @@ declare namespace std {
      * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard
      * container {@link List} is used. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/stack/stack/ </li>
-     * </ul>
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
      *
      * @param <T> Type of elements.
      *
+     * @reference http://www.cplusplus.com/reference/stack/stack
      * @author Jeongho Nam <http://samchon.org>
      */
     class Stack<T> {
@@ -6528,6 +6687,8 @@ declare namespace std.base {
      * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
      * so that they can be interpreted when needed as more abstract (and portable)
      * {@link ErrorCondition error conditions}. </p>
+     *
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -6636,10 +6797,9 @@ declare namespace std {
      * <p> The class inherits from {@link RuntimeError}, to which it adds an {@link ErrorCode} as
      * member code (and defines a specialized what member). </p>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/system_error/system_error/
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/system_error/system_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class SystemError extends RuntimeError {
@@ -6700,10 +6860,9 @@ declare namespace std {
      * passed by reference. As such, only one object of each of these types shall exist, each uniquely identifying its own
      * category: all error codes and conditions of a same category shall return a reference to same object. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_category/ </li>
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/system_error/error_category
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class ErrorCategory {
@@ -6826,10 +6985,9 @@ declare namespace std {
      * <p> The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the
      * {@link ErrorCode} define the equivalences between them. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_condition/ </li>
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/system_error/error_condition
      * @author Jeongho Nam <http://samchon.org>
      */
     class ErrorCondition extends base.ErrorInstance {
@@ -6857,10 +7015,9 @@ declare namespace std {
      * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they
      * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/system_error/error_code/ </li>
-     * </ul>
+     * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/system_error/error_code
      * @author Jeongho Nam <http://samchon.org>
      */
     class ErrorCode extends base.ErrorInstance {
@@ -6899,6 +7056,8 @@ declare namespace std {
      *
      * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
      *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -6917,13 +7076,10 @@ declare namespace std {
      *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
      * </dl>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/map/map/ </li>
-     * </ul>
-     *
      * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
      * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
+     * @reference http://www.cplusplus.com/reference/map/map
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMap<Key, T> extends base.UniqueMap<Key, T> {
@@ -7124,6 +7280,8 @@ declare namespace std {
      *
      * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
      *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -7148,13 +7306,10 @@ declare namespace std {
      *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
      * </dl>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/map/multimap/ </li>
-     * </ul>
-     *
      * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
      * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
      *
+     * @reference http://www.cplusplus.com/reference/map/multimap
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMultiMap<Key, T> extends base.MultiMap<Key, T> {
@@ -7351,6 +7506,8 @@ declare namespace std {
      *
      * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
      *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -7372,13 +7529,10 @@ declare namespace std {
      *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
      * </dl>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/set/set/ </li>
-     * </ul>
-     *
      * @param <T> Type of the elements.
      *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
      *
+     * @reference http://www.cplusplus.com/reference/set/set
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeSet<T> extends base.UniqueSet<T> {
@@ -7556,6 +7710,8 @@ declare namespace std {
      *
      * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
      *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Associative </dt>
@@ -7577,13 +7733,10 @@ declare namespace std {
      *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
      * </dl>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/set/multiset/ </li>
-     * </ul>
-     *
      * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified
      *			  by this value (each value is itself also the element's <i>key</i>).
      *
+     * @reference http://www.cplusplus.com/reference/set/multiset
      * @author Jeongho Nam <http://samchon.org>
      */
     class TreeMultiSet<T> extends base.MultiSet<T> {
@@ -7756,13 +7909,10 @@ declare namespace std {
      * <i>T2</i>). The individual values can be accessed through its public members {@link first} and
      * {@link second}. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/utility/pair/ </li>
-     * </ul>
-     *
      * @param <K> Type of member {@link first}.
      * @param <T> Type of member {@link second}.
      *
+     * @reference http://www.cplusplus.com/reference/utility/pair
      * @author Jeongho Nam <http://samchon.org>
      */
     class Pair<T1, T2> {
@@ -7846,6 +7996,8 @@ declare namespace std {
      * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s.
      * </p>
      *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Sequence </dt>
@@ -7861,12 +8013,9 @@ declare namespace std {
      *	</dd>
      * </dl>
      *
-     * <ul>
-     *  <li> Reference: http://www.cplusplus.com/reference/vector/vector/
-     * </ul>
-     *
      * @param <T> Type of the elements.
      *
+     * @reference http://www.cplusplus.com/reference/vector/vector
      * @author Jeongho Nam <http://samchon.org>
      */
     class Vector<T> extends Array<T> implements base.IArrayContainer<T> {
@@ -8229,6 +8378,8 @@ declare namespace std {
     /**
      * <p> An iterator of Vector. </p>
      *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+     *
      * @param <T> Type of the elements.
      *
      * @author Jeongho Nam <http://samchon.org>
@@ -8299,6 +8450,8 @@ declare namespace std {
     }
     /**
      * <p> A reverse-iterator of Vector. </p>
+     *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
      *
      * @param <T> Type of the elements.
      *
@@ -8394,12 +8547,9 @@ declare namespace std.base {
      * maximal paths have the same number of <font color='darkBlue'>black</font> nodes, by property 5, this shows
      * that no path is more than twice as long as any other path. </p>
      *
-     * <ul>
-     *	<li> Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree&redirect=no </li>
-     * </ul>
-     *
      * @param <T> Type of elements.
      *
+     * @reference https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
      * @inventor Rudolf Bayer
      * @author Migrated by Jeongho Nam <http://samchon.org>
      */
@@ -8943,6 +9093,10 @@ declare namespace std.base {
 }
 declare namespace std.base {
     /**
+     * <p> A red-black Tree storing {@link SetIterator SetIterators}. </p>
+     *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     class AtomicTree<T> extends XTree<SetIterator<T>> {
@@ -9072,6 +9226,8 @@ declare namespace std.base {
      * beginning or the end, {@link IArray} objects perform worse and have less consistent iterators and references
      * than {@link List Lists} </p>.
      *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+     *
      * <h3> Container properties </h3>
      * <dl>
      *	<dt> Sequence </dt>
@@ -9182,10 +9338,9 @@ declare namespace std.base {
      * <p> There is not a single type of {@link IArrayIterator random-access iterator}: Each container may define its
      * own specific iterator type able to iterate through it and access its elements. </p>
      *
-     * <ul>
-     *	<li> Reference: http://www.cplusplus.com/reference/iterator/RandomAccessIterator/ </li>
-     * </ul>
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
      *
+     * @reference http://www.cplusplus.com/reference/iterator/RandomAccessIterator
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IArrayIterator<T> extends Iterator<T> {
@@ -9207,10 +9362,12 @@ declare namespace std.base {
 }
 declare namespace std.base {
     /**
-     * <p> An interface of  </p>
+     * <p> An interface of containers. </p>
      *
      * <p> {@link IContainer} is an interface designed for sequence containers. Sequence containers of STL
      * (Standard Template Library) are based on the {@link IContainer}. </p>
+     *
+     * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -9400,6 +9557,8 @@ declare namespace std.base {
     /**
      * <p> An interface for deque  </p>
      *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     interface IDequeContainer<T> extends ILinearContainer<T> {
@@ -9424,7 +9583,9 @@ declare namespace std.base {
 }
 declare namespace std.base {
     /**
-     * <p> Linear  </p>
+     * <p> An interface for linear containers.  </p>
+     *
+     * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
      *
      * @author Jeonngho Nam
      */
@@ -9534,6 +9695,13 @@ declare namespace std.base {
     }
 }
 declare namespace std.base {
+    /**
+     * <p> Hash buckets storing {@link MapIterator MapIterators}. </p>
+     *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
         private map;
         constructor(map: MapContainer<K, T>);
@@ -9542,6 +9710,10 @@ declare namespace std.base {
 }
 declare namespace std.base {
     /**
+     * <p> A red-black Tree storing {@link MapIterator MapIterators}. </p>
+     *
+     * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+     *
      * @author Jeongho Nam <http://samchon.org>
      */
     class PairTree<Key, T> extends XTree<MapIterator<Key, T>> {
@@ -9568,6 +9740,13 @@ declare namespace std.base {
     }
 }
 declare namespace std.base {
+    /**
+     * <p> Hash buckets storing {@link SetIterator SetIterators}. </p>
+     *
+     * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
     class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
         private set;
         constructor(set: SetContainer<T>);
@@ -9670,4 +9849,3 @@ declare namespace std.example {
 declare namespace std.example {
     function tree_set(): void;
 }
-

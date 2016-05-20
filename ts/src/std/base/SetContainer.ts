@@ -19,6 +19,8 @@ namespace std.base
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index 
 	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
 	 *
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>
@@ -536,6 +538,8 @@ namespace std
 	/**
 	 * <p> An iterator of a Set. </p>
 	 * 
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetIterator<T>
@@ -650,6 +654,8 @@ namespace std
 
 	/**
 	 * <p> A reverse-iterator of Set. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
 	 *
 	 * @param <T> Type of the elements.
 	 *

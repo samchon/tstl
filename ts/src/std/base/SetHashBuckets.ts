@@ -4,6 +4,13 @@
 
 namespace std.base
 {
+	/**
+	 * <p> Hash buckets storing {@link SetIterator SetIterators}. </p>
+	 * 
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class SetHashBuckets<T>
 		extends HashBuckets<SetIterator<T>>
 	{

@@ -17,7 +17,9 @@ namespace std.base
 	 * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index 
 	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
-	 *
+	 * 
+	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
 	 *	<dt> Associative </dt>

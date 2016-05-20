@@ -8,7 +8,7 @@
 // values, not affecting in any way the structure of any possible container (it never affects the size or storage 
 // allocation of the container).
 //
-// @reference http://www.cplusplus.com/reference/algorithm/
+// @reference http://www.cplusplus.com/reference/algorithm
 // @author Jeongho Nam <http://samchon.org>
 
 namespace std
