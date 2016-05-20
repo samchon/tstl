@@ -1,8 +1,7 @@
 /// <reference path="../API.ts" />
 
 /// <reference path="Container.ts" />
-/// <reference path="Iterator.ts" />
-/// <reference path="ReverseIterator.ts" />
+/// <reference path="../Iterator.ts" />
 
 namespace std.base
 {
@@ -87,10 +86,30 @@ namespace std.base
 			super();
 
 			// INITIALIZATION
-			this.data_ = new List<T>();
+			this.init();
 			
-			// THIS IS ABSTRACT CLASS
-			// NOTHING TO DO ESPECIALLY
+			// BRANCH - OVERLOADINGS
+			if (args.length == 0) { } // DO NOTHING
+			else if (args.length == 1 && (args[0] instanceof Container || args[0] instanceof Vector))
+			{
+				this.construct_from_container(args[0]);
+			}
+			else if (args.length == 1 && args[0] instanceof Array)
+			{
+				this.construct_from_array(args[0]);
+			}
+			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+			{
+				this.construct_from_range(args[0], args[1]);
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected init(): void
+		{
+			this.data_ = new List<T>();
 		}
 		
 		/**
@@ -105,7 +124,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected construct_from_container(container: Container<T>): void
+		protected construct_from_container(container: IContainer<T>): void
 		{
 			this.construct_from_range(container.begin(), container.end());
 		}
@@ -113,7 +132,8 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected construct_from_range(begin: Iterator<T>, end: Iterator<T>): void
+		protected construct_from_range<InputIterator extends Iterator<T>>
+			(begin: InputIterator, end: InputIterator): void
 		{
 			this.assign(begin, end);
 		}
@@ -128,8 +148,8 @@ namespace std.base
 			(begin: Iterator<U>, end: Iterator<U>): void
 		{
 			// INSERT
-			for (let it = begin; it.equal_to(end) == false; it = it.next())
-				this.insert_by_val(it.value);
+			this.clear();
+			this.insert(begin, end);
 		}
 
 		/**
@@ -137,6 +157,7 @@ namespace std.base
 		 */
 		public clear(): void
 		{
+			// TO BE ABSTRACT
 			this.data_.clear();
 		}
 
@@ -184,7 +205,7 @@ namespace std.base
 		 */
 		public rbegin(): SetReverseIterator<T>
 		{
-			return new SetReverseIterator<T>(this, this.data_.end().prev());
+			return new SetReverseIterator<T>(this.end());
 		}
 
 		/**
@@ -192,7 +213,7 @@ namespace std.base
 		 */
 		public rend(): SetReverseIterator<T>
 		{
-			return new SetReverseIterator<T>(this, this.data_.end());
+			return new SetReverseIterator<T>(this.begin());
 		}
 
 		/* ---------------------------------------------------------
@@ -209,7 +230,7 @@ namespace std.base
 		 */
 		public has(val: T): boolean
 		{
-			return this.count(val) != 0;
+			return !this.find(val).equal_to(this.end());
 		}
 
 		/**
@@ -244,6 +265,7 @@ namespace std.base
 		 */
 		public push<U extends T>(...args: U[]): number
 		{
+			// TO BE ABSTRACT
 			for (let i: number = 0; i < args.length; i++)
 				this.insert_by_val(args[i]);
 
@@ -265,6 +287,20 @@ namespace std.base
 		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
 
 		/**
+		 * <p> Insert an element with hint. </p>
+		 *
+		 * <p> Extends the container by inserting new elements, effectively increasing the container size by the 
+		 * number of elements inserted. </p>
+		 *
+		 * @param hint Hint for the position where the element can be inserted.
+		 * @param val Value to be inserted as an element.
+		 *
+		 * @return An iterator pointing to either the newly inserted element or to the element that already had its 
+		 *		   same value in the {@link SetContainer}.
+		 */
+		public insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
+
+		/**
 		 * <p> Insert elements with a range of a  </p>
 		 *
 		 * <p> Extends the container by inserting new elements, effectively increasing the container size by the 
@@ -283,9 +319,32 @@ namespace std.base
 			else if (args.length == 2 && args[0] instanceof Iterator)
 			{
 				if (args[1] instanceof Iterator && args[0].get_source() != this && args[1].get_source() != this)
+				{
+					// IT DOESN'T CONTAIN POSITION
+					// RANGES TO INSERT ONLY
 					return this.insert_by_range(args[0], args[1]);
+				}
 				else
-					return this.insert_by_hint(args[0], args[1]);
+				{
+					let ret: SetIterator<T>;
+					let is_reverse_iterator: boolean = false;
+
+					// REVERSE_ITERATOR TO ITERATOR
+					if (args[0] instanceof SetReverseIterator)
+					{
+						is_reverse_iterator = true;
+						args[0] = (args[0] as SetReverseIterator<T>).base().prev();
+					}
+
+					// INSERT AN ELEMENT
+					ret = this.insert_by_hint(args[0], args[1]);
+
+					// RETURN BRANCHES
+					if (is_reverse_iterator == true)
+						return new SetReverseIterator<T>(ret.next());
+					else
+						return ret;
+				}
 			}
 		}
 
@@ -298,17 +357,7 @@ namespace std.base
 		 * @hidden
 		 */
 		protected abstract insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
-		//{
-		//	// INSERT
-		//	let list_iterator = this.data_.insert(hint.get_list_iterator(), val);
-			
-		//	// POST-PROCESS
-		//	let it = new SetIterator<T>(this, list_iterator);
-		//	this.handle_insert(it, it.next());
-
-		//	return it;
-		//}
-
+		
 		/**
 		 * @hidden
 		 */
@@ -346,17 +395,61 @@ namespace std.base
 		 */
 		public erase(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>;
 
+		/**
+		 * @inheritdoc
+		 */
+		public erase(it: SetReverseIterator<T>): SetReverseIterator<T>;
+
+		/**
+		 * <p> Erase elements. </p>
+		 * <p> Removes from the set container a range of elements.. </p>
+		 *
+		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 *
+		 * @param begin An iterator specifying a range of beginning to erase.
+		 * @param end An iterator specifying a range of end to erase.
+		 */
+		public erase(begin: SetReverseIterator<T>, end: SetReverseIterator<T>): SetReverseIterator<T>;
+
 		public erase(...args: any[]): any
 		{
-			if (args.length == 1)
-			{
-				if (args[0] instanceof Iterator && args[0].get_source() == this)
+			if (args.length == 1 && (args[0] instanceof Iterator == false || args[0].get_source() != this))
+				return this.erase_by_val(args[0]);
+			else
+				if (args.length == 1)
 					return this.erase_by_iterator(args[0]);
 				else
-					return this.erase_by_val(args[0]);
+					return this.erase_by_iterator(args[0], args[1]);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private erase_by_iterator(first: any, last: any = first.next()): any
+		{
+			let ret: SetIterator<T>;
+			let is_reverse_iterator: boolean = false;
+
+			// REVERSE ITERATOR TO ITERATOR
+			if (first instanceof SetReverseIterator)
+			{
+				is_reverse_iterator = true;
+
+				let first_it = (last as SetReverseIterator<T>).base();
+				let last_it = (first as SetReverseIterator<T>).base();
+
+				first = first_it;
+				last = last_it;
 			}
-			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-				return this.erase_by_range(args[0], args[1]);
+
+			// ERASE ELEMENTS
+			ret = this.erase_by_range(first, last);
+
+			// RETURN BRANCHES
+			if (is_reverse_iterator == true)
+				return new SetReverseIterator<T>(ret.next());
+			else
+				return ret;
 		}
 
 		/**
@@ -372,20 +465,6 @@ namespace std.base
 			// ERASE
 			this.erase_by_iterator(it);
 			return 1;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private erase_by_iterator(it: SetIterator<T>): SetIterator<T>
-		{
-			// ERASE
-			let list_iterator = this.data_.erase(it.get_list_iterator());
-			
-			// POST-PROCESS
-			this.handle_erase(it, it.next());
-
-			return new SetIterator<T>(this, list_iterator);
 		}
 
 		/**
@@ -460,10 +539,10 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetIterator<T>
-		extends base.Iterator<T>
+		extends Iterator<T>
 		implements IComparable<SetIterator<T>>
 	{
-		protected list_iterator_: ListIterator<T>;
+		private list_iterator_: ListIterator<T>;
 
 		/**
 		 * <p> Construct from source and index number. </p>
@@ -515,7 +594,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected get set(): base.SetContainer<T>
+		private get set(): base.SetContainer<T>
 		{
 			return this.source_ as base.SetContainer<T>;
 		}
@@ -577,41 +656,22 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetReverseIterator<T>
-		extends SetIterator<T>
+		extends ReverseIterator<T, SetIterator<T>, SetReverseIterator<T>>
 	{
-		/* ---------------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------------- */
-		public constructor(source: base.SetContainer<T>, it: ListIterator<T>)
-		{
-			super(source, it);
-		}
-		
 		/* ---------------------------------------------------------
-			MOVERS
+			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public prev(): SetReverseIterator<T>
+		public constructor(base: SetIterator<T>)
 		{
-			return new SetReverseIterator<T>(this.set, this.list_iterator_.next());
+			super(base);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public next(): SetReverseIterator<T>
+		protected create_neighbor(): SetReverseIterator<T>
 		{
-			return new SetReverseIterator<T>(this.set, this.list_iterator_.prev());
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public advance(n: number): SetReverseIterator<T>
-		{
-			return new SetReverseIterator<T>(this.set, this.list_iterator_.advance(-1 * n));
+			return new SetReverseIterator<T>(null);
 		}
 	}
 }

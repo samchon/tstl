@@ -41,17 +41,9 @@ namespace std.base
 	export abstract class UniqueSet<T>
 		extends SetContainer<T>
 	{
-		/* =========================================================
-			CONSTRUCTORS
-		========================================================= */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor()
-		{
-			super();
-		}
-
+		/* ---------------------------------------------------------
+			ACCESSOR
+		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
@@ -60,9 +52,9 @@ namespace std.base
 			return this.find(key).equal_to(this.end()) ? 0 : 1;
 		}
 
-		/* =========================================================
-			ELEMENTS I/O
-		========================================================= */
+		/* ---------------------------------------------------------
+			INSERTS
+		--------------------------------------------------------- */
 		/**
 		 * <p> Insert an element. </p>
 		 *
@@ -92,12 +84,31 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
+		public insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
 		public insert<U extends T, InputIterator extends Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
 			return super.insert.apply(this, args);
+		}
+
+		/* ---------------------------------------------------------
+			UTILITIES
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: UniqueSet<T>): void
+		{
+			let vec = new Vector<T>(this.begin(), this.end());
+
+			this.assign(obj.begin(), obj.end());
+			obj.assign(vec.begin(), vec.end());
 		}
 	}
 }

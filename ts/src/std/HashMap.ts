@@ -65,60 +65,18 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor();
+		/////
+		// using super::constructor
+		/////
 
 		/**
-		 * Contruct from elements.
-		 *
-		 * @param array Elements to be contained.
+		 * @hidden
 		 */
-		public constructor(array: Array<Pair<Key, T>>);
-
-		/**
-		 * Contruct from tuples.
-		 *
-		 * @param array Tuples to be contained.
-		 */
-		public constructor(array: Array<[Key, T]>);
-
-		/**
-		 * Copy Constructor.
-		 *
-		 * @param container Another map to copy.
-		 */
-		public constructor(container: base.MapContainer<Key, T>);
-
-		/**
-		 * Range Constructor.
-		 *
-		 * @param begin nput interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
-		 */
-		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
-
-		public constructor(...args: any[])
+		protected init(): void
 		{
-			super();
+			super.init();
 
-			// HASH_BUCKET
 			this.hash_buckets_ = new base.MapHashBuckets<Key, T>(this);
-
-			// OVERLOADINGS
-			if (args.length == 1 && args[0] instanceof Array)
-			{
-				this.construct_from_array(args[0]);
-			}
-			else if (args.length == 1 && args[0] instanceof base.MapContainer)
-			{
-				this.construct_from_container(args[0]);
-			}
-			else if (args.length == 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
-			{
-				this.construct_from_range(args[0], args[1]);
-			}
 		}
 
 		/**
@@ -137,31 +95,11 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-		{
-			let it: MapIterator<L, U>;
-			let size: number = 0;
-			
-			// RESERVE HASH_BUCKET SIZE
-			for (it = begin; it.equal_to(end) == false; it = it.next())
-				size++;
-
-			this.hash_buckets_.clear();
-			this.hash_buckets_.reserve(size * base.RATIO);
-
-			// SUPER; INSERT
-			super.assign(begin, end);
-		}
-		
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
-			super.clear();
-
 			this.hash_buckets_.clear();
+
+			super.clear();
 		}
 
 		/* =========================================================
@@ -224,30 +162,30 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends Key, U extends T>
-			(first: MapIterator<L, U>, last: MapIterator<L, U>): void
+		protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+			(first: InputIterator, last: InputIterator): void
 		{
-			let my_first: MapIterator<Key, T> = this.end();
+			let my_first: MapIterator<Key, T> = this.end().prev();
 			let size: number = 0;
 
-			for (; !first.equal_to(last); first = first.next())
+			// INSERT ELEMENTS
+			for (; !first.equal_to(last); first = first.next() as InputIterator)
 			{
 				// TEST WHETER EXIST
-				let it = this.find(first.first);
-				if (!it.equal_to(this.end()))
+				if (this.has(first.value.first))
 					continue;
 
 				// INSERTS
-				this.data_.push_back(make_pair<Key, T>(first.first, first.second));
-				it = it.prev();
+				this.data_.push_back(make_pair<Key, T>(first.value.first, first.value.second));
 				size++;
 			}
+			my_first = my_first.next();
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
 			if (this.size() + size > this.hash_buckets_.size() * base.MAX_RATIO)
 				this.hash_buckets_.reserve((this.size() + size) * base.RATIO);
 
-			// INSERTS
+			// POST-PROCESS
 			this.handle_insert(my_first, this.end());
 		}
 
@@ -278,7 +216,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.MapContainer<Key, T>): void
+		public swap(obj: base.UniqueMap<Key, T>): void
 		{
 			if (obj instanceof HashMap)
 				this.swap_hash_map(obj);
@@ -359,60 +297,18 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor();
+		/////
+		// using super::constructor
+		/////
 
 		/**
-		 * Contruct from elements.
-		 *
-		 * @param array Elements to be contained.
+		 * @hidden
 		 */
-		public constructor(array: Array<Pair<Key, T>>);
-
-		/**
-		 * Contruct from tuples.
-		 *
-		 * @param array Tuples to be contained.
-		 */
-		public constructor(array: Array<[Key, T]>);
-
-		/**
-		 * Copy Constructor.
-		 *
-		 * @param container Another map to copy.
-		 */
-		public constructor(container: base.MapContainer<Key, T>);
-
-		/**
-		 * Range Constructor.
-		 *
-		 * @param begin nput interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
-		 */
-		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
-
-		public constructor(...args: any[])
+		protected init(): void
 		{
-			super();
+			super.init();
 
-			// HASH_BUCKET
 			this.hash_buckets_ = new base.MapHashBuckets<Key, T>(this);
-
-			// OVERLOADINGS
-			if (args.length == 1 && args[0] instanceof Array)
-			{
-				this.construct_from_array(args[0]);
-			}
-			else if (args.length == 1 && args[0] instanceof base.MapContainer)
-			{
-				this.construct_from_container(args[0]);
-			}
-			else if (args.length == 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
-			{
-				this.construct_from_range(args[0], args[1]);
-			}
 		}
 
 		/**
@@ -431,31 +327,11 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-		{
-			let it: MapIterator<L, U>;
-			let size: number = 0;
-
-			// REVERSE HASH_GROUP SIZE
-			for (it = begin; it.equal_to(end) == false; it = it.next())
-				size++;
-
-			this.hash_buckets_.clear();
-			this.hash_buckets_.reserve(size * base.RATIO);
-
-			// SUPER; INSERT
-			super.assign(begin, end);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
-			super.clear();
-
 			this.hash_buckets_.clear();
+
+			super.clear();
 		}
 
 		/* =========================================================
@@ -467,6 +343,24 @@ namespace std
 		public find(key: Key): MapIterator<Key, T>
 		{
 			return this.hash_buckets_.find(key);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public count(key: Key): number
+		{
+			// FIND MATCHED BUCKET
+			let index = std.hash(key) % this.hash_buckets_.item_size();
+			let bucket = this.hash_buckets_.at(index);
+
+			// ITERATE THE BUCKET
+			let cnt: number = 0;
+			for (let i = 0; i < bucket.length; i++)
+				if (std.equal_to(bucket[i].first, key))
+					cnt++;
+
+			return cnt;
 		}
 
 		/* =========================================================
@@ -506,28 +400,16 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends Key, U extends T>
-			(first: MapIterator<L, U>, last: MapIterator<L, U>): void
+		protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+			(first: InputIterator, last: InputIterator): void
 		{
-			let size: number = distance(first, last);
+			// INSERT ELEMENTS
+			let list_iterator = this.data_.insert(this.data_.end(), first, last);
+			let my_first = new MapIterator<Key, T>(this, list_iterator);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hash_buckets_.item_size() * base.MAX_RATIO)
-				this.hash_buckets_.reserve((this.size() + size) * base.RATIO);
-
-			//////
-			// INSERTS
-			//////
-			let my_first: MapIterator<Key, T> = null;
-
-			for (; !first.equal_to(last); first = first.next())
-			{
-				let list_it = this.data_.insert(this.data_.end(), make_pair<Key, T>(first.first, first.second));
-				let it = new MapIterator<Key, T>(this, list_it);
-
-				if (my_first == null)
-					my_first = it;
-			}
+			if (this.size() > this.hash_buckets_.item_size() * base.MAX_RATIO)
+				this.hash_buckets_.reserve(this.size() * base.RATIO);
 			
 			// POST-PROCESS
 			this.handle_insert(my_first, this.end());
@@ -560,7 +442,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.MapContainer<Key, T>): void
+		public swap(obj: base.MultiMap<Key, T>): void
 		{
 			if (obj instanceof HashMultiMap)
 				this.swap_hash_multimap(obj);

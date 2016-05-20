@@ -131,7 +131,7 @@ namespace std
 		 * @param begin nput interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
+		public constructor(begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>);
 
 		/**
 		 * Range Constructor.
@@ -142,37 +142,50 @@ namespace std
 		 */
 		public constructor
 			(
-				begin: MapIterator<Key, T>, end: MapIterator<Key, T>, 
+				begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>,
 				compare: (left: Key, right: Key) => boolean
 			);
 		
 		public constructor(...args: any[])
 		{
 			super();
-
+			
 			// CONSTRUCT TREE WITH COMPARE
-			let compare: (left: Key, right: Key) => boolean;
-
-			if (args.length == 0 || args[args.length - 1] instanceof Function == false)
-				compare = std.less;
-			else
-				compare = args[args.length - 1];
-
-			this.tree_ = new base.PairTree<Key, T>(compare);
+			let compare: (left: Key, right: Key) => boolean = std.less;
+			let fn: Function = null;
 
 			// OVERLOADINGS
-			if (args.length >= 1 && args[0] instanceof Array)
+			if (args.length == 0) { } // DO NOTHING
+			else if (args.length >= 1 && (args[0] instanceof base.Container || args[0] instanceof Vector))
 			{
-				this.construct_from_array(args[0]);
+				fn = this.construct_from_container;
+
+				if (args.length == 2)
+					compare = args[1];
 			}
-			else if (args.length >= 1 && args[0] instanceof base.MapContainer)
+			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				this.construct_from_container(args[0]);
+				fn = this.construct_from_array;
+
+				if (args.length == 2)
+					compare = args[1];
 			}
-			else if (args.length >= 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
+			else if (args.length >= 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				this.construct_from_range(args[0], args[1]);
+				fn = this.construct_from_range;
+
+				if (args.length == 3)
+					compare = args[2];
 			}
+			else if (args.length == 1)
+				compare = args[0];
+
+			// CONSTRUCT TREE
+			this.tree_ = new base.PairTree<Key, T>(compare);
+
+			// BRANCH - CALL OVERLOADED CONSTRUCTORS
+			if (fn != null)
+				fn.apply(this, args);
 		}
 
 		/* ---------------------------------------------------------
@@ -181,20 +194,11 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-		{
-			super.assign(begin, end);
-		}
-		
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
-			super.clear();
+			this.tree_ = new base.PairTree<Key, T>(this.tree_.get_compare());
 
-			this.tree_ = new base.PairTree<Key, T>();
+			super.clear();
 		}
 
 		/* =========================================================
@@ -241,7 +245,7 @@ namespace std
 
 			if (node == null)
 				return this.end();
-			else if (std.less(node.value.first, key))
+			else if (this.tree_.get_compare()(node.value.first, key))
 				return node.value.next();
 			else
 				return node.value;
@@ -275,7 +279,7 @@ namespace std
 
 			if (node == null)
 				return this.end();
-			else if (!std.equal_to(node.value.first, key) && !std.less(node.value.first, key))
+			else if (!std.equal_to(node.value.first, key) && !this.tree_.get_compare()(node.value.first, key))
 				return node.value;
 			else
 				return node.value.next();
@@ -329,10 +333,10 @@ namespace std
 			
 			// INSERTS
 			let it: MapIterator<Key, T>;
-
+			
 			if (node == null)
 				it = this.end();
-			else if (std.less(node.value.first, pair.first) == true)
+			else if (this.tree_.get_compare()(node.value.first, pair.first) == true)
 				it = node.value.next();
 			else
 				it = node.value;
@@ -384,11 +388,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+			(first: InputIterator, last: InputIterator): void
 		{
-			for (; !begin.equal_to(end); begin = begin.next())
-				this.insert_by_pair(make_pair<Key, T>(begin.first, begin.second));
+			for (; !first.equal_to(last); first = first.next() as InputIterator)
+				this.insert_by_pair(make_pair<Key, T>(first.value.first, first.value.second));
 		}
 
 		/* ---------------------------------------------------------
@@ -417,7 +421,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.MapContainer<Key, T>): void
+		public swap(obj: base.UniqueMap<Key, T>): void
 		{
 			if (obj instanceof TreeMap)
 				this.swap_tree_map(obj);
@@ -566,7 +570,7 @@ namespace std
 		 * @param begin nput interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
+		public constructor(begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>);
 
 		/**
 		 * Range Constructor.
@@ -577,37 +581,50 @@ namespace std
 		 */
 		public constructor
 			(
-			begin: MapIterator<Key, T>, end: MapIterator<Key, T>,
-			compare: (left: Key, right: Key) => boolean
+				begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>,
+				compare: (left: Key, right: Key) => boolean
 			);
-
+		
 		public constructor(...args: any[])
 		{
 			super();
 
 			// CONSTRUCT TREE WITH COMPARE
-			let compare: (left: Key, right: Key) => boolean;
-
-			if (args.length == 0 || args[args.length - 1] instanceof Function == false)
-				compare = std.less;
-			else
-				compare = args[args.length - 1];
-
-			this.tree_ = new base.PairTree<Key, T>(compare);
+			let compare: (left: Key, right: Key) => boolean = std.less;
+			let fn: Function = null;
 
 			// OVERLOADINGS
-			if (args.length >= 1 && args[0] instanceof Array)
+			if (args.length == 0) { } // DO NOTHING
+			else if (args.length >= 1 && (args[0] instanceof base.Container || args[0] instanceof Vector))
 			{
-				this.construct_from_array(args[0]);
+				fn = this.construct_from_container;
+
+				if (args.length == 2)
+					compare = args[1];
 			}
-			else if (args.length >= 1 && args[0] instanceof base.MapContainer)
+			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				this.construct_from_container(args[0]);
+				fn = this.construct_from_array;
+
+				if (args.length == 2)
+					compare = args[1];
 			}
-			else if (args.length >= 2 && args[0] instanceof MapIterator && args[1] instanceof MapIterator)
+			else if (args.length >= 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				this.construct_from_range(args[0], args[1]);
+				fn = this.construct_from_range;
+
+				if (args.length == 3)
+					compare = args[2];
 			}
+			else if (args.length == 1)
+				compare = args[0];
+
+			// CONSTRUCT TREE
+			this.tree_ = new base.PairTree<Key, T>(compare);
+
+			// BRANCH - CALL OVERLOADED CONSTRUCTORS
+			if (fn != null)
+				fn.apply(this, args);
 		}
 
 		/* ---------------------------------------------------------
@@ -616,17 +633,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
-		{
-			super.assign(begin, end);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
+			this.tree_ = new base.PairTree<Key, T>(this.tree_.get_compare());
+
 			super.clear();
 		}
 
@@ -644,6 +654,20 @@ namespace std
 				return this.end();
 			else
 				return node.value;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public count(key: Key): number
+		{
+			let it = this.find(key);
+			let cnt: number = 0;
+
+			for (; !it.equal_to(this.end()) && std.equal_to(it.first, key); it = it.next())
+				cnt++;
+
+			return cnt;
 		}
 
 		/**
@@ -679,7 +703,7 @@ namespace std
 			else
 			{
 				let it: MapIterator<Key, T> = node.value;
-				while (!std.equal_to(it, this.end()) && std.less(it.first, key))
+				while (!std.equal_to(it, this.end()) && this.tree_.get_compare()(it.first, key))
 					it = it.next();
 
 				return it;
@@ -717,7 +741,7 @@ namespace std
 			else
 			{
 				let it: MapIterator<Key, T> = node.value;
-				while (!std.equal_to(it, this.end()) && (std.equal_to(it.first, key) || std.less(it.first, key)))
+				while (!std.equal_to(it, this.end()) && (std.equal_to(it.first, key) || this.tree_.get_compare()(it.first, key)))
 					it = it.next();
 
 				return it;
@@ -771,11 +795,11 @@ namespace std
 			{
 				it = node.value.next();
 			}
-			else if (std.less(node.value.first, pair.first) == true)
+			else if (this.tree_.get_compare()(node.value.first, pair.first) == true)
 			{
 				it = node.value.next();
 
-				while (it.equal_to(this.end()) == false && std.less(it.first, pair.first))
+				while (it.equal_to(this.end()) == false && this.tree_.get_compare()(it.first, pair.first))
 					it = it.next();
 			}
 			else
@@ -828,11 +852,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void
+		protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+			(first: InputIterator, last: InputIterator): void
 		{
-			for (; !begin.equal_to(end); begin = begin.next())
-				this.insert_by_pair(make_pair<Key, T>(begin.first, begin.second));
+			for (; !first.equal_to(last); first = first.next() as InputIterator)
+				this.insert_by_pair(make_pair<Key, T>(first.value.first, first.value.second));
 		}
 
 		/* ---------------------------------------------------------
@@ -861,7 +885,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.MapContainer<Key, T>): void
+		public swap(obj: base.MultiMap<Key, T>): void
 		{
 			if (obj instanceof TreeMultiMap)
 				this.swap_tree_multimap(obj);

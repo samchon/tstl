@@ -99,7 +99,7 @@ namespace std
 		/**
 		 * Copy Constructor.
 		 */
-		public constructor(container: base.Container<T>);
+		public constructor(container: base.IContainer<T>);
 
 		/**
 		 * Copy Constructor with compare.
@@ -107,7 +107,7 @@ namespace std
 		 * @param container A container to be copied.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
+		public constructor(container: base.IContainer<T>, compare: (left: T, right: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -115,7 +115,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
 
 		/**
 		 * Range Constructor with compare.
@@ -126,7 +126,7 @@ namespace std
 		 */
 		public constructor
 			(
-				begin: base.Iterator<T>, end: base.Iterator<T>,
+				begin: Iterator<T>, end: Iterator<T>,
 				compare: (left: T, right: T) => boolean
 			);
 		
@@ -135,28 +135,41 @@ namespace std
 			super();
 
 			// CONSTRUCT TREE WITH COMPARE
-			let compare: (left: T, right: T) => boolean;
-
-			if (args.length == 0 || args[args.length - 1] instanceof Function == false)
-				compare = std.less;
-			else
-				compare = args[args.length - 1];
-
-			this.tree_ = new base.AtomicTree<T>(compare);
+			let compare: (left: T, right: T) => boolean = std.less;
+			let fn: Function = null;
 
 			// OVERLOADINGS
-			if (args.length >= 1 && args[0] instanceof Array)
+			if (args.length == 0) { } // DO NOTHING
+			else if (args.length >= 1 && (args[0] instanceof base.Container || args[0] instanceof Vector))
 			{
-				this.construct_from_array(args[0]);
+				fn = this.construct_from_container;
+
+				if (args.length == 2)
+					compare = args[1];
 			}
-			else if (args.length >= 1 && args[0] instanceof base.SetContainer)
+			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				this.construct_from_container(args[0]);
+				fn = this.construct_from_array;
+
+				if (args.length == 2)
+					compare = args[1];
 			}
-			else if (args.length >= 2 && args[0] instanceof SetIterator && args[1] instanceof SetIterator)
+			else if (args.length >= 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				this.construct_from_range(args[0], args[1]);
+				fn = this.construct_from_range;
+
+				if (args.length == 3)
+					compare = args[2];
 			}
+			else if (args.length == 1)
+				compare = args[0];
+
+			// CONSTRUCT TREE
+			this.tree_ = new base.AtomicTree<T>(compare);
+
+			// BRANCH - CALL OVERLOADED CONSTRUCTORS
+			if (fn != null)
+				fn.apply(this, args);
 		}
 
 		/* ---------------------------------------------------------
@@ -165,20 +178,11 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void
-		{
-			super.assign(begin, end);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
-			super.clear();
+			this.tree_ = new base.AtomicTree<T>(this.tree_.get_compare());
 
-			this.tree_ = new base.AtomicTree<T>();
+			super.clear();
 		}
 		
 		/* =========================================================
@@ -364,7 +368,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -397,7 +401,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void
+		public swap(obj: base.UniqueSet<T>): void
 		{
 			if (obj instanceof TreeSet)
 				this.swap_tree_set(obj);
@@ -526,7 +530,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
 
 		/**
 		 * Construct from range and compare.
@@ -537,7 +541,7 @@ namespace std
 		 */
 		public constructor
 			(
-				begin: base.Iterator<T>, end: base.Iterator<T>,
+				begin: Iterator<T>, end: Iterator<T>,
 				compare: (left: T, right: T) => boolean
 			);
 		
@@ -546,28 +550,41 @@ namespace std
 			super();
 
 			// CONSTRUCT TREE WITH COMPARE
-			let compare: (left: T, right: T) => boolean;
-
-			if (args.length == 0 || args[args.length - 1] instanceof Function == false)
-				compare = std.less;
-			else
-				compare = args[args.length - 1];
-
-			this.tree_ = new base.AtomicTree<T>(compare);
+			let compare: (left: T, right: T) => boolean = std.less;
+			let fn: Function = null;
 
 			// OVERLOADINGS
-			if (args.length >= 1 && args[0] instanceof Array)
+			if (args.length == 0) { } // DO NOTHING
+			else if (args.length >= 1 && (args[0] instanceof base.Container || args[0] instanceof Vector))
 			{
-				this.construct_from_array(args[0]);
+				fn = this.construct_from_container;
+
+				if (args.length == 2)
+					compare = args[1];
 			}
-			else if (args.length >= 1 && args[0] instanceof base.SetContainer)
+			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				this.construct_from_container(args[0]);
+				fn = this.construct_from_array;
+
+				if (args.length == 2)
+					compare = args[1];
 			}
-			else if (args.length >= 2 && args[0] instanceof SetIterator && args[1] instanceof SetIterator)
+			else if (args.length >= 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				this.construct_from_range(args[0], args[1]);
+				fn = this.construct_from_range;
+
+				if (args.length == 3)
+					compare = args[2];
 			}
+			else if (args.length == 1)
+				compare = args[0];
+
+			// CONSTRUCT TREE
+			this.tree_ = new base.AtomicTree<T>(compare);
+
+			// BRANCH - CALL OVERLOADED CONSTRUCTORS
+			if (fn != null)
+				fn.apply(this, args);
 		}
 
 		/* ---------------------------------------------------------
@@ -576,20 +593,11 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void
-		{
-			super.assign(begin, end);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
-			super.clear();
+			this.tree_ = new base.AtomicTree<T>(this.tree_.get_compare());
 
-			this.tree_ = new base.AtomicTree<T>();
+			super.clear();
 		}
 
 		/* =========================================================
@@ -606,6 +614,20 @@ namespace std
 				return this.end();
 			else
 				return node.value;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public count(val: T): number
+		{
+			let it = this.find(val);
+			let cnt: number = 0;
+
+			for (; !it.equal_to(this.end()) && std.equal_to(it.value, val); it = it.next())
+				cnt++;
+
+			return cnt;
 		}
 
 		/**
@@ -791,7 +813,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -824,7 +846,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void
+		public swap(obj: base.MultiSet<T>): void
 		{
 			if (obj instanceof TreeMultiSet)
 				this.swap_tree_set(obj);

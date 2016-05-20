@@ -49,47 +49,6 @@ namespace std.base
 		extends MapContainer<Key, T>
 	{
 		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor();
-
-		/**
-		 * Construct from elements.
-		 */
-		public constructor(items: Array<Pair<Key, T>>);
-
-		/**
-		 * Contruct from tuples.
-		 *
-		 * @param array Tuples to be contained.
-		 */
-		public constructor(array: Array<[Key, T]>);
-
-		/**
-		 * Copy Constructor.
-		 */
-		public constructor(container: MapContainer<Key, T>);
-
-		/**
-		 * Construct from range iterators.
-		 */
-		public constructor(begin: MapIterator<Key, T>, end: MapIterator<Key, T>);
-
-		/**
-		 * Default Constructor.
-		 */
-		public constructor()
-		{
-			super();
-
-			// THIS IS ABSTRACT CLASS
-			// NOTHING TO DO ESPECIALLY
-		}
-
-		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
@@ -134,7 +93,7 @@ namespace std.base
 			let it = this.find(key);
 			
 			if (it.equal_to(this.end()) == true)
-				this.insert(new Pair<Key, T>(key, val));
+				this.insert(make_pair(key, val));
 			else
 				it.second = val;
 		}
@@ -184,12 +143,18 @@ namespace std.base
 		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or
 		 *		   false if an equivalent key already existed.
 		 */
-		public insert<L extends Key, U extends T>(tuple: [L, U]): Pair<MapIterator<Key, T>, boolean>;
+		public insert<L extends Key, U extends T>
+			(tuple: [L, U]): Pair<MapIterator<Key, T>, boolean>;
 
 		/**
 		 * @inheritdoc
 		 */
 		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public insert(hint: MapReverseIterator<Key, T>, pair: Pair<Key, T>): MapReverseIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
@@ -201,11 +166,45 @@ namespace std.base
 		 * @inheritdoc
 		 */
 		public insert<L extends Key, U extends T>
-			(begin: MapIterator<L, U>, end: MapIterator<L, U>): void;
+			(hint: MapReverseIterator<Key, T>, tuple: [L, U]): MapReverseIterator<Key, T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public insert<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+			(first: InputIterator, last: InputIterator): void
 
 		public insert(...args: any[]): any
 		{
 			return super.insert.apply(this, args);
+		}
+
+		/* ---------------------------------------------------------
+			UTILITIES
+		--------------------------------------------------------- */
+		/**
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link UniqueMap map} of the same type. Sizes abd container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
+		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 *
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link UniqueMap map container} of the same type of elements as this (i.e.,
+		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
+		 *			  with that of this {@link UniqueMap container}.
+		 */
+		public swap(obj: UniqueMap<Key, T>): void
+		{
+			let vec = new Vector<Pair<Key, T>>(this.begin(), this.end());
+
+			this.assign(obj.begin(), obj.end());
+			obj.assign(vec.begin(), vec.end());
 		}
 	}
 }

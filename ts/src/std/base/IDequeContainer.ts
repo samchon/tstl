@@ -7,7 +7,7 @@ namespace std.base
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IDeque<T> 
+	export interface IDequeContainer<T> 
 		extends ILinearContainer<T>
 	{
 		/**

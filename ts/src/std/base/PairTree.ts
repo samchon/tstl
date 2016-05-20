@@ -56,7 +56,7 @@ namespace std.base
 
 				if (std.equal_to(key, node.value.first))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-				else if (std.less(key, node.value.first))
+				else if (this.compare_(key, node.value.first))
 					newNode = node.left; // LESS, THEN TO THE LEFT
 				else
 					newNode = node.right; // GREATER, THEN TO THE RIGHT
@@ -83,7 +83,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public is_equals(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
+		public is_equal_to(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
 			return std.equal_to(left.first, right.first);
 		}

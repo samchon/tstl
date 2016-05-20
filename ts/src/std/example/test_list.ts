@@ -11,7 +11,7 @@ namespace std.example
 		let it = list.begin().advance(3);
 		it = list.erase(it); // erase 3
 		console.log(it.value); // print 4
-
+		
 		it = list.begin().advance(2);
 		it = list.insert(it, -1); // insert -1
 		console.log(it.next().value); // print 2

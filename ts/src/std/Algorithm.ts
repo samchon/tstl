@@ -36,10 +36,10 @@ namespace std
 	 *
 	 * @return Returns <i>fn</i>.
 	 */
-	export function for_each<T, Iterator extends base.Iterator<T>, Func extends (val: T) => any>
-		(first: Iterator, last: Iterator, fn: Func): Func
+	export function for_each<T, InputIterator extends Iterator<T>, Func extends (val: T) => any>
+		(first: InputIterator, last: InputIterator, fn: Func): Func
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			fn(it.value);
 
 		return fn;
@@ -66,10 +66,10 @@ namespace std
 	 * @return <code>true</code> if pred returns true for all the elements in the range or if the range is 
 	 *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
 	 */
-	export function all_of<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (val: T) => boolean): boolean
+	export function all_of<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			if (pred(it.value) == false)
 				return false;
 
@@ -97,10 +97,10 @@ namespace std
 	 *		   [<i>first</i>, <i>last</i>), and <code>false</code> otherwise. If [<i>first</i>, <i>last</i>) is an 
 	 *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
 	 */
-	export function any_of<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (val: T) => boolean): boolean
+	export function any_of<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			if (pred(it.value) == true)
 				return true;
 
@@ -126,8 +126,8 @@ namespace std
 	 *		   [<i>first</i>, <i>last</i>) or if the range is {@link IContainer.empty empty}, and <code>false</code> 
 	 *		   otherwise.
 	 */
-	export function none_of<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (val: T) => boolean): boolean
+	export function none_of<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
 		return !any_of(first, last, pred);
 	}
@@ -148,8 +148,8 @@ namespace std
 	 * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those 
 	 *		   of the range starting at <i>first2</i>, and <code>false</code> otherwise.
 	 */
-	export function equal<T, Iterator1 extends base.Iterator<T>>
-		(first1: Iterator1, last1: Iterator1, first2: base.Iterator<T>): boolean;
+	export function equal<T, Iterator1 extends Iterator<T>>
+		(first1: Iterator1, last1: Iterator1, first2: Iterator<T>): boolean;
 
 	/**
 	 * <p> Test whether the elements in two ranges are equal. </p>
@@ -170,15 +170,15 @@ namespace std
 	 * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those
 	 *		   of the range starting at <i>first2</i>, and <code>false</code> otherwise.
 	 */
-	export function equal<T, Iterator1 extends base.Iterator<T>>
+	export function equal<T, Iterator1 extends Iterator<T>>
 		(
-			first1: Iterator1, last1: Iterator1, first2: base.Iterator<T>,
+			first1: Iterator1, last1: Iterator1, first2: Iterator<T>,
 			pred: (x: T, y: T) => boolean
 		): boolean;
 
-	export function equal<T, Iterator1 extends base.Iterator<T>>
+	export function equal<T, Iterator1 extends Iterator<T>>
 		(
-			first1: Iterator1, last1: Iterator1, first2: base.Iterator<T>,
+			first1: Iterator1, last1: Iterator1, first2: Iterator<T>,
 			pred: (x: T, y: T) => boolean = std.equal_to
 		): boolean
 	{
@@ -211,7 +211,7 @@ namespace std
 	 *		   of the range starting at <i>first2</i> in any order, and <code>false</code> otherwise.
 	 */
 	export function is_permutation
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2): boolean;
 
 	/**
@@ -235,14 +235,14 @@ namespace std
 	 *		   of the range starting at <i>first2</i> in any order, and <code>false</code> otherwise.
 	 */
 	export function is_permutation
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			pred: (x: T, y: T) => boolean
 		): boolean;
 
 	export function is_permutation
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			pred: (x: T, y: T) => boolean = std.equal_to
@@ -295,7 +295,7 @@ namespace std
 	 */
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T, 
-			Iterator1 extends base.Iterator<T1>, Iterator2 extends base.Iterator<T2>>
+			Iterator1 extends Iterator<T1>, Iterator2 extends Iterator<T2>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): boolean;
 
 	/**
@@ -328,7 +328,7 @@ namespace std
 	 */
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T, 
-			Iterator1 extends base.Iterator<T1>, Iterator2 extends base.Iterator<T2>>
+			Iterator1 extends Iterator<T1>, Iterator2 extends Iterator<T2>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
 			compare: (x: T, y: T) => boolean
@@ -336,7 +336,7 @@ namespace std
 	
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T,
-			Iterator1 extends base.Iterator<T1>, Iterator2 extends base.Iterator<T2>>
+			Iterator1 extends Iterator<T1>, Iterator2 extends Iterator<T2>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
 			compare: (x: T, y: T) => boolean = std.less
@@ -376,10 +376,10 @@ namespace std
 	 * @return An {@link Iterator} to the first element in the range that compares equal to <i>val</i>. If no elements 
 	 *		   match, the function returns <i>last</i>.
 	 */
-	export function find<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, val: T): Iterator
+	export function find<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, val: T): InputIterator
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			if (std.equal_to(it.value, val))
 				return it;
 
@@ -404,10 +404,10 @@ namespace std
 	 *		   <code>false</code>. If <i>pred</i> is <code>false</code> for all elements, the function returns 
 	 *		   <i>last</i>.
 	 */
-	export function find_if<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (val: T) => boolean): Iterator
+	export function find_if<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			if (pred(it.value))
 				return it;
 
@@ -431,10 +431,10 @@ namespace std
 	 * @return An {@link Iterator} to the first element in the range for which <i>pred</i> returns <code>false</code>.
 	 *		   If <i>pred</i> is <code>true</code> for all elements, the function returns <i>last</i>.
 	 */
-	export function find_if_not<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (val: T) => boolean): Iterator
+	export function find_if_not<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			if (pred(it.value) == false)
 				return it;
 
@@ -471,7 +471,7 @@ namespace std
 	 *		   [<i>first2</i>, <i>last2</i>) is an empty range, the function returns <i>last1</i>.
 	 */
 	export function find_end
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): Iterator1;
 	
 	/**
@@ -504,14 +504,14 @@ namespace std
 	 *		   [<i>first2</i>, <i>last2</i>) is an empty range, the function returns <i>last1</i>.
 	 */
 	export function find_end
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
 			pred: (x: T, y: T) => boolean
 		): Iterator1;
 
 	export function find_end
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
 			compare: (x: T, y: T) => boolean = std.equal_to
@@ -565,7 +565,7 @@ namespace std
 	 *		   [<i>first2</i>, <i>last2</i>). If no matches are found, the function returns <i>last1</i>.
 	 */
 	export function find_first_of
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): Iterator1;
 
 	/**
@@ -592,14 +592,14 @@ namespace std
 	 *		   [<i>first2</i>, <i>last2</i>). If no matches are found, the function returns <i>last1</i>.
 	 */
 	export function find_first_of
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
 			pred: (x: T, y: T) => boolean
 		): Iterator1;
 
 	export function find_first_of
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
 			pred: (x: T, y: T) => boolean = std.equal_to
@@ -629,8 +629,8 @@ namespace std
 	 * @return An {@link Iterator} to the first element of the first pair of matching consecutive elements in the range 
 	 *		   [<i>first</i>, <i>last</i>). If no such pair is found, the function returns <i>last</i>.
 	 */
-	export function adjacent_find<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator): Iterator;
+	export function adjacent_find<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator): InputIterator;
 
 	/**
 	 * <p> Find equal adjacent elements in range. </p>
@@ -651,23 +651,23 @@ namespace std
 	 * @return An {@link Iterator} to the first element of the first pair of matching consecutive elements in the range 
 	 *		   [<i>first</i>, <i>last</i>). If no such pair is found, the function returns <i>last</i>.
 	 */
-	export function adjacent_find<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (x: T, y: T) => boolean): Iterator;
+	export function adjacent_find<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean): InputIterator;
 
-	export function adjacent_find<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (x: T, y: T) => boolean = std.equal_to): Iterator
+	export function adjacent_find<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = std.equal_to): InputIterator
 	{
 		if (!first.equal_to(last))
 		{
-			let next: Iterator = first.next() as Iterator;
+			let next: InputIterator = first.next() as InputIterator;
 
 			while (!next.equal_to(last))
 			{
 				if (std.equal_to(first.value, last.value))
 					return first;
 
-				first = first.next() as Iterator;
-				next = next.next() as Iterator;
+				first = first.next() as InputIterator;
+				next = next.next() as InputIterator;
 			}
 		}
 		return last;
@@ -699,7 +699,7 @@ namespace std
 	 *		   and <i>last1</i>. If the sequence is not found, the function returns <i>last1</i>. Otherwise 
 	 *		   [<i>first2</i>, <i>last2</i>) is an empty range, the function returns <i>first1</i>.
 	 */
-	export function search<T, ForwardIterator1 extends base.Iterator<T>, ForwardIterator2 extends base.Iterator<T>>
+	export function search<T, ForwardIterator1 extends Iterator<T>, ForwardIterator2 extends Iterator<T>>
 		(first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2): ForwardIterator1
 
 	/**
@@ -732,13 +732,13 @@ namespace std
 	 *		   [<i>first1</i>, <i>last1</i>). If the sequence is not found, the function returns last1. Otherwise 
 	 *		   [<i>first2</i>, <i>last2</i>) is an empty range, the function returns <i>first1</i>.
 	 */
-	export function search<T, ForwardIterator1 extends base.Iterator<T>, ForwardIterator2 extends base.Iterator<T>>
+	export function search<T, ForwardIterator1 extends Iterator<T>, ForwardIterator2 extends Iterator<T>>
 		(
 			first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2,
 			pred: (x: T, y: T) => boolean
 		): ForwardIterator1
 
-	export function search<T, ForwardIterator1 extends base.Iterator<T>, ForwardIterator2 extends base.Iterator<T>>
+	export function search<T, ForwardIterator1 extends Iterator<T>, ForwardIterator2 extends Iterator<T>>
 		(
 			first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2,
 			pred: (x: T, y: T) => boolean = std.equal_to
@@ -864,7 +864,7 @@ namespace std
 	 *		   second sequence. If none matched, it returns {@link make_pair}(<i>first1</i>, <i>first2</i>).
 	 */
 	export function mismatch
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2): Pair<Iterator1, Iterator2>;
 
 	/**
@@ -893,14 +893,14 @@ namespace std
 	 *		   second sequence. If none matched, it returns {@link make_pair}(<i>first1</i>, <i>first2</i>).
 	 */
 	export function mismatch
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			compare: (x: T, y: T) => boolean
 		): Pair<Iterator1, Iterator2>;
 
 	export function mismatch
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			compare: (x: T, y: T) => boolean = std.equal_to
@@ -933,12 +933,12 @@ namespace std
 	 *
 	 * @return The number of elements in the range [<i>first</i>, <i>last</i>) that compare equal to <i>val</i>.
 	 */
-	export function count<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, val: T): number
+	export function count<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, val: T): number
 	{
 		let cnt: number = 0;
 
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			if (std.equal_to(it.value, val))
 				cnt++;
 
@@ -960,12 +960,12 @@ namespace std
 	 *			   The function shall not modify its argument. This can either be a function pointer or a function 
 	 *			   object.
 	 */
-	export function count_if<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (val: T) => boolean): number
+	export function count_if<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): number
 	{
 		let cnt: number = 0;
 
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			if (pred(it.value))
 				cnt++;
 
@@ -1002,7 +1002,7 @@ namespace std
 	 * @return An iterator to the end of the destination range where elements have been copied.
 	 */
 	export function copy
-		<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+		<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator): OutputIterator
 	{
 		for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -1037,7 +1037,7 @@ namespace std
 	 * @return An iterator to the end of the destination range where elements have been copied.
 	 */
 	export function copy_n
-		<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+		<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, n: number, result: OutputIterator): OutputIterator
 	{
 		for (let i: number = 0; i < n; i++)
@@ -1069,7 +1069,7 @@ namespace std
 	 * @return An iterator to the end of the destination range where elements have been copied.
 	 */
 	export function copy_if
-		<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+		<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (x: T) => boolean): OutputIterator
 	{
 		for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -1110,7 +1110,7 @@ namespace std
 	 * @return An iterator to the first element of the destination sequence where elements have been copied.
 	 */
 	export function copy_backward
-		<T, BidirectionalIterator1 extends base.Iterator<T>, BidirectionalIterator2 extends base.Iterator<T>>
+		<T, BidirectionalIterator1 extends Iterator<T>, BidirectionalIterator2 extends Iterator<T>>
 		(first: BidirectionalIterator1, last: BidirectionalIterator1, result: BidirectionalIterator2): BidirectionalIterator2
 	{
 		last = last.prev() as BidirectionalIterator1
@@ -1136,7 +1136,7 @@ namespace std
 	 *				but not the element pointed by <i>last</i>.
 	 * @param val Value to assign to the elements in the filled range.
 	 */
-	export function fill<T, ForwardIterator extends base.Iterator<T>>
+	export function fill<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): void
 	{
 		for (; !first.equal_to(last); first = first.next() as ForwardIterator)
@@ -1155,7 +1155,7 @@ namespace std
 	 * 
 	 * @return An iterator pointing to the element that follows the last element filled.
 	 */
-	export function fill_n<T, OutputIterator extends base.Iterator<T>>
+	export function fill_n<T, OutputIterator extends Iterator<T>>
 		(first: OutputIterator, n: number, val: T): OutputIterator
 	{
 		for (let i: number = 0; i < n; i++)
@@ -1183,7 +1183,7 @@ namespace std
 	 *
 	 * @return An iterator pointing to the element that follows the last element written in the <i>result</i> sequence.
 	 */
-	export function transform<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function transform<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => T): OutputIterator;
 
 	/**
@@ -1207,15 +1207,15 @@ namespace std
 	 * @return An iterator pointing to the element that follows the last element written in the <i>result</i> sequence.
 	 */
 	export function transform<T, 
-			InputIterator1 extends base.Iterator<T>,
-			InputIterator2 extends base.Iterator<T>, 
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>,
+			InputIterator2 extends Iterator<T>, 
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, 
 			result: OutputIterator, binary_op: (x: T, y: T) => T
 		): OutputIterator;
 
-	export function transform<T, OutputIterator extends base.Iterator<T>>
+	export function transform<T, OutputIterator extends Iterator<T>>
 		(...args: any[]): OutputIterator
 	{
 		if (args.length == 4)
@@ -1227,7 +1227,7 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	function unary_transform<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	function unary_transform<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => T): OutputIterator
 	{
 		for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -1242,9 +1242,9 @@ namespace std
 	 * @hidden
 	 */
 	function binary_transform<T, 
-			InputIterator1 extends base.Iterator<T>,
-			InputIterator2 extends base.Iterator<T>, 
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>,
+			InputIterator2 extends Iterator<T>, 
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, 
 			result: OutputIterator, binary_op: (x: T, y: T) => T
@@ -1274,7 +1274,7 @@ namespace std
 	 * @param gen Generator function that is called with no arguments and returns some value of a type convertible to 
 	 *			  those pointed by the iterators.
 	 */
-	export function generate<T, ForwardIterator extends base.Iterator<T>>
+	export function generate<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, gen: () => T): void
 	{
 		for (; !first.equal_to(last); first = first.next() as ForwardIterator)
@@ -1295,7 +1295,7 @@ namespace std
 	 * 
 	 * @return An iterator pointing to the element that follows the last element whose value has been generated.
 	 */
-	export function generate_n<T, ForwardIterator extends base.Iterator<T>>
+	export function generate_n<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, n: number, gen: () => T): ForwardIterator
 	{
 		for (let i: number = 0; i < n; i++)
@@ -1331,8 +1331,8 @@ namespace std
 	 * @return An iterator to the element that follows the last element not removed. The range between <i>first</i> and
 	 *		   this iterator includes all the elements in the sequence that were not considered duplicates.
 	 */
-	export function unique<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator): Iterator;
+	export function unique<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator): InputIterator;
 
 	/**
 	 * <p> Remove consecutive duplicates in range. </p>
@@ -1360,21 +1360,21 @@ namespace std
 	 * @return An iterator to the element that follows the last element not removed. The range between <i>first</i> and 
 	 *		   this iterator includes all the elements in the sequence that were not considered duplicates.
 	 */
-	export function unique<t, Iterator extends base.Iterator<t>>
-		(first: Iterator, last: Iterator, pred: (left: t, right: t) => boolean): Iterator;
+	export function unique<t, InputIterator extends Iterator<t>>
+		(first: InputIterator, last: InputIterator, pred: (left: t, right: t) => boolean): InputIterator;
 
-	export function unique<t, Iterator extends base.Iterator<t>>
-		(first: Iterator, last: Iterator, pred: (left: t, right: t) => boolean = std.equal_to): Iterator
+	export function unique<t, InputIterator extends Iterator<t>>
+		(first: InputIterator, last: InputIterator, pred: (left: t, right: t) => boolean = std.equal_to): InputIterator
 	{
-		let ret: Iterator = first;
+		let ret: InputIterator = first;
 
 		for (let it = first.next(); !it.equal_to(last);)
 		{
 			if (std.equal_to(it.value, it.prev().value) == true)
-				it = it.get_source().erase(it) as Iterator;
+				it = it.get_source().erase(it) as InputIterator;
 			else
 			{
-				ret = it as Iterator;
+				ret = it as InputIterator;
 				it = it.next();
 			}
 		}
@@ -1402,7 +1402,7 @@ namespace std
 	 * 
 	 * @return An iterator pointing to the end of the copied range, which contains no consecutive duplicates.
 	 */
-	export function unique_copy<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function unique_copy<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator): OutputIterator;
 
 	/**
@@ -1430,13 +1430,13 @@ namespace std
 	 * 
 	 * @return An iterator pointing to the end of the copied range, which contains no consecutive duplicates.
 	 */
-	export function unique_copy<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function unique_copy<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, result: OutputIterator, 
 			pred: (x: T, y: T) => boolean
 		): OutputIterator;
 
-	export function unique_copy<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function unique_copy<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, result: OutputIterator, 
 			pred: (x: T, y: T) => boolean = std.equal_to
@@ -1478,19 +1478,19 @@ namespace std
 	 *			  <i>first</i> but not the element pointed by <i>last</i>.
 	 * @param val Value to be removed.
 	 */
-	export function remove<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, val: T): Iterator
+	export function remove<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, val: T): InputIterator
 	{
-		let ret: Iterator = last;
+		let ret: InputIterator = last;
 
 		for (let it = first; !it.equal_to(last); )
 		{
 			if (std.equal_to(it.value, val) == true)
-				it = it.get_source().erase(it) as Iterator;
+				it = it.get_source().erase(it) as InputIterator;
 			else
 			{
 				ret = it;
-				it = it.next() as Iterator;
+				it = it.next() as InputIterator;
 			}
 		}
 		return ret;
@@ -1518,19 +1518,19 @@ namespace std
 	 *			   <code>bool</code>. The value returned indicates whether the element is to be removed (if 
 	 *			   <code>true</code>, it is removed). The function shall not modify its argument.
 	 */
-	export function remove_if<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, pred: (left: T) => boolean): Iterator
+	export function remove_if<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, pred: (left: T) => boolean): InputIterator
 	{
-		let ret: Iterator = last;
+		let ret: InputIterator = last;
 
 		for (let it = first; !it.equal_to(last);)
 		{
 			if (pred(it.value) == true)
-				it = it.get_source().erase(it) as Iterator;
+				it = it.get_source().erase(it) as InputIterator;
 			else
 			{
 				ret = it;
-				it = it.next() as Iterator;
+				it = it.next() as InputIterator;
 			}
 		}
 		return ret;
@@ -1559,7 +1559,7 @@ namespace std
 	 * @return An iterator pointing to the end of the copied range, which includes all the elements in 
 	 *		   [<i>first</i>, <i>last</i>) except those that compare equal to <i>val</i>.
 	 */
-	export function remove_copy<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function remove_copy<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, val: T): OutputIterator
 	{
 		for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -1597,7 +1597,7 @@ namespace std
 	 * @return An iterator pointing to the end of the copied range, which includes all the elements in 
 	 *		   [<i>first</i>, <i>last</i>) except those for which <i>pred</i> returns <code>true</code>.
 	 */
-	export function remove_copy_if<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function remove_copy_if<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean): OutputIterator
 	{
 		for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -1630,10 +1630,10 @@ namespace std
 	 * @param old_val Value to be replaced.
 	 * @param new_val Replacement value.
 	 */
-	export function replace<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator, old_val: T, new_val: T): void
+	export function replace<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator, old_val: T, new_val: T): void
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as Iterator)
+		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
 			if (std.equal_to(it.value, old_val))
 				it.value = new_val;
 	}
@@ -1653,7 +1653,7 @@ namespace std
 	 *			   <code>true</code>, it is replaced). The function shall not modify its argument.
 	 * @param new_val Value to assign to replaced elements.
 	 */
-	export function replace_if<T, InputIterator extends base.Iterator<T>>
+	export function replace_if<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean, new_val: T): void
 	{
 		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
@@ -1684,7 +1684,7 @@ namespace std
 	 * 
 	 * @return An iterator pointing to the element that follows the last element written in the result sequence.
 	 */
-	export function replace_copy<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function replace_copy<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, old_val: T, new_val: T): OutputIterator
 	{
 		for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -1720,7 +1720,7 @@ namespace std
 	 * 
 	 * @return An iterator pointing to the element that follows the last element written in the result sequence.
 	 */
-	export function replace_copy_if<T, InputIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function replace_copy_if<T, InputIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean, new_val: T): OutputIterator
 	{
 		for (; !first.equal_to(last); first = first.next() as InputIterator)
@@ -1746,7 +1746,7 @@ namespace std
 	 * @param x {@link Iterator Forward iterator} to the objects to swap.
 	 * @param y {@link Iterator Forward iterator} to the objects to swap.
 	 */
-	export function iter_swap<T>(x: base.Iterator<T>, y: base.Iterator<T>): void
+	export function iter_swap<T>(x: Iterator<T>, y: Iterator<T>): void
 	{
 		x.swap(y);
 	}
@@ -1768,7 +1768,7 @@ namespace std
 	 * 
 	 * @return An iterator to the last element swapped in the second sequence.
 	 */
-	export function swap_ranges<T, ForwardIterator1 extends base.Iterator<T>, ForwardIterator2 extends base.Iterator<T>>
+	export function swap_ranges<T, ForwardIterator1 extends Iterator<T>, ForwardIterator2 extends Iterator<T>>
 		(first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2): ForwardIterator2
 	{
 		for (; !first1.equal_to(last1); first1 = first1.next() as ForwardIterator1)
@@ -1794,14 +1794,14 @@ namespace std
 	 *			  which contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
 	 *			  <i>first</i> but not the element pointed by <i>last</i>.
 	 */
-	export function reverse<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, last: Iterator): void
+	export function reverse<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, last: InputIterator): void
 	{
 		// first != last && first != --last
-		while (first.equal_to(last) == false && !first.equal_to((last = last.prev() as Iterator)) == false)
+		while (first.equal_to(last) == false && !first.equal_to((last = last.prev() as InputIterator)) == false)
 		{
 			first.swap(last);
-			first = first.next() as Iterator;
+			first = first.next() as InputIterator;
 		}
 	}
 
@@ -1822,7 +1822,7 @@ namespace std
 	 * @return An output iterator pointing to the end of the copied range, which contains the same elements in reverse 
 	 *		   order.
 	 */
-	export function reverse_copy<T, BidirectionalIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function reverse_copy<T, BidirectionalIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, result: OutputIterator): OutputIterator
 	{
 		while (!last.equal_to(first))
@@ -1850,17 +1850,17 @@ namespace std
 	 *
 	 * @return An iterator pointing to the element that now contains the value previously pointed by <i>first</i>.
 	 */
-	export function rotate<T, Iterator extends base.Iterator<T>>
-		(first: Iterator, middle: Iterator, last: Iterator): Iterator
+	export function rotate<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, middle: InputIterator, last: InputIterator): InputIterator
 	{
-		let next: Iterator = middle;
+		let next: InputIterator = middle;
 
 		while (next.equal_to(last) == false)
 		{
 			first.swap(next);
 
-			first = first.next() as Iterator;
-			next = next.next() as Iterator;
+			first = first.next() as InputIterator;
+			next = next.next() as InputIterator;
 
 			if (first.equal_to(middle))
 				break;
@@ -1888,7 +1888,7 @@ namespace std
 	 * 
 	 * @return An output iterator pointing to the end of the copied range.
 	 */
-	export function rotate_copy<T, ForwardIterator extends base.Iterator<T>, OutputIterator extends base.Iterator<T>>
+	export function rotate_copy<T, ForwardIterator extends Iterator<T>, OutputIterator extends Iterator<T>>
 		(first: ForwardIterator, middle: ForwardIterator, last: ForwardIterator, result: OutputIterator): OutputIterator
 	{
 		result = copy(middle, last, result);
@@ -2005,7 +2005,7 @@ namespace std
 	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = std.less): void
 	{
-		qsort(first.get_source() as base.IArray<T>, first.index, last.index - 1, compare);
+		qsort(first.get_source() as base.IArrayContainer<T>, first.index, last.index - 1, compare);
 	}
 
 	/**
@@ -2059,7 +2059,7 @@ namespace std
 			compare: (x: T, y: T) => boolean = std.less
 		): void
 	{
-		selection_sort(first.get_source() as base.IArray<T>, first.index, middle.index, last.index, compare);
+		selection_sort(first.get_source() as base.IArrayContainer<T>, first.index, middle.index, last.index, compare);
 	}
 
 	/**
@@ -2090,7 +2090,7 @@ namespace std
 	 *
 	 * @return An iterator pointing to the element that follows the last element written in the result sequence.
 	 */
-	export function partial_sort_copy<T, InputIterator extends base.Iterator<T>, RandomAccessIterator extends base.Iterator<T>>
+	export function partial_sort_copy<T, InputIterator extends Iterator<T>, RandomAccessIterator extends Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator
@@ -2125,7 +2125,7 @@ namespace std
 	 * @return An iterator pointing to the element that follows the last element written in the result sequence.
 	 */
 	export function partial_sort_copy
-		<T, InputIterator extends base.Iterator<T>, RandomAccessIterator extends base.Iterator<T>>
+		<T, InputIterator extends Iterator<T>, RandomAccessIterator extends Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
@@ -2133,7 +2133,7 @@ namespace std
 		): RandomAccessIterator;
 
 	export function partial_sort_copy
-		<T, InputIterator extends base.Iterator<T>, RandomAccessIterator extends base.Iterator<T>>
+		<T, InputIterator extends Iterator<T>, RandomAccessIterator extends Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
@@ -2173,7 +2173,7 @@ namespace std
 	 *		   <code>false</code> otherwise. If the range [<i>first</i>, <i>last</i>) contains less than two elements, 
 	 *		   the function always returns <code>true</code>.
 	 */
-	export function is_sorted<T, ForwardIterator extends base.Iterator<T>>
+	export function is_sorted<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): boolean;
 
 	/**
@@ -2196,10 +2196,10 @@ namespace std
 	 *		   <code>false</code> otherwise. If the range [<i>first</i>, <i>last</i>) contains less than two elements, 
 	 *		   the function always returns <code>true</code>.
 	 */
-	export function is_sorted<T, ForwardIterator extends base.Iterator<T>>
+	export function is_sorted<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): boolean;
 
-	export function is_sorted<T, ForwardIterator extends base.Iterator<T>>
+	export function is_sorted<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.equal_to): boolean
 	{
 		if (first.equal_to(last)) 
@@ -2239,7 +2239,7 @@ namespace std
 	 * @return An iterator to the first element in the range which does not follow an ascending order, or <i>last</i> if 
 	 *		   all elements are sorted or if the range contains less than two elements.
 	 */
-	export function is_sorted_until<T, ForwardIterator extends base.Iterator<T>>
+	export function is_sorted_until<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	/**
@@ -2266,10 +2266,10 @@ namespace std
 	 * @return An iterator to the first element in the range which does not follow an ascending order, or <i>last</i> if 
 	 *		   all elements are sorted or if the range contains less than two elements.
 	 */
-	export function is_sorted_until<T, ForwardIterator extends base.Iterator<T>>
+	export function is_sorted_until<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
-	export function is_sorted_until<T, ForwardIterator extends base.Iterator<T>>
+	export function is_sorted_until<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.equal_to): ForwardIterator
 	{
 		if (first.equal_to(last))
@@ -2292,7 +2292,7 @@ namespace std
 	 * @hidden
 	 */
 	function qsort<T>
-		(container: base.IArray<T>, first: number, last: number, compare: (left: T, right: T) => boolean): void
+		(container: base.IArrayContainer<T>, first: number, last: number, compare: (left: T, right: T) => boolean): void
 	{
 		if (last == -2)
 			last = container.size() - 1;
@@ -2309,7 +2309,7 @@ namespace std
 	 */
 	function qsort_partition<T>
 		(
-			container: base.IArray<T>, first: number, last: number, 
+			container: base.IArrayContainer<T>, first: number, last: number, 
 			compare: (left: T, right: T) => boolean
 		): number
 	{
@@ -2348,7 +2348,7 @@ namespace std
 	 */
 	function stable_qsort<T>
 		(
-			container: base.IArray<T>, first: number, last: number, 
+			container: base.IArrayContainer<T>, first: number, last: number, 
 			compare: (left: T, right: T) => boolean
 		): void
 	{
@@ -2368,7 +2368,7 @@ namespace std
 	 */
 	function stable_qsort_partition<T>
 		(
-			container: base.IArray<T>, first: number, last: number, 
+			container: base.IArrayContainer<T>, first: number, last: number, 
 			compare: (left: T, right: T) => boolean
 		): number
 	{
@@ -2407,7 +2407,7 @@ namespace std
 	 */
 	function selection_sort<T>
 		(
-			container: base.IArray<T>, first: number, middle: number, last: number,
+			container: base.IArrayContainer<T>, first: number, middle: number, last: number,
 			compare: (x: T, y: T) => boolean
 		): void
 	{
@@ -2462,7 +2462,7 @@ namespace std
 	 * @return An iterator to the lower bound of <i>val</i> in the range. If all the element in the range compare less than 
 	 *		   <i>val</i>, the function returns <i>last</i>.
 	 */
-	export function lower_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function lower_bound<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
 
 	/**
@@ -2496,13 +2496,13 @@ namespace std
 	 * @return An iterator to the lower bound of <i>val</i> in the range. If all the element in the range compare less than
 	 *		   <i>val</i>, the function returns <i>last</i>.
 	 */
-	export function lower_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function lower_bound<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T, 
 			compare: (x: T, y: T) => boolean
 		): ForwardIterator;
 
-	export function lower_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function lower_bound<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T, 
 			compare: (x: T, y: T) => boolean = std.less
@@ -2554,7 +2554,7 @@ namespace std
 	 * @return An iterator to the upper bound of <i>val</i> in the range. If no element in the range comparse greater than 
 	 *		   <i>val</i>, the function returns <i>last</i>.
 	 */
-	export function upper_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function upper_bound<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
 
 	/**
@@ -2588,13 +2588,13 @@ namespace std
 	 * @return An iterator to the upper bound of <i>val</i> in the range. If no element in the range comparse greater than
 	 *		   <i>val</i>, the function returns <i>last</i>.
 	 */
-	export function upper_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function upper_bound<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): ForwardIterator;
 
-	export function upper_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function upper_bound<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = std.less
@@ -2647,7 +2647,7 @@ namespace std
 	 *		   equivalent values, and {@link Pair.second} its upper bound. The values are the same as those that would be 
 	 *		   returned by functions {@link lower_bound} and {@link upper_bound} respectively.
 	 */
-	export function equal_range<T, ForwardIterator extends base.Iterator<T>>
+	export function equal_range<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): Pair<ForwardIterator, ForwardIterator>
 
 	/**
@@ -2682,13 +2682,13 @@ namespace std
 	 *		   equivalent values, and {@link Pair.second} its upper bound. The values are the same as those that would be 
 	 *		   returned by functions {@link lower_bound} and {@link upper_bound} respectively.
 	 */
-	export function equal_range<T, ForwardIterator extends base.Iterator<T>>
+	export function equal_range<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): Pair<ForwardIterator, ForwardIterator>;
 
-	export function equal_range<T, ForwardIterator extends base.Iterator<T>>
+	export function equal_range<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = std.less
@@ -2726,7 +2726,7 @@ namespace std
 	 * 
 	 * @return <code>true</code> if an element equivalent to <i>val</i> is found, and <code>false</code> otherwise.
 	 */
-	export function binary_search<T, ForwardIterator extends base.Iterator<T>>
+	export function binary_search<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): boolean;
 
 	/**
@@ -2759,13 +2759,13 @@ namespace std
 	 * 
 	 * @return <code>true</code> if an element equivalent to <i>val</i> is found, and <code>false</code> otherwise.
 	 */
-	export function binary_search<T, ForwardIterator extends base.Iterator<T>>
+	export function binary_search<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): boolean;
 
-	export function binary_search<T, ForwardIterator extends base.Iterator<T>>
+	export function binary_search<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = std.less
@@ -2800,7 +2800,7 @@ namespace std
 	 *		   <code>true</code> precede those for which it returns <code>false</code>. Otherwise it returns 
 	 *		   <code>false</code>. If the range is {@link IContainer.empty empty}, the function returns <code>true</code>.
 	 */
-	export function is_partitioned<T, InputIterator extends base.Iterator<T>>
+	export function is_partitioned<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (x: T) => boolean): boolean
 	{
 		while (!first.equal_to(last) && pred(first.value))
@@ -2835,7 +2835,7 @@ namespace std
 	 * @return An iterator that points to the first element of the second group of elements (those for which <i>pred</i> 
 	 *		   returns <code>false</code>), or <i>last</i> if this group is {@link IContainer.empty empty}.
 	 */
-	export function partition<T, BidirectionalIterator extends base.Iterator<T>>
+	export function partition<T, BidirectionalIterator extends Iterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
 	{
 		while (!first.equal_to(last))
@@ -2882,7 +2882,7 @@ namespace std
 	 * @return An iterator that points to the first element of the second group of elements (those for which <i>pred</i>
 	 *		   returns <code>false</code>), or <i>last</i> if this group is {@link IContainer.empty empty}.
 	 */
-	export function stable_partition<T, BidirectionalIterator extends base.Iterator<T>>
+	export function stable_partition<T, BidirectionalIterator extends Iterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
 	{
 		return partition(first, last, pred);
@@ -2914,8 +2914,8 @@ namespace std
 	 *		   of elements for which <i>pred</i> returned <code>false</code>.
 	 */
 	export function partition_copy<T, 
-			InputIterator extends base.Iterator<T>, 
-			OutputIterator1 extends base.Iterator<T>, OutputIterator2 extends base.Iterator<T>>
+			InputIterator extends Iterator<T>, 
+			OutputIterator1 extends Iterator<T>, OutputIterator2 extends Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_true: OutputIterator1, result_false: OutputIterator2, pred: (val: T) => T
@@ -2960,7 +2960,7 @@ namespace std
 	 * @return An iterator to the first element in the partitioned range [<i>first</i>, <i>last</i>) for which <i>pred</i> 
 	 *		   is not <code>true</code>, or <i>last</i> if it is not <code>true</code> for any element.
 	 */
-	export function partition_point<T, ForwardIterator extends base.Iterator<T>>
+	export function partition_point<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, pred: (x: T) => boolean): ForwardIterator
 	{
 		let n: number = distance(first, last);
@@ -3011,8 +3011,8 @@ namespace std
 	 * @return An iterator pointing to the past-the-end element in the resulting sequence.
 	 */
 	export function merge<T, 
-			InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
@@ -3044,16 +3044,16 @@ namespace std
 	 * @return An iterator pointing to the past-the-end element in the resulting sequence.
 	 */
 	export function merge<T, 
-			InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function merge<T, 
-			InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
@@ -3102,7 +3102,7 @@ namespace std
 	 *			   sequence. This is also the <i>past-the-end</i> position of the range where the resulting merged range is 
 	 *			   stored.
 	 */
-	export function inplace_merge<T, BidirectionalIterator extends base.Iterator<T>>
+	export function inplace_merge<T, BidirectionalIterator extends Iterator<T>>
 		(first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator): void;
 
 	/**
@@ -3130,13 +3130,13 @@ namespace std
 	 *				  considered to go before the second in the specific <i>strict weak ordering</i> it defines. The 
 	 *				  function shall not modify any of its arguments.
 	 */
-	export function inplace_merge<T, BidirectionalIterator extends base.Iterator<T>>
+	export function inplace_merge<T, BidirectionalIterator extends Iterator<T>>
 		(
 			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
 			compare: (x: T, y: T) => boolean
 		): void;
 
-	export function inplace_merge<T, BidirectionalIterator extends base.Iterator<T>>
+	export function inplace_merge<T, BidirectionalIterator extends Iterator<T>>
 		(
 			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
 			compare: (x: T, y: T) => boolean = std.less
@@ -3175,7 +3175,7 @@ namespace std
 	 *		   [<i>first1</i>, <i>last1</i>), <code>false</code> otherwise. If [<i>first2</i>, <i>last2</i>) is an empty 
 	 *		   range, the function returns <code>true</code>.
 	 */
-	export function includes<T, InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>>
+	export function includes<T, InputIterator1 extends Iterator<T>, InputIterator2 extends Iterator<T>>
 		(first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2): boolean;
 	
 	/**
@@ -3206,13 +3206,13 @@ namespace std
 	 *		   [<i>first1</i>, <i>last1</i>), <code>false</code> otherwise. If [<i>first2</i>, <i>last2</i>) is an empty 
 	 *		   range, the function returns <code>true</code>.
 	 */
-	export function includes<T, InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>>
+	export function includes<T, InputIterator1 extends Iterator<T>, InputIterator2 extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			compare: (x: T, y: T) => boolean
 		): boolean;
 
-	export function includes<T, InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>>
+	export function includes<T, InputIterator1 extends Iterator<T>, InputIterator2 extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			compare: (x: T, y: T) => boolean = std.less
@@ -3260,9 +3260,9 @@ namespace std
 	 * @return An iterator to the end of the constructed range.
 	 */
 	export function set_union<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
@@ -3301,18 +3301,18 @@ namespace std
 	 * @return An iterator to the end of the constructed range.
 	 */
 	export function set_union<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 	
 	export function set_union<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
@@ -3377,9 +3377,9 @@ namespace std
 	 * @return An iterator to the end of the constructed range.
 	 */
 	export function set_intersection<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
@@ -3417,18 +3417,18 @@ namespace std
 	 * @return An iterator to the end of the constructed range.
 	 */
 	export function set_intersection<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function set_intersection<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
@@ -3490,9 +3490,9 @@ namespace std
 	 * @return An iterator to the end of the constructed range.
 	 */
 	export function set_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
@@ -3536,18 +3536,18 @@ namespace std
 	 * @return An iterator to the end of the constructed range.
 	 */
 	export function set_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function set_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
@@ -3606,9 +3606,9 @@ namespace std
 	 * @return An iterator to the end of the constructed range.
 	 */
 	export function set_symmetric_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
@@ -3648,18 +3648,18 @@ namespace std
 	 * @return An iterator to the end of the constructed range.
 	 */
 	export function set_symmetric_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function set_symmetric_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.Iterator<T>>
+			InputIterator1 extends Iterator<T>, 
+			InputIterator2 extends Iterator<T>,
+			OutputIterator extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
@@ -3787,7 +3787,7 @@ namespace std
 	 * 
 	 * @return An iterator to smallest value in the range, or <i>last</i> if the range is empty.
 	 */
-	export function min_element<T, ForwardIterator extends base.Iterator<T>>
+	export function min_element<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	/**
@@ -3810,10 +3810,10 @@ namespace std
 	 * 
 	 * @return An iterator to smallest value in the range, or <i>last</i> if the range is empty.
 	 */
-	export function min_element<T, ForwardIterator extends base.Iterator<T>>
+	export function min_element<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
-	export function min_element<T, ForwardIterator extends base.Iterator<T>>
+	export function min_element<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.less): ForwardIterator
 	{
 		let smallest: ForwardIterator = first;
@@ -3843,7 +3843,7 @@ namespace std
 	 * 
 	 * @return An iterator to largest value in the range, or <i>last</i> if the range is empty.
 	 */
-	export function max_element<T, ForwardIterator extends base.Iterator<T>>
+	export function max_element<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	/**
@@ -3866,10 +3866,10 @@ namespace std
 	 * 
 	 * @return An iterator to largest value in the range, or <i>last</i> if the range is empty.
 	 */
-	export function max_element<T, ForwardIterator extends base.Iterator<T>>
+	export function max_element<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
-	export function max_element<T, ForwardIterator extends base.Iterator<T>>
+	export function max_element<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.greater): ForwardIterator
 	{
 		let largest: ForwardIterator = first;
@@ -3907,7 +3907,7 @@ namespace std
 	 * @return A {@link Pair} with an iterator pointing to the element with the smallest value in the range 
 	 *		   [<i>first</i>, <i>last</i>) as first element, and the largest as second.
 	 */
-	export function minmax_element<T, ForwardIterator extends base.Iterator<T>>
+	export function minmax_element<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): Pair<ForwardIterator, ForwardIterator>;
 
 	/**
@@ -3935,12 +3935,12 @@ namespace std
 	 * @return A {@link Pair} with an iterator pointing to the element with the smallest value in the range 
 	 *		   [<i>first</i>, <i>last</i>) as first element, and the largest as second.
 	 */
-	export function minmax_element<T, ForwardIterator extends base.Iterator<T>>
+	export function minmax_element<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean
 		): Pair<ForwardIterator, ForwardIterator>;
 
-	export function minmax_element<T, ForwardIterator extends base.Iterator<T>>
+	export function minmax_element<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.greater
 		): Pair<ForwardIterator, ForwardIterator>

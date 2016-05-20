@@ -125,7 +125,7 @@ namespace std.base
 			{
 				let newNode: XTreeNode<T> = null;
 
-				if (this.is_equals(val, node.value))
+				if (this.is_equal_to(val, node.value))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
 				else if (this.is_less(val, node.value))
 					newNode = node.left; // LESS, THEN TO THE LEFT
@@ -159,9 +159,9 @@ namespace std.base
 		/* ---------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------- */
-		public abstract is_equals(left: T, right: T): boolean;
-
 		public abstract is_less(left: T, right: T): boolean;
+
+		public abstract is_equal_to(left: T, right: T): boolean;
 		
 		/* =========================================================
 			ELEMENTS I/O
@@ -590,7 +590,7 @@ namespace std.base
 		public erase(val: T): void
 		{
 			let node = this.find(val);
-			if (node == null || this.is_equals(val, node.value) == false)
+			if (node == null || this.is_equal_to(val, node.value) == false)
 				return;
 
 			if (node.left != null && node.right != null)

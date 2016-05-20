@@ -79,7 +79,7 @@ namespace std.base
 			return this.buckets_.at(index);
 		}
 
-		private hash_index(val: T): number
+		public hash_index(val: T): number
 		{
 			return hash(val) % this.buckets_.size();
 		}

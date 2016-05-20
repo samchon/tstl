@@ -3,7 +3,7 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract  </p>
+	 * <p> An abstract container. </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -107,12 +107,12 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public abstract rbegin(): Iterator<T>;
+		public abstract rbegin(): base.IReverseIterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public abstract rend(): Iterator<T>;
+		public abstract rend(): base.IReverseIterator<T>;
 
 		/**
 		 * @inheritdoc
@@ -131,7 +131,6 @@ namespace std.base
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
-				- POST-PROCESS
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -157,15 +156,6 @@ namespace std.base
 		 * @inheritdoc
 		 */
 		public abstract erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
-
-		/* ---------------------------------------------------------------
-			POST-PROCESS
-		--------------------------------------------------------------- */
-		protected abstract handle_insert<InputIterator extends base.Iterator<T>>
-			(first: InputIterator, last: InputIterator): void;
-
-		protected abstract handle_erase<InputIterator extends base.Iterator<T>>
-			(first: InputIterator, last: InputIterator): void;
 
 		/* ---------------------------------------------------------------
 			UTILITIES

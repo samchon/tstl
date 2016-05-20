@@ -1,8 +1,7 @@
 /// <reference path="API.ts" />
 
 /// <reference path="base/Container.ts" />
-/// <reference path="base/Iterator.ts" />
-/// <reference path="base/ReverseIterator.ts" />
+/// <reference path="Iterator.ts" />
 
 namespace std
 {
@@ -48,7 +47,7 @@ namespace std
 	 */
 	export class List<T>
 		extends base.Container<T>
-		implements base.IDeque<T>
+		implements base.IDequeContainer<T>
 	{
 		/**
 		 * An iterator of beginning.
@@ -118,21 +117,29 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
 
 		public constructor(...args: any[])
 		{
 			super();
 
+			// INIT MEMBERS
+			this.end_ = new ListIterator<T>(this, null, null, null);
+			this.end_.set_prev(this.end_);
+			this.end_.set_next(this.end_);
+
+			this.begin_ = this.end_;
+			this.size_ = 0;
+
+			// BRANCHES
 			if (args.length == 0) 
 			{
-				this.clear();
+				// DO NOTHING
 			}
 			else if (args.length == 1 && args[0] instanceof Array) 
 			{
 				let array: Array<T> = args[0];
 
-				this.clear();
 				this.push(...array);
 			}
 			else if (args.length == 1 && (args[0] instanceof Vector || args[0] instanceof base.Container)) 
@@ -141,10 +148,10 @@ namespace std
 
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator) 
+			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator) 
 			{
-				let begin: base.Iterator<T> = args[0];
-				let end: base.Iterator<T> = args[1];
+				let begin: Iterator<T> = args[0];
+				let end: Iterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -168,10 +175,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends Iterator<U>>
 			(par1: any, par2: any): void
 		{
 			this.clear();
@@ -183,21 +190,13 @@ namespace std
 		 */
 		public clear(): void
 		{
-			if (this.empty() == true)
-				return;
-
-			let it = new ListIterator(this, null, null, null);
-			it.setPrev(it);
-			it.setNext(it);
-
-			let prev_begin = this.begin_;
-			let prev_end = this.end_;
-
-			this.begin_ = it;
-			this.end_ = it;
+			// DISCONNECT NODES
+			this.begin_ = this.end_;
+			this.end_.set_prev(this.end_);
+			this.end_.set_next(this.end_);
+			
+			// RE-SIZE -> 0
 			this.size_ = 0;
-
-			this.handle_erase(prev_begin, prev_end);
 		}
 		
 		/* =========================================================
@@ -224,10 +223,7 @@ namespace std
 		 */
 		public rbegin(): ListReverseIterator<T>
 		{
-			if (this.empty() == true)
-				return this.rend();
-			else
-				return new ListReverseIterator<T>(this.end().prev());
+			return new ListReverseIterator<T>(this.end());
 		}
 
 		/**
@@ -235,7 +231,7 @@ namespace std
 		 */
 		public rend(): ListReverseIterator<T>
 		{
-			return new ListReverseIterator<T>(this.end());
+			return new ListReverseIterator<T>(this.begin());
 		}
 
 		/**
@@ -286,7 +282,7 @@ namespace std
 				if (i == 0)
 					first = item;
 
-				prev.setNext(item);
+				prev.set_next(item);
 				prev = item;
 			}
 
@@ -295,8 +291,8 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev.setNext(this.end_);
-			this.end_.setPrev(prev);
+			prev.set_next(this.end_);
+			this.end_.set_prev(prev);
 
 			this.size_ += items.length;
 			return this.size();
@@ -358,6 +354,13 @@ namespace std
 
 		/**
 		 * <p> Insert elements by repeated filling. </p> 
+		 * 
+		 * <p> The container is extended by inserting a new element before the element at the specified
+		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
+		 * inserted. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
+		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
 		 *
 		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
 		 *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to 
@@ -370,6 +373,14 @@ namespace std
 		public insert(position: ListIterator<T>, size: number, val: T): ListIterator<T>;
 
 		/**
+		 * <p> Insert elements by range iterators. </p>
+		 * 
+		 * <p> The container is extended by inserting a new element before the element at the specified
+		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
+		 * inserted. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
+		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
 		 * 
 		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
 		 *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to 
@@ -379,19 +390,94 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
+		public insert<U extends T, InputIterator extends Iterator<U>>
 			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
+		
+		/**
+		 * <p> Insert an element. </p>
+		 *
+		 * <p> The container is extended by inserting a new element before the element at the specified 
+		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements 
+		 * inserted. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient 
+		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 *
+		 * @param position Position in the container where the new element is inserted.
+		 *				   {@link iterator}> is a member type, defined as a 
+		 *				   {@link ListReverseIterator bidirectional iterator} type that points to elements.
+		 * @param val Value to be inserted as an element.
+		 *
+		 * @return An iterator that points to the newly inserted element; <i>val</i>.
+		 */
+		public insert(position: ListReverseIterator<T>, val: T): ListReverseIterator<T>;
 
-		public insert(...args: any[]): ListIterator<T>
+		/**
+		 * <p> Insert elements by repeated filling. </p> 
+		 * 
+		 * <p> The container is extended by inserting a new element before the element at the specified
+		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
+		 * inserted. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
+		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 *
+		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
+		 *				   member type, defined as a {@link ListReverseIterator bidirectional iterator} type that points to
+		 *				   elements.
+		 * @param size Number of elements to insert.
+		 * @param val Value to be inserted as an element.
+		 *
+		 * @return An iterator that points to the first of the newly inserted elements.
+		 */
+		public insert(position: ListReverseIterator<T>, size: number, val: T): ListReverseIterator<T>;
+
+		/**
+		 * <p> Insert elements by range iterators. </p>
+		 * 
+		 * <p> The container is extended by inserting a new element before the element at the specified
+		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
+		 * inserted. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
+		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * 
+		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
+		 *				   member type, defined as a {@link ListReverseIterator bidirectional iterator} type that points to
+		 *				   elements.
+		 * @param begin An iterator specifying range of the begining element.
+		 * @param end An iterator specifying range of the ending element.
+		 *
+		 * @return An iterator that points to the first of the newly inserted elements.
+		 */
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(position: ListReverseIterator<T>, begin: InputIterator, end: InputIterator): ListReverseIterator<T>;
+
+		public insert(...args: any[]): ListIterator<T> | ListReverseIterator<T>
 		{
-			if (args.length == 2)
-				return this.insert_by_val(args[0], args[1]);
-			else if (args.length == 3 && typeof args[1] == "number")
+			// REVERSE_ITERATOR TO ITERATOR
+			let ret: ListIterator<T>;
+			let is_reverse_iterator: boolean = false;
+
+			if (args[0] instanceof ListReverseIterator)
 			{
-				return this.insert_by_repeating_val(args[0], args[1], args[2]);
+				is_reverse_iterator = true;
+				args[0] = (args[0] as ListReverseIterator<T>).base().prev();
 			}
+
+			// BRANCHES
+			if (args.length == 2)
+				ret = this.insert_by_val(args[0], args[1]);
+			else if (args.length == 3 && typeof args[1] == "number")
+				ret = this.insert_by_repeating_val(args[0], args[1], args[2]);
 			else
-				return this.insert_by_range(args[0], args[1], args[2]);
+				ret = this.insert_by_range(args[0], args[1], args[2]);
+			
+			// RETURNS
+			if (is_reverse_iterator == true)
+				return new ListReverseIterator<T>(ret.next());
+			else
+				return ret;
 		}
 
 		/**
@@ -408,6 +494,7 @@ namespace std
 		 */
 		private insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>
 		{
+			// INVALID ITERATOR
 			if (this != position.get_source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 			
@@ -421,7 +508,7 @@ namespace std
 				if (i == 0) 
 					first = item;
 				
-				prev.setNext(item);
+				prev.set_next(item);
 				
 				// SHIFT ITEM LEFT TO BE PREV
 				prev = item;
@@ -432,13 +519,10 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev.setNext(position);
-			position.setPrev(prev);
+			prev.set_next(position);
+			position.set_prev(prev);
 			
 			this.size_ += size;
-			
-			// POST-PROCESS
-			this.handle_insert(first, position);
 
 			return first;
 		}
@@ -446,9 +530,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+		private insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>
 		{
+			// INVALID ITERATOR
 			if (this != position.get_source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
@@ -463,7 +548,7 @@ namespace std
 				let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
 
 				if (size == 0) first = item;
-				if (prev != null) prev.setNext(item);
+				if (prev != null) prev.set_next(item);
 
 				// SHIFT CURRENT ITEM TO PREVIOUS
 				prev = item;
@@ -475,13 +560,10 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST AND POSITION
-			prev.setNext(position);
-			position.setPrev(prev);
+			prev.set_next(position);
+			position.set_prev(prev);
 
 			this.size_ += size;
-
-			// POST-PROCESS
-			this.handle_insert(first, position);
 
 			return first;
 		}
@@ -524,23 +606,66 @@ namespace std
 		 */
 		public erase(begin: ListIterator<T>, end: ListIterator<T>): ListIterator<T>;
 
-		public erase(...args: any[]): ListIterator<T>
-		{
-			if (args.length == 1)
-				return this.erase_by_iterator(args[0]);
-			else if (args.length == 2)
-				return this.erase_by_range(args[0], args[1]);
-		}
+		/**
+		 * <p> Erase an element. </p>
+		 *
+		 * <p> Removes from the {@link List} either a single element; <i>position</i>. </p>
+		 *
+		 * <p> This effectively reduces the container size by the number of element removed. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
+		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * 
+		 * @param position Iterator pointing to a single element to be removed from the {@link List}.
+		 *
+		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
+		 *		   This is the {@link rend rend()} if the operation erased the last element in the sequence.
+		 */
+		public erase(position: ListReverseIterator<T>): ListReverseIterator<T>;
 
 		/**
-		 * @hidden
+		 * <p> Erase elements. </p>
+		 *
+		 * <p> Removes from the {@link List} container a range of elements. </p>
+		 *
+		 * <p> This effectively reduces the container {@link size} by the number of elements removed. </p>
+		 *
+		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
+		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 *
+		 * @param begin An iterator specifying a range of beginning to erase.
+		 * @param end An iterator specifying a range of end to erase.
+		 * 
+		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
+		 *		   This is the {@link rend rend()} if the operation erased the last element in the sequence.
 		 */
-		private erase_by_iterator(it: ListIterator<T>): ListIterator<T>
-		{
-			if (it.equal_to(this.end_))
-				throw new LogicError("Unable to erase end iterator.");
+		public erase(begin: ListReverseIterator<T>, end: ListReverseIterator<T>): ListReverseIterator<T>;
 
-			return this.erase_by_range(it, it.next());
+		public erase(first: any, last: any = first.next()): ListIterator<T> | ListReverseIterator<T>
+		{
+			let ret: ListIterator<T>;
+			let is_reverse_iterator: boolean = false;
+
+			// REVERSE ITERATOR TO ITERATOR
+			if (first instanceof ListReverseIterator)
+			{
+				is_reverse_iterator = true;
+
+				let first_it = (last as ListReverseIterator<T>).base();
+				let last_it = (first as ListReverseIterator<T>).base();
+
+				first = first_it;
+				last = last_it;
+			}
+
+			// ERASE ELEMENTS
+			ret = this.erase_by_range(first, last);
+
+			// RETURN BRANCHES
+			if (is_reverse_iterator == true)
+				return new ListReverseIterator<T>(ret.next());
+			else
+				return ret;
 		}
 
 		/**
@@ -552,38 +677,17 @@ namespace std
 			let prev: ListIterator<T> = <ListIterator<T>>first.prev();
 
 			// CALCULATE THE SIZE
-			let size: number = 0;
-
-			for (let it = first; it.equal_to(last) == false; it = it.next())
-				size++;
+			let size: number = distance(first, last);
 
 			// SHRINK
-			prev.setNext(last);
-			last.setPrev(prev);
+			prev.set_next(last);
+			last.set_prev(prev);
 
 			this.size_ -= size;
 			if (this.size_ == 0)
-				this.begin_ = last;
-
-			// POST-PROCESS
-			this.handle_erase(first, last);
+				this.begin_ = this.end_;
 
 			return last;
-		}
-
-		/* ---------------------------------------------------------------
-			POST-PROCESS
-		--------------------------------------------------------------- */
-		protected handle_insert(first: ListIterator<T>, last: ListIterator<T>): void
-		{
-			// NOTHING TO DO ESPECIALLY
-			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
-		}
-
-		protected handle_erase(first: ListIterator<T>, last: ListIterator<T>): void
-		{
-			// NOTHING TO DO ESPECIALLY
-			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
 		}
 
 		/* ===============================================================
@@ -933,15 +1037,15 @@ namespace std
 				if (i == 0)
 					first = item;
 
-				prev.setNext(item);
+				prev.set_next(item);
 				prev = item;
 			}
 
 			this.begin_ = first;
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev.setNext(this.end_);
-			this.end_.setPrev(prev);
+			prev.set_next(this.end_);
+			this.end_.set_prev(prev);
 		}
 
 		/* ---------------------------------------------------------
@@ -973,12 +1077,12 @@ namespace std
 	 * An iterator, node of a List.
 	 */
 	export class ListIterator<T>
-		extends base.Iterator<T>
+		extends Iterator<T>
 	{
-		protected prev_: ListIterator<T>;
-		protected next_: ListIterator<T>;
+		private prev_: ListIterator<T>;
+		private next_: ListIterator<T>;
 
-		protected value_: T;
+		private value_: T;
 
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
@@ -1008,15 +1112,15 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public setPrev(prev: ListIterator<T>): void
+		public set_prev(it: ListIterator<T>): void
 		{
-			this.prev_ = prev;
+			this.prev_ = it;
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public setNext(next: ListIterator<T>): void
+		public set_next(next: ListIterator<T>): void
 		{
 			this.next_ = next;
 		}
@@ -1024,14 +1128,11 @@ namespace std
 		/* ---------------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public equal_to(obj: ListIterator<T>): boolean
+		private list(): List<T>
 		{
-			return this == obj;
+			return this.source_ as List<T>;
 		}
-		
+
 		/**
 		 * @inheritdoc
 		 */
@@ -1092,6 +1193,17 @@ namespace std
 			this.value_ = val;
 		}
 
+		/* ---------------------------------------------------------------
+			COMPARISON
+		--------------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public equal_to(obj: ListIterator<T>): boolean
+		{
+			return this == obj;
+		}
+
 		/**
 		 * @inheritdoc
 		 */
@@ -1125,57 +1237,33 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ListReverseIterator<T>
-		extends base.ReverseIterator<T>
+		extends ReverseIterator<T, ListIterator<T>, ListReverseIterator<T>>
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
-		public constructor(iterator: ListIterator<T>)
+		public constructor(base: ListIterator<T>)
 		{
-			super(iterator);
+			super(base);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		protected create_neighbor(): ListReverseIterator<T>
+		{
+			return new ListReverseIterator<T>(null);
 		}
 
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
-		private get list_iterator(): ListIterator<T>
-		{
-			return this.iterator_ as ListIterator<T>;
-		}
-
 		public set value(val: T)
 		{
-			this.list_iterator.value = val;
-		}
-
-		/* ---------------------------------------------------------
-			MOVERS
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public prev(): ListReverseIterator<T>
-		{
-			return new ListReverseIterator<T>(this.list_iterator.next());
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public next(): ListReverseIterator<T>
-		{
-			return new ListReverseIterator<T>(this.list_iterator.prev());
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public advance(n: number): ListReverseIterator<T>
-		{
-			return new ListReverseIterator<T>(this.list_iterator.advance(-1 * n));
+			this.base_.value = val;
 		}
 	}
 }

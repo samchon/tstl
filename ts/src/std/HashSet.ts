@@ -52,7 +52,7 @@ namespace std
 	export class HashSet<T>
 		extends base.UniqueSet<T>
 	{
-		private hash_buckets_: base.SetHashBuckets<T>;
+		private hash_buckets_: base.SetHashBuckets<T> = new base.SetHashBuckets<T>(this);
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -61,48 +61,20 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor();
+		/////
+		// using super::constructor
+		/////
 
 		/**
-		 * Construct from elements.
+		 * @hidden
 		 */
-		public constructor(items: Array<T>);
-
-		/**
-		 * Copy Constructor.
-		 */
-		public constructor(container: base.IContainer<T>);
-
-		/**
-		 * Construct from range iterators.
-		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
-
-		public constructor(...args: any[])
+		protected init(): void
 		{
-			super();
+			super.init();
 
-			// BUCKET
 			this.hash_buckets_ = new base.SetHashBuckets<T>(this);
-
-			// OVERLOADINGS
-			if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
-			{
-				this.construct_from_array(args[0]);
-			}
-			else if (args.length == 1 && args[0] instanceof base.Container)
-			{
-				this.construct_from_container(args[0]);
-			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
-			{
-				this.construct_from_range(args[0], args[1]);
-			}
 		}
-		
+
 		/**
 		 * @hidden
 		 */
@@ -119,31 +91,11 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void
-		{
-			let it: InputIterator;
-			let size: number = 0;
-			
-			// RESERVE HASH_BUCKET SIZE
-			for (it = begin; it.equal_to(end) == false; it = it.next() as InputIterator)
-				size++;
-
-			this.hash_buckets_.clear();
-			this.hash_buckets_.reserve(size * base.RATIO);
-
-			// SUPER; INSERT
-			super.assign(begin, end);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
-			super.clear();
-
 			this.hash_buckets_.clear();
+
+			super.clear();
 		}
 
 		/* =========================================================
@@ -206,24 +158,23 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			let my_first: SetIterator<T> = this.end();
+			let my_first: SetIterator<T> = this.end().prev();
 			let size: number = 0;
 
 			for (; !first.equal_to(last); first = first.next() as InputIterator)
 			{
 				// TEST WHETER EXIST
-				let it = this.find(first.value);
-				if (!it.equal_to(this.end()))
+				if (this.has(first.value))
 					continue;
 				
 				// INSERTS
 				this.data_.push_back(first.value);
-				it = it.prev();
 				size++;
 			}
+			my_first = my_first.next();
 			
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
 			if (this.size() + size > this.hash_buckets_.size() * base.MAX_RATIO)
@@ -260,7 +211,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void
+		public swap(obj: base.UniqueSet<T>): void
 		{
 			if (obj instanceof HashSet)
 				this.swap_tree_set(obj);
@@ -325,7 +276,7 @@ namespace std
 	export class HashMultiSet<T>
 		extends base.MultiSet<T>
 	{
-		private hash_buckets_: base.SetHashBuckets<T>;
+		private hash_buckets_: base.SetHashBuckets<T> = new base.SetHashBuckets<T>(this);
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -334,46 +285,18 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor();
+		/////
+		// using super::constructor
+		/////
 
 		/**
-		 * Construct from elements.
+		 * @hidden
 		 */
-		public constructor(items: Array<T>);
-
-		/**
-		 * Copy Constructor.
-		 */
-		public constructor(container: base.IContainer<T>);
-
-		/**
-		 * Construct from range iterators.
-		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
-
-		public constructor(...args: any[])
+		protected init(): void
 		{
-			super();
-			
-			// BUCKET
-			this.hash_buckets_ = new base.SetHashBuckets<T>(this);
+			super.init();
 
-			// OVERLOADINGS
-			if (args.length == 1 && args[0] instanceof Array && args[0] instanceof Vector == false)
-			{
-				this.construct_from_array(args[0]);
-			}
-			else if (args.length == 1 && args[0] instanceof base.Container)
-		   { 
-				this.construct_from_container(args[0]);
-			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
-			{
-				this.construct_from_range(args[0], args[1]);
-			}
+			this.hash_buckets_ = new base.SetHashBuckets<T>(this);
 		}
 
 		/**
@@ -392,31 +315,11 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void
-		{
-			let it: base.Iterator<U>;
-			let size: number = 0;
-			
-			// RESERVE HASH_BUCKET SIZE
-			for (it = begin; it.equal_to(end) == false; it = it.next())
-				size++;
-
-			this.hash_buckets_.clear();
-			this.hash_buckets_.reserve(size * base.RATIO);
-
-			// SUPER; INSERT
-			super.assign(begin, end);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
-			super.clear();
-
 			this.hash_buckets_.clear();
+
+			super.clear();
 		}
 
 		/* =========================================================
@@ -428,6 +331,24 @@ namespace std
 		public find(val: T): SetIterator<T>
 		{
 			return this.hash_buckets_.find(val);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public count(val: T): number
+		{
+			// FIND MATCHED BUCKET
+			let index = std.hash(val) % this.hash_buckets_.item_size();
+			let bucket = this.hash_buckets_.at(index);
+
+			// ITERATE THE BUCKET
+			let cnt: number = 0;
+			for (let i = 0; i < bucket.length; i++)
+				if (std.equal_to(bucket[i].value, val))
+					cnt++;
+
+			return cnt;
 		}
 		
 		/* =========================================================
@@ -467,19 +388,18 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			// CALCULATE INSERTING SIZE
-			let size: number = distance(first, last);
+			// INSERT ELEMENTS
+			let list_iterator = this.data_.insert(this.data_.end(), first, last);
+			let my_first = new SetIterator<T>(this, list_iterator);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hash_buckets_.item_size() * base.MAX_RATIO)
-				this.hash_buckets_.reserve((this.size() + size) * base.RATIO);
+			if (this.size() > this.hash_buckets_.item_size() * base.MAX_RATIO)
+				this.hash_buckets_.reserve(this.size() * base.RATIO);
 
-			// INSERTS
-			let my_first = new SetIterator<T>(this, this.data_.insert(this.data_.end(), first, last));
-
+			// POST-PROCESS
 			this.handle_insert(my_first, this.end());
 		}
 
@@ -510,7 +430,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void
+		public swap(obj: base.MultiSet<T>): void
 		{
 			if (obj instanceof HashMultiSet)
 				this.swap_tree_set(obj);

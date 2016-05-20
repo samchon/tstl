@@ -44,7 +44,7 @@ namespace std
 		/**
 		 * The <i>underlying object</i> for implementing the <i>FIFO</i> 
 		 */
-		private container_: base.IDeque<T>;
+		private container_: base.IDequeContainer<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -297,7 +297,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
 
 		/**
 		 * Range Constructor with compare.
@@ -308,7 +308,7 @@ namespace std
 		 */
 		public constructor
 			(
-				begin: base.Iterator<T>, end: base.Iterator<T>,
+				begin: Iterator<T>, end: Iterator<T>,
 				compare: (left: T, right: T) => boolean
 			);
 
@@ -359,7 +359,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected construct_from_range(begin: base.Iterator<T>, end: base.Iterator<T>): void
+		protected construct_from_range(begin: Iterator<T>, end: Iterator<T>): void
 		{
 			this.container_.assign(begin, end);
 		}

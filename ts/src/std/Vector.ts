@@ -1,7 +1,6 @@
 /// <reference path="API.ts" />
 
-/// <reference path="base/Iterator.ts" />
-/// <reference path="base/ReverseIterator.ts" />
+/// <reference path="Iterator.ts" />
 
 namespace std
 {
@@ -61,7 +60,7 @@ namespace std
 	 */
 	export class Vector<T>
 		extends Array<T>
-		implements base.IArray<T>
+		implements base.IArrayContainer<T>
 	{
 		/**
 		 * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
@@ -126,7 +125,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
 		
 		public constructor(...args: any[])
 		{
@@ -165,11 +164,11 @@ namespace std
 				
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
+			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
 				// CONSTRUCT FROM INPUT ITERATORS
-				let begin: base.Iterator<T> = args[0];
-				let end: base.Iterator<T> = args[1];
+				let begin: Iterator<T> = args[0];
+				let end: Iterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -181,7 +180,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/**
@@ -189,7 +188,7 @@ namespace std
 		 */
 		public assign(n: number, val: T): void;
 
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends Iterator<U>>
 			(first: any, second: any): void
 		{
 			this.clear();
@@ -239,10 +238,7 @@ namespace std
 		 */
 		public rbegin(): VectorReverseIterator<T>
 		{
-			if (this.empty() == true)
-				return this.rend();
-			else
-				return new VectorReverseIterator<T>(this, this.size() - 1);
+			return new VectorReverseIterator<T>(this.end());
 		}
 
 		/**
@@ -250,7 +246,7 @@ namespace std
 		 */
 		public rend(): VectorReverseIterator<T>
 		{
-			return new VectorReverseIterator<T>(this, -1);
+			return new VectorReverseIterator<T>(this.begin());
 		}
 
 		/**
@@ -322,8 +318,6 @@ namespace std
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
-				- ARRAY'S MEMBERS
-				- PRE & POST-PROCESS
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -405,17 +399,107 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
+		public insert<U extends T, InputIterator extends Iterator<U>>
 			(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
 
-		public insert<U extends T>(...args: any[]): VectorIterator<T>
+		/**
+		 * <p> Insert an element. </p>
+		 *
+		 * <p> The {@link Vector} is extended by inserting new element before the element at the specified 
+		 * <i>position</i>, effectively increasing the container size by one. </p>
+		 *
+		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
+		 * {@link size} surpasses the current {@link capacity}. </p>
+		 *
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
+		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
+		 * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one 
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 *
+		 * @param position Position in the {@link Vector} where the new element is inserted.
+		 *				   {@link iterator} is a member type, defined as a 
+		 *				   {@link VectorIterator random access iterator} type that points to elements.
+		 * @param val Value to be copied to the inserted element.
+		 *
+		 * @return An iterator that points to the newly inserted element.
+		 */
+		public insert(position: VectorReverseIterator<T>, val: T): VectorReverseIterator<T>;
+
+		/**
+		 * <p> Insert elements by repeated filling. </p>
+		 *
+		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
+		 * <i>position</i>, effectively increasing the container size by the number of elements inserted. </p>
+		 * 
+		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
+		 * {@link size} surpasses the current {@link capacity}. </p>
+		 * 
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
+		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
+		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
+		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
+		 * 
+		 * @param position Position in the {@link Vector} where the new elements are inserted.
+		 *				   {@link iterator} is a member type, defined as a 
+		 *				   {@link VectorIterator random access iterator} type that points to elements.
+		 * @param n Number of elements to insert. Each element is initialized to a copy of <i>val</i>.
+		 * @param val Value to be copied (or moved) to the inserted elements.
+		 *
+		 * @return An iterator that points to the first of the newly inserted elements.
+		 */
+		public insert(position: VectorReverseIterator<T>, n: number, val: T): VectorReverseIterator<T>;
+
+		/**
+		 * <p> Insert elements by range iterators. </p>
+		 *
+		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
+		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by range 
+		 * iterators. </p>
+		 * 
+		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
+		 * {@link size} surpasses the current {@link capacity}. </p>
+		 * 
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
+		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
+		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
+		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
+		 *
+		 * @param position Position in the {@link Vector} where the new elements are inserted.
+		 *				   {@link iterator} is a member type, defined as a 
+		 *				   {@link VectorIterator random access iterator} type that points to elements.
+		 * @param begin Input interator of the initial position in a sequence.
+		 * @param end Input interator of the final position in a sequence.
+		 *
+		 * @return An iterator that points to the first of the newly inserted elements.
+		 */
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(position: VectorReverseIterator<T>, begin: InputIterator, end: InputIterator): VectorReverseIterator<T>;
+
+		public insert<U extends T>(...args: any[]): VectorIterator<T> | VectorReverseIterator<T>
 		{
+			// REVERSE_ITERATOR TO ITERATOR
+			let ret: VectorIterator<T>;
+			let is_reverse_iterator: boolean = false;
+
+			if (args[0] instanceof VectorReverseIterator)
+			{
+				is_reverse_iterator = true;
+				args[0] = (args[0] as VectorReverseIterator<T>).base().prev();
+			}
+
+			// BRANCHES
 			if (args.length == 2)
-				return this.insert_by_val(args[0], args[1]);
+				ret = this.insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
-				return this.insert_by_repeating_val(args[0], args[1], args[2]);
+				ret = this.insert_by_repeating_val(args[0], args[1], args[2]);
 			else
-				return this.insert_by_range(args[0], args[1], args[2]);
+				ret = this.insert_by_range(args[0], args[1], args[2]);
+
+			// RETURNS
+			if (is_reverse_iterator == true)
+				return new VectorReverseIterator<T>(ret.next());
+			else
+				return ret;
 		}
 
 		/**
@@ -431,20 +515,19 @@ namespace std
 		 */
 		private insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>
 		{
-			if (position.equal_to(this.end()))
-			{ // WHEN INSERT TO THE LAST
-				// INSERT ELEMENTS
+			if (position.index == -1)
+			{ 
+				// WHEN INSERT TO THE LAST
 				for (let i = 0; i < n; i++)
 					super.push(val);
-
-				// POST-PROCESS
-				if (this.empty() == false)
-					this.handle_insert(this.begin(), this.end());
 
 				return this.begin();
 			}
 			else
-			{ // INSERT TO THE MIDDLE POSITION
+			{
+				///////
+				// INSERT TO THE MIDDLE POSITION
+				///////
 				// CUT RIGHT SIDE
 				let spliced_array = super.splice(position.index);
 				let insert_size: number = 0;
@@ -456,10 +539,6 @@ namespace std
 					insert_size++;
 				}
 				super.push(...spliced_array); // CONCAT THE SPLICEDS
-
-				// POST-PROCESS
-				if (insert_size != 0)
-					this.handle_erase(position, position.advance(insert_size));
 
 				return position;
 			}
@@ -468,23 +547,22 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range<InputIterator extends base.Iterator<T>>
+		private insert_by_range<InputIterator extends Iterator<T>>
 			(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>
 		{
-			if (position.equal_to(this.end()))
-			{ // WHEN INSERT TO THE LAST
-				// INSERT ELEMENTS
+			if (position.index == -1)
+			{ 
+				// WHEN INSERT TO THE LAST
 				for (; !first.equal_to(last); first = first.next() as InputIterator)
 					super.push(first.value);
-
-				// POST-PROCESS
-				if (this.empty() == false)
-					this.handle_insert(this.begin(), this.end());
 				
 				return this.begin();
 			}
 			else
-			{ // INSERT TO THE MIDDLE POSITION
+			{ 
+				///////
+				// INSERT TO THE MIDDLE POSITION
+				///////
 				// CUT RIGHT SIDE
 				let spliced_array = super.splice(position.index);
 				let insert_size: number = 0;
@@ -496,10 +574,6 @@ namespace std
 					insert_size++;
 				}
 				super.push(...spliced_array); // CONCAT THE SPLICEDS
-
-				// POST-PROCESS
-				if (insert_size != 0)
-					this.handle_erase(position, position.advance(insert_size));
 				
 				return position;
 			}
@@ -552,112 +626,97 @@ namespace std
 		 * @param end An iterator specifying a range of end to erase.
 		 *
 		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
+		 *		   the function call. This is the {@link rend rend()} if the operation erased the last element in the 
+		 *		   sequence.
+		 */
+		public erase(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>;
+
+		/**
+		 * <p> Erase element. </p>
+		 *
+		 * <p> Removes from the {@link Vector} either a single element; <i>position</i>. </p>
+		 *
+		 * <p> This effectively reduces the container size by the number of element removed. </p>
+		 *
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in 
+		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
+		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 * 
+		 * @param position Iterator pointing to a single element to be removed from the {@link Vector}.
+		 *
+		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
+		 *		   the function call. This is the {@link rend rend()} if the operation erased the last element in the 
+		 *		   sequence.
+		 */
+		public erase(position: VectorReverseIterator<T>): VectorReverseIterator<T>;
+
+		/**
+		 * <p> Erase element. </p>
+		 *
+		 * <p> Removes from the <ode>Vector</code> either a single element; <i>position</i>. </p>
+		 *
+		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 *
+		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in 
+		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
+		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 * 
+		 * @param begin An iterator specifying a range of beginning to erase.
+		 * @param end An iterator specifying a range of end to erase.
+		 *
+		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
 		 *		   the function call. This is the {@link end end()} if the operation erased the last element in the 
 		 *		   sequence.
 		 */
-		public erase(begin: VectorIterator<T>, end: VectorIterator<T>): VectorIterator<T>;
+		public erase(first: VectorReverseIterator<T>, last: VectorReverseIterator<T>): VectorReverseIterator<T>;
 
-		public erase(first: VectorIterator<T>, last: VectorIterator<T> = first.next()): VectorIterator<T>
+		public erase(first: any, last: any = first.next()): any
 		{
-			if (first.equal_to(this.end()))
-				return first;
-			
-			// INDEXING
-			let start_index = Math.min(first.index, last.index);
-			let size = Math.abs(last.index - first.index);
+			let ret: VectorIterator<T>;
+			let is_reverse_iterator: boolean = false;
 
-			// PRE-PROCESS
-			if (size != 0)
-				this.handle_erase(first, last);
+			// REVERSE_ITERATOR TO ITERATOR
+			if (first instanceof VectorReverseIterator)
+			{
+				is_reverse_iterator = true;
+
+				let first_it = (last as VectorReverseIterator<T>).base();
+				let last_it = (first as VectorReverseIterator<T>).base();
+
+				first = first_it;
+				last = last_it;
+			}
 
 			// ERASE ELEMENTS
-			if (last.equal_to(this.end()))
+			ret = this.erase_by_range(first, last);
+
+			// RETURN BRANCHES
+			if (is_reverse_iterator == true)
+				return new VectorReverseIterator<T>(ret.next());
+			else
+				return ret;	
+		}
+
+		/**
+		 * @hiddde
+		 */
+		private erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>
+		{
+			if (first.index == -1)
+				return first;
+
+			// ERASE ELEMENTS
+			if (last.index == -1)
 			{
-				super.splice(start_index);
+				super.splice(first.index);
 				return this.end();
 			}
 			else
-				super.splice(start_index, size);
+				super.splice(first.index, last.index - first.index);
 
 			return first;
-		}
-
-		/* ---------------------------------------------------------------
-			ARRAY'S MEMBERS
-		--------------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public shift(): T
-		{
-			if (this.empty() == false)
-				this.handle_erase(this.begin(), this.make_iterator(1));
-			
-			return super.shift();
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public unshift(...items: T[]): number
-		{
-			let ret: number = super.unshift(...items);
-
-			this.handle_insert(this.begin(), this.make_iterator(items.length));
-
-			return ret;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public pop(): T
-		{
-			if (this.empty() == false)
-				this.handle_erase(this.make_iterator(this.length - 1), this.end());
-
-			return super.pop();
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public splice(start: number): T[];
-
-		/**
-		 * @inheritdoc
-		 */
-		public splice(start: number, deleteCount: number, ...items: T[]): T[];
-
-		public splice(start: number, deleteCount: number = this.length - 1, ...items: T[]): T[]
-		{
-			if (deleteCount > 0 && start + deleteCount <= this.length)
-				this.handle_erase(this.make_iterator(start), this.make_iterator(start + deleteCount));
-
-			return super.splice(start, deleteCount, ...items);
-		}
-
-		/* ---------------------------------------------------------------
-			PRE & POST-PROCESS
-		--------------------------------------------------------------- */
-		protected handle_insert(first: VectorIterator<T>, last: VectorIterator<T>): void
-		{
-			// NOTHING TO DO ESPECIALLY
-			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
-		}
-
-		protected handle_erase(first: VectorIterator<T>, last: VectorIterator<T>): void
-		{
-			// NOTHING TO DO ESPECIALLY
-			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
-		}
-
-		/**
-		 * @hidden
-		 */
-		private make_iterator(index: number): VectorIterator<T>
-		{
-			return new VectorIterator<T>(this, index);
 		}
 
 		/* ===============================================================
@@ -683,13 +742,13 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class VectorIterator<T>
-		extends base.Iterator<T>
+		extends Iterator<T>
 		implements base.IArrayIterator<T>
 	{
 		/**
 		 * Sequence number of iterator in the source {@link Vector}.
 		 */
-		protected index_: number;
+		private index_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -717,7 +776,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected get vector(): Vector<T>
+		private get vector(): Vector<T>
 		{
 			return this.source_ as Vector<T>;
 		}
@@ -737,27 +796,10 @@ namespace std
 		{
 			this.vector.set(this.index_, val);
 		}
-		
-		/**
-		 * <p> Whether an iterator is equal with the iterator. </p>
-		 * 
-		 * <p> Compare two iterators and returns whether they are equal or not. </p>
-		 * 
-		 * <h4> Note </h4> 
-		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
-		 *
-		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
-		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-		 * compare the elements of a pair, compare them directly by yourself. </p>
-		 *
-		 * @param obj An iterator to compare
-		 * @return Indicates whether equal or not.
-		 */
-		public equal_to<U extends T>(obj: VectorIterator<U>): boolean
-		{
-			return super.equal_to(obj) && this.index_ == obj.index_;
-		}
 
+		/**
+		 * Get index.
+		 */
 		public get index(): number
 		{
 			return this.index_;
@@ -803,6 +845,29 @@ namespace std
 				return new VectorIterator<T>(this.vector, newIndex);
 		}
 
+		/* ---------------------------------------------------------
+			COMPARES
+		--------------------------------------------------------- */
+		/**
+		 * <p> Whether an iterator is equal with the iterator. </p>
+		 * 
+		 * <p> Compare two iterators and returns whether they are equal or not. </p>
+		 * 
+		 * <h4> Note </h4> 
+		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
+		 *
+		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
+		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
+		 * compare the elements of a pair, compare them directly by yourself. </p>
+		 *
+		 * @param obj An iterator to compare
+		 * @return Indicates whether equal or not.
+		 */
+		public equal_to<U extends T>(obj: VectorIterator<U>): boolean
+		{
+			return super.equal_to(obj) && this.index_ == obj.index_;
+		}
+
 		/**
 		 * @inheritdoc
 		 */
@@ -820,64 +885,42 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class VectorReverseIterator<T>
-		extends VectorIterator<T>
+		extends ReverseIterator<T, VectorIterator<T>, VectorReverseIterator<T>>
+		implements base.IArrayIterator<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * <p> Construct from the source {@link Vector container}. </p>
-		 *
-		 * <h4> Note </h4>
-		 * <p> Do not create the iterator directly, by yourself. </p>
-		 * <p> Use {@link Vector.begin begin()}, {@link Vector.end end()} in {@link Vector container} instead. </p> 
-		 *
-		 * @param source The source {@link Vector container} to reference.
-		 * @param index Sequence number of the element in the source {@link Vector}.
-		 */
-		public constructor(source: Vector<T>, index: number)
+		public constructor(base: VectorIterator<T>)
 		{
-			super(source, index);
+			super(base);
 		}
-		
+
+		/**
+		 * @inheritdoc
+		 */
+		protected create_neighbor(): VectorReverseIterator<T>
+		{
+			return new VectorReverseIterator<T>(null);
+		}
+
 		/* ---------------------------------------------------------
-			MOVERS
+			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * Set value.
 		 */
-		public prev(): VectorReverseIterator<T>
+		public set value(val: T)
 		{
-			if (this.index_ >= this.source_.size() - 1)
-				return this.vector.end();
-			else
-				return new VectorIterator<T>(this.vector, this.index_ + 1);
-		}
-		
-		/**
-		 * @inheritdoc
-		 */
-		public next(): VectorReverseIterator<T>
-		{
-			if (this.index_ == -1)
-				return new VectorIterator(this.vector, this.vector.size() - 1);
-			else if (this.index_ - 1 < 0)
-				return this.vector.end();
-			else
-				return new VectorIterator<T>(this.vector, this.index_ - 1);
+			this.base_.value = val;
 		}
 
 		/**
-		 * @inheritdoc
+		 * Get index.
 		 */
-		public advance(n: number): VectorReverseIterator<T>
+		public get index(): number
 		{
-			let newIndex: number = this.index_ - n;
-
-			if (newIndex < 0 || newIndex >= this.vector.size())
-				return this.vector.rend();
-			else
-				return new VectorReverseIterator<T>(this.vector, newIndex);
+			return this.base_.index;
 		}
 	}
 }

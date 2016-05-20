@@ -185,7 +185,7 @@ namespace std
 		 */
 		public default_error_condition(val: number): ErrorCondition
 		{
-			return null;
+			return new ErrorCondition(val, this);
 		}
 
 		/**

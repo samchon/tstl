@@ -1,8 +1,7 @@
 ﻿/// <reference path="API.ts" />
 
 /// <reference path="base/Container.ts" />
-/// <reference path="base/Iterator.ts" />
-/// <reference path="base/ReverseIterator.ts" />
+/// <reference path="Iterator.ts" />
 
 namespace std
 {
@@ -54,8 +53,7 @@ namespace std
 	 */
 	export class Deque<T>
 		extends base.Container<T>
-		implements base.IArray<T>,
-		base.IDeque<T>
+		implements base.IArrayContainer<T>, base.IDequeContainer<T>
 	{
 		/**
 		 * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
@@ -188,7 +186,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -212,10 +210,10 @@ namespace std
 				this.assign(container.begin(), container.end());
 			}
 			else if (args.length == 2 &&
-				args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
+				args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				let begin: base.Iterator<T> = args[0];
-				let end: base.Iterator<T> = args[1];
+				let begin: Iterator<T> = args[0];
+				let end: Iterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -227,7 +225,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/**
@@ -240,10 +238,10 @@ namespace std
 			// CLEAR PREVIOUS CONTENTS
 			this.clear();
 
-			if (first instanceof base.Iterator && second instanceof base.Iterator)
+			if (first instanceof Iterator && second instanceof Iterator)
 			{
-				let begin: base.Iterator<T> = first;
-				let end: base.Iterator<T> = second;
+				let begin: Iterator<T> = first;
+				let end: Iterator<T> = second;
 
 				let size: number = 0;
 				for (let it = begin; !it.equal_to(end); it = it.next())
@@ -288,9 +286,6 @@ namespace std
 					array.push(val);
 				}
 			}
-
-			// POST-PROCESS
-			this.handle_insert(this.begin(), this.end());
 		}
 
 		/**
@@ -328,14 +323,11 @@ namespace std
 		 */
 		public clear(): void
 		{
-			// PRE-PROCESS
-			if (this.empty() == false)
-				this.handle_erase(this.begin(), this.end());
-
 			// CLEAR CONTENTS
 			this.matrix_ = new Array<Array<T>>();
 			this.matrix_.push(new Array<T>());
 
+			// RE-INDEX
 			this.size_ = 0;
 			this.capacity_ = Deque.MIN_CAPACITY;
 		}
@@ -369,10 +361,7 @@ namespace std
 		 */
 		public rbegin(): DequeReverseIterator<T>
 		{
-			if (this.empty() == true)
-				return this.rend();
-			else
-				return new DequeReverseIterator<T>(this, this.size() - 1);
+			return new DequeReverseIterator<T>(this.end());
 		}
 
 		/**
@@ -380,7 +369,7 @@ namespace std
 		 */
 		public rend(): DequeReverseIterator<T>
 		{
-			return new DequeReverseIterator<T>(this, -1);
+			return new DequeReverseIterator<T>(this.begin());
 		}
 
 		/**
@@ -498,9 +487,8 @@ namespace std
 				array.push(items[i]);
 			}
 
-			// AFTER INSERTION
-			this.size_ += items.length; // INDEXING
-			this.handle_insert(this.make_iterator(this.size() - 1), this.end()); // POST-PROCESS
+			// INDEXING
+			this.size_ += items.length;
 
 			return this.size_;
 		}
@@ -516,9 +504,6 @@ namespace std
 
 			if (this.size_ > this.capacity_)
 				this.reserve(this.size_ * 2);
-
-			// POST-PROCESS
-			this.handle_insert(this.begin(), this.make_iterator(1));
 		}
 
 		/**
@@ -538,9 +523,6 @@ namespace std
 
 			if (this.size_ > this.capacity_)
 				this.reserve(this.size_ * 2);
-
-			// POST-PROCESS
-			this.handle_insert(this.make_iterator(this.size() - 1), this.end());
 		}
 
 		/**
@@ -550,9 +532,6 @@ namespace std
 		{
 			if (this.empty() == true)
 				return; // SOMEWHERE PLACE TO THROW EXCEPTION
-
-			// PRE-PROCESS
-			this.handle_erase(this.begin(), this.begin().next());
 
 			// EREASE FIRST ELEMENT
 			this.matrix_[0].shift();
@@ -569,9 +548,6 @@ namespace std
 		{
 			if (this.empty() == true)
 				return; // SOMEWHERE PLACE TO THROW EXCEPTION
-
-			// PRE-PROCESS
-			this.handle_erase(this.end().prev(), this.end());
 
 			// ERASE LAST ELEMENT
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
@@ -598,18 +574,51 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
+		public insert<U extends T, InputIterator extends Iterator<U>>
 			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
 
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
-			(...args: any[]): DequeIterator<T>
+		/**
+		 * @inheritdoc
+		 */
+		public insert(position: DequeReverseIterator<T>, val: T): DequeReverseIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public insert(position: DequeReverseIterator<T>, n: number, val: T): DequeReverseIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(position: DequeReverseIterator<T>, begin: InputIterator, end: InputIterator): DequeReverseIterator<T>;
+
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(...args: any[]): DequeIterator<T> | DequeReverseIterator<T>
 		{
+			// REVERSE_ITERATOR TO ITERATOR
+			let ret: DequeIterator<T>;
+			let is_reverse_iterator: boolean = false;
+
+			if (args[0] instanceof DequeReverseIterator)
+			{
+				is_reverse_iterator = true;
+				args[0] = (args[0] as DequeReverseIterator<T>).base().prev();
+			}
+
+			// BRANCHES
 			if (args.length == 2)
-				return this.insert_by_val(args[0], args[1]);
+				ret = this.insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
-				return this.insert_by_repeating_val(args[0], args[1], args[2]);
+				ret = this.insert_by_repeating_val(args[0], args[1], args[2]);
 			else
-				return this.insert_by_range(args[0], args[1], args[2]);
+				ret = this.insert_by_range(args[0], args[1], args[2]);
+
+			// RETURNS
+			if (is_reverse_iterator == true)
+				return new DequeReverseIterator<T>(ret.next());
+			else
+				return ret;
 		}
 
 		/**
@@ -636,7 +645,6 @@ namespace std
 			if (position.equal_to(this.end()))
 			{
 				this.push(...items);
-				return this.make_iterator(this.size() - n);
 			}
 			else
 				return this.insert_by_items(position, items);
@@ -645,7 +653,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+		private insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>
 		{
 			// CONSTRUCT ITEMS
@@ -658,7 +666,6 @@ namespace std
 			if (position.equal_to(this.end()))
 			{
 				this.push(...items);
-				return this.make_iterator(this.size() - items.length);
 			}
 			else
 				return this.insert_by_items(position, items);
@@ -730,10 +737,6 @@ namespace std
 				this.reserve(this.size_);
 			}
 
-			// POST-PROCESS
-			if (item_size != 0)
-				this.handle_insert(position, position.advance(item_size));
-
 			return position;
 		}
 
@@ -743,29 +746,63 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public erase(position: DequeIterator<T>): DequeIterator<T>
+		public erase(position: DequeIterator<T>): DequeIterator<T>;
 		
 		/**
 		 * @inheritdoc
 		 */
 		public erase(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>;
 
-		public erase(first: DequeIterator<T>, last: DequeIterator<T> = first.next()): DequeIterator<T>
+		/**
+		 * @inheritdoc
+		 */
+		public erase(position: DequeReverseIterator<T>): DequeReverseIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public erase(first: DequeReverseIterator<T>, last: DequeReverseIterator<T>): DequeReverseIterator<T>;
+
+		public erase(first: any, last: any = first.next()): any
+		{
+			let ret: DequeIterator<T>;
+			let is_reverse_iterator: boolean = false;
+
+			// REVERSE_ITERATOR TO ITERATOR
+			if (first instanceof DequeReverseIterator)
+			{
+				is_reverse_iterator = true;
+
+				let first_it = (last as DequeReverseIterator<T>).base();
+				let last_it = (first as DequeReverseIterator<T>).base();
+
+				first = first_it;
+				last = last_it;
+			}
+
+			// ERASE ELEMENTS
+			ret = this.erase_by_range(first, last);
+
+			// RETURN BRANCHES
+			if (is_reverse_iterator == true)
+				return new DequeReverseIterator<T>(ret.next());
+			else
+				return ret;	
+		}
+
+		/**
+		 * @hidden
+		 */
+		private erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>
 		{
 			// INDEXING
-			let start_index: number = Math.min(first.index, last.index);
-			let size = Math.abs(last.index - first.index);
-
+			let size = last.index - first.index;
 			this.size_ -= size;
-
-			// PRE-PROCESS
-			if (size != 0)
-				this.handle_erase(first, last);
 			 
 			// ERASING
 			while (size != 0)
 			{
-				let indexPair: Pair<number, number> = this.fetch_index(start_index);
+				let indexPair: Pair<number, number> = this.fetch_index(first.index);
 				let array: Array<T> = this.matrix_[indexPair.first];
 
 				let myDeleteSize: number = Math.min(size, array.length - indexPair.second);
@@ -778,29 +815,6 @@ namespace std
 			}
 			
 			return first;
-		}
-
-		/* ---------------------------------------------------------------
-			PRE & POST-PROCESS
-		--------------------------------------------------------------- */
-		protected handle_insert(first: DequeIterator<T>, last: DequeIterator<T>): void
-		{
-			// NOTHING TO DO ESPECIALLY
-			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
-		}
-
-		protected handle_erase(first: DequeIterator<T>, last: DequeIterator<T>): void
-		{
-			// NOTHING TO DO ESPECIALLY
-			// IF YOU WANT TO SPECIFY, EXTENDS AND OVERRIDES THIS
-		}
-
-		/**
-		 * @hidden
-		 */
-		private make_iterator(index: number): DequeIterator<T>
-		{
-			return new DequeIterator<T>(this, index);
 		}
 
 		/* ===============================================================
@@ -834,13 +848,13 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class DequeIterator<T>
-		extends base.Iterator<T>
+		extends Iterator<T>
 		implements base.IArrayIterator<T>
 	{
 		/**
 		 * Sequence number of iterator in the source {@link Deque}.
 		 */
-		protected index_: number;
+		private index_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -868,7 +882,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected get deque(): Deque<T> 
+		private get deque(): Deque<T> 
 		{ 
 			return this.source_ as Deque<T>; 
 		}
@@ -884,26 +898,6 @@ namespace std
 		public set value(val: T)
 		{
 			this.deque.set(this.index_, val);
-		}
-
-		/**
-		 * <p> Whether an iterator is equal with the iterator. </p>
-		 * 
-		 * <p> Compare two iterators and returns whether they are equal or not. </p>
-		 * 
-		 * <h4> Note </h4> 
-		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
-		 *
-		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
-		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-		 * compare the elements of a pair, compare them directly by yourself. </p>
-		 *
-		 * @param obj An iterator to compare
-		 * @return Indicates whether equal or not.
-		 */
-		public equal_to<U extends T>(obj: DequeIterator<U>): boolean
-		{
-			return super.equal_to(obj) && this.index_ == obj.index_;
 		}
 
 		/**
@@ -954,6 +948,29 @@ namespace std
 				return new DequeIterator<T>(this.deque, new_index);
 		}
 
+		/* ---------------------------------------------------------
+			COMPARES
+		--------------------------------------------------------- */
+		/**
+		 * <p> Whether an iterator is equal with the iterator. </p>
+		 * 
+		 * <p> Compare two iterators and returns whether they are equal or not. </p>
+		 * 
+		 * <h4> Note </h4> 
+		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
+		 *
+		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
+		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
+		 * compare the elements of a pair, compare them directly by yourself. </p>
+		 *
+		 * @param obj An iterator to compare
+		 * @return Indicates whether equal or not.
+		 */
+		public equal_to<U extends T>(obj: DequeIterator<U>): boolean
+		{
+			return super.equal_to(obj) && this.index_ == obj.index_;
+		}
+
 		/**
 		 * @inheritdoc
 		 */
@@ -971,54 +988,42 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class DequeReverseIterator<T>
-		extends DequeIterator<T>
+		extends ReverseIterator<T, DequeIterator<T>, DequeReverseIterator<T>>
+		implements base.IArrayIterator<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(source: Deque<T>, index: number)
+		public constructor(base: DequeIterator<T>)
 		{
-			super(source, index);
+			super(base);
 		}
-		
+
+		/**
+		 * @inheritdoc
+		 */
+		protected create_neighbor(): DequeReverseIterator<T>
+		{
+			return new DequeReverseIterator<T>(null);
+		}
+
 		/* ---------------------------------------------------------
-			MOVERS
+			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * Set value.
 		 */
-		public prev(): DequeReverseIterator<T>
+		public set value(val: T)
 		{
-			if (this.index_ >= this.source_.size() - 1)
-				return this.deque.end();
-			else
-				return new DequeReverseIterator<T>(this.deque, this.index_ + 1);
+			this.base_.value = val;
 		}
 
 		/**
-		 * @inheritdoc
+		 * Get index.
 		 */
-		public next(): DequeReverseIterator<T>
+		public get index(): number
 		{
-			if (this.index_ == -1)
-				return new DequeReverseIterator(this.deque, this.deque.size() - 1);
-			else if (this.index_ - 1 < 0)
-				return this.deque.end();
-			else
-				return new DequeReverseIterator<T>(this.deque, this.index_ - 1);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public advance(n: number): DequeReverseIterator<T>
-		{
-			let new_index: number = this.index_ - n;
-
-			if (new_index < 0 || new_index >= this.deque.size())
-				return this.deque.end();
-			else
-				return new DequeReverseIterator<T>(this.deque, new_index);
+			return this.base_.index;
 		}
 	}
 }

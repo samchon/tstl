@@ -8,13 +8,14 @@ namespace std.example
 		// CONSTRUCT DATA FROM 1 TO 10
 		/////////////////////////////////////
 		let map = new std.HashMap<number, string>();
+
 		for (let i: number = 0; i < 10; i++)
 			map.insert([i, "Its key is " + i]);
 
 		/////////////////////////////////////
 		//  ELEMENT I/O
 		/////////////////////////////////////
-		//// ERASE AN ELEMENT
+		// ERASE AN ELEMENT
 		let it = map.find(3); // find 3.
 		it = map.erase(it); // erase 3. [it] points key 4.
 		console.log(it.first); // prints key 4.
@@ -36,7 +37,7 @@ namespace std.example
 		// key list: [0, 1, -1, 2, 4, 5, 9]
 		console.log("has 7:", map.has(7));
 		console.log("count 5:", map.count(5));
-		console.log("it is end():", it.equal_to(map.end()));
+		//console.log("it is end():", it.equal_to(map.end()));
 
 		/////////////////////////////////////
 		// PRINT ALL ELEMENTS
@@ -64,5 +65,7 @@ namespace std.example
 			Its key is 9
 		=========================================
 		*/
+
+		let tree_map = new TreeMap<number, string>(map.begin(), map.end(), std.greater);
 	}
 }

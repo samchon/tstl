@@ -18,7 +18,7 @@ namespace std.base
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class ErrorInstance
+	export abstract class ErrorInstance
 	{
 		/**
 		 * A reference to an {@link ErrorCategory} object.

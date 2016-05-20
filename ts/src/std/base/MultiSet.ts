@@ -42,34 +42,7 @@ namespace std.base
 		extends SetContainer<T>
 	{
 		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
-		public constructor()
-		{
-			super();
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public count(val: T): number
-		{
-			let myIt = this.find(val);
-			if (myIt.equal_to(this.end()))
-				return 0;
-
-			let size: number = 0;
-			for (let it = myIt; !it.equal_to(this.end()) && std.equal_to(val, it.value); it = it.next())
-				size++;
-
-			return size;
-		}
-
-		/* ---------------------------------------------------------
-			ELEMENTS I/O
+			INSERTS
 		--------------------------------------------------------- */
 		/**
 		 * <p> Insert an element. </p>
@@ -91,12 +64,31 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
+		public insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
 		public insert<U extends T, InputIterator extends Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
 			return super.insert.apply(this, args);
+		}
+
+		/* ---------------------------------------------------------
+			UTILITIES
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public swap(obj: MultiSet<T>): void
+		{
+			let vec = new Vector<T>(this.begin(), this.end());
+
+			this.assign(obj.begin(), obj.end());
+			obj.assign(vec.begin(), vec.end());
 		}
 	}
 }

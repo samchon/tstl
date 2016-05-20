@@ -56,7 +56,7 @@ namespace std.base
 
 				if (std.equal_to(val, node.value.value))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-				else if (std.less(val, node.value.value))
+				else if (this.compare_(val, node.value.value))
 					newNode = node.left; // LESS, THEN TO THE LEFT
 				else
 					newNode = node.right; // GREATER, THEN TO THE RIGHT
@@ -83,7 +83,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public is_equals(left: SetIterator<T>, right: SetIterator<T>): boolean
+		public is_equal_to(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
 			return std.equal_to(left, right);
 		}

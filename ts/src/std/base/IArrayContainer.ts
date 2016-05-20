@@ -50,7 +50,7 @@ namespace std.base
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IArray<T>
+	export interface IArrayContainer<T>
 		extends ILinearContainer<T>
 	{
 		/* ---------------------------------------------------------
