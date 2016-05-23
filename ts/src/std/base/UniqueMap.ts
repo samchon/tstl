@@ -1,5 +1,3 @@
-/// <reference path="../API.ts" />
-
 /// <reference path="MapContainer.ts" />
 
 namespace std.base

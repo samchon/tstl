@@ -1,6 +1,4 @@
-﻿/// <reference path="API.ts" />
-
-namespace std
+﻿namespace std
 {
     /* =========================================================
         + EXCEPTION

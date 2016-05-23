@@ -1,6 +1,4 @@
-﻿/// <reference path="../API.ts" />
-
-/// <reference path="../Vector.ts" />
+﻿/// <reference path="../Vector.ts" />
 /// <reference path="../Deque.ts" />
 /// <reference path="../List.ts" />
 /// <reference path="../Queue.ts" />

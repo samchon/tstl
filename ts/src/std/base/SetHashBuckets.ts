@@ -1,5 +1,3 @@
-/// <reference path="../API.ts" />
-
 /// <reference path="HashBuckets.ts" />
 
 namespace std.base

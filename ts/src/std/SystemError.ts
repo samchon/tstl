@@ -1,6 +1,4 @@
-﻿/// <reference path="API.ts" />
-
-/// <reference path="Exception.ts" />
+﻿/// <reference path="Exception.ts" />
 /// <reference path="base/ErrorInstance.ts" />
 
 namespace std

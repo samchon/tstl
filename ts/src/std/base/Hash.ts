@@ -1,6 +1,4 @@
-﻿/// <reference path="../API.ts" />
-
-namespace std.base
+﻿namespace std.base
 {
 	export const MIN_SIZE: number = 10;
 

@@ -1,6 +1,4 @@
-﻿/// <reference path="../API.ts" />
-
-namespace std.example
+﻿namespace std.example
 {
 	export function test_for_each()
 	{

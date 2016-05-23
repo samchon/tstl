@@ -1,5 +1,3 @@
-/// <reference path="../API.ts" />
-
 /// <reference path="XTree.ts" />
 
 namespace std.base
