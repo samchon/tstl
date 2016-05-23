@@ -3,8 +3,11 @@
 # ======================================================
 ts/*
 d.ts
+ts-stl_decrecated
 !ts/src
-!ts/tsconfig.json
+!ts/tsconfig*.json
+!ts/include
+!ts/index.html
 
 *.bat
 *.ink

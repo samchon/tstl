@@ -367,32 +367,35 @@ namespace std
 	 */
 	var __s_iUID: number = 0;
 
-	Object.defineProperties(Object.prototype,
+	if (Object.prototype.hasOwnProperty("__getUID") == false)
 	{
-		"__getUID":
-		{
-			value: function (): number
+		Object.defineProperties(Object.prototype,
 			{
-				if (this.hasOwnProperty("__m_iUID") == false)
+				"__getUID":
 				{
-					var uid: number = ++__s_iUID;
-
-					Object.defineProperty
-						(
-						this, "__m_iUID",
+					value: function (): number
+					{
+						if (this.hasOwnProperty("__m_iUID") == false)
 						{
-							"get": function (): number
-							{
-								return uid;
-							}
-						}
-					);
-				}
+							var uid: number = ++__s_iUID;
 
-				return this.__m_iUID;
-			}
-		}
-	});
+							Object.defineProperty
+								(
+								this, "__m_iUID",
+								{
+									"get": function (): number
+									{
+										return uid;
+									}
+								}
+								);
+						}
+
+						return this.__m_iUID;
+					}
+				}
+			});
+	}
 
 	/* ---------------------------------------------------------
 		SWAP

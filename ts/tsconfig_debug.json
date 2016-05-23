@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "declaration": true,
+        "sourceMap": true,
         "allowJs": true,
-        "outFile": "../lib/typescript-stl.js"
+        "outFile": "include/typescript-stl.js"
     },
     "exclude": [
         "include"

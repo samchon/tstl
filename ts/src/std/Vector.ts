@@ -512,7 +512,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>
+		protected insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>
 		{
 			if (position.index == -1)
 			{ 
@@ -546,7 +546,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range<InputIterator extends Iterator<T>>
+		protected insert_by_range<InputIterator extends Iterator<T>>
 			(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>
 		{
 			if (position.index == -1)
@@ -701,7 +701,7 @@ namespace std
 		/**
 		 * @hiddde
 		 */
-		private erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>
+		protected erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>
 		{
 			if (first.index == -1)
 				return first;

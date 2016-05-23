@@ -634,7 +634,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
+		protected insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
 		{
 			// CONSTRUCT ITEMS
 			let items: T[] = [];
@@ -647,6 +647,7 @@ namespace std
 			if (position.equal_to(this.end()))
 			{
 				this.push(...items);
+				return this.begin();
 			}
 			else
 				return this.insert_by_items(position, items);
@@ -655,7 +656,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>
 		{
 			// CONSTRUCT ITEMS
@@ -668,6 +669,7 @@ namespace std
 			if (position.equal_to(this.end()))
 			{
 				this.push(...items);
+				return this.begin();
 			}
 			else
 				return this.insert_by_items(position, items);
@@ -795,7 +797,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>
+		protected erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>
 		{
 			// INDEXING
 			let size = last.index - first.index;

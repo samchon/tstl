@@ -494,7 +494,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>
+		protected insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>
 		{
 			// INVALID ITERATOR
 			if (this != position.get_source())
@@ -532,7 +532,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>
 		{
 			// INVALID ITERATOR
@@ -673,7 +673,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private erase_by_range(first: ListIterator<T>, last: ListIterator<T>): ListIterator<T>
+		protected erase_by_range(first: ListIterator<T>, last: ListIterator<T>): ListIterator<T>
 		{
 			// FIND PREV AND NEXT
 			let prev: ListIterator<T> = <ListIterator<T>>first.prev();
