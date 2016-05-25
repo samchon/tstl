@@ -1,4 +1,6 @@
-﻿// Iterator definitions.
+﻿/// <reference path="API.ts" />
+
+// Iterator definitions.
 //
 // @reference http://www.cplusplus.com/reference/iterator
 // @author Jeongho Nam <http://samchon.org>

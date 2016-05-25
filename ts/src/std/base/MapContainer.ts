@@ -1,3 +1,5 @@
+/// <reference path="../API.ts" />
+
 /// <reference path="Container.ts" />
 /// <reference path="../Iterator.ts" />
 

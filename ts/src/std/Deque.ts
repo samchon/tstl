@@ -1,4 +1,6 @@
-﻿/// <reference path="base/Container.ts" />
+﻿/// <reference path="API.ts" />
+
+/// <reference path="base/Container.ts" />
 /// <reference path="Iterator.ts" />
 
 namespace std

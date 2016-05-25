@@ -1,4 +1,6 @@
-﻿// Standard Template Library: Algorithms
+﻿/// <reference path="API.ts" />
+
+// Standard Template Library: Algorithms
 // The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
 //
 // A range is any sequence of objects that can be accessed through iterators or pointers, such as an array or an 

@@ -1,4 +1,6 @@
-﻿// Standard Template Library: Function objects
+﻿/// <reference path="API.ts" />
+
+// Standard Template Library: Function objects
 // Function objects are objects specifically designed to be used with a syntax similar to that of functions.
 //
 // They are typically used as arguments to functions, such as predicates or comparison functions passed to standard algorithms.
@@ -360,10 +362,16 @@ namespace std
 		return base.code(obj);
 	}
 
+	/* ---------------------------------------------------------
+		UNIQUE ID FOR OBJECTS
+	--------------------------------------------------------- */
 	/**
 	 * Incremental sequence of unique id for objects.
 	 */
-	var __s_iUID: number = 0;
+	var __s_iUID: number
+
+	if (__s_iUID == undefined)
+		__s_iUID = 0;
 
 	if (Object.prototype.hasOwnProperty("__getUID") == false)
 	{

@@ -1,4 +1,6 @@
-﻿namespace std.base
+﻿/// <reference path="../API.ts" />
+
+namespace std.base
 {
 	/**
 	 * <p> Red-black Tree. </p>

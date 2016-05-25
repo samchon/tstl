@@ -1,4 +1,6 @@
-﻿namespace std.example
+﻿/// <reference path="../API.ts" />
+
+namespace std.example
 {
 	export function test_deque(): void
 	{
