@@ -18,11 +18,11 @@ namespace std
 	 * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/system_error
-     * @author Jeongho Nam <http://samchon.org>
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
-    export class SystemError
-        extends RuntimeError
-    {
+	export class SystemError
+		extends RuntimeError
+	{
 		/**
 		 * Error code.
 		 */
@@ -85,7 +85,7 @@ namespace std
 		{
 			return this.code_;
 		}
-    }
+	}
 
 	/**
 	 * <p> Error category. </p>

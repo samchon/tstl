@@ -7158,7 +7158,7 @@ var std;
     function qsort(container, first, last, compare) {
         if (last == -2)
             last = container.size() - 1;
-        else if (first >= last)
+        if (first >= last)
             return;
         var index = qsort_partition(container, first, last, compare);
         qsort(container, first, index - 1, compare);
@@ -10336,7 +10336,7 @@ var std;
     (function (example) {
         function sorting() {
             var cubes = new std.Deque();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 0; i++)
                 cubes.push_back(new Cube());
             ///////////////////////////////
             // SORT BY Cube.less()

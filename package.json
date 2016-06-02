@@ -24,8 +24,7 @@
     }
   ],
   "keywords": [
-    "stl",
-    "standard template library",
+    "stl", "standard template library",
     "typescript", "standard", "template", "container", "library", 
     "vector", "deque", "list", "queue", "stack", "hash", "tree", "map", "set", "iterator"]
 }

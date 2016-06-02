@@ -2207,7 +2207,7 @@ namespace std
 		
 		for (let next = first.next() as ForwardIterator; !next.equal_to(last); next = next.next() as ForwardIterator)
 		{
-			if (std.less(next.value, first.value))     // or, if (comp(*next,*first)) for version (2)
+			if (std.less(next.value, first.value)) // or, if (comp(*next,*first)) for version (2)
 				return false;
 			
 			first = first.next() as ForwardIterator;
@@ -2296,7 +2296,7 @@ namespace std
 	{
 		if (last == -2)
 			last = container.size() - 1;
-		else if (first >= last)
+		if (first >= last)
 			return;
 
 		let index: number = qsort_partition(container, first, last, compare);

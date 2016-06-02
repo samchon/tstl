@@ -4,5 +4,5 @@ call build.bat
 ::	Git Commit
 :: ---------------------------------------------------------------------------------
 git add .
-git commit -m "v0.9.8"
+git commit -m "v0.9.10"
 git push origin master
