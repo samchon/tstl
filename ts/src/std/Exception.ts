@@ -1,7 +1,94 @@
 ﻿/// <reference path="API.ts" />
 
+// Standard exceptions
+//
+// This header defines the base class for all exceptions thrown by the elements of the standard library: 
+// {@link Exception}, along with several types and utilities to assist handling exceptions:
+//
+// @reference http://www.cplusplus.com/reference/exception/
+// @author Jeongho Nam <http://samchon.org>
+
 namespace std
 {
+	/**
+	 * <p> Function handling termination on exception </p>
+	 * 
+	 * <p> Calls the current terminate handler. </p>
+	 * 
+	 * <p> By default, the terminate handler calls abort. But this behavior can be redefined by calling 
+	 * {@link set_terminate}. </p>
+	 * 
+	 * <p> This function is automatically called when no <code>catch</code> handler can be found for a thrown exception, 
+	 * or for some other exceptional circumstance that makes impossible to continue the exception handling process. </p>
+	 * 
+	 * <p> This function is provided so that the terminate handler can be explicitly called by a program that needs to 
+	 * abnormally terminate, and works even if {@link set_terminate} has not been used to set a custom terminate handler 
+	 * (calling abort in this case). </p>
+	 */
+	export function terminate(): void
+	{
+		if (terminate_handler != null)
+			terminate_handler();
+		
+		if (std.is_node() == true)
+			process.exit();
+		else
+		{
+			window.open("", "_self", "");
+			window.close();
+		}
+	}
+
+	/**
+	 * <p> Set <i>terminate handler</i> function. </p>
+	 * 
+	 * <p> A <i>terminate handler</i> function is a function automatically called when the exception handling process has 
+	 * to be abandoned for some reason. This happens when no catch handler can be found for a thrown exception, or for 
+	 * some other exceptional circumstance that makes impossible to continue the exception handling process. </p>
+	 * 
+	 * <p> Before this function is called by the program for the first time, the default behavior is to call abort. </p>
+	 * 
+	 * <p> A program may explicitly call the current terminate handler function by calling {@link terminate}. </p>
+	 * 
+	 * @param f Function that takes no parameters and returns no value (<i>void</i>).
+	 */
+	export function set_terminate(f: () => void): void
+	{
+		terminate_handler = f;
+
+		if (std.is_node() == true)
+			process.on("uncaughtException", 
+				function (error: Error): void
+				{
+					terminate_handler();
+				}
+			);
+		else
+			window.onerror = 
+				function (message: string, filename?: string, lineno?: number, colno?: number, error?: Error): void
+				{
+					terminate_handler();
+				};
+	}
+
+	/**
+	 * <p> Get <i>terminate handler</i> function. </p>
+	 * 
+	 * <p> The <i>terminate handler</i> function is automatically called when no <code>catch</code> handler can be found 
+	 * for a thrown exception, or for some other exceptional circumstance that makes impossible to continue the exception 
+	 * handling process. </p>
+	 * 
+	 * <p> If no such function has been set by a previous call to {@link set_terminate}, the function returns a 
+	 * <i>null-pointer</i>. </p>
+	 * 
+	 * @return If {@link set_terminate} has previously been called by the program, the function returns the current 
+	 *		   <i>terminate handler</i> function. Otherwise, it returns a <i>null-pointer</i>.
+	 */
+	export function get_terminate(): () => void
+	{
+		return terminate_handler;
+	}
+
 	/* =========================================================
 		+ EXCEPTION
 			+ LOGIC_ERROR
@@ -28,12 +115,13 @@ namespace std
 	 * @reference http://www.cplusplus.com/reference/exception/exception
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class Exception
+	export class Exception 
+		extends Error
 	{
 		/**
 		 * A message representing specification about the Exception.
 		 */
-		protected message: string;
+		private description: string;
 
 		/**
 		 * Default Constructor.
@@ -45,11 +133,13 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string);
+		public constructor(message: string);
 
-		public constructor(what: string = "")
+		public constructor(message: string = "")
 		{
-			this.message = what;
+			super();
+
+			this.description = message;
 		}
 
 		/**
@@ -62,7 +152,23 @@ namespace std
 		 */
 		public what(): string
 		{
-			return this.message;
+			return this.description;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public get message(): string
+		{
+			return this.description;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public get name(): string
+		{
+			return (this.constructor as any).name;
 		}
 	}
 
@@ -96,9 +202,9 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
 
@@ -127,9 +233,9 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
 
@@ -154,9 +260,9 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
 
@@ -181,9 +287,9 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
 
@@ -209,9 +315,9 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
 
@@ -243,9 +349,9 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
 
@@ -270,9 +376,9 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
 
@@ -297,9 +403,9 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
 
@@ -325,9 +431,14 @@ namespace std
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
-		public constructor(what: string)
+		public constructor(message: string)
 		{
-			super(what);
+			super(message);
 		}
 	}
+
+	/**
+	 * @hidden
+	 */
+	var terminate_handler: () => void = null;
 }

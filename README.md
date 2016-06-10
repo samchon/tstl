@@ -44,7 +44,7 @@ npm install -g typescript-stl
 ```
 or download directly. (``typescript-stl.js`` and ``typescript-stl.d.ts`` in ``master/lib``)
 
-#### Node.JS or Require.JS
+#### Node.JS
 ###### In JavaScript
 ``` javascript
 var std = require("typescript-stl");
@@ -69,7 +69,7 @@ list.push_back("First element");
 ```
 
 #### Browser
-``` javascript
+``` typescript
 <script src="typescript-stl.js"></script>
 <script>
 	var list = new std.List();

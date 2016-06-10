@@ -1,4 +1,4 @@
-// Type definitions for TypeScript-STL v0.9.9
+// Type definitions for TypeScript-STL v0.9.10
 // Project: https://github.com/samchon/stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -7837,6 +7837,50 @@ declare namespace std {
 }
 declare namespace std {
     /**
+     * <p> Function handling termination on exception </p>
+     *
+     * <p> Calls the current terminate handler. </p>
+     *
+     * <p> By default, the terminate handler calls abort. But this behavior can be redefined by calling
+     * {@link set_terminate}. </p>
+     *
+     * <p> This function is automatically called when no <code>catch</code> handler can be found for a thrown exception,
+     * or for some other exceptional circumstance that makes impossible to continue the exception handling process. </p>
+     *
+     * <p> This function is provided so that the terminate handler can be explicitly called by a program that needs to
+     * abnormally terminate, and works even if {@link set_terminate} has not been used to set a custom terminate handler
+     * (calling abort in this case). </p>
+     */
+    function terminate(): void;
+    /**
+     * <p> Set <i>terminate handler</i> function. </p>
+     *
+     * <p> A <i>terminate handler</i> function is a function automatically called when the exception handling process has
+     * to be abandoned for some reason. This happens when no catch handler can be found for a thrown exception, or for
+     * some other exceptional circumstance that makes impossible to continue the exception handling process. </p>
+     *
+     * <p> Before this function is called by the program for the first time, the default behavior is to call abort. </p>
+     *
+     * <p> A program may explicitly call the current terminate handler function by calling {@link terminate}. </p>
+     *
+     * @param f Function that takes no parameters and returns no value (<i>void</i>).
+     */
+    function set_terminate(f: () => void): void;
+    /**
+     * <p> Get <i>terminate handler</i> function. </p>
+     *
+     * <p> The <i>terminate handler</i> function is automatically called when no <code>catch</code> handler can be found
+     * for a thrown exception, or for some other exceptional circumstance that makes impossible to continue the exception
+     * handling process. </p>
+     *
+     * <p> If no such function has been set by a previous call to {@link set_terminate}, the function returns a
+     * <i>null-pointer</i>. </p>
+     *
+     * @return If {@link set_terminate} has previously been called by the program, the function returns the current
+     *		   <i>terminate handler</i> function. Otherwise, it returns a <i>null-pointer</i>.
+     */
+    function get_terminate(): () => void;
+    /**
      * <p> Standard exception class. </p>
      *
      * <p> Base class for standard exceptions. </p>
@@ -7849,11 +7893,11 @@ declare namespace std {
      * @reference http://www.cplusplus.com/reference/exception/exception
      * @author Jeongho Nam <http://samchon.org>
      */
-    class Exception {
+    class Exception extends Error {
         /**
          * A message representing specification about the Exception.
          */
-        protected message: string;
+        private description;
         /**
          * Default Constructor.
          */
@@ -7863,7 +7907,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
         /**
          * <p> Get string identifying exception. </p>
          * <p> Returns a string that may be used to identify the exception. </p>
@@ -7873,6 +7917,14 @@ declare namespace std {
          * returned. </p>
          */
         what(): string;
+        /**
+         * @inheritdoc
+         */
+        message: string;
+        /**
+         * @inheritdoc
+         */
+        name: string;
     }
     /**
      * <p> Logic error exception. </p>
@@ -7895,7 +7947,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
     /**
      * <p> Domain error exception. </p>
@@ -7920,7 +7972,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
     /**
      * <p> Invalid argument exception. </p>
@@ -7941,7 +7993,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
     /**
      * <p> Length error exception. </p>
@@ -7962,7 +8014,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
     /**
      * <p> Out-of-range exception. </p>
@@ -7984,7 +8036,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
     /**
      * <p> Runtime error exception. </p>
@@ -8005,7 +8057,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
     /**
      * <p> Overflow error exception. </p>
@@ -8026,7 +8078,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
     /**
      * <p> Underflow error exception. </p>
@@ -8047,7 +8099,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
     /**
      * <p> Range error exception. </p>
@@ -8069,7 +8121,7 @@ declare namespace std {
          *
          * @param message A message representing specification about the Exception.
          */
-        constructor(what: string);
+        constructor(message: string);
     }
 }
 declare namespace std.base {
@@ -8434,6 +8486,14 @@ declare namespace std {
     }
 }
 declare namespace std {
+    /**
+     * <p> Running on Node. </p>
+     *
+     * <p> Test whether the JavaScript is running on Node. </p>
+     *
+     * @references http://stackoverflow.com/questions/17575790/environment-detection-node-js-or-browser
+     */
+    function is_node(): boolean;
     /**
      * <p> Pair of values. </p>
      *
