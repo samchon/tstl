@@ -1,4 +1,7 @@
-#TypeScript-STL
+[![npm version](https://badge.fury.io/js/typescript-stl.svg)](https://badge.fury.io/js/typescript-stl)
+[![Downloads](https://img.shields.io/npm/dm/typescript-stl.svg)](https://www.npmjs.com/package/typescript-stl)
+
+# TypeScript-STL
 ## Introduction
 STL (Standard Template Library) Containers and Algorithms for TypeScript
 
