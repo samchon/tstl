@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "0.9.9",
+  "version": "0.9.10",
 
   "main": "./lib/typescript-stl.js",
   "typings": "./lib/typescript-stl.d.ts",
@@ -19,7 +19,7 @@
 
   "licenses": [
     {
-      "type": "BSD 3-Clause",
+      "type": "BSD-3-Clause",
       "url": "https://opensource.org/licenses/BSD-3-Clause"
     }
   ],
