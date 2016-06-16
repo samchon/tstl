@@ -17,6 +17,16 @@
 
 /// <reference path="../../std/example/test_all.ts" />
 
+/**
+ * @hidden
+ */
+declare var exports: any;
+
+/**
+ * @hidden
+ */
+declare var process: any;
+
 if (typeof (exports) != "undefined")
 	for (let key in std)
 		exports[key] = std[key];

@@ -1,13 +1,15 @@
-[![npm version](https://badge.fury.io/js/typescript-stl.svg)](https://badge.fury.io/js/typescript-stl)
-[![Downloads](https://img.shields.io/npm/dm/typescript-stl.svg)](https://www.npmjs.com/package/typescript-stl)
-
 # TypeScript-STL
+
+[![NPM](https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/typescript-stl)
+
+GitHub Repository: https://github.com/samchon/stl
+
 ## Introduction
 STL (Standard Template Library) Containers and Algorithms for TypeScript
 
-TypeScript-STL is a TypeScript's **Standard Template Library** who is migrated from C++ STL. Most of classes and functions of STL are implemented. Just enjoy it.
+TypeScript-STL is a TypeScript's **Standard Template Library** who is migrated from C++ STL. Most of classes and functions of STL have implemented. Just enjoy it.
 
-![Abstract Container](http://samchon.github.io/stl/api/assets/images/design/abstract_containers.png)
+![Abstract Containers](http://samchon.github.io/stl/api/assets/images/design/abstract_containers.png)
 
 ##### Containers
   - [Linear containers](http://samchon.github.io/stl/api/interfaces/std.base.container.ilinearcontainer.html)
@@ -18,10 +20,10 @@ TypeScript-STL is a TypeScript's **Standard Template Library** who is migrated f
       - [Queue](http://samchon.github.io/stl/api/classes/std.queue.html)
       - [Stack](http://samchon.github.io/stl/api/classes/std.stack.html)
       - [PriorityQueue](http://samchon.github.io/stl/api/classes/std.priorityqueue.html)
-- [Tree-structured containers](http://samchon.github.io/stl/api/classes/std.base.tree.rbtree.html)
+  - [Tree-structured Containers](http://samchon.github.io/stl/api/classes/std.base.tree.rbtree.html)
     - [TreeSet](http://samchon.github.io/stl/api/classes/std.treeset.html), [TreeMultiSet](http://samchon.github.io/stl/api/classes/std.treemultiset.html)
     - [TreeMap](http://samchon.github.io/stl/api/classes/std.treemap.html), [TreeMultiMap](http://samchon.github.io/stl/api/classes/std.treemultimap.html)
-  - [Hashed containers](http://samchon.github.io/stl/api/classes/std.base.hash.hashbuckets.html)
+  - [Hashed Containers](http://samchon.github.io/stl/api/classes/std.base.hash.hashbuckets.html)
     - [HashSet](http://samchon.github.io/stl/api/classes/std.hashset.html), [HashMultiSet](http://samchon.github.io/stl/api/classes/std.hashmultiset.html)
     - [HashMap](http://samchon.github.io/stl/api/classes/std.hashmap.html), [HashMultiMap](http://samchon.github.io/stl/api/classes/std.hashmultimap.html)
 
@@ -39,7 +41,7 @@ TypeScript-STL is a TypeScript's **Standard Template Library** who is migrated f
 You can learn and explore about TypeScript-STL more deeply with such below:
 
   - [Guidebook (wiki)](https://github.com/samchon/stl/wiki)
-  - [API Documents](https://samchon.github.io/stl/api)
+  - [API Documents](http://samchon.github.io/stl/api)
   - [Class Diagram](https://samchon.github.io/stl/design/class_diagram.pdf)
 
 
@@ -48,7 +50,7 @@ You can learn and explore about TypeScript-STL more deeply with such below:
 #### Node
 ``` npm install -g typescript-stl ```
 
-####### TypeScript
+###### TypeScript
 ``` typescript
 // SOMEWHERE PLACE NODE AND STL HEADERS EXIST
 /// <reference path="node.d.ts" />
@@ -80,7 +82,7 @@ var list = new std.List();
 ## Index of Guidance, Wiki.
 
   - [**Outline**](https://github.com/samchon/stl/wiki/Home)
-    - [*TypeScript-STL*](https://github.com/samchon/stl/wiki/Home#introduction)
+    - [Introduction](https://github.com/samchon/stl/wiki/Home#introduction)
     - [References](https://github.com/samchon/stl/wiki/Home#references)
     - [Installation](https://github.com/samchon/stl/wiki/Home#installation)
   - [**Differences between C++**](https://github.com/samchon/stl/wiki/Differences)
@@ -89,10 +91,10 @@ var list = new std.List();
     - [Iterator](https://github.com/samchon/stl/wiki/Differences#iterator)
     - [Tree Container](https://github.com/samchon/stl/wiki/Differences#tree-container)
     - [Hash Container](https://github.com/samchon/stl/wiki/Differences#hash-container)
-  - [**Tutorial**](Tutorial)
-    - [Linear Container](Tutorial#linear-container)
-    - [Tree Container](Tutorial#tree-container)
-    - [Hash Container](Tutorial#hash-container)
-    - [Miscellaneous](Tutorial-Miscellaneous)
-      - [Algorithm](Tutorial-Miscellaneous#algorithm)
-      - [Functional](Tutorial-Miscellaneous#functional)
+  - [**Tutorial**](https://github.com/samchon/stl/wiki/Tutorial)
+    - [Linear Container](https://github.com/samchon/stl/wiki/Tutorial#linear-container)
+    - [Tree Container](https://github.com/samchon/stl/wiki/Tutorial#tree-container)
+    - [Hash Container](https://github.com/samchon/stl/wiki/Tutorial#hash-container)
+    - [Miscellaneous](https://github.com/samchon/stl/wiki/Tutorial-Miscellaneous)
+      - [Algorithm](https://github.com/samchon/stl/wiki/Tutorial-Miscellaneous#algorithm)
+      - [Functional](https://github.com/samchon/stl/wiki/Tutorial-Miscellaneous#functional)
