@@ -1,6 +1,12 @@
 # ======================================================
-#	CUSTOM IGNORE
+#	TYPESCRIPT
 # ======================================================
-wiki
+.git
+ts
+d.ts
+design
+api
+ts-stl_decrecated
+
 *.bat
-*.ink
+*.*ignore
