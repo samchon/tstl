@@ -3,6 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+/// <reference path="miscellaneous/namespace.ts" /> 
 /// <reference path="API.ts" />
 // Standard Template Library: Algorithms
 // The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
@@ -382,6 +383,9 @@ var std;
         return cnt;
     }
     std.count_if = count_if;
+})(std || (std = {}));
+var std;
+(function (std) {
     /* =========================================================
         MODIFIERS (MODIFYING SEQUENCE)
             - FILL
@@ -1082,6 +1086,9 @@ var std;
         }
     }
     std.shuffle = shuffle;
+})(std || (std = {}));
+var std;
+(function (std) {
     function sort(first, last, compare) {
         if (compare === void 0) { compare = std.less; }
         qsort(first.get_source(), first.index, last.index - 1, compare);
@@ -1099,9 +1106,9 @@ var std;
         var vector = new std.Vector(first, last);
         sort(vector.begin(), vector.end());
         if (input_size > result_size)
-            result_first = copy(vector.begin(), vector.begin().advance(result_size), result_first);
+            result_first = std.copy(vector.begin(), vector.begin().advance(result_size), result_first);
         else
-            result_first = copy(vector.begin(), vector.end(), result_first);
+            result_first = std.copy(vector.begin(), vector.end(), result_first);
         return result_first;
     }
     std.partial_sort_copy = partial_sort_copy;
@@ -1229,6 +1236,9 @@ var std;
             }
         }
     }
+})(std || (std = {}));
+var std;
+(function (std) {
     function lower_bound(first, last, val, compare) {
         if (compare === void 0) { compare = std.less; }
         var count = std.distance(first, last);
@@ -1273,6 +1283,9 @@ var std;
         return !first.equal_to(last) && !compare(val, first.value);
     }
     std.binary_search = binary_search;
+})(std || (std = {}));
+var std;
+(function (std) {
     /* =========================================================
         PARTITION
     ========================================================= */
@@ -1448,13 +1461,16 @@ var std;
         return first;
     }
     std.partition_point = partition_point;
+})(std || (std = {}));
+var std;
+(function (std) {
     function merge(first1, last1, first2, last2, result, compare) {
         if (compare === void 0) { compare = std.less; }
         while (true) {
             if (first1.equal_to(last1))
-                return copy(first2, last2, result);
+                return std.copy(first2, last2, result);
             else if (first2.equal_to(last2))
-                return copy(first1, last1, result);
+                return std.copy(first1, last1, result);
             if (compare(first1.value, first2.value)) {
                 result.value = first1.value;
                 first1 = first1.next();
@@ -1471,7 +1487,7 @@ var std;
         if (compare === void 0) { compare = std.less; }
         var vector = new std.Vector(std.distance(first, last), null);
         merge(first, middle, middle, last, vector.begin());
-        copy(vector.begin(), vector.end(), first);
+        std.copy(vector.begin(), vector.end(), first);
     }
     std.inplace_merge = inplace_merge;
     function includes(first1, last1, first2, last2, compare) {
@@ -1490,9 +1506,9 @@ var std;
         if (compare === void 0) { compare = std.less; }
         while (true) {
             if (first1.equal_to(last1))
-                return copy(first2, last2, result);
+                return std.copy(first2, last2, result);
             else if (first2.equal_to(last2))
-                return copy(first1, last1, result);
+                return std.copy(first1, last1, result);
             if (compare(first1.value, first2.value)) {
                 result.value = first1.value;
                 first1 = first1.next();
@@ -1514,9 +1530,9 @@ var std;
         if (compare === void 0) { compare = std.less; }
         while (true) {
             if (first1.equal_to(last1))
-                return copy(first2, last2, result);
+                return std.copy(first2, last2, result);
             else if (first2.equal_to(last2))
-                return copy(first1, last1, result);
+                return std.copy(first1, last1, result);
             if (compare(first1.value, first2.value))
                 first1 = first1.next();
             else if (compare(first2.value, first1.value))
@@ -1544,16 +1560,16 @@ var std;
                 first1 = first1.next();
                 first2 = first2.next();
             }
-        return copy(first1, last1, result);
+        return std.copy(first1, last1, result);
     }
     std.set_difference = set_difference;
     function set_symmetric_difference(first1, last1, first2, last2, result, compare) {
         if (compare === void 0) { compare = std.less; }
         while (true) {
             if (first1.equal_to(last1))
-                return copy(first2, last2, result);
+                return std.copy(first2, last2, result);
             else if (first2.equal_to(last2))
-                return copy(first1, last1, result);
+                return std.copy(first1, last1, result);
             if (compare(first1.value, first2.value)) {
                 result.value = first1.value;
                 result = result.next();
@@ -1571,6 +1587,9 @@ var std;
         }
     }
     std.set_symmetric_difference = set_symmetric_difference;
+})(std || (std = {}));
+var std;
+(function (std) {
     /* =========================================================
         MIN & MAX
             - VARADIC PARAMETERS
@@ -2841,78 +2860,12 @@ var std;
 (function (std) {
     var base;
     (function (base) {
-        base.MIN_SIZE = 10;
-        base.RATIO = 0.8;
-        base.MAX_RATIO = 2.0;
-        function code(par) {
-            var type = typeof par;
-            if (type == "number")
-                return code_of_number(par);
-            else if (type == "string")
-                return code_of_string(par);
-            else
-                return code_of_object(par);
-        }
-        base.code = code;
-        /**
-         * @hidden
-         */
-        function code_of_number(val) {
-            // ------------------------------------------
-            //	IN C++
-            //		CONSIDER A NUMBER AS A STRING
-            //		HASH<STRING>((CHAR*)&VAL, 8)
-            // ------------------------------------------
-            // CONSTRUCT BUFFER AND BYTE_ARRAY
-            var buffer = new ArrayBuffer(8);
-            var byteArray = new Int8Array(buffer);
-            var valueArray = new Float64Array(buffer);
-            valueArray[0] = val;
-            var code = 2166136261;
-            for (var i = 0; i < byteArray.length; i++) {
-                var byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
-                code ^= byte;
-                code *= 16777619;
-            }
-            return Math.abs(code);
-        }
-        /**
-         * @hidden
-         */
-        function code_of_string(str) {
-            // ------------------------
-            //	IN C++
-            // ------------------------
-            var code = 2166136261;
-            for (var i = 0; i < str.length; i++) {
-                code ^= str.charCodeAt(i);
-                code *= 16777619;
-            }
-            return Math.abs(code);
-            // ------------------------
-            //	IN JAVA
-            // ------------------------
-            //let val: number = 0;
-            //for (let i: number = 0; i < str.length; i++)
-            //	val += str.charCodeAt(i) * Math.pow(31, str.length - 1 - i);
-            //return val;
-        }
-        /**
-         * @hidden
-         */
-        function code_of_object(obj) {
-            if (obj.hash != undefined)
-                return obj.hash();
-            else
-                return code_of_number(obj.__getUID());
-        }
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
+        (function (Hash) {
+            Hash[Hash["MIN_SIZE"] = 10] = "MIN_SIZE";
+            Hash[Hash["RATIO"] = 1] = "RATIO";
+            Hash[Hash["MAX_RATIO"] = 2] = "MAX_RATIO";
+        })(base.Hash || (base.Hash = {}));
+        var Hash = base.Hash;
         /**
          * <p> Hask buckets. </p>
          *
@@ -2929,20 +2882,26 @@ var std;
                 this.clear();
             }
             /**
-             * Reserve the bucket size.
+             * <p> Reconstruction of hash table. </p>
              *
-             * @param size Number of bucket size to reserve.
+             * <p> All the elements in the hash buckets are rearranged according to their hash value into the new set of
+             * buckets. This may alter the order of iteration of elements within the container. </p>
+             *
+             * <p> Notice that {@link rehash rehashes} are automatically performed whenever its number of elements is going
+             * to greater than its own {@link capacity}. </p>
+             *
+             * @param size Number of bucket size to rehash.
              */
-            HashBuckets.prototype.reserve = function (size) {
-                if (size < base.MIN_SIZE)
-                    size = base.MIN_SIZE;
-                var prevMatrix = this.buckets_;
+            HashBuckets.prototype.rehash = function (size) {
+                if (size < Hash.MIN_SIZE)
+                    size = Hash.MIN_SIZE;
+                var prev_matrix = this.buckets_;
                 this.buckets_ = new std.Vector();
                 for (var i = 0; i < size; i++)
                     this.buckets_.push_back(new std.Vector());
-                for (var i = 0; i < prevMatrix.size(); i++)
-                    for (var j = 0; j < prevMatrix.at(i).size(); j++) {
-                        var val = prevMatrix.at(i).at(j);
+                for (var i = 0; i < prev_matrix.size(); i++)
+                    for (var j = 0; j < prev_matrix.at(i).size(); j++) {
+                        var val = prev_matrix.at(i).at(j);
                         var bucket = this.buckets_.at(this.hash_index(val));
                         bucket.push_back(val);
                         this.item_size_++;
@@ -2951,7 +2910,7 @@ var std;
             HashBuckets.prototype.clear = function () {
                 this.buckets_ = new std.Vector();
                 this.item_size_ = 0;
-                for (var i = 0; i < base.MIN_SIZE; i++)
+                for (var i = 0; i < Hash.MIN_SIZE; i++)
                     this.buckets_.push_back(new std.Vector());
             };
             /* ---------------------------------------------------------
@@ -2962,6 +2921,9 @@ var std;
             };
             HashBuckets.prototype.item_size = function () {
                 return this.item_size_;
+            };
+            HashBuckets.prototype.capacity = function () {
+                return this.buckets_.size() * Hash.MAX_RATIO;
             };
             HashBuckets.prototype.at = function (index) {
                 return this.buckets_.at(index);
@@ -2974,14 +2936,14 @@ var std;
             --------------------------------------------------------- */
             HashBuckets.prototype.insert = function (val) {
                 this.buckets_.at(this.hash_index(val)).push_back(val);
-                if (++this.item_size_ > this.buckets_.size() * base.MAX_RATIO)
-                    this.reserve(this.item_size_ * base.RATIO);
+                if (++this.item_size_ > this.capacity())
+                    this.rehash(this.item_size_ * Hash.RATIO);
             };
             HashBuckets.prototype.erase = function (val) {
-                var hashes = this.buckets_.at(this.hash_index(val));
-                for (var i = 0; i < hashes.size(); i++)
-                    if (hashes.at(i) == val) {
-                        hashes.splice(i, 1);
+                var bucket = this.buckets_.at(this.hash_index(val));
+                for (var i = 0; i < bucket.size(); i++)
+                    if (bucket.at(i) == val) {
+                        bucket.splice(i, 1);
                         this.item_size_--;
                         break;
                     }
@@ -3100,6 +3062,9 @@ var std;
         return Iterator;
     }());
     std.Iterator = Iterator;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> This class reverses the direction in which a bidirectional or random-access iterator iterates through a range.
      * </p>
@@ -3193,7 +3158,7 @@ var std;
             this.base_.swap(obj.base_);
         };
         return ReverseIterator;
-    }(Iterator));
+    }(std.Iterator));
     std.ReverseIterator = ReverseIterator;
     /* =========================================================
         GLOBAL FUNCTIONS
@@ -4279,7 +4244,7 @@ var std;
          * @inheritdoc
          */
         SetIterator.prototype.hash = function () {
-            return std.base.code(this.value);
+            return std.hash(this.value);
         };
         /**
          * @inheritdoc
@@ -4485,7 +4450,7 @@ var std;
                 this.set = set;
             }
             SetHashBuckets.prototype.find = function (val) {
-                var index = base.code(val) % this.size();
+                var index = std.hash(val) % this.size();
                 var bucket = this.at(index);
                 for (var i = 0; i < bucket.size(); i++)
                     if (std.equal_to(bucket.at(i).value, val))
@@ -4861,7 +4826,7 @@ var std;
             /**
              * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
              */
-            get: function () { return DequeIterator; },
+            get: function () { return std.DequeIterator; },
             enumerable: true,
             configurable: true
         });
@@ -4983,25 +4948,25 @@ var std;
             if (this.empty() == true)
                 return this.end();
             else
-                return new DequeIterator(this, 0);
+                return new std.DequeIterator(this, 0);
         };
         /**
          * @inheritdoc
          */
         Deque.prototype.end = function () {
-            return new DequeIterator(this, -1);
+            return new std.DequeIterator(this, -1);
         };
         /**
          * @inheritdoc
          */
         Deque.prototype.rbegin = function () {
-            return new DequeReverseIterator(this.end());
+            return new std.DequeReverseIterator(this.end());
         };
         /**
          * @inheritdoc
          */
         Deque.prototype.rend = function () {
-            return new DequeReverseIterator(this.begin());
+            return new std.DequeReverseIterator(this.begin());
         };
         /**
          * @inheritdoc
@@ -5155,7 +5120,7 @@ var std;
             // REVERSE_ITERATOR TO ITERATOR
             var ret;
             var is_reverse_iterator = false;
-            if (args[0] instanceof DequeReverseIterator) {
+            if (args[0] instanceof std.DequeReverseIterator) {
                 is_reverse_iterator = true;
                 args[0] = args[0].base().prev();
             }
@@ -5168,7 +5133,7 @@ var std;
                 ret = this.insert_by_range(args[0], args[1], args[2]);
             // RETURNS
             if (is_reverse_iterator == true)
-                return new DequeReverseIterator(ret.next());
+                return new std.DequeReverseIterator(ret.next());
             else
                 return ret;
         };
@@ -5266,7 +5231,7 @@ var std;
             var ret;
             var is_reverse_iterator = false;
             // REVERSE_ITERATOR TO ITERATOR
-            if (first instanceof DequeReverseIterator) {
+            if (first instanceof std.DequeReverseIterator) {
                 is_reverse_iterator = true;
                 var first_it = last.base();
                 var last_it = first.base();
@@ -5277,7 +5242,7 @@ var std;
             ret = this.erase_by_range(first, last);
             // RETURN BRANCHES
             if (is_reverse_iterator == true)
-                return new DequeReverseIterator(ret.next());
+                return new std.DequeReverseIterator(ret.next());
             else
                 return ret;
         };
@@ -5324,6 +5289,9 @@ var std;
         return Deque;
     }(std.base.Container));
     std.Deque = Deque;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> An iterator of {@link Deque}. </p>
      *
@@ -5450,6 +5418,9 @@ var std;
         return DequeIterator;
     }(std.Iterator));
     std.DequeIterator = DequeIterator;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> A reverse-iterator of Deque. </p>
      *
@@ -5506,7 +5477,6 @@ var std;
     var example;
     (function (example) {
         function test_all() {
-            std.terminate();
             for (var key in std.example)
                 if (key != "test_all" && std.example[key] instanceof Function)
                     std.example[key]();
@@ -6242,7 +6212,7 @@ var std;
             if (x.less != undefined)
                 return x.less(y);
             else
-                return x.__getUID() < y.__getUID();
+                return x.__get_m_iUID() < y.__get_m_iUID();
         else
             return x < y;
     }
@@ -6405,15 +6375,58 @@ var std;
         return x ^ y;
     }
     std.bit_xor = bit_xor;
-    /**
-     * Default hash function.
-     *
-     * @param obj
-     */
-    function hash(obj) {
-        return std.base.code(obj);
+    function hash(par) {
+        var type = typeof par;
+        if (type == "number")
+            return hash_of_number(par);
+        else if (type == "string")
+            return hash_of_string(par);
+        else
+            return hash_of_object(par);
     }
     std.hash = hash;
+    /**
+     * @hidden
+     */
+    function hash_of_number(val) {
+        // ------------------------------------------
+        //	IN C++
+        //		CONSIDER A NUMBER AS A STRING
+        //		HASH<STRING>((CHAR*)&VAL, 8)
+        // ------------------------------------------
+        // CONSTRUCT BUFFER AND BYTE_ARRAY
+        var buffer = new ArrayBuffer(8);
+        var byteArray = new Int8Array(buffer);
+        var valueArray = new Float64Array(buffer);
+        valueArray[0] = val;
+        var code = 2166136261;
+        for (var i = 0; i < byteArray.length; i++) {
+            var byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
+            code ^= byte;
+            code *= 16777619;
+        }
+        return Math.abs(code);
+    }
+    /**
+     * @hidden
+     */
+    function hash_of_string(str) {
+        var code = 2166136261;
+        for (var i = 0; i < str.length; i++) {
+            code ^= str.charCodeAt(i);
+            code *= 16777619;
+        }
+        return Math.abs(code);
+    }
+    /**
+     * @hidden
+     */
+    function hash_of_object(obj) {
+        if (obj.hash != undefined)
+            return obj.hash();
+        else
+            return hash_of_number(obj.__get_m_iUID());
+    }
     /* ---------------------------------------------------------
         UNIQUE ID FOR OBJECTS
     --------------------------------------------------------- */
@@ -6423,9 +6436,9 @@ var std;
     var __s_iUID;
     if (__s_iUID == undefined)
         __s_iUID = 0;
-    if (Object.prototype.hasOwnProperty("__getUID") == false) {
+    if (Object.prototype.hasOwnProperty("__get_m_iUID") == false) {
         Object.defineProperties(Object.prototype, {
-            "__getUID": {
+            "__get_m_iUID": {
                 value: function () {
                     if (this.hasOwnProperty("__m_iUID") == false) {
                         var uid = ++__s_iUID;
@@ -6444,6 +6457,9 @@ var std;
         left.swap(right);
     }
     std.swap = swap;
+})(std || (std = {}));
+var std;
+(function (std) {
     function bind(fn) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -6453,7 +6469,7 @@ var std;
         var parameters = [];
         var placeholder_count = 0;
         for (var i = 0; i < args.length; i++) {
-            if (i == 0 && args[0] instanceof Object && args[0] instanceof placeholders.PlaceHolder == false) {
+            if (i == 0 && args[0] instanceof Object && args[0] instanceof std.placeholders.PlaceHolder == false) {
                 // retrieve the object; items[0]
                 for (var key in args[0])
                     if (args[0][key] == fn) {
@@ -6465,7 +6481,7 @@ var std;
                     continue;
             }
             // the placeholder also fills parameters
-            if (args[i] instanceof placeholders.PlaceHolder)
+            if (args[i] instanceof std.placeholders.PlaceHolder)
                 placeholder_count++;
             parameters.push(args[i]);
         }
@@ -6482,7 +6498,7 @@ var std;
             var thisArg = this_arg;
             var argArray = parameters.slice();
             // 1st argument is thisArg?
-            if (thisArg == null && (parameters.length == 0 || parameters[0] instanceof placeholders.PlaceHolder) && args[0] instanceof Object)
+            if (thisArg == null && (parameters.length == 0 || parameters[0] instanceof std.placeholders.PlaceHolder) && args[0] instanceof Object)
                 for (var key in args[0])
                     if (args[0][key] == fn) {
                         thisArg = args[0];
@@ -6492,7 +6508,7 @@ var std;
                     }
             // fill argArray from placeholders
             for (var i = 0; i < argArray.length; i++)
-                if (argArray[i] instanceof placeholders.PlaceHolder)
+                if (argArray[i] instanceof std.placeholders.PlaceHolder)
                     argArray[i] = args[argArray[i].index - 1];
             // arguments are over the placeholder_count 
             if (args.length > placeholder_count)
@@ -6506,29 +6522,32 @@ var std;
         return ret;
     }
     std.bind = bind;
-    /**
-     * <p> Bind argument placeholders. </p>
-     *
-     * <p> This namespace declares an unspecified number of objects: <i>_1</i>, <i>_2</i>, <i>_3</i>, ...</i>, which are
-     * used to specify placeholders in calls to function {@link std.bind}. </p>
-     *
-     * <p> When the function object returned by bind is called, an argument with placeholder {@link _1} is replaced by the
-     * first argument in the call, {@link _2} is replaced by the second argument in the call, and so on... For example: </p>
-     *
-     * <code>
-    let vec: Vector<number> = new Vector<number>();
-
-    let bind = std.bind(Vector.insert, _1, vec.end(), _2, _3);
-    bind.apply(vec, 5, 1); // vec.insert(vec.end(), 5, 1);
-        // [1, 1, 1, 1, 1]
-     * </code>
-     *
-     * <p> When a call to {@link bind} is used as a subexpression in another call to <i>bind</i>, the {@link placeholders}
-     * are relative to the outermost {@link bind} expression. </p>
-     *
-     * @reference http://www.cplusplus.com/reference/functional/placeholders/
-     * @author Jeongho Nam <http://samchon.org>
-     */
+})(std || (std = {}));
+/**
+ * <p> Bind argument placeholders. </p>
+ *
+ * <p> This namespace declares an unspecified number of objects: <i>_1</i>, <i>_2</i>, <i>_3</i>, ...</i>, which are
+ * used to specify placeholders in calls to function {@link std.bind}. </p>
+ *
+ * <p> When the function object returned by bind is called, an argument with placeholder {@link _1} is replaced by the
+ * first argument in the call, {@link _2} is replaced by the second argument in the call, and so on... For example: </p>
+ *
+ * <code>
+ * let vec: Vector<number> = new Vector<number>();
+ *
+ * let bind = std.bind(Vector.insert, _1, vec.end(), _2, _3);
+ * bind.apply(vec, 5, 1); // vec.insert(vec.end(), 5, 1);
+ * // [1, 1, 1, 1, 1]
+ * </code>
+ *
+ * <p> When a call to {@link bind} is used as a subexpression in another call to <i>bind</i>, the {@link placeholders}
+ * are relative to the outermost {@link bind} expression. </p>
+ *
+ * @reference http://www.cplusplus.com/reference/functional/placeholders/
+ * @author Jeongho Nam <http://samchon.org>
+ */
+var std;
+(function (std) {
     var placeholders;
     (function (placeholders) {
         /**
@@ -6657,7 +6676,7 @@ var std;
          * @hidden
          */
         HashMap.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.reserve(items.length * std.base.RATIO);
+            this.hash_buckets_.rehash(items.length * std.base.Hash.RATIO);
             _super.prototype.construct_from_array.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -6672,12 +6691,81 @@ var std;
         };
         /* =========================================================
             ACCESSORS
-        ========================================================= */
+                - MEMBER
+                - HASH
+        ============================================================
+            MEMBER
+        --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
         HashMap.prototype.find = function (key) {
             return this.hash_buckets_.find(key);
+        };
+        HashMap.prototype.begin = function (index) {
+            if (index == undefined)
+                return _super.prototype.begin.call(this);
+            else
+                return this.hash_buckets_.at(index).front();
+        };
+        HashMap.prototype.end = function (index) {
+            if (index == undefined)
+                return _super.prototype.end.call(this);
+            else
+                return this.hash_buckets_.at(index).back().next();
+        };
+        HashMap.prototype.rbegin = function (index) {
+            if (index == undefined)
+                return _super.prototype.rbegin.call(this);
+            else
+                return new std.MapReverseIterator(this.end(index));
+        };
+        HashMap.prototype.rend = function (index) {
+            if (index == undefined)
+                return _super.prototype.rend.call(this);
+            else
+                return new std.MapReverseIterator(this.begin(index));
+        };
+        /* ---------------------------------------------------------
+            HASH
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.bucket_count = function () {
+            return this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.bucket_size = function (index) {
+            return this.hash_buckets_.at(index).size();
+        };
+        HashMap.prototype.max_load_factor = function (z) {
+            if (z == undefined)
+                return this.size() / this.bucket_count();
+            else
+                this.rehash(Math.ceil(this.bucket_count() / z));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.bucket = function (key) {
+            return std.hash(key) % this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.reserve = function (n) {
+            this.hash_buckets_.rehash(Math.ceil(n * this.max_load_factor()));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMap.prototype.rehash = function (n) {
+            if (n <= this.bucket_count())
+                return;
+            this.hash_buckets_.rehash(n);
         };
         /* =========================================================
             ELEMENTS I/O
@@ -6732,8 +6820,8 @@ var std;
             }
             my_first = my_first.next();
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hash_buckets_.size() * std.base.MAX_RATIO)
-                this.hash_buckets_.reserve((this.size() + size) * std.base.RATIO);
+            if (this.size() + size > this.hash_buckets_.size() * std.base.Hash.MAX_RATIO)
+                this.hash_buckets_.rehash((this.size() + size) * std.base.Hash.RATIO);
             // POST-PROCESS
             this.handle_insert(my_first, this.end());
         };
@@ -6777,6 +6865,9 @@ var std;
         return HashMap;
     }(std.base.UniqueMap));
     std.HashMap = HashMap;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> Hashed, unordered Multimap. </p>
      *
@@ -6850,7 +6941,7 @@ var std;
          * @hidden
          */
         HashMultiMap.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.reserve(items.length * std.base.RATIO);
+            this.hash_buckets_.rehash(items.length * std.base.Hash.RATIO);
             _super.prototype.construct_from_array.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -6865,7 +6956,11 @@ var std;
         };
         /* =========================================================
             ACCESSORS
-        ========================================================= */
+                - MEMBER
+                - HASH
+        ============================================================
+            MEMBER
+        --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
@@ -6885,6 +6980,71 @@ var std;
                 if (std.equal_to(bucket[i].first, key))
                     cnt++;
             return cnt;
+        };
+        HashMultiMap.prototype.begin = function (index) {
+            if (index == undefined)
+                return _super.prototype.begin.call(this);
+            else
+                return this.hash_buckets_.at(index).front();
+        };
+        HashMultiMap.prototype.end = function (index) {
+            if (index == undefined)
+                return _super.prototype.end.call(this);
+            else
+                return this.hash_buckets_.at(index).back().next();
+        };
+        HashMultiMap.prototype.rbegin = function (index) {
+            if (index == undefined)
+                return _super.prototype.rbegin.call(this);
+            else
+                return new std.MapReverseIterator(this.end(index));
+        };
+        HashMultiMap.prototype.rend = function (index) {
+            if (index == undefined)
+                return _super.prototype.rend.call(this);
+            else
+                return new std.MapReverseIterator(this.begin(index));
+        };
+        /* ---------------------------------------------------------
+            HASH
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.bucket_count = function () {
+            return this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.bucket_size = function (n) {
+            return this.hash_buckets_.at(n).size();
+        };
+        HashMultiMap.prototype.max_load_factor = function (z) {
+            if (z == undefined)
+                return this.size() / this.bucket_count();
+            else
+                this.rehash(Math.ceil(this.bucket_count() / z));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.bucket = function (key) {
+            return std.hash(key) % this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.reserve = function (n) {
+            this.hash_buckets_.rehash(Math.ceil(n * this.max_load_factor()));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiMap.prototype.rehash = function (n) {
+            if (n <= this.bucket_count())
+                return;
+            this.hash_buckets_.rehash(n);
         };
         /* =========================================================
             ELEMENTS I/O
@@ -6921,8 +7081,8 @@ var std;
             var list_iterator = this.data_.insert(this.data_.end(), first, last);
             var my_first = new std.MapIterator(this, list_iterator);
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() > this.hash_buckets_.item_size() * std.base.MAX_RATIO)
-                this.hash_buckets_.reserve(this.size() * std.base.RATIO);
+            if (this.size() > this.hash_buckets_.item_size() * std.base.Hash.MAX_RATIO)
+                this.hash_buckets_.rehash(this.size() * std.base.Hash.RATIO);
             // POST-PROCESS
             this.handle_insert(my_first, this.end());
         };
@@ -7042,7 +7202,7 @@ var std;
          * @hidden
          */
         HashSet.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.reserve(items.length * std.base.RATIO);
+            this.hash_buckets_.rehash(items.length * std.base.Hash.RATIO);
             _super.prototype.construct_from_array.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -7057,12 +7217,81 @@ var std;
         };
         /* =========================================================
             ACCESSORS
-        ========================================================= */
+                - MEMBER
+                - HASH
+        ============================================================
+            MEMBER
+        --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashSet.prototype.find = function (val) {
-            return this.hash_buckets_.find(val);
+        HashSet.prototype.find = function (key) {
+            return this.hash_buckets_.find(key);
+        };
+        HashSet.prototype.begin = function (index) {
+            if (index == undefined)
+                return _super.prototype.begin.call(this);
+            else
+                return this.hash_buckets_.at(index).front();
+        };
+        HashSet.prototype.end = function (index) {
+            if (index == undefined)
+                return _super.prototype.end.call(this);
+            else
+                return this.hash_buckets_.at(index).back().next();
+        };
+        HashSet.prototype.rbegin = function (index) {
+            if (index == undefined)
+                return _super.prototype.rbegin.call(this);
+            else
+                return new std.SetReverseIterator(this.end(index));
+        };
+        HashSet.prototype.rend = function (index) {
+            if (index == undefined)
+                return _super.prototype.rend.call(this);
+            else
+                return new std.SetReverseIterator(this.begin(index));
+        };
+        /* ---------------------------------------------------------
+            HASH
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.bucket_count = function () {
+            return this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.bucket_size = function (n) {
+            return this.hash_buckets_.at(n).size();
+        };
+        HashSet.prototype.max_load_factor = function (z) {
+            if (z == undefined)
+                return this.size() / this.bucket_count();
+            else
+                this.rehash(Math.ceil(this.bucket_count() / z));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.bucket = function (key) {
+            return std.hash(key) % this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.reserve = function (n) {
+            this.hash_buckets_.rehash(Math.ceil(n * this.max_load_factor()));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashSet.prototype.rehash = function (n) {
+            if (n <= this.bucket_count())
+                return;
+            this.hash_buckets_.rehash(n);
         };
         /* =========================================================
             ELEMENTS I/O
@@ -7116,8 +7345,8 @@ var std;
             }
             my_first = my_first.next();
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() + size > this.hash_buckets_.size() * std.base.MAX_RATIO)
-                this.hash_buckets_.reserve((this.size() + size) * std.base.RATIO);
+            if (this.size() + size > this.hash_buckets_.size() * std.base.Hash.MAX_RATIO)
+                this.hash_buckets_.rehash((this.size() + size) * std.base.Hash.RATIO);
             // INSERTS
             this.handle_insert(my_first, this.end());
         };
@@ -7161,6 +7390,9 @@ var std;
         return HashSet;
     }(std.base.UniqueSet));
     std.HashSet = HashSet;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> Hashed, unordered Multiset. </p>
      *
@@ -7231,7 +7463,7 @@ var std;
          * @hidden
          */
         HashMultiSet.prototype.construct_from_array = function (items) {
-            this.hash_buckets_.reserve(items.length * std.base.RATIO);
+            this.hash_buckets_.rehash(items.length * std.base.Hash.RATIO);
             _super.prototype.construct_from_array.call(this, items);
         };
         /* ---------------------------------------------------------
@@ -7246,26 +7478,95 @@ var std;
         };
         /* =========================================================
             ACCESSORS
-        ========================================================= */
+                - MEMBER
+                - HASH
+        ============================================================
+            MEMBER
+        --------------------------------------------------------- */
         /**
          * @inheritdoc
          */
-        HashMultiSet.prototype.find = function (val) {
-            return this.hash_buckets_.find(val);
+        HashMultiSet.prototype.find = function (key) {
+            return this.hash_buckets_.find(key);
         };
         /**
          * @inheritdoc
          */
-        HashMultiSet.prototype.count = function (val) {
+        HashMultiSet.prototype.count = function (key) {
             // FIND MATCHED BUCKET
-            var index = std.hash(val) % this.hash_buckets_.item_size();
+            var index = std.hash(key) % this.hash_buckets_.item_size();
             var bucket = this.hash_buckets_.at(index);
             // ITERATE THE BUCKET
             var cnt = 0;
             for (var i = 0; i < bucket.length; i++)
-                if (std.equal_to(bucket[i].value, val))
+                if (std.equal_to(bucket[i].value, key))
                     cnt++;
             return cnt;
+        };
+        HashMultiSet.prototype.begin = function (index) {
+            if (index == undefined)
+                return _super.prototype.begin.call(this);
+            else
+                return this.hash_buckets_.at(index).front();
+        };
+        HashMultiSet.prototype.end = function (index) {
+            if (index == undefined)
+                return _super.prototype.end.call(this);
+            else
+                return this.hash_buckets_.at(index).back().next();
+        };
+        HashMultiSet.prototype.rbegin = function (index) {
+            if (index == undefined)
+                return _super.prototype.rbegin.call(this);
+            else
+                return new std.SetReverseIterator(this.end(index));
+        };
+        HashMultiSet.prototype.rend = function (index) {
+            if (index == undefined)
+                return _super.prototype.rend.call(this);
+            else
+                return new std.SetReverseIterator(this.begin(index));
+        };
+        /* ---------------------------------------------------------
+            HASH
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.bucket_count = function () {
+            return this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.bucket_size = function (n) {
+            return this.hash_buckets_.at(n).size();
+        };
+        HashMultiSet.prototype.max_load_factor = function (z) {
+            if (z == undefined)
+                return this.size() / this.bucket_count();
+            else
+                this.rehash(Math.ceil(this.bucket_count() / z));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.bucket = function (key) {
+            return std.hash(key) % this.hash_buckets_.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.reserve = function (n) {
+            this.hash_buckets_.rehash(Math.ceil(n * this.max_load_factor()));
+        };
+        /**
+         * @inheritdoc
+         */
+        HashMultiSet.prototype.rehash = function (n) {
+            if (n <= this.bucket_count())
+                return;
+            this.hash_buckets_.rehash(n);
         };
         /* =========================================================
             ELEMENTS I/O
@@ -7302,8 +7603,8 @@ var std;
             var list_iterator = this.data_.insert(this.data_.end(), first, last);
             var my_first = new std.SetIterator(this, list_iterator);
             // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-            if (this.size() > this.hash_buckets_.item_size() * std.base.MAX_RATIO)
-                this.hash_buckets_.reserve(this.size() * std.base.RATIO);
+            if (this.size() > this.hash_buckets_.item_size() * std.base.Hash.MAX_RATIO)
+                this.hash_buckets_.rehash(this.size() * std.base.Hash.RATIO);
             // POST-PROCESS
             this.handle_insert(my_first, this.end());
         };
@@ -7404,7 +7705,7 @@ var std;
             }
             _super.call(this);
             // INIT MEMBERS
-            this.end_ = new ListIterator(this, null, null, null);
+            this.end_ = new std.ListIterator(this, null, null, null);
             this.end_.set_prev(this.end_);
             this.end_.set_next(this.end_);
             this.begin_ = this.end_;
@@ -7465,13 +7766,13 @@ var std;
          * @inheritdoc
          */
         List.prototype.rbegin = function () {
-            return new ListReverseIterator(this.end());
+            return new std.ListReverseIterator(this.end());
         };
         /**
          * @inheritdoc
          */
         List.prototype.rend = function () {
-            return new ListReverseIterator(this.begin());
+            return new std.ListReverseIterator(this.begin());
         };
         /**
          * @inheritdoc
@@ -7512,7 +7813,7 @@ var std;
             var first = null;
             for (var i = 0; i < items.length; i++) {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new ListIterator(this, prev, null, items[i]);
+                var item = new std.ListIterator(this, prev, null, items[i]);
                 if (i == 0)
                     first = item;
                 prev.set_next(item);
@@ -7559,7 +7860,7 @@ var std;
             // REVERSE_ITERATOR TO ITERATOR
             var ret;
             var is_reverse_iterator = false;
-            if (args[0] instanceof ListReverseIterator) {
+            if (args[0] instanceof std.ListReverseIterator) {
                 is_reverse_iterator = true;
                 args[0] = args[0].base().prev();
             }
@@ -7572,7 +7873,7 @@ var std;
                 ret = this.insert_by_range(args[0], args[1], args[2]);
             // RETURNS
             if (is_reverse_iterator == true)
-                return new ListReverseIterator(ret.next());
+                return new std.ListReverseIterator(ret.next());
             else
                 return ret;
         };
@@ -7594,7 +7895,7 @@ var std;
             var first = null;
             for (var i = 0; i < size; i++) {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new ListIterator(this, prev, null, val);
+                var item = new std.ListIterator(this, prev, null, val);
                 if (i == 0)
                     first = item;
                 prev.set_next(item);
@@ -7622,7 +7923,7 @@ var std;
             var size = 0;
             for (var it = begin; it.equal_to(end) == false; it = it.next()) {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new ListIterator(this, prev, null, it.value);
+                var item = new std.ListIterator(this, prev, null, it.value);
                 if (size == 0)
                     first = item;
                 if (prev != null)
@@ -7645,7 +7946,7 @@ var std;
             var ret;
             var is_reverse_iterator = false;
             // REVERSE ITERATOR TO ITERATOR
-            if (first instanceof ListReverseIterator) {
+            if (first instanceof std.ListReverseIterator) {
                 is_reverse_iterator = true;
                 var first_it = last.base();
                 var last_it = first.base();
@@ -7656,7 +7957,7 @@ var std;
             ret = this.erase_by_range(first, last);
             // RETURN BRANCHES
             if (is_reverse_iterator == true)
-                return new ListReverseIterator(ret.next());
+                return new std.ListReverseIterator(ret.next());
             else
                 return ret;
         };
@@ -7772,7 +8073,7 @@ var std;
             var first = null;
             for (var i = 0; i < vector.length; i++) {
                 // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new ListIterator(this, prev, null, vector[i]);
+                var item = new std.ListIterator(this, prev, null, vector[i]);
                 if (i == 0)
                     first = item;
                 prev.set_next(item);
@@ -7807,6 +8108,9 @@ var std;
         return List;
     }(std.base.Container));
     std.List = List;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> An iterator, node of a List. </p>
      *
@@ -7932,6 +8236,9 @@ var std;
         return ListIterator;
     }(std.Iterator));
     std.ListIterator = ListIterator;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> A reverse-iterator of List. </p>
      *
@@ -8071,7 +8378,7 @@ var std;
             /**
              * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
              */
-            get: function () { return VectorIterator; },
+            get: function () { return std.VectorIterator; },
             enumerable: true,
             configurable: true
         });
@@ -8101,25 +8408,25 @@ var std;
             if (this.empty() == true)
                 return this.end();
             else
-                return new VectorIterator(this, 0);
+                return new std.VectorIterator(this, 0);
         };
         /**
          * @inheritdoc
          */
         Vector.prototype.end = function () {
-            return new VectorIterator(this, -1);
+            return new std.VectorIterator(this, -1);
         };
         /**
          * @inheritdoc
          */
         Vector.prototype.rbegin = function () {
-            return new VectorReverseIterator(this.end());
+            return new std.VectorReverseIterator(this.end());
         };
         /**
          * @inheritdoc
          */
         Vector.prototype.rend = function () {
-            return new VectorReverseIterator(this.begin());
+            return new std.VectorReverseIterator(this.begin());
         };
         /**
          * @inheritdoc
@@ -8191,7 +8498,7 @@ var std;
             // REVERSE_ITERATOR TO ITERATOR
             var ret;
             var is_reverse_iterator = false;
-            if (args[0] instanceof VectorReverseIterator) {
+            if (args[0] instanceof std.VectorReverseIterator) {
                 is_reverse_iterator = true;
                 args[0] = args[0].base().prev();
             }
@@ -8204,7 +8511,7 @@ var std;
                 ret = this.insert_by_range(args[0], args[1], args[2]);
             // RETURNS
             if (is_reverse_iterator == true)
-                return new VectorReverseIterator(ret.next());
+                return new std.VectorReverseIterator(ret.next());
             else
                 return ret;
         };
@@ -8280,7 +8587,7 @@ var std;
             var ret;
             var is_reverse_iterator = false;
             // REVERSE_ITERATOR TO ITERATOR
-            if (first instanceof VectorReverseIterator) {
+            if (first instanceof std.VectorReverseIterator) {
                 is_reverse_iterator = true;
                 var first_it = last.base();
                 var last_it = first.base();
@@ -8291,7 +8598,7 @@ var std;
             ret = this.erase_by_range(first, last);
             // RETURN BRANCHES
             if (is_reverse_iterator == true)
-                return new VectorReverseIterator(ret.next());
+                return new std.VectorReverseIterator(ret.next());
             else
                 return ret;
         };
@@ -8324,6 +8631,9 @@ var std;
         return Vector;
     }(Array));
     std.Vector = Vector;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> An iterator of Vector. </p>
      *
@@ -8455,6 +8765,9 @@ var std;
         return VectorIterator;
     }(std.Iterator));
     std.VectorIterator = VectorIterator;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> A reverse-iterator of Vector. </p>
      *
@@ -8656,6 +8969,9 @@ var std;
         return Queue;
     }());
     std.Queue = Queue;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> Priority queue. </p>
      *
@@ -9089,26 +9405,7 @@ var std;
                 return node.value;
         };
         /**
-         * <p> Return iterator to lower bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container which is not considered to go
-         * before <i>val</i> (i.e., either it is equivalent or goes after). </p>
-         *
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(element, val) would return false. </p>
-         *
-         * <p> If the {@link Set} class is instantiated with the default comparison type ({@link less}), the
-         * function returns an iterator to the first element that is not less than <i>val</i>. </p>
-         *
-         * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound},
-         * except in the case that the {@link Set} contains an element equivalent to <i>val</i>: In this case
-         * {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound} returns
-         * an iterator pointing to the next element. </p>
-         *
-         * @param val Value to compare.
-         *
-         * @return An iterator to the the first element in the container which is not considered to go before
-         *		   <i>val</i>, or {@link Set.end} if all elements are considered to go before <i>val</i>.
+         * @inheritdoc
          */
         TreeSet.prototype.lower_bound = function (val) {
             var node = this.tree_.find(val);
@@ -9120,26 +9417,7 @@ var std;
                 return node.value;
         };
         /**
-         * <p> Return iterator to upper bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container which is not considered to go
-         * after <i>val</i>. </p>
-         *
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(element, val) would return true. </p>
-         *
-         * <p> If the {@link Set} class is instantiated with the default comparison type ({@link less}), the
-         * function returns an iterator to the first element that is greater than <i>val</i>. </p>
-         *
-         * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except
-         * in the case that the {@link Set} contains an element equivalent to <i>val</i>: In this case
-         * {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound} returns
-         * an iterator pointing to the next element. </p>
-         *
-         * @param val Value to compare.
-         *
-         * @return An iterator to the the first element in the container which is not considered to go before
-         *		   <i>val</i>, or {@link Set.end} if all elements are considered to go after <i>val</i>.
+         * @inheritdoc
          */
         TreeSet.prototype.upper_bound = function (val) {
             var node = this.tree_.find(val);
@@ -9151,24 +9429,7 @@ var std;
                 return node.value.next();
         };
         /**
-         * <p> Get range of equal elements. </p>
-         *
-         * <p> Because all elements in a {@link Set} container are unique, the range returned will contain a
-         * single element at most. </p>
-         *
-         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
-         * the first element that is considered to go after <i>val</i> according to the container's
-         * internal comparison object (key_comp). </p>
-         *
-         * <p> Two elements of a {@link Set} are considered equivalent if the container's comparison object
-         * returns false reflexively (i.e., no matter the order in which the elements are passed as arguments).
-         * </p>
-         *
-         * @param val Value to search for.
-         *
-         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
-         *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
-         *		   (the same as {@link upper_bound}).
+         * @inheritdoc
          */
         TreeSet.prototype.equal_range = function (val) {
             return new std.Pair(this.lower_bound(val), this.upper_bound(val));
@@ -9276,6 +9537,9 @@ var std;
         return TreeSet;
     }(std.base.UniqueSet));
     std.TreeSet = TreeSet;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> Tree-structured multiple-key set. </p>
      *
@@ -9395,26 +9659,7 @@ var std;
             return cnt;
         };
         /**
-         * <p> Return iterator to lower bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container which is not considered to
-         * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
-         *
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(element,val) would return false. </p>
-         *
-         * <p> If the {@link TreeMultiSet} class is instantiated with the default comparison type ({@link less}),
-         * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
-
-         * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except
-         * in the case that the {@link TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
-         * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas
-         * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
-         *
-         * @param val Value to compare.
-         *
-         * @return An iterator to the the first element in the container which is not considered to go before
-         *		   <i>val</i>, or {@link TreeMultiSet.end} if all elements are considered to go before <i>val</i>.
+         * @inheritdoc
          */
         TreeMultiSet.prototype.lower_bound = function (val) {
             var node = this.tree_.find(val);
@@ -9430,26 +9675,7 @@ var std;
             }
         };
         /**
-         * <p> Return iterator to upper bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container which is considered to go after
-         * <i>val</i>. </p>
-
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(val,element) would return true. </p>
-
-         * <p> If the {@code TreeMultiSet} class is instantiated with the default comparison type (less), the
-         * function returns an iterator to the first element that is greater than <i>val</i>. </p>
-         *
-         * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except
-         * in the case that the {@TreeMultiSet} contains elements equivalent to <i>val</i>: In this case
-         * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas
-         * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
-         *
-         * @param val Value to compare.
-         *
-         * @return An iterator to the the first element in the container which is considered to go after
-         *		   <i>val</i>, or {@link TreeMultiSet.end} if no elements are considered to go after <i>val</i>.
+         * @inheritdoc
          */
         TreeMultiSet.prototype.upper_bound = function (val) {
             var node = this.tree_.find(val);
@@ -9463,23 +9689,7 @@ var std;
             }
         };
         /**
-         * <p> Get range of equal elements. </p>
-         *
-         * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent
-         * to <i>val</i>. </p>
-         *
-         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
-         * the first element that is considered to go after val according to the container's
-         * internal comparison object (key_comp). </p>
-         *
-         * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns
-         * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
-         *
-         * @param key Value to search for.
-         *
-         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
-         *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
-         *		   (the same as {@link upper_bound}).
+         * @inheritdoc
          */
         TreeMultiSet.prototype.equal_range = function (val) {
             return new std.Pair(this.lower_bound(val), this.upper_bound(val));
@@ -9705,26 +9915,7 @@ var std;
                 return node.value;
         };
         /**
-         * <p> Return iterator to lower bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container whose key is not considered to
-         * go before <i>k</i> (i.e., either it is equivalent or goes after). </p>
-         *
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false. </p>
-         *
-         * <p> If the {@link TreeMap} class is instantiated with the default comparison type ({@link less}),
-         * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
-         *
-         * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except
-         * in the case that the {@link TreeMap} contains an element with a key equivalent to <i>k</i>: In this
-         * case, {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound}
-         * returns an iterator pointing to the next element. </p>
-         *
-         * @param k Key to search for.
-         *
-         * @return An iterator to the the first element in the container whose key is not considered to go before
-         *		   <i>k</i>, or {@link TreeMap.end} if all keys are considered to go before <i>k</i>.
+         * @inheritdoc
          */
         TreeMap.prototype.lower_bound = function (key) {
             var node = this.tree_.find(key);
@@ -9736,26 +9927,7 @@ var std;
                 return node.value;
         };
         /**
-         * <p> Return iterator to upper bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container whose key is considered to
-         * go after <i>k</i> </p>.
-         *
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true. </p>
-         *
-         * <p> If the {@link TreeMap} class is instantiated with the default comparison type ({@link less}),
-         * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
-         *
-         * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except
-         * in the case that the map contains an element with a key equivalent to <i>k</i>: In this case
-         * {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound} returns an
-         * iterator pointing to the next element. </p>
-         *
-         * @param k Key to search for.
-         *
-         * @return An iterator to the the first element in the container whose key is considered to go after
-         *		   <i>k</i>, or {@link TreeMap.end} if no keys are considered to go after <i>k</i>.
+         * @inheritdoc
          */
         TreeMap.prototype.upper_bound = function (key) {
             var node = this.tree_.find(key);
@@ -9767,26 +9939,7 @@ var std;
                 return node.value.next();
         };
         /**
-         * <p> Get range of equal elements. </p>
-         *
-         * <p> Returns the bounds of a range that includes all the elements in the container which have a key
-         * equivalent to <i>k</i> </p>.
-         *
-         * <p> Because the elements in a {@link TreeMap} container have unique keys, the range returned will
-         * contain a single element at most. </p>
-         *
-         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
-         * the first element that has a key considered to go after <i>k</i> according to the container's internal
-         * comparison object (key_comp). </p>
-         *
-         * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively
-         * (i.e., no matter the order in which the keys are passed as arguments). </p>
-         *
-         * @param k Key to search for.
-         *
-         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
-         *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
-         *		   (the same as {@link upper_bound}).
+         * @inheritdoc
          */
         TreeMap.prototype.equal_range = function (key) {
             return new std.Pair(this.lower_bound(key), this.upper_bound(key));
@@ -9895,6 +10048,9 @@ var std;
         return TreeMap;
     }(std.base.UniqueMap));
     std.TreeMap = TreeMap;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> Tree-structured multiple-key map. </p>
      *
@@ -10020,26 +10176,7 @@ var std;
             return cnt;
         };
         /**
-         * <p> Return iterator to lower bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container whose key is not considered to
-         * go before <i>k</i> (i.e., either it is equivalent or goes after). </p>
-         *
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false. </p>
-         *
-         * <p> If the {@link TreeMultiMap} class is instantiated with the default comparison type ({@link less}),
-         * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
-         *
-         * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except
-         * in the case that the {@link TreeMultiMap} contains an element with keys equivalent to <i>k</i>:
-         * In this case, {@link lower_bound} returns an iterator pointing to the first of such elements,
-         * whereas {@link upper_bound} returns an iterator pointing to the element following the last. </p>
-         *
-         * @param k Key to search for.
-         *
-         * @return An iterator to the the first element in the container whose key is not considered to go before
-         *		   <i>k</i>, or {@link TreeMultiMap.end} if all keys are considered to go before <i>k</i>.
+         * @inheritdoc
          */
         TreeMultiMap.prototype.lower_bound = function (key) {
             var node = this.tree_.find(key);
@@ -10055,26 +10192,7 @@ var std;
             }
         };
         /**
-         * <p> Return iterator to upper bound. </p>
-         *
-         * <p> Returns an iterator pointing to the first element in the container whose key is considered to
-         * go after <i>k</i> </p>.
-         *
-         * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
-         * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true. </p>
-         *
-         * <p> If the {@link TreeMultiMap} class is instantiated with the default comparison type ({@link less}),
-         * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
-         *
-         * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except
-         * in the case that the {@link TreeMultiMap} contains an element with keys equivalent to <i>k</i>:
-         * In this case {@link lower_bound} returns an iterator pointing to first of such element, whereas
-         * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
-         *
-         * @param k Key to search for.
-         *
-         * @return An iterator to the the first element in the container whose key is considered to go after
-         *		   <i>k</i>, or {@link TreeMultiMap.end} if no keys are considered to go after <i>k</i>.
+         * @inheritdoc
          */
         TreeMultiMap.prototype.upper_bound = function (key) {
             var node = this.tree_.find(key);
@@ -10088,23 +10206,7 @@ var std;
             }
         };
         /**
-         * <p> Get range of equal elements. </p>
-         *
-         * <p> Returns the bounds of a range that includes all the elements in the container which have a key
-         * equivalent to <i>k</i> </p>.
-         *
-         * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
-         * the first element that has a key considered to go after <i>k</i> according to the container's internal
-         * comparison object (key_comp). </p>
-         *
-         * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively
-         * (i.e., no matter the order in which the keys are passed as arguments). </p>
-         *
-         * @param k Key to search for.
-         *
-         * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
-         *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
-         *		   (the same as {@link upper_bound}).
+         * @inheritdoc
          */
         TreeMultiMap.prototype.equal_range = function (key) {
             return new std.Pair(this.lower_bound(key), this.upper_bound(key));
@@ -10265,6 +10367,9 @@ var std;
         return SystemError;
     }(std.RuntimeError));
     std.SystemError = SystemError;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> Error category. </p>
      *
@@ -10316,14 +10421,14 @@ var std;
          * @return The default {@link ErrorCondition}object associated with condition value <i>val</i> for this category.
          */
         ErrorCategory.prototype.default_error_condition = function (val) {
-            return new ErrorCondition(val, this);
+            return new std.ErrorCondition(val, this);
         };
         ErrorCategory.prototype.equivalent = function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
-            if (args[1] instanceof ErrorCondition) {
+            if (args[1] instanceof std.ErrorCondition) {
                 var val_code = args[0];
                 var cond = args[1];
                 return std.equal_to(this.default_error_condition(val_code), cond);
@@ -10337,6 +10442,9 @@ var std;
         return ErrorCategory;
     }());
     std.ErrorCategory = ErrorCategory;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> Error condition. </p>
      *
@@ -10369,6 +10477,9 @@ var std;
         return ErrorCondition;
     }(std.base.ErrorInstance));
     std.ErrorCondition = ErrorCondition;
+})(std || (std = {}));
+var std;
+(function (std) {
     /**
      * <p> Error code. </p>
      *
@@ -10509,5 +10620,4 @@ var std;
 if (typeof (exports) != "undefined")
     for (var key in std)
         exports[key] = std[key];
-/// <reference path="../../std/API.ts" />
 //# sourceMappingURL=typescript-stl.js.map

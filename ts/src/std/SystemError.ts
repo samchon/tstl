@@ -86,7 +86,10 @@ namespace std
 			return this.code_;
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> Error category. </p>
 	 *
@@ -246,7 +249,10 @@ namespace std
 			}
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> Error condition. </p>
 	 *
@@ -293,7 +299,10 @@ namespace std
 			super(val, category);
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> Error code. </p> 
 	 *

@@ -77,7 +77,7 @@ namespace std
 			if ((<any>x).less != undefined) // has less()
 				return (<any>x).less(y);
 			else
-				return (<any>x).__getUID() < (<any>y).__getUID();
+				return (<any>x).__get_m_iUID() < (<any>y).__get_m_iUID();
 		else
 			return x < y;
 	}
@@ -352,14 +352,125 @@ namespace std
 		hash(): number;
 	}
 
+
+
 	/**
-	 * Default hash function.
+	 * <p> Default hash function for number. </p>
 	 * 
-	 * @param obj
+	 * <p> Unary function that defines the default hash function used by the standard library. </p>
+	 * 
+	 * <p> The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
+	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
+	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
+	 * </p>
+	 * 
+	 * @param val Value to be hashed.
+	 * 
+	 * @return Returns a hash value for its argument, as a value of type number. The number is an unsigned integer.
 	 */
-	export function hash(obj: any): number
+	export function hash(val: number): number;
+
+	/**
+	 * <p> Default hash function for string. </p>
+	 * 
+	 * <p> Unary function that defines the default hash function used by the standard library. </p>
+	 * 
+	 * <p> The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
+	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
+	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
+	 * </p>
+	 * 
+	 * @param str A string to be hashed.
+	 * 
+	 * @return Returns a hash value for its argument, as a value of type number. The number is an unsigned integer.
+	 */
+	export function hash(str: string): number;
+
+	/**
+	 * <p> Default hash function for Object. </p>
+	 * 
+	 * <p> Unary function that defines the default hash function used by the standard library. </p>
+	 * 
+	 * <p> The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
+	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
+	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
+	 * </p>
+	 * 
+	 * <p> The default {@link hash} function of Object returns a value returned from {@link hash hash(number)} with 
+	 * an <b>unique id</b> of each Object. If you want to specify {@link hash} function of a specific class, then
+	 * define a member function <code>public hash(): number</code> in the class. </p>
+	 * 
+	 * @param obj Object to be hashed.
+	 * 
+	 * @return Returns a hash value for its argument, as a value of type number. The number is an unsigned integer.
+	 */
+	export function hash(obj: Object): number;
+	
+	export function hash(par: any): number
 	{
-		return base.code(obj);
+		let type: string = typeof par;
+
+		if (type == "number")
+			return hash_of_number(par);
+		else if (type == "string")
+			return hash_of_string(par);
+		else
+			return hash_of_object(par);
+	}
+
+	/**
+	 * @hidden
+	 */
+	function hash_of_number(val: number): number
+	{
+		// ------------------------------------------
+		//	IN C++
+		//		CONSIDER A NUMBER AS A STRING
+		//		HASH<STRING>((CHAR*)&VAL, 8)
+		// ------------------------------------------
+		// CONSTRUCT BUFFER AND BYTE_ARRAY
+		let buffer: ArrayBuffer = new ArrayBuffer(8);
+		let byteArray: Int8Array = new Int8Array(buffer);
+		let valueArray: Float64Array = new Float64Array(buffer);
+
+		valueArray[0] = val;
+
+		let code: number = 2166136261;
+		
+		for (let i: number = 0; i < byteArray.length; i++)
+		{
+			let byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
+
+			code ^= byte;
+			code *= 16777619;
+		}
+		return Math.abs(code);
+	}
+
+	/**
+	 * @hidden
+	 */
+	function hash_of_string(str: string): number
+	{
+		let code: number = 2166136261;
+
+		for (let i: number = 0; i < str.length; i++)
+		{
+			code ^= str.charCodeAt(i);
+			code *= 16777619;
+		}
+		return Math.abs(code);
+	}
+
+	/**
+	 * @hidden
+	 */
+	function hash_of_object(obj: Object): number
+	{
+		if ((<any>obj).hash != undefined)
+			return (<any>obj).hash();
+		else
+			return hash_of_number((<any>obj).__get_m_iUID());
 	}
 
 	/* ---------------------------------------------------------
@@ -373,11 +484,11 @@ namespace std
 	if (__s_iUID == undefined)
 		__s_iUID = 0;
 
-	if (Object.prototype.hasOwnProperty("__getUID") == false)
+	if (Object.prototype.hasOwnProperty("__get_m_iUID") == false)
 	{
 		Object.defineProperties(Object.prototype,
 			{
-				"__getUID":
+				"__get_m_iUID":
 				{
 					value: function (): number
 					{
@@ -506,7 +617,13 @@ namespace std
 	{
 		left.swap(right);
 	}
+}
 
+namespace std
+{
+	/* ---------------------------------------------------------
+		BINDING
+	--------------------------------------------------------- */
 	/**
 	 * <p> Bind function arguments. </p>
 	 * 
@@ -630,81 +747,81 @@ namespace std
 		};
 		return ret;
 	}
-	
+}
+
+/**
+ * <p> Bind argument placeholders. </p>
+ * 
+ * <p> This namespace declares an unspecified number of objects: <i>_1</i>, <i>_2</i>, <i>_3</i>, ...</i>, which are 
+ * used to specify placeholders in calls to function {@link std.bind}. </p>
+ * 
+ * <p> When the function object returned by bind is called, an argument with placeholder {@link _1} is replaced by the 
+ * first argument in the call, {@link _2} is replaced by the second argument in the call, and so on... For example: </p>
+ *
+ * <code>
+ * let vec: Vector<number> = new Vector<number>();
+ * 
+ * let bind = std.bind(Vector.insert, _1, vec.end(), _2, _3);
+ * bind.apply(vec, 5, 1); // vec.insert(vec.end(), 5, 1);
+ * // [1, 1, 1, 1, 1]
+ * </code>
+ * 
+ * <p> When a call to {@link bind} is used as a subexpression in another call to <i>bind</i>, the {@link placeholders} 
+ * are relative to the outermost {@link bind} expression. </p>
+ *
+ * @reference http://www.cplusplus.com/reference/functional/placeholders/
+ * @author Jeongho Nam <http://samchon.org> 
+ */
+namespace std.placeholders
+{
 	/**
-	 * <p> Bind argument placeholders. </p>
-	 * 
-	 * <p> This namespace declares an unspecified number of objects: <i>_1</i>, <i>_2</i>, <i>_3</i>, ...</i>, which are 
-	 * used to specify placeholders in calls to function {@link std.bind}. </p>
-	 * 
-	 * <p> When the function object returned by bind is called, an argument with placeholder {@link _1} is replaced by the 
-	 * first argument in the call, {@link _2} is replaced by the second argument in the call, and so on... For example: </p>
-	 *
-	 * <code>
-	let vec: Vector<number> = new Vector<number>();
-
-	let bind = std.bind(Vector.insert, _1, vec.end(), _2, _3);
-	bind.apply(vec, 5, 1); // vec.insert(vec.end(), 5, 1);
-		// [1, 1, 1, 1, 1]
-	 * </code>
-	 * 
-	 * <p> When a call to {@link bind} is used as a subexpression in another call to <i>bind</i>, the {@link placeholders} 
-	 * are relative to the outermost {@link bind} expression. </p>
-	 *
-	 * @reference http://www.cplusplus.com/reference/functional/placeholders/
-	 * @author Jeongho Nam <http://samchon.org> 
+	 * @hidden
 	 */
-	export namespace placeholders
+	export class PlaceHolder
 	{
-		/**
-		 * @hidden
-		 */
-		export class PlaceHolder
+		private index_: number;
+
+		public constructor(index: number)
 		{
-			private index_: number;
-
-			public constructor(index: number)
-			{
-				this.index_ = index;
-			}
-
-			public get index(): number
-			{
-				return this.index_;
-			}
+			this.index_ = index;
 		}
 
-		/**
-		 * Replaced by the first argument in the function call.
-		 */
-		export const _1: PlaceHolder = new PlaceHolder(1);
-
-		/**
-		 * Replaced by the second argument in the function call.
-		 */
-		export const _2: PlaceHolder = new PlaceHolder(2);
-
-		/**
-		 * Replaced by the third argument in the function call.
-		 */
-		export const _3: PlaceHolder = new PlaceHolder(3);
-
-		export const _4: PlaceHolder = new PlaceHolder(4);
-		export const _5: PlaceHolder = new PlaceHolder(5);
-		export const _6: PlaceHolder = new PlaceHolder(6);
-		export const _7: PlaceHolder = new PlaceHolder(7);
-		export const _8: PlaceHolder = new PlaceHolder(8);
-		export const _9: PlaceHolder = new PlaceHolder(9);
-		export const _10: PlaceHolder = new PlaceHolder(10);
-		export const _11: PlaceHolder = new PlaceHolder(11);
-		export const _12: PlaceHolder = new PlaceHolder(12);
-		export const _13: PlaceHolder = new PlaceHolder(13);
-		export const _14: PlaceHolder = new PlaceHolder(14);
-		export const _15: PlaceHolder = new PlaceHolder(15);
-		export const _16: PlaceHolder = new PlaceHolder(16);
-		export const _17: PlaceHolder = new PlaceHolder(17);
-		export const _18: PlaceHolder = new PlaceHolder(18);
-		export const _19: PlaceHolder = new PlaceHolder(19);
-		export const _20: PlaceHolder = new PlaceHolder(20);
+		public get index(): number
+		{
+			return this.index_;
+		}
 	}
+
+	/**
+	 * Replaced by the first argument in the function call.
+	 */
+	export const _1: PlaceHolder = new PlaceHolder(1);
+
+	/**
+	 * Replaced by the second argument in the function call.
+	 */
+	export const _2: PlaceHolder = new PlaceHolder(2);
+
+	/**
+	 * Replaced by the third argument in the function call.
+	 */
+	export const _3: PlaceHolder = new PlaceHolder(3);
+
+	export const _4: PlaceHolder = new PlaceHolder(4);
+	export const _5: PlaceHolder = new PlaceHolder(5);
+	export const _6: PlaceHolder = new PlaceHolder(6);
+	export const _7: PlaceHolder = new PlaceHolder(7);
+	export const _8: PlaceHolder = new PlaceHolder(8);
+	export const _9: PlaceHolder = new PlaceHolder(9);
+	export const _10: PlaceHolder = new PlaceHolder(10);
+	export const _11: PlaceHolder = new PlaceHolder(11);
+	export const _12: PlaceHolder = new PlaceHolder(12);
+	export const _13: PlaceHolder = new PlaceHolder(13);
+	export const _14: PlaceHolder = new PlaceHolder(14);
+	export const _15: PlaceHolder = new PlaceHolder(15);
+	export const _16: PlaceHolder = new PlaceHolder(16);
+	export const _17: PlaceHolder = new PlaceHolder(17);
+	export const _18: PlaceHolder = new PlaceHolder(18);
+	export const _19: PlaceHolder = new PlaceHolder(19);
+	export const _20: PlaceHolder = new PlaceHolder(20);
 }

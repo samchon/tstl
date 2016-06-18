@@ -845,7 +845,10 @@ namespace std
 			[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> An iterator of {@link Deque}. </p>
 	 * 
@@ -985,7 +988,10 @@ namespace std
 			[this.value, obj.value] = [obj.value, this.value];
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> A reverse-iterator of Deque. </p>
 	 * 

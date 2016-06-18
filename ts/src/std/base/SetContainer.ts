@@ -640,7 +640,7 @@ namespace std
 		 */
 		public hash(): number
 		{
-			return base.code(this.value);
+			return std.hash(this.value);
 		}
 
 		/**

@@ -182,7 +182,10 @@ namespace std
 			this.container_.swap(obj.container_);
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> Priority queue. </p>
 	 * 

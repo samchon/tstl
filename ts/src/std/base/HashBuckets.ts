@@ -2,12 +2,19 @@
 
 namespace std.base
 {
+	export enum Hash
+	{
+		MIN_SIZE = 10,
+		RATIO = 1.0,
+		MAX_RATIO = 2.0
+	}
+
 	/**
 	 * <p> Hask buckets. </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class HashBuckets<T>
+	export class HashBuckets<T>
 	{
 		private buckets_: Vector<Vector<T>>;
 
@@ -25,25 +32,31 @@ namespace std.base
 		}
 
 		/**
-		 * Reserve the bucket size.
+		 * <p> Reconstruction of hash table. </p>
+		 * 
+		 * <p> All the elements in the hash buckets are rearranged according to their hash value into the new set of 
+		 * buckets. This may alter the order of iteration of elements within the container. </p>
 		 *
-		 * @param size Number of bucket size to reserve.
+		 * <p> Notice that {@link rehash rehashes} are automatically performed whenever its number of elements is going
+		 * to greater than its own {@link capacity}. </p>
+		 * 
+		 * @param size Number of bucket size to rehash.
 		 */
-		public reserve(size: number): void
+		public rehash(size: number): void
 		{
-			if (size < MIN_SIZE)
-				size = MIN_SIZE;
+			if (size < Hash.MIN_SIZE)
+				size = Hash.MIN_SIZE;
 
-			let prevMatrix: Vector<Vector<T>> = this.buckets_;
+			let prev_matrix: Vector<Vector<T>> = this.buckets_;
 			this.buckets_ = new Vector<Vector<T>>();
 
 			for (let i: number = 0; i < size; i++)
 				this.buckets_.push_back(new Vector<T>());
 
-			for (let i: number = 0; i < prevMatrix.size(); i++)
-				for (let j: number = 0; j < prevMatrix.at(i).size(); j++)
+			for (let i: number = 0; i < prev_matrix.size(); i++)
+				for (let j: number = 0; j < prev_matrix.at(i).size(); j++)
 				{
-					let val: T = prevMatrix.at(i).at(j);
+					let val: T = prev_matrix.at(i).at(j);
 					let bucket = this.buckets_.at(this.hash_index(val));
 
 					bucket.push_back(val);
@@ -56,7 +69,7 @@ namespace std.base
 			this.buckets_ = new Vector<Vector<T>>();
 			this.item_size_ = 0;
 
-			for (let i: number = 0; i < MIN_SIZE; i++)
+			for (let i: number = 0; i < Hash.MIN_SIZE; i++)
 				this.buckets_.push_back(new Vector<T>());
 		}
 
@@ -73,6 +86,11 @@ namespace std.base
 			return this.item_size_;
 		}
 
+		public capacity(): number
+		{
+			return this.buckets_.size() * Hash.MAX_RATIO;
+		}
+
 
 		public at(index: number): Vector<T>
 		{
@@ -81,7 +99,7 @@ namespace std.base
 
 		public hash_index(val: T): number
 		{
-			return hash(val) % this.buckets_.size();
+			return std.hash(val) % this.buckets_.size();
 		}
 
 		/* ---------------------------------------------------------
@@ -91,18 +109,18 @@ namespace std.base
 		{
 			this.buckets_.at(this.hash_index(val)).push_back(val);
 
-			if (++this.item_size_ > this.buckets_.size() * MAX_RATIO)
-				this.reserve(this.item_size_ * RATIO);
+			if (++this.item_size_ > this.capacity())
+				this.rehash(this.item_size_ * Hash.RATIO);
 		}
 
 		public erase(val: T): void
 		{
-			let hashes: Vector<T> = this.buckets_.at(this.hash_index(val));
+			let bucket: Vector<T> = this.buckets_.at(this.hash_index(val));
 
-			for (let i: number = 0; i < hashes.size(); i++)
-				if (hashes.at(i) == val)
+			for (let i: number = 0; i < bucket.size(); i++)
+				if (bucket.at(i) == val)
 				{
-					hashes.splice(i, 1);
+					bucket.splice(i, 1);
 					this.item_size_--;
 
 					break;

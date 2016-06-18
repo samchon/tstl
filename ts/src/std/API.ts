@@ -1,1 +1,1 @@
-﻿
+﻿/// <reference path="miscellaneous/namespace.ts" />

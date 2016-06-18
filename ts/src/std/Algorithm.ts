@@ -971,7 +971,10 @@ namespace std
 
 		return cnt;
 	}
+}
 
+namespace std
+{
 	/* =========================================================
 		MODIFIERS (MODIFYING SEQUENCE)
 			- FILL
@@ -1945,7 +1948,10 @@ namespace std
 			it.swap(first.advance(rand_index));
 		}
 	}
+}
 
+namespace std
+{
 	/* =========================================================
 		SORTING
 			- SORT
@@ -2430,7 +2436,10 @@ namespace std
 			}
 		}
 	}
+}
 
+namespace std
+{
 	/* =========================================================
 		BINARY SEARCH
 	========================================================= */
@@ -2775,7 +2784,10 @@ namespace std
 
 		return !first.equal_to(last) && !compare(val, first.value);
 	}
+}
 
+namespace std
+{
 	/* =========================================================
 		PARTITION
 	========================================================= */
@@ -2981,7 +2993,10 @@ namespace std
 
 		return first;
 	}
+}
 
+namespace std
+{
 	/* =========================================================
 		MERGE & SET OPERATIONS
 			- MERGE
@@ -3693,7 +3708,10 @@ namespace std
 			}
 		}
 	}
+}
 
+namespace std
+{
 	/* =========================================================
 		MIN & MAX
 			- VARADIC PARAMETERS

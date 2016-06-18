@@ -1074,7 +1074,10 @@ namespace std
 			[this.size_,  obj.size_	] = [obj.size_,  this.size_ ];
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> An iterator, node of a List. </p>
 	 * 
@@ -1234,7 +1237,10 @@ namespace std
 				(<any>this.source_).begin_ = this;
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> A reverse-iterator of List. </p>
 	 * 

@@ -25,7 +25,7 @@ namespace std.base
 
 		public find(key: K): MapIterator<K, T>
 		{
-			let index = hash(key) % this.size();
+			let index = std.hash(key) % this.size();
 			let bucket = this.at(index);
 
 			for (let i: number = 0; i < bucket.size(); i++)

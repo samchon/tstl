@@ -1,6 +1,4 @@
-﻿/// <reference path="../../std/API.ts" />
-
-/**
+﻿/**
  * <h1> TypeScript-STL </h1>
  * <p> <a href="https://nodei.co/npm/typescript-stl">
  *	<img src="https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true"> </a> </p>

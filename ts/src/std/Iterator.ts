@@ -140,7 +140,10 @@ namespace std
 
 		public abstract swap(obj: Iterator<T>): void;
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> This class reverses the direction in which a bidirectional or random-access iterator iterates through a range.
 	 * </p>

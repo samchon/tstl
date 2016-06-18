@@ -25,7 +25,7 @@ namespace std.base
 
 		public find(val: T): SetIterator<T>
 		{
-			let index = code(val) % this.size();
+			let index = std.hash(val) % this.size();
 			let bucket = this.at(index);
 
 			for (let i: number = 0; i < bucket.size(); i++)

@@ -732,7 +732,10 @@ namespace std
 			obj.assign(supplement.begin(), supplement.end());
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> An iterator of Vector. </p>
 	 * 
@@ -877,7 +880,10 @@ namespace std
 			[this.value, obj.value] = [obj.value, this.value];
 		}
 	}
+}
 
+namespace std
+{
 	/**
 	 * <p> A reverse-iterator of Vector. </p>
 	 * 
