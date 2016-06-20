@@ -56,7 +56,7 @@ You can learn and explore about TypeScript-STL more deeply with such below:
 /// <reference path="node.d.ts" />
 /// <reference path="typescript-stl.d.ts" />
 
-global["std"] = require("typescript-stl");
+import std = require("typescript-stl");
 let list: std.List<string> = new std.List<string>();
 ```
 

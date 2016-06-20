@@ -251,7 +251,7 @@ namespace std.base
 		 * (i.e., its <i>reverse beginning</i>). </p>
 		 * 
 		 * {@link MapReverseIterator Reverse iterators} iterate backwards: increasing them moves them towards the 
-		 * beginning of the  </p>
+		 * beginning of the container. </p>
 		 * 
 		 * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}. 
 		 * </p>

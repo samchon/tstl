@@ -99,6 +99,11 @@ namespace std.base
 			this.root_ = null;
 		}
 
+		public clear(): void
+		{
+			this.root_ = null;
+		}
+
 		/* =========================================================
 			ACCESSORS
 				- GETTERS

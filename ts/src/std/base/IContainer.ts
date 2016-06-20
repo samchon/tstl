@@ -74,7 +74,7 @@ namespace std.base
 		 *
 		 * <p> Because the ranges used by functions of the Container do not include the element reference by their 
 		 * closing iterator, this function is often used in combination with {@link IContainer}.{@link begin} to 
-		 * specify a range including all the elements in the  </p>
+		 * specify a range including all the elements in the container. </p>
 		 *
 		 * <h4> Note </h4>
 		 * <p> Returned iterator from {@link IContainer}.{@link end} does not refer any element. Trying to accessing 

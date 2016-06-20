@@ -18,6 +18,5 @@
 
 /// <reference path="../../std/example/test_all.ts" />
 
-if (typeof (exports) != "undefined")
-	for (let key in std)
-		exports[key] = std[key];
+if (std.is_node() == true)
+	(Object as any).assign(exports, std);

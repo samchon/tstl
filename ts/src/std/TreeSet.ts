@@ -3,126 +3,6 @@
 /// <reference path="base/UniqueSet.ts" />
 /// <reference path="base/MultiSet.ts" />
 
-namespace std.base
-{
-	/**
-	 * <p> A common interface for tree-structured set. </p>
-	 *
-	 * <p> {@link ITreeSet TreeMultiSets} are containers that store elements following a specific order. </p>
-	 *
-	 * <p> In a {@link ITreeSet}, the value of an element also identifies it (the value is itself 
-	 * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link ITreeSet} cannot 
-	 * be modified once in the container (the elements are always const), but they can be inserted or removed 
-	 * from the  </p>
-	 *
-	 * <p> Internally, the elements in a {@link ITreeSet TreeMultiSets} are always sorted following a strict 
-	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
-	 *
-	 * <p> {@link ITreeSet} containers are generally slower than {@link IHashSet} containers 
-	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 
-	 * their order. </p>
-	 *
-	 * <p> {@link ITreeSet TreeMultiSets} are typically implemented as binary search trees. </p>
-	 * 
-	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
-	 * 
-	 * <h3> Container properties </h3>
-	 * <dl>
-	 *	<dt> Associative </dt>
-	 *	<dd> 
-	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		position in the container.
-	 *	</dd>
-	 * 
-	 *	<dt> Ordered </dt>
-	 *	<dd> 
-	 *		The elements in the container follow a strict order at all times. All inserted elements are 
-	 *		given a position in this order. 
-	 *	</dd>
-	 *
-	 *	<dt> Set </dt>
-	 *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-	 * </dl>
-	 * 
-	 * @param <T> Type of the elements. Each element in a {@link ITreeSet} container is also identified 
-	 *			  by this value (each value is itself also the element's <i>key</i>).
-	 *
-	 * @reference http://www.cplusplus.com/reference/set
-	 * @author Jeongho Nam <http://samchon.org>
-	 */
-	export interface ITreeSet<T>
-	{
-		/**
-		 * <p> Return iterator to lower bound. </p>
-		 * 
-		 * <p> Returns an iterator pointing to the first element in the container which is not considered to 
-		 * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
-		 * 
-		 * <p> The function uses its internal comparison object (key_comp) to determine this, returning an 
-		 * iterator to the first element for which key_comp(element,val) would return false. </p>
-		 * 
-		 * <p> If the {@link ITreeSet} class is instantiated with the default comparison type ({@link less}), 
-		 * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
-
-		 * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except 
-		 * in the case that the {@link ITreeSet} contains elements equivalent to <i>val</i>: In this case 
-		 * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas 
-		 * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
-		 * 
-		 * @param val Value to compare.
-		 *
-		 * @return An iterator to the the first element in the container which is not considered to go before 
-		 *		   <i>val</i>, or {@link ITreeSet.end} if all elements are considered to go before <i>val</i>.
-		 */
-		lower_bound(val: T): SetIterator<T>;
-
-		/**
-		 * <p> Return iterator to upper bound. </p>
-		 * 
-		 * <p> Returns an iterator pointing to the first element in the container which is considered to go after 
-		 * <i>val</i>. </p>
-
-		 * <p> The function uses its internal comparison object (key_comp) to determine this, returning an 
-		 * iterator to the first element for which key_comp(val,element) would return true. </p>
-
-		 * <p> If the {@code ITreeSet} class is instantiated with the default comparison type (less), the 
-		 * function returns an iterator to the first element that is greater than <i>val</i>. </p>
-		 * 
-		 * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except 
-		 * in the case that the {@ITreeSet} contains elements equivalent to <i>val</i>: In this case 
-		 * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas 
-		 * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
-		 * 
-		 * @param val Value to compare.
-		 *
-		 * @return An iterator to the the first element in the container which is considered to go after 
-		 *		   <i>val</i>, or {@link TreeSet.end end} if no elements are considered to go after <i>val</i>.
-		 */
-		upper_bound(val: T): SetIterator<T>;
-
-		/**
-		 * <p> Get range of equal elements. </p>
-		 * 
-		 * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent 
-		 * to <i>val</i>. </p>
-		 * 
-		 * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to 
-		 * the first element that is considered to go after val according to the container's 
-		 * internal comparison object (key_comp). </p>
-		 * 
-		 * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns 
-		 * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
-		 *
-		 * @param key Value to search for.
-		 * 
-		 * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of 
-		 *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound 
-		 *		   (the same as {@link upper_bound}).
-		 */
-		equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>;
-	}
-}
-
 namespace std
 {
 	/**
@@ -199,7 +79,7 @@ namespace std
 		 * 
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(compare: (left: T, right: T) => boolean);
+		public constructor(compare: (x: T, y: T) => boolean);
 
 		/**
 		 * Contruct from elements.
@@ -214,7 +94,7 @@ namespace std
 		 * @param array Elements to be contained.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
+		public constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
 
 		/**
 		 * Copy Constructor.
@@ -227,7 +107,7 @@ namespace std
 		 * @param container A container to be copied.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.IContainer<T>, compare: (left: T, right: T) => boolean);
+		public constructor(container: base.IContainer<T>, compare: (x: T, y: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -247,7 +127,7 @@ namespace std
 		public constructor
 			(
 				begin: Iterator<T>, end: Iterator<T>,
-				compare: (left: T, right: T) => boolean
+				compare: (x: T, y: T) => boolean
 			);
 		
 		public constructor(...args: any[])
@@ -255,7 +135,7 @@ namespace std
 			super();
 
 			// CONSTRUCT TREE WITH COMPARE
-			let compare: (left: T, right: T) => boolean = std.less;
+			let compare: (x: T, y: T) => boolean = std.less;
 			let fn: Function = null;
 
 			// OVERLOADINGS
@@ -285,7 +165,7 @@ namespace std
 				compare = args[0];
 
 			// CONSTRUCT TREE
-			this.tree_ = new base.AtomicTree<T>(compare);
+			this.tree_ = new base.AtomicTree<T>(this, compare);
 
 			// BRANCH - CALL OVERLOADED CONSTRUCTORS
 			if (fn != null)
@@ -300,9 +180,9 @@ namespace std
 		 */
 		public clear(): void
 		{
-			this.tree_ = new base.AtomicTree<T>(this.tree_.get_compare());
-
 			super.clear();
+
+			this.tree_.clear();
 		}
 		
 		/* =========================================================
@@ -324,16 +204,25 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public key_comp(): (x: T, y: T) => boolean
+		{
+			return this.tree_.key_comp();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public value_comp(): (x: T, y: T) => boolean
+		{
+			return this.tree_.key_comp();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public lower_bound(val: T): SetIterator<T>
 		{
-			let node: base.XTreeNode<SetIterator<T>> = this.tree_.find(val);
-
-			if (node == null)
-				return this.end();
-			else if (std.less(node.value.value, val))
-				return node.value.next();
-			else
-				return node.value;
+			return this.tree_.lower_bound(val);
 		}
 
 		/**
@@ -341,14 +230,7 @@ namespace std
 		 */
 		public upper_bound(val: T): SetIterator<T>
 		{
-			let node: base.XTreeNode<SetIterator<T>> = this.tree_.find(val);
-
-			if (node == null)
-				return this.end();
-			else if (!std.equal_to(node.value.value, val) && !std.less(node.value.value, val))
-				return node.value;
-			else
-				return node.value.next();
+			return this.tree_.lower_bound(val);
 		}
 
 		/**
@@ -356,7 +238,7 @@ namespace std
 		 */
 		public equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>
 		{
-			return new Pair<SetIterator<T>, SetIterator<T>>(this.lower_bound(val), this.upper_bound(val));
+			return this.tree_.equal_range(val);
 		}
 
 		/* =========================================================
@@ -404,7 +286,7 @@ namespace std
 
 			// VALIDATE HINT
 			let ret: SetIterator<T>;
-			let compare = this.tree_.get_compare();
+			let compare = this.tree_.key_comp();
 
 			// hint < current && current < next
 			if (compare(hint.value, val) == true
@@ -562,7 +444,7 @@ namespace std
 		 * 
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(compare: (left: T, right: T) => boolean);
+		public constructor(compare: (x: T, y: T) => boolean);
 
 		/**
 		 * Contruct from elements.
@@ -577,7 +459,7 @@ namespace std
 		 * @param array Elements to be contained.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
+		public constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
 
 		/**
 		 * Copy Constructor.
@@ -590,7 +472,7 @@ namespace std
 		 * @param container A container to be copied.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
+		public constructor(container: base.Container<T>, compare: (x: T, y: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -607,18 +489,14 @@ namespace std
 		 * @param end Input interator of the final position in a sequence.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor
-			(
-				begin: Iterator<T>, end: Iterator<T>,
-				compare: (left: T, right: T) => boolean
-			);
+		public constructor(begin: Iterator<T>, end: Iterator<T>, compare: (x: T, y: T) => boolean);
 		
 		public constructor(...args: any[])
 		{
 			super();
 
 			// CONSTRUCT TREE WITH COMPARE
-			let compare: (left: T, right: T) => boolean = std.less;
+			let compare: (x: T, y: T) => boolean = std.less;
 			let fn: Function = null;
 
 			// OVERLOADINGS
@@ -648,7 +526,7 @@ namespace std
 				compare = args[0];
 
 			// CONSTRUCT TREE
-			this.tree_ = new base.AtomicTree<T>(compare);
+			this.tree_ = new base.AtomicTree<T>(this, compare);
 
 			// BRANCH - CALL OVERLOADED CONSTRUCTORS
 			if (fn != null)
@@ -663,9 +541,9 @@ namespace std
 		 */
 		public clear(): void
 		{
-			this.tree_ = new base.AtomicTree<T>(this.tree_.get_compare());
-
 			super.clear();
+
+			this.tree_.clear();
 		}
 
 		/* =========================================================
@@ -701,22 +579,25 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public key_comp(): (x: T, y: T) => boolean
+		{
+			return this.tree_.key_comp();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public value_comp(): (x: T, y: T) => boolean
+		{
+			return this.tree_.key_comp();
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public lower_bound(val: T): SetIterator<T>
 		{
-			let node: base.XTreeNode<SetIterator<T>> = this.tree_.find(val);
-
-			if (node == null)
-				return this.end();
-			else if (std.equal_to(node.value.value, val))
-				return node.value;
-			else
-			{
-				let it: SetIterator<T> = node.value;
-				while (!std.equal_to(it, this.end()) && std.less(it.value, val))
-					it = it.next();
-
-				return it;
-			}
+			return this.tree_.lower_bound(val);
 		}
 
 		/**
@@ -724,18 +605,7 @@ namespace std
 		 */
 		public upper_bound(val: T): SetIterator<T>
 		{
-			let node: base.XTreeNode<SetIterator<T>> = this.tree_.find(val);
-
-			if (node == null)
-				return this.end();
-			else
-			{
-				let it: SetIterator<T> = node.value;
-				while (!std.equal_to(it, this.end()) && (std.equal_to(it.value, val) || std.less(it.value, val)))
-					it = it.next();
-
-				return it;
-			}
+			return this.tree_.upper_bound(val);
 		}
 
 		/**
@@ -743,7 +613,7 @@ namespace std
 		 */
 		public equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>
 		{
-			return new Pair<SetIterator<T>, SetIterator<T>>(this.lower_bound(val), this.upper_bound(val));
+			return this.tree_.equal_range(val);
 		}
 
 		/* =========================================================
@@ -798,7 +668,7 @@ namespace std
 		{
 			// VALIDATE HINT
 			let ret: SetIterator<T>;
-			let compare = this.tree_.get_compare();
+			let compare = this.tree_.key_comp();
 
 			// hint <= current && current <= next
 			if ((compare(hint.value, val) || std.equal_to(hint.value, val))

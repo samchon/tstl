@@ -1851,6 +1851,9 @@ var std;
             function XTree() {
                 this.root_ = null;
             }
+            XTree.prototype.clear = function () {
+                this.root_ = null;
+            };
             /* =========================================================
                 ACCESSORS
                     - GETTERS
@@ -2613,9 +2616,10 @@ var std;
             /**
              * Default Constructor.
              */
-            function AtomicTree(compare) {
+            function AtomicTree(set, compare) {
                 if (compare === void 0) { compare = std.less; }
                 _super.call(this);
+                this.set_ = set;
                 this.compare_ = compare;
             }
             AtomicTree.prototype.find = function (val) {
@@ -2648,9 +2652,145 @@ var std;
                 return node;
             };
             /* ---------------------------------------------------------
+                BOUNDS
+            --------------------------------------------------------- */
+            /**
+             * <p> Return iterator to lower bound. </p>
+             *
+             * <p> Returns an iterator pointing to the first element in the container which is not considered to
+             * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
+             *
+             * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+             * iterator to the first element for which key_comp(element,val) would return false. </p>
+             *
+             * <p> If the {@link ITreeSet} class is instantiated with the default comparison type ({@link less}),
+             * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
+    
+             * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except
+             * in the case that the {@link ITreeSet} contains elements equivalent to <i>val</i>: In this case
+             * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas
+             * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
+             *
+             * @param val Value to compare.
+             *
+             * @return An iterator to the the first element in the container which is not considered to go before
+             *		   <i>val</i>, or {@link ITreeSet.end} if all elements are considered to go before <i>val</i>.
+             */
+            AtomicTree.prototype.lower_bound = function (val) {
+                var node = this.find(val);
+                if (node == null)
+                    return this.set_.end();
+                else if (std.equal_to(node.value.value, val))
+                    return node.value;
+                else {
+                    var it = node.value;
+                    while (!std.equal_to(it, this.set_.end()) && std.less(it.value, val))
+                        it = it.next();
+                    return it;
+                }
+            };
+            /**
+             * <p> Return iterator to upper bound. </p>
+             *
+             * <p> Returns an iterator pointing to the first element in the container which is considered to go after
+             * <i>val</i>. </p>
+    
+             * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+             * iterator to the first element for which key_comp(val,element) would return true. </p>
+    
+             * <p> If the {@code ITreeSet} class is instantiated with the default comparison type (less), the
+             * function returns an iterator to the first element that is greater than <i>val</i>. </p>
+             *
+             * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except
+             * in the case that the {@ITreeSet} contains elements equivalent to <i>val</i>: In this case
+             * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas
+             * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
+             *
+             * @param val Value to compare.
+             *
+             * @return An iterator to the the first element in the container which is considered to go after
+             *		   <i>val</i>, or {@link TreeSet.end end} if no elements are considered to go after <i>val</i>.
+             */
+            AtomicTree.prototype.upper_bound = function (val) {
+                var node = this.find(val);
+                if (node == null)
+                    return this.set_.end();
+                else {
+                    var it = node.value;
+                    while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || std.less(it.value, val)))
+                        it = it.next();
+                    return it;
+                }
+            };
+            /**
+             * <p> Get range of equal elements. </p>
+             *
+             * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent
+             * to <i>val</i>. </p>
+             *
+             * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+             * the first element that is considered to go after val according to the container's
+             * internal comparison object (key_comp). </p>
+             *
+             * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns
+             * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+             *
+             * @param key Value to search for.
+             *
+             * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+             *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
+             *		   (the same as {@link upper_bound}).
+             */
+            AtomicTree.prototype.equal_range = function (val) {
+                return std.make_pair(this.lower_bound(val), this.upper_bound(val));
+            };
+            /* ---------------------------------------------------------
                 COMPARISON
             --------------------------------------------------------- */
-            AtomicTree.prototype.get_compare = function () {
+            /**
+             * <p> Return comparison function. </p>
+             *
+             * <p> Returns a copy of the comparison function used by the container. </p>
+             *
+             * <p> By default, this is a {@link less} object, which returns the same as <i>operator<</i>. </p>
+             *
+             * <p> This object determines the order of the elements in the container: it is a function pointer or a function
+             * object that takes two arguments of the same type as the container elements, and returns <code>true</code> if
+             * the <i>first argument</i> is considered to go before the <i>second</i> in the <i>strict weak ordering</i> it
+             * defines, and <code>false</code> otherwise. </p>
+             *
+             * <p> Two elements of a {@link ITreeSet} are considered equivalent if {@link key_comp} returns <code>false</code>
+             * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+             *
+             * <p> In {@link ITreeSet} containers, the <i>keys</i> to sort the elements are the values (<i>T</i>) themselves,
+             * therefore {@link key_comp} and its sibling member function {@link value_comp} are equivalent. </p>
+             *
+             * @return The comparison function.
+             */
+            AtomicTree.prototype.key_comp = function () {
+                return this.compare_;
+            };
+            /**
+             * <p> Return comparison function. </p>
+             *
+             * <p> Returns a copy of the comparison function used by the container. </p>
+             *
+             * <p> By default, this is a {@link less} object, which returns the same as <i>operator<</i>. </p>
+             *
+             * <p> This object determines the order of the elements in the container: it is a function pointer or a function
+             * object that takes two arguments of the same type as the container elements, and returns <code>true</code> if
+             * the <i>first argument</i> is considered to go before the <i>second</i> in the <i>strict weak ordering</i> it
+             * defines, and <code>false</code> otherwise. </p>
+             *
+             * <p> Two elements of a {@link ITreeSet} are considered equivalent if {@link key_comp} returns <code>false</code>
+             * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+             *
+             * <p> In {@link ITreeSet} containers, the <i>keys</i> to sort the elements are the values (<i>T</i>) themselves,
+             * therefore {@link key_comp} and its sibling member function {@link value_comp} are equivalent. </p>
+             *
+             * @return The comparison function.
+             */
+            AtomicTree.prototype.value_comp = function () {
                 return this.compare_;
             };
             /**
@@ -3472,7 +3612,7 @@ var std;
              * (i.e., its <i>reverse beginning</i>). </p>
              *
              * {@link MapReverseIterator Reverse iterators} iterate backwards: increasing them moves them towards the
-             * beginning of the  </p>
+             * beginning of the container. </p>
              *
              * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}.
              * </p>
@@ -4416,7 +4556,7 @@ var std;
     var base;
     (function (base) {
         /**
-         * <p> A red-black Tree storing {@link MapIterator MapIterators}. </p>
+         * <p> A red-black tree storing {@link MapIterator MapIterators}. </p>
          *
          * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
          *
@@ -4430,9 +4570,10 @@ var std;
             /**
              * Default Constructor.
              */
-            function PairTree(compare) {
+            function PairTree(map, compare) {
                 if (compare === void 0) { compare = std.less; }
                 _super.call(this);
+                this.map_ = map;
                 this.compare_ = compare;
             }
             PairTree.prototype.find = function (val) {
@@ -4465,10 +4606,146 @@ var std;
                 return node;
             };
             /* ---------------------------------------------------------
+                BOUNDS
+            --------------------------------------------------------- */
+            /**
+             * <p> Return iterator to lower bound. </p>
+             *
+             * <p> Returns an iterator pointing to the first element in the container whose key is not considered to
+             * go before <i>k</i> (i.e., either it is equivalent or goes after). </p>
+             *
+             * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+             * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false. </p>
+             *
+             * <p> If the {@link ITreeMap} class is instantiated with the default comparison type ({@link less}),
+             * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
+             *
+             * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except
+             * in the case that the {@link ITreeMap} contains an element with a key equivalent to <i>k</i>: In this
+             * case, {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound}
+             * returns an iterator pointing to the next element. </p>
+             *
+             * @param k Key to search for.
+             *
+             * @return An iterator to the the first element in the container whose key is not considered to go before
+             *		   <i>k</i>, or {@link ITreeMap.end} if all keys are considered to go before <i>k</i>.
+             */
+            PairTree.prototype.lower_bound = function (key) {
+                var node = this.find(key);
+                if (node == null)
+                    return this.map_.end();
+                else if (this.compare_(node.value.first, key))
+                    return node.value.next();
+                else {
+                    var it = node.value;
+                    while (!std.equal_to(it, this.map_.end()) && std.less(it.first, key))
+                        it = it.next();
+                    return it;
+                }
+            };
+            /**
+             * <p> Return iterator to upper bound. </p>
+             *
+             * <p> Returns an iterator pointing to the first element in the container whose key is considered to
+             * go after <i>k</i> </p>.
+             *
+             * <p> The function uses its internal comparison object (key_comp) to determine this, returning an
+             * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true. </p>
+             *
+             * <p> If the {@link ITreeMap} class is instantiated with the default comparison type ({@link less}),
+             * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
+             *
+             * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except
+             * in the case that the map contains an element with a key equivalent to <i>k</i>: In this case
+             * {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound} returns an
+             * iterator pointing to the next element. </p>
+             *
+             * @param k Key to search for.
+             *
+             * @return An iterator to the the first element in the container whose key is considered to go after
+             *		   <i>k</i>, or {@link TreeMap.end end} if no keys are considered to go after <i>k</i>.
+             */
+            PairTree.prototype.upper_bound = function (key) {
+                var node = this.find(key);
+                if (node == null)
+                    return this.map_.end();
+                else {
+                    var it = node.value;
+                    while (!std.equal_to(it, this.map_.end()) && (std.equal_to(it.first, key) || std.less(it.first, key)))
+                        it = it.next();
+                    return it;
+                }
+            };
+            /**
+             * <p> Get range of equal elements. </p>
+             *
+             * <p> Returns the bounds of a range that includes all the elements in the container which have a key
+             * equivalent to <i>k</i> </p>.
+             *
+             * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to
+             * the first element that has a key considered to go after <i>k</i> according to the container's internal
+             * comparison object (key_comp). </p>
+             *
+             * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively
+             * (i.e., no matter the order in which the keys are passed as arguments). </p>
+             *
+             * @param k Key to search for.
+             *
+             * @return The function returns a {@link Pair}, whose member {@link Pair.first} is the lower bound of
+             *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound
+             *		   (the same as {@link upper_bound}).
+             */
+            PairTree.prototype.equal_range = function (key) {
+                return std.make_pair(this.lower_bound(key), this.upper_bound(key));
+            };
+            /* ---------------------------------------------------------
                 COMPARISON
             --------------------------------------------------------- */
-            PairTree.prototype.get_compare = function () {
+            /**
+             * <p> Return key comparison function. </p>
+             *
+             * <p> Returns a references of the comparison function used by the container to compare <i>keys</i>. </p>
+             *
+             * <p> The <i>comparison object</i> of a {@link ITreeMap tree-map object} is set on
+             * {@link TreeMap.constructor construction}. Its type (<i>Key</i>) is the last parameter of the
+             * {@link ITreeMap.constructor constructors}. By default, this is a {@link less} function, which returns the same
+             * as <i>operator&lt;</i>. </p>
+             *
+             * <p> This function determines the order of the elements in the container: it is a function pointer that takes
+             * two arguments of the same type as the element <i>keys</i>, and returns <code>true</code> if the first argument
+             * is considered to go before the second in the strict weak ordering it defines, and <code>false</code> otherwise.
+             * </p>
+             *
+             * <p> Two keys are considered equivalent if {@link key_comp} returns <code>false</code> reflexively (i.e., no
+             * matter the order in which the keys are passed as arguments). </p>
+             *
+             * @return The comparison function.
+             */
+            PairTree.prototype.key_comp = function () {
                 return this.compare_;
+            };
+            /**
+             * <p> Return value comparison function. </p>
+             *
+             * <p> Returns a comparison function that can be used to compare two elements to get whether the key of the first
+             * one goes before the second. </p>
+             *
+             * <p> The arguments taken by this function object are of member type <code>std.Pair<Key, T></code> (defined in
+             * {@link ITreeMap}), but the mapped type (<i>T</i>) part of the value is not taken into consideration in this
+             * comparison. </p>
+             *
+             * <p> This comparison class returns <code>true</code> if the {@link Pair.first key} of the <i>first argument</i>
+             * is considered to go before that of the <i>second</i> (according to the strict weak ordering specified by the
+             * container's comparison function, {@link key_comp}), and <code>false</code> otherwise. </p>
+             *
+             * @return The comparison function for element values.
+             */
+            PairTree.prototype.value_comp = function () {
+                var compare = this.compare_;
+                var fn = function (x, y) {
+                    return compare(x.first, y.first);
+                };
+                return fn;
             };
             /**
              * @inheritdoc
@@ -7051,16 +7328,10 @@ var std;
                 return this.hash_buckets_.at(index).back().next();
         };
         HashMultiMap.prototype.rbegin = function (index) {
-            if (index == undefined)
-                return _super.prototype.rbegin.call(this);
-            else
-                return new std.MapReverseIterator(this.end(index));
+            return new std.MapReverseIterator(this.end(index));
         };
         HashMultiMap.prototype.rend = function (index) {
-            if (index == undefined)
-                return _super.prototype.rend.call(this);
-            else
-                return new std.MapReverseIterator(this.begin(index));
+            return new std.MapReverseIterator(this.begin(index));
         };
         /* ---------------------------------------------------------
             HASH
@@ -9433,7 +9704,7 @@ var std;
             else if (args.length == 1)
                 compare = args[0];
             // CONSTRUCT TREE
-            this.tree_ = new std.base.AtomicTree(compare);
+            this.tree_ = new std.base.AtomicTree(this, compare);
             // BRANCH - CALL OVERLOADED CONSTRUCTORS
             if (fn != null)
                 fn.apply(this, args);
@@ -9445,8 +9716,8 @@ var std;
          * @inheritdoc
          */
         TreeSet.prototype.clear = function () {
-            this.tree_ = new std.base.AtomicTree(this.tree_.get_compare());
             _super.prototype.clear.call(this);
+            this.tree_.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -9464,32 +9735,32 @@ var std;
         /**
          * @inheritdoc
          */
+        TreeSet.prototype.key_comp = function () {
+            return this.tree_.key_comp();
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeSet.prototype.value_comp = function () {
+            return this.tree_.key_comp();
+        };
+        /**
+         * @inheritdoc
+         */
         TreeSet.prototype.lower_bound = function (val) {
-            var node = this.tree_.find(val);
-            if (node == null)
-                return this.end();
-            else if (std.less(node.value.value, val))
-                return node.value.next();
-            else
-                return node.value;
+            return this.tree_.lower_bound(val);
         };
         /**
          * @inheritdoc
          */
         TreeSet.prototype.upper_bound = function (val) {
-            var node = this.tree_.find(val);
-            if (node == null)
-                return this.end();
-            else if (!std.equal_to(node.value.value, val) && !std.less(node.value.value, val))
-                return node.value;
-            else
-                return node.value.next();
+            return this.tree_.lower_bound(val);
         };
         /**
          * @inheritdoc
          */
         TreeSet.prototype.equal_range = function (val) {
-            return new std.Pair(this.lower_bound(val), this.upper_bound(val));
+            return this.tree_.equal_range(val);
         };
         /* =========================================================
             ELEMENTS I/O
@@ -9527,7 +9798,7 @@ var std;
                 return this.end();
             // VALIDATE HINT
             var ret;
-            var compare = this.tree_.get_compare();
+            var compare = this.tree_.key_comp();
             // hint < current && current < next
             if (compare(hint.value, val) == true
                 && (hint.next().equal_to(this.end()) || compare(val, hint.next().value) == true)) {
@@ -9677,7 +9948,7 @@ var std;
             else if (args.length == 1)
                 compare = args[0];
             // CONSTRUCT TREE
-            this.tree_ = new std.base.AtomicTree(compare);
+            this.tree_ = new std.base.AtomicTree(this, compare);
             // BRANCH - CALL OVERLOADED CONSTRUCTORS
             if (fn != null)
                 fn.apply(this, args);
@@ -9689,8 +9960,8 @@ var std;
          * @inheritdoc
          */
         TreeMultiSet.prototype.clear = function () {
-            this.tree_ = new std.base.AtomicTree(this.tree_.get_compare());
             _super.prototype.clear.call(this);
+            this.tree_.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -9718,38 +9989,32 @@ var std;
         /**
          * @inheritdoc
          */
+        TreeMultiSet.prototype.key_comp = function () {
+            return this.tree_.key_comp();
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeMultiSet.prototype.value_comp = function () {
+            return this.tree_.key_comp();
+        };
+        /**
+         * @inheritdoc
+         */
         TreeMultiSet.prototype.lower_bound = function (val) {
-            var node = this.tree_.find(val);
-            if (node == null)
-                return this.end();
-            else if (std.equal_to(node.value.value, val))
-                return node.value;
-            else {
-                var it = node.value;
-                while (!std.equal_to(it, this.end()) && std.less(it.value, val))
-                    it = it.next();
-                return it;
-            }
+            return this.tree_.lower_bound(val);
         };
         /**
          * @inheritdoc
          */
         TreeMultiSet.prototype.upper_bound = function (val) {
-            var node = this.tree_.find(val);
-            if (node == null)
-                return this.end();
-            else {
-                var it = node.value;
-                while (!std.equal_to(it, this.end()) && (std.equal_to(it.value, val) || std.less(it.value, val)))
-                    it = it.next();
-                return it;
-            }
+            return this.tree_.upper_bound(val);
         };
         /**
          * @inheritdoc
          */
         TreeMultiSet.prototype.equal_range = function (val) {
-            return new std.Pair(this.lower_bound(val), this.upper_bound(val));
+            return this.tree_.equal_range(val);
         };
         /* =========================================================
             ELEMENTS I/O
@@ -9792,7 +10057,7 @@ var std;
         TreeMultiSet.prototype.insert_by_hint = function (hint, val) {
             // VALIDATE HINT
             var ret;
-            var compare = this.tree_.get_compare();
+            var compare = this.tree_.key_comp();
             // hint <= current && current <= next
             if ((compare(hint.value, val) || std.equal_to(hint.value, val))
                 && (hint.next().equal_to(this.end()) || (compare(val, hint.next().value) || std.equal_to(val, hint.next().value)))) {
@@ -9943,7 +10208,7 @@ var std;
             else if (args.length == 1)
                 compare = args[0];
             // CONSTRUCT TREE
-            this.tree_ = new std.base.PairTree(compare);
+            this.tree_ = new std.base.PairTree(this, compare);
             // BRANCH - CALL OVERLOADED CONSTRUCTORS
             if (fn != null)
                 fn.apply(this, args);
@@ -9955,8 +10220,8 @@ var std;
          * @inheritdoc
          */
         TreeMap.prototype.clear = function () {
-            this.tree_ = new std.base.PairTree(this.tree_.get_compare());
             _super.prototype.clear.call(this);
+            this.tree_.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -9974,32 +10239,32 @@ var std;
         /**
          * @inheritdoc
          */
+        TreeMap.prototype.key_comp = function () {
+            return this.tree_.key_comp();
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeMap.prototype.value_comp = function () {
+            return this.tree_.value_comp();
+        };
+        /**
+         * @inheritdoc
+         */
         TreeMap.prototype.lower_bound = function (key) {
-            var node = this.tree_.find(key);
-            if (node == null)
-                return this.end();
-            else if (this.tree_.get_compare()(node.value.first, key))
-                return node.value.next();
-            else
-                return node.value;
+            return this.tree_.lower_bound(key);
         };
         /**
          * @inheritdoc
          */
         TreeMap.prototype.upper_bound = function (key) {
-            var node = this.tree_.find(key);
-            if (node == null)
-                return this.end();
-            else if (!std.equal_to(node.value.first, key) && !this.tree_.get_compare()(node.value.first, key))
-                return node.value;
-            else
-                return node.value.next();
+            return this.tree_.upper_bound(key);
         };
         /**
          * @inheritdoc
          */
         TreeMap.prototype.equal_range = function (key) {
-            return new std.Pair(this.lower_bound(key), this.upper_bound(key));
+            return this.tree_.equal_range(key);
         };
         /* =========================================================
             ELEMENTS I/O
@@ -10015,19 +10280,19 @@ var std;
             var node = this.tree_.find(pair.first);
             // IF EQUALS, THEN RETURN FALSE
             if (node != null && std.equal_to(node.value.first, pair.first) == true)
-                return new std.Pair(node.value, false);
+                return std.make_pair(node.value, false);
             // INSERTS
             var it;
             if (node == null)
                 it = this.end();
-            else if (this.tree_.get_compare()(node.value.first, pair.first) == true)
+            else if (this.tree_.key_comp()(node.value.first, pair.first) == true)
                 it = node.value.next();
             else
                 it = node.value;
             // ITERATOR TO RETURN
             it = new std.MapIterator(this, this.data_.insert(it.get_list_iterator(), pair));
             this.handle_insert(it, it.next()); // POST-PROCESS
-            return new std.Pair(it, true);
+            return std.make_pair(it, true);
         };
         /**
          * @hidden
@@ -10038,7 +10303,7 @@ var std;
                 return this.end();
             // VALIDATE HINT
             var ret;
-            var compare = this.tree_.get_compare();
+            var compare = this.tree_.key_comp();
             // hint < current && current < next
             if (compare(hint.first, pair.first) == true
                 && (hint.next().equal_to(this.end()) || compare(pair.first, hint.next().first) == true)) {
@@ -10194,7 +10459,7 @@ var std;
             else if (args.length == 1)
                 compare = args[0];
             // CONSTRUCT TREE
-            this.tree_ = new std.base.PairTree(compare);
+            this.tree_ = new std.base.PairTree(this, compare);
             // BRANCH - CALL OVERLOADED CONSTRUCTORS
             if (fn != null)
                 fn.apply(this, args);
@@ -10206,8 +10471,8 @@ var std;
          * @inheritdoc
          */
         TreeMultiMap.prototype.clear = function () {
-            this.tree_ = new std.base.PairTree(this.tree_.get_compare());
             _super.prototype.clear.call(this);
+            this.tree_.clear();
         };
         /* =========================================================
             ACCESSORS
@@ -10235,38 +10500,32 @@ var std;
         /**
          * @inheritdoc
          */
+        TreeMultiMap.prototype.key_comp = function () {
+            return this.tree_.key_comp();
+        };
+        /**
+         * @inheritdoc
+         */
+        TreeMultiMap.prototype.value_comp = function () {
+            return this.tree_.value_comp();
+        };
+        /**
+         * @inheritdoc
+         */
         TreeMultiMap.prototype.lower_bound = function (key) {
-            var node = this.tree_.find(key);
-            if (node == null)
-                return this.end();
-            else if (std.equal_to(node.value.first, key))
-                return node.value;
-            else {
-                var it = node.value;
-                while (!std.equal_to(it, this.end()) && this.tree_.get_compare()(it.first, key))
-                    it = it.next();
-                return it;
-            }
+            return this.tree_.lower_bound(key);
         };
         /**
          * @inheritdoc
          */
         TreeMultiMap.prototype.upper_bound = function (key) {
-            var node = this.tree_.find(key);
-            if (node == null)
-                return this.end();
-            else {
-                var it = node.value;
-                while (!std.equal_to(it, this.end()) && (std.equal_to(it.first, key) || this.tree_.get_compare()(it.first, key)))
-                    it = it.next();
-                return it;
-            }
+            return this.tree_.upper_bound(key);
         };
         /**
          * @inheritdoc
          */
         TreeMultiMap.prototype.equal_range = function (key) {
-            return new std.Pair(this.lower_bound(key), this.upper_bound(key));
+            return this.tree_.equal_range(key);
         };
         /* =========================================================
             ELEMENTS I/O
@@ -10287,9 +10546,9 @@ var std;
             else if (std.equal_to(node.value.first, pair.first) == true) {
                 it = node.value.next();
             }
-            else if (this.tree_.get_compare()(node.value.first, pair.first) == true) {
+            else if (this.tree_.key_comp()(node.value.first, pair.first) == true) {
                 it = node.value.next();
-                while (it.equal_to(this.end()) == false && this.tree_.get_compare()(it.first, pair.first))
+                while (it.equal_to(this.end()) == false && this.tree_.key_comp()(it.first, pair.first))
                     it = it.next();
             }
             else
@@ -10308,7 +10567,7 @@ var std;
                 return this.end();
             // VALIDATE HINT
             var ret;
-            var compare = this.tree_.get_compare();
+            var compare = this.tree_.key_comp();
             // hint <= current && current <= next
             if ((compare(hint.first, pair.first) || std.equal_to(hint.first, pair.first))
                 && (hint.next().equal_to(this.end()) || (compare(pair.first, hint.next().first) || std.equal_to(pair.first, hint.next().first)))) {
@@ -10674,7 +10933,6 @@ var std;
 /// <reference path="../../std/SystemError.ts" />
 /// <reference path="../../std/Utility.ts" />
 /// <reference path="../../std/example/test_all.ts" />
-if (typeof (exports) != "undefined")
-    for (var key in std)
-        exports[key] = std[key];
+if (std.is_node() == true)
+    Object.assign(exports, std);
 //# sourceMappingURL=typescript-stl.js.map
