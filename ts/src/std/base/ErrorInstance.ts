@@ -16,7 +16,8 @@ namespace std.base
 	 * so that they can be interpreted when needed as more abstract (and portable) 
 	 * {@link ErrorCondition error conditions}. </p>
 	 * 
-	 * <p> <img src="../assets/images/design/exceptions.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

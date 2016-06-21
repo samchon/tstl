@@ -31,7 +31,9 @@ namespace std.base
 	 * beginning or the end, {@link IArray} objects perform worse and have less consistent iterators and references 
 	 * than {@link List Lists} </p>.
 	 * 
-	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>

@@ -52,7 +52,8 @@ namespace std.base
 	 *	</li>
 	 * </ol>
 	 * 
-	 * <p> <img src="../assets/images/tree/Red-black_tree_example.svg" width="100%" /> </p>
+	 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_example.svg" 
+	 *			style="max-width: 100%" /> </p>
 	 * 
 	 * <p> These constraints enforce a critical property of red-black trees: the path from the root to the farthest 
 	 * leaf is no more than twice as long as the path from the root to the nearest leaf. The result is that the tree 
@@ -348,7 +349,8 @@ namespace std.base
 		 * the only loop, and any rotations occur after this loop, this proves that a constant number of rotations 
 		 * occur. </p>
 		 *
-		 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_3.svg" /> </p>
+		 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_insert_case_3.svg"
+					style="max-width: 100%" /> </p>
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
@@ -396,7 +398,8 @@ namespace std.base
 		 * node are <font color='darkBlue'>black</font>) is still violated, but now we can resolve this by 
 		 * continuing to case 5. </p>
 		 *
-		 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_4.svg" /> </p>
+		 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_insert_case_4.svg"
+					style="max-width: 100%" /> </p>
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
@@ -441,7 +444,8 @@ namespace std.base
 		 * through {@link XTreeNode.parent <b>P</b>}. In each case, this is the only 
 		 * <font color='darkBlue'>black</font> node of the three. </p>
 		 * 
-		 * <p> <img src="../assets/images/tree/Red-black_tree_insert_case_5.svg" /> </p>
+		 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_insert_case_5.svg"
+					style="max-width: 100%" /> </p>
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
@@ -638,7 +642,8 @@ namespace std.base
 		/**
 		 * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
 		 *
-		 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_2.svg" /> </p>
+		 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_delete_case_2.svg"
+					style="max-width: 100%" /> </p>
 		 * 
 		 * <p> In this case we reverse the colors of {@link XTreeNode.parent <b>P</b>} and 
 		 * {@link XTreeNode.sibling <b>S</b>}, and then rotate left at {@link XTreeNode.parent <b>P</b>}, turning 
@@ -674,7 +679,8 @@ namespace std.base
 		 * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling 
 		 * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
 		 * 
-		 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_3.svg" /> </p>
+		 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_delete_case_3.svg"
+					style="max-width: 100%" /> </p>
 		 * 
 		 * <p> In this case, we simply repaint {@link XTreeNode.sibling <b>S</b>} <font color='red'>red</font>. The 
 		 * result is that all paths passing through {@link XTreeNode.sibling <b>S</b>}, which are precisely those 
@@ -711,7 +717,8 @@ namespace std.base
 		 * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are 
 		 * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
 		 *
-		 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_4.svg" /> </p>
+		 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_delete_case_4.svg"
+					style="max-width: 100%" /> </p>
 		 * 
 		 * <p> In this case, we simply exchange the colors of {@link XTreeNode.sibling <b>S</b>} and 
 		 * {@link XTreeNode.parent <b>P</b>}. This does not affect the number of <font color='darkBlue'>black</font> 
@@ -741,7 +748,8 @@ namespace std.base
 		 * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is 
 		 * <font color='darkBlue'>black</font>, and <i><b>N</b></i> is the left child of its parent. </p> 
 		 *
-		 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_5.svg" /> </p>
+		 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_delete_case_5.svg"
+					style="max-width: 100%" /> </p>
 		 * 
 		 * <p> In this case we rotate right at {@link XTreeNode.sibling <b>S</b>}, so that 
 		 * {@link XTreeNode.sibling <b>S</b>}'s left child becomes {@link XTreeNode.sibling <b>S</b>}'s parent and 
@@ -804,7 +812,8 @@ namespace std.base
 		 * <p> Thus, the paths passing through <i><b>N</b></i> pass through one additional 
 		 * <font color='darkBlue'>black</font> node. </p>
 		 *
-		 * <p> <img src="../assets/images/tree/Red-black_tree_delete_case_6.svg" /> </p>
+		 * <p> <img src="http://samchon.github.io/stl/api/assets/images/tree/Red-black_tree_delete_case_6.svg"
+					style="max-width: 100%" /> </p>
 		 * 
 		 * <p> Meanwhile, if a path does not go through <i><b>N</b></i>, then there are two possibilities: </p>
 		 * <ol>

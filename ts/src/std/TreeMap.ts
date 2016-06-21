@@ -26,7 +26,8 @@ namespace std
 	 *
 	 * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
 	 *
-	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/map_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -409,7 +410,8 @@ namespace std
 	 *
 	 * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
 	 * 
-	 * <p> <img src="../assets/images/design/map_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/map_containers.png" target="_blank"> <
+	 * img src="http://samchon.github.io/stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>

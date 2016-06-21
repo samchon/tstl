@@ -5,7 +5,9 @@ namespace std.base
 	/**
 	 * <p> An abstract container. </p>
 	 * 
-	 * <p> <img src="../assets/images/design/abstract_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/abstract_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/abstract_containers.png" style="max-width: 100%" /> 
+	 * </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>

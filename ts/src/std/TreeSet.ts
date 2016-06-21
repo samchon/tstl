@@ -24,7 +24,8 @@ namespace std
 	 *
 	 * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
 	 * 
-	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -389,7 +390,8 @@ namespace std
 	 *
 	 * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
 	 * 
-	 * <p> <img src="../assets/images/design/set_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>

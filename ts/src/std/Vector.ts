@@ -35,7 +35,9 @@ namespace std
 	 * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s. 
 	 * </p>
 	 * 
-	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -739,7 +741,9 @@ namespace std
 	/**
 	 * <p> An iterator of Vector. </p>
 	 * 
-	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * </p>
 	 *
 	 * @param <T> Type of the elements.
 	 * 
@@ -887,7 +891,9 @@ namespace std
 	/**
 	 * <p> A reverse-iterator of Vector. </p>
 	 * 
-	 * <p> <img src="../assets/images/design/linear_containers.png" width="100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * </p>
 	 *
 	 * @param <T> Type of the elements.
 	 * 
