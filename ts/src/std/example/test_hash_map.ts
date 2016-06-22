@@ -65,7 +65,5 @@ namespace std.example
 			Its key is 9
 		=========================================
 		*/
-
-		let tree_map = new TreeMap<number, string>(map.begin(), map.end(), std.greater);
 	}
 }

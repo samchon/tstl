@@ -7,25 +7,32 @@ GitHub Repository: https://github.com/samchon/stl
 ## Introduction
 STL (Standard Template Library) Containers and Algorithms for TypeScript
 
-TypeScript-STL is a TypeScript's **Standard Template Library** who is migrated from C++ STL. Most of classes and functions of STL have implemented. Just enjoy it.
+TypeScript-STL is an open-source JavaScript library providing containers and algorithms migrated from C++ STL. You can enjoy STL containers and algorithms in JavaScript. If TypeScript, you will be much happier feeling like using originla STL with type restriction and template programming.
 
 ![Abstract Containers](http://samchon.github.io/stl/api/assets/images/design/abstract_containers.png)
 
 ##### Containers
-  - [Linear containers](http://samchon.github.io/stl/api/interfaces/std.base.container.ilinearcontainer.html)
+  - [**Linear containers**](http://samchon.github.io/stl/api/interfaces/std.base.container.ilinearcontainer.html)
     - [Vector](http://samchon.github.io/stl/api/classes/std.vector.html)
     - [List](http://samchon.github.io/stl/api/classes/std.list.html)
     - [Deque](http://samchon.github.io/stl/api/classes/std.deque.html)
     - Miscellaneous
-      - [Queue](http://samchon.github.io/stl/api/classes/std.queue.html)
-      - [Stack](http://samchon.github.io/stl/api/classes/std.stack.html)
-      - [PriorityQueue](http://samchon.github.io/stl/api/classes/std.priorityqueue.html)
-  - [Tree-structured Containers](http://samchon.github.io/stl/api/classes/std.base.tree.rbtree.html)
-    - [TreeSet](http://samchon.github.io/stl/api/classes/std.treeset.html), [TreeMultiSet](http://samchon.github.io/stl/api/classes/std.treemultiset.html)
-    - [TreeMap](http://samchon.github.io/stl/api/classes/std.treemap.html), [TreeMultiMap](http://samchon.github.io/stl/api/classes/std.treemultimap.html)
-  - [Hashed Containers](http://samchon.github.io/stl/api/classes/std.base.hash.hashbuckets.html)
-    - [HashSet](http://samchon.github.io/stl/api/classes/std.hashset.html), [HashMultiSet](http://samchon.github.io/stl/api/classes/std.hashmultiset.html)
-    - [HashMap](http://samchon.github.io/stl/api/classes/std.hashmap.html), [HashMultiMap](http://samchon.github.io/stl/api/classes/std.hashmultimap.html)
+      
+  - **Associative Containers**
+    - [**Tree-structured Containers**](http://samchon.github.io/stl/api/classes/std.base.tree.rbtree.html)
+      - [TreeSet](http://samchon.github.io/stl/api/classes/std.treeset.html)
+      - [TreeMap](http://samchon.github.io/stl/api/classes/std.treemap.html)
+      - [TreeMultiSet](http://samchon.github.io/stl/api/classes/std.treemultiset.html)
+      - [TreeMultiMap](http://samchon.github.io/stl/api/classes/std.treemultimap.html)
+    - [**Hashed Containers**](http://samchon.github.io/stl/api/classes/std.base.hash.hashbuckets.html)
+      - [HashSet](http://samchon.github.io/stl/api/classes/std.hashset.html)
+      - [HashMap](http://samchon.github.io/stl/api/classes/std.hashmap.html)
+      - [HashMultiSet](http://samchon.github.io/stl/api/classes/std.hashmultiset.html)
+      - [HashMultiMap](http://samchon.github.io/stl/api/classes/std.hashmultimap.html)
+  - **Adaptor Containers**
+    - [Queue](http://samchon.github.io/stl/api/classes/std.queue.html)
+    - [Stack](http://samchon.github.io/stl/api/classes/std.stack.html)
+    - [PriorityQueue](http://samchon.github.io/stl/api/classes/std.priorityqueue.html)
 
 ##### Global Functions
   - [&lt;algorithm&gt;](http://www.cplusplus.com/reference/algorithm)
@@ -47,12 +54,15 @@ You can learn and explore about TypeScript-STL more deeply with such below:
 
 
 ## Installation
+Installing *TypeScript-STL* in **node** is very easy. Just install with **npm**.
+
 #### Node
 ``` npm install -g typescript-stl ```
 
 ###### TypeScript
+Don't forget to referencing header files, ```typescript-stl.d.ts``` and ```node.d.ts```
+
 ``` typescript
-// SOMEWHERE PLACE NODE AND STL HEADERS EXIST
 /// <reference path="node.d.ts" />
 /// <reference path="typescript-stl.d.ts" />
 
@@ -61,20 +71,21 @@ let list: std.List<string> = new std.List<string>();
 ```
 
 ###### Pure JavaScript
+If you want to use *TypeScript-STL* in pure JavaScript, importing is much easier.
+
+However, it is not recommended because without TypeScript, you can't take advantage of enforcement of using type and template inspection. Note that, full name of **STL** is *Standard **Template** Library*.
+
 ``` javascript
 var std = require("typescript-stl");
 var list = new std.List();
 ```
 
 #### Browser
-###### In HTML Document
-``` html
-<script src="typescript-stl.js"></script>
-```
+*TypeScript-STL* follows *CommonJS* module. You can't use ```require``` statement of *RequireJS*, which is following *AMD* module. Just include *TypeScript-STL*'s *js file* with ```<script>``` tag.
 
-###### TypeScript, reference definitions (header)
-``` typescript
-/// <reference path="typescript-stl.d.ts" />
+###### In HTML Document
+``` javascript
+<script src="typescript-stl.js"></script>
 ```
 
 
