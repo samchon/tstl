@@ -9069,12 +9069,6 @@ declare namespace std.base {
     }
 }
 declare namespace std.base {
-    const MIN_SIZE: number;
-    const RATIO: number;
-    const MAX_RATIO: number;
-    function code(par: any): number;
-}
-declare namespace std.base {
     enum Hash {
         MIN_SIZE = 10,
         RATIO = 1,
