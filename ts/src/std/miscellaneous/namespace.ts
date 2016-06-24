@@ -3,7 +3,7 @@
  * <p> <a href="https://nodei.co/npm/typescript-stl">
  *	<img src="https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true"> </a> </p>
  * 
- * <p> GitHub Repository: https://github.com/samchon/stl </p>
+ * <p> GitHub Repository: https://github.com/samchon/typescript-stl </p>
  * 
  * <p> STL (Standard Template Library) Containers and Algorithms for TypeScript. </p>
  * 

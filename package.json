@@ -6,16 +6,16 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
 
   "main": "./lib/typescript-stl.js",
   "typings": "./lib/typescript-stl.d.ts",
-  "homepage": "https://github.com/samchon/stl",
+  "homepage": "https://github.com/samchon/typescript-stl",
   "repository": {
     "type": "git",
-    "url": "https://github.com/samchon/stl.git"
+    "url": "https://github.com/samchon/typescript-stl.git"
   },
-  "bugs": { "url": "https://github.com/samchon/stl/issues" },
+  "bugs": { "url": "https://github.com/samchon/typescript-stl/issues" },
 
   "licenses": [
     {

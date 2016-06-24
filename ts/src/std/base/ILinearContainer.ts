@@ -5,8 +5,8 @@ namespace std.base
 	/**
 	 * <p> An interface for linear containers.  </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
 	 * </p>
 	 *
 	 * @author Jeonngho Nam

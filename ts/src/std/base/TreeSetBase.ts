@@ -23,8 +23,8 @@ namespace std.base
 	 *
 	 * <p> {@link ITreeSet TreeMultiSets} are typically implemented as binary search trees. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -172,8 +172,8 @@ namespace std.base
 	/**
 	 * <p> A red-black Tree storing {@link SetIterator SetIterators}. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

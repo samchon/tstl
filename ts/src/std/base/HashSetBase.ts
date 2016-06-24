@@ -22,8 +22,8 @@ namespace std.base
 	 * elements by their <i>key</i>, although they are generally less efficient for range iteration through a 
 	 * subset of their elements. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -272,8 +272,8 @@ namespace std.base
 	/**
 	 * <p> Hash buckets storing {@link SetIterator SetIterators}. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

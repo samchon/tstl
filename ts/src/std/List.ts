@@ -28,8 +28,8 @@ namespace std
 	 * distance between these. They also consume some extra memory to keep the linking information associated to each 
 	 * element (which may be an important factor for large lists of small-sized elements). </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
 	 * </p>
 	 * 
 	 * <h3> Container properties </h3>
@@ -1083,8 +1083,8 @@ namespace std
 	/**
 	 * <p> An iterator, node of a List. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
 	 * </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
@@ -1248,8 +1248,8 @@ namespace std
 	/**
 	 * <p> A reverse-iterator of List. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
 	 * </p>
 	 *
 	 * @param <T> Type of the elements.
