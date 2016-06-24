@@ -32,7 +32,7 @@ namespace std
 	 * container {@link List} is used. </p>
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
 	 * </p>
 	 * 
 	 * @param <T> Type of elements.

@@ -17,7 +17,7 @@ namespace std.base
 	 * {@link ErrorCondition error conditions}. </p>
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </p>
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

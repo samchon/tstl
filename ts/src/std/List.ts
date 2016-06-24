@@ -29,7 +29,7 @@ namespace std
 	 * element (which may be an important factor for large lists of small-sized elements). </p>
 	 *
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
 	 * </p>
 	 * 
 	 * <h3> Container properties </h3>
@@ -1084,7 +1084,7 @@ namespace std
 	 * <p> An iterator, node of a List. </p>
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
 	 * </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
@@ -1249,7 +1249,7 @@ namespace std
 	 * <p> A reverse-iterator of List. </p>
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
 	 * </p>
 	 *
 	 * @param <T> Type of the elements.

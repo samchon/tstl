@@ -27,7 +27,7 @@ namespace std.base
 	 * <p> {@link ITreeMap TreeMultiMaps} are typically implemented as binary search trees. </p>
 	 *
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </p>
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -169,7 +169,7 @@ namespace std.base
 	 * <p> A red-black tree storing {@link MapIterator MapIterators}. </p>
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </p>
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /></a> </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

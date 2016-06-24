@@ -7,7 +7,7 @@ namespace std.base
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" style="max-width: 100%" /> 
-	 * </p>
+	 * </a> </p>
 	 *
 	 * <h3> Container properties </h3>
 	 * <dl>

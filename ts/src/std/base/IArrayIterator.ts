@@ -17,7 +17,7 @@ namespace std.base
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
-	 * </p>
+	 * </a> </p>
 	 *
 	 * @reference http://www.cplusplus.com/reference/iterator/RandomAccessIterator
 	 * @author Jeongho Nam <http://samchon.org>

@@ -16,7 +16,7 @@ namespace std
 	 * member code (and defines a specialized what member). </p>
 	 *
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </p>
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/system_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -105,7 +105,7 @@ namespace std
 	 * category: all error codes and conditions of a same category shall return a reference to same object. </p>
 	 *
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </p>
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/error_category
 	 * @author Jeongho Nam <http://samchon.org> 
@@ -273,7 +273,7 @@ namespace std
 	 * {@link ErrorCode} define the equivalences between them. </p>
 	 *
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </p>
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/error_condition
 	 * @author Jeongho Nam <http://samchon.org>
@@ -319,7 +319,7 @@ namespace std
 	 * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
 	 *
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </p>
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/error_code
 	 * @author Jeongho Nam <http://samchon.org>
