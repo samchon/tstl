@@ -43,11 +43,6 @@ namespace std.base
 		extends Container<T>
 	{
 		/**
-		 * Type definition of {@link SetContainer}'s {@link SetIterator iterator}.
-		 */
-		public static get iterator() { return SetIterator; }
-
-		/**
 		 * <p> {@link List} storing elements. </p>
 		 *
 		 * <p> Storing elements and keeping those sequence of the {@link SetContainer} are implemented by 

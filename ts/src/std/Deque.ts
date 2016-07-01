@@ -3,6 +3,20 @@
 /// <reference path="base/Container.ts" />
 /// <reference path="Iterator.ts" />
 
+/**
+ * @hidden
+ */
+namespace std.deque
+{
+	export type iterator<T> = std.DequeIterator<T>;
+	export type reverse_iterator<T> = std.DequeReverseIterator<T>;
+}
+namespace std.Deque
+{
+	export type Iterator<T> = std.DequeIterator<T>;
+	export type ReverseIterator<T> = std.DequeReverseIterator<T>;
+}
+
 namespace std
 {
 	/**
@@ -59,11 +73,6 @@ namespace std
 		extends base.Container<T>
 		implements base.IArrayContainer<T>, base.IDequeContainer<T>
 	{
-		/**
-		 * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
-		 */
-		public static get iterator() { return DequeIterator; }
-
 		/**
 		 * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
 		 *

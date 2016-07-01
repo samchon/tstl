@@ -23,6 +23,34 @@ declare module "typescript-stl"
  * @author Jeongho Nam <http://samchon.org>
  */
 declare namespace std {
+    type vector<T> = Vector<T>;
+    var vector: typeof Vector;
+    type list<T> = List<T>;
+    var list: typeof List;
+    type deque<T> = Deque<T>;
+    var deque: typeof Deque;
+    type stack<T> = Stack<T>;
+    var stack: typeof Stack;
+    type queue<T> = Queue<T>;
+    var queue: typeof Queue;
+    type priority_queue<T> = PriorityQueue<T>;
+    var priority_queue: typeof PriorityQueue;
+    type set<T> = TreeSet<T>;
+    var set: typeof TreeSet;
+    type multiset<T> = TreeMultiSet<T>;
+    var multiset: typeof TreeMultiSet;
+    type unordered_set<T> = HashSet<T>;
+    var unordered_set: typeof HashSet;
+    type unordered_multiset<T> = HashMultiSet<T>;
+    var unordered_multiset: typeof HashMultiSet;
+    type map<Key, T> = TreeMap<Key, T>;
+    var map: typeof TreeMap;
+    type multimap<Key, T> = TreeMultiMap<Key, T>;
+    var multimap: typeof TreeMultiMap;
+    type unordered_map<Key, T> = HashMap<Key, T>;
+    var unordered_map: typeof HashMap;
+    type unordered_multimap<Key, T> = HashMultiMap<Key, T>;
+    var unordered_multimap: typeof HashMultiMap;
 }
 /**
  * Base classes composing STL in background.
@@ -3074,6 +3102,17 @@ declare namespace std {
      */
     function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 }
+/**
+ * @hidden
+ */
+declare namespace std.deque {
+    type iterator<T> = std.DequeIterator<T>;
+    type reverse_iterator<T> = std.DequeReverseIterator<T>;
+}
+declare namespace std.Deque {
+    type Iterator<T> = std.DequeIterator<T>;
+    type ReverseIterator<T> = std.DequeReverseIterator<T>;
+}
 declare namespace std {
     /**
      * <p> Double ended queue. </p>
@@ -3126,10 +3165,6 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class Deque<T> extends base.Container<T> implements base.IArrayContainer<T>, base.IDequeContainer<T> {
-        /**
-         * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
-         */
-        static iterator: typeof DequeIterator;
         /**
          * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
          *
@@ -4361,10 +4396,6 @@ declare namespace std.base {
      */
     abstract class MapContainer<Key, T> extends base.Container<Pair<Key, T>> {
         /**
-         * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
-         */
-        static iterator: typeof MapIterator;
-        /**
          * <p> {@link List} storing elements. </p>
          *
          * <p> Storing elements and keeping those sequence of the {@link MapContainer} are implemented by
@@ -5092,6 +5123,17 @@ declare namespace std.base {
         swap(obj: MultiMap<Key, T>): void;
     }
 }
+/**
+ * @hidden
+ */
+declare namespace std.unordered_map {
+    type iterator<Key, T> = std.MapIterator<Key, T>;
+    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
+declare namespace std.HashMap {
+    type Iterator<Key, T> = std.MapIterator<Key, T>;
+    type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
 declare namespace std {
     /**
      * <p> Hashed, unordered map. </p>
@@ -5249,6 +5291,17 @@ declare namespace std {
          */
         private swap_hash_map(obj);
     }
+}
+/**
+ * @hidden
+ */
+declare namespace std.unordered_multimap {
+    type iterator<Key, T> = std.MapIterator<Key, T>;
+    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
+declare namespace std.HashMultiMap {
+    type Iterator<Key, T> = std.MapIterator<Key, T>;
+    type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 declare namespace std {
     /**
@@ -5451,10 +5504,6 @@ declare namespace std.base {
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class SetContainer<T> extends Container<T> {
-        /**
-         * Type definition of {@link SetContainer}'s {@link SetIterator iterator}.
-         */
-        static iterator: typeof SetIterator;
         /**
          * <p> {@link List} storing elements. </p>
          *
@@ -5934,6 +5983,17 @@ declare namespace std.base {
         swap(obj: MultiSet<T>): void;
     }
 }
+/**
+ * @inheritdoc
+ */
+declare namespace std.unordered_set {
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+declare namespace std.HashSet {
+    type Iterator<T> = std.SetIterator<T>;
+    type ReverseIterator<T> = std.SetReverseIterator<T>;
+}
 declare namespace std {
     /**
      * <p> Hashed, unordered set. </p>
@@ -6086,6 +6146,17 @@ declare namespace std {
          */
         private swap_tree_set(obj);
     }
+}
+/**
+ * @inheritdoc
+ */
+declare namespace std.unordered_multiset {
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+declare namespace std.HashMultiSet {
+    type Iterator<T> = std.SetIterator<T>;
+    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -6243,6 +6314,17 @@ declare namespace std {
          */
         private swap_tree_set(obj);
     }
+}
+/**
+ * @hidden
+ */
+declare namespace std.list {
+    type iterator<T> = std.ListIterator<T>;
+    type reverse_iterator<T> = std.ListReverseIterator<T>;
+}
+declare namespace std.List {
+    type Iterator<T> = std.ListIterator<T>;
+    type ReverseIterator<T> = std.ListReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -7753,6 +7835,17 @@ declare namespace std {
         constructor(val: number, category: ErrorCategory);
     }
 }
+/**
+ * @hidden
+ */
+declare namespace std.map {
+    type iterator<Key, T> = std.MapIterator<Key, T>;
+    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
+declare namespace std.TreeMap {
+    type Iterator<Key, T> = std.MapIterator<Key, T>;
+    type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
 declare namespace std {
     /**
      * <p> Tree-structured map, <code>std::map</code> of STL. </p>
@@ -7928,6 +8021,17 @@ declare namespace std {
          */
         private swap_tree_map(obj);
     }
+}
+/**
+ * @hidden
+ */
+declare namespace std.multimap {
+    type iterator<Key, T> = std.MapIterator<Key, T>;
+    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
+declare namespace std.TreeMultiMap {
+    type Iterator<Key, T> = std.MapIterator<Key, T>;
+    type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 declare namespace std {
     /**
@@ -8114,6 +8218,17 @@ declare namespace std {
         private swap_tree_multimap(obj);
     }
 }
+/**
+ * @inheritdoc
+ */
+declare namespace std.set {
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+declare namespace std.TreeSet {
+    type Iterator<T> = std.SetIterator<T>;
+    type ReverseIterator<T> = std.SetReverseIterator<T>;
+}
 declare namespace std {
     /**
      * <p> Tree-structured set, <code>std::set</code> of STL. </p>
@@ -8272,6 +8387,17 @@ declare namespace std {
          */
         private swap_tree_set(obj);
     }
+}
+/**
+ * @inheritdoc
+ */
+declare namespace std.multiset {
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+declare namespace std.TreeMultiSet {
+    type Iterator<T> = std.SetIterator<T>;
+    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -8511,6 +8637,17 @@ declare namespace std {
      */
     function make_pair<T1, T2>(x: T1, y: T2): Pair<T1, T2>;
 }
+/**
+ * @hidden
+ */
+declare namespace std.vector {
+    type iterator<T> = std.VectorIterator<T>;
+    type reverse_iterator<T> = std.VectorReverseIterator<T>;
+}
+declare namespace std.Vector {
+    type Iterator<T> = std.VectorIterator<T>;
+    type ReverseIterator<T> = std.VectorReverseIterator<T>;
+}
 declare namespace std {
     /**
      * <p> Vector, the dynamic array. </p>
@@ -8545,7 +8682,7 @@ declare namespace std {
      *
      * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
      * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" />
-     * </p>
+     * </a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8568,10 +8705,6 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class Vector<T> extends Array<T> implements base.IArrayContainer<T> {
-        /**
-         * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
-         */
-        static iterator: typeof VectorIterator;
         /**
          * <p> Default Constructor. </p>
          *

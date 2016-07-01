@@ -2,6 +2,20 @@
 
 /// <reference path="Iterator.ts" />
 
+/**
+ * @hidden
+ */
+namespace std.vector
+{
+	export type iterator<T> = std.VectorIterator<T>;
+	export type reverse_iterator<T> = std.VectorReverseIterator<T>;
+}
+namespace std.Vector
+{
+	export type Iterator<T> = std.VectorIterator<T>;
+	export type ReverseIterator<T> = std.VectorReverseIterator<T>;
+}
+
 namespace std
 {
 	/**
@@ -37,7 +51,7 @@ namespace std
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> 
-	 * </p>
+	 * </a> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -63,11 +77,6 @@ namespace std
 		extends Array<T>
 		implements base.IArrayContainer<T>
 	{
-		/**
-		 * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
-		 */
-		public static get iterator() { return VectorIterator; }
-
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
 				- CONSTRUCTORS

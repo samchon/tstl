@@ -3,6 +3,20 @@
 /// <reference path="base/Container.ts" />
 /// <reference path="Iterator.ts" />
 
+/**
+ * @hidden
+ */
+namespace std.list
+{
+	export type iterator<T> = std.ListIterator<T>;
+	export type reverse_iterator<T> = std.ListReverseIterator<T>;
+}
+namespace std.List
+{
+	export type Iterator<T> = std.ListIterator<T>;
+	export type ReverseIterator<T> = std.ListReverseIterator<T>;
+}
+
 namespace std
 {
 	/**

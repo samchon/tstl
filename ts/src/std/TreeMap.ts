@@ -3,6 +3,20 @@
 /// <reference path="base/UniqueMap.ts" />
 /// <reference path="base/MultiMap.ts" />
 
+/**
+ * @hidden
+ */
+namespace std.map
+{
+	export type iterator<Key, T> = std.MapIterator<Key, T>;
+	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
+namespace std.TreeMap
+{
+	export type Iterator<Key, T> = std.MapIterator<Key, T>;
+	export type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
+
 namespace std
 {
 	/**
@@ -383,6 +397,20 @@ namespace std
 			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
+}
+
+/**
+ * @hidden
+ */
+namespace std.multimap
+{
+	export type iterator<Key, T> = std.MapIterator<Key, T>;
+	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+}
+namespace std.TreeMultiMap
+{
+	export type Iterator<Key, T> = std.MapIterator<Key, T>;
+	export type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 
 namespace std

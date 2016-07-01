@@ -50,11 +50,6 @@ namespace std.base
 		extends base.Container<Pair<Key, T>>
 	{
 		/**
-		 * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
-		 */
-		public static get iterator() { return MapIterator; }
-
-		/**
 		 * <p> {@link List} storing elements. </p>
 		 *
 		 * <p> Storing elements and keeping those sequence of the {@link MapContainer} are implemented by

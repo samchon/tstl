@@ -49,7 +49,7 @@ You can learn and explore about TypeScript-STL more deeply with such below:
 
   - [Guidebook (wiki)](https://github.com/samchon/typescript-stl/wiki)
   - [API Documents](http://samchon.github.io/typescript-stl/api)
-  - [Class Diagram](https://samchon.github.io/stl/design/class_diagram.pdf)
+  - [Class Diagram](https://samchon.github.io/typescript-stl/design/class_diagram.pdf)
 
 
 

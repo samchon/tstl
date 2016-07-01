@@ -1,5 +1,7 @@
 ﻿/// <reference path="../API.ts" />
 
+/// <reference path="../List.ts" />
+
 namespace std.example
 {
 	export function test_list(): void

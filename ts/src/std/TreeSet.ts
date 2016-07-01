@@ -3,6 +3,20 @@
 /// <reference path="base/UniqueSet.ts" />
 /// <reference path="base/MultiSet.ts" />
 
+/**
+ * @inheritdoc
+ */
+namespace std.set
+{
+	export type iterator<T> = std.SetIterator<T>;
+	export type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+namespace std.TreeSet
+{
+	export type Iterator<T> = std.SetIterator<T>;
+	export type ReverseIterator<T> = std.SetReverseIterator<T>;
+}
+
 namespace std
 {
 	/**
@@ -366,6 +380,20 @@ namespace std
 			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
+}
+
+/**
+ * @inheritdoc
+ */
+namespace std.multiset
+{
+	export type iterator<T> = std.SetIterator<T>;
+	export type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+namespace std.TreeMultiSet
+{
+	export type Iterator<T> = std.SetIterator<T>;
+	export type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 
 namespace std

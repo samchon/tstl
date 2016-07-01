@@ -3,7 +3,37 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="miscellaneous/namespace.ts" /> 
+/**
+ * <h1> TypeScript-STL </h1>
+ * <p> <a href="https://nodei.co/npm/typescript-stl">
+ *	<img src="https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true"> </a> </p>
+ *
+ * <p> GitHub Repository: https://github.com/samchon/typescript-stl </p>
+ *
+ * <p> STL (Standard Template Library) Containers and Algorithms for TypeScript. </p>
+ *
+ * <p> TypeScript-STL is a TypeScript's <b>Standard Template Library</b> who is migrated from C++ STL. Most of classes
+ * and functions of STL have implemented. Just enjoy it. </p>
+ *
+ * @author Jeongho Nam <http://samchon.org>
+ */
+var std;
+(function (std) {
+    std.vector = std.Vector;
+    std.list = std.List;
+    std.deque = std.Deque;
+    std.stack = std.Stack;
+    std.queue = std.Queue;
+    std.priority_queue = std.PriorityQueue;
+    std.set = std.TreeSet;
+    std.multiset = std.TreeMultiSet;
+    std.unordered_set = std.HashSet;
+    std.unordered_multiset = std.HashMultiSet;
+    std.map = std.TreeMap;
+    std.multimap = std.TreeMultiMap;
+    std.unordered_map = std.HashMap;
+    std.unordered_multimap = std.HashMultiMap;
+})(std || (std = {}));
 /// <reference path="API.ts" />
 // Standard Template Library: Algorithms
 // The header <algorithm> defines a collection of functions especially designed to be used on ranges of elements.
@@ -2539,14 +2569,6 @@ var std;
                     this.construct_from_range(args[0], args[1]);
                 }
             }
-            Object.defineProperty(MapContainer, "iterator", {
-                /**
-                 * Type definition of {@link MapContainer}'s {@link MapIterator iterator}.
-                 */
-                get: function () { return std.MapIterator; },
-                enumerable: true,
-                configurable: true
-            });
             /**
              * @hidden
              */
@@ -3135,14 +3157,6 @@ var std;
                     this.construct_from_range(args[0], args[1]);
                 }
             }
-            Object.defineProperty(SetContainer, "iterator", {
-                /**
-                 * Type definition of {@link SetContainer}'s {@link SetIterator iterator}.
-                 */
-                get: function () { return std.SetIterator; },
-                enumerable: true,
-                configurable: true
-            });
             /**
              * @hidden
              */
@@ -5190,14 +5204,6 @@ var std;
                 this.assign(begin_1, end_1);
             }
         }
-        Object.defineProperty(Deque, "iterator", {
-            /**
-             * Type definition of {@link Deque}'s {@link DequeIterator iterator}.
-             */
-            get: function () { return std.DequeIterator; },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(Deque, "ROW", {
             /**
              * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
@@ -5989,7 +5995,644 @@ var std;
         example.test_hash_map = test_hash_map;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
+/// <reference path="API.ts" />
+/// <reference path="base/Container.ts" />
+/// <reference path="Iterator.ts" />
+var std;
+(function (std) {
+    /**
+     * <p> Doubly linked list. </p>
+     *
+     * <p> {@link List}s are sequence containers that allow constant time insert and erase operations anywhere within the
+     * sequence, and iteration in both directions. </p>
+     *
+     * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements they
+     * contain in different and unrelated storage locations. The ordering is kept internally by the association to each
+     * element of a link to the element preceding it and a link to the element following it. </p>
+     *
+     * <p> They are very similar to forward_list: The main difference being that forward_list objects are single-linked
+     * lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and more efficient. </p>
+     *
+     * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform generally better
+     * in inserting, extracting and moving elements in any position within the container for which an iterator has already
+     * been obtained, and therefore also in algorithms that make intensive use of these, like sorting algorithms. </p>
+     *
+     * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that they lack
+     * direct access to the elements by their position; For example, to access the sixth element in a list, one has to
+     * iterate from a known position (like the beginning or the end) to that position, which takes linear time in the
+     * distance between these. They also consume some extra memory to keep the linking information associated to each
+     * element (which may be an important factor for large lists of small-sized elements). </p>
+     *
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * </p>
+     *
+     * <h3> Container properties </h3>
+     * <dl>
+     * 	<dt> Sequence </dt>
+     * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are accessed by
+     *		 their position in this sequence. </dd>
+     *
+     * 	<dt> Doubly-linked list </dt>
+     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant time
+     *		 insert and erase operations before or after a specific element (even of entire ranges), but no direct random
+     *		 access. </dd>
+     * </dl>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @reference http://www.cplusplus.com/reference/list/list/
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var List = (function (_super) {
+        __extends(List, _super);
+        function List() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this);
+            // INIT MEMBERS
+            this.end_ = new std.ListIterator(this, null, null, null);
+            this.end_.set_prev(this.end_);
+            this.end_.set_next(this.end_);
+            this.begin_ = this.end_;
+            this.size_ = 0;
+            // BRANCHES
+            if (args.length == 0) {
+            }
+            else if (args.length == 1 && args[0] instanceof Array) {
+                var array = args[0];
+                this.push.apply(this, array);
+            }
+            else if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof std.base.Container)) {
+                var container = args[0];
+                this.assign(container.begin(), container.end());
+            }
+            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
+                var begin_3 = args[0];
+                var end_3 = args[1];
+                this.assign(begin_3, end_3);
+            }
+            else if (args.length == 2 && typeof args[0] == "number") {
+                var size = args[0];
+                var val = args[1];
+                this.assign(size, val);
+            }
+        }
+        List.prototype.assign = function (par1, par2) {
+            this.clear();
+            this.insert(this.end(), par1, par2);
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.clear = function () {
+            // DISCONNECT NODES
+            this.begin_ = this.end_;
+            this.end_.set_prev(this.end_);
+            this.end_.set_next(this.end_);
+            // RE-SIZE -> 0
+            this.size_ = 0;
+        };
+        /* =========================================================
+            ACCESSORS
+        ========================================================= */
+        /**
+         * @inheritdoc
+         */
+        List.prototype.begin = function () {
+            return this.begin_;
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.end = function () {
+            return this.end_;
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.rbegin = function () {
+            return new std.ListReverseIterator(this.end());
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.rend = function () {
+            return new std.ListReverseIterator(this.begin());
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.size = function () {
+            return this.size_;
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.front = function () {
+            return this.begin_.value;
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.back = function () {
+            return this.end_.prev().value;
+        };
+        /* =========================================================
+            ELEMENTS I/O
+                - PUSH & POP
+                - INSERT
+                - ERASE
+                - POST-PROCESS
+        ============================================================
+            PUSH & POP
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        List.prototype.push = function () {
+            var items = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                items[_i - 0] = arguments[_i];
+            }
+            var prev = this.end().prev();
+            var first = null;
+            for (var i = 0; i < items.length; i++) {
+                // CONSTRUCT ITEM, THE NEW ELEMENT
+                var item = new std.ListIterator(this, prev, null, items[i]);
+                if (i == 0)
+                    first = item;
+                prev.set_next(item);
+                prev = item;
+            }
+            // IF WAS EMPTY, VAL IS THE BEGIN
+            if (this.empty() == true || first.prev().equal_to(this.end()) == true)
+                this.begin_ = first;
+            // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
+            prev.set_next(this.end_);
+            this.end_.set_prev(prev);
+            this.size_ += items.length;
+            return this.size();
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.push_front = function (val) {
+            this.insert(this.begin(), val);
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.push_back = function (val) {
+            this.insert(this.end(), val);
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.pop_front = function () {
+            this.erase(this.begin_);
+        };
+        /**
+         * @inheritdoc
+         */
+        List.prototype.pop_back = function () {
+            this.erase(this.end_.prev());
+        };
+        List.prototype.insert = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            // REVERSE_ITERATOR TO ITERATOR
+            var ret;
+            var is_reverse_iterator = false;
+            if (args[0] instanceof std.ListReverseIterator) {
+                is_reverse_iterator = true;
+                args[0] = args[0].base().prev();
+            }
+            // BRANCHES
+            if (args.length == 2)
+                ret = this.insert_by_val(args[0], args[1]);
+            else if (args.length == 3 && typeof args[1] == "number")
+                ret = this.insert_by_repeating_val(args[0], args[1], args[2]);
+            else
+                ret = this.insert_by_range(args[0], args[1], args[2]);
+            // RETURNS
+            if (is_reverse_iterator == true)
+                return new std.ListReverseIterator(ret.next());
+            else
+                return ret;
+        };
+        /**
+         * @hidden
+         */
+        List.prototype.insert_by_val = function (position, val) {
+            // SHIFT TO INSERT OF THE REPEATING VAL
+            return this.insert_by_repeating_val(position, 1, val);
+        };
+        /**
+         * @hidden
+         */
+        List.prototype.insert_by_repeating_val = function (position, size, val) {
+            // INVALID ITERATOR
+            if (this != position.get_source())
+                throw new std.InvalidArgument("Parametric iterator is not this container's own.");
+            var prev = position.prev();
+            var first = null;
+            for (var i = 0; i < size; i++) {
+                // CONSTRUCT ITEM, THE NEW ELEMENT
+                var item = new std.ListIterator(this, prev, null, val);
+                if (i == 0)
+                    first = item;
+                prev.set_next(item);
+                // SHIFT ITEM LEFT TO BE PREV
+                prev = item;
+            }
+            // IF WAS EMPTY, VAL IS THE BEGIN
+            if (this.empty() == true || first.prev().equal_to(this.end()) == true)
+                this.begin_ = first;
+            // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
+            prev.set_next(position);
+            position.set_prev(prev);
+            this.size_ += size;
+            return first;
+        };
+        /**
+         * @hidden
+         */
+        List.prototype.insert_by_range = function (position, begin, end) {
+            // INVALID ITERATOR
+            if (this != position.get_source())
+                throw new std.InvalidArgument("Parametric iterator is not this container's own.");
+            var prev = position.prev();
+            var first = null;
+            var size = 0;
+            for (var it = begin; it.equal_to(end) == false; it = it.next()) {
+                // CONSTRUCT ITEM, THE NEW ELEMENT
+                var item = new std.ListIterator(this, prev, null, it.value);
+                if (size == 0)
+                    first = item;
+                if (prev != null)
+                    prev.set_next(item);
+                // SHIFT CURRENT ITEM TO PREVIOUS
+                prev = item;
+                size++;
+            }
+            // IF WAS EMPTY, FIRST ELEMENT IS THE BEGIN
+            if (this.empty() == true)
+                this.begin_ = first;
+            // CONNECT BETWEEN LAST AND POSITION
+            prev.set_next(position);
+            position.set_prev(prev);
+            this.size_ += size;
+            return first;
+        };
+        List.prototype.erase = function (first, last) {
+            if (last === void 0) { last = first.next(); }
+            var ret;
+            var is_reverse_iterator = false;
+            // REVERSE ITERATOR TO ITERATOR
+            if (first instanceof std.ListReverseIterator) {
+                is_reverse_iterator = true;
+                var first_it = last.base();
+                var last_it = first.base();
+                first = first_it;
+                last = last_it;
+            }
+            // ERASE ELEMENTS
+            ret = this.erase_by_range(first, last);
+            // RETURN BRANCHES
+            if (is_reverse_iterator == true)
+                return new std.ListReverseIterator(ret.next());
+            else
+                return ret;
+        };
+        /**
+         * @hidden
+         */
+        List.prototype.erase_by_range = function (first, last) {
+            // FIND PREV AND NEXT
+            var prev = first.prev();
+            // CALCULATE THE SIZE
+            var size = std.distance(first, last);
+            // SHRINK
+            prev.set_next(last);
+            last.set_prev(prev);
+            this.size_ -= size;
+            if (this.size_ == 0)
+                this.begin_ = this.end_;
+            return last;
+        };
+        List.prototype.unique = function (binary_pred) {
+            if (binary_pred === void 0) { binary_pred = std.equal_to; }
+            var it = this.begin().next();
+            while (!it.equal_to(this.end())) {
+                if (std.equal_to(it.value, it.prev().value) == true)
+                    it = this.erase(it);
+                else
+                    it = it.next();
+            }
+        };
+        /**
+         * <p> Remove elements with specific value. </p>
+         *
+         * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the
+         * destructor of these objects and reduces the container {@link size} by the number of elements removed. </p>
+         *
+         * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an
+         * iterator), this function ({@link List.remove}) removes elements by their value. </p>
+         *
+         * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an
+         * equality comparison to determine whether an element is removed. </p>
+         *
+         * @param val Value of the elements to be removed.
+         */
+        List.prototype.remove = function (val) {
+            var it = this.begin();
+            while (!it.equal_to(this.end())) {
+                if (std.equal_to(it.value, val) == true)
+                    it = this.erase(it);
+                else
+                    it = it.next();
+            }
+        };
+        /**
+         * <p> Remove elements fulfilling condition. </p>
+         *
+         * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This
+         * calls the destructor of these objects and reduces the container {@link size} by the number of elements
+         * removed. </p>
+         *
+         * <p> The function calls <code>pred(it.value)</code> for each element (where <code>it</code> is an iterator
+         * to that element). Any of the elements in the list for which this returns <code>true</code>, are removed
+         * from the  </p>
+         *
+         * @param pred Unary predicate that, taking a value of the same type as those contained in the forward_list
+         *			   object, returns <code>true</code> for those values to be removed from the container, and
+         *			   <code>false</code> for those remaining. This can either be a function pointer or a function
+         *			   object.
+         */
+        List.prototype.remove_if = function (pred) {
+            var it = this.begin();
+            while (!it.equal_to(this.end())) {
+                if (pred(it.value) == true)
+                    it = this.erase(it);
+                else
+                    it = it.next();
+            }
+        };
+        List.prototype.merge = function (obj, compare) {
+            if (compare === void 0) { compare = std.less; }
+            if (this == obj)
+                return;
+            var it = this.begin();
+            while (obj.empty() == false) {
+                var begin_4 = obj.begin();
+                while (!it.equal_to(this.end()) && compare(it.value, begin_4.value) == true)
+                    it = it.next();
+                this.splice(it, obj, begin_4);
+            }
+        };
+        List.prototype.splice = function (position, obj, begin, end) {
+            if (begin === void 0) { begin = null; }
+            if (end === void 0) { end = null; }
+            if (begin == null) {
+                begin = obj.begin();
+                end = obj.end();
+            }
+            else if (end == null) {
+                end = begin.next();
+            }
+            this.insert(position, begin, end);
+            obj.erase(begin, end);
+        };
+        List.prototype.sort = function (compare) {
+            if (compare === void 0) { compare = std.less; }
+            var vector = new std.Vector(this.begin(), this.end());
+            std.sort(vector.begin(), vector.end());
+            // IT CALLS HANDLE_INSERT
+            // this.assign(vector.begin(), vector.end());
+            ///////
+            // INSTEAD OF ASSIGN
+            ///////
+            var prev = this.end_;
+            var first = null;
+            for (var i = 0; i < vector.length; i++) {
+                // CONSTRUCT ITEM, THE NEW ELEMENT
+                var item = new std.ListIterator(this, prev, null, vector[i]);
+                if (i == 0)
+                    first = item;
+                prev.set_next(item);
+                prev = item;
+            }
+            this.begin_ = first;
+            // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
+            prev.set_next(this.end_);
+            this.end_.set_prev(prev);
+        };
+        /* ---------------------------------------------------------
+            SWAP
+        --------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        List.prototype.swap = function (obj) {
+            if (obj instanceof List)
+                this.swap_list(obj);
+            else
+                _super.prototype.swap.call(this, obj);
+        };
+        /**
+         * @hidden
+         */
+        List.prototype.swap_list = function (obj) {
+            _a = [obj.begin_, this.begin_], this.begin_ = _a[0], obj.begin_ = _a[1];
+            _b = [obj.end_, this.end_], this.end_ = _b[0], obj.end_ = _b[1];
+            _c = [obj.size_, this.size_], this.size_ = _c[0], obj.size_ = _c[1];
+            var _a, _b, _c;
+        };
+        return List;
+    }(std.base.Container));
+    std.List = List;
+})(std || (std = {}));
+var std;
+(function (std) {
+    /**
+     * <p> An iterator, node of a List. </p>
+     *
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * </p>
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var ListIterator = (function (_super) {
+        __extends(ListIterator, _super);
+        /* ---------------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------------- */
+        /**
+         * <p> Construct from the source {@link List container}. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Do not create the iterator directly, by yourself. </p>
+         * <p> Use {@link List.begin begin()}, {@link List.end end()} in {@link List container} instead. </p>
+         *
+         * @param source The source {@link List container} to reference.
+         * @param prev A refenrece of previous node ({@link ListIterator iterator}).
+         * @param next A refenrece of next node ({@link ListIterator iterator}).
+         * @param value Value to be stored in the node (iterator).
+         */
+        function ListIterator(source, prev, next, value) {
+            _super.call(this, source);
+            this.prev_ = prev;
+            this.next_ = next;
+            this.value_ = value;
+        }
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.set_prev = function (it) {
+            this.prev_ = it;
+        };
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.set_next = function (next) {
+            this.next_ = next;
+        };
+        /* ---------------------------------------------------------------
+            ACCESSORS
+        --------------------------------------------------------------- */
+        ListIterator.prototype.list = function () {
+            return this.source_;
+        };
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.prev = function () {
+            return this.prev_;
+        };
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.next = function () {
+            return this.next_;
+        };
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.advance = function (step) {
+            var it = this;
+            if (step >= 0) {
+                for (var i = 0; i < step; i++) {
+                    it = it.next();
+                    if (it.equal_to(this.source_.end()))
+                        return it;
+                }
+            }
+            else {
+                for (var i = 0; i < step; i++) {
+                    it = it.prev();
+                    if (it.equal_to(this.source_.end()))
+                        return it;
+                }
+            }
+            return it;
+        };
+        Object.defineProperty(ListIterator.prototype, "value", {
+            /**
+             * @inheritdoc
+             */
+            get: function () {
+                return this.value_;
+            },
+            set: function (val) {
+                this.value_ = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /* ---------------------------------------------------------------
+            COMPARISON
+        --------------------------------------------------------------- */
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.equal_to = function (obj) {
+            return this == obj;
+        };
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.swap = function (obj) {
+            var supp_prev = this.prev_;
+            var supp_next = this.next_;
+            this.prev_ = obj.prev_;
+            this.next_ = obj.next_;
+            obj.prev_ = supp_prev;
+            obj.next_ = supp_next;
+            if (this.source_.end() == this)
+                this.source_.end_ = obj;
+            else if (this.source_.end() == obj)
+                this.source_.end_ = this;
+            if (this.source_.begin() == this)
+                this.source_.begin_ = obj;
+            else if (this.source_.begin() == obj)
+                this.source_.begin_ = this;
+        };
+        return ListIterator;
+    }(std.Iterator));
+    std.ListIterator = ListIterator;
+})(std || (std = {}));
+var std;
+(function (std) {
+    /**
+     * <p> A reverse-iterator of List. </p>
+     *
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+     * </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @author Jeongho Nam <http://samchon.org>
+     */
+    var ListReverseIterator = (function (_super) {
+        __extends(ListReverseIterator, _super);
+        /* ---------------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------------- */
+        function ListReverseIterator(base) {
+            _super.call(this, base);
+        }
+        /**
+         * @inheritdoc
+         */
+        ListReverseIterator.prototype.create_neighbor = function () {
+            return new ListReverseIterator(null);
+        };
+        Object.defineProperty(ListReverseIterator.prototype, "value", {
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            /**
+             * @inheritdoc
+             */
+            set: function (val) {
+                this.base_.value = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ListReverseIterator;
+    }(std.ReverseIterator));
+    std.ListReverseIterator = ListReverseIterator;
+})(std || (std = {}));
 /// <reference path="../API.ts" />
+/// <reference path="../List.ts" />
 var std;
 (function (std) {
     var example;
@@ -8031,642 +8674,6 @@ var std;
     std.HashMultiSet = HashMultiSet;
 })(std || (std = {}));
 /// <reference path="API.ts" />
-/// <reference path="base/Container.ts" />
-/// <reference path="Iterator.ts" />
-var std;
-(function (std) {
-    /**
-     * <p> Doubly linked list. </p>
-     *
-     * <p> {@link List}s are sequence containers that allow constant time insert and erase operations anywhere within the
-     * sequence, and iteration in both directions. </p>
-     *
-     * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements they
-     * contain in different and unrelated storage locations. The ordering is kept internally by the association to each
-     * element of a link to the element preceding it and a link to the element following it. </p>
-     *
-     * <p> They are very similar to forward_list: The main difference being that forward_list objects are single-linked
-     * lists, and thus they can only be iterated forwards, in exchange for being somewhat smaller and more efficient. </p>
-     *
-     * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform generally better
-     * in inserting, extracting and moving elements in any position within the container for which an iterator has already
-     * been obtained, and therefore also in algorithms that make intensive use of these, like sorting algorithms. </p>
-     *
-     * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that they lack
-     * direct access to the elements by their position; For example, to access the sixth element in a list, one has to
-     * iterate from a known position (like the beginning or the end) to that position, which takes linear time in the
-     * distance between these. They also consume some extra memory to keep the linking information associated to each
-     * element (which may be an important factor for large lists of small-sized elements). </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
-     * </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     * 	<dt> Sequence </dt>
-     * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are accessed by
-     *		 their position in this sequence. </dd>
-     *
-     * 	<dt> Doubly-linked list </dt>
-     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant time
-     *		 insert and erase operations before or after a specific element (even of entire ranges), but no direct random
-     *		 access. </dd>
-     * </dl>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @reference http://www.cplusplus.com/reference/list/list/
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    var List = (function (_super) {
-        __extends(List, _super);
-        function List() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            _super.call(this);
-            // INIT MEMBERS
-            this.end_ = new std.ListIterator(this, null, null, null);
-            this.end_.set_prev(this.end_);
-            this.end_.set_next(this.end_);
-            this.begin_ = this.end_;
-            this.size_ = 0;
-            // BRANCHES
-            if (args.length == 0) {
-            }
-            else if (args.length == 1 && args[0] instanceof Array) {
-                var array = args[0];
-                this.push.apply(this, array);
-            }
-            else if (args.length == 1 && (args[0] instanceof std.Vector || args[0] instanceof std.base.Container)) {
-                var container = args[0];
-                this.assign(container.begin(), container.end());
-            }
-            else if (args.length == 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
-                var begin_3 = args[0];
-                var end_3 = args[1];
-                this.assign(begin_3, end_3);
-            }
-            else if (args.length == 2 && typeof args[0] == "number") {
-                var size = args[0];
-                var val = args[1];
-                this.assign(size, val);
-            }
-        }
-        List.prototype.assign = function (par1, par2) {
-            this.clear();
-            this.insert(this.end(), par1, par2);
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.clear = function () {
-            // DISCONNECT NODES
-            this.begin_ = this.end_;
-            this.end_.set_prev(this.end_);
-            this.end_.set_next(this.end_);
-            // RE-SIZE -> 0
-            this.size_ = 0;
-        };
-        /* =========================================================
-            ACCESSORS
-        ========================================================= */
-        /**
-         * @inheritdoc
-         */
-        List.prototype.begin = function () {
-            return this.begin_;
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.end = function () {
-            return this.end_;
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.rbegin = function () {
-            return new std.ListReverseIterator(this.end());
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.rend = function () {
-            return new std.ListReverseIterator(this.begin());
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.size = function () {
-            return this.size_;
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.front = function () {
-            return this.begin_.value;
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.back = function () {
-            return this.end_.prev().value;
-        };
-        /* =========================================================
-            ELEMENTS I/O
-                - PUSH & POP
-                - INSERT
-                - ERASE
-                - POST-PROCESS
-        ============================================================
-            PUSH & POP
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        List.prototype.push = function () {
-            var items = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                items[_i - 0] = arguments[_i];
-            }
-            var prev = this.end().prev();
-            var first = null;
-            for (var i = 0; i < items.length; i++) {
-                // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new std.ListIterator(this, prev, null, items[i]);
-                if (i == 0)
-                    first = item;
-                prev.set_next(item);
-                prev = item;
-            }
-            // IF WAS EMPTY, VAL IS THE BEGIN
-            if (this.empty() == true || first.prev().equal_to(this.end()) == true)
-                this.begin_ = first;
-            // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-            prev.set_next(this.end_);
-            this.end_.set_prev(prev);
-            this.size_ += items.length;
-            return this.size();
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.push_front = function (val) {
-            this.insert(this.begin(), val);
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.push_back = function (val) {
-            this.insert(this.end(), val);
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.pop_front = function () {
-            this.erase(this.begin_);
-        };
-        /**
-         * @inheritdoc
-         */
-        List.prototype.pop_back = function () {
-            this.erase(this.end_.prev());
-        };
-        List.prototype.insert = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            // REVERSE_ITERATOR TO ITERATOR
-            var ret;
-            var is_reverse_iterator = false;
-            if (args[0] instanceof std.ListReverseIterator) {
-                is_reverse_iterator = true;
-                args[0] = args[0].base().prev();
-            }
-            // BRANCHES
-            if (args.length == 2)
-                ret = this.insert_by_val(args[0], args[1]);
-            else if (args.length == 3 && typeof args[1] == "number")
-                ret = this.insert_by_repeating_val(args[0], args[1], args[2]);
-            else
-                ret = this.insert_by_range(args[0], args[1], args[2]);
-            // RETURNS
-            if (is_reverse_iterator == true)
-                return new std.ListReverseIterator(ret.next());
-            else
-                return ret;
-        };
-        /**
-         * @hidden
-         */
-        List.prototype.insert_by_val = function (position, val) {
-            // SHIFT TO INSERT OF THE REPEATING VAL
-            return this.insert_by_repeating_val(position, 1, val);
-        };
-        /**
-         * @hidden
-         */
-        List.prototype.insert_by_repeating_val = function (position, size, val) {
-            // INVALID ITERATOR
-            if (this != position.get_source())
-                throw new std.InvalidArgument("Parametric iterator is not this container's own.");
-            var prev = position.prev();
-            var first = null;
-            for (var i = 0; i < size; i++) {
-                // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new std.ListIterator(this, prev, null, val);
-                if (i == 0)
-                    first = item;
-                prev.set_next(item);
-                // SHIFT ITEM LEFT TO BE PREV
-                prev = item;
-            }
-            // IF WAS EMPTY, VAL IS THE BEGIN
-            if (this.empty() == true || first.prev().equal_to(this.end()) == true)
-                this.begin_ = first;
-            // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-            prev.set_next(position);
-            position.set_prev(prev);
-            this.size_ += size;
-            return first;
-        };
-        /**
-         * @hidden
-         */
-        List.prototype.insert_by_range = function (position, begin, end) {
-            // INVALID ITERATOR
-            if (this != position.get_source())
-                throw new std.InvalidArgument("Parametric iterator is not this container's own.");
-            var prev = position.prev();
-            var first = null;
-            var size = 0;
-            for (var it = begin; it.equal_to(end) == false; it = it.next()) {
-                // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new std.ListIterator(this, prev, null, it.value);
-                if (size == 0)
-                    first = item;
-                if (prev != null)
-                    prev.set_next(item);
-                // SHIFT CURRENT ITEM TO PREVIOUS
-                prev = item;
-                size++;
-            }
-            // IF WAS EMPTY, FIRST ELEMENT IS THE BEGIN
-            if (this.empty() == true)
-                this.begin_ = first;
-            // CONNECT BETWEEN LAST AND POSITION
-            prev.set_next(position);
-            position.set_prev(prev);
-            this.size_ += size;
-            return first;
-        };
-        List.prototype.erase = function (first, last) {
-            if (last === void 0) { last = first.next(); }
-            var ret;
-            var is_reverse_iterator = false;
-            // REVERSE ITERATOR TO ITERATOR
-            if (first instanceof std.ListReverseIterator) {
-                is_reverse_iterator = true;
-                var first_it = last.base();
-                var last_it = first.base();
-                first = first_it;
-                last = last_it;
-            }
-            // ERASE ELEMENTS
-            ret = this.erase_by_range(first, last);
-            // RETURN BRANCHES
-            if (is_reverse_iterator == true)
-                return new std.ListReverseIterator(ret.next());
-            else
-                return ret;
-        };
-        /**
-         * @hidden
-         */
-        List.prototype.erase_by_range = function (first, last) {
-            // FIND PREV AND NEXT
-            var prev = first.prev();
-            // CALCULATE THE SIZE
-            var size = std.distance(first, last);
-            // SHRINK
-            prev.set_next(last);
-            last.set_prev(prev);
-            this.size_ -= size;
-            if (this.size_ == 0)
-                this.begin_ = this.end_;
-            return last;
-        };
-        List.prototype.unique = function (binary_pred) {
-            if (binary_pred === void 0) { binary_pred = std.equal_to; }
-            var it = this.begin().next();
-            while (!it.equal_to(this.end())) {
-                if (std.equal_to(it.value, it.prev().value) == true)
-                    it = this.erase(it);
-                else
-                    it = it.next();
-            }
-        };
-        /**
-         * <p> Remove elements with specific value. </p>
-         *
-         * <p> Removes from the container all the elements that compare equal to <i>val</i>. This calls the
-         * destructor of these objects and reduces the container {@link size} by the number of elements removed. </p>
-         *
-         * <p> Unlike member function {@link List.erase}, which erases elements by their position (using an
-         * iterator), this function ({@link List.remove}) removes elements by their value. </p>
-         *
-         * <p> A similar function, {@link List.remove_if}, exists, which allows for a condition other than an
-         * equality comparison to determine whether an element is removed. </p>
-         *
-         * @param val Value of the elements to be removed.
-         */
-        List.prototype.remove = function (val) {
-            var it = this.begin();
-            while (!it.equal_to(this.end())) {
-                if (std.equal_to(it.value, val) == true)
-                    it = this.erase(it);
-                else
-                    it = it.next();
-            }
-        };
-        /**
-         * <p> Remove elements fulfilling condition. </p>
-         *
-         * <p> Removes from the container all the elements for which <i>pred</i> returns <code>true</code>. This
-         * calls the destructor of these objects and reduces the container {@link size} by the number of elements
-         * removed. </p>
-         *
-         * <p> The function calls <code>pred(it.value)</code> for each element (where <code>it</code> is an iterator
-         * to that element). Any of the elements in the list for which this returns <code>true</code>, are removed
-         * from the  </p>
-         *
-         * @param pred Unary predicate that, taking a value of the same type as those contained in the forward_list
-         *			   object, returns <code>true</code> for those values to be removed from the container, and
-         *			   <code>false</code> for those remaining. This can either be a function pointer or a function
-         *			   object.
-         */
-        List.prototype.remove_if = function (pred) {
-            var it = this.begin();
-            while (!it.equal_to(this.end())) {
-                if (pred(it.value) == true)
-                    it = this.erase(it);
-                else
-                    it = it.next();
-            }
-        };
-        List.prototype.merge = function (obj, compare) {
-            if (compare === void 0) { compare = std.less; }
-            if (this == obj)
-                return;
-            var it = this.begin();
-            while (obj.empty() == false) {
-                var begin_4 = obj.begin();
-                while (!it.equal_to(this.end()) && compare(it.value, begin_4.value) == true)
-                    it = it.next();
-                this.splice(it, obj, begin_4);
-            }
-        };
-        List.prototype.splice = function (position, obj, begin, end) {
-            if (begin === void 0) { begin = null; }
-            if (end === void 0) { end = null; }
-            if (begin == null) {
-                begin = obj.begin();
-                end = obj.end();
-            }
-            else if (end == null) {
-                end = begin.next();
-            }
-            this.insert(position, begin, end);
-            obj.erase(begin, end);
-        };
-        List.prototype.sort = function (compare) {
-            if (compare === void 0) { compare = std.less; }
-            var vector = new std.Vector(this.begin(), this.end());
-            std.sort(vector.begin(), vector.end());
-            // IT CALLS HANDLE_INSERT
-            // this.assign(vector.begin(), vector.end());
-            ///////
-            // INSTEAD OF ASSIGN
-            ///////
-            var prev = this.end_;
-            var first = null;
-            for (var i = 0; i < vector.length; i++) {
-                // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new std.ListIterator(this, prev, null, vector[i]);
-                if (i == 0)
-                    first = item;
-                prev.set_next(item);
-                prev = item;
-            }
-            this.begin_ = first;
-            // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-            prev.set_next(this.end_);
-            this.end_.set_prev(prev);
-        };
-        /* ---------------------------------------------------------
-            SWAP
-        --------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        List.prototype.swap = function (obj) {
-            if (obj instanceof List)
-                this.swap_list(obj);
-            else
-                _super.prototype.swap.call(this, obj);
-        };
-        /**
-         * @hidden
-         */
-        List.prototype.swap_list = function (obj) {
-            _a = [obj.begin_, this.begin_], this.begin_ = _a[0], obj.begin_ = _a[1];
-            _b = [obj.end_, this.end_], this.end_ = _b[0], obj.end_ = _b[1];
-            _c = [obj.size_, this.size_], this.size_ = _c[0], obj.size_ = _c[1];
-            var _a, _b, _c;
-        };
-        return List;
-    }(std.base.Container));
-    std.List = List;
-})(std || (std = {}));
-var std;
-(function (std) {
-    /**
-     * <p> An iterator, node of a List. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
-     * </p>
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    var ListIterator = (function (_super) {
-        __extends(ListIterator, _super);
-        /* ---------------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------------- */
-        /**
-         * <p> Construct from the source {@link List container}. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Do not create the iterator directly, by yourself. </p>
-         * <p> Use {@link List.begin begin()}, {@link List.end end()} in {@link List container} instead. </p>
-         *
-         * @param source The source {@link List container} to reference.
-         * @param prev A refenrece of previous node ({@link ListIterator iterator}).
-         * @param next A refenrece of next node ({@link ListIterator iterator}).
-         * @param value Value to be stored in the node (iterator).
-         */
-        function ListIterator(source, prev, next, value) {
-            _super.call(this, source);
-            this.prev_ = prev;
-            this.next_ = next;
-            this.value_ = value;
-        }
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.set_prev = function (it) {
-            this.prev_ = it;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.set_next = function (next) {
-            this.next_ = next;
-        };
-        /* ---------------------------------------------------------------
-            ACCESSORS
-        --------------------------------------------------------------- */
-        ListIterator.prototype.list = function () {
-            return this.source_;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.prev = function () {
-            return this.prev_;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.next = function () {
-            return this.next_;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.advance = function (step) {
-            var it = this;
-            if (step >= 0) {
-                for (var i = 0; i < step; i++) {
-                    it = it.next();
-                    if (it.equal_to(this.source_.end()))
-                        return it;
-                }
-            }
-            else {
-                for (var i = 0; i < step; i++) {
-                    it = it.prev();
-                    if (it.equal_to(this.source_.end()))
-                        return it;
-                }
-            }
-            return it;
-        };
-        Object.defineProperty(ListIterator.prototype, "value", {
-            /**
-             * @inheritdoc
-             */
-            get: function () {
-                return this.value_;
-            },
-            set: function (val) {
-                this.value_ = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /* ---------------------------------------------------------------
-            COMPARISON
-        --------------------------------------------------------------- */
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.equal_to = function (obj) {
-            return this == obj;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.swap = function (obj) {
-            var supp_prev = this.prev_;
-            var supp_next = this.next_;
-            this.prev_ = obj.prev_;
-            this.next_ = obj.next_;
-            obj.prev_ = supp_prev;
-            obj.next_ = supp_next;
-            if (this.source_.end() == this)
-                this.source_.end_ = obj;
-            else if (this.source_.end() == obj)
-                this.source_.end_ = this;
-            if (this.source_.begin() == this)
-                this.source_.begin_ = obj;
-            else if (this.source_.begin() == obj)
-                this.source_.begin_ = this;
-        };
-        return ListIterator;
-    }(std.Iterator));
-    std.ListIterator = ListIterator;
-})(std || (std = {}));
-var std;
-(function (std) {
-    /**
-     * <p> A reverse-iterator of List. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
-     * </p>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    var ListReverseIterator = (function (_super) {
-        __extends(ListReverseIterator, _super);
-        /* ---------------------------------------------------------------
-            CONSTRUCTORS
-        --------------------------------------------------------------- */
-        function ListReverseIterator(base) {
-            _super.call(this, base);
-        }
-        /**
-         * @inheritdoc
-         */
-        ListReverseIterator.prototype.create_neighbor = function () {
-            return new ListReverseIterator(null);
-        };
-        Object.defineProperty(ListReverseIterator.prototype, "value", {
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * @inheritdoc
-             */
-            set: function (val) {
-                this.base_.value = val;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ListReverseIterator;
-    }(std.ReverseIterator));
-    std.ListReverseIterator = ListReverseIterator;
-})(std || (std = {}));
-/// <reference path="API.ts" />
 /// <reference path="Iterator.ts" />
 var std;
 (function (std) {
@@ -8703,7 +8710,7 @@ var std;
      *
      * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank">
      * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" />
-     * </p>
+     * </a> </p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8763,14 +8770,6 @@ var std;
                 this.assign(begin_5, end_4);
             }
         }
-        Object.defineProperty(Vector, "iterator", {
-            /**
-             * Type definition of {@link Vector}'s {@link VectorIterator iterator}.
-             */
-            get: function () { return std.VectorIterator; },
-            enumerable: true,
-            configurable: true
-        });
         Vector.prototype.assign = function (first, second) {
             this.clear();
             this.insert(this.end(), first, second);
