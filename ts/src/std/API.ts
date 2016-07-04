@@ -14,27 +14,45 @@
  */
 namespace std
 {
-	// LINEAR CONTAINERS
-	export type vector<T> = Vector<T>;								export var vector = Vector;
-	export type list<T> = List<T>;									export var list = List;
-	export type deque<T> = Deque<T>;								export var deque = Deque;
+	//// LINEAR CONTAINERS
+	//export type vector<T> = Vector<T>;
+	//export type list<T> = List<T>;
+	//export type deque<T> = Deque<T>;
 
-	// ASSOCIATIVE CONTAINERS
-	export type stack<T> = Stack<T>;								export var stack = Stack;
-	export type queue<T> = Queue<T>;								export var queue = Queue;
-	export type priority_queue<T> = PriorityQueue<T>;				export var priority_queue = PriorityQueue;
+	//export var vector = Vector;
+	//export var list = List;
+	//export var deque = Deque;
 
-	// SET CONTAINERS
-	export type set<T> = TreeSet<T>;								export var set = TreeSet;
-	export type multiset<T> = TreeMultiSet<T>;						export var multiset = TreeMultiSet;
-	export type unordered_set<T> = HashSet<T>;						export var unordered_set = HashSet;
-	export type unordered_multiset<T> = HashMultiSet<T>;			export var unordered_multiset = HashMultiSet;
+	//// ASSOCIATIVE CONTAINERS
+	//export type stack<T> = Stack<T>;
+	//export type queue<T> = Queue<T>;
+	//export type priority_queue<T> = PriorityQueue<T>;
 
-	// MAP CONTAINERS
-	export type map<Key, T> = TreeMap<Key, T>;						export var map = TreeMap;
-	export type multimap<Key, T> = TreeMultiMap<Key, T>;			export var multimap = TreeMultiMap;
-	export type unordered_map<Key, T> = HashMap<Key, T>;			export var unordered_map = HashMap;
-	export type unordered_multimap<Key, T> = HashMultiMap<Key, T>;	export var unordered_multimap = HashMultiMap;
+	//export var stack = Stack;
+	//export var queue = Queue;
+	//export var priority_queue = PriorityQueue;
+
+	//// SET CONTAINERS
+	//export type set<T> = TreeSet<T>;
+	//export type multiset<T> = TreeMultiSet<T>;
+	//export type unordered_set<T> = HashSet<T>;
+	//export type unordered_multiset<T> = HashMultiSet<T>;
+
+	//export var set = TreeSet;
+	//export var multiset = TreeMultiSet;
+	//export var unordered_set = HashSet;
+	//export var unordered_multiset = HashMultiSet;
+
+	//// MAP CONTAINERS
+	//export type map<Key, T> = TreeMap<Key, T>;
+	//export type multimap<Key, T> = TreeMultiMap<Key, T>;
+	//export type unordered_map<Key, T> = HashMap<Key, T>;
+	//export type unordered_multimap<Key, T> = HashMultiMap<Key, T>;
+
+	//export var map = TreeMap;
+	//export var multimap = TreeMultiMap;
+	//export var unordered_map = HashMap;
+	//export var unordered_multimap = HashMultiMap;
 }
 
 

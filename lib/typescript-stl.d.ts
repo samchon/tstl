@@ -23,34 +23,6 @@ declare module "typescript-stl"
  * @author Jeongho Nam <http://samchon.org>
  */
 declare namespace std {
-    type vector<T> = Vector<T>;
-    var vector: typeof Vector;
-    type list<T> = List<T>;
-    var list: typeof List;
-    type deque<T> = Deque<T>;
-    var deque: typeof Deque;
-    type stack<T> = Stack<T>;
-    var stack: typeof Stack;
-    type queue<T> = Queue<T>;
-    var queue: typeof Queue;
-    type priority_queue<T> = PriorityQueue<T>;
-    var priority_queue: typeof PriorityQueue;
-    type set<T> = TreeSet<T>;
-    var set: typeof TreeSet;
-    type multiset<T> = TreeMultiSet<T>;
-    var multiset: typeof TreeMultiSet;
-    type unordered_set<T> = HashSet<T>;
-    var unordered_set: typeof HashSet;
-    type unordered_multiset<T> = HashMultiSet<T>;
-    var unordered_multiset: typeof HashMultiSet;
-    type map<Key, T> = TreeMap<Key, T>;
-    var map: typeof TreeMap;
-    type multimap<Key, T> = TreeMultiMap<Key, T>;
-    var multimap: typeof TreeMultiMap;
-    type unordered_map<Key, T> = HashMap<Key, T>;
-    var unordered_map: typeof HashMap;
-    type unordered_multimap<Key, T> = HashMultiMap<Key, T>;
-    var unordered_multimap: typeof HashMultiMap;
 }
 /**
  * Base classes composing STL in background.
@@ -3102,16 +3074,9 @@ declare namespace std {
      */
     function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 }
-/**
- * @hidden
- */
-declare namespace std.deque {
+declare namespace std.Deque {
     type iterator<T> = std.DequeIterator<T>;
     type reverse_iterator<T> = std.DequeReverseIterator<T>;
-}
-declare namespace std.Deque {
-    type Iterator<T> = std.DequeIterator<T>;
-    type ReverseIterator<T> = std.DequeReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -5123,13 +5088,6 @@ declare namespace std.base {
         swap(obj: MultiMap<Key, T>): void;
     }
 }
-/**
- * @hidden
- */
-declare namespace std.unordered_map {
-    type iterator<Key, T> = std.MapIterator<Key, T>;
-    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
-}
 declare namespace std.HashMap {
     type Iterator<Key, T> = std.MapIterator<Key, T>;
     type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
@@ -5291,13 +5249,6 @@ declare namespace std {
          */
         private swap_hash_map(obj);
     }
-}
-/**
- * @hidden
- */
-declare namespace std.unordered_multimap {
-    type iterator<Key, T> = std.MapIterator<Key, T>;
-    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 declare namespace std.HashMultiMap {
     type Iterator<Key, T> = std.MapIterator<Key, T>;
@@ -5983,16 +5934,9 @@ declare namespace std.base {
         swap(obj: MultiSet<T>): void;
     }
 }
-/**
- * @inheritdoc
- */
-declare namespace std.unordered_set {
+declare namespace std.HashSet {
     type iterator<T> = std.SetIterator<T>;
     type reverse_iterator<T> = std.SetReverseIterator<T>;
-}
-declare namespace std.HashSet {
-    type Iterator<T> = std.SetIterator<T>;
-    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -6147,16 +6091,9 @@ declare namespace std {
         private swap_tree_set(obj);
     }
 }
-/**
- * @inheritdoc
- */
-declare namespace std.unordered_multiset {
+declare namespace std.HashMultiSet {
     type iterator<T> = std.SetIterator<T>;
     type reverse_iterator<T> = std.SetReverseIterator<T>;
-}
-declare namespace std.HashMultiSet {
-    type Iterator<T> = std.SetIterator<T>;
-    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -6315,16 +6252,9 @@ declare namespace std {
         private swap_tree_set(obj);
     }
 }
-/**
- * @hidden
- */
-declare namespace std.list {
+declare namespace std.List {
     type iterator<T> = std.ListIterator<T>;
     type reverse_iterator<T> = std.ListReverseIterator<T>;
-}
-declare namespace std.List {
-    type Iterator<T> = std.ListIterator<T>;
-    type ReverseIterator<T> = std.ListReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -7835,13 +7765,6 @@ declare namespace std {
         constructor(val: number, category: ErrorCategory);
     }
 }
-/**
- * @hidden
- */
-declare namespace std.map {
-    type iterator<Key, T> = std.MapIterator<Key, T>;
-    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
-}
 declare namespace std.TreeMap {
     type Iterator<Key, T> = std.MapIterator<Key, T>;
     type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
@@ -8021,13 +7944,6 @@ declare namespace std {
          */
         private swap_tree_map(obj);
     }
-}
-/**
- * @hidden
- */
-declare namespace std.multimap {
-    type iterator<Key, T> = std.MapIterator<Key, T>;
-    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 declare namespace std.TreeMultiMap {
     type Iterator<Key, T> = std.MapIterator<Key, T>;
@@ -8218,16 +8134,9 @@ declare namespace std {
         private swap_tree_multimap(obj);
     }
 }
-/**
- * @inheritdoc
- */
-declare namespace std.set {
+declare namespace std.TreeSet {
     type iterator<T> = std.SetIterator<T>;
     type reverse_iterator<T> = std.SetReverseIterator<T>;
-}
-declare namespace std.TreeSet {
-    type Iterator<T> = std.SetIterator<T>;
-    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -8388,16 +8297,9 @@ declare namespace std {
         private swap_tree_set(obj);
     }
 }
-/**
- * @inheritdoc
- */
-declare namespace std.multiset {
+declare namespace std.TreeMultiSet {
     type iterator<T> = std.SetIterator<T>;
     type reverse_iterator<T> = std.SetReverseIterator<T>;
-}
-declare namespace std.TreeMultiSet {
-    type Iterator<T> = std.SetIterator<T>;
-    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -8637,16 +8539,9 @@ declare namespace std {
      */
     function make_pair<T1, T2>(x: T1, y: T2): Pair<T1, T2>;
 }
-/**
- * @hidden
- */
-declare namespace std.vector {
+declare namespace std.Vector {
     type iterator<T> = std.VectorIterator<T>;
     type reverse_iterator<T> = std.VectorReverseIterator<T>;
-}
-declare namespace std.Vector {
-    type Iterator<T> = std.VectorIterator<T>;
-    type ReverseIterator<T> = std.VectorReverseIterator<T>;
 }
 declare namespace std {
     /**

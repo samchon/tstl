@@ -3,18 +3,10 @@
 /// <reference path="base/Container.ts" />
 /// <reference path="Iterator.ts" />
 
-/**
- * @hidden
- */
-namespace std.deque
+namespace std.Deque
 {
 	export type iterator<T> = std.DequeIterator<T>;
 	export type reverse_iterator<T> = std.DequeReverseIterator<T>;
-}
-namespace std.Deque
-{
-	export type Iterator<T> = std.DequeIterator<T>;
-	export type ReverseIterator<T> = std.DequeReverseIterator<T>;
 }
 
 namespace std
