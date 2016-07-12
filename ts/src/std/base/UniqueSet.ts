@@ -55,6 +55,84 @@ namespace std.base
 			return this.find(key).equal_to(this.end()) ? 0 : 1;
 		}
 
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>val</i> and erases it from the {@link UniqueSet}. </p>
+		 * 
+		 * @param val Value to be extracted.
+		 * 
+		 * @return A value.
+		 */
+		public extract(val: T): T;
+
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 *
+		 * @param it An iterator pointing an element to extract.
+		 * 
+		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		 *		   erased. If no such element exists,returns {@link end end()}.
+		 */
+		public extract(it: SetIterator<T>): SetIterator<T>;
+
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 *
+		 * @param it An iterator pointing an element to extract.
+		 * 
+		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		 *		   erased. If no such element exists,returns {@link end end()}.
+		 */
+		public extract(it: SetReverseIterator<T>): SetReverseIterator<T>;
+
+		public extract(param: T | SetIterator<T> | SetReverseIterator<T>): any
+		{
+			if (param instanceof SetIterator)
+				return this.extract_by_iterator(param);
+			else if (param instanceof SetReverseIterator)
+				return this.extract_by_reverse_iterator(param);
+			else
+				return this.extract_by_key(param);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_key(val: T): T
+		{
+			let it = this.find(val);
+			if (it.equal_to(this.end()) == true)
+				throw new OutOfRange("No such key exists.");
+
+			return val;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_iterator(it: SetIterator<T>): SetIterator<T>
+		{
+			if (it.equal_to(this.end()) == true || this.has(it.value) == false)
+				return this.end();
+
+			this.erase(it);
+			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_reverse_iterator(it: SetReverseIterator<T>): SetReverseIterator<T>
+		{
+			this.extract_by_iterator(it.base().next());
+			return it;
+		}
+
 		/* ---------------------------------------------------------
 			INSERTS
 		--------------------------------------------------------- */

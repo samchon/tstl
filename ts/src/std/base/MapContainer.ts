@@ -413,7 +413,7 @@ namespace std.base
 		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
 		 */
 		public insert<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
-			(first: InputIterator, last: InputIterator): void
+			(first: InputIterator, last: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{

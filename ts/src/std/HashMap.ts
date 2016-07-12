@@ -3,6 +3,14 @@
 /// <reference path="base/UniqueMap.ts" />
 /// <reference path="base/MultiMap.ts" />
 
+///**
+// * @hidden
+// */
+//namespace std.unordered_map
+//{
+//	export type iterator<Key, T> = std.MapIterator<Key, T>;
+//	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+//}
 namespace std.HashMap
 {
 	export type Iterator<Key, T> = std.MapIterator<Key, T>;
@@ -383,6 +391,14 @@ namespace std
 	}
 }
 
+///**
+// * @hidden
+// */
+//namespace std.unordered_multimap
+//{
+//	export type iterator<Key, T> = std.MapIterator<Key, T>;
+//	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+//}
 namespace std.HashMultiMap
 {
 	export type Iterator<Key, T> = std.MapIterator<Key, T>;

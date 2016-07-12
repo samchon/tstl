@@ -169,7 +169,7 @@ namespace std
 		 */
 		public get name(): string
 		{
-			return (this.constructor as any).name;
+			return this.constructor["name"];
 		}
 	}
 
@@ -222,8 +222,8 @@ namespace std
 	 * <p> No component of the standard library throws exceptions of this type. It is designed as a standard 
 	 * exception to be thrown by programs. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> <
-	 * img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </p>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a></p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/domain_error
 	 * @author Jeongho Nam <http://samchon.org>

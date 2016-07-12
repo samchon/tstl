@@ -2,10 +2,18 @@
 
 /// <reference path="Iterator.ts" />
 
+///**
+// * @hidden
+// */
+//namespace std.vector
+//{
+//	export type iterator<T> = std.VectorIterator<T>;
+//	export type reverse_iterator<T> = std.VectorReverseIterator<T>;
+//}
 namespace std.Vector
 {
-	export type iterator<T> = std.VectorIterator<T>;
-	export type reverse_iterator<T> = std.VectorReverseIterator<T>;
+	export type Iterator<T> = std.VectorIterator<T>;
+	export type ReverseIterator<T> = std.VectorReverseIterator<T>;
 }
 
 namespace std

@@ -93,12 +93,85 @@ namespace std.base
 		 */
 		public set(key: Key, val: T): void
 		{
-			let it = this.find(key);
-			
-			if (it.equal_to(this.end()) == true)
-				this.insert(make_pair(key, val));
+			this.insert_or_assign(key, val);
+		}
+
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 * 
+		 * @param key Key value of the element whose mapped value is accessed.
+		 * 
+		 * @return A {@link Pair} containing the value pointed to by <i>key</i>.
+		 */
+		public extract(key: Key): Pair<Key, T>;
+
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 *
+		 * @param it An iterator pointing an element to extract.
+		 * 
+		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		 *		   erased. If no such element exists,returns {@link end end()}.
+		 */
+		public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
+
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 *
+		 * @param it An iterator pointing an element to extract.
+		 * 
+		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		 *		   erased. If no such element exists,returns {@link end end()}.
+		 */
+		public extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+
+		public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
+		{
+			if (param instanceof MapIterator)
+				return this.extract_by_iterator(param);
+			else if (param instanceof MapReverseIterator)
+				return this.extract_by_reverse_iterator(param);
 			else
-				it.second = val;
+				return this.extract_by_key(param);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_key(key: Key): Pair<Key, T>
+		{
+			let it = this.find(key);
+			if (it.equal_to(this.end()) == true)
+				throw new OutOfRange("No such key exists.");
+
+			return it.value;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
+		{
+			if (it.equal_to(this.end()) == true || this.has(it.first) == false)
+				return this.end();
+
+			this.erase(it);
+			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
+		{
+			this.extract_by_iterator(it.base().next());
+			return it;
 		}
 
 		/* ---------------------------------------------------------
@@ -180,6 +253,123 @@ namespace std.base
 		public insert(...args: any[]): any
 		{
 			return super.insert.apply(this, args);
+		}
+
+		/**
+		 * <p> Insert or assign an element. </p>
+		 *
+		 * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+		 *
+		 * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
+		 * if so, the element is assigned, returning an iterator to this existing element (if the function returns a 
+		 * value). </p>
+		 *
+		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+		 * 
+		 * @param key The key used both to look up and to insert if not found.
+		 * @param value Value, the item.
+		 * 
+		 * @return A {@link Pair}, with its member {@link Pair.first} set to an iterator pointing to either the newly
+		 *		   inserted element or to the element with an equivalent key in the {@link UniqueMap}. The
+		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or
+		 *		   false if an equivalent key already existed so the <i>value</i> is assigned.
+		 */
+		public insert_or_assign(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>;
+
+		/**
+		 * <p> Insert or assign an element. </p>
+		 *
+		 * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+		 *
+		 * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
+		 * if so, the element is assigned, returning an iterator to this existing element (if the function returns a
+		 * value). </p>
+		 *
+		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+		 * 
+		 * @param hint Hint for the position where the element can be inserted.
+		 * @param key The key used both to look up and to insert if not found.
+		 * @param value Value, the item.
+		 * 
+		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
+		 *		   equivalent key in the {@link UniqueMap}.
+		 */
+		public insert_or_assign(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>;
+
+		/**
+		 * <p> Insert or assign an element. </p>
+		 *
+		 * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+		 *
+		 * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
+		 * if so, the element is assigned, returning an iterator to this existing element (if the function returns a
+		 * value). </p>
+		 *
+		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+		 * 
+		 * @param hint Hint for the position where the element can be inserted.
+		 * @param key The key used both to look up and to insert if not found.
+		 * @param value Value, the item.
+		 * 
+		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
+		 *		   equivalent key in the {@link UniqueMap}.
+		 */
+		public insert_or_assign(hint: MapReverseIterator<Key, T>, key: Key, value: T): MapReverseIterator<Key, T>;
+
+		public insert_or_assign(...args: any[]): any
+		{
+			if (args.length == 2)
+			{
+				return this.insert_or_assign_with_key_value(args[0], args[1]);
+			}
+			else if (args.length == 3)
+			{
+				let ret: MapIterator<Key, T>;
+				let is_reverse_iterator: boolean = false;
+
+				// REVERSE_ITERATOR TO ITERATOR
+				if (args[0] instanceof MapReverseIterator)
+				{
+					is_reverse_iterator = true;
+					args[0] = (args[0] as MapReverseIterator<Key, T>).base().prev();
+				}
+
+				// INSERT OR ASSIGN AN ELEMENT
+				ret = this.insert_or_assign_with_hint(args[0], args[1], args[2]);
+
+				// RETURN BRANCHES
+				if (is_reverse_iterator == true)
+					return new MapReverseIterator<Key, T>(ret.next());
+				else
+					return ret;
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		private insert_or_assign_with_key_value(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>
+		{
+			let it = this.find(key);
+
+			if (it.equal_to(this.end()) == true)
+				return this.insert_by_pair(std.make_pair(key, value));
+			else
+			{
+				it.second = value;
+				return std.make_pair(it, false);
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		private insert_or_assign_with_hint(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>
+		{
+			return this.insert_or_assign_with_key_value(key, value).first;
 		}
 
 		/* ---------------------------------------------------------

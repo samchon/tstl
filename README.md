@@ -16,8 +16,6 @@ TypeScript-STL is an open-source JavaScript library providing containers and alg
     - [Vector](http://samchon.github.io/typescript-stl/api/classes/std.vector.html)
     - [List](http://samchon.github.io/typescript-stl/api/classes/std.list.html)
     - [Deque](http://samchon.github.io/typescript-stl/api/classes/std.deque.html)
-    - Miscellaneous
-      
   - **Associative Containers**
     - [**Tree-structured Containers**](http://samchon.github.io/typescript-stl/api/classes/std.base.tree.rbtree.html)
       - [TreeSet](http://samchon.github.io/typescript-stl/api/classes/std.treeset.html)
@@ -59,25 +57,22 @@ Installing *TypeScript-STL* in **node** is very easy. Just install with **npm**.
 #### Node
 ``` npm install -g typescript-stl ```
 
-###### TypeScript
-Don't forget to referencing header files, ```typescript-stl.d.ts``` and ```node.d.ts```
+#### TypeScript
+Don't forget to referencing header files, ```typescript-stl.d.ts```.
 
 ``` typescript
-/// <reference path="node.d.ts" />
 /// <reference path="typescript-stl.d.ts" />
 
 import std = require("typescript-stl");
-let list: std.List<string> = new std.List<string>();
-```
+let map: std.TreeMap<string, number> = new std.TreeMap<string, number>();
 
-###### Pure JavaScript
-If you want to use *TypeScript-STL* in pure JavaScript, importing is much easier.
+map.insert(std.make_pair("First", 1));
+map.insert(["Second", 2]);
+map.insert_or_assign("Third", 3); // C++17 Feature.
+map.set("Fourth", 4); // Non-standard Feature.
 
-However, it is not recommended because without TypeScript, you can't take advantage of enforcement of using type and template inspection. Note that, full name of **STL** is *Standard **Template** Library*.
-
-``` javascript
-var std = require("typescript-stl");
-var list = new std.List();
+for (let it = map.begin(); !it.equal_to(map.end()); it = it.next())
+	console.log(it.first, it.second); // key => string, value => number
 ```
 
 #### Browser

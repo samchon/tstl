@@ -3075,8 +3075,8 @@ declare namespace std {
     function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 }
 declare namespace std.Deque {
-    type iterator<T> = std.DequeIterator<T>;
-    type reverse_iterator<T> = std.DequeReverseIterator<T>;
+    type Iterator<T> = std.DequeIterator<T>;
+    type ReverseIterator<T> = std.DequeReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -3618,8 +3618,8 @@ declare namespace std {
      * <p> No component of the standard library throws exceptions of this type. It is designed as a standard
      * exception to be thrown by programs. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> <
-     * img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </p>
+     * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a></p>
      *
      * @reference http://www.cplusplus.com/reference/stdexcept/domain_error
      * @author Jeongho Nam <http://samchon.org>
@@ -4899,6 +4899,50 @@ declare namespace std.base {
          */
         set(key: Key, val: T): void;
         /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+         *
+         * @param key Key value of the element whose mapped value is accessed.
+         *
+         * @return A {@link Pair} containing the value pointed to by <i>key</i>.
+         */
+        extract(key: Key): Pair<Key, T>;
+        /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+         *
+         * @param it An iterator pointing an element to extract.
+         *
+         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
+         *		   erased. If no such element exists,returns {@link end end()}.
+         */
+        extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
+        /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+         *
+         * @param it An iterator pointing an element to extract.
+         *
+         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
+         *		   erased. If no such element exists,returns {@link end end()}.
+         */
+        extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+        /**
+         * @hidden
+         */
+        private extract_by_key(key);
+        /**
+         * @hidden
+         */
+        private extract_by_iterator(it);
+        /**
+         * @hidden
+         */
+        private extract_by_reverse_iterator(it);
+        /**
          * <p> Insert an element. </p>
          *
          * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
@@ -4960,6 +5004,75 @@ declare namespace std.base {
          * @inheritdoc
          */
         insert<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
+        /**
+         * <p> Insert or assign an element. </p>
+         *
+         * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+         *
+         * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+         * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
+         * if so, the element is assigned, returning an iterator to this existing element (if the function returns a
+         * value). </p>
+         *
+         * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+         *
+         * @param key The key used both to look up and to insert if not found.
+         * @param value Value, the item.
+         *
+         * @return A {@link Pair}, with its member {@link Pair.first} set to an iterator pointing to either the newly
+         *		   inserted element or to the element with an equivalent key in the {@link UniqueMap}. The
+         *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or
+         *		   false if an equivalent key already existed so the <i>value</i> is assigned.
+         */
+        insert_or_assign(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>;
+        /**
+         * <p> Insert or assign an element. </p>
+         *
+         * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+         *
+         * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+         * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
+         * if so, the element is assigned, returning an iterator to this existing element (if the function returns a
+         * value). </p>
+         *
+         * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+         *
+         * @param hint Hint for the position where the element can be inserted.
+         * @param key The key used both to look up and to insert if not found.
+         * @param value Value, the item.
+         *
+         * @return An iterator pointing to either the newly inserted element or to the element that already had an
+         *		   equivalent key in the {@link UniqueMap}.
+         */
+        insert_or_assign(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>;
+        /**
+         * <p> Insert or assign an element. </p>
+         *
+         * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+         *
+         * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+         * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
+         * if so, the element is assigned, returning an iterator to this existing element (if the function returns a
+         * value). </p>
+         *
+         * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+         *
+         * @param hint Hint for the position where the element can be inserted.
+         * @param key The key used both to look up and to insert if not found.
+         * @param value Value, the item.
+         *
+         * @return An iterator pointing to either the newly inserted element or to the element that already had an
+         *		   equivalent key in the {@link UniqueMap}.
+         */
+        insert_or_assign(hint: MapReverseIterator<Key, T>, key: Key, value: T): MapReverseIterator<Key, T>;
+        /**
+         * @hidden
+         */
+        private insert_or_assign_with_key_value(key, value);
+        /**
+         * @hidden
+         */
+        private insert_or_assign_with_hint(hint, key, value);
         /**
          * <p> Swap content. </p>
          *
@@ -5829,6 +5942,50 @@ declare namespace std.base {
          */
         count(key: T): number;
         /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>val</i> and erases it from the {@link UniqueSet}. </p>
+         *
+         * @param val Value to be extracted.
+         *
+         * @return A value.
+         */
+        extract(val: T): T;
+        /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+         *
+         * @param it An iterator pointing an element to extract.
+         *
+         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
+         *		   erased. If no such element exists,returns {@link end end()}.
+         */
+        extract(it: SetIterator<T>): SetIterator<T>;
+        /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+         *
+         * @param it An iterator pointing an element to extract.
+         *
+         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
+         *		   erased. If no such element exists,returns {@link end end()}.
+         */
+        extract(it: SetReverseIterator<T>): SetReverseIterator<T>;
+        /**
+         * @hidden
+         */
+        private extract_by_key(val);
+        /**
+         * @hidden
+         */
+        private extract_by_iterator(it);
+        /**
+         * @hidden
+         */
+        private extract_by_reverse_iterator(it);
+        /**
          * <p> Insert an element. </p>
          *
          * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
@@ -5935,8 +6092,8 @@ declare namespace std.base {
     }
 }
 declare namespace std.HashSet {
-    type iterator<T> = std.SetIterator<T>;
-    type reverse_iterator<T> = std.SetReverseIterator<T>;
+    type Iterator<T> = std.SetIterator<T>;
+    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -6092,8 +6249,8 @@ declare namespace std {
     }
 }
 declare namespace std.HashMultiSet {
-    type iterator<T> = std.SetIterator<T>;
-    type reverse_iterator<T> = std.SetReverseIterator<T>;
+    type Iterator<T> = std.SetIterator<T>;
+    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -6253,8 +6410,8 @@ declare namespace std {
     }
 }
 declare namespace std.List {
-    type iterator<T> = std.ListIterator<T>;
-    type reverse_iterator<T> = std.ListReverseIterator<T>;
+    type Iterator<T> = std.ListIterator<T>;
+    type ReverseIterator<T> = std.ListReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -7792,7 +7949,7 @@ declare namespace std {
      * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
      *
      * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </p>
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a></p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -7974,7 +8131,7 @@ declare namespace std {
      * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
      *
      * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank"> <
-     * img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </p>
+     * img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a></p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8135,8 +8292,8 @@ declare namespace std {
     }
 }
 declare namespace std.TreeSet {
-    type iterator<T> = std.SetIterator<T>;
-    type reverse_iterator<T> = std.SetReverseIterator<T>;
+    type Iterator<T> = std.SetIterator<T>;
+    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -8159,7 +8316,7 @@ declare namespace std {
      * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
      *
      * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a></p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8297,9 +8454,16 @@ declare namespace std {
         private swap_tree_set(obj);
     }
 }
-declare namespace std.TreeMultiSet {
+/**
+ * @hidden
+ */
+declare namespace std.multiset {
     type iterator<T> = std.SetIterator<T>;
     type reverse_iterator<T> = std.SetReverseIterator<T>;
+}
+declare namespace std.TreeMultiSet {
+    type Iterator<T> = std.SetIterator<T>;
+    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -8323,7 +8487,7 @@ declare namespace std {
      * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
      *
      * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </p>
+     * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/set_containers.png" style="max-width: 100%" /> </a></p>
      *
      * <h3> Container properties </h3>
      * <dl>
@@ -8540,8 +8704,8 @@ declare namespace std {
     function make_pair<T1, T2>(x: T1, y: T2): Pair<T1, T2>;
 }
 declare namespace std.Vector {
-    type iterator<T> = std.VectorIterator<T>;
-    type reverse_iterator<T> = std.VectorReverseIterator<T>;
+    type Iterator<T> = std.VectorIterator<T>;
+    type ReverseIterator<T> = std.VectorReverseIterator<T>;
 }
 declare namespace std {
     /**

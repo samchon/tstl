@@ -476,8 +476,9 @@ namespace std
 	/* ---------------------------------------------------------
 		UNIQUE ID FOR OBJECTS
 	--------------------------------------------------------- */
+	// Incremental sequence of unique id for objects.
 	/**
-	 * Incremental sequence of unique id for objects.
+	 * @hidden
 	 */
 	var __s_iUID: number
 

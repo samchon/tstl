@@ -3,6 +3,14 @@
 /// <reference path="base/UniqueMap.ts" />
 /// <reference path="base/MultiMap.ts" />
 
+///**
+// * @hidden
+// */
+//namespace std.map
+//{
+//	export type iterator<Key, T> = std.MapIterator<Key, T>;
+//	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+//}
 namespace std.TreeMap
 {
 	export type Iterator<Key, T> = std.MapIterator<Key, T>;
@@ -33,7 +41,7 @@ namespace std
 	 * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
 	 *
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </p>
+	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a></p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -391,6 +399,14 @@ namespace std
 	}
 }
 
+///**
+// * @hidden
+// */
+//namespace std.multimap
+//{
+//	export type iterator<Key, T> = std.MapIterator<Key, T>;
+//	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+//}
 namespace std.TreeMultiMap
 {
 	export type Iterator<Key, T> = std.MapIterator<Key, T>;
@@ -423,7 +439,7 @@ namespace std
 	 * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" target="_blank"> <
-	 * img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </p>
+	 * img src="http://samchon.github.io/typescript-stl/api/assets/images/design/map_containers.png" style="max-width: 100%" /> </a></p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>

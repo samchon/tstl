@@ -2,11 +2,10 @@
 #	TYPESCRIPT
 # ======================================================
 .git
-ts
-d.ts
-design
 api
-ts-stl_decrecated
+design
+ts
+wiki
 
 *.bat
 *.*ignore
