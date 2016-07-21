@@ -13,8 +13,8 @@
 //}
 namespace std.Deque
 {
-	export type Iterator<T> = std.DequeIterator<T>;
-	export type ReverseIterator<T> = std.DequeReverseIterator<T>;
+	export type iterator<T> = std.DequeIterator<T>;
+	export type reverse_iterator<T> = std.DequeReverseIterator<T>;
 }
 
 namespace std

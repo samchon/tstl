@@ -13,8 +13,8 @@
 //}
 namespace std.HashMap
 {
-	export type Iterator<Key, T> = std.MapIterator<Key, T>;
-	export type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+	export type iterator<Key, T> = std.MapIterator<Key, T>;
+	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 
 namespace std
@@ -401,8 +401,8 @@ namespace std
 //}
 namespace std.HashMultiMap
 {
-	export type Iterator<Key, T> = std.MapIterator<Key, T>;
-	export type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+	export type iterator<Key, T> = std.MapIterator<Key, T>;
+	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 
 namespace std

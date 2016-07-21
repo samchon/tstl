@@ -373,7 +373,7 @@ namespace std
 	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
-	 * @reference http://www.cplusplus.com/reference/stdexcept/outflow_error
+	 * @reference http://www.cplusplus.com/reference/stdexcept/overflow_error
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class OverflowError

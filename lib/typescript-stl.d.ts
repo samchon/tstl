@@ -13,16 +13,102 @@ declare module "typescript-stl"
  * <p> <a href="https://nodei.co/npm/typescript-stl">
  *	<img src="https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true"> </a> </p>
  *
- * <p> GitHub Repository: https://github.com/samchon/typescript-stl </p>
- *
  * <p> STL (Standard Template Library) Containers and Algorithms for TypeScript. </p>
  *
  * <p> TypeScript-STL is a TypeScript's <b>Standard Template Library</b> who is migrated from C++ STL. Most of classes
  * and functions of STL have implemented. Just enjoy it. </p>
  *
+ * @git https://github.com/samchon/typescript-stl
  * @author Jeongho Nam <http://samchon.org>
  */
 declare namespace std {
+    /**
+     * Type definition of {@link Vector} and it's the original name used in C++.
+     */
+    export import vector = Vector;
+    /**
+     * Type definition of {@link List} and it's the original name used in C++.
+     */
+    export import list = List;
+    /**
+     * Type definition of {@link Deque} and it's the original name used in C++.
+     */
+    export import deque = Deque;
+    /**
+     * Type definition of {@link Stack} and it's the original name used in C++.
+     */
+    type stack<T> = Stack<T>;
+    /**
+     * Type definition of {@link Queue} and it's the original name used in C++.
+     */
+    type queue<T> = Queue<T>;
+    /**
+     * Type definition of {@link PriorityQueue} and it's the original name used in C++.
+     */
+    type priority_queue<T> = PriorityQueue<T>;
+    var stack: typeof Stack;
+    var queue: typeof Queue;
+    var priority_queue: typeof PriorityQueue;
+    /**
+     * Type definition of {@link TreeSet} and it's the original name used in C++.
+     */
+    export import set = TreeSet;
+    /**
+     * Type definition of {@link TreeMultiSet} and it's the original name used in C++.
+     */
+    export import multiset = TreeMultiSet;
+    /**
+     * Type definition of {@link HashSet} and it's the original name used in C++.
+     */
+    export import unordered_set = HashSet;
+    /**
+     * Type definition of {@link HashMultiSet} and it's the original name used in C++.
+     */
+    export import unordered_multiset = HashMultiSet;
+    /**
+     * Type definition of {@link TreeMap} and it's the original name used in C++.
+     */
+    export import map = TreeMap;
+    /**
+     * Type definition of {@link TreeMultiMap} and it's the original name used in C++.
+     */
+    export import multimap = TreeMultiMap;
+    /**
+     * Type definition of {@link HashMap} and it's the original name used in C++.
+     */
+    export import unordered_map = HashMap;
+    /**
+     * Type definition of {@link HashMultiMap} and it's the original name used in C++.
+     */
+    export import unordered_multimap = HashMultiMap;
+    type exception = Exception;
+    type logic_error = LogicError;
+    type domain_error = DomainError;
+    type invalid_argument = InvalidArgument;
+    type length_error = LengthError;
+    type out_of_range = OutOfRange;
+    type runtime_error = RuntimeError;
+    type overflow_error = OverflowError;
+    type underflow_error = UnderflowError;
+    type range_error = RangeError;
+    type system_error = SystemError;
+    type error_category = ErrorCategory;
+    type error_condition = ErrorCondition;
+    type error_code = ErrorCode;
+    var exception: typeof Exception;
+    var logic_error: typeof LogicError;
+    var domain_error: typeof DomainError;
+    var invalid_argument: typeof InvalidArgument;
+    var length_error: typeof LengthError;
+    var out_of_range: typeof OutOfRange;
+    var runtime_error: typeof RuntimeError;
+    var overflow_error: typeof OverflowError;
+    var underflow_error: typeof UnderflowError;
+    var range_error: typeof RangeError;
+    var system_error: typeof SystemError;
+    var error_category: typeof ErrorCategory;
+    var error_condition: typeof ErrorCondition;
+    var error_code: typeof ErrorCode;
 }
 /**
  * Base classes composing STL in background.
@@ -3075,8 +3161,8 @@ declare namespace std {
     function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 }
 declare namespace std.Deque {
-    type Iterator<T> = std.DequeIterator<T>;
-    type ReverseIterator<T> = std.DequeReverseIterator<T>;
+    type iterator<T> = std.DequeIterator<T>;
+    type reverse_iterator<T> = std.DequeReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -3732,7 +3818,7 @@ declare namespace std {
      * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank">
      * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
      *
-     * @reference http://www.cplusplus.com/reference/stdexcept/outflow_error
+     * @reference http://www.cplusplus.com/reference/stdexcept/overflow_error
      * @author Jeongho Nam <http://samchon.org>
      */
     class OverflowError extends RuntimeError {
@@ -5202,8 +5288,8 @@ declare namespace std.base {
     }
 }
 declare namespace std.HashMap {
-    type Iterator<Key, T> = std.MapIterator<Key, T>;
-    type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+    type iterator<Key, T> = std.MapIterator<Key, T>;
+    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 declare namespace std {
     /**
@@ -5364,8 +5450,8 @@ declare namespace std {
     }
 }
 declare namespace std.HashMultiMap {
-    type Iterator<Key, T> = std.MapIterator<Key, T>;
-    type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+    type iterator<Key, T> = std.MapIterator<Key, T>;
+    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 declare namespace std {
     /**
@@ -6092,8 +6178,8 @@ declare namespace std.base {
     }
 }
 declare namespace std.HashSet {
-    type Iterator<T> = std.SetIterator<T>;
-    type ReverseIterator<T> = std.SetReverseIterator<T>;
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -6249,8 +6335,8 @@ declare namespace std {
     }
 }
 declare namespace std.HashMultiSet {
-    type Iterator<T> = std.SetIterator<T>;
-    type ReverseIterator<T> = std.SetReverseIterator<T>;
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -6410,8 +6496,8 @@ declare namespace std {
     }
 }
 declare namespace std.List {
-    type Iterator<T> = std.ListIterator<T>;
-    type ReverseIterator<T> = std.ListReverseIterator<T>;
+    type iterator<T> = std.ListIterator<T>;
+    type reverse_iterator<T> = std.ListReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -7923,8 +8009,8 @@ declare namespace std {
     }
 }
 declare namespace std.TreeMap {
-    type Iterator<Key, T> = std.MapIterator<Key, T>;
-    type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+    type iterator<Key, T> = std.MapIterator<Key, T>;
+    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 declare namespace std {
     /**
@@ -8103,8 +8189,8 @@ declare namespace std {
     }
 }
 declare namespace std.TreeMultiMap {
-    type Iterator<Key, T> = std.MapIterator<Key, T>;
-    type ReverseIterator<Key, T> = std.MapReverseIterator<Key, T>;
+    type iterator<Key, T> = std.MapIterator<Key, T>;
+    type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
 }
 declare namespace std {
     /**
@@ -8292,8 +8378,8 @@ declare namespace std {
     }
 }
 declare namespace std.TreeSet {
-    type Iterator<T> = std.SetIterator<T>;
-    type ReverseIterator<T> = std.SetReverseIterator<T>;
+    type iterator<T> = std.SetIterator<T>;
+    type reverse_iterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -8454,16 +8540,9 @@ declare namespace std {
         private swap_tree_set(obj);
     }
 }
-/**
- * @hidden
- */
-declare namespace std.multiset {
+declare namespace std.TreeMultiSet {
     type iterator<T> = std.SetIterator<T>;
     type reverse_iterator<T> = std.SetReverseIterator<T>;
-}
-declare namespace std.TreeMultiSet {
-    type Iterator<T> = std.SetIterator<T>;
-    type ReverseIterator<T> = std.SetReverseIterator<T>;
 }
 declare namespace std {
     /**
@@ -8648,8 +8727,8 @@ declare namespace std {
      * <i>T2</i>). The individual values can be accessed through its public members {@link first} and
      * {@link second}. </p>
      *
-     * @param <K> Type of member {@link first}.
-     * @param <T> Type of member {@link second}.
+     * @param <T1> Type of member {@link first}.
+     * @param <T2> Type of member {@link second}.
      *
      * @reference http://www.cplusplus.com/reference/utility/pair
      * @author Jeongho Nam <http://samchon.org>
@@ -8704,8 +8783,8 @@ declare namespace std {
     function make_pair<T1, T2>(x: T1, y: T2): Pair<T1, T2>;
 }
 declare namespace std.Vector {
-    type Iterator<T> = std.VectorIterator<T>;
-    type ReverseIterator<T> = std.VectorReverseIterator<T>;
+    type iterator<T> = std.VectorIterator<T>;
+    type reverse_iterator<T> = std.VectorReverseIterator<T>;
 }
 declare namespace std {
     /**

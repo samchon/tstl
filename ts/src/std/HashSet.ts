@@ -3,18 +3,10 @@
 /// <reference path="base/UniqueSet.ts" />
 /// <reference path="base/MultiSet.ts" />
 
-///**
-// * @hidden
-// */
-//namespace std.unordered_set
-//{
-//	export type iterator<T> = std.SetIterator<T>;
-//	export type reverse_iterator<T> = std.SetReverseIterator<T>;
-//}
 namespace std.HashSet
 {
-	export type Iterator<T> = std.SetIterator<T>;
-	export type ReverseIterator<T> = std.SetReverseIterator<T>;
+	export type iterator<T> = std.SetIterator<T>;
+	export type reverse_iterator<T> = std.SetReverseIterator<T>;
 }
 
 namespace std
@@ -384,18 +376,10 @@ namespace std
 	}
 }
 
-///**
-// * @hidden
-// */
-//namespace std.unordered_multiset
-//{
-//	export type iterator<T> = std.SetIterator<T>;
-//	export type reverse_iterator<T> = std.SetReverseIterator<T>;
-//}
 namespace std.HashMultiSet
 {
-	export type Iterator<T> = std.SetIterator<T>;
-	export type ReverseIterator<T> = std.SetReverseIterator<T>;
+	export type iterator<T> = std.SetIterator<T>;
+	export type reverse_iterator<T> = std.SetReverseIterator<T>;
 }
 
 namespace std

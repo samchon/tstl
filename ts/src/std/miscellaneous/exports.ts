@@ -19,4 +19,4 @@
 /// <reference path="../../std/example/test_all.ts" />
 
 if (std.is_node() == true)
-	(Object as any).assign(exports, std);
+	module.exports = std;

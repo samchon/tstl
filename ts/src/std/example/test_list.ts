@@ -9,7 +9,7 @@ namespace std.example
 		let list: std.List<number> = new std.List<number>();
 		for (let i: number = 0; i < 10; i++)
 			list.push_back(i);
-
+		
 		let it = list.begin().advance(3);
 		it = list.erase(it); // erase 3
 		console.log(it.value); // print 4
