@@ -694,8 +694,8 @@ namespace std
 			last.set_prev(prev);
 
 			this.size_ -= size;
-			if (this.size_ == 0)
-				this.begin_ = this.end_;
+			if (first == this.begin_)
+				this.begin_ = last;
 
 			return last;
 		}

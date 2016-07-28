@@ -18,5 +18,7 @@
 
 /// <reference path="../../std/example/test_all.ts" />
 
-if (std.is_node() == true)
+try
+{
 	module.exports = std;
+} catch (exception) { }

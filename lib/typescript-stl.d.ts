@@ -11742,6 +11742,9 @@ declare namespace std.example {
     function test_all(): void;
 }
 declare namespace std.example {
+    function test_anything(): void;
+}
+declare namespace std.example {
     function test_bind(): void;
 }
 declare namespace std.example {

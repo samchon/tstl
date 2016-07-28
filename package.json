@@ -6,10 +6,9 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.6",
 
   "main": "./lib/typescript-stl.js",
-  "typings": "./lib/typescript-stl.d.ts",
   "homepage": "https://github.com/samchon/typescript-stl",
   "repository": {
     "type": "git",
