@@ -34,8 +34,8 @@ namespace std
 	 * distance between these. They also consume some extra memory to keep the linking information associated to each 
 	 * element (which may be an important factor for large lists of small-sized elements). </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
 	 * </p>
 	 * 
 	 * <h3> Container properties </h3>
@@ -59,18 +59,21 @@ namespace std
 		extends base.Container<T>
 		implements base.IDequeContainer<T>
 	{
+		// An iterator, node of beginning.
 		/**
-		 * An iterator of beginning.
+		 * @hidden
 		 */
 		protected begin_: ListIterator<T>;
 
+		// An iterator, node of end.
 		/**
-		 * An iterator of end. 
+		 * @hidden
 		 */
 		protected end_: ListIterator<T>;
-
+		
+		// Number of elements in this List.
 		/**
-		 * Number of elements in the {@link List}.
+		 * @hidden
 		 */
 		protected size_: number;
 
@@ -1089,8 +1092,8 @@ namespace std
 	/**
 	 * <p> An iterator, node of a List. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
 	 * </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
@@ -1254,8 +1257,8 @@ namespace std
 	/**
 	 * <p> A reverse-iterator of List. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /></a>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
 	 * </p>
 	 *
 	 * @param <T> Type of the elements.

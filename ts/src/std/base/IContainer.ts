@@ -8,8 +8,8 @@ namespace std.base
 	 * <p> {@link IContainer} is an interface designed for sequence containers. Sequence containers of STL
 	 * (Standard Template Library) are based on the {@link IContainer}. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank"> 
+	 * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /> 
 	 * </a> </p>
 	 * 
 	 * <h3> Container properties </h3>

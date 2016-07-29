@@ -16,8 +16,14 @@ namespace std.base
 	 */
 	export class HashBuckets<T>
 	{
+		/**
+		 * @hidden
+		 */
 		private buckets_: Vector<Vector<T>>;
 
+		/**
+		 * @hidden
+		 */
 		private item_size_: number;
 
 		/* ---------------------------------------------------------

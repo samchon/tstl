@@ -149,12 +149,3 @@ namespace std
 namespace std.base
 {
 }
-
-/**
- * Examples for supporting developers who use STL library.
- *
- * @author Jeongho Nam <http://samchon.org>
- */
-namespace std.example
-{
-}

@@ -1,8 +1,8 @@
-/// <reference path="API.ts" />
+﻿/// <reference path="API.ts" />
 
-/// <reference path="base/UniqueSet.ts" />
+/// <reference path="base/MultiSet.ts" />
 
-namespace std.TreeSet
+namespace std.TreeMultiSet
 {
 	export type iterator<T> = std.SetIterator<T>;
 	export type reverse_iterator<T> = std.SetReverseIterator<T>;
@@ -11,23 +11,24 @@ namespace std.TreeSet
 namespace std
 {
 	/**
-	 * <p> Tree-structured set, <code>std::set</code> of STL. </p>
+	 * <p> Tree-structured multiple-key set. </p>
 	 *
-	 * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
+	 * <p> {@link TreeMultiSet TreeMultiSets} are containers that store elements following a specific order, and 
+	 * where multiple elements can have equivalent values. </p>
 	 *
-	 * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the 
-	 * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a 
-	 * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they 
-	 * can be inserted or removed from the  </p>
+	 * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself 
+	 * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot 
+	 * be modified once in the container (the elements are always const), but they can be inserted or removed 
+	 * from the  </p>
 	 *
-	 * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak 
-	 * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
+	 * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict 
+	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
 	 *
-	 * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access 
-	 * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their 
-	 * order. </p>
+	 * <p> {@link TreeMultiSet} containers are generally slower than {@link HashMultiSet} containers 
+	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 
+	 * their order. </p>
 	 *
-	 * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
+	 * <p> {@link TreeMultiSet TreeMultiSets} are typically implemented as binary search trees. </p>
 	 * 
 	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /> </a></p>
@@ -49,18 +50,18 @@ namespace std
 	 *	<dt> Set </dt>
 	 *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
 	 *
-	 *	<dt> Unique keys </dt>
-	 *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
+	 *	<dt> Multiple equivalent keys </dt>
+	 *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
 	 * </dl>
+	 * 
+	 * @param <T> Type of the elements. Each element in a {@link TreeMultiSet} container is also identified 
+	 *			  by this value (each value is itself also the element's <i>key</i>).
 	 *
-	 * @param <T> Type of the elements. 
-	 *			  Each element in an {@link TreeSet} is also uniquely identified by this value.
-	 *
-	 * @reference http://www.cplusplus.com/reference/set/set
+	 * @reference http://www.cplusplus.com/reference/set/multiset
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class TreeSet<T>
-		extends base.UniqueSet<T>
+	export class TreeMultiSet<T>
+		extends base.MultiSet<T>
 		implements base.ITreeSet<T>
 	{
 		/**
@@ -105,7 +106,7 @@ namespace std
 		/**
 		 * Copy Constructor.
 		 */
-		public constructor(container: base.IContainer<T>);
+		public constructor(container: base.Container<T>);
 
 		/**
 		 * Copy Constructor with compare.
@@ -113,7 +114,7 @@ namespace std
 		 * @param container A container to be copied.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.IContainer<T>, compare: (x: T, y: T) => boolean);
+		public constructor(container: base.Container<T>, compare: (x: T, y: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -124,17 +125,13 @@ namespace std
 		public constructor(begin: Iterator<T>, end: Iterator<T>);
 
 		/**
-		 * Range Constructor with compare.
+		 * Construct from range and compare.
 		 * 
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor
-			(
-				begin: Iterator<T>, end: Iterator<T>,
-				compare: (x: T, y: T) => boolean
-			);
+		public constructor(begin: Iterator<T>, end: Iterator<T>, compare: (x: T, y: T) => boolean);
 		
 		public constructor(...args: any[])
 		{
@@ -190,7 +187,7 @@ namespace std
 
 			this.tree_.clear();
 		}
-		
+
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
@@ -199,12 +196,26 @@ namespace std
 		 */
 		public find(val: T): SetIterator<T>
 		{
-			let node = this.tree_.find(val);
+			var node = this.tree_.find(val);
 
-			if (node == null || std.equal_to(node.value.value, val) == false)
+			if (node == null || std.equal_to(val, node.value.value) == false)
 				return this.end();
 			else
 				return node.value;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public count(val: T): number
+		{
+			let it = this.find(val);
+			let cnt: number = 0;
+
+			for (; !it.equal_to(this.end()) && std.equal_to(it.value, val); it = it.next())
+				cnt++;
+
+			return cnt;
 		}
 
 		/**
@@ -236,7 +247,7 @@ namespace std
 		 */
 		public upper_bound(val: T): SetIterator<T>
 		{
-			return this.tree_.lower_bound(val);
+			return this.tree_.upper_bound(val);
 		}
 
 		/**
@@ -259,21 +270,29 @@ namespace std
 		 */
 		protected insert_by_val(val: T): any
 		{
-			let node = this.tree_.find(val);
+			var node = this.tree_.find(val);
+			var it: SetIterator<T>;
 
-			// IF EQUALS, THEN RETURN FALSE
-			if (node != null && std.equal_to(node.value.value, val) == true)
-				return make_pair(node.value, false);
-			
 			// FIND NODE
-			let it: SetIterator<T>;
-
 			if (node == null)
+			{
 				it = this.end();
-			else if (std.less(node.value.value, val) == true)
+			}
+			else if (std.equal_to(node.value.value, val) == true)
+			{
 				it = node.value.next();
+			}
+			else if (std.less(node.value.value, val) == true)
+			{
+				it = node.value.next();
+
+				while (it.equal_to(this.end()) == false && std.less(it.value, val))
+					it = it.next();
+			}
 			else
+			{
 				it = node.value;
+			}
 
 			/////
 			// INSERTS
@@ -281,22 +300,21 @@ namespace std
 			it = new SetIterator<T>(this, this.data_.insert(it.get_list_iterator(), val));
 			this.handle_insert(it, it.next()); // POST-PROCESS
 
-			return make_pair(it, true);
+			return it;
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
-			// FIND KEY
-			if (this.has(val) == true)
-				return this.end();
-
 			// VALIDATE HINT
 			let ret: SetIterator<T>;
 			let compare = this.tree_.key_comp();
 
-			// hint < current && current < next
-			if (compare(hint.value, val) == true
-				&& (hint.next().equal_to(this.end()) || compare(val, hint.next().value) == true))
+			// hint <= current && current <= next
+			if ((compare(hint.value, val) || std.equal_to(hint.value, val))
+				&& (hint.next().equal_to(this.end()) || (compare(val, hint.next().value) || std.equal_to(val, hint.next().value))))
 			{
 				///////
 				// RIGHT HINT
@@ -313,7 +331,7 @@ namespace std
 				// WRONG HINT
 				///////
 				// INSERT BY AUTOMATIC NODE FINDING
-				ret = this.insert_by_val(val).first;
+				ret = this.insert_by_val(val);
 			}
 			return ret;
 		}
@@ -354,9 +372,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.UniqueSet<T>): void
+		public swap(obj: base.MultiSet<T>): void
 		{
-			if (obj instanceof TreeSet)
+			if (obj instanceof TreeMultiSet)
 				this.swap_tree_set(obj);
 			else
 				super.swap(obj);
@@ -365,7 +383,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private swap_tree_set(obj: TreeSet<T>): void
+		private swap_tree_set(obj: TreeMultiSet<T>): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];

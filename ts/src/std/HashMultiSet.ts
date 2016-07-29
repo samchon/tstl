@@ -1,8 +1,8 @@
-/// <reference path="API.ts" />
+﻿/// <reference path="API.ts" />
 
-/// <reference path="base/UniqueSet.ts" />
+/// <reference path="base/MultiSet.ts" />
 
-namespace std.HashSet
+namespace std.HashMultiSet
 {
 	export type iterator<T> = std.SetIterator<T>;
 	export type reverse_iterator<T> = std.SetReverseIterator<T>;
@@ -11,23 +11,23 @@ namespace std.HashSet
 namespace std
 {
 	/**
-	 * <p> Hashed, unordered set. </p>
+	 * <p> Hashed, unordered Multiset. </p>
 	 *
-	 * <p> {@link HashSet}s are containers that store unique elements in no particular order, and which 
-	 * allow for fast retrieval of individual elements based on their value. </p>
+	 * <p> {@link HashMultiSet HashMultiSets} are containers that store elements in no particular order, allowing fast 
+	 * retrieval of individual elements based on their value, much like {@link HashSet} containers, 
+	 * but allowing different elements to have equivalent values. </p>
 	 *
-	 * <p> In an {@link HashSet}, the value of an element is at the same time its <i>key</i>, that 
-	 * identifies it uniquely. Keys are immutable, therefore, the elements in an {@link HashSet} cannot be 
+	 * <p> In an {@link HashMultiSet}, the value of an element is at the same time its <i>key</i>, used to 
+	 * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link HashMultiSet} cannot be 
 	 * modified once in the container - they can be inserted and removed, though. </p>
 	 *
-	 * <p> Internally, the elements in the {@link HashSet} are not sorted in any particular order, but 
-	 * organized into buckets depending on their hash values to allow for fast access to individual elements 
-	 * directly by their <i>values</i> (with a constant average time complexity on average). </p>
-	 *
-	 * <p> {@link HashSet} containers are faster than {@link TreeSet} containers to access individual 
-	 * elements by their <i>key</i>, although they are generally less efficient for range iteration through a 
-	 * subset of their elements. </p>
+	 * <p> Internally, the elements in the {@link HashMultiSet} are not sorted in any particular, but 
+	 * organized into <i>buckets</i> depending on their hash values to allow for fast access to individual 
+	 * elements directly by their <i>values</i> (with a constant average time complexity on average). </p>
 	 * 
+	 * <p> Elements with equivalent values are grouped together in the same bucket and in such a way that an 
+	 * iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+	 *
 	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
 	 * 
@@ -40,22 +40,22 @@ namespace std
 	 *	<dt> Hashed </dt>
 	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
 	 *		 by their <i>key</i>. </dd>
-	 * 
+	 *
 	 *	<dt> Set </dt>
 	 *	<dd> The value of an element is also the <i>key</i> used to identify it. </dd>
-	 * 
-	 *	<dt> Unique keys </dt>
-	 *	<dd> No two elements in the container can have equivalent <i>keys</i>. </dd>
-	 * </dl>
-	 * 
-	 * @param <T> Type of the elements. 
-	 *			  Each element in an {@link HashSet} is also uniquely identified by this value.
 	 *
-	 * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
+	 *	<dt> Multiple equivalent keys </dt>
+	 *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
+	 * </dl> 
+	 *
+	 * @param <T> Type of the elements. 
+	 *		   Each element in an {@link UnorderedMultiSet} is also identified by this value..
+	 *
+	 * @reference http://www.cplusplus.com/reference/unordered_set/unordered_multiset
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class HashSet<T>
-		extends base.UniqueSet<T>
+	export class HashMultiSet<T>
+		extends base.MultiSet<T>
 	{
 		/**
 		 * @hidden
@@ -119,6 +119,24 @@ namespace std
 		public find(key: T): SetIterator<T>
 		{
 			return this.hash_buckets_.find(key);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public count(key: T): number
+		{
+			// FIND MATCHED BUCKET
+			let index = std.hash(key) % this.hash_buckets_.item_size();
+			let bucket = this.hash_buckets_.at(index);
+
+			// ITERATE THE BUCKET
+			let cnt: number = 0;
+			for (let i = 0; i < bucket.length; i++)
+				if (std.equal_to(bucket[i].value, key))
+					cnt++;
+
+			return cnt;
 		}
 
 		/**
@@ -269,19 +287,11 @@ namespace std
 		 */
 		protected insert_by_val(val: T): any
 		{
-			// TEST WHETHER EXIST
-			let it = this.find(val);
-			if (it.equal_to(this.end()) == false)
-				return make_pair(it, false);
-
 			// INSERT
-			this.data_.push_back(val);
-			it = it.prev();
+			let it = new SetIterator<T>(this, this.data_.insert(this.data_.end(), val));
 
-			// POST-PROCESS
-			this.handle_insert(it, it.next());
-
-			return make_pair(it, true);
+			this.handle_insert(it, it.next()); // POST-PROCESS
+			return it;
 		}
 
 		/**
@@ -289,10 +299,6 @@ namespace std
 		 */
 		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
-			// FIND KEY
-			if (this.has(val) == true)
-				return this.end();
-
 			// INSERT
 			let list_iterator = this.data_.insert(hint.get_list_iterator(), val);
 
@@ -309,26 +315,15 @@ namespace std
 		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			let my_first: SetIterator<T> = this.end().prev();
-			let size: number = 0;
+			// INSERT ELEMENTS
+			let list_iterator = this.data_.insert(this.data_.end(), first, last);
+			let my_first = new SetIterator<T>(this, list_iterator);
 
-			for (; !first.equal_to(last); first = first.next() as InputIterator)
-			{
-				// TEST WHETER EXIST
-				if (this.has(first.value))
-					continue;
-				
-				// INSERTS
-				this.data_.push_back(first.value);
-				size++;
-			}
-			my_first = my_first.next();
-			
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hash_buckets_.size() * base.Hash.MAX_RATIO)
-				this.hash_buckets_.rehash((this.size() + size) * base.Hash.RATIO);
+			if (this.size() > this.hash_buckets_.item_size() * base.Hash.MAX_RATIO)
+				this.hash_buckets_.rehash(this.size() * base.Hash.RATIO);
 
-			// INSERTS
+			// POST-PROCESS
 			this.handle_insert(my_first, this.end());
 		}
 
@@ -359,9 +354,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.UniqueSet<T>): void
+		public swap(obj: base.MultiSet<T>): void
 		{
-			if (obj instanceof HashSet)
+			if (obj instanceof HashMultiSet)
 				this.swap_tree_set(obj);
 			else
 				super.swap(obj);
@@ -370,7 +365,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private swap_tree_set(obj: HashSet<T>): void
+		private swap_tree_set(obj: HashMultiSet<T>): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];

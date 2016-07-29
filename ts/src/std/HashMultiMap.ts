@@ -1,9 +1,8 @@
-/// <reference path="API.ts" />
+﻿/// <reference path="API.ts" />
 
-/// <reference path="base/UniqueMap.ts" />
 /// <reference path="base/MultiMap.ts" />
 
-namespace std.HashMap
+namespace std.HashMultiMap
 {
 	export type iterator<Key, T> = std.MapIterator<Key, T>;
 	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
@@ -12,63 +11,62 @@ namespace std.HashMap
 namespace std
 {
 	/**
-	 * <p> Hashed, unordered map. </p>
+	 * <p> Hashed, unordered Multimap. </p>
+	 * 
+	 * <p> {@link HashMap}s are associative containers that store elements formed by the combination of 
+	 * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMap} containers, but allowing 
+	 * different elements to have equivalent <i>keys</i>. </p>
 	 *
-	 * <p> {@link HashMap}s are associative containers that store elements formed by the combination of a <i>key value</i> 
-	 * and a <i>mapped value</i>, and which allows for fast retrieval of individual elements based on their <i>keys</i>. 
-	 * </p>
+	 * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify the 
+	 * element, while the <i>mapped value</i> is an object with the content associated to this <i>key</i>. 
+	 * Types of <i>key</i> and <i>mapped value</i> may differ. </p>
 	 *
-	 * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify the element, while the 
-	 * <i>mapped value</i> is an object with the content associated to this <i>key</i>. Types of <i>key</i> and 
-	 * <i>mapped value</i> may differ. </p>
+	 * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order with 
+	 * respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on 
+	 * their hash values to allow for fast access to individual elements directly by their <i>key values</i> 
+	 * (with a constant average time complexity on average). </p>
 	 *
-	 * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order with respect to either 
-	 * their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on their hash values to allow 
-	 * for fast access to individual elements directly by their <i>key values</i> (with a constant average time complexity 
-	 * on average). </p>
+	 * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that 
+	 * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
 	 *
-	 * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their 
-	 * <i>key</i>, although they are generally less efficient for range iteration through a subset of their elements. </p>
-	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a> 
+	 * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" target="_blank"> 
+	 * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/map_containers.png" style="max-width: 100%" /> </a> 
 	 * </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
-	 * 	<dt> Associative </dt>
-	 * 	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
+	 *	<dt> Associative </dt>
+	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
 	 *		 position in the container. </dd>
 	 * 
-	 * 	<dt> Hashed </dt>
-	 * 	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
+	 *	<dt> Hashed </dt>
+	 *	<dd> Hashed containers organize their elements using hash tables that allow for fast access to elements 
 	 *		 by their <i>key</i>. </dd>
 	 * 
-	 * 	<dt> Map </dt>
-	 * 	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>: 
+	 *	<dt> Map </dt>
+	 *	<dd> Each element associates a <i>key</i> to a <i>mapped value</i>: 
 	 *		 <i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. </dd>
 	 * 
-	 * 	<dt> Unique keys </dt>
-	 * 	<dd> No two elements in the container can have equivalent keys. </dd>
+	 *	<dt> Multiple equivalent keys </dt>
+	 *	<dd> The container can hold multiple elements with equivalent <i>keys</i>. </dd>
 	 * </dl>
 	 *
 	 * @param <Key> Type of the key values. 
-	 *				Each element in an {@link HashMap} is uniquely identified by its key value.
+	 *				Each element in an {@link HashMap} is identified by a key value.
 	 * @param <T> Type of the mapped value. 
 	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
 	 *
-	 * @reference http://www.cplusplus.com/reference/unordered_map/unordered_map
+	 * @reference http://www.cplusplus.com/reference/unordered_map/unordered_multimap
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class HashMap<Key, T>
-		extends base.UniqueMap<Key, T>
-		implements base.IHashMap<Key, T>
+	export class HashMultiMap<Key, T>
+		extends base.MultiMap<Key, T>
 	{
 		/**
 		 * @hidden
 		 */
 		private hash_buckets_: base.MapHashBuckets<Key, T>;
-	
+
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
 				- CONSTRUCTORS
@@ -99,7 +97,7 @@ namespace std
 
 			super.construct_from_array(items);
 		}
-		
+
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
@@ -131,13 +129,31 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public count(key: Key): number
+		{
+			// FIND MATCHED BUCKET
+			let index = std.hash(key) % this.hash_buckets_.item_size();
+			let bucket = this.hash_buckets_.at(index);
+
+			// ITERATE THE BUCKET
+			let cnt: number = 0;
+			for (let i = 0; i < bucket.length; i++)
+				if (std.equal_to(bucket[i].first, key))
+					cnt++;
+
+			return cnt;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public begin(): MapIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
 		public begin(index: number): MapIterator<Key, T>;
-
+		
 		public begin(index?: number): MapIterator<Key, T>
 		{
 			if (index == undefined)
@@ -176,10 +192,7 @@ namespace std
 
 		public rbegin(index?: number): MapReverseIterator<Key, T>
 		{
-			if (index == undefined)
-				return super.rbegin();
-			else
-				return new MapReverseIterator<Key, T>(this.end(index));
+			return new MapReverseIterator<Key, T>(this.end(index));
 		}
 
 		/**
@@ -194,10 +207,7 @@ namespace std
 
 		public rend(index?: number): MapReverseIterator<Key, T>
 		{
-			if (index == undefined)
-				return super.rend();
-			else
-				return new MapReverseIterator<Key, T>(this.begin(index));
+			return new MapReverseIterator<Key, T>(this.begin(index));
 		}
 
 		/* ---------------------------------------------------------
@@ -214,9 +224,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public bucket_size(index: number): number
+		public bucket_size(n: number): number
 		{
-			return this.hash_buckets_.at(index).size();
+			return this.hash_buckets_.at(n).size();
 		}
 
 		/**
@@ -276,19 +286,11 @@ namespace std
 		 */
 		protected insert_by_pair(pair: Pair<Key, T>): any
 		{
-			// TEST WHETHER EXIST
-			let it = this.find(pair.first);
-			if (it.equal_to(this.end()) == false)
-				return make_pair(it, false);
-
 			// INSERT
-			this.data_.push_back(pair);
-			it = it.prev();
+			let it = new MapIterator<Key, T>(this, this.data_.insert(this.data_.end(), pair));
 
-			// POST-PROCESS
-			this.handle_insert(it, it.next());
-
-			return make_pair(it, true);
+			this.handle_insert(it, it.next()); // POST-PROCESS
+			return it;
 		}
 
 		/**
@@ -296,10 +298,6 @@ namespace std
 		 */
 		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
-			// FIND KEY
-			if (this.has(pair.first) == true)
-				return this.end();
-
 			// INSERT
 			let list_it = this.data_.insert(hint.get_list_iterator(), pair);
 
@@ -316,26 +314,14 @@ namespace std
 		protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			let my_first: MapIterator<Key, T> = this.end().prev();
-			let size: number = 0;
-
 			// INSERT ELEMENTS
-			for (; !first.equal_to(last); first = first.next() as InputIterator)
-			{
-				// TEST WHETER EXIST
-				if (this.has(first.value.first))
-					continue;
-
-				// INSERTS
-				this.data_.push_back(make_pair<Key, T>(first.value.first, first.value.second));
-				size++;
-			}
-			my_first = my_first.next();
+			let list_iterator = this.data_.insert(this.data_.end(), first, last);
+			let my_first = new MapIterator<Key, T>(this, list_iterator);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hash_buckets_.size() * base.Hash.MAX_RATIO)
-				this.hash_buckets_.rehash((this.size() + size) * base.Hash.RATIO);
-
+			if (this.size() > this.hash_buckets_.item_size() * base.Hash.MAX_RATIO)
+				this.hash_buckets_.rehash(this.size() * base.Hash.RATIO);
+			
 			// POST-PROCESS
 			this.handle_insert(my_first, this.end());
 		}
@@ -367,10 +353,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.UniqueMap<Key, T>): void
+		public swap(obj: base.MultiMap<Key, T>): void
 		{
-			if (obj instanceof HashMap)
-				this.swap_hash_map(obj);
+			if (obj instanceof HashMultiMap)
+				this.swap_hash_multimap(obj);
 			else
 				super.swap(obj);
 		}
@@ -378,7 +364,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private swap_hash_map(obj: HashMap<Key, T>): void
+		private swap_hash_multimap(obj: HashMultiMap<Key, T>): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];

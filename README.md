@@ -9,7 +9,7 @@ STL (Standard Template Library) Containers and Algorithms for TypeScript
 
 TypeScript-STL is an open-source JavaScript library providing containers and algorithms migrated from C++ STL. You can enjoy STL containers and algorithms in JavaScript. If TypeScript, you will be much happier feeling like using originla STL with type restriction and template programming.
 
-![Abstract Containers](http://samchon.github.io/typescript-stl/api/assets/images/design/abstract_containers.png)
+![Abstract Containers](http://samchon.github.io/typescript-stl/images/design/class_diagram/abstract_containers.png)
 
 ##### Containers
   - [**Linear containers**](http://samchon.github.io/typescript-stl/api/interfaces/std.base.container.ilinearcontainer.html)

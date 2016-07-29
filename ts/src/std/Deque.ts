@@ -3,14 +3,6 @@
 /// <reference path="base/Container.ts" />
 /// <reference path="Iterator.ts" />
 
-///**
-// * @hidden
-// */
-//namespace std.deque
-//{
-//	export type iterator<T> = std.DequeIterator<T>;
-//	export type reverse_iterator<T> = std.DequeReverseIterator<T>;
-//}
 namespace std.Deque
 {
 	export type iterator<T> = std.DequeIterator<T>;
@@ -48,8 +40,8 @@ namespace std
 	 * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than 
 	 * {@link List Lists}. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> </a>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
 	 * </p>
 	 * 
 	 * <h3> Container properties </h3>
@@ -73,72 +65,64 @@ namespace std
 		extends base.Container<T>
 		implements base.IArrayContainer<T>, base.IDequeContainer<T>
 	{
+		///
+		// Row size of the {@link matrix_ matrix} which contains elements.
+		// 
+		// Note that the {@link ROW} affects on time complexity of accessing and inserting element. 
+		// Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element 
+		// in middle position is {@link ROW} times faster than ordinary {@link Vector}.
+		// 
+		// When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting 
+		// element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
+		// and inserting element is O(N)).
 		/**
-		 * <p> Row size of the {@link matrix_ matrix} which contains elements. </p>
-		 *
-		 * <p> Note that the {@link ROW} affects on time complexity of accessing and inserting element. 
-		 * Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element 
-		 * in middle position is {@link ROW} times faster than ordinary {@link Vector}. </p>
-		 *
-		 * <p> When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting 
-		 * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
-		 * and inserting element is O(N)). </p>
+		 * @hidden
 		 */
 		private static get ROW(): number { return 8; }
 
+		///
+		// Minimum {@link capacity}.
+		// 
+		// Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque} 
+		// keeps the minimum {@link capacity} at least.
 		/**
-		 * <p> Minimum {@link capacity}. </p>
-		 *
-		 * <p> Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque} 
-		 * keeps the minimum {@link capacity} at least. </p>
+		 * @hidden
 		 */
 		private static get MIN_CAPACITY(): number { return 100; }
 
+		///
+		// A matrix containing elements.
+		// 
+		// This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
+		// Its number of rows follows {@link ROW} and number of columns follows {@link get_col_size} which 
+		// returns divide of {@link capacity} and {@link ROW}.
+		//  
+		// By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
+		// advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW}
+		// times faster than {@link Vector} when inserting elements in middle position.
+		// 
+		// However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
+		// time complexity on accessing element. {@link Deque} is {@link ROW} times slower than {@link Vector}
+		// when accessing element.
 		/**
-		 * <p> A matrix containing elements. </p>
-		 *
-		 * <p> This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
-		 * Its number of rows follows {@link ROW} and number of columns follows {@link get_col_size} which 
-		 * returns divide of {@link capacity} and {@link ROW}. </p>
-		 * 
-		 * By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
-		 * advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW}
-		 * times faster than {@link Vector} when inserting elements in middle position. </p>
-		 *
-		 * <p> However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
-		 * time complexity on accessing element. {@link Deque} is {@link ROW} times slower than {@link Vector}
-		 * when accessing element. </p>
+		 * @hidden
 		 */
 		private matrix_: Array<Array<T>>;
 
+		// Number of elements in the Deque.
 		/**
-		 * Number of elements in the {@link Deque}.
+		 * @hidden
 		 */
 		private size_: number;
 
 		/**
-		 * <p> Size of allocated storage capacity. </p>
-		 * 
-		 * <p> The {@link capacity_ capacity} is size of the storage space currently allocated for the 
-		 * {@link Deque container}, expressed in terms of elements. </p>
-		 *
-		 * <p> This {@link capacity_ capacity} is not necessarily equal to the {@link Deque container} 
-		 * {@link size}. It can be equal or greater, with the extra space allowing to accommodate for growth 
-		 * without the need to reallocate on each insertion. </p>
-		 *
-		 * <p> Notice that this {@link capacity_ capacity} does not suppose a limit on the {@link size} of 
-		 * the {@link Deque container}. When this {@link capacity} is exhausted and more is needed, it is
-		 * automatically expanded by the {@link Deque container} (reallocating it storage space). 
-		 * The theoretical limit on the {@link size} of a {@link Deque container} is given by member
-		 * {@link max_size}. </p>
-		 *
-		 * <p> The {@link capacity_ capacity} of a {@link Deque container} can be explicitly altered by 
-		 * calling member {@link Deque.reserve}. </p>
+		 * @hidden
 		 */
 		private capacity_: number;
 
+		// Get column size; {@link capacity_ capacity} / {@link ROW row}.
 		/**
-		 * Get column size; {@link capacity_ capacity} / {@link ROW row}.
+		 * @hidden
 		 */
 		private get_col_size(): number
 		{
@@ -863,8 +847,8 @@ namespace std
 	/**
 	 * <p> An iterator of {@link Deque}. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> </a>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
 	 * </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
@@ -1008,8 +992,8 @@ namespace std
 	/**
 	 * <p> A reverse-iterator of Deque. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/linear_containers.png" style="max-width: 100%" /> </a>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
 	 * </p>
 	 *
 	 * @param <T> Type of the elements.

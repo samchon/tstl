@@ -16,20 +16,20 @@ namespace std.base
 	 * so that they can be interpreted when needed as more abstract (and portable) 
 	 * {@link ErrorCondition error conditions}. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/api/assets/images/design/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class ErrorInstance
 	{
 		/**
-		 * A reference to an {@link ErrorCategory} object.
+		 * @hidden
 		 */
 		protected category_: ErrorCategory;
 
 		/**
-		 * A numerical value identifying an error instance.
+		 * @hidden
 		 */
 		protected value_: number;
 
