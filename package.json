@@ -1,29 +1,34 @@
 {
-  "name": "typescript-stl",
-  "description": "TypeScript-STL (Standard Template Library, migrated from C++)",
-  "author": {
-    "name": "Jeongho Nam",
-    "email": "samchon@samchon.org",
-    "url": "http://samchon.org"
-  },
-  "version": "1.0.0-rc.6",
+	"name": "typescript-stl",
+	"description": "TypeScript-STL (Standard Template Library, migrated from C++)",
+	"author": 
+	{
+		"name": "Jeongho Nam",
+		"email": "samchon@samchon.org",
+		"url": "http://samchon.org"
+	},
+	"version": "1.0.0-rc.8",
 
-  "main": "./lib/typescript-stl.js",
-  "homepage": "https://github.com/samchon/typescript-stl",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/samchon/typescript-stl.git"
-  },
-  "bugs": { "url": "https://github.com/samchon/typescript-stl/issues" },
+	"main": "./lib/typescript-stl.js",
+	"typings": "./lib/typescript-stl.d.ts",
 
-  "licenses": [
-    {
-      "type": "BSD-3-Clause",
-      "url": "https://opensource.org/licenses/BSD-3-Clause"
-    }
-  ],
-  "keywords": [
-    "stl", "standard template library",
-    "typescript", "standard", "template", "container", "library", 
-    "vector", "deque", "list", "queue", "stack", "hash", "tree", "map", "set", "iterator"]
+	"homepage": "https://github.com/samchon/typescript-stl",
+	"repository": 
+	{
+		"type": "git",
+		"url": "https://github.com/samchon/typescript-stl.git"
+	},
+	"bugs": { "url": "https://github.com/samchon/typescript-stl/issues" },
+
+	"licenses": 
+	[{
+		"type": "BSD-3-Clause",
+		"url": "https://opensource.org/licenses/BSD-3-Clause"
+	}],
+	"keywords": 
+	[
+		"stl", "standard template library",
+		"typescript", "standard", "template", "container", "library", 
+		"vector", "deque", "list", "queue", "stack", "hash", "tree", "map", "set", "iterator"
+	]
 }

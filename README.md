@@ -52,16 +52,23 @@ You can learn and explore about TypeScript-STL more deeply with such below:
 
 
 ## Installation
-Installing *TypeScript-STL* in **node** is very easy. Just install with **npm**.
+Installing *TypeScript-STL* in **node** is very easy. Just install with **npm** and **tsd**.
 
 #### Node
-``` npm install -g typescript-stl ```
+``` bash
+# Install TypeScript-STL from NPM modules
+npm install -g typescript-stl 
+
+# Fetch definition (header) file from TSD
+# If TSD is not installed, then type "npm install -g tsd"
+tsd install typescript-stl
+```
 
 #### TypeScript
 Don't forget to referencing header files, ```typescript-stl.d.ts```.
 
 ``` typescript
-/// <reference path="typescript-stl.d.ts" />
+/// <reference path="typings/typescript-stl/typescript-stl.d.ts" />
 
 import std = require("typescript-stl");
 let map: std.TreeMap<string, number> = new std.TreeMap<string, number>();
