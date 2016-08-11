@@ -901,6 +901,11 @@ namespace std
 			return this.deque.at(this.index_);
 		}
 
+		/**
+		 * Set value of the iterator is pointing to.
+		 * 
+		 * @param val Value to set.
+		 */
 		public set value(val: T)
 		{
 			this.deque.set(this.index_, val);
@@ -1007,13 +1012,18 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from base iterator.
+		 * 
+		 * @param base A reference of the base iterator, which iterates in the opposite direction.
+		 */
 		public constructor(base: DequeIterator<T>)
 		{
 			super(base);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected create_neighbor(): DequeReverseIterator<T>
 		{
@@ -1024,7 +1034,9 @@ namespace std
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Set value.
+		 * Set value of the iterator is pointing to.
+		 * 
+		 * @param val Value to set.
 		 */
 		public set value(val: T)
 		{

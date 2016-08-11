@@ -799,7 +799,9 @@ namespace std
 		}
 
 		/**
-		 * Set value.
+		 * Set value of the iterator is pointing to.
+		 * 
+		 * @param val Value to set.
 		 */
 		public set value(val: T)
 		{
@@ -907,13 +909,18 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from base iterator.
+		 * 
+		 * @param base A reference of the base iterator, which iterates in the opposite direction.
+		 */
 		public constructor(base: VectorIterator<T>)
 		{
 			super(base);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected create_neighbor(): VectorReverseIterator<T>
 		{
@@ -924,7 +931,9 @@ namespace std
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Set value.
+		 * Set value of the iterator is pointing to.
+		 * 
+		 * @param val Value to set.
 		 */
 		public set value(val: T)
 		{

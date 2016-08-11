@@ -665,13 +665,18 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from base iterator.
+		 * 
+		 * @param base A reference of the base iterator, which iterates in the opposite direction.
+		 */
 		public constructor(base: SetIterator<T>)
 		{
 			super(base);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected create_neighbor(): SetReverseIterator<T>
 		{

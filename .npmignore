@@ -9,3 +9,4 @@ wiki
 
 *.bat
 *.*ignore
+*.d.ts

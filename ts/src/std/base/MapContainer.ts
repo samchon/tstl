@@ -840,11 +840,19 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from base iterator.
+		 * 
+		 * @param base A reference of the base iterator, which iterates in the opposite direction.
+		 */
 		public constructor(base: MapIterator<Key, T>)
 		{
 			super(base);
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected create_neighbor(): MapReverseIterator<Key, T>
 		{
 			return new MapReverseIterator<Key, T>(null);

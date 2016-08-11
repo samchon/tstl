@@ -1210,6 +1210,11 @@ namespace std
 			return this.value_;
 		}
 
+		/**
+		 * Set value of the iterator is pointing to.
+		 * 
+		 * @param val Value to set.
+		 */
 		public set value(val: T)
 		{
 			this.value_ = val;
@@ -1271,13 +1276,18 @@ namespace std
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
+		/**
+		 * Construct from base iterator.
+		 * 
+		 * @param base A reference of the base iterator, which iterates in the opposite direction.
+		 */
 		public constructor(base: ListIterator<T>)
 		{
 			super(base);
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected create_neighbor(): ListReverseIterator<T>
 		{
@@ -1288,7 +1298,9 @@ namespace std
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * Set value of the iterator is pointing to.
+		 * 
+		 * @param val Value to set.
 		 */
 		public set value(val: T)
 		{

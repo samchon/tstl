@@ -7,10 +7,9 @@
 		"email": "samchon@samchon.org",
 		"url": "http://samchon.org"
 	},
-	"version": "1.0.0-rc.8",
+	"version": "1.0.0",
 
 	"main": "./lib/typescript-stl.js",
-	"typings": "./lib/typescript-stl.d.ts",
 
 	"homepage": "https://github.com/samchon/typescript-stl",
 	"repository": 

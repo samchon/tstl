@@ -2959,10 +2959,37 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     abstract class ReverseIterator<T, Base extends Iterator<T>, This extends ReverseIterator<T, Base, This>> extends Iterator<T> {
+        /**
+         * @hidden
+         */
         protected base_: Base;
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         constructor(base: Base);
+        /**
+         * <p> Return base iterator. </p>
+         *
+         * <p> Return a reference of the base iteraotr. </p>
+         *
+         * <p> The base iterator is an iterator of the same type as the one used to construct the {@link ReverseIterator},
+         * but pointing to the element next to the one the {@link ReverseIterator} is currently pointing to
+         * (a {@link ReverseIterator} has always an offset of -1 with respect to its base iterator).
+         *
+         * @return A reference of the base iterator, which iterates in the opposite direction.
+         */
         base(): Base;
+        /**
+         * @hidden
+         */
         protected abstract create_neighbor(): This;
+        /**
+         * <p> Get value of the iterator is pointing. </p>
+         *
+         * @return A value of the reverse iterator.
+         */
         value: T;
         /**
          * @inheritdoc
@@ -3463,6 +3490,11 @@ declare namespace std {
         /**
          * @inheritdoc
          */
+        /**
+         * Set value of the iterator is pointing to.
+         *
+         * @param val Value to set.
+         */
         value: T;
         /**
          * @inheritdoc
@@ -3515,13 +3547,20 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class DequeReverseIterator<T> extends ReverseIterator<T, DequeIterator<T>, DequeReverseIterator<T>> implements base.IArrayIterator<T> {
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         constructor(base: DequeIterator<T>);
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected create_neighbor(): DequeReverseIterator<T>;
         /**
-         * Set value.
+         * Set value of the iterator is pointing to.
+         *
+         * @param val Value to set.
          */
         value: T;
         /**
@@ -4851,7 +4890,15 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class MapReverseIterator<Key, T> extends ReverseIterator<Pair<Key, T>, MapIterator<Key, T>, MapReverseIterator<Key, T>> {
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         constructor(base: MapIterator<Key, T>);
+        /**
+         * @hidden
+         */
         protected create_neighbor(): MapReverseIterator<Key, T>;
         /**
          * Get first, key element.
@@ -5934,9 +5981,14 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class SetReverseIterator<T> extends ReverseIterator<T, SetIterator<T>, SetReverseIterator<T>> {
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         constructor(base: SetIterator<T>);
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected create_neighbor(): SetReverseIterator<T>;
     }
@@ -7106,6 +7158,11 @@ declare namespace std {
         /**
          * @inheritdoc
          */
+        /**
+         * Set value of the iterator is pointing to.
+         *
+         * @param val Value to set.
+         */
         value: T;
         /**
          * @inheritdoc
@@ -7130,13 +7187,20 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class ListReverseIterator<T> extends ReverseIterator<T, ListIterator<T>, ListReverseIterator<T>> {
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         constructor(base: ListIterator<T>);
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected create_neighbor(): ListReverseIterator<T>;
         /**
-         * @inheritdoc
+         * Set value of the iterator is pointing to.
+         *
+         * @param val Value to set.
          */
         value: T;
     }
@@ -9198,7 +9262,9 @@ declare namespace std {
          * @inheritdoc
          */
         /**
-         * Set value.
+         * Set value of the iterator is pointing to.
+         *
+         * @param val Value to set.
          */
         value: T;
         /**
@@ -9252,13 +9318,20 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class VectorReverseIterator<T> extends ReverseIterator<T, VectorIterator<T>, VectorReverseIterator<T>> implements base.IArrayIterator<T> {
+        /**
+         * Construct from base iterator.
+         *
+         * @param base A reference of the base iterator, which iterates in the opposite direction.
+         */
         constructor(base: VectorIterator<T>);
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected create_neighbor(): VectorReverseIterator<T>;
         /**
-         * Set value.
+         * Set value of the iterator is pointing to.
+         *
+         * @param val Value to set.
          */
         value: T;
         /**

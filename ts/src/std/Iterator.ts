@@ -172,11 +172,19 @@ namespace std
 	export abstract class ReverseIterator<T, Base extends Iterator<T>, This extends ReverseIterator<T, Base, This>>
 		extends Iterator<T>
 	{
+		/**
+		 * @hidden
+		 */
 		protected base_: Base;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Construct from base iterator.
+		 * 
+		 * @param base A reference of the base iterator, which iterates in the opposite direction.
+		 */
 		public constructor(base: Base)
 		{
 			if (base == null)
@@ -188,16 +196,36 @@ namespace std
 			}
 		}
 
+		/**
+		 * <p> Return base iterator. </p>
+		 * 
+		 * <p> Return a reference of the base iteraotr. </p>
+		 * 
+		 * <p> The base iterator is an iterator of the same type as the one used to construct the {@link ReverseIterator}, 
+		 * but pointing to the element next to the one the {@link ReverseIterator} is currently pointing to 
+		 * (a {@link ReverseIterator} has always an offset of -1 with respect to its base iterator).
+		 * 
+		 * @return A reference of the base iterator, which iterates in the opposite direction.
+		 */
 		public base(): Base
 		{
 			return this.base_.next() as Base;
 		}
 
+		// CREATE A NEW OBJECT WITH SAME (DERIVED) TYPE
+		/**
+		 * @hidden
+		 */
 		protected abstract create_neighbor(): This;
 
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * <p> Get value of the iterator is pointing. </p>
+		 * 
+		 * @return A value of the reverse iterator.
+		 */
 		public get value(): T
 		{
 			return this.base_.value;
