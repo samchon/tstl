@@ -38,7 +38,7 @@ TypeScript-STL is an open-source JavaScript library providing containers and alg
   - [&lt;functional&gt;](http://www.cplusplus.com/reference/functional)
     - [std.bind](http://samchon.github.io/typescript-stl/api/modules/std.html#bind)
   - [&lt;utility&gt;](http://www.cplusplus.com/reference/utility)
-    - [std.Pair](http://samchon.github.io/typescript-stl/api/classes/std.pair.html) 
+    - [std.Pair](http://samchon.github.io/typescript-stl/api/classes/std.pair.html)
 
 
 

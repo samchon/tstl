@@ -18,8 +18,8 @@ namespace std.base
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index 
 	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
 	 *
-	 * <p> <a href="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="D:/Homepage/samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
