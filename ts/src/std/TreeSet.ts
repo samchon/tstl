@@ -236,7 +236,7 @@ namespace std
 		 */
 		public upper_bound(val: T): SetIterator<T>
 		{
-			return this.tree_.lower_bound(val);
+			return this.tree_.upper_bound(val);
 		}
 
 		/**
@@ -270,7 +270,7 @@ namespace std
 
 			if (node == null)
 				it = this.end();
-			else if (std.less(node.value.value, val) == true)
+			else if (this.key_comp()(node.value.value, val) == true)
 				it = node.value.next();
 			else
 				it = node.value;

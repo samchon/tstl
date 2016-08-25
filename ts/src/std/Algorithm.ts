@@ -2308,16 +2308,16 @@ namespace std
 			compare: (left: T, right: T) => boolean
 		): number
 	{
-		let val: T = container.at(first);
+		let standard: T = container.at(first);
 		let i: number = first;
 		let j: number = last + 1;
 
 		while (true)
 		{
-			while (compare(container.at(++i), val))
+			while (compare(container.at(++i), standard))
 				if (i == last)
 					break;
-			while (compare(val, container.at(--j)))
+			while (compare(standard, container.at(--j)))
 				if (j == first)
 					break;
 

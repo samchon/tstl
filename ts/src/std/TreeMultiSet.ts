@@ -282,11 +282,11 @@ namespace std
 			{
 				it = node.value.next();
 			}
-			else if (std.less(node.value.value, val) == true)
+			else if (this.key_comp()(node.value.value, val) == true)
 			{
 				it = node.value.next();
 
-				while (it.equal_to(this.end()) == false && std.less(it.value, val))
+				while (it.equal_to(this.end()) == false && this.key_comp()(it.value, val))
 					it = it.next();
 			}
 			else

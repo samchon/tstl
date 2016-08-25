@@ -1031,34 +1031,43 @@ namespace std
 
 		public sort(compare: (left: T, right: T) => boolean = std.less): void
 		{
-			let vector: Vector<T> = new Vector<T>(this.begin(), this.end());
-			sort(vector.begin(), vector.end());
+			this.qsort(this.begin(), this.end().prev(), compare);
+		}
 
-			// IT CALLS HANDLE_INSERT
-			// this.assign(vector.begin(), vector.end());
-
-			///////
-			// INSTEAD OF ASSIGN
-			///////
-			let prev: ListIterator<T> = this.end_;
-			let first: ListIterator<T> = null;
-
-			for (let i: number = 0; i < vector.length; i++) 
+		/**
+		 * @hidden
+		 */
+		private qsort(first: ListIterator<T>, last: ListIterator<T>, compare: (left: T, right: T) => boolean): void
+		{
+			if (first != last && last != this.end_ && first != last.next())
 			{
-				// CONSTRUCT ITEM, THE NEW ELEMENT
-				let item: ListIterator<T> = new ListIterator(this, prev, null, vector[i]);
-				if (i == 0)
-					first = item;
+				let temp: ListIterator<T> = this.partition(first, last, compare);
 
-				prev.set_next(item);
-				prev = item;
+				this.qsort(first, temp.prev(), compare);
+				this.qsort(temp.next(), last, compare);
 			}
+		}
 
-			this.begin_ = first;
+		/**
+		 * @hidden
+		 */
+		private partition(first: ListIterator<T>, last: ListIterator<T>, compare: (left: T, right: T) => boolean): ListIterator<T>
+		{
+			let standard: T = last.value; // TO BE COMPARED
+			let prev: ListIterator<T> = first.prev(); // TO BE SMALLEST
 
-			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev.set_next(this.end_);
-			this.end_.set_prev(prev);
+			let it: ListIterator<T> = first;
+			for (; it != last; it = it.next())
+				if (compare(it.value, standard))
+				{
+					prev = (prev == this.end_) ? first : prev.next();
+					[prev.value, it.value] = [it.value, prev.value];
+				}
+
+			prev = (prev == this.end_) ? first : prev.next();
+			[prev.value, it.value] = [it.value, prev.value];
+		
+			return prev;
 		}
 
 		/* ---------------------------------------------------------

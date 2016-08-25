@@ -283,7 +283,7 @@ namespace std.base
 			else
 			{
 				let it = node.value;
-				while (!std.equal_to(it, this.map_.end()) && std.less(it.first, key))
+				while (!std.equal_to(it, this.map_.end()) && this.compare_(it.first, key))
 					it = it.next();
 
 				return it;
@@ -321,7 +321,7 @@ namespace std.base
 			else
 			{
 				let it = node.value;
-				while (!std.equal_to(it, this.map_.end()) && (std.equal_to(it.first, key) || std.less(it.first, key)))
+				while (!std.equal_to(it, this.map_.end()) && (std.equal_to(it.first, key) || this.compare_(it.first, key)))
 					it = it.next();
 
 				return it;

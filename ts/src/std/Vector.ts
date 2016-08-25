@@ -702,7 +702,7 @@ namespace std
 		}
 
 		/**
-		 * @hiddde
+		 * @hidden
 		 */
 		protected erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>
 		{

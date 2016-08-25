@@ -1247,14 +1247,14 @@ var std;
      * @hidden
      */
     function qsort_partition(container, first, last, compare) {
-        var val = container.at(first);
+        var standard = container.at(first);
         var i = first;
         var j = last + 1;
         while (true) {
-            while (compare(container.at(++i), val))
+            while (compare(container.at(++i), standard))
                 if (i == last)
                     break;
-            while (compare(val, container.at(--j)))
+            while (compare(standard, container.at(--j)))
                 if (j == first)
                     break;
             if (i >= j)
@@ -4594,7 +4594,7 @@ var std;
                     return node.value.next();
                 else {
                     var it = node.value;
-                    while (!std.equal_to(it, this.map_.end()) && std.less(it.first, key))
+                    while (!std.equal_to(it, this.map_.end()) && this.compare_(it.first, key))
                         it = it.next();
                     return it;
                 }
@@ -4627,7 +4627,7 @@ var std;
                     return this.map_.end();
                 else {
                     var it = node.value;
-                    while (!std.equal_to(it, this.map_.end()) && (std.equal_to(it.first, key) || std.less(it.first, key)))
+                    while (!std.equal_to(it, this.map_.end()) && (std.equal_to(it.first, key) || this.compare_(it.first, key)))
                         it = it.next();
                     return it;
                 }
@@ -4810,7 +4810,7 @@ var std;
                     return node.value;
                 else {
                     var it = node.value;
-                    while (!std.equal_to(it, this.set_.end()) && std.less(it.value, val))
+                    while (!std.equal_to(it, this.set_.end()) && this.compare_(it.value, val))
                         it = it.next();
                     return it;
                 }
@@ -4843,7 +4843,7 @@ var std;
                     return this.set_.end();
                 else {
                     var it = node.value;
-                    while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || std.less(it.value, val)))
+                    while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || this.compare_(it.value, val)))
                         it = it.next();
                     return it;
                 }
@@ -6073,9 +6073,13 @@ var std;
     var example;
     (function (example) {
         function test_all() {
-            for (var key in std.example)
-                if (key != "test_all" && std.example[key] instanceof Function)
-                    std.example[key]();
+            //for (let key in std.example)
+            //	if (key != "test_all" && std.example[key] instanceof Function)
+            //		std.example[key]();
+            var list = new std.List([1, 7, 5, 4, 2, 9, 3, 6, 0, 8]);
+            list.sort();
+            for (var it = list.begin(); it != list.end(); it = it.next())
+                console.log(it.value);
         }
         example.test_all = test_all;
     })(example = std.example || (std.example = {}));
@@ -6615,27 +6619,34 @@ var std;
         };
         List.prototype.sort = function (compare) {
             if (compare === void 0) { compare = std.less; }
-            var vector = new std.Vector(this.begin(), this.end());
-            std.sort(vector.begin(), vector.end());
-            // IT CALLS HANDLE_INSERT
-            // this.assign(vector.begin(), vector.end());
-            ///////
-            // INSTEAD OF ASSIGN
-            ///////
-            var prev = this.end_;
-            var first = null;
-            for (var i = 0; i < vector.length; i++) {
-                // CONSTRUCT ITEM, THE NEW ELEMENT
-                var item = new std.ListIterator(this, prev, null, vector[i]);
-                if (i == 0)
-                    first = item;
-                prev.set_next(item);
-                prev = item;
+            this.qsort(this.begin(), this.end().prev(), compare);
+        };
+        /**
+         * @hidden
+         */
+        List.prototype.qsort = function (first, last, compare) {
+            if (first != last && last != this.end_ && first != last.next()) {
+                var temp = this.partition(first, last, compare);
+                this.qsort(first, temp.prev(), compare);
+                this.qsort(temp.next(), last, compare);
             }
-            this.begin_ = first;
-            // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-            prev.set_next(this.end_);
-            this.end_.set_prev(prev);
+        };
+        /**
+         * @hidden
+         */
+        List.prototype.partition = function (first, last, compare) {
+            var standard = last.value; // TO BE COMPARED
+            var prev = first.prev(); // TO BE SMALLEST
+            var it = first;
+            for (; it != last; it = it.next())
+                if (compare(it.value, standard)) {
+                    prev = (prev == this.end_) ? first : prev.next();
+                    _a = [it.value, prev.value], prev.value = _a[0], it.value = _a[1];
+                }
+            prev = (prev == this.end_) ? first : prev.next();
+            _b = [it.value, prev.value], prev.value = _b[0], it.value = _b[1];
+            return prev;
+            var _a, _b;
         };
         /* ---------------------------------------------------------
             SWAP
@@ -9218,7 +9229,7 @@ var std;
                 return ret;
         };
         /**
-         * @hiddde
+         * @hidden
          */
         Vector.prototype.erase_by_range = function (first, last) {
             if (first.index == -1)
@@ -10058,7 +10069,7 @@ var std;
          * @inheritdoc
          */
         TreeSet.prototype.upper_bound = function (val) {
-            return this.tree_.lower_bound(val);
+            return this.tree_.upper_bound(val);
         };
         /**
          * @inheritdoc
@@ -10085,7 +10096,7 @@ var std;
             var it;
             if (node == null)
                 it = this.end();
-            else if (std.less(node.value.value, val) == true)
+            else if (this.key_comp()(node.value.value, val) == true)
                 it = node.value.next();
             else
                 it = node.value;
@@ -10330,7 +10341,7 @@ var std;
             var it;
             if (node == null)
                 it = this.end();
-            else if (this.tree_.key_comp()(node.value.first, pair.first) == true)
+            else if (this.key_comp()(node.value.first, pair.first) == true)
                 it = node.value.next();
             else
                 it = node.value;
@@ -10348,7 +10359,7 @@ var std;
                 return this.end();
             // VALIDATE HINT
             var ret;
-            var compare = this.tree_.key_comp();
+            var compare = this.key_comp();
             // hint < current && current < next
             if (compare(hint.first, pair.first) == true
                 && (hint.next().equal_to(this.end()) || compare(pair.first, hint.next().first) == true)) {
@@ -10589,9 +10600,9 @@ var std;
             else if (std.equal_to(node.value.value, val) == true) {
                 it = node.value.next();
             }
-            else if (std.less(node.value.value, val) == true) {
+            else if (this.key_comp()(node.value.value, val) == true) {
                 it = node.value.next();
-                while (it.equal_to(this.end()) == false && std.less(it.value, val))
+                while (it.equal_to(this.end()) == false && this.key_comp()(it.value, val))
                     it = it.next();
             }
             else {
@@ -10856,9 +10867,9 @@ var std;
             else if (std.equal_to(node.value.first, pair.first) == true) {
                 it = node.value.next();
             }
-            else if (this.tree_.key_comp()(node.value.first, pair.first) == true) {
+            else if (this.key_comp()(node.value.first, pair.first) == true) {
                 it = node.value.next();
-                while (it.equal_to(this.end()) == false && this.tree_.key_comp()(it.first, pair.first))
+                while (it.equal_to(this.end()) == false && this.key_comp()(it.first, pair.first))
                     it = it.next();
             }
             else
@@ -10877,7 +10888,7 @@ var std;
                 return this.end();
             // VALIDATE HINT
             var ret;
-            var compare = this.tree_.key_comp();
+            var compare = this.key_comp();
             // hint <= current && current <= next
             if ((compare(hint.first, pair.first) || std.equal_to(hint.first, pair.first))
                 && (hint.next().equal_to(this.end()) || (compare(pair.first, hint.next().first) || std.equal_to(pair.first, hint.next().first)))) {

@@ -287,7 +287,7 @@ namespace std.base
 			else
 			{
 				let it: SetIterator<T> = node.value;
-				while (!std.equal_to(it, this.set_.end()) && std.less(it.value, val))
+				while (!std.equal_to(it, this.set_.end()) && this.compare_(it.value, val))
 					it = it.next();
 
 				return it;
@@ -325,7 +325,7 @@ namespace std.base
 			else
 			{
 				let it: SetIterator<T> = node.value;
-				while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || std.less(it.value, val)))
+				while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || this.compare_(it.value, val)))
 					it = it.next();
 
 				return it;

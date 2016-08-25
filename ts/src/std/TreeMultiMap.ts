@@ -307,11 +307,11 @@ namespace std
 			{
 				it = node.value.next();
 			}
-			else if (this.tree_.key_comp()(node.value.first, pair.first) == true)
+			else if (this.key_comp()(node.value.first, pair.first) == true)
 			{
 				it = node.value.next();
 
-				while (it.equal_to(this.end()) == false && this.tree_.key_comp()(it.first, pair.first))
+				while (it.equal_to(this.end()) == false && this.key_comp()(it.first, pair.first))
 					it = it.next();
 			}
 			else
@@ -335,7 +335,7 @@ namespace std
 
 			// VALIDATE HINT
 			let ret: MapIterator<Key, T>;
-			let compare = this.tree_.key_comp();
+			let compare = this.key_comp();
 
 			// hint <= current && current <= next
 			if ((compare(hint.first, pair.first) || std.equal_to(hint.first, pair.first))
