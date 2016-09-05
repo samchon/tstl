@@ -5,6 +5,7 @@ namespace std.example
 	export function test_deque(): void
 	{
 		let deque: std.Deque<number> = new std.Deque<number>();
+
 		for (let i: number = 0; i < 10; i++)
 			deque.push_back(i);
 

@@ -951,7 +951,11 @@ namespace std
 		 */
 		public advance(n: number): DequeIterator<T>
 		{
-			let new_index: number = this.index_ + n;
+			let new_index: number;
+			if (n < 0 && this.index_ == -1)
+				new_index = this.deque.size() + n;
+			else
+				new_index = this.index_ + n;
 
 			if (new_index < 0 || new_index >= this.deque.size())
 				return this.deque.end();

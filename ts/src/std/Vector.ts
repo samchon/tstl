@@ -848,12 +848,16 @@ namespace std
 		 */
 		public advance(n: number): VectorIterator<T>
 		{
-			let newIndex: number = this.index_ + n;
+			let new_index: number;
+			if (n < 0 && this.index_ == -1)
+				new_index = this.vector.size() + n;
+			else
+				new_index = this.index_ + n;
 
-			if (newIndex < 0 || newIndex >= this.vector.size())
+			if (new_index < 0 || new_index >= this.vector.size())
 				return this.vector.end();
 			else
-				return new VectorIterator<T>(this.vector, newIndex);
+				return new VectorIterator<T>(this.vector, new_index);
 		}
 
 		/* ---------------------------------------------------------
