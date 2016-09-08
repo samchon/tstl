@@ -13,15 +13,15 @@ namespace std
 	/**
 	 * <p> Hashed, unordered Multimap. </p>
 	 * 
-	 * <p> {@link HashMap}s are associative containers that store elements formed by the combination of 
-	 * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMap} containers, but allowing 
+	 * <p> {@link HashMultiMap}s are associative containers that store elements formed by the combination of
+	 * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMultiMap} containers, but allowing
 	 * different elements to have equivalent <i>keys</i>. </p>
 	 *
-	 * <p> In an {@link HashMap}, the <i>key value</i> is generally used to uniquely identify the 
+	 * <p> In an {@link HashMultiMap}, the <i>key value</i> is generally used to uniquely identify the
 	 * element, while the <i>mapped value</i> is an object with the content associated to this <i>key</i>. 
 	 * Types of <i>key</i> and <i>mapped value</i> may differ. </p>
 	 *
-	 * <p> Internally, the elements in the {@link HashMap} are not sorted in any particular order with 
+	 * <p> Internally, the elements in the {@link HashMultiMap} are not sorted in any particular order with
 	 * respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on 
 	 * their hash values to allow for fast access to individual elements directly by their <i>key values</i> 
 	 * (with a constant average time complexity on average). </p>
@@ -52,9 +52,9 @@ namespace std
 	 * </dl>
 	 *
 	 * @param <Key> Type of the key values. 
-	 *				Each element in an {@link HashMap} is identified by a key value.
+	 *				Each element in an {@link HashMultiMap} is identified by a key value.
 	 * @param <T> Type of the mapped value. 
-	 *			  Each element in an {@link HashMap} is used to store some data as its mapped value.
+	 *			  Each element in an {@link HashMultiMap} is used to store some data as its mapped value.
 	 *
 	 * @reference http://www.cplusplus.com/reference/unordered_map/unordered_multimap
 	 * @author Jeongho Nam <http://samchon.org>
@@ -74,28 +74,67 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/////
-		// using super::constructor
-		/////
+		/**
+		 * Default Constructor.
+		 */
+		public constructor();
 
 		/**
-		 * @hidden
+		 * Construct from elements.
 		 */
-		protected init(): void
-		{
-			super.init();
+		public constructor(items: Pair<Key, T>[]);
 
+		/**
+		 * Contruct from tuples.
+		 *
+		 * @param array Tuples to be contained.
+		 */
+		public constructor(array: [Key, T][]);
+
+		/**
+		 * Copy Constructor.
+		 */
+		public constructor(container: HashMultiMap<Key, T>);
+
+		/**
+		 * Construct from range iterators.
+		 */
+		public constructor(begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>);
+
+		public constructor(...args: any[])
+		{
+			// INIT MEMBERS
+			super();
 			this.hash_buckets_ = new base.MapHashBuckets<Key, T>(this);
-		}
 
-		/**
-		 * @hidden
-		 */
-		protected construct_from_array(items: Array<Pair<Key, T>>): void
-		{
-			this.hash_buckets_.rehash(items.length * base.Hash.RATIO);
+			// BRANCH - METHOD OVERLOADINGS
+			if (args.length == 0) 
+			{
+				// DO NOTHING
+			}
+			else if (args.length == 1 && args[0] instanceof HashMultiMap)
+			{
+				// COPY CONSTRUCTOR
+				let container: HashMultiMap<Key, T> = args[0];
 
-			super.construct_from_array(items);
+				this.assign(container.begin(), container.end());
+			}
+			else if (args.length == 1 && args[0] instanceof Array)
+			{
+				// INITIALIZER LIST CONSTRUCTOR
+				let items: Pair<Key, T>[] = args[0];
+
+				this.rehash(items.length * base.Hash.RATIO);
+				this.push(...items);
+			}
+			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+			{
+				// RANGE CONSTRUCTOR
+				let first: std.Iterator<Pair<Key, T>> = args[0];
+				let last: std.Iterator<Pair<Key, T>> = args[1];
+
+				this.assign(first, last);
+			}
 		}
 
 		/* ---------------------------------------------------------
@@ -154,9 +193,9 @@ namespace std
 		 */
 		public begin(index: number): MapIterator<Key, T>;
 		
-		public begin(index?: number): MapIterator<Key, T>
+		public begin(index: number = -1): MapIterator<Key, T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.begin();
 			else
 				return this.hash_buckets_.at(index).front();
@@ -172,9 +211,9 @@ namespace std
 		 */
 		public end(index: number): MapIterator<Key, T>
 
-		public end(index?: number): MapIterator<Key, T>
+		public end(index: number = -1): MapIterator<Key, T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.end();
 			else
 				return this.hash_buckets_.at(index).back().next();
@@ -190,7 +229,7 @@ namespace std
 		 */
 		public rbegin(index: number): MapReverseIterator<Key, T>;
 
-		public rbegin(index?: number): MapReverseIterator<Key, T>
+		public rbegin(index: number = -1): MapReverseIterator<Key, T>
 		{
 			return new MapReverseIterator<Key, T>(this.end(index));
 		}
@@ -205,7 +244,7 @@ namespace std
 		 */
 		public rend(index: number): MapReverseIterator<Key, T>;
 
-		public rend(index?: number): MapReverseIterator<Key, T>
+		public rend(index: number = -1): MapReverseIterator<Key, T>
 		{
 			return new MapReverseIterator<Key, T>(this.begin(index));
 		}
@@ -239,9 +278,9 @@ namespace std
 		 */
 		public max_load_factor(z: number): void;
 
-		public max_load_factor(z?: number): any
+		public max_load_factor(z: number = -1): any
 		{
-			if (z == undefined)
+			if (z == -1)
 				return this.size() / this.bucket_count();
 			else
 				this.rehash(Math.ceil(this.bucket_count() / z));
@@ -278,6 +317,7 @@ namespace std
 			ELEMENTS I/O
 				- INSERT
 				- POST-PROCESS
+				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -347,27 +387,45 @@ namespace std
 				this.hash_buckets_.erase(first);
 		}
 
-		/* ===============================================================
-			UTILITIES
-		=============================================================== */
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link HashMultiMap map} of the same type. Sizes abd container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
+		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 *
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link HashMultiMap map container} of the same type of elements as this (i.e.,
+		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
+		 *			  with that of this {@link HashMultiMap container}.
+		 */
+		public swap(obj: HashMultiMap<Key, T>): void;
+
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.MultiMap<Key, T>): void
-		{
-			if (obj instanceof HashMultiMap)
-				this.swap_hash_multimap(obj);
-			else
-				super.swap(obj);
-		}
+		public swap(obj: base.IContainer<Pair<Key, T>>): void;
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
-		private swap_hash_multimap(obj: HashMultiMap<Key, T>): void
+		public swap(obj: HashMultiMap<Key, T> | base.IContainer<Pair<Key, T>>): void
 		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
-			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
+			if (obj instanceof HashMultiMap)
+			{
+				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
+			}
+			else
+				super.swap(obj);
 		}
 	}
 }

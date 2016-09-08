@@ -105,7 +105,7 @@ namespace std
 		/**
 		 * Copy Constructor.
 		 */
-		public constructor(container: base.IContainer<T>);
+		public constructor(container: TreeMultiSet<T>);
 
 		/**
 		 * Copy Constructor with compare.
@@ -113,7 +113,7 @@ namespace std
 		 * @param container A container to be copied.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.IContainer<T>, compare: (x: T, y: T) => boolean);
+		public constructor(container: TreeMultiSet<T>, compare: (x: T, y: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -124,58 +124,53 @@ namespace std
 		public constructor(begin: Iterator<T>, end: Iterator<T>);
 
 		/**
-		 * Range Constructor with compare.
+		 * Construct from range and compare.
 		 * 
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor
-			(
-				begin: Iterator<T>, end: Iterator<T>,
-				compare: (x: T, y: T) => boolean
-			);
-		
+		public constructor(begin: Iterator<T>, end: Iterator<T>, compare: (x: T, y: T) => boolean);
+
 		public constructor(...args: any[])
 		{
+			// INIT MEMBERS
 			super();
+			this.tree_ = new base.AtomicTree<T>(this);
 
-			// CONSTRUCT TREE WITH COMPARE
-			let compare: (x: T, y: T) => boolean = std.less;
-			let fn: Function = null;
-
-			// OVERLOADINGS
-			if (args.length == 0) { } // DO NOTHING
-			else if (args.length >= 1 && (args[0] instanceof base.Container || args[0] instanceof Vector))
+			if (args.length >= 1 && args[0] instanceof TreeSet)
 			{
-				fn = this.construct_from_container;
+				// COPY CONSTRUCTOR
+				let container: TreeSet<T> = args[0]; // PARAMETER
+				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
+					this.tree_["compare_"] = args[1];
 
-				if (args.length == 2)
-					compare = args[1];
+				this.assign(container.begin(), container.end());
 			}
 			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				fn = this.construct_from_array;
+				// INITIALIZER LIST CONSTRUCTOR
+				let items: T[] = args[0]; // PARAMETER
+				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
+					this.tree_["compare_"] = args[1];
 
-				if (args.length == 2)
-					compare = args[1];
+				this.push(...items);
 			}
 			else if (args.length >= 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				fn = this.construct_from_range;
+				// RANGE CONSTRUCTOR
+				let first: std.Iterator<T> = args[0]; // PARAMETER 1
+				let last: std.Iterator<T> = args[1]; // PARAMETER 2
+				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
+					this.tree_["compare_"] = args[2];
 
-				if (args.length == 3)
-					compare = args[2];
+				this.assign(first, last);
 			}
 			else if (args.length == 1)
-				compare = args[0];
-
-			// CONSTRUCT TREE
-			this.tree_ = new base.AtomicTree<T>(this, compare);
-
-			// BRANCH - CALL OVERLOADED CONSTRUCTORS
-			if (fn != null)
-				fn.apply(this, args);
+			{
+				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
+				this.tree_["compare_"] = args[0];
+			}
 		}
 
 		/* ---------------------------------------------------------
@@ -251,6 +246,7 @@ namespace std
 			ELEMENTS I/O
 				- INSERT
 				- POST-PROCESS
+				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -348,27 +344,42 @@ namespace std
 				this.tree_.erase(last);
 		}
 
-		/* ===============================================================
-			UTILITIES
-		=============================================================== */
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link TreeSet set} of the same type. Sizes abd container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
+		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 *
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link TreeSet set container} of the same type of elements as this (i.e.,
+		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
+		 *			  with that of this {@link TreeSet container}.
+		 */
+		public swap(obj: TreeSet<T>): void;
+
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.UniqueSet<T>): void
+		public swap(obj: base.IContainer<T>): void;
+		
+		public swap(obj: TreeSet<T> | base.IContainer<T>): void
 		{
-			if (obj instanceof TreeSet)
-				this.swap_tree_set(obj);
+			if (obj instanceof TreeSet && this.key_comp() == obj.key_comp())
+			{
+				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
+			}
 			else
 				super.swap(obj);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private swap_tree_set(obj: TreeSet<T>): void
-		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
-			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

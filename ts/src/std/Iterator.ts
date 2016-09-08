@@ -216,7 +216,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected abstract create_neighbor(): This;
+		protected abstract create_neighbor(base: Base): This;
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -239,11 +239,7 @@ namespace std
 		 */
 		public prev(): This
 		{
-			let ret = this.create_neighbor();
-			ret.source_ = this.source_;
-			ret.base_ = this.base_.next() as Base;
-
-			return ret;
+			return this.create_neighbor(this.base().next() as Base);
 		}
 
 		/**
@@ -251,11 +247,7 @@ namespace std
 		 */
 		public next(): This
 		{
-			let ret = this.create_neighbor();
-			ret.source_ = this.source_;
-			ret.base_ = this.base_.next() as Base;
-
-			return ret;
+			return this.create_neighbor(this.base().prev() as Base);
 		}
 
 		/**
@@ -263,11 +255,7 @@ namespace std
 		 */
 		public advance(n: number): This
 		{
-			let ret = this.create_neighbor();
-			ret.source_ = this.source_;
-			ret.base_ = this.base_.advance(-n) as Base;
-
-			return ret;
+			return this.create_neighbor(this.base().advance(-n) as Base);
 		}
 
 		/* ---------------------------------------------------------

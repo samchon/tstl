@@ -198,7 +198,7 @@ namespace std.base
 		erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
 
 		/* ---------------------------------------------------------------
-			UTILITIES
+			SWAP
 		--------------------------------------------------------------- */
 		/**
 		 * <p> Swap content. </p>

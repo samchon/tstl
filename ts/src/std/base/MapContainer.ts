@@ -47,7 +47,7 @@ namespace std.base
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class MapContainer<Key, T>
-		extends base.Container<Pair<Key, T>>
+		extends Container<Pair<Key, T>>
 	{
 		/**
 		 * <p> {@link List} storing elements. </p>
@@ -59,103 +59,19 @@ namespace std.base
 		 */
 		protected data_: List<Pair<Key, T>>;
 
-		/* =========================================================
-			CONSTRUCTORS & SEMI-CONSTRUCTORS
-				- CONSTRUCTORS
-				- ASSIGN & CLEAR
-		============================================================
+		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
 		 */
-		public constructor();
-
-		/**
-		 * Construct from elements.
-		 */
-		public constructor(items: Array<Pair<Key, T>>);
-
-		/**
-		 * Contruct from tuples.
-		 *
-		 * @param array Tuples to be contained.
-		 */
-		public constructor(array: Array<[Key, T]>);
-
-		/**
-		 * Copy Constructor.
-		 */
-		public constructor(container: IContainer<Pair<Key, T>>);
-
-		/**
-		 * Construct from range iterators.
-		 */
-		public constructor(begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>);
-
-		public constructor(...args: any[])
+		public constructor()
 		{
 			super();
-			
-			// INITIALIZATION
-			this.init();
 
-			// BRANCH - OVERLOADINGS
-			if (args.length == 0) { } // DO NOTHING
-			else if (args.length == 1 && (args[0] instanceof Container || args[0] instanceof Vector))
-			{
-				this.construct_from_container(args[0]);
-			}
-			else if (args.length == 1 && args[0] instanceof Array)
-			{
-				this.construct_from_array(args[0]);
-			}
-			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-			{
-				this.construct_from_range(args[0], args[1]);
-			}
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected init(): void
-		{
 			this.data_ = new List<Pair<Key, T>>();
 		}
-
-		/**
-		 * @hidden
-		 */
-		protected construct_from_array(items: Array<Pair<Key, T> | [Key, T]>): void
-		{
-			for (let i: number = 0; i < items.length; i++)
-				if (items[i] instanceof Pair)
-					this.insert_by_pair(items[i] as Pair<Key, T>);
-				else
-					this.insert_by_tuple(items[i] as [Key, T]);
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected construct_from_container(container: IContainer<Pair<Key, T>>): void
-		{
-			this.construct_from_range(container.begin(), container.end());
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected construct_from_range<InputIterator extends Iterator<Pair<Key, T>>>
-			(begin: InputIterator, end: InputIterator): void
-		{
-			this.assign(begin, end);
-		}
-
-		/* ---------------------------------------------------------
-			ASSIGN & CLEAR
-		--------------------------------------------------------- */
+		
 		/**
 		 * @inheritdoc
 		 */
@@ -853,9 +769,9 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected create_neighbor(): MapReverseIterator<Key, T>
+		protected create_neighbor(base: MapIterator<Key, T>): MapReverseIterator<Key, T>
 		{
-			return new MapReverseIterator<Key, T>(null);
+			return new MapReverseIterator<Key, T>(base);
 		}
 
 		/* ---------------------------------------------------------

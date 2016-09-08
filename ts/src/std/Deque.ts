@@ -172,7 +172,7 @@ namespace std
 		 * @param container Another container object of the same type (with the same class template 
 		 *					arguments <i>T</i>), whose contents are either copied or acquired.
 		 */
-		public constructor(container: base.IContainer<T>);
+		public constructor(container: Deque<T>);
 
 		/**
 		 * <p> Range Constructor. </p>
@@ -200,9 +200,9 @@ namespace std
 				this.clear();
 				this.push(...array);
 			}
-			else if (args.length == 1 && args[0] instanceof base.Container)
+			else if (args.length == 1 && args[0] instanceof Deque)
 			{
-				let container: base.Container<T> = args[0];
+				let container: Deque<T> = args[0];
 
 				this.assign(container.begin(), container.end());
 			}
@@ -380,6 +380,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public empty(): boolean
+		{
+			return this.size_ == 0;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public capacity(): number
 		{
 			return this.capacity_;
@@ -459,6 +467,7 @@ namespace std
 				- INSERT
 				- ERASE
 				- PRE & POST-PROCESS
+				- SWAP
 		============================================================
 			PUSH & POP
 		--------------------------------------------------------- */
@@ -816,28 +825,43 @@ namespace std
 			return first;
 		}
 
-		/* ===============================================================
-			UTILITIES
-		=============================================================== */
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link Deque container} object with same type of elements. Sizes and container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i> 
+		 * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and 
+		 * pointers remain valid for the swapped objects. </p>
+		 *
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link Deque container} of the same type of elements (i.e., instantiated
+		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
+		 *			  {@link container Deque}.
+		 */
+		public swap(obj: Deque<T>): void
+
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void
+		public swap(obj: base.IContainer<T>): void;
+
+		public swap(obj: Deque<T> | base.IContainer<T>): void
 		{
 			if (obj instanceof Deque)
-				this.swap_deque(obj);
+			{
+				[this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
+				[this.size_, obj.size_] = [obj.size_, this.size_];
+				[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
+			}
 			else
-				super.swap(obj as base.Container<T>);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private swap_deque(obj: Deque<T>): void
-		{
-			[this.matrix_,  obj.matrix_   ] = [obj.matrix_,   this.matrix_  ];
-			[this.size_,    obj.size_     ] = [obj.size_,     this.size_    ];
-			[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
+				super.swap(obj);
 		}
 	}
 }
@@ -1029,14 +1053,22 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected create_neighbor(): DequeReverseIterator<T>
+		protected create_neighbor(base: DequeIterator<T>): DequeReverseIterator<T>
 		{
-			return new DequeReverseIterator<T>(null);
+			return new DequeReverseIterator<T>(base);
 		}
 
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public get value(): T
+		{
+			return this.base_.value;
+		}
+
 		/**
 		 * Set value of the iterator is pointing to.
 		 * 

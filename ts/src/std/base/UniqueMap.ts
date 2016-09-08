@@ -371,33 +371,5 @@ namespace std.base
 		{
 			return this.insert_or_assign_with_key_value(key, value).first;
 		}
-
-		/* ---------------------------------------------------------
-			UTILITIES
-		--------------------------------------------------------- */
-		/**
-		 * <p> Swap content. </p>
-		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link UniqueMap map} of the same type. Sizes abd container type may differ. </p>
-		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were 
-		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
-		 * iterators, references and pointers remain valid for the swapped objects. </p>
-		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
-		 * 
-		 * @param obj Another {@link UniqueMap map container} of the same type of elements as this (i.e.,
-		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
-		 *			  with that of this {@link UniqueMap container}.
-		 */
-		public swap(obj: UniqueMap<Key, T>): void
-		{
-			let vec = new Vector<Pair<Key, T>>(this.begin(), this.end());
-
-			this.assign(obj.begin(), obj.end());
-			obj.assign(vec.begin(), vec.end());
-		}
 	}
 }

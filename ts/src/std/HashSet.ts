@@ -56,6 +56,7 @@ namespace std
 	 */
 	export class HashSet<T>
 		extends base.UniqueSet<T>
+		implements base.IHashSet<T>
 	{
 		/**
 		 * @hidden
@@ -69,28 +70,60 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/////
-		// using super::constructor
-		/////
+		/**
+		 * Default Constructor.
+		 */
+		public constructor();
 
 		/**
-		 * @hidden
+		 * Construct from elements.
 		 */
-		protected init(): void
-		{
-			super.init();
+		public constructor(items: T[]);
 
+		/**
+		 * Copy Constructor.
+		 */
+		public constructor(container: HashSet<T>);
+
+		/**
+		 * Construct from range iterators.
+		 */
+		public constructor(begin: Iterator<T>, end: Iterator<T>);
+
+		public constructor(...args: any[])
+		{
+			// INIT MEMBERS
+			super();
 			this.hash_buckets_ = new base.SetHashBuckets<T>(this);
-		}
 
-		/**
-		 * @hidden
-		 */
-		protected construct_from_array(items: Array<T>): void
-		{
-			this.hash_buckets_.rehash(items.length * base.Hash.RATIO);
+			// BRANCH - METHOD OVERLOADINGS
+			if (args.length == 0)
+			{
+				// DO NOTHING
+			}
+			else if (args.length == 1 && args[0] instanceof HashSet)
+			{
+				// COPY CONSTRUCTOR
+				let container: HashSet<T> = args[0];
 
-			super.construct_from_array(items);
+				this.assign(container.begin(), container.end());
+			}
+			else if (args.length == 1 && args[0] instanceof Array)
+			{
+				// INITIALIZER LIST CONSTRUCTOR
+				let items: T[] = args[0];
+
+				this.rehash(items.length * base.Hash.RATIO);
+				this.push(...items);
+			}
+			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+			{
+				// RANGE CONSTRUCTOR
+				let first: std.Iterator<T> = args[0];
+				let last: std.Iterator<T> = args[1];
+
+				this.assign(first, last);
+			}
 		}
 
 		/* ---------------------------------------------------------
@@ -131,9 +164,9 @@ namespace std
 		 */
 		public begin(index: number): SetIterator<T>;
 
-		public begin(index?: number): SetIterator<T>
+		public begin(index: number = -1): SetIterator<T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.begin();
 			else
 				return this.hash_buckets_.at(index).front();
@@ -149,9 +182,9 @@ namespace std
 		 */
 		public end(index: number): SetIterator<T>
 
-		public end(index?: number): SetIterator<T>
+		public end(index: number = -1): SetIterator<T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.end();
 			else
 				return this.hash_buckets_.at(index).back().next();
@@ -167,9 +200,9 @@ namespace std
 		 */
 		public rbegin(index: number): SetReverseIterator<T>;
 
-		public rbegin(index?: number): SetReverseIterator<T>
+		public rbegin(index: number = -1): SetReverseIterator<T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.rbegin();
 			else
 				return new SetReverseIterator<T>(this.end(index));
@@ -185,9 +218,9 @@ namespace std
 		 */
 		public rend(index: number): SetReverseIterator<T>;
 
-		public rend(index?: number): SetReverseIterator<T>
+		public rend(index: number = -1): SetReverseIterator<T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.rend();
 			else
 				return new SetReverseIterator<T>(this.begin(index));
@@ -222,9 +255,9 @@ namespace std
 		 */
 		public max_load_factor(z: number): void;
 
-		public max_load_factor(z?: number): any
+		public max_load_factor(z: number = -1): any
 		{
-			if (z == undefined)
+			if (z == -1)
 				return this.size() / this.bucket_count();
 			else
 				this.rehash(Math.ceil(this.bucket_count() / z));
@@ -261,6 +294,7 @@ namespace std
 			ELEMENTS I/O
 				- INSERT
 				- POST-PROCESS
+				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -353,27 +387,42 @@ namespace std
 				this.hash_buckets_.erase(first);
 		}
 
-		/* ===============================================================
-			UTILITIES
-		=============================================================== */
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link HashSet set} of the same type. Sizes abd container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
+		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 *
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link HashSet set container} of the same type of elements as this (i.e.,
+		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
+		 *			  with that of this {@link HashSet container}.
+		 */
+		public swap(obj: HashSet<T>): void;
+
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.UniqueSet<T>): void
+		public swap(obj: base.IContainer<T>): void;
+
+		public swap(obj: HashSet<T> | base.IContainer<T>): void
 		{
 			if (obj instanceof HashSet)
-				this.swap_tree_set(obj);
+			{
+				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
+			}
 			else
 				super.swap(obj);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private swap_tree_set(obj: HashSet<T>): void
-		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
-			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
 }

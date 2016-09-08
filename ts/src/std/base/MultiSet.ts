@@ -79,19 +79,5 @@ namespace std.base
 		{
 			return super.insert.apply(this, args);
 		}
-
-		/* ---------------------------------------------------------
-			UTILITIES
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: MultiSet<T>): void
-		{
-			let vec = new Vector<T>(this.begin(), this.end());
-
-			this.assign(obj.begin(), obj.end());
-			obj.assign(vec.begin(), vec.end());
-		}
 	}
 }

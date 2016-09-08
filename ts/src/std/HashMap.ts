@@ -76,28 +76,67 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/////
-		// using super::constructor
-		/////
+		/**
+		 * Default Constructor.
+		 */
+		public constructor();
 
 		/**
-		 * @hidden
+		 * Construct from elements.
 		 */
-		protected init(): void
-		{
-			super.init();
+		public constructor(items: Pair<Key, T>[]);
 
+		/**
+		 * Contruct from tuples.
+		 *
+		 * @param array Tuples to be contained.
+		 */
+		public constructor(array: [Key, T][]);
+
+		/**
+		 * Copy Constructor.
+		 */
+		public constructor(container: HashMap<Key, T>);
+
+		/**
+		 * Construct from range iterators.
+		 */
+		public constructor(begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>);
+
+		public constructor(...args: any[])
+		{
+			// INIT MEMBERS
+			super();
 			this.hash_buckets_ = new base.MapHashBuckets<Key, T>(this);
-		}
 
-		/**
-		 * @hidden
-		 */
-		protected construct_from_array(items: Array<Pair<Key, T>>): void
-		{
-			this.hash_buckets_.rehash(items.length * base.Hash.RATIO);
+			// BRANCH - METHOD OVERLOADINGS
+			if (args.length == 0) 
+			{
+				// DO NOTHING
+			}
+			else if (args.length == 1 && args[0] instanceof HashMap)
+			{
+				// COPY CONSTRUCTOR
+				let container: HashMap<Key, T> = args[0];
 
-			super.construct_from_array(items);
+				this.assign(container.begin(), container.end());
+			}
+			else if (args.length == 1 && args[0] instanceof Array)
+			{
+				// INITIALIZER LIST CONSTRUCTOR
+				let items: Pair<Key, T>[] = args[0];
+
+				this.rehash(items.length * base.Hash.RATIO);
+				this.push(...items);
+			}
+			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+			{
+				// RANGE CONSTRUCTOR
+				let first: std.Iterator<Pair<Key, T>> = args[0];
+				let last: std.Iterator<Pair<Key, T>> = args[1];
+
+				this.assign(first, last);
+			}
 		}
 		
 		/* ---------------------------------------------------------
@@ -138,9 +177,9 @@ namespace std
 		 */
 		public begin(index: number): MapIterator<Key, T>;
 
-		public begin(index?: number): MapIterator<Key, T>
+		public begin(index: number = -1): MapIterator<Key, T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.begin();
 			else
 				return this.hash_buckets_.at(index).front();
@@ -156,9 +195,9 @@ namespace std
 		 */
 		public end(index: number): MapIterator<Key, T>
 
-		public end(index?: number): MapIterator<Key, T>
+		public end(index: number = -1): MapIterator<Key, T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.end();
 			else
 				return this.hash_buckets_.at(index).back().next();
@@ -174,9 +213,9 @@ namespace std
 		 */
 		public rbegin(index: number): MapReverseIterator<Key, T>;
 
-		public rbegin(index?: number): MapReverseIterator<Key, T>
+		public rbegin(index: number = -1): MapReverseIterator<Key, T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.rbegin();
 			else
 				return new MapReverseIterator<Key, T>(this.end(index));
@@ -192,9 +231,9 @@ namespace std
 		 */
 		public rend(index: number): MapReverseIterator<Key, T>;
 
-		public rend(index?: number): MapReverseIterator<Key, T>
+		public rend(index: number = -1): MapReverseIterator<Key, T>
 		{
-			if (index == undefined)
+			if (index == -1)
 				return super.rend();
 			else
 				return new MapReverseIterator<Key, T>(this.begin(index));
@@ -229,9 +268,9 @@ namespace std
 		 */
 		public max_load_factor(z: number): void;
 
-		public max_load_factor(z?: number): any
+		public max_load_factor(z: number = -1): any
 		{
-			if (z == undefined)
+			if (z == -1)
 				return this.size() / this.bucket_count();
 			else
 				this.rehash(Math.ceil(this.bucket_count() / z));
@@ -268,6 +307,7 @@ namespace std
 			ELEMENTS I/O
 				- INSERT
 				- POST-PROCESS
+				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -361,27 +401,45 @@ namespace std
 				this.hash_buckets_.erase(first);
 		}
 
-		/* ===============================================================
-			UTILITIES
-		=============================================================== */
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link HashMap map} of the same type. Sizes abd container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
+		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 *
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link HashMap map container} of the same type of elements as this (i.e.,
+		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
+		 *			  with that of this {@link HashMap container}.
+		 */
+		public swap(obj: HashMap<Key, T>): void;
+
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.UniqueMap<Key, T>): void
-		{
-			if (obj instanceof HashMap)
-				this.swap_hash_map(obj);
-			else
-				super.swap(obj);
-		}
+		public swap(obj: base.IContainer<Pair<Key, T>>): void;
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
-		private swap_hash_map(obj: HashMap<Key, T>): void
+		public swap(obj: HashMap<Key, T> | base.IContainer<Pair<Key, T>>): void
 		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
-			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
+			if (obj instanceof HashMap)
+			{
+				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
+			}
+			else
+				super.swap(obj);
 		}
 	}
 }

@@ -129,7 +129,7 @@ namespace std
 		 *
 		 * @param container Another map to copy.
 		 */
-		public constructor(container: base.MapContainer<Key, T>);
+		public constructor(container: TreeMultiMap<Key, T>);
 
 		/**
 		 * Copy Constructor.
@@ -137,7 +137,7 @@ namespace std
 		 * @param container Another map to copy.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.MapContainer<Key, T>, compare: (x: Key, y: Key) => boolean);
+		public constructor(container: TreeMultiMap<Key, T>, compare: (x: Key, y: Key) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -155,50 +155,49 @@ namespace std
 		 * @param compare A binary predicate determines order of elements.
 		 */
 		public constructor
-			(
-				begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>, compare: (x: Key, y: Key) => boolean
-			);
-		
+		(
+			begin: Iterator<Pair<Key, T>>, end: Iterator<Pair<Key, T>>, compare: (x: Key, y: Key) => boolean
+		);
+
 		public constructor(...args: any[])
 		{
+			// INIT MEMBERS
 			super();
+			this.tree_ = new base.PairTree<Key, T>(this);
 
-			// CONSTRUCT TREE WITH COMPARE
-			let compare: (x: Key, y: Key) => boolean = std.less;
-			let fn: Function = null;
-
-			// OVERLOADINGS
-			if (args.length == 0) { } // DO NOTHING
-			else if (args.length >= 1 && (args[0] instanceof base.Container || args[0] instanceof Vector))
+			if (args.length >= 1 && args[0] instanceof TreeMultiMap)
 			{
-				fn = this.construct_from_container;
+				// COPY CONSTRUCTOR
+				let container: TreeMultiMap<Key, T> = args[0]; // PARAMETER
+				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
+					this.tree_["compare_"] = args[1];
 
-				if (args.length == 2)
-					compare = args[1];
+				this.assign(container.begin(), container.end());
 			}
 			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				fn = this.construct_from_array;
+				// INITIALIZER LIST CONSTRUCTOR
+				let items: Pair<Key, T>[] = args[0]; // PARAMETER
+				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
+					this.tree_["compare_"] = args[1];
 
-				if (args.length == 2)
-					compare = args[1];
+				this.push(...items);
 			}
 			else if (args.length >= 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				fn = this.construct_from_range;
+				// RANGE CONSTRUCTOR
+				let first: std.Iterator<Pair<Key, T>> = args[0]; // PARAMETER 1
+				let last: std.Iterator<Pair<Key, T>> = args[1]; // PARAMETER 2
+				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
+					this.tree_["compare_"] = args[2];
 
-				if (args.length == 3)
-					compare = args[2];
+				this.assign(first, last);
 			}
 			else if (args.length == 1)
-				compare = args[0];
-
-			// CONSTRUCT TREE
-			this.tree_ = new base.PairTree<Key, T>(this, compare);
-
-			// BRANCH - CALL OVERLOADED CONSTRUCTORS
-			if (fn != null)
-				fn.apply(this, args);
+			{
+				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
+				this.tree_["compare_"] = args[0];
+			}
 		}
 
 		/* ---------------------------------------------------------
@@ -288,6 +287,7 @@ namespace std
 			ELEMENTS I/O
 				- INSERT
 				- POST-PROCESS
+				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -391,27 +391,45 @@ namespace std
 				this.tree_.erase(last);
 		}
 
-		/* ===============================================================
-			UTILITIES
-		=============================================================== */
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * <p> Swap content. </p>
+		 * 
+		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link TreeMapMulti map} of the same type. Sizes abd container type may differ. </p>
+		 * 
+		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
+		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 *
+		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function. </p>
+		 * 
+		 * @param obj Another {@link TreeMapMulti map container} of the same type of elements as this (i.e.,
+		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
+		 *			  with that of this {@link TreeMapMulti container}.
+		 */
+		public swap(obj: TreeMultiMap<Key, T>): void;
+
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.MultiMap<Key, T>): void
-		{
-			if (obj instanceof TreeMultiMap)
-				this.swap_tree_multimap(obj);
-			else
-				super.swap(obj);
-		}
+		public swap(obj: base.IContainer<Pair<Key, T>>): void;
 
 		/**
-		 * @hidden
+		 * @inheritdoc
 		 */
-		private swap_tree_multimap(obj: TreeMultiMap<Key, T>): void
+		public swap(obj: TreeMultiMap<Key, T> | base.IContainer<Pair<Key, T>>): void
 		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
-			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
+			if (obj instanceof TreeMultiMap && this.key_comp() == obj.key_comp())
+			{
+				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
+			}
+			else
+				super.swap(obj);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 /// <reference path="../API.ts" />
 
-/// <reference path="Container.ts" />
+/// <refernece path="Container.ts" />
 /// <reference path="../Iterator.ts" />
 
 namespace std.base
@@ -52,93 +52,19 @@ namespace std.base
 		 */
 		protected data_: List<T>;
 		
-		/* =========================================================
-			CONSTRUCTORS & SEMI-CONSTRUCTORS
-				- CONSTRUCTORS
-				- ASSIGN & CLEAR
-		============================================================
+		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
 		 * Default Constructor.
 		 */
-		public constructor()//;
-
-		/**
-		 * Construct from elements.
-		 */
-		public constructor(items: Array<T>);
-
-		/**
-		 * Copy Constructor.
-		 */
-		public constructor(container: IContainer<T>);
-
-		/**
-		 * Construct from range iterators.
-		 */
-		public constructor(begin: Iterator<T>, end: Iterator<T>);
-
-		public constructor(...args: any[])
+		public constructor()
 		{
 			super();
 
-			// INITIALIZATION
-			this.init();
-			
-			// BRANCH - OVERLOADINGS
-			if (args.length == 0) { } // DO NOTHING
-			else if (args.length == 1 && (args[0] instanceof Container || args[0] instanceof Vector))
-			{
-				this.construct_from_container(args[0]);
-			}
-			else if (args.length == 1 && args[0] instanceof Array)
-			{
-				this.construct_from_array(args[0]);
-			}
-			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
-			{
-				this.construct_from_range(args[0], args[1]);
-			}
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected init(): void
-		{
 			this.data_ = new List<T>();
 		}
-		
-		/**
-		 * @hidden
-		 */
-		protected construct_from_array(items: Array<T>): void
-		{
-			for (let i: number = 0; i < items.length; i++)
-				this.insert_by_val(items[i]);
-		}
 
-		/**
-		 * @hidden
-		 */
-		protected construct_from_container(container: IContainer<T>): void
-		{
-			this.construct_from_range(container.begin(), container.end());
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected construct_from_range<InputIterator extends Iterator<T>>
-			(begin: InputIterator, end: InputIterator): void
-		{
-			this.assign(begin, end);
-		}
-
-		/* ---------------------------------------------------------
-			ASSIGN & CLEAR
-		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
@@ -678,9 +604,9 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected create_neighbor(): SetReverseIterator<T>
+		protected create_neighbor(base: SetIterator<T>): SetReverseIterator<T>
 		{
-			return new SetReverseIterator<T>(null);
+			return new SetReverseIterator<T>(base);
 		}
 	}
 }
