@@ -324,26 +324,26 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_pair(pair: Pair<Key, T>): any
+		protected _Insert_by_pair(pair: Pair<Key, T>): any
 		{
 			// INSERT
-			let it = new MapIterator<Key, T>(this, this.data_.insert(this.data_.end(), pair));
+			let it = new MapIterator<Key, T>(this, this["data_"].insert(this["data_"].end(), pair));
 
-			this.handle_insert(it, it.next()); // POST-PROCESS
+			this._Handle_insert(it, it.next()); // POST-PROCESS
 			return it;
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			// INSERT
-			let list_it = this.data_.insert(hint.get_list_iterator(), pair);
+			let list_it = this["data_"].insert(hint.get_list_iterator(), pair);
 
 			// POST-PROCESS
 			let it = new MapIterator<Key, T>(this, list_it);
-			this.handle_insert(it, it.next());
+			this._Handle_insert(it, it.next());
 
 			return it;
 		}
@@ -351,11 +351,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT ELEMENTS
-			let list_iterator = this.data_.insert(this.data_.end(), first, last);
+			let list_iterator = this["data_"].insert(this["data_"].end(), first, last);
 			let my_first = new MapIterator<Key, T>(this, list_iterator);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
@@ -363,7 +363,7 @@ namespace std
 				this.hash_buckets_.rehash(this.size() * base.Hash.RATIO);
 			
 			// POST-PROCESS
-			this.handle_insert(my_first, this.end());
+			this._Handle_insert(my_first, this.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -372,7 +372,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
 			for (; !first.equal_to(last); first = first.next())
 				this.hash_buckets_.insert(first);
@@ -381,7 +381,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
 			for (; !first.equal_to(last); first = first.next())
 				this.hash_buckets_.erase(first);
@@ -421,7 +421,7 @@ namespace std
 		{
 			if (obj instanceof HashMultiMap)
 			{
-				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this["data_"], obj["data_"]] = [obj["data_"], this["data_"]];
 				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 			}
 			else

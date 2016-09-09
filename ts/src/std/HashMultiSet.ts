@@ -318,26 +318,26 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_val(val: T): any
+		protected _Insert_by_val(val: T): any
 		{
 			// INSERT
-			let it = new SetIterator<T>(this, this.data_.insert(this.data_.end(), val));
+			let it = new SetIterator<T>(this, this["data_"].insert(this["data_"].end(), val));
 
-			this.handle_insert(it, it.next()); // POST-PROCESS
+			this._Handle_insert(it, it.next()); // POST-PROCESS
 			return it;
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
 			// INSERT
-			let list_iterator = this.data_.insert(hint.get_list_iterator(), val);
+			let list_iterator = this["data_"].insert(hint.get_list_iterator(), val);
 
 			// POST-PROCESS
 			let it = new SetIterator<T>(this, list_iterator);
-			this.handle_insert(it, it.next());
+			this._Handle_insert(it, it.next());
 
 			return it;
 		}
@@ -345,11 +345,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT ELEMENTS
-			let list_iterator = this.data_.insert(this.data_.end(), first, last);
+			let list_iterator = this["data_"].insert(this["data_"].end(), first, last);
 			let my_first = new SetIterator<T>(this, list_iterator);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
@@ -357,7 +357,7 @@ namespace std
 				this.hash_buckets_.rehash(this.size() * base.Hash.RATIO);
 
 			// POST-PROCESS
-			this.handle_insert(my_first, this.end());
+			this._Handle_insert(my_first, this.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -366,7 +366,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
 			for (; !first.equal_to(last); first = first.next())
 				this.hash_buckets_.insert(first);
@@ -375,7 +375,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
 			for (; !first.equal_to(last); first = first.next())
 				this.hash_buckets_.erase(first);
@@ -412,7 +412,7 @@ namespace std
 		{
 			if (obj instanceof HashMultiSet)
 			{
-				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this["data_"], obj["data_"]] = [obj["data_"], this["data_"]];
 				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 			}
 			else

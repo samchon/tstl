@@ -3364,11 +3364,9 @@ declare namespace std {
          */
         back(): T;
         /**
-         * <p> Fetch row and column's index. </p>
-         *
-         * <p> Fetches index of row and column of {@link matrix_} from sequence number. </p>
-         *
-         * @param index Sequence number
+        // Fetch row and column's index.
+        /**
+         * @hidden
          */
         private fetch_index(index);
         /**
@@ -3422,11 +3420,11 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
+        protected _Insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
+        protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
         /**
          * @hidden
          */
@@ -3450,7 +3448,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>;
+        protected _Erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>;
         /**
          * <p> Swap content. </p>
          *
@@ -4468,7 +4466,7 @@ declare namespace std.base {
          * by storing {@link ListIterator iterators} ({@link MapIterator} references {@link ListIterator}) who are
          * created from {@link data_ here}. </p>
          */
-        protected data_: List<Pair<Key, T>>;
+        private data_;
         /**
          * Default Constructor.
          */
@@ -4657,7 +4655,7 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        protected abstract insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
+        protected abstract _Insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
         /**
          * @hidden
          */
@@ -4665,7 +4663,7 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        protected abstract insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+        protected abstract _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
          * @hidden
          */
@@ -4673,7 +4671,7 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        protected abstract insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
+        protected abstract _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
          * <p> Erase an elemet by key. </p>
          *
@@ -4772,7 +4770,7 @@ declare namespace std.base {
          *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
          *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
          */
-        protected abstract handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected abstract _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * <p> Abstract method handling deletions for indexing. </p>
          *
@@ -4793,7 +4791,7 @@ declare namespace std.base {
          *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
          *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
          */
-        protected abstract handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
     }
 }
 declare namespace std {
@@ -5391,23 +5389,23 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_pair(pair: Pair<Key, T>): any;
+        protected _Insert_by_pair(pair: Pair<Key, T>): any;
         /**
          * @hidden
          */
-        protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+        protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
          * @hidden
          */
-        protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
+        protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * <p> Swap content. </p>
          *
@@ -5588,23 +5586,23 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_pair(pair: Pair<Key, T>): any;
+        protected _Insert_by_pair(pair: Pair<Key, T>): any;
         /**
          * @hidden
          */
-        protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+        protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
          * @hidden
          */
-        protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
+        protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * <p> Swap content. </p>
          *
@@ -5673,7 +5671,7 @@ declare namespace std.base {
          * by storing {@link ListIterator iterators} ({@link SetIterator} references {@link ListIterator}) who are
          * created from {@link data_ here}. </p>
          */
-        protected data_: List<T>;
+        private data_;
         /**
          * Default Constructor.
          */
@@ -5784,15 +5782,15 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        protected abstract insert_by_val(val: T): any;
+        protected abstract _Insert_by_val(val: T): any;
         /**
          * @hidden
          */
-        protected abstract insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+        protected abstract _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
         /**
          * @hidden
          */
-        protected abstract insert_by_range<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+        protected abstract _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
          * <p> Erase an element. </p>
          * <p> Removes from the set container the elements whose value is <i>key</i>. </p>
@@ -5865,7 +5863,7 @@ declare namespace std.base {
          *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
          *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
          */
-        protected abstract handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected abstract _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * <p> Abstract method handling deletions for indexing. </p>
          *
@@ -5886,7 +5884,7 @@ declare namespace std.base {
          *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
          *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
          */
-        protected abstract handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected abstract _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
     }
 }
 declare namespace std {
@@ -6181,23 +6179,23 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_val(val: T): any;
+        protected _Insert_by_val(val: T): any;
         /**
          * @hidden
          */
-        protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+        protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
+        protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * <p> Swap content. </p>
          *
@@ -6484,23 +6482,23 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_val(val: T): any;
+        protected _Insert_by_val(val: T): any;
         /**
          * @hidden
          */
-        protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+        protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
+        protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * <p> Swap content. </p>
          *
@@ -6578,15 +6576,15 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected begin_: ListIterator<T>;
+        private begin_;
         /**
          * @hidden
          */
-        protected end_: ListIterator<T>;
+        private end_;
         /**
          * @hidden
          */
-        protected size_: number;
+        private size_;
         /**
          * <p> Default Constructor. </p>
          *
@@ -6809,11 +6807,11 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>;
+        protected _Insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
+        protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
         /**
          * <p> Erase an element. </p>
          *
@@ -6883,7 +6881,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected erase_by_range(first: ListIterator<T>, last: ListIterator<T>): ListIterator<T>;
+        protected _Erase_by_range(first: ListIterator<T>, last: ListIterator<T>): ListIterator<T>;
         /**
          * <p> Remove duplicate values. </p>
          *
@@ -7171,14 +7169,6 @@ declare namespace std {
          * @param value Value to be stored in the node (iterator).
          */
         constructor(source: List<T>, prev: ListIterator<T>, next: ListIterator<T>, value: T);
-        /**
-         * @inheritdoc
-         */
-        set_prev(it: ListIterator<T>): void;
-        /**
-         * @inheritdoc
-         */
-        set_next(next: ListIterator<T>): void;
         private list();
         /**
          * @inheritdoc
@@ -8216,23 +8206,23 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_pair(pair: Pair<Key, T>): any;
+        protected _Insert_by_pair(pair: Pair<Key, T>): any;
         /**
          * @hidden
          */
-        protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+        protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
          * @hidden
          */
-        protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
+        protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * <p> Swap content. </p>
          *
@@ -8422,23 +8412,23 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_pair(pair: Pair<Key, T>): any;
+        protected _Insert_by_pair(pair: Pair<Key, T>): any;
         /**
          * @hidden
          */
-        protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+        protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
         /**
          * @hidden
          */
-        protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
+        protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+        protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
          * <p> Swap content. </p>
          *
@@ -8607,23 +8597,23 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_val(val: T): any;
+        protected _Insert_by_val(val: T): any;
         /**
          * @hidden
          */
-        protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+        protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
+        protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * <p> Swap content. </p>
          *
@@ -8787,20 +8777,20 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_val(val: T): any;
-        protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+        protected _Insert_by_val(val: T): any;
+        protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
+        protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
         /**
          * @inheritdoc
          */
-        protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * @inheritdoc
          */
-        protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+        protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
          * <p> Swap content. </p>
          *
@@ -9213,11 +9203,11 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>;
+        protected _Insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>;
         /**
          * @hidden
          */
-        protected insert_by_range<InputIterator extends Iterator<T>>(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>;
+        protected _Insert_by_range<InputIterator extends Iterator<T>>(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>;
         /**
          * @inheritdoc
          */
@@ -9303,7 +9293,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        protected erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>;
+        protected _Erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>;
         /**
          * <p> Swap content. </p>
          *

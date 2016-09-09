@@ -436,11 +436,9 @@ namespace std
 		}
 
 		/**
-		 * <p> Fetch row and column's index. </p>
-		 * 
-		 * <p> Fetches index of row and column of {@link matrix_} from sequence number. </p>
-		 * 
-		 * @param index Sequence number
+		// Fetch row and column's index.
+		/**
+		 * @hidden
 		 */
 		private fetch_index(index: number): Pair<number, number>
 		{
@@ -616,9 +614,9 @@ namespace std
 			if (args.length == 2)
 				ret = this.insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this.insert_by_repeating_val(args[0], args[1], args[2]);
+				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
 			else
-				ret = this.insert_by_range(args[0], args[1], args[2]);
+				ret = this._Insert_by_range(args[0], args[1], args[2]);
 
 			// RETURNS
 			if (is_reverse_iterator == true)
@@ -632,13 +630,13 @@ namespace std
 		 */
 		private insert_by_val(position: DequeIterator<T>, val: T): DequeIterator<T>
 		{
-			return this.insert_by_repeating_val(position, 1, val);
+			return this._Insert_by_repeating_val(position, 1, val);
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
+		protected _Insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
 		{
 			// CONSTRUCT ITEMS
 			let items: T[] = [];
@@ -660,7 +658,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>
 		{
 			// CONSTRUCT ITEMS
@@ -789,7 +787,7 @@ namespace std
 			}
 
 			// ERASE ELEMENTS
-			ret = this.erase_by_range(first, last);
+			ret = this._Erase_by_range(first, last);
 
 			// RETURN BRANCHES
 			if (is_reverse_iterator == true)
@@ -801,7 +799,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>
+		protected _Erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>
 		{
 			// INDEXING
 			let size = last.index - first.index;

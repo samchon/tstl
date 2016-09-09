@@ -63,19 +63,19 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected begin_: ListIterator<T>;
+		private begin_: ListIterator<T>;
 
 		// An iterator, node of end.
 		/**
 		 * @hidden
 		 */
-		protected end_: ListIterator<T>;
+		private end_: ListIterator<T>;
 		
 		// Number of elements in this List.
 		/**
 		 * @hidden
 		 */
-		protected size_: number;
+		private size_: number;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -138,8 +138,8 @@ namespace std
 
 			// INIT MEMBERS
 			this.end_ = new ListIterator<T>(this, null, null, null);
-			this.end_.set_prev(this.end_);
-			this.end_.set_next(this.end_);
+			this.end_["prev_"] = this.end_;
+			this.end_["next_"] = this.end_;
 
 			this.begin_ = this.end_;
 			this.size_ = 0;
@@ -205,8 +205,8 @@ namespace std
 		{
 			// DISCONNECT NODES
 			this.begin_ = this.end_;
-			this.end_.set_prev(this.end_);
-			this.end_.set_next(this.end_);
+			this.end_["prev_"] = this.end_;
+			this.end_["next_"] = this.end_;
 			
 			// RE-SIZE -> 0
 			this.size_ = 0;
@@ -295,7 +295,7 @@ namespace std
 				if (i == 0)
 					first = item;
 
-				prev.set_next(item);
+				prev["next_"] = item;
 				prev = item;
 			}
 
@@ -304,8 +304,8 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev.set_next(this.end_);
-			this.end_.set_prev(prev);
+			prev["next_"] = this.end_;
+			this.end_["prev_"] = prev;
 
 			this.size_ += items.length;
 			return this.size();
@@ -482,9 +482,9 @@ namespace std
 			if (args.length == 2)
 				ret = this.insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this.insert_by_repeating_val(args[0], args[1], args[2]);
+				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
 			else
-				ret = this.insert_by_range(args[0], args[1], args[2]);
+				ret = this._Insert_by_range(args[0], args[1], args[2]);
 			
 			// RETURNS
 			if (is_reverse_iterator == true)
@@ -499,13 +499,13 @@ namespace std
 		private insert_by_val(position: ListIterator<T>, val: T): ListIterator<T>
 		{
 			// SHIFT TO INSERT OF THE REPEATING VAL
-			return this.insert_by_repeating_val(position, 1, val);
+			return this._Insert_by_repeating_val(position, 1, val);
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>
+		protected _Insert_by_repeating_val(position: ListIterator<T>, size: number, val: T): ListIterator<T>
 		{
 			// INVALID ITERATOR
 			if (this != position.get_source())
@@ -521,7 +521,7 @@ namespace std
 				if (i == 0) 
 					first = item;
 				
-				prev.set_next(item);
+				prev["next_"] = item;
 				
 				// SHIFT ITEM LEFT TO BE PREV
 				prev = item;
@@ -532,8 +532,8 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev.set_next(position);
-			position.set_prev(prev);
+			prev["next_"] = position;
+			position["prev_"] = prev;
 			
 			this.size_ += size;
 
@@ -543,7 +543,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>
 		{
 			// INVALID ITERATOR
@@ -561,7 +561,7 @@ namespace std
 				let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
 
 				if (size == 0) first = item;
-				if (prev != null) prev.set_next(item);
+				if (prev != null) prev["next_"] = item;
 
 				// SHIFT CURRENT ITEM TO PREVIOUS
 				prev = item;
@@ -573,8 +573,8 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST AND POSITION
-			prev.set_next(position);
-			position.set_prev(prev);
+			prev["next_"] = position;
+			position["prev_"] = prev;
 
 			this.size_ += size;
 
@@ -672,7 +672,7 @@ namespace std
 			}
 
 			// ERASE ELEMENTS
-			ret = this.erase_by_range(first, last);
+			ret = this._Erase_by_range(first, last);
 
 			// RETURN BRANCHES
 			if (is_reverse_iterator == true)
@@ -684,7 +684,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected erase_by_range(first: ListIterator<T>, last: ListIterator<T>): ListIterator<T>
+		protected _Erase_by_range(first: ListIterator<T>, last: ListIterator<T>): ListIterator<T>
 		{
 			// FIND PREV AND NEXT
 			let prev: ListIterator<T> = <ListIterator<T>>first.prev();
@@ -693,8 +693,8 @@ namespace std
 			let size: number = distance(first, last);
 
 			// SHRINK
-			prev.set_next(last);
-			last.set_prev(prev);
+			prev["next_"] = last;
+			last["prev_"] = prev;
 
 			this.size_ -= size;
 			if (first == this.begin_)
@@ -1153,22 +1153,6 @@ namespace std
 			this.next_ = next;
 
 			this.value_ = value;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public set_prev(it: ListIterator<T>): void
-		{
-			this.prev_ = it;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public set_next(next: ListIterator<T>): void
-		{
-			this.next_ = next;
 		}
 
 		/* ---------------------------------------------------------------

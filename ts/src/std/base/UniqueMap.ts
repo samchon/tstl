@@ -356,7 +356,7 @@ namespace std.base
 			let it = this.find(key);
 
 			if (it.equal_to(this.end()) == true)
-				return this.insert_by_pair(std.make_pair(key, value));
+				return this._Insert_by_pair(std.make_pair(key, value));
 			else
 			{
 				it.second = value;

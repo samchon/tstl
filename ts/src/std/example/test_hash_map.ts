@@ -10,11 +10,5 @@ namespace std.example
 
 		for (let it = map.begin(); !it.equal_to(map.end()); it = it.next())
 			console.log(it.first, it.second);
-
-		let array: Array<any> = new Array<any>();
-		array["abcd"] = 2;
-
-		for (var key in array)
-			console.log(array[key]);
 	}
 }

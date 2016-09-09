@@ -169,7 +169,7 @@ namespace std
 		 */
 		public get name(): string
 		{
-			return this.constructor["name"];
+			return (this.constructor as any)["name"];
 		}
 	}
 

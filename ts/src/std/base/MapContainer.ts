@@ -53,11 +53,11 @@ namespace std.base
 		 * <p> {@link List} storing elements. </p>
 		 *
 		 * <p> Storing elements and keeping those sequence of the {@link MapContainer} are implemented by
-		 * {@link data_ this list container}. Implementing index-table is also related with {@link data_ this list} 
+		 * {@link data_ this list container}. Implementing index-table is also related with {@link data_ this list}
 		 * by storing {@link ListIterator iterators} ({@link MapIterator} references {@link ListIterator}) who are 
 		 * created from {@link data_ here}. </p>
 		 */
-		protected data_: List<Pair<Key, T>>;
+		private data_: List<Pair<Key, T>>;
 
 		/* ---------------------------------------------------------
 			CONSTURCTORS
@@ -252,7 +252,7 @@ namespace std.base
 			// TO BE ABSTRACT
 			for (let i: number = 0; i < args.length; i++)
 				if (args[i] instanceof Pair)
-					this.insert_by_pair(args[i]);
+					this._Insert_by_pair(args[i]);
 				else if (args[i] instanceof Array)
 					this.insert_by_tuple(args[i]);
 
@@ -335,7 +335,7 @@ namespace std.base
 		{
 			if (args.length == 1 && args[0] instanceof Pair)
 			{
-				return this.insert_by_pair(args[0]);
+				return this._Insert_by_pair(args[0]);
 			}
 			else if (args.length == 1 && args[0] instanceof Array)
 			{
@@ -343,7 +343,7 @@ namespace std.base
 			}
 			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				return this.insert_by_range(args[0], args[1]);
+				return this._Insert_by_range(args[0], args[1]);
 			}
 			else
 			{
@@ -359,7 +359,7 @@ namespace std.base
 
 				// INSERT AN ELEMENT
 				if (args[1] instanceof Pair)
-					ret = this.insert_by_hint(args[0], args[1]);
+					ret = this._Insert_by_hint(args[0], args[1]);
 				else
 					ret = this.insert_by_hint_with_tuple(args[0], args[1]);
 
@@ -374,33 +374,33 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
+		protected abstract _Insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
 		
 		/**
 		 * @hidden
 		 */
 		private insert_by_tuple<L extends Key, U extends T>(tuple: [L, U]): any
 		{
-			return this.insert_by_pair(new Pair<L, U>(tuple[0], tuple[1]));
+			return this._Insert_by_pair(new Pair<L, U>(tuple[0], tuple[1]));
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected abstract insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+		protected abstract _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
 
 		/**
 		 * @hidden
 		 */
 		private insert_by_hint_with_tuple(hint: MapIterator<Key, T>, tuple: [Key, T]): MapIterator<Key, T>
 		{
-			return this.insert_by_hint(hint, make_pair(tuple[0], tuple[1]));
+			return this._Insert_by_hint(hint, make_pair(tuple[0], tuple[1]));
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected abstract insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+		protected abstract _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		/* ---------------------------------------------------------
@@ -539,7 +539,7 @@ namespace std.base
 			let listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
 			
 			// POST-PROCESS
-			this.handle_erase(begin, end);
+			this._Handle_erase(begin, end);
 
 			return new MapIterator<Key, T>(this, listIterator);
 		}
@@ -568,7 +568,7 @@ namespace std.base
 		 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>, 
 		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
-		protected abstract handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+		protected abstract _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
 
 		/**
 		 * <p> Abstract method handling deletions for indexing. </p>
@@ -590,7 +590,7 @@ namespace std.base
 		 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
 		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
-		protected abstract handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+		protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
 	}
 }
 

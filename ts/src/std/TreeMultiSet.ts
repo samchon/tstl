@@ -268,7 +268,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_val(val: T): any
+		protected _Insert_by_val(val: T): any
 		{
 			var node = this.tree_.find(val);
 			var it: SetIterator<T>;
@@ -297,8 +297,8 @@ namespace std
 			/////
 			// INSERTS
 			/////
-			it = new SetIterator<T>(this, this.data_.insert(it.get_list_iterator(), val));
-			this.handle_insert(it, it.next()); // POST-PROCESS
+			it = new SetIterator<T>(this, this["data_"].insert(it.get_list_iterator(), val));
+			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return it;
 		}
@@ -306,7 +306,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
 			// VALIDATE HINT
 			let ret: SetIterator<T>;
@@ -320,10 +320,10 @@ namespace std
 				// RIGHT HINT
 				///////
 				// INSERT
-				ret = new SetIterator<T>(this, this.data_.insert(hint.get_list_iterator(), val));
+				ret = new SetIterator<T>(this, this["data_"].insert(hint.get_list_iterator(), val));
 
 				// POST-PROCESS
-				this.handle_insert(ret, ret.next());
+				this._Handle_insert(ret, ret.next());
 			}
 			else
 			{
@@ -331,7 +331,7 @@ namespace std
 				// WRONG HINT
 				///////
 				// INSERT BY AUTOMATIC NODE FINDING
-				ret = this.insert_by_val(val);
+				ret = this._Insert_by_val(val);
 			}
 			return ret;
 		}
@@ -339,11 +339,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (; !first.equal_to(last); first = first.next() as InputIterator)
-				this.insert_by_val(first.value);
+				this._Insert_by_val(first.value);
 		}
 
 		/* ---------------------------------------------------------
@@ -352,7 +352,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
 			this.tree_.insert(first);
 		}
@@ -360,7 +360,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
 			for (; !first.equal_to(last); first = first.next())
 				this.tree_.erase(last);
@@ -397,7 +397,7 @@ namespace std
 		{
 			if (obj instanceof TreeMultiSet && this.key_comp() == obj.key_comp())
 			{
-				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this["data_"], obj["data_"]] = [obj["data_"], this["data_"]];
 				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 			}
 			else

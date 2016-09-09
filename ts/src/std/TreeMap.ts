@@ -273,7 +273,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_pair(pair: Pair<Key, T>): any
+		protected _Insert_by_pair(pair: Pair<Key, T>): any
 		{
 			let node = this.tree_.find(pair.first);
 
@@ -292,8 +292,8 @@ namespace std
 				it = node.value;
 
 			// ITERATOR TO RETURN
-			it = new MapIterator<Key, T>(this, this.data_.insert(it.get_list_iterator(), pair));
-			this.handle_insert(it, it.next()); // POST-PROCESS
+			it = new MapIterator<Key, T>(this, this["data_"].insert(it.get_list_iterator(), pair));
+			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return std.make_pair(it, true);
 		}
@@ -301,7 +301,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			// FIND KEY
 			if (this.has(pair.first) == true)
@@ -319,10 +319,10 @@ namespace std
 				// RIGHT HINT
 				///////
 				// INSERT
-				ret = new MapIterator<Key, T>(this, this.data_.insert(hint.get_list_iterator(), pair));
+				ret = new MapIterator<Key, T>(this, this["data_"].insert(hint.get_list_iterator(), pair));
 
 				// POST-PROCESS
-				this.handle_insert(ret, ret.next());
+				this._Handle_insert(ret, ret.next());
 			}
 			else
 			{ 
@@ -330,7 +330,7 @@ namespace std
 				// WRONG HINT
 				///////
 				// INSERT BY AUTOMATIC NODE FINDING
-				ret = this.insert_by_pair(pair).first;
+				ret = this._Insert_by_pair(pair).first;
 			}
 			return ret;
 		}
@@ -338,11 +338,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (; !first.equal_to(last); first = first.next() as InputIterator)
-				this.insert_by_pair(make_pair<Key, T>(first.value.first, first.value.second));
+				this._Insert_by_pair(make_pair<Key, T>(first.value.first, first.value.second));
 		}
 
 		/* ---------------------------------------------------------
@@ -351,7 +351,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
 			this.tree_.insert(first);
 		}
@@ -359,7 +359,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		protected handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
 			for (; !first.equal_to(last); first = first.next())
 				this.tree_.erase(last);
@@ -399,7 +399,7 @@ namespace std
 		{
 			if (obj instanceof TreeMap && this.key_comp() == obj.key_comp())
 			{
-				[this.data_, obj.data_] = [obj.data_, this.data_];
+				[this["data_"], obj["data_"]] = [obj["data_"], this["data_"]];
 				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 			}
 			else

@@ -50,7 +50,7 @@ namespace std.base
 		 * by storing {@link ListIterator iterators} ({@link SetIterator} references {@link ListIterator}) who are 
 		 * created from {@link data_ here}. </p>
 		 */
-		protected data_: List<T>;
+		private data_: List<T>;
 		
 		/* ---------------------------------------------------------
 			CONSTURCTORS
@@ -191,7 +191,7 @@ namespace std.base
 		{
 			// TO BE ABSTRACT
 			for (let i: number = 0; i < args.length; i++)
-				this.insert_by_val(args[i]);
+				this._Insert_by_val(args[i]);
 
 			return this.size();
 		}
@@ -239,14 +239,14 @@ namespace std.base
 		public insert(...args: any[]): any
 		{
 			if (args.length == 1)
-				return this.insert_by_val(args[0]);
+				return this._Insert_by_val(args[0]);
 			else if (args.length == 2 && args[0] instanceof Iterator)
 			{
 				if (args[1] instanceof Iterator && args[0].get_source() != this && args[1].get_source() != this)
 				{
 					// IT DOESN'T CONTAIN POSITION
 					// RANGES TO INSERT ONLY
-					return this.insert_by_range(args[0], args[1]);
+					return this._Insert_by_range(args[0], args[1]);
 				}
 				else
 				{
@@ -261,7 +261,7 @@ namespace std.base
 					}
 
 					// INSERT AN ELEMENT
-					ret = this.insert_by_hint(args[0], args[1]);
+					ret = this._Insert_by_hint(args[0], args[1]);
 
 					// RETURN BRANCHES
 					if (is_reverse_iterator == true)
@@ -275,17 +275,17 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract insert_by_val(val: T): any;
+		protected abstract _Insert_by_val(val: T): any;
 		
 		/**
 		 * @hidden
 		 */
-		protected abstract insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
+		protected abstract _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>;
 		
 		/**
 		 * @hidden
 		 */
-		protected abstract insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected abstract _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/* ---------------------------------------------------------
@@ -400,7 +400,7 @@ namespace std.base
 			let list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
 			
 			// POST-PROCESS
-			this.handle_erase(begin, end);
+			this._Handle_erase(begin, end);
 
 			return new SetIterator<T>(this, list_iterator);//begin.prev();
 		}
@@ -429,7 +429,7 @@ namespace std.base
 		 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>, 
 		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
-		protected abstract handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
+		protected abstract _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
 
 		/**
 		 * <p> Abstract method handling deletions for indexing. </p>
@@ -451,7 +451,7 @@ namespace std.base
 		 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
 		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
-		protected abstract handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+		protected abstract _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
 	}
 }
 
