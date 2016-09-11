@@ -143,7 +143,7 @@ namespace std
 				// COPY CONSTRUCTOR
 				let container: TreeSet<T> = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_["compare_"] = args[1];
+					this.tree_._Set_compare(args[1]);
 
 				this.assign(container.begin(), container.end());
 			}
@@ -152,24 +152,24 @@ namespace std
 				// INITIALIZER LIST CONSTRUCTOR
 				let items: T[] = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_["compare_"] = args[1];
+					this.tree_._Set_compare(args[1]);
 
 				this.push(...items);
 			}
 			else if (args.length >= 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
 				// RANGE CONSTRUCTOR
-				let first: std.Iterator<T> = args[0]; // PARAMETER 1
-				let last: std.Iterator<T> = args[1]; // PARAMETER 2
+				let first: Iterator<T> = args[0]; // PARAMETER 1
+				let last: Iterator<T> = args[1]; // PARAMETER 2
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_["compare_"] = args[2];
+					this.tree_._Set_compare(args[2]);
 
 				this.assign(first, last);
 			}
 			else if (args.length == 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				this.tree_["compare_"] = args[0];
+				this.tree_._Set_compare(args[0]);
 			}
 		}
 
@@ -274,7 +274,7 @@ namespace std
 			/////
 			// INSERTS
 			/////
-			it = new SetIterator<T>(this, this["data_"].insert(it.get_list_iterator(), val));
+			it = new SetIterator<T>(this, this._Get_data().insert(it.get_list_iterator(), val));
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return make_pair(it, true);
@@ -298,7 +298,7 @@ namespace std
 				// RIGHT HINT
 				///////
 				// INSERT
-				ret = new SetIterator<T>(this, this["data_"].insert(hint.get_list_iterator(), val));
+				ret = new SetIterator<T>(this, this._Get_data().insert(hint.get_list_iterator(), val));
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
@@ -375,7 +375,7 @@ namespace std
 		{
 			if (obj instanceof TreeSet && this.key_comp() == obj.key_comp())
 			{
-				[this["data_"], obj["data_"]] = [obj["data_"], this["data_"]];
+				this._Swap(obj);
 				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 			}
 			else

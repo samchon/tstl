@@ -176,11 +176,20 @@ namespace std.base
 			return this.data_.size();
 		}
 
+		/**
+		 * @hidden
+		 */
+		public _Get_data(): List<T>
+		{
+			return this.data_;
+		}
+
 		/* =========================================================
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
 				- POST-PROCESS
+				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -452,6 +461,17 @@ namespace std.base
 		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
 		protected abstract _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
+
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		protected _Swap(obj: SetContainer<T>): void
+		{
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+		}
 	}
 }
 

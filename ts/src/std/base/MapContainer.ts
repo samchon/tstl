@@ -228,12 +228,18 @@ namespace std.base
 		{
 			return this.data_.size();
 		}
+
+		protected _Get_data(): List<Pair<Key, T>>
+		{
+			return this.data_;
+		}
 		
 		/* =========================================================
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
 				- POST-PROCESS
+				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -591,6 +597,17 @@ namespace std.base
 		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
 		protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+
+		/* ---------------------------------------------------------
+			SWAP
+		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		protected _Swap(obj: MapContainer<Key, T>): void
+		{
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+		}
 	}
 }
 

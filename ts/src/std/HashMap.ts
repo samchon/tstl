@@ -132,8 +132,8 @@ namespace std
 			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
 				// RANGE CONSTRUCTOR
-				let first: std.Iterator<Pair<Key, T>> = args[0];
-				let last: std.Iterator<Pair<Key, T>> = args[1];
+				let first: Iterator<Pair<Key, T>> = args[0];
+				let last: Iterator<Pair<Key, T>> = args[1];
 
 				this.assign(first, last);
 			}
@@ -322,7 +322,7 @@ namespace std
 				return make_pair(it, false);
 
 			// INSERT
-			this["data_"].push_back(pair);
+			this._Get_data().push_back(pair);
 			it = it.prev();
 
 			// POST-PROCESS
@@ -341,7 +341,7 @@ namespace std
 				return this.end();
 
 			// INSERT
-			let list_it = this["data_"].insert(hint.get_list_iterator(), pair);
+			let list_it = this._Get_data().insert(hint.get_list_iterator(), pair);
 
 			// POST-PROCESS
 			let it = new MapIterator<Key, T>(this, list_it);
@@ -367,7 +367,7 @@ namespace std
 					continue;
 
 				// INSERTS
-				this["data_"].push_back(make_pair<Key, T>(first.value.first, first.value.second));
+				this._Get_data().push_back(make_pair<Key, T>(first.value.first, first.value.second));
 				size++;
 			}
 			my_first = my_first.next();
@@ -435,7 +435,7 @@ namespace std
 		{
 			if (obj instanceof HashMap)
 			{
-				[this["data_"], obj["data_"]] = [obj["data_"], this["data_"]];
+				this._Swap(obj);
 				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 			}
 			else

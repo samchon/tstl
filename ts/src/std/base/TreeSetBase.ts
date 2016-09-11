@@ -204,6 +204,11 @@ namespace std.base
 			this.compare_ = compare;
 		}
 
+		public _Set_compare(val: (x: T, y: T) => boolean): void
+		{
+			this.compare_ = val;
+		}
+
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */

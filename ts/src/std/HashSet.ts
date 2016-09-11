@@ -119,8 +119,8 @@ namespace std
 			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
 				// RANGE CONSTRUCTOR
-				let first: std.Iterator<T> = args[0];
-				let last: std.Iterator<T> = args[1];
+				let first: Iterator<T> = args[0];
+				let last: Iterator<T> = args[1];
 
 				this.assign(first, last);
 			}
@@ -309,7 +309,7 @@ namespace std
 				return make_pair(it, false);
 
 			// INSERT
-			this["data_"].push_back(val);
+			this._Get_data().push_back(val);
 			it = it.prev();
 
 			// POST-PROCESS
@@ -328,7 +328,7 @@ namespace std
 				return this.end();
 
 			// INSERT
-			let list_iterator = this["data_"].insert(hint.get_list_iterator(), val);
+			let list_iterator = this._Get_data().insert(hint.get_list_iterator(), val);
 
 			// POST-PROCESS
 			let it = new SetIterator<T>(this, list_iterator);
@@ -353,7 +353,7 @@ namespace std
 					continue;
 				
 				// INSERTS
-				this["data_"].push_back(first.value);
+				this._Get_data().push_back(first.value);
 				size++;
 			}
 			my_first = my_first.next();
@@ -418,7 +418,7 @@ namespace std
 		{
 			if (obj instanceof HashSet)
 			{
-				[this["data_"], obj["data_"]] = [obj["data_"], this["data_"]];
+				this._Swap(obj);
 				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 			}
 			else
