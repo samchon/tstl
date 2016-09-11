@@ -801,8 +801,16 @@ namespace std
 		 */
 		protected _Erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>
 		{
+			if (first.index == -1)
+				return first;
+
 			// INDEXING
-			let size = last.index - first.index;
+			let size: number;
+			if (last.index == -1) // LAST IS END()
+				size = this.size() - first.index;
+			else // LAST IS NOT END()
+				size = last.index - first.index;
+			
 			this.size_ -= size;
 			 
 			// ERASING
@@ -820,7 +828,10 @@ namespace std
 				size -= myDeleteSize;
 			}
 			
-			return first;
+			if (last.index == -1)
+				return this.end();
+			else
+				return first;
 		}
 
 		/* ---------------------------------------------------------

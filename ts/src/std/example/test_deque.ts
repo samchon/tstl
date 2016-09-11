@@ -4,8 +4,12 @@ namespace std.example
 {
 	export function test_deque(): void
 	{
-		let deque: std.Deque<number> = new std.Deque<number>();
+		let it = std.remove_if(deque.begin(), deque.end(), function (): boolean { return true; });
+		console.log(it.index);
 
+		std.remove(deque.begin(), deque.end(), 1);
+		std.remove(deque.begin(), deque.end(), 2);
+		
 		for (let i: number = 0; i < 10; i++)
 			deque.push_back(i);
 
