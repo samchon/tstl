@@ -206,6 +206,9 @@ namespace std.base
 
 		public _Set_compare(val: (x: T, y: T) => boolean): void
 		{
+			if (this.set_.empty() == false)
+				return;
+
 			this.compare_ = val;
 		}
 

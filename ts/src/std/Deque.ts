@@ -541,7 +541,7 @@ namespace std
 			this.matrix_[0].shift();
 			this.size_--;
 
-			if (this.matrix_[0].length == 0)
+			if (this.matrix_[0].length == 0 && this.matrix_.length > 1)
 				this.matrix_.shift();
 		}
 
@@ -558,7 +558,7 @@ namespace std
 			lastArray.splice(lastArray.length - 1, 1);
 			this.size_--;
 
-			if (lastArray.length == 0)
+			if (lastArray.length == 0 && this.matrix_.length > 1)
 				this.matrix_.splice(this.matrix_.length - 1, 1);
 		}
 
@@ -822,7 +822,7 @@ namespace std
 				let myDeleteSize: number = Math.min(size, array.length - indexPair.second);
 				array.splice(indexPair.second, myDeleteSize);
 
-				if (array.length == 0)
+				if (array.length == 0 && this.matrix_.length > 1)
 					this.matrix_.splice(indexPair.first, 1);
 
 				size -= myDeleteSize;

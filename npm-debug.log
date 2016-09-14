@@ -1,0 +1,128 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.4
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'D:\\OneDrive\\Project\\Samchon\\typescript-stl',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.0.8\package.tgz not in flight; packing
+9 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+10 verbose tar pack [ 'C:\\Users\\Jeongho Nam\\AppData\\Roaming\\npm-cache\\typescript-stl\\1.0.8\\package.tgz',
+10 verbose tar pack   'D:\\OneDrive\\Project\\Samchon\\typescript-stl' ]
+11 verbose tarball C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.0.8\package.tgz
+12 verbose folder D:\OneDrive\Project\Samchon\typescript-stl
+13 info prepublish typescript-stl@1.0.8
+14 verbose addLocalTarball adding from inside cache C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.0.8\package.tgz
+15 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+16 silly cache afterAdd typescript-stl@1.0.8
+17 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.0.8\package\package.json not in flight; writing
+18 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+19 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.0.8\package\package.json written
+20 silly publish { name: 'typescript-stl',
+20 silly publish   description: 'TypeScript-STL (Standard Template Library, migrated from C++)',
+20 silly publish   author:
+20 silly publish    { name: 'Jeongho Nam',
+20 silly publish      email: 'samchon@samchon.org',
+20 silly publish      url: 'http://samchon.org' },
+20 silly publish   version: '1.0.8',
+20 silly publish   main: './lib/typescript-stl.js',
+20 silly publish   homepage: 'https://github.com/samchon/typescript-stl',
+20 silly publish   repository:
+20 silly publish    { type: 'git',
+20 silly publish      url: 'git+https://github.com/samchon/typescript-stl.git' },
+20 silly publish   bugs: { url: 'https://github.com/samchon/typescript-stl/issues' },
+20 silly publish   licenses:
+20 silly publish    [ { type: 'BSD-3-Clause',
+20 silly publish        url: 'https://opensource.org/licenses/BSD-3-Clause' } ],
+20 silly publish   keywords:
+20 silly publish    [ 'stl',
+20 silly publish      'standard template library',
+20 silly publish      'typescript',
+20 silly publish      'standard',
+20 silly publish      'template',
+20 silly publish      'container',
+20 silly publish      'library',
+20 silly publish      'vector',
+20 silly publish      'deque',
+20 silly publish      'list',
+20 silly publish      'queue',
+20 silly publish      'stack',
+20 silly publish      'hash',
+20 silly publish      'tree',
+20 silly publish      'map',
+20 silly publish      'set',
+20 silly publish      'iterator' ],
+20 silly publish   readme: '# TypeScript-STL\r\n\r\n[![NPM](https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/typescript-stl)\r\n\r\nGitHub Repository: https://github.com/samchon/typescript-stl\r\n\r\n## Introduction\r\nSTL (Standard Template Library) Containers and Algorithms for TypeScript\r\n\r\nTypeScript-STL is an open-source JavaScript library providing containers and algorithms migrated from C++ STL. You can enjoy STL containers and algorithms in JavaScript. If TypeScript, you will be much happier feeling like using originla STL with type restriction and template programming.\r\n\r\n![Abstract Containers](http://samchon.github.io/typescript-stl/images/design/class_diagram/abstract_containers.png)\r\n\r\n##### Containers\r\n  - [**Linear containers**](http://samchon.github.io/typescript-stl/api/interfaces/std.base.container.ilinearcontainer.html)\r\n    - [Vector](http://samchon.github.io/typescript-stl/api/classes/std.vector.html)\r\n    - [List](http://samchon.github.io/typescript-stl/api/classes/std.list.html)\r\n    - [Deque](http://samchon.github.io/typescript-stl/api/classes/std.deque.html)\r\n  - **Associative Containers**\r\n    - [**Tree-structured Containers**](http://samchon.github.io/typescript-stl/api/classes/std.base.tree.rbtree.html)\r\n      - [TreeSet](http://samchon.github.io/typescript-stl/api/classes/std.treeset.html)\r\n      - [TreeMap](http://samchon.github.io/typescript-stl/api/classes/std.treemap.html)\r\n      - [TreeMultiSet](http://samchon.github.io/typescript-stl/api/classes/std.treemultiset.html)\r\n      - [TreeMultiMap](http://samchon.github.io/typescript-stl/api/classes/std.treemultimap.html)\r\n    - [**Hashed Containers**](http://samchon.github.io/typescript-stl/api/classes/std.base.hash.hashbuckets.html)\r\n      - [HashSet](http://samchon.github.io/typescript-stl/api/classes/std.hashset.html)\r\n      - [HashMap](http://samchon.github.io/typescript-stl/api/classes/std.hashmap.html)\r\n      - [HashMultiSet](http://samchon.github.io/typescript-stl/api/classes/std.hashmultiset.html)\r\n      - [HashMultiMap](http://samchon.github.io/typescript-stl/api/classes/std.hashmultimap.html)\r\n  - **Adaptor Containers**\r\n    - [Queue](http://samchon.github.io/typescript-stl/api/classes/std.queue.html)\r\n    - [Stack](http://samchon.github.io/typescript-stl/api/classes/std.stack.html)\r\n    - [PriorityQueue](http://samchon.github.io/typescript-stl/api/classes/std.priorityqueue.html)\r\n\r\n##### Global Functions\r\n  - [&lt;algorithm&gt;](http://www.cplusplus.com/reference/algorithm)\r\n  - [&lt;exception&gt;](http://www.cplusplus.com/reference/exception)\r\n  - [&lt;functional&gt;](http://www.cplusplus.com/reference/functional)\r\n    - [std.bind](http://samchon.github.io/typescript-stl/api/modules/std.html#bind)\r\n  - [&lt;utility&gt;](http://www.cplusplus.com/reference/utility)\r\n    - [std.Pair](http://samchon.github.io/typescript-stl/api/classes/std.pair.html)\r\n\r\n\r\n\r\n## References\r\nYou can learn and explore about TypeScript-STL more deeply with such below:\r\n\r\n  - [Guidebook (wiki)](https://github.com/samchon/typescript-stl/wiki)\r\n  - [API Documents](http://samchon.github.io/typescript-stl/api)\r\n  - [Class Diagram](https://samchon.github.io/typescript-stl/design/class_diagram.pdf)\r\n\r\n\r\n\r\n## Installation\r\nInstalling *TypeScript-STL* in **node** is very easy. Just install with **npm** and **tsd**.\r\n\r\n#### Node\r\n``` bash\r\n# Install TypeScript-STL from NPM modules\r\nnpm install -g typescript-stl \r\n\r\n# Fetch definition (header) file from TSD\r\n# If TSD is not installed, then type "npm install -g tsd"\r\ntsd install typescript-stl\r\n```\r\n\r\n#### TypeScript\r\nDon\'t forget to referencing header files, ```typescript-stl.d.ts```.\r\n\r\n``` typescript\r\n/// <reference path="typings/typescript-stl/typescript-stl.d.ts" />\r\n\r\nimport std = require("typescript-stl");\r\nlet map: std.TreeMap<string, number> = new std.TreeMap<string, number>();\r\n\r\nmap.insert(std.make_pair("First", 1));\r\nmap.insert(["Second", 2]);\r\nmap.insert_or_assign("Third", 3); // C++17 Feature.\r\nmap.set("Fourth", 4); // Non-standard Feature.\r\n\r\nfor (let it = map.begin(); !it.equal_to(map.end()); it = it.next())\r\n\tconsole.log(it.first, it.second); // key => string, value => number\r\n```\r\n\r\n#### Browser\r\n*TypeScript-STL* follows *CommonJS* module. You can\'t use ```require``` statement of *RequireJS*, which is following *AMD* module. Just include *TypeScript-STL*\'s *js file* with ```<script>``` tag.\r\n\r\n###### In HTML Document\r\n``` javascript\r\n<script src="typescript-stl.js"></script>\r\n```\r\n\r\n\r\n\r\n## Index of Guidance, Wiki.\r\n\r\n  - [**Outline**](https://github.com/samchon/typescript-stl/wiki/Home)\r\n    - [Introduction](https://github.com/samchon/typescript-stl/wiki/Home#introduction)\r\n    - [References](https://github.com/samchon/typescript-stl/wiki/Home#references)\r\n    - [Installation](https://github.com/samchon/typescript-stl/wiki/Home#installation)\r\n  - [**Differences between C++**](https://github.com/samchon/typescript-stl/wiki/Differences)\r\n    - [Naming Convention](https://github.com/samchon/typescript-stl/wiki/Differences#naming-convention)\r\n    - [Operator Overriding](https://github.com/samchon/typescript-stl/wiki/Differences#operator-overriding)\r\n    - [Iterator](https://github.com/samchon/typescript-stl/wiki/Differences#iterator)\r\n    - [Tree Container](https://github.com/samchon/typescript-stl/wiki/Differences#tree-container)\r\n    - [Hash Container](https://github.com/samchon/typescript-stl/wiki/Differences#hash-container)\r\n  - [**Tutorial**](https://github.com/samchon/typescript-stl/wiki/Tutorial)\r\n    - [Linear Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#linear-container)\r\n    - [Tree Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#tree-container)\r\n    - [Hash Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#hash-container)\r\n    - [Miscellaneous](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous)\r\n      - [Algorithm](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous#algorithm)\r\n      - [Functional](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous#functional)',
+20 silly publish   readmeFilename: 'README.md',
+20 silly publish   gitHead: '70b82ecc84d3b3dd31bd045ec8d8f42e0dc4eec0',
+20 silly publish   _id: 'typescript-stl@1.0.8',
+20 silly publish   scripts: {},
+20 silly publish   _shasum: '329c000bfab8a55e5d1a711c5cf4656e93f157f5',
+20 silly publish   _from: '.' }
+21 verbose getPublishConfig undefined
+22 silly mapToRegistry name typescript-stl
+23 silly mapToRegistry using default registry
+24 silly mapToRegistry registry https://registry.npmjs.org/
+25 silly mapToRegistry data Result {
+25 silly mapToRegistry   raw: 'typescript-stl',
+25 silly mapToRegistry   scope: null,
+25 silly mapToRegistry   name: 'typescript-stl',
+25 silly mapToRegistry   rawSpec: '',
+25 silly mapToRegistry   spec: 'latest',
+25 silly mapToRegistry   type: 'tag' }
+26 silly mapToRegistry uri https://registry.npmjs.org/typescript-stl
+27 verbose publish registryBase https://registry.npmjs.org/
+28 silly publish uploading C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.0.8\package.tgz
+29 verbose request uri https://registry.npmjs.org/typescript-stl
+30 verbose request sending authorization for write operation
+31 info attempt registry request try #1 at 16:11:01
+32 verbose request using bearer token for auth
+33 verbose request id 1feb7198632c22a0
+34 http request PUT https://registry.npmjs.org/typescript-stl
+35 http 403 https://registry.npmjs.org/typescript-stl
+36 verbose headers { 'content-type': 'application/json',
+36 verbose headers   'cache-control': 'max-age=300',
+36 verbose headers   'content-length': '95',
+36 verbose headers   'accept-ranges': 'bytes',
+36 verbose headers   date: 'Wed, 14 Sep 2016 07:10:59 GMT',
+36 verbose headers   via: '1.1 varnish',
+36 verbose headers   connection: 'keep-alive',
+36 verbose headers   'x-served-by': 'cache-nrt6134-NRT',
+36 verbose headers   'x-cache': 'MISS',
+36 verbose headers   'x-cache-hits': '0',
+36 verbose headers   'x-timer': 'S1473837058.112430,VS0,VE1219',
+36 verbose headers   vary: 'Accept-Encoding' }
+37 verbose request invalidating C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\registry.npmjs.org\typescript-stl on PUT
+38 error publish Failed PUT 403
+39 verbose stack Error: "You cannot publish over the previously published version 1.0.8." : typescript-stl
+39 verbose stack     at makeError (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
+39 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:252:14)
+39 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
+39 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:199:22)
+39 verbose stack     at emitTwo (events.js:87:13)
+39 verbose stack     at Request.emit (events.js:172:7)
+39 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1036:10)
+39 verbose stack     at emitOne (events.js:82:20)
+39 verbose stack     at Request.emit (events.js:169:7)
+39 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:963:12)
+40 verbose statusCode 403
+41 verbose pkgid typescript-stl
+42 verbose cwd D:\OneDrive\Project\Samchon\typescript-stl
+43 error Windows_NT 10.0.10586
+44 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+45 error node v4.4.4
+46 error npm  v2.15.1
+47 error code E403
+48 error "You cannot publish over the previously published version 1.0.8." : typescript-stl
+49 error If you need help, you may report this error at:
+49 error     <https://github.com/npm/npm/issues>
+50 verbose exit [ 1, true ]
