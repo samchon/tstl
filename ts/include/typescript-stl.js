@@ -2724,11 +2724,6 @@ var std;
                 this.set_ = set;
                 this.compare_ = compare;
             }
-            AtomicTree.prototype.setCompare = function (val) {
-                if (this.set_.empty() == false)
-                    return;
-                this.compare_ = val;
-            };
             AtomicTree.prototype.find = function (val) {
                 if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
                     return _super.prototype.find.call(this, val);
@@ -4626,11 +4621,6 @@ var std;
                 this.map_ = map;
                 this.compare_ = compare;
             }
-            PairTree.prototype.setCompare = function (val) {
-                if (this.map_.empty() == false)
-                    return;
-                this.compare_ = val;
-            };
             PairTree.prototype.find = function (val) {
                 if (val instanceof std.MapIterator && val.first instanceof std.SetIterator == false)
                     return _super.prototype.find.call(this, val);
@@ -9726,14 +9716,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_.setCompare(args[1]);
+                    this.tree_["compare_"] = (args[1]);
                 this.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_.setCompare(args[1]);
+                    this.tree_["compare_"] = (args[1]);
                 this.push.apply(this, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -9741,12 +9731,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.tree_.setCompare(args[2]);
+                    this.tree_["compare_"] = (args[2]);
                 this.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.tree_.setCompare(args[0]);
+                this.tree_["compare_"] = (args[0]);
             }
         }
         /* ---------------------------------------------------------
@@ -9962,14 +9952,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_.setCompare(args[1]);
+                    this.tree_["compare_"] = (args[1]);
                 this.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_.setCompare(args[1]);
+                    this.tree_["compare_"] = (args[1]);
                 this.push.apply(this, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -9977,12 +9967,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.tree_.setCompare(args[2]);
+                    this.tree_["compare_"] = (args[2]);
                 this.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.tree_.setCompare(args[0]);
+                this.tree_["compare_"] = (args[0]);
             }
         }
         /* ---------------------------------------------------------
@@ -10204,14 +10194,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_.setCompare(args[1]);
+                    this.tree_["compare_"] = (args[1]);
                 this.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_.setCompare(args[1]);
+                    this.tree_["compare_"] = (args[1]);
                 this.push.apply(this, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -10219,12 +10209,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.tree_.setCompare(args[2]);
+                    this.tree_["compare_"] = (args[2]);
                 this.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.tree_.setCompare(args[0]);
+                this.tree_["compare_"] = (args[0]);
             }
         }
         /* ---------------------------------------------------------
@@ -10470,14 +10460,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_.setCompare(args[1]);
+                    this.tree_["compare_"] = (args[1]);
                 this.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.tree_.setCompare(args[1]);
+                    this.tree_["compare_"] = (args[1]);
                 this.push.apply(this, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -10485,12 +10475,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.tree_.setCompare(args[2]);
+                    this.tree_["compare_"] = (args[2]);
                 this.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.tree_.setCompare(args[0]);
+                this.tree_["compare_"] = (args[0]);
             }
         }
         /* ---------------------------------------------------------
@@ -11021,14 +11011,14 @@ var std;
                 // COPY CONSTRUCTOR
                 var container = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.container_["tree_"].setCompare(args[1]);
+                    this.container_["tree_"]["compare_"] = (args[1]);
                 this.container_.assign(container.begin(), container.end());
             }
             else if (args.length >= 1 && args[0] instanceof Array) {
                 // INITIALIZER LIST CONSTRUCTOR
                 var items = args[0]; // PARAMETER
                 if (args.length == 2)
-                    this.container_["tree_"].setCompare(args[1]);
+                    this.container_["tree_"]["compare_"] = (args[1]);
                 (_a = this.container_).push.apply(_a, items);
             }
             else if (args.length >= 2 && args[0] instanceof std.Iterator && args[1] instanceof std.Iterator) {
@@ -11036,12 +11026,12 @@ var std;
                 var first = args[0]; // PARAMETER 1
                 var last = args[1]; // PARAMETER 2
                 if (args.length == 2)
-                    this.container_["tree_"].setCompare(args[2]);
+                    this.container_["tree_"]["compare_"] = (args[2]);
                 this.container_.assign(first, last);
             }
             else if (args.length == 1) {
                 // DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-                this.container_["tree_"].setCompare(args[0]);
+                this.container_["tree_"]["compare_"] = (args[0]);
             }
             var _a;
         }

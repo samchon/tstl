@@ -1,7 +1,0 @@
-{
-    "compilerOptions": {
-        "target": "es5",
-        "sourceMap": true,
-        "outFile": "include/typescript-stl.js"
-    }
-}

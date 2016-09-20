@@ -5,7 +5,7 @@
 
 declare module "typescript-stl"
 {
-        export = std;
+	export = std;
 }
 
 /**
@@ -11432,7 +11432,6 @@ declare namespace std.base {
          * Default Constructor.
          */
         constructor(map: TreeMap<Key, T> | TreeMultiMap<Key, T>, compare?: (x: Key, y: Key) => boolean);
-        setCompare(val: (x: Key, y: Key) => boolean): void;
         find(key: Key): XTreeNode<MapIterator<Key, T>>;
         find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
         /**
@@ -11733,7 +11732,6 @@ declare namespace std.base {
          * Default Constructor.
          */
         constructor(set: TreeSet<T> | TreeMultiSet<T>, compare?: (x: T, y: T) => boolean);
-        setCompare(val: (x: T, y: T) => boolean): void;
         find(val: T): XTreeNode<SetIterator<T>>;
         find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
         /**

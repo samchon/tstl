@@ -10,3 +10,4 @@ handbook
 *.bat
 *.*ignore
 *.d.ts
+build.js
