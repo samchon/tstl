@@ -4580,7 +4580,6 @@ declare namespace std.base {
          * Return the number of elements in the map.
          */
         size(): number;
-        protected _Get_data(): List<Pair<Key, T>>;
         /**
          * @inheritdoc
          */
@@ -5744,10 +5743,6 @@ declare namespace std.base {
          * @inheritdoc
          */
         size(): number;
-        /**
-         * @hidden
-         */
-        _Get_data(): List<T>;
         /**
          * @inheritdoc
          */
@@ -7166,8 +7161,17 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class ListIterator<T> extends Iterator<T> {
+        /**
+         * @hidden
+         */
         private prev_;
+        /**
+         * @hidden
+         */
         private next_;
+        /**
+         * @hidden
+         */
         private value_;
         /**
          * <p> Construct from the source {@link List container}. </p>
@@ -7204,14 +7208,6 @@ declare namespace std {
          * @param val Value to set.
          */
         value: T;
-        /**
-         * @hidden
-         */
-        _Set_prev(it: ListIterator<T>): void;
-        /**
-         * @hidden
-         */
-        _Set_next(it: ListIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -8615,10 +8611,6 @@ declare namespace std {
          * @inheritdoc
          */
         equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>;
-        /**
-         * @hidden
-         */
-        _Get_tree(): base.AtomicTree<T>;
         /**
          * @hidden
          */
@@ -11440,7 +11432,7 @@ declare namespace std.base {
          * Default Constructor.
          */
         constructor(map: TreeMap<Key, T> | TreeMultiMap<Key, T>, compare?: (x: Key, y: Key) => boolean);
-        _Set_compare(val: (x: Key, y: Key) => boolean): void;
+        setCompare(val: (x: Key, y: Key) => boolean): void;
         find(key: Key): XTreeNode<MapIterator<Key, T>>;
         find(it: MapIterator<Key, T>): XTreeNode<MapIterator<Key, T>>;
         /**
@@ -11741,7 +11733,7 @@ declare namespace std.base {
          * Default Constructor.
          */
         constructor(set: TreeSet<T> | TreeMultiSet<T>, compare?: (x: T, y: T) => boolean);
-        _Set_compare(val: (x: T, y: T) => boolean): void;
+        setCompare(val: (x: T, y: T) => boolean): void;
         find(val: T): XTreeNode<SetIterator<T>>;
         find(it: SetIterator<T>): XTreeNode<SetIterator<T>>;
         /**

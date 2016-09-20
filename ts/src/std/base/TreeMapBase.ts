@@ -200,7 +200,7 @@ namespace std.base
 			this.compare_ = compare;
 		}
 
-		public _Set_compare(val: (x: Key, y: Key) => boolean): void
+		public setCompare(val: (x: Key, y: Key) => boolean): void
 		{
 			if (this.map_.empty() == false)
 				return;

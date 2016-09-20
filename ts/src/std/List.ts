@@ -138,8 +138,8 @@ namespace std
 
 			// INIT MEMBERS
 			this.end_ = new ListIterator<T>(this, null, null, null);
-			this.end_._Set_prev(this.end_);
-			this.end_._Set_next(this.end_);
+			this.end_["prev_"] = (this.end_);
+			this.end_["next_"] = (this.end_);
 
 			this.begin_ = this.end_;
 			this.size_ = 0;
@@ -205,8 +205,8 @@ namespace std
 		{
 			// DISCONNECT NODES
 			this.begin_ = this.end_;
-			this.end_._Set_prev(this.end_);
-			this.end_._Set_next(this.end_);
+			this.end_["prev_"] = (this.end_);
+			this.end_["next_"] = (this.end_);
 			
 			// RE-SIZE -> 0
 			this.size_ = 0;
@@ -295,7 +295,7 @@ namespace std
 				if (i == 0)
 					first = item;
 
-				prev._Set_next(item);
+				prev["next_"] = (item);
 				prev = item;
 			}
 
@@ -304,8 +304,8 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev._Set_next(this.end_);
-			this.end_._Set_prev(prev);
+			prev["next_"] = (this.end_);
+			this.end_["prev_"] = (prev);
 
 			this.size_ += items.length;
 			return this.size();
@@ -521,7 +521,7 @@ namespace std
 				if (i == 0) 
 					first = item;
 				
-				prev._Set_next(item);
+				prev["next_"] = (item);
 				
 				// SHIFT ITEM LEFT TO BE PREV
 				prev = item;
@@ -532,8 +532,8 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev._Set_next(position);
-			position._Set_prev(prev);
+			prev["next_"] = (position);
+			position["prev_"] = (prev);
 			
 			this.size_ += size;
 
@@ -561,7 +561,7 @@ namespace std
 				let item: ListIterator<T> = new ListIterator(this, prev, null, it.value);
 
 				if (size == 0) first = item;
-				if (prev != null) prev._Set_next(item);
+				if (prev != null) prev["next_"] = (item);
 
 				// SHIFT CURRENT ITEM TO PREVIOUS
 				prev = item;
@@ -573,8 +573,8 @@ namespace std
 				this.begin_ = first;
 
 			// CONNECT BETWEEN LAST AND POSITION
-			prev._Set_next(position);
-			position._Set_prev(prev);
+			prev["next_"] = (position);
+			position["prev_"] = (prev);
 
 			this.size_ += size;
 
@@ -693,8 +693,8 @@ namespace std
 			let size: number = distance(first, last);
 
 			// SHRINK
-			prev._Set_next(last);
-			last._Set_prev(prev);
+			prev["next_"] = (last);
+			last["prev_"] = (prev);
 
 			this.size_ -= size;
 			if (first == this.begin_)
@@ -1125,9 +1125,19 @@ namespace std
 	export class ListIterator<T>
 		extends Iterator<T>
 	{
+		/**
+		 * @hidden
+		 */
 		private prev_: ListIterator<T>;
+		
+		/**
+		 * @hidden
+		 */
 		private next_: ListIterator<T>;
 
+		/**
+		 * @hidden
+		 */
 		private value_: T;
 
 		/* ---------------------------------------------------------------
@@ -1228,21 +1238,21 @@ namespace std
 			this.value_ = val;
 		}
 
-		/**
-		 * @hidden
-		 */
-		public _Set_prev(it: ListIterator<T>): void
-		{
-			this.prev_ = it;
-		}
+		///**
+		// * @hidden
+		// */
+		//public _Set_prev(it: ListIterator<T>): void
+		//{
+		//	this.prev_ = it;
+		//}
 
-		/**
-		 * @hidden
-		 */
-		public _Set_next(it: ListIterator<T>): void
-		{
-			this.next_ = it;
-		}
+		///**
+		// * @hidden
+		// */
+		//public _Set_next(it: ListIterator<T>): void
+		//{
+		//	this.next_ = it;
+		//}
 
 		/* ---------------------------------------------------------------
 			COMPARISON

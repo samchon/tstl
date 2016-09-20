@@ -321,7 +321,7 @@ namespace std
 		protected _Insert_by_val(val: T): any
 		{
 			// INSERT
-			let it = new SetIterator<T>(this, this._Get_data().insert(this._Get_data().end(), val));
+			let it = new SetIterator<T>(this, this["data_"].insert(this["data_"].end(), val));
 
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 			return it;
@@ -333,7 +333,7 @@ namespace std
 		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
 			// INSERT
-			let list_iterator = this._Get_data().insert(hint.get_list_iterator(), val);
+			let list_iterator = this["data_"].insert(hint.get_list_iterator(), val);
 
 			// POST-PROCESS
 			let it = new SetIterator<T>(this, list_iterator);
@@ -349,7 +349,7 @@ namespace std
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT ELEMENTS
-			let list_iterator = this._Get_data().insert(this._Get_data().end(), first, last);
+			let list_iterator = this["data_"].insert(this["data_"].end(), first, last);
 			let my_first = new SetIterator<T>(this, list_iterator);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE

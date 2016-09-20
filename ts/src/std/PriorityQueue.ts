@@ -136,7 +136,7 @@ namespace std
 				// COPY CONSTRUCTOR
 				let container: base.IContainer<T> = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.container_._Get_tree()._Set_compare(args[1]);
+					this.container_["tree_"].setCompare(args[1]);
 
 				this.container_.assign(container.begin(), container.end());
 			}
@@ -145,7 +145,7 @@ namespace std
 				// INITIALIZER LIST CONSTRUCTOR
 				let items: T[] = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.container_._Get_tree()._Set_compare(args[1]);
+					this.container_["tree_"].setCompare(args[1]);
 
 				this.container_.push(...items);
 			}
@@ -155,14 +155,14 @@ namespace std
 				let first: Iterator<T> = args[0]; // PARAMETER 1
 				let last: Iterator<T> = args[1]; // PARAMETER 2
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.container_._Get_tree()._Set_compare(args[2]);
+					this.container_["tree_"].setCompare(args[2]);
 
 				this.container_.assign(first, last);
 			}
 			else if (args.length == 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				this.container_._Get_tree()._Set_compare(args[0]);
+				this.container_["tree_"].setCompare(args[0]);
 			}
 		}
 

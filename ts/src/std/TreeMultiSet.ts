@@ -144,7 +144,7 @@ namespace std
 				// COPY CONSTRUCTOR
 				let container: TreeMultiSet<T> = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_._Set_compare(args[1]);
+					this.tree_.setCompare(args[1]);
 
 				this.assign(container.begin(), container.end());
 			}
@@ -153,7 +153,7 @@ namespace std
 				// INITIALIZER LIST CONSTRUCTOR
 				let items: T[] = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_._Set_compare(args[1]);
+					this.tree_.setCompare(args[1]);
 
 				this.push(...items);
 			}
@@ -163,14 +163,14 @@ namespace std
 				let first: Iterator<T> = args[0]; // PARAMETER 1
 				let last: Iterator<T> = args[1]; // PARAMETER 2
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_._Set_compare(args[2]);
+					this.tree_.setCompare(args[2]);
 
 				this.assign(first, last);
 			}
 			else if (args.length == 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				this.tree_._Set_compare(args[0]);
+				this.tree_.setCompare(args[0]);
 			}
 		}
 
@@ -257,13 +257,13 @@ namespace std
 			return this.tree_.equal_range(val);
 		}
 
-		/**
-		 * @hidden
-		 */
-		public _Get_tree(): base.AtomicTree<T>
-		{
-			return this.tree_;
-		}
+		///**
+		// * @hidden
+		// */
+		//public _Get_tree(): base.AtomicTree<T>
+		//{
+		//	return this.tree_;
+		//}
 
 		/* =========================================================
 			ELEMENTS I/O
@@ -305,7 +305,7 @@ namespace std
 			/////
 			// INSERTS
 			/////
-			it = new SetIterator<T>(this, this._Get_data().insert(it.get_list_iterator(), val));
+			it = new SetIterator<T>(this, this["data_"].insert(it.get_list_iterator(), val));
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return it;
@@ -328,7 +328,7 @@ namespace std
 				// RIGHT HINT
 				///////
 				// INSERT
-				ret = new SetIterator<T>(this, this._Get_data().insert(hint.get_list_iterator(), val));
+				ret = new SetIterator<T>(this, this["data_"].insert(hint.get_list_iterator(), val));
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());

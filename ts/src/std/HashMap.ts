@@ -322,7 +322,7 @@ namespace std
 				return make_pair(it, false);
 
 			// INSERT
-			this._Get_data().push_back(pair);
+			this["data_"].push_back(pair);
 			it = it.prev();
 
 			// POST-PROCESS
@@ -341,7 +341,7 @@ namespace std
 				return this.end();
 
 			// INSERT
-			let list_it = this._Get_data().insert(hint.get_list_iterator(), pair);
+			let list_it = this["data_"].insert(hint.get_list_iterator(), pair);
 
 			// POST-PROCESS
 			let it = new MapIterator<Key, T>(this, list_it);
@@ -367,7 +367,7 @@ namespace std
 					continue;
 
 				// INSERTS
-				this._Get_data().push_back(make_pair<Key, T>(first.value.first, first.value.second));
+				this["data_"].push_back(make_pair<Key, T>(first.value.first, first.value.second));
 				size++;
 			}
 			my_first = my_first.next();

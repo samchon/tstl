@@ -309,7 +309,7 @@ namespace std
 				return make_pair(it, false);
 
 			// INSERT
-			this._Get_data().push_back(val);
+			this["data_"].push_back(val);
 			it = it.prev();
 
 			// POST-PROCESS
@@ -328,7 +328,7 @@ namespace std
 				return this.end();
 
 			// INSERT
-			let list_iterator = this._Get_data().insert(hint.get_list_iterator(), val);
+			let list_iterator = this["data_"].insert(hint.get_list_iterator(), val);
 
 			// POST-PROCESS
 			let it = new SetIterator<T>(this, list_iterator);
@@ -353,7 +353,7 @@ namespace std
 					continue;
 				
 				// INSERTS
-				this._Get_data().push_back(first.value);
+				this["data_"].push_back(first.value);
 				size++;
 			}
 			my_first = my_first.next();

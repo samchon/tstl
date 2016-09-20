@@ -229,10 +229,10 @@ namespace std.base
 			return this.data_.size();
 		}
 
-		protected _Get_data(): List<Pair<Key, T>>
-		{
-			return this.data_;
-		}
+		//protected _Get_data(): List<Pair<Key, T>>
+		//{
+		//	return this.data_;
+		//}
 		
 		/* =========================================================
 			ELEMENTS I/O

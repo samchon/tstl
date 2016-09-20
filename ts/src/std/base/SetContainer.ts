@@ -176,13 +176,13 @@ namespace std.base
 			return this.data_.size();
 		}
 
-		/**
-		 * @hidden
-		 */
-		public _Get_data(): List<T>
-		{
-			return this.data_;
-		}
+		///**
+		// * @hidden
+		// */
+		//protected _Get_data(): List<T>
+		//{
+		//	return this.data_;
+		//}
 
 		/* =========================================================
 			ELEMENTS I/O

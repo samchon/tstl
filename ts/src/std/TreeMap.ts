@@ -163,7 +163,7 @@ namespace std
 				// COPY CONSTRUCTOR
 				let container: TreeMap<Key, T> = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_._Set_compare(args[1]);
+					this.tree_.setCompare(args[1]);
 
 				this.assign(container.begin(), container.end());
 			}
@@ -172,7 +172,7 @@ namespace std
 				// INITIALIZER LIST CONSTRUCTOR
 				let items: Pair<Key, T>[] = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_._Set_compare(args[1]);
+					this.tree_.setCompare(args[1]);
 
 				this.push(...items);
 			}
@@ -182,14 +182,14 @@ namespace std
 				let first: Iterator<Pair<Key, T>> = args[0]; // PARAMETER 1
 				let last: Iterator<Pair<Key, T>> = args[1]; // PARAMETER 2
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.tree_._Set_compare(args[2]);
+					this.tree_.setCompare(args[2]);
 
 				this.assign(first, last);
 			}
 			else if (args.length == 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				this.tree_._Set_compare(args[0]);
+				this.tree_.setCompare(args[0]);
 			}
 		}
 
@@ -292,7 +292,7 @@ namespace std
 				it = node.value;
 
 			// ITERATOR TO RETURN
-			it = new MapIterator<Key, T>(this, this._Get_data().insert(it.get_list_iterator(), pair));
+			it = new MapIterator<Key, T>(this, this["data_"].insert(it.get_list_iterator(), pair));
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return std.make_pair(it, true);
@@ -319,7 +319,7 @@ namespace std
 				// RIGHT HINT
 				///////
 				// INSERT
-				ret = new MapIterator<Key, T>(this, this._Get_data().insert(hint.get_list_iterator(), pair));
+				ret = new MapIterator<Key, T>(this, this["data_"].insert(hint.get_list_iterator(), pair));
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());

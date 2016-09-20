@@ -327,7 +327,7 @@ namespace std
 		protected _Insert_by_pair(pair: Pair<Key, T>): any
 		{
 			// INSERT
-			let it = new MapIterator<Key, T>(this, this._Get_data().insert(this._Get_data().end(), pair));
+			let it = new MapIterator<Key, T>(this, this["data_"].insert(this["data_"].end(), pair));
 
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 			return it;
@@ -339,7 +339,7 @@ namespace std
 		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			// INSERT
-			let list_it = this._Get_data().insert(hint.get_list_iterator(), pair);
+			let list_it = this["data_"].insert(hint.get_list_iterator(), pair);
 
 			// POST-PROCESS
 			let it = new MapIterator<Key, T>(this, list_it);
@@ -355,7 +355,7 @@ namespace std
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT ELEMENTS
-			let list_iterator = this._Get_data().insert(this._Get_data().end(), first, last);
+			let list_iterator = this["data_"].insert(this["data_"].end(), first, last);
 			let my_first = new MapIterator<Key, T>(this, list_iterator);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
