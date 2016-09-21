@@ -1044,7 +1044,7 @@ var std;
      */
     function reverse(first, last) {
         // first != last && first != --last
-        while (first.equal_to(last) == false && !first.equal_to((last = last.prev())) == false) {
+        while (first.equal_to(last) == false && first.equal_to((last = last.prev())) == false) {
             first.swap(last);
             first = first.next();
         }
@@ -5970,27 +5970,11 @@ var std;
     var example;
     (function (example) {
         function test_anything() {
-            var map = new std.HashMap();
-            map.insert(["samchon", 1]);
-            map.insert(["FireFox", 2]);
-            console.log(map.has("samchon"), "#" + map.size());
-            for (var it = map.begin(); !it.equal_to(map.end()); it = it.next())
-                console.log(it.first);
-            map.erase("samchon");
-            console.log(map.has("samchon"), "#" + map.size());
-            for (var it = map.begin(); !it.equal_to(map.end()); it = it.next())
-                console.log(it.first);
-            console.log("first item", map.begin().first);
-            console.log("last item", map.rbegin().first);
-            /* --------------------------------------------------------- */
-            //let list: std.List<string> = new std.List<string>();
-            //list.push_back("samchon");
-            //list.push_back("FireFox");
-            //console.log("#" + list.size());
-            //list.erase(list.begin());
-            //console.log("#" + list.size());
-            //for (let it = list.begin(); !it.equal_to(list.end()); it = it.next())
-            //	console.log(it.value);
+            var items = new std.Vector();
+            items.push(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+            std.reverse(items.begin(), items.end());
+            for (var it = items.begin(); !it.equal_to(items.end()); it = it.next())
+                console.log(it.value);
         }
         example.test_anything = test_anything;
     })(example = std.example || (std.example = {}));

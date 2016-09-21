@@ -1801,7 +1801,7 @@ namespace std
 		(first: InputIterator, last: InputIterator): void
 	{
 		// first != last && first != --last
-		while (first.equal_to(last) == false && !first.equal_to((last = last.prev() as InputIterator)) == false)
+		while (first.equal_to(last) == false && first.equal_to((last = last.prev() as InputIterator)) == false)
 		{
 			first.swap(last);
 			first = first.next() as InputIterator;
