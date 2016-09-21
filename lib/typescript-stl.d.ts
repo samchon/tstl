@@ -4975,50 +4975,6 @@ declare namespace std.base {
          */
         set(key: Key, val: T): void;
         /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param key Key value of the element whose mapped value is accessed.
-         *
-         * @return A {@link Pair} containing the value pointed to by <i>key</i>.
-         */
-        extract(key: Key): Pair<Key, T>;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
-        /**
-         * @hidden
-         */
-        private extract_by_key(key);
-        /**
-         * @hidden
-         */
-        private extract_by_iterator(it);
-        /**
-         * @hidden
-         */
-        private extract_by_reverse_iterator(it);
-        /**
          * <p> Insert an element. </p>
          *
          * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
@@ -6271,50 +6227,6 @@ declare namespace std.base {
          * @inheritdoc
          */
         count(key: T): number;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>val</i> and erases it from the {@link UniqueSet}. </p>
-         *
-         * @param val Value to be extracted.
-         *
-         * @return A value.
-         */
-        extract(val: T): T;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: SetIterator<T>): SetIterator<T>;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: SetReverseIterator<T>): SetReverseIterator<T>;
-        /**
-         * @hidden
-         */
-        private extract_by_key(val);
-        /**
-         * @hidden
-         */
-        private extract_by_iterator(it);
-        /**
-         * @hidden
-         */
-        private extract_by_reverse_iterator(it);
         /**
          * <p> Insert an element. </p>
          *

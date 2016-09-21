@@ -96,83 +96,86 @@ namespace std.base
 			this.insert_or_assign(key, val);
 		}
 
-		/**
-		 * <p> Extract an element. </p>
-		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		 * 
-		 * @param key Key value of the element whose mapped value is accessed.
-		 * 
-		 * @return A {@link Pair} containing the value pointed to by <i>key</i>.
-		 */
-		public extract(key: Key): Pair<Key, T>;
+		///**
+		// * <p> Extract an element. </p>
+		// *
+		// * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		// * 
+		// * @param key Key value of the element whose mapped value is accessed.
+		// * 
+		// * @return A {@link Pair} containing the value pointed to by <i>key</i>.
+		// */
+		//public extract(key: Key): Pair<Key, T>;
 
-		/**
-		 * <p> Extract an element. </p>
-		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		 *
-		 * @param it An iterator pointing an element to extract.
-		 * 
-		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
-		 *		   erased. If no such element exists,returns {@link end end()}.
-		 */
-		public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
+		///**
+		// * <p> Extract an element. </p>
+		// *
+		// * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		// *
+		// * @param it An iterator pointing an element to extract.
+		// * 
+		// * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		// *		   erased. If no such element exists,returns {@link end end()}.
+		// */
+		//public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
 
-		/**
-		 * <p> Extract an element. </p>
-		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		 *
-		 * @param it An iterator pointing an element to extract.
-		 * 
-		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
-		 *		   erased. If no such element exists,returns {@link end end()}.
-		 */
-		public extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+		///**
+		// * <p> Extract an element. </p>
+		// *
+		// * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		// *
+		// * @param it An iterator pointing an element to extract.
+		// * 
+		// * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		// *		   erased. If no such element exists,returns {@link end end()}.
+		// */
+		//public extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
 
-		public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
-		{
-			if (param instanceof MapIterator)
-				return this.extract_by_iterator(param);
-			else if (param instanceof MapReverseIterator)
-				return this.extract_by_reverse_iterator(param);
-			else
-				return this.extract_by_key(param);
-		}
+		//public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
+		//{
+		//	if (param instanceof MapIterator)
+		//		return this.extract_by_iterator(param);
+		//	else if (param instanceof MapReverseIterator)
+		//		return this.extract_by_reverse_iterator(param);
+		//	else
+		//		return this.extract_by_key(param);
+		//}
 
-		/**
-		 * @hidden
-		 */
-		private extract_by_key(key: Key): Pair<Key, T>
-		{
-			let it = this.find(key);
-			if (it.equal_to(this.end()) == true)
-				throw new OutOfRange("No such key exists.");
+		///**
+		// * @hidden
+		// */
+		//private extract_by_key(key: Key): Pair<Key, T>
+		//{
+		//	let it = this.find(key);
+		//	if (it.equal_to(this.end()) == true)
+		//		throw new OutOfRange("No such key exists.");
 
-			return it.value;
-		}
+		//	let ret: Pair<Key, T> = it.value;
+		//	this.erase(it);
 
-		/**
-		 * @hidden
-		 */
-		private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
-		{
-			if (it.equal_to(this.end()) == true || this.has(it.first) == false)
-				return this.end();
+		//	return ret;
+		//}
 
-			this.erase(it);
-			return it;
-		}
+		///**
+		// * @hidden
+		// */
+		//private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
+		//{
+		//	if (it.equal_to(this.end()) == true || this.has(it.first) == false)
+		//		return this.end();
 
-		/**
-		 * @hidden
-		 */
-		private extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
-		{
-			this.extract_by_iterator(it.base().next());
-			return it;
-		}
+		//	this.erase(it);
+		//	return it;
+		//}
+
+		///**
+		// * @hidden
+		// */
+		//private extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
+		//{
+		//	this.extract_by_iterator(it.base().next());
+		//	return it;
+		//}
 
 		/* ---------------------------------------------------------
 			ELEMENTS I/O

@@ -4936,39 +4936,6 @@ var std;
             UniqueMap.prototype.set = function (key, val) {
                 this.insert_or_assign(key, val);
             };
-            UniqueMap.prototype.extract = function (param) {
-                if (param instanceof std.MapIterator)
-                    return this.extract_by_iterator(param);
-                else if (param instanceof std.MapReverseIterator)
-                    return this.extract_by_reverse_iterator(param);
-                else
-                    return this.extract_by_key(param);
-            };
-            /**
-             * @hidden
-             */
-            UniqueMap.prototype.extract_by_key = function (key) {
-                var it = this.find(key);
-                if (it.equal_to(this.end()) == true)
-                    throw new std.OutOfRange("No such key exists.");
-                return it.value;
-            };
-            /**
-             * @hidden
-             */
-            UniqueMap.prototype.extract_by_iterator = function (it) {
-                if (it.equal_to(this.end()) == true || this.has(it.first) == false)
-                    return this.end();
-                this.erase(it);
-                return it;
-            };
-            /**
-             * @hidden
-             */
-            UniqueMap.prototype.extract_by_reverse_iterator = function (it) {
-                this.extract_by_iterator(it.base().next());
-                return it;
-            };
             UniqueMap.prototype.insert = function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
@@ -5080,39 +5047,6 @@ var std;
              */
             UniqueSet.prototype.count = function (key) {
                 return this.find(key).equal_to(this.end()) ? 0 : 1;
-            };
-            UniqueSet.prototype.extract = function (param) {
-                if (param instanceof std.SetIterator)
-                    return this.extract_by_iterator(param);
-                else if (param instanceof std.SetReverseIterator)
-                    return this.extract_by_reverse_iterator(param);
-                else
-                    return this.extract_by_key(param);
-            };
-            /**
-             * @hidden
-             */
-            UniqueSet.prototype.extract_by_key = function (val) {
-                var it = this.find(val);
-                if (it.equal_to(this.end()) == true)
-                    throw new std.OutOfRange("No such key exists.");
-                return val;
-            };
-            /**
-             * @hidden
-             */
-            UniqueSet.prototype.extract_by_iterator = function (it) {
-                if (it.equal_to(this.end()) == true || this.has(it.value) == false)
-                    return this.end();
-                this.erase(it);
-                return it;
-            };
-            /**
-             * @hidden
-             */
-            UniqueSet.prototype.extract_by_reverse_iterator = function (it) {
-                this.extract_by_iterator(it.base().next());
-                return it;
             };
             UniqueSet.prototype.insert = function () {
                 var args = [];
@@ -5970,11 +5904,6 @@ var std;
     var example;
     (function (example) {
         function test_anything() {
-            var items = new std.Vector();
-            items.push(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-            std.reverse(items.begin(), items.end());
-            for (var it = items.begin(); !it.equal_to(items.end()); it = it.next())
-                console.log(it.value);
         }
         example.test_anything = test_anything;
     })(example = std.example || (std.example = {}));
