@@ -1,0 +1,133 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '-g' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.4
+4 verbose install initial load of C:\Users\Jeongho Nam\AppData\Roaming\npm\package.json
+5 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\package.json
+6 silly cache add args [ '.', null ]
+7 verbose cache add spec .
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: '.',
+8 silly cache add   scope: null,
+8 silly cache add   name: null,
+8 silly cache add   rawSpec: '.',
+8 silly cache add   spec: 'D:\\OneDrive\\Project\\Samchon\\typescript-stl',
+8 silly cache add   type: 'directory' }
+9 verbose addLocalDirectory C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.0\package.tgz not in flight; packing
+10 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+11 verbose tar pack [ 'C:\\Users\\Jeongho Nam\\AppData\\Roaming\\npm-cache\\typescript-stl\\1.1.0\\package.tgz',
+11 verbose tar pack   'D:\\OneDrive\\Project\\Samchon\\typescript-stl' ]
+12 verbose tarball C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.0\package.tgz
+13 verbose folder D:\OneDrive\Project\Samchon\typescript-stl
+14 info prepublish typescript-stl@1.1.0
+15 verbose addLocalTarball adding from inside cache C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.0\package.tgz
+16 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+17 silly cache afterAdd typescript-stl@1.1.0
+18 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.0\package\package.json not in flight; writing
+19 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+20 verbose afterAdd C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.0\package\package.json written
+21 silly install resolved [ { name: 'typescript-stl',
+21 silly install resolved     description: 'TypeScript-STL (Standard Template Library, migrated from C++)',
+21 silly install resolved     author:
+21 silly install resolved      { name: 'Jeongho Nam',
+21 silly install resolved        email: 'samchon@samchon.org',
+21 silly install resolved        url: 'http://samchon.org' },
+21 silly install resolved     main: './lib/typescript-stl.js',
+21 silly install resolved     version: '1.1.0',
+21 silly install resolved     homepage: 'https://github.com/samchon/typescript-stl',
+21 silly install resolved     repository:
+21 silly install resolved      { type: 'git',
+21 silly install resolved        url: 'git+https://github.com/samchon/typescript-stl.git' },
+21 silly install resolved     bugs: { url: 'https://github.com/samchon/typescript-stl/issues' },
+21 silly install resolved     licenses: [ [Object] ],
+21 silly install resolved     keywords:
+21 silly install resolved      [ 'stl',
+21 silly install resolved        'standard template library',
+21 silly install resolved        'typescript',
+21 silly install resolved        'standard',
+21 silly install resolved        'template',
+21 silly install resolved        'container',
+21 silly install resolved        'library',
+21 silly install resolved        'vector',
+21 silly install resolved        'deque',
+21 silly install resolved        'list',
+21 silly install resolved        'queue',
+21 silly install resolved        'stack',
+21 silly install resolved        'hash',
+21 silly install resolved        'tree',
+21 silly install resolved        'map',
+21 silly install resolved        'set',
+21 silly install resolved        'iterator' ],
+21 silly install resolved     readme: '# TypeScript-STL\r\n\r\n[![NPM](https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/typescript-stl)\r\n\r\nGitHub Repository: https://github.com/samchon/typescript-stl\r\n\r\n## Introduction\r\nSTL (Standard Template Library) Containers and Algorithms for TypeScript\r\n\r\nTypeScript-STL is an open-source JavaScript library providing containers and algorithms migrated from C++ STL. You can enjoy STL containers and algorithms in JavaScript. If TypeScript, you will be much happier feeling like using originla STL with type restriction and template programming.\r\n\r\n![Abstract Containers](http://samchon.github.io/typescript-stl/images/design/class_diagram/abstract_containers.png)\r\n\r\n##### Containers\r\n  - [**Linear containers**](http://samchon.github.io/typescript-stl/api/interfaces/std.base.container.ilinearcontainer.html)\r\n    - [Vector](http://samchon.github.io/typescript-stl/api/classes/std.vector.html)\r\n    - [List](http://samchon.github.io/typescript-stl/api/classes/std.list.html)\r\n    - [Deque](http://samchon.github.io/typescript-stl/api/classes/std.deque.html)\r\n  - **Associative Containers**\r\n    - [**Tree-structured Containers**](http://samchon.github.io/typescript-stl/api/classes/std.base.tree.rbtree.html)\r\n      - [TreeSet](http://samchon.github.io/typescript-stl/api/classes/std.treeset.html)\r\n      - [TreeMap](http://samchon.github.io/typescript-stl/api/classes/std.treemap.html)\r\n      - [TreeMultiSet](http://samchon.github.io/typescript-stl/api/classes/std.treemultiset.html)\r\n      - [TreeMultiMap](http://samchon.github.io/typescript-stl/api/classes/std.treemultimap.html)\r\n    - [**Hashed Containers**](http://samchon.github.io/typescript-stl/api/classes/std.base.hash.hashbuckets.html)\r\n      - [HashSet](http://samchon.github.io/typescript-stl/api/classes/std.hashset.html)\r\n      - [HashMap](http://samchon.github.io/typescript-stl/api/classes/std.hashmap.html)\r\n      - [HashMultiSet](http://samchon.github.io/typescript-stl/api/classes/std.hashmultiset.html)\r\n      - [HashMultiMap](http://samchon.github.io/typescript-stl/api/classes/std.hashmultimap.html)\r\n  - **Adaptor Containers**\r\n    - [Queue](http://samchon.github.io/typescript-stl/api/classes/std.queue.html)\r\n    - [Stack](http://samchon.github.io/typescript-stl/api/classes/std.stack.html)\r\n    - [PriorityQueue](http://samchon.github.io/typescript-stl/api/classes/std.priorityqueue.html)\r\n\r\n##### Global Functions\r\n  - [&lt;algorithm&gt;](http://www.cplusplus.com/reference/algorithm)\r\n  - [&lt;exception&gt;](http://www.cplusplus.com/reference/exception)\r\n  - [&lt;functional&gt;](http://www.cplusplus.com/reference/functional)\r\n    - [std.bind](http://samchon.github.io/typescript-stl/api/modules/std.html#bind)\r\n  - [&lt;utility&gt;](http://www.cplusplus.com/reference/utility)\r\n    - [std.Pair](http://samchon.github.io/typescript-stl/api/classes/std.pair.html)\r\n\r\n\r\n\r\n## References\r\nYou can learn and explore about TypeScript-STL more deeply with such below:\r\n\r\n  - [Guidebook (wiki)](https://github.com/samchon/typescript-stl/wiki)\r\n  - [API Documents](http://samchon.github.io/typescript-stl/api)\r\n  - [Class Diagram](https://samchon.github.io/typescript-stl/design/class_diagram.pdf)\r\n\r\n\r\n\r\n## Installation\r\nInstalling *TypeScript-STL* in **node** is very easy. Just install with **npm** and **tsd**.\r\n\r\n#### Node\r\n``` bash\r\n# Install TypeScript-STL from NPM modules\r\nnpm install -g typescript-stl \r\n\r\n# Fetch definition (header) file from TSD\r\n# If TSD is not installed, then type "npm install -g tsd"\r\ntsd install typescript-stl\r\n```\r\n\r\n#### TypeScript\r\nDon\'t forget to referencing header files, ```typescript-stl.d.ts```.\r\n\r\n``` typescript\r\n/// <reference path="typings/typescript-stl/typescript-stl.d.ts" />\r\n\r\nimport std = require("typescript-stl");\r\nlet map: std.TreeMap<string, number> = new std.TreeMap<string, number>();\r\n\r\nmap.insert(std.make_pair("First", 1));\r\nmap.insert(["Second", 2]);\r\nmap.insert_or_assign("Third", 3); // C++17 Feature.\r\nmap.set("Fourth", 4); // Non-standard Feature.\r\n\r\nfor (let it = map.begin(); !it.equal_to(map.end()); it = it.next())\r\n\tconsole.log(it.first, it.second); // key => string, value => number\r\n```\r\n\r\n#### Browser\r\n*TypeScript-STL* follows *CommonJS* module. You can\'t use ```require``` statement of *RequireJS*, which is following *AMD* module. Just include *TypeScript-STL*\'s *js file* with ```<script>``` tag.\r\n\r\n###### In HTML Document\r\n``` javascript\r\n<script src="typescript-stl.js"></script>\r\n```\r\n\r\n\r\n\r\n## Index of Guidance, Wiki.\r\n\r\n  - [**Outline**](https://github.com/samchon/typescript-stl/wiki/Home)\r\n    - [Introduction](https://github.com/samchon/typescript-stl/wiki/Home#introduction)\r\n    - [References](https://github.com/samchon/typescript-stl/wiki/Home#references)\r\n    - [Installation](https://github.com/samchon/typescript-stl/wiki/Home#installation)\r\n  - [**Differences between C++**](https://github.com/samchon/typescript-stl/wiki/Differences)\r\n    - [Naming Convention](https://github.com/samchon/typescript-stl/wiki/Differences#naming-convention)\r\n    - [Operator Overriding](https://github.com/samchon/typescript-stl/wiki/Differences#operator-overriding)\r\n    - [Iterator](https://github.com/samchon/typescript-stl/wiki/Differences#iterator)\r\n    - [Tree Container](https://github.com/samchon/typescript-stl/wiki/Differences#tree-container)\r\n    - [Hash Container](https://github.com/samchon/typescript-stl/wiki/Differences#hash-container)\r\n  - [**Tutorial**](https://github.com/samchon/typescript-stl/wiki/Tutorial)\r\n    - [Linear Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#linear-container)\r\n    - [Tree Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#tree-container)\r\n    - [Hash Container](https://github.com/samchon/typescript-stl/wiki/Tutorial#hash-container)\r\n    - [Miscellaneous](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous)\r\n      - [Algorithm](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous#algorithm)\r\n      - [Functional](https://github.com/samchon/typescript-stl/wiki/Tutorial-Miscellaneous#functional)',
+21 silly install resolved     readmeFilename: 'README.md',
+21 silly install resolved     gitHead: 'b6a4b360a8f654ca1c162fdedab25def5a521235',
+21 silly install resolved     _id: 'typescript-stl@1.1.0',
+21 silly install resolved     scripts: {},
+21 silly install resolved     _shasum: 'd99b100d571c916d06a4adbe82db0628eb510e7a',
+21 silly install resolved     _from: 'D:\\OneDrive\\Project\\Samchon\\typescript-stl',
+21 silly install resolved     _resolved: 'file:D:\\OneDrive\\Project\\Samchon\\typescript-stl' } ]
+22 info install typescript-stl@1.1.0 into C:\Users\Jeongho Nam\AppData\Roaming\npm
+23 info installOne typescript-stl@1.1.0
+24 verbose installOne of typescript-stl to C:\Users\Jeongho Nam\AppData\Roaming\npm not in flight; installing
+25 verbose correctMkdir C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks correctMkdir not in flight; initializing
+26 verbose lock using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\typescript-stl-66745383a23b386c.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl
+27 silly install write writing typescript-stl 1.1.0 to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl
+28 verbose unbuild node_modules\typescript-stl
+29 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl is being purged from base C:\Users\Jeongho Nam\AppData\Roaming\npm
+30 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl
+31 verbose tar unpack C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\typescript-stl\1.1.0\package.tgz
+32 verbose tar unpacking to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl
+33 silly gentlyRm C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl is being purged
+34 verbose gentlyRm don't care about contents; nuking C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl
+35 silly gunzTarPerm modes [ '777', '666' ]
+36 silly gunzTarPerm extractEntry package.json
+37 silly gunzTarPerm extractEntry README.md
+38 silly gunzTarPerm extractEntry LICENSE
+39 silly gunzTarPerm extractEntry lib/typescript-stl.js
+40 silly gunzTarPerm extractEntry lib/typescript-stl.min.js
+41 verbose write writing to C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl\package.json
+42 info preinstall typescript-stl@1.1.0
+43 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl\package.json
+44 verbose readDependencies loading dependencies from C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl\package.json
+45 silly install resolved []
+46 verbose about to build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl
+47 info build C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl
+48 info linkStuff typescript-stl@1.1.0
+49 silly linkStuff typescript-stl@1.1.0 has C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules as its parent node_modules
+50 silly linkStuff typescript-stl@1.1.0 is part of a global install
+51 silly linkStuff typescript-stl@1.1.0 is installed into a global node_modules
+52 silly linkStuff typescript-stl@1.1.0 is installed into the top-level global node_modules
+53 verbose linkBins typescript-stl@1.1.0
+54 verbose linkMans typescript-stl@1.1.0
+55 verbose rebuildBundles typescript-stl@1.1.0
+56 info install typescript-stl@1.1.0
+57 info postinstall typescript-stl@1.1.0
+58 verbose unlock done using C:\Users\Jeongho Nam\AppData\Roaming\npm-cache\_locks\typescript-stl-66745383a23b386c.lock for C:\Users\Jeongho Nam\AppData\Roaming\npm\node_modules\typescript-stl
+59 verbose validateInstall loading C:\Users\Jeongho Nam\AppData\Roaming\npm\package.json for validation
+60 verbose stack Error: The package react@15.3.1 does not satisfy its siblings' peerDependencies requirements!
+60 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:125:32
+60 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install.js:268:7
+60 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:142:5
+60 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+60 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+60 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+60 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+60 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+60 verbose stack     at cb (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:47:24)
+60 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-installed\read-installed.js:263:14
+61 verbose cwd D:\OneDrive\Project\Samchon\typescript-stl
+62 error Windows_NT 10.0.14393
+63 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "-g"
+64 error node v4.4.4
+65 error npm  v2.15.1
+66 error code EPEERINVALID
+67 error peerinvalid The package react@15.3.1 does not satisfy its siblings' peerDependencies requirements!
+67 error peerinvalid Peer react-contextmenu@1.6.2 wants react@^0.14.0 || ^15.0.0
+67 error peerinvalid Peer react-dnd@2.1.4 wants react@^0.14.0 || ^15.0.0-0
+67 error peerinvalid Peer react-select@1.0.0-rc.1 wants react@^0.14 || ^15.0.0-rc || ^15.0
+67 error peerinvalid Peer ron-react-autocomplete@3.0.1 wants react@~0.14.6
+67 error peerinvalid Peer react-dom@0.14.8 wants react@^0.14.8
+68 verbose exit [ 1, true ]
