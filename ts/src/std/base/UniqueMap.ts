@@ -96,90 +96,149 @@ namespace std.base
 			this.insert_or_assign(key, val);
 		}
 
-		///**
-		// * <p> Extract an element. </p>
-		// *
-		// * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		// * 
-		// * @param key Key value of the element whose mapped value is accessed.
-		// * 
-		// * @return A {@link Pair} containing the value pointed to by <i>key</i>.
-		// */
-		//public extract(key: Key): Pair<Key, T>;
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 * 
+		 * @param key Key value of the element whose mapped value is accessed.
+		 * 
+		 * @return A {@link Pair} containing the value pointed to by <i>key</i>.
+		 */
+		public extract(key: Key): Pair<Key, T>;
 
-		///**
-		// * <p> Extract an element. </p>
-		// *
-		// * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		// *
-		// * @param it An iterator pointing an element to extract.
-		// * 
-		// * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
-		// *		   erased. If no such element exists,returns {@link end end()}.
-		// */
-		//public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 *
+		 * @param it An iterator pointing an element to extract.
+		 * 
+		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		 *		   erased. If no such element exists,returns {@link end end()}.
+		 */
+		public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
 
-		///**
-		// * <p> Extract an element. </p>
-		// *
-		// * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		// *
-		// * @param it An iterator pointing an element to extract.
-		// * 
-		// * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
-		// *		   erased. If no such element exists,returns {@link end end()}.
-		// */
-		//public extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 *
+		 * @param it An iterator pointing an element to extract.
+		 * 
+		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		 *		   erased. If no such element exists,returns {@link end end()}.
+		 */
+		public extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
 
-		//public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
-		//{
-		//	if (param instanceof MapIterator)
-		//		return this.extract_by_iterator(param);
-		//	else if (param instanceof MapReverseIterator)
-		//		return this.extract_by_reverse_iterator(param);
-		//	else
-		//		return this.extract_by_key(param);
-		//}
+		public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
+		{
+			if (param instanceof MapIterator)
+				return this.extract_by_iterator(param);
+			else if (param instanceof MapReverseIterator)
+				return this.extract_by_reverse_iterator(param);
+			else
+				return this.extract_by_key(param);
+		}
 
-		///**
-		// * @hidden
-		// */
-		//private extract_by_key(key: Key): Pair<Key, T>
-		//{
-		//	let it = this.find(key);
-		//	if (it.equal_to(this.end()) == true)
-		//		throw new OutOfRange("No such key exists.");
+		/**
+		 * @hidden
+		 */
+		private extract_by_key(key: Key): Pair<Key, T>
+		{
+			let it = this.find(key);
+			if (it.equal_to(this.end()) == true)
+				throw new OutOfRange("No such key exists.");
 
-		//	let ret: Pair<Key, T> = it.value;
-		//	this.erase(it);
+			let ret: Pair<Key, T> = it.value;
+			this.erase(it);
 
-		//	return ret;
-		//}
+			return ret;
+		}
 
-		///**
-		// * @hidden
-		// */
-		//private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
-		//{
-		//	if (it.equal_to(this.end()) == true || this.has(it.first) == false)
-		//		return this.end();
+		/**
+		 * @hidden
+		 */
+		private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
+		{
+			if (it.equal_to(this.end()) == true || this.has(it.first) == false)
+				return this.end();
 
-		//	this.erase(it);
-		//	return it;
-		//}
+			this.erase(it);
+			return it;
+		}
 
-		///**
-		// * @hidden
-		// */
-		//private extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
-		//{
-		//	this.extract_by_iterator(it.base().next());
-		//	return it;
-		//}
+		/**
+		 * @hidden
+		 */
+		private extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
+		{
+			this.extract_by_iterator(it.base().next());
+			return it;
+		}
 
 		/* ---------------------------------------------------------
-			ELEMENTS I/O
+			INSERT ELEMENTS
 		--------------------------------------------------------- */
+		/**
+		 * Construct and insert element.
+		 * 
+		 * Inserts a new element in the {@link UniqueMap} if its *key* is unique. This new element is constructed in 
+		 * place using args as the arguments for the construction of a *value_type* (which is an  object of a 
+		 * {@link Pair} type).
+		 * 
+		 * The insertion only takes place if no other element in the container has a *key equivalent* to the one 
+		 * being emplaced (*keys* in a {@link UniqueMap} container are unique).
+		 * 
+		 * If inserted, this effectively increases the container {@link size} by one.
+		 * 
+		 * A similar member function exists, {@link insert}, which either copies or moves existing objects into the 
+		 * container.
+		 * 
+		 * @param key The key used both to look up and to insert if not found.
+		 * @param value Value, the item.
+		 * 
+		 * @return If the function successfully inserts the element (because no equivalent element existed already in 
+		 *		   the {@link UniqueMap}), the function returns a {@link Pair} of an {@link MapIterator iterator} to 
+		 *		   the newly inserted element and a value of true. Otherwise, it returns an 
+		 *		   {@link MapIterator iterator} to the equivalent element within the container and a value of false.
+		 */
+		public emplace(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>;
+
+		/**
+		 * Construct and insert element.
+		 * 
+		 * Inserts a new element in the {@link UniqueMap} if its *key* is unique. This new element is constructed in 
+		 * place using args as the arguments for the construction of a *value_type* (which is an  object of a 
+		 * {@link Pair} type).
+		 * 
+		 * The insertion only takes place if no other element in the container has a *key equivalent* to the one 
+		 * being emplaced (*keys* in a {@link UniqueMap} container are unique).
+		 * 
+		 * If inserted, this effectively increases the container {@link size} by one.
+		 * 
+		 * A similar member function exists, {@link insert}, which either copies or moves existing objects into the 
+		 * container.
+		 * 
+		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as 
+		 *			   {@link Pair.first first} member, and a *value* for the mapped value as 
+		 *			   {@link Pair.second second}.
+		 * 
+		 * @return If the function successfully inserts the element (because no equivalent element existed already in 
+		 *		   the {@link UniqueMap}), the function returns a {@link Pair} of an {@link MapIterator iterator} to 
+		 *		   the newly inserted element and a value of true. Otherwise, it returns an 
+		 *		   {@link MapIterator iterator} to the equivalent element within the container and a value of false.
+		 */
+		public emplace(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
+
+		public emplace(...args: any[]): Pair<MapIterator<Key, T>, boolean>
+		{
+			if (args.length == 1)
+				return this._Insert_by_pair(args[0]);
+			else
+				return this._Insert_by_pair(std.make_pair<Key, T>(args[0], args[1]));
+		}
+
 		/**
 		 * <p> Insert an element. </p>
 		 *
@@ -193,7 +252,9 @@ namespace std.base
 		 *
 		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
 		 * 
-		 * @param pair {@link Pair} to be inserted as an element.
+		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
+		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
+		 *			   {@link Pair.second second}.
 		 *
 		 * @return A {@link Pair}, with its member {@link Pair.first} set to an iterator pointing to either the newly 
 		 *		   inserted element or to the element with an equivalent key in the {@link UniqueMap}. The 

@@ -2,12 +2,14 @@
 #	TYPESCRIPT
 # ======================================================
 .git
-api
-design
-ts
-handbook
+api\
+design\
+ts\
+handbook\
 
 *.bat
+*.log
 *.*ignore
+
 *.d.ts
 build.js

@@ -266,13 +266,105 @@ namespace std.base
 		}
 
 		/**
+		 * Construct and insert element with hint
+		 * 
+		 * Inserts a new element in the {@link MapContainer map container}. This new element is constructed in 
+		 * place using *args* as the arguments for the element's constructor. *hint* points to a location in the
+		 * container suggested as a hint on where to start the search for its insertion point (the container may or 
+		 * may not use this suggestion to optimize the insertion operation).
+		 * 
+		 * A similar member function exists, {@link insert}, which either copies or moves an existing object into 
+		 * the container, and may also take a position *hint*.
+		 * 
+		 * @param hint Hint for the position where the element can be inserted.
+		 * @param key The key used both to look up and to insert if not found.
+		 * @param value Value, the item.
+		 * 
+		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
+		 *		   equivalent key in the {@link MapContainer}.
+		 */
+		public emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>;
+
+		/**
+		 * Construct and insert element with hint
+		 *
+		 * Inserts a new element in the {@link MapContainer map container}. This new element is constructed in
+		 * place using *args* as the arguments for the element's constructor. *hint* points to a location in the
+		 * container suggested as a hint on where to start the search for its insertion point (the container may or
+		 * may not use this suggestion to optimize the insertion operation).
+		 *
+		 * A similar member function exists, {@link insert}, which either copies or moves an existing object into
+		 * the container, and may also take a position *hint*.
+		 * 
+		 * @param hint Hint for the position where the element can be inserted.
+		 * @param key The key used both to look up and to insert if not found.
+		 * @param value Value, the item.
+		 * 
+		 * @return An {@link MapIterator iterator} pointing to either the newly inserted element or to the element
+		 *		   that already had an equivalent key in the {@link MapContainer}.
+		 */
+		public emplace_hint(hint: MapReverseIterator<Key, T>, key: Key, val: T): MapReverseIterator<Key, T>;
+
+		/**
+		 * Construct and insert element with hint
+		 *
+		 * Inserts a new element in the {@link MapContainer map container}. This new element is constructed in
+		 * place using *args* as the arguments for the element's constructor. *hint* points to a location in the
+		 * container suggested as a hint on where to start the search for its insertion point (the container may or
+		 * may not use this suggestion to optimize the insertion operation).
+		 *
+		 * A similar member function exists, {@link insert}, which either copies or moves an existing object into
+		 * the container, and may also take a position *hint*.
+		 * 
+		 * @param hint Hint for the position where the element can be inserted.
+		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
+		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
+		 *			   {@link Pair.second second}.
+		 *
+		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
+		 *		   equivalent key in the {@link MapContainer}.
+		 */
+		public emplace_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+
+		/**
+		 * Construct and insert element with hint
+		 *
+		 * Inserts a new element in the {@link MapContainer map container}. This new element is constructed in
+		 * place using *args* as the arguments for the element's constructor. *hint* points to a location in the
+		 * container suggested as a hint on where to start the search for its insertion point (the container may or
+		 * may not use this suggestion to optimize the insertion operation).
+		 *
+		 * A similar member function exists, {@link insert}, which either copies or moves an existing object into
+		 * the container, and may also take a position *hint*.
+		 * 
+		 * @param hint Hint for the position where the element can be inserted.
+		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
+		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
+		 *			   {@link Pair.second second}.
+		 *
+		 * @return An {@link MapIterator iterator} pointing to either the newly inserted element or to the element 
+		 *		   that already had an equivalent key in the {@link MapContainer}.
+		 */
+		public emplace_hint(hint: MapReverseIterator<Key, T>, pair: Pair<Key, T>): MapReverseIterator<Key, T>;
+
+		public emplace_hint(hint: any, ...args: any[]): any
+		{
+			if (args.length == 1)
+				return this.insert(hint, args[0] as Pair<Key, T>);
+			else
+				return this.insert(hint, make_pair<Key, T>(args[0], args[1]));
+		}
+
+		/**
 		 * <p> Insert an element. </p>
 		 * 
 		 * <p> Extends the container by inserting a new element, effectively increasing the container {@link size} 
 		 * by the number of element inserted (zero or one). </p>
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
-		 * @param pair {@link Pair} to be inserted as an element.
+		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
+		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
+		 *			   {@link Pair.second second}.
 		 *
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an 
 		 *		   equivalent key in the {@link MapContainer}.
@@ -286,7 +378,9 @@ namespace std.base
 		 * by the number of element inserted (zero or one). </p>
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
-		 * @param pair {@link Pair} to be inserted as an element.
+		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
+		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
+		 *			   {@link Pair.second second}.
 		 *
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an 
 		 *		   equivalent key in the {@link MapContainer}.
@@ -556,12 +650,12 @@ namespace std.base
 		/**
 		 * <p> Abstract method handling insertions for indexing. </p>
 		 *
-		 * <p> This method, {@link handle_insert} is designed to register the <i>first to last</i> to somewhere storing 
+		 * <p> This method, {@link _Handle_insert} is designed to register the <i>first to last</i> to somewhere storing 
 		 * those {@link MapIterator iterators} for indexing, fast accessment and retrievalance. </p>
 		 *
 		 * <p> When {@link insert} is called, new elements will be inserted into the {@link data_ list container} and new 
 		 * {@link MapIterator iterators} <i>first to last</i>, pointing the inserted elements, will be created and the
-		 * newly created iterators <i>first to last</i> will be shifted into this method {@link handle_insert} after the 
+		 * newly created iterators <i>first to last</i> will be shifted into this method {@link _Handle_insert} after the 
 		 * insertions. </p>
 		 *
 		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link MapIterator iterators}
@@ -579,11 +673,11 @@ namespace std.base
 		/**
 		 * <p> Abstract method handling deletions for indexing. </p>
 		 * 
-		 * <p> This method, {@link handle_insert} is designed to unregister the <i>first to last</i> to somewhere storing 
+		 * <p> This method, {@link _Handle_erase} is designed to unregister the <i>first to last</i> to somewhere storing
 		 * those {@link MapIterator iterators} for indexing, fast accessment and retrievalance. </p>
 		 *
 		 * <p> When {@link erase} is called with <i>first to last</i>, {@link MapIterator iterators} positioning somewhere
-		 * place to be deleted, is memorized and shifted to this method {@link handle_erase} after the deletion process is 
+		 * place to be deleted, is memorized and shifted to this method {@link _Handle_erase} after the deletion process is 
 		 * terminated. </p>
 		 *
 		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link MapIterator iterators}

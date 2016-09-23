@@ -4,6 +4,6 @@ namespace std.example
 {
 	export function test_anything(): void
 	{
-		
+
 	}
 }

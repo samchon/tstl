@@ -33,8 +33,6 @@ namespace std
 	 *			  <i>first</i> but not the element pointed by <i>last</i>.
 	 * @param fn Unary function that accepts an element in the range as argument. This can either be a function p
 	 *			 ointer or a move constructible function object. Its return value, if any, is ignored.
-	 *
-	 * @return Returns <i>fn</i>.
 	 */
 	export function for_each<T, InputIterator extends Iterator<T>, Func extends (val: T) => any>
 		(first: InputIterator, last: InputIterator, fn: Func): Func
@@ -43,6 +41,29 @@ namespace std
 			fn(it.value);
 
 		return fn;
+	}
+
+	/**
+	 * Apply function to range.
+	 *
+	 * Applies function *fn* to each of the elements in the range [*first*, *first + n*).
+	 * 
+	 * @param first An {@link Iterator} to the initial position in a sequence.
+	 * @param n the number of elements to apply the function to
+	 * @param fn Unary function that accepts an element in the range as argument. This can either be a function p
+	 *			 ointer or a move constructible function object. Its return value, if any, is ignored.
+	 * 
+	 * @return first + n
+	 */
+	export function for_each_n<T, InputIterator extends Iterator<T>>
+		(first: InputIterator, n: number, fn: (val: T) => any): InputIterator
+	{
+		for (let i: number = 0; i < n; i++)
+		{
+			fn(first.value);
+			first = first.next() as InputIterator;
+		}
+		return first;
 	}
 
 	/* ---------------------------------------------------------
@@ -148,8 +169,8 @@ namespace std
 	 * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those 
 	 *		   of the range starting at <i>first2</i>, and <code>false</code> otherwise.
 	 */
-	export function equal<T, Iterator1 extends Iterator<T>>
-		(first1: Iterator1, last1: Iterator1, first2: Iterator<T>): boolean;
+	export function equal<T, InputIterator extends Iterator<T>>
+		(first1: InputIterator, last1: InputIterator, first2: Iterator<T>): boolean;
 
 	/**
 	 * <p> Test whether the elements in two ranges are equal. </p>
@@ -170,15 +191,15 @@ namespace std
 	 * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those
 	 *		   of the range starting at <i>first2</i>, and <code>false</code> otherwise.
 	 */
-	export function equal<T, Iterator1 extends Iterator<T>>
+	export function equal<T, InputIterator extends Iterator<T>>
 		(
-			first1: Iterator1, last1: Iterator1, first2: Iterator<T>,
+			first1: InputIterator, last1: InputIterator, first2: Iterator<T>,
 			pred: (x: T, y: T) => boolean
 		): boolean;
 
-	export function equal<T, Iterator1 extends Iterator<T>>
+	export function equal<T, InputIterator extends Iterator<T>>
 		(
-			first1: Iterator1, last1: Iterator1, first2: Iterator<T>,
+			first1: InputIterator, last1: InputIterator, first2: Iterator<T>,
 			pred: (x: T, y: T) => boolean = std.equal_to
 		): boolean
 	{
@@ -187,7 +208,7 @@ namespace std
 				return false;
 			else
 			{
-				first1 = first1.next() as Iterator1;
+				first1 = first1.next() as InputIterator;
 				first2 = first2.next();
 			}
 		return true;

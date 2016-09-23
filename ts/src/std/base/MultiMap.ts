@@ -55,12 +55,58 @@ namespace std.base
 			ELEMENTS I/O
 		--------------------------------------------------------- */
 		/**
+		 * Construct and insert element.
+		 * 
+		 * Inserts a new element in the {@link MultiMap}. This new element is constructed in place using <i>args</i> 
+		 * as the arguments for the element's constructor.
+		 * 
+		 * This effectively increases the container {@link size} by one.
+		 * 
+		 * A similar member function exists, {@link insert}, which either copies or moves existing objects into the 
+		 * container.
+		 * 
+		 * @param key The key used both to look up and to insert if not found.
+		 * @param value Value, the item.
+		 * 
+		 * @return An {@link MapIterator iterator} to the newly inserted element.
+		 */
+		public emplace(key: Key, value: T): MapIterator<Key, T>;
+
+		/**
+		 * Construct and insert element.
+		 *
+		 * Inserts a new element in the {@link MultiMap}. This new element is constructed in place using <i>args</i>
+		 * as the arguments for the element's constructor.
+		 *
+		 * This effectively increases the container {@link size} by one.
+		 *
+		 * A similar member function exists, {@link insert}, which either copies or moves existing objects into the
+		 * container.
+		 *
+		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
+		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
+		 *			   {@link Pair.second second}.
+		 * @return An {@link MapIterator iterator} to the newly inserted element.
+		 */
+		public emplace(pair: Pair<Key, T>): MapIterator<Key, T>;
+
+		public emplace(...args: any[]): MapIterator<Key, T>
+		{
+			if (args.length == 1)
+				return this._Insert_by_pair(args[0]);
+			else
+				return this._Insert_by_pair(std.make_pair<Key, T>(args[0], args[1]));
+		}
+
+		/**
 		 * <p> Insert elements. </p>
 		 *
 		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
 		 * the number of elements inserted. </p>
 		 * 
-		 * @param pair {@link Pair} to be inserted as an element.
+		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
+		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
+		 *			   {@link Pair.second second}.
 		 *
 		 * @return An iterator pointing to the newly inserted element.
 		 */

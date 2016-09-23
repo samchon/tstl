@@ -420,12 +420,12 @@ namespace std.base
 		/**
 		 * <p> Abstract method handling insertions for indexing. </p>
 		 *
-		 * <p> This method, {@link handle_insert} is designed to register the <i>first to last</i> to somewhere storing 
+		 * <p> This method, {@link _Handle_insert} is designed to register the <i>first to last</i> to somewhere storing 
 		 * those {@link SetIterator iterators} for indexing, fast accessment and retrievalance. </p>
 		 *
 		 * <p> When {@link insert} is called, new elements will be inserted into the {@link data_ list container} and new 
 		 * {@link SetIterator iterators} <i>first to last</i>, pointing the inserted elements, will be created and the 
-		 * newly created iterators <i>first to last</i> will be shifted into this method {@link handle_insert} after the 
+		 * newly created iterators <i>first to last</i> will be shifted into this method {@link _Handle_insert} after the 
 		 * insertions. </p>
 		 *
 		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link SetIterator iterators} 
@@ -443,11 +443,11 @@ namespace std.base
 		/**
 		 * <p> Abstract method handling deletions for indexing. </p>
 		 * 
-		 * <p> This method, {@link handle_insert} is designed to unregister the <i>first to last</i> to somewhere storing 
+		 * <p> This method, {@link _Handle_erase} is designed to unregister the <i>first to last</i> to somewhere storing
 		 * those {@link SetIterator iterators} for indexing, fast accessment and retrievalance. </p>
 		 *
 		 * <p> When {@link erase} is called with <i>first to last</i>, {@link SetIterator iterators} positioning somewhere
-		 * place to be deleted, is memorized and shifted to this method {@link handle_erase} after the deletion process is 
+		 * place to be deleted, is memorized and shifted to this method {@link _Handle_erase} after the deletion process is 
 		 * terminated. </p>
 		 *
 		 * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link SetIterator iterators} 

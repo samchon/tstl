@@ -1,28 +1,18 @@
 const fs = require("fs");
-const exec = require('child_process').exec;
+const process = require('child_process');
+const minifier = require('minifier'); // "npm install -g minifier"
 
 compile();
+attach_header();
+minify();
 
 function compile()
 {
-	exec
-	(
-		// DO COMPILE
-		"tsc -p ts/tsconfig.json", 
-		(err, stdout, stderr) => 
-		{
-			if (err || stderr)
-			{
-				// ERROR ON COMPILE
-				console.log(err);
-				return;
-			}
-
-			// POST-PROCESS
-			attach_header();
-			remove_dynamics();
-		}
-	);
+	try
+	{
+		process.execSync("tsc -p ts/tsconfig.json");
+	}
+	catch (exception) {}
 }
 
 function attach_header()
@@ -53,4 +43,9 @@ function remove_dynamics()
 		text = text.split('["' + REPLACES[i] + '"]').join("." + REPLACES[i]);
 
 	fs.writeFileSync(JS_FILE, text, "utf8");
+}
+
+function minify()
+{
+	minifier.minify("lib/typescript-stl.js");
 }
