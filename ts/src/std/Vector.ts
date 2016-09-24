@@ -736,7 +736,7 @@ namespace std
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
 		 *			  {@link container Vector}.
 		 */
-		public obj(obj: Vector<T>): void;
+		public swap(obj: Vector<T>): void;
 
 		/**
 		 * @inheritdoc

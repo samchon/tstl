@@ -283,7 +283,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public push<U extends T>(...items: U[]): number 
+		public push(...items: T[]): number 
 		{
 			let prev: ListIterator<T> = this.end().prev();
 			let first: ListIterator<T> = null;
@@ -1306,6 +1306,7 @@ namespace std
 	 */
 	export class ListReverseIterator<T>
 		extends ReverseIterator<T, ListIterator<T>, ListReverseIterator<T>>
+		implements base.ILinearIterator<T>
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS

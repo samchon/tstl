@@ -196,7 +196,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public push<U extends T>(...args: U[]): number
+		public push(...args: T[]): number
 		{
 			// TO BE ABSTRACT
 			for (let i: number = 0; i < args.length; i++)

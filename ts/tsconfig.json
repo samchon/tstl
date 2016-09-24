@@ -5,6 +5,6 @@
         "outFile": "../lib/typescript-stl.js"
     },
     "exclude": [
-        "src/std/example"
+       "src/std/example"
     ]
 }

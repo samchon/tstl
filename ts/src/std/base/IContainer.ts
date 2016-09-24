@@ -148,7 +148,7 @@ namespace std.base
 		 * 
 		 * @return New size of the Container.
 		 */
-		push<U extends T>(...items: U[]): number;
+		push(...items: T[]): number;
 
 		/**
 		 * <p> Insert an element. </p>

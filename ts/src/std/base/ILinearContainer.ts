@@ -136,4 +136,32 @@ namespace std.base
 		insert<U extends T, InputIterator extends Iterator<U>>
 			(position: Iterator<T>, begin: InputIterator, end: InputIterator): Iterator<T>;
 	}
+
+	/**
+	 * An interface for iterators from linear containers.
+	 * 
+	 * {@link ILieanerIterator} is an bi-directional iterator which is created from the related 
+	 * {@link ILinearContainer linear containers}. Not only accessing to {@link value} of the pointed element from 
+	 * this {@link ILieanerIterator}, but also modifying the {@link value} is possible.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export interface ILinearIterator<T>
+		extends Iterator<T>
+	{
+		/**
+		 * @inheritdoc
+		 */
+		value: T;
+
+		/**
+		 * @inheritdoc
+		 */
+		prev(): ILinearIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		next(): ILinearIterator<T>;
+	}
 }

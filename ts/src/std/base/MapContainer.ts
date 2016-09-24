@@ -246,14 +246,14 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public push<L extends Key, U extends T>(...args: Pair<L, U>[]): number;
+		public push(...args: Pair<Key, T>[]): number;
 
 		/**
 		 * @inheritdoc
 		 */
-		public push<L extends Key, U extends T>(...args: [Key, T][]): number;
+		public push(...args: [Key, T][]): number;
 
-		public push<L extends Key, U extends T>(...args: any[]): number
+		public push(...args: any[]): number
 		{
 			// TO BE ABSTRACT
 			for (let i: number = 0; i < args.length; i++)

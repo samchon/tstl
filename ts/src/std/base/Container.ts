@@ -141,7 +141,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public abstract push<U extends T>(...items: U[]): number;
+		public abstract push(...items: T[]): number;
 
 		/**
 		 * @inheritdoc

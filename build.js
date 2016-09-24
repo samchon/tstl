@@ -4,6 +4,7 @@ const minifier = require('minifier'); // "npm install -g minifier"
 
 compile();
 attach_header();
+remove_dynamics();
 minify();
 
 function compile()
