@@ -96,89 +96,8 @@ namespace std.base
 			this.insert_or_assign(key, val);
 		}
 
-		/**
-		 * <p> Extract an element. </p>
-		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		 * 
-		 * @param key Key value of the element whose mapped value is accessed.
-		 * 
-		 * @return A {@link Pair} containing the value pointed to by <i>key</i>.
-		 */
-		public extract(key: Key): Pair<Key, T>;
-
-		/**
-		 * <p> Extract an element. </p>
-		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		 *
-		 * @param it An iterator pointing an element to extract.
-		 * 
-		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
-		 *		   erased. If no such element exists,returns {@link end end()}.
-		 */
-		public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
-
-		/**
-		 * <p> Extract an element. </p>
-		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-		 *
-		 * @param it An iterator pointing an element to extract.
-		 * 
-		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
-		 *		   erased. If no such element exists,returns {@link end end()}.
-		 */
-		public extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
-
-		public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
-		{
-			if (param instanceof MapIterator)
-				return this.extract_by_iterator(param);
-			else if (param instanceof MapReverseIterator)
-				return this.extract_by_reverse_iterator(param);
-			else
-				return this.extract_by_key(param);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private extract_by_key(key: Key): Pair<Key, T>
-		{
-			let it = this.find(key);
-			if (it.equal_to(this.end()) == true)
-				throw new OutOfRange("No such key exists.");
-
-			let ret: Pair<Key, T> = it.value;
-			this.erase(it);
-
-			return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
-		{
-			if (it.equal_to(this.end()) == true || this.has(it.first) == false)
-				return this.end();
-
-			this.erase(it);
-			return it;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
-		{
-			this.extract_by_iterator(it.base().next());
-			return it;
-		}
-
 		/* ---------------------------------------------------------
-			INSERT ELEMENTS
+			INSERT
 		--------------------------------------------------------- */
 		/**
 		 * Construct and insert element.
@@ -434,6 +353,117 @@ namespace std.base
 		private insert_or_assign_with_hint(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>
 		{
 			return this.insert_or_assign_with_key_value(key, value).first;
+		}
+
+		/* ---------------------------------------------------------
+			ERASE
+		--------------------------------------------------------- */
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 * 
+		 * @param key Key value of the element whose mapped value is accessed.
+		 * 
+		 * @return A {@link Pair} containing the value pointed to by <i>key</i>.
+		 */
+		public extract(key: Key): Pair<Key, T>;
+
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 *
+		 * @param it An iterator pointing an element to extract.
+		 * 
+		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		 *		   erased. If no such element exists,returns {@link end end()}.
+		 */
+		public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
+
+		/**
+		 * <p> Extract an element. </p>
+		 *
+		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 *
+		 * @param it An iterator pointing an element to extract.
+		 * 
+		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
+		 *		   erased. If no such element exists,returns {@link end end()}.
+		 */
+		public extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+
+		public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
+		{
+			if (param instanceof MapIterator)
+				return this.extract_by_iterator(param);
+			else if (param instanceof MapReverseIterator)
+				return this.extract_by_reverse_iterator(param);
+			else
+				return this.extract_by_key(param);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_key(key: Key): Pair<Key, T>
+		{
+			let it = this.find(key);
+			if (it.equal_to(this.end()) == true)
+				throw new OutOfRange("No such key exists.");
+
+			let ret: Pair<Key, T> = it.value;
+			this.erase(it);
+
+			return ret;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
+		{
+			if (it.equal_to(this.end()) == true)
+				return this.end();
+
+			this.erase(it);
+			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
+		{
+			this.extract_by_iterator(it.base().next());
+			return it;
+		}
+
+		/* ---------------------------------------------------------
+			UTILITY
+		--------------------------------------------------------- */
+		/**
+		 * Merge two maps.
+		 * 
+		 * Attempts to extract each element in *source* and insert it into this container. If there's an element in this
+		 * container with key equivalent to the key of an element from *source*, tnen that element is not extracted from
+		 * the *source*. Otherwise, no element with same key exists in this container, then that element will be 
+		 * transfered from the *source* to this container.
+		 * 
+		 * @param source A {@link MapContainer map container} to transfer the elements from.
+		 */
+		public merge<L extends Key, U extends T>(source: MapContainer<L, U>): void
+		{
+			for (let it = source.begin(); !it.equal_to(source.end());)
+			{
+				if (this.has(it.first) == false)
+				{
+					this.insert(it.value);
+					it = source.erase(it);
+				}
+				else
+					it = it.next();
+			}
 		}
 	}
 }

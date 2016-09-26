@@ -238,8 +238,8 @@ namespace std.base
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
+				- UTILITY
 				- POST-PROCESS
-				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -645,6 +645,26 @@ namespace std.base
 		}
 
 		/* ---------------------------------------------------------
+			UTILITY
+		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		protected _Swap(obj: MapContainer<Key, T>): void
+		{
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+		}
+
+		/**
+		 * Merge two maps.
+		 * 
+		 * Extracts and transfers elements from *source* to this container.
+		 * 
+		 * @param source A {@link MapContainer map container} to transfer the elements from.
+		 */
+		public abstract merge<L extends Key, U extends T>(source: MapContainer<L, U>): void;
+
+		/* ---------------------------------------------------------
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
@@ -691,17 +711,6 @@ namespace std.base
 		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
 		protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
-
-		/* ---------------------------------------------------------
-			SWAP
-		--------------------------------------------------------- */
-		/**
-		 * @hidden
-		 */
-		protected _Swap(obj: MapContainer<Key, T>): void
-		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
-		}
 	}
 }
 

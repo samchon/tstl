@@ -45,7 +45,7 @@ namespace std.base
 		extends SetContainer<T>
 	{
 		/* ---------------------------------------------------------
-			INSERTS
+			INSERT
 		--------------------------------------------------------- */
 		/**
 		 * <p> Insert an element. </p>
@@ -78,6 +78,18 @@ namespace std.base
 		public insert(...args: any[]): any
 		{
 			return super.insert.apply(this, args);
+		}
+
+		/* ---------------------------------------------------------
+			UTILITY
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public merge<U extends T>(source: SetContainer<U>): void
+		{
+			this.insert(source.begin(), source.end());
+			source.clear();
 		}
 	}
 }

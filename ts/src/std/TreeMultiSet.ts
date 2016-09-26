@@ -19,7 +19,7 @@ namespace std
 	 * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself 
 	 * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot 
 	 * be modified once in the container (the elements are always const), but they can be inserted or removed 
-	 * from the  </p>
+	 * from the container. </p>
 	 *
 	 * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict 
 	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>

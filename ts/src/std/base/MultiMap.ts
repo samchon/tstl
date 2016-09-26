@@ -52,7 +52,7 @@ namespace std.base
 		extends MapContainer<Key, T>
 	{
 		/* ---------------------------------------------------------
-			ELEMENTS I/O
+			INSERT
 		--------------------------------------------------------- */
 		/**
 		 * Construct and insert element.
@@ -155,6 +155,18 @@ namespace std.base
 		public insert(...args: any[]): any
 		{
 			return super.insert.apply(this, args);
+		}
+
+		/* ---------------------------------------------------------
+			UTILITY
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public merge<L extends Key, U extends T>(source: MapContainer<L, U>): void
+		{
+			this.insert(source.begin(), source.end());
+			source.clear();
 		}
 	}
 }

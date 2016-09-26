@@ -22,93 +22,6 @@ declare module "typescript-stl"
  * @author Jeongho Nam <http://samchon.org>
  */
 declare namespace std {
-    /**
-     * Type definition of {@link Vector} and it's the original name used in C++.
-     */
-    export import vector = Vector;
-    /**
-     * Type definition of {@link List} and it's the original name used in C++.
-     */
-    export import list = List;
-    /**
-     * Type definition of {@link Deque} and it's the original name used in C++.
-     */
-    export import deque = Deque;
-    /**
-     * Type definition of {@link Stack} and it's the original name used in C++.
-     */
-    type stack<T> = Stack<T>;
-    /**
-     * Type definition of {@link Queue} and it's the original name used in C++.
-     */
-    type queue<T> = Queue<T>;
-    /**
-     * Type definition of {@link PriorityQueue} and it's the original name used in C++.
-     */
-    type priority_queue<T> = PriorityQueue<T>;
-    var stack: typeof Stack;
-    var queue: typeof Queue;
-    var priority_queue: typeof PriorityQueue;
-    /**
-     * Type definition of {@link TreeSet} and it's the original name used in C++.
-     */
-    export import set = TreeSet;
-    /**
-     * Type definition of {@link TreeMultiSet} and it's the original name used in C++.
-     */
-    export import multiset = TreeMultiSet;
-    /**
-     * Type definition of {@link HashSet} and it's the original name used in C++.
-     */
-    export import unordered_set = HashSet;
-    /**
-     * Type definition of {@link HashMultiSet} and it's the original name used in C++.
-     */
-    export import unordered_multiset = HashMultiSet;
-    /**
-     * Type definition of {@link TreeMap} and it's the original name used in C++.
-     */
-    export import map = TreeMap;
-    /**
-     * Type definition of {@link TreeMultiMap} and it's the original name used in C++.
-     */
-    export import multimap = TreeMultiMap;
-    /**
-     * Type definition of {@link HashMap} and it's the original name used in C++.
-     */
-    export import unordered_map = HashMap;
-    /**
-     * Type definition of {@link HashMultiMap} and it's the original name used in C++.
-     */
-    export import unordered_multimap = HashMultiMap;
-    type exception = Exception;
-    type logic_error = LogicError;
-    type domain_error = DomainError;
-    type invalid_argument = InvalidArgument;
-    type length_error = LengthError;
-    type out_of_range = OutOfRange;
-    type runtime_error = RuntimeError;
-    type overflow_error = OverflowError;
-    type underflow_error = UnderflowError;
-    type range_error = RangeError;
-    type system_error = SystemError;
-    type error_category = ErrorCategory;
-    type error_condition = ErrorCondition;
-    type error_code = ErrorCode;
-    var exception: typeof Exception;
-    var logic_error: typeof LogicError;
-    var domain_error: typeof DomainError;
-    var invalid_argument: typeof InvalidArgument;
-    var length_error: typeof LengthError;
-    var out_of_range: typeof OutOfRange;
-    var runtime_error: typeof RuntimeError;
-    var overflow_error: typeof OverflowError;
-    var underflow_error: typeof UnderflowError;
-    var range_error: typeof RangeError;
-    var system_error: typeof SystemError;
-    var error_category: typeof ErrorCategory;
-    var error_condition: typeof ErrorCondition;
-    var error_code: typeof ErrorCode;
 }
 /**
  * Base classes composing STL in background.
@@ -4919,6 +4832,18 @@ declare namespace std.base {
          */
         private erase_by_range(begin, end);
         /**
+         * @hidden
+         */
+        protected _Swap(obj: MapContainer<Key, T>): void;
+        /**
+         * Merge two maps.
+         *
+         * Extracts and transfers elements from *source* to this container.
+         *
+         * @param source A {@link MapContainer map container} to transfer the elements from.
+         */
+        abstract merge<L extends Key, U extends T>(source: MapContainer<L, U>): void;
+        /**
          * <p> Abstract method handling insertions for indexing. </p>
          *
          * <p> This method, {@link _Handle_insert} is designed to register the <i>first to last</i> to somewhere storing
@@ -4961,10 +4886,6 @@ declare namespace std.base {
          *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
          */
         protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
-        /**
-         * @hidden
-         */
-        protected _Swap(obj: MapContainer<Key, T>): void;
     }
 }
 declare namespace std {
@@ -5195,6 +5116,10 @@ declare namespace std.base {
          * @inheritdoc
          */
         insert<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
+        /**
+         * @inheritdoc
+         */
+        merge<L extends Key, U extends T>(source: MapContainer<L, U>): void;
     }
 }
 declare namespace std.base {
@@ -5413,6 +5338,18 @@ declare namespace std.base {
          */
         private erase_by_range(begin, end);
         /**
+         * @hidden
+         */
+        protected _Swap(obj: SetContainer<T>): void;
+        /**
+         * Merge two sets.
+         *
+         * Extracts and transfers elements from *source* to this container.
+         *
+         * @param source A {@link SetContainer set container} to transfer the elements from.
+         */
+        abstract merge<U extends T>(source: SetContainer<U>): void;
+        /**
          * <p> Abstract method handling insertions for indexing. </p>
          *
          * <p> This method, {@link _Handle_insert} is designed to register the <i>first to last</i> to somewhere storing
@@ -5455,10 +5392,6 @@ declare namespace std.base {
          *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
          */
         protected abstract _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
-        /**
-         * @hidden
-         */
-        protected _Swap(obj: SetContainer<T>): void;
     }
 }
 declare namespace std {
@@ -5606,6 +5539,10 @@ declare namespace std.base {
          * @inheritdoc
          */
         insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+        /**
+         * @inheritdoc
+         */
+        merge<U extends T>(source: SetContainer<U>): void;
     }
 }
 declare namespace std.base {
@@ -6909,50 +6846,6 @@ declare namespace std.base {
          */
         set(key: Key, val: T): void;
         /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param key Key value of the element whose mapped value is accessed.
-         *
-         * @return A {@link Pair} containing the value pointed to by <i>key</i>.
-         */
-        extract(key: Key): Pair<Key, T>;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
-        /**
-         * <p> Extract an element. </p>
-         *
-         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
-         *
-         * @param it An iterator pointing an element to extract.
-         *
-         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
-         *		   erased. If no such element exists,returns {@link end end()}.
-         */
-        extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
-        /**
-         * @hidden
-         */
-        private extract_by_key(key);
-        /**
-         * @hidden
-         */
-        private extract_by_iterator(it);
-        /**
-         * @hidden
-         */
-        private extract_by_reverse_iterator(it);
-        /**
          * Construct and insert element.
          *
          * Inserts a new element in the {@link UniqueMap} if its *key* is unique. This new element is constructed in
@@ -7134,6 +7027,61 @@ declare namespace std.base {
          * @hidden
          */
         private insert_or_assign_with_hint(hint, key, value);
+        /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+         *
+         * @param key Key value of the element whose mapped value is accessed.
+         *
+         * @return A {@link Pair} containing the value pointed to by <i>key</i>.
+         */
+        extract(key: Key): Pair<Key, T>;
+        /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+         *
+         * @param it An iterator pointing an element to extract.
+         *
+         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
+         *		   erased. If no such element exists,returns {@link end end()}.
+         */
+        extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
+        /**
+         * <p> Extract an element. </p>
+         *
+         * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+         *
+         * @param it An iterator pointing an element to extract.
+         *
+         * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being
+         *		   erased. If no such element exists,returns {@link end end()}.
+         */
+        extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+        /**
+         * @hidden
+         */
+        private extract_by_key(key);
+        /**
+         * @hidden
+         */
+        private extract_by_iterator(it);
+        /**
+         * @hidden
+         */
+        private extract_by_reverse_iterator(it);
+        /**
+         * Merge two maps.
+         *
+         * Attempts to extract each element in *source* and insert it into this container. If there's an element in this
+         * container with key equivalent to the key of an element from *source*, tnen that element is not extracted from
+         * the *source*. Otherwise, no element with same key exists in this container, then that element will be
+         * transfered from the *source* to this container.
+         *
+         * @param source A {@link MapContainer map container} to transfer the elements from.
+         */
+        merge<L extends Key, U extends T>(source: MapContainer<L, U>): void;
     }
 }
 declare namespace std.base {
@@ -7180,6 +7128,38 @@ declare namespace std.base {
          */
         count(key: T): number;
         /**
+         * <p> Insert an element. </p>
+         *
+         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
+         * the number of element inserted (zero or one). </p>
+         *
+         * <p> Because elements in a {@link UniqueSet UniqueSets} are unique, the insertion operation checks whether
+         * each inserted element is equivalent to an element already in the container, and if so, the element is not
+         * inserted, returning an iterator to this existing element (if the function returns a value). </p>
+         *
+         * <p> For a similar container allowing for duplicate elements, see {@link MultiSet}. </p>
+         *
+         * @param key Value to be inserted as an element.
+         *
+         * @return A {@link Pair}, with its member {@link Pair.first} set to an iterator pointing to either the newly
+         *		   inserted element or to the equivalent element already in the {@link UniqueSet}. The
+         *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or
+         *		   false if an equivalent element already existed.
+         */
+        insert(val: T): Pair<SetIterator<T>, boolean>;
+        /**
+         * @inheritdoc
+         */
+        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
+        /**
+         * @inheritdoc
+         */
+        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+        /**
          * <p> Extract an element. </p>
          *
          * <p> Extracts the element pointed to by <i>val</i> and erases it from the {@link UniqueSet}. </p>
@@ -7224,37 +7204,16 @@ declare namespace std.base {
          */
         private extract_by_reverse_iterator(it);
         /**
-         * <p> Insert an element. </p>
+         * Merge two sets.
          *
-         * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by
-         * the number of element inserted (zero or one). </p>
+         * Attempts to extract each element in *source* and insert it into this container. If there's an element in this
+         * container with key equivalent to the key of an element from *source*, tnen that element is not extracted from
+         * the *source*. Otherwise, no element with same key exists in this container, then that element will be
+         * transfered from the *source* to this container.
          *
-         * <p> Because elements in a {@link UniqueSet UniqueSets} are unique, the insertion operation checks whether
-         * each inserted element is equivalent to an element already in the container, and if so, the element is not
-         * inserted, returning an iterator to this existing element (if the function returns a value). </p>
-         *
-         * <p> For a similar container allowing for duplicate elements, see {@link MultiSet}. </p>
-         *
-         * @param key Value to be inserted as an element.
-         *
-         * @return A {@link Pair}, with its member {@link Pair.first} set to an iterator pointing to either the newly
-         *		   inserted element or to the equivalent element already in the {@link UniqueSet}. The
-         *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or
-         *		   false if an equivalent element already existed.
+         * @param source A {@link SetContainer set container} to transfer the elements from.
          */
-        insert(val: T): Pair<SetIterator<T>, boolean>;
-        /**
-         * @inheritdoc
-         */
-        insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
-        /**
-         * @inheritdoc
-         */
-        insert<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
+        merge<U extends T>(source: SetContainer<U>): void;
     }
 }
 declare namespace std.base {
@@ -8760,8 +8719,8 @@ declare namespace std {
      * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that
      * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
      *
-     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram" style="max-width: 100%" /> </a>
+     * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank">
+     * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
      * </p>
      *
      * <h3> Container properties </h3>
@@ -10035,12 +9994,12 @@ declare namespace std {
      * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that
      * their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently
      * as in arrays. But unlike arrays, their size can change dynamically, with their storage being handled
-     * automatically by the  </p>
+     * automatically by the container. </p>
      *
      * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need
      * to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new
      * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and
-     * thus, {@link Vector}s do not reallocate each time an element is added to the  </p>
+     * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
      *
      * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and
      * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its
@@ -10709,6 +10668,192 @@ declare namespace std {
 }
 declare namespace std {
     /**
+     * <p> Priority queue. </p>
+     *
+     * <p> {@link PriorityQueue Priority queues} are a type of container adaptors, specifically designed such that its
+     * first element is always the greatest of the elements it contains, according to some <i>strict weak ordering</i>
+     * criterion. </p>
+     *
+     * <p> This context is similar to a <i>heap</i>, where elements can be inserted at any moment, and only the
+     * <i>max heap</i> element can be retrieved (the one at the top in the {@link PriorityQueue priority queue}). </p>
+     *
+     * <p> {@link PriorityQueue Priority queues} are implemented as <i>container adaptors</i>, which are classes that
+     * use an encapsulated object of a specific container class as its {@link container_ underlying container},
+     * providing a specific set of member functions to access its elements. Elements are popped from the <i>"back"</i>
+     * of the specific container, which is known as the <i>top</i> of the {@link PriorityQueue Priority queue}. </p>
+     *
+     * <p> The {@link container_ underlying container} may be any of the standard container class templates or some
+     * other specifically designed container class. The container shall be accessible through
+     * {@link IArrayIterator random access iterators} and support the following operations: </p>
+     *
+     * <ul>
+     *	<li> empty() </li>
+     *	<li> size() </li>
+     *	<li> front() </li>
+     *	<li> push_back() </li>
+     *	<li> pop_back() </li>
+     * </ul>
+     *
+     * <p> The standard container classes {@link Vector} and {@link Deque} fulfill these requirements. By default, if
+     * no container class is specified for a particular {@link PriorityQueue} class instantiation, the standard
+     * container {@link Vector} is used. </p>
+     *
+     * <p> Support of {@link IArrayIterator random access iterators} is required to keep a heap structure internally
+     * at all times. This is done automatically by the container adaptor by automatically calling the algorithm
+     * functions <i>make_heap</i>, <i>push_heap</i> and <i>pop_heap</i> when needed. </p>
+     *
+     * @param <T> Type of the elements.
+     *
+     * @reference http://www.cplusplus.com/reference/queue/priority_queue/
+     * @author Jeongho Nam
+     */
+    class PriorityQueue<T> {
+        /**
+         * <p> The <i>underlying container</i> for implementing the <i>priority queue</i>. </p>
+         *
+         * <p> Following standard definition from the C++ committee, the <i>underlying container</i> should be one of
+         * {@link Vector} or {@link Deque}, however, I've adopted {@link TreeMultiSet} instead of them. Of course,
+         * there are proper reasons for adapting the {@link TreeMultiSet} even violating standard advice. </p>
+         *
+         * <p> <i>Underlying container</i> of {@link PriorityQueue} must keep a condition; the highest (or lowest)
+         * element must be placed on the terminal node for fast retrieval and deletion. To keep the condition with
+         * {@link Vector} or {@link Deque}, lots of times will only be spent for re-arranging elements. It calls
+         * rearrangement functions like <i>make_heap</i>, <i>push_heap</i> and <i>pop_head</i> for rearrangement. </p>
+         *
+         * <p> However, the {@link TreeMultiSet} container always keeps arrangment automatically without additional
+         * operations and it even meets full criteria of {@link PriorityQueue}. Those are the reason why I've adopted
+         * {@link TreeMultiSet} as the <i>underlying container</i> of {@link PriorityQueue}. </p>
+         */
+        private container_;
+        /**
+         * Default Constructor.
+         */
+        constructor();
+        /**
+         * Construct from compare.
+         *
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(compare: (left: T, right: T) => boolean);
+        /**
+         * Contruct from elements.
+         *
+         * @param array Elements to be contained.
+         */
+        constructor(array: Array<T>);
+        /**
+         * Contruct from elements with compare.
+         *
+         * @param array Elements to be contained.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
+        /**
+         * Copy Constructor.
+         */
+        constructor(container: base.IContainer<T>);
+        /**
+         * Copy Constructor with compare.
+         *
+         * @param container A container to be copied.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(container: base.IContainer<T>, compare: (left: T, right: T) => boolean);
+        /**
+         * Range Constructor.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         */
+        constructor(begin: Iterator<T>, end: Iterator<T>);
+        /**
+         * Range Constructor with compare.
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
+         * @param compare A binary predicate determines order of elements.
+         */
+        constructor(begin: Iterator<T>, end: Iterator<T>, compare: (left: T, right: T) => boolean);
+        /**
+         * <p> Return size. </p>
+         *
+         * <p> Returns the number of elements in the {@link PriorityQueue}. </p>
+         *
+         * <p> This member function effectively calls member {@link IArray.size size} of the
+         * {@link container_ underlying container} object. </p>
+         *
+         * @return The number of elements in the underlying
+         */
+        size(): number;
+        /**
+         * <p> Test whether container is empty. </p>
+         *
+         * <p> Returns whether the {@link PriorityQueue} is empty: i.e. whether its {@link size} is zero. </p>
+         *
+         * <p> This member function effectively calls member {@link IARray.empty empty} of the
+         * {@link container_ underlying container} object. </p>
+         */
+        empty(): boolean;
+        /**
+         * <p> Access top element. </p>
+         *
+         * <p> Returns a constant reference to the top element in the {@link PriorityQueue}. </p>
+         *
+         * <p> The top element is the element that compares higher in the {@link PriorityQueue}, and the next that is
+         * removed from the container when {@link PriorityQueue.pop} is called. </p>
+         *
+         * <p> This member function effectively calls member {@link IArray.front front} of the
+         * {@link container_ underlying container} object. </p>
+         *
+         * @return A reference to the top element in the {@link PriorityQueue}.
+         */
+        top(): T;
+        /**
+         * <p> Insert element. </p>
+         *
+         * <p> Inserts a new element in the {@link PriorityQueue}. The content of this new element is initialized to
+         * <i>val</i>.
+         *
+         * <p> This member function effectively calls the member function {@link IArray.push_back push_back} of the
+         * {@link container_ underlying container} object, and then reorders it to its location in the heap by calling
+         * the <i>push_heap</i> algorithm on the range that includes all the elements of the  </p>
+         *
+         * @param val Value to which the inserted element is initialized.
+         */
+        push(val: T): void;
+        /**
+         * <p> Remove top element. </p>
+         *
+         * <p> Removes the element on top of the {@link PriorityQueue}, effectively reducing its {@link size} by one.
+         * The element removed is the one with the highest (or lowest) value. </p>
+         *
+         * <p> The value of this element can be retrieved before being popped by calling member
+         * {@link PriorityQueue.top}. </p>
+         *
+         * <p> This member function effectively calls the <i>pop_heap</i> algorithm to keep the heap property of
+         * {@link PriorityQueue PriorityQueues} and then calls the member function {@link IArray.pop_back pop_back} of
+         * the {@link container_ underlying container} object to remove the element. </p>
+         */
+        pop(): void;
+        /**
+         * <p> Swap contents. </p>
+         *
+         * <p> Exchanges the contents of the container adaptor by those of <i>obj</i>, swapping both the
+         * {@link container_ underlying container} value and their comparison function using the corresponding
+         * {@link std.swap swap} non-member functions (unqualified). </p>
+         *
+         * <p> This member function has a <i>noexcept</i> specifier that matches the combined <i>noexcept</i> of the
+         * {@link IArray.swap swap} operations on the {@link container_ underlying container} and the comparison
+         * functions. </p>
+         *
+         * @param obj {@link PriorityQueue} container adaptor of the same type (i.e., instantiated with the same
+         *			  template parameters, <b>T</b>). Sizes may differ.
+         */
+        swap(obj: PriorityQueue<T>): void;
+    }
+}
+declare namespace std {
+    /**
      * <p> LIFO stack. </p>
      *
      * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context
@@ -10844,7 +10989,7 @@ declare namespace std {
      * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the
      * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a
      * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they
-     * can be inserted or removed from the  </p>
+     * can be inserted or removed from the container. </p>
      *
      * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak
      * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
@@ -11216,7 +11361,7 @@ declare namespace std {
      * <p> In a {@link TreeMultiSet}, the value of an element also identifies it (the value is itself
      * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link TreeMultiSet} cannot
      * be modified once in the container (the elements are always const), but they can be inserted or removed
-     * from the  </p>
+     * from the container. </p>
      *
      * <p> Internally, the elements in a {@link TreeMultiSet TreeMultiSets} are always sorted following a strict
      * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
@@ -11924,187 +12069,90 @@ declare namespace std {
 }
 declare namespace std {
     /**
-     * <p> Priority queue. </p>
-     *
-     * <p> {@link PriorityQueue Priority queues} are a type of container adaptors, specifically designed such that its
-     * first element is always the greatest of the elements it contains, according to some <i>strict weak ordering</i>
-     * criterion. </p>
-     *
-     * <p> This context is similar to a <i>heap</i>, where elements can be inserted at any moment, and only the
-     * <i>max heap</i> element can be retrieved (the one at the top in the {@link PriorityQueue priority queue}). </p>
-     *
-     * <p> {@link PriorityQueue Priority queues} are implemented as <i>container adaptors</i>, which are classes that
-     * use an encapsulated object of a specific container class as its {@link container_ underlying container},
-     * providing a specific set of member functions to access its elements. Elements are popped from the <i>"back"</i>
-     * of the specific container, which is known as the <i>top</i> of the {@link PriorityQueue Priority queue}. </p>
-     *
-     * <p> The {@link container_ underlying container} may be any of the standard container class templates or some
-     * other specifically designed container class. The container shall be accessible through
-     * {@link IArrayIterator random access iterators} and support the following operations: </p>
-     *
-     * <ul>
-     *	<li> empty() </li>
-     *	<li> size() </li>
-     *	<li> front() </li>
-     *	<li> push_back() </li>
-     *	<li> pop_back() </li>
-     * </ul>
-     *
-     * <p> The standard container classes {@link Vector} and {@link Deque} fulfill these requirements. By default, if
-     * no container class is specified for a particular {@link PriorityQueue} class instantiation, the standard
-     * container {@link Vector} is used. </p>
-     *
-     * <p> Support of {@link IArrayIterator random access iterators} is required to keep a heap structure internally
-     * at all times. This is done automatically by the container adaptor by automatically calling the algorithm
-     * functions <i>make_heap</i>, <i>push_heap</i> and <i>pop_heap</i> when needed. </p>
-     *
-     * @param <T> Type of the elements.
-     *
-     * @reference http://www.cplusplus.com/reference/queue/priority_queue/
-     * @author Jeongho Nam
+     * Type definition of {@link Vector} and it's the original name used in C++.
      */
-    class PriorityQueue<T> {
-        /**
-         * <p> The <i>underlying container</i> for implementing the <i>priority queue</i>. </p>
-         *
-         * <p> Following standard definition from the C++ committee, the <i>underlying container</i> should be one of
-         * {@link Vector} or {@link Deque}, however, I've adopted {@link TreeMultiSet} instead of them. Of course,
-         * there are proper reasons for adapting the {@link TreeMultiSet} even violating standard advice. </p>
-         *
-         * <p> <i>Underlying container</i> of {@link PriorityQueue} must keep a condition; the highest (or lowest)
-         * element must be placed on the terminal node for fast retrieval and deletion. To keep the condition with
-         * {@link Vector} or {@link Deque}, lots of times will only be spent for re-arranging elements. It calls
-         * rearrangement functions like <i>make_heap</i>, <i>push_heap</i> and <i>pop_head</i> for rearrangement. </p>
-         *
-         * <p> However, the {@link TreeMultiSet} container always keeps arrangment automatically without additional
-         * operations and it even meets full criteria of {@link PriorityQueue}. Those are the reason why I've adopted
-         * {@link TreeMultiSet} as the <i>underlying container</i> of {@link PriorityQueue}. </p>
-         */
-        private container_;
-        /**
-         * Default Constructor.
-         */
-        constructor();
-        /**
-         * Construct from compare.
-         *
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(compare: (left: T, right: T) => boolean);
-        /**
-         * Contruct from elements.
-         *
-         * @param array Elements to be contained.
-         */
-        constructor(array: Array<T>);
-        /**
-         * Contruct from elements with compare.
-         *
-         * @param array Elements to be contained.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
-        /**
-         * Copy Constructor.
-         */
-        constructor(container: base.IContainer<T>);
-        /**
-         * Copy Constructor with compare.
-         *
-         * @param container A container to be copied.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(container: base.IContainer<T>, compare: (left: T, right: T) => boolean);
-        /**
-         * Range Constructor.
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        constructor(begin: Iterator<T>, end: Iterator<T>);
-        /**
-         * Range Constructor with compare.
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         * @param compare A binary predicate determines order of elements.
-         */
-        constructor(begin: Iterator<T>, end: Iterator<T>, compare: (left: T, right: T) => boolean);
-        /**
-         * <p> Return size. </p>
-         *
-         * <p> Returns the number of elements in the {@link PriorityQueue}. </p>
-         *
-         * <p> This member function effectively calls member {@link IArray.size size} of the
-         * {@link container_ underlying container} object. </p>
-         *
-         * @return The number of elements in the underlying
-         */
-        size(): number;
-        /**
-         * <p> Test whether container is empty. </p>
-         *
-         * <p> Returns whether the {@link PriorityQueue} is empty: i.e. whether its {@link size} is zero. </p>
-         *
-         * <p> This member function effectively calls member {@link IARray.empty empty} of the
-         * {@link container_ underlying container} object. </p>
-         */
-        empty(): boolean;
-        /**
-         * <p> Access top element. </p>
-         *
-         * <p> Returns a constant reference to the top element in the {@link PriorityQueue}. </p>
-         *
-         * <p> The top element is the element that compares higher in the {@link PriorityQueue}, and the next that is
-         * removed from the container when {@link PriorityQueue.pop} is called. </p>
-         *
-         * <p> This member function effectively calls member {@link IArray.front front} of the
-         * {@link container_ underlying container} object. </p>
-         *
-         * @return A reference to the top element in the {@link PriorityQueue}.
-         */
-        top(): T;
-        /**
-         * <p> Insert element. </p>
-         *
-         * <p> Inserts a new element in the {@link PriorityQueue}. The content of this new element is initialized to
-         * <i>val</i>.
-         *
-         * <p> This member function effectively calls the member function {@link IArray.push_back push_back} of the
-         * {@link container_ underlying container} object, and then reorders it to its location in the heap by calling
-         * the <i>push_heap</i> algorithm on the range that includes all the elements of the  </p>
-         *
-         * @param val Value to which the inserted element is initialized.
-         */
-        push(val: T): void;
-        /**
-         * <p> Remove top element. </p>
-         *
-         * <p> Removes the element on top of the {@link PriorityQueue}, effectively reducing its {@link size} by one.
-         * The element removed is the one with the highest (or lowest) value. </p>
-         *
-         * <p> The value of this element can be retrieved before being popped by calling member
-         * {@link PriorityQueue.top}. </p>
-         *
-         * <p> This member function effectively calls the <i>pop_heap</i> algorithm to keep the heap property of
-         * {@link PriorityQueue PriorityQueues} and then calls the member function {@link IArray.pop_back pop_back} of
-         * the {@link container_ underlying container} object to remove the element. </p>
-         */
-        pop(): void;
-        /**
-         * <p> Swap contents. </p>
-         *
-         * <p> Exchanges the contents of the container adaptor by those of <i>obj</i>, swapping both the
-         * {@link container_ underlying container} value and their comparison function using the corresponding
-         * {@link std.swap swap} non-member functions (unqualified). </p>
-         *
-         * <p> This member function has a <i>noexcept</i> specifier that matches the combined <i>noexcept</i> of the
-         * {@link IArray.swap swap} operations on the {@link container_ underlying container} and the comparison
-         * functions. </p>
-         *
-         * @param obj {@link PriorityQueue} container adaptor of the same type (i.e., instantiated with the same
-         *			  template parameters, <b>T</b>). Sizes may differ.
-         */
-        swap(obj: PriorityQueue<T>): void;
-    }
+    export import vector = Vector;
+    /**
+     * Type definition of {@link List} and it's the original name used in C++.
+     */
+    export import list = List;
+    /**
+     * Type definition of {@link Deque} and it's the original name used in C++.
+     */
+    export import deque = Deque;
+    /**
+     * Type definition of {@link Stack} and it's the original name used in C++.
+     */
+    type stack<T> = Stack<T>;
+    /**
+     * Type definition of {@link Queue} and it's the original name used in C++.
+     */
+    type queue<T> = Queue<T>;
+    /**
+     * Type definition of {@link PriorityQueue} and it's the original name used in C++.
+     */
+    type priority_queue<T> = PriorityQueue<T>;
+    var stack: typeof Stack;
+    var queue: typeof Queue;
+    var priority_queue: typeof PriorityQueue;
+    /**
+     * Type definition of {@link TreeSet} and it's the original name used in C++.
+     */
+    export import set = TreeSet;
+    /**
+     * Type definition of {@link TreeMultiSet} and it's the original name used in C++.
+     */
+    export import multiset = TreeMultiSet;
+    /**
+     * Type definition of {@link HashSet} and it's the original name used in C++.
+     */
+    export import unordered_set = HashSet;
+    /**
+     * Type definition of {@link HashMultiSet} and it's the original name used in C++.
+     */
+    export import unordered_multiset = HashMultiSet;
+    /**
+     * Type definition of {@link TreeMap} and it's the original name used in C++.
+     */
+    export import map = TreeMap;
+    /**
+     * Type definition of {@link TreeMultiMap} and it's the original name used in C++.
+     */
+    export import multimap = TreeMultiMap;
+    /**
+     * Type definition of {@link HashMap} and it's the original name used in C++.
+     */
+    export import unordered_map = HashMap;
+    /**
+     * Type definition of {@link HashMultiMap} and it's the original name used in C++.
+     */
+    export import unordered_multimap = HashMultiMap;
+    type exception = Exception;
+    type logic_error = LogicError;
+    type domain_error = DomainError;
+    type invalid_argument = InvalidArgument;
+    type length_error = LengthError;
+    type out_of_range = OutOfRange;
+    type runtime_error = RuntimeError;
+    type overflow_error = OverflowError;
+    type underflow_error = UnderflowError;
+    type range_error = RangeError;
+    type system_error = SystemError;
+    type error_category = ErrorCategory;
+    type error_condition = ErrorCondition;
+    type error_code = ErrorCode;
+    var exception: typeof Exception;
+    var logic_error: typeof LogicError;
+    var domain_error: typeof DomainError;
+    var invalid_argument: typeof InvalidArgument;
+    var length_error: typeof LengthError;
+    var out_of_range: typeof OutOfRange;
+    var runtime_error: typeof RuntimeError;
+    var overflow_error: typeof OverflowError;
+    var underflow_error: typeof UnderflowError;
+    var range_error: typeof RangeError;
+    var system_error: typeof SystemError;
+    var error_category: typeof ErrorCategory;
+    var error_condition: typeof ErrorCondition;
+    var error_code: typeof ErrorCode;
 }

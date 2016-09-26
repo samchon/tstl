@@ -55,6 +55,54 @@ namespace std.base
 			return this.find(key).equal_to(this.end()) ? 0 : 1;
 		}
 
+		/* ---------------------------------------------------------
+			INSERT
+		--------------------------------------------------------- */
+		/**
+		 * <p> Insert an element. </p>
+		 *
+		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
+		 * the number of element inserted (zero or one). </p>
+		 *
+		 * <p> Because elements in a {@link UniqueSet UniqueSets} are unique, the insertion operation checks whether 
+		 * each inserted element is equivalent to an element already in the container, and if so, the element is not 
+		 * inserted, returning an iterator to this existing element (if the function returns a value). </p>
+		 *
+		 * <p> For a similar container allowing for duplicate elements, see {@link MultiSet}. </p>
+		 * 
+		 * @param key Value to be inserted as an element.
+		 *
+		 * @return A {@link Pair}, with its member {@link Pair.first} set to an iterator pointing to either the newly 
+		 *		   inserted element or to the equivalent element already in the {@link UniqueSet}. The 
+		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or 
+		 *		   false if an equivalent element already existed.
+		 */
+		public insert(val: T): Pair<SetIterator<T>, boolean>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
+
+		/**
+		 * @inheritdoc
+		 */
+		public insert<U extends T, InputIterator extends Iterator<U>>
+			(begin: InputIterator, end: InputIterator): void;
+
+		public insert(...args: any[]): any
+		{
+			return super.insert.apply(this, args);
+		}
+
+		/* ---------------------------------------------------------
+			ERASE
+		--------------------------------------------------------- */
 		/**
 		 * <p> Extract an element. </p>
 		 *
@@ -135,48 +183,30 @@ namespace std.base
 		}
 
 		/* ---------------------------------------------------------
-			INSERTS
+			UTILITY
 		--------------------------------------------------------- */
 		/**
-		 * <p> Insert an element. </p>
-		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
-		 * the number of element inserted (zero or one). </p>
-		 *
-		 * <p> Because elements in a {@link UniqueSet UniqueSets} are unique, the insertion operation checks whether 
-		 * each inserted element is equivalent to an element already in the container, and if so, the element is not 
-		 * inserted, returning an iterator to this existing element (if the function returns a value). </p>
-		 *
-		 * <p> For a similar container allowing for duplicate elements, see {@link MultiSet}. </p>
+		 * Merge two sets.
 		 * 
-		 * @param key Value to be inserted as an element.
-		 *
-		 * @return A {@link Pair}, with its member {@link Pair.first} set to an iterator pointing to either the newly 
-		 *		   inserted element or to the equivalent element already in the {@link UniqueSet}. The 
-		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or 
-		 *		   false if an equivalent element already existed.
+		 * Attempts to extract each element in *source* and insert it into this container. If there's an element in this
+		 * container with key equivalent to the key of an element from *source*, tnen that element is not extracted from
+		 * the *source*. Otherwise, no element with same key exists in this container, then that element will be 
+		 * transfered from the *source* to this container.
+		 * 
+		 * @param source A {@link SetContainer set container} to transfer the elements from.
 		 */
-		public insert(val: T): Pair<SetIterator<T>, boolean>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<U extends T, InputIterator extends Iterator<U>>
-			(begin: InputIterator, end: InputIterator): void;
-
-		public insert(...args: any[]): any
+		public merge<U extends T>(source: SetContainer<U>): void
 		{
-			return super.insert.apply(this, args);
+			for (let it = source.begin(); !it.equal_to(source.end());)
+			{
+				if (this.has(it.value) == false)
+				{
+					this.insert(it.value);
+					it = source.erase(it);
+				}
+				else
+					it = it.next();
+			}
 		}
 	}
 }

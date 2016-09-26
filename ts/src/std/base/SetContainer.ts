@@ -188,8 +188,8 @@ namespace std.base
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
+				- UTILITY
 				- POST-PROCESS
-				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -415,6 +415,26 @@ namespace std.base
 		}
 
 		/* ---------------------------------------------------------
+			UTILITY
+		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		protected _Swap(obj: SetContainer<T>): void
+		{
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+		}
+
+		/**
+		 * Merge two sets.
+		 * 
+		 * Extracts and transfers elements from *source* to this container.
+		 * 
+		 * @param source A {@link SetContainer set container} to transfer the elements from.
+		 */
+		public abstract merge<U extends T>(source: SetContainer<U>): void;
+
+		/* ---------------------------------------------------------
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
@@ -461,17 +481,6 @@ namespace std.base
 		 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
 		 */
 		protected abstract _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
-
-		/* ---------------------------------------------------------
-			SWAP
-		--------------------------------------------------------- */
-		/**
-		 * @hidden
-		 */
-		protected _Swap(obj: SetContainer<T>): void
-		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
-		}
 	}
 }
 

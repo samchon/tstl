@@ -18,7 +18,7 @@ namespace std
 	 * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the 
 	 * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a 
 	 * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they 
-	 * can be inserted or removed from the  </p>
+	 * can be inserted or removed from the container. </p>
 	 *
 	 * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak 
 	 * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
