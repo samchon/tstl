@@ -1,6 +1,9 @@
 const fs = require("fs");
 const process = require('child_process');
-const minifier = require('minifier'); // "npm install -g minifier"
+const minifier = require('minifier');
+
+const std = require('typescript-stl');
+const StringUtil = require('samchon-framework').library.StringUtil;
 
 compile();
 attach_header();
@@ -9,11 +12,7 @@ minify();
 
 function compile()
 {
-	try
-	{
-		process.execSync("tsc -p ts/tsconfig.json");
-	}
-	catch (exception) {}
+	process.execSync("tsc -p ts/tsconfig.json");
 }
 
 function attach_header()
@@ -30,19 +29,20 @@ function attach_header()
 function remove_dynamics()
 {
 	const JS_FILE = "./lib/typescript-stl.js";
-	const REPLACES = 
-	[ 
-		'prev_',	// ListIterator.prev_
-		'next_',	// ListIterator.next_
-		'tree_',	// Tree based Map & Set Container's ::tree_
-		'compare_',	// (AtomicTree|PairTree).compare_
-		'data_'		// (SetContainer|MapContainer).data_
-	];
-
+	
 	var text = fs.readFileSync(JS_FILE, "utf8");
-	for (var i = 0; i < REPLACES.length; i++)
-		text = text.split('["' + REPLACES[i] + '"]').join("." + REPLACES[i]);
+	var dynamics = new std.HashSet(StringUtil.betweens(text, '["', '"]'));
 
+	for (var it = dynamics.begin(); !it.equal_to(dynamics.end()); it = it.next())
+	{
+		if (it.value.indexOf(',') != -1)
+			continue;
+
+		var org = '["' + it.value + '"]';
+		var repl = '.' + it.value;
+		
+		text = StringUtil.replaceAll(text, org, repl);
+	}
 	fs.writeFileSync(JS_FILE, text, "utf8");
 }
 

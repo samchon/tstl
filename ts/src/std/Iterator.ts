@@ -137,8 +137,9 @@ namespace std
 		 */
 		public get value(): T
 		{
-			throw new LogicError("Have to be overriden.");
+			throw new DomainError("This is an abstract getter. Overrides and specifies.");
 		}
+		//public abstract get value(): T; // TS2.0 New Feature
 
 		public abstract swap(obj: Iterator<T>): void;
 	}

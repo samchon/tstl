@@ -3282,7 +3282,7 @@ var std;
              * @return A value of the iterator.
              */
             get: function () {
-                throw new std.LogicError("Have to be overriden.");
+                throw new std.DomainError("This is an abstract getter. Overrides and specifies.");
             },
             enumerable: true,
             configurable: true
