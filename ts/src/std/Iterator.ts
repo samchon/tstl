@@ -39,9 +39,9 @@ namespace std
 		/**
 		 * Construct from the source {@link IContainer container}.
 		 *
-		 * @param source The source 
+		 * @param source The source container.
 		 */
-		public constructor(source: base.IContainer<T>)
+		protected constructor(source: base.IContainer<T>)
 		{
 			this.source_ = source;
 		}
@@ -135,11 +135,7 @@ namespace std
 		 * 
 		 * @return A value of the iterator.
 		 */
-		public get value(): T
-		{
-			throw new DomainError("This is an abstract getter. Overrides and specifies.");
-		}
-		//public abstract get value(): T; // TS2.0 New Feature
+		public abstract get value(): T; // TS2.0 New Feature
 
 		public abstract swap(obj: Iterator<T>): void;
 	}
@@ -186,7 +182,7 @@ namespace std
 		 * 
 		 * @param base A reference of the base iterator, which iterates in the opposite direction.
 		 */
-		public constructor(base: Base)
+		protected constructor(base: Base)
 		{
 			if (base == null)
 				super(null);
@@ -217,7 +213,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected abstract create_neighbor(base: Base): This;
+		protected abstract _Create_neighbor(base: Base): This;
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -240,7 +236,7 @@ namespace std
 		 */
 		public prev(): This
 		{
-			return this.create_neighbor(this.base().next() as Base);
+			return this._Create_neighbor(this.base().next() as Base);
 		}
 
 		/**
@@ -248,7 +244,7 @@ namespace std
 		 */
 		public next(): This
 		{
-			return this.create_neighbor(this.base().prev() as Base);
+			return this._Create_neighbor(this.base().prev() as Base);
 		}
 
 		/**
@@ -256,7 +252,7 @@ namespace std
 		 */
 		public advance(n: number): This
 		{
-			return this.create_neighbor(this.base().advance(-n) as Base);
+			return this._Create_neighbor(this.base().advance(-n) as Base);
 		}
 
 		/* ---------------------------------------------------------

@@ -341,10 +341,9 @@ namespace std
 				return this.end();
 
 			// INSERT
-			let list_it = this["data_"].insert(hint.get_list_iterator(), pair);
+			let it = this["data_"].insert(hint, pair);
 
 			// POST-PROCESS
-			let it = new MapIterator<Key, T>(this, list_it);
 			this._Handle_insert(it, it.next());
 
 			return it;

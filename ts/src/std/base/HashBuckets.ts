@@ -14,7 +14,7 @@ namespace std.base
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class HashBuckets<T>
+	export abstract class HashBuckets<T>
 	{
 		/**
 		 * @hidden
@@ -32,7 +32,7 @@ namespace std.base
 		/**
 		 * Default Constructor.
 		 */
-		public constructor()
+		protected constructor()
 		{
 			this.clear();
 		}

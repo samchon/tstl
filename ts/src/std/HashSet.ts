@@ -328,10 +328,9 @@ namespace std
 				return this.end();
 
 			// INSERT
-			let list_iterator = this["data_"].insert(hint.get_list_iterator(), val);
+			let it = this["data_"].insert(hint, val);
 
 			// POST-PROCESS
-			let it = new SetIterator<T>(this, list_iterator);
 			this._Handle_insert(it, it.next());
 
 			return it;

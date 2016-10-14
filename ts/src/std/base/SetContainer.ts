@@ -1,7 +1,6 @@
 /// <reference path="../API.ts" />
 
-/// <refernece path="Container.ts" />
-/// <reference path="../Iterator.ts" />
+/// <reference path="ListContainer.ts" />
 
 namespace std.base
 {
@@ -50,7 +49,7 @@ namespace std.base
 		 * by storing {@link ListIterator iterators} ({@link SetIterator} references {@link ListIterator}) who are 
 		 * created from {@link data_ here}. </p>
 		 */
-		private data_: List<T>;
+		private data_: SetElementList<T>;
 		
 		/* ---------------------------------------------------------
 			CONSTURCTORS
@@ -58,11 +57,11 @@ namespace std.base
 		/**
 		 * Default Constructor.
 		 */
-		public constructor()
+		protected constructor()
 		{
 			super();
 
-			this.data_ = new List<T>();
+			this.data_ = new SetElementList<T>(this);
 		}
 
 		/**
@@ -113,7 +112,7 @@ namespace std.base
 		 */
 		public begin(): SetIterator<T>
 		{
-			return new SetIterator<T>(this, this.data_.begin());
+			return this.data_.begin();
 		}
 
 		/**
@@ -121,7 +120,7 @@ namespace std.base
 		 */
 		public end(): SetIterator<T>
 		{
-			return new SetIterator<T>(this, this.data_.end());
+			return this.data_.end();
 		}
 
 		/**
@@ -403,15 +402,15 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private erase_by_range(begin: SetIterator<T>, end: SetIterator<T>): SetIterator<T>
+		private erase_by_range(first: SetIterator<T>, last: SetIterator<T>): SetIterator<T>
 		{
 			// ERASE
-			let list_iterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
+			let it = this.data_.erase(first, last);
 			
 			// POST-PROCESS
-			this._Handle_erase(begin, end);
+			this._Handle_erase(first, last);
 
-			return new SetIterator<T>(this, list_iterator);//begin.prev();
+			return it; 
 		}
 
 		/* ---------------------------------------------------------
@@ -482,6 +481,38 @@ namespace std.base
 		 */
 		protected abstract _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
 	}
+
+	/**
+	 * @hidden
+	 */
+	export class SetElementList<T> extends ListContainer<T, SetIterator<T>>
+	{
+		private associative_: SetContainer<T>;
+
+		public constructor(associative: SetContainer<T>)
+		{
+			super();
+
+			this.associative_ = associative;
+		}
+		protected _Create_iterator(prev: SetIterator<T>, next: SetIterator<T>, val: T): SetIterator<T>
+		{
+			return new SetIterator<T>(this, prev, next, val);
+		}
+
+		public get_associative(): SetContainer<T>
+		{
+			return this.associative_;
+		}
+		public rbegin(): SetReverseIterator<T>
+		{
+			return new SetReverseIterator<T>(this.end());
+		}
+		public rend(): SetReverseIterator<T>
+		{
+			return new SetReverseIterator<T>(this.begin());
+		}
+	}
 }
 
 namespace std
@@ -495,11 +526,12 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetIterator<T>
-		extends Iterator<T>
+		extends base.ListIteratorBase<T>
 		implements IComparable<SetIterator<T>>
 	{
-		private list_iterator_: ListIterator<T>;
-
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		/**
 		 * <p> Construct from source and index number. </p>
 		 *
@@ -510,22 +542,28 @@ namespace std
 		 * @param map The source Set to reference.
 		 * @param index Sequence number of the element in the source Set.
 		 */
-		public constructor(source: base.SetContainer<T>, it: ListIterator<T>)
+		public constructor(source: base.SetElementList<T>, prev: SetIterator<T>, next: SetIterator<T>, val: T)
 		{
-			super(source);
-
-			this.list_iterator_ = it;
+			super(source, prev, next, val);
 		}
 
 		/* ---------------------------------------------------------
-			MOVERS
+			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public get_source(): base.SetContainer<T>
+		{
+			return (super.get_source() as base.SetElementList<T>).get_associative();
+		}
+
 		/**
 		 * @inheritdoc
 		 */
 		public prev(): SetIterator<T>
 		{
-			return new SetIterator<T>(this.set, this.list_iterator_.prev());
+			return this["prev_"] as SetIterator<T>;
 		}
 
 		/**
@@ -533,7 +571,7 @@ namespace std
 		 */
 		public next(): SetIterator<T>
 		{
-			return new SetIterator<T>(this.set, this.list_iterator_.next());
+			return this["next_"] as SetIterator<T>;
 		}
 
 		/**
@@ -541,31 +579,7 @@ namespace std
 		 */
 		public advance(size: number): SetIterator<T>
 		{
-			return new SetIterator<T>(this.set, this.list_iterator_.advance(size));
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * @hidden
-		 */
-		private get set(): base.SetContainer<T>
-		{
-			return this.source_ as base.SetContainer<T>;
-		}
-
-		public get_list_iterator(): ListIterator<T>
-		{
-			return this.list_iterator_;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public get value(): T
-		{
-			return this.list_iterator_.value;
+			return super.advance(size) as SetIterator<T>;
 		}
 		
 		/* ---------------------------------------------------------
@@ -576,7 +590,7 @@ namespace std
 		 */
 		public equal_to<U extends T>(obj: SetIterator<U>): boolean 
 		{
-			return super.equal_to(obj) && this.list_iterator_ == obj.list_iterator_;
+			return super.equal_to(obj);
 		}
 
 		/**
@@ -600,7 +614,7 @@ namespace std
 		 */
 		public swap(obj: SetIterator<T>): void
 		{
-			this.list_iterator_.swap(obj.list_iterator_);
+			super.swap(obj);
 		}
 	}
 
@@ -633,7 +647,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected create_neighbor(base: SetIterator<T>): SetReverseIterator<T>
+		protected _Create_neighbor(base: SetIterator<T>): SetReverseIterator<T>
 		{
 			return new SetReverseIterator<T>(base);
 		}

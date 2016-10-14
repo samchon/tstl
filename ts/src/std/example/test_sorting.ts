@@ -5,7 +5,7 @@ namespace std.example
 	export function sorting(): void
 	{
 		let cubes: std.Deque<Cube> = new std.Deque<Cube>();
-		for (let i: number = 0; i < 0; i++)
+		for (let i: number = 0; i < 20; i++)
 			cubes.push_back(new Cube());
 
 		///////////////////////////////

@@ -1,7 +1,6 @@
 /// <reference path="../API.ts" />
 
-/// <reference path="Container.ts" />
-/// <reference path="../Iterator.ts" />
+/// <reference path="ListContainer.ts" />
 
 namespace std.base
 {
@@ -57,7 +56,7 @@ namespace std.base
 		 * by storing {@link ListIterator iterators} ({@link MapIterator} references {@link ListIterator}) who are 
 		 * created from {@link data_ here}. </p>
 		 */
-		private data_: List<Pair<Key, T>>;
+		private data_: MapElementList<Key, T>;
 
 		/* ---------------------------------------------------------
 			CONSTURCTORS
@@ -65,11 +64,11 @@ namespace std.base
 		/**
 		 * Default Constructor.
 		 */
-		public constructor()
+		protected constructor()
 		{
 			super();
 
-			this.data_ = new List<Pair<Key, T>>();
+			this.data_ = new MapElementList<Key, T>(this);
 		}
 		
 		/**
@@ -129,7 +128,7 @@ namespace std.base
 		 */
 		public begin(): MapIterator<Key, T>
 		{
-			return new MapIterator<Key, T>(this, this.data_.begin());
+			return this.data_.begin();
 		}
 
 		/**
@@ -153,7 +152,7 @@ namespace std.base
 		 */
 		public end(): MapIterator<Key, T>
 		{
-			return new MapIterator<Key, T>(this, this.data_.end());
+			return this.data_.end();
 		}
 
 		/**
@@ -166,7 +165,7 @@ namespace std.base
 		 * beginning of the container. </p>
 		 * 
 		 * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}. 
-		 * </p>
+		 * </p>7
 		 *
 		 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence 
 		 *		   
@@ -228,11 +227,6 @@ namespace std.base
 		{
 			return this.data_.size();
 		}
-
-		//protected _Get_data(): List<Pair<Key, T>>
-		//{
-		//	return this.data_;
-		//}
 		
 		/* =========================================================
 			ELEMENTS I/O
@@ -633,15 +627,15 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private erase_by_range(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>
+		private erase_by_range(first: MapIterator<Key, T>, last: MapIterator<Key, T>): MapIterator<Key, T>
 		{
 			// ERASE
-			let listIterator = this.data_.erase(begin.get_list_iterator(), end.get_list_iterator());
+			let it = this.data_.erase(first, last);
 			
 			// POST-PROCESS
-			this._Handle_erase(begin, end);
+			this._Handle_erase(first, last);
 
-			return new MapIterator<Key, T>(this, listIterator);
+			return it; 
 		}
 
 		/* ---------------------------------------------------------
@@ -712,6 +706,38 @@ namespace std.base
 		 */
 		protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
 	}
+
+	/**
+	 * @hidden
+	 */
+	export class MapElementList<Key, T> extends ListContainer<Pair<Key, T>, MapIterator<Key, T>>
+	{
+		private associative_: MapContainer<Key, T>;
+
+		public constructor(associative: MapContainer<Key, T>)
+		{
+			super();
+
+			this.associative_ = associative;
+		}
+		protected _Create_iterator(prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>): MapIterator<Key, T>
+		{
+			return new MapIterator<Key, T>(this, prev, next, val);
+		}
+
+		public get_associative(): MapContainer<Key, T>
+		{
+			return this.associative_;
+		}
+		public rbegin(): MapReverseIterator<Key, T>
+		{
+			return new MapReverseIterator<Key, T>(this.end());
+		}
+		public rend(): MapReverseIterator<Key, T>
+		{
+			return new MapReverseIterator<Key, T>(this.begin());
+		}
+	}
 }
 
 namespace std
@@ -725,14 +751,9 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class MapIterator<Key, T>
-		extends Iterator<Pair<Key, T>>
+		extends base.ListIteratorBase<Pair<Key, T>>
 		implements IComparable<MapIterator<Key, T>>
 	{
-		/**
-		 * A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
-		 */
-		private list_iterator_: ListIterator<Pair<Key, T>>;
-
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
@@ -742,11 +763,9 @@ namespace std
 		 * @param source The source {@link MapContainer}.
 		 * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
 		 */
-		public constructor(source: base.MapContainer<Key, T>, list_iterator: ListIterator<Pair<Key, T>>)
+		public constructor(source: base.MapElementList<Key, T>, prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>)
 		{
-			super(source);
-
-			this.list_iterator_ = list_iterator;
+			super(source, prev, next, val);
 		}
 
 		/* ---------------------------------------------------------
@@ -757,7 +776,7 @@ namespace std
 		 */
 		public prev(): MapIterator<Key, T>
 		{
-			return new MapIterator<Key, T>(this.map, this.list_iterator_.prev());
+			return this["prev_"] as MapIterator<Key, T>;
 		}
 
 		/**
@@ -765,7 +784,7 @@ namespace std
 		 */
 		public next(): MapIterator<Key, T>
 		{
-			return new MapIterator<Key, T>(this.map, this.list_iterator_.next());
+			return this["next_"] as MapIterator<Key, T>;
 		}
 
 		/**
@@ -776,7 +795,7 @@ namespace std
 		 */
 		public advance(step: number): MapIterator<Key, T>
 		{
-			return new MapIterator<Key, T>(this.map, this.list_iterator_.advance(step));
+			return super.advance(step) as MapIterator<Key, T>;
 		}
 
 		/* ---------------------------------------------------------
@@ -785,25 +804,9 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private get map(): base.MapContainer<Key, T>
+		public get_source(): base.MapContainer<Key, T>
 		{
-			return this.source_ as base.MapContainer<Key, T>;
-		}
-
-		/**
-		 * Get ListIterator.
-		 */
-		public get_list_iterator(): ListIterator<Pair<Key, T>>
-		{
-			return this.list_iterator_;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public get value(): Pair<Key, T>
-		{
-			return this.list_iterator_.value;
+			return (super.get_source() as base.MapElementList<Key, T>).get_associative();
 		}
 
 		/**
@@ -811,7 +814,7 @@ namespace std
 		 */
 		public get first(): Key
 		{
-			return this.list_iterator_.value.first;
+			return this.value.first;
 		}
 
 		/**
@@ -819,7 +822,7 @@ namespace std
 		 */
 		public get second(): T
 		{
-			return this.list_iterator_.value.second;
+			return this.value.second;
 		}
 
 		/**
@@ -827,7 +830,7 @@ namespace std
 		 */
 		public set second(val: T)
 		{
-			this.list_iterator_.value.second = val;
+			this.value.second = val;
 		}
 
 		/* ---------------------------------------------------------
@@ -843,7 +846,7 @@ namespace std
 		 */
 		public equal_to<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean 
 		{
-			return this.source_ == obj.source_ && this.list_iterator_.equal_to(obj.list_iterator_);
+			return super.equal_to(obj);
 		}
 
 		public less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean
@@ -858,7 +861,7 @@ namespace std
 
 		public swap(obj: MapIterator<Key, T>): void
 		{
-			this.list_iterator_.swap(obj.list_iterator_);
+			super.swap(obj);
 		}
 	}
 
@@ -889,7 +892,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected create_neighbor(base: MapIterator<Key, T>): MapReverseIterator<Key, T>
+		protected _Create_neighbor(base: MapIterator<Key, T>): MapReverseIterator<Key, T>
 		{
 			return new MapReverseIterator<Key, T>(base);
 		}

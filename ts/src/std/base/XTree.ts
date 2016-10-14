@@ -95,11 +95,14 @@ namespace std.base
 		/**
 		 * Default Constructor.
 		 */
-		public constructor()
+		protected constructor()
 		{
 			this.root_ = null;
 		}
 
+		/**
+		 * Clear, removes all tree nodes.
+		 */
 		public clear(): void
 		{
 			this.root_ = null;

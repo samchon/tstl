@@ -556,7 +556,7 @@ namespace std
 				return this.begin();
 			}
 			else
-			{ 
+			{
 				///////
 				// INSERT TO THE MIDDLE POSITION
 				///////
@@ -906,6 +906,11 @@ namespace std
 		{
 			[this.value, obj.value] = [obj.value, this.value];
 		}
+
+		public toString(): number
+		{
+			return this.index_;
+		}
 	}
 }
 
@@ -942,7 +947,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected create_neighbor(base: VectorIterator<T>): VectorReverseIterator<T>
+		protected _Create_neighbor(base: VectorIterator<T>): VectorReverseIterator<T>
 		{
 			return new VectorReverseIterator<T>(base);
 		}

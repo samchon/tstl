@@ -11,5 +11,4 @@ handbook\
 *.log
 *.*ignore
 
-*.d.ts
 build.js

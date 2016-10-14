@@ -274,7 +274,7 @@ namespace std
 			/////
 			// INSERTS
 			/////
-			it = new SetIterator<T>(this, this["data_"].insert(it.get_list_iterator(), val));
+			it = this["data_"].insert(it, val);
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return make_pair(it, true);
@@ -298,7 +298,7 @@ namespace std
 				// RIGHT HINT
 				///////
 				// INSERT
-				ret = new SetIterator<T>(this, this["data_"].insert(hint.get_list_iterator(), val));
+				ret = this["data_"].insert(hint, val);
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());

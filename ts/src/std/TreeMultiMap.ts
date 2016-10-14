@@ -318,7 +318,7 @@ namespace std
 				it = node.value;
 
 			// ITERATOR TO RETURN
-			it = new MapIterator<Key, T>(this, this["data_"].insert(it.get_list_iterator(), pair));
+			it = this["data_"].insert(it, pair);
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return it;
@@ -345,7 +345,7 @@ namespace std
 				// RIGHT HINT
 				///////
 				// INSERT
-				ret = new MapIterator<Key, T>(this, this["data_"].insert(hint.get_list_iterator(), pair));
+				ret = this["data_"].insert(hint, pair);
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());

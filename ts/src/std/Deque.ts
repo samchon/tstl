@@ -1062,7 +1062,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected create_neighbor(base: DequeIterator<T>): DequeReverseIterator<T>
+		protected _Create_neighbor(base: DequeIterator<T>): DequeReverseIterator<T>
 		{
 			return new DequeReverseIterator<T>(base);
 		}

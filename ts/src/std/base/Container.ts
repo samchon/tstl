@@ -36,43 +36,9 @@ namespace std.base
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Default Constructor. </p>
-		 *
-		 * <p> Constructs an empty container, with no elements. </p>
+		 * Default Constructor.
 		 */
-		public constructor();
-
-		/**
-		 * <p> Initializer list Constructor. </p>
-		 *
-		 * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
-		 *
-		 * @param array An array containing elements to be copied and contained.
-		 */
-		public constructor(array: Array<T>);
-
-		/**
-		 * <p> Copy Constructor. </p>
-		 *
-		 * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
-		 *
-		 * @param container Another container object of the same type (with the same class template 
-		 *					arguments <i>T</i>), whose contents are either copied or acquired.
-		 */
-		public constructor(container: IContainer<T>);
-
-		/**
-		 * <p> Range Constructor. </p>
-		 *
-		 * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each 
-		 * element emplace-constructed from its corresponding element in that range, in the same order. </p>
-		 *
-		 * @param begin Input interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
-		 */
-		public constructor(begin: Iterator<T>, end: Iterator<T>);
-		
-		public constructor(...args: any[])
+		protected constructor()
 		{
 			// THIS IS ABSTRACT CLASS
 			// NOTHING TO DO ESPECIALLY
