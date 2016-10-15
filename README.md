@@ -59,16 +59,15 @@ Installing *TypeScript-STL* in **node** is very easy. Just install with **npm** 
 # Install TypeScript-STL from NPM modules
 npm install -g typescript-stl 
 
-# Fetch definition (header) file from TSD
-# If TSD is not installed, then type "npm install -g tsd"
-tsd install typescript-stl
+# Fetch definition (header) file from DefinitelyTyped
+npm install --save @types/typescript-stl
 ```
 
 #### TypeScript
-Don't forget to referencing header files, ```typescript-stl.d.ts```.
+Don't forget to referencing and importing the ```typescript-stl```.
 
 ``` typescript
-/// <reference path="typings/typescript-stl/typescript-stl.d.ts" />
+/// <reference types="typescript-stl" />
 
 import std = require("typescript-stl");
 let map: std.TreeMap<string, number> = new std.TreeMap<string, number>();
