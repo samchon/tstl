@@ -156,45 +156,6 @@ declare namespace std {
      */
     function equal<T, InputIterator extends Iterator<T>>(first1: InputIterator, last1: InputIterator, first2: Iterator<T>, pred: (x: T, y: T) => boolean): boolean;
     /**
-     * <p> Test whether range is permutation of another. </p>
-     *
-     * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at
-     * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match, even in a different
-     * order. </p>
-     *
-     * @param first1 An {@link Iterator} to the initial position of the first sequence.
-     * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
-     *				[<i>first1</i>, <i>last1</i>), including the element pointed by <i>first1</i>, but not the element
-     *				pointed by <i>last1</i>.
-     * @param first2 An {@link Iterator} to the initial position of the second sequence. The comparison includes up to
-     *				 as many elements of this sequence as those in the range [<i>first1</i>, <i>last1</i>).
-     *
-     * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those
-     *		   of the range starting at <i>first2</i> in any order, and <code>false</code> otherwise.
-     */
-    function is_permutation<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>(first1: Iterator1, last1: Iterator1, first2: Iterator2): boolean;
-    /**
-     * <p> Test whether range is permutation of another. </p>
-     *
-     * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at
-     * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match, even in a different
-     * order. </p>
-     *
-     * @param first1 An {@link Iterator} to the initial position of the first sequence.
-     * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
-     *				[<i>first1</i>, <i>last1</i>), including the element pointed by <i>first1</i>, but not the element
-     *				pointed by <i>last1</i>.
-     * @param first2 An {@link Iterator} to the initial position of the second sequence. The comparison includes up to
-     *				 as many elements of this sequence as those in the range [<i>first1</i>, <i>last1</i>).
-     * @param pred Binary function that accepts two elements as argument (one of each of the two sequences, in the same
-     *			   order), and returns a value convertible to <code>bool</code>. The value returned indicates whether
-     *			   the elements are considered to match in the context of this function.
-     *
-     * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those
-     *		   of the range starting at <i>first2</i> in any order, and <code>false</code> otherwise.
-     */
-    function is_permutation<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>(first1: Iterator1, last1: Iterator1, first2: Iterator2, pred: (x: T, y: T) => boolean): boolean;
-    /**
      * <p> Lexicographical less-than comparison. </p>
      *
      * <p> Returns <code>true</code> if the range [<i>first1</i>, <i>last1</i>) compares <i>lexicographically less</i>
@@ -2663,6 +2624,159 @@ declare namespace std {
      *		   [<i>first</i>, <i>last</i>) as first element, and the largest as second.
      */
     function minmax_element<T, ForwardIterator extends Iterator<T>>(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): Pair<ForwardIterator, ForwardIterator>;
+    /**
+     * <p> Test whether range is permutation of another. </p>
+     *
+     * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at
+     * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match, even in a different
+     * order. </p>
+     *
+     * @param first1 An {@link Iterator} to the initial position of the first sequence.
+     * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
+     *				[<i>first1</i>, <i>last1</i>), including the element pointed by <i>first1</i>, but not the element
+     *				pointed by <i>last1</i>.
+     * @param first2 An {@link Iterator} to the initial position of the second sequence. The comparison includes up to
+     *				 as many elements of this sequence as those in the range [<i>first1</i>, <i>last1</i>).
+     *
+     * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those
+     *		   of the range starting at <i>first2</i> in any order, and <code>false</code> otherwise.
+     */
+    function is_permutation<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>(first1: Iterator1, last1: Iterator1, first2: Iterator2): boolean;
+    /**
+     * <p> Test whether range is permutation of another. </p>
+     *
+     * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at
+     * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match, even in a different
+     * order. </p>
+     *
+     * @param first1 An {@link Iterator} to the initial position of the first sequence.
+     * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
+     *				[<i>first1</i>, <i>last1</i>), including the element pointed by <i>first1</i>, but not the element
+     *				pointed by <i>last1</i>.
+     * @param first2 An {@link Iterator} to the initial position of the second sequence. The comparison includes up to
+     *				 as many elements of this sequence as those in the range [<i>first1</i>, <i>last1</i>).
+     * @param pred Binary function that accepts two elements as argument (one of each of the two sequences, in the same
+     *			   order), and returns a value convertible to <code>bool</code>. The value returned indicates whether
+     *			   the elements are considered to match in the context of this function.
+     *
+     * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those
+     *		   of the range starting at <i>first2</i> in any order, and <code>false</code> otherwise.
+     */
+    function is_permutation<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>(first1: Iterator1, last1: Iterator1, first2: Iterator2, pred: (x: T, y: T) => boolean): boolean;
+    /**
+     * Transform range to previous permutation.
+     *
+     * Rearranges the elements in the range [*first*, *last*) into the previous *lexicographically-ordered* permutation.
+     *
+     * A *permutation* is each one of the N! possible arrangements the elements can take (where *N* is the number of
+     * elements in the range). Different permutations can be ordered according to how they compare
+     * {@link lexicographicaly lexicographical_compare} to each other; The first such-sorted possible permutation (the one
+     * that would compare *lexicographically smaller* to all other permutations) is the one which has all its elements
+     * sorted in ascending order, and the largest has all its elements sorted in descending order.
+     *
+     * The comparisons of individual elements are performed using the {@link std.less std.less()} function.
+     *
+     * If the function can determine the previous permutation, it rearranges the elements as such and returns true. If
+     * that was not possible (because it is already at the lowest possible permutation), it rearranges the elements
+     * according to the last permutation (sorted in descending order) and returns false.
+     *
+     * @param first Bidirectional iterators to the initial positions of the sequence
+     * @param last Bidirectional iterators to the final positions of the sequence. The range used is [*first*, *last*),
+     *			   which contains all the elements between *first* and *last*, including the element pointed by *first*
+     *			   but not the element pointed by *last*.
+     *
+     * @return true if the function could rearrange the object as a lexicographicaly smaller permutation. Otherwise, the
+     *		   function returns false to indicate that the arrangement is not less than the previous, but the largest
+     *		   possible (sorted in descending order).
+     */
+    function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>(first: BidirectionalIterator, last: BidirectionalIterator): boolean;
+    /**
+     * Transform range to previous permutation.
+     *
+     * Rearranges the elements in the range [*first*, *last*) into the previous *lexicographically-ordered* permutation.
+     *
+     * A *permutation* is each one of the N! possible arrangements the elements can take (where *N* is the number of
+     * elements in the range). Different permutations can be ordered according to how they compare
+     * {@link lexicographicaly lexicographical_compare} to each other; The first such-sorted possible permutation (the one
+     * that would compare *lexicographically smaller* to all other permutations) is the one which has all its elements
+     * sorted in ascending order, and the largest has all its elements sorted in descending order.
+     *
+     * The comparisons of individual elements are performed using the *compare*.
+     *
+     * If the function can determine the previous permutation, it rearranges the elements as such and returns true. If
+     * that was not possible (because it is already at the lowest possible permutation), it rearranges the elements
+     * according to the last permutation (sorted in descending order) and returns false.
+     *
+     * @param first Bidirectional iterators to the initial positions of the sequence
+     * @param last Bidirectional iterators to the final positions of the sequence. The range used is [*first*, *last*),
+     *			   which contains all the elements between *first* and *last*, including the element pointed by *first*
+     *			   but not the element pointed by *last*.
+     * @param compare Binary function that accepts two arguments of the type pointed by BidirectionalIterator, and returns
+     *				  a value convertible to bool. The value returned indicates whether the first argument is considered
+     *				  to go before the second in the specific strict weak ordering it defines.
+     *
+     * @return true if the function could rearrange the object as a lexicographicaly smaller permutation. Otherwise, the
+     *		   function returns false to indicate that the arrangement is not less than the previous, but the largest
+     *		   possible (sorted in descending order).
+     */
+    function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean): boolean;
+    /**
+     * Transform range to next permutation.
+     *
+     * Rearranges the elements in the range [*first*, *last*) into the next *lexicographically greater* permutation.
+     *
+     * A permutation is each one of the *N!* possible arrangements the elements can take (where *N* is the number of
+     * elements in the range). Different permutations can be ordered according to how they compare
+     * {@link lexicographicaly lexicographical_compare} to each other; The first such-sorted possible permutation (the one
+     * that would compare *lexicographically smaller* to all other permutations) is the one which has all its elements
+     * sorted in ascending order, and the largest has all its elements sorted in descending order.
+     *
+     * The comparisons of individual elements are performed using the {@link std.less} function.
+     *
+     * If the function can determine the next higher permutation, it rearranges the elements as such and returns true. If
+     * that was not possible (because it is already at the largest possible permutation), it rearranges the elements
+     * according to the first permutation (sorted in ascending order) and returns false.
+     *
+     * @param first Bidirectional iterators to the initial positions of the sequence
+     * @param last Bidirectional iterators to the final positions of the sequence. The range used is [*first*, *last*),
+     *			   which contains all the elements between *first* and *last*, including the element pointed by *first*
+     *			   but not the element pointed by *last*.
+     *
+     * @return true if the function could rearrange the object as a lexicographicaly greater permutation. Otherwise, the
+     *		   function returns false to indicate that the arrangement is not greater than the previous, but the lowest
+     *		   possible (sorted in ascending order).
+     */
+    function next_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>(first: BidirectionalIterator, last: BidirectionalIterator): boolean;
+    /**
+     * Transform range to next permutation.
+     *
+     * Rearranges the elements in the range [*first*, *last*) into the next *lexicographically greater* permutation.
+     *
+     * A permutation is each one of the *N!* possible arrangements the elements can take (where *N* is the number of
+     * elements in the range). Different permutations can be ordered according to how they compare
+     * {@link lexicographicaly lexicographical_compare} to each other; The first such-sorted possible permutation (the one
+     * that would compare *lexicographically smaller* to all other permutations) is the one which has all its elements
+     * sorted in ascending order, and the largest has all its elements sorted in descending order.
+     *
+     * The comparisons of individual elements are performed using the *compare*.
+     *
+     * If the function can determine the next higher permutation, it rearranges the elements as such and returns true. If
+     * that was not possible (because it is already at the largest possible permutation), it rearranges the elements
+     * according to the first permutation (sorted in ascending order) and returns false.
+     *
+     * @param first Bidirectional iterators to the initial positions of the sequence
+     * @param last Bidirectional iterators to the final positions of the sequence. The range used is [*first*, *last*),
+     *			   which contains all the elements between *first* and *last*, including the element pointed by *first*
+     *			   but not the element pointed by *last*.
+     * @param compare Binary function that accepts two arguments of the type pointed by BidirectionalIterator, and returns
+     *				  a value convertible to bool. The value returned indicates whether the first argument is considered
+     *				  to go before the second in the specific strict weak ordering it defines.
+     *
+     * @return true if the function could rearrange the object as a lexicographicaly greater permutation. Otherwise, the
+     *		   function returns false to indicate that the arrangement is not greater than the previous, but the lowest
+     *		   possible (sorted in ascending order).
+     */
+    function next_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean): boolean;
 }
 declare namespace std.base {
     /**

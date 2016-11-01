@@ -149,24 +149,6 @@ var std;
         return true;
     }
     std.equal = equal;
-    function is_permutation(first1, last1, first2, pred) {
-        if (pred === void 0) { pred = std.equal_to; }
-        // find the mismatched
-        var pair = mismatch(first1, last1, first2);
-        first1 = pair.first;
-        first2 = pair.second;
-        if (first1.equal_to(last1))
-            return true;
-        var last2 = first2.advance(std.distance(first1, last1));
-        for (var it = first1; !it.equal_to(last1); it = it.next())
-            if (find(first1, it, it.value).equal_to(it)) {
-                var n = count(first2, last2, it.value);
-                if (n == 0 || count(it, last1, it.value) != n)
-                    return false;
-            }
-        return true;
-    }
-    std.is_permutation = is_permutation;
     function lexicographical_compare(first1, last1, first2, last2, compare) {
         if (compare === void 0) { compare = std.less; }
         while (!first1.equal_to(last1))
@@ -1660,11 +1642,11 @@ var std;
 var std;
 (function (std) {
     /* =========================================================
-        MIN & MAX
-            - VARADIC PARAMETERS
-            - ITERATORS
+        MATHMATICS
+            - MIN & MAX
+            - PERMUTATION
     ============================================================
-        VARADIC PARAMETERS
+        MIN & MAX
     --------------------------------------------------------- */
     /**
      * <p> Return the smallest. </p>
@@ -1768,6 +1750,76 @@ var std;
         return std.make_pair(smallest, largest);
     }
     std.minmax_element = minmax_element;
+    function is_permutation(first1, last1, first2, pred) {
+        if (pred === void 0) { pred = std.equal_to; }
+        // find the mismatched
+        var pair = std.mismatch(first1, last1, first2);
+        first1 = pair.first;
+        first2 = pair.second;
+        if (first1.equal_to(last1))
+            return true;
+        var last2 = first2.advance(std.distance(first1, last1));
+        for (var it = first1; !it.equal_to(last1); it = it.next())
+            if (std.find(first1, it, it.value).equal_to(it)) {
+                var n = std.count(first2, last2, it.value);
+                if (n == 0 || std.count(it, last1, it.value) != n)
+                    return false;
+            }
+        return true;
+    }
+    std.is_permutation = is_permutation;
+    function prev_permutation(first, last, compare) {
+        if (compare === void 0) { compare = std.less; }
+        if (first.equal_to(last) == true)
+            return false;
+        var i = last.prev();
+        if (first.equal_to(i) == true)
+            return false;
+        while (true) {
+            var x = i;
+            var y = void 0;
+            i = i.prev();
+            if (compare(x.value, i.value) == true) {
+                y = last.prev();
+                while (compare(y.value, i.value) == false)
+                    y = y.prev();
+                std.iter_swap(i, y);
+                std.reverse(x, last);
+                return true;
+            }
+            if (i.equal_to(first) == true) {
+                std.reverse(first, last);
+                return false;
+            }
+        }
+    }
+    std.prev_permutation = prev_permutation;
+    function next_permutation(first, last, compare) {
+        if (compare === void 0) { compare = std.less; }
+        if (first.equal_to(last) == true)
+            return false;
+        var i = last.prev();
+        if (first.equal_to(i) == true)
+            return false;
+        while (true) {
+            var x = i;
+            var y = void 0;
+            i = i.prev();
+            if (compare(i.value, x.value) == true) {
+                y = last.prev();
+                while (compare(i.value, y.value) == false)
+                    y = y.prev();
+                std.iter_swap(i, y);
+                std.reverse(x, last);
+                return true;
+            }
+            if (i.equal_to(first) == true) {
+                std.reverse(first, last);
+                return false;
+            }
+        }
+    }
+    std.next_permutation = next_permutation;
 })(std || (std = {}));
 /// <reference path="../API.ts" />
 var std;
@@ -6940,21 +6992,30 @@ var std;
 })(std || (std = {}));
 /// <reference path="../API.ts" />
 /// <reference path="../Vector.ts" />
-std.VectorIterator.prototype.valueOf = function () {
-    return this.index;
-};
 var std;
 (function (std) {
     var example;
     (function (example) {
         function test_all() {
-            for (var key in std.example)
-                if (key != "test_all" && std.example[key] instanceof Function) {
-                    console.log("===================================================");
-                    console.log("	" + key);
-                    console.log("===================================================");
-                    std.example[key]();
-                }
+            console.log("TEST ALL");
+            var items = new std.Vector();
+            items.push(1, 2, 2, 3, 3);
+            for (var it = items.begin(); !it.equal_to(items.end()); it = it.next())
+                console.log(it.value);
+            do {
+                var str = "";
+                for (var it = items.begin(); !it.equal_to(items.end()); it = it.next())
+                    str += it.value + " ";
+                console.log(str);
+            } while (std.next_permutation(items.begin(), items.end()) == true);
+            //for (let key in std.example)
+            //	if (key != "test_all" && (std.example as any)[key] instanceof Function)
+            //	{
+            //		console.log("===================================================");
+            //		console.log("	" + key);
+            //		console.log("===================================================");
+            //		(std.example as any)[key]();
+            //	}
         }
         example.test_all = test_all;
     })(example = std.example || (std.example = {}));
