@@ -1,4 +1,4 @@
-// Type definitions for TypeScript-STL v1.2.0
+// Type definitions for TypeScript-STL v1.2.1
 // Project: https://github.com/samchon/typescript-stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
