@@ -120,14 +120,24 @@ namespace std
 		 */
 		private capacity_: number;
 
-		// Get column size; {@link capacity_ capacity} / {@link ROW row}.
 		/**
 		 * @hidden
 		 */
 		private get_col_size(): number
 		{
+			// Get column size; {@link capacity_ capacity} / {@link ROW row}.
 			return Math.floor(this.capacity_ / Deque.ROW);
 		}
+
+		/**
+		 * @hidden
+		 */
+		private end_: DequeIterator<T>;
+
+		/**
+		 * @hidden
+		 */
+		private rend_: DequeReverseIterator<T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -189,6 +199,11 @@ namespace std
 		{
 			super();
 
+			// RESERVED ITERATORS
+			this.end_ = new DequeIterator<T>(this, -1);
+			this.rend_ = new DequeReverseIterator<T>(new DequeIterator<T>(this, 0));
+
+			// CONSTRUCTORS BRANCH
 			if (args.length == 0)
 			{
 				this.clear();
@@ -340,7 +355,7 @@ namespace std
 		public begin(): DequeIterator<T>
 		{
 			if (this.empty() == true)
-				return this.end();
+				return this.end_;
 			else
 				return new DequeIterator<T>(this, 0);
 		}
@@ -350,7 +365,7 @@ namespace std
 		 */
 		public end(): DequeIterator<T>
 		{
-			return new DequeIterator<T>(this, -1);
+			return this.end_;
 		}
 
 		/**
@@ -358,7 +373,7 @@ namespace std
 		 */
 		public rbegin(): DequeReverseIterator<T>
 		{
-			return new DequeReverseIterator<T>(this.end());
+			return new DequeReverseIterator<T>(this.end_);
 		}
 
 		/**
@@ -366,7 +381,10 @@ namespace std
 		 */
 		public rend(): DequeReverseIterator<T>
 		{
-			return new DequeReverseIterator<T>(this.begin());
+			if (this.empty() == true)
+				return new DequeReverseIterator<T>(this.end_);
+			else
+				return this.rend_;
 		}
 
 		/**

@@ -43,19 +43,19 @@ namespace std.base
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ListContainer<T, BidrectionalIterator extends ListIteratorBase<T>>
+	export abstract class ListContainer<T, BidirectionalIterator extends ListIteratorBase<T>>
 		extends Container<T>
 		implements IDequeContainer<T>
 	{
 		/**
 		 * @hidden
 		 */
-		private begin_: BidrectionalIterator;
+		private begin_: BidirectionalIterator;
 		
 		/**
 		 * @hidden
 		 */
-		private end_: BidrectionalIterator;
+		private end_: BidirectionalIterator;
 		
 		/**
 		 * @hidden
@@ -77,11 +77,22 @@ namespace std.base
 			this.end_["prev_"] = this.end_;
 			this.end_["next_"] = this.end_;
 
-			this.begin_ = this.end_;
+			this._Set_begin(this.end_);
 			this.size_ = 0;
 		}
 
-		protected abstract _Create_iterator(prev: BidrectionalIterator, next: BidrectionalIterator, val: T): BidrectionalIterator;
+		/**
+		 * @hidden
+		 */
+		protected abstract _Create_iterator(prev: BidirectionalIterator, next: BidirectionalIterator, val: T): BidirectionalIterator;
+
+		/**
+		 * @hidden
+		 */
+		protected _Set_begin(it: BidirectionalIterator): void
+		{
+			this.begin_ = it;
+		}
 
 		/**
 		 * @inheritdoc
@@ -99,7 +110,7 @@ namespace std.base
 		public clear(): void
 		{
 			// DISCONNECT NODES
-			this.begin_ = this.end_;
+			this._Set_begin(this.end_);
 			this.end_["prev_"] = (this.end_);
 			this.end_["next_"] = (this.end_);
 
@@ -113,7 +124,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public begin(): BidrectionalIterator
+		public begin(): BidirectionalIterator
 		{
 			return this.begin_;
 		}
@@ -121,7 +132,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public end(): BidrectionalIterator
+		public end(): BidirectionalIterator
 		{
 			return this.end_;
 		}
@@ -188,7 +199,7 @@ namespace std.base
 		 */
 		public pop_back(): void
 		{
-			this.erase(this.end_.prev() as BidrectionalIterator);
+			this.erase(this.end_.prev() as BidirectionalIterator);
 		}
 
 		/* ---------------------------------------------------------
@@ -199,13 +210,13 @@ namespace std.base
 		 */
 		public push(...items: T[]): number 
 		{
-			let prev: BidrectionalIterator = this.end().prev() as BidrectionalIterator;
-			let first: BidrectionalIterator = null;
+			let prev: BidirectionalIterator = this.end().prev() as BidirectionalIterator;
+			let first: BidirectionalIterator = null;
 
 			for (let i: number = 0; i < items.length; i++) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
-				let item: BidrectionalIterator = this._Create_iterator(prev, null, items[i]);
+				let item: BidirectionalIterator = this._Create_iterator(prev, null, items[i]);
 				if (i == 0)
 					first = item;
 
@@ -215,7 +226,7 @@ namespace std.base
 
 			// IF WAS EMPTY, VAL IS THE BEGIN
 			if (this.empty() == true || first.prev().equal_to(this.end()) == true)
-				this.begin_ = first;
+				this._Set_begin(first);
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
 			prev["next_"] = (this.end_);
@@ -242,7 +253,7 @@ namespace std.base
 		 *
 		 * @return An iterator that points to the newly inserted element; <i>val</i>.
 		 */
-		public insert(position: BidrectionalIterator, val: T): BidrectionalIterator;
+		public insert(position: BidirectionalIterator, val: T): BidirectionalIterator;
 
 		/**
 		 * <p> Insert elements by repeated filling. </p> 
@@ -262,7 +273,7 @@ namespace std.base
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert(position: BidrectionalIterator, size: number, val: T): BidrectionalIterator;
+		public insert(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator;
 
 		/**
 		 * <p> Insert elements by range iterators. </p>
@@ -283,11 +294,11 @@ namespace std.base
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
 		public insert<U extends T, InputIterator extends Iterator<U>>
-			(position: BidrectionalIterator, begin: InputIterator, end: InputIterator): BidrectionalIterator;
+			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator;
 
-		public insert(...args: any[]): BidrectionalIterator
+		public insert(...args: any[]): BidirectionalIterator
 		{
-			let ret: BidrectionalIterator;
+			let ret: BidirectionalIterator;
 
 			// BRANCHES
 			if (args.length == 2)
@@ -304,7 +315,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private insert_by_val(position: BidrectionalIterator, val: T): BidrectionalIterator
+		private insert_by_val(position: BidirectionalIterator, val: T): BidirectionalIterator
 		{
 			// SHIFT TO INSERT OF THE REPEATING VAL
 			return this._Insert_by_repeating_val(position, 1, val);
@@ -313,19 +324,19 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_repeating_val(position: BidrectionalIterator, size: number, val: T): BidrectionalIterator
+		protected _Insert_by_repeating_val(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator
 		{
 			// INVALID ITERATOR
 			if (this != position["source_"])
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 			
-			let prev: BidrectionalIterator = <BidrectionalIterator>position.prev();
-			let first: BidrectionalIterator = null;
+			let prev: BidirectionalIterator = <BidirectionalIterator>position.prev();
+			let first: BidirectionalIterator = null;
 
 			for (let i: number = 0; i < size; i++) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
-				let item: BidrectionalIterator = this._Create_iterator(prev, null, val);
+				let item: BidirectionalIterator = this._Create_iterator(prev, null, val);
 				if (i == 0) 
 					first = item;
 				
@@ -337,7 +348,7 @@ namespace std.base
 
 			// IF WAS EMPTY, VAL IS THE BEGIN
 			if (this.empty() == true || first.prev().equal_to(this.end()) == true)
-				this.begin_ = first;
+				this._Set_begin(first);
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
 			prev["next_"] = (position);
@@ -352,21 +363,21 @@ namespace std.base
 		 * @hidden
 		 */
 		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
-			(position: BidrectionalIterator, begin: InputIterator, end: InputIterator): BidrectionalIterator
+			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator
 		{
 			// INVALID ITERATOR
 			if (this != position["source_"])
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
-			let prev: BidrectionalIterator = <BidrectionalIterator>position.prev();
-			let first: BidrectionalIterator = null;
+			let prev: BidirectionalIterator = <BidirectionalIterator>position.prev();
+			let first: BidirectionalIterator = null;
 
 			let size: number = 0;
 
 			for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
-				let item: BidrectionalIterator = this._Create_iterator(prev, null, it.value);
+				let item: BidirectionalIterator = this._Create_iterator(prev, null, it.value);
 
 				if (size == 0) first = item;
 				if (prev != null) prev["next_"] = (item);
@@ -378,7 +389,7 @@ namespace std.base
 
 			// IF WAS EMPTY, FIRST ELEMENT IS THE BEGIN
 			if (this.empty() == true)
-				this.begin_ = first;
+				this._Set_begin(first);
 
 			// CONNECT BETWEEN LAST AND POSITION
 			prev["next_"] = (position);
@@ -407,7 +418,7 @@ namespace std.base
 		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
 		 *		   This is the {@link end end()} if the operation erased the last element in the sequence.
 		 */
-		public erase(position: BidrectionalIterator): BidrectionalIterator;
+		public erase(position: BidirectionalIterator): BidirectionalIterator;
 		
 		/**
 		 * <p> Erase elements. </p>
@@ -425,9 +436,9 @@ namespace std.base
 		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
 		 *		   This is the {@link end end()} if the operation erased the last element in the sequence.
 		 */
-		public erase(begin: BidrectionalIterator, end: BidrectionalIterator): BidrectionalIterator;
+		public erase(begin: BidirectionalIterator, end: BidirectionalIterator): BidirectionalIterator;
 
-		public erase(first: BidrectionalIterator, last: BidrectionalIterator = first.next() as BidrectionalIterator): BidrectionalIterator
+		public erase(first: BidirectionalIterator, last: BidirectionalIterator = first.next() as BidirectionalIterator): BidirectionalIterator
 		{
 			return this._Erase_by_range(first, last);
 		}
@@ -435,10 +446,10 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: BidrectionalIterator, last: BidrectionalIterator): BidrectionalIterator
+		protected _Erase_by_range(first: BidirectionalIterator, last: BidirectionalIterator): BidirectionalIterator
 		{
 			// FIND PREV AND NEXT
-			let prev: BidrectionalIterator = <BidrectionalIterator>first.prev();
+			let prev: BidirectionalIterator = <BidirectionalIterator>first.prev();
 
 			// CALCULATE THE SIZE
 			let size: number = distance(first, last);
@@ -449,7 +460,7 @@ namespace std.base
 
 			this.size_ -= size;
 			if (first == this.begin_)
-				this.begin_ = last;
+				this._Set_begin(last);
 
 			return last;
 		}
@@ -474,14 +485,14 @@ namespace std.base
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
 		 *			  {@link container List}.
 		 */
-		public swap(obj: ListContainer<T, BidrectionalIterator>): void
+		public swap(obj: ListContainer<T, BidirectionalIterator>): void
 
 		/**
 		 * @inheritdoc
 		 */
 		public swap(obj: base.IContainer<T>): void;
 
-		public swap(obj: ListContainer<T, BidrectionalIterator> | base.IContainer<T>): void
+		public swap(obj: ListContainer<T, BidirectionalIterator> | base.IContainer<T>): void
 		{
 			if (obj instanceof ListContainer)
 			{

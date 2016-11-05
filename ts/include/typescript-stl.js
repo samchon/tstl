@@ -2263,9 +2263,15 @@ var std;
                 this.end_ = this._Create_iterator(null, null, null);
                 this.end_["prev_"] = this.end_;
                 this.end_["next_"] = this.end_;
-                this.begin_ = this.end_;
+                this._Set_begin(this.end_);
                 this.size_ = 0;
             }
+            /**
+             * @hidden
+             */
+            ListContainer.prototype._Set_begin = function (it) {
+                this.begin_ = it;
+            };
             /**
              * @inheritdoc
              */
@@ -2278,7 +2284,7 @@ var std;
              */
             ListContainer.prototype.clear = function () {
                 // DISCONNECT NODES
-                this.begin_ = this.end_;
+                this._Set_begin(this.end_);
                 this.end_["prev_"] = (this.end_);
                 this.end_["next_"] = (this.end_);
                 // RE-SIZE -> 0
@@ -2373,7 +2379,7 @@ var std;
                 }
                 // IF WAS EMPTY, VAL IS THE BEGIN
                 if (this.empty() == true || first.prev().equal_to(this.end()) == true)
-                    this.begin_ = first;
+                    this._Set_begin(first);
                 // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
                 prev["next_"] = (this.end_);
                 this.end_["prev_"] = (prev);
@@ -2423,7 +2429,7 @@ var std;
                 }
                 // IF WAS EMPTY, VAL IS THE BEGIN
                 if (this.empty() == true || first.prev().equal_to(this.end()) == true)
-                    this.begin_ = first;
+                    this._Set_begin(first);
                 // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
                 prev["next_"] = (position);
                 position["prev_"] = (prev);
@@ -2453,7 +2459,7 @@ var std;
                 }
                 // IF WAS EMPTY, FIRST ELEMENT IS THE BEGIN
                 if (this.empty() == true)
-                    this.begin_ = first;
+                    this._Set_begin(first);
                 // CONNECT BETWEEN LAST AND POSITION
                 prev["next_"] = (position);
                 position["prev_"] = (prev);
@@ -2477,7 +2483,7 @@ var std;
                 last["prev_"] = (prev);
                 this.size_ -= size;
                 if (first == this.begin_)
-                    this.begin_ = last;
+                    this._Set_begin(last);
                 return last;
             };
             ListContainer.prototype.swap = function (obj) {
@@ -4077,7 +4083,7 @@ var std;
              *
              */
             MapContainer.prototype.rbegin = function () {
-                return new std.MapReverseIterator(this.end());
+                return this.data_.rbegin();
             };
             /**
              * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>. </p>
@@ -4092,7 +4098,7 @@ var std;
              * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence
              */
             MapContainer.prototype.rend = function () {
-                return new std.MapReverseIterator(this.begin());
+                return this.data_.rend();
             };
             /* ---------------------------------------------------------
                 ELEMENTS
@@ -4264,6 +4270,10 @@ var std;
             MapElementList.prototype._Create_iterator = function (prev, next, val) {
                 return new std.MapIterator(this, prev, next, val);
             };
+            MapElementList.prototype._Set_begin = function (it) {
+                _super.prototype._Set_begin.call(this, it);
+                this.rend_ = new std.MapReverseIterator(it);
+            };
             MapElementList.prototype.get_associative = function () {
                 return this.associative_;
             };
@@ -4271,7 +4281,7 @@ var std;
                 return new std.MapReverseIterator(this.end());
             };
             MapElementList.prototype.rend = function () {
-                return new std.MapReverseIterator(this.begin());
+                return this.rend_;
             };
             return MapElementList;
         }(base.ListContainer));
@@ -4651,13 +4661,13 @@ var std;
              * @inheritdoc
              */
             SetContainer.prototype.rbegin = function () {
-                return new std.SetReverseIterator(this.end());
+                return this.data_.rbegin();
             };
             /**
              * @inheritdoc
              */
             SetContainer.prototype.rend = function () {
-                return new std.SetReverseIterator(this.begin());
+                return this.data_.rend();
             };
             /* ---------------------------------------------------------
                 ELEMENTS
@@ -4822,6 +4832,10 @@ var std;
             SetElementList.prototype._Create_iterator = function (prev, next, val) {
                 return new std.SetIterator(this, prev, next, val);
             };
+            SetElementList.prototype._Set_begin = function (it) {
+                _super.prototype._Set_begin.call(this, it);
+                this.rend_ = new std.SetReverseIterator(it);
+            };
             SetElementList.prototype.get_associative = function () {
                 return this.associative_;
             };
@@ -4829,7 +4843,7 @@ var std;
                 return new std.SetReverseIterator(this.end());
             };
             SetElementList.prototype.rend = function () {
-                return new std.SetReverseIterator(this.begin());
+                return this.rend_;
             };
             return SetElementList;
         }(base.ListContainer));
@@ -5747,6 +5761,10 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
+            // RESERVED ITERATORS
+            this.end_ = new std.DequeIterator(this, -1);
+            this.rend_ = new std.DequeReverseIterator(new std.DequeIterator(this, 0));
+            // CONSTRUCTORS BRANCH
             if (args.length == 0) {
                 this.clear();
             }
@@ -5797,11 +5815,11 @@ var std;
             enumerable: true,
             configurable: true
         });
-        // Get column size; {@link capacity_ capacity} / {@link ROW row}.
         /**
          * @hidden
          */
         Deque.prototype.get_col_size = function () {
+            // Get column size; {@link capacity_ capacity} / {@link ROW row}.
             return Math.floor(this.capacity_ / Deque.ROW);
         };
         Deque.prototype.assign = function (first, second) {
@@ -5887,7 +5905,7 @@ var std;
          */
         Deque.prototype.begin = function () {
             if (this.empty() == true)
-                return this.end();
+                return this.end_;
             else
                 return new std.DequeIterator(this, 0);
         };
@@ -5895,19 +5913,22 @@ var std;
          * @inheritdoc
          */
         Deque.prototype.end = function () {
-            return new std.DequeIterator(this, -1);
+            return this.end_;
         };
         /**
          * @inheritdoc
          */
         Deque.prototype.rbegin = function () {
-            return new std.DequeReverseIterator(this.end());
+            return new std.DequeReverseIterator(this.end_);
         };
         /**
          * @inheritdoc
          */
         Deque.prototype.rend = function () {
-            return new std.DequeReverseIterator(this.begin());
+            if (this.empty() == true)
+                return new std.DequeReverseIterator(this.end_);
+            else
+                return this.rend_;
         };
         /**
          * @inheritdoc
@@ -6508,6 +6529,10 @@ var std;
                 args[_i - 0] = arguments[_i];
             }
             _super.call(this);
+            // RESERVED ITERATORS
+            this.end_ = new std.VectorIterator(this, -1);
+            this.rend_ = new std.VectorReverseIterator(new std.VectorIterator(this, 0));
+            // CONSTRUCTORS BRANCH
             if (args.length == 0) {
             }
             else if (args.length == 1 && args[0] instanceof Array) {
@@ -6557,7 +6582,7 @@ var std;
          */
         Vector.prototype.begin = function () {
             if (this.empty() == true)
-                return this.end();
+                return this.end_;
             else
                 return new std.VectorIterator(this, 0);
         };
@@ -6565,19 +6590,22 @@ var std;
          * @inheritdoc
          */
         Vector.prototype.end = function () {
-            return new std.VectorIterator(this, -1);
+            return this.end_;
         };
         /**
          * @inheritdoc
          */
         Vector.prototype.rbegin = function () {
-            return new std.VectorReverseIterator(this.end());
+            return new std.VectorReverseIterator(this.end_);
         };
         /**
          * @inheritdoc
          */
         Vector.prototype.rend = function () {
-            return new std.VectorReverseIterator(this.begin());
+            if (this.empty() == true)
+                return new std.VectorReverseIterator(this.end_);
+            else
+                return this.rend_;
         };
         /**
          * @inheritdoc
@@ -6998,24 +7026,13 @@ var std;
     (function (example) {
         function test_all() {
             console.log("TEST ALL");
-            var items = new std.Vector();
-            items.push(1, 2, 2, 3, 3);
-            for (var it = items.begin(); !it.equal_to(items.end()); it = it.next())
-                console.log(it.value);
-            do {
-                var str = "";
-                for (var it = items.begin(); !it.equal_to(items.end()); it = it.next())
-                    str += it.value + " ";
-                console.log(str);
-            } while (std.next_permutation(items.begin(), items.end()) == true);
-            //for (let key in std.example)
-            //	if (key != "test_all" && (std.example as any)[key] instanceof Function)
-            //	{
-            //		console.log("===================================================");
-            //		console.log("	" + key);
-            //		console.log("===================================================");
-            //		(std.example as any)[key]();
-            //	}
+            for (var key in std.example)
+                if (key != "test_all" && std.example[key] instanceof Function) {
+                    console.log("===================================================");
+                    console.log("	" + key);
+                    console.log("===================================================");
+                    std.example[key]();
+                }
         }
         example.test_all = test_all;
     })(example = std.example || (std.example = {}));
@@ -7180,8 +7197,18 @@ var std;
                 this.assign(size, val);
             }
         }
+        /**
+         * @hidden
+         */
         List.prototype._Create_iterator = function (prev, next, val) {
             return new std.ListIterator(this, prev, next, val);
+        };
+        /**
+         * @hidden
+         */
+        List.prototype._Set_begin = function (it) {
+            _super.prototype._Set_begin.call(this, it);
+            this.rend_ = new std.ListReverseIterator(it);
         };
         List.prototype.assign = function (par1, par2) {
             this.clear();
@@ -7200,7 +7227,7 @@ var std;
          * @inheritdoc
          */
         List.prototype.rend = function () {
-            return new std.ListReverseIterator(this.begin());
+            return this.rend_;
         };
         /**
          * @inheritdoc

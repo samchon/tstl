@@ -2405,7 +2405,7 @@ namespace std
 	 *			   {@link Iterator.swap swap} is properly defined.
 	 */
 	export function make_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(fisrt: RandomAccessIterator, last: RandomAccessIterator): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
 	 * <p> Make heap from range. </p>
@@ -2439,7 +2439,7 @@ namespace std
 	 *				  function object.
 	 */
 	export function make_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(fisrt: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 	export function make_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
@@ -2473,7 +2473,7 @@ namespace std
 	 *			   {@link Iterator.swap swap} is properly defined.
 	 */
 	export function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(fisrt: RandomAccessIterator, last: RandomAccessIterator): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
 	 * <p> Push element into heap range. </p>
@@ -2500,7 +2500,7 @@ namespace std
 	 *				  function object.
 	 */
 	export function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(fisrt: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 	export function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
@@ -2548,7 +2548,7 @@ namespace std
 	 *			   is properly defined.
 	 */
 	export function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(fisrt: RandomAccessIterator, last: RandomAccessIterator): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
 	 * <p> Pop element from heap range. </p>
@@ -2577,7 +2577,7 @@ namespace std
 	 *				  function object.
 	 */
 	export function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(fisrt: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 	export function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
@@ -2725,7 +2725,7 @@ namespace std
 	 *			   is properly defined.
 	 */
 	export function sort_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(fisrt: RandomAccessIterator, last: RandomAccessIterator): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
 	 * <p> Sort elements of heap. </p>
@@ -2749,7 +2749,7 @@ namespace std
 	 *				  function object.
 	 */
 	export function sort_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(fisrt: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 	export function sort_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void

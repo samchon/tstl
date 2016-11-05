@@ -54,6 +54,8 @@ namespace std
 	export class List<T>
 		extends base.ListContainer<T, ListIterator<T>>
 	{
+		private rend_: ListReverseIterator<T>;
+
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
 				- CONSTRUCTORS
@@ -146,9 +148,21 @@ namespace std
 			}
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected _Create_iterator(prev: ListIterator<T>, next: ListIterator<T>, val: T): ListIterator<T>
 		{
 			return new ListIterator<T>(this, prev as ListIterator<T>, next as ListIterator<T>, val);
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected _Set_begin(it: ListIterator<T>): void
+		{
+			super._Set_begin(it);
+			this.rend_ = new ListReverseIterator<T>(it);
 		}
 
 		/* ---------------------------------------------------------
@@ -188,7 +202,7 @@ namespace std
 		 */
 		public rend(): ListReverseIterator<T>
 		{
-			return new ListReverseIterator<T>(this.begin());
+			return this.rend_;
 		}
 
 		/**

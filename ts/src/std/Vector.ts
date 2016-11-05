@@ -70,6 +70,16 @@ namespace std
 		implements base.IContainer<T>, 
 				   base.IArrayContainer<T>
 	{
+		/**
+		 * @hidden
+		 */
+		private end_: VectorIterator<T>;
+		
+		/**
+		 * @hidden
+		 */
+		private rend_: VectorReverseIterator<T>;
+
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
 				- CONSTRUCTORS
@@ -134,6 +144,11 @@ namespace std
 		{
 			super();
 
+			// RESERVED ITERATORS
+			this.end_ = new VectorIterator<T>(this, -1);
+			this.rend_ = new VectorReverseIterator<T>(new VectorIterator<T>(this, 0));
+
+			// CONSTRUCTORS BRANCH
 			if (args.length == 0)
 			{
 				// DEFAULT CONSTRUCTOR
@@ -216,7 +231,7 @@ namespace std
 		public begin(): VectorIterator<T>
 		{
 			if (this.empty() == true)
-				return this.end();
+				return this.end_;
 			else
 				return new VectorIterator<T>(this, 0);
 		}
@@ -226,7 +241,7 @@ namespace std
 		 */
 		public end(): VectorIterator<T>
 		{
-			return new VectorIterator<T>(this, -1);
+			return this.end_;
 		}
 
 		/**
@@ -234,7 +249,7 @@ namespace std
 		 */
 		public rbegin(): VectorReverseIterator<T>
 		{
-			return new VectorReverseIterator<T>(this.end());
+			return new VectorReverseIterator(this.end_);
 		}
 
 		/**
@@ -242,7 +257,10 @@ namespace std
 		 */
 		public rend(): VectorReverseIterator<T>
 		{
-			return new VectorReverseIterator<T>(this.begin());
+			if (this.empty() == true)
+				return new VectorReverseIterator<T>(this.end_);
+			else
+				return this.rend_;
 		}
 
 		/**

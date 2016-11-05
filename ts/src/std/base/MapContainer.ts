@@ -172,7 +172,7 @@ namespace std.base
 		 */
 		public rbegin(): MapReverseIterator<Key, T>
 		{
-			return new MapReverseIterator<Key, T>(this.end());
+			return this.data_.rbegin();
 		}
 
 		/**
@@ -189,7 +189,7 @@ namespace std.base
 		 */
 		public rend(): MapReverseIterator<Key, T>
 		{
-			return new MapReverseIterator<Key, T>(this.begin());
+			return this.data_.rend();
 		}
 
 		/* ---------------------------------------------------------
@@ -713,6 +713,7 @@ namespace std.base
 	export class MapElementList<Key, T> extends ListContainer<Pair<Key, T>, MapIterator<Key, T>>
 	{
 		private associative_: MapContainer<Key, T>;
+		private rend_: MapReverseIterator<Key, T>;
 
 		public constructor(associative: MapContainer<Key, T>)
 		{
@@ -720,9 +721,15 @@ namespace std.base
 
 			this.associative_ = associative;
 		}
+
 		protected _Create_iterator(prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>): MapIterator<Key, T>
 		{
 			return new MapIterator<Key, T>(this, prev, next, val);
+		}
+		protected _Set_begin(it: MapIterator<Key, T>): void
+		{
+			super._Set_begin(it);
+			this.rend_ = new MapReverseIterator<Key, T>(it);
 		}
 
 		public get_associative(): MapContainer<Key, T>
@@ -735,7 +742,7 @@ namespace std.base
 		}
 		public rend(): MapReverseIterator<Key, T>
 		{
-			return new MapReverseIterator<Key, T>(this.begin());
+			return this.rend_;
 		}
 	}
 }
