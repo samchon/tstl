@@ -1,4 +1,4 @@
-// Type definitions for TypeScript-STL v1.2.1
+// Type definitions for TypeScript-STL v1.2.2
 // Project: https://github.com/samchon/typescript-stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -1425,7 +1425,7 @@ declare namespace std {
      *			   by <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
      *			   {@link Iterator.swap swap} is properly defined.
      */
-    function make_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(fisrt: RandomAccessIterator, last: RandomAccessIterator): void;
+    function make_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator): void;
     /**
      * <p> Make heap from range. </p>
      *
@@ -1457,7 +1457,7 @@ declare namespace std {
      *				  The function shall not modify any of its arguments. This can either be a function pointer or a
      *				  function object.
      */
-    function make_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(fisrt: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+    function make_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
     /**
      * <p> Push element into heap range. </p>
      *
@@ -1477,7 +1477,7 @@ declare namespace std {
      *			   pointed by <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
      *			   {@link Iterator.swap swap} is properly defined.
      */
-    function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(fisrt: RandomAccessIterator, last: RandomAccessIterator): void;
+    function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator): void;
     /**
      * <p> Push element into heap range. </p>
      *
@@ -1502,7 +1502,7 @@ declare namespace std {
      *				  The function shall not modify any of its arguments. This can either be a function pointer or a
      *				  function object.
      */
-    function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(fisrt: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+    function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
     /**
      * <p> Pop element from heap range. </p>
      *
@@ -1524,7 +1524,7 @@ declare namespace std {
      *			   {@link IArrayIterator RandomAccessIterator} shall point to a type for which {@link Iterator.swap swap}
      *			   is properly defined.
      */
-    function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(fisrt: RandomAccessIterator, last: RandomAccessIterator): void;
+    function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator): void;
     /**
      * <p> Pop element from heap range. </p>
      *
@@ -1551,7 +1551,7 @@ declare namespace std {
      *				  The function shall not modify any of its arguments. This can either be a function pointer or a
      *				  function object.
      */
-    function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(fisrt: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+    function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
     /**
      * <p> Test if range is heap. </p>
      *
@@ -1658,7 +1658,7 @@ declare namespace std {
      *			   {@link IArrayIterator RandomAccessIterator} shall point to a type for which {@link Iterator.swap swap}
      *			   is properly defined.
      */
-    function sort_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(fisrt: RandomAccessIterator, last: RandomAccessIterator): void;
+    function sort_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator): void;
     /**
      * <p> Sort elements of heap. </p>
      *
@@ -1680,7 +1680,7 @@ declare namespace std {
      *				  The function shall not modify any of its arguments. This can either be a function pointer or a
      *				  function object.
      */
-    function sort_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(fisrt: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+    function sort_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 }
 declare namespace std {
     /**
@@ -4539,7 +4539,7 @@ declare namespace std.base {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class ListContainer<T, BidrectionalIterator extends ListIteratorBase<T>> extends Container<T> implements IDequeContainer<T> {
+    abstract class ListContainer<T, BidirectionalIterator extends ListIteratorBase<T>> extends Container<T> implements IDequeContainer<T> {
         /**
          * @hidden
          */
@@ -4556,7 +4556,14 @@ declare namespace std.base {
          * Default Constructor.
          */
         protected constructor();
-        protected abstract _Create_iterator(prev: BidrectionalIterator, next: BidrectionalIterator, val: T): BidrectionalIterator;
+        /**
+         * @hidden
+         */
+        protected abstract _Create_iterator(prev: BidirectionalIterator, next: BidirectionalIterator, val: T): BidirectionalIterator;
+        /**
+         * @hidden
+         */
+        protected _Set_begin(it: BidirectionalIterator): void;
         /**
          * @inheritdoc
          */
@@ -4568,11 +4575,11 @@ declare namespace std.base {
         /**
          * @inheritdoc
          */
-        begin(): BidrectionalIterator;
+        begin(): BidirectionalIterator;
         /**
          * @inheritdoc
          */
-        end(): BidrectionalIterator;
+        end(): BidirectionalIterator;
         /**
          * @inheritdoc
          */
@@ -4622,7 +4629,7 @@ declare namespace std.base {
          *
          * @return An iterator that points to the newly inserted element; <i>val</i>.
          */
-        insert(position: BidrectionalIterator, val: T): BidrectionalIterator;
+        insert(position: BidirectionalIterator, val: T): BidirectionalIterator;
         /**
          * <p> Insert elements by repeated filling. </p>
          *
@@ -4641,7 +4648,7 @@ declare namespace std.base {
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert(position: BidrectionalIterator, size: number, val: T): BidrectionalIterator;
+        insert(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator;
         /**
          * <p> Insert elements by range iterators. </p>
          *
@@ -4660,7 +4667,7 @@ declare namespace std.base {
          *
          * @return An iterator that points to the first of the newly inserted elements.
          */
-        insert<U extends T, InputIterator extends Iterator<U>>(position: BidrectionalIterator, begin: InputIterator, end: InputIterator): BidrectionalIterator;
+        insert<U extends T, InputIterator extends Iterator<U>>(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator;
         /**
          * @hidden
          */
@@ -4668,11 +4675,11 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        protected _Insert_by_repeating_val(position: BidrectionalIterator, size: number, val: T): BidrectionalIterator;
+        protected _Insert_by_repeating_val(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator;
         /**
          * @hidden
          */
-        protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(position: BidrectionalIterator, begin: InputIterator, end: InputIterator): BidrectionalIterator;
+        protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator;
         /**
          * <p> Erase an element. </p>
          *
@@ -4688,7 +4695,7 @@ declare namespace std.base {
          * @return An iterator pointing to the element that followed the last element erased by the function call.
          *		   This is the {@link end end()} if the operation erased the last element in the sequence.
          */
-        erase(position: BidrectionalIterator): BidrectionalIterator;
+        erase(position: BidirectionalIterator): BidirectionalIterator;
         /**
          * <p> Erase elements. </p>
          *
@@ -4705,11 +4712,11 @@ declare namespace std.base {
          * @return An iterator pointing to the element that followed the last element erased by the function call.
          *		   This is the {@link end end()} if the operation erased the last element in the sequence.
          */
-        erase(begin: BidrectionalIterator, end: BidrectionalIterator): BidrectionalIterator;
+        erase(begin: BidirectionalIterator, end: BidirectionalIterator): BidirectionalIterator;
         /**
          * @hidden
          */
-        protected _Erase_by_range(first: BidrectionalIterator, last: BidrectionalIterator): BidrectionalIterator;
+        protected _Erase_by_range(first: BidirectionalIterator, last: BidirectionalIterator): BidirectionalIterator;
         /**
          * <p> Swap content. </p>
          *
@@ -4727,7 +4734,7 @@ declare namespace std.base {
          *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this
          *			  {@link container List}.
          */
-        swap(obj: ListContainer<T, BidrectionalIterator>): void;
+        swap(obj: ListContainer<T, BidirectionalIterator>): void;
         /**
          * @inheritdoc
          */
@@ -5269,8 +5276,10 @@ declare namespace std.base {
      */
     class MapElementList<Key, T> extends ListContainer<Pair<Key, T>, MapIterator<Key, T>> {
         private associative_;
+        private rend_;
         constructor(associative: MapContainer<Key, T>);
         protected _Create_iterator(prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>): MapIterator<Key, T>;
+        protected _Set_begin(it: MapIterator<Key, T>): void;
         get_associative(): MapContainer<Key, T>;
         rbegin(): MapReverseIterator<Key, T>;
         rend(): MapReverseIterator<Key, T>;
@@ -5774,8 +5783,10 @@ declare namespace std.base {
      */
     class SetElementList<T> extends ListContainer<T, SetIterator<T>> {
         private associative_;
+        private rend_;
         constructor(associative: SetContainer<T>);
         protected _Create_iterator(prev: SetIterator<T>, next: SetIterator<T>, val: T): SetIterator<T>;
+        protected _Set_begin(it: SetIterator<T>): void;
         get_associative(): SetContainer<T>;
         rbegin(): SetReverseIterator<T>;
         rend(): SetReverseIterator<T>;
@@ -7731,6 +7742,14 @@ declare namespace std {
          * @hidden
          */
         private get_col_size();
+        /**
+         * @hidden
+         */
+        private end_;
+        /**
+         * @hidden
+         */
+        private rend_;
         /**
          * <p> Default Constructor. </p>
          *
@@ -9691,6 +9710,7 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class List<T> extends base.ListContainer<T, ListIterator<T>> {
+        private rend_;
         /**
          * <p> Default Constructor. </p>
          *
@@ -9734,7 +9754,14 @@ declare namespace std {
          * @param end Input interator of the final position in a sequence.
          */
         constructor(begin: Iterator<T>, end: Iterator<T>);
+        /**
+         * @hidden
+         */
         protected _Create_iterator(prev: ListIterator<T>, next: ListIterator<T>, val: T): ListIterator<T>;
+        /**
+         * @hidden
+         */
+        protected _Set_begin(it: ListIterator<T>): void;
         /**
          * @inheritdoc
          */
@@ -10348,6 +10375,14 @@ declare namespace std {
      * @author Jeongho Nam <http://samchon.org>
      */
     class Vector<T> extends Array<T> implements base.IContainer<T>, base.IArrayContainer<T> {
+        /**
+         * @hidden
+         */
+        private end_;
+        /**
+         * @hidden
+         */
+        private rend_;
         /**
          * <p> Default Constructor. </p>
          *
