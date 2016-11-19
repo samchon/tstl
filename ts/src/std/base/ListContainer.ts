@@ -225,7 +225,7 @@ namespace std.base
 			}
 
 			// IF WAS EMPTY, VAL IS THE BEGIN
-			if (this.empty() == true || first.prev().equal_to(this.end()) == true)
+			if (this.empty() == true || first.prev().equals(this.end()) == true)
 				this._Set_begin(first);
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
@@ -347,7 +347,7 @@ namespace std.base
 			}
 
 			// IF WAS EMPTY, VAL IS THE BEGIN
-			if (this.empty() == true || first.prev().equal_to(this.end()) == true)
+			if (this.empty() == true || first.prev().equals(this.end()) == true)
 				this._Set_begin(first);
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
@@ -374,7 +374,7 @@ namespace std.base
 
 			let size: number = 0;
 
-			for (let it = begin; it.equal_to(end) == false; it = it.next() as InputIterator) 
+			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: BidirectionalIterator = this._Create_iterator(prev, null, it.value);
@@ -584,7 +584,7 @@ namespace std.base
 				{
 					it = it.next();
 
-					if (it.equal_to(this.source_.end() as ListIteratorBase<T>))
+					if (it.equals(this.source_.end() as ListIteratorBase<T>))
 						return it;
 				}
 			}
@@ -594,7 +594,7 @@ namespace std.base
 				{
 					it = it.prev();
 
-					if (it.equal_to(this.source_.end() as ListIteratorBase<T>))
+					if (it.equals(this.source_.end() as ListIteratorBase<T>))
 						return it;
 				}
 			}
@@ -616,7 +616,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public equal_to(obj: ListIteratorBase<T>): boolean
+		public equals(obj: ListIteratorBase<T>): boolean
 		{
 			return this == obj;
 		}

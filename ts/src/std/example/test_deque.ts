@@ -19,10 +19,10 @@ namespace std.example
 		it = deque.begin().advance(6);
 		it = deque.erase(it, it.advance(3)); // erase from 6 to 9
 		//console.log(it.value); // print 9
-		console.log(it.equal_to(deque.end()));
+		console.log(it.equals(deque.end()));
 
 		console.log("-------------------------------------");
-		for (let it = deque.begin(); !it.equal_to(deque.end()); it = it.next())
+		for (let it = deque.begin(); !it.equals(deque.end()); it = it.next())
 			console.log(it.value);
 	}
 }

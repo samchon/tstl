@@ -372,7 +372,7 @@ namespace std
 		 */
 		protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.insert(first);
 		}
 
@@ -381,7 +381,7 @@ namespace std
 		 */
 		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.erase(first);
 		}
 

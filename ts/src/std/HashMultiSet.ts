@@ -366,7 +366,7 @@ namespace std
 		 */
 		protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.insert(first);
 		}
 
@@ -375,7 +375,7 @@ namespace std
 		 */
 		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.erase(first);
 		}
 

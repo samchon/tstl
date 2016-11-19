@@ -153,7 +153,7 @@ namespace std.base
 		 */
 		public has(val: T): boolean
 		{
-			return !this.find(val).equal_to(this.end());
+			return !this.find(val).equals(this.end());
 		}
 
 		/**
@@ -391,7 +391,7 @@ namespace std.base
 		{
 			// TEST WHETHER EXISTS
 			let it = this.find(val);
-			if (it.equal_to(this.end()) == true)
+			if (it.equals(this.end()) == true)
 				return 0;
 
 			// ERASE
@@ -594,17 +594,25 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_to<U extends T>(obj: SetIterator<U>): boolean 
+		public less(obj: SetIterator<T>): boolean
 		{
-			return super.equal_to(obj);
+			return std.less(this.value, obj.value);
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		public equals(obj: SetIterator<T>): boolean 
+		{
+			return this == obj;
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public less<U extends T>(obj: SetIterator<U>): boolean
+		public equal_to(obj: SetIterator<T>): boolean 
 		{
-			return std.less(this.value, obj.value);
+			return this.equals(obj);
 		}
 
 		/**

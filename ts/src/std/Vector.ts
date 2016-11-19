@@ -303,7 +303,7 @@ namespace std
 		 */
 		public set(index: number, val: T): T
 		{
-			if (index > this.length)
+			if (index >= this.length)
 				throw new std.OutOfRange("Target index is greater than Vector's size.");
 
 			let prev: T = this[index];
@@ -568,7 +568,7 @@ namespace std
 			if (position.index == -1)
 			{ 
 				// WHEN INSERT TO THE LAST
-				for (; !first.equal_to(last); first = first.next() as InputIterator)
+				for (; !first.equals(last); first = first.next() as InputIterator)
 					super.push(first.value);
 				
 				return this.begin();
@@ -583,7 +583,7 @@ namespace std
 				let insert_size: number = 0;
 
 				// INSERT ELEMENTS
-				for (; !first.equal_to(last); first = first.next() as InputIterator)
+				for (; !first.equals(last); first = first.next() as InputIterator)
 				{
 					super.push(first.value);
 					insert_size++;
@@ -898,23 +898,19 @@ namespace std
 			COMPARES
 		--------------------------------------------------------- */
 		/**
-		 * <p> Whether an iterator is equal with the iterator. </p>
-		 * 
-		 * <p> Compare two iterators and returns whether they are equal or not. </p>
-		 * 
-		 * <h4> Note </h4> 
-		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
-		 *
-		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
-		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-		 * compare the elements of a pair, compare them directly by yourself. </p>
-		 *
-		 * @param obj An iterator to compare
-		 * @return Indicates whether equal or not.
+		 * @inheritdoc
 		 */
-		public equal_to<U extends T>(obj: VectorIterator<U>): boolean
+		public equals(obj: VectorIterator<T>): boolean
 		{
-			return super.equal_to(obj) && this.index_ == obj.index_;
+			return super.equals(obj) && this.index_ == obj.index_;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public equal_to(obj: VectorIterator<T>): boolean
+		{
+			return this.equals(obj);
 		}
 
 		/**

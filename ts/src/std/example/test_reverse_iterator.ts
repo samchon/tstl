@@ -32,7 +32,7 @@ namespace std.example
 
 	function reverse_iterate<T>(container: base.IContainer<T>): void
 	{
-		for (let it = container.rbegin(); !it.equal_to(container.rend()); it = it.next())
+		for (let it = container.rbegin(); !it.equals(container.rend()); it = it.next())
 			console.log(it.value);
 	}
 }

@@ -26,8 +26,15 @@ namespace std
 	 */
 	export function equal_to<T>(x: T, y: T): boolean
 	{
-		if (x instanceof Object && (<any>x).equal_to != undefined)
-			return (<any>x).equal_to(y);
+		if (x instanceof Object)
+		{
+			if ((x as any).equals)
+				return (x as any).equals(y);
+			else if ((x as any).equal_to)
+				return (x as any).equal_to(y);
+			else
+				return x == y;
+		}
 		else
 			return x == y;
 	}

@@ -1,4 +1,4 @@
-// Type definitions for TypeScript-STL v1.2.2
+// Type definitions for TypeScript-STL v1.2.3
 // Project: https://github.com/samchon/typescript-stl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -4235,16 +4235,22 @@ declare namespace std {
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
          * <h4> Note </h4>
-         * <p> Iterator's equal_to() only compare souce container and index number. </p>
+         * <p> Iterator's {@link equals equals()} only compare souce container and index number. </p>
          *
-         * <p> Although elements in a pair, key and value are equal_to, if the source map or
-         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
+         * <p> Although elements in a pair, key and value are {@link std.equal_to equal_to}, if the source map or
+         * index number is different, then the {@link equals equals()} will return false. If you want to
          * compare the elements of a pair, compare them directly by yourself. </p>
          *
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        equal_to<U extends T>(obj: Iterator<U>): boolean;
+        equals(obj: Iterator<T>): boolean;
+        /**
+         * To be deprecated.
+         *
+         * @see {@link equals}
+         */
+        equal_to(obj: Iterator<T>): boolean;
         /**
          * <p> Get value of the iterator is pointing. </p>
          *
@@ -4323,6 +4329,10 @@ declare namespace std {
          * @inheritdoc
          */
         advance(n: number): This;
+        /**
+         * @inheritdoc
+         */
+        equals(obj: This): boolean;
         /**
          * @inheritdoc
          */
@@ -4792,7 +4802,7 @@ declare namespace std.base {
         /**
          * @inheritdoc
          */
-        equal_to(obj: ListIteratorBase<T>): boolean;
+        equals(obj: ListIteratorBase<T>): boolean;
         /**
          * @inheritdoc
          */
@@ -5333,16 +5343,24 @@ declare namespace std {
          */
         second: T;
         /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
+         * @inheritdoc
          */
-        equal_to<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
-        less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean;
+        less(obj: MapIterator<Key, T>): boolean;
+        /**
+         * @inheritdoc
+         */
+        equals(obj: MapIterator<Key, T>): boolean;
+        /**
+         * @inheritdoc
+         */
+        equal_to(obj: MapIterator<Key, T>): boolean;
+        /**
+         * @inheritdoc
+         */
         hash(): number;
+        /**
+         * @inheritdoc
+         */
         swap(obj: MapIterator<Key, T>): void;
     }
     /**
@@ -5832,11 +5850,15 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        equal_to<U extends T>(obj: SetIterator<U>): boolean;
+        less(obj: SetIterator<T>): boolean;
         /**
          * @inheritdoc
          */
-        less<U extends T>(obj: SetIterator<U>): boolean;
+        equals(obj: SetIterator<T>): boolean;
+        /**
+         * @inheritdoc
+         */
+        equal_to(obj: SetIterator<T>): boolean;
         /**
          * @inheritdoc
          */
@@ -8019,21 +8041,13 @@ declare namespace std {
          */
         advance(n: number): DequeIterator<T>;
         /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Iterator's equal_to() only compare souce container and index number. </p>
-         *
-         * <p> Although elements in a pair, key and value are equal_to, if the source map or
-         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-         * compare the elements of a pair, compare them directly by yourself. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
+         * @inheritdoc
          */
-        equal_to<U extends T>(obj: DequeIterator<U>): boolean;
+        equals(obj: DequeIterator<T>): boolean;
+        /**
+         * @inheritdoc
+         */
+        equal_to(obj: DequeIterator<T>): boolean;
         /**
          * @inheritdoc
          */
@@ -10273,6 +10287,10 @@ declare namespace std {
         /**
          * @inheritdoc
          */
+        equals(obj: ListIterator<T>): boolean;
+        /**
+         * @inheritdoc
+         */
         equal_to(obj: ListIterator<T>): boolean;
         /**
          * @inheritdoc
@@ -10812,21 +10830,13 @@ declare namespace std {
          */
         advance(n: number): VectorIterator<T>;
         /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Iterator's equal_to() only compare souce container and index number. </p>
-         *
-         * <p> Although elements in a pair, key and value are equal_to, if the source map or
-         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-         * compare the elements of a pair, compare them directly by yourself. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
+         * @inheritdoc
          */
-        equal_to<U extends T>(obj: VectorIterator<U>): boolean;
+        equals(obj: VectorIterator<T>): boolean;
+        /**
+         * @inheritdoc
+         */
+        equal_to(obj: VectorIterator<T>): boolean;
         /**
          * @inheritdoc
          */

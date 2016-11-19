@@ -13,7 +13,7 @@ namespace std.example
 		///////////////////////////////
 		std.sort(cubes.begin(), cubes.end());
 
-		for (let it = cubes.begin(); !it.equal_to(cubes.end()); it = it.next())
+		for (let it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
 			it.value.debug_size();
 
 		console.log("------------------------------");
@@ -30,7 +30,7 @@ namespace std.example
 			}
 		);
 
-		for (let it = cubes.begin(); !it.equal_to(cubes.end()); it = it.next())
+		for (let it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
 			it.value.debug_position();
 	}
 

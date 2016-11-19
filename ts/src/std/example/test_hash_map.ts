@@ -8,7 +8,7 @@ namespace std.example
 		map.insert(["first", 1]);
 		map.insert(["second", 2]);
 
-		for (let it = map.begin(); !it.equal_to(map.end()); it = it.next())
+		for (let it = map.begin(); !it.equals(map.end()); it = it.next())
 			console.log(it.first, it.second);
 	}
 }

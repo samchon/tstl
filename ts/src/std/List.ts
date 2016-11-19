@@ -520,7 +520,7 @@ namespace std
 		{
 			let it = this.begin().next();
 
-			while (!it.equal_to(this.end()))
+			while (!it.equals(this.end()))
 			{
 				if (std.equal_to(it.value, it.prev().value) == true)
 					it = this.erase(it);
@@ -547,7 +547,7 @@ namespace std
 		{
 			let it = this.begin();
 
-			while (!it.equal_to(this.end()))
+			while (!it.equals(this.end()))
 			{
 				if (std.equal_to(it.value, val) == true)
 					it = this.erase(it);
@@ -576,7 +576,7 @@ namespace std
 		{
 			let it = this.begin();
 
-			while (!it.equal_to(this.end()))
+			while (!it.equals(this.end()))
 			{
 				if (pred(it.value) == true)
 					it = this.erase(it);
@@ -666,7 +666,7 @@ namespace std
 			while (obj.empty() == false)
 			{
 				let begin = obj.begin();
-				while (!it.equal_to(this.end()) && compare(it.value, begin.value) == true)
+				while (!it.equals(this.end()) && compare(it.value, begin.value) == true)
 					it = it.next();
 
 				this.splice(it, obj, begin);
@@ -963,9 +963,17 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_to(obj: ListIterator<T>): boolean
+		public equals(obj: ListIterator<T>): boolean
 		{
 			return this == obj;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public equal_to(obj: ListIterator<T>): boolean
+		{
+			return this.equals(obj);
 		}
 
 		/**

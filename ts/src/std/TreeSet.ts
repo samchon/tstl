@@ -292,7 +292,7 @@ namespace std
 
 			// hint < current && current < next
 			if (compare(hint.value, val) == true
-				&& (hint.next().equal_to(this.end()) || compare(val, hint.next().value) == true))
+				&& (hint.next().equals(this.end()) || compare(val, hint.next().value) == true))
 			{
 				///////
 				// RIGHT HINT
@@ -320,7 +320,7 @@ namespace std
 		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			for (; !first.equal_to(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next() as InputIterator)
 				this._Insert_by_val(first.value);
 		}
 
@@ -340,7 +340,7 @@ namespace std
 		 */
 		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.tree_.erase(last);
 		}
 

@@ -256,7 +256,7 @@ namespace std
 				let end: Iterator<T> = second;
 
 				let size: number = 0;
-				for (let it = begin; !it.equal_to(end); it = it.next())
+				for (let it = begin; !it.equals(end); it = it.next())
 					size++;
 
 				// RESERVE
@@ -266,7 +266,7 @@ namespace std
 				// ASSIGN CONTENTS
 				let array: Array<T> = this.matrix_[0];
 
-				for (let it = begin; !it.equal_to(end); it = it.next())
+				for (let it = begin; !it.equals(end); it = it.next())
 				{
 					if (array.length >= this.get_col_size())
 					{
@@ -428,7 +428,7 @@ namespace std
 		 */
 		public set(index: number, val: T): void
 		{
-			if (index > this.size())
+			if (index >= this.size())
 				throw new OutOfRange("Target index is greater than Deque's size.");
 
 			let indexPair: Pair<number, number> = this.fetch_index(index);
@@ -664,7 +664,7 @@ namespace std
 				items[i] = val;
 
 			// INSERT ELEMENTS
-			if (position.equal_to(this.end()))
+			if (position.equals(this.end()))
 			{
 				this.push(...items);
 				return this.begin();
@@ -682,11 +682,11 @@ namespace std
 			// CONSTRUCT ITEMS
 			let items: T[] = [];
 
-			for (let it = begin; !it.equal_to(end); it = it.next() as InputIterator)
+			for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
 				items.push(it.value);
 
 			// INSERT ELEMENTS
-			if (position.equal_to(this.end()))
+			if (position.equals(this.end()))
 			{
 				this.push(...items);
 				return this.begin();
@@ -740,7 +740,7 @@ namespace std
 				// -----------------------------------------------------
 				// JUST INSERT CARELESSLY
 				// AND KEEP BLANACE BY THE RESERVE() METHOD
-				if (position.equal_to(this.end()) == true)
+				if (position.equals(this.end()) == true)
 				{
 					this.matrix_.push(items); // ALL TO THE LAST
 				}
@@ -1018,23 +1018,19 @@ namespace std
 			COMPARES
 		--------------------------------------------------------- */
 		/**
-		 * <p> Whether an iterator is equal with the iterator. </p>
-		 * 
-		 * <p> Compare two iterators and returns whether they are equal or not. </p>
-		 * 
-		 * <h4> Note </h4> 
-		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
-		 *
-		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
-		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-		 * compare the elements of a pair, compare them directly by yourself. </p>
-		 *
-		 * @param obj An iterator to compare
-		 * @return Indicates whether equal or not.
+		 * @inheritdoc
 		 */
-		public equal_to<U extends T>(obj: DequeIterator<U>): boolean
+		public equals(obj: DequeIterator<T>): boolean
 		{
-			return super.equal_to(obj) && this.index_ == obj.index_;
+			return super.equals(obj) && this.index_ == obj.index_;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public equal_to(obj: DequeIterator<T>): boolean
+		{
+			return this.equals(obj);
 		}
 
 		/**

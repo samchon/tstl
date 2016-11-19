@@ -52,7 +52,7 @@ namespace std.base
 		 */
 		public count(key: T): number
 		{
-			return this.find(key).equal_to(this.end()) ? 0 : 1;
+			return this.find(key).equals(this.end()) ? 0 : 1;
 		}
 
 		/* ---------------------------------------------------------
@@ -154,7 +154,7 @@ namespace std.base
 		private extract_by_key(val: T): T
 		{
 			let it = this.find(val);
-			if (it.equal_to(this.end()) == true)
+			if (it.equals(this.end()) == true)
 				throw new OutOfRange("No such key exists.");
 
 			this.erase(val);
@@ -166,7 +166,7 @@ namespace std.base
 		 */
 		private extract_by_iterator(it: SetIterator<T>): SetIterator<T>
 		{
-			if (it.equal_to(this.end()) == true || this.has(it.value) == false)
+			if (it.equals(this.end()) == true || this.has(it.value) == false)
 				return this.end();
 
 			this.erase(it);
@@ -197,7 +197,7 @@ namespace std.base
 		 */
 		public merge<U extends T>(source: SetContainer<U>): void
 		{
-			for (let it = source.begin(); !it.equal_to(source.end());)
+			for (let it = source.begin(); !it.equals(source.end());)
 			{
 				if (this.has(it.value) == false)
 				{

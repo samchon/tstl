@@ -25,7 +25,7 @@ namespace std.example
 		function debug_list(): void
 		{
 			console.log("#" + list.size());
-			for (let it = list.begin(); !it.equal_to(list.end()); it = it.next())
+			for (let it = list.begin(); !it.equals(list.end()); it = it.next())
 				console.log(it.value);
 			console.log("----------------------------------------------------------");
 		}

@@ -305,7 +305,7 @@ namespace std
 		{
 			// TEST WHETHER EXIST
 			let it = this.find(val);
-			if (it.equal_to(this.end()) == false)
+			if (it.equals(this.end()) == false)
 				return make_pair(it, false);
 
 			// INSERT
@@ -345,7 +345,7 @@ namespace std
 			let my_first: SetIterator<T> = this.end().prev();
 			let size: number = 0;
 
-			for (; !first.equal_to(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next() as InputIterator)
 			{
 				// TEST WHETER EXIST
 				if (this.has(first.value))
@@ -373,7 +373,7 @@ namespace std
 		 */
 		protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.insert(first);
 		}
 
@@ -382,7 +382,7 @@ namespace std
 		 */
 		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.erase(first);
 		}
 

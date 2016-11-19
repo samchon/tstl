@@ -211,7 +211,7 @@ namespace std
 			let it = this.find(val);
 			let cnt: number = 0;
 
-			for (; !it.equal_to(this.end()) && std.equal_to(it.value, val); it = it.next())
+			for (; !it.equals(this.end()) && std.equal_to(it.value, val); it = it.next())
 				cnt++;
 
 			return cnt;
@@ -294,7 +294,7 @@ namespace std
 			{
 				it = node.value.next();
 
-				while (it.equal_to(this.end()) == false && this.key_comp()(it.value, val))
+				while (it.equals(this.end()) == false && this.key_comp()(it.value, val))
 					it = it.next();
 			}
 			else
@@ -322,7 +322,7 @@ namespace std
 
 			// hint <= current && current <= next
 			if ((compare(hint.value, val) || std.equal_to(hint.value, val))
-				&& (hint.next().equal_to(this.end()) || (compare(val, hint.next().value) || std.equal_to(val, hint.next().value))))
+				&& (hint.next().equals(this.end()) || (compare(val, hint.next().value) || std.equal_to(val, hint.next().value))))
 			{
 				///////
 				// RIGHT HINT
@@ -350,7 +350,7 @@ namespace std
 		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			for (; !first.equal_to(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next() as InputIterator)
 				this._Insert_by_val(first.value);
 		}
 
@@ -370,7 +370,7 @@ namespace std
 		 */
 		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.tree_.erase(last);
 		}
 

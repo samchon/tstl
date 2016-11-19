@@ -206,7 +206,7 @@ namespace std.base
 		 */
 		public has(key: Key): boolean
 		{
-			return !this.find(key).equal_to(this.end());
+			return !this.find(key).equals(this.end());
 		}
 
 		/**
@@ -587,7 +587,7 @@ namespace std.base
 		private erase_by_key(key: Key): number
 		{
 			let it = this.find(key);
-			if (it.equal_to(this.end()) == true)
+			if (it.equals(this.end()) == true)
 				return 0;
 
 			this.erase_by_iterator(it);
@@ -844,28 +844,40 @@ namespace std
 			COMPARISONS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Whether an iterator is equal with the iterator. </p>
-		 * 
-		 * <p> Compare two iterators and returns whether they are equal or not. </p>
-		 *
-		 * @param obj An iterator to compare
-		 * @return Indicates whether equal or not.
+		 * @inheritdoc
 		 */
-		public equal_to<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean 
-		{
-			return super.equal_to(obj);
-		}
-
-		public less<L extends Key, U extends T>(obj: MapIterator<L, U>): boolean
+		public less(obj: MapIterator<Key, T>): boolean
 		{
 			return std.less(this.first, obj.first);
 		}
+		
+		/**
+		 * @inheritdoc
+		 */
+		public equals(obj: MapIterator<Key, T>): boolean 
+		{
+			return this == obj;
+		}
 
+		/**
+		 * @inheritdoc
+		 */
+		public equal_to(obj: MapIterator<Key, T>): boolean 
+		{
+			return this.equals(obj);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public hash(): number
 		{
 			return std.hash(this.first);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public swap(obj: MapIterator<Key, T>): void
 		{
 			super.swap(obj);

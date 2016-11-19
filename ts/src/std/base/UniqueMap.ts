@@ -59,7 +59,7 @@ namespace std.base
 		 */
 		public count(key: Key): number
 		{
-			return this.find(key).equal_to(this.end()) ? 0 : 1;
+			return this.find(key).equals(this.end()) ? 0 : 1;
 		}
 
 		/**
@@ -76,7 +76,7 @@ namespace std.base
 		public get(key: Key): T
 		{
 			let it = this.find(key);
-			if (it.equal_to(this.end()) == true)
+			if (it.equals(this.end()) == true)
 				throw new OutOfRange("unable to find the matched key.");
 
 			return it.second;
@@ -338,7 +338,7 @@ namespace std.base
 		{
 			let it = this.find(key);
 
-			if (it.equal_to(this.end()) == true)
+			if (it.equals(this.end()) == true)
 				return this._Insert_by_pair(std.make_pair(key, value));
 			else
 			{
@@ -409,7 +409,7 @@ namespace std.base
 		private extract_by_key(key: Key): Pair<Key, T>
 		{
 			let it = this.find(key);
-			if (it.equal_to(this.end()) == true)
+			if (it.equals(this.end()) == true)
 				throw new OutOfRange("No such key exists.");
 
 			let ret: Pair<Key, T> = it.value;
@@ -423,7 +423,7 @@ namespace std.base
 		 */
 		private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
 		{
-			if (it.equal_to(this.end()) == true)
+			if (it.equals(this.end()) == true)
 				return this.end();
 
 			this.erase(it);
@@ -454,7 +454,7 @@ namespace std.base
 		 */
 		public merge<L extends Key, U extends T>(source: MapContainer<L, U>): void
 		{
-			for (let it = source.begin(); !it.equal_to(source.end());)
+			for (let it = source.begin(); !it.equals(source.end());)
 			{
 				if (this.has(it.first) == false)
 				{

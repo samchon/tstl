@@ -80,7 +80,7 @@ namespace std
 			if (n >= 0 )
 			{
 				for (i = 0; i < n; i++)
-					if (it.equal_to(this.source_.end()))
+					if (it.equals(this.source_.end()))
 						return this.source_.end();
 					else
 						it = it.next();
@@ -90,7 +90,7 @@ namespace std
 				n = n * -1;
 
 				for (i = 0; i < n; i++)
-					if (it.equal_to(this.source_.end()))
+					if (it.equals(this.source_.end()))
 						return this.source_.end();
 					else
 						it = it.prev();
@@ -114,20 +114,30 @@ namespace std
 		 * <p> Whether an iterator is equal with the iterator. </p>
 		 * 
 		 * <p> Compare two iterators and returns whether they are equal or not. </p>
-		 * 
-		 * <h4> Note </h4> 
-		 * <p> Iterator's equal_to() only compare souce container and index number. </p>
 		 *
-		 * <p> Although elements in a pair, key and value are equal_to, if the source map or
-		 * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
+		 * <h4> Note </h4>
+		 * <p> Iterator's {@link equals equals()} only compare souce container and index number. </p>
+		 * 
+		 * <p> Although elements in a pair, key and value are {@link std.equal_to equal_to}, if the source map or
+		 * index number is different, then the {@link equals equals()} will return false. If you want to
 		 * compare the elements of a pair, compare them directly by yourself. </p>
 		 *
 		 * @param obj An iterator to compare
 		 * @return Indicates whether equal or not.
 		 */
-		public equal_to<U extends T>(obj: Iterator<U>): boolean
+		public equals(obj: Iterator<T>): boolean
 		{
 			return this.source_ == obj.source_;
+		}
+
+		/**
+		 * To be deprecated.
+		 * 
+		 * @see {@link equals}
+		 */
+		public equal_to(obj: Iterator<T>): boolean
+		{
+			return this.equals(obj);
 		}
 		
 		/**
@@ -261,9 +271,17 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public equals(obj: This): boolean
+		{
+			return this.base_.equals(obj.base_);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public equal_to(obj: This): boolean
 		{
-			return this.base_.equal_to(obj.base_);
+			return this.equals(obj);
 		}
 
 		/**
@@ -307,7 +325,7 @@ namespace std
 		}
 		
 		let length: number = 0;
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 			length++;
 
 		return length;

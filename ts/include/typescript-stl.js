@@ -33,7 +33,7 @@ var std;
      *			 ointer or a move constructible function object. Its return value, if any, is ignored.
      */
     function for_each(first, last, fn) {
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             fn(it.value);
         return fn;
     }
@@ -80,7 +80,7 @@ var std;
      *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
      */
     function all_of(first, last, pred) {
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (pred(it.value) == false)
                 return false;
         return true;
@@ -108,7 +108,7 @@ var std;
      *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
      */
     function any_of(first, last, pred) {
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (pred(it.value) == true)
                 return true;
         return false;
@@ -139,8 +139,8 @@ var std;
     std.none_of = none_of;
     function equal(first1, last1, first2, pred) {
         if (pred === void 0) { pred = std.equal_to; }
-        while (!first1.equal_to(last1))
-            if (first2.equal_to(first2.get_source().end()) || !pred(first1.value, first2.value))
+        while (!first1.equals(last1))
+            if (first2.equals(first2.get_source().end()) || !pred(first1.value, first2.value))
                 return false;
             else {
                 first1 = first1.next();
@@ -151,8 +151,8 @@ var std;
     std.equal = equal;
     function lexicographical_compare(first1, last1, first2, last2, compare) {
         if (compare === void 0) { compare = std.less; }
-        while (!first1.equal_to(last1))
-            if (first2.equal_to(last2) || !compare(first1.value, first2.value))
+        while (!first1.equals(last1))
+            if (first2.equals(last2) || !compare(first1.value, first2.value))
                 return false;
             else if (compare(first1.value, first2.value))
                 return true;
@@ -184,7 +184,7 @@ var std;
      *		   match, the function returns <i>last</i>.
      */
     function find(first, last, val) {
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (std.equal_to(it.value, val))
                 return it;
         return last;
@@ -209,7 +209,7 @@ var std;
      *		   <i>last</i>.
      */
     function find_if(first, last, pred) {
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (pred(it.value))
                 return it;
         return last;
@@ -233,7 +233,7 @@ var std;
      *		   If <i>pred</i> is <code>true</code> for all elements, the function returns <i>last</i>.
      */
     function find_if_not(first, last, pred) {
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (pred(it.value) == false)
                 return it;
         return last;
@@ -241,20 +241,20 @@ var std;
     std.find_if_not = find_if_not;
     function find_end(first1, last1, first2, last2, compare) {
         if (compare === void 0) { compare = std.equal_to; }
-        if (first2.equal_to(last2))
+        if (first2.equals(last2))
             return last1;
         var ret = last1;
-        for (; !first1.equal_to(last1); first1 = first1.next()) {
+        for (; !first1.equals(last1); first1 = first1.next()) {
             var it1 = first1;
             var it2 = first2;
             while (std.equal_to(it1.value, it2.value)) {
                 it1 = it1.next();
                 it2 = it2.next();
-                if (it2.equal_to(last2)) {
+                if (it2.equals(last2)) {
                     ret = first1;
                     break;
                 }
-                else if (it1.equal_to(last1))
+                else if (it1.equals(last1))
                     return ret;
             }
         }
@@ -263,8 +263,8 @@ var std;
     std.find_end = find_end;
     function find_first_of(first1, last1, first2, last2, pred) {
         if (pred === void 0) { pred = std.equal_to; }
-        for (; !first1.equal_to(last1); first1 = first1.next())
-            for (var it = first2; !it.equal_to(last2); it = it.next())
+        for (; !first1.equals(last1); first1 = first1.next())
+            for (var it = first2; !it.equals(last2); it = it.next())
                 if (pred(it.value, first1.value))
                     return first1;
         return last1;
@@ -272,9 +272,9 @@ var std;
     std.find_first_of = find_first_of;
     function adjacent_find(first, last, pred) {
         if (pred === void 0) { pred = std.equal_to; }
-        if (!first.equal_to(last)) {
+        if (!first.equals(last)) {
             var next_1 = first.next();
-            while (!next_1.equal_to(last)) {
+            while (!next_1.equals(last)) {
                 if (std.equal_to(first.value, last.value))
                     return first;
                 first = first.next();
@@ -286,17 +286,17 @@ var std;
     std.adjacent_find = adjacent_find;
     function search(first1, last1, first2, last2, pred) {
         if (pred === void 0) { pred = std.equal_to; }
-        if (first2.equal_to(last2))
+        if (first2.equals(last2))
             return first1;
-        for (; !first1.equal_to(last1); first1 = first1.next()) {
+        for (; !first1.equals(last1); first1 = first1.next()) {
             var it1 = first1;
             var it2 = first2;
             while (std.equal_to(it1.value, it2.value)) {
                 it1 = it1.next();
                 it2 = it2.next();
-                if (it2.equal_to(last2))
+                if (it2.equals(last2))
                     return first1;
-                else if (it1.equal_to(last1))
+                else if (it1.equals(last1))
                     return last1;
             }
         }
@@ -306,7 +306,7 @@ var std;
     function search_n(first, last, count, val, pred) {
         if (pred === void 0) { pred = std.equal_to; }
         var limit = first.advance(std.distance(first, last) - count);
-        for (; !first.equal_to(limit); first = first.next()) {
+        for (; !first.equals(limit); first = first.next()) {
             var it = first;
             var i = 0;
             while (std.equal_to(it.value, val)) {
@@ -320,7 +320,7 @@ var std;
     std.search_n = search_n;
     function mismatch(first1, last1, first2, compare) {
         if (compare === void 0) { compare = std.equal_to; }
-        while (!first1.equal_to(last1) && !first2.equal_to(first2.get_source().end())
+        while (!first1.equals(last1) && !first2.equals(first2.get_source().end())
             && std.equal_to(first1.value, first2.value)) {
             first1 = first1.next();
             first2 = first2.next();
@@ -348,7 +348,7 @@ var std;
      */
     function count(first, last, val) {
         var cnt = 0;
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (std.equal_to(it.value, val))
                 cnt++;
         return cnt;
@@ -371,7 +371,7 @@ var std;
      */
     function count_if(first, last, pred) {
         var cnt = 0;
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (pred(it.value))
                 cnt++;
         return cnt;
@@ -410,7 +410,7 @@ var std;
      * @return An iterator to the end of the destination range where elements have been copied.
      */
     function copy(first, last, result) {
-        for (; !first.equal_to(last); first = first.next()) {
+        for (; !first.equals(last); first = first.next()) {
             result.value = first.value;
             result = result.next();
         }
@@ -468,7 +468,7 @@ var std;
      * @return An iterator to the end of the destination range where elements have been copied.
      */
     function copy_if(first, last, result, pred) {
-        for (; !first.equal_to(last); first = first.next()) {
+        for (; !first.equals(last); first = first.next()) {
             if (!pred(first.value))
                 continue;
             result.value = first.value;
@@ -505,7 +505,7 @@ var std;
      */
     function copy_backward(first, last, result) {
         last = last.prev();
-        for (; !last.equal_to(first); last = last.prev()) {
+        for (; !last.equals(first); last = last.prev()) {
             result.value = last.value;
             result = result.prev();
         }
@@ -526,7 +526,7 @@ var std;
      * @param val Value to assign to the elements in the filled range.
      */
     function fill(first, last, val) {
-        for (; !first.equal_to(last); first = first.next())
+        for (; !first.equals(last); first = first.next())
             first.value = val;
     }
     std.fill = fill;
@@ -565,7 +565,7 @@ var std;
      * @hidden
      */
     function unary_transform(first, last, result, op) {
-        for (; !first.equal_to(last); first = first.next()) {
+        for (; !first.equals(last); first = first.next()) {
             result.value = op(first.value);
             result = result.next();
         }
@@ -575,7 +575,7 @@ var std;
      * @hidden
      */
     function binary_transform(first1, last1, first2, result, binary_op) {
-        while (!first1.equal_to(last1)) {
+        while (!first1.equals(last1)) {
             result.value = binary_op(first1.value, first2.value);
             first1 = first1.next();
             first2 = first2.next();
@@ -597,7 +597,7 @@ var std;
      *			  those pointed by the iterators.
      */
     function generate(first, last, gen) {
-        for (; !first.equal_to(last); first = first.next())
+        for (; !first.equals(last); first = first.next())
             first.value = gen();
     }
     std.generate = generate;
@@ -626,7 +626,7 @@ var std;
     function unique(first, last, pred) {
         if (pred === void 0) { pred = std.equal_to; }
         var ret = first;
-        for (var it = first.next(); !it.equal_to(last);) {
+        for (var it = first.next(); !it.equals(last);) {
             if (std.equal_to(it.value, it.prev().value) == true)
                 it = it.get_source().erase(it);
             else {
@@ -639,11 +639,11 @@ var std;
     std.unique = unique;
     function unique_copy(first, last, result, pred) {
         if (pred === void 0) { pred = std.equal_to; }
-        if (first.equal_to(last))
+        if (first.equals(last))
             return result;
         result.value = first.value;
         first = first.next();
-        for (; !first.equal_to(last); first = first.next())
+        for (; !first.equals(last); first = first.next())
             if (!pred(first.value, result.value)) {
                 result = result.next();
                 result.value = first.value;
@@ -673,7 +673,7 @@ var std;
      */
     function remove(first, last, val) {
         var ret = last;
-        for (var it = first; !it.equal_to(last);) {
+        for (var it = first; !it.equals(last);) {
             if (std.equal_to(it.value, val) == true)
                 it = it.get_source().erase(it);
             else {
@@ -708,7 +708,7 @@ var std;
      */
     function remove_if(first, last, pred) {
         var ret = last;
-        for (var it = first; !it.equal_to(last);) {
+        for (var it = first; !it.equals(last);) {
             if (pred(it.value) == true)
                 it = it.get_source().erase(it);
             else {
@@ -743,7 +743,7 @@ var std;
      *		   [<i>first</i>, <i>last</i>) except those that compare equal to <i>val</i>.
      */
     function remove_copy(first, last, result, val) {
-        for (; !first.equal_to(last); first = first.next()) {
+        for (; !first.equals(last); first = first.next()) {
             if (std.equal_to(first.value, val))
                 continue;
             result.value = first.value;
@@ -776,7 +776,7 @@ var std;
      *		   [<i>first</i>, <i>last</i>) except those for which <i>pred</i> returns <code>true</code>.
      */
     function remove_copy_if(first, last, result, pred) {
-        for (; !first.equal_to(last); first = first.next()) {
+        for (; !first.equals(last); first = first.next()) {
             if (pred(first.value))
                 continue;
             result.value = first.value;
@@ -804,7 +804,7 @@ var std;
      * @param new_val Replacement value.
      */
     function replace(first, last, old_val, new_val) {
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (std.equal_to(it.value, old_val))
                 it.value = new_val;
     }
@@ -825,7 +825,7 @@ var std;
      * @param new_val Value to assign to replaced elements.
      */
     function replace_if(first, last, pred, new_val) {
-        for (var it = first; !it.equal_to(last); it = it.next())
+        for (var it = first; !it.equals(last); it = it.next())
             if (pred(it.value) == true)
                 it.value = new_val;
     }
@@ -854,7 +854,7 @@ var std;
      * @return An iterator pointing to the element that follows the last element written in the result sequence.
      */
     function replace_copy(first, last, result, old_val, new_val) {
-        for (; !first.equal_to(last); first = first.next()) {
+        for (; !first.equals(last); first = first.next()) {
             if (std.equal_to(first.value, old_val))
                 result.value = new_val;
             else
@@ -885,7 +885,7 @@ var std;
      * @return An iterator pointing to the element that follows the last element written in the result sequence.
      */
     function replace_copy_if(first, last, result, pred, new_val) {
-        for (; !first.equal_to(last); first = first.next()) {
+        for (; !first.equals(last); first = first.next()) {
             if (pred(first.value))
                 result.value = new_val;
             else
@@ -927,7 +927,7 @@ var std;
      * @return An iterator to the last element swapped in the second sequence.
      */
     function swap_ranges(first1, last1, first2) {
-        for (; !first1.equal_to(last1); first1 = first1.next()) {
+        for (; !first1.equals(last1); first1 = first1.next()) {
             first1.swap(first2);
             first2 = first2.next();
         }
@@ -951,7 +951,7 @@ var std;
      */
     function reverse(first, last) {
         // first != last && first != --last
-        while (first.equal_to(last) == false && first.equal_to((last = last.prev())) == false) {
+        while (first.equals(last) == false && first.equals((last = last.prev())) == false) {
             first.swap(last);
             first = first.next();
         }
@@ -975,7 +975,7 @@ var std;
      *		   order.
      */
     function reverse_copy(first, last, result) {
-        while (!last.equal_to(first)) {
+        while (!last.equals(first)) {
             last = last.prev();
             result.value = last.value;
             result = result.next();
@@ -1000,11 +1000,11 @@ var std;
      */
     function rotate(first, middle, last) {
         var next = middle;
-        while (next.equal_to(last) == false) {
+        while (next.equals(last) == false) {
             first.swap(next);
             first = first.next();
             next = next.next();
-            if (first.equal_to(middle))
+            if (first.equals(middle))
                 break;
         }
         return first;
@@ -1074,7 +1074,7 @@ var std;
      *			  <i>first</i> but not the element pointed by <i>last</i>.
      */
     function shuffle(first, last) {
-        for (var it = first; !it.equal_to(last); it = it.next()) {
+        for (var it = first; !it.equals(last); it = it.next()) {
             var rand_index = Math.floor(Math.random() * (last.index - first.index));
             it.swap(first.advance(rand_index));
         }
@@ -1108,9 +1108,9 @@ var std;
     std.partial_sort_copy = partial_sort_copy;
     function is_sorted(first, last, compare) {
         if (compare === void 0) { compare = std.equal_to; }
-        if (first.equal_to(last))
+        if (first.equals(last))
             return true;
-        for (var next_2 = first.next(); !next_2.equal_to(last); next_2 = next_2.next()) {
+        for (var next_2 = first.next(); !next_2.equals(last); next_2 = next_2.next()) {
             if (std.less(next_2.value, first.value))
                 return false;
             first = first.next();
@@ -1120,9 +1120,9 @@ var std;
     std.is_sorted = is_sorted;
     function is_sorted_until(first, last, compare) {
         if (compare === void 0) { compare = std.equal_to; }
-        if (first.equal_to(last))
+        if (first.equals(last))
             return first;
-        for (var next_3 = first.next(); !next_3.equal_to(last); next_3 = next_3.next()) {
+        for (var next_3 = first.next(); !next_3.equals(last); next_3 = next_3.next()) {
             if (std.less(next_3.value, first.value))
                 return next_3;
             first = first.next();
@@ -1245,7 +1245,7 @@ var std;
         if (compare === void 0) { compare = std.less; }
         var last_item_it = last.prev();
         var less_it = null;
-        for (var it = first; !it.equal_to(last_item_it); it = it.next()) {
+        for (var it = first; !it.equals(last_item_it); it = it.next()) {
             if (compare(it.value, last_item_it.value)) {
                 less_it = it;
                 break;
@@ -1268,13 +1268,13 @@ var std;
     function is_heap(first, last, compare) {
         if (compare === void 0) { compare = std.less; }
         var it = std.is_heap_until(first, last, compare);
-        return it.equal_to(last);
+        return it.equals(last);
     }
     std.is_heap = is_heap;
     function is_heap_until(first, last, compare) {
         if (compare === void 0) { compare = std.less; }
         var prev = first;
-        for (var it = first.next(); !it.equal_to(last); it = it.next()) {
+        for (var it = first.next(); !it.equals(last); it = it.next()) {
             if (compare(prev.value, it.value) == true)
                 return it;
             prev = it;
@@ -1331,7 +1331,7 @@ var std;
     function binary_search(first, last, val, compare) {
         if (compare === void 0) { compare = std.less; }
         first = lower_bound(first, last, val, compare);
-        return !first.equal_to(last) && !compare(val, first.value);
+        return !first.equals(last) && !compare(val, first.value);
     }
     std.binary_search = binary_search;
 })(std || (std = {}));
@@ -1362,9 +1362,9 @@ var std;
      *		   <code>false</code>. If the range is {@link IContainer.empty empty}, the function returns <code>true</code>.
      */
     function is_partitioned(first, last, pred) {
-        while (!first.equal_to(last) && pred(first.value))
+        while (!first.equals(last) && pred(first.value))
             first = first.next();
-        for (; !first.equal_to(last); first = first.next())
+        for (; !first.equals(last); first = first.next())
             if (pred(first.value))
                 return false;
         return true;
@@ -1393,15 +1393,15 @@ var std;
      *		   returns <code>false</code>), or <i>last</i> if this group is {@link IContainer.empty empty}.
      */
     function partition(first, last, pred) {
-        while (!first.equal_to(last)) {
+        while (!first.equals(last)) {
             while (pred(first.value)) {
                 first = first.next();
-                if (first.equal_to(last))
+                if (first.equals(last))
                     return first;
             }
             do {
                 last = last.prev();
-                if (first.equal_to(last))
+                if (first.equals(last))
                     return first;
             } while (!pred(last.value));
             first.swap(last);
@@ -1461,7 +1461,7 @@ var std;
      *		   of elements for which <i>pred</i> returned <code>false</code>.
      */
     function partition_copy(first, last, result_true, result_false, pred) {
-        for (; !first.equal_to(last); first = first.next())
+        for (; !first.equals(last); first = first.next())
             if (pred(first.value)) {
                 result_true.value = first.value;
                 result_true = result_true.next();
@@ -1518,9 +1518,9 @@ var std;
     function merge(first1, last1, first2, last2, result, compare) {
         if (compare === void 0) { compare = std.less; }
         while (true) {
-            if (first1.equal_to(last1))
+            if (first1.equals(last1))
                 return std.copy(first2, last2, result);
-            else if (first2.equal_to(last2))
+            else if (first2.equals(last2))
                 return std.copy(first1, last1, result);
             if (compare(first1.value, first2.value)) {
                 result.value = first1.value;
@@ -1543,8 +1543,8 @@ var std;
     std.inplace_merge = inplace_merge;
     function includes(first1, last1, first2, last2, compare) {
         if (compare === void 0) { compare = std.less; }
-        while (!first2.equal_to(last2)) {
-            if (first1.equal_to(last2) || compare(first2.value, first1.value))
+        while (!first2.equals(last2)) {
+            if (first1.equals(last2) || compare(first2.value, first1.value))
                 return false;
             else if (!compare(first1.value, first2.value))
                 first2 = first2.next();
@@ -1556,9 +1556,9 @@ var std;
     function set_union(first1, last1, first2, last2, result, compare) {
         if (compare === void 0) { compare = std.less; }
         while (true) {
-            if (first1.equal_to(last1))
+            if (first1.equals(last1))
                 return std.copy(first2, last2, result);
-            else if (first2.equal_to(last2))
+            else if (first2.equals(last2))
                 return std.copy(first1, last1, result);
             if (compare(first1.value, first2.value)) {
                 result.value = first1.value;
@@ -1580,9 +1580,9 @@ var std;
     function set_intersection(first1, last1, first2, last2, result, compare) {
         if (compare === void 0) { compare = std.less; }
         while (true) {
-            if (first1.equal_to(last1))
+            if (first1.equals(last1))
                 return std.copy(first2, last2, result);
-            else if (first2.equal_to(last2))
+            else if (first2.equals(last2))
                 return std.copy(first1, last1, result);
             if (compare(first1.value, first2.value))
                 first1 = first1.next();
@@ -1599,7 +1599,7 @@ var std;
     std.set_intersection = set_intersection;
     function set_difference(first1, last1, first2, last2, result, compare) {
         if (compare === void 0) { compare = std.less; }
-        while (!first1.equal_to(last1) && !first2.equal_to(last2))
+        while (!first1.equals(last1) && !first2.equals(last2))
             if (std.less(first1.value, first2.value)) {
                 result.value = first1.value;
                 result = result.next();
@@ -1617,9 +1617,9 @@ var std;
     function set_symmetric_difference(first1, last1, first2, last2, result, compare) {
         if (compare === void 0) { compare = std.less; }
         while (true) {
-            if (first1.equal_to(last1))
+            if (first1.equals(last1))
                 return std.copy(first2, last2, result);
-            else if (first2.equal_to(last2))
+            else if (first2.equals(last2))
                 return std.copy(first1, last1, result);
             if (compare(first1.value, first2.value)) {
                 result.value = first1.value;
@@ -1720,7 +1720,7 @@ var std;
         if (compare === void 0) { compare = std.less; }
         var smallest = first;
         first = first.next();
-        for (; !first.equal_to(last); first = first.next())
+        for (; !first.equals(last); first = first.next())
             if (compare(first.value, smallest.value))
                 smallest = first;
         return smallest;
@@ -1730,7 +1730,7 @@ var std;
         if (compare === void 0) { compare = std.greater; }
         var largest = first;
         first = first.next();
-        for (; !first.equal_to(last); first = first.next())
+        for (; !first.equals(last); first = first.next())
             if (compare(first.value, largest.value))
                 largest = first;
         return largest;
@@ -1741,7 +1741,7 @@ var std;
         var smallest = first;
         var largest = first;
         first = first.next();
-        for (; !first.equal_to(last); first = first.next()) {
+        for (; !first.equals(last); first = first.next()) {
             if (compare(first.value, smallest.value))
                 smallest = first;
             if (!compare(first.value, largest.value))
@@ -1756,11 +1756,11 @@ var std;
         var pair = std.mismatch(first1, last1, first2);
         first1 = pair.first;
         first2 = pair.second;
-        if (first1.equal_to(last1))
+        if (first1.equals(last1))
             return true;
         var last2 = first2.advance(std.distance(first1, last1));
-        for (var it = first1; !it.equal_to(last1); it = it.next())
-            if (std.find(first1, it, it.value).equal_to(it)) {
+        for (var it = first1; !it.equals(last1); it = it.next())
+            if (std.find(first1, it, it.value).equals(it)) {
                 var n = std.count(first2, last2, it.value);
                 if (n == 0 || std.count(it, last1, it.value) != n)
                     return false;
@@ -1770,10 +1770,10 @@ var std;
     std.is_permutation = is_permutation;
     function prev_permutation(first, last, compare) {
         if (compare === void 0) { compare = std.less; }
-        if (first.equal_to(last) == true)
+        if (first.equals(last) == true)
             return false;
         var i = last.prev();
-        if (first.equal_to(i) == true)
+        if (first.equals(i) == true)
             return false;
         while (true) {
             var x = i;
@@ -1787,7 +1787,7 @@ var std;
                 std.reverse(x, last);
                 return true;
             }
-            if (i.equal_to(first) == true) {
+            if (i.equals(first) == true) {
                 std.reverse(first, last);
                 return false;
             }
@@ -1796,10 +1796,10 @@ var std;
     std.prev_permutation = prev_permutation;
     function next_permutation(first, last, compare) {
         if (compare === void 0) { compare = std.less; }
-        if (first.equal_to(last) == true)
+        if (first.equals(last) == true)
             return false;
         var i = last.prev();
-        if (first.equal_to(i) == true)
+        if (first.equals(i) == true)
             return false;
         while (true) {
             var x = i;
@@ -1813,7 +1813,7 @@ var std;
                 std.reverse(x, last);
                 return true;
             }
-            if (i.equal_to(first) == true) {
+            if (i.equals(first) == true) {
                 std.reverse(first, last);
                 return false;
             }
@@ -1946,7 +1946,7 @@ var std;
             var i;
             if (n >= 0) {
                 for (i = 0; i < n; i++)
-                    if (it.equal_to(this.source_.end()))
+                    if (it.equals(this.source_.end()))
                         return this.source_.end();
                     else
                         it = it.next();
@@ -1954,7 +1954,7 @@ var std;
             else {
                 n = n * -1;
                 for (i = 0; i < n; i++)
-                    if (it.equal_to(this.source_.end()))
+                    if (it.equals(this.source_.end()))
                         return this.source_.end();
                     else
                         it = it.prev();
@@ -1976,17 +1976,25 @@ var std;
          * <p> Compare two iterators and returns whether they are equal or not. </p>
          *
          * <h4> Note </h4>
-         * <p> Iterator's equal_to() only compare souce container and index number. </p>
+         * <p> Iterator's {@link equals equals()} only compare souce container and index number. </p>
          *
-         * <p> Although elements in a pair, key and value are equal_to, if the source map or
-         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
+         * <p> Although elements in a pair, key and value are {@link std.equal_to equal_to}, if the source map or
+         * index number is different, then the {@link equals equals()} will return false. If you want to
          * compare the elements of a pair, compare them directly by yourself. </p>
          *
          * @param obj An iterator to compare
          * @return Indicates whether equal or not.
          */
-        Iterator.prototype.equal_to = function (obj) {
+        Iterator.prototype.equals = function (obj) {
             return this.source_ == obj.source_;
+        };
+        /**
+         * To be deprecated.
+         *
+         * @see {@link equals}
+         */
+        Iterator.prototype.equal_to = function (obj) {
+            return this.equals(obj);
         };
         Object.defineProperty(Iterator.prototype, "value", {
             /**
@@ -2102,8 +2110,14 @@ var std;
         /**
          * @inheritdoc
          */
+        ReverseIterator.prototype.equals = function (obj) {
+            return this.base_.equals(obj.base_);
+        };
+        /**
+         * @inheritdoc
+         */
         ReverseIterator.prototype.equal_to = function (obj) {
-            return this.base_.equal_to(obj.base_);
+            return this.equals(obj);
         };
         /**
          * @inheritdoc
@@ -2142,7 +2156,7 @@ var std;
             return Math.abs(last.index - first.index);
         }
         var length = 0;
-        for (; !first.equal_to(last); first = first.next())
+        for (; !first.equals(last); first = first.next())
             length++;
         return length;
     }
@@ -2378,7 +2392,7 @@ var std;
                     prev = item;
                 }
                 // IF WAS EMPTY, VAL IS THE BEGIN
-                if (this.empty() == true || first.prev().equal_to(this.end()) == true)
+                if (this.empty() == true || first.prev().equals(this.end()) == true)
                     this._Set_begin(first);
                 // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
                 prev["next_"] = (this.end_);
@@ -2428,7 +2442,7 @@ var std;
                     prev = item;
                 }
                 // IF WAS EMPTY, VAL IS THE BEGIN
-                if (this.empty() == true || first.prev().equal_to(this.end()) == true)
+                if (this.empty() == true || first.prev().equals(this.end()) == true)
                     this._Set_begin(first);
                 // CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
                 prev["next_"] = (position);
@@ -2446,7 +2460,7 @@ var std;
                 var prev = position.prev();
                 var first = null;
                 var size = 0;
-                for (var it = begin; it.equal_to(end) == false; it = it.next()) {
+                for (var it = begin; it.equals(end) == false; it = it.next()) {
                     // CONSTRUCT ITEM, THE NEW ELEMENT
                     var item = this._Create_iterator(prev, null, it.value);
                     if (size == 0)
@@ -2553,14 +2567,14 @@ var std;
                 if (step >= 0) {
                     for (var i = 0; i < step; i++) {
                         it = it.next();
-                        if (it.equal_to(this.source_.end()))
+                        if (it.equals(this.source_.end()))
                             return it;
                     }
                 }
                 else {
                     for (var i = 0; i < step; i++) {
                         it = it.prev();
-                        if (it.equal_to(this.source_.end()))
+                        if (it.equals(this.source_.end()))
                             return it;
                     }
                 }
@@ -2582,7 +2596,7 @@ var std;
             /**
              * @inheritdoc
              */
-            ListIteratorBase.prototype.equal_to = function (obj) {
+            ListIteratorBase.prototype.equals = function (obj) {
                 return this == obj;
             };
             /**
@@ -4113,7 +4127,7 @@ var std;
              * @return Whether the map has an item having the specified identifier.
              */
             MapContainer.prototype.has = function (key) {
-                return !this.find(key).equal_to(this.end());
+                return !this.find(key).equals(this.end());
             };
             /**
              * Return the number of elements in the map.
@@ -4207,7 +4221,7 @@ var std;
              */
             MapContainer.prototype.erase_by_key = function (key) {
                 var it = this.find(key);
-                if (it.equal_to(this.end()) == true)
+                if (it.equals(this.end()) == true)
                     return 0;
                 this.erase_by_iterator(it);
                 return 1;
@@ -4375,22 +4389,32 @@ var std;
             COMPARISONS
         --------------------------------------------------------- */
         /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
+         * @inheritdoc
          */
-        MapIterator.prototype.equal_to = function (obj) {
-            return _super.prototype.equal_to.call(this, obj);
-        };
         MapIterator.prototype.less = function (obj) {
             return std.less(this.first, obj.first);
         };
+        /**
+         * @inheritdoc
+         */
+        MapIterator.prototype.equals = function (obj) {
+            return this == obj;
+        };
+        /**
+         * @inheritdoc
+         */
+        MapIterator.prototype.equal_to = function (obj) {
+            return this.equals(obj);
+        };
+        /**
+         * @inheritdoc
+         */
         MapIterator.prototype.hash = function () {
             return std.hash(this.first);
         };
+        /**
+         * @inheritdoc
+         */
         MapIterator.prototype.swap = function (obj) {
             _super.prototype.swap.call(this, obj);
         };
@@ -4682,7 +4706,7 @@ var std;
              * @return Whether the set has an item having the specified identifier.
              */
             SetContainer.prototype.has = function (val) {
-                return !this.find(val).equal_to(this.end());
+                return !this.find(val).equals(this.end());
             };
             /**
              * @inheritdoc
@@ -4791,7 +4815,7 @@ var std;
             SetContainer.prototype.erase_by_val = function (val) {
                 // TEST WHETHER EXISTS
                 var it = this.find(val);
-                if (it.equal_to(this.end()) == true)
+                if (it.equals(this.end()) == true)
                     return 0;
                 // ERASE
                 this.erase_by_iterator(it);
@@ -4911,14 +4935,20 @@ var std;
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.equal_to = function (obj) {
-            return _super.prototype.equal_to.call(this, obj);
+        SetIterator.prototype.less = function (obj) {
+            return std.less(this.value, obj.value);
         };
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.less = function (obj) {
-            return std.less(this.value, obj.value);
+        SetIterator.prototype.equals = function (obj) {
+            return this == obj;
+        };
+        /**
+         * @inheritdoc
+         */
+        SetIterator.prototype.equal_to = function (obj) {
+            return this.equals(obj);
         };
         /**
          * @inheritdoc
@@ -5350,7 +5380,7 @@ var std;
              * @inheritdoc
              */
             UniqueMap.prototype.count = function (key) {
-                return this.find(key).equal_to(this.end()) ? 0 : 1;
+                return this.find(key).equals(this.end()) ? 0 : 1;
             };
             /**
              * <p> Get an element </p>
@@ -5365,7 +5395,7 @@ var std;
              */
             UniqueMap.prototype.get = function (key) {
                 var it = this.find(key);
-                if (it.equal_to(this.end()) == true)
+                if (it.equals(this.end()) == true)
                     throw new std.OutOfRange("unable to find the matched key.");
                 return it.second;
             };
@@ -5428,7 +5458,7 @@ var std;
              */
             UniqueMap.prototype.insert_or_assign_with_key_value = function (key, value) {
                 var it = this.find(key);
-                if (it.equal_to(this.end()) == true)
+                if (it.equals(this.end()) == true)
                     return this._Insert_by_pair(std.make_pair(key, value));
                 else {
                     it.second = value;
@@ -5454,7 +5484,7 @@ var std;
              */
             UniqueMap.prototype.extract_by_key = function (key) {
                 var it = this.find(key);
-                if (it.equal_to(this.end()) == true)
+                if (it.equals(this.end()) == true)
                     throw new std.OutOfRange("No such key exists.");
                 var ret = it.value;
                 this.erase(it);
@@ -5464,7 +5494,7 @@ var std;
              * @hidden
              */
             UniqueMap.prototype.extract_by_iterator = function (it) {
-                if (it.equal_to(this.end()) == true)
+                if (it.equals(this.end()) == true)
                     return this.end();
                 this.erase(it);
                 return it;
@@ -5490,7 +5520,7 @@ var std;
              * @param source A {@link MapContainer map container} to transfer the elements from.
              */
             UniqueMap.prototype.merge = function (source) {
-                for (var it = source.begin(); !it.equal_to(source.end());) {
+                for (var it = source.begin(); !it.equals(source.end());) {
                     if (this.has(it.first) == false) {
                         this.insert(it.value);
                         it = source.erase(it);
@@ -5559,7 +5589,7 @@ var std;
              * @inheritdoc
              */
             UniqueSet.prototype.count = function (key) {
-                return this.find(key).equal_to(this.end()) ? 0 : 1;
+                return this.find(key).equals(this.end()) ? 0 : 1;
             };
             UniqueSet.prototype.insert = function () {
                 var args = [];
@@ -5581,7 +5611,7 @@ var std;
              */
             UniqueSet.prototype.extract_by_key = function (val) {
                 var it = this.find(val);
-                if (it.equal_to(this.end()) == true)
+                if (it.equals(this.end()) == true)
                     throw new std.OutOfRange("No such key exists.");
                 this.erase(val);
                 return val;
@@ -5590,7 +5620,7 @@ var std;
              * @hidden
              */
             UniqueSet.prototype.extract_by_iterator = function (it) {
-                if (it.equal_to(this.end()) == true || this.has(it.value) == false)
+                if (it.equals(this.end()) == true || this.has(it.value) == false)
                     return this.end();
                 this.erase(it);
                 return it;
@@ -5616,7 +5646,7 @@ var std;
              * @param source A {@link SetContainer set container} to transfer the elements from.
              */
             UniqueSet.prototype.merge = function (source) {
-                for (var it = source.begin(); !it.equal_to(source.end());) {
+                for (var it = source.begin(); !it.equals(source.end());) {
                     if (this.has(it.value) == false) {
                         this.insert(it.value);
                         it = source.erase(it);
@@ -5829,14 +5859,14 @@ var std;
                 var begin_2 = first;
                 var end_2 = second;
                 var size = 0;
-                for (var it = begin_2; !it.equal_to(end_2); it = it.next())
+                for (var it = begin_2; !it.equals(end_2); it = it.next())
                     size++;
                 // RESERVE
                 this.reserve(size);
                 this.size_ = size;
                 // ASSIGN CONTENTS
                 var array = this.matrix_[0];
-                for (var it = begin_2; !it.equal_to(end_2); it = it.next()) {
+                for (var it = begin_2; !it.equals(end_2); it = it.next()) {
                     if (array.length >= this.get_col_size()) {
                         array = new Array();
                         this.matrix_.push(array);
@@ -5961,7 +5991,7 @@ var std;
          * @inheritdoc
          */
         Deque.prototype.set = function (index, val) {
-            if (index > this.size())
+            if (index >= this.size())
                 throw new std.OutOfRange("Target index is greater than Deque's size.");
             var indexPair = this.fetch_index(index);
             this.matrix_[indexPair.first][indexPair.second] = val;
@@ -6120,7 +6150,7 @@ var std;
             for (var i = 0; i < n; i++)
                 items[i] = val;
             // INSERT ELEMENTS
-            if (position.equal_to(this.end())) {
+            if (position.equals(this.end())) {
                 this.push.apply(this, items);
                 return this.begin();
             }
@@ -6133,10 +6163,10 @@ var std;
         Deque.prototype._Insert_by_range = function (position, begin, end) {
             // CONSTRUCT ITEMS
             var items = [];
-            for (var it = begin; !it.equal_to(end); it = it.next())
+            for (var it = begin; !it.equals(end); it = it.next())
                 items.push(it.value);
             // INSERT ELEMENTS
-            if (position.equal_to(this.end())) {
+            if (position.equals(this.end())) {
                 this.push.apply(this, items);
                 return this.begin();
             }
@@ -6175,7 +6205,7 @@ var std;
                 // -----------------------------------------------------
                 // JUST INSERT CARELESSLY
                 // AND KEEP BLANACE BY THE RESERVE() METHOD
-                if (position.equal_to(this.end()) == true) {
+                if (position.equals(this.end()) == true) {
                     this.matrix_.push(items); // ALL TO THE LAST
                 }
                 else {
@@ -6367,22 +6397,16 @@ var std;
             COMPARES
         --------------------------------------------------------- */
         /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Iterator's equal_to() only compare souce container and index number. </p>
-         *
-         * <p> Although elements in a pair, key and value are equal_to, if the source map or
-         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-         * compare the elements of a pair, compare them directly by yourself. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
+         * @inheritdoc
+         */
+        DequeIterator.prototype.equals = function (obj) {
+            return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
+        };
+        /**
+         * @inheritdoc
          */
         DequeIterator.prototype.equal_to = function (obj) {
-            return _super.prototype.equal_to.call(this, obj) && this.index_ == obj.index_;
+            return this.equals(obj);
         };
         /**
          * @inheritdoc
@@ -6638,7 +6662,7 @@ var std;
          * @inheritdoc
          */
         Vector.prototype.set = function (index, val) {
-            if (index > this.length)
+            if (index >= this.length)
                 throw new std.OutOfRange("Target index is greater than Vector's size.");
             var prev = this[index];
             this[index] = val;
@@ -6733,7 +6757,7 @@ var std;
         Vector.prototype._Insert_by_range = function (position, first, last) {
             if (position.index == -1) {
                 // WHEN INSERT TO THE LAST
-                for (; !first.equal_to(last); first = first.next())
+                for (; !first.equals(last); first = first.next())
                     _super.prototype.push.call(this, first.value);
                 return this.begin();
             }
@@ -6745,7 +6769,7 @@ var std;
                 var spliced_array = _super.prototype.splice.call(this, position.index);
                 var insert_size = 0;
                 // INSERT ELEMENTS
-                for (; !first.equal_to(last); first = first.next()) {
+                for (; !first.equals(last); first = first.next()) {
                     _super.prototype.push.call(this, first.value);
                     insert_size++;
                 }
@@ -6920,22 +6944,16 @@ var std;
             COMPARES
         --------------------------------------------------------- */
         /**
-         * <p> Whether an iterator is equal with the iterator. </p>
-         *
-         * <p> Compare two iterators and returns whether they are equal or not. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Iterator's equal_to() only compare souce container and index number. </p>
-         *
-         * <p> Although elements in a pair, key and value are equal_to, if the source map or
-         * index number is different, then the {@link equal_to equal_to()} will return false. If you want to
-         * compare the elements of a pair, compare them directly by yourself. </p>
-         *
-         * @param obj An iterator to compare
-         * @return Indicates whether equal or not.
+         * @inheritdoc
+         */
+        VectorIterator.prototype.equals = function (obj) {
+            return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
+        };
+        /**
+         * @inheritdoc
          */
         VectorIterator.prototype.equal_to = function (obj) {
-            return _super.prototype.equal_to.call(this, obj) && this.index_ == obj.index_;
+            return this.equals(obj);
         };
         /**
          * @inheritdoc
@@ -7059,7 +7077,7 @@ var std;
             debug_list();
             function debug_list() {
                 console.log("#" + list.size());
-                for (var it = list.begin(); !it.equal_to(list.end()); it = it.next())
+                for (var it = list.begin(); !it.equals(list.end()); it = it.next())
                     console.log(it.value);
                 console.log("----------------------------------------------------------");
             }
@@ -7085,9 +7103,9 @@ var std;
             it = deque.begin().advance(6);
             it = deque.erase(it, it.advance(3)); // erase from 6 to 9
             //console.log(it.value); // print 9
-            console.log(it.equal_to(deque.end()));
+            console.log(it.equals(deque.end()));
             console.log("-------------------------------------");
-            for (var it_1 = deque.begin(); !it_1.equal_to(deque.end()); it_1 = it_1.next())
+            for (var it_1 = deque.begin(); !it_1.equals(deque.end()); it_1 = it_1.next())
                 console.log(it_1.value);
         }
         example.test_deque = test_deque;
@@ -7116,7 +7134,7 @@ var std;
             var map = new std.TreeMap();
             map.insert(["first", 1]);
             map.insert(["second", 2]);
-            for (var it = map.begin(); !it.equal_to(map.end()); it = it.next())
+            for (var it = map.begin(); !it.equals(map.end()); it = it.next())
                 console.log(it.first, it.second);
         }
         example.test_hash_map = test_hash_map;
@@ -7289,7 +7307,7 @@ var std;
         List.prototype.unique = function (binary_pred) {
             if (binary_pred === void 0) { binary_pred = std.equal_to; }
             var it = this.begin().next();
-            while (!it.equal_to(this.end())) {
+            while (!it.equals(this.end())) {
                 if (std.equal_to(it.value, it.prev().value) == true)
                     it = this.erase(it);
                 else
@@ -7312,7 +7330,7 @@ var std;
          */
         List.prototype.remove = function (val) {
             var it = this.begin();
-            while (!it.equal_to(this.end())) {
+            while (!it.equals(this.end())) {
                 if (std.equal_to(it.value, val) == true)
                     it = this.erase(it);
                 else
@@ -7337,7 +7355,7 @@ var std;
          */
         List.prototype.remove_if = function (pred) {
             var it = this.begin();
-            while (!it.equal_to(this.end())) {
+            while (!it.equals(this.end())) {
                 if (pred(it.value) == true)
                     it = this.erase(it);
                 else
@@ -7351,7 +7369,7 @@ var std;
             var it = this.begin();
             while (obj.empty() == false) {
                 var begin_5 = obj.begin();
-                while (!it.equal_to(this.end()) && compare(it.value, begin_5.value) == true)
+                while (!it.equals(this.end()) && compare(it.value, begin_5.value) == true)
                     it = it.next();
                 this.splice(it, obj, begin_5);
             }
@@ -7484,8 +7502,14 @@ var std;
         /**
          * @inheritdoc
          */
-        ListIterator.prototype.equal_to = function (obj) {
+        ListIterator.prototype.equals = function (obj) {
             return this == obj;
+        };
+        /**
+         * @inheritdoc
+         */
+        ListIterator.prototype.equal_to = function (obj) {
+            return this.equals(obj);
         };
         /**
          * @inheritdoc
@@ -7573,9 +7597,9 @@ var std;
             it = list.begin().advance(6);
             it = list.erase(it, it.advance(3)); // erase from 6 to 9
             //console.log(it.value); // print 9
-            console.log(it.equal_to(list.end()));
+            console.log(it.equals(list.end()));
             console.log("-------------------------------------");
-            for (var it_2 = list.begin(); !it_2.equal_to(list.end()); it_2 = it_2.next())
+            for (var it_2 = list.begin(); !it_2.equals(list.end()); it_2 = it_2.next())
                 console.log(it_2.value);
         }
         example.test_list = test_list;
@@ -7607,7 +7631,7 @@ var std;
         }
         example.test_reverse_iterator = test_reverse_iterator;
         function reverse_iterate(container) {
-            for (var it = container.rbegin(); !it.equal_to(container.rend()); it = it.next())
+            for (var it = container.rbegin(); !it.equals(container.rend()); it = it.next())
                 console.log(it.value);
         }
     })(example = std.example || (std.example = {}));
@@ -7625,7 +7649,7 @@ var std;
             // SORT BY Cube.less()
             ///////////////////////////////
             std.sort(cubes.begin(), cubes.end());
-            for (var it = cubes.begin(); !it.equal_to(cubes.end()); it = it.next())
+            for (var it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
                 it.value.debug_size();
             console.log("------------------------------");
             ///////////////////////////////
@@ -7639,7 +7663,7 @@ var std;
                 else
                     return left.z < right.z;
             });
-            for (var it = cubes.begin(); !it.equal_to(cubes.end()); it = it.next())
+            for (var it = cubes.begin(); !it.equals(cubes.end()); it = it.next())
                 it.value.debug_position();
         }
         example.sorting = sorting;
@@ -8141,8 +8165,14 @@ var std;
      * @return Whether the arguments are equal.
      */
     function equal_to(x, y) {
-        if (x instanceof Object && x.equal_to != undefined)
-            return x.equal_to(y);
+        if (x instanceof Object) {
+            if (x.equals)
+                return x.equals(y);
+            else if (x.equal_to)
+                return x.equal_to(y);
+            else
+                return x == y;
+        }
         else
             return x == y;
     }
@@ -8769,7 +8799,7 @@ var std;
         HashMap.prototype._Insert_by_pair = function (pair) {
             // TEST WHETHER EXIST
             var it = this.find(pair.first);
-            if (it.equal_to(this.end()) == false)
+            if (it.equals(this.end()) == false)
                 return std.make_pair(it, false);
             // INSERT
             this["data_"].push_back(pair);
@@ -8798,7 +8828,7 @@ var std;
             var my_first = this.end().prev();
             var size = 0;
             // INSERT ELEMENTS
-            for (; !first.equal_to(last); first = first.next()) {
+            for (; !first.equals(last); first = first.next()) {
                 // TEST WHETER EXIST
                 if (this.has(first.value.first))
                     continue;
@@ -8820,14 +8850,14 @@ var std;
          * @inheritdoc
          */
         HashMap.prototype._Handle_insert = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.insert(first);
         };
         /**
          * @inheritdoc
          */
         HashMap.prototype._Handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.erase(first);
         };
         /**
@@ -9077,14 +9107,14 @@ var std;
          * @inheritdoc
          */
         HashMultiMap.prototype._Handle_insert = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.insert(first);
         };
         /**
          * @inheritdoc
          */
         HashMultiMap.prototype._Handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.erase(first);
         };
         /**
@@ -9339,14 +9369,14 @@ var std;
          * @inheritdoc
          */
         HashMultiSet.prototype._Handle_insert = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.insert(first);
         };
         /**
          * @inheritdoc
          */
         HashMultiSet.prototype._Handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.erase(first);
         };
         HashMultiSet.prototype.swap = function (obj) {
@@ -9552,7 +9582,7 @@ var std;
         HashSet.prototype._Insert_by_val = function (val) {
             // TEST WHETHER EXIST
             var it = this.find(val);
-            if (it.equal_to(this.end()) == false)
+            if (it.equals(this.end()) == false)
                 return std.make_pair(it, false);
             // INSERT
             this["data_"].push_back(val);
@@ -9580,7 +9610,7 @@ var std;
         HashSet.prototype._Insert_by_range = function (first, last) {
             var my_first = this.end().prev();
             var size = 0;
-            for (; !first.equal_to(last); first = first.next()) {
+            for (; !first.equals(last); first = first.next()) {
                 // TEST WHETER EXIST
                 if (this.has(first.value))
                     continue;
@@ -9602,14 +9632,14 @@ var std;
          * @inheritdoc
          */
         HashSet.prototype._Handle_insert = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.insert(first);
         };
         /**
          * @inheritdoc
          */
         HashSet.prototype._Handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.erase(first);
         };
         HashSet.prototype.swap = function (obj) {
@@ -10279,7 +10309,7 @@ var std;
             var compare = this.tree_.key_comp();
             // hint < current && current < next
             if (compare(hint.value, val) == true
-                && (hint.next().equal_to(this.end()) || compare(val, hint.next().value) == true)) {
+                && (hint.next().equals(this.end()) || compare(val, hint.next().value) == true)) {
                 ///////
                 // RIGHT HINT
                 ///////
@@ -10301,7 +10331,7 @@ var std;
          * @hidden
          */
         TreeSet.prototype._Insert_by_range = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this._Insert_by_val(first.value);
         };
         /* ---------------------------------------------------------
@@ -10317,7 +10347,7 @@ var std;
          * @inheritdoc
          */
         TreeSet.prototype._Handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.tree_.erase(last);
         };
         TreeSet.prototype.swap = function (obj) {
@@ -10516,7 +10546,7 @@ var std;
             var compare = this.key_comp();
             // hint < current && current < next
             if (compare(hint.first, pair.first) == true
-                && (hint.next().equal_to(this.end()) || compare(pair.first, hint.next().first) == true)) {
+                && (hint.next().equals(this.end()) || compare(pair.first, hint.next().first) == true)) {
                 ///////
                 // RIGHT HINT
                 ///////
@@ -10538,7 +10568,7 @@ var std;
          * @hidden
          */
         TreeMap.prototype._Insert_by_range = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this._Insert_by_pair(std.make_pair(first.value.first, first.value.second));
         };
         /* ---------------------------------------------------------
@@ -10554,7 +10584,7 @@ var std;
          * @inheritdoc
          */
         TreeMap.prototype._Handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.tree_.erase(last);
         };
         /**
@@ -10693,7 +10723,7 @@ var std;
         TreeMultiSet.prototype.count = function (val) {
             var it = this.find(val);
             var cnt = 0;
-            for (; !it.equal_to(this.end()) && std.equal_to(it.value, val); it = it.next())
+            for (; !it.equals(this.end()) && std.equal_to(it.value, val); it = it.next())
                 cnt++;
             return cnt;
         };
@@ -10757,7 +10787,7 @@ var std;
             }
             else if (this.key_comp()(node.value.value, val) == true) {
                 it = node.value.next();
-                while (it.equal_to(this.end()) == false && this.key_comp()(it.value, val))
+                while (it.equals(this.end()) == false && this.key_comp()(it.value, val))
                     it = it.next();
             }
             else {
@@ -10779,7 +10809,7 @@ var std;
             var compare = this.tree_.key_comp();
             // hint <= current && current <= next
             if ((compare(hint.value, val) || std.equal_to(hint.value, val))
-                && (hint.next().equal_to(this.end()) || (compare(val, hint.next().value) || std.equal_to(val, hint.next().value)))) {
+                && (hint.next().equals(this.end()) || (compare(val, hint.next().value) || std.equal_to(val, hint.next().value)))) {
                 ///////
                 // RIGHT HINT
                 ///////
@@ -10801,7 +10831,7 @@ var std;
          * @hidden
          */
         TreeMultiSet.prototype._Insert_by_range = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this._Insert_by_val(first.value);
         };
         /* ---------------------------------------------------------
@@ -10817,7 +10847,7 @@ var std;
          * @inheritdoc
          */
         TreeMultiSet.prototype._Handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.tree_.erase(last);
         };
         TreeMultiSet.prototype.swap = function (obj) {
@@ -10959,7 +10989,7 @@ var std;
         TreeMultiMap.prototype.count = function (key) {
             var it = this.find(key);
             var cnt = 0;
-            for (; !it.equal_to(this.end()) && std.equal_to(it.first, key); it = it.next())
+            for (; !it.equals(this.end()) && std.equal_to(it.first, key); it = it.next())
                 cnt++;
             return cnt;
         };
@@ -11015,7 +11045,7 @@ var std;
             }
             else if (this.key_comp()(node.value.first, pair.first) == true) {
                 it = node.value.next();
-                while (it.equal_to(this.end()) == false && this.key_comp()(it.first, pair.first))
+                while (it.equals(this.end()) == false && this.key_comp()(it.first, pair.first))
                     it = it.next();
             }
             else
@@ -11037,7 +11067,7 @@ var std;
             var compare = this.key_comp();
             // hint <= current && current <= next
             if ((compare(hint.first, pair.first) || std.equal_to(hint.first, pair.first))
-                && (hint.next().equal_to(this.end()) || (compare(pair.first, hint.next().first) || std.equal_to(pair.first, hint.next().first)))) {
+                && (hint.next().equals(this.end()) || (compare(pair.first, hint.next().first) || std.equal_to(pair.first, hint.next().first)))) {
                 ///////
                 // RIGHT HINT
                 ///////
@@ -11059,7 +11089,7 @@ var std;
          * @hidden
          */
         TreeMultiMap.prototype._Insert_by_range = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this._Insert_by_pair(std.make_pair(first.value.first, first.value.second));
         };
         /* ---------------------------------------------------------
@@ -11075,7 +11105,7 @@ var std;
          * @inheritdoc
          */
         TreeMultiMap.prototype._Handle_erase = function (first, last) {
-            for (; !first.equal_to(last); first = first.next())
+            for (; !first.equals(last); first = first.next())
                 this.tree_.erase(last);
         };
         /**

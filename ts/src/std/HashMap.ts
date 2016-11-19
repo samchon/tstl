@@ -318,7 +318,7 @@ namespace std
 		{
 			// TEST WHETHER EXIST
 			let it = this.find(pair.first);
-			if (it.equal_to(this.end()) == false)
+			if (it.equals(this.end()) == false)
 				return make_pair(it, false);
 
 			// INSERT
@@ -359,7 +359,7 @@ namespace std
 			let size: number = 0;
 
 			// INSERT ELEMENTS
-			for (; !first.equal_to(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next() as InputIterator)
 			{
 				// TEST WHETER EXIST
 				if (this.has(first.value.first))
@@ -387,7 +387,7 @@ namespace std
 		 */
 		protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.insert(first);
 		}
 
@@ -396,7 +396,7 @@ namespace std
 		 */
 		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.erase(first);
 		}
 

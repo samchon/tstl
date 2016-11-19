@@ -37,7 +37,7 @@ namespace std
 	export function for_each<T, InputIterator extends Iterator<T>, Func extends (val: T) => any>
 		(first: InputIterator, last: InputIterator, fn: Func): Func
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			fn(it.value);
 
 		return fn;
@@ -90,7 +90,7 @@ namespace std
 	export function all_of<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (pred(it.value) == false)
 				return false;
 
@@ -121,7 +121,7 @@ namespace std
 	export function any_of<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (pred(it.value) == true)
 				return true;
 
@@ -203,8 +203,8 @@ namespace std
 			pred: (x: T, y: T) => boolean = std.equal_to
 		): boolean
 	{
-		while (!first1.equal_to(last1))
-			if (first2.equal_to(first2.get_source().end()) || !pred(first1.value, first2.value))
+		while (!first1.equals(last1))
+			if (first2.equals(first2.get_source().end()) || !pred(first1.value, first2.value))
 				return false;
 			else
 			{
@@ -288,8 +288,8 @@ namespace std
 			compare: (x: T, y: T) => boolean = std.less
 		): boolean
 	{
-		while (!first1.equal_to(last1))
-			if (first2.equal_to(last2) || !compare(first1.value, first2.value))
+		while (!first1.equals(last1))
+			if (first2.equals(last2) || !compare(first1.value, first2.value))
 				return false;
 			else if (compare(first1.value, first2.value))
 				return true;
@@ -325,7 +325,7 @@ namespace std
 	export function find<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, val: T): InputIterator
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (std.equal_to(it.value, val))
 				return it;
 
@@ -353,7 +353,7 @@ namespace std
 	export function find_if<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (pred(it.value))
 				return it;
 
@@ -380,7 +380,7 @@ namespace std
 	export function find_if_not<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (pred(it.value) == false)
 				return it;
 
@@ -463,12 +463,12 @@ namespace std
 			compare: (x: T, y: T) => boolean = std.equal_to
 		): Iterator1
 	{
-		if (first2.equal_to(last2))
+		if (first2.equals(last2))
 			return last1;
 
 		let ret: Iterator1 = last1;
 
-		for (; !first1.equal_to(last1); first1 = first1.next() as Iterator1)
+		for (; !first1.equals(last1); first1 = first1.next() as Iterator1)
 		{
 			let it1: Iterator1 = first1;
 			let it2: Iterator2 = first2;
@@ -478,12 +478,12 @@ namespace std
 				it1 = it1.next() as Iterator1;
 				it2 = it2.next() as Iterator2;
 
-				if (it2.equal_to(last2))
+				if (it2.equals(last2))
 				{
 					ret = first1;
 					break;
 				}
-				else if (it1.equal_to(last1))
+				else if (it1.equals(last1))
 					return ret;
 			}
 		}
@@ -551,8 +551,8 @@ namespace std
 			pred: (x: T, y: T) => boolean = std.equal_to
 		): Iterator1
 	{
-		for (; !first1.equal_to(last1); first1 = first1.next() as Iterator1)
-			for (let it = first2; !it.equal_to(last2); it = it.next() as Iterator2)
+		for (; !first1.equals(last1); first1 = first1.next() as Iterator1)
+			for (let it = first2; !it.equals(last2); it = it.next() as Iterator2)
 				if (pred(it.value, first1.value))
 					return first1;
 
@@ -603,11 +603,11 @@ namespace std
 	export function adjacent_find<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = std.equal_to): InputIterator
 	{
-		if (!first.equal_to(last))
+		if (!first.equals(last))
 		{
 			let next: InputIterator = first.next() as InputIterator;
 
-			while (!next.equal_to(last))
+			while (!next.equals(last))
 			{
 				if (std.equal_to(first.value, last.value))
 					return first;
@@ -690,10 +690,10 @@ namespace std
 			pred: (x: T, y: T) => boolean = std.equal_to
 		): ForwardIterator1
 	{
-		if (first2.equal_to(last2))
+		if (first2.equals(last2))
 			return first1;
 
-		for (; !first1.equal_to(last1); first1 = first1.next() as ForwardIterator1)
+		for (; !first1.equals(last1); first1 = first1.next() as ForwardIterator1)
 		{
 			let it1: ForwardIterator1 = first1;
 			let it2: ForwardIterator2 = first2;
@@ -703,9 +703,9 @@ namespace std
 				it1 = it1.next() as ForwardIterator1;
 				it2 = it2.next() as ForwardIterator2;
 
-				if (it2.equal_to(last2))
+				if (it2.equals(last2))
 					return first1;
-				else if (it1.equal_to(last1))
+				else if (it1.equals(last1))
 					return last1;
 			}
 		}
@@ -771,7 +771,7 @@ namespace std
 	{
 		let limit: ForwardIterator = first.advance(distance(first, last) - count) as ForwardIterator;
 
-		for (; !first.equal_to(limit); first = first.next() as ForwardIterator)
+		for (; !first.equals(limit); first = first.next() as ForwardIterator)
 		{
 			let it: ForwardIterator = first;
 			let i: number = 0;
@@ -852,7 +852,7 @@ namespace std
 			compare: (x: T, y: T) => boolean = std.equal_to
 		): Pair<Iterator1, Iterator2>
 	{
-		while (!first1.equal_to(last1) && !first2.equal_to(first2.get_source().end())
+		while (!first1.equals(last1) && !first2.equals(first2.get_source().end())
 			&& std.equal_to(first1.value, first2.value))
 		{
 			first1 = first1.next() as Iterator1;
@@ -884,7 +884,7 @@ namespace std
 	{
 		let cnt: number = 0;
 
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (std.equal_to(it.value, val))
 				cnt++;
 
@@ -911,7 +911,7 @@ namespace std
 	{
 		let cnt: number = 0;
 
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (pred(it.value))
 				cnt++;
 
@@ -954,7 +954,7 @@ namespace std
 		<T, InputIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator): OutputIterator
 	{
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
 			result.value = first.value;
 			result = result.next() as OutputIterator;
@@ -1021,7 +1021,7 @@ namespace std
 		<T, InputIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (x: T) => boolean): OutputIterator
 	{
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
 			if (!pred(first.value))
 				continue;
@@ -1064,7 +1064,7 @@ namespace std
 	{
 		last = last.prev() as BidirectionalIterator1
 
-		for (; !last.equal_to(first); last = last.prev() as BidirectionalIterator1)
+		for (; !last.equals(first); last = last.prev() as BidirectionalIterator1)
 		{
 			result.value = last.value;
 			result = result.prev() as BidirectionalIterator2;
@@ -1088,7 +1088,7 @@ namespace std
 	export function fill<T, ForwardIterator extends base.ILinearIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): void
 	{
-		for (; !first.equal_to(last); first = first.next() as ForwardIterator)
+		for (; !first.equals(last); first = first.next() as ForwardIterator)
 			first.value = val;
 	}
 
@@ -1179,7 +1179,7 @@ namespace std
 	function unary_transform<T, InputIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => T): OutputIterator
 	{
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
 			result.value = op(first.value);
 			result = result.next() as OutputIterator;
@@ -1199,7 +1199,7 @@ namespace std
 			result: OutputIterator, binary_op: (x: T, y: T) => T
 		): OutputIterator
 	{
-		while (!first1.equal_to(last1))
+		while (!first1.equals(last1))
 		{
 			result.value = binary_op(first1.value, first2.value);
 
@@ -1226,7 +1226,7 @@ namespace std
 	export function generate<T, ForwardIterator extends base.ILinearIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, gen: () => T): void
 	{
-		for (; !first.equal_to(last); first = first.next() as ForwardIterator)
+		for (; !first.equals(last); first = first.next() as ForwardIterator)
 			first.value = gen();
 	}
 
@@ -1317,7 +1317,7 @@ namespace std
 	{
 		let ret: InputIterator = first;
 
-		for (let it = first.next(); !it.equal_to(last);)
+		for (let it = first.next(); !it.equals(last);)
 		{
 			if (std.equal_to(it.value, it.prev().value) == true)
 				it = it.get_source().erase(it) as InputIterator;
@@ -1391,13 +1391,13 @@ namespace std
 			pred: (x: T, y: T) => boolean = std.equal_to
 		): OutputIterator
 	{
-		if (first.equal_to(last))
+		if (first.equals(last))
 			return result;
 
 		result.value = first.value;
 		first = first.next() as InputIterator;
 
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 			if (!pred(first.value, result.value))
 			{
 				result = result.next() as OutputIterator;
@@ -1432,7 +1432,7 @@ namespace std
 	{
 		let ret: InputIterator = last;
 
-		for (let it = first; !it.equal_to(last); )
+		for (let it = first; !it.equals(last); )
 		{
 			if (std.equal_to(it.value, val) == true)
 				it = it.get_source().erase(it) as InputIterator;
@@ -1472,7 +1472,7 @@ namespace std
 	{
 		let ret: InputIterator = last;
 
-		for (let it = first; !it.equal_to(last);)
+		for (let it = first; !it.equals(last);)
 		{
 			if (pred(it.value) == true)
 				it = it.get_source().erase(it) as InputIterator;
@@ -1511,7 +1511,7 @@ namespace std
 	export function remove_copy<T, InputIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, val: T): OutputIterator
 	{
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
 			if (std.equal_to(first.value, val))
 				continue;
@@ -1549,7 +1549,7 @@ namespace std
 	export function remove_copy_if<T, InputIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean): OutputIterator
 	{
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
 			if (pred(first.value))
 				continue;
@@ -1582,7 +1582,7 @@ namespace std
 	export function replace<T, InputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, old_val: T, new_val: T): void
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (std.equal_to(it.value, old_val))
 				it.value = new_val;
 	}
@@ -1605,7 +1605,7 @@ namespace std
 	export function replace_if<T, InputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean, new_val: T): void
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			if (pred(it.value) == true)
 				it.value = new_val;
 	}
@@ -1636,7 +1636,7 @@ namespace std
 	export function replace_copy<T, InputIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, old_val: T, new_val: T): OutputIterator
 	{
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
 			if (std.equal_to(first.value, old_val))
 				result.value = new_val;
@@ -1672,7 +1672,7 @@ namespace std
 	export function replace_copy_if<T, InputIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean, new_val: T): OutputIterator
 	{
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
 			if (pred(first.value))
 				result.value = new_val;
@@ -1720,7 +1720,7 @@ namespace std
 	export function swap_ranges<T, ForwardIterator1 extends Iterator<T>, ForwardIterator2 extends Iterator<T>>
 		(first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2): ForwardIterator2
 	{
-		for (; !first1.equal_to(last1); first1 = first1.next() as ForwardIterator1)
+		for (; !first1.equals(last1); first1 = first1.next() as ForwardIterator1)
 		{
 			first1.swap(first2);
 			first2 = first2.next() as ForwardIterator2;
@@ -1747,7 +1747,7 @@ namespace std
 		(first: InputIterator, last: InputIterator): void
 	{
 		// first != last && first != --last
-		while (first.equal_to(last) == false && first.equal_to((last = last.prev() as InputIterator)) == false)
+		while (first.equals(last) == false && first.equals((last = last.prev() as InputIterator)) == false)
 		{
 			first.swap(last);
 			first = first.next() as InputIterator;
@@ -1774,7 +1774,7 @@ namespace std
 	export function reverse_copy<T, BidirectionalIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, result: OutputIterator): OutputIterator
 	{
-		while (!last.equal_to(first))
+		while (!last.equals(first))
 		{
 			last = last.prev() as BidirectionalIterator;
 
@@ -1804,14 +1804,14 @@ namespace std
 	{
 		let next: InputIterator = middle;
 
-		while (next.equal_to(last) == false)
+		while (next.equals(last) == false)
 		{
 			first.swap(next);
 
 			first = first.next() as InputIterator;
 			next = next.next() as InputIterator;
 
-			if (first.equal_to(middle))
+			if (first.equals(middle))
 				break;
 		}
 
@@ -1888,7 +1888,7 @@ namespace std
 	export function shuffle<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator): void
 	{
-		for (let it = first; !it.equal_to(last); it = it.next() as RandomAccessIterator)
+		for (let it = first; !it.equals(last); it = it.next() as RandomAccessIterator)
 		{
 			let rand_index: number = Math.floor(Math.random() * (last.index - first.index));
 			it.swap(first.advance(rand_index));
@@ -2143,10 +2143,10 @@ namespace std
 	export function is_sorted<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.equal_to): boolean
 	{
-		if (first.equal_to(last)) 
+		if (first.equals(last)) 
 			return true;
 		
-		for (let next = first.next() as ForwardIterator; !next.equal_to(last); next = next.next() as ForwardIterator)
+		for (let next = first.next() as ForwardIterator; !next.equals(last); next = next.next() as ForwardIterator)
 		{
 			if (std.less(next.value, first.value)) // or, if (comp(*next,*first)) for version (2)
 				return false;
@@ -2213,10 +2213,10 @@ namespace std
 	export function is_sorted_until<T, ForwardIterator extends Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.equal_to): ForwardIterator
 	{
-		if (first.equal_to(last))
+		if (first.equals(last))
 			return first;
 		
-		for (let next = first.next() as ForwardIterator; !next.equal_to(last); next = next.next() as ForwardIterator)
+		for (let next = first.next() as ForwardIterator; !next.equals(last); next = next.next() as ForwardIterator)
 		{
 			if (std.less(next.value ,first.value)) 
 				return next;
@@ -2508,7 +2508,7 @@ namespace std
 		let last_item_it = last.prev();
 		let less_it: RandomAccessIterator = null;
 		
-		for (let it = first; !it.equal_to(last_item_it); it = it.next() as RandomAccessIterator)
+		for (let it = first; !it.equals(last_item_it); it = it.next() as RandomAccessIterator)
 		{
 			if (compare(it.value, last_item_it.value))
 			{
@@ -2642,7 +2642,7 @@ namespace std
 	{
 		let it = std.is_heap_until(first, last, compare);
 
-		return it.equal_to(last);
+		return it.equals(last);
 	}
 
 	/**
@@ -2698,7 +2698,7 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): RandomAccessIterator
 	{
 		let prev = first;
-		for (let it = first.next() as RandomAccessIterator; !it.equal_to(last); it = it.next() as RandomAccessIterator)
+		for (let it = first.next() as RandomAccessIterator; !it.equals(last); it = it.next() as RandomAccessIterator)
 		{
 			if (compare(prev.value, it.value) == true)
 				return it;
@@ -3102,7 +3102,7 @@ namespace std
 	{
 		first = lower_bound(first, last, val, compare);
 
-		return !first.equal_to(last) && !compare(val, first.value);
+		return !first.equals(last) && !compare(val, first.value);
 	}
 }
 
@@ -3135,10 +3135,10 @@ namespace std
 	export function is_partitioned<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (x: T) => boolean): boolean
 	{
-		while (!first.equal_to(last) && pred(first.value))
+		while (!first.equals(last) && pred(first.value))
 			first = first.next() as InputIterator;
 
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 			if (pred(first.value))
 				return false;
 
@@ -3170,19 +3170,19 @@ namespace std
 	export function partition<T, BidirectionalIterator extends Iterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
 	{
-		while (!first.equal_to(last))
+		while (!first.equals(last))
 		{
 			while (pred(first.value))
 			{
 				first = first.next() as BidirectionalIterator;
-				if (first.equal_to(last))
+				if (first.equals(last))
 					return first;
 			}
 
 			do
 			{
 				last = last.prev() as BidirectionalIterator;
-				if (first.equal_to(last))
+				if (first.equals(last))
 					return first;
 			} while (!pred(last.value));
 
@@ -3253,7 +3253,7 @@ namespace std
 			result_true: OutputIterator1, result_false: OutputIterator2, pred: (val: T) => T
 		): Pair<OutputIterator1, OutputIterator2>
 	{
-		for (; !first.equal_to(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next() as InputIterator)
 			if (pred(first.value))
 			{
 				result_true.value = first.value;
@@ -3396,9 +3396,9 @@ namespace std
 	{
 		while (true)
 		{
-			if (first1.equal_to(last1))
+			if (first1.equals(last1))
 				return copy(first2, last2, result);
-			else if (first2.equal_to(last2))
+			else if (first2.equals(last2))
 				return copy(first1, last1, result);
 
 			if (compare(first1.value, first2.value))
@@ -3553,9 +3553,9 @@ namespace std
 			compare: (x: T, y: T) => boolean = std.less
 		): boolean
 	{
-		while (!first2.equal_to(last2))
+		while (!first2.equals(last2))
 		{
-			if (first1.equal_to(last2) || compare(first2.value, first1.value))
+			if (first1.equals(last2) || compare(first2.value, first1.value))
 				return false;
 			else if (!compare(first1.value, first2.value))
 				first2 = first2.next() as InputIterator2;
@@ -3655,9 +3655,9 @@ namespace std
 	{
 		while (true)
 		{
-			if (first1.equal_to(last1))
+			if (first1.equals(last1))
 				return copy(first2, last2, result);
-			else if (first2.equal_to(last2))
+			else if (first2.equals(last2))
 				return copy(first1, last1, result);
 
 			if (compare(first1.value, first2.value))
@@ -3771,9 +3771,9 @@ namespace std
 	{
 		while (true)
 		{
-			if (first1.equal_to(last1))
+			if (first1.equals(last1))
 				return copy(first2, last2, result);
-			else if (first2.equal_to(last2))
+			else if (first2.equals(last2))
 				return copy(first1, last1, result);
 
 			if (compare(first1.value, first2.value))
@@ -3888,7 +3888,7 @@ namespace std
 			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
 		): OutputIterator
 	{
-		while (!first1.equal_to(last1) && !first2.equal_to(last2))
+		while (!first1.equals(last1) && !first2.equals(last2))
 			if (std.less(first1.value, first2.value))
 			{
 				result.value = first1.value;
@@ -4002,9 +4002,9 @@ namespace std
 	{
 		while (true)
 		{
-			if (first1.equal_to(last1))
+			if (first1.equals(last1))
 				return copy(first2, last2, result);
-			else if (first2.equal_to(last2))
+			else if (first2.equals(last2))
 				return copy(first1, last1, result);
 
 			if (compare(first1.value, first2.value))
@@ -4154,7 +4154,7 @@ namespace std
 		let smallest: ForwardIterator = first;
 		first = first.next() as ForwardIterator;
 		
-		for (; !first.equal_to(last); first = first.next() as ForwardIterator)
+		for (; !first.equals(last); first = first.next() as ForwardIterator)
 			if (compare(first.value, smallest.value))
 				smallest = first;
 
@@ -4210,7 +4210,7 @@ namespace std
 		let largest: ForwardIterator = first;
 		first = first.next() as ForwardIterator;
 
-		for (; !first.equal_to(last); first = first.next() as ForwardIterator)
+		for (; !first.equals(last); first = first.next() as ForwardIterator)
 			if (compare(first.value, largest.value))
 				largest = first;
 
@@ -4284,7 +4284,7 @@ namespace std
 		let largest: ForwardIterator = first;
 
 		first = first.next() as ForwardIterator;
-		for (; !first.equal_to(last); first = first.next() as ForwardIterator)
+		for (; !first.equals(last); first = first.next() as ForwardIterator)
 		{
 			if (compare(first.value, smallest.value)) // first is less than the smallest.
 				smallest = first;
@@ -4358,13 +4358,13 @@ namespace std
 		first1 = pair.first;
 		first2 = pair.second;
 
-		if (first1.equal_to(last1))
+		if (first1.equals(last1))
 			return true;
 
 		let last2: Iterator2 = first2.advance(distance(first1, last1)) as Iterator2;
 
-		for (let it = first1; !it.equal_to(last1); it = it.next() as Iterator1)
-			if (find(first1, it, it.value).equal_to(it))
+		for (let it = first1; !it.equals(last1); it = it.next() as Iterator1)
+			if (find(first1, it, it.value).equals(it))
 			{
 				let n: number = count(first2, last2, it.value);
 				if (n == 0 || count(it, last1, it.value) != n)
@@ -4437,11 +4437,11 @@ namespace std
 	export function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = std.less): boolean
 	{
-		if (first.equal_to(last) == true)
+		if (first.equals(last) == true)
 			return false;
 
 		let i: BidirectionalIterator = last.prev() as BidirectionalIterator;
-		if (first.equal_to(i) == true)
+		if (first.equals(i) == true)
 			return false;
 
 		while (true)
@@ -4461,7 +4461,7 @@ namespace std
 				return true;
 			}
 
-			if (i.equal_to(first) == true)
+			if (i.equals(first) == true)
 			{
 				std.reverse(first, last);
 				return false;
@@ -4533,11 +4533,11 @@ namespace std
 	export function next_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = std.less): boolean
 	{
-		if (first.equal_to(last) == true)
+		if (first.equals(last) == true)
 			return false;
 
 		let i: BidirectionalIterator = last.prev() as BidirectionalIterator;
-		if (first.equal_to(i) == true)
+		if (first.equals(i) == true)
 			return false;
 
 		while (true)
@@ -4557,7 +4557,7 @@ namespace std
 				return true;
 			}
 
-			if (i.equal_to(first) == true)
+			if (i.equals(first) == true)
 			{
 				std.reverse(first, last);
 				return false;

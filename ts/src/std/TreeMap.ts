@@ -313,7 +313,7 @@ namespace std
 
 			// hint < current && current < next
 			if (compare(hint.first, pair.first) == true
-				&& (hint.next().equal_to(this.end()) || compare(pair.first, hint.next().first) == true))
+				&& (hint.next().equals(this.end()) || compare(pair.first, hint.next().first) == true))
 			{ 
 				///////
 				// RIGHT HINT
@@ -341,7 +341,7 @@ namespace std
 		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			for (; !first.equal_to(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next() as InputIterator)
 				this._Insert_by_pair(make_pair<Key, T>(first.value.first, first.value.second));
 		}
 
@@ -361,7 +361,7 @@ namespace std
 		 */
 		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
-			for (; !first.equal_to(last); first = first.next())
+			for (; !first.equals(last); first = first.next())
 				this.tree_.erase(last);
 		}
 
