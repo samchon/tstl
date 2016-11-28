@@ -908,14 +908,6 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_to(obj: VectorIterator<T>): boolean
-		{
-			return this.equals(obj);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public swap(obj: VectorIterator<T>): void
 		{
 			[this.value, obj.value] = [obj.value, this.value];

@@ -1988,14 +1988,6 @@ var std;
         Iterator.prototype.equals = function (obj) {
             return this.source_ == obj.source_;
         };
-        /**
-         * To be deprecated.
-         *
-         * @see {@link equals}
-         */
-        Iterator.prototype.equal_to = function (obj) {
-            return this.equals(obj);
-        };
         Object.defineProperty(Iterator.prototype, "value", {
             /**
              * <p> Get value of the iterator is pointing. </p>
@@ -2112,12 +2104,6 @@ var std;
          */
         ReverseIterator.prototype.equals = function (obj) {
             return this.base_.equals(obj.base_);
-        };
-        /**
-         * @inheritdoc
-         */
-        ReverseIterator.prototype.equal_to = function (obj) {
-            return this.equals(obj);
         };
         /**
          * @inheritdoc
@@ -4403,13 +4389,7 @@ var std;
         /**
          * @inheritdoc
          */
-        MapIterator.prototype.equal_to = function (obj) {
-            return this.equals(obj);
-        };
-        /**
-         * @inheritdoc
-         */
-        MapIterator.prototype.hash = function () {
+        MapIterator.prototype.hashCode = function () {
             return std.hash(this.first);
         };
         /**
@@ -4947,13 +4927,7 @@ var std;
         /**
          * @inheritdoc
          */
-        SetIterator.prototype.equal_to = function (obj) {
-            return this.equals(obj);
-        };
-        /**
-         * @inheritdoc
-         */
-        SetIterator.prototype.hash = function () {
+        SetIterator.prototype.hashCode = function () {
             return std.hash(this.value);
         };
         /**
@@ -6405,12 +6379,6 @@ var std;
         /**
          * @inheritdoc
          */
-        DequeIterator.prototype.equal_to = function (obj) {
-            return this.equals(obj);
-        };
-        /**
-         * @inheritdoc
-         */
         DequeIterator.prototype.swap = function (obj) {
             _a = [obj.value, this.value], this.value = _a[0], obj.value = _a[1];
             var _a;
@@ -6948,12 +6916,6 @@ var std;
          */
         VectorIterator.prototype.equals = function (obj) {
             return _super.prototype.equals.call(this, obj) && this.index_ == obj.index_;
-        };
-        /**
-         * @inheritdoc
-         */
-        VectorIterator.prototype.equal_to = function (obj) {
-            return this.equals(obj);
         };
         /**
          * @inheritdoc
@@ -7504,12 +7466,6 @@ var std;
          */
         ListIterator.prototype.equals = function (obj) {
             return this == obj;
-        };
-        /**
-         * @inheritdoc
-         */
-        ListIterator.prototype.equal_to = function (obj) {
-            return this.equals(obj);
         };
         /**
          * @inheritdoc
@@ -8168,8 +8124,6 @@ var std;
         if (x instanceof Object) {
             if (x.equals)
                 return x.equals(y);
-            else if (x.equal_to)
-                return x.equal_to(y);
             else
                 return x == y;
         }
@@ -8430,8 +8384,8 @@ var std;
      * @hidden
      */
     function hash_of_object(obj) {
-        if (obj.hash != undefined)
-            return obj.hash();
+        if (obj.hashCode != undefined)
+            return obj.hashCode();
         else
             return hash_of_number(obj.__get_m_iUID());
     }
@@ -11376,9 +11330,12 @@ var std;
          * @param obj A Map to compare
          * @return Indicates whether equal or not.
          */
-        Pair.prototype.equal_to = function (pair) {
+        Pair.prototype.equals = function (pair) {
             return std.equal_to(this.first, pair.first) && std.equal_to(this.second, pair.second);
         };
+        /**
+         * @inheritdoc
+         */
         Pair.prototype.less = function (pair) {
             if (std.equal_to(this.first, pair.first) == false)
                 return std.less(this.first, pair.first);

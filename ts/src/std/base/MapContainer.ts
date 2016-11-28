@@ -862,15 +862,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_to(obj: MapIterator<Key, T>): boolean 
-		{
-			return this.equals(obj);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public hash(): number
+		public hashCode(): number
 		{
 			return std.hash(this.first);
 		}

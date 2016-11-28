@@ -32,7 +32,7 @@ namespace std
 	 * @reference http://www.cplusplus.com/reference/utility/pair
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class Pair<T1, T2>
+	export class Pair<T1, T2> implements IComparable<Pair<T1, T2>>
 	{
 		/**
 		 * <p> A first value in the Pair. </p>
@@ -58,7 +58,7 @@ namespace std
 			this.first = first;
 			this.second = second;
 		}
-	
+
 		/* ---------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------- */
@@ -73,11 +73,14 @@ namespace std
 		 * @param obj A Map to compare
 		 * @return Indicates whether equal or not.
 		 */
-		public equal_to<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean
+		public equals<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean
 		{
 			return std.equal_to(this.first, pair.first) && std.equal_to(this.second, pair.second);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
 		public less<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean
 		{
 			if (std.equal_to(this.first, pair.first) == false)

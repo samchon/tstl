@@ -1028,14 +1028,6 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_to(obj: DequeIterator<T>): boolean
-		{
-			return this.equals(obj);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public swap(obj: DequeIterator<T>): void
 		{
 			[this.value, obj.value] = [obj.value, this.value];

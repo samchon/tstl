@@ -971,14 +971,6 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_to(obj: ListIterator<T>): boolean
-		{
-			return this.equals(obj);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
 		public swap(obj: ListIterator<T>): void
 		{
 			super.swap(obj);

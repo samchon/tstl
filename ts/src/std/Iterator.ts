@@ -129,16 +129,6 @@ namespace std
 		{
 			return this.source_ == obj.source_;
 		}
-
-		/**
-		 * To be deprecated.
-		 * 
-		 * @see {@link equals}
-		 */
-		public equal_to(obj: Iterator<T>): boolean
-		{
-			return this.equals(obj);
-		}
 		
 		/**
 		 * <p> Get value of the iterator is pointing. </p>
@@ -274,14 +264,6 @@ namespace std
 		public equals(obj: This): boolean
 		{
 			return this.base_.equals(obj.base_);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public equal_to(obj: This): boolean
-		{
-			return this.equals(obj);
 		}
 
 		/**

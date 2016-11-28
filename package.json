@@ -10,7 +10,7 @@
 
 	"main": "./lib/typescript-stl.js",
 	"typings": "./lib/typescript-stl.d.ts",
-	"version": "1.2.3",
+	"version": "1.2.4",
 
 	"homepage": "https://github.com/samchon/typescript-stl",
 	"repository": 
@@ -29,6 +29,15 @@
 	[
 		"stl", "standard template library",
 		"typescript", "standard", "template", "container", "library", 
-		"vector", "deque", "list", "queue", "stack", "hash", "tree", "map", "set", "iterator"
+		
+		"algorithm", "iterator", "functional", "utility",
+		
+		"vector", "deque", "list", "stack", "queue", "priority_queue",
+		"set", "multiset", "unordered_set", "unordered_multiset",
+		"map", "multimap", "unordered_map", "unordered_multimap",
+
+		"IComparable" , "Pair", "PriorityQueue",
+		"TreeSet", "TreeMultiSet", "HashSet", "HashMultiSet",
+		"TreeMap", "TreeMultiMap", "HashMap", "HashMultiMap"
 	]
 }

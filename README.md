@@ -57,9 +57,9 @@ Installing *TypeScript-STL* in **node** is very easy. Just install with **npm** 
 #### Node
 ``` bash
 # Install TypeScript-STL from NPM modules
-npm install -g typescript-stl 
+npm install --save typescript-stl 
 
-# Fetch definition (header) file from DefinitelyTyped
+# If you need header, then fetch from the @types
 npm install --save @types/typescript-stl
 ```
 
@@ -77,7 +77,7 @@ map.insert(["Second", 2]);
 map.insert_or_assign("Third", 3); // C++17 Feature.
 map.set("Fourth", 4); // Non-standard Feature.
 
-for (let it = map.begin(); !it.equal_to(map.end()); it = it.next())
+for (let it = map.begin(); !it.equals(map.end()); it = it.next())
 	console.log(it.first, it.second); // key => string, value => number
 ```
 

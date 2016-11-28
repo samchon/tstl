@@ -610,15 +610,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_to(obj: SetIterator<T>): boolean 
-		{
-			return this.equals(obj);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public hash(): number
+		public hashCode(): number
 		{
 			return std.hash(this.value);
 		}
