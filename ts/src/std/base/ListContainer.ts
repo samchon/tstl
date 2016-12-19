@@ -302,7 +302,7 @@ namespace std.base
 
 			// BRANCHES
 			if (args.length == 2)
-				ret = this.insert_by_val(args[0], args[1]);
+				ret = this._Insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
 				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
 			else
@@ -315,7 +315,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private insert_by_val(position: BidirectionalIterator, val: T): BidirectionalIterator
+		private _Insert_by_val(position: BidirectionalIterator, val: T): BidirectionalIterator
 		{
 			// SHIFT TO INSERT OF THE REPEATING VAL
 			return this._Insert_by_repeating_val(position, 1, val);
@@ -490,9 +490,9 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void;
+		public swap(obj: base.Container<T>): void;
 
-		public swap(obj: ListContainer<T, BidirectionalIterator> | base.IContainer<T>): void
+		public swap(obj: ListContainer<T, BidirectionalIterator> | base.Container<T>): void
 		{
 			if (obj instanceof ListContainer)
 			{

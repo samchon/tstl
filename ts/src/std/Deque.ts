@@ -108,12 +108,11 @@ namespace std
 		 * @hidden
 		 */
 		private matrix_: Array<Array<T>>;
-
-		// Number of elements in the Deque.
+		
 		/**
 		 * @hidden
 		 */
-		private size_: number;
+		private size_: number; // Number of elements in the Deque.
 
 		/**
 		 * @hidden
@@ -123,7 +122,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private get_col_size(): number
+		private _Get_col_size(): number
 		{
 			// Get column size; {@link capacity_ capacity} / {@link ROW row}.
 			return Math.floor(this.capacity_ / Deque.ROW);
@@ -268,7 +267,7 @@ namespace std
 
 				for (let it = begin; !it.equals(end); it = it.next())
 				{
-					if (array.length >= this.get_col_size())
+					if (array.length >= this._Get_col_size())
 					{
 						array = new Array<T>();
 						this.matrix_.push(array);
@@ -290,7 +289,7 @@ namespace std
 
 				for (let i = 0; i < size; i++)
 				{
-					if (array.length >= this.get_col_size())
+					if (array.length >= this._Get_col_size())
 					{
 						array = new Array<T>();
 						this.matrix_.push(array);
@@ -301,7 +300,23 @@ namespace std
 		}
 
 		/**
-		 * @inheritdoc
+		 * <p> Request a change in capacity. </p>
+		 * 
+		 * <p> Requests that the {@link Deque container} {@link capacity} be at least enough to contain 
+		 * <i>n</i> elements. </p>
+		 * 
+		 * <p> If <i>n</i> is greater than the current {@link Deque container} {@link capacity}, the
+		 * function causes the {@link Deque container} to reallocate its storage increasing its
+		 * {@link capacity} to <i>n</i> (or greater). </p>
+		 * 
+		 * <p> In all other cases, the function call does not cause a reallocation and the 
+		 * {@link Deque container} {@link capacity} is not affected. </p>
+		 * 
+		 * <p> This function has no effect on the {@link Deque container} {@link size} and cannot alter
+		 * its elements. </p>
+		 *
+		 * @param n Minimum {@link capacity} for the {@link Deque container}.
+		 *			Note that the resulting {@link capacity} may be equal or greater than <i>n</i>.
 		 */
 		public reserve(capacity: number): void
 		{
@@ -321,7 +336,7 @@ namespace std
 			for (let i = 0; i < prevMatrix.length; i++)
 				for (let j = 0; j < prevMatrix[i].length; j++)
 				{
-					if (array.length >= this.get_col_size())
+					if (array.length >= this._Get_col_size())
 					{
 						array = new Array<T>();
 						this.matrix_.push(array);
@@ -404,7 +419,26 @@ namespace std
 		}
 
 		/**
-		 * @inheritdoc
+		 * <p> Return size of allocated storage capacity. </p>
+		 * 
+		 * <p> Returns the size of the storage space currently allocated for the {@link Deque container}, 
+		 * expressed in terms of elements. </p>
+		 * 
+		 * <p> This {@link capacity} is not necessarily equal to the {@link Deque container} {@link size}.
+		 * It can be equal or greater, with the extra space allowing to accommodate for growth without the 
+		 * need to reallocate on each insertion. </p>
+		 * 
+		 * <p> Notice that this {@link capacity} does not suppose a limit on the {@link size} of the 
+		 * {@link Deque container}. When this {@link capacity} is exhausted and more is needed, it is
+		 * automatically expanded by the {@link Deque container} (reallocating it storage space).
+		 * The theoretical limit on the {@link size} of a {@link Deque container} is given by member
+		 * {@link max_size}. </p>
+		 * 
+		 * <p> The {@link capacity} of a {@link Deque container} can be explicitly altered by calling member
+		 * {@link Deque.reserve}. </p>
+		 *
+		 * @return The size of the currently allocated storage capacity in the {@link Deque container},
+		 *		   measured in terms of the number elements it can hold.
 		 */
 		public capacity(): number
 		{
@@ -419,7 +453,7 @@ namespace std
 			if (index > this.size())
 				throw new OutOfRange("Target index is greater than Deque's size.");
 
-			let indexPair: Pair<number, number> = this.fetch_index(index);
+			let indexPair: Pair<number, number> = this._Fetch_index(index);
 			return this.matrix_[indexPair.first][indexPair.second];
 		}
 
@@ -431,7 +465,7 @@ namespace std
 			if (index >= this.size())
 				throw new OutOfRange("Target index is greater than Deque's size.");
 
-			let indexPair: Pair<number, number> = this.fetch_index(index);
+			let indexPair: Pair<number, number> = this._Fetch_index(index);
 			this.matrix_[indexPair.first][indexPair.second] = val;
 		}
 
@@ -452,14 +486,13 @@ namespace std
 
 			return lastArray[lastArray.length - 1];
 		}
-
-		/**
-		// Fetch row and column's index.
+		
 		/**
 		 * @hidden
 		 */
-		private fetch_index(index: number): Pair<number, number>
-		{
+		private _Fetch_index(index: number): Pair<number, number>
+		{ 
+			// Fetch row and column's index.
 			let row: number;
 
 			for (row = 0; row < this.matrix_.length; row++)
@@ -501,7 +534,7 @@ namespace std
 
 			for (let i: number = 0; i < items.length; i++)
 			{
-				if (array.length >= this.get_col_size())
+				if (array.length >= this._Get_col_size())
 				{
 					array = new Array<T>();
 					this.matrix_.push(array);
@@ -534,7 +567,7 @@ namespace std
 		public push_back(val: T): void
 		{
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
-			if (lastArray.length >= this.get_col_size() && this.matrix_.length < Deque.ROW)
+			if (lastArray.length >= this._Get_col_size() && this.matrix_.length < Deque.ROW)
 			{
 				lastArray = new Array<T>();
 				this.matrix_.push(lastArray);
@@ -630,7 +663,7 @@ namespace std
 
 			// BRANCHES
 			if (args.length == 2)
-				ret = this.insert_by_val(args[0], args[1]);
+				ret = this._Insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
 				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
 			else
@@ -646,7 +679,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_val(position: DequeIterator<T>, val: T): DequeIterator<T>
+		private _Insert_by_val(position: DequeIterator<T>, val: T): DequeIterator<T>
 		{
 			return this._Insert_by_repeating_val(position, 1, val);
 		}
@@ -670,7 +703,7 @@ namespace std
 				return this.begin();
 			}
 			else
-				return this.insert_by_items(position, items);
+				return this._Insert_by_items(position, items);
 		}
 
 		/**
@@ -692,13 +725,13 @@ namespace std
 				return this.begin();
 			}
 			else
-				return this.insert_by_items(position, items);
+				return this._Insert_by_items(position, items);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private insert_by_items(position: DequeIterator<T>, items: Array<T>): DequeIterator<T>
+		private _Insert_by_items(position: DequeIterator<T>, items: Array<T>): DequeIterator<T>
 		{
 			let item_size: number = items.length;
 			this.size_ += item_size;
@@ -709,7 +742,7 @@ namespace std
 				// WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
 				// ------------------------------------------------------
 				// INSERTS CAREFULLY CONSIDERING THE COL_SIZE
-				let index_pair = this.fetch_index(position.index);
+				let index_pair = this._Fetch_index(position.index);
 				let index = index_pair.first;
 
 				let spliced_values = this.matrix_[index].splice(index_pair.second);
@@ -746,7 +779,7 @@ namespace std
 				}
 				else
 				{
-					let indexPair = this.fetch_index(position.index);
+					let indexPair = this._Fetch_index(position.index);
 					let index = indexPair.first;
 
 					let splicedValues = this.matrix_[index].splice(indexPair.second);
@@ -834,7 +867,7 @@ namespace std
 			// ERASING
 			while (size != 0)
 			{
-				let indexPair: Pair<number, number> = this.fetch_index(first.index);
+				let indexPair: Pair<number, number> = this._Fetch_index(first.index);
 				let array: Array<T> = this.matrix_[indexPair.first];
 
 				let myDeleteSize: number = Math.min(size, array.length - indexPair.second);
@@ -877,12 +910,13 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void;
+		public swap(obj: base.Container<T>): void;
 
-		public swap(obj: Deque<T> | base.IContainer<T>): void
+		public swap(obj: Deque<T> | base.Container<T>): void
 		{
 			if (obj instanceof Deque)
 			{
+				// SWAP CONTENTS
 				[this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
 				[this.size_, obj.size_] = [obj.size_, this.size_];
 				[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
@@ -937,19 +971,11 @@ namespace std
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
-		 */
-		private get deque(): Deque<T> 
-		{ 
-			return this.source_ as Deque<T>; 
-		}
-
-		/**
 		 * @inheritdoc
 		 */
 		public get value(): T
 		{
-			return this.deque.at(this.index_);
+			return (this.source_ as Deque<T>).at(this.index_);
 		}
 
 		/**
@@ -959,7 +985,7 @@ namespace std
 		 */
 		public set value(val: T)
 		{
-			this.deque.set(this.index_, val);
+			(this.source_ as Deque<T>).set(this.index_, val);
 		}
 
 		/**
@@ -979,11 +1005,11 @@ namespace std
 		public prev(): DequeIterator<T>
 		{
 			if (this.index_ == -1)
-				return new DequeIterator(this.deque, this.deque.size() - 1);
+				return new DequeIterator(this.source_ as Deque<T>, this.source_.size() - 1);
 			else if (this.index_ - 1 < 0)
-				return this.deque.end();
+				return (this.source_ as Deque<T>).end();
 			else
-				return new DequeIterator<T>(this.deque, this.index_ - 1);
+				return new DequeIterator<T>(this.source_ as Deque<T>, this.index_ - 1);
 		}
 
 		/**
@@ -992,9 +1018,9 @@ namespace std
 		public next(): DequeIterator<T>
 		{
 			if (this.index_ >= this.source_.size() - 1)
-				return this.deque.end();
+				return (this.source_ as Deque<T>).end();
 			else
-				return new DequeIterator<T>(this.deque, this.index_ + 1);
+				return new DequeIterator<T>(this.source_ as Deque<T>, this.index_ + 1);
 		}
 
 		/**
@@ -1004,14 +1030,14 @@ namespace std
 		{
 			let new_index: number;
 			if (n < 0 && this.index_ == -1)
-				new_index = this.deque.size() + n;
+				new_index = this.source_.size() + n;
 			else
 				new_index = this.index_ + n;
 
-			if (new_index < 0 || new_index >= this.deque.size())
-				return this.deque.end();
+			if (new_index < 0 || new_index >= this.source_.size())
+				return (this.source_ as Deque<T>).end();
 			else
-				return new DequeIterator<T>(this.deque, new_index);
+				return new DequeIterator<T>(this.source_ as Deque<T>, new_index);
 		}
 
 		/* ---------------------------------------------------------

@@ -27,10 +27,10 @@ namespace std.example
 		reverse_iterate(set);
 
 		console.log("HashMap's Reverse Iterator");
-		reverse_iterate(map);
+		reverse_iterate<Pair<number, number>>(map);
 	}
 
-	function reverse_iterate<T>(container: base.IContainer<T>): void
+	function reverse_iterate<T>(container: base.Container<T>): void
 	{
 		for (let it = container.rbegin(); !it.equals(container.rend()); it = it.next())
 			console.log(it.value);

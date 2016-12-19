@@ -17,8 +17,8 @@ function compile()
 
 function attach_header()
 {
-	const TITLE_FILE = "./ts/src/typings/typescript-stl/typescript-stl.d.ts";
-	const HEADER_FILE = "./lib/typescript-stl.d.ts";
+	const TITLE_FILE = "./ts/src/typings/tstl/tstl.d.ts";
+	const HEADER_FILE = "./lib/tstl.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");
 	text += fs.readFileSync(HEADER_FILE, "utf8");
@@ -28,12 +28,12 @@ function attach_header()
 
 function remove_dynamics()
 {
-	const JS_FILE = "./lib/typescript-stl.js";
+	const JS_FILE = "./lib/tstl.js";
 	
 	var text = fs.readFileSync(JS_FILE, "utf8");
 	var dynamics = new std.HashSet(StringUtil.betweens(text, '["', '"]'));
 
-	for (var it = dynamics.begin(); !it.equal_to(dynamics.end()); it = it.next())
+	for (var it = dynamics.begin(); !it.equals(dynamics.end()); it = it.next())
 	{
 		if (it.value.indexOf(',') != -1)
 			continue;
@@ -48,5 +48,5 @@ function remove_dynamics()
 
 function minify()
 {
-	minifier.minify("lib/typescript-stl.js");
+	minifier.minify("lib/tstl.js");
 }

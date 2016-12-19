@@ -128,7 +128,7 @@ namespace std
 			}
 			else if (args.length == 1 && (args[0] instanceof List)) 
 			{
-				let container: base.IContainer<T> = args[0];
+				let container: List<T> = args[0];
 
 				this.assign(container.begin(), container.end());
 			}
@@ -804,27 +804,27 @@ namespace std
 
 		public sort(compare: (left: T, right: T) => boolean = std.less): void
 		{
-			this.qsort(this.begin(), this.end().prev(), compare);
+			this._Quick_sort(this.begin(), this.end().prev(), compare);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private qsort(first: ListIterator<T>, last: ListIterator<T>, compare: (left: T, right: T) => boolean): void
+		private _Quick_sort(first: ListIterator<T>, last: ListIterator<T>, compare: (left: T, right: T) => boolean): void
 		{
 			if (first != last && last != this.end() && first != last.next())
 			{
-				let temp: ListIterator<T> = this.partition(first, last, compare);
+				let temp: ListIterator<T> = this._Quick_sort_partition(first, last, compare);
 
-				this.qsort(first, temp.prev(), compare);
-				this.qsort(temp.next(), last, compare);
+				this._Quick_sort(first, temp.prev(), compare);
+				this._Quick_sort(temp.next(), last, compare);
 			}
 		}
 
 		/**
 		 * @hidden
 		 */
-		private partition(first: ListIterator<T>, last: ListIterator<T>, compare: (left: T, right: T) => boolean): ListIterator<T>
+		private _Quick_sort_partition(first: ListIterator<T>, last: ListIterator<T>, compare: (left: T, right: T) => boolean): ListIterator<T>
 		{
 			let standard: T = last.value; // TO BE COMPARED
 			let prev: ListIterator<T> = first.prev(); // TO BE SMALLEST
@@ -868,9 +868,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void;
+		public swap(obj: base.Container<T>): void;
 
-		public swap(obj: List<T> | base.IContainer<T>): void
+		public swap(obj: List<T> | base.Container<T>): void
 		{
 			super.swap(obj);
 		}

@@ -1,9 +1,9 @@
-// Type definitions for TypeScript-STL v1.2.4
-// Project: https://github.com/samchon/typescript-stl
+// Type definitions for TSTL v1.3.0
+// Project: https://github.com/samchon/tstl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare module "typescript-stl"
+declare module "tstl"
 {
 	export = std;
 }

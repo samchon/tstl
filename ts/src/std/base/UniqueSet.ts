@@ -141,17 +141,17 @@ namespace std.base
 		public extract(param: T | SetIterator<T> | SetReverseIterator<T>): any
 		{
 			if (param instanceof SetIterator)
-				return this.extract_by_iterator(param);
+				return this._Extract_by_iterator(param);
 			else if (param instanceof SetReverseIterator)
-				return this.extract_by_reverse_iterator(param);
+				return this._Extract_by_reverse_iterator(param);
 			else
-				return this.extract_by_key(param);
+				return this._Extract_by_key(param);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private extract_by_key(val: T): T
+		private _Extract_by_key(val: T): T
 		{
 			let it = this.find(val);
 			if (it.equals(this.end()) == true)
@@ -164,7 +164,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private extract_by_iterator(it: SetIterator<T>): SetIterator<T>
+		private _Extract_by_iterator(it: SetIterator<T>): SetIterator<T>
 		{
 			if (it.equals(this.end()) == true || this.has(it.value) == false)
 				return this.end();
@@ -176,9 +176,9 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private extract_by_reverse_iterator(it: SetReverseIterator<T>): SetReverseIterator<T>
+		private _Extract_by_reverse_iterator(it: SetReverseIterator<T>): SetReverseIterator<T>
 		{
-			this.extract_by_iterator(it.base().next());
+			this._Extract_by_iterator(it.base().next());
 			return it;
 		}
 

@@ -416,12 +416,12 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<Pair<Key, T>>): void;
+		public swap(obj: base.Container<Pair<Key, T>>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: TreeMultiMap<Key, T> | base.IContainer<Pair<Key, T>>): void
+		public swap(obj: TreeMultiMap<Key, T> | base.Container<Pair<Key, T>>): void
 		{
 			if (obj instanceof TreeMultiMap && this.key_comp() == obj.key_comp())
 			{

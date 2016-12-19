@@ -411,9 +411,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void;
+		public swap(obj: base.Container<T>): void;
 
-		public swap(obj: HashSet<T> | base.IContainer<T>): void
+		public swap(obj: HashSet<T> | base.Container<T>): void
 		{
 			if (obj instanceof HashSet)
 			{

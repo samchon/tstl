@@ -212,13 +212,13 @@ namespace std.base
 			if (val instanceof MapIterator && (<MapIterator<Key, T>>val).first instanceof SetIterator == false)
 				return super.find(val);
 			else
-				return this.find_by_key(val);
+				return this._Find_by_key(val);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private find_by_key(key: Key): XTreeNode<MapIterator<Key, T>>
+		private _Find_by_key(key: Key): XTreeNode<MapIterator<Key, T>>
 		{
 			if (this.root_ == null)
 				return null;

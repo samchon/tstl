@@ -27,8 +27,8 @@ namespace std
 	 */
 	export function terminate(): void
 	{
-		if (terminate_handler != null)
-			terminate_handler();
+		if (_Terminate_handler != null)
+			_Terminate_handler();
 		
 		if (std.is_node() == true)
 			process.exit();
@@ -54,20 +54,20 @@ namespace std
 	 */
 	export function set_terminate(f: () => void): void
 	{
-		terminate_handler = f;
+		_Terminate_handler = f;
 
 		if (std.is_node() == true)
 			process.on("uncaughtException", 
 				function (error: Error): void
 				{
-					terminate_handler();
+					_Terminate_handler();
 				}
 			);
 		else
 			window.onerror = 
 				function (message: string, filename?: string, lineno?: number, colno?: number, error?: Error): void
 				{
-					terminate_handler();
+					_Terminate_handler();
 				};
 	}
 
@@ -86,7 +86,7 @@ namespace std
 	 */
 	export function get_terminate(): () => void
 	{
-		return terminate_handler;
+		return _Terminate_handler;
 	}
 
 	/* =========================================================
@@ -116,13 +116,12 @@ namespace std
 	 * @reference http://www.cplusplus.com/reference/exception/exception
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class Exception 
-		extends Error
+	export class Exception
 	{
 		/**
-		 * A message representing specification about the Exception.
+		 * @hidden
 		 */
-		private description: string;
+		private message_: string;
 
 		/**
 		 * Default Constructor.
@@ -138,13 +137,12 @@ namespace std
 
 		public constructor(message: string = "")
 		{
-			super();
-
-			this.description = message;
+			this.message_ = message;
 		}
 
 		/**
 		 * <p> Get string identifying exception. </p>
+		 * 
 		 * <p> Returns a string that may be used to identify the exception. </p>
 		 *
 		 * <p> The particular representation pointed by the returned value is implementation-defined. 
@@ -153,23 +151,7 @@ namespace std
 		 */
 		public what(): string
 		{
-			return this.description;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public get message(): string
-		{
-			return this.description;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public get name(): string
-		{
-			return (this.constructor as any)["name"];
+			return this.message_;
 		}
 	}
 
@@ -450,5 +432,5 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	var terminate_handler: () => void = null;
+	var _Terminate_handler: () => void = null;
 }

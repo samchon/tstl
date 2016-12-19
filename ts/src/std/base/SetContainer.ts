@@ -346,18 +346,18 @@ namespace std.base
 		public erase(...args: any[]): any
 		{
 			if (args.length == 1 && (args[0] instanceof Iterator == false || args[0].get_source() != this))
-				return this.erase_by_val(args[0]);
+				return this._Erase_by_val(args[0]);
 			else
 				if (args.length == 1)
-					return this.erase_by_iterator(args[0]);
+					return this._Erase_by_iterator(args[0]);
 				else
-					return this.erase_by_iterator(args[0], args[1]);
+					return this._Erase_by_iterator(args[0], args[1]);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private erase_by_iterator(first: any, last: any = first.next()): any
+		private _Erase_by_iterator(first: any, last: any = first.next()): any
 		{
 			let ret: SetIterator<T>;
 			let is_reverse_iterator: boolean = false;
@@ -375,7 +375,7 @@ namespace std.base
 			}
 
 			// ERASE ELEMENTS
-			ret = this.erase_by_range(first, last);
+			ret = this._Erase_by_range(first, last);
 
 			// RETURN BRANCHES
 			if (is_reverse_iterator == true)
@@ -387,7 +387,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private erase_by_val(val: T): number
+		private _Erase_by_val(val: T): number
 		{
 			// TEST WHETHER EXISTS
 			let it = this.find(val);
@@ -395,14 +395,14 @@ namespace std.base
 				return 0;
 
 			// ERASE
-			this.erase_by_iterator(it);
+			this._Erase_by_iterator(it);
 			return 1;
 		}
 
 		/**
 		 * @hidden
 		 */
-		private erase_by_range(first: SetIterator<T>, last: SetIterator<T>): SetIterator<T>
+		private _Erase_by_range(first: SetIterator<T>, last: SetIterator<T>): SetIterator<T>
 		{
 			// ERASE
 			let it = this.data_.erase(first, last);

@@ -1,9 +1,9 @@
-// Type definitions for TypeScript-STL v1.2.4
-// Project: https://github.com/samchon/typescript-stl
+// Type definitions for TSTL v1.3.0
+// Project: https://github.com/samchon/tstl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare module "typescript-stl"
+declare module "tstl"
 {
 	export = std;
 }
@@ -2842,63 +2842,179 @@ declare namespace std.base {
      *
      * @author Jeongho Nam <http://samchon.org>
      */
-    abstract class Container<T> implements IContainer<T> {
+    abstract class Container<T> {
         /**
          * Default Constructor.
          */
         protected constructor();
         /**
-         * @inheritdoc
+         * <p> Assign new content to content. </p>
+         *
+         * <p> Assigns new contents to the container, replacing its current contents, and modifying its
+         * {@link size} accordingly. </p>
+         *
+         * @param begin Input interator of the initial position in a sequence.
+         * @param end Input interator of the final position in a sequence.
          */
         abstract assign<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
         /**
-         * @inheritdoc
+         * <p> Clear content. </p>
+         *
+         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
          */
         clear(): void;
         /**
-         * @inheritdoc
+         * <p> Return iterator to beginning. </p>
+         *
+         * <p> Returns an iterator referring the first element in the  </p>
+         *
+         * <h4> Note </h4>
+         * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
+         *
+         * @return An iterator to the first element in the  The iterator containes the first element's value.
          */
         abstract begin(): Iterator<T>;
         /**
-         * @inheritdoc
+         * <p> Return iterator to end. </p>
+         * <p> Returns an iterator referring to the past-the-end element in the  </p>
+         *
+         * <p> The past-the-end element is the theoretical element that would follow the last element in the
+         * It does not point to any element, and thus shall not be dereferenced. </p>
+         *
+         * <p> Because the ranges used by functions of the Container do not include the element reference by their
+         * closing iterator, this function is often used in combination with {@link IContainer}.{@link begin} to
+         * specify a range including all the elements in the container. </p>
+         *
+         * <h4> Note </h4>
+         * <p> Returned iterator from {@link IContainer}.{@link end} does not refer any element. Trying to accessing
+         * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
+         *
+         * <p> If the container is {@link empty}, this function returns the same as {@link Container}.{@link begin}.
+         * </p>
+         *
+         * @return An iterator to the end element in the
          */
         abstract end(): Iterator<T>;
         /**
-         * @inheritdoc
+         * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+         *
+         * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the last element in the container (i.e.,
+         * its <i>reverse beginning</i>). </p>
+         *
+         * <p> {@link ReverseIterator reverse iterators} iterate backwards: increasing them moves them towards the
+         * beginning of the  </p>
+         *
+         * <p> {@link rbegin} points to the element right before the one that would be pointed to by member {@link end}.
+         * </p>
+         *
+         * @return A {@link ReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence
          */
         abstract rbegin(): base.IReverseIterator<T>;
         /**
-         * @inheritdoc
+         * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+         *
+         * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the theoretical element preceding the
+         * first element in the container (which is considered its <i>reverse end</i>). </p>
+         *
+         * <p> The range between {@link IContainer}.{@link rbegin} and {@link IContainer}.{@link rend} contains all
+         * the elements of the container (in reverse order).
+         *
+         * @return A {@link ReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence
          */
         abstract rend(): base.IReverseIterator<T>;
         /**
-         * @inheritdoc
+         * Return the number of elements in the Container.
+         *
+         * @return The number of elements in the
          */
         abstract size(): number;
         /**
-         * @inheritdoc
+         * <p> Test whether the container is empty. </p>
+         * <p> Returns whether the container is empty (i.e. whether its size is 0). </p>
+         *
+         * <p> This function does not modify the container in any way. To clear the content of the container,
+         * see {@link clear clear()}. </p>
+         *
+         * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
          */
         empty(): boolean;
         /**
-         * @inheritdoc
+         * <p> Insert elements. </p>
+         *
+         * <p> Appends new elements to the container, and returns the new size of the  </p>
+         *
+         * @param items New elements to insert.
+         *
+         * @return New size of the Container.
          */
         abstract push(...items: T[]): number;
         /**
-         * @inheritdoc
-         */
-        abstract insert(position: Iterator<T>, val: T): Iterator<T>;
+         * <p> Insert an element. </p>
+         *
+         * <p> The container is extended by inserting a new element before the element at the specified
+         * <i>position</i>. This effectively increases the {@link IContainer.size container size} by the amount of
+         * elements inserted. </p>
+         *
+         * @param position Position in the {@link IContainer} where the new element is inserted.
+         *				   {@link iterator} is a member type, defined as a {@link Iterator random access iterator}
+         *				   type that points to elements.
+         * @param val Value to be copied to the inserted element.
+         *
+         * @re
+        public abstract insert(position: Iterator<T>, val: T): Iterator<T>;
+
+        /* ---------------------------------------------------------
+            ERASE
+        --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * <p> Erase an element. </p>
+         *
+         * <p> Removes from the container a single element. </p>
+         *
+         * <p> This effectively reduces the container size by the number of element removed. </p>
+         *
+         * @param position Iterator pointing to a single element to be removed from the Container.
+         *
+         * @return An iterator pointing to the element that followed the last element erased by the function
+         *		   call. This is the {@link end Container.end} if the operation erased the last element in the
+         *		   sequence.
          */
         abstract erase(position: Iterator<T>): Iterator<T>;
         /**
-         * @inheritdoc
+         * <p> Erase elements. </p>
+         *
+         * <p> Removes from the container a range of elements. </p>
+         *
+         * <p> This effectively reduces the container size by the number of elements removed. </p>
+         *
+         * @param begin An iterator specifying a range of beginning to erase.
+         * @param end An iterator specifying a range of end to erase.
+         *
+         * @return An iterator pointing to the element that followed the last element erased by the function
+         *		   call. This is the {@link end Container.end} if the operation erased the last element in
+         *		   the sequence.
          */
         abstract erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
         /**
-         * @inheritdoc
+         * <p> Swap content. </p>
+         *
+         * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another
+         * {@link IContainer container} object with same type of elements. Sizes and container type may differ. </p>
+         *
+         * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i>
+         * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and
+         * pointers remain valid for the swapped objects. </p>
+         *
+         * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that
+         * algorithm with an optimization that behaves like this member function. </p>
+         *
+         * @param obj Another {@link IContainer container} of the same type of elements (i.e., instantiated
+         *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this
+         *			  {@link container IContainer}.
          */
-        swap(obj: IContainer<T>): void;
+        swap(obj: Container<T>): void;
+    }
+    interface IReverseIterator<T> extends ReverseIterator<T, Iterator<T>, IReverseIterator<T>> {
     }
 }
 declare namespace std.base {
@@ -3383,7 +3499,15 @@ declare namespace std.base {
      * @author Jeongho Nam <http://samchon.org>
      */
     class MapHashBuckets<K, T> extends HashBuckets<MapIterator<K, T>> {
-        private map;
+        /**
+         * @hidden
+         */
+        private map_;
+        /**
+         * Initializer Constructor.
+         *
+         * @param map Source container.
+         */
         constructor(map: MapContainer<K, T>);
         find(key: K): MapIterator<K, T>;
     }
@@ -3638,20 +3762,20 @@ declare namespace std.base {
      * @author Jeongho Nam <http://samchon.org>
      */
     class SetHashBuckets<T> extends HashBuckets<SetIterator<T>> {
-        private set;
+        private set_;
         constructor(set: SetContainer<T>);
         find(val: T): SetIterator<T>;
     }
 }
 declare namespace std.base {
     /**
-     * <p> Array  </p>
+     * <p> Array Container. </p>
      *
-     * <p> {@link IArray} is an interface for sequence containers representing <i>arrays</i> that can change in
-     * {@link size}. However, compared to <i>arrays</i>, {@link IArray} objectss consume more memory in exchange for
+     * <p> {@link IArrayContainer} is an interface for sequence containers representing <i>arrays</i> that can change in
+     * {@link size}. However, compared to <i>arrays</i>, {@link IArrayContainer} objectss consume more memory in exchange for
      * the ability to manage storage and grow dynamically in an efficient way. </p> </p>
      *
-     * <p> Both {@link Vector Vectors} and {@link Deque Deques} who implemented {@link IArray} provide a very
+     * <p> Both {@link Vector Vectors} and {@link Deque Deques} who implemented {@link IArrayContainer} provide a very
      * similar interface and can be used for similar purposes, but internally both work in quite different ways:
      * While {@link Vector Vectors} use a single array that needs to be occasionally reallocated for growth, the
      * elements of a {@link Deque} can be scattered in different chunks of storage, with the container keeping the
@@ -3670,7 +3794,7 @@ declare namespace std.base {
      * sequences, where reallocations become more expensive. </p>
      *
      * <p> For operations that involve frequent insertion or removals of elements at positions other than the
-     * beginning or the end, {@link IArray} objects perform worse and have less consistent iterators and references
+     * beginning or the end, {@link IArrayContainer} objects perform worse and have less consistent iterators and references
      * than {@link List Lists} </p>.
      *
      * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank">
@@ -3698,58 +3822,15 @@ declare namespace std.base {
      */
     interface IArrayContainer<T> extends ILinearContainer<T> {
         /**
-         * <p> Request a change in capacity. </p>
-         *
-         * <p> Requests that the {@link IArray container} {@link capacity} be at least enough to contain
-         * <i>n</i> elements. </p>
-         *
-         * <p> If <i>n</i> is greater than the current {@link IArray container} {@link capacity}, the
-         * function causes the {@link IArray container} to reallocate its storage increasing its
-         * {@link capacity} to <i>n</i> (or greater). </p>
-         *
-         * <p> In all other cases, the function call does not cause a reallocation and the
-         * {@link IArray container} {@link capacity} is not affected. </p>
-         *
-         * <p> This function has no effect on the {@link IArray container} {@link size} and cannot alter
-         * its elements. </p>
-         *
-         * @param n Minimum {@link capacity} for the {@link IArray container}.
-         *			Note that the resulting {@link capacity} may be equal or greater than <i>n</i>.
-         */
-        reserve(n: number): void;
-        /**
-         * <p> Return size of allocated storage capacity. </p>
-         *
-         * <p> Returns the size of the storage space currently allocated for the {@link IArray container},
-         * expressed in terms of elements. </p>
-         *
-         * <p> This {@link capacity} is not necessarily equal to the {@link IArray container} {@link size}.
-         * It can be equal or greater, with the extra space allowing to accommodate for growth without the
-         * need to reallocate on each insertion. </p>
-         *
-         * <p> Notice that this {@link capacity} does not suppose a limit on the {@link size} of the
-         * {@link IArray container}. When this {@link capacity} is exhausted and more is needed, it is
-         * automatically expanded by the {@link IArray container} (reallocating it storage space).
-         * The theoretical limit on the {@link size} of a {@link IArray container} is given by member
-         * {@link max_size}. </p>
-         *
-         * <p> The {@link capacity} of a {@link IArray container} can be explicitly altered by calling member
-         * {@link IArray.reserve}. </p>
-         *
-         * @return The size of the currently allocated storage capacity in the {@link IArray container},
-         *		   measured in terms of the number elements it can hold.
-         */
-        capacity(): number;
-        /**
          * <p> Access element. </p>
-         * <p> Returns a value to the element at position <i>index</i> in the {@link IArray container}.</p>
+         * <p> Returns a value to the element at position <i>index</i> in the {@link IArrayContainer container}.</p>
          *
          * <p> The function automatically checks whether <i>index</i> is within the bounds of valid elements
-         * in the {@link IArray container}, throwing an {@link OutOfRange} exception if it is not (i.e.,
+         * in the {@link IArrayContainer container}, throwing an {@link OutOfRange} exception if it is not (i.e.,
          * if <i>index</i> is greater or equal than its {@link size}). </p>
          *
          * @param index Position of an element in the
-         *				If this is greater than or equal to the {@link IArray container} {@link size}, an
+         *				If this is greater than or equal to the {@link IArrayContainer container} {@link size}, an
          *				exception of type {@link OutOfRange} is thrown. Notice that the first
          *				element has a position of 0 (not 1).
          *
@@ -3758,11 +3839,11 @@ declare namespace std.base {
         at(index: number): T;
         /**
          * <p> Modify element. </p>
-         * <p> Replaces an element at the specified position (<i>index</i>) in this {@link IArray container}
+         * <p> Replaces an element at the specified position (<i>index</i>) in this {@link IArrayContainer container}
          * with the specified element (<i>val</i>). </p>
          *
          * <p> The function automatically checks whether <i>index</i> is within the bounds of valid elements
-         * in the {@link IArray container}, throwing an {@link OutOfRange} exception if it is not (i.e., if
+         * in the {@link IArrayContainer container}, throwing an {@link OutOfRange} exception if it is not (i.e., if
          * <i>index</i> is greater or equal than its {@link size}). </p>
          *
          * @.param index A specified position of the value to replace.
@@ -3794,9 +3875,9 @@ declare namespace std.base {
      */
     interface IArrayIterator<T> extends ILinearIterator<T> {
         /**
-         * Get index, sequence number of the iterator in the source {@link IArray array}.
+         * Get index, sequence number of the iterator in the source {@link IArrayContainer array}.
          *
-         * @return Sequence number of the iterator in the source {@link IArray array}.
+         * @return Sequence number of the iterator in the source {@link IArrayContainer array}.
          */
         index: number;
         /**
@@ -3807,201 +3888,6 @@ declare namespace std.base {
          * @inheritdoc
          */
         next(): IArrayIterator<T>;
-    }
-}
-declare namespace std.base {
-    /**
-     * <p> An interface of containers. </p>
-     *
-     * <p> {@link IContainer} is an interface designed for sequence containers. Sequence containers of STL
-     * (Standard Template Library) are based on the {@link IContainer}. </p>
-     *
-     * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank">
-     * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" />
-     * </a> </p>
-     *
-     * <h3> Container properties </h3>
-     * <dl>
-     * 	<dt> Sequence </dt>
-     * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are
-     *		 accessed by their position in this sequence. </dd>
-     *
-     * 	<dt> Doubly-linked list </dt>
-     *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing
-     *		 constant time insert and erase operations before or after a specific element (even of entire ranges),
-     *		 but no direct random access. </dd>
-     * </dl>
-     *
-     * @param <T> Type of elements.
-     *
-     * @author Jeongho Nam <http://samchon.org>
-     */
-    interface IContainer<T> {
-        /**
-         * <p> Assign new content to content. </p>
-         *
-         * <p> Assigns new contents to the container, replacing its current contents, and modifying its
-         * {@link size} accordingly. </p>
-         *
-         * @param begin Input interator of the initial position in a sequence.
-         * @param end Input interator of the final position in a sequence.
-         */
-        assign<U extends T, InputIterator extends Iterator<U>>(begin: InputIterator, end: InputIterator): void;
-        /**
-         * <p> Clear content. </p>
-         *
-         * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
-         */
-        clear(): void;
-        /**
-         * <p> Return iterator to beginning. </p>
-         *
-         * <p> Returns an iterator referring the first element in the  </p>
-         *
-         * <h4> Note </h4>
-         * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
-         *
-         * @return An iterator to the first element in the  The iterator containes the first element's value.
-         */
-        begin(): Iterator<T>;
-        /**
-         * <p> Return iterator to end. </p>
-         * <p> Returns an iterator referring to the past-the-end element in the  </p>
-         *
-         * <p> The past-the-end element is the theoretical element that would follow the last element in the
-         * It does not point to any element, and thus shall not be dereferenced. </p>
-         *
-         * <p> Because the ranges used by functions of the Container do not include the element reference by their
-         * closing iterator, this function is often used in combination with {@link IContainer}.{@link begin} to
-         * specify a range including all the elements in the container. </p>
-         *
-         * <h4> Note </h4>
-         * <p> Returned iterator from {@link IContainer}.{@link end} does not refer any element. Trying to accessing
-         * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
-         *
-         * <p> If the container is {@link empty}, this function returns the same as {@link Container}.{@link begin}.
-         * </p>
-         *
-         * @return An iterator to the end element in the
-         */
-        end(): Iterator<T>;
-        /**
-         * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
-         *
-         * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the last element in the container (i.e.,
-         * its <i>reverse beginning</i>). </p>
-         *
-         * <p> {@link ReverseIterator reverse iterators} iterate backwards: increasing them moves them towards the
-         * beginning of the  </p>
-         *
-         * <p> {@link rbegin} points to the element right before the one that would be pointed to by member {@link end}.
-         * </p>
-         *
-         * @return A {@link ReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence
-         */
-        rbegin(): base.IReverseIterator<T>;
-        /**
-         * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse end</i>. </p>
-         *
-         * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the theoretical element preceding the
-         * first element in the container (which is considered its <i>reverse end</i>). </p>
-         *
-         * <p> The range between {@link IContainer}.{@link rbegin} and {@link IContainer}.{@link rend} contains all
-         * the elements of the container (in reverse order).
-         *
-         * @return A {@link ReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence
-         */
-        rend(): base.IReverseIterator<T>;
-        /**
-         * Return the number of elements in the Container.
-         *
-         * @return The number of elements in the
-         */
-        size(): number;
-        /**
-         * <p> Test whether the container is empty. </p>
-         * <p> Returns whether the container is empty (i.e. whether its size is 0). </p>
-         *
-         * <p> This function does not modify the container in any way. To clear the content of the container,
-         * see {@link clear clear()}. </p>
-         *
-         * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
-         */
-        empty(): boolean;
-        /**
-         * <p> Insert elements. </p>
-         *
-         * <p> Appends new elements to the container, and returns the new size of the  </p>
-         *
-         * @param items New elements to insert.
-         *
-         * @return New size of the Container.
-         */
-        push(...items: T[]): number;
-        /**
-         * <p> Insert an element. </p>
-         *
-         * <p> The container is extended by inserting a new element before the element at the specified
-         * <i>position</i>. This effectively increases the {@link IContainer.size container size} by the amount of
-         * elements inserted. </p>
-         *
-         * @param position Position in the {@link IContainer} where the new element is inserted.
-         *				   {@link iterator} is a member type, defined as a {@link Iterator random access iterator}
-         *				   type that points to elements.
-         * @param val Value to be copied to the inserted element.
-         *
-         * @return An iterator that points to the newly inserted element.
-         */
-        insert(position: Iterator<T>, val: T): Iterator<T>;
-        /**
-         * <p> Erase an element. </p>
-         *
-         * <p> Removes from the container a single element. </p>
-         *
-         * <p> This effectively reduces the container size by the number of element removed. </p>
-         *
-         * @param position Iterator pointing to a single element to be removed from the Container.
-         *
-         * @return An iterator pointing to the element that followed the last element erased by the function
-         *		   call. This is the {@link end Container.end} if the operation erased the last element in the
-         *		   sequence.
-         */
-        erase(position: Iterator<T>): Iterator<T>;
-        /**
-         * <p> Erase elements. </p>
-         *
-         * <p> Removes from the container a range of elements. </p>
-         *
-         * <p> This effectively reduces the container size by the number of elements removed. </p>
-         *
-         * @param begin An iterator specifying a range of beginning to erase.
-         * @param end An iterator specifying a range of end to erase.
-         *
-         * @return An iterator pointing to the element that followed the last element erased by the function
-         *		   call. This is the {@link end Container.end} if the operation erased the last element in
-         *		   the sequence.
-         */
-        erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
-        /**
-         * <p> Swap content. </p>
-         *
-         * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another
-         * {@link IContainer container} object with same type of elements. Sizes and container type may differ. </p>
-         *
-         * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i>
-         * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and
-         * pointers remain valid for the swapped objects. </p>
-         *
-         * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that
-         * algorithm with an optimization that behaves like this member function. </p>
-         *
-         * @param obj Another {@link IContainer container} of the same type of elements (i.e., instantiated
-         *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this
-         *			  {@link container IContainer}.
-         */
-        swap(obj: IContainer<T>): void;
-    }
-    interface IReverseIterator<T> extends ReverseIterator<T, Iterator<T>, IReverseIterator<T>> {
     }
 }
 declare namespace std.base {
@@ -4044,7 +3930,7 @@ declare namespace std.base {
      *
      * @author Jeonngho Nam
      */
-    interface ILinearContainer<T> extends IContainer<T> {
+    interface ILinearContainer<T> extends Container<T> {
         /**
          * @inheritdoc
          */
@@ -4196,13 +4082,13 @@ declare namespace std {
         /**
          * Source container of the iterator is directing for.
          */
-        protected source_: base.IContainer<T>;
+        protected source_: base.Container<T>;
         /**
          * Construct from the source {@link IContainer container}.
          *
          * @param source The source container.
          */
-        protected constructor(source: base.IContainer<T>);
+        protected constructor(source: base.Container<T>);
         /**
          * <p> Get iterator to previous element. </p>
          * <p> If current iterator is the first item(equal with {@link IContainer.begin IContainer.begin()}),
@@ -4228,7 +4114,7 @@ declare namespace std {
         /**
          * Get source
          */
-        get_source(): base.IContainer<T>;
+        get_source(): base.Container<T>;
         /**
          * <p> Whether an iterator is equal with the iterator. </p>
          *
@@ -4671,7 +4557,7 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private insert_by_val(position, val);
+        private _Insert_by_val(position, val);
         /**
          * @hidden
          */
@@ -4738,7 +4624,7 @@ declare namespace std.base {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<T>): void;
+        swap(obj: base.Container<T>): void;
     }
 }
 declare namespace std.base {
@@ -4843,12 +4729,7 @@ declare namespace std.base {
      */
     abstract class MapContainer<Key, T> extends Container<Pair<Key, T>> {
         /**
-         * <p> {@link List} storing elements. </p>
-         *
-         * <p> Storing elements and keeping those sequence of the {@link MapContainer} are implemented by
-         * {@link data_ this list container}. Implementing index-table is also related with {@link data_ this list}
-         * by storing {@link ListIterator iterators} ({@link MapIterator} references {@link ListIterator}) who are
-         * created from {@link data_ here}. </p>
+         * @hidden
          */
         private data_;
         /**
@@ -5125,7 +5006,7 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private insert_by_tuple<L, U>(tuple);
+        private _Insert_by_tuple<L, U>(tuple);
         /**
          * @hidden
          */
@@ -5133,7 +5014,7 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private insert_by_hint_with_tuple(hint, tuple);
+        private _Insert_by_hint_with_tuple(hint, tuple);
         /**
          * @hidden
          */
@@ -5206,15 +5087,15 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private erase_by_key(key);
+        private _Erase_by_key(key);
         /**
          * @hidden
          */
-        private erase_by_iterator(first, last?);
+        private _Erase_by_iterator(first, last?);
         /**
          * @hidden
          */
-        private erase_by_range(first, last);
+        private _Erase_by_range(first, last);
         /**
          * @hidden
          */
@@ -5717,15 +5598,15 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private erase_by_iterator(first, last?);
+        private _Erase_by_iterator(first, last?);
         /**
          * @hidden
          */
-        private erase_by_val(val);
+        private _Erase_by_val(val);
         /**
          * @hidden
          */
-        private erase_by_range(first, last);
+        private _Erase_by_range(first, last);
         /**
          * @hidden
          */
@@ -6148,7 +6029,7 @@ declare namespace std.base {
          *
          * @param N A node to be inserted or swapped.
          */
-        private insert_case1(N);
+        private _Insert_case1(N);
         /**
          * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) is <font color='darkBlue'>black</font>. </p>
          *
@@ -6165,7 +6046,7 @@ declare namespace std.base {
          *
          * @param N A node to be inserted or swapped.
          */
-        private insert_case2(N);
+        private _Insert_case2(N);
         /**
          * <p> <i><b>N</b></i>'s parent ({@link XTreeNode.parent <b>P</b>}) and uncle
          * (<i>{@link XTreeNode.uncle <b>U</b>}</i>) are <font color='red'>red</font>. </p>
@@ -6195,7 +6076,7 @@ declare namespace std.base {
          *
          * @param N A node to be inserted or swapped.
          */
-        private insert_case3(N);
+        private _Insert_case3(N);
         /**
          * <p> <i><b>N</b></i> is added to right of left child of grandparent, or <i><b>N</b></i> is added to left
          * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
@@ -6229,7 +6110,7 @@ declare namespace std.base {
          *
          * @param N A node to be inserted or swapped.
          */
-        private insert_case4(node);
+        private _Insert_case4(node);
         /**
          * <p> <i><b>N</b></i> is added to left of left child of grandparent, or <i><b>N</b></i> is added to right
          * of right child of grandparent ({@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font> and
@@ -6260,7 +6141,7 @@ declare namespace std.base {
          *
          * @param N A node to be inserted or swapped.
          */
-        private insert_case5(node);
+        private _Insert_case5(node);
         /**
          * <p> Erase an element with its node. </p>
          *
@@ -6405,7 +6286,7 @@ declare namespace std.base {
          *
          * @param N A node to be erased or swapped.
          */
-        private erase_case1(N);
+        private _Erase_case1(N);
         /**
          * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='red'>red</font>. </p>
          *
@@ -6426,7 +6307,7 @@ declare namespace std.base {
          *
          * @param N A node to be erased or swapped.
          */
-        private erase_case2(N);
+        private _Erase_case2(N);
         /**
          * <p> {@link XTreeNode.parent <b>P</b>}, {@link XTreeNode.sibling <b>S</b>}, and {@link XTreeNode.sibling
          * <b>S</b>}'s children are <font color='darkBlue'>black</font>. </p>
@@ -6450,7 +6331,7 @@ declare namespace std.base {
          *
          * @param N A node to be erased or swapped.
          */
-        private erase_case3(N);
+        private _Erase_case3(N);
         /**
          * <p> {@link XTreeNode.sibling <b>S</b>} and {@link XTreeNode.sibling <b>S</b>}'s children are
          * <font color='darkBlue'>black</font>, but {@link XTreeNode.parent <b>P</b>} is <font color='red'>red</font>. </p>
@@ -6466,7 +6347,7 @@ declare namespace std.base {
          *
          * @param N A node to be erased or swapped.
          */
-        private erase_case4(N);
+        private _Erase_case4(N);
         /**
          * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>, {@link XTreeNode.sibling <b>S</b>}'s
          * left child is <font color='red'>red</font>, {@link XTreeNode.sibling <b>S</b>}'s right child is
@@ -6488,7 +6369,7 @@ declare namespace std.base {
          *
          * @param N A node to be erased or swapped.
          */
-        private erase_case5(N);
+        private _Erase_case5(N);
         /**
          * <p> {@link XTreeNode.sibling <b>S</b>} is <font color='darkBlue'>black</font>,
          * {@link XTreeNode.sibling <b>S</b>}'s right child is <font color='red'>red</font>, and <i><b>N</b></i> is
@@ -6543,7 +6424,7 @@ declare namespace std.base {
          *
          * @param N A node to be erased or swapped.
          */
-        private erase_case6(node);
+        private _Erase_case6(node);
         /**
          * Rotate a node left.
          *
@@ -6569,7 +6450,7 @@ declare namespace std.base {
          * @param node A node to fetch color.
          * @retur color.
          */
-        private fetch_color(node);
+        private _Fetch_color(node);
     }
 }
 declare namespace std.base {
@@ -6753,7 +6634,7 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private find_by_key(key);
+        private _Find_by_key(key);
         /**
          * <p> Return iterator to lower bound. </p>
          *
@@ -7053,7 +6934,7 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private find_by_val(val);
+        private _Find_by_val(val);
         /**
          * <p> Return iterator to lower bound. </p>
          *
@@ -7421,11 +7302,11 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private insert_or_assign_with_key_value(key, value);
+        private _Insert_or_assign_with_key_value(key, value);
         /**
          * @hidden
          */
-        private insert_or_assign_with_hint(hint, key, value);
+        private _Insert_or_assign_with_hint(hint, key, value);
         /**
          * <p> Extract an element. </p>
          *
@@ -7461,15 +7342,15 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private extract_by_key(key);
+        private _Extract_by_key(key);
         /**
          * @hidden
          */
-        private extract_by_iterator(it);
+        private _Extract_by_iterator(it);
         /**
          * @hidden
          */
-        private extract_by_reverse_iterator(it);
+        private _Extract_by_reverse_iterator(it);
         /**
          * Merge two maps.
          *
@@ -7593,15 +7474,15 @@ declare namespace std.base {
         /**
          * @hidden
          */
-        private extract_by_key(val);
+        private _Extract_by_key(val);
         /**
          * @hidden
          */
-        private extract_by_iterator(it);
+        private _Extract_by_iterator(it);
         /**
          * @hidden
          */
-        private extract_by_reverse_iterator(it);
+        private _Extract_by_reverse_iterator(it);
         /**
          * Merge two sets.
          *
@@ -7745,7 +7626,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private get_col_size();
+        private _Get_col_size();
         /**
          * @hidden
          */
@@ -7806,7 +7687,23 @@ declare namespace std {
          */
         assign(n: number, val: T): void;
         /**
-         * @inheritdoc
+         * <p> Request a change in capacity. </p>
+         *
+         * <p> Requests that the {@link Deque container} {@link capacity} be at least enough to contain
+         * <i>n</i> elements. </p>
+         *
+         * <p> If <i>n</i> is greater than the current {@link Deque container} {@link capacity}, the
+         * function causes the {@link Deque container} to reallocate its storage increasing its
+         * {@link capacity} to <i>n</i> (or greater). </p>
+         *
+         * <p> In all other cases, the function call does not cause a reallocation and the
+         * {@link Deque container} {@link capacity} is not affected. </p>
+         *
+         * <p> This function has no effect on the {@link Deque container} {@link size} and cannot alter
+         * its elements. </p>
+         *
+         * @param n Minimum {@link capacity} for the {@link Deque container}.
+         *			Note that the resulting {@link capacity} may be equal or greater than <i>n</i>.
          */
         reserve(capacity: number): void;
         /**
@@ -7838,7 +7735,26 @@ declare namespace std {
          */
         empty(): boolean;
         /**
-         * @inheritdoc
+         * <p> Return size of allocated storage capacity. </p>
+         *
+         * <p> Returns the size of the storage space currently allocated for the {@link Deque container},
+         * expressed in terms of elements. </p>
+         *
+         * <p> This {@link capacity} is not necessarily equal to the {@link Deque container} {@link size}.
+         * It can be equal or greater, with the extra space allowing to accommodate for growth without the
+         * need to reallocate on each insertion. </p>
+         *
+         * <p> Notice that this {@link capacity} does not suppose a limit on the {@link size} of the
+         * {@link Deque container}. When this {@link capacity} is exhausted and more is needed, it is
+         * automatically expanded by the {@link Deque container} (reallocating it storage space).
+         * The theoretical limit on the {@link size} of a {@link Deque container} is given by member
+         * {@link max_size}. </p>
+         *
+         * <p> The {@link capacity} of a {@link Deque container} can be explicitly altered by calling member
+         * {@link Deque.reserve}. </p>
+         *
+         * @return The size of the currently allocated storage capacity in the {@link Deque container},
+         *		   measured in terms of the number elements it can hold.
          */
         capacity(): number;
         /**
@@ -7858,11 +7774,9 @@ declare namespace std {
          */
         back(): T;
         /**
-        // Fetch row and column's index.
-        /**
          * @hidden
          */
-        private fetch_index(index);
+        private _Fetch_index(index);
         /**
          * @inheritdoc
          */
@@ -7910,7 +7824,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private insert_by_val(position, val);
+        private _Insert_by_val(position, val);
         /**
          * @hidden
          */
@@ -7922,7 +7836,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private insert_by_items(position, items);
+        private _Insert_by_items(position, items);
         /**
          * @inheritdoc
          */
@@ -7964,7 +7878,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<T>): void;
+        swap(obj: base.Container<T>): void;
     }
 }
 declare namespace std {
@@ -7993,10 +7907,6 @@ declare namespace std {
          * @param index Sequence number of the element in the source {@link Deque}.
          */
         constructor(source: Deque<T>, index: number);
-        /**
-         * @hidden
-         */
-        private readonly deque;
         /**
          * @inheritdoc
          */
@@ -8129,11 +8039,11 @@ declare namespace std {
      * @reference http://www.cplusplus.com/reference/exception/exception
      * @author Jeongho Nam <http://samchon.org>
      */
-    class Exception extends Error {
+    class Exception {
         /**
-         * A message representing specification about the Exception.
+         * @hidden
          */
-        private description;
+        private message_;
         /**
          * Default Constructor.
          */
@@ -8146,6 +8056,7 @@ declare namespace std {
         constructor(message: string);
         /**
          * <p> Get string identifying exception. </p>
+         *
          * <p> Returns a string that may be used to identify the exception. </p>
          *
          * <p> The particular representation pointed by the returned value is implementation-defined.
@@ -8153,14 +8064,6 @@ declare namespace std {
          * returned. </p>
          */
         what(): string;
-        /**
-         * @inheritdoc
-         */
-        readonly message: string;
-        /**
-         * @inheritdoc
-         */
-        readonly name: string;
     }
     /**
      * <p> Logic error exception. </p>
@@ -8594,7 +8497,7 @@ declare namespace std {
      *
      * <p> The default {@link hash} function of Object returns a value returned from {@link hash hash(number)} with
      * an <b>unique id</b> of each Object. If you want to specify {@link hash} function of a specific class, then
-     * define a member function <code>public hash(): number</code> in the class. </p>
+     * define a member function <code>public hashCode(): number</code> in the class. </p>
      *
      * @param obj Object to be hashed.
      *
@@ -8619,7 +8522,7 @@ declare namespace std {
      * @param left A {@link IContainer container} to swap its contents.
      * @param right A {@link IContainer container} to swap its contents.
      */
-    function swap<T>(left: base.IContainer<T>, right: base.IContainer<T>): void;
+    function swap<T>(left: base.Container<T>, right: base.Container<T>): void;
     /**
      * <p> Exchange contents of queues. </p>
      *
@@ -8989,7 +8892,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<Pair<Key, T>>): void;
+        swap(obj: base.Container<Pair<Key, T>>): void;
     }
 }
 declare namespace std.HashMultiMap {
@@ -9186,7 +9089,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<Pair<Key, T>>): void;
+        swap(obj: base.Container<Pair<Key, T>>): void;
     }
 }
 declare namespace std.HashMultiSet {
@@ -9372,7 +9275,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<T>): void;
+        swap(obj: base.Container<T>): void;
     }
 }
 declare namespace std.HashSet {
@@ -9554,7 +9457,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<T>): void;
+        swap(obj: base.Container<T>): void;
     }
 }
 declare namespace std {
@@ -10189,11 +10092,11 @@ declare namespace std {
         /**
          * @hidden
          */
-        private qsort(first, last, compare);
+        private _Quick_sort(first, last, compare);
         /**
          * @hidden
          */
-        private partition(first, last, compare);
+        private _Quick_sort_partition(first, last, compare);
         /**
          * <p> Swap content. </p>
          *
@@ -10215,7 +10118,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<T>): void;
+        swap(obj: base.Container<T>): void;
     }
 }
 declare namespace std {
@@ -10328,16 +10231,6 @@ declare namespace std {
      * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and
      * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
      *
-     * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and
-     * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its
-     * elements (i.e., its {@link size}). Libraries can implement different strategies for growth to balance between
-     * memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing
-     * intervals of {@link size} so that the insertion of individual elements at the end of the {@link Vector} can be
-     * provided with amortized constant time complexity (see {@link push_back push_back()}). </p>
-     *
-     * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability to manage
-     * storage and grow dynamically in an efficient way. </p>
-     *
      * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors}
      * are very efficient accessing its elements (just like arrays) and relatively efficient adding or removing
      * elements from its end. For operations that involve inserting or removing elements at positions other than the
@@ -10368,7 +10261,11 @@ declare namespace std {
      * @reference http://www.cplusplus.com/reference/vector/vector
      * @author Jeongho Nam <http://samchon.org>
      */
-    class Vector<T> extends Array<T> implements base.IContainer<T>, base.IArrayContainer<T> {
+    class Vector<T> extends base.Container<T> implements base.IArrayContainer<T> {
+        /**
+         * @hidden
+         */
+        private data_;
         /**
          * @hidden
          */
@@ -10435,10 +10332,6 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        reserve(size: number): void;
-        /**
-         * @inheritdoc
-         */
         clear(): void;
         /**
          * @inheritdoc
@@ -10463,10 +10356,6 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        capacity(): number;
-        /**
-         * @inheritdoc
-         */
         empty(): boolean;
         /**
          * @inheritdoc
@@ -10487,15 +10376,16 @@ declare namespace std {
         /**
          * @inheritdoc
          */
+        push(...items: T[]): number;
+        /**
+         * @inheritdoc
+         */
         push_back(val: T): void;
         /**
          * <p> Insert an element. </p>
          *
          * <p> The {@link Vector} is extended by inserting new element before the element at the specified
          * <i>position</i>, effectively increasing the container size by one. </p>
-         *
-         * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * {@link size} surpasses the current {@link capacity}. </p>
          *
          * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in
          * positions other than the {@link end end()} causes the container to relocate all the elements that were
@@ -10515,9 +10405,6 @@ declare namespace std {
          *
          * <p> The {@link Vector} is extended by inserting new elements before the element at the specified
          * <i>position</i>, effectively increasing the container size by the number of elements inserted. </p>
-         *
-         * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * {@link size} surpasses the current {@link capacity}. </p>
          *
          * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in
          * positions other than the {@link end end()} causes the container to relocate all the elements that were
@@ -10540,9 +10427,6 @@ declare namespace std {
          * <i>position</i>, effectively increasing the container size by the number of elements inserted by range
          * iterators. </p>
          *
-         * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * {@link size} surpasses the current {@link capacity}. </p>
-         *
          * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in
          * positions other than the {@link end end()} causes the container to relocate all the elements that were
          * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the
@@ -10563,9 +10447,6 @@ declare namespace std {
          * <p> The {@link Vector} is extended by inserting new element before the element at the specified
          * <i>position</i>, effectively increasing the container size by one. </p>
          *
-         * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * {@link size} surpasses the current {@link capacity}. </p>
-         *
          * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in
          * positions other than the {@link end end()} causes the container to relocate all the elements that were
          * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one
@@ -10584,9 +10465,6 @@ declare namespace std {
          *
          * <p> The {@link Vector} is extended by inserting new elements before the element at the specified
          * <i>position</i>, effectively increasing the container size by the number of elements inserted. </p>
-         *
-         * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * {@link size} surpasses the current {@link capacity}. </p>
          *
          * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in
          * positions other than the {@link end end()} causes the container to relocate all the elements that were
@@ -10609,9 +10487,6 @@ declare namespace std {
          * <i>position</i>, effectively increasing the container size by the number of elements inserted by range
          * iterators. </p>
          *
-         * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new
-         * {@link size} surpasses the current {@link capacity}. </p>
-         *
          * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in
          * positions other than the {@link end end()} causes the container to relocate all the elements that were
          * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the
@@ -10629,7 +10504,7 @@ declare namespace std {
         /**
          * @hidden
          */
-        private insert_by_val(position, val);
+        private _Insert_by_val(position, val);
         /**
          * @hidden
          */
@@ -10745,7 +10620,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<T>): void;
+        swap(obj: base.Container<T>): void;
     }
 }
 declare namespace std {
@@ -10762,7 +10637,7 @@ declare namespace std {
      */
     class VectorIterator<T> extends Iterator<T> implements base.IArrayIterator<T> {
         /**
-         * Sequence number of iterator in the source {@link Vector}.
+         * @hidden
          */
         private index_;
         /**
@@ -10776,10 +10651,6 @@ declare namespace std {
          * @param index Sequence number of the element in the source {@link Vector}.
          */
         constructor(source: Vector<T>, index: number);
-        /**
-         * @hidden
-         */
-        private readonly vector;
         /**
          * @inheritdoc
          */
@@ -11075,14 +10946,14 @@ declare namespace std {
         /**
          * Copy Constructor.
          */
-        constructor(container: base.IContainer<T>);
+        constructor(container: base.Container<T>);
         /**
          * Copy Constructor with compare.
          *
          * @param container A container to be copied.
          * @param compare A binary predicate determines order of elements.
          */
-        constructor(container: base.IContainer<T>, compare: (left: T, right: T) => boolean);
+        constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
         /**
          * Range Constructor.
          *
@@ -11474,7 +11345,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<T>): void;
+        swap(obj: base.Container<T>): void;
     }
 }
 declare namespace std.TreeMap {
@@ -11668,7 +11539,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<Pair<Key, T>>): void;
+        swap(obj: base.Container<Pair<Key, T>>): void;
     }
 }
 declare namespace std.TreeMultiSet {
@@ -11853,7 +11724,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<T>): void;
+        swap(obj: base.Container<T>): void;
     }
 }
 declare namespace std.TreeMultiMap {
@@ -12059,7 +11930,7 @@ declare namespace std {
         /**
          * @inheritdoc
          */
-        swap(obj: base.IContainer<Pair<Key, T>>): void;
+        swap(obj: base.Container<Pair<Key, T>>): void;
     }
 }
 declare namespace std {
@@ -12363,7 +12234,7 @@ declare namespace std {
          * <p> Compare each first and second value of two Pair(s) and returns whether they are equal or not. </p>
          *
          * <p> If stored key and value in a Pair are not number or string but an object like a class or struct,
-         * the comparison will be executed by a member method (SomeObject)::equal_to(). If the object does not have
+         * the comparison will be executed by a member method (SomeObject)::equals(). If the object does not have
          * the member method equal_to(), only address of pointer will be compared. </p>
          *
          * @param obj A Map to compare

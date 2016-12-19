@@ -67,7 +67,7 @@ namespace std
 		 * <p> Compare each first and second value of two Pair(s) and returns whether they are equal or not. </p>
 		 * 
 		 * <p> If stored key and value in a Pair are not number or string but an object like a class or struct, 
-		 * the comparison will be executed by a member method (SomeObject)::equal_to(). If the object does not have 
+		 * the comparison will be executed by a member method (SomeObject)::equals(). If the object does not have 
 		 * the member method equal_to(), only address of pointer will be compared. </p>
 		 *
 		 * @param obj A Map to compare

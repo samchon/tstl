@@ -306,7 +306,7 @@ namespace std.base
 		{
 			if (args.length == 2)
 			{
-				return this.insert_or_assign_with_key_value(args[0], args[1]);
+				return this._Insert_or_assign_with_key_value(args[0], args[1]);
 			}
 			else if (args.length == 3)
 			{
@@ -321,7 +321,7 @@ namespace std.base
 				}
 
 				// INSERT OR ASSIGN AN ELEMENT
-				ret = this.insert_or_assign_with_hint(args[0], args[1], args[2]);
+				ret = this._Insert_or_assign_with_hint(args[0], args[1], args[2]);
 
 				// RETURN BRANCHES
 				if (is_reverse_iterator == true)
@@ -334,7 +334,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private insert_or_assign_with_key_value(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>
+		private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>
 		{
 			let it = this.find(key);
 
@@ -350,9 +350,9 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private insert_or_assign_with_hint(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>
+		private _Insert_or_assign_with_hint(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>
 		{
-			return this.insert_or_assign_with_key_value(key, value).first;
+			return this._Insert_or_assign_with_key_value(key, value).first;
 		}
 
 		/* ---------------------------------------------------------
@@ -396,17 +396,17 @@ namespace std.base
 		public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
 		{
 			if (param instanceof MapIterator)
-				return this.extract_by_iterator(param);
+				return this._Extract_by_iterator(param);
 			else if (param instanceof MapReverseIterator)
-				return this.extract_by_reverse_iterator(param);
+				return this._Extract_by_reverse_iterator(param);
 			else
-				return this.extract_by_key(param);
+				return this._Extract_by_key(param);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private extract_by_key(key: Key): Pair<Key, T>
+		private _Extract_by_key(key: Key): Pair<Key, T>
 		{
 			let it = this.find(key);
 			if (it.equals(this.end()) == true)
@@ -421,7 +421,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
+		private _Extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
 		{
 			if (it.equals(this.end()) == true)
 				return this.end();
@@ -433,9 +433,9 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
+		private _Extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
 		{
-			this.extract_by_iterator(it.base().next());
+			this._Extract_by_iterator(it.base().next());
 			return it;
 		}
 

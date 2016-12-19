@@ -31,7 +31,7 @@ namespace std
 		/**
 		 * Source container of the iterator is directing for.
 		 */
-		protected source_: base.IContainer<T>;
+		protected source_: base.Container<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -41,7 +41,7 @@ namespace std
 		 *
 		 * @param source The source container.
 		 */
-		protected constructor(source: base.IContainer<T>)
+		protected constructor(source: base.Container<T>)
 		{
 			this.source_ = source;
 		}
@@ -105,7 +105,7 @@ namespace std
 		/**
 		 * Get source 
 		 */
-		public get_source(): base.IContainer<T>
+		public get_source(): base.Container<T>
 		{
 			return this.source_;
 		}
@@ -431,7 +431,7 @@ namespace std
 
 	// typedef is not specified in TypeScript yet.
 	// Instead, I listed all the containers and its iterators as overloaded functions
-	export function begin<T>(container: base.IContainer<T>): Iterator<T>
+	export function begin<T>(container: base.Container<T>): Iterator<T>
 	{
 		return container.begin();
 	}
@@ -507,7 +507,7 @@ namespace std
 
 	// typedef is not specified in TypeScript yet.
 	// Instead, I listed all the containers and its iterators as overloaded functions
-	export function end<T>(container: base.IContainer<T>): Iterator<T>
+	export function end<T>(container: base.Container<T>): Iterator<T>
 	{
 		return container.end();
 	}

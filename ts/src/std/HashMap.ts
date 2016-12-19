@@ -425,12 +425,12 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<Pair<Key, T>>): void;
+		public swap(obj: base.Container<Pair<Key, T>>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: HashMap<Key, T> | base.IContainer<Pair<Key, T>>): void
+		public swap(obj: HashMap<Key, T> | base.Container<Pair<Key, T>>): void
 		{
 			if (obj instanceof HashMap)
 			{

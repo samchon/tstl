@@ -176,8 +176,8 @@ namespace std
 
 			// ITERATE THE BUCKET
 			let cnt: number = 0;
-			for (let i = 0; i < bucket.length; i++)
-				if (std.equal_to(bucket[i].first, key))
+			for (let i = 0; i < bucket.size(); i++)
+				if (std.equal_to(bucket.at(i).first, key))
 					cnt++;
 
 			return cnt;
@@ -410,15 +410,16 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<Pair<Key, T>>): void;
+		public swap(obj: base.Container<Pair<Key, T>>): void;
 
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: HashMultiMap<Key, T> | base.IContainer<Pair<Key, T>>): void
+		public swap(obj: HashMultiMap<Key, T> | base.Container<Pair<Key, T>>): void
 		{
 			if (obj instanceof HashMultiMap)
 			{
+				// SWAP CONTENTS
 				this._Swap(obj);
 				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 			}

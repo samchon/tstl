@@ -126,7 +126,7 @@ namespace std.base
 			for (let i: number = 0; i < bucket.size(); i++)
 				if (bucket.at(i) == val)
 				{
-					bucket.splice(i, 1);
+					bucket.erase(bucket.begin().advance(i));
 					this.item_size_--;
 
 					break;

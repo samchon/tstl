@@ -298,7 +298,7 @@ namespace std
 	 * 
 	 * <p> The default {@link hash} function of Object returns a value returned from {@link hash hash(number)} with 
 	 * an <b>unique id</b> of each Object. If you want to specify {@link hash} function of a specific class, then
-	 * define a member function <code>public hash(): number</code> in the class. </p>
+	 * define a member function <code>public hashCode(): number</code> in the class. </p>
 	 * 
 	 * @param obj Object to be hashed.
 	 * 
@@ -437,7 +437,7 @@ namespace std
 	 * @param right A {@link IContainer container} to swap its contents.
 	 */
 	export function swap<T>
-		(left: base.IContainer<T>, right: base.IContainer<T>): void;
+		(left: base.Container<T>, right: base.Container<T>): void;
 
 	/**
 	 * <p> Exchange contents of queues. </p>

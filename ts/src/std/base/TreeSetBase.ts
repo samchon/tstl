@@ -216,13 +216,13 @@ namespace std.base
 			if (val instanceof SetIterator && (<SetIterator<T>>val).value instanceof SetIterator == false)
 				return super.find(val);
 			else
-				return this.find_by_val(val);
+				return this._Find_by_val(val);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private find_by_val(val: T): XTreeNode<SetIterator<T>>
+		private _Find_by_val(val: T): XTreeNode<SetIterator<T>>
 		{
 			if (this.root_ == null)
 				return null;

@@ -2519,7 +2519,7 @@ namespace std
 
 		if (less_it != null)
 		{
-			let container = last_item_it.get_source();
+			let container = last_item_it.get_source() as base.IArrayContainer<T>;
 
 			container.insert(less_it, last_item_it.value);
 			container.erase(last_item_it);
@@ -2582,7 +2582,7 @@ namespace std
 	export function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
 	{
-		let container = first.get_source();
+		let container = first.get_source() as base.IArrayContainer<T>;
 
 		container.insert(last, first.value);
 		container.erase(first);

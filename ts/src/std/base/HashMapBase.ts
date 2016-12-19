@@ -354,15 +354,23 @@ namespace std.base
 	export class MapHashBuckets<K, T>
 		extends HashBuckets<MapIterator<K, T>>
 	{
-		private map: MapContainer<K, T>;
+		/**
+		 * @hidden
+		 */
+		private map_: MapContainer<K, T>;
 
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param map Source container.
+		 */
 		public constructor(map: MapContainer<K, T>)
 		{
 			super();
 
-			this.map = map;
+			this.map_ = map;
 		}
-
+		
 		public find(key: K): MapIterator<K, T>
 		{
 			let index = std.hash(key) % this.size();
@@ -372,7 +380,7 @@ namespace std.base
 				if (std.equal_to(bucket.at(i).first, key))
 					return bucket.at(i);
 
-			return this.map.end();
+			return this.map_.end();
 		}
 	}
 }

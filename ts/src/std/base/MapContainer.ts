@@ -49,12 +49,7 @@ namespace std.base
 		extends Container<Pair<Key, T>>
 	{
 		/**
-		 * <p> {@link List} storing elements. </p>
-		 *
-		 * <p> Storing elements and keeping those sequence of the {@link MapContainer} are implemented by
-		 * {@link data_ this list container}. Implementing index-table is also related with {@link data_ this list}
-		 * by storing {@link ListIterator iterators} ({@link MapIterator} references {@link ListIterator}) who are 
-		 * created from {@link data_ here}. </p>
+		 * @hidden
 		 */
 		private data_: MapElementList<Key, T>;
 
@@ -254,7 +249,7 @@ namespace std.base
 				if (args[i] instanceof Pair)
 					this._Insert_by_pair(args[i]);
 				else if (args[i] instanceof Array)
-					this.insert_by_tuple(args[i]);
+					this._Insert_by_tuple(args[i]);
 
 			return this.size();
 		}
@@ -433,7 +428,7 @@ namespace std.base
 			}
 			else if (args.length == 1 && args[0] instanceof Array)
 			{
-				return this.insert_by_tuple(args[0]);
+				return this._Insert_by_tuple(args[0]);
 			}
 			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
@@ -455,7 +450,7 @@ namespace std.base
 				if (args[1] instanceof Pair)
 					ret = this._Insert_by_hint(args[0], args[1]);
 				else
-					ret = this.insert_by_hint_with_tuple(args[0], args[1]);
+					ret = this._Insert_by_hint_with_tuple(args[0], args[1]);
 
 				// RETURN BRANCHES
 				if (is_reverse_iterator == true)
@@ -473,7 +468,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private insert_by_tuple<L extends Key, U extends T>(tuple: [L, U]): any
+		private _Insert_by_tuple<L extends Key, U extends T>(tuple: [L, U]): any
 		{
 			return this._Insert_by_pair(new Pair<L, U>(tuple[0], tuple[1]));
 		}
@@ -486,7 +481,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private insert_by_hint_with_tuple(hint: MapIterator<Key, T>, tuple: [Key, T]): MapIterator<Key, T>
+		private _Insert_by_hint_with_tuple(hint: MapIterator<Key, T>, tuple: [Key, T]): MapIterator<Key, T>
 		{
 			return this._Insert_by_hint(hint, make_pair(tuple[0], tuple[1]));
 		}
@@ -573,31 +568,31 @@ namespace std.base
 		public erase(...args: any[]): any 
 		{
 			if (args.length == 1 && (args[0] instanceof Iterator == false || args[0].get_source() != this))
-				return this.erase_by_key(args[0]);
+				return this._Erase_by_key(args[0]);
 			else
 				if (args.length == 1)
-					return this.erase_by_iterator(args[0]);
+					return this._Erase_by_iterator(args[0]);
 				else
-					return this.erase_by_iterator(args[0], args[1]);
+					return this._Erase_by_iterator(args[0], args[1]);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private erase_by_key(key: Key): number
+		private _Erase_by_key(key: Key): number
 		{
 			let it = this.find(key);
 			if (it.equals(this.end()) == true)
 				return 0;
 
-			this.erase_by_iterator(it);
+			this._Erase_by_iterator(it);
 			return 1;
 		}
 
 		/**
 		 * @hidden
 		 */
-		private erase_by_iterator(first: any, last: any = first.next()): any
+		private _Erase_by_iterator(first: any, last: any = first.next()): any
 		{
 			let ret: MapIterator<Key, T>;
 			let is_reverse_iterator: boolean = false;
@@ -615,7 +610,7 @@ namespace std.base
 			}
 
 			// ERASE ELEMENTS
-			ret = this.erase_by_range(first, last);
+			ret = this._Erase_by_range(first, last);
 
 			// RETURN BRANCHES
 			if (is_reverse_iterator == true)
@@ -627,7 +622,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private erase_by_range(first: MapIterator<Key, T>, last: MapIterator<Key, T>): MapIterator<Key, T>
+		private _Erase_by_range(first: MapIterator<Key, T>, last: MapIterator<Key, T>): MapIterator<Key, T>
 		{
 			// ERASE
 			let it = this.data_.erase(first, last);

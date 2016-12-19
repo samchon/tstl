@@ -12,7 +12,7 @@ namespace std.base
 	 * @author Jeonngho Nam
 	 */
 	export interface ILinearContainer<T> 
-		extends IContainer<T>
+		extends Container<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

@@ -399,9 +399,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void;
+		public swap(obj: base.Container<T>): void;
 
-		public swap(obj: TreeMultiSet<T> | base.IContainer<T>): void
+		public swap(obj: TreeMultiSet<T> | base.Container<T>): void
 		{
 			if (obj instanceof TreeMultiSet && this.key_comp() == obj.key_comp())
 			{

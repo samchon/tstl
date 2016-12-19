@@ -99,7 +99,7 @@ namespace std
 		/**
 		 * Copy Constructor.
 		 */
-		public constructor(container: base.IContainer<T>);
+		public constructor(container: base.Container<T>);
 
 		/**
 		 * Copy Constructor with compare.
@@ -107,7 +107,7 @@ namespace std
 		 * @param container A container to be copied.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(container: base.IContainer<T>, compare: (left: T, right: T) => boolean);
+		public constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
 
 		/**
 		 * Range Constructor.
@@ -134,7 +134,7 @@ namespace std
 			if (args.length >= 1 && args[0] instanceof base.Container)
 			{
 				// COPY CONSTRUCTOR
-				let container: base.IContainer<T> = args[0]; // PARAMETER
+				let container: base.Container<T> = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
 					this.container_["tree_"]["compare_"] = (args[1]);
 

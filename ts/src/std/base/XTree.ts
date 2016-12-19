@@ -280,7 +280,7 @@ namespace std.base
 					parent.right = node;
 			}
 
-			this.insert_case1(node);
+			this._Insert_case1(node);
 		}
 
 		/**
@@ -295,12 +295,12 @@ namespace std.base
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insert_case1(N: XTreeNode<T>): void
+		private _Insert_case1(N: XTreeNode<T>): void
 		{
 			if (N.parent == null)
 				N.color = Color.BLACK;
 			else
-				this.insert_case2(N);
+				this._Insert_case2(N);
 		}
 
 		/**
@@ -319,12 +319,12 @@ namespace std.base
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insert_case2(N: XTreeNode<T>): void
+		private _Insert_case2(N: XTreeNode<T>): void
 		{
-			if (this.fetch_color(N.parent) == Color.BLACK)
+			if (this._Fetch_color(N.parent) == Color.BLACK)
 				return;
 			else
-				this.insert_case3(N);
+				this._Insert_case3(N);
 		}
 
 
@@ -357,19 +357,19 @@ namespace std.base
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insert_case3(N: XTreeNode<T>): void
+		private _Insert_case3(N: XTreeNode<T>): void
 		{
-			if (this.fetch_color(N.uncle) == Color.RED)
+			if (this._Fetch_color(N.uncle) == Color.RED)
 			{
 				N.parent.color = Color.BLACK;
 				N.uncle.color = Color.BLACK;
 				N.grand_parent.color = Color.RED;
 
-				this.insert_case1(N.grand_parent);
+				this._Insert_case1(N.grand_parent);
 			}
 			else
 			{
-				this.insert_case4(N);
+				this._Insert_case4(N);
 			}
 		}
 
@@ -406,7 +406,7 @@ namespace std.base
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insert_case4(node: XTreeNode<T>): void
+		private _Insert_case4(node: XTreeNode<T>): void
 		{
 			if (node == node.parent.right && node.parent == node.grand_parent.left)
 			{
@@ -419,7 +419,7 @@ namespace std.base
 				node = node.right;
 			}
 
-			this.insert_case5(node);
+			this._Insert_case5(node);
 		}
 
 		/**
@@ -452,7 +452,7 @@ namespace std.base
 		 * 
 		 * @param N A node to be inserted or swapped.
 		 */
-		private insert_case5(node: XTreeNode<T>): void
+		private _Insert_case5(node: XTreeNode<T>): void
 		{
 			node.parent.color = Color.BLACK;
 			node.grand_parent.color = Color.RED;
@@ -612,10 +612,10 @@ namespace std.base
 
 			let child = (node.right == null) ? node.left : node.right;
 			
-			if (this.fetch_color(node) == Color.BLACK)
+			if (this._Fetch_color(node) == Color.BLACK)
 			{
-				node.color = this.fetch_color(child);
-				this.erase_case1(node);
+				node.color = this._Fetch_color(child);
+				this._Erase_case1(node);
 			}
 
 			this.replace_node(node, child);
@@ -634,12 +634,12 @@ namespace std.base
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private erase_case1(N: XTreeNode<T>): void
+		private _Erase_case1(N: XTreeNode<T>): void
 		{
 			if (N.parent == null)
 				return;
 			else
-				this.erase_case2(N);
+				this._Erase_case2(N);
 		}
 
 		/**
@@ -662,9 +662,9 @@ namespace std.base
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private erase_case2(N: XTreeNode<T>): void
+		private _Erase_case2(N: XTreeNode<T>): void
 		{
-			if (this.fetch_color(N.sibling) == Color.RED)
+			if (this._Fetch_color(N.sibling) == Color.RED)
 			{
 				N.parent.color = Color.RED;
 				N.sibling.color = Color.BLACK;
@@ -675,7 +675,7 @@ namespace std.base
 					this.rotate_right(N.parent);
 			}
 
-			this.erase_case3(N);
+			this._Erase_case3(N);
 		}
 
 		/**
@@ -701,19 +701,19 @@ namespace std.base
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private erase_case3(N: XTreeNode<T>): void
+		private _Erase_case3(N: XTreeNode<T>): void
 		{
-			if (this.fetch_color(N.parent) == Color.BLACK &&
-				this.fetch_color(N.sibling) == Color.BLACK &&
-				this.fetch_color(N.sibling.left) == Color.BLACK &&
-				this.fetch_color(N.sibling.right) == Color.BLACK)
+			if (this._Fetch_color(N.parent) == Color.BLACK &&
+				this._Fetch_color(N.sibling) == Color.BLACK &&
+				this._Fetch_color(N.sibling.left) == Color.BLACK &&
+				this._Fetch_color(N.sibling.right) == Color.BLACK)
 			{
 				N.sibling.color = Color.RED;
 
-				this.erase_case1(N.parent);
+				this._Erase_case1(N.parent);
 			}
 			else
-				this.erase_case4(N);
+				this._Erase_case4(N);
 		}
 
 		/**
@@ -731,19 +731,19 @@ namespace std.base
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private erase_case4(N: XTreeNode<T>): void
+		private _Erase_case4(N: XTreeNode<T>): void
 		{
-			if (this.fetch_color(N.parent) == Color.RED &&
+			if (this._Fetch_color(N.parent) == Color.RED &&
 				N.sibling != null &&
-				this.fetch_color(N.sibling) == Color.BLACK &&
-				this.fetch_color(N.sibling.left) == Color.BLACK &&
-				this.fetch_color(N.sibling.right) == Color.BLACK)
+				this._Fetch_color(N.sibling) == Color.BLACK &&
+				this._Fetch_color(N.sibling.left) == Color.BLACK &&
+				this._Fetch_color(N.sibling.right) == Color.BLACK)
 			{
 				N.sibling.color = Color.RED;
 				N.parent.color = Color.BLACK;
 			}
 			else
-				this.erase_case5(N);
+				this._Erase_case5(N);
 		}
 
 		/**
@@ -767,13 +767,13 @@ namespace std.base
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private erase_case5(N: XTreeNode<T>): void
+		private _Erase_case5(N: XTreeNode<T>): void
 		{
 			if (N == N.parent.left &&
 				N.sibling != null &&
-				this.fetch_color(N.sibling) == Color.BLACK &&
-				this.fetch_color(N.sibling.left) == Color.RED &&
-				this.fetch_color(N.sibling.right) == Color.BLACK)
+				this._Fetch_color(N.sibling) == Color.BLACK &&
+				this._Fetch_color(N.sibling.left) == Color.RED &&
+				this._Fetch_color(N.sibling.right) == Color.BLACK)
 			{
 				N.sibling.color = Color.RED;
 				N.sibling.left.color = Color.BLACK;
@@ -782,9 +782,9 @@ namespace std.base
 			}
 			else if (N == N.parent.right &&
 				N.sibling != null &&
-				this.fetch_color(N.sibling) == Color.BLACK &&
-				this.fetch_color(N.sibling.left) == Color.BLACK &&
-				this.fetch_color(N.sibling.right) == Color.RED)
+				this._Fetch_color(N.sibling) == Color.BLACK &&
+				this._Fetch_color(N.sibling.left) == Color.BLACK &&
+				this._Fetch_color(N.sibling.right) == Color.RED)
 			{
 				N.sibling.color = Color.RED;
 				N.sibling.right.color = Color.BLACK;
@@ -847,9 +847,9 @@ namespace std.base
 		 * 
 		 * @param N A node to be erased or swapped.
 		 */
-		private erase_case6(node: XTreeNode<T>): void
+		private _Erase_case6(node: XTreeNode<T>): void
 		{
-			node.sibling.color = this.fetch_color(node.parent);
+			node.sibling.color = this._Fetch_color(node.parent);
 			node.parent.color = Color.BLACK;
 
 			if (node == node.parent.left)
@@ -936,7 +936,7 @@ namespace std.base
 		 * @param node A node to fetch color.
 		 * @retur color.
 		 */
-		private fetch_color(node: XTreeNode<T>): Color
+		private _Fetch_color(node: XTreeNode<T>): Color
 		{
 			if (node == null)
 				return Color.BLACK;

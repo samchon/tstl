@@ -1,5 +1,5 @@
 {
-	"name": "typescript-stl",
+	"name": "tstl",
 	"description": "TypeScript-STL (Standard Template Library, migrated from C++)",
 	"author": 
 	{
@@ -8,17 +8,17 @@
 		"url": "http://samchon.org"
 	},
 
-	"main": "./lib/typescript-stl.js",
-	"typings": "./lib/typescript-stl.d.ts",
-	"version": "1.2.4",
+	"main": "./lib/tstl.js",
+	"typings": "./lib/tstl.d.ts",
+	"version": "1.3.0",
 
-	"homepage": "https://github.com/samchon/typescript-stl",
+	"homepage": "https://github.com/samchon/tstl",
 	"repository": 
 	{
 		"type": "git",
-		"url": "https://github.com/samchon/typescript-stl.git"
+		"url": "https://github.com/samchon/tstl.git"
 	},
-	"bugs": { "url": "https://github.com/samchon/typescript-stl/issues" },
+	"bugs": { "url": "https://github.com/samchon/tstl/issues" },
 
 	"licenses": 
 	[{

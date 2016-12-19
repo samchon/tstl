@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es5",
         "declaration": true,
-        "outFile": "../lib/typescript-stl.js"
+        "outFile": "../lib/tstl.js"
     },
     "exclude": [
        "src/std/example"

@@ -25,16 +25,6 @@ namespace std
 	 * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and 
 	 * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
 	 *
-	 * <p> Instead, {@link Vector} containers may allocate some extra storage to accommodate for possible growth, and 
-	 * thus the container may have an actual {@link capacity} greater than the storage strictly needed to contain its 
-	 * elements (i.e., its {@link size}). Libraries can implement different strategies for growth to balance between 
-	 * memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing 
-	 * intervals of {@link size} so that the insertion of individual elements at the end of the {@link Vector} can be 
-	 * provided with amortized constant time complexity (see {@link push_back push_back()}). </p>
-	 *
-	 * <p> Therefore, compared to arrays, {@link Vector}s consume more memory in exchange for the ability to manage 
-	 * storage and grow dynamically in an efficient way. </p>
-	 *
 	 * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors} 
 	 * are very efficient accessing its elements (just like arrays) and relatively efficient adding or removing 
 	 * elements from its end. For operations that involve inserting or removing elements at positions other than the 
@@ -66,10 +56,14 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Vector<T>
-		extends Array<T>
-		implements base.IContainer<T>, 
-				   base.IArrayContainer<T>
+		extends base.Container<T>
+		implements base.IArrayContainer<T>
 	{
+		/**
+		 * @hidden
+		 */
+		private data_: T[];
+
 		/**
 		 * @hidden
 		 */
@@ -144,6 +138,9 @@ namespace std
 		{
 			super();
 
+			// THE DATA
+			this.data_ = [];
+
 			// RESERVED ITERATORS
 			this.end_ = new VectorIterator<T>(this, -1);
 			this.rend_ = new VectorReverseIterator<T>(new VectorIterator<T>(this, 0));
@@ -158,14 +155,14 @@ namespace std
 				// CONSTRUCT FROM AN ARRAY OF ITEMS
 				let array: Array<T> = args[0];
 				
-				super.push(...array);
+				this.data_ = array.slice();
 			}
 			else if (args.length == 1 && typeof args[0] == "number")
 			{
 				// CONSTRUCT FROM SIZE
 				let size: number = args[0];
 				
-				this.length = size;
+				this.data_.length = size;
 			}
 			else if (args.length == 2 && typeof args[0] == "number")
 			{
@@ -204,14 +201,6 @@ namespace std
 		{
 			this.clear();
 			this.insert(this.end(), first, second);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public reserve(size: number): void
-		{
-			// NOTHING TO DO ESPECIALLY
 		}
 
 		/**
@@ -268,15 +257,7 @@ namespace std
 		 */
 		public size(): number
 		{
-			return this.length;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public capacity(): number
-		{
-			return this.length;
+			return this.data_.length;
 		}
 
 		/**
@@ -284,7 +265,7 @@ namespace std
 		 */
 		public empty(): boolean
 		{
-			return this.length == 0;
+			return this.size() == 0;
 		}
 
 		/**
@@ -293,7 +274,7 @@ namespace std
 		public at(index: number): T
 		{
 			if (index < this.size())
-				return this[index];
+				return this.data_[index];
 			else
 				throw new std.OutOfRange("Target index is greater than Vector's size.");
 		}
@@ -303,11 +284,11 @@ namespace std
 		 */
 		public set(index: number, val: T): T
 		{
-			if (index >= this.length)
+			if (index >= this.size())
 				throw new std.OutOfRange("Target index is greater than Vector's size.");
 
-			let prev: T = this[index];
-			this[index] = val;
+			let prev: T = this.data_[index];
+			this.data_[index] = val;
 
 			return prev;
 		}
@@ -325,7 +306,7 @@ namespace std
 		 */
 		public back(): T
 		{
-			return this.at(this.length - 1);
+			return this.at(this.size() - 1);
 		}
 
 		/* =========================================================
@@ -339,9 +320,17 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public push(...items: T[]): number
+		{
+			return this.data_.push(...items);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
 		public push_back(val: T): void
 		{
-			super.push(val);
+			this.data_.push(val);
 		}
 
 		/**
@@ -349,9 +338,6 @@ namespace std
 		 *
 		 * <p> The {@link Vector} is extended by inserting new element before the element at the specified 
 		 * <i>position</i>, effectively increasing the container size by one. </p>
-		 *
-		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
-		 * {@link size} surpasses the current {@link capacity}. </p>
 		 *
 		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
@@ -372,9 +358,6 @@ namespace std
 		 *
 		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
 		 * <i>position</i>, effectively increasing the container size by the number of elements inserted. </p>
-		 * 
-		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
-		 * {@link size} surpasses the current {@link capacity}. </p>
 		 * 
 		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
@@ -398,9 +381,6 @@ namespace std
 		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by range 
 		 * iterators. </p>
 		 * 
-		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
-		 * {@link size} surpasses the current {@link capacity}. </p>
-		 * 
 		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
 		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
@@ -423,9 +403,6 @@ namespace std
 		 * <p> The {@link Vector} is extended by inserting new element before the element at the specified 
 		 * <i>position</i>, effectively increasing the container size by one. </p>
 		 *
-		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
-		 * {@link size} surpasses the current {@link capacity}. </p>
-		 *
 		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
 		 * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one 
@@ -445,9 +422,6 @@ namespace std
 		 *
 		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
 		 * <i>position</i>, effectively increasing the container size by the number of elements inserted. </p>
-		 * 
-		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
-		 * {@link size} surpasses the current {@link capacity}. </p>
 		 * 
 		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
@@ -470,9 +444,6 @@ namespace std
 		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
 		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by range 
 		 * iterators. </p>
-		 * 
-		 * <p> This causes an automatic reallocation of the allocated storage space if -and only if- the new 
-		 * {@link size} surpasses the current {@link capacity}. </p>
 		 * 
 		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
@@ -504,7 +475,7 @@ namespace std
 
 			// BRANCHES
 			if (args.length == 2)
-				ret = this.insert_by_val(args[0], args[1]);
+				ret = this._Insert_by_val(args[0], args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
 				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
 			else
@@ -520,7 +491,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private insert_by_val(position: VectorIterator<T>, val: T): VectorIterator<T>
+		private _Insert_by_val(position: VectorIterator<T>, val: T): VectorIterator<T>
 		{
 			return this._Insert_by_repeating_val(position, 1, val);
 		}
@@ -534,7 +505,7 @@ namespace std
 			{ 
 				// WHEN INSERT TO THE LAST
 				for (let i = 0; i < n; i++)
-					super.push(val);
+					this.push_back(val);
 
 				return this.begin();
 			}
@@ -544,16 +515,16 @@ namespace std
 				// INSERT TO THE MIDDLE POSITION
 				///////
 				// CUT RIGHT SIDE
-				let spliced_array = super.splice(position.index);
+				let spliced_array: T[] = this.data_.splice(position.index);
 				let insert_size: number = 0;
 
 				// INSERT ELEMENTS
 				for (let i = 0; i < n; i++)
 				{
-					super.push(val);
+					this.push_back(val);
 					insert_size++;
 				}
-				super.push(...spliced_array); // CONCAT THE SPLICEDS
+				this.push(...spliced_array); // CONCAT THE SPLICEDS
 
 				return position;
 			}
@@ -569,7 +540,7 @@ namespace std
 			{ 
 				// WHEN INSERT TO THE LAST
 				for (; !first.equals(last); first = first.next() as InputIterator)
-					super.push(first.value);
+					this.push_back(first.value);
 				
 				return this.begin();
 			}
@@ -579,16 +550,16 @@ namespace std
 				// INSERT TO THE MIDDLE POSITION
 				///////
 				// CUT RIGHT SIDE
-				let spliced_array = super.splice(position.index);
+				let spliced_array: T[] = this.data_.splice(position.index);
 				let insert_size: number = 0;
 
 				// INSERT ELEMENTS
 				for (; !first.equals(last); first = first.next() as InputIterator)
 				{
-					super.push(first.value);
+					this.push_back(first.value);
 					insert_size++;
 				}
-				super.push(...spliced_array); // CONCAT THE SPLICEDS
+				this.push(...spliced_array); // CONCAT THE SPLICEDS
 				
 				return position;
 			}
@@ -725,11 +696,11 @@ namespace std
 			// ERASE ELEMENTS
 			if (last.index == -1)
 			{
-				super.splice(first.index);
+				this.data_.splice(first.index);
 				return this.end();
 			}
 			else
-				super.splice(first.index, last.index - first.index);
+				this.data_.splice(first.index, last.index - first.index);
 
 			return first;
 		}
@@ -759,14 +730,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void;
+		public swap(obj: base.Container<T>): void;
 
-		public swap(obj: Vector<T> | base.IContainer<T>): void
+		public swap(obj: Vector<T> | base.Container<T>): void
 		{
-			let supplement: Vector<T> = new Vector<T>(this.begin(), this.end());
-
-			this.assign(obj.begin(), obj.end());
-			obj.assign(supplement.begin(), supplement.end());
+			if (obj instanceof Vector) // SWAP DATA
+				[this.data_, obj.data_] = [obj.data_, this.data_];
+			else
+				super.swap(obj);
 		}
 	}
 }
@@ -789,7 +760,7 @@ namespace std
 		implements base.IArrayIterator<T>
 	{
 		/**
-		 * Sequence number of iterator in the source {@link Vector}.
+		 * @hidden
 		 */
 		private index_: number;
 
@@ -817,19 +788,11 @@ namespace std
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
-		 */
-		private get vector(): Vector<T>
-		{
-			return this.source_ as Vector<T>;
-		}
-
-		/**
 		 * @inheritdoc
 		 */
 		public get value(): T
 		{
-			return this.vector.at(this.index_);
+			return (this.source_ as Vector<T>).at(this.index_);
 		}
 
 		/**
@@ -839,7 +802,7 @@ namespace std
 		 */
 		public set value(val: T)
 		{
-			this.vector.set(this.index_, val);
+			(this.source_ as Vector<T>).set(this.index_, val);
 		}
 
 		/**
@@ -859,11 +822,11 @@ namespace std
 		public prev(): VectorIterator<T>
 		{
 			if (this.index_ == -1)
-				return new VectorIterator(this.vector, this.vector.size() - 1);
+				return new VectorIterator(this.source_ as Vector<T>, this.source_.size() - 1);
 			else if (this.index_ - 1 < 0)
-				return this.vector.end();
+				return (this.source_ as Vector<T>).end();
 			else
-				return new VectorIterator<T>(this.vector, this.index_ - 1);
+				return new VectorIterator<T>(this.source_ as Vector<T>, this.index_ - 1);
 		}
 
 		/**
@@ -872,9 +835,9 @@ namespace std
 		public next(): VectorIterator<T>
 		{
 			if (this.index_ >= this.source_.size() - 1)
-				return this.vector.end();
+				return (this.source_ as Vector<T>).end();
 			else
-				return new VectorIterator<T>(this.vector, this.index_ + 1);
+				return new VectorIterator<T>(this.source_ as Vector<T>, this.index_ + 1);
 		}
 
 		/**
@@ -884,14 +847,14 @@ namespace std
 		{
 			let new_index: number;
 			if (n < 0 && this.index_ == -1)
-				new_index = this.vector.size() + n;
+				new_index = this.source_.size() + n;
 			else
 				new_index = this.index_ + n;
 
-			if (new_index < 0 || new_index >= this.vector.size())
-				return this.vector.end();
+			if (new_index < 0 || new_index >= this.source_.size())
+				return (this.source_ as Vector<T>).end();
 			else
-				return new VectorIterator<T>(this.vector, new_index);
+				return new VectorIterator<T>(this.source_ as Vector<T>, new_index);
 		}
 
 		/* ---------------------------------------------------------

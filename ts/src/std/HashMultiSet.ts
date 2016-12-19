@@ -164,8 +164,8 @@ namespace std
 
 			// ITERATE THE BUCKET
 			let cnt: number = 0;
-			for (let i = 0; i < bucket.length; i++)
-				if (std.equal_to(bucket[i].value, key))
+			for (let i = 0; i < bucket.size(); i++)
+				if (std.equal_to(bucket.at(i).value, key))
 					cnt++;
 
 			return cnt;
@@ -404,9 +404,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.IContainer<T>): void;
+		public swap(obj: base.Container<T>): void;
 
-		public swap(obj: HashMultiSet<T> | base.IContainer<T>): void
+		public swap(obj: HashMultiSet<T> | base.Container<T>): void
 		{
 			if (obj instanceof HashMultiSet)
 			{
