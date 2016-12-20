@@ -29,8 +29,8 @@ namespace std
 	 * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard 
 	 * container {@link List} is used. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
 	 * </p>
 	 * 
 	 * @param <T> Type of elements.

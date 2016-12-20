@@ -511,8 +511,8 @@ namespace std.base
 	/**
 	 * An iterator, node of a List-based container.
 	 * 
-	 * <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 *	<img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 *	<img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
 	 * </a>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>

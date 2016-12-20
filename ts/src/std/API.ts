@@ -1,14 +1,15 @@
 ﻿/**
- * <h1> TypeScript-STL </h1>
- * <p> <a href="https://nodei.co/npm/typescript-stl">
- *	<img src="https://nodei.co/npm/typescript-stl.png?downloads=true&downloadRank=true&stars=true"> </a> </p>
+ * # <u>T</u>ypeScript-<u>STL</u>
  * 
- * <p> STL (Standard Template Library) Containers and Algorithms for TypeScript. </p>
+ * <a href="https://nodei.co/npm/tstl">
+ *	<img src="https://nodei.co/npm/tstl.png?downloads=true&downloadRank=true&stars=true"> </a>
  * 
- * <p> TypeScript-STL is a TypeScript's <b>Standard Template Library</b> who is migrated from C++ STL. Most of classes
- * and functions of STL have implemented. Just enjoy it. </p>
+ * STL (Standard Template Library) Containers and Algorithms for TypeScript.
  * 
- * @git https://github.com/samchon/typescript-stl
+ * **T**ypeScript-**STL** is a TypeScript's <b>Standard Template Library</b> who is migrated from C++ STL. Most of classes
+ * and functions of STL have implemented. Just enjoy it.
+ * 
+ * @git https://github.com/samchon/tstl
  * @author Jeongho Nam <http://samchon.org>
  */
 namespace std

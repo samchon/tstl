@@ -5,8 +5,8 @@ namespace std.base
 	/**
 	 * <p> An abstract container. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /> 
 	 * </a> </p>
 	 *
 	 * <h3> Container properties </h3>

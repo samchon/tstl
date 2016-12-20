@@ -31,8 +31,8 @@ namespace std
 	 *
 	 * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a></p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a></p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>

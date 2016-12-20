@@ -31,8 +31,8 @@ namespace std
 	 * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s. 
 	 * </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
 	 * </a> </p>
 	 * 
 	 * <h3> Container properties </h3>
@@ -309,6 +309,18 @@ namespace std
 			return this.at(this.size() - 1);
 		}
 
+		/**
+		 * Access data.
+		 * 
+		 * Returns a direct array which is used internally by the {@link vector} to store its owned elements.
+		 * 
+		 * @returns An array.
+		 */
+		public data(): Array<T>
+		{
+			return this.data_;
+		}
+
 		/* =========================================================
 			ELEMENTS I/O
 				- INSERT
@@ -505,7 +517,7 @@ namespace std
 			{ 
 				// WHEN INSERT TO THE LAST
 				for (let i = 0; i < n; i++)
-					this.push_back(val);
+					this.data_.push(val);
 
 				return this.begin();
 			}
@@ -521,10 +533,10 @@ namespace std
 				// INSERT ELEMENTS
 				for (let i = 0; i < n; i++)
 				{
-					this.push_back(val);
+					this.data_.push(val);
 					insert_size++;
 				}
-				this.push(...spliced_array); // CONCAT THE SPLICEDS
+				this.data_.push(...spliced_array); // CONCAT THE SPLICEDS
 
 				return position;
 			}
@@ -540,7 +552,7 @@ namespace std
 			{ 
 				// WHEN INSERT TO THE LAST
 				for (; !first.equals(last); first = first.next() as InputIterator)
-					this.push_back(first.value);
+					this.data_.push(first.value);
 				
 				return this.begin();
 			}
@@ -556,10 +568,10 @@ namespace std
 				// INSERT ELEMENTS
 				for (; !first.equals(last); first = first.next() as InputIterator)
 				{
-					this.push_back(first.value);
+					this.data_.push(first.value);
 					insert_size++;
 				}
-				this.push(...spliced_array); // CONCAT THE SPLICEDS
+				this.data_.push(...spliced_array); // CONCAT THE SPLICEDS
 				
 				return position;
 			}
@@ -747,8 +759,8 @@ namespace std
 	/**
 	 * <p> An iterator of Vector. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
 	 * </p>
 	 *
 	 * @param <T> Type of the elements.
@@ -888,8 +900,8 @@ namespace std
 	/**
 	 * <p> A reverse-iterator of Vector. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
 	 * </p>
 	 *
 	 * @param <T> Type of the elements.

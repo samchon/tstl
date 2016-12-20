@@ -31,8 +31,8 @@ namespace std.base
 	 * beginning or the end, {@link IArrayContainer} objects perform worse and have less consistent iterators and references 
 	 * than {@link List Lists} </p>.
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
 	 * </a> </p>
 	 * 
 	 * <h3> Container properties </h3>
@@ -107,8 +107,8 @@ namespace std.base
 	 * <p> There is not a single type of {@link IArrayIterator random-access iterator}: Each container may define its 
 	 * own specific iterator type able to iterate through it and access its elements. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/linear_containers.png" style="max-width: 100%" /> 
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" style="max-width: 100%" /> 
 	 * </a> </p>
 	 *
 	 * @reference http://www.cplusplus.com/reference/iterator/RandomAccessIterator

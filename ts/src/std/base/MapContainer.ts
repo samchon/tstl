@@ -22,8 +22,8 @@ namespace std.base
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
 	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -567,7 +567,7 @@ namespace std.base
 
 		public erase(...args: any[]): any 
 		{
-			if (args.length == 1 && (args[0] instanceof Iterator == false || args[0].get_source() != this))
+			if (args.length == 1 && (args[0] instanceof Iterator == false || (args[0] as MapIterator<Key, T>).source() != this))
 				return this._Erase_by_key(args[0]);
 			else
 				if (args.length == 1)
@@ -747,8 +747,8 @@ namespace std
 	/**
 	 * <p> An iterator of {@link MapContainer map container}. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -806,9 +806,9 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		public get_source(): base.MapContainer<Key, T>
+		public source(): base.MapContainer<Key, T>
 		{
-			return (super.get_source() as base.MapElementList<Key, T>).get_associative();
+			return (super.source() as base.MapElementList<Key, T>).get_associative();
 		}
 
 		/**
@@ -874,8 +874,8 @@ namespace std
 	/**
 	 * <p> A reverse-iterator of {@link MapContainer map container}. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

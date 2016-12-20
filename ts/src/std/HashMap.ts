@@ -30,8 +30,8 @@ namespace std
 	 * <p> {@link HashMap} containers are faster than {@link TreeMap} containers to access individual elements by their 
 	 * <i>key</i>, although they are generally less efficient for range iteration through a subset of their elements. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a> 
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a> 
 	 * </p>
 	 * 
 	 * <h3> Container properties </h3>

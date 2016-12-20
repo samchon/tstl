@@ -204,7 +204,7 @@ namespace std
 		): boolean
 	{
 		while (!first1.equals(last1))
-			if (first2.equals(first2.get_source().end()) || !pred(first1.value, first2.value))
+			if (first2.equals(first2.source().end()) || !pred(first1.value, first2.value))
 				return false;
 			else
 			{
@@ -299,7 +299,7 @@ namespace std
 				first2 = first2.next() as Iterator2;
 			}
 
-		return !std.equal_to(last2, last2.get_source().end()) && !std.equal_to(first2.value, last2.value);
+		return !std.equal_to(last2, last2.source().end()) && !std.equal_to(first2.value, last2.value);
 	}
 
 	/* ---------------------------------------------------------
@@ -852,7 +852,7 @@ namespace std
 			compare: (x: T, y: T) => boolean = std.equal_to
 		): Pair<Iterator1, Iterator2>
 	{
-		while (!first1.equals(last1) && !first2.equals(first2.get_source().end())
+		while (!first1.equals(last1) && !first2.equals(first2.source().end())
 			&& std.equal_to(first1.value, first2.value))
 		{
 			first1 = first1.next() as Iterator1;
@@ -1320,7 +1320,7 @@ namespace std
 		for (let it = first.next(); !it.equals(last);)
 		{
 			if (std.equal_to(it.value, it.prev().value) == true)
-				it = it.get_source().erase(it) as InputIterator;
+				it = it.source().erase(it) as InputIterator;
 			else
 			{
 				ret = it as InputIterator;
@@ -1435,7 +1435,7 @@ namespace std
 		for (let it = first; !it.equals(last); )
 		{
 			if (std.equal_to(it.value, val) == true)
-				it = it.get_source().erase(it) as InputIterator;
+				it = it.source().erase(it) as InputIterator;
 			else
 			{
 				ret = it;
@@ -1475,7 +1475,7 @@ namespace std
 		for (let it = first; !it.equals(last);)
 		{
 			if (pred(it.value) == true)
-				it = it.get_source().erase(it) as InputIterator;
+				it = it.source().erase(it) as InputIterator;
 			else
 			{
 				ret = it;
@@ -1946,7 +1946,7 @@ namespace std
 	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = std.less): void
 	{
-		qsort(first.get_source() as base.IArrayContainer<T>, first.index, last.index - 1, compare);
+		qsort(first.source() as base.IArrayContainer<T>, first.index, last.index - 1, compare);
 	}
 
 	/**
@@ -2000,7 +2000,7 @@ namespace std
 			compare: (x: T, y: T) => boolean = std.less
 		): void
 	{
-		selection_sort(first.get_source() as base.IArrayContainer<T>, first.index, middle.index, last.index, compare);
+		selection_sort(first.source() as base.IArrayContainer<T>, first.index, middle.index, last.index, compare);
 	}
 
 	/**
@@ -2519,7 +2519,7 @@ namespace std
 
 		if (less_it != null)
 		{
-			let container = last_item_it.get_source() as base.IArrayContainer<T>;
+			let container = last_item_it.source() as base.IArrayContainer<T>;
 
 			container.insert(less_it, last_item_it.value);
 			container.erase(last_item_it);
@@ -2582,7 +2582,7 @@ namespace std
 	export function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
 	{
-		let container = first.get_source() as base.IArrayContainer<T>;
+		let container = first.source() as base.IArrayContainer<T>;
 
 		container.insert(last, first.value);
 		container.erase(first);

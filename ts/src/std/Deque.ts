@@ -40,8 +40,8 @@ namespace std
 	 * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than 
 	 * {@link List Lists}. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
 	 * </p>
 	 * 
 	 * <h3> Container properties </h3>
@@ -932,8 +932,8 @@ namespace std
 	/**
 	 * <p> An iterator of {@link Deque}. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
 	 * </p>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
@@ -1066,8 +1066,8 @@ namespace std
 	/**
 	 * <p> A reverse-iterator of Deque. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
+	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
 	 * </p>
 	 *
 	 * @param <T> Type of the elements.

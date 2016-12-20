@@ -110,8 +110,8 @@ namespace std
 	 * <p> All objects thrown by components of the standard library are derived from this class. 
 	 * Therefore, all standard exceptions can be caught by catching this type by reference. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/exception/exception
 	 * @author Jeongho Nam <http://samchon.org>
@@ -172,8 +172,8 @@ namespace std
 	 *
 	 * <p> It is used as a base class for several logical error exceptions. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/logic_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -204,8 +204,8 @@ namespace std
 	 * <p> No component of the standard library throws exceptions of this type. It is designed as a standard 
 	 * exception to be thrown by programs. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank">
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a></p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank">
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a></p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/domain_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -232,8 +232,8 @@ namespace std
 	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library 
 	 * also throw exceptions of this type to signal invalid arguments. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/invalid_argument
 	 * @author Jeongho Nam <http://samchon.org>
@@ -260,8 +260,8 @@ namespace std
 	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library, 
 	 * such as vector and string also throw exceptions of this type to signal errors resizing. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/length_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -289,8 +289,8 @@ namespace std
 	 * such as vector, deque, string and bitset also throw exceptions of this type to signal arguments 
 	 * out of range. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/out_of_range
 	 * @author Jeongho Nam <http://samchon.org>
@@ -324,8 +324,8 @@ namespace std
 	 *
 	 * <p> It is used as a base class for several runtime error exceptions. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/runtime_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -352,8 +352,8 @@ namespace std
 	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library 
 	 * also throw exceptions of this type to signal range errors. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/overflow_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -380,8 +380,8 @@ namespace std
 	 * <p> No component of the standard library throws exceptions of this type. It is designed as a standard 
 	 * exception to be thrown by programs. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/underflow_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -409,8 +409,8 @@ namespace std
 	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library 
 	 * also throw exceptions of this type to signal range errors. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/range_error
 	 * @author Jeongho Nam <http://samchon.org>

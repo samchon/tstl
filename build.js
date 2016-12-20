@@ -2,7 +2,7 @@ const fs = require("fs");
 const process = require('child_process');
 const minifier = require('minifier');
 
-const std = require('typescript-stl');
+const std = require('tstl');
 const StringUtil = require('samchon-framework').library.StringUtil;
 
 compile();

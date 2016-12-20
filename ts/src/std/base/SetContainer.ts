@@ -18,8 +18,8 @@ namespace std.base
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index 
 	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
 	 *
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
 	 * 
 	 * <h3> Container properties </h3>
 	 * <dl>
@@ -250,7 +250,7 @@ namespace std.base
 				return this._Insert_by_val(args[0]);
 			else if (args.length == 2 && args[0] instanceof Iterator)
 			{
-				if (args[1] instanceof Iterator && args[0].get_source() != this && args[1].get_source() != this)
+				if (args[1] instanceof Iterator && (args[0] as SetIterator<T>).source() != this && (args[1] as SetIterator<T>).source() != this)
 				{
 					// IT DOESN'T CONTAIN POSITION
 					// RANGES TO INSERT ONLY
@@ -345,7 +345,7 @@ namespace std.base
 
 		public erase(...args: any[]): any
 		{
-			if (args.length == 1 && (args[0] instanceof Iterator == false || args[0].get_source() != this))
+			if (args.length == 1 && (args[0] instanceof Iterator == false || (args[0] as SetIterator<T>).source() != this))
 				return this._Erase_by_val(args[0]);
 			else
 				if (args.length == 1)
@@ -526,8 +526,8 @@ namespace std
 	/**
 	 * <p> An iterator of a Set. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -559,9 +559,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public get_source(): base.SetContainer<T>
+		public source(): base.SetContainer<T>
 		{
-			return (super.get_source() as base.SetElementList<T>).get_associative();
+			return (super.source() as base.SetElementList<T>).get_associative();
 		}
 
 		/**
@@ -627,8 +627,8 @@ namespace std
 	/**
 	 * <p> A reverse-iterator of Set. </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/typescript-stl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
 	 *
 	 * @param <T> Type of the elements.
 	 *
