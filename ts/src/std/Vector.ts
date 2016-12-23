@@ -67,6 +67,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
+		private begin_: VectorIterator<T>;
+
+		/**
+		 * @hidden
+		 */
 		private end_: VectorIterator<T>;
 		
 		/**
@@ -142,8 +147,9 @@ namespace std
 			this.data_ = [];
 
 			// RESERVED ITERATORS
+			this.begin_ = new VectorIterator<T>(this, 0);
 			this.end_ = new VectorIterator<T>(this, -1);
-			this.rend_ = new VectorReverseIterator<T>(new VectorIterator<T>(this, 0));
+			this.rend_ = new VectorReverseIterator<T>(this.begin_);
 
 			// CONSTRUCTORS BRANCH
 			if (args.length == 0)
@@ -222,7 +228,7 @@ namespace std
 			if (this.empty() == true)
 				return this.end_;
 			else
-				return new VectorIterator<T>(this, 0);
+				return this.begin_;
 		}
 
 		/**

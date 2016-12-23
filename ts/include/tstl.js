@@ -5782,8 +5782,9 @@ var std;
             }
             var _this = _super.call(this) || this;
             // RESERVED ITERATORS
+            _this.begin_ = new std.DequeIterator(_this, 0);
             _this.end_ = new std.DequeIterator(_this, -1);
-            _this.rend_ = new std.DequeReverseIterator(new std.DequeIterator(_this, 0));
+            _this.rend_ = new std.DequeReverseIterator(_this.begin_);
             // CONSTRUCTORS BRANCH
             if (args.length == 0) {
                 _this.clear();
@@ -5944,7 +5945,7 @@ var std;
             if (this.empty() == true)
                 return this.end_;
             else
-                return new std.DequeIterator(this, 0);
+                return this.begin_;
         };
         /**
          * @inheritdoc
@@ -6555,8 +6556,9 @@ var std;
             // THE DATA
             _this.data_ = [];
             // RESERVED ITERATORS
+            _this.begin_ = new std.VectorIterator(_this, 0);
             _this.end_ = new std.VectorIterator(_this, -1);
-            _this.rend_ = new std.VectorReverseIterator(new std.VectorIterator(_this, 0));
+            _this.rend_ = new std.VectorReverseIterator(_this.begin_);
             // CONSTRUCTORS BRANCH
             if (args.length == 0) {
             }
@@ -6604,7 +6606,7 @@ var std;
             if (this.empty() == true)
                 return this.end_;
             else
-                return new std.VectorIterator(this, 0);
+                return this.begin_;
         };
         /**
          * @inheritdoc

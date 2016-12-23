@@ -131,6 +131,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
+		private begin_: DequeIterator<T>;
+
+		/**
+		 * @hidden
+		 */
 		private end_: DequeIterator<T>;
 
 		/**
@@ -199,8 +204,9 @@ namespace std
 			super();
 
 			// RESERVED ITERATORS
+			this.begin_ = new DequeIterator<T>(this, 0);
 			this.end_ = new DequeIterator<T>(this, -1);
-			this.rend_ = new DequeReverseIterator<T>(new DequeIterator<T>(this, 0));
+			this.rend_ = new DequeReverseIterator<T>(this.begin_);
 
 			// CONSTRUCTORS BRANCH
 			if (args.length == 0)
@@ -372,7 +378,7 @@ namespace std
 			if (this.empty() == true)
 				return this.end_;
 			else
-				return new DequeIterator<T>(this, 0);
+				return this.begin_;
 		}
 
 		/**

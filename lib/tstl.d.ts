@@ -1,4 +1,4 @@
-// Type definitions for TSTL v1.3.1
+// Type definitions for TSTL v1.3.2
 // Project: https://github.com/samchon/tstl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -7631,6 +7631,10 @@ declare namespace std {
         /**
          * @hidden
          */
+        private begin_;
+        /**
+         * @hidden
+         */
         private end_;
         /**
          * @hidden
@@ -10267,6 +10271,10 @@ declare namespace std {
          * @hidden
          */
         private data_;
+        /**
+         * @hidden
+         */
+        private begin_;
         /**
          * @hidden
          */
