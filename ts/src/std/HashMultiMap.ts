@@ -124,7 +124,7 @@ namespace std
 				// INITIALIZER LIST CONSTRUCTOR
 				let items: Pair<Key, T>[] = args[0];
 
-				this.rehash(items.length * base.Hash.RATIO);
+				this.rehash(items.length * base._Hash.RATIO);
 				this.push(...items);
 			}
 			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
@@ -357,8 +357,8 @@ namespace std
 			let my_first = this["data_"].insert(this["data_"].end(), first, last);
 
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() > this.hash_buckets_.item_size() * base.Hash.MAX_RATIO)
-				this.hash_buckets_.rehash(this.size() * base.Hash.RATIO);
+			if (this.size() > this.hash_buckets_.item_size() * base._Hash.MAX_RATIO)
+				this.hash_buckets_.rehash(this.size() * base._Hash.RATIO);
 			
 			// POST-PROCESS
 			this._Handle_insert(my_first, this.end());

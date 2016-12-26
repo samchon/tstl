@@ -66,7 +66,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private tree_: base.AtomicTree<T>;
+		private tree_: base._SetTree<T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -136,7 +136,7 @@ namespace std
 		{
 			// INIT MEMBERS
 			super();
-			this.tree_ = new base.AtomicTree<T>(this);
+			this.tree_ = new base._SetTree<T>(this);
 
 			if (args.length >= 1 && args[0] instanceof TreeSet)
 			{

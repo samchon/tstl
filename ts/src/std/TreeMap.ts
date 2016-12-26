@@ -65,7 +65,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private tree_: base.PairTree<Key, T>;
+		private tree_: base._MapTree<Key, T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -156,7 +156,7 @@ namespace std
 		{
 			// INIT MEMBERS
 			super();
-			this.tree_ = new base.PairTree<Key, T>(this);
+			this.tree_ = new base._MapTree<Key, T>(this);
 			
 			if (args.length >= 1 && args[0] instanceof TreeMap)
 			{

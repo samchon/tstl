@@ -113,7 +113,7 @@ namespace std
 				// INITIALIZER LIST CONSTRUCTOR
 				let items: T[] = args[0];
 
-				this.rehash(items.length * base.Hash.RATIO);
+				this.rehash(items.length * base._Hash.RATIO);
 				this.push(...items);
 			}
 			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
@@ -358,8 +358,8 @@ namespace std
 			my_first = my_first.next();
 			
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hash_buckets_.size() * base.Hash.MAX_RATIO)
-				this.hash_buckets_.rehash((this.size() + size) * base.Hash.RATIO);
+			if (this.size() + size > this.hash_buckets_.size() * base._Hash.MAX_RATIO)
+				this.hash_buckets_.rehash((this.size() + size) * base._Hash.RATIO);
 
 			// INSERTS
 			this._Handle_insert(my_first, this.end());

@@ -1,8 +1,11 @@
-/// <reference path="../API.ts" />
+/// <reference path="../../API.ts" />
 
 namespace std.base
 {
-	export enum Hash
+    /**
+     * @hidden
+     */
+	export enum _Hash
 	{
 		MIN_SIZE = 10,
 		RATIO = 1.0,
@@ -10,48 +13,25 @@ namespace std.base
 	}
 
 	/**
-	 * <p> Hask buckets. </p>
-	 * 
-	 * @author Jeongho Nam <http://samchon.org>
+	 * @hidden
 	 */
-	export abstract class HashBuckets<T>
+	export abstract class _HashBuckets<T>
 	{
-		/**
-		 * @hidden
-		 */
 		private buckets_: Vector<Vector<T>>;
-
-		/**
-		 * @hidden
-		 */
 		private item_size_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
 		protected constructor()
 		{
 			this.clear();
-		}
+        }
 
-		/**
-		 * <p> Reconstruction of hash table. </p>
-		 * 
-		 * <p> All the elements in the hash buckets are rearranged according to their hash value into the new set of 
-		 * buckets. This may alter the order of iteration of elements within the container. </p>
-		 *
-		 * <p> Notice that {@link rehash rehashes} are automatically performed whenever its number of elements is going
-		 * to greater than its own {@link capacity}. </p>
-		 * 
-		 * @param size Number of bucket size to rehash.
-		 */
 		public rehash(size: number): void
 		{
-			if (size < Hash.MIN_SIZE)
-				size = Hash.MIN_SIZE;
+			if (size < _Hash.MIN_SIZE)
+				size = _Hash.MIN_SIZE;
 
 			let prev_matrix: Vector<Vector<T>> = this.buckets_;
 			this.buckets_ = new Vector<Vector<T>>();
@@ -75,7 +55,7 @@ namespace std.base
 			this.buckets_ = new Vector<Vector<T>>();
 			this.item_size_ = 0;
 
-			for (let i: number = 0; i < Hash.MIN_SIZE; i++)
+			for (let i: number = 0; i < _Hash.MIN_SIZE; i++)
 				this.buckets_.push_back(new Vector<T>());
 		}
 
@@ -94,7 +74,7 @@ namespace std.base
 
 		public capacity(): number
 		{
-			return this.buckets_.size() * Hash.MAX_RATIO;
+			return this.buckets_.size() * _Hash.MAX_RATIO;
 		}
 
 
@@ -116,7 +96,7 @@ namespace std.base
 			this.buckets_.at(this.hash_index(val)).push_back(val);
 
 			if (++this.item_size_ > this.capacity())
-				this.rehash(this.item_size_ * Hash.RATIO);
+				this.rehash(this.item_size_ * _Hash.RATIO);
 		}
 
 		public erase(val: T): void

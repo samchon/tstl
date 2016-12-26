@@ -1,8 +1,4 @@
-/// <reference path="../API.ts" />
-
-/// <reference path="HashBuckets.ts" />
-
-namespace std.base
+﻿namespace std.base
 {
 	/**
 	 * <p> A common interface for hash set. </p>
@@ -46,92 +42,9 @@ namespace std.base
 	 * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export interface IHashSet<T>
+    export interface IHashSet<T>
+        extends SetContainer<T>
 	{
-		/* =========================================================
-			ACCESSORS
-				- MEMBER
-				- HASH
-		============================================================
-			MEMBER
-		--------------------------------------------------------- */
-		/**
-		 * <p> Return iterator to beginning. </p>
-		 * 
-		 * <p> Returns an iterator pointing to the first element in the {@link IHashSet}. </p>
-		 * 
-		 * <p> Notice that an {@link IHashSet} object makes no guarantees on which specific element is considered its
-		 * first element. But, in any case, the range that goes from its begin to its end covers all the elements in the 
-		 * container, until invalidated. </p>
-		 * 
-		 * @return An iterator to the first element in the container.
-		 */
-		begin(): SetIterator<T>;
-
-		/**
-		 * <p> Return iterator to beginning. </p>
-		 * 
-		 * <p> Returns an iterator pointing to the first element in one of buckets in the {@link IHashSet}. </p>
-		 * 
-		 * <p> Notice that an {@link IHashSet} object makes no guarantees on which specific element is considered its
-		 * first element. But, in any case, the range that goes from its begin to its end covers all the elements in the 
-		 * bucket, until invalidated. </p>
-		 * 
-		 * @param index Bucket number. This shall be lower than {@link bucket_count}.
-		 * 
-		 * @return An iterator to the first element in the bucket.
-		 */
-		begin(index: number): SetIterator<T>;
-
-		/**
-		 * <p> Return iterator to end. </p>
-		 * 
-		 * <p> Returns an iterator pointing to the past-the-end element in the {@link HaspMap} container. </p>
-		 * 
-		 * <p> The iterator returned by end does not point to any element, but to the position that follows the last 
-		 * element in the {@link HaspMap} container (its <i>past-the-end</i> position). Thus, the value returned shall 
-		 * not be dereferenced - it is generally used to describe the open-end of a range, such as 
-		 * [<i>begin</i>, <i>end</i>). </p>
-		 * 
-		 * <p> Notice that an {@link IHashSet} object makes no guarantees on which order its elements follow. But, in any 
-		 * case, the range that goes from its begin to its end covers all the elements in the container (or the bucket), 
-		 * until invalidated. </p>
-		 * 
-		 * @return An iterator to the element past the end of the container.
-		 */
-		end(): SetIterator<T>;
-
-		/**
-		 * <p> Return iterator to end. </p>
-		 *
-		 * <p> Returns an iterator pointing to the past-the-end element in the {@link HaspMap} container. </p>
-		 *
-		 * <p> The iterator returned by end does not point to any element, but to the position that follows the last
-		 * element in the {@link HaspMap} container (its <i>past-the-end</i> position). Thus, the value returned shall
-		 * not be dereferenced - it is generally used to describe the open-end of a range, such as
-		 * [<i>begin</i>, <i>end</i>). </p>
-		 *
-		 * <p> Notice that an {@link IHashSet} object makes no guarantees on which order its elements follow. But, in any
-		 * case, the range that goes from its begin to its end covers all the elements in the container (or the bucket),
-		 * until invalidated. </p>
-		 * 
-		 * @param index Bucket number. This shall be lower than {@link bucket_count}.
-		 * 
-		 * @return An iterator to the element past the end of the bucket.
-		 */
-		end(index: number): SetIterator<T>;
-
-		rbegin(): SetReverseIterator<T>;
-
-		rbegin(index: number): SetReverseIterator<T>;
-
-		rend(): SetReverseIterator<T>;
-
-		rend(index: number): SetReverseIterator<T>;
-
-		/* ---------------------------------------------------------
-			HASH
-		--------------------------------------------------------- */
 		/**
 		 * <p> Return number of buckets. </p>
 		 * 
@@ -265,42 +178,5 @@ namespace std.base
 		 * @param n The minimum number of buckets for the container hash table.
 		 */
 		rehash(n: number): void;
-	}
-}
-
-namespace std.base
-{
-	/**
-	 * <p> Hash buckets storing {@link SetIterator SetIterators}. </p>
-	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /> </a> 
-	 * </p>
-	 * 
-	 * @author Jeongho Nam <http://samchon.org>
-	 */
-	export class SetHashBuckets<T>
-		extends HashBuckets<SetIterator<T>>
-	{
-		private set_: SetContainer<T>;
-		
-		public constructor(set: SetContainer<T>)
-		{
-			super();
-
-			this.set_ = set;
-		}
-
-		public find(val: T): SetIterator<T>
-		{
-			let index = std.hash(val) % this.size();
-			let bucket = this.at(index);
-
-			for (let i: number = 0; i < bucket.size(); i++)
-				if (std.equal_to(bucket.at(i).value, val))
-					return bucket.at(i);
-
-			return this.set_.end();
-		}
 	}
 }

@@ -1,6 +1,4 @@
-﻿/// <reference path="../API.ts" />
-
-namespace std.base
+﻿namespace std.base
 {
 	/**
 	 * <p> An interface for deque  </p>
