@@ -341,7 +341,7 @@ namespace std
 		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{
 			for (; !first.equals(last); first = first.next())
-				this.tree_.erase(last);
+				this.tree_.erase(first);
 		}
 
 		/* ---------------------------------------------------------

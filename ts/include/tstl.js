@@ -1907,12 +1907,289 @@ var std;
         base.Container = Container;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="API.ts" />
+/// <reference path="../API.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * <p> An abstract error instance. </p>
+         *
+         * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
+         * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
+         *
+         * <p> The operating system and other low-level applications and libraries generate numerical error codes to
+         * represent possible results. These numerical values may carry essential information for a specific platform,
+         * but be non-portable from one platform to another. </p>
+         *
+         * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
+         * so that they can be interpreted when needed as more abstract (and portable)
+         * {@link ErrorCondition error conditions}. </p>
+         *
+         * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank">
+         * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+         *
+         * @author Jeongho Nam <http://samchon.org>
+         */
+        var ErrorInstance = (function () {
+            function ErrorInstance(val, category) {
+                if (val === void 0) { val = 0; }
+                if (category === void 0) { category = null; }
+                this.assign(val, category);
+            }
+            /**
+             * <p> Assign error instance. </p>
+             *
+             * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p>
+             *
+             * @param val A numerical value identifying an error instance.
+             * @param category A reference to an {@link ErrorCategory} object.
+             */
+            ErrorInstance.prototype.assign = function (val, category) {
+                this.category_ = category;
+                this.value_ = val;
+            };
+            /**
+             * <p> Clear error instance. </p>
+             *
+             * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
+             * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
+             */
+            ErrorInstance.prototype.clear = function () {
+                this.value_ = 0;
+            };
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            /**
+             * <p> Get category. </p>
+             *
+             * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
+             *
+             * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
+             */
+            ErrorInstance.prototype.category = function () {
+                return this.category_;
+            };
+            /**
+             * <p> Error value. </p>
+             *
+             * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
+             *
+             * @return The error value.
+             */
+            ErrorInstance.prototype.value = function () {
+                return this.value_;
+            };
+            /**
+             * <p> Get message. </p>
+             *
+             * <p> Returns the message associated with the error instance. </p>
+             *
+             * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
+             *
+             * <p> This function returns the same as if the following member was called: </p>
+             *
+             * <p> <code>category().message(value())</code> </p>
+             *
+             * @return A string object with the message associated with the {@link ErrorCode}.
+             */
+            ErrorInstance.prototype.message = function () {
+                if (this.category_ == null || this.value_ == 0)
+                    return "";
+                else
+                    return this.category_.message(this.value_);
+            };
+            /**
+             * <p> Default error condition. </p>
+             *
+             * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
+             *
+             * <p> This function returns the same as if the following member was called: </p>
+             *
+             * <p> <code>category().default_error_condition(value())</code> </p>
+             *
+             * <p> {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()}
+             * is a virtual member function, that can operate differently for each category. </p>
+             *
+             * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
+             */
+            ErrorInstance.prototype.default_error_condition = function () {
+                if (this.category_ == null || this.value_ == 0)
+                    return null;
+                else
+                    return this.category_.default_error_condition(this.value_);
+            };
+            /* ---------------------------------------------------------
+                OPERATORS
+            --------------------------------------------------------- */
+            /**
+             * <p> Convert to bool. </p>
+             *
+             * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
+             *
+             * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
+             *
+             * @return <code>true</code> if the error's numerical value is not zero.
+             *		   <code>false</code> otherwise.
+             */
+            ErrorInstance.prototype.to_bool = function () {
+                return this.value_ != 0;
+            };
+            return ErrorInstance;
+        }());
+        base.ErrorInstance = ErrorInstance;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="../../API.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * @hidden
+         */
+        var _Hash;
+        (function (_Hash) {
+            _Hash[_Hash["MIN_SIZE"] = 10] = "MIN_SIZE";
+            _Hash[_Hash["RATIO"] = 1] = "RATIO";
+            _Hash[_Hash["MAX_RATIO"] = 2] = "MAX_RATIO";
+        })(_Hash = base._Hash || (base._Hash = {}));
+        /**
+         * @hidden
+         */
+        var _HashBuckets = (function () {
+            /* ---------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------- */
+            function _HashBuckets() {
+                this.clear();
+            }
+            _HashBuckets.prototype.rehash = function (size) {
+                if (size < _Hash.MIN_SIZE)
+                    size = _Hash.MIN_SIZE;
+                var prev_matrix = this.buckets_;
+                this.buckets_ = new std.Vector();
+                for (var i = 0; i < size; i++)
+                    this.buckets_.push_back(new std.Vector());
+                for (var i = 0; i < prev_matrix.size(); i++)
+                    for (var j = 0; j < prev_matrix.at(i).size(); j++) {
+                        var val = prev_matrix.at(i).at(j);
+                        var bucket = this.buckets_.at(this.hash_index(val));
+                        bucket.push_back(val);
+                        this.item_size_++;
+                    }
+            };
+            _HashBuckets.prototype.clear = function () {
+                this.buckets_ = new std.Vector();
+                this.item_size_ = 0;
+                for (var i = 0; i < _Hash.MIN_SIZE; i++)
+                    this.buckets_.push_back(new std.Vector());
+            };
+            /* ---------------------------------------------------------
+                ACCESSORS
+            --------------------------------------------------------- */
+            _HashBuckets.prototype.size = function () {
+                return this.buckets_.size();
+            };
+            _HashBuckets.prototype.item_size = function () {
+                return this.item_size_;
+            };
+            _HashBuckets.prototype.capacity = function () {
+                return this.buckets_.size() * _Hash.MAX_RATIO;
+            };
+            _HashBuckets.prototype.at = function (index) {
+                return this.buckets_.at(index);
+            };
+            _HashBuckets.prototype.hash_index = function (val) {
+                return std.hash(val) % this.buckets_.size();
+            };
+            /* ---------------------------------------------------------
+                ELEMENTS I/O
+            --------------------------------------------------------- */
+            _HashBuckets.prototype.insert = function (val) {
+                this.buckets_.at(this.hash_index(val)).push_back(val);
+                if (++this.item_size_ > this.capacity())
+                    this.rehash(this.item_size_ * _Hash.RATIO);
+            };
+            _HashBuckets.prototype.erase = function (val) {
+                var bucket = this.buckets_.at(this.hash_index(val));
+                for (var i = 0; i < bucket.size(); i++)
+                    if (bucket.at(i) == val) {
+                        bucket.erase(bucket.begin().advance(i));
+                        this.item_size_--;
+                        break;
+                    }
+            };
+            return _HashBuckets;
+        }());
+        base._HashBuckets = _HashBuckets;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="../../API.ts" />
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+/// <reference path="_HashBuckets.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * @hidden
+         */
+        var MapHashBuckets = (function (_super) {
+            __extends(MapHashBuckets, _super);
+            function MapHashBuckets(map) {
+                var _this = _super.call(this) || this;
+                _this.map_ = map;
+                return _this;
+            }
+            MapHashBuckets.prototype.find = function (key) {
+                var index = std.hash(key) % this.size();
+                var bucket = this.at(index);
+                for (var i = 0; i < bucket.size(); i++)
+                    if (std.equal_to(bucket.at(i).first, key))
+                        return bucket.at(i);
+                return this.map_.end();
+            };
+            return MapHashBuckets;
+        }(base._HashBuckets));
+        base.MapHashBuckets = MapHashBuckets;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="../../API.ts" />
+/// <reference path="_HashBuckets.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * @hidden
+         */
+        var SetHashBuckets = (function (_super) {
+            __extends(SetHashBuckets, _super);
+            function SetHashBuckets(set) {
+                var _this = _super.call(this) || this;
+                _this.set_ = set;
+                return _this;
+            }
+            SetHashBuckets.prototype.find = function (val) {
+                var index = std.hash(val) % this.size();
+                var bucket = this.at(index);
+                for (var i = 0; i < bucket.size(); i++)
+                    if (std.equal_to(bucket.at(i).value, val))
+                        return bucket.at(i);
+                return this.set_.end();
+            };
+            return SetHashBuckets;
+        }(base._HashBuckets));
+        base.SetHashBuckets = SetHashBuckets;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="API.ts" />
 // Iterator definitions.
 //
 // @reference http://www.cplusplus.com/reference/iterator
@@ -2616,599 +2893,6 @@ var std;
         base.ListIteratorBase = ListIteratorBase;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
-/// <reference path="../../API.ts" />
-//--------
-// The Red-Black Tree
-//
-// Referenceh: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
-// Inventor: Rudolf Bayer
-//--------
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        /**
-         * @hidden
-         */
-        var _XTree = (function () {
-            /* =========================================================
-                CONSTRUCTOR
-            ========================================================= */
-            function _XTree() {
-                this.root_ = null;
-            }
-            _XTree.prototype.clear = function () {
-                this.root_ = null;
-            };
-            /* =========================================================
-                ACCESSORS
-                    - GETTERS
-                    - COMPARISON
-            ============================================================
-                GETTERS
-            --------------------------------------------------------- */
-            _XTree.prototype.find = function (val) {
-                if (this.root_ == null)
-                    return null;
-                var node = this.root_;
-                while (true) {
-                    var newNode = null;
-                    if (this.is_equal_to(val, node.value))
-                        break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-                    else if (this.is_less(val, node.value))
-                        newNode = node.left; // LESS, THEN TO THE LEFT
-                    else
-                        newNode = node.right; // GREATER, THEN TO THE RIGHT
-                    // ULTIL CHILD NODE EXISTS
-                    if (newNode == null)
-                        break;
-                    // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-                    node = newNode;
-                }
-                return node;
-            };
-            _XTree.prototype._Fetch_maximum = function (node) {
-                while (node.right != null)
-                    node = node.right;
-                return node;
-            };
-            /* =========================================================
-                ELEMENTS I/O
-                    - INSERT
-                    - ERASE
-                    - COLOR
-                    - ROTATION
-            ============================================================
-                INSERT
-            --------------------------------------------------------- */
-            _XTree.prototype.insert = function (val) {
-                var parent = this.find(val);
-                var node = new base._XTreeNode(val, base._Color.RED);
-                if (parent == null)
-                    this.root_ = node;
-                else {
-                    node.parent = parent;
-                    if (this.is_less(node.value, parent.value))
-                        parent.left = node;
-                    else
-                        parent.right = node;
-                }
-                this._Insert_case1(node);
-            };
-            _XTree.prototype._Insert_case1 = function (N) {
-                if (N.parent == null)
-                    N.color = base._Color.BLACK;
-                else
-                    this._Insert_case2(N);
-            };
-            _XTree.prototype._Insert_case2 = function (N) {
-                if (this._Fetch_color(N.parent) == base._Color.BLACK)
-                    return;
-                else
-                    this._Insert_case3(N);
-            };
-            _XTree.prototype._Insert_case3 = function (N) {
-                if (this._Fetch_color(N.uncle) == base._Color.RED) {
-                    N.parent.color = base._Color.BLACK;
-                    N.uncle.color = base._Color.BLACK;
-                    N.grandParent.color = base._Color.RED;
-                    this._Insert_case1(N.grandParent);
-                }
-                else {
-                    this._Insert_case4(N);
-                }
-            };
-            _XTree.prototype._Insert_case4 = function (node) {
-                if (node == node.parent.right && node.parent == node.grandParent.left) {
-                    this._Rotate_left(node.parent);
-                    node = node.left;
-                }
-                else if (node == node.parent.left && node.parent == node.grandParent.right) {
-                    this._Rotate_right(node.parent);
-                    node = node.right;
-                }
-                this._Insert_case5(node);
-            };
-            _XTree.prototype._Insert_case5 = function (node) {
-                node.parent.color = base._Color.BLACK;
-                node.grandParent.color = base._Color.RED;
-                if (node == node.parent.left && node.parent == node.grandParent.left)
-                    this._Rotate_right(node.grandParent);
-                else
-                    this._Rotate_left(node.grandParent);
-            };
-            /* ---------------------------------------------------------
-                ERASE
-            --------------------------------------------------------- */
-            _XTree.prototype.erase = function (val) {
-                var node = this.find(val);
-                if (node == null || this.is_equal_to(val, node.value) == false)
-                    return;
-                if (node.left != null && node.right != null) {
-                    var pred = this._Fetch_maximum(node.left);
-                    node.value = pred.value;
-                    node = pred;
-                }
-                var child = (node.right == null) ? node.left : node.right;
-                if (this._Fetch_color(node) == base._Color.BLACK) {
-                    node.color = this._Fetch_color(child);
-                    this._Erase_case1(node);
-                }
-                this._Replace_node(node, child);
-            };
-            _XTree.prototype._Erase_case1 = function (N) {
-                if (N.parent == null)
-                    return;
-                else
-                    this._Erase_case2(N);
-            };
-            _XTree.prototype._Erase_case2 = function (N) {
-                if (this._Fetch_color(N.sibling) == base._Color.RED) {
-                    N.parent.color = base._Color.RED;
-                    N.sibling.color = base._Color.BLACK;
-                    if (N == N.parent.left)
-                        this._Rotate_left(N.parent);
-                    else
-                        this._Rotate_right(N.parent);
-                }
-                this._Erase_case3(N);
-            };
-            _XTree.prototype._Erase_case3 = function (N) {
-                if (this._Fetch_color(N.parent) == base._Color.BLACK &&
-                    this._Fetch_color(N.sibling) == base._Color.BLACK &&
-                    this._Fetch_color(N.sibling.left) == base._Color.BLACK &&
-                    this._Fetch_color(N.sibling.right) == base._Color.BLACK) {
-                    N.sibling.color = base._Color.RED;
-                    this._Erase_case1(N.parent);
-                }
-                else
-                    this._Erase_case4(N);
-            };
-            _XTree.prototype._Erase_case4 = function (N) {
-                if (this._Fetch_color(N.parent) == base._Color.RED &&
-                    N.sibling != null &&
-                    this._Fetch_color(N.sibling) == base._Color.BLACK &&
-                    this._Fetch_color(N.sibling.left) == base._Color.BLACK &&
-                    this._Fetch_color(N.sibling.right) == base._Color.BLACK) {
-                    N.sibling.color = base._Color.RED;
-                    N.parent.color = base._Color.BLACK;
-                }
-                else
-                    this._Erase_case5(N);
-            };
-            _XTree.prototype._Erase_case5 = function (N) {
-                if (N == N.parent.left &&
-                    N.sibling != null &&
-                    this._Fetch_color(N.sibling) == base._Color.BLACK &&
-                    this._Fetch_color(N.sibling.left) == base._Color.RED &&
-                    this._Fetch_color(N.sibling.right) == base._Color.BLACK) {
-                    N.sibling.color = base._Color.RED;
-                    N.sibling.left.color = base._Color.BLACK;
-                    this._Rotate_right(N.sibling);
-                }
-                else if (N == N.parent.right &&
-                    N.sibling != null &&
-                    this._Fetch_color(N.sibling) == base._Color.BLACK &&
-                    this._Fetch_color(N.sibling.left) == base._Color.BLACK &&
-                    this._Fetch_color(N.sibling.right) == base._Color.RED) {
-                    N.sibling.color = base._Color.RED;
-                    N.sibling.right.color = base._Color.BLACK;
-                    this._Rotate_left(N.sibling);
-                }
-            };
-            _XTree.prototype._Erase_case6 = function (node) {
-                node.sibling.color = this._Fetch_color(node.parent);
-                node.parent.color = base._Color.BLACK;
-                if (node == node.parent.left) {
-                    node.sibling.right.color = base._Color.BLACK;
-                    this._Rotate_left(node.parent);
-                }
-                else {
-                    node.sibling.left.color = base._Color.BLACK;
-                    this._Rotate_right(node.parent);
-                }
-            };
-            /* ---------------------------------------------------------
-                ROTATION
-            --------------------------------------------------------- */
-            _XTree.prototype._Rotate_left = function (node) {
-                var right = node.right;
-                this._Replace_node(node, right);
-                node.right = right.left;
-                if (right.left != null)
-                    right.left.parent = node;
-                right.left = node;
-                node.parent = right;
-            };
-            _XTree.prototype._Rotate_right = function (node) {
-                var left = node.left;
-                this._Replace_node(node, left);
-                node.left = left.right;
-                if (left.right != null)
-                    left.right.parent = node;
-                left.right = node;
-                node.parent = left;
-            };
-            _XTree.prototype._Replace_node = function (oldNode, newNode) {
-                if (oldNode.parent == null)
-                    this.root_ = newNode;
-                else {
-                    if (oldNode == oldNode.parent.left)
-                        oldNode.parent.left = newNode;
-                    else
-                        oldNode.parent.right = newNode;
-                }
-                if (newNode != null)
-                    newNode.parent = oldNode.parent;
-            };
-            /* ---------------------------------------------------------
-                COLOR
-            --------------------------------------------------------- */
-            _XTree.prototype._Fetch_color = function (node) {
-                if (node == null)
-                    return base._Color.BLACK;
-                else
-                    return node.color;
-            };
-            return _XTree;
-        }());
-        base._XTree = _XTree;
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="_XTree.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        /**
-         * @hidden
-         */
-        var _SetTree = (function (_super) {
-            __extends(_SetTree, _super);
-            /* ---------------------------------------------------------
-                CONSTRUCTOR
-            --------------------------------------------------------- */
-            /**
-             * Default Constructor.
-             */
-            function _SetTree(set, compare) {
-                if (compare === void 0) { compare = std.less; }
-                var _this = _super.call(this) || this;
-                _this.set_ = set;
-                _this.compare_ = compare;
-                return _this;
-            }
-            _SetTree.prototype.find = function (val) {
-                if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
-                    return _super.prototype.find.call(this, val);
-                else
-                    return this._Find_by_val(val);
-            };
-            _SetTree.prototype._Find_by_val = function (val) {
-                if (this.root_ == null)
-                    return null;
-                var node = this.root_;
-                while (true) {
-                    var newNode = null;
-                    if (std.equal_to(val, node.value.value))
-                        break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-                    else if (this.compare_(val, node.value.value))
-                        newNode = node.left; // LESS, THEN TO THE LEFT
-                    else
-                        newNode = node.right; // GREATER, THEN TO THE RIGHT
-                    // ULTIL CHILD NODE EXISTS
-                    if (newNode == null)
-                        break;
-                    // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-                    node = newNode;
-                }
-                return node;
-            };
-            /* ---------------------------------------------------------
-                BOUNDS
-            --------------------------------------------------------- */
-            _SetTree.prototype.lower_bound = function (val) {
-                var node = this.find(val);
-                if (node == null)
-                    return this.set_.end();
-                else if (std.equal_to(node.value.value, val))
-                    return node.value;
-                else {
-                    var it = node.value;
-                    while (!std.equal_to(it, this.set_.end()) && this.compare_(it.value, val))
-                        it = it.next();
-                    return it;
-                }
-            };
-            _SetTree.prototype.upper_bound = function (val) {
-                var node = this.find(val);
-                if (node == null)
-                    return this.set_.end();
-                else {
-                    var it = node.value;
-                    while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || this.compare_(it.value, val)))
-                        it = it.next();
-                    return it;
-                }
-            };
-            _SetTree.prototype.equal_range = function (val) {
-                return std.make_pair(this.lower_bound(val), this.upper_bound(val));
-            };
-            /* ---------------------------------------------------------
-                COMPARISON
-            --------------------------------------------------------- */
-            _SetTree.prototype.key_comp = function () {
-                return this.compare_;
-            };
-            _SetTree.prototype.value_comp = function () {
-                return this.compare_;
-            };
-            _SetTree.prototype.is_equal_to = function (left, right) {
-                return std.equal_to(left, right);
-            };
-            _SetTree.prototype.is_less = function (left, right) {
-                return this.compare_(left.value, right.value);
-            };
-            return _SetTree;
-        }(base._XTree));
-        base._SetTree = _SetTree;
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="../../API.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        /**
-         * @hidden
-         */
-        var _Color;
-        (function (_Color) {
-            _Color[_Color["BLACK"] = 0] = "BLACK";
-            _Color[_Color["RED"] = 1] = "RED";
-        })(_Color = base._Color || (base._Color = {}));
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="../API.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        /**
-         * <p> An abstract error instance. </p>
-         *
-         * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
-         * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
-         *
-         * <p> The operating system and other low-level applications and libraries generate numerical error codes to
-         * represent possible results. These numerical values may carry essential information for a specific platform,
-         * but be non-portable from one platform to another. </p>
-         *
-         * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories},
-         * so that they can be interpreted when needed as more abstract (and portable)
-         * {@link ErrorCondition error conditions}. </p>
-         *
-         * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank">
-         * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
-         *
-         * @author Jeongho Nam <http://samchon.org>
-         */
-        var ErrorInstance = (function () {
-            function ErrorInstance(val, category) {
-                if (val === void 0) { val = 0; }
-                if (category === void 0) { category = null; }
-                this.assign(val, category);
-            }
-            /**
-             * <p> Assign error instance. </p>
-             *
-             * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p>
-             *
-             * @param val A numerical value identifying an error instance.
-             * @param category A reference to an {@link ErrorCategory} object.
-             */
-            ErrorInstance.prototype.assign = function (val, category) {
-                this.category_ = category;
-                this.value_ = val;
-            };
-            /**
-             * <p> Clear error instance. </p>
-             *
-             * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the
-             * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
-             */
-            ErrorInstance.prototype.clear = function () {
-                this.value_ = 0;
-            };
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            /**
-             * <p> Get category. </p>
-             *
-             * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
-             *
-             * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
-             */
-            ErrorInstance.prototype.category = function () {
-                return this.category_;
-            };
-            /**
-             * <p> Error value. </p>
-             *
-             * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
-             *
-             * @return The error value.
-             */
-            ErrorInstance.prototype.value = function () {
-                return this.value_;
-            };
-            /**
-             * <p> Get message. </p>
-             *
-             * <p> Returns the message associated with the error instance. </p>
-             *
-             * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
-             *
-             * <p> This function returns the same as if the following member was called: </p>
-             *
-             * <p> <code>category().message(value())</code> </p>
-             *
-             * @return A string object with the message associated with the {@link ErrorCode}.
-             */
-            ErrorInstance.prototype.message = function () {
-                if (this.category_ == null || this.value_ == 0)
-                    return "";
-                else
-                    return this.category_.message(this.value_);
-            };
-            /**
-             * <p> Default error condition. </p>
-             *
-             * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
-             *
-             * <p> This function returns the same as if the following member was called: </p>
-             *
-             * <p> <code>category().default_error_condition(value())</code> </p>
-             *
-             * <p> {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()}
-             * is a virtual member function, that can operate differently for each category. </p>
-             *
-             * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
-             */
-            ErrorInstance.prototype.default_error_condition = function () {
-                if (this.category_ == null || this.value_ == 0)
-                    return null;
-                else
-                    return this.category_.default_error_condition(this.value_);
-            };
-            /* ---------------------------------------------------------
-                OPERATORS
-            --------------------------------------------------------- */
-            /**
-             * <p> Convert to bool. </p>
-             *
-             * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
-             *
-             * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
-             *
-             * @return <code>true</code> if the error's numerical value is not zero.
-             *		   <code>false</code> otherwise.
-             */
-            ErrorInstance.prototype.to_bool = function () {
-                return this.value_ != 0;
-            };
-            return ErrorInstance;
-        }());
-        base.ErrorInstance = ErrorInstance;
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="../../API.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        /**
-         * @hidden
-         */
-        var _Hash;
-        (function (_Hash) {
-            _Hash[_Hash["MIN_SIZE"] = 10] = "MIN_SIZE";
-            _Hash[_Hash["RATIO"] = 1] = "RATIO";
-            _Hash[_Hash["MAX_RATIO"] = 2] = "MAX_RATIO";
-        })(_Hash = base._Hash || (base._Hash = {}));
-        /**
-         * @hidden
-         */
-        var _HashBuckets = (function () {
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
-            function _HashBuckets() {
-                this.clear();
-            }
-            _HashBuckets.prototype.rehash = function (size) {
-                if (size < _Hash.MIN_SIZE)
-                    size = _Hash.MIN_SIZE;
-                var prev_matrix = this.buckets_;
-                this.buckets_ = new std.Vector();
-                for (var i = 0; i < size; i++)
-                    this.buckets_.push_back(new std.Vector());
-                for (var i = 0; i < prev_matrix.size(); i++)
-                    for (var j = 0; j < prev_matrix.at(i).size(); j++) {
-                        var val = prev_matrix.at(i).at(j);
-                        var bucket = this.buckets_.at(this.hash_index(val));
-                        bucket.push_back(val);
-                        this.item_size_++;
-                    }
-            };
-            _HashBuckets.prototype.clear = function () {
-                this.buckets_ = new std.Vector();
-                this.item_size_ = 0;
-                for (var i = 0; i < _Hash.MIN_SIZE; i++)
-                    this.buckets_.push_back(new std.Vector());
-            };
-            /* ---------------------------------------------------------
-                ACCESSORS
-            --------------------------------------------------------- */
-            _HashBuckets.prototype.size = function () {
-                return this.buckets_.size();
-            };
-            _HashBuckets.prototype.item_size = function () {
-                return this.item_size_;
-            };
-            _HashBuckets.prototype.capacity = function () {
-                return this.buckets_.size() * _Hash.MAX_RATIO;
-            };
-            _HashBuckets.prototype.at = function (index) {
-                return this.buckets_.at(index);
-            };
-            _HashBuckets.prototype.hash_index = function (val) {
-                return std.hash(val) % this.buckets_.size();
-            };
-            /* ---------------------------------------------------------
-                ELEMENTS I/O
-            --------------------------------------------------------- */
-            _HashBuckets.prototype.insert = function (val) {
-                this.buckets_.at(this.hash_index(val)).push_back(val);
-                if (++this.item_size_ > this.capacity())
-                    this.rehash(this.item_size_ * _Hash.RATIO);
-            };
-            _HashBuckets.prototype.erase = function (val) {
-                var bucket = this.buckets_.at(this.hash_index(val));
-                for (var i = 0; i < bucket.size(); i++)
-                    if (bucket.at(i) == val) {
-                        bucket.erase(bucket.begin().advance(i));
-                        this.item_size_--;
-                        break;
-                    }
-            };
-            return _HashBuckets;
-        }());
-        base._HashBuckets = _HashBuckets;
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
 /// <reference path="../API.ts" />
 /// <reference path="ListContainer.ts" />
 var std;
@@ -3712,35 +3396,6 @@ var std;
         return MapReverseIterator;
     }(std.ReverseIterator));
     std.MapReverseIterator = MapReverseIterator;
-})(std || (std = {}));
-/// <reference path="../../API.ts" />
-/// <reference path="_HashBuckets.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        /**
-         * @hidden
-         */
-        var MapHashBuckets = (function (_super) {
-            __extends(MapHashBuckets, _super);
-            function MapHashBuckets(map) {
-                var _this = _super.call(this) || this;
-                _this.map_ = map;
-                return _this;
-            }
-            MapHashBuckets.prototype.find = function (key) {
-                var index = std.hash(key) % this.size();
-                var bucket = this.at(index);
-                for (var i = 0; i < bucket.size(); i++)
-                    if (std.equal_to(bucket.at(i).first, key))
-                        return bucket.at(i);
-                return this.map_.end();
-            };
-            return MapHashBuckets;
-        }(base._HashBuckets));
-        base.MapHashBuckets = MapHashBuckets;
-    })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="../API.ts" />
 /// <reference path="MapContainer.ts" />
@@ -4291,6 +3946,280 @@ var std;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="../../API.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * @hidden
+         */
+        var _Color;
+        (function (_Color) {
+            _Color[_Color["BLACK"] = 0] = "BLACK";
+            _Color[_Color["RED"] = 1] = "RED";
+        })(_Color = base._Color || (base._Color = {}));
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="../../API.ts" />
+//--------
+// The Red-Black Tree
+//
+// Referenceh: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
+// Inventor: Rudolf Bayer
+//--------
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * @hidden
+         */
+        var _XTree = (function () {
+            /* =========================================================
+                CONSTRUCTOR
+            ========================================================= */
+            function _XTree() {
+                this.root_ = null;
+            }
+            _XTree.prototype.clear = function () {
+                this.root_ = null;
+            };
+            /* =========================================================
+                ACCESSORS
+                    - GETTERS
+                    - COMPARISON
+            ============================================================
+                GETTERS
+            --------------------------------------------------------- */
+            _XTree.prototype.find = function (val) {
+                if (this.root_ == null)
+                    return null;
+                var node = this.root_;
+                while (true) {
+                    var newNode = null;
+                    if (this.is_equal_to(val, node.value))
+                        break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                    else if (this.is_less(val, node.value))
+                        newNode = node.left; // LESS, THEN TO THE LEFT
+                    else
+                        newNode = node.right; // GREATER, THEN TO THE RIGHT
+                    // ULTIL CHILD NODE EXISTS
+                    if (newNode == null)
+                        break;
+                    // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                    node = newNode;
+                }
+                return node;
+            };
+            _XTree.prototype._Fetch_maximum = function (node) {
+                while (node.right != null)
+                    node = node.right;
+                return node;
+            };
+            /* =========================================================
+                ELEMENTS I/O
+                    - INSERT
+                    - ERASE
+                    - COLOR
+                    - ROTATION
+            ============================================================
+                INSERT
+            --------------------------------------------------------- */
+            _XTree.prototype.insert = function (val) {
+                var parent = this.find(val);
+                var node = new base._XTreeNode(val, base._Color.RED);
+                if (parent == null)
+                    this.root_ = node;
+                else {
+                    node.parent = parent;
+                    if (this.is_less(node.value, parent.value))
+                        parent.left = node;
+                    else
+                        parent.right = node;
+                }
+                this._Insert_case1(node);
+            };
+            _XTree.prototype._Insert_case1 = function (N) {
+                if (N.parent == null)
+                    N.color = base._Color.BLACK;
+                else
+                    this._Insert_case2(N);
+            };
+            _XTree.prototype._Insert_case2 = function (N) {
+                if (this._Fetch_color(N.parent) == base._Color.BLACK)
+                    return;
+                else
+                    this._Insert_case3(N);
+            };
+            _XTree.prototype._Insert_case3 = function (N) {
+                if (this._Fetch_color(N.uncle) == base._Color.RED) {
+                    N.parent.color = base._Color.BLACK;
+                    N.uncle.color = base._Color.BLACK;
+                    N.grandParent.color = base._Color.RED;
+                    this._Insert_case1(N.grandParent);
+                }
+                else {
+                    this._Insert_case4(N);
+                }
+            };
+            _XTree.prototype._Insert_case4 = function (node) {
+                if (node == node.parent.right && node.parent == node.grandParent.left) {
+                    this._Rotate_left(node.parent);
+                    node = node.left;
+                }
+                else if (node == node.parent.left && node.parent == node.grandParent.right) {
+                    this._Rotate_right(node.parent);
+                    node = node.right;
+                }
+                this._Insert_case5(node);
+            };
+            _XTree.prototype._Insert_case5 = function (node) {
+                node.parent.color = base._Color.BLACK;
+                node.grandParent.color = base._Color.RED;
+                if (node == node.parent.left && node.parent == node.grandParent.left)
+                    this._Rotate_right(node.grandParent);
+                else
+                    this._Rotate_left(node.grandParent);
+            };
+            /* ---------------------------------------------------------
+                ERASE
+            --------------------------------------------------------- */
+            _XTree.prototype.erase = function (val) {
+                var node = this.find(val);
+                if (node == null || this.is_equal_to(val, node.value) == false)
+                    return;
+                if (node.left != null && node.right != null) {
+                    var pred = this._Fetch_maximum(node.left);
+                    node.value = pred.value;
+                    node = pred;
+                }
+                var child = (node.right == null) ? node.left : node.right;
+                if (this._Fetch_color(node) == base._Color.BLACK) {
+                    node.color = this._Fetch_color(child);
+                    this._Erase_case1(node);
+                }
+                this._Replace_node(node, child);
+            };
+            _XTree.prototype._Erase_case1 = function (N) {
+                if (N.parent == null)
+                    return;
+                else
+                    this._Erase_case2(N);
+            };
+            _XTree.prototype._Erase_case2 = function (N) {
+                if (this._Fetch_color(N.sibling) == base._Color.RED) {
+                    N.parent.color = base._Color.RED;
+                    N.sibling.color = base._Color.BLACK;
+                    if (N == N.parent.left)
+                        this._Rotate_left(N.parent);
+                    else
+                        this._Rotate_right(N.parent);
+                }
+                this._Erase_case3(N);
+            };
+            _XTree.prototype._Erase_case3 = function (N) {
+                if (this._Fetch_color(N.parent) == base._Color.BLACK &&
+                    this._Fetch_color(N.sibling) == base._Color.BLACK &&
+                    this._Fetch_color(N.sibling.left) == base._Color.BLACK &&
+                    this._Fetch_color(N.sibling.right) == base._Color.BLACK) {
+                    N.sibling.color = base._Color.RED;
+                    this._Erase_case1(N.parent);
+                }
+                else
+                    this._Erase_case4(N);
+            };
+            _XTree.prototype._Erase_case4 = function (N) {
+                if (this._Fetch_color(N.parent) == base._Color.RED &&
+                    N.sibling != null &&
+                    this._Fetch_color(N.sibling) == base._Color.BLACK &&
+                    this._Fetch_color(N.sibling.left) == base._Color.BLACK &&
+                    this._Fetch_color(N.sibling.right) == base._Color.BLACK) {
+                    N.sibling.color = base._Color.RED;
+                    N.parent.color = base._Color.BLACK;
+                }
+                else
+                    this._Erase_case5(N);
+            };
+            _XTree.prototype._Erase_case5 = function (N) {
+                if (N == N.parent.left &&
+                    N.sibling != null &&
+                    this._Fetch_color(N.sibling) == base._Color.BLACK &&
+                    this._Fetch_color(N.sibling.left) == base._Color.RED &&
+                    this._Fetch_color(N.sibling.right) == base._Color.BLACK) {
+                    N.sibling.color = base._Color.RED;
+                    N.sibling.left.color = base._Color.BLACK;
+                    this._Rotate_right(N.sibling);
+                }
+                else if (N == N.parent.right &&
+                    N.sibling != null &&
+                    this._Fetch_color(N.sibling) == base._Color.BLACK &&
+                    this._Fetch_color(N.sibling.left) == base._Color.BLACK &&
+                    this._Fetch_color(N.sibling.right) == base._Color.RED) {
+                    N.sibling.color = base._Color.RED;
+                    N.sibling.right.color = base._Color.BLACK;
+                    this._Rotate_left(N.sibling);
+                }
+            };
+            _XTree.prototype._Erase_case6 = function (node) {
+                node.sibling.color = this._Fetch_color(node.parent);
+                node.parent.color = base._Color.BLACK;
+                if (node == node.parent.left) {
+                    node.sibling.right.color = base._Color.BLACK;
+                    this._Rotate_left(node.parent);
+                }
+                else {
+                    node.sibling.left.color = base._Color.BLACK;
+                    this._Rotate_right(node.parent);
+                }
+            };
+            /* ---------------------------------------------------------
+                ROTATION
+            --------------------------------------------------------- */
+            _XTree.prototype._Rotate_left = function (node) {
+                var right = node.right;
+                this._Replace_node(node, right);
+                node.right = right.left;
+                if (right.left != null)
+                    right.left.parent = node;
+                right.left = node;
+                node.parent = right;
+            };
+            _XTree.prototype._Rotate_right = function (node) {
+                var left = node.left;
+                this._Replace_node(node, left);
+                node.left = left.right;
+                if (left.right != null)
+                    left.right.parent = node;
+                left.right = node;
+                node.parent = left;
+            };
+            _XTree.prototype._Replace_node = function (oldNode, newNode) {
+                if (oldNode.parent == null)
+                    this.root_ = newNode;
+                else {
+                    if (oldNode == oldNode.parent.left)
+                        oldNode.parent.left = newNode;
+                    else
+                        oldNode.parent.right = newNode;
+                }
+                if (newNode != null)
+                    newNode.parent = oldNode.parent;
+            };
+            /* ---------------------------------------------------------
+                COLOR
+            --------------------------------------------------------- */
+            _XTree.prototype._Fetch_color = function (node) {
+                if (node == null)
+                    return base._Color.BLACK;
+                else
+                    return node.color;
+            };
+            return _XTree;
+        }());
+        base._XTree = _XTree;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="../../API.ts" />
 /// <reference path="_XTree.ts" />
 var std;
 (function (std) {
@@ -4392,7 +4321,7 @@ var std;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="../../API.ts" />
-/// <reference path="_HashBuckets.ts" />
+/// <reference path="_XTree.ts" />
 var std;
 (function (std) {
     var base;
@@ -4400,24 +4329,143 @@ var std;
         /**
          * @hidden
          */
-        var SetHashBuckets = (function (_super) {
-            __extends(SetHashBuckets, _super);
-            function SetHashBuckets(set) {
+        var _SetTree = (function (_super) {
+            __extends(_SetTree, _super);
+            /* ---------------------------------------------------------
+                CONSTRUCTOR
+            --------------------------------------------------------- */
+            /**
+             * Default Constructor.
+             */
+            function _SetTree(set, compare) {
+                if (compare === void 0) { compare = std.less; }
                 var _this = _super.call(this) || this;
                 _this.set_ = set;
+                _this.compare_ = compare;
                 return _this;
             }
-            SetHashBuckets.prototype.find = function (val) {
-                var index = std.hash(val) % this.size();
-                var bucket = this.at(index);
-                for (var i = 0; i < bucket.size(); i++)
-                    if (std.equal_to(bucket.at(i).value, val))
-                        return bucket.at(i);
-                return this.set_.end();
+            _SetTree.prototype.find = function (val) {
+                if (val instanceof std.SetIterator && val.value instanceof std.SetIterator == false)
+                    return _super.prototype.find.call(this, val);
+                else
+                    return this._Find_by_val(val);
             };
-            return SetHashBuckets;
-        }(base._HashBuckets));
-        base.SetHashBuckets = SetHashBuckets;
+            _SetTree.prototype._Find_by_val = function (val) {
+                if (this.root_ == null)
+                    return null;
+                var node = this.root_;
+                while (true) {
+                    var newNode = null;
+                    if (std.equal_to(val, node.value.value))
+                        break; // EQUALS, MEANS MATCHED, THEN TERMINATE
+                    else if (this.compare_(val, node.value.value))
+                        newNode = node.left; // LESS, THEN TO THE LEFT
+                    else
+                        newNode = node.right; // GREATER, THEN TO THE RIGHT
+                    // ULTIL CHILD NODE EXISTS
+                    if (newNode == null)
+                        break;
+                    // SHIFT A NEW NODE TO THE NODE TO BE RETURNED
+                    node = newNode;
+                }
+                return node;
+            };
+            /* ---------------------------------------------------------
+                BOUNDS
+            --------------------------------------------------------- */
+            _SetTree.prototype.lower_bound = function (val) {
+                var node = this.find(val);
+                if (node == null)
+                    return this.set_.end();
+                else if (std.equal_to(node.value.value, val))
+                    return node.value;
+                else {
+                    var it = node.value;
+                    while (!std.equal_to(it, this.set_.end()) && this.compare_(it.value, val))
+                        it = it.next();
+                    return it;
+                }
+            };
+            _SetTree.prototype.upper_bound = function (val) {
+                var node = this.find(val);
+                if (node == null)
+                    return this.set_.end();
+                else {
+                    var it = node.value;
+                    while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || this.compare_(it.value, val)))
+                        it = it.next();
+                    return it;
+                }
+            };
+            _SetTree.prototype.equal_range = function (val) {
+                return std.make_pair(this.lower_bound(val), this.upper_bound(val));
+            };
+            /* ---------------------------------------------------------
+                COMPARISON
+            --------------------------------------------------------- */
+            _SetTree.prototype.key_comp = function () {
+                return this.compare_;
+            };
+            _SetTree.prototype.value_comp = function () {
+                return this.compare_;
+            };
+            _SetTree.prototype.is_equal_to = function (left, right) {
+                return std.equal_to(left, right);
+            };
+            _SetTree.prototype.is_less = function (left, right) {
+                return this.compare_(left.value, right.value);
+            };
+            return _SetTree;
+        }(base._XTree));
+        base._SetTree = _SetTree;
+    })(base = std.base || (std.base = {}));
+})(std || (std = {}));
+/// <reference path="../../API.ts" />
+var std;
+(function (std) {
+    var base;
+    (function (base) {
+        /**
+         * @hidden
+         */
+        var _XTreeNode = (function () {
+            /* ---------------------------------------------------------
+                CONSTRUCTORS
+            --------------------------------------------------------- */
+            function _XTreeNode(value, color) {
+                this.value = value;
+                this.color = color;
+                this.parent = null;
+                this.left = null;
+                this.right = null;
+            }
+            Object.defineProperty(_XTreeNode.prototype, "grandParent", {
+                get: function () {
+                    return this.parent.parent;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(_XTreeNode.prototype, "sibling", {
+                get: function () {
+                    if (this == this.parent.left)
+                        return this.parent.right;
+                    else
+                        return this.parent.left;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperty(_XTreeNode.prototype, "uncle", {
+                get: function () {
+                    return this.parent.sibling;
+                },
+                enumerable: true,
+                configurable: true
+            });
+            return _XTreeNode;
+        }());
+        base._XTreeNode = _XTreeNode;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="../API.ts" />
@@ -4760,54 +4808,6 @@ var std;
             return UniqueSet;
         }(base.SetContainer));
         base.UniqueSet = UniqueSet;
-    })(base = std.base || (std.base = {}));
-})(std || (std = {}));
-/// <reference path="../../API.ts" />
-var std;
-(function (std) {
-    var base;
-    (function (base) {
-        /**
-         * @hidden
-         */
-        var _XTreeNode = (function () {
-            /* ---------------------------------------------------------
-                CONSTRUCTORS
-            --------------------------------------------------------- */
-            function _XTreeNode(value, color) {
-                this.value = value;
-                this.color = color;
-                this.parent = null;
-                this.left = null;
-                this.right = null;
-            }
-            Object.defineProperty(_XTreeNode.prototype, "grandParent", {
-                get: function () {
-                    return this.parent.parent;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(_XTreeNode.prototype, "sibling", {
-                get: function () {
-                    if (this == this.parent.left)
-                        return this.parent.right;
-                    else
-                        return this.parent.left;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            Object.defineProperty(_XTreeNode.prototype, "uncle", {
-                get: function () {
-                    return this.parent.sibling;
-                },
-                enumerable: true,
-                configurable: true
-            });
-            return _XTreeNode;
-        }());
-        base._XTreeNode = _XTreeNode;
     })(base = std.base || (std.base = {}));
 })(std || (std = {}));
 /// <reference path="API.ts" />
@@ -6239,7 +6239,7 @@ var std;
     var example;
     (function (example) {
         function test_hash_map() {
-            var map = new std.TreeMap();
+            var map = new std.HashMap();
             map.insert(["first", 1]);
             map.insert(["second", 2]);
             for (var it = map.begin(); !it.equals(map.end()); it = it.next())
@@ -6795,6 +6795,22 @@ var std;
             };
             return Cube;
         }());
+    })(example = std.example || (std.example = {}));
+})(std || (std = {}));
+/// <reference path="../API.ts" />
+var std;
+(function (std) {
+    var example;
+    (function (example) {
+        function test_tree_map() {
+            var map = new std.TreeMap();
+            map.insert(["first", 1]);
+            map.insert(["second", 2]);
+            map.erase(map.begin());
+            for (var it = map.begin(); !it.equals(map.end()); it = it.next())
+                console.log(it.first, it.second);
+        }
+        example.test_tree_map = test_tree_map;
     })(example = std.example || (std.example = {}));
 })(std || (std = {}));
 /// <reference path="../API.ts" />
@@ -9435,7 +9451,7 @@ var std;
          */
         TreeSet.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
-                this.tree_.erase(last);
+                this.tree_.erase(first);
         };
         TreeSet.prototype.swap = function (obj) {
             if (obj instanceof TreeSet && this.key_comp() == obj.key_comp()) {
@@ -9674,7 +9690,7 @@ var std;
          */
         TreeMap.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
-                this.tree_.erase(last);
+                this.tree_.erase(first);
         };
         /**
          * @inheritdoc
@@ -9939,7 +9955,7 @@ var std;
          */
         TreeMultiSet.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
-                this.tree_.erase(last);
+                this.tree_.erase(first);
         };
         TreeMultiSet.prototype.swap = function (obj) {
             if (obj instanceof TreeMultiSet && this.key_comp() == obj.key_comp()) {
@@ -10199,7 +10215,7 @@ var std;
          */
         TreeMultiMap.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
-                this.tree_.erase(last);
+                this.tree_.erase(first);
         };
         /**
          * @inheritdoc

@@ -1,9 +1,5 @@
 const fs = require("fs");
 const process = require('child_process');
-const minifier = require('minifier');
-
-const std = require('tstl');
-const StringUtil = require('samchon-framework').library.StringUtil;
 
 compile();
 attach_header();
@@ -31,22 +27,34 @@ function remove_dynamics()
 	const JS_FILE = "./lib/tstl.js";
 	
 	var text = fs.readFileSync(JS_FILE, "utf8");
-	var dynamics = new std.HashSet(StringUtil.betweens(text, '["', '"]'));
+	if (text.indexOf('["') == -1)
+		return;
 
-	for (var it = dynamics.begin(); !it.equals(dynamics.end()); it = it.next())
+	var dynamics = text.split('["');
+	var used_keys = {};
+
+	for (var i = 1; i < dynamics.length; i++)
 	{
-		if (it.value.indexOf(',') != -1)
+		if (dynamics[i].indexOf('"]') == -1)
 			continue;
-
-		var org = '["' + it.value + '"]';
-		var repl = '.' + it.value;
 		
-		text = StringUtil.replaceAll(text, org, repl);
+		var value = dynamics[i].substr(0, dynamics[i].indexOf('"]'));
+		var org = '["' + value + '"]';
+		var repl = '.' + value;
+
+		if (value.indexOf(",") != -1)
+			continue;
+		else if (used_keys[value])
+			continue;
+		else
+			used_keys[value] = true;
+		
+		text = text.split(org).join(repl);
 	}
 	fs.writeFileSync(JS_FILE, text, "utf8");
 }
 
 function minify()
 {
-	minifier.minify("lib/tstl.js");
+	process.execSync("minify lib/tstl.js");
 }
