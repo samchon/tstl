@@ -358,7 +358,7 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
 		{
@@ -366,7 +366,7 @@ namespace std
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
 		{

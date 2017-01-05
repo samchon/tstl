@@ -1890,7 +1890,9 @@ namespace std
 	{
 		for (let it = first; !it.equals(last); it = it.next() as RandomAccessIterator)
 		{
-			let rand_index: number = Math.floor(Math.random() * (last.index - first.index));
+			let last_index: number = (last.index == -1) ? last.source().size() : last.index;
+			let rand_index: number = Math.floor(Math.random() * (last_index - first.index));
+
 			it.swap(first.advance(rand_index));
 		}
 	}

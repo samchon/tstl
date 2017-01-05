@@ -1,4 +1,4 @@
-// Type definitions for TSTL v1.3.4
+// Type definitions for TSTL v1.3.6
 // Project: https://github.com/samchon/tstl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -5142,46 +5142,11 @@ declare namespace std.base {
          */
         abstract merge<L extends Key, U extends T>(source: MapContainer<L, U>): void;
         /**
-         * <p> Abstract method handling insertions for indexing. </p>
-         *
-         * <p> This method, {@link _Handle_insert} is designed to register the <i>first to last</i> to somewhere storing
-         * those {@link MapIterator iterators} for indexing, fast accessment and retrievalance. </p>
-         *
-         * <p> When {@link insert} is called, new elements will be inserted into the {@link data_ list container} and new
-         * {@link MapIterator iterators} <i>first to last</i>, pointing the inserted elements, will be created and the
-         * newly created iterators <i>first to last</i> will be shifted into this method {@link _Handle_insert} after the
-         * insertions. </p>
-         *
-         * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link MapIterator iterators}
-         * will be registered into the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the
-         * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>first</i> to <i>last</i> will be
-         * registered into the {@link HashSet.hash_buckets_ hash bucket}. </p>
-         *
-         * @param first An {@link MapIterator} to the initial position in a sequence.
-         * @param last An {@link MapIterator} to the final position in a sequence. The range used is
-         *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-         *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+         * @hidden
          */
         protected abstract _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
-         * <p> Abstract method handling deletions for indexing. </p>
-         *
-         * <p> This method, {@link _Handle_erase} is designed to unregister the <i>first to last</i> to somewhere storing
-         * those {@link MapIterator iterators} for indexing, fast accessment and retrievalance. </p>
-         *
-         * <p> When {@link erase} is called with <i>first to last</i>, {@link MapIterator iterators} positioning somewhere
-         * place to be deleted, is memorized and shifted to this method {@link _Handle_erase} after the deletion process is
-         * terminated. </p>
-         *
-         * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link MapIterator iterators}
-         * will be unregistered from the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the
-         * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>first to last</i> will be
-         * unregistered from the {@link HashSet.hash_buckets_ hash bucket}. </p>
-         *
-         * @param first An {@link MapIterator} to the initial position in a sequence.
-         * @param last An {@link MapIterator} to the final position in a sequence. The range used is
-         *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-         *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+         * @hidden
          */
         protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
     }
@@ -5653,46 +5618,11 @@ declare namespace std.base {
          */
         abstract merge<U extends T>(source: SetContainer<U>): void;
         /**
-         * <p> Abstract method handling insertions for indexing. </p>
-         *
-         * <p> This method, {@link _Handle_insert} is designed to register the <i>first to last</i> to somewhere storing
-         * those {@link SetIterator iterators} for indexing, fast accessment and retrievalance. </p>
-         *
-         * <p> When {@link insert} is called, new elements will be inserted into the {@link data_ list container} and new
-         * {@link SetIterator iterators} <i>first to last</i>, pointing the inserted elements, will be created and the
-         * newly created iterators <i>first to last</i> will be shifted into this method {@link _Handle_insert} after the
-         * insertions. </p>
-         *
-         * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link SetIterator iterators}
-         * will be registered into the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the
-         * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>first</i> to <i>last</i> will be
-         * registered into the {@link HashSet.hash_buckets_ hash bucket}. </p>
-         *
-         * @param first An {@link SetIterator} to the initial position in a sequence.
-         * @param last An {@link SetIterator} to the final position in a sequence. The range used is
-         *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-         *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+         * @hidden
          */
         protected abstract _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
-         * <p> Abstract method handling deletions for indexing. </p>
-         *
-         * <p> This method, {@link _Handle_erase} is designed to unregister the <i>first to last</i> to somewhere storing
-         * those {@link SetIterator iterators} for indexing, fast accessment and retrievalance. </p>
-         *
-         * <p> When {@link erase} is called with <i>first to last</i>, {@link SetIterator iterators} positioning somewhere
-         * place to be deleted, is memorized and shifted to this method {@link _Handle_erase} after the deletion process is
-         * terminated. </p>
-         *
-         * <p> If the derived one is {@link RBTree tree-based} like {@link TreeSet}, the {@link SetIterator iterators}
-         * will be unregistered from the {@link TreeSet.tree_ tree} as a {@link XTreeNode tree node item}. Else if the
-         * derived one is {@link HashBuckets hash-based} like {@link HashSet}, the <i>first to last</i> will be
-         * unregistered from the {@link HashSet.hash_buckets_ hash bucket}. </p>
-         *
-         * @param first An {@link SetIterator} to the initial position in a sequence.
-         * @param last An {@link SetIterator} to the final position in a sequence. The range used is
-         *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-         *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
+         * @hidden
          */
         protected abstract _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
     }
@@ -7718,11 +7648,11 @@ declare namespace std {
          */
         protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
@@ -7915,11 +7845,11 @@ declare namespace std {
          */
         protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
@@ -8101,11 +8031,11 @@ declare namespace std {
          */
         protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
@@ -8283,11 +8213,11 @@ declare namespace std {
          */
         protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
@@ -10183,11 +10113,11 @@ declare namespace std {
          */
         protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
@@ -10377,11 +10307,11 @@ declare namespace std {
          */
         protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
@@ -10562,11 +10492,11 @@ declare namespace std {
          */
         protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>(first: InputIterator, last: InputIterator): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void;
         /**
@@ -10768,11 +10698,11 @@ declare namespace std {
          */
         protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>(first: InputIterator, last: InputIterator): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**
-         * @inheritdoc
+         * @hidden
          */
         protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
         /**

@@ -61,6 +61,7 @@
     <TypeScriptCompile Include="src\std\base\UniqueMap.ts" />
     <TypeScriptCompile Include="src\std\base\UniqueSet.ts" />
     <TypeScriptCompile Include="src\std\Deque.ts" />
+    <TypeScriptCompile Include="src\std\example\test_algorithm.ts" />
     <TypeScriptCompile Include="src\std\example\test_all.ts" />
     <TypeScriptCompile Include="src\std\example\test_bind.ts" />
     <TypeScriptCompile Include="src\std\example\test_deque.ts" />

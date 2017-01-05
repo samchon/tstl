@@ -375,7 +375,7 @@ namespace std
 			POST-PROCESS
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{
@@ -383,7 +383,7 @@ namespace std
 		}
 
 		/**
-		 * @inheritdoc
+		 * @hidden
 		 */
 		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
 		{

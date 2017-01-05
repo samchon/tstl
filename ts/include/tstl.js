@@ -1074,7 +1074,8 @@ var std;
      */
     function shuffle(first, last) {
         for (var it = first; !it.equals(last); it = it.next()) {
-            var rand_index = Math.floor(Math.random() * (last.index - first.index));
+            var last_index = (last.index == -1) ? last.source().size() : last.index;
+            var rand_index = Math.floor(Math.random() * (last_index - first.index));
             it.swap(first.advance(rand_index));
         }
     }
@@ -5588,6 +5589,21 @@ var std;
     }(std.ReverseIterator));
     std.DequeReverseIterator = DequeReverseIterator;
 })(std || (std = {}));
+var std;
+(function (std) {
+    var example;
+    (function (example) {
+        function test_algorithm() {
+            var array = new std.Vector();
+            for (var i = 1; i <= 15; i++)
+                array.push_back(i);
+            console.log(array.data());
+            std.shuffle(array.begin(), array.end());
+            console.log(array.data());
+        }
+        example.test_algorithm = test_algorithm;
+    })(example = std.example || (std.example = {}));
+})(std || (std = {}));
 /// <reference path="API.ts" />
 /// <reference path="Iterator.ts" />
 var std;
@@ -7941,14 +7957,14 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * @hidden
          */
         HashMap.prototype._Handle_insert = function (first, last) {
             for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.insert(first);
         };
         /**
-         * @inheritdoc
+         * @hidden
          */
         HashMap.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
@@ -8200,14 +8216,14 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * @hidden
          */
         HashMultiMap.prototype._Handle_insert = function (first, last) {
             for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.insert(first);
         };
         /**
-         * @inheritdoc
+         * @hidden
          */
         HashMultiMap.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
@@ -8465,14 +8481,14 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * @hidden
          */
         HashMultiSet.prototype._Handle_insert = function (first, last) {
             for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.insert(first);
         };
         /**
-         * @inheritdoc
+         * @hidden
          */
         HashMultiSet.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
@@ -8730,14 +8746,14 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * @hidden
          */
         HashSet.prototype._Handle_insert = function (first, last) {
             for (; !first.equals(last); first = first.next())
                 this.hash_buckets_.insert(first);
         };
         /**
-         * @inheritdoc
+         * @hidden
          */
         HashSet.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
@@ -9441,13 +9457,13 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * @hidden
          */
         TreeSet.prototype._Handle_insert = function (first, last) {
             this.tree_.insert(first);
         };
         /**
-         * @inheritdoc
+         * @hidden
          */
         TreeSet.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
@@ -9680,13 +9696,13 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * @hidden
          */
         TreeMap.prototype._Handle_insert = function (first, last) {
             this.tree_.insert(first);
         };
         /**
-         * @inheritdoc
+         * @hidden
          */
         TreeMap.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
@@ -9945,13 +9961,13 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * @hidden
          */
         TreeMultiSet.prototype._Handle_insert = function (first, last) {
             this.tree_.insert(first);
         };
         /**
-         * @inheritdoc
+         * @hidden
          */
         TreeMultiSet.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
@@ -10205,13 +10221,13 @@ var std;
             POST-PROCESS
         --------------------------------------------------------- */
         /**
-         * @inheritdoc
+         * @hidden
          */
         TreeMultiMap.prototype._Handle_insert = function (first, last) {
             this.tree_.insert(first);
         };
         /**
-         * @inheritdoc
+         * @hidden
          */
         TreeMultiMap.prototype._Handle_erase = function (first, last) {
             for (; !first.equals(last); first = first.next())
