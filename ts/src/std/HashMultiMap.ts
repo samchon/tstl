@@ -65,7 +65,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private hash_buckets_: base.MapHashBuckets<Key, T>;
+		private hash_buckets_: base._MapHashBuckets<Key, T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -105,7 +105,7 @@ namespace std
 		{
 			// INIT MEMBERS
 			super();
-			this.hash_buckets_ = new base.MapHashBuckets<Key, T>(this);
+			this.hash_buckets_ = new base._MapHashBuckets<Key, T>(this);
 
 			// BRANCH - METHOD OVERLOADINGS
 			if (args.length == 0) 

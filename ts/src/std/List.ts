@@ -1,6 +1,6 @@
 /// <reference path="API.ts" />
 
-/// <reference path="base/ListContainer.ts" />
+/// <reference path="base/_ListContainer.ts" />
 
 namespace std.List
 {
@@ -52,7 +52,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class List<T>
-		extends base.ListContainer<T, ListIterator<T>>
+		extends base._ListContainer<T, ListIterator<T>>
 	{
 		private rend_: ListReverseIterator<T>;
 
@@ -889,7 +889,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ListIterator<T>
-		extends base.ListIteratorBase<T>
+		extends base._ListIteratorBase<T>
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS

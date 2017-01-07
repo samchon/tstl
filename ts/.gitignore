@@ -2,6 +2,7 @@
 # CUSTOM IGNORE
 ##############################
 include
+index.html
 
 ##############################
 # DEFAULT

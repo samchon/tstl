@@ -33,7 +33,7 @@ namespace std.base
 
 		public find(val: any): _XTreeNode<MapIterator<Key, T>>
 		{
-			if (val instanceof MapIterator && (<MapIterator<Key, T>>val).first instanceof SetIterator == false)
+			if (val instanceof MapIterator && (<MapIterator<Key, T>>val).first instanceof MapIterator == false)
 				return super.find(val);
 			else
 				return this._Find_by_key(val);

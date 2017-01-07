@@ -48,7 +48,7 @@
     <TypeScriptCompile Include="src\std\base\interfaces\ILinearContainer.ts" />
     <TypeScriptCompile Include="src\std\base\interfaces\ITreeMap.ts" />
     <TypeScriptCompile Include="src\std\base\interfaces\ITreeSet.ts" />
-    <TypeScriptCompile Include="src\std\base\ListContainer.ts" />
+    <TypeScriptCompile Include="src\std\base\_ListContainer.ts" />
     <TypeScriptCompile Include="src\std\base\MapContainer.ts" />
     <TypeScriptCompile Include="src\std\base\MultiMap.ts" />
     <TypeScriptCompile Include="src\std\base\MultiSet.ts" />

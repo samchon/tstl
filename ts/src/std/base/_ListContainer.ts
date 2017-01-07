@@ -6,44 +6,9 @@
 namespace std.base
 {
 	/**
-	 * An abstract list.
-	 * 
-	 * <p> {@link ListContainer}s are sequence containers that allow constant time insert and erase operations anywhere 
-	 * within the sequence, and iteration in both directions. </p>
-	 *
-	 * <p> List containers are implemented as doubly-linked lists; Doubly linked lists can store each of the elements they
-	 * contain in different and unrelated storage locations. The ordering is kept internally by the association to each
-	 * element of a link to the element preceding it and a link to the element following it. </p>
-	 *
-	 * <p> Compared to other base standard sequence containers (array, vector and deque), lists perform generally better
-	 * in inserting, extracting and moving elements in any position within the container for which an iterator has already
-	 * been obtained, and therefore also in algorithms that make intensive use of these, like sorting algorithms. </p>
-	 *
-	 * <p> The main drawback of lists and forward_lists compared to these other sequence containers is that they lack
-	 * direct access to the elements by their position; For example, to access the sixth element in a list, one has to
-	 * iterate from a known position (like the beginning or the end) to that position, which takes linear time in the
-	 * distance between these. They also consume some extra memory to keep the linking information associated to each
-	 * element (which may be an important factor for large lists of small-sized elements). </p>
-	 * 
-	 * <h3> Container properties </h3>
-	 * <dl>
-	 * 	<dt> Sequence </dt>
-	 * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are accessed by
-	 *		 their position in this sequence. </dd>
-	 *
-	 * 	<dt> Doubly-linked list </dt>
-	 *	<dd> Each element keeps information on how to locate the next and the previous elements, allowing constant time
-	 *		 insert and erase operations before or after a specific element (even of entire ranges), but no direct random
-	 *		 access. </dd>
-	 * </dl>
-	 * 
-	 * @param <T> Type of the elements.
-	 *
-	 * @reference http://www.cplusplus.com/reference/list/list/
-	 * 
-	 * @author Jeongho Nam <http://samchon.org>
+	 * @hidden
 	 */
-	export abstract class ListContainer<T, BidirectionalIterator extends ListIteratorBase<T>>
+	export abstract class _ListContainer<T, BidirectionalIterator extends _ListIteratorBase<T>>
 		extends Container<T>
 		implements IDequeContainer<T>
 	{
@@ -485,16 +450,16 @@ namespace std.base
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
 		 *			  {@link container List}.
 		 */
-		public swap(obj: ListContainer<T, BidirectionalIterator>): void
+		public swap(obj: _ListContainer<T, BidirectionalIterator>): void
 
 		/**
 		 * @inheritdoc
 		 */
 		public swap(obj: base.Container<T>): void;
 
-		public swap(obj: ListContainer<T, BidirectionalIterator> | base.Container<T>): void
+		public swap(obj: _ListContainer<T, BidirectionalIterator> | base.Container<T>): void
 		{
-			if (obj instanceof ListContainer)
+			if (obj instanceof _ListContainer)
 			{
 				[this.begin_, obj.begin_] = [obj.begin_, this.begin_];
 				[this.end_, obj.end_] = [obj.end_, this.end_];
@@ -509,26 +474,20 @@ namespace std.base
 namespace std.base
 {
 	/**
-	 * An iterator, node of a List-based container.
-	 * 
-	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 *	<img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" />
-	 * </a>
-	 * 
-	 * @author Jeongho Nam <http://samchon.org>
+	 * @hidden
 	 */
-	export abstract class ListIteratorBase<T>
+	export abstract class _ListIteratorBase<T>
 		extends Iterator<T>
 	{
 		/**
 		 * @hidden
 		 */
-		private prev_: ListIteratorBase<T>;
+		private prev_: _ListIteratorBase<T>;
 
 		/**
 		 * @hidden
 		 */
-		private next_: ListIteratorBase<T>;
+		private next_: _ListIteratorBase<T>;
 
 		/**
 		 * @hidden
@@ -543,7 +502,7 @@ namespace std.base
 		 * @param next A refenrece of next node ({@link ListIterator iterator}).
 		 * @param value Value to be stored in the node (iterator).
 		 */
-		protected constructor(source: Container<T>, prev: ListIteratorBase<T>, next: ListIteratorBase<T>, value: T)
+		protected constructor(source: Container<T>, prev: _ListIteratorBase<T>, next: _ListIteratorBase<T>, value: T)
 		{
 			super(source);
 
@@ -558,7 +517,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public prev(): ListIteratorBase<T>
+		public prev(): _ListIteratorBase<T>
 		{
 			return this.prev_;
 		}
@@ -566,7 +525,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public next(): ListIteratorBase<T>
+		public next(): _ListIteratorBase<T>
 		{
 			return this.next_;
 		}
@@ -574,9 +533,9 @@ namespace std.base
 		 /**
 		  * @inheritdoc
 		  */
-		public advance(step: number): ListIteratorBase<T>
+		public advance(step: number): _ListIteratorBase<T>
 		{
-			let it: ListIteratorBase<T> = this;
+			let it: _ListIteratorBase<T> = this;
 			
 			if (step >= 0)
 			{
@@ -584,7 +543,7 @@ namespace std.base
 				{
 					it = it.next();
 
-					if (it.equals(this.source_.end() as ListIteratorBase<T>))
+					if (it.equals(this.source_.end() as _ListIteratorBase<T>))
 						return it;
 				}
 			}
@@ -594,7 +553,7 @@ namespace std.base
 				{
 					it = it.prev();
 
-					if (it.equals(this.source_.end() as ListIteratorBase<T>))
+					if (it.equals(this.source_.end() as _ListIteratorBase<T>))
 						return it;
 				}
 			}
@@ -616,7 +575,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public equals(obj: ListIteratorBase<T>): boolean
+		public equals(obj: _ListIteratorBase<T>): boolean
 		{
 			return this == obj;
 		}
@@ -624,11 +583,11 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: ListIteratorBase<T>): void
+		public swap(obj: _ListIteratorBase<T>): void
 		{
-			let source: ListContainer<T, ListIteratorBase<T>> = this.source_ as ListContainer<T, ListIteratorBase<T>>;
-			let supp_prev: ListIteratorBase<T> = this.prev_;
-			let supp_next: ListIteratorBase<T> = this.next_;
+			let source: _ListContainer<T, _ListIteratorBase<T>> = this.source_ as _ListContainer<T, _ListIteratorBase<T>>;
+			let supp_prev: _ListIteratorBase<T> = this.prev_;
+			let supp_next: _ListIteratorBase<T> = this.next_;
 
 			this.prev_ = obj.prev_;
 			this.next_ = obj.next_;

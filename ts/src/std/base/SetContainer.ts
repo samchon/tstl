@@ -1,6 +1,6 @@
 /// <reference path="../API.ts" />
 
-/// <reference path="ListContainer.ts" />
+/// <reference path="_ListContainer.ts" />
 
 namespace std.base
 {
@@ -49,7 +49,7 @@ namespace std.base
 		 * by storing {@link ListIterator iterators} ({@link SetIterator} references {@link ListIterator}) who are 
 		 * created from {@link data_ here}. </p>
 		 */
-		private data_: SetElementList<T>;
+		private data_: _SetElementList<T>;
 		
 		/* ---------------------------------------------------------
 			CONSTURCTORS
@@ -61,7 +61,7 @@ namespace std.base
 		{
 			super();
 
-			this.data_ = new SetElementList<T>(this);
+			this.data_ = new _SetElementList<T>(this);
 		}
 
 		/**
@@ -450,7 +450,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class SetElementList<T> extends ListContainer<T, SetIterator<T>>
+	export class _SetElementList<T> extends _ListContainer<T, SetIterator<T>>
 	{
 		private associative_: SetContainer<T>;
 		private rend_: SetReverseIterator<T>;
@@ -497,7 +497,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetIterator<T>
-		extends base.ListIteratorBase<T>
+		extends base._ListIteratorBase<T>
 		implements IComparable<SetIterator<T>>
 	{
 		/* ---------------------------------------------------------
@@ -513,7 +513,7 @@ namespace std
 		 * @param map The source Set to reference.
 		 * @param index Sequence number of the element in the source Set.
 		 */
-		public constructor(source: base.SetElementList<T>, prev: SetIterator<T>, next: SetIterator<T>, val: T)
+		public constructor(source: base._SetElementList<T>, prev: SetIterator<T>, next: SetIterator<T>, val: T)
 		{
 			super(source, prev, next, val);
 		}
@@ -526,7 +526,7 @@ namespace std
 		 */
 		public source(): base.SetContainer<T>
 		{
-			return (super.source() as base.SetElementList<T>).get_associative();
+			return (super.source() as base._SetElementList<T>).get_associative();
 		}
 
 		/**

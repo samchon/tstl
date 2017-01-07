@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class SetHashBuckets<T>
+	export class _SetHashBuckets<T>
 		extends _HashBuckets<SetIterator<T>>
 	{
 		private set_: IHashSet<T>;

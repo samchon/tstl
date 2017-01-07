@@ -7,7 +7,7 @@ namespace std.example
 	export function test_all(): void
 	{
 		console.log("TEST ALL");
-
+		
 		for (let key in std.example)
 			if (key != "test_all" && (std.example as any)[key] instanceof Function)
 			{

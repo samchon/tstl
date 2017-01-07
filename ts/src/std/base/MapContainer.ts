@@ -1,6 +1,6 @@
 /// <reference path="../API.ts" />
 
-/// <reference path="ListContainer.ts" />
+/// <reference path="_ListContainer.ts" />
 
 namespace std.base
 {
@@ -51,7 +51,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private data_: MapElementList<Key, T>;
+		private data_: _MapElementList<Key, T>;
 
 		/* ---------------------------------------------------------
 			CONSTURCTORS
@@ -63,7 +63,7 @@ namespace std.base
 		{
 			super();
 
-			this.data_ = new MapElementList<Key, T>(this);
+			this.data_ = new _MapElementList<Key, T>(this);
 		}
 		
 		/**
@@ -670,7 +670,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class MapElementList<Key, T> extends ListContainer<Pair<Key, T>, MapIterator<Key, T>>
+	export class _MapElementList<Key, T> extends _ListContainer<Pair<Key, T>, MapIterator<Key, T>>
 	{
 		private associative_: MapContainer<Key, T>;
 		private rend_: MapReverseIterator<Key, T>;
@@ -718,7 +718,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class MapIterator<Key, T>
-		extends base.ListIteratorBase<Pair<Key, T>>
+		extends base._ListIteratorBase<Pair<Key, T>>
 		implements IComparable<MapIterator<Key, T>>
 	{
 		/* ---------------------------------------------------------
@@ -730,7 +730,7 @@ namespace std
 		 * @param source The source {@link MapContainer}.
 		 * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
 		 */
-		public constructor(source: base.MapElementList<Key, T>, prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>)
+		public constructor(source: base._MapElementList<Key, T>, prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>)
 		{
 			super(source, prev, next, val);
 		}
@@ -773,7 +773,7 @@ namespace std
 		 */
 		public source(): base.MapContainer<Key, T>
 		{
-			return (super.source() as base.MapElementList<Key, T>).get_associative();
+			return (super.source() as base._MapElementList<Key, T>).get_associative();
 		}
 
 		/**
