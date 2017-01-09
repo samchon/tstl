@@ -304,20 +304,21 @@ namespace std.base
 				let item: BidirectionalIterator = this._Create_iterator(prev, null, val);
 				if (i == 0) 
 					first = item;
-				
-				prev["next_"] = (item);
+
+				// PLACE ITEM ON THE NEXT OF "PREV"
+				prev["next_"] = item;
 				
 				// SHIFT ITEM LEFT TO BE PREV
 				prev = item;
 			}
 
-			// IF WAS EMPTY, VAL IS THE BEGIN
-			if (this.empty() == true || first.prev().equals(this.end()) == true)
+			// WILL FIRST BE THE BEGIN?
+			if (position.equals(this.begin()) == true)
 				this._Set_begin(first);
 
 			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev["next_"] = (position);
-			position["prev_"] = (prev);
+			prev["next_"] = position;
+			position["prev_"] = prev;
 			
 			this.size_ += size;
 
@@ -343,22 +344,24 @@ namespace std.base
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: BidirectionalIterator = this._Create_iterator(prev, null, it.value);
+				if (size == 0)
+					first = item;
 
-				if (size == 0) first = item;
-				if (prev != null) prev["next_"] = (item);
+				// PLACE ITEM ON THE NEXT OF "PREV"
+				prev["next_"] = item;
 
 				// SHIFT CURRENT ITEM TO PREVIOUS
 				prev = item;
 				size++;
 			}
 
-			// IF WAS EMPTY, FIRST ELEMENT IS THE BEGIN
-			if (this.empty() == true)
+			// WILL FIRST BE THE BEGIN?
+			if (position.equals(this.begin()) == true)
 				this._Set_begin(first);
 
 			// CONNECT BETWEEN LAST AND POSITION
-			prev["next_"] = (position);
-			position["prev_"] = (prev);
+			prev["next_"] = position;
+			position["prev_"] = prev;
 
 			this.size_ += size;
 

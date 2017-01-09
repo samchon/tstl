@@ -2,7 +2,12 @@
 # CUSTOM IGNORE
 ##############################
 include
-index.html
+*.html
+
+*.sln
+*.*proj
+*.user
+*.config
 
 ##############################
 # DEFAULT
