@@ -91,11 +91,11 @@ namespace std.base
 		 * It does not point to any element, and thus shall not be dereferenced. </p>
 		 *
 		 * <p> Because the ranges used by functions of the Container do not include the element reference by their 
-		 * closing iterator, this function is often used in combination with {@link IContainer}.{@link begin} to 
+		 * closing iterator, this function is often used in combination with {@link Container}.{@link begin} to 
 		 * specify a range including all the elements in the container. </p>
 		 *
 		 * <h4> Note </h4>
-		 * <p> Returned iterator from {@link IContainer}.{@link end} does not refer any element. Trying to accessing 
+		 * <p> Returned iterator from {@link Container}.{@link end} does not refer any element. Trying to accessing 
 		 * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
 		 * 
 		 * <p> If the container is {@link empty}, this function returns the same as {@link Container}.{@link begin}. 
@@ -127,7 +127,7 @@ namespace std.base
 		 * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the theoretical element preceding the 
 		 * first element in the container (which is considered its <i>reverse end</i>). </p>
 		 * 
-		 * <p> The range between {@link IContainer}.{@link rbegin} and {@link IContainer}.{@link rend} contains all 
+		 * <p> The range between {@link Container}.{@link rbegin} and {@link Container}.{@link rend} contains all 
 		 * the elements of the container (in reverse order).
 		 * 
 		 * @return A {@link ReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence 
@@ -135,9 +135,9 @@ namespace std.base
 		public abstract rend(): base.IReverseIterator<T>;
 
 		/**
-		 * Return the number of elements in the Container.
+		 * Return the number of elements in the {@link Container}.
 		 *
-		 * @return The number of elements in the 
+		 * @return The number of elements in the container.
 		 */
 		public abstract size(): number;
 		
@@ -177,10 +177,10 @@ namespace std.base
 		 * <p> Insert an element. </p>
 		 *
 		 * <p> The container is extended by inserting a new element before the element at the specified
-		 * <i>position</i>. This effectively increases the {@link IContainer.size container size} by the amount of
+		 * <i>position</i>. This effectively increases the {@link Container.size container size} by the amount of
 		 * elements inserted. </p>
 		 *
-		 * @param position Position in the {@link IContainer} where the new element is inserted.
+		 * @param position Position in the {@link Container} where the new element is inserted.
 		 *				   {@link iterator} is a member type, defined as a {@link Iterator random access iterator}
 		 *				   type that points to elements.
 		 * @param val Value to be copied to the inserted element.
@@ -229,7 +229,7 @@ namespace std.base
 		 * <p> Swap content. </p>
 		 * 
 		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link IContainer container} object with same type of elements. Sizes and container type may differ. </p>
+		 * {@link Container container} object with same type of elements. Sizes and container type may differ. </p>
 		 * 
 		 * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i> 
 		 * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and 
@@ -238,9 +238,9 @@ namespace std.base
 		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
 		 * algorithm with an optimization that behaves like this member function. </p>
 		 * 
-		 * @param obj Another {@link IContainer container} of the same type of elements (i.e., instantiated 
+		 * @param obj Another {@link Container container} of the same type of elements (i.e., instantiated 
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
-		 *			  {@link container IContainer}.
+		 *			  {@link Container container}.
 		 */
 		public swap(obj: Container<T>): void
 		{
@@ -252,7 +252,7 @@ namespace std.base
 	}
 
 	export interface IReverseIterator<T>
-		extends ReverseIterator<T, Iterator<T>, IReverseIterator<T>>
+		extends ReverseIterator<T, base.Container<T>, Iterator<T>, IReverseIterator<T>>
 	{
 	}
 }

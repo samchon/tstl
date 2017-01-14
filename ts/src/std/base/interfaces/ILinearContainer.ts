@@ -150,6 +150,11 @@
 		/**
 		 * @inheritdoc
 		 */
+		source(): ILinearContainer<T>;
+
+		/**
+		 * @inheritdoc
+		 */
 		value: T;
 
 		/**

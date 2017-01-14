@@ -451,7 +451,7 @@ namespace std.base
 		 * 
 		 * @param obj Another {@link List container} of the same type of elements (i.e., instantiated
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
-		 *			  {@link container List}.
+		 *			  {@link List container}.
 		 */
 		public swap(obj: _ListContainer<T, BidirectionalIterator>): void
 
@@ -485,12 +485,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private prev_: _ListIteratorBase<T>;
+		protected prev_: _ListIteratorBase<T>;
 
 		/**
 		 * @hidden
 		 */
-		private next_: _ListIteratorBase<T>;
+		protected next_: _ListIteratorBase<T>;
 
 		/**
 		 * @hidden

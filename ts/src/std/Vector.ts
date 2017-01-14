@@ -519,7 +519,7 @@ namespace std
 		 */
 		protected _Insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>
 		{
-			if (position.index == -1)
+			if (position.index() == -1)
 			{ 
 				// WHEN INSERT TO THE LAST
 				for (let i = 0; i < n; i++)
@@ -533,7 +533,7 @@ namespace std
 				// INSERT TO THE MIDDLE POSITION
 				///////
 				// CUT RIGHT SIDE
-				let spliced_array: T[] = this.data_.splice(position.index);
+				let spliced_array: T[] = this.data_.splice(position.index());
 				let insert_size: number = 0;
 
 				// INSERT ELEMENTS
@@ -554,7 +554,7 @@ namespace std
 		protected _Insert_by_range<InputIterator extends Iterator<T>>
 			(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>
 		{
-			if (position.index == -1)
+			if (position.index() == -1)
 			{ 
 				// WHEN INSERT TO THE LAST
 				for (; !first.equals(last); first = first.next() as InputIterator)
@@ -568,7 +568,7 @@ namespace std
 				// INSERT TO THE MIDDLE POSITION
 				///////
 				// CUT RIGHT SIDE
-				let spliced_array: T[] = this.data_.splice(position.index);
+				let spliced_array: T[] = this.data_.splice(position.index());
 				let insert_size: number = 0;
 
 				// INSERT ELEMENTS
@@ -708,17 +708,17 @@ namespace std
 		 */
 		protected _Erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>
 		{
-			if (first.index == -1)
+			if (first.index() == -1)
 				return first;
 
 			// ERASE ELEMENTS
-			if (last.index == -1)
+			if (last.index() == -1)
 			{
-				this.data_.splice(first.index);
+				this.data_.splice(first.index());
 				return this.end();
 			}
 			else
-				this.data_.splice(first.index, last.index - first.index);
+				this.data_.splice(first.index(), last.index() - first.index());
 
 			return first;
 		}
@@ -741,7 +741,7 @@ namespace std
 		 * 
 		 * @param obj Another {@link Vector container} of the same type of elements (i.e., instantiated
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
-		 *			  {@link container Vector}.
+		 *			  {@link Vector container}.
 		 */
 		public swap(obj: Vector<T>): void;
 
@@ -808,9 +808,25 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public source(): Vector<T>
+		{
+			return this.source_ as Vector<T>;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public index(): number
+		{
+			return this.index_;
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
 		public get value(): T
 		{
-			return (this.source_ as Vector<T>).at(this.index_);
+			return this.source().at(this.index_);
 		}
 
 		/**
@@ -820,15 +836,7 @@ namespace std
 		 */
 		public set value(val: T)
 		{
-			(this.source_ as Vector<T>).set(this.index_, val);
-		}
-
-		/**
-		 * Get index.
-		 */
-		public get index(): number
-		{
-			return this.index_;
+			this.source().set(this.index_, val);
 		}
 
 		/* ---------------------------------------------------------
@@ -840,11 +848,11 @@ namespace std
 		public prev(): VectorIterator<T>
 		{
 			if (this.index_ == -1)
-				return new VectorIterator(this.source_ as Vector<T>, this.source_.size() - 1);
+				return new VectorIterator(this.source(), this.source_.size() - 1);
 			else if (this.index_ - 1 < 0)
-				return (this.source_ as Vector<T>).end();
+				return this.source().end();
 			else
-				return new VectorIterator<T>(this.source_ as Vector<T>, this.index_ - 1);
+				return new VectorIterator<T>(this.source(), this.index_ - 1);
 		}
 
 		/**
@@ -853,9 +861,9 @@ namespace std
 		public next(): VectorIterator<T>
 		{
 			if (this.index_ >= this.source_.size() - 1)
-				return (this.source_ as Vector<T>).end();
+				return this.source().end();
 			else
-				return new VectorIterator<T>(this.source_ as Vector<T>, this.index_ + 1);
+				return new VectorIterator<T>(this.source(), this.index_ + 1);
 		}
 
 		/**
@@ -870,9 +878,9 @@ namespace std
 				new_index = this.index_ + n;
 
 			if (new_index < 0 || new_index >= this.source_.size())
-				return (this.source_ as Vector<T>).end();
+				return this.source().end();
 			else
-				return new VectorIterator<T>(this.source_ as Vector<T>, new_index);
+				return new VectorIterator<T>(this.source(), new_index);
 		}
 
 		/* ---------------------------------------------------------
@@ -915,7 +923,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class VectorReverseIterator<T>
-		extends ReverseIterator<T, VectorIterator<T>, VectorReverseIterator<T>>
+		extends ReverseIterator<T, Vector<T>, VectorIterator<T>, VectorReverseIterator<T>>
 		implements base.IArrayIterator<T>
 	{
 		/* ---------------------------------------------------------
@@ -945,6 +953,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public index(): number
+		{
+			return this.base_.index();
+		}
+		
+		/**
+		 * @inheritdoc
+		 */
 		public get value(): T
 		{
 			return this.base_.value;
@@ -958,14 +974,6 @@ namespace std
 		public set value(val: T)
 		{
 			this.base_.value = val;
-		}
-
-		/**
-		 * Get index.
-		 */
-		public get index(): number
-		{
-			return this.base_.index;
 		}
 	}
 }

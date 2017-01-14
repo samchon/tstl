@@ -431,10 +431,10 @@ namespace std
 	 * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
 	 * ownership over their assets to the other container (i.e., the containers exchange references to their data, without 
 	 * actually performing any element copy or movement): It behaves as if <i>left</i>. 
-	 * {@link IContainer.swap swap}(<i>right</i>) was called. </p>
+	 * {@link Container.swap swap}(<i>right</i>) was called. </p>
 	 * 
-	 * @param left A {@link IContainer container} to swap its contents.
-	 * @param right A {@link IContainer container} to swap its contents.
+	 * @param left A {@link Container container} to swap its contents.
+	 * @param right A {@link Container container} to swap its contents.
 	 */
 	export function swap<T>
 		(left: base.Container<T>, right: base.Container<T>): void;

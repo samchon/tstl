@@ -116,11 +116,16 @@
 		extends ILinearIterator<T>
 	{
 		/**
+		 * @inheritdoc
+		 */
+		source(): IArrayContainer<T>;
+
+		/**
 		 * Get index, sequence number of the iterator in the source {@link IArrayContainer array}.
 		 *
 		 * @return Sequence number of the iterator in the source {@link IArrayContainer array}.
 		 */
-		index: number;
+		index(): number;
 
 		/**
 		 * @inheritdoc

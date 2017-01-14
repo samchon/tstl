@@ -861,7 +861,7 @@ namespace std
 		 * 
 		 * @param obj Another {@link List container} of the same type of elements (i.e., instantiated
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
-		 *			  {@link container List}.
+		 *			  {@link List container}.
 		 */
 		public swap(obj: List<T>): void
 
@@ -918,6 +918,35 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public source(): List<T>
+		{
+			return this.source_ as List<T>;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public get value(): T
+		{
+			return this.value_;
+		}
+
+		/**
+		 * Set value of the iterator is pointing to.
+		 * 
+		 * @param val Value to set.
+		 */
+		public set value(val: T)
+		{
+			this.value_ = val;
+		}
+
+		/* ---------------------------------------------------------
+			MOVERS
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public prev(): ListIterator<T>
 		{
 			return this["prev_"] as ListIterator<T>;
@@ -937,24 +966,6 @@ namespace std
 		public advance(step: number): ListIterator<T>
 		{
 			return super.advance(step) as ListIterator<T>;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public get value(): T
-		{
-			return this.value_;
-		}
-
-		/**
-		 * Set value of the iterator is pointing to.
-		 * 
-		 * @param val Value to set.
-		 */
-		public set value(val: T)
-		{
-			this.value_ = val;
 		}
 
 		/* ---------------------------------------------------------------
@@ -992,7 +1003,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ListReverseIterator<T>
-		extends ReverseIterator<T, ListIterator<T>, ListReverseIterator<T>>
+		extends ReverseIterator<T, List<T>, ListIterator<T>, ListReverseIterator<T>>
 		implements base.ILinearIterator<T>
 	{
 		/* ---------------------------------------------------------------

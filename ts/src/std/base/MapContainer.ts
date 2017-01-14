@@ -692,7 +692,7 @@ namespace std.base
 			this.rend_ = new MapReverseIterator<Key, T>(it);
 		}
 
-		public get_associative(): MapContainer<Key, T>
+		public associative(): MapContainer<Key, T>
 		{
 			return this.associative_;
 		}
@@ -743,7 +743,7 @@ namespace std
 		 */
 		public prev(): MapIterator<Key, T>
 		{
-			return this["prev_"] as MapIterator<Key, T>;
+			return this.prev_ as MapIterator<Key, T>;
 		}
 
 		/**
@@ -751,7 +751,7 @@ namespace std
 		 */
 		public next(): MapIterator<Key, T>
 		{
-			return this["next_"] as MapIterator<Key, T>;
+			return this.next_ as MapIterator<Key, T>;
 		}
 
 		/**
@@ -773,7 +773,7 @@ namespace std
 		 */
 		public source(): base.MapContainer<Key, T>
 		{
-			return (super.source() as base._MapElementList<Key, T>).get_associative();
+			return (this.source_ as base._MapElementList<Key, T>).associative();
 		}
 
 		/**
@@ -845,7 +845,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class MapReverseIterator<Key, T>
-		extends ReverseIterator<Pair<Key, T>, MapIterator<Key, T>, MapReverseIterator<Key, T>>
+		extends ReverseIterator<Pair<Key, T>, base.MapContainer<Key, T>, MapIterator<Key, T>, MapReverseIterator<Key, T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

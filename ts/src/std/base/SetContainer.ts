@@ -471,7 +471,7 @@ namespace std.base
 			this.rend_ = new SetReverseIterator<T>(it);
 		}
 
-		public get_associative(): SetContainer<T>
+		public associative(): SetContainer<T>
 		{
 			return this.associative_;
 		}
@@ -526,7 +526,7 @@ namespace std
 		 */
 		public source(): base.SetContainer<T>
 		{
-			return (super.source() as base._SetElementList<T>).get_associative();
+			return (this.source_ as base._SetElementList<T>).associative();
 		}
 
 		/**
@@ -534,7 +534,7 @@ namespace std
 		 */
 		public prev(): SetIterator<T>
 		{
-			return this["prev_"] as SetIterator<T>;
+			return this.prev_ as SetIterator<T>;
 		}
 
 		/**
@@ -542,7 +542,7 @@ namespace std
 		 */
 		public next(): SetIterator<T>
 		{
-			return this["next_"] as SetIterator<T>;
+			return this.next_ as SetIterator<T>;
 		}
 
 		/**
@@ -600,7 +600,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetReverseIterator<T>
-		extends ReverseIterator<T, SetIterator<T>, SetReverseIterator<T>>
+		extends ReverseIterator<T, base.SetContainer<T>, SetIterator<T>, SetReverseIterator<T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

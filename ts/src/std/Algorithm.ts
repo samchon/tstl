@@ -73,7 +73,7 @@ namespace std
 	 * <p> Test condition on all elements in range. </p>
 	 * 
 	 * <p> Returns <code>true</code> if <i>pred</i> returns <code>true</code> for all the elements in the range 
-	 * [<i>first</i>, <i>last</i>) or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise.
+	 * [<i>first</i>, <i>last</i>) or if the range is {@link Container.empty empty}, and <code>false</code> otherwise.
 	 * </p>
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
@@ -85,7 +85,7 @@ namespace std
 	 *			   checked by this function. The function shall not modify its argument.
 	 *
 	 * @return <code>true</code> if pred returns true for all the elements in the range or if the range is 
-	 *		   {@link IContainer.empty empty}, and <code>false</code> otherwise.
+	 *		   {@link Container.empty empty}, and <code>false</code> otherwise.
 	 */
 	export function all_of<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
@@ -103,7 +103,7 @@ namespace std
 	 * <p> Returns <code>true</code> if <i>pred</i> returns true for any of the elements in the range 
 	 * [<i>first</i>, <i>last</i>), and <code>false</code> otherwise. </p>
 	 * 
-	 * <p> If [<i>first</i>, <i>last</i>) is an {@link IContainer.empty empty} range, the function returns 
+	 * <p> If [<i>first</i>, <i>last</i>) is an {@link Container.empty empty} range, the function returns 
 	 * <code>false</code>. </p>
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
@@ -116,7 +116,7 @@ namespace std
 	 *
 	 * @return <code>true</code> if <i>pred</i> returns <code>true</code> for any of the elements in the range 
 	 *		   [<i>first</i>, <i>last</i>), and <code>false</code> otherwise. If [<i>first</i>, <i>last</i>) is an 
-	 *		   {@link IContainer.empty empty} range, the function returns <code>false</code>.
+	 *		   {@link Container.empty empty} range, the function returns <code>false</code>.
 	 */
 	export function any_of<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
@@ -132,7 +132,7 @@ namespace std
 	 * <p> Test if no elements fulfill condition. </p>
 	 * 
 	 * <p> Returns <code>true</code> if <i>pred</i> returns false for all the elements in the range 
-	 * [<i>first</i>, <i>last</i>) or if the range is {@link IContainer.empty empty}, and <code>false</code> otherwise. 
+	 * [<i>first</i>, <i>last</i>) or if the range is {@link Container.empty empty}, and <code>false</code> otherwise. 
 	 * </p>
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
@@ -144,7 +144,7 @@ namespace std
 	 *			   checked by this function. The function shall not modify its argument.
 	 *
 	 * @return <code>true</code> if <i>pred</i> returns <code>false</code> for all the elements in the range 
-	 *		   [<i>first</i>, <i>last</i>) or if the range is {@link IContainer.empty empty}, and <code>false</code> 
+	 *		   [<i>first</i>, <i>last</i>) or if the range is {@link Container.empty empty}, and <code>false</code> 
 	 *		   otherwise.
 	 */
 	export function none_of<T, InputIterator extends Iterator<T>>
@@ -1890,8 +1890,8 @@ namespace std
 	{
 		for (let it = first; !it.equals(last); it = it.next() as RandomAccessIterator)
 		{
-			let last_index: number = (last.index == -1) ? last.source().size() : last.index;
-			let rand_index: number = Math.floor(Math.random() * (last_index - first.index));
+			let last_index: number = (last.index() == -1) ? last.source().size() : last.index();
+			let rand_index: number = Math.floor(Math.random() * (last_index - first.index()));
 
 			it.swap(first.advance(rand_index));
 		}
@@ -1948,7 +1948,7 @@ namespace std
 	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = std.less): void
 	{
-		qsort(first.source() as base.IArrayContainer<T>, first.index, last.index - 1, compare);
+		qsort(first.source() as base.IArrayContainer<T>, first.index(), last.index() - 1, compare);
 	}
 
 	/**
@@ -2002,7 +2002,7 @@ namespace std
 			compare: (x: T, y: T) => boolean = std.less
 		): void
 	{
-		selection_sort(first.source() as base.IArrayContainer<T>, first.index, middle.index, last.index, compare);
+		selection_sort(first.source() as base.IArrayContainer<T>, first.index(), middle.index(), last.index(), compare);
 	}
 
 	/**
@@ -2076,7 +2076,7 @@ namespace std
 		): RandomAccessIterator;
 
 	export function partial_sort_copy
-		<T, InputIterator extends Iterator<T>, RandomAccessIterator extends Iterator<T>>
+		<T, InputIterator extends Iterator<T>, RandomAccessIterator extends base.IArrayIterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
@@ -3119,7 +3119,7 @@ namespace std
 	 * <p> Returns <code>true</code> if all the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i> 
 	 * returns <code>true</code> precede those for which it returns <code>false</code>. </p>
 	 * 
-	 * <p> If the range is {@link IContainer.empty empty}, the function returns <code>true</code>. </p>
+	 * <p> If the range is {@link Container.empty empty}, the function returns <code>true</code>. </p>
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position of the sequence.
 	 * @param last {@link Iterator Input iterator} to the final position of the sequence. The range used is
@@ -3132,7 +3132,7 @@ namespace std
 	 * 
 	 * @return <code>true</code> if all the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i> returns 
 	 *		   <code>true</code> precede those for which it returns <code>false</code>. Otherwise it returns 
-	 *		   <code>false</code>. If the range is {@link IContainer.empty empty}, the function returns <code>true</code>.
+	 *		   <code>false</code>. If the range is {@link Container.empty empty}, the function returns <code>true</code>.
 	 */
 	export function is_partitioned<T, InputIterator extends Iterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (x: T) => boolean): boolean
@@ -3167,7 +3167,7 @@ namespace std
 	 *			   <code>false</code>). The function shall not modify its argument.
 	 * 
 	 * @return An iterator that points to the first element of the second group of elements (those for which <i>pred</i> 
-	 *		   returns <code>false</code>), or <i>last</i> if this group is {@link IContainer.empty empty}.
+	 *		   returns <code>false</code>), or <i>last</i> if this group is {@link Container.empty empty}.
 	 */
 	export function partition<T, BidirectionalIterator extends Iterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
@@ -3214,7 +3214,7 @@ namespace std
 	 *			   <code>false</code>). The function shall not modify its argument.
 	 *
 	 * @return An iterator that points to the first element of the second group of elements (those for which <i>pred</i>
-	 *		   returns <code>false</code>), or <i>last</i> if this group is {@link IContainer.empty empty}.
+	 *		   returns <code>false</code>), or <i>last</i> if this group is {@link Container.empty empty}.
 	 */
 	export function stable_partition<T, BidirectionalIterator extends Iterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
@@ -3467,13 +3467,13 @@ namespace std
 	 *				  considered to go before the second in the specific <i>strict weak ordering</i> it defines. The 
 	 *				  function shall not modify any of its arguments.
 	 */
-	export function inplace_merge<T, BidirectionalIterator extends Iterator<T>>
+	export function inplace_merge<T, BidirectionalIterator extends base.ILinearIterator<T>>
 		(
 			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
 			compare: (x: T, y: T) => boolean
 		): void;
 
-	export function inplace_merge<T, BidirectionalIterator extends Iterator<T>>
+	export function inplace_merge<T, BidirectionalIterator extends base.ILinearIterator<T>>
 		(
 			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
 			compare: (x: T, y: T) => boolean = std.less

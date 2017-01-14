@@ -157,7 +157,7 @@ namespace std
 		 * 
 		 * <p> Exchanges the contents of the container adaptor (<i>this</i>) by those of <i>obj</i>. </p>
 		 * 
-		 * <p> This member function calls the non-member function {@link IContainer.swap swap} (unqualified) to swap 
+		 * <p> This member function calls the non-member function {@link Container.swap swap} (unqualified) to swap 
 		 * the {@link container_ underlying containers}. </p>
 		 * 
 		 * @param obj Another {@link Stack} container adaptor of the same type (i.e., instantiated with the same 
