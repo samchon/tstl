@@ -4,36 +4,35 @@
 
 namespace std.HashMultiMap
 {
-	export type iterator<Key, T> = std.MapIterator<Key, T>;
-	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+	export type iterator<Key, T> = MapIterator<Key, T>;
+	export type reverse_iterator<Key, T> = MapReverseIterator<Key, T>;
 }
 
 namespace std
 {
 	/**
-	 * <p> Hashed, unordered Multimap. </p>
+	 * Hashed, unordered Multimap.
 	 * 
-	 * <p> {@link HashMultiMap}s are associative containers that store elements formed by the combination of
+	 * {@link HashMultiMap}s are associative containers that store elements formed by the combination of
 	 * a <i>key value</i> and a <i>mapped value</i>, much like {@link HashMultiMap} containers, but allowing
-	 * different elements to have equivalent <i>keys</i>. </p>
+	 * different elements to have equivalent <i>keys</i>.
 	 *
-	 * <p> In an {@link HashMultiMap}, the <i>key value</i> is generally used to uniquely identify the
+	 * In an {@link HashMultiMap}, the <i>key value</i> is generally used to uniquely identify the
 	 * element, while the <i>mapped value</i> is an object with the content associated to this <i>key</i>. 
-	 * Types of <i>key</i> and <i>mapped value</i> may differ. </p>
+	 * Types of <i>key</i> and <i>mapped value</i> may differ.
 	 *
-	 * <p> Internally, the elements in the {@link HashMultiMap} are not sorted in any particular order with
+	 * Internally, the elements in the {@link HashMultiMap} are not sorted in any particular order with
 	 * respect to either their <i>key</i> or <i>mapped values</i>, but organized into <i>buckets</i> depending on 
 	 * their hash values to allow for fast access to individual elements directly by their <i>key values</i> 
-	 * (with a constant average time complexity on average). </p>
+	 * (with a constant average time complexity on average).
 	 *
-	 * <p> Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that 
-	 * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators. </p>
+	 * Elements with equivalent <i>keys</i> are grouped together in the same bucket and in such a way that 
+	 * an iterator can iterate through all of them. Iterators in the container are doubly linked iterators.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank">
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank">
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a>
-	 * </p>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
@@ -171,13 +170,13 @@ namespace std
 		public count(key: Key): number
 		{
 			// FIND MATCHED BUCKET
-			let index = std.hash(key) % this.hash_buckets_.item_size();
+			let index = hash(key) % this.hash_buckets_.item_size();
 			let bucket = this.hash_buckets_.at(index);
 
 			// ITERATE THE BUCKET
 			let cnt: number = 0;
 			for (let i = 0; i < bucket.size(); i++)
-				if (std.equal_to(bucket.at(i).first, key))
+				if (equal_to(bucket.at(i).first, key))
 					cnt++;
 
 			return cnt;
@@ -291,7 +290,7 @@ namespace std
 		 */
 		public bucket(key: Key): number
 		{
-			return std.hash(key) % this.hash_buckets_.size();
+			return hash(key) % this.hash_buckets_.size();
 		}
 
 		/**
@@ -389,17 +388,17 @@ namespace std
 			SWAP
 		--------------------------------------------------------- */
 		/**
-		 * <p> Swap content. </p>
+		 * Swap content.
 		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link HashMultiMap map} of the same type. Sizes abd container type may differ. </p>
+		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link HashMultiMap map} of the same type. Sizes abd container type may differ.
 		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * After the call to this member function, the elements in this container are those which were 
 		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
-		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 * iterators, references and pointers remain valid for the swapped objects.
 		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
+		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function.
 		 * 
 		 * @param obj Another {@link HashMultiMap map container} of the same type of elements as this (i.e.,
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 

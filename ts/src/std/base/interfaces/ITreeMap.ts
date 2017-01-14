@@ -1,31 +1,31 @@
 ﻿namespace std.base
 {
 	/**
-	 * <p> Common interface for tree-structured map. </p>
+	 * Common interface for tree-structured map.
 	 * 
-	 * <p> {@link ITreeMap ITreeMaps} are associative containers that store elements formed by a combination of
-	 * a <i>key value</i> and a <i>mapped value</i>, following a specific order. </p>
+	 * {@link ITreeMap ITreeMaps} are associative containers that store elements formed by a combination of
+	 * a <i>key value</i> and a <i>mapped value</i>, following a specific order.
 	 *
-	 * <p> In a {@link ITreeMap}, the <i>key values</i> are generally used to sort and uniquely identify
+	 * In a {@link ITreeMap}, the <i>key values</i> are generally used to sort and uniquely identify
 	 * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of
 	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type
-	 * <code>value_type</code>, which is a {@link Pair} type combining both: </p>
+	 * <code>value_type</code>, which is a {@link Pair} type combining both:
 	 *
-	 * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
+	 * <code>typedef Pair<const Key, T> value_type;</code>
 	 *
-	 * <p> Internally, the elements in a {@link ITreeMap}are always sorted by its key following a
-	 * strict weak ordering criterion indicated by its internal comparison method (of {@link less}). </p>
+	 * Internally, the elements in a {@link ITreeMap}are always sorted by its key following a
+	 * strict weak ordering criterion indicated by its internal comparison method (of {@link less}).
 	 *
-	 * <p> {@link ITreeMap}containers are generally slower than {@link IHashMap} containers
+	 * {@link ITreeMap}containers are generally slower than {@link IHashMap} containers
 	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based
-	 * on their order. </p>
+	 * on their order.
 	 *
-	 * <p> {@link ITreeMap TreeMultiMaps} are typically implemented as binary search trees. </p>
+	 * {@link ITreeMap TreeMultiMaps} are typically implemented as binary search trees.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute
@@ -50,61 +50,61 @@
         extends MapContainer<Key, T>
 	{
 		/**
-		 * <p> Return key comparison function. </p>
+		 * Return key comparison function.
 		 * 
-		 * <p> Returns a references of the comparison function used by the container to compare <i>keys</i>. </p>
+		 * Returns a references of the comparison function used by the container to compare <i>keys</i>.
 		 * 
-		 * <p> The <i>comparison object</i> of a {@link ITreeMap tree-map object} is set on 
+		 * The <i>comparison object</i> of a {@link ITreeMap tree-map object} is set on 
 		 * {@link TreeMap.constructor construction}. Its type (<i>Key</i>) is the last parameter of the 
 		 * {@link ITreeMap.constructor constructors}. By default, this is a {@link less} function, which returns the same 
-		 * as <i>operator&lt;</i>. </p>
+		 * as <i>operator&lt;</i>.
 		 * 
-		 * <p> This function determines the order of the elements in the container: it is a function pointer that takes 
+		 * This function determines the order of the elements in the container: it is a function pointer that takes 
 		 * two arguments of the same type as the element <i>keys</i>, and returns <code>true</code> if the first argument 
 		 * is considered to go before the second in the strict weak ordering it defines, and <code>false</code> otherwise. 
-		 * </p>
+		 *
 		 * 
-		 * <p> Two keys are considered equivalent if {@link key_comp} returns <code>false</code> reflexively (i.e., no 
-		 * matter the order in which the keys are passed as arguments). </p>
+		 * Two keys are considered equivalent if {@link key_comp} returns <code>false</code> reflexively (i.e., no 
+		 * matter the order in which the keys are passed as arguments).
 		 * 
 		 * @return The comparison function.
 		 */
 		key_comp(): (x: Key, y: Key) => boolean;
 
 		/**
-		 * <p> Return value comparison function. </p>
+		 * Return value comparison function.
 		 * 
-		 * <p> Returns a comparison function that can be used to compare two elements to get whether the key of the first 
-		 * one goes before the second. </p>
+		 * Returns a comparison function that can be used to compare two elements to get whether the key of the first 
+		 * one goes before the second.
 		 * 
-		 * <p> The arguments taken by this function object are of member type <code>std.Pair<Key, T></code> (defined in 
+		 * The arguments taken by this function object are of member type <code>Pair<Key, T></code> (defined in 
 		 * {@link ITreeMap}), but the mapped type (<i>T</i>) part of the value is not taken into consideration in this 
-		 * comparison. </p>
+		 * comparison.
 		 * 
-		 * <p> This comparison class returns <code>true</code> if the {@link Pair.first key} of the <i>first argument</i> 
+		 * This comparison class returns <code>true</code> if the {@link Pair.first key} of the <i>first argument</i> 
 		 * is considered to go before that of the <i>second</i> (according to the strict weak ordering specified by the 
-		 * container's comparison function, {@link key_comp}), and <code>false</code> otherwise. </p>
+		 * container's comparison function, {@link key_comp}), and <code>false</code> otherwise.
 		 * 
 		 * @return The comparison function for element values.
 		 */
 		value_comp(): (x: Pair<Key, T>, y: Pair<Key, T>) => boolean;
 
 		/**
-		 * <p> Return iterator to lower bound. </p>
+		 * Return iterator to lower bound.
 		 * 
-		 * <p> Returns an iterator pointing to the first element in the container whose key is not considered to 
-		 * go before <i>k</i> (i.e., either it is equivalent or goes after). </p>
+		 * Returns an iterator pointing to the first element in the container whose key is not considered to 
+		 * go before <i>k</i> (i.e., either it is equivalent or goes after).
 		 * 
-		 * <p> The function uses its internal comparison object (key_comp) to determine this, returning an 
-		 * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false. </p>
+		 * The function uses its internal comparison object (key_comp) to determine this, returning an 
+		 * iterator to the first element for which key_comp(<i>k</i>, element_key) would return false.
 		 * 
-		 * <p> If the {@link ITreeMap} class is instantiated with the default comparison type ({@link less}), 
-		 * the function returns an iterator to the first element whose key is not less than <i>k</i> </p>.
+		 * If the {@link ITreeMap} class is instantiated with the default comparison type ({@link less}), 
+		 * the function returns an iterator to the first element whose key is not less than <i>k</i>.
 		 * 
-		 * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except 
+		 * A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except 
 		 * in the case that the {@link ITreeMap} contains an element with a key equivalent to <i>k</i>: In this 
 		 * case, {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound} 
-		 * returns an iterator pointing to the next element. </p>
+		 * returns an iterator pointing to the next element.
 		 * 
 		 * @param k Key to search for.
 		 *
@@ -114,21 +114,21 @@
 		lower_bound(key: Key): MapIterator<Key, T>;
 
 		/**
-		 * <p> Return iterator to upper bound. </p>
+		 * Return iterator to upper bound.
 		 *
-		 * <p> Returns an iterator pointing to the first element in the container whose key is considered to 
-		 * go after <i>k</i> </p>.
+		 * Returns an iterator pointing to the first element in the container whose key is considered to 
+		 * go after <i>k</i>.
 		 *
-		 * <p> The function uses its internal comparison object (key_comp) to determine this, returning an 
-		 * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true. </p>
+		 * The function uses its internal comparison object (key_comp) to determine this, returning an 
+		 * iterator to the first element for which key_comp(<i>k</i>, element_key) would return true.
 		 *
-		 * <p> If the {@link ITreeMap} class is instantiated with the default comparison type ({@link less}), 
-		 * the function returns an iterator to the first element whose key is greater than <i>k</i> </p>.
+		 * If the {@link ITreeMap} class is instantiated with the default comparison type ({@link less}), 
+		 * the function returns an iterator to the first element whose key is greater than <i>k</i>.
 		 *
-		 * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except 
+		 * A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except 
 		 * in the case that the map contains an element with a key equivalent to <i>k</i>: In this case 
 		 * {@link lower_bound} returns an iterator pointing to that element, whereas {@link upper_bound} returns an 
-		 * iterator pointing to the next element. </p>
+		 * iterator pointing to the next element.
 		 * 
 		 * @param k Key to search for.
 		 * 
@@ -138,17 +138,17 @@
 		upper_bound(key: Key): MapIterator<Key, T>;
 
 		/**
-		 * <p> Get range of equal elements. </p>
+		 * Get range of equal elements.
 		 * 
-		 * <p> Returns the bounds of a range that includes all the elements in the container which have a key 
-		 * equivalent to <i>k</i> </p>.
+		 * Returns the bounds of a range that includes all the elements in the container which have a key 
+		 * equivalent to <i>k</i>.
 		 * 
-		 * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to 
+		 * If no matches are found, the range returned has a length of zero, with both iterators pointing to 
 		 * the first element that has a key considered to go after <i>k</i> according to the container's internal 
-		 * comparison object (key_comp). </p>
+		 * comparison object (key_comp).
 		 * 
-		 * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively 
-		 * (i.e., no matter the order in which the keys are passed as arguments). </p>
+		 * Two keys are considered equivalent if the container's comparison object returns false reflexively 
+		 * (i.e., no matter the order in which the keys are passed as arguments).
 		 * 
 		 * @param k Key to search for.
 		 *

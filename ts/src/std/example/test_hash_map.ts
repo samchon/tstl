@@ -1,6 +1,6 @@
 ﻿/// <reference path="../API.ts" />
 
-namespace std.example
+namespace example
 {
 	export function test_hash_map(): void
 	{

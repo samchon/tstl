@@ -8,20 +8,18 @@
 namespace std
 {
 	/**
-	 * <p> Bi-directional iterator. </p>
+	 * Bi-directional iterator.
 	 *
-	 * <p> {@link Iterator Bidirectional iterators} are iterators that can be used to access the sequence of elements 
-	 * in a range in both directions (towards the end and towards the beginning). </p>
+	 * {@link Iterator Bidirectional iterators} are iterators that can be used to access the sequence of elements 
+	 * in a range in both directions (towards the end and towards the beginning).
 	 *
-	 * <p> All {@link IArrayIterator random-access iterators} are also valid {@link Iterrator bidirectional iterators}. 
-	 * </p>
+	 * All {@link IArrayIterator random-access iterators} are also valid {@link Iterrator bidirectional iterators}. 
 	 *
-	 * <p> There is not a single type of {@link Iterator bidirectional iterator}: {@link Container Each container} 
-	 * may define its own specific iterator type able to iterate through it and access its elements. </p>
+	 * There is not a single type of {@link Iterator bidirectional iterator}: {@link Container Each container} 
+	 * may define its own specific iterator type able to iterate through it and access its elements.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /></a>
-	 * </p>
 	 *
 	 * @reference http://www.cplusplus.com/reference/iterator/BidirectionalIterator
 	 * @author Jeongho Nam <http://samchon.org>
@@ -29,7 +27,7 @@ namespace std
 	export abstract class Iterator<T>
 	{
 		/**
-		 * Source container of the iterator is directing for.
+		 * @hidden
 		 */
 		protected source_: base.Container<T>;
 
@@ -50,19 +48,19 @@ namespace std
 			MOVERS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Get iterator to previous element. </p>
+		 * Get iterator to previous element.
 		 * 
-		 * <p> If current iterator is the first item(equal with {@link Container.begin Container.begin()}), 
-		 * returns {@link Container.end Container.end()}. </p>
+		 * If current iterator is the first item(equal with {@link Container.begin Container.begin()}), 
+		 * returns {@link Container.end Container.end()}.
 		 *
 		 * @return An iterator of the previous item. 
 		 */
 		public abstract prev(): Iterator<T>;
 
 		/**
-		 * <p> Get iterator to next element. </p>
+		 * Get iterator to next element.
 		 * 
-		 * <p> If current iterator is the last item, returns {@link Container.end Container.end()}. </p>
+		 * If current iterator is the last item, returns {@link Container.end Container.end()}.
 		 *
 		 * @return An iterator of the next item.
 		 */
@@ -81,20 +79,22 @@ namespace std
 		--------------------------------------------------------- */
 		/**
 		 * Get source container.
+		 *
+		 * Get source container of this iterator is directing for.
 		 */
 		public abstract source(): base.Container<T>;
 
 		/**
-		 * <p> Whether an iterator is equal with the iterator. </p>
+		 * Whether an iterator is equal with the iterator.
 		 * 
-		 * <p> Compare two iterators and returns whether they are equal or not. </p>
+		 * Compare two iterators and returns whether they are equal or not.
 		 *
-		 * <h4> Note </h4>
-		 * <p> Iterator's {@link equals equals()} only compare souce container and index number. </p>
+		 * #### Note
+		 * Iterator's {@link equals equals()} only compare souce container and index number.
 		 * 
-		 * <p> Although elements in a pair, key and value are {@link std.equal_to equal_to}, if the source map or
+		 * Although elements in a pair, key and value are {@link equal_to equal_to}, if the source map or
 		 * index number is different, then the {@link equals equals()} will return false. If you want to
-		 * compare the elements of a pair, compare them directly by yourself. </p>
+		 * compare the elements of a pair, compare them directly by yourself.
 		 *
 		 * @param obj An iterator to compare
 		 * @return Indicates whether equal or not.
@@ -105,7 +105,7 @@ namespace std
 		}
 		
 		/**
-		 * <p> Get value of the iterator is pointing. </p>
+		 * Get value of the iterator is pointing.
 		 * 
 		 * @return A value of the iterator.
 		 */
@@ -118,24 +118,22 @@ namespace std
 namespace std
 {
 	/**
-	 * <p> This class reverses the direction in which a bidirectional or random-access iterator iterates through a range.
-	 * </p>
+	 * This class reverses the direction in which a bidirectional or random-access iterator iterates through a range.
 	 * 
-	 * <p> A copy of the original iterator (the {@link Iterator base iterator}) is kept internally and used to reflect 
+	 * A copy of the original iterator (the {@link Iterator base iterator}) is kept internally and used to reflect 
 	 * the operations performed on the {@link ReverseIterator}: whenever the {@link ReverseIterator} is incremented, its 
 	 * {@link Iterator base iterator} is decreased, and vice versa. A copy of the {@link Iterator base iterator} with the 
-	 * current state can be obtained at any time by calling member {@link base}. </p>
+	 * current state can be obtained at any time by calling member {@link base}.
 	 * 
-	 * <p> Notice however that when an iterator is reversed, the reversed version does not point to the same element in 
+	 * Notice however that when an iterator is reversed, the reversed version does not point to the same element in 
 	 * the range, but to <b>the one preceding it</b>. This is so, in order to arrange for the past-the-end element of a 
 	 * range: An iterator pointing to a past-the-end element in a range, when reversed, is pointing to the last element 
 	 * (not past it) of the range (this would be the first element of the reversed range). And if an iterator to the 
 	 * first element in a range is reversed, the reversed iterator points to the element before the first element (this 
-	 * would be the past-the-end element of the reversed range). </p>
+	 * would be the past-the-end element of the reversed range).
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /></a>
-	 * </p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/iterator/reverse_iterator
 	 * @author Jeongho Nam <http://samchon.org>
@@ -182,11 +180,11 @@ namespace std
 		}
 
 		/**
-		 * <p> Return base iterator. </p>
+		 * Return base iterator.
 		 * 
-		 * <p> Return a reference of the base iteraotr. </p>
+		 * Return a reference of the base iteraotr.
 		 * 
-		 * <p> The base iterator is an iterator of the same type as the one used to construct the {@link ReverseIterator}, 
+		 * The base iterator is an iterator of the same type as the one used to construct the {@link ReverseIterator}, 
 		 * but pointing to the element next to the one the {@link ReverseIterator} is currently pointing to 
 		 * (a {@link ReverseIterator} has always an offset of -1 with respect to its base iterator).
 		 * 
@@ -198,7 +196,7 @@ namespace std
 		}
 		
 		/**
-		 * <p> Get value of the iterator is pointing. </p>
+		 * Get value of the iterator is pointing.
 		 * 
 		 * @return A value of the reverse iterator.
 		 */
@@ -287,12 +285,12 @@ namespace std
 	}
 
 	/**
-	 * <p> Return distance between {@link Iterator iterators}. </p>
+	 * Return distance between {@link Iterator iterators}.
 	 * 
-	 * <p> Calculates the number of elements between <i>first</i> and <i>last</i>. </p>
+	 * Calculates the number of elements between <i>first</i> and <i>last</i>.
 	 * 
-	 * <p> If it is a {@link IArrayIterator random-access iterator}, the function uses operator- to calculate this. 
-	 * Otherwise, the function uses the increase operator {@link Iterator.next next()} repeatedly. </p>
+	 * If it is a {@link IArrayIterator random-access iterator}, the function uses operator- to calculate this. 
+	 * Otherwise, the function uses the increase operator {@link Iterator.next next()} repeatedly.
 	 * 
 	 * @param first Iterator pointing to the initial element.
 	 * @param last Iterator pointing to the final element. This must be reachable from first.
@@ -324,9 +322,9 @@ namespace std
 		ACCESSORS
 	--------------------------------------------------------- */
 	/**
-	 * <p> Advance iterator. </p>
+	 * Advance iterator.
 	 * 
-	 * <p> Advances the iterator <i>it</i> by <i>n</i> elements positions. </p>
+	 * Advances the iterator <i>it</i> by <i>n</i> elements positions.
 	 * 
 	 * @param it Iterator to be advanced.
 	 * @param n Number of element positions to advance.
@@ -340,9 +338,9 @@ namespace std
 	}
 	
 	/**
-	 * <p> Get iterator to previous element. </p>
+	 * Get iterator to previous element.
 	 * 
-	 * <p> Returns an iterator pointing to the element that <i>it</i> would be pointing to if advanced <i>-n</i> positions. </p>
+	 * Returns an iterator pointing to the element that <i>it</i> would be pointing to if advanced <i>-n</i> positions.
 	 * 
 	 * @param it Iterator to base position.
 	 * @param n Number of element positions offset (1 by default).
@@ -356,9 +354,9 @@ namespace std
 	}
 	
 	/**
-	 * <p> Get iterator to next element. </p>
+	 * Get iterator to next element.
 	 * 
-	 * <p> Returns an iterator pointing to the element that <i>it</i> would be pointing to if advanced <i>n</i> positions. </p>
+	 * Returns an iterator pointing to the element that <i>it</i> would be pointing to if advanced <i>n</i> positions.
 	 * 
 	 * @param it Iterator to base position.
 	 * @param n Number of element positions offset (1 by default).
@@ -375,7 +373,7 @@ namespace std
 		FACTORY
 	--------------------------------------------------------- */
 	/**
-	 * Iterator to beginning. </p>
+	 * Iterator to beginning.
 	 * 
 	 * Returns an iterator pointing to the first element in the sequence.
 	 * 

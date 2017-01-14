@@ -3,13 +3,13 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract container. </p>
+	 * An abstract container.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/class_diagram/abstract_containers.png" style="max-width: 100%" /> 
-	 * </a> </p>
+	 * </a>
 	 *
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 * 	<dt> Sequence </dt>
 	 * 	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements are 
@@ -47,10 +47,10 @@ namespace std.base
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
 		/**
-		 * <p> Assign new content to content. </p>
+		 * Assign new content to content.
 		 *
-		 * <p> Assigns new contents to the container, replacing its current contents, and modifying its 
-		 * {@link size} accordingly. </p>
+		 * Assigns new contents to the container, replacing its current contents, and modifying its 
+		 * {@link size} accordingly.
 		 *
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
@@ -59,9 +59,9 @@ namespace std.base
 			(begin: InputIterator, end: InputIterator): void;
 
 		/**
-		 * <p> Clear content. </p>
+		 * Clear content.
 		 *
-		 * <p> Removes all elements from the Container, leaving the container with a size of 0. </p>
+		 * Removes all elements from the Container, leaving the container with a size of 0.
 		 */
 		public clear(): void
 		{
@@ -72,67 +72,67 @@ namespace std.base
 			GETTERS
 		--------------------------------------------------------------- */
 		/**
-		 * <p> Return iterator to beginning. </p>
+		 * Return iterator to beginning.
 		 *
-		 * <p> Returns an iterator referring the first element in the  </p>
+		 * Returns an iterator referring the first element in the 
 		 *
-		 * <h4> Note </h4>
-		 * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
+		 * #### Note
+		 * If the container is {@link empty}, the returned iterator is same with {@link end end()}.
 		 *
 		 * @return An iterator to the first element in the  The iterator containes the first element's value.
 		 */
 		public abstract begin(): Iterator<T>;
 
 		/**
-		 * <p> Return iterator to end. </p>
-		 * <p> Returns an iterator referring to the past-the-end element in the  </p>
+		 * Return iterator to end.
+		 * Returns an iterator referring to the past-the-end element in the 
 		 *
-		 * <p> The past-the-end element is the theoretical element that would follow the last element in the  
-		 * It does not point to any element, and thus shall not be dereferenced. </p>
+		 * The past-the-end element is the theoretical element that would follow the last element in the  
+		 * It does not point to any element, and thus shall not be dereferenced.
 		 *
-		 * <p> Because the ranges used by functions of the Container do not include the element reference by their 
+		 * Because the ranges used by functions of the Container do not include the element reference by their 
 		 * closing iterator, this function is often used in combination with {@link Container}.{@link begin} to 
-		 * specify a range including all the elements in the container. </p>
+		 * specify a range including all the elements in the container.
 		 *
-		 * <h4> Note </h4>
-		 * <p> Returned iterator from {@link Container}.{@link end} does not refer any element. Trying to accessing 
-		 * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
+		 * #### Note
+		 * Returned iterator from {@link Container}.{@link end} does not refer any element. Trying to accessing 
+		 * element by the iterator will cause throwing exception ({@link OutOfRange}).
 		 * 
-		 * <p> If the container is {@link empty}, this function returns the same as {@link Container}.{@link begin}. 
-		 * </p>
+		 * If the container is {@link empty}, this function returns the same as {@link Container}.{@link begin}. 
+		 *
 		 * 
 		 * @return An iterator to the end element in the 
 		 */
 		public abstract end(): Iterator<T>;
 
 		/**
-		 * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+		 * Return {@link ReverseIterator reverse iterator} to <i>reverse beginning</i>.
 		 * 
-		 * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the last element in the container (i.e., 
-		 * its <i>reverse beginning</i>). </p>
+		 * Returns a {@link ReverseIterator reverse iterator} pointing to the last element in the container (i.e., 
+		 * its <i>reverse beginning</i>).
 		 * 
-		 * <p> {@link ReverseIterator reverse iterators} iterate backwards: increasing them moves them towards the 
-		 * beginning of the  </p>
+		 * {@link ReverseIterator reverse iterators} iterate backwards: increasing them moves them towards the 
+		 * beginning of the 
 		 * 
-		 * <p> {@link rbegin} points to the element right before the one that would be pointed to by member {@link end}.
-		 * </p>
+		 * {@link rbegin} points to the element right before the one that would be pointed to by member {@link end}.
+		 *
 		 * 
 		 * @return A {@link ReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence 
 		 */
-		public abstract rbegin(): base.IReverseIterator<T>;
+		public abstract rbegin(): IReverseIterator<T>;
 
 		/**
-		 * <p> Return {@link ReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+		 * Return {@link ReverseIterator reverse iterator} to <i>reverse end</i>.
 		 * 
-		 * <p> Returns a {@link ReverseIterator reverse iterator} pointing to the theoretical element preceding the 
-		 * first element in the container (which is considered its <i>reverse end</i>). </p>
+		 * Returns a {@link ReverseIterator reverse iterator} pointing to the theoretical element preceding the 
+		 * first element in the container (which is considered its <i>reverse end</i>).
 		 * 
-		 * <p> The range between {@link Container}.{@link rbegin} and {@link Container}.{@link rend} contains all 
+		 * The range between {@link Container}.{@link rbegin} and {@link Container}.{@link rend} contains all 
 		 * the elements of the container (in reverse order).
 		 * 
 		 * @return A {@link ReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence 
 		 */
-		public abstract rend(): base.IReverseIterator<T>;
+		public abstract rend(): IReverseIterator<T>;
 
 		/**
 		 * Return the number of elements in the {@link Container}.
@@ -142,11 +142,11 @@ namespace std.base
 		public abstract size(): number;
 		
 		/**
-		 * <p> Test whether the container is empty. </p>
-		 * <p> Returns whether the container is empty (i.e. whether its size is 0). </p>
+		 * Test whether the container is empty.
+		 * Returns whether the container is empty (i.e. whether its size is 0).
 		 *
-		 * <p> This function does not modify the container in any way. To clear the content of the container,
-		 * see {@link clear clear()}. </p>
+		 * This function does not modify the container in any way. To clear the content of the container,
+		 * see {@link clear clear()}.
 		 *
 		 * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
 		 */
@@ -163,9 +163,9 @@ namespace std.base
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * <p> Insert elements. </p>
+		 * Insert elements.
 		 *
-		 * <p> Appends new elements to the container, and returns the new size of the  </p>
+		 * Appends new elements to the container, and returns the new size of the 
 		 * 
 		 * @param items New elements to insert.
 		 * 
@@ -174,11 +174,11 @@ namespace std.base
 		public abstract push(...items: T[]): number;
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> The container is extended by inserting a new element before the element at the specified
+		 * The container is extended by inserting a new element before the element at the specified
 		 * <i>position</i>. This effectively increases the {@link Container.size container size} by the amount of
-		 * elements inserted. </p>
+		 * elements inserted.
 		 *
 		 * @param position Position in the {@link Container} where the new element is inserted.
 		 *				   {@link iterator} is a member type, defined as a {@link Iterator random access iterator}
@@ -192,11 +192,11 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * <p> Erase an element. </p>
+		 * Erase an element.
 		 *
-		 * <p> Removes from the container a single element. </p>
+		 * Removes from the container a single element.
 		 *
-		 * <p> This effectively reduces the container size by the number of element removed. </p>
+		 * This effectively reduces the container size by the number of element removed.
 		 *
 		 * @param position Iterator pointing to a single element to be removed from the Container.
 		 *
@@ -207,11 +207,11 @@ namespace std.base
 		public abstract erase(position: Iterator<T>): Iterator<T>;
 
 		/**
-		 * <p> Erase elements. </p>
+		 * Erase elements.
 		 *
-		 * <p> Removes from the container a range of elements. </p>
+		 * Removes from the container a range of elements.
 		 *
-		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 * This effectively reduces the container size by the number of elements removed.
 		 *
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
@@ -226,17 +226,17 @@ namespace std.base
 			UTILITIES
 		--------------------------------------------------------------- */
 		/**
-		 * <p> Swap content. </p>
+		 * Swap content.
 		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link Container container} object with same type of elements. Sizes and container type may differ. </p>
+		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link Container container} object with same type of elements. Sizes and container type may differ.
 		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i> 
+		 * After the call to this member function, the elements in this container are those which were in <i>obj</i> 
 		 * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and 
-		 * pointers remain valid for the swapped objects. </p>
+		 * pointers remain valid for the swapped objects.
 		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
+		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function.
 		 * 
 		 * @param obj Another {@link Container container} of the same type of elements (i.e., instantiated 
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
@@ -252,7 +252,7 @@ namespace std.base
 	}
 
 	export interface IReverseIterator<T>
-		extends ReverseIterator<T, base.Container<T>, Iterator<T>, IReverseIterator<T>>
+		extends ReverseIterator<T, Container<T>, Iterator<T>, IReverseIterator<T>>
 	{
 	}
 }

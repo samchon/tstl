@@ -4,37 +4,37 @@
 
 namespace std.TreeMap
 {
-	export type iterator<Key, T> = std.MapIterator<Key, T>;
-	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+	export type iterator<Key, T> = MapIterator<Key, T>;
+	export type reverse_iterator<Key, T> = MapReverseIterator<Key, T>;
 }
 
 namespace std
 {
 	/**
-	 * <p> Tree-structured map, <code>std::map</code> of STL. </p>
+	 * Tree-structured map, <code>std::map</code> of STL.
 	 *
-	 * <p> {@link TreeMap TreeMaps} are associative containers that store elements formed by a combination of a 
-	 * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), following order. </p>
+	 * {@link TreeMap TreeMaps} are associative containers that store elements formed by a combination of a 
+	 * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), following order.
 	 *
-	 * <p> In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify the elements, 
+	 * In a {@link TreeMap}, the <i>key values</i> are generally used to sort and uniquely identify the elements, 
 	 * while the <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and 
 	 * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a {@link Pair} 
-	 * type combining both: </p>
+	 * type combining both:
 	 *
-	 * <p> <code>typedef Pair<Key, T> value_type;</code> </p>
+	 * <code>typedef Pair<Key, T> value_type;</code>
 	 *
-	 * <p> Internally, the elements in a {@link TreeMap} are always sorted by its <i>key</i> following a 
+	 * Internally, the elements in a {@link TreeMap} are always sorted by its <i>key</i> following a 
 	 * <i>strict weak ordering</i> criterion indicated by its internal comparison method {@link less}.
 	 *
-	 * <p> {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to access individual 
-	 * elements by their <i>key</i>, but they allow the direct iteration on subsets based on their order. </p>
+	 * {@link TreeMap} containers are generally slower than {@link HashMap HashMap} containers to access individual 
+	 * elements by their <i>key</i>, but they allow the direct iteration on subsets based on their order.
 	 *
-	 * <p> {@link TreeMap}s are typically implemented as binary search trees. </p>
+	 * {@link TreeMap}s are typically implemented as binary search trees.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a></p>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
@@ -216,7 +216,7 @@ namespace std
 		{
 			let node = this.tree_.find(key);
 
-			if (node == null || std.equal_to(node.value.first, key) == false)
+			if (node == null || equal_to(node.value.first, key) == false)
 				return this.end();
 			else
 				return node.value;
@@ -278,8 +278,8 @@ namespace std
 			let node = this.tree_.find(pair.first);
 
 			// IF EQUALS, THEN RETURN FALSE
-			if (node != null && std.equal_to(node.value.first, pair.first) == true)
-				return std.make_pair(node.value, false);
+			if (node != null && equal_to(node.value.first, pair.first) == true)
+				return make_pair(node.value, false);
 			
 			// INSERTS
 			let it: MapIterator<Key, T>;
@@ -295,7 +295,7 @@ namespace std
 			it = this["data_"].insert(it, pair);
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
-			return std.make_pair(it, true);
+			return make_pair(it, true);
 		}
 
 		/**
@@ -369,17 +369,17 @@ namespace std
 			SWAP
 		--------------------------------------------------------- */
 		/**
-		 * <p> Swap content. </p>
+		 * Swap content.
 		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link TreeMap map} of the same type. Sizes abd container type may differ. </p>
+		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link TreeMap map} of the same type. Sizes abd container type may differ.
 		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * After the call to this member function, the elements in this container are those which were 
 		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
-		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 * iterators, references and pointers remain valid for the swapped objects.
 		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
+		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function.
 		 * 
 		 * @param obj Another {@link TreeMap map container} of the same type of elements as this (i.e.,
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 

@@ -4,38 +4,37 @@
 
 namespace std.Vector
 {
-	export type iterator<T> = std.VectorIterator<T>;
-	export type reverse_iterator<T> = std.VectorReverseIterator<T>;
+	export type iterator<T> = VectorIterator<T>;
+	export type reverse_iterator<T> = VectorReverseIterator<T>;
 }
 
 namespace std
 {
 	/**
-	 * <p> Vector, the dynamic array. </p>
+	 * Vector, the dynamic array.
 	 *
-	 * <p> {@link Vector}s are sequence containers representing arrays that can change in size. </p>
+	 * {@link Vector}s are sequence containers representing arrays that can change in size.
 	 *
-	 * <p> Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that 
+	 * Just like arrays, {@link Vector}s use contiguous storage locations for their elements, which means that 
 	 * their elements can also be accessed using offsets on regular pointers to its elements, and just as efficiently 
 	 * as in arrays. But unlike arrays, their size can change dynamically, with their storage being handled 
-	 * automatically by the container. </p>
+	 * automatically by the container.
 	 *
-	 * <p> Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need 
+	 * Internally, {@link Vector}s use a dynamically allocated array to store their elements. This array may need 
 	 * to be reallocated in order to grow in size when new elements are inserted, which implies allocating a new 
 	 * array and moving all elements to it. This is a relatively expensive task in terms of processing time, and 
-	 * thus, {@link Vector}s do not reallocate each time an element is added to the container. </p>
+	 * thus, {@link Vector}s do not reallocate each time an element is added to the container.
 	 *
-	 * <p> Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors} 
+	 * Compared to the other dynamic sequence containers ({@link Deque}s, {@link List}s), {@link Vector Vectors} 
 	 * are very efficient accessing its elements (just like arrays) and relatively efficient adding or removing 
 	 * elements from its end. For operations that involve inserting or removing elements at positions other than the 
 	 * end, they perform worse than the others, and have less consistent iterators and references than {@link List}s. 
-	 * </p>
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
-	 * </a> </p>
+	 * </a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Sequence </dt>
 	 *	<dd> 
@@ -87,9 +86,9 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Default Constructor. </p>
+		 * Default Constructor.
 		 *
-		 * <p> Constructs an empty container, with no elements. </p>
+		 * Constructs an empty container, with no elements.
 		 */
 		public constructor();
 
@@ -99,18 +98,18 @@ namespace std
 		public constructor(array: Array<T>);
 
 		/**
-		 * <p> Initializer list Constructor. </p>
+		 * Initializer list Constructor.
 		 *
-		 * <p> Constructs a container with a copy of each of the elements in <i>array</i>, in the same order. </p>
+		 * Constructs a container with a copy of each of the elements in <i>array</i>, in the same order.
 		 *
 		 * @param array An array containing elements to be copied and contained.
 		 */
 		public constructor(n: number);
 
 		/**
-		 * <p> Fill Constructor. </p>
+		 * Fill Constructor.
 		 *
-		 * <p> Constructs a container with <i>n</i> elements. Each element is a copy of <i>val</i> (if provided). </p>
+		 * Constructs a container with <i>n</i> elements. Each element is a copy of <i>val</i> (if provided).
 		 *
 		 * @param n Initial container size (i.e., the number of elements in the container at construction).
 		 * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is 
@@ -119,9 +118,9 @@ namespace std
 		public constructor(n: number, val: T);
 
 		/**
-		 * <p> Copy Constructor. </p>
+		 * Copy Constructor.
 		 *
-		 * <p> Constructs a container with a copy of each of the elements in <i>container</i>, in the same order. </p>
+		 * Constructs a container with a copy of each of the elements in <i>container</i>, in the same order.
 		 *
 		 * @param container Another container object of the same type (with the same class template 
 		 *					arguments <i>T</i>), whose contents are either copied or acquired.
@@ -129,10 +128,10 @@ namespace std
 		public constructor(container: Vector<T>);
 
 		/**
-		 * <p> Range Constructor. </p>
+		 * Range Constructor.
 		 *
-		 * <p> Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each 
-		 * element emplace-constructed from its corresponding element in that range, in the same order. </p>
+		 * Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each 
+		 * element emplace-constructed from its corresponding element in that range, in the same order.
 		 *
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
@@ -282,7 +281,7 @@ namespace std
 			if (index < this.size())
 				return this.data_[index];
 			else
-				throw new std.OutOfRange("Target index is greater than Vector's size.");
+				throw new OutOfRange("Target index is greater than Vector's size.");
 		}
 
 		/**
@@ -291,7 +290,7 @@ namespace std
 		public set(index: number, val: T): T
 		{
 			if (index >= this.size())
-				throw new std.OutOfRange("Target index is greater than Vector's size.");
+				throw new OutOfRange("Target index is greater than Vector's size.");
 
 			let prev: T = this.data_[index];
 			this.data_[index] = val;
@@ -352,15 +351,15 @@ namespace std
 		}
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> The {@link Vector} is extended by inserting new element before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by one. </p>
+		 * The {@link Vector} is extended by inserting new element before the element at the specified 
+		 * <i>position</i>, effectively increasing the container size by one.
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
 		 * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
 		 *
 		 * @param position Position in the {@link Vector} where the new element is inserted.
 		 *				   {@link iterator} is a member type, defined as a 
@@ -372,12 +371,12 @@ namespace std
 		public insert(position: VectorIterator<T>, val: T): VectorIterator<T>;
 
 		/**
-		 * <p> Insert elements by repeated filling. </p>
+		 * Insert elements by repeated filling.
 		 *
-		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by the number of elements inserted. </p>
+		 * The {@link Vector} is extended by inserting new elements before the element at the specified 
+		 * <i>position</i>, effectively increasing the container size by the number of elements inserted.
 		 * 
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
 		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
 		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
@@ -393,13 +392,13 @@ namespace std
 		public insert(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>;
 
 		/**
-		 * <p> Insert elements by range iterators. </p>
+		 * Insert elements by range iterators.
 		 *
-		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
+		 * The {@link Vector} is extended by inserting new elements before the element at the specified 
 		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by range 
-		 * iterators. </p>
+		 * iterators.
 		 * 
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
 		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
 		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
@@ -416,15 +415,15 @@ namespace std
 			(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> The {@link Vector} is extended by inserting new element before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by one. </p>
+		 * The {@link Vector} is extended by inserting new element before the element at the specified 
+		 * <i>position</i>, effectively increasing the container size by one.
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
 		 * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
 		 *
 		 * @param position Position in the {@link Vector} where the new element is inserted.
 		 *				   {@link iterator} is a member type, defined as a 
@@ -436,12 +435,12 @@ namespace std
 		public insert(position: VectorReverseIterator<T>, val: T): VectorReverseIterator<T>;
 
 		/**
-		 * <p> Insert elements by repeated filling. </p>
+		 * Insert elements by repeated filling.
 		 *
-		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by the number of elements inserted. </p>
+		 * The {@link Vector} is extended by inserting new elements before the element at the specified 
+		 * <i>position</i>, effectively increasing the container size by the number of elements inserted.
 		 * 
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
 		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
 		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
@@ -457,13 +456,13 @@ namespace std
 		public insert(position: VectorReverseIterator<T>, n: number, val: T): VectorReverseIterator<T>;
 
 		/**
-		 * <p> Insert elements by range iterators. </p>
+		 * Insert elements by range iterators.
 		 *
-		 * <p> The {@link Vector} is extended by inserting new elements before the element at the specified 
+		 * The {@link Vector} is extended by inserting new elements before the element at the specified 
 		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by range 
-		 * iterators. </p>
+		 * iterators.
 		 * 
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
 		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
 		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
 		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
@@ -595,16 +594,16 @@ namespace std
 		}
 
 		/**
-		 * <p> Erase element. </p>
+		 * Erase element.
 		 *
-		 * <p> Removes from the {@link Vector} either a single element; <i>position</i>. </p>
+		 * Removes from the {@link Vector} either a single element; <i>position</i>.
 		 *
-		 * <p> This effectively reduces the container size by the number of element removed. </p>
+		 * This effectively reduces the container size by the number of element removed.
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in 
 		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
 		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
 		 * 
 		 * @param position Iterator pointing to a single element to be removed from the {@link Vector}.
 		 *
@@ -615,16 +614,16 @@ namespace std
 		public erase(position: VectorIterator<T>): VectorIterator<T>;
 		
 		/**
-		 * <p> Erase element. </p>
+		 * Erase element.
 		 *
-		 * <p> Removes from the <ode>Vector</code> either a single element; <i>position</i>. </p>
+		 * Removes from the <ode>Vector</code> either a single element; <i>position</i>.
 		 *
-		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 * This effectively reduces the container size by the number of elements removed.
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in 
 		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
 		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
 		 * 
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
@@ -636,16 +635,16 @@ namespace std
 		public erase(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>;
 
 		/**
-		 * <p> Erase element. </p>
+		 * Erase element.
 		 *
-		 * <p> Removes from the {@link Vector} either a single element; <i>position</i>. </p>
+		 * Removes from the {@link Vector} either a single element; <i>position</i>.
 		 *
-		 * <p> This effectively reduces the container size by the number of element removed. </p>
+		 * This effectively reduces the container size by the number of element removed.
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in 
 		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
 		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
 		 * 
 		 * @param position Iterator pointing to a single element to be removed from the {@link Vector}.
 		 *
@@ -656,16 +655,16 @@ namespace std
 		public erase(position: VectorReverseIterator<T>): VectorReverseIterator<T>;
 
 		/**
-		 * <p> Erase element. </p>
+		 * Erase element.
 		 *
-		 * <p> Removes from the <ode>Vector</code> either a single element; <i>position</i>. </p>
+		 * Removes from the <ode>Vector</code> either a single element; <i>position</i>.
 		 *
-		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 * This effectively reduces the container size by the number of elements removed.
 		 *
-		 * <p> Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in 
+		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in 
 		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
 		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}). </p>
+		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
 		 * 
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
@@ -727,17 +726,17 @@ namespace std
 			SWAP
 		--------------------------------------------------------------- */
 		/**
-		 * <p> Swap content. </p>
+		 * Swap content.
 		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link Vector container} object with same type of elements. Sizes and container type may differ. </p>
+		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link Vector container} object with same type of elements. Sizes and container type may differ.
 		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i> 
+		 * After the call to this member function, the elements in this container are those which were in <i>obj</i> 
 		 * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and 
-		 * pointers remain valid for the swapped objects. </p>
+		 * pointers remain valid for the swapped objects.
 		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
+		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function.
 		 * 
 		 * @param obj Another {@link Vector container} of the same type of elements (i.e., instantiated
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
@@ -763,11 +762,10 @@ namespace std
 namespace std
 {
 	/**
-	 * <p> An iterator of Vector. </p>
+	 * An iterator of Vector.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
-	 * </p>
 	 *
 	 * @param <T> Type of the elements.
 	 * 
@@ -786,11 +784,12 @@ namespace std
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Construct from the source {@link Vector container}. </p>
+		 * Construct from the source {@link Vector container}.
 		 *
-		 * <h4> Note </h4>
-		 * <p> Do not create the iterator directly, by yourself. </p>
-		 * <p> Use {@link Vector.begin begin()}, {@link Vector.end end()} in {@link Vector container} instead. </p> 
+		 * #### Note
+		 * Do not create the iterator directly, by yourself.
+		 * 
+		 * Use {@link Vector.begin begin()}, {@link Vector.end end()} in {@link Vector container} instead. 
 		 *
 		 * @param source The source {@link Vector container} to reference.
 		 * @param index Sequence number of the element in the source {@link Vector}.
@@ -912,11 +911,10 @@ namespace std
 namespace std
 {
 	/**
-	 * <p> A reverse-iterator of Vector. </p>
+	 * A reverse-iterator of Vector.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
-	 * </p>
 	 *
 	 * @param <T> Type of the elements.
 	 * 

@@ -1,11 +1,11 @@
 ﻿namespace std.base
 {
 	/**
-	 * <p> An interface for linear containers.  </p>
+	 * An interface for linear containers. 
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a> 
-	 * </p>
+	 *
 	 *
 	 * @author Jeonngho Nam
 	 */
@@ -22,10 +22,10 @@
 			(begin: InputIterator, end: InputIterator): void;
 		
 		/**
-		 * <p> Assign container content. </p>
+		 * Assign container content.
 		 *
-		 * <p> Assigns new contents to the {@link IList container}, replacing its current contents, 
-		 * and modifying its {@link size} accordingly. </p>
+		 * Assigns new contents to the {@link IList container}, replacing its current contents, 
+		 * and modifying its {@link size} accordingly.
 		 *
 		 * @param n New size for the 
 		 * @param val Value to fill the container with. Each of the <u>n</u> elements in the container will 
@@ -37,26 +37,26 @@
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Access first element. </p>
-		 * <p> Returns a value of the first element in the {@link IList container}. </p>
+		 * Access first element.
+		 * Returns a value of the first element in the {@link IList container}.
 		 *
-		 * <p> Unlike member {@link end end()}, which returns an iterator just past this element, 
-		 * this function returns a direct value. </p>
+		 * Unlike member {@link end end()}, which returns an iterator just past this element, 
+		 * this function returns a direct value.
 		 *
-		 * <p> Calling this function on an {@link empty} {@link IList container} causes undefined behavior. </p>
+		 * Calling this function on an {@link empty} {@link IList container} causes undefined behavior.
 		 *
 		 * @return A value of the first element of the {@link IList container}.
 		 */
 		front(): T;
 
 		/**
-		 * <p> Access last element. </p>
-		 * <p> Returns a value of the last element in the {@link IList container}. </p>
+		 * Access last element.
+		 * Returns a value of the last element in the {@link IList container}.
 		 *
-		 * <p> Unlike member {@link end end()}, which returns an iterator just past this element, 
-		 * this function returns a direct value. </p>
+		 * Unlike member {@link end end()}, which returns an iterator just past this element, 
+		 * this function returns a direct value.
 		 *
-		 * <p> Calling this function on an {@link empty} {@link IList container} causes undefined behavior. </p>
+		 * Calling this function on an {@link empty} {@link IList container} causes undefined behavior.
 		 *
 		 * @return A value of the last element of the {@link IList container}.
 		 */
@@ -66,29 +66,29 @@
 			ELEMENTS I/O
 		--------------------------------------------------------- */
 		/**
-		 * <p> Add element at the end. </p> 
+		 * Add element at the end. 
 		 *
-		 * <p> Adds a new element at the end of the {@link IList container}, after its current last element. 
-		 * This effectively increases the {@link IList container} {@link size} by one. </p>
+		 * Adds a new element at the end of the {@link IList container}, after its current last element. 
+		 * This effectively increases the {@link IList container} {@link size} by one.
 		 *
 		 * @param val Value to be copied to the new element.
 		 */
 		push_back(val: T): void;
 
 		/**
-		 * <p> Delete last element. </p>
+		 * Delete last element.
 		 * 
-		 * <p> Removes the last element in the {@link IList container}, effectively reducing the 
-		 * {@link IList container} {@link size} by one. </p>
+		 * Removes the last element in the {@link IList container}, effectively reducing the 
+		 * {@link IList container} {@link size} by one.
 		 */
 		pop_back(): void;
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> The {@link IList conatiner} is extended by inserting new element before the element at the 
+		 * The {@link IList conatiner} is extended by inserting new element before the element at the 
 		 * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by 
-		 * one. </p>
+		 * one.
 		 *
 		 * @param position Position in the {@link IList container} where the new elements are inserted.
 		 *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator} 
@@ -100,11 +100,11 @@
 		insert(position: Iterator<T>, val: T): Iterator<T>;
 
 		/**
-		 * <p> Insert elements by range iterators. </p>
+		 * Insert elements by range iterators.
 		 *
-		 * <p> The {@link IList container} is extended by inserting new elements before the element at the 
+		 * The {@link IList container} is extended by inserting new elements before the element at the 
 		 * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by 
-		 * the number of repeating elements </i>n</i>. </p>
+		 * the number of repeating elements </i>n</i>.
 		 * 
 		 * @param position Position in the {@link IList container} where the new elements are inserted.
 		 *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator} 
@@ -117,11 +117,11 @@
 		insert(position: Iterator<T>, n: number, val: T): Iterator<T>;
 
 		/**
-		 * <p> Insert elements by range iterators. </p>
+		 * Insert elements by range iterators.
 		 *
-		 * <p> The {@link IList container} is extended by inserting new elements before the element at the 
+		 * The {@link IList container} is extended by inserting new elements before the element at the 
 		 * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by 
-		 * the number of elements inserted by range iterators. </p>
+		 * the number of elements inserted by range iterators.
 		 *
 		 * @param position Position in the {@link IList container} where the new elements are inserted.
 		 *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator} 

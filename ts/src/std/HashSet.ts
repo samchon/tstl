@@ -4,34 +4,34 @@
 
 namespace std.HashSet
 {
-	export type iterator<T> = std.SetIterator<T>;
-	export type reverse_iterator<T> = std.SetReverseIterator<T>;
+	export type iterator<T> = SetIterator<T>;
+	export type reverse_iterator<T> = SetReverseIterator<T>;
 }
 
 namespace std
 {
 	/**
-	 * <p> Hashed, unordered set. </p>
+	 * Hashed, unordered set.
 	 *
-	 * <p> {@link HashSet}s are containers that store unique elements in no particular order, and which 
-	 * allow for fast retrieval of individual elements based on their value. </p>
+	 * {@link HashSet}s are containers that store unique elements in no particular order, and which 
+	 * allow for fast retrieval of individual elements based on their value.
 	 *
-	 * <p> In an {@link HashSet}, the value of an element is at the same time its <i>key</i>, that 
+	 * In an {@link HashSet}, the value of an element is at the same time its <i>key</i>, that 
 	 * identifies it uniquely. Keys are immutable, therefore, the elements in an {@link HashSet} cannot be 
-	 * modified once in the container - they can be inserted and removed, though. </p>
+	 * modified once in the container - they can be inserted and removed, though.
 	 *
-	 * <p> Internally, the elements in the {@link HashSet} are not sorted in any particular order, but 
+	 * Internally, the elements in the {@link HashSet} are not sorted in any particular order, but 
 	 * organized into buckets depending on their hash values to allow for fast access to individual elements 
-	 * directly by their <i>values</i> (with a constant average time complexity on average). </p>
+	 * directly by their <i>values</i> (with a constant average time complexity on average).
 	 *
-	 * <p> {@link HashSet} containers are faster than {@link TreeSet} containers to access individual 
+	 * {@link HashSet} containers are faster than {@link TreeSet} containers to access individual 
 	 * elements by their <i>key</i>, although they are generally less efficient for range iteration through a 
-	 * subset of their elements. </p>
+	 * subset of their elements.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
@@ -268,7 +268,7 @@ namespace std
 		 */
 		public bucket(key: T): number
 		{
-			return std.hash(key) % this.hash_buckets_.size();
+			return hash(key) % this.hash_buckets_.size();
 		}
 
 		/**
@@ -390,17 +390,17 @@ namespace std
 			SWAP
 		--------------------------------------------------------- */
 		/**
-		 * <p> Swap content. </p>
+		 * Swap content.
 		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link HashSet set} of the same type. Sizes abd container type may differ. </p>
+		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link HashSet set} of the same type. Sizes abd container type may differ.
 		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * After the call to this member function, the elements in this container are those which were 
 		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
-		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 * iterators, references and pointers remain valid for the swapped objects.
 		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
+		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function.
 		 * 
 		 * @param obj Another {@link HashSet set container} of the same type of elements as this (i.e.,
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 

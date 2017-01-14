@@ -4,39 +4,39 @@
 
 namespace std.TreeMultiMap
 {
-	export type iterator<Key, T> = std.MapIterator<Key, T>;
-	export type reverse_iterator<Key, T> = std.MapReverseIterator<Key, T>;
+	export type iterator<Key, T> = MapIterator<Key, T>;
+	export type reverse_iterator<Key, T> = MapReverseIterator<Key, T>;
 }
 
 namespace std
 {
 	/**
-	 * <p> Tree-structured multiple-key map. </p>
+	 * Tree-structured multiple-key map.
 	 *
-	 * <p> {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of 
+	 * {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of 
 	 * a <i>key value</i> and a <i>mapped value</i>, following a specific order, and where multiple elements can 
-	 * have equivalent keys. </p>
+	 * have equivalent keys.
 	 *
-	 * <p> In a {@link TreeMultiMap}, the <i>key values</i> are generally used to sort and uniquely identify 
+	 * In a {@link TreeMultiMap}, the <i>key values</i> are generally used to sort and uniquely identify 
 	 * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of 
 	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type 
-	 * <code>value_type</code>, which is a {@link Pair} type combining both: </p>
+	 * <code>value_type</code>, which is a {@link Pair} type combining both:
 	 * 
-	 * <p> <code>typedef Pair<const Key, T> value_type;</code> </p>
+	 * <code>typedef Pair<const Key, T> value_type;</code>
 	 * 
-	 * <p> Internally, the elements in a {@link TreeMultiMap}are always sorted by its key following a 
-	 * strict weak ordering criterion indicated by its internal comparison method (of {@link less}). </p>
+	 * Internally, the elements in a {@link TreeMultiMap}are always sorted by its key following a 
+	 * strict weak ordering criterion indicated by its internal comparison method (of {@link less}).
 	 *
-	 * <p> {@link TreeMultiMap}containers are generally slower than {@link HashMap} containers 
+	 * {@link TreeMultiMap}containers are generally slower than {@link HashMap} containers 
 	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based 
-	 * on their order. </p>
+	 * on their order.
 	 *
-	 * <p> {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees. </p>
+	 * {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> <
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> <
 	 * img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a></p>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> 
@@ -223,7 +223,7 @@ namespace std
 		{
 			let node = this.tree_.find(key);
 
-			if (node == null || std.equal_to(node.value.first, key) == false)
+			if (node == null || equal_to(node.value.first, key) == false)
 				return this.end();
 			else
 				return node.value;
@@ -237,7 +237,7 @@ namespace std
 			let it = this.find(key);
 			let cnt: number = 0;
 
-			for (; !it.equals(this.end()) && std.equal_to(it.first, key); it = it.next())
+			for (; !it.equals(this.end()) && equal_to(it.first, key); it = it.next())
 				cnt++;
 
 			return cnt;
@@ -303,7 +303,7 @@ namespace std
 			{
 				it = this.end();
 			}
-			else if (std.equal_to(node.value.first, pair.first) == true)
+			else if (equal_to(node.value.first, pair.first) == true)
 			{
 				it = node.value.next();
 			}
@@ -338,8 +338,8 @@ namespace std
 			let compare = this.key_comp();
 
 			// hint <= current && current <= next
-			if ((compare(hint.first, pair.first) || std.equal_to(hint.first, pair.first))
-				&& (hint.next().equals(this.end()) || (compare(pair.first, hint.next().first) || std.equal_to(pair.first, hint.next().first))))
+			if ((compare(hint.first, pair.first) || equal_to(hint.first, pair.first))
+				&& (hint.next().equals(this.end()) || (compare(pair.first, hint.next().first) || equal_to(pair.first, hint.next().first))))
 			{
 				///////
 				// RIGHT HINT
@@ -395,17 +395,17 @@ namespace std
 			SWAP
 		--------------------------------------------------------- */
 		/**
-		 * <p> Swap content. </p>
+		 * Swap content.
 		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link TreeMapMulti map} of the same type. Sizes abd container type may differ. </p>
+		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link TreeMapMulti map} of the same type. Sizes abd container type may differ.
 		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * After the call to this member function, the elements in this container are those which were 
 		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
-		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 * iterators, references and pointers remain valid for the swapped objects.
 		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
+		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function.
 		 * 
 		 * @param obj Another {@link TreeMapMulti map container} of the same type of elements as this (i.e.,
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 

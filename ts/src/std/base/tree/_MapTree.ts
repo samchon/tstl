@@ -16,7 +16,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-        public constructor(map: ITreeMap<Key, T>, compare: (x: Key, y: Key) => boolean = std.less)
+        public constructor(map: ITreeMap<Key, T>, compare: (x: Key, y: Key) => boolean = less)
 		{
 			super();
 			
@@ -50,7 +50,7 @@ namespace std.base
 			{
 				let newNode: _XTreeNode<MapIterator<Key, T>> = null;
 
-				if (std.equal_to(key, node.value.first))
+				if (equal_to(key, node.value.first))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
 				else if (this.compare_(key, node.value.first))
 					newNode = node.left; // LESS, THEN TO THE LEFT
@@ -73,7 +73,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public lower_bound(key: Key): MapIterator<Key, T>
 		{
-			let node: base._XTreeNode<MapIterator<Key, T>> = this.find(key);
+			let node: _XTreeNode<MapIterator<Key, T>> = this.find(key);
 
 			if (node == null)
 				return this.map_.end();
@@ -82,7 +82,7 @@ namespace std.base
 			else
 			{
 				let it = node.value;
-				while (!std.equal_to(it, this.map_.end()) && this.compare_(it.first, key))
+				while (!equal_to(it, this.map_.end()) && this.compare_(it.first, key))
 					it = it.next();
 
 				return it;
@@ -91,14 +91,14 @@ namespace std.base
 
 		public upper_bound(key: Key): MapIterator<Key, T>
 		{
-			let node: base._XTreeNode<MapIterator<Key, T>> = this.find(key);
+			let node: _XTreeNode<MapIterator<Key, T>> = this.find(key);
 			
 			if (node == null)
 				return this.map_.end();
 			else
 			{
 				let it = node.value;
-				while (!std.equal_to(it, this.map_.end()) && (std.equal_to(it.first, key) || this.compare_(it.first, key)))
+				while (!equal_to(it, this.map_.end()) && (equal_to(it.first, key) || this.compare_(it.first, key)))
 					it = it.next();
 
 				return it;
@@ -107,7 +107,7 @@ namespace std.base
 
 		public equal_range(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>
 		{
-			return std.make_pair(this.lower_bound(key), this.upper_bound(key));
+			return make_pair(this.lower_bound(key), this.upper_bound(key));
 		}
 
 		/* ---------------------------------------------------------
@@ -131,7 +131,7 @@ namespace std.base
         
 		public is_equal_to(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean
 		{
-			return std.equal_to(left.first, right.first);
+			return equal_to(left.first, right.first);
         }
 
 		public is_less(left: MapIterator<Key, T>, right: MapIterator<Key, T>): boolean

@@ -1,10 +1,10 @@
 ﻿/// <reference path="../API.ts" />
 
-namespace std.example
+namespace example
 {
 	export function test_deque(): void
 	{
-		let deque: Deque<number> = new Deque<number>();
+		let deque: std.Deque<number> = new std.Deque<number>();
 		for (let i: number = 0; i < 10; i++)
 			deque.push_back(i);
 

@@ -11,13 +11,13 @@
 namespace std
 {
 	/**
-	 * <p> Function object class for equality comparison. </p>
+	 * Function object class for equality comparison.
 	 *
-	 * <p> Binary function object class whose call returns whether its two arguments compare <i>equal</i> (as returned by 
-	 * operator ==). </p>
+	 * Binary function object class whose call returns whether its two arguments compare <i>equal</i> (as returned by 
+	 * operator ==).
 	 *
-	 * <p> Generically, function objects are instances of a class with member function {@link IComparable.equal_to equal_to}
-	 * defined. This member function allows the object to be used with the same syntax as a function call. </p>
+	 * Generically, function objects are instances of a class with member function {@link IComparable.equal_to equal_to}
+	 * defined. This member function allows the object to be used with the same syntax as a function call.
 	 *
 	 * @param x First element to compare.
 	 * @param y Second element to compare.
@@ -38,13 +38,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Function object class for non-equality comparison. </p>
+	 * Function object class for non-equality comparison.
 	 * 
-	 * <p> Binary function object class whose call returns whether its two arguments compare <i>not equal</i> (as returned 
-	 * by operator operator!=). </p>
+	 * Binary function object class whose call returns whether its two arguments compare <i>not equal</i> (as returned 
+	 * by operator operator!=).
 	 * 
-	 * <p> Generically, function objects are instances of a class with member function {@link IComparable.equal_to equal_to} 
-	 * defined. This member function allows the object to be used with the same syntax as a function call. </p>
+	 * Generically, function objects are instances of a class with member function {@link IComparable.equal_to equal_to} 
+	 * defined. This member function allows the object to be used with the same syntax as a function call.
 	 *
 	 * @param x First element to compare.
 	 * @param y Second element to compare.
@@ -53,20 +53,20 @@ namespace std
 	 */
 	export function not_equal_to<T>(x: T, y: T): boolean
 	{
-		return !std.equal_to(x, y);
+		return !equal_to(x, y);
 	}
 
 	/**
-	 * <p> Function for less-than inequality comparison. </p>
+	 * Function for less-than inequality comparison.
 	 *
-	 * <p> Binary function returns whether the its first argument compares less than the second. </p>
+	 * Binary function returns whether the its first argument compares less than the second.
 	 *
-	 * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less} 
+	 * Generically, function objects are instances of a class with member function {@link IComparable.less less} 
 	 * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly. 
-	 * This member function allows the object to be used with the same syntax as a function call. </p>
+	 * This member function allows the object to be used with the same syntax as a function call.
 	 * 
-	 * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>, 
-	 * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
+	 * Objects of this class can be used on standard algorithms such as {@link sort sort()}</code>, 
+	 * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}.
 	 *
 	 * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation 
 	 *			  <i>operator<()</i> or method {@link IComparable.less less}.
@@ -88,14 +88,14 @@ namespace std
 	}
 
 	/**
-	 * <p> Function object class for less-than-or-equal-to comparison. </p>
+	 * Function object class for less-than-or-equal-to comparison.
 	 * 
-	 * <p> Binary function object class whose call returns whether the its first argument compares {@link less less than} or 
-	 * {@link equal_to equal to} the second (as returned by operator <=). </p>
+	 * Binary function object class whose call returns whether the its first argument compares {@link less less than} or 
+	 * {@link equal_to equal to} the second (as returned by operator <=).
 	 * 
-	 * <p> Generically, <i>function objects</i> are instances of a class with member function {@link IComparable.less less} 
+	 * Generically, <i>function objects</i> are instances of a class with member function {@link IComparable.less less} 
 	 * and {@link IComparable.equal_to equal_to} defined. This member function allows the object to be used with the same 
-	 * syntax as a function call. </p>
+	 * syntax as a function call.
 	 * 
 	 * @param x First element, the standard of comparison.
 	 * @param y Second element compare with the first.
@@ -104,21 +104,21 @@ namespace std
 	 */
 	export function less_equal<T>(x: T, y: T): boolean
 	{
-		return std.less(x, y) || std.equal_to(x, y);
+		return less(x, y) || equal_to(x, y);
 	}
 
 	/**
-	 * <p> Function for greater-than inequality comparison. </p>
+	 * Function for greater-than inequality comparison.
 	 *
-	 * <p> Binary function returns whether the its first argument compares greater than the second. </p>
+	 * Binary function returns whether the its first argument compares greater than the second.
 	 *
-	 * <p> Generically, function objects are instances of a class with member function {@link less} and
+	 * Generically, function objects are instances of a class with member function {@link less} and
 	 * {@link equal_to equal_to()} defined. If an object doesn't have those methods, then its own uid will be used
 	 * to compare insteadly. This member function allows the object to be used with the same syntax as a function 
-	 * call. </p>
+	 * call.
 	 * 
-	 * <p> Objects of this class can be used on standard algorithms such as {@link sort sort()}, 
-	 * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}. </p>
+	 * Objects of this class can be used on standard algorithms such as {@link sort sort()}, 
+	 * {@link merge merge()} or {@link TreeMap.lower_bound lower_bound()}.
 	 *
 	 * @param <T> Type of arguments to compare by the function call. The type shall supporrt the operation 
 	 *			  <i>operator>()</i> or method {@link IComparable.greater greater}.
@@ -127,18 +127,18 @@ namespace std
 	 */
 	export function greater<T>(x: T, y: T): boolean
 	{
-		return !std.less_equal(x, y);
+		return !less_equal(x, y);
 	}
 
 	/**
-	 * <p> Function object class for greater-than-or-equal-to comparison. </p>
+	 * Function object class for greater-than-or-equal-to comparison.
 	 * 
-	 * <p> Binary function object class whose call returns whether the its first argument compares 
-	 * {@link greater greater than} or {@link equal_to equal to} the second (as returned by operator >=). </p>
+	 * Binary function object class whose call returns whether the its first argument compares 
+	 * {@link greater greater than} or {@link equal_to equal to} the second (as returned by operator >=).
 	 * 
-	 * <p> Generically, function objects are instances of a class with member function {@link IComparable.less less}
+	 * Generically, function objects are instances of a class with member function {@link IComparable.less less}
 	 * defined. If an object doesn't have the method, then its own uid will be used to compare insteadly.
-	 * This member function allows the object to be used with the same syntax as a function call. </p>
+	 * This member function allows the object to be used with the same syntax as a function call.
 	 * 
 	 * @param x First element, the standard of comparison.
 	 * @param y Second element compare with the first.
@@ -147,17 +147,17 @@ namespace std
 	 */
 	export function greater_equal<T>(x: T, y: T): boolean
 	{
-		return !std.less(x, y);
+		return !less(x, y);
 	}
 
 	/**
-	 * <p> Logical AND function object class. </p>
+	 * Logical AND function object class.
 	 * 
-	 * <p> Binary function object class whose call returns the result of the <i>logical "and"</i> operation between its two 
-	 * arguments (as returned by operator &&). </p>
+	 * Binary function object class whose call returns the result of the <i>logical "and"</i> operation between its two 
+	 * arguments (as returned by operator &&).
 	 * 
-	 * <p> Generically, function objects are instances of a class with member function operator() defined. This member 
-	 * function allows the object to be used with the same syntax as a function call. </p>
+	 * Generically, function objects are instances of a class with member function operator() defined. This member 
+	 * function allows the object to be used with the same syntax as a function call.
 	 * 
 	 * @param x First element.
 	 * @param y Second element.
@@ -170,13 +170,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Logical OR function object class. </p>
+	 * Logical OR function object class.
 	 * 
-	 * <p> Binary function object class whose call returns the result of the <i>logical "or"</i> operation between its two 
-	 * arguments (as returned by operator ||). </p>
+	 * Binary function object class whose call returns the result of the <i>logical "or"</i> operation between its two 
+	 * arguments (as returned by operator ||).
 	 * 
-	 * <p> Generically, function objects are instances of a class with member function operator() defined. This member 
-	 * function allows the object to be used with the same syntax as a function call. </p>
+	 * Generically, function objects are instances of a class with member function operator() defined. This member 
+	 * function allows the object to be used with the same syntax as a function call.
 	 * 
 	 * @param x First element.
 	 * @param y Second element.
@@ -189,13 +189,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Logical NOT function object class. </p>
+	 * Logical NOT function object class.
 	 * 
-	 * <p> Unary function object class whose call returns the result of the <i>logical "not"</i> operation on its argument 
-	 * (as returned by operator !). </p>
+	 * Unary function object class whose call returns the result of the <i>logical "not"</i> operation on its argument 
+	 * (as returned by operator !).
 	 * 
-	 * <p> Generically, function objects are instances of a class with member function operator() defined. This member 
-	 * function allows the object to be used with the same syntax as a function call. </p>
+	 * Generically, function objects are instances of a class with member function operator() defined. This member 
+	 * function allows the object to be used with the same syntax as a function call.
 	 * 
 	 * @param x Target element.
 	 *
@@ -207,10 +207,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Bitwise AND function object class. </p>
+	 * Bitwise AND function object class.
 	 * 
-	 * <p> Binary function object class whose call returns the result of applying the <i>bitwise "and"</i> operation between 
-	 * its two arguments (as returned by operator &). </p>
+	 * Binary function object class whose call returns the result of applying the <i>bitwise "and"</i> operation between 
+	 * its two arguments (as returned by operator &).
 	 * 
 	 * @param x First element.
 	 * @param y Second element.
@@ -223,10 +223,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Bitwise OR function object class. </p>
+	 * Bitwise OR function object class.
 	 * 
-	 * <p> Binary function object class whose call returns the result of applying the <i>bitwise "and"</i> operation between 
-	 * its two arguments (as returned by operator &). </p>
+	 * Binary function object class whose call returns the result of applying the <i>bitwise "and"</i> operation between 
+	 * its two arguments (as returned by operator &).
 	 * 
 	 * @param x First element.
 	 * @param y Second element.
@@ -239,10 +239,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Bitwise XOR function object class. </p>
+	 * Bitwise XOR function object class.
 	 * 
-	 * <p> Binary function object class whose call returns the result of applying the <i>bitwise "exclusive or"</i> 
-	 * operation between its two arguments (as returned by operator ^). </p>
+	 * Binary function object class whose call returns the result of applying the <i>bitwise "exclusive or"</i> 
+	 * operation between its two arguments (as returned by operator ^).
 	 * 
 	 * @param x First element.
 	 * @param y Second element.
@@ -255,14 +255,14 @@ namespace std
 	}
 
 	/**
-	 * <p> Default hash function for number. </p>
+	 * Default hash function for number.
 	 * 
-	 * <p> Unary function that defines the default hash function used by the standard library. </p>
+	 * Unary function that defines the default hash function used by the standard library.
 	 * 
-	 * <p> The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
+	 * The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
 	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
 	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
-	 * </p>
+	 *
 	 * 
 	 * @param val Value to be hashed.
 	 * 
@@ -271,14 +271,13 @@ namespace std
 	export function hash(val: number): number;
 
 	/**
-	 * <p> Default hash function for string. </p>
+	 * Default hash function for string.
 	 * 
-	 * <p> Unary function that defines the default hash function used by the standard library. </p>
+	 * Unary function that defines the default hash function used by the standard library.
 	 * 
-	 * <p> The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
+	 * The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
 	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
 	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
-	 * </p>
 	 * 
 	 * @param str A string to be hashed.
 	 * 
@@ -287,18 +286,18 @@ namespace std
 	export function hash(str: string): number;
 
 	/**
-	 * <p> Default hash function for Object. </p>
+	 * Default hash function for Object.
 	 * 
-	 * <p> Unary function that defines the default hash function used by the standard library. </p>
+	 * Unary function that defines the default hash function used by the standard library.
 	 * 
-	 * <p> The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
+	 * The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
 	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
 	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
-	 * </p>
+	 *
 	 * 
-	 * <p> The default {@link hash} function of Object returns a value returned from {@link hash hash(number)} with 
+	 * The default {@link hash} function of Object returns a value returned from {@link hash hash(number)} with 
 	 * an <b>unique id</b> of each Object. If you want to specify {@link hash} function of a specific class, then
-	 * define a member function <code>public hashCode(): number</code> in the class. </p>
+	 * define a member function <code>public hashCode(): number</code> in the class.
 	 * 
 	 * @param obj Object to be hashed.
 	 * 
@@ -311,17 +310,17 @@ namespace std
 		let type: string = typeof par;
 
 		if (type == "number")
-			return hash_of_number(par);
+			return _Hash_number(par);
 		else if (type == "string")
-			return hash_of_string(par);
+			return _Hash_string(par);
 		else
-			return hash_of_object(par);
+			return _Hash_object(par);
 	}
 
 	/**
 	 * @hidden
 	 */
-	function hash_of_number(val: number): number
+	function _Hash_number(val: number): number
 	{
 		// ------------------------------------------
 		//	IN C++
@@ -350,7 +349,7 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	function hash_of_string(str: string): number
+	function _Hash_string(str: string): number
 	{
 		let code: number = 2166136261;
 
@@ -365,12 +364,12 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	function hash_of_object(obj: Object): number
+	function _Hash_object(obj: Object): number
 	{
 		if ((<any>obj).hashCode != undefined)
 			return (obj as IComparable<Object>).hashCode();
 		else
-			return hash_of_number((<any>obj).__get_m_iUID());
+			return _Hash_number((<any>obj).__get_m_iUID());
 	}
 
 	/* ---------------------------------------------------------
@@ -419,19 +418,19 @@ namespace std
 		SWAP
 	--------------------------------------------------------- */
 	/**
-	 * <p> Exchange contents of {@link IContainers containers}. </p>
+	 * Exchange contents of {@link IContainers containers}.
 	 * 
-	 * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must have 
-	 * same type of elements (same template parameters), although sizes may differ. </p>
+	 * The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must have 
+	 * same type of elements (same template parameters), although sizes may differ.
 	 * 
-	 * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> before 
+	 * After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> before 
 	 * the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references and 
-	 * pointers remain valid for the swapped objects. </p>
+	 * pointers remain valid for the swapped objects.
 	 *
-	 * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
+	 * This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
 	 * ownership over their assets to the other container (i.e., the containers exchange references to their data, without 
 	 * actually performing any element copy or movement): It behaves as if <i>left</i>. 
-	 * {@link Container.swap swap}(<i>right</i>) was called. </p>
+	 * {@link Container.swap swap}(<i>right</i>) was called.
 	 * 
 	 * @param left A {@link Container container} to swap its contents.
 	 * @param right A {@link Container container} to swap its contents.
@@ -440,9 +439,9 @@ namespace std
 		(left: base.Container<T>, right: base.Container<T>): void;
 
 	/**
-	 * <p> Exchange contents of queues. </p>
+	 * Exchange contents of queues.
 	 * 
-	 * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+	 * Exchanges the contents of <i>left</i> and <i>right</i>.
 	 * 
 	 * @param left A {@link Queue} container of the same type. Size may differ.
 	 * @param right A {@link Queue} container of the same type. Size may differ.
@@ -451,9 +450,9 @@ namespace std
 		(left: Queue<T>, right: Queue<T>): void;
 
 	/**
-	 * <p> Exchange contents of {@link PriorityQueue PriorityQueues}. </p>
+	 * Exchange contents of {@link PriorityQueue PriorityQueues}.
 	 * 
-	 * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+	 * Exchanges the contents of <i>left</i> and <i>right</i>.
 	 * 
 	 * @param left A {@link PriorityQueue} container of the same type. Size may differ.
 	 * @param right A {@link PriorityQueue} container of the same type. Size may differ.
@@ -462,9 +461,9 @@ namespace std
 		(left: PriorityQueue<T>, right: PriorityQueue<T>): void;
 
 	/**
-	 * <p> Exchange contents of {@link Stack Stacks}. </p>
+	 * Exchange contents of {@link Stack Stacks}.
 	 * 
-	 * <p> Exchanges the contents of <i>left</i> and <i>right</i>. </p>
+	 * Exchanges the contents of <i>left</i> and <i>right</i>.
 	 * 
 	 * @param left A {@link Stack} container of the same type. Size may differ.
 	 * @param right A {@link Stack} container of the same type. Size may differ.
@@ -473,19 +472,19 @@ namespace std
 		(left: Stack<T>, right: Stack<T>): void;
 
 	/**
-	 * <p> Exchanges the contents of two {@link UniqueMap unique maps}. </p>
+	 * Exchanges the contents of two {@link UniqueMap unique maps}.
 	 * 
-	 * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must 
-	 * be of the same type (same template parameters), although sizes may differ. </p>
+	 * The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must 
+	 * be of the same type (same template parameters), although sizes may differ.
 	 * 
-	 * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> 
+	 * After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> 
 	 * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references 
-	 * and pointers remain valid for the swapped objects. </p>
+	 * and pointers remain valid for the swapped objects.
 	 * 
-	 * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
+	 * This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
 	 * ownership over their assets to the other container (i.e., the containers exchange references to their data, 
 	 * without actually performing any element copy or movement): It behaves as if 
-	 * <i>left</i>.{@link UniqueMap.swap swap}(<i>right</i>) was called. </p>
+	 * <i>left</i>.{@link UniqueMap.swap swap}(<i>right</i>) was called.
 	 * 
 	 * @param left An {@link UniqueMap unique map} to swap its conents.
 	 * @param right An {@link UniqueMap unique map} to swap its conents.
@@ -494,19 +493,19 @@ namespace std
 		(left: base.UniqueMap<Key, T>, right: base.UniqueMap<Key, T>): void;
 
 	/**
-	 * <p> Exchanges the contents of two {@link MultiMap multi maps}. </p>
+	 * Exchanges the contents of two {@link MultiMap multi maps}.
 	 * 
-	 * <p> The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must 
-	 * be of the same type (same template parameters), although sizes may differ. </p>
+	 * The contents of container <i>left</i> are exchanged with those of <i>right</i>. Both container objects must 
+	 * be of the same type (same template parameters), although sizes may differ.
 	 * 
-	 * <p> After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> 
+	 * After the call to this member function, the elements in <i>left</i> are those which were in <i>right</i> 
 	 * before the call, and the elements of <i>right</i> are those which were in <i>left</i>. All iterators, references 
-	 * and pointers remain valid for the swapped objects. </p>
+	 * and pointers remain valid for the swapped objects.
 	 * 
-	 * <p> This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
+	 * This is an overload of the generic algorithm swap that improves its performance by mutually transferring 
 	 * ownership over their assets to the other container (i.e., the containers exchange references to their data, 
 	 * without actually performing any element copy or movement): It behaves as if 
-	 * <i>left</i>.{@link MultiMap.swap swap}(<i>right</i>) was called. </p>
+	 * <i>left</i>.{@link MultiMap.swap swap}(<i>right</i>) was called.
 	 * 
 	 * @param left A {@link MultiMap multi map} to swap its conents.
 	 * @param right A {@link MultiMap multi map} to swap its conents.
@@ -526,11 +525,11 @@ namespace std
 		BINDING
 	--------------------------------------------------------- */
 	/**
-	 * <p> Bind function arguments. </p>
+	 * Bind function arguments.
 	 * 
-	 * <p> Returns a function object based on <i>fn</i>, but with its arguments bound to <i>args</i>. </p>
+	 * Returns a function object based on <i>fn</i>, but with its arguments bound to <i>args</i>.
 	 * 
-	 * <p> Each argument may either be bound to a value or be a {@link placeholders placeholder}: </p>
+	 * Each argument may either be bound to a value or be a {@link placeholders placeholder}:
 	 * <ul>
 	 *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
 	 *	<li> 
@@ -539,7 +538,7 @@ namespace std
 	 *	</li>
 	 * </ul>
 	 * 
-	 * <p> Calling the returned object returns the same type as fn. </p>
+	 * Calling the returned object returns the same type as fn.
 	 * 
 	 * @param fn A function object, pointer to function or pointer to member.
 	 * @param args List of arguments to bind: either values, or {@link placeholders}.
@@ -552,11 +551,11 @@ namespace std
 		(fn: (...args: any[]) => Ret, ...args: any[]): (...args: any[]) => Ret;
 
 	/**
-	 * <p> Bind function arguments. </p>
+	 * Bind function arguments.
 	 * 
-	 * <p> Returns a function object based on <i>fn</i>, but with its arguments bound to <i>args</i>. </p>
+	 * Returns a function object based on <i>fn</i>, but with its arguments bound to <i>args</i>.
 	 * 
-	 * <p> Each argument may either be bound to a value or be a {@link placeholders placeholder}: </p>
+	 * Each argument may either be bound to a value or be a {@link placeholders placeholder}:
 	 * <ul>
 	 *	<li> If bound to a value, calling the returned function object will always use that value as argument. </li>
 	 *	<li> 
@@ -565,7 +564,7 @@ namespace std
 	 *	</li>
 	 * </ul>
 	 * 
-	 * <p> Calling the returned object returns the same type as fn. </p>
+	 * Calling the returned object returns the same type as fn.
 	 * 
 	 * @param fn A function object, pointer to function or pointer to member.
 	 * @param thisArg This argument, owner object of the member method <i>fn</i>.
@@ -634,7 +633,7 @@ namespace std
 			// fill argArray from placeholders
 			for (let i: number = 0; i < argArray.length; i++)
 				if (argArray[i] instanceof placeholders.PlaceHolder)
-					argArray[i] = args[argArray[i].index - 1];
+					argArray[i] = args[(argArray[i] as placeholders.PlaceHolder).index() - 1];
 			
 			// arguments are over the placeholder_count 
 			if (args.length > placeholder_count)
@@ -651,24 +650,24 @@ namespace std
 }
 
 /**
- * <p> Bind argument placeholders. </p>
+ * Bind argument placeholders.
  * 
- * <p> This namespace declares an unspecified number of objects: <i>_1</i>, <i>_2</i>, <i>_3</i>, ...</i>, which are 
- * used to specify placeholders in calls to function {@link std.bind}. </p>
+ * This namespace declares an unspecified number of objects: <i>_1</i>, <i>_2</i>, <i>_3</i>, ...</i>, which are 
+ * used to specify placeholders in calls to function {@link bind}.
  * 
- * <p> When the function object returned by bind is called, an argument with placeholder {@link _1} is replaced by the 
- * first argument in the call, {@link _2} is replaced by the second argument in the call, and so on... For example: </p>
+ * When the function object returned by bind is called, an argument with placeholder {@link _1} is replaced by the 
+ * first argument in the call, {@link _2} is replaced by the second argument in the call, and so on... For example:
  *
  * <code>
  * let vec: Vector<number> = new Vector<number>();
  * 
- * let bind = std.bind(Vector.insert, _1, vec.end(), _2, _3);
+ * let bind = bind(Vector.insert, _1, vec.end(), _2, _3);
  * bind.apply(vec, 5, 1); // vec.insert(vec.end(), 5, 1);
  * // [1, 1, 1, 1, 1]
  * </code>
  * 
- * <p> When a call to {@link bind} is used as a subexpression in another call to <i>bind</i>, the {@link placeholders} 
- * are relative to the outermost {@link bind} expression. </p>
+ * When a call to {@link bind} is used as a subexpression in another call to <i>bind</i>, the {@link placeholders} 
+ * are relative to the outermost {@link bind} expression.
  *
  * @reference http://www.cplusplus.com/reference/functional/placeholders/
  * @author Jeongho Nam <http://samchon.org> 
@@ -687,7 +686,7 @@ namespace std.placeholders
 			this.index_ = index;
 		}
 
-		public get index(): number
+		public index(): number
 		{
 			return this.index_;
 		}

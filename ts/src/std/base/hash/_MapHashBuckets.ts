@@ -21,11 +21,11 @@ namespace std.base
 		
 		public find(key: K): MapIterator<K, T>
 		{
-			let index = std.hash(key) % this.size();
+			let index = hash(key) % this.size();
 			let bucket = this.at(index);
 
 			for (let i: number = 0; i < bucket.size(); i++)
-				if (std.equal_to(bucket.at(i).first, key))
+				if (equal_to(bucket.at(i).first, key))
 					return bucket.at(i);
 
 			return this.map_.end();

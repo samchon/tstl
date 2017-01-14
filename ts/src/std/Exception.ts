@@ -11,26 +11,26 @@
 namespace std
 {
 	/**
-	 * <p> Function handling termination on exception </p>
+	 * Function handling termination on exception
 	 * 
-	 * <p> Calls the current terminate handler. </p>
+	 * Calls the current terminate handler.
 	 * 
-	 * <p> By default, the terminate handler calls abort. But this behavior can be redefined by calling 
-	 * {@link set_terminate}. </p>
+	 * By default, the terminate handler calls abort. But this behavior can be redefined by calling 
+	 * {@link set_terminate}.
 	 * 
-	 * <p> This function is automatically called when no <code>catch</code> handler can be found for a thrown exception, 
-	 * or for some other exceptional circumstance that makes impossible to continue the exception handling process. </p>
+	 * This function is automatically called when no <code>catch</code> handler can be found for a thrown exception, 
+	 * or for some other exceptional circumstance that makes impossible to continue the exception handling process.
 	 * 
-	 * <p> This function is provided so that the terminate handler can be explicitly called by a program that needs to 
+	 * This function is provided so that the terminate handler can be explicitly called by a program that needs to 
 	 * abnormally terminate, and works even if {@link set_terminate} has not been used to set a custom terminate handler 
-	 * (calling abort in this case). </p>
+	 * (calling abort in this case).
 	 */
 	export function terminate(): void
 	{
 		if (_Terminate_handler != null)
 			_Terminate_handler();
 		
-		if (std.is_node() == true)
+		if (is_node() == true)
 			process.exit();
 		else
 		{
@@ -40,15 +40,15 @@ namespace std
 	}
 
 	/**
-	 * <p> Set <i>terminate handler</i> function. </p>
+	 * Set <i>terminate handler</i> function.
 	 * 
-	 * <p> A <i>terminate handler</i> function is a function automatically called when the exception handling process has 
+	 * A <i>terminate handler</i> function is a function automatically called when the exception handling process has 
 	 * to be abandoned for some reason. This happens when no catch handler can be found for a thrown exception, or for 
-	 * some other exceptional circumstance that makes impossible to continue the exception handling process. </p>
+	 * some other exceptional circumstance that makes impossible to continue the exception handling process.
 	 * 
-	 * <p> Before this function is called by the program for the first time, the default behavior is to call abort. </p>
+	 * Before this function is called by the program for the first time, the default behavior is to call abort.
 	 * 
-	 * <p> A program may explicitly call the current terminate handler function by calling {@link terminate}. </p>
+	 * A program may explicitly call the current terminate handler function by calling {@link terminate}.
 	 * 
 	 * @param f Function that takes no parameters and returns no value (<i>void</i>).
 	 */
@@ -56,7 +56,7 @@ namespace std
 	{
 		_Terminate_handler = f;
 
-		if (std.is_node() == true)
+		if (is_node() == true)
 			process.on("uncaughtException", 
 				function (error: Error): void
 				{
@@ -72,14 +72,14 @@ namespace std
 	}
 
 	/**
-	 * <p> Get <i>terminate handler</i> function. </p>
+	 * Get <i>terminate handler</i> function.
 	 * 
-	 * <p> The <i>terminate handler</i> function is automatically called when no <code>catch</code> handler can be found 
+	 * The <i>terminate handler</i> function is automatically called when no <code>catch</code> handler can be found 
 	 * for a thrown exception, or for some other exceptional circumstance that makes impossible to continue the exception 
-	 * handling process. </p>
+	 * handling process.
 	 * 
-	 * <p> If no such function has been set by a previous call to {@link set_terminate}, the function returns a 
-	 * <i>null-pointer</i>. </p>
+	 * If no such function has been set by a previous call to {@link set_terminate}, the function returns a 
+	 * <i>null-pointer</i>.
 	 * 
 	 * @return If {@link set_terminate} has previously been called by the program, the function returns the current 
 	 *		   <i>terminate handler</i> function. Otherwise, it returns a <i>null-pointer</i>.
@@ -103,15 +103,15 @@ namespace std
 				- UNDERFLOW_ERROR
 	========================================================= */
 	/**
-	 * <p> Standard exception class. </p>
+	 * Standard exception class.
 	 *  
-	 * <p> Base class for standard exceptions. </p>
+	 * Base class for standard exceptions.
 	 *
-	 * <p> All objects thrown by components of the standard library are derived from this class. 
-	 * Therefore, all standard exceptions can be caught by catching this type by reference. </p>
+	 * All objects thrown by components of the standard library are derived from this class. 
+	 * Therefore, all standard exceptions can be caught by catching this type by reference.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/exception/exception
 	 * @author Jeongho Nam <http://samchon.org>
@@ -129,7 +129,7 @@ namespace std
 		public constructor();
 
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -141,13 +141,13 @@ namespace std
 		}
 
 		/**
-		 * <p> Get string identifying exception. </p>
+		 * Get string identifying exception.
 		 * 
-		 * <p> Returns a string that may be used to identify the exception. </p>
+		 * Returns a string that may be used to identify the exception.
 		 *
-		 * <p> The particular representation pointed by the returned value is implementation-defined. 
+		 * The particular representation pointed by the returned value is implementation-defined. 
 		 * As a virtual function, derived classes may redefine this function so that specify value are 
-		 * returned. </p>
+		 * returned.
 		 */
 		public what(): string
 		{
@@ -163,17 +163,17 @@ namespace std
 			- OUT_OF_RANGE
 	========================================================= */
 	/**
-	 * <p> Logic error exception. </p>
+	 * Logic error exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to report errors in the internal 
-	 * logical of the program, such as violation of logical preconditions or class invariants. </p>
+	 * This class defines the type of objects thrown as exceptions to report errors in the internal 
+	 * logical of the program, such as violation of logical preconditions or class invariants.
 	 *
-	 * <p> These errors are presumably detectable before the program executes. </p>
+	 * These errors are presumably detectable before the program executes.
 	 *
-	 * <p> It is used as a base class for several logical error exceptions. </p>
+	 * It is used as a base class for several logical error exceptions.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/logic_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -182,7 +182,7 @@ namespace std
 		extends Exception
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -193,18 +193,18 @@ namespace std
 	}
 
 	/**
-	 * <p> Domain error exception. </p>
+	 * Domain error exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to report domain errors. </p>
+	 * This class defines the type of objects thrown as exceptions to report domain errors.
 	 *
-	 * <p> Generally, the domain of a mathematical function is the subset of values that it is defined for. 
+	 * Generally, the domain of a mathematical function is the subset of values that it is defined for. 
 	 * For example, the square root function is only defined for non-negative numbers. Thus, a negative number 
-	 * for such a function would qualify as a domain error. </p>
+	 * for such a function would qualify as a domain error.
 	 *
-	 * <p> No component of the standard library throws exceptions of this type. It is designed as a standard 
-	 * exception to be thrown by programs. </p>
+	 * No component of the standard library throws exceptions of this type. It is designed as a standard 
+	 * exception to be thrown by programs.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank">
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank">
 	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a></p>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/domain_error
@@ -214,7 +214,7 @@ namespace std
 		extends LogicError
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -225,15 +225,15 @@ namespace std
 	}
 
 	/**
-	 * <p> Invalid argument exception. </p>
+	 * Invalid argument exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to report an invalid argument. </p>
+	 * This class defines the type of objects thrown as exceptions to report an invalid argument.
 	 *
-	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library 
-	 * also throw exceptions of this type to signal invalid arguments. </p>
+	 * It is a standard exception that can be thrown by programs. Some components of the standard library 
+	 * also throw exceptions of this type to signal invalid arguments.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/invalid_argument
 	 * @author Jeongho Nam <http://samchon.org>
@@ -242,7 +242,7 @@ namespace std
 		extends LogicError
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -253,15 +253,15 @@ namespace std
 	}
 
 	/**
-	 * <p> Length error exception. </p>
+	 * Length error exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to report a length error. </p>
+	 * This class defines the type of objects thrown as exceptions to report a length error.
 	 *
-	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library, 
-	 * such as vector and string also throw exceptions of this type to signal errors resizing. </p>
+	 * It is a standard exception that can be thrown by programs. Some components of the standard library, 
+	 * such as vector and string also throw exceptions of this type to signal errors resizing.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/length_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -270,7 +270,7 @@ namespace std
 		extends LogicError
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -281,16 +281,16 @@ namespace std
 	}
 
 	/**
-	 * <p> Out-of-range exception. </p>
+	 * Out-of-range exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to report an out-of-range error. </p>
+	 * This class defines the type of objects thrown as exceptions to report an out-of-range error.
 	 *
-	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library, 
+	 * It is a standard exception that can be thrown by programs. Some components of the standard library, 
 	 * such as vector, deque, string and bitset also throw exceptions of this type to signal arguments 
-	 * out of range. </p>
+	 * out of range.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/out_of_range
 	 * @author Jeongho Nam <http://samchon.org>
@@ -299,7 +299,7 @@ namespace std
 		extends LogicError
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -317,15 +317,15 @@ namespace std
 			- UNDERFLOW_ERROR
 	========================================================= */
 	/**
-	 * <p> Runtime error exception. </p>
+	 * Runtime error exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to report errors that can only be 
-	 * detected during runtime. </p>
+	 * This class defines the type of objects thrown as exceptions to report errors that can only be 
+	 * detected during runtime.
 	 *
-	 * <p> It is used as a base class for several runtime error exceptions. </p>
+	 * It is used as a base class for several runtime error exceptions.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/runtime_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -334,7 +334,7 @@ namespace std
 		extends Exception
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -345,15 +345,15 @@ namespace std
 	}
 
 	/**
-	 * <p> Overflow error exception. </p>
+	 * Overflow error exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to arithmetic overflow errors. </p>
+	 * This class defines the type of objects thrown as exceptions to arithmetic overflow errors.
 	 *
-	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library 
-	 * also throw exceptions of this type to signal range errors. </p>
+	 * It is a standard exception that can be thrown by programs. Some components of the standard library 
+	 * also throw exceptions of this type to signal range errors.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/overflow_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -362,7 +362,7 @@ namespace std
 		extends RuntimeError
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -373,15 +373,15 @@ namespace std
 	}
 
 	/**
-	 * <p> Underflow error exception. </p>
+	 * Underflow error exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to arithmetic underflow errors. </p>
+	 * This class defines the type of objects thrown as exceptions to arithmetic underflow errors.
 	 *
-	 * <p> No component of the standard library throws exceptions of this type. It is designed as a standard 
-	 * exception to be thrown by programs. </p>
+	 * No component of the standard library throws exceptions of this type. It is designed as a standard 
+	 * exception to be thrown by programs.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/underflow_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -390,7 +390,7 @@ namespace std
 		extends RuntimeError
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */
@@ -401,16 +401,16 @@ namespace std
 	}
 
 	/**
-	 * <p> Range error exception. </p>
+	 * Range error exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to report range errors in internal 
-	 * computations. </p>
+	 * This class defines the type of objects thrown as exceptions to report range errors in internal 
+	 * computations.
 	 *
-	 * <p> It is a standard exception that can be thrown by programs. Some components of the standard library 
-	 * also throw exceptions of this type to signal range errors. </p>
+	 * It is a standard exception that can be thrown by programs. Some components of the standard library 
+	 * also throw exceptions of this type to signal range errors.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/stdexcept/range_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -419,7 +419,7 @@ namespace std
 		extends RuntimeError
 	{
 		/**
-		 * <p> Construct from a message. </p>
+		 * Construct from a message.
 		 *
 		 * @param message A message representing specification about the Exception.
 		 */

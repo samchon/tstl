@@ -1,16 +1,16 @@
 ﻿/// <reference path="../API.ts" />
 
-namespace std.example
+namespace example
 {
 	export function test_reverse_iterator(): void
 	{
 		console.log("Test Reverse Iterator");
-		let vec: Vector<number> = new Vector<number>([0, 1, 2, 3, 4]);
-		let list: List<number> = new List(vec.begin(), vec.end());
-		let deque: Deque<number> = new Deque<number>(vec.begin(), vec.end());
+		let vec: std.Vector<number> = new std.Vector<number>([0, 1, 2, 3, 4]);
+		let list: std.List<number> = new std.List(vec.begin(), vec.end());
+		let deque: std.Deque<number> = new std.Deque<number>(vec.begin(), vec.end());
 
-		let set: HashSet<number> = new HashSet<number>(vec.begin(), vec.end());
-		let map: HashMap<number, number> = new HashMap([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]);
+		let set: std.HashSet<number> = new std.HashSet<number>(vec.begin(), vec.end());
+		let map: std.HashMap<number, number> = new std.HashMap([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]);
 
 		console.log(vec.rbegin().advance(2).value, vec.end().advance(-3).value);
 
@@ -27,10 +27,10 @@ namespace std.example
 		reverse_iterate(set);
 
 		console.log("HashMap's Reverse Iterator");
-		reverse_iterate<Pair<number, number>>(map);
+		reverse_iterate<std.Pair<number, number>>(map);
 	}
 
-	function reverse_iterate<T>(container: base.Container<T>): void
+	function reverse_iterate<T>(container: std.base.Container<T>): void
 	{
 		for (let it = container.rbegin(); !it.equals(container.rend()); it = it.next())
 			console.log(it.value);

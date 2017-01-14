@@ -3,21 +3,21 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract error instance. </p> 
+	 * An abstract error instance. 
 	 *
-	 * <p> {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
-	 * holding an error instance's identifier {@link value}, associated with a {@link category}. </p>
+	 * {@link ErrorInstance} is an abstract class of {@link ErrorCode} and {@link ErrorCondition}
+	 * holding an error instance's identifier {@link value}, associated with a {@link category}.
 	 *
-	 * <p> The operating system and other low-level applications and libraries generate numerical error codes to 
+	 * The operating system and other low-level applications and libraries generate numerical error codes to 
 	 * represent possible results. These numerical values may carry essential information for a specific platform, 
-	 * but be non-portable from one platform to another. </p>
+	 * but be non-portable from one platform to another.
 	 *
-	 * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, 
+	 * Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, 
 	 * so that they can be interpreted when needed as more abstract (and portable) 
-	 * {@link ErrorCondition error conditions}. </p>
+	 * {@link ErrorCondition error conditions}.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -55,9 +55,9 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Assign error instance. </p>
+		 * Assign error instance.
 		 *
-		 * <p> Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. </p> 
+		 * Assigns the {@link ErrorCode} object a value of val associated with the {@link ErrorCategory}. 
 		 *
 		 * @param val A numerical value identifying an error instance.
 		 * @param category A reference to an {@link ErrorCategory} object.
@@ -69,10 +69,10 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Clear error instance. </p>
+		 * Clear error instance.
 		 *
-		 * <p> Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the 
-		 * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error). </p>
+		 * Clears the value in the {@link ErrorCode} object so that it is set to a value of <i>0</i> of the 
+		 * {@link ErrorCategory.systemCategory ErrorCategory.systemCategory()} (indicating no error).
 		 */
 		public clear(): void
 		{
@@ -83,9 +83,9 @@ namespace std.base
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Get category. </p>
+		 * Get category.
 		 *
-		 * <p> Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object. </p>
+		 * Returns a reference to the {@link ErrorCategory} associated with the {@link ErrorCode} object.
 		 *
 		 * @return A reference to a non-copyable object of a type derived from {@link ErrorCategory}.
 		 */
@@ -95,9 +95,9 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Error value. </p>
+		 * Error value.
 		 *
-		 * <p> Returns the error value associated with the {@link ErrorCode} object. </p>
+		 * Returns the error value associated with the {@link ErrorCode} object.
 		 * 
 		 * @return The error value.
 		 */
@@ -107,15 +107,15 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Get message. </p>
+		 * Get message.
 		 *
-		 * <p> Returns the message associated with the error instance. </p>
+		 * Returns the message associated with the error instance.
 		 *
-		 * <p> Error messages are defined by the {@link category} the error instance belongs to. </p>
+		 * Error messages are defined by the {@link category} the error instance belongs to.
 		 *
-		 * <p> This function returns the same as if the following member was called: </p>
+		 * This function returns the same as if the following member was called:
 		 *
-		 * <p> <code>category().message(value())</code> </p>
+		 * <code>category().message(value())</code>
 		 *
 		 * @return A string object with the message associated with the {@link ErrorCode}.
 		 */
@@ -128,16 +128,16 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Default error condition. </p>
+		 * Default error condition.
 		 *
-		 * <p> Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object. </p>
+		 * Returns the default {@link ErrorCondition}object associated with the {@link ErrorCode} object.
 		 *
-		 * <p> This function returns the same as if the following member was called: </p>
+		 * This function returns the same as if the following member was called:
 		 *
-		 * <p> <code>category().default_error_condition(value())</code> </p>
+		 * <code>category().default_error_condition(value())</code>
 		 *
-		 * <p> {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()} 
-		 * is a virtual member function, that can operate differently for each category. </p>
+		 * {@link ErrorCategory.default_error_condition ErrorCategory.default_error_condition()} 
+		 * is a virtual member function, that can operate differently for each category.
 		 * 
 		 * @return An {@link ErrorCondition}object that corresponds to the {@link ErrorCode} object.
 		 */
@@ -153,11 +153,11 @@ namespace std.base
 			OPERATORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Convert to bool. </p>
+		 * Convert to bool.
 		 *
-		 * <p> Returns whether the error instance has a numerical {@link value} other than 0. </p>
+		 * Returns whether the error instance has a numerical {@link value} other than 0.
 		 *
-		 * <p> If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true. </p>
+		 * If it is zero (which is generally used to represent no error), the function returns false, otherwise it returns true.
 		 *
 		 * @return <code>true</code> if the error's numerical value is not zero. 
 		 *		   <code>false</code> otherwise.

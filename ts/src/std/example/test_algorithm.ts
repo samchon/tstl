@@ -1,4 +1,4 @@
-﻿namespace std.example
+﻿namespace example
 {
 	export function test_algorithm(): void
 	{

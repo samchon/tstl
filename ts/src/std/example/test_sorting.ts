@@ -1,6 +1,6 @@
 ﻿/// <reference path="../API.ts" />
 
-namespace std.example
+namespace example
 {
 	export function sorting(): void
 	{

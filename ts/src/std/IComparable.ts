@@ -1,9 +1,9 @@
 ﻿namespace std
 {
 	/**
-	 * <p> Comparable instance. </p>
+	 * Comparable instance.
 	 * 
-	 * <p> {@link IComparable} is a common interface for objects who can compare each other. </p>
+	 * {@link IComparable} is a common interface for objects who can compare each other.
 	 * 
 	 * @reference https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html
 	 * @author Jeongho Nam <http://samchon.org>
@@ -12,9 +12,9 @@
 		extends Object
 	{
 		/**
-		 * <p> Indicates whether some other object is &quot;equal to&quot; this one. </p>
+		 * Indicates whether some other object is &quot;equal to&quot; this one.
 		 *
-		 * <p> The {@link equal_to} method implements an equivalence relation on non-null object references: </p>
+		 * The {@link equal_to} method implements an equivalence relation on non-null object references:
 		 * 
 		 * <ul>
 		 *	<li> 
@@ -41,18 +41,16 @@
 		 *	</li>
 		 * </ul>
 		 * 
-		 * <p> The {@link equal_to} method for interface {@link IComparable} implements the most discriminating possible 
+		 * The {@link equal_to} method for interface {@link IComparable} implements the most discriminating possible 
 		 * equivalence relation on objects; that is, for any non-null reference values <code>x</code> and 
 		 * <code>y</code>, this method returns <code>true</code> if and only if <code>x</code> and <code>y</code> 
-		 * refer to the same object (<code>x == y</code> has the value <code>true</code>). </p>
+		 * refer to the same object (<code>x == y</code> has the value <code>true</code>).
 		 * 
-		 * <p> Note that it is generally necessary to override the {@link hash_code} method whenever this method is 
+		 * Note that it is generally necessary to override the {@link hash_code} method whenever this method is 
 		 * overridden, so as to maintain the general contract for the {@link hash_code} method, which states that 
-		 * equal objects must have equal hash codes. </p>
+		 * equal objects must have equal hash codes.
 		 *
-		 * <ul>
-		 *	<li> {@link IComparable.equal_to} is called by {@link std.equal_to}. </li>
-		 * </ul>
+		 * - {@link IComparable.equal_to} is called by {@link equal_to}.
 		 * 
 		 * @param obj the reference object with which to compare.
 		 * 
@@ -61,13 +59,13 @@
 		equals(obj: T): boolean;
 
 		/**
-		 * <p> Less-than inequality comparison. </p>
+		 * Less-than inequality comparison.
 		 *
-		 * <p> Binary method returns whether the the instance compares less than the <i>obj</i>. </p>
+		 * Binary method returns whether the the instance compares less than the <i>obj</i>.
 		 *
 		 * <ul>
 		 *	<li> 
-		 *		{@link IComparable.less} is called by {@link std.less}. Also, this method can be used on standard 
+		 *		{@link IComparable.less} is called by {@link less}. Also, this method can be used on standard 
 		 *		algorithms such as {@link sort sort()}</code>, {@link merge merge()} or 
 		 *		{@link TreeMap.lower_bound lower_bound()}. 
 		 *	</li>
@@ -80,21 +78,21 @@
 		less(obj: T): boolean;
 
 		/**
-		 * <p> Issue a hash code. </p> 
+		 * Issue a hash code. 
 		 * 
-		 * <p> Returns a hash code value for the object. This method is supported for the benefit of hash tables such 
+		 * Returns a hash code value for the object. This method is supported for the benefit of hash tables such 
 		 * as those provided by hash containers; {@link HashSet}, {@link HashMap}, {@link MultiHashSet} and 
-		 * {@link MultiHashMap}. </p>
+		 * {@link MultiHashMap}.
 		 *
-		 * <p> As much as is reasonably practical, the {@link hash_code} method defined by interface 
+		 * As much as is reasonably practical, the {@link hash_code} method defined by interface 
 		 * {@link IComparable} does return distinct integers for distinct objects. (This is typically implemented by 
 		 * converting the internal address of the object into an integer, but this implementation technique is not 
-		 * required by the JavaScript programming language.) </p>
+		 * required by the JavaScript programming language.)
 		 * 
 		 * <ul>
 		 *	<li> 
-		 *		{@link IComparable.hash_code} is called by {@link std.hash_code}. If you want to keep basically 
-		 *		provided hash function, then returns {@link std.Hash.code}; <code>return std.Hash.code(this);</code> 
+		 *		{@link IComparable.hash_code} is called by {@link hash_code}. If you want to keep basically 
+		 *		provided hash function, then returns {@link Hash.code}; <code>return Hash.code(this);</code> 
 		 *	</li>
 		 * </ul>
 		 * 

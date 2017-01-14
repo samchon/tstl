@@ -6,17 +6,17 @@
 namespace std
 {
 	/**
-	 * <p> System error exception. </p>
+	 * System error exception.
 	 *
-	 * <p> This class defines the type of objects thrown as exceptions to report conditions originating during 
+	 * This class defines the type of objects thrown as exceptions to report conditions originating during 
 	 * runtime from the operating system or other low-level application program interfaces which have an 
-	 * associated {@link ErrorCode}. </p>
+	 * associated {@link ErrorCode}.
 	 *
-	 * <p> The class inherits from {@link RuntimeError}, to which it adds an {@link ErrorCode} as 
-	 * member code (and defines a specialized what member). </p>
+	 * The class inherits from {@link RuntimeError}, to which it adds an {@link ErrorCode} as 
+	 * member code (and defines a specialized what member).
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/system_error
 	 * @author Jeongho Nam <http://samchon.org>
@@ -73,12 +73,12 @@ namespace std
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Get error code. </p>
+		 * Get error code.
 		 *
-		 * <p> Returns the {@link ErrorCode} object associated with the exception. </p>
+		 * Returns the {@link ErrorCode} object associated with the exception.
 		 *
-		 * <p> This value is either the {@link ErrorCode} passed to the construction or its equivalent 
-		 * (if constructed with a value and a {@link category}. </p>
+		 * This value is either the {@link ErrorCode} passed to the construction or its equivalent 
+		 * (if constructed with a value and a {@link category}.
 		 *
 		 * @return The {@link ErrorCode} associated with the object.
 		 */
@@ -92,20 +92,20 @@ namespace std
 namespace std
 {
 	/**
-	 * <p> Error category. </p>
+	 * Error category.
 	 *
-	 * <p> This type serves as a base class for specific category types. </p>
+	 * This type serves as a base class for specific category types.
 	 *
-	 * <p> Category types are used to identify the source of an error. They also define the relation between 
+	 * Category types are used to identify the source of an error. They also define the relation between 
 	 * {@link ErrorCode} and {@link ErrorCondition}objects of its category, as well as the message set for {@link ErrorCode} 
 	 * objects.
 	 *
-	 * <p> Objects of these types have no distinct values and are not-copyable and not-assignable, and thus can only be
+	 * Objects of these types have no distinct values and are not-copyable and not-assignable, and thus can only be
 	 * passed by reference. As such, only one object of each of these types shall exist, each uniquely identifying its own 
-	 * category: all error codes and conditions of a same category shall return a reference to same object. </p>
+	 * category: all error codes and conditions of a same category shall return a reference to same object.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/error_category
 	 * @author Jeongho Nam <http://samchon.org> 
@@ -126,11 +126,11 @@ namespace std
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Return category name. </p>
+		 * Return category name.
 		 *
-		 * <p> In derived classes, the function returns a string naming the category. </p>
+		 * In derived classes, the function returns a string naming the category.
 		 *
-		 * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
+		 * In {@link ErrorCategory}, it is a pure virtual member function.
 		 *
 		 * <ul>
 		 *	<li> In the {@link GenericCategory} object, it returns <i>"generic"</i>. </li>
@@ -143,17 +143,17 @@ namespace std
 		public abstract name(): string;
 
 		/**
-		 * <p> Error message. </p>
+		 * Error message.
 		 *
-		 * <p> In derived classes, the function returns a string object with a message describing the error condition 
-		 * denoted by <i>val</i>. </p>
+		 * In derived classes, the function returns a string object with a message describing the error condition 
+		 * denoted by <i>val</i>.
 		 *
-		 * <p> In {@link ErrorCategory}, it is a pure virtual member function. </p>
+		 * In {@link ErrorCategory}, it is a pure virtual member function.
 		 *
-		 * <p> This function is called both by {@link ErrorCode.message ErrorCode.message()} and 
+		 * This function is called both by {@link ErrorCode.message ErrorCode.message()} and 
 		 * {@link ErrorCondition.message ErrorCondition.message()} to obtain the corresponding message in the 
 		 * {@link category}. Therefore, numerical values used by custom <i>error codes</i> and 
-		 * {@link ErrorCondition error conditions} should only match for a category if they describe the same error. </p>
+		 * {@link ErrorCondition error conditions} should only match for a category if they describe the same error.
 		 * 
 		 * @param val A numerical value identifying an error condition.
 		 *			  If the {@link ErrorCategory} object is the {@link GenericCategory}, this argument is equivalent to an 
@@ -167,20 +167,20 @@ namespace std
 			OPERATORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Default error condition. </p>
+		 * Default error condition.
 		 *
-		 * <p> Returns the default {@link ErrorCondition}object of this category that is associated with the 
-		 * {@link ErrorCode} identified by a value of <i>val</i>. </p>
+		 * Returns the default {@link ErrorCondition}object of this category that is associated with the 
+		 * {@link ErrorCode} identified by a value of <i>val</i>.
 		 *
-		 * <p> Its definition in the base class {@link ErrorCategory} returns the same as constructing an 
+		 * Its definition in the base class {@link ErrorCategory} returns the same as constructing an 
 		 * {@link ErrorCondition} object with:
 		 *
-		 * <p> <code>new ErrorCondition(val, *this);</code> </p>
+		 * <code>new ErrorCondition(val, *this);</code>
 		 *
-		 * <p> As a virtual member function, this behavior can be overriden in derived classes. </p>
+		 * As a virtual member function, this behavior can be overriden in derived classes.
 		 *
-		 * <p> This function is called by the default definition of member {@link equivalent equivalent()}, which is used to 
-		 * compare {@link ErrorCondition error conditions} with error codes. </p>
+		 * This function is called by the default definition of member {@link equivalent equivalent()}, which is used to 
+		 * compare {@link ErrorCondition error conditions} with error codes.
 		 *
 		 * @param val A numerical value identifying an error condition.
 		 *
@@ -192,18 +192,18 @@ namespace std
 		}
 
 		/**
-		 * <p> Check error code equivalence. </p>
+		 * Check error code equivalence.
 		 * 
-		 * <p> Checks whether, for the category, an {@link ErrorCode error code} is equivalent to an 
-		 * {@link ErrorCondition error condition. </p>
+		 * Checks whether, for the category, an {@link ErrorCode error code} is equivalent to an 
+		 * {@link ErrorCondition error condition.
 		 * 
-		 * <p> This function is called by the overloads of comparison operators when an {@link ErrorCondition} object is 
+		 * This function is called by the overloads of comparison operators when an {@link ErrorCondition} object is 
 		 * compared to an {@link ErrorCode} object to check for equality or inequality. If either one of those objects' 
 		 * {@link ErrorCategory categories} considers the other equivalent using this function, they are considered 
-		 * equivalent by the operator. </p>
+		 * equivalent by the operator.
 		 * 
-		 * <p> As a virtual member function, this behavior can be overridden in derived classes to define a different 
-		 * correspondence mechanism for each {@link ErrorCategory} type. </p>
+		 * As a virtual member function, this behavior can be overridden in derived classes to define a different 
+		 * correspondence mechanism for each {@link ErrorCategory} type.
 		 * 
 		 * @param val_code A numerical value identifying an error code.
 		 * @param cond An object of an {@link ErrorCondition} type.
@@ -213,18 +213,18 @@ namespace std
 		public equivalent(val_code: number, cond: ErrorCondition): boolean;
 
 		/**
-		 * <p> Check error code equivalence. </p>
+		 * Check error code equivalence.
 		 *
-		 * <p> Checks whether, for the category, an {@link ErrorCode error code} is equivalent to an
-		 * {@link ErrorCondition error condition. </p>
+		 * Checks whether, for the category, an {@link ErrorCode error code} is equivalent to an
+		 * {@link ErrorCondition error condition.
 		 *
-		 * <p> This function is called by the overloads of comparison operators when an {@link ErrorCondition} object is
+		 * This function is called by the overloads of comparison operators when an {@link ErrorCondition} object is
 		 * compared to an {@link ErrorCode} object to check for equality or inequality. If either one of those objects'
 		 * {@link ErrorCategory categories} considers the other equivalent using this function, they are considered
-		 * equivalent by the operator. </p>
+		 * equivalent by the operator.
 		 *
-		 * <p> As a virtual member function, this behavior can be overridden in derived classes to define a different
-		 * correspondence mechanism for each {@link ErrorCategory} type. </p>
+		 * As a virtual member function, this behavior can be overridden in derived classes to define a different
+		 * correspondence mechanism for each {@link ErrorCategory} type.
 		 * 
 		 * @param code An object of an {@link ErrorCode} type.
 		 * @param val_cond A numerical value identifying an error code.
@@ -240,14 +240,14 @@ namespace std
 				let val_code: number = args[0];
 				let cond: ErrorCondition = args[1];
 
-				return std.equal_to(this.default_error_condition(val_code), cond);
+				return equal_to(this.default_error_condition(val_code), cond);
 			}
 			else
 			{
 				let code: ErrorCode = args[0];
 				let valcond: number = args[1];
 
-				return std.equal_to(this, code.category()) && code.value() == valcond;
+				return equal_to(this, code.category()) && code.value() == valcond;
 			}
 		}
 	}
@@ -256,24 +256,24 @@ namespace std
 namespace std
 {
 	/**
-	 * <p> Error condition. </p>
+	 * Error condition.
 	 *
-	 * <p> Objects of this type hold a condition {@link value} associated with a {@link category}. </p>
+	 * Objects of this type hold a condition {@link value} associated with a {@link category}.
 	 *
-	 * <p> Objects of this type describe errors in a generic way so that they may be portable across different 
+	 * Objects of this type describe errors in a generic way so that they may be portable across different 
 	 * systems. This is in contrast with {@link ErrorCode} objects, that may contain system-specific 
-	 * information. </p>
+	 * information.
 	 *
-	 * <p> Because {@link ErrorCondition}objects can be compared with error_code objects directly by using 
+	 * Because {@link ErrorCondition}objects can be compared with error_code objects directly by using 
 	 * <code>relational operators</code>, {@link ErrorCondition}objects are generally used to check whether 
 	 * a particular {@link ErrorCode} obtained from the system matches a specific error condition no matter 
-	 * the system. </p>
+	 * the system.
 	 *
-	 * <p> The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the 
-	 * {@link ErrorCode} define the equivalences between them. </p>
+	 * The {@link ErrorCategory categories} associated with the {@link ErrorCondition} and the 
+	 * {@link ErrorCode} define the equivalences between them.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/error_condition
 	 * @author Jeongho Nam <http://samchon.org>
@@ -307,19 +307,19 @@ namespace std
 namespace std
 {
 	/**
-	 * <p> Error code. </p> 
+	 * Error code. 
 	 *
-	 * <p> Objects of this type hold an error code {@link value} associated with a {@link category}. </p>
+	 * Objects of this type hold an error code {@link value} associated with a {@link category}.
 	 *
-	 * <p> The operating system and other low-level applications and libraries generate numerical error codes to 
+	 * The operating system and other low-level applications and libraries generate numerical error codes to 
 	 * represent possible results. These numerical values may carry essential information for a specific platform, 
-	 * but be non-portable from one platform to another. </p>
+	 * but be non-portable from one platform to another.
 	 *
-	 * <p> Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they 
-	 * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}. </p>
+	 * Objects of this class associate such numerical codes to {@link ErrorCategory error categories}, so that they 
+	 * can be interpreted when needed as more abstract (and portable) {@link ErrorCondition error conditions}.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/exceptions.png" style="max-width: 100%" /> </a>
 	 * 
 	 * @reference http://www.cplusplus.com/reference/system_error/error_code
 	 * @author Jeongho Nam <http://samchon.org>

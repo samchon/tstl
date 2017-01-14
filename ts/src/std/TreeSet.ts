@@ -4,35 +4,35 @@
 
 namespace std.TreeSet
 {
-	export type iterator<T> = std.SetIterator<T>;
-	export type reverse_iterator<T> = std.SetReverseIterator<T>;
+	export type iterator<T> = SetIterator<T>;
+	export type reverse_iterator<T> = SetReverseIterator<T>;
 }
 
 namespace std
 {
 	/**
-	 * <p> Tree-structured set, <code>std::set</code> of STL. </p>
+	 * Tree-structured set, <code>std::set</code> of STL.
 	 *
-	 * <p> {@link TreeSet}s are containers that store unique elements following a specific order. </p>
+	 * {@link TreeSet}s are containers that store unique elements following a specific order.
 	 *
-	 * <p> In a {@link TreeSet}, the value of an element also identifies it (the value is itself the 
+	 * In a {@link TreeSet}, the value of an element also identifies it (the value is itself the 
 	 * <i>key</i>, of type <i>T</i>), and each value must be unique. The value of the elements in a 
 	 * {@link TreeSet} cannot be modified once in the container (the elements are always const), but they 
-	 * can be inserted or removed from the container. </p>
+	 * can be inserted or removed from the container.
 	 *
-	 * <p> Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak 
-	 * ordering criterion indicated by its internal comparison method (of {@link less}). </p>
+	 * Internally, the elements in a {@link TreeSet} are always sorted following a specific strict weak 
+	 * ordering criterion indicated by its internal comparison method (of {@link less}).
 	 *
-	 * <p> {@link TreeSet} containers are generally slower than {@link HashSet} containers to access 
+	 * {@link TreeSet} containers are generally slower than {@link HashSet} containers to access 
 	 * individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on their 
-	 * order. </p>
+	 * order.
 	 *
-	 * <p> {@link TreeSet}s are typically implemented as binary search trees. </p>
+	 * {@link TreeSet}s are typically implemented as binary search trees.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /> </a></p>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> 
@@ -196,7 +196,7 @@ namespace std
 		{
 			let node = this.tree_.find(val);
 
-			if (node == null || std.equal_to(node.value.value, val) == false)
+			if (node == null || equal_to(node.value.value, val) == false)
 				return this.end();
 			else
 				return node.value;
@@ -258,7 +258,7 @@ namespace std
 			let node = this.tree_.find(val);
 
 			// IF EQUALS, THEN RETURN FALSE
-			if (node != null && std.equal_to(node.value.value, val) == true)
+			if (node != null && equal_to(node.value.value, val) == true)
 				return make_pair(node.value, false);
 			
 			// FIND NODE
@@ -348,17 +348,17 @@ namespace std
 			SWAP
 		--------------------------------------------------------- */
 		/**
-		 * <p> Swap content. </p>
+		 * Swap content.
 		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link TreeSet set} of the same type. Sizes abd container type may differ. </p>
+		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link TreeSet set} of the same type. Sizes abd container type may differ.
 		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were 
+		 * After the call to this member function, the elements in this container are those which were 
 		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
-		 * iterators, references and pointers remain valid for the swapped objects. </p>
+		 * iterators, references and pointers remain valid for the swapped objects.
 		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
+		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function.
 		 * 
 		 * @param obj Another {@link TreeSet set container} of the same type of elements as this (i.e.,
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 

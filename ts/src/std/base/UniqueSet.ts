@@ -5,23 +5,23 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract set. </p>
+	 * An abstract set.
 	 *
-	 * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of 
-	 * individual elements based on their value. </p>
+	 * {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of 
+	 * individual elements based on their value.
 	 *
-	 * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to uniquely
+	 * In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to uniquely
 	 * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be modified 
-	 * once in the container - they can be inserted and removed, though. </p>
+	 * once in the container - they can be inserted and removed, though.
 	 *
-	 * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+	 * {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index 
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> 
@@ -59,16 +59,16 @@ namespace std.base
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
-		 * the number of element inserted (zero or one). </p>
+		 * Extends the container by inserting new elements, effectively increasing the container {@link size} by 
+		 * the number of element inserted (zero or one).
 		 *
-		 * <p> Because elements in a {@link UniqueSet UniqueSets} are unique, the insertion operation checks whether 
+		 * Because elements in a {@link UniqueSet UniqueSets} are unique, the insertion operation checks whether 
 		 * each inserted element is equivalent to an element already in the container, and if so, the element is not 
-		 * inserted, returning an iterator to this existing element (if the function returns a value). </p>
+		 * inserted, returning an iterator to this existing element (if the function returns a value).
 		 *
-		 * <p> For a similar container allowing for duplicate elements, see {@link MultiSet}. </p>
+		 * For a similar container allowing for duplicate elements, see {@link MultiSet}.
 		 * 
 		 * @param key Value to be inserted as an element.
 		 *
@@ -104,9 +104,9 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * <p> Extract an element. </p>
+		 * Extract an element.
 		 *
-		 * <p> Extracts the element pointed to by <i>val</i> and erases it from the {@link UniqueSet}. </p>
+		 * Extracts the element pointed to by <i>val</i> and erases it from the {@link UniqueSet}.
 		 * 
 		 * @param val Value to be extracted.
 		 * 
@@ -115,9 +115,9 @@ namespace std.base
 		public extract(val: T): T;
 
 		/**
-		 * <p> Extract an element. </p>
+		 * Extract an element.
 		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 * Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}.
 		 *
 		 * @param it An iterator pointing an element to extract.
 		 * 
@@ -127,9 +127,9 @@ namespace std.base
 		public extract(it: SetIterator<T>): SetIterator<T>;
 
 		/**
-		 * <p> Extract an element. </p>
+		 * Extract an element.
 		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 * Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}.
 		 *
 		 * @param it An iterator pointing an element to extract.
 		 * 

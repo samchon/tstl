@@ -16,7 +16,6 @@ namespace std
 {
 }
 
-
 /**
  * Base classes composing STL in background.
  *

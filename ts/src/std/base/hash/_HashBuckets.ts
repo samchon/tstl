@@ -85,7 +85,7 @@ namespace std.base
 
 		public hash_index(val: T): number
 		{
-			return std.hash(val) % this.buckets_.size();
+			return hash(val) % this.buckets_.size();
 		}
 
 		/* ---------------------------------------------------------

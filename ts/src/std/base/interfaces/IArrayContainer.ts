@@ -1,39 +1,39 @@
 ﻿namespace std.base
 {
 	/**
-	 * <p> Array Container. </p>
+	 * Array Container.
 	 *
-	 * <p> {@link IArrayContainer} is an interface for sequence containers representing <i>arrays</i> that can change in 
+	 * {@link IArrayContainer} is an interface for sequence containers representing <i>arrays</i> that can change in 
 	 * {@link size}. However, compared to <i>arrays</i>, {@link IArrayContainer} objectss consume more memory in exchange for 
-	 * the ability to manage storage and grow dynamically in an efficient way. </p> </p>
+	 * the ability to manage storage and grow dynamically in an efficient way.
 	 * 
-	 * <p> Both {@link Vector Vectors} and {@link Deque Deques} who implemented {@link IArrayContainer} provide a very 
+	 * Both {@link Vector Vectors} and {@link Deque Deques} who implemented {@link IArrayContainer} provide a very 
 	 * similar interface and can be used for similar purposes, but internally both work in quite different ways: 
 	 * While {@link Vector Vectors} use a single array that needs to be occasionally reallocated for growth, the 
 	 * elements of a {@link Deque} can be scattered in different chunks of storage, with the container keeping the 
 	 * necessary information internally to provide direct access to any of its elements in constant time and with a 
 	 * uniform sequential interface (through iterators). Therefore, {@link Deque Deques} are a little more complex 
 	 * internally than {@link Vector Vectors}, but this allows them to grow more efficiently under certain 
-	 * circumstances, especially with very long sequences, where reallocations become more expensive. </p>
+	 * circumstances, especially with very long sequences, where reallocations become more expensive.
 	 * 
-	 * <p> Both {@link Vector Vectors} and {@link Deque Deques} provide a very similar interface and can be used for 
+	 * Both {@link Vector Vectors} and {@link Deque Deques} provide a very similar interface and can be used for 
 	 * similar purposes, but internally both work in quite different ways: While {@link Vector Vectors} use a single 
 	 * array that needs to be occasionally reallocated for growth, the elements of a {@link Deque} can be scattered 
 	 * in different chunks of storage, with the container keeping the necessary information internally to provide 
 	 * direct access to any of its elements in constant time and with a uniform sequential interface (through 
 	 * iterators). Therefore, {@link Deque Deques} are a little more complex internally than {@link Vector Vectors}, 
 	 * but this allows them to grow more efficiently under certain circumstances, especially with very long 
-	 * sequences, where reallocations become more expensive. </p>
+	 * sequences, where reallocations become more expensive.
 	 *
-	 * <p> For operations that involve frequent insertion or removals of elements at positions other than the 
+	 * For operations that involve frequent insertion or removals of elements at positions other than the 
 	 * beginning or the end, {@link IArrayContainer} objects perform worse and have less consistent iterators and references 
-	 * than {@link List Lists} </p>.
+	 * than {@link List Lists}.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> 
-	 * </a> </p>
+	 * </a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Sequence </dt>
 	 *	<dd>
@@ -59,12 +59,12 @@
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Access element. </p>
-		 * <p> Returns a value to the element at position <i>index</i> in the {@link IArrayContainer container}.</p>
+		 * Access element.
+		 * Returns a value to the element at position <i>index</i> in the {@link IArrayContainer container}.</p>
 		 *
-		 * <p> The function automatically checks whether <i>index</i> is within the bounds of valid elements 
+		 * The function automatically checks whether <i>index</i> is within the bounds of valid elements 
 		 * in the {@link IArrayContainer container}, throwing an {@link OutOfRange} exception if it is not (i.e., 
-		 * if <i>index</i> is greater or equal than its {@link size}). </p>
+		 * if <i>index</i> is greater or equal than its {@link size}).
 		 *
 		 * @param index Position of an element in the 
 		 *				If this is greater than or equal to the {@link IArrayContainer container} {@link size}, an 
@@ -76,13 +76,13 @@
 		at(index: number): T;
 
 		/**
-		 * <p> Modify element. </p>
-		 * <p> Replaces an element at the specified position (<i>index</i>) in this {@link IArrayContainer container} 
-		 * with the specified element (<i>val</i>). </p>
+		 * Modify element.
+		 * Replaces an element at the specified position (<i>index</i>) in this {@link IArrayContainer container} 
+		 * with the specified element (<i>val</i>).
 		 *
-		 * <p> The function automatically checks whether <i>index</i> is within the bounds of valid elements 
+		 * The function automatically checks whether <i>index</i> is within the bounds of valid elements 
 		 * in the {@link IArrayContainer container}, throwing an {@link OutOfRange} exception if it is not (i.e., if 
-		 * <i>index</i> is greater or equal than its {@link size}). </p>
+		 * <i>index</i> is greater or equal than its {@link size}).
 		 * 
 		 * @.param index A specified position of the value to replace.
 		 * @param val A value to be stored at the specified position.
@@ -93,21 +93,20 @@
 	}
 
 	/**
-	 * <p> Random-access iterator. </p>
+	 * Random-access iterator.
 	 *
-	 * <p> {@link IArrayIterator Random-access iterators} are iterators that can be used to access elements at an 
+	 * {@link IArrayIterator Random-access iterators} are iterators that can be used to access elements at an 
 	 * arbitrary offset position relative to the element they point to, offering the same functionality as pointers.
-	 * </p>
 	 *
-	 * <p> {@link IArrayIterator Random-access iterators} are the most complete iterators in terms of functionality. 
-	 * All pointer types are also valid {@link IArrayIterator random-access iterators}. </p>
+	 * {@link IArrayIterator Random-access iterators} are the most complete iterators in terms of functionality. 
+	 * All pointer types are also valid {@link IArrayIterator random-access iterators}.
 	 *
-	 * <p> There is not a single type of {@link IArrayIterator random-access iterator}: Each container may define its 
-	 * own specific iterator type able to iterate through it and access its elements. </p>
+	 * There is not a single type of {@link IArrayIterator random-access iterator}: Each container may define its 
+	 * own specific iterator type able to iterate through it and access its elements.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" style="max-width: 100%" /> 
-	 * </a> </p>
+	 * </a>
 	 *
 	 * @reference http://www.cplusplus.com/reference/iterator/RandomAccessIterator
 	 * @author Jeongho Nam <http://samchon.org>

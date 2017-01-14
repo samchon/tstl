@@ -5,23 +5,23 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract set. </p>
+	 * An abstract set.
 	 *
-	 * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of 
-	 * individual elements based on their value. </p>
+	 * {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of 
+	 * individual elements based on their value.
 	 *
-	 * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
+	 * In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
 	 * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
-	 * modified once in the container - they can be inserted and removed, though. </p>
+	 * modified once in the container - they can be inserted and removed, though.
 	 *
-	 * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+	 * {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index 
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> 
@@ -42,12 +42,12 @@ namespace std.base
 		extends Container<T>
 	{
 		/**
-		 * <p> {@link List} storing elements. </p>
+		 * {@link List} storing elements.
 		 *
-		 * <p> Storing elements and keeping those sequence of the {@link SetContainer} are implemented by 
+		 * Storing elements and keeping those sequence of the {@link SetContainer} are implemented by 
 		 * {@link data_ this list container}. Implementing index-table is also related with {@link data_ this list} 
 		 * by storing {@link ListIterator iterators} ({@link SetIterator} references {@link ListIterator}) who are 
-		 * created from {@link data_ here}. </p>
+		 * created from {@link data_ here}.
 		 */
 		private data_: _SetElementList<T>;
 		
@@ -92,13 +92,13 @@ namespace std.base
 			ITERATOR
 		--------------------------------------------------------- */
 		/**
-		 * <p> Get iterator to element. </p>
+		 * Get iterator to element.
 		 * 
-		 * <p> Searches the container for an element with <i>key</i> as value and returns an iterator to it if found, 
-		 * otherwise it returns an iterator to {@link end end()} (the element past the end of the container). </p>
+		 * Searches the container for an element with <i>key</i> as value and returns an iterator to it if found, 
+		 * otherwise it returns an iterator to {@link end end()} (the element past the end of the container).
 		 *
-		 * <p> Another member function, {@link count count()}, can be used to just check whether a particular element
-		 * exists. </p>
+		 * Another member function, {@link count count()}, can be used to just check whether a particular element
+		 * exists.
 		 *
 		 * @param key Key to be searched for.
 		 *
@@ -143,9 +143,9 @@ namespace std.base
 			ELEMENTS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Whether have the item or not. </p>
+		 * Whether have the item or not.
 		 * 
-		 * <p> Indicates whether a set has an item having the specified identifier. </p>
+		 * Indicates whether a set has an item having the specified identifier.
 		 *
 		 * @param key Key value of the element whose mapped value is accessed.
 		 *
@@ -157,9 +157,9 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Count elements with a specific key. </p>
+		 * Count elements with a specific key.
 		 * 
-		 * <p> Searches the container for elements with a value of k and returns the number of elements found. </p>
+		 * Searches the container for elements with a value of k and returns the number of elements found.
 		 *
 		 * @param key Value of the elements to be counted.
 		 *
@@ -205,10 +205,10 @@ namespace std.base
 		}
 		
 		/**
-		 * <p> Insert an element with hint. </p>
+		 * Insert an element with hint.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container size by the 
-		 * number of elements inserted. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container size by the 
+		 * number of elements inserted.
 		 *
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param val Value to be inserted as an element.
@@ -219,10 +219,10 @@ namespace std.base
 		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
 
 		/**
-		 * <p> Insert an element with hint. </p>
+		 * Insert an element with hint.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container size by the 
-		 * number of elements inserted. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container size by the 
+		 * number of elements inserted.
 		 *
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param val Value to be inserted as an element.
@@ -233,10 +233,10 @@ namespace std.base
 		public insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
 
 		/**
-		 * <p> Insert elements with a range of a  </p>
+		 * Insert elements with a range of a 
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container size by the 
-		 * number of elements inserted. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container size by the 
+		 * number of elements inserted.
 		 *
 		 * @param begin An iterator specifying range of the begining element.
 		 * @param end An iterator specifying range of the ending element.
@@ -300,10 +300,10 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * <p> Erase an element. </p>
-		 * <p> Removes from the set container the elements whose value is <i>key</i>. </p>
+		 * Erase an element.
+		 * Removes from the set container the elements whose value is <i>key</i>.
 		 *
-		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 * This effectively reduces the container size by the number of elements removed.
 		 *
 		 * @param key Value of the elements to be erased.
 		 *
@@ -317,10 +317,10 @@ namespace std.base
 		public erase(it: SetIterator<T>): SetIterator<T>;
 
 		/**
-		 * <p> Erase elements. </p>
-		 * <p> Removes from the set container a range of elements.. </p>
+		 * Erase elements.
+		 * Removes from the set container a range of elements..
 		 *
-		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 * This effectively reduces the container size by the number of elements removed.
 		 *
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
@@ -333,10 +333,10 @@ namespace std.base
 		public erase(it: SetReverseIterator<T>): SetReverseIterator<T>;
 
 		/**
-		 * <p> Erase elements. </p>
-		 * <p> Removes from the set container a range of elements.. </p>
+		 * Erase elements.
+		 * Removes from the set container a range of elements..
 		 *
-		 * <p> This effectively reduces the container size by the number of elements removed. </p>
+		 * This effectively reduces the container size by the number of elements removed.
 		 *
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
@@ -489,10 +489,10 @@ namespace std.base
 namespace std
 {
 	/**
-	 * <p> An iterator of a Set. </p>
+	 * An iterator of a Set.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a>
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -504,11 +504,12 @@ namespace std
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Construct from source and index number. </p>
+		 * Construct from source and index number.
 		 *
-		 * <h4> Note </h4>
-		 * <p> Do not create iterator directly. </p>
-		 * <p> Use begin(), find() or end() in Map instead. </p> 
+		 * #### Note
+		 * Do not create iterator directly.
+		 * 
+		 * Use begin(), find() or end() in Map instead. 
 		 *
 		 * @param map The source Set to reference.
 		 * @param index Sequence number of the element in the source Set.
@@ -561,7 +562,7 @@ namespace std
 		 */
 		public less(obj: SetIterator<T>): boolean
 		{
-			return std.less(this.value, obj.value);
+			return less(this.value, obj.value);
 		}
 		
 		/**
@@ -577,7 +578,7 @@ namespace std
 		 */
 		public hashCode(): number
 		{
-			return std.hash(this.value);
+			return hash(this.value);
 		}
 
 		/**
@@ -590,10 +591,10 @@ namespace std
 	}
 
 	/**
-	 * <p> A reverse-iterator of Set. </p>
+	 * A reverse-iterator of Set.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/class_diagram/set_containers.png" style="max-width: 100%" /></a>
 	 *
 	 * @param <T> Type of the elements.
 	 *

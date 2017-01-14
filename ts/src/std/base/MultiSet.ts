@@ -5,23 +5,23 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract set. </p>
+	 * An abstract set.
 	 *
-	 * <p> {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of 
-	 * individual elements based on their value. </p>
+	 * {@link SetContainer SetContainers} are containers that store elements allowing fast retrieval of 
+	 * individual elements based on their value.
 	 *
-	 * <p> In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
+	 * In an {@link SetContainer}, the value of an element is at the same time its <i>key</i>, used to
 	 * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
-	 * modified once in the container - they can be inserted and removed, though. </p>
+	 * modified once in the container - they can be inserted and removed, though.
 	 *
-	 * <p> {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+	 * {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index 
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd>
@@ -48,10 +48,10 @@ namespace std.base
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
-		 * the number of elements inserted. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container {@link size} by 
+		 * the number of elements inserted.
 		 * 
 		 * @param key Value to be inserted as an element.
 		 *

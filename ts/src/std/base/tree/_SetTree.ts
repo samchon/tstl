@@ -19,7 +19,7 @@ namespace std.base
 		/**
 		 * Default Constructor.
 		 */
-        public constructor(set: ITreeSet<T>, compare: (x: T, y: T) => boolean = std.less)
+        public constructor(set: ITreeSet<T>, compare: (x: T, y: T) => boolean = less)
 		{
 			super();
 
@@ -53,7 +53,7 @@ namespace std.base
 			{
 				let newNode: _XTreeNode<SetIterator<T>> = null;
 
-				if (std.equal_to(val, node.value.value))
+				if (equal_to(val, node.value.value))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
 				else if (this.compare_(val, node.value.value))
 					newNode = node.left; // LESS, THEN TO THE LEFT
@@ -76,16 +76,16 @@ namespace std.base
 		--------------------------------------------------------- */
 		public lower_bound(val: T): SetIterator<T>
 		{
-			let node: base._XTreeNode<SetIterator<T>> = this.find(val);
+			let node: _XTreeNode<SetIterator<T>> = this.find(val);
 
 			if (node == null)
 				return this.set_.end();
-			else if (std.equal_to(node.value.value, val))
+			else if (equal_to(node.value.value, val))
 				return node.value;
 			else
 			{
 				let it: SetIterator<T> = node.value;
-				while (!std.equal_to(it, this.set_.end()) && this.compare_(it.value, val))
+				while (!equal_to(it, this.set_.end()) && this.compare_(it.value, val))
 					it = it.next();
 
 				return it;
@@ -94,14 +94,14 @@ namespace std.base
 
 		public upper_bound(val: T): SetIterator<T>
 		{
-			let node: base._XTreeNode<SetIterator<T>> = this.find(val);
+			let node: _XTreeNode<SetIterator<T>> = this.find(val);
 
 			if (node == null)
 				return this.set_.end();
 			else
 			{
 				let it: SetIterator<T> = node.value;
-				while (!std.equal_to(it, this.set_.end()) && (std.equal_to(it.value, val) || this.compare_(it.value, val)))
+				while (!equal_to(it, this.set_.end()) && (equal_to(it.value, val) || this.compare_(it.value, val)))
 					it = it.next();
 
 				return it;
@@ -110,7 +110,7 @@ namespace std.base
 
 		public equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>
 		{
-			return std.make_pair(this.lower_bound(val), this.upper_bound(val));
+			return make_pair(this.lower_bound(val), this.upper_bound(val));
 		}
 
 		/* ---------------------------------------------------------
@@ -128,7 +128,7 @@ namespace std.base
 
 		public is_equal_to(left: SetIterator<T>, right: SetIterator<T>): boolean
 		{
-			return std.equal_to(left, right);
+			return equal_to(left, right);
         }
 
 		public is_less(left: SetIterator<T>, right: SetIterator<T>): boolean

@@ -5,27 +5,27 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract map. </p>
+	 * An abstract map.
 	 *
-	 * <p> {@link MapContainer MapContainers} are associative containers that store elements formed by a combination 
+	 * {@link MapContainer MapContainers} are associative containers that store elements formed by a combination 
 	 * of a <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval 
-	 * of individual elements based on their keys. </p>
+	 * of individual elements based on their keys.
 	 *
-	 * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the 
+	 * In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the 
 	 * <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and 
 	 * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a 
-	 * {@link Pair} type combining both: </p>
+	 * {@link Pair} type combining both:
 	 *
-	 * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+	 * <code>typedef pair<const Key, T> value_type;</code>
 	 *
-	 * <p> {@link MapContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
+	 * {@link MapContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> 
@@ -94,16 +94,16 @@ namespace std.base
 			ITERATOR
 		--------------------------------------------------------- */
 		/**
-		 * <p> Get iterator to element. </p>
+		 * Get iterator to element.
 		 * 
-		 * <p> Searches the container for an element with a identifier equivalent to <i>key</i> and returns an 
-		 * iterator to it if found, otherwise it returns an iterator to {@link end end()}. </p>
+		 * Searches the container for an element with a identifier equivalent to <i>key</i> and returns an 
+		 * iterator to it if found, otherwise it returns an iterator to {@link end end()}.
 		 *
-		 * <p> Two keys are considered equivalent if the container's comparison object returns false reflexively 
-		 * (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 * Two keys are considered equivalent if the container's comparison object returns false reflexively 
+		 * (i.e., no matter the order in which the elements are passed as arguments).
 		 *
-		 * <p> Another member functions, {@link has has()} and {@link count count()}, can be used to just check 
-		 * whether a particular <i>key</i> exists. </p>
+		 * Another member functions, {@link has has()} and {@link count count()}, can be used to just check 
+		 * whether a particular <i>key</i> exists.
 		 *
 		 * @param key Key to be searched for
 		 * @return An iterator to the element, if an element with specified <i>key</i> is found, or 
@@ -112,12 +112,12 @@ namespace std.base
 		public abstract find(key: Key): MapIterator<Key, T>;
 
 		/**
-		 * <p> Return iterator to beginning. </p>
+		 * Return iterator to beginning.
 		 * 
-		 * <p> Returns an iterator referring the first element in the  </p>
+		 * Returns an iterator referring the first element in the 
 		 *
-		 * <h4> Note </h4>
-		 * <p> If the container is {@link empty}, the returned iterator is same with {@link end end()}. </p>
+		 * #### Note
+		 * If the container is {@link empty}, the returned iterator is same with {@link end end()}.
 		 *
 		 * @return An iterator to the first element in the  The iterator containes the first element's value.
 		 */
@@ -127,21 +127,21 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Return iterator to end. </p>
-		 * <p> Returns an iterator referring to the past-the-end element in the  </p>
+		 * Return iterator to end.
+		 * Returns an iterator referring to the past-the-end element in the 
 		 *
-		 * <p> The past-the-end element is the theoretical element that would follow the last element in the 
-		 *  It does not point to any element, and thus shall not be dereferenced. </p>
+		 * The past-the-end element is the theoretical element that would follow the last element in the 
+		 *  It does not point to any element, and thus shall not be dereferenced.
 		 *
-		 * <p> Because the ranges used by functions of the container do not include the element reference by their 
+		 * Because the ranges used by functions of the container do not include the element reference by their 
 		 * closing iterator, this function is often used in combination with {@link MapContainer}.{@link begin} to 
-		 * specify a range including all the elements in the  </p>
+		 * specify a range including all the elements in the 
 		 *
-		 * <h4> Note </h4>
-		 * <p> Returned iterator from {@link MapContainer}.{@link end} does not refer any element. Trying to accessing 
-		 * element by the iterator will cause throwing exception ({@link OutOfRange}). </p>
+		 * #### Note
+		 * Returned iterator from {@link MapContainer}.{@link end} does not refer any element. Trying to accessing 
+		 * element by the iterator will cause throwing exception ({@link OutOfRange}).
 		 * 
-		 * <p> If the container is {@link empty}, this function returns the same as {@link begin}. </p>
+		 * If the container is {@link empty}, this function returns the same as {@link begin}.
 		 * 
 		 * @return An iterator to the end element in the 
 		 */
@@ -151,16 +151,16 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse beginning</i>. </p>
+		 * Return {@link MapReverseIterator reverse iterator} to <i>reverse beginning</i>.
 		 * 
-		 * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the last element in the container 
-		 * (i.e., its <i>reverse beginning</i>). </p>
+		 * Returns a {@link MapReverseIterator reverse iterator} pointing to the last element in the container 
+		 * (i.e., its <i>reverse beginning</i>).
 		 * 
 		 * {@link MapReverseIterator Reverse iterators} iterate backwards: increasing them moves them towards the 
-		 * beginning of the container. </p>
+		 * beginning of the container.
 		 * 
-		 * <p> {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}. 
-		 * </p>7
+		 * {@link rbegin} points to the element preceding the one that would be pointed to by member {@link end}. 
+		 *7
 		 *
 		 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence 
 		 *		   
@@ -171,14 +171,14 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>. </p>
+		 * Return {@link MapReverseIterator reverse iterator} to <i>reverse end</i>.
 		 * 
-		 * <p> Returns a {@link MapReverseIterator reverse iterator} pointing to the theoretical element right before 
+		 * Returns a {@link MapReverseIterator reverse iterator} pointing to the theoretical element right before 
 		 * the first element in the {@link MapContainer map container} (which is considered its <i>reverse end</i>). 
-		 * </p>
+		 *
 		 * 
-		 * <p> The range between {@link MapContainer}.{@link rbegin} and {@link MapContainer}.{@link rend} contains 
-		 * all the elements of the container (in reverse order). </p>
+		 * The range between {@link MapContainer}.{@link rbegin} and {@link MapContainer}.{@link rend} contains 
+		 * all the elements of the container (in reverse order).
 		 * 
 		 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence 
 		 */
@@ -191,9 +191,9 @@ namespace std.base
 			ELEMENTS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Whether have the item or not. </p>
+		 * Whether have the item or not.
 		 * 
-		 * <p> Indicates whether a map has an item having the specified identifier. </p>
+		 * Indicates whether a map has an item having the specified identifier.
 		 *
 		 * @param key Key value of the element whose mapped value is accessed.
 		 *
@@ -205,9 +205,9 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Count elements with a specific key. </p>
+		 * Count elements with a specific key.
 		 * 
-		 * <p> Searches the container for elements whose key is <i>key</i> and returns the number of elements found. </p>
+		 * Searches the container for elements whose key is <i>key</i> and returns the number of elements found.
 		 *
 		 * @param key Key value to be searched for.
 		 *
@@ -345,10 +345,10 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 * 
-		 * <p> Extends the container by inserting a new element, effectively increasing the container {@link size} 
-		 * by the number of element inserted (zero or one). </p>
+		 * Extends the container by inserting a new element, effectively increasing the container {@link size} 
+		 * by the number of element inserted (zero or one).
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
@@ -361,10 +361,10 @@ namespace std.base
 		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 * 
-		 * <p> Extends the container by inserting a new element, effectively increasing the container {@link size} 
-		 * by the number of element inserted (zero or one). </p>
+		 * Extends the container by inserting a new element, effectively increasing the container {@link size} 
+		 * by the number of element inserted (zero or one).
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
@@ -377,10 +377,10 @@ namespace std.base
 		public insert(hint: MapReverseIterator<Key, T>, pair: Pair<Key, T>): MapReverseIterator<Key, T>;
 		
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} 
-		 * by the number of elements inserted. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container {@link size} 
+		 * by the number of elements inserted.
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
@@ -392,10 +392,10 @@ namespace std.base
 			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} 
-		 * by the number of elements inserted. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container {@link size} 
+		 * by the number of elements inserted.
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
@@ -407,10 +407,10 @@ namespace std.base
 			(hint: MapReverseIterator<Key, T>, tuple: [L, U]): MapReverseIterator<Key, T>;
 		
 		/**
-		 * <p> Insert elements from range iterators. </p>
+		 * Insert elements from range iterators.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
-		 * the number of elements inserted. </p> 
+		 * Extends the container by inserting new elements, effectively increasing the container {@link size} by 
+		 * the number of elements inserted. 
 		 *
 		 * @param begin Input iterator specifying initial position of a range of elements.
 		 * @param end Input iterator specifying final position of a range of elements.
@@ -496,36 +496,36 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * <p> Erase an elemet by key. </p>
+		 * Erase an elemet by key.
 		 *
-		 * <p> Removes from the {@link MapContainer map container} a single element. </p>
+		 * Removes from the {@link MapContainer map container} a single element.
 		 *
-		 * <p> This effectively reduces the container {@link size} by the number of element removed (zero or one), 
-		 * which are destroyed. </p>
+		 * This effectively reduces the container {@link size} by the number of element removed (zero or one), 
+		 * which are destroyed.
 		 * 
 		 * @param key Key of the element to be removed from the {@link MapContainer}.
 		 */
 		public erase(key: Key): number;
 		
 		/**
-		 * <p> Erase an elemet by iterator. </p>
+		 * Erase an elemet by iterator.
 		 *
-		 * <p> Removes from the {@link MapContainer map container} a single element. </p>
+		 * Removes from the {@link MapContainer map container} a single element.
 		 *
-		 * <p> This effectively reduces the container {@link size} by the number of element removed (zero or one), 
-		 * which are destroyed. </p>
+		 * This effectively reduces the container {@link size} by the number of element removed (zero or one), 
+		 * which are destroyed.
 		 * 
 		 * @param it Iterator specifying position winthin the {@link MapContainer map contaier} to be removed.
 		 */
 		public erase(it: MapIterator<Key, T>): MapIterator<Key, T>;
 		
 		/**
-		 * <p> Erase elements by range iterators. </p>
+		 * Erase elements by range iterators.
 		 *
-		 * <p> Removes from the {@link MapContainer map container} a range of elements. </p>
+		 * Removes from the {@link MapContainer map container} a range of elements.
 		 *
-		 * <p> This effectively reduces the container {@link size} by the number of elements removed, which are 
-		 * destroyed. </p>
+		 * This effectively reduces the container {@link size} by the number of elements removed, which are 
+		 * destroyed.
 		 * 
 		 * @param begin An iterator specifying initial position of a range within {@link MApContainer map container}
 		 *				to be removed.
@@ -537,24 +537,24 @@ namespace std.base
 		public erase(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>;
 
 		/**
-		 * <p> Erase an elemet by iterator. </p>
+		 * Erase an elemet by iterator.
 		 *
-		 * <p> Removes from the {@link MapContainer map container} a single element. </p>
+		 * Removes from the {@link MapContainer map container} a single element.
 		 *
-		 * <p> This effectively reduces the container {@link size} by the number of element removed (zero or one), 
-		 * which are destroyed. </p>
+		 * This effectively reduces the container {@link size} by the number of element removed (zero or one), 
+		 * which are destroyed.
 		 * 
 		 * @param it Iterator specifying position winthin the {@link MapContainer map contaier} to be removed.
 		 */
 		public erase(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
 
 		/**
-		 * <p> Erase elements by range iterators. </p>
+		 * Erase elements by range iterators.
 		 *
-		 * <p> Removes from the {@link MapContainer map container} a range of elements. </p>
+		 * Removes from the {@link MapContainer map container} a range of elements.
 		 *
-		 * <p> This effectively reduces the container {@link size} by the number of elements removed, which are 
-		 * destroyed. </p>
+		 * This effectively reduces the container {@link size} by the number of elements removed, which are 
+		 * destroyed.
 		 * 
 		 * @param begin An iterator specifying initial position of a range within {@link MApContainer map container}
 		 *				to be removed.
@@ -710,10 +710,10 @@ namespace std.base
 namespace std
 {
 	/**
-	 * <p> An iterator of {@link MapContainer map container}. </p>
+	 * An iterator of {@link MapContainer map container}.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
@@ -808,7 +808,7 @@ namespace std
 		 */
 		public less(obj: MapIterator<Key, T>): boolean
 		{
-			return std.less(this.first, obj.first);
+			return less(this.first, obj.first);
 		}
 		
 		/**
@@ -824,7 +824,7 @@ namespace std
 		 */
 		public hashCode(): number
 		{
-			return std.hash(this.first);
+			return hash(this.first);
 		}
 
 		/**
@@ -837,10 +837,10 @@ namespace std
 	}
 
 	/**
-	 * <p> A reverse-iterator of {@link MapContainer map container}. </p>
+	 * A reverse-iterator of {@link MapContainer map container}.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a>
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

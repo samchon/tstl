@@ -5,27 +5,27 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract multi-map. </p>
+	 * An abstract multi-map.
 	 *
-	 * <p> {@link MultiMap MultiMaps} are associative containers that store elements formed by a combination of a
+	 * {@link MultiMap MultiMaps} are associative containers that store elements formed by a combination of a
 	 * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of
-	 * individual elements based on their keys. </p>
+	 * individual elements based on their keys.
 	 *
-	 * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the 
+	 * In a {@link MapContainer}, the <i>key values</i> are generally used to identify the elements, while the 
 	 * <i>mapped values</i> store the content associated to this <i>key</i>. The types of <i>key</i> and 
 	 * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a 
-	 * {@link Pair} type combining both: </p>
+	 * {@link Pair} type combining both:
 	 *
-	 * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+	 * <code>typedef pair<const Key, T> value_type;</code>
 	 *
-	 * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+	 * {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd>
@@ -95,14 +95,14 @@ namespace std.base
 			if (args.length == 1)
 				return this._Insert_by_pair(args[0]);
 			else
-				return this._Insert_by_pair(std.make_pair<Key, T>(args[0], args[1]));
+				return this._Insert_by_pair(make_pair<Key, T>(args[0], args[1]));
 		}
 
 		/**
-		 * <p> Insert elements. </p>
+		 * Insert elements.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
-		 * the number of elements inserted. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container {@link size} by 
+		 * the number of elements inserted.
 		 * 
 		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
 		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
@@ -113,10 +113,10 @@ namespace std.base
 		public insert(pair: Pair<Key, T>): MapIterator<Key, T>;
 
 		/**
-		 * <p> Insert elements. </p>
+		 * Insert elements.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
-		 * the number of elements inserted. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container {@link size} by 
+		 * the number of elements inserted.
 		 * 
 		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
 		 *

@@ -1,28 +1,28 @@
 ﻿namespace std.base
 {
 	/**
-	 * <p> A common interface for tree-structured set. </p>
+	 * A common interface for tree-structured set.
 	 *
-	 * <p> {@link ITreeSet TreeMultiSets} are containers that store elements following a specific order. </p>
+	 * {@link ITreeSet TreeMultiSets} are containers that store elements following a specific order.
 	 *
-	 * <p> In a {@link ITreeSet}, the value of an element also identifies it (the value is itself 
+	 * In a {@link ITreeSet}, the value of an element also identifies it (the value is itself 
 	 * the <i>key</i>, of type <i>T</i>). The value of the elements in a {@link ITreeSet} cannot 
 	 * be modified once in the container (the elements are always const), but they can be inserted or removed 
-	 * from the  </p>
+	 * from the 
 	 *
-	 * <p> Internally, the elements in a {@link ITreeSet TreeMultiSets} are always sorted following a strict 
-	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}). </p>
+	 * Internally, the elements in a {@link ITreeSet TreeMultiSets} are always sorted following a strict 
+	 * weak ordering criterion indicated by its internal comparison method (of {@link IComparable.less less}).
 	 *
-	 * <p> {@link ITreeSet} containers are generally slower than {@link IHashSet} containers 
+	 * {@link ITreeSet} containers are generally slower than {@link IHashSet} containers 
 	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based on 
-	 * their order. </p>
+	 * their order.
 	 *
-	 * <p> {@link ITreeSet TreeMultiSets} are typically implemented as binary search trees. </p>
+	 * {@link ITreeSet TreeMultiSets} are typically implemented as binary search trees.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> 
@@ -50,65 +50,65 @@
         extends SetContainer<T>
 	{
 		/**
-		 * <p> Return comparison function. </p>
+		 * Return comparison function.
 		 * 
-		 * <p> Returns a copy of the comparison function used by the container. </p>
+		 * Returns a copy of the comparison function used by the container.
 		 * 
-		 * <p> By default, this is a {@link less} object, which returns the same as <i>operator<</i>. </p>
+		 * By default, this is a {@link less} object, which returns the same as <i>operator<</i>.
 		 * 
-		 * <p> This object determines the order of the elements in the container: it is a function pointer or a function 
+		 * This object determines the order of the elements in the container: it is a function pointer or a function 
 		 * object that takes two arguments of the same type as the container elements, and returns <code>true</code> if 
 		 * the <i>first argument</i> is considered to go before the <i>second</i> in the <i>strict weak ordering</i> it 
-		 * defines, and <code>false</code> otherwise. </p>
+		 * defines, and <code>false</code> otherwise.
 		 * 
-		 * <p> Two elements of a {@link ITreeSet} are considered equivalent if {@link key_comp} returns <code>false</code> 
-		 * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 * Two elements of a {@link ITreeSet} are considered equivalent if {@link key_comp} returns <code>false</code> 
+		 * reflexively (i.e., no matter the order in which the elements are passed as arguments).
 		 * 
-		 * <p> In {@link ITreeSet} containers, the <i>keys</i> to sort the elements are the values (<i>T</i>) themselves, 
-		 * therefore {@link key_comp} and its sibling member function {@link value_comp} are equivalent. </p>
+		 * In {@link ITreeSet} containers, the <i>keys</i> to sort the elements are the values (<i>T</i>) themselves, 
+		 * therefore {@link key_comp} and its sibling member function {@link value_comp} are equivalent.
 		 * 
 		 * @return The comparison function.
 		 */
 		key_comp(): (x: T, y: T) => boolean;
 
 		/**
-		 * <p> Return comparison function. </p>
+		 * Return comparison function.
 		 * 
-		 * <p> Returns a copy of the comparison function used by the container. </p>
+		 * Returns a copy of the comparison function used by the container.
 		 * 
-		 * <p> By default, this is a {@link less} object, which returns the same as <i>operator<</i>. </p>
+		 * By default, this is a {@link less} object, which returns the same as <i>operator<</i>.
 		 * 
-		 * <p> This object determines the order of the elements in the container: it is a function pointer or a function 
+		 * This object determines the order of the elements in the container: it is a function pointer or a function 
 		 * object that takes two arguments of the same type as the container elements, and returns <code>true</code> if 
 		 * the <i>first argument</i> is considered to go before the <i>second</i> in the <i>strict weak ordering</i> it 
-		 * defines, and <code>false</code> otherwise. </p>
+		 * defines, and <code>false</code> otherwise.
 		 * 
-		 * <p> Two elements of a {@link ITreeSet} are considered equivalent if {@link key_comp} returns <code>false</code> 
-		 * reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 * Two elements of a {@link ITreeSet} are considered equivalent if {@link key_comp} returns <code>false</code> 
+		 * reflexively (i.e., no matter the order in which the elements are passed as arguments).
 		 * 
-		 * <p> In {@link ITreeSet} containers, the <i>keys</i> to sort the elements are the values (<i>T</i>) themselves, 
-		 * therefore {@link key_comp} and its sibling member function {@link value_comp} are equivalent. </p>
+		 * In {@link ITreeSet} containers, the <i>keys</i> to sort the elements are the values (<i>T</i>) themselves, 
+		 * therefore {@link key_comp} and its sibling member function {@link value_comp} are equivalent.
 		 * 
 		 * @return The comparison function.
 		 */
 		value_comp(): (x: T, y: T) => boolean;
 
 		/**
-		 * <p> Return iterator to lower bound. </p>
+		 * Return iterator to lower bound.
 		 * 
-		 * <p> Returns an iterator pointing to the first element in the container which is not considered to 
-		 * go before <i>val</i> (i.e., either it is equivalent or goes after). </p>
+		 * Returns an iterator pointing to the first element in the container which is not considered to 
+		 * go before <i>val</i> (i.e., either it is equivalent or goes after).
 		 * 
-		 * <p> The function uses its internal comparison object (key_comp) to determine this, returning an 
-		 * iterator to the first element for which key_comp(element,val) would return false. </p>
+		 * The function uses its internal comparison object (key_comp) to determine this, returning an 
+		 * iterator to the first element for which key_comp(element,val) would return false.
 		 * 
-		 * <p> If the {@link ITreeSet} class is instantiated with the default comparison type ({@link less}), 
-		 * the function returns an iterator to the first element that is not less than <i>val</i>. </p>
+		 * If the {@link ITreeSet} class is instantiated with the default comparison type ({@link less}), 
+		 * the function returns an iterator to the first element that is not less than <i>val</i>.
 
-		 * <p> A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except 
+		 * A similar member function, {@link upper_bound}, has the same behavior as {@link lower_bound}, except 
 		 * in the case that the {@link ITreeSet} contains elements equivalent to <i>val</i>: In this case 
 		 * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas 
-		 * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
+		 * {@link upper_bound} returns an iterator pointing to the element following the last.
 		 * 
 		 * @param val Value to compare.
 		 *
@@ -118,21 +118,21 @@
 		lower_bound(val: T): SetIterator<T>;
 
 		/**
-		 * <p> Return iterator to upper bound. </p>
+		 * Return iterator to upper bound.
 		 * 
-		 * <p> Returns an iterator pointing to the first element in the container which is considered to go after 
-		 * <i>val</i>. </p>
+		 * Returns an iterator pointing to the first element in the container which is considered to go after 
+		 * <i>val</i>.
 
-		 * <p> The function uses its internal comparison object (key_comp) to determine this, returning an 
-		 * iterator to the first element for which key_comp(val,element) would return true. </p>
+		 * The function uses its internal comparison object (key_comp) to determine this, returning an 
+		 * iterator to the first element for which key_comp(val,element) would return true.
 
-		 * <p> If the {@code ITreeSet} class is instantiated with the default comparison type (less), the 
-		 * function returns an iterator to the first element that is greater than <i>val</i>. </p>
+		 * If the {@code ITreeSet} class is instantiated with the default comparison type (less), the 
+		 * function returns an iterator to the first element that is greater than <i>val</i>.
 		 * 
-		 * <p> A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except 
+		 * A similar member function, {@link lower_bound}, has the same behavior as {@link upper_bound}, except 
 		 * in the case that the {@ITreeSet} contains elements equivalent to <i>val</i>: In this case 
 		 * {@link lower_bound} returns an iterator pointing to the first of such elements, whereas 
-		 * {@link upper_bound} returns an iterator pointing to the element following the last. </p>
+		 * {@link upper_bound} returns an iterator pointing to the element following the last.
 		 * 
 		 * @param val Value to compare.
 		 *
@@ -142,17 +142,17 @@
 		upper_bound(val: T): SetIterator<T>;
 
 		/**
-		 * <p> Get range of equal elements. </p>
+		 * Get range of equal elements.
 		 * 
-		 * <p> Returns the bounds of a range that includes all the elements in the container that are equivalent 
-		 * to <i>val</i>. </p>
+		 * Returns the bounds of a range that includes all the elements in the container that are equivalent 
+		 * to <i>val</i>.
 		 * 
-		 * <p> If no matches are found, the range returned has a length of zero, with both iterators pointing to 
+		 * If no matches are found, the range returned has a length of zero, with both iterators pointing to 
 		 * the first element that is considered to go after val according to the container's 
-		 * internal comparison object (key_comp). </p>
+		 * internal comparison object (key_comp).
 		 * 
-		 * <p> Two elements of a multiset are considered equivalent if the container's comparison object returns 
-		 * false reflexively (i.e., no matter the order in which the elements are passed as arguments). </p>
+		 * Two elements of a multiset are considered equivalent if the container's comparison object returns 
+		 * false reflexively (i.e., no matter the order in which the elements are passed as arguments).
 		 *
 		 * @param key Value to search for.
 		 * 

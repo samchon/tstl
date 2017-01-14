@@ -202,14 +202,14 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> The container is extended by inserting a new element before the element at the specified 
+		 * The container is extended by inserting a new element before the element at the specified 
 		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements 
-		 * inserted. </p>
+		 * inserted.
 		 *
-		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient 
-		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * Unlike other standard sequence containers, {@link List} is specifically designed to be efficient 
+		 * inserting and removing elements in any position, even in the middle of the sequence.
 		 *
 		 * @param position Position in the container where the new element is inserted.
 		 *				   {@link iterator}> is a member type, defined as a 
@@ -221,14 +221,14 @@ namespace std.base
 		public insert(position: BidirectionalIterator, val: T): BidirectionalIterator;
 
 		/**
-		 * <p> Insert elements by repeated filling. </p> 
+		 * Insert elements by repeated filling. 
 		 * 
-		 * <p> The container is extended by inserting a new element before the element at the specified
+		 * The container is extended by inserting a new element before the element at the specified
 		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
-		 * inserted. </p>
+		 * inserted.
 		 *
-		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
-		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
+		 * inserting and removing elements in any position, even in the middle of the sequence.
 		 *
 		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
 		 *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to 
@@ -241,14 +241,14 @@ namespace std.base
 		public insert(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator;
 
 		/**
-		 * <p> Insert elements by range iterators. </p>
+		 * Insert elements by range iterators.
 		 * 
-		 * <p> The container is extended by inserting a new element before the element at the specified
+		 * The container is extended by inserting a new element before the element at the specified
 		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
-		 * inserted. </p>
+		 * inserted.
 		 *
-		 * <p> Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
-		 * inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
+		 * inserting and removing elements in any position, even in the middle of the sequence.
 		 * 
 		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
 		 *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to 
@@ -372,14 +372,14 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * <p> Erase an element. </p>
+		 * Erase an element.
 		 *
-		 * <p> Removes from the {@link List} either a single element; <i>position</i>. </p>
+		 * Removes from the {@link List} either a single element; <i>position</i>.
 		 *
-		 * <p> This effectively reduces the container size by the number of element removed. </p>
+		 * This effectively reduces the container size by the number of element removed.
 		 *
-		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
-		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
+		 * efficient inserting and removing elements in any position, even in the middle of the sequence.
 		 * 
 		 * @param position Iterator pointing to a single element to be removed from the {@link List}.
 		 *
@@ -389,14 +389,14 @@ namespace std.base
 		public erase(position: BidirectionalIterator): BidirectionalIterator;
 		
 		/**
-		 * <p> Erase elements. </p>
+		 * Erase elements.
 		 *
-		 * <p> Removes from the {@link List} container a range of elements. </p>
+		 * Removes from the {@link List} container a range of elements.
 		 *
-		 * <p> This effectively reduces the container {@link size} by the number of elements removed. </p>
+		 * This effectively reduces the container {@link size} by the number of elements removed.
 		 *
-		 * <p> Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
-		 * efficient inserting and removing elements in any position, even in the middle of the sequence. </p>
+		 * Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
+		 * efficient inserting and removing elements in any position, even in the middle of the sequence.
 		 *
 		 * @param begin An iterator specifying a range of beginning to erase.
 		 * @param end An iterator specifying a range of end to erase.
@@ -437,17 +437,17 @@ namespace std.base
 			SWAP
 		--------------------------------------------------------- */
 		/**
-		 * <p> Swap content. </p>
+		 * Swap content.
 		 * 
-		 * <p> Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link List container} object with same type of elements. Sizes and container type may differ. </p>
+		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
+		 * {@link List container} object with same type of elements. Sizes and container type may differ.
 		 * 
-		 * <p> After the call to this member function, the elements in this container are those which were in <i>obj</i> 
+		 * After the call to this member function, the elements in this container are those which were in <i>obj</i> 
 		 * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and 
-		 * pointers remain valid for the swapped objects. </p>
+		 * pointers remain valid for the swapped objects.
 		 *
-		 * <p> Notice that a non-member function exists with the same name, {@link std.swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function. </p>
+		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
+		 * algorithm with an optimization that behaves like this member function.
 		 * 
 		 * @param obj Another {@link List container} of the same type of elements (i.e., instantiated
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
@@ -458,9 +458,9 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: base.Container<T>): void;
+		public swap(obj: Container<T>): void;
 
-		public swap(obj: _ListContainer<T, BidirectionalIterator> | base.Container<T>): void
+		public swap(obj: _ListContainer<T, BidirectionalIterator> | Container<T>): void
 		{
 			if (obj instanceof _ListContainer)
 			{

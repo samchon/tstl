@@ -1,10 +1,10 @@
 ﻿/// <reference path="../API.ts" />
 
-namespace std.example
+namespace example
 {
 	export function test_tree_map(): void
 	{
-		let map: TreeMap<string, number> = new std.TreeMap<string, number>();
+		let map: std.TreeMap<string, number> = new std.TreeMap<string, number>();
 		map.insert(["first", 1]);
 		map.insert(["second", 2]);
 

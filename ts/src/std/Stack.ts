@@ -3,35 +3,32 @@
 namespace std
 {
 	/**
-	 * <p> LIFO stack. </p>
+	 * LIFO stack.
 	 * 
-	 * <p> {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context 
-	 * (last-in first-out), where elements are inserted and extracted only from one end of the  </p>
+	 * {@link Stack}s are a type of container adaptor, specifically designed to operate in a LIFO context 
+	 * (last-in first-out), where elements are inserted and extracted only from one end of the 
 	 * 
-	 * <p> {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated object of 
+	 * {@link Stack}s are implemented as containers adaptors, which are classes that use an encapsulated object of 
 	 * a specific container class as its <i>underlying container</i>, providing a specific set of member functions to 
 	 * access its elements. Elements are pushed/popped from the {@link ILinearContainer.back back()} of the 
-	 * {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}. </p>
+	 * {@link ILinearContainer specific container}, which is known as the top of the {@link Stack}.
 	 * 
-	 * <p> {@link container_ The underlying container} may be any of the standard container class templates or some 
-	 * other specifically designed container class. The container shall support the following operations: </p>
+	 * {@link container_ The underlying container} may be any of the standard container class templates or some 
+	 * other specifically designed container class. The container shall support the following operations:
 	 * 
-	 * <ul>
-	 *	<li> empty </li>
-	 *	<li> size </li>
-	 *	<li> front </li>
-	 *	<li> back </li>
-	 *	<li> push_back </li>
-	 *	<li> pop_back </li>
-	 * </ul>
+	 * - {@link ILinearContainer.empty empty}
+	 * - {@link ILinearContainer.size size}
+	 * - {@link ILinearContainer.front front}
+	 * - {@link ILinearContainer.back back}
+	 * - {@link ILinearContainer.push_back push_back}
+	 * - {@link ILinearContainer.pop_back pop_back}
 	 * 
-	 * <p> The standard container classes {@link Vector}, {@link Deque} and {@link List} fulfill these requirements. 
+	 * The standard container classes {@link Vector}, {@link Deque} and {@link List} fulfill these requirements. 
 	 * By default, if no container class is specified for a particular {@link Stack} class instantiation, the standard 
-	 * container {@link List} is used. </p>
+	 * container {@link List} is used.
 	 * 
-	 * <p> <a href="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" target="_blank"> 
+	 * <a href="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/class_diagram/linear_containers.png" style="max-width: 100%" /></a>
-	 * </p>
 	 * 
 	 * @param <T> Type of elements.
 	 * 
@@ -70,12 +67,12 @@ namespace std
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * <p> Return size. </p>
+		 * Return size.
 		 * 
-		 * <p> Returns the number of elements in the {@link Stack}. </p> 
+		 * Returns the number of elements in the {@link Stack}. 
 		 *
-		 * <p> This member function effectively calls member {@link ILinearContainer.size size()} of the 
-		 * {@link container_ underlying container} object. </p>
+		 * This member function effectively calls member {@link ILinearContainer.size size()} of the 
+		 * {@link container_ underlying container} object.
 		 *
 		 * @return The number of elements in the {@link container_ underlying container}.
 		 */
@@ -85,15 +82,15 @@ namespace std
 		}
 
 		/**
-		 * <p> Test whether container is empty. </p>
+		 * Test whether container is empty.
 		 * 
-		 * <p> returns whether the {@link Stack} is empty: i.e. whether its <i>size</i> is zero. </p>
+		 * returns whether the {@link Stack} is empty: i.e. whether its <i>size</i> is zero.
 		 *
-		 * <p> This member function effectively calls member {@link ILinearContainer.empty empty()} of the
-		 * {@link container_ underlying container} object. </p>
+		 * This member function effectively calls member {@link ILinearContainer.empty empty()} of the
+		 * {@link container_ underlying container} object.
 		 *
 		 * @return <code>true</code> if the <i>underlying container</i>'s size is 0, 
-		 *		   <code>false</code> otherwise. </p>
+		 *		   <code>false</code> otherwise.
 		 */
 		public empty(): boolean
 		{
@@ -101,15 +98,15 @@ namespace std
 		}
 
 		/**
-		 * <p> Access next element. </p>
+		 * Access next element.
 		 *
-		 * <p> Returns a value of the top element in the {@link Stack} </p>. 
+		 * Returns a value of the top element in the {@link Stack}. 
 		 *
-		 * <p> Since {@link Stack}s are last-in first-out containers, the top element is the last element inserted into 
-		 * the {@link Stack}. </p>
+		 * Since {@link Stack}s are last-in first-out containers, the top element is the last element inserted into 
+		 * the {@link Stack}.
 		 *
-		 * <p> This member function effectively calls member {@link ILinearContainer.back back()} of the 
-		 * {@link container_ underlying container} object. </p>
+		 * This member function effectively calls member {@link ILinearContainer.back back()} of the 
+		 * {@link container_ underlying container} object.
 		 *
 		 * @return A value of the top element in the {@link Stack}.
 		 */
@@ -122,12 +119,12 @@ namespace std
 			ELEMENTS I/O
 		--------------------------------------------------------- */
 		/**
-		 * <p> Insert element. </p>
+		 * Insert element.
 		 *
-		 * <p> Inserts a new element at the top of the {@link Stack}, above its current top element. </p>
+		 * Inserts a new element at the top of the {@link Stack}, above its current top element.
 		 *
-		 * <p> This member function effectively calls the member function 
-		 * {@link ILinearContainer.push_back push_back()} of the {@link container_ underlying container} object. </p>
+		 * This member function effectively calls the member function 
+		 * {@link ILinearContainer.push_back push_back()} of the {@link container_ underlying container} object.
 		 *
 		 * @param val Value to which the inserted element is initialized.
 		 */
@@ -137,15 +134,15 @@ namespace std
 		}
 
 		/**
-		 * <p> Remove top element. </p>
+		 * Remove top element.
 		 *
-		 * <p> Removes the element on top of the {@link Stack}, effectively reducing its size by one. </p>
+		 * Removes the element on top of the {@link Stack}, effectively reducing its size by one.
 		 *
-		 * <p> The element removed is the latest element inserted into the {@link Stack}, whose value can be retrieved 
-		 * by calling member {@link top Stack.top()} </p>.
+		 * The element removed is the latest element inserted into the {@link Stack}, whose value can be retrieved 
+		 * by calling member {@link top Stack.top()}.
 		 *
-		 * <p> This member function effectively calls the member function {@link ILinearContainer.pop_back pop_back()} 
-		 * of the {@link container_ underlying container} object. </p>
+		 * This member function effectively calls the member function {@link ILinearContainer.pop_back pop_back()} 
+		 * of the {@link container_ underlying container} object.
 		 */
 		public pop(): void
 		{
@@ -153,15 +150,15 @@ namespace std
 		}
 
 		/**
-		 * <p> Swap contents. </p>
+		 * Swap contents.
 		 * 
-		 * <p> Exchanges the contents of the container adaptor (<i>this</i>) by those of <i>obj</i>. </p>
+		 * Exchanges the contents of the container adaptor (<i>this</i>) by those of <i>obj</i>.
 		 * 
-		 * <p> This member function calls the non-member function {@link Container.swap swap} (unqualified) to swap 
-		 * the {@link container_ underlying containers}. </p>
+		 * This member function calls the non-member function {@link Container.swap swap} (unqualified) to swap 
+		 * the {@link container_ underlying containers}.
 		 * 
 		 * @param obj Another {@link Stack} container adaptor of the same type (i.e., instantiated with the same 
-		 *			  template parameter, <b>T</b>). Sizes may differ. </p>
+		 *			  template parameter, <b>T</b>). Sizes may differ.
 		 */
 		public swap(obj: Stack<T>): void
 		{

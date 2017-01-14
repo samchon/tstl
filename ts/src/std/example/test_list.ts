@@ -2,7 +2,7 @@
 
 /// <reference path="../List.ts" />
 
-namespace std.example
+namespace example
 {
 	export function test_list(): void
 	{
@@ -20,9 +20,8 @@ namespace std.example
 
 		it = list.begin().advance(6);
 		it = list.erase(it, it.advance(3)); // erase from 6 to 9
-		//console.log(it.value); // print 9
-		console.log(it.equals(list.end()));
-
+		console.log(it.value); // print 9
+		
 		console.log("-------------------------------------");
 		for (let it = list.begin(); !it.equals(list.end()); it = it.next())
 			console.log(it.value);

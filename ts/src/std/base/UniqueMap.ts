@@ -5,27 +5,27 @@
 namespace std.base
 {
 	/**
-	 * <p> An abstract unique-map. </p>
+	 * An abstract unique-map.
 	 *
-	 * <p> {@link UniqueMap UniqueMaps} are associative containers that store elements formed by a combination of a 
+	 * {@link UniqueMap UniqueMaps} are associative containers that store elements formed by a combination of a 
 	 * <i>key value</i> (<i>Key</i>) and a <i>mapped value</i> (<i>T</i>), and which allows for fast retrieval of 
-	 * individual elements based on their keys. </p>
+	 * individual elements based on their keys.
 	 *
-	 * <p> In a {@link MapContainer}, the <i>key values</i> are generally used to uniquely identify the elements, 
+	 * In a {@link MapContainer}, the <i>key values</i> are generally used to uniquely identify the elements, 
 	 * while the <i>mapped values</i> store the content associated to this key. The types of <i>key</i> and
 	 * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a
-	 * {@link Pair} type combining both: </p>
+	 * {@link Pair} type combining both:
 	 *
-	 * <p> <code>typedef pair<const Key, T> value_type;</code> </p>
+	 * <code>typedef pair<const Key, T> value_type;</code>
 	 *
-	 * <p> {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+	 * {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
 	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}. </p>
+	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
 	 *
-	 * <p> <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a> </p>
+	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
+	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a>
 	 * 
-	 * <h3> Container properties </h3>
+	 * ### Container properties
 	 * <dl>
 	 *	<dt> Associative </dt>
 	 *	<dd> 
@@ -63,9 +63,9 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Get an element </p>
+		 * Get an element
 		 *
-		 * <p> Returns a reference to the mapped value of the element identified with <i>key</i>. </p>
+		 * Returns a reference to the mapped value of the element identified with <i>key</i>.
 		 *
 		 * @param key Key value of the element whose mapped value is accessed.
 		 * 
@@ -83,10 +83,10 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Set an item as the specified identifier. </p>
+		 * Set an item as the specified identifier.
 		 * 
-		 * <p>If the identifier is already in map, change value of the identifier. If not, then insert the object 
-		 * with the identifier. </p>
+		 * If the identifier is already in map, change value of the identifier. If not, then insert the object 
+		 * with the identifier.
 		 * 
 		 * @param key Key value of the element whose mapped value is accessed.
 		 * @param val Value, the item.
@@ -155,21 +155,21 @@ namespace std.base
 			if (args.length == 1)
 				return this._Insert_by_pair(args[0]);
 			else
-				return this._Insert_by_pair(std.make_pair<Key, T>(args[0], args[1]));
+				return this._Insert_by_pair(make_pair<Key, T>(args[0], args[1]));
 		}
 
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> Extends the container by inserting new elements, effectively increasing the container {@link size} by 
-		 * one. </p>
+		 * Extends the container by inserting new elements, effectively increasing the container {@link size} by 
+		 * one.
 		 *
-		 * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+		 * Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
 		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
 		 * if so, the element is not inserted, returning an iterator to this existing element (if the function
-		 * returns a value). </p>
+		 * returns a value).
 		 *
-		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+		 * For a similar container allowing for duplicate elements, see {@link MultiMap}.
 		 * 
 		 * @param pair A single argument of a {@link Pair} type with a value for the *key* as
 		 *			   {@link Pair.first first} member, and a *value* for the mapped value as
@@ -183,17 +183,17 @@ namespace std.base
 		public insert(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
 		
 		/**
-		 * <p> Insert an element. </p>
+		 * Insert an element.
 		 *
-		 * <p> Extends the container by inserting a new element, effectively increasing the container size by the
-		 * number of elements inserted. </p>
+		 * Extends the container by inserting a new element, effectively increasing the container size by the
+		 * number of elements inserted.
 		 *
-		 * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+		 * Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
 		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
 		 * if so, the element is not inserted, returning an iterator to this existing element (if the function
-		 * returns a value). </p>
+		 * returns a value).
 		 *
-		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+		 * For a similar container allowing for duplicate elements, see {@link MultiMap}.
 		 * 
 		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
 		 *
@@ -239,16 +239,16 @@ namespace std.base
 		}
 
 		/**
-		 * <p> Insert or assign an element. </p>
+		 * Insert or assign an element.
 		 *
-		 * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+		 * Inserts an element or assigns to the current element if the <i>key</i> already exists.
 		 *
-		 * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+		 * Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
 		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
 		 * if so, the element is assigned, returning an iterator to this existing element (if the function returns a 
-		 * value). </p>
+		 * value).
 		 *
-		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+		 * For a similar container allowing for duplicate elements, see {@link MultiMap}.
 		 * 
 		 * @param key The key used both to look up and to insert if not found.
 		 * @param value Value, the item.
@@ -261,16 +261,16 @@ namespace std.base
 		public insert_or_assign(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>;
 
 		/**
-		 * <p> Insert or assign an element. </p>
+		 * Insert or assign an element.
 		 *
-		 * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+		 * Inserts an element or assigns to the current element if the <i>key</i> already exists.
 		 *
-		 * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+		 * Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
 		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
 		 * if so, the element is assigned, returning an iterator to this existing element (if the function returns a
-		 * value). </p>
+		 * value).
 		 *
-		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+		 * For a similar container allowing for duplicate elements, see {@link MultiMap}.
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param key The key used both to look up and to insert if not found.
@@ -282,16 +282,16 @@ namespace std.base
 		public insert_or_assign(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>;
 
 		/**
-		 * <p> Insert or assign an element. </p>
+		 * Insert or assign an element.
 		 *
-		 * <p> Inserts an element or assigns to the current element if the <i>key</i> already exists. </p>
+		 * Inserts an element or assigns to the current element if the <i>key</i> already exists.
 		 *
-		 * <p> Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
+		 * Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
 		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
 		 * if so, the element is assigned, returning an iterator to this existing element (if the function returns a
-		 * value). </p>
+		 * value).
 		 *
-		 * <p> For a similar container allowing for duplicate elements, see {@link MultiMap}. </p>
+		 * For a similar container allowing for duplicate elements, see {@link MultiMap}.
 		 * 
 		 * @param hint Hint for the position where the element can be inserted.
 		 * @param key The key used both to look up and to insert if not found.
@@ -339,11 +339,11 @@ namespace std.base
 			let it = this.find(key);
 
 			if (it.equals(this.end()) == true)
-				return this._Insert_by_pair(std.make_pair(key, value));
+				return this._Insert_by_pair(make_pair(key, value));
 			else
 			{
 				it.second = value;
-				return std.make_pair(it, false);
+				return make_pair(it, false);
 			}
 		}
 
@@ -359,9 +359,9 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		/**
-		 * <p> Extract an element. </p>
+		 * Extract an element.
 		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 * Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}.
 		 * 
 		 * @param key Key value of the element whose mapped value is accessed.
 		 * 
@@ -370,9 +370,9 @@ namespace std.base
 		public extract(key: Key): Pair<Key, T>;
 
 		/**
-		 * <p> Extract an element. </p>
+		 * Extract an element.
 		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 * Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}.
 		 *
 		 * @param it An iterator pointing an element to extract.
 		 * 
@@ -382,9 +382,9 @@ namespace std.base
 		public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
 
 		/**
-		 * <p> Extract an element. </p>
+		 * Extract an element.
 		 *
-		 * <p> Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}. </p>
+		 * Extracts the element pointed to by <i>key</i> and erases it from the {@link UniqueMap}.
 		 *
 		 * @param it An iterator pointing an element to extract.
 		 * 

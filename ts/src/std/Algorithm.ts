@@ -23,9 +23,9 @@ namespace std
 		FOR_EACH
 	--------------------------------------------------------- */
 	/**
-	 * <p> Apply function to range. </p>
+	 * Apply function to range.
 	 *
-	 * <p> Applies function <i>fn</i> to each of the elements in the range [<i>first</i>, <i>last</i>). </p>
+	 * Applies function <i>fn</i> to each of the elements in the range [<i>first</i>, <i>last</i>).
 	 *
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>), 
@@ -70,11 +70,11 @@ namespace std
 		AGGREGATE CONDITIONS
 	--------------------------------------------------------- */
 	/**
-	 * <p> Test condition on all elements in range. </p>
+	 * Test condition on all elements in range.
 	 * 
-	 * <p> Returns <code>true</code> if <i>pred</i> returns <code>true</code> for all the elements in the range 
+	 * Returns <code>true</code> if <i>pred</i> returns <code>true</code> for all the elements in the range 
 	 * [<i>first</i>, <i>last</i>) or if the range is {@link Container.empty empty}, and <code>false</code> otherwise.
-	 * </p>
+	 *
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -98,13 +98,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Test if any element in range fulfills condition. </p>
+	 * Test if any element in range fulfills condition.
 	 * 
-	 * <p> Returns <code>true</code> if <i>pred</i> returns true for any of the elements in the range 
-	 * [<i>first</i>, <i>last</i>), and <code>false</code> otherwise. </p>
+	 * Returns <code>true</code> if <i>pred</i> returns true for any of the elements in the range 
+	 * [<i>first</i>, <i>last</i>), and <code>false</code> otherwise.
 	 * 
-	 * <p> If [<i>first</i>, <i>last</i>) is an {@link Container.empty empty} range, the function returns 
-	 * <code>false</code>. </p>
+	 * If [<i>first</i>, <i>last</i>) is an {@link Container.empty empty} range, the function returns 
+	 * <code>false</code>.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -129,11 +129,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Test if no elements fulfill condition. </p>
+	 * Test if no elements fulfill condition.
 	 * 
-	 * <p> Returns <code>true</code> if <i>pred</i> returns false for all the elements in the range 
+	 * Returns <code>true</code> if <i>pred</i> returns false for all the elements in the range 
 	 * [<i>first</i>, <i>last</i>) or if the range is {@link Container.empty empty}, and <code>false</code> otherwise. 
-	 * </p>
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -154,10 +153,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Test whether the elements in two ranges are equal. </p>
+	 * Test whether the elements in two ranges are equal.
 	 * 
-	 * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
-	 * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match. </p>
+	 * Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
+	 * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -173,10 +172,10 @@ namespace std
 		(first1: InputIterator, last1: InputIterator, first2: Iterator<T>): boolean;
 
 	/**
-	 * <p> Test whether the elements in two ranges are equal. </p>
+	 * Test whether the elements in two ranges are equal.
 	 * 
-	 * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
-	 * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match. </p>
+	 * Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
+	 * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -200,7 +199,7 @@ namespace std
 	export function equal<T, InputIterator extends Iterator<T>>
 		(
 			first1: InputIterator, last1: InputIterator, first2: Iterator<T>,
-			pred: (x: T, y: T) => boolean = std.equal_to
+			pred: (x: T, y: T) => boolean = equal_to
 		): boolean
 	{
 		while (!first1.equals(last1))
@@ -215,18 +214,18 @@ namespace std
 	}
 
 	/**
-	 * <p> Lexicographical less-than comparison. </p>
+	 * Lexicographical less-than comparison.
 	 * 
-	 * <p> Returns <code>true</code> if the range [<i>first1</i>, <i>last1</i>) compares <i>lexicographically less</i> 
-	 * than the range [<i>first2</i>, <i>last2</i>). </p>
+	 * Returns <code>true</code> if the range [<i>first1</i>, <i>last1</i>) compares <i>lexicographically less</i> 
+	 * than the range [<i>first2</i>, <i>last2</i>).
 	 *
-	 * <p> A <i>lexicographical comparison</i> is the kind of comparison generally used to sort words alphabetically in 
+	 * A <i>lexicographical comparison</i> is the kind of comparison generally used to sort words alphabetically in 
 	 * dictionaries; It involves comparing sequentially the elements that have the same position in both ranges against 
 	 * each other until one element is not equivalent to the other. The result of comparing these first non-matching 
-	 * elements is the result of the lexicographical comparison. </p>
+	 * elements is the result of the lexicographical comparison.
 	 * 
-	 * <p> If both sequences compare equal until one of them ends, the shorter sequence is <i>lexicographically less</i> 
-	 * than the longer one. </p>
+	 * If both sequences compare equal until one of them ends, the shorter sequence is <i>lexicographically less</i> 
+	 * than the longer one.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is 
@@ -245,18 +244,18 @@ namespace std
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): boolean;
 
 	/**
-	 * <p> Lexicographical comparison. </p>
+	 * Lexicographical comparison.
 	 * 
-	 * <p> Returns <code>true</code> if the range [<i>first1</i>, <i>last1</i>) compares <i>lexicographically 
-	 * relationship</i> than the range [<i>first2</i>, <i>last2</i>). </p>
+	 * Returns <code>true</code> if the range [<i>first1</i>, <i>last1</i>) compares <i>lexicographically 
+	 * relationship</i> than the range [<i>first2</i>, <i>last2</i>).
 	 *
-	 * <p> A <i>lexicographical comparison</i> is the kind of comparison generally used to sort words alphabetically in 
+	 * A <i>lexicographical comparison</i> is the kind of comparison generally used to sort words alphabetically in 
 	 * dictionaries; It involves comparing sequentially the elements that have the same position in both ranges against 
 	 * each other until one element is not equivalent to the other. The result of comparing these first non-matching 
-	 * elements is the result of the lexicographical comparison. </p>
+	 * elements is the result of the lexicographical comparison.
 	 * 
-	 * <p> If both sequences compare equal until one of them ends, the shorter sequence is <i>lexicographically 
-	 * relationship</i> than the longer one. </p>
+	 * If both sequences compare equal until one of them ends, the shorter sequence is <i>lexicographically 
+	 * relationship</i> than the longer one.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is 
@@ -285,7 +284,7 @@ namespace std
 			Iterator1 extends Iterator<T1>, Iterator2 extends Iterator<T2>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): boolean
 	{
 		while (!first1.equals(last1))
@@ -299,19 +298,19 @@ namespace std
 				first2 = first2.next() as Iterator2;
 			}
 
-		return !std.equal_to(last2, last2.source().end()) && !std.equal_to(first2.value, last2.value);
+		return !equal_to(last2, last2.source().end()) && !equal_to(first2.value, last2.value);
 	}
 
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
 	/**
-	 * <p> Find value in range. </p>
+	 * Find value in range.
 	 * 
-	 * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) that compares equal to 
-	 * <i>val</i>. If no such element is found, the function returns <i>last</i>. </p>
+	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) that compares equal to 
+	 * <i>val</i>. If no such element is found, the function returns <i>last</i>.
 	 * 
-	 * <p> The function uses {@link equal_to equal_to} to compare the individual elements to <i>val</i>. </p>
+	 * The function uses {@link equal_to equal_to} to compare the individual elements to <i>val</i>.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -326,17 +325,17 @@ namespace std
 		(first: InputIterator, last: InputIterator, val: T): InputIterator
 	{
 		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
-			if (std.equal_to(it.value, val))
+			if (equal_to(it.value, val))
 				return it;
 
 		return last;
 	}
 
 	/**
-	 * <p> Find element in range. </p>
+	 * Find element in range.
 	 * 
-	 * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) for which pred returns 
-	 * <code>true</code>. If no such element is found, the function returns <i>last</i>. </p>
+	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) for which pred returns 
+	 * <code>true</code>. If no such element is found, the function returns <i>last</i>.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -361,10 +360,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Find element in range. </p>
+	 * Find element in range.
 	 * 
-	 * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) for which pred returns 
-	 * <code>true</code>. If no such element is found, the function returns <i>last</i>. </p>
+	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) for which pred returns 
+	 * <code>true</code>. If no such element is found, the function returns <i>last</i>.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -388,18 +387,18 @@ namespace std
 	}
 
 	/**
-	 * <p> Find last subsequence in range. </p>
+	 * Find last subsequence in range.
 	 * 
-	 * <p> Searches the range [<i>first1</i>, <i>last1</i>) for the last occurrence of the sequence defined by 
+	 * Searches the range [<i>first1</i>, <i>last1</i>) for the last occurrence of the sequence defined by 
 	 * [<i>first2</i>, <i>last2</i>), and returns an {@link Iterator} to its first element, or <i>last1,/i> if no 
-	 * occurrences are found. </p>
+	 * occurrences are found.
 	 * 
-	 * <p> The elements in both ranges are compared sequentially using {@link equal_to}: A subsequence of 
+	 * The elements in both ranges are compared sequentially using {@link equal_to}: A subsequence of 
 	 * [<i>first1</i>, <i>last1</i>) is considered a match only when this is <code>true</code> for all the elements of 
-	 * [<i>first2</i>, <i>last2</i>). </p>
+	 * [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> This function returns the last of such occurrences. For an algorithm that returns the first instead, see 
-	 * {@link search}. </p>
+	 * This function returns the last of such occurrences. For an algorithm that returns the first instead, see 
+	 * {@link search}.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -421,18 +420,18 @@ namespace std
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): Iterator1;
 	
 	/**
-	 * <p> Find last subsequence in range. </p>
+	 * Find last subsequence in range.
 	 * 
-	 * <p> Searches the range [<i>first1</i>, <i>last1</i>) for the last occurrence of the sequence defined by 
+	 * Searches the range [<i>first1</i>, <i>last1</i>) for the last occurrence of the sequence defined by 
 	 * [<i>first2</i>, <i>last2</i>), and returns an {@link Iterator} to its first element, or <i>last1,/i> if no 
-	 * occurrences are found. </p>
+	 * occurrences are found.
 	 * 
-	 * <p> The elements in both ranges are compared sequentially using <i>pred</i>: A subsequence of 
+	 * The elements in both ranges are compared sequentially using <i>pred</i>: A subsequence of 
 	 * [<i>first1</i>, <i>last1</i>) is considered a match only when this is <code>true</code> for all the elements of 
-	 * [<i>first2</i>, <i>last2</i>). </p>
+	 * [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> This function returns the last of such occurrences. For an algorithm that returns the first instead, see 
-	 * {@link search}. </p>
+	 * This function returns the last of such occurrences. For an algorithm that returns the first instead, see 
+	 * {@link search}.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -460,7 +459,7 @@ namespace std
 		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
-			compare: (x: T, y: T) => boolean = std.equal_to
+			compare: (x: T, y: T) => boolean = equal_to
 		): Iterator1
 	{
 		if (first2.equals(last2))
@@ -473,7 +472,7 @@ namespace std
 			let it1: Iterator1 = first1;
 			let it2: Iterator2 = first2;
 
-			while (std.equal_to(it1.value, it2.value))
+			while (equal_to(it1.value, it2.value))
 			{
 				it1 = it1.next() as Iterator1;
 				it2 = it2.next() as Iterator2;
@@ -491,13 +490,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Find element from set in range. </p>
+	 * Find element from set in range.
 	 * 
-	 * <p> Returns an iterator to the first element in the range [<i>first1</i>, <i>last1</i>) that matches any of the 
-	 * elements in [<i>first2</i>, <i>last2</i>). If no such element is found, the function returns <i>last1</i>. </p>
+	 * Returns an iterator to the first element in the range [<i>first1</i>, <i>last1</i>) that matches any of the 
+	 * elements in [<i>first2</i>, <i>last2</i>). If no such element is found, the function returns <i>last1</i>.
 	 * 
-	 * <p> The elements in [<i>first1</i>, <i>last1</i>) are sequentially compared to each of the values in 
-	 * [<i>first2</i>, <i>last2</i>) using {@link equal_to}, until a pair matches. </p>
+	 * The elements in [<i>first1</i>, <i>last1</i>) are sequentially compared to each of the values in 
+	 * [<i>first2</i>, <i>last2</i>) using {@link equal_to}, until a pair matches.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -515,13 +514,13 @@ namespace std
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): Iterator1;
 
 	/**
-	 * <p> Find element from set in range. </p>
+	 * Find element from set in range.
 	 * 
-	 * <p> Returns an iterator to the first element in the range [<i>first1</i>, <i>last1</i>) that matches any of the 
-	 * elements in [<i>first2</i>, <i>last2</i>). If no such element is found, the function returns <i>last1</i>. </p>
+	 * Returns an iterator to the first element in the range [<i>first1</i>, <i>last1</i>) that matches any of the 
+	 * elements in [<i>first2</i>, <i>last2</i>). If no such element is found, the function returns <i>last1</i>.
 	 * 
-	 * <p> The elements in [<i>first1</i>, <i>last1</i>) are sequentially compared to each of the values in 
-	 * [<i>first2</i>, <i>last2</i>) using <i>pred</i>, until a pair matches. </p>
+	 * The elements in [<i>first1</i>, <i>last1</i>) are sequentially compared to each of the values in 
+	 * [<i>first2</i>, <i>last2</i>) using <i>pred</i>, until a pair matches.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -548,7 +547,7 @@ namespace std
 		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
-			pred: (x: T, y: T) => boolean = std.equal_to
+			pred: (x: T, y: T) => boolean = equal_to
 		): Iterator1
 	{
 		for (; !first1.equals(last1); first1 = first1.next() as Iterator1)
@@ -560,12 +559,12 @@ namespace std
 	}
 
 	/**
-	 * <p> Find equal adjacent elements in range. </p>
+	 * Find equal adjacent elements in range.
 	 * 
-	 * <p> Searches the range [<i>first</i>, <i>last</i>) for the first occurrence of two consecutive elements that match, 
-	 * and returns an {@link Iterator} to the first of these two elements, or <i>last</i> if no such pair is found. </p>
+	 * Searches the range [<i>first</i>, <i>last</i>) for the first occurrence of two consecutive elements that match, 
+	 * and returns an {@link Iterator} to the first of these two elements, or <i>last</i> if no such pair is found.
 	 * 
-	 * <p> Two elements match if they compare equal using {@link equal_to}. </p>
+	 * Two elements match if they compare equal using {@link equal_to}.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -579,12 +578,12 @@ namespace std
 		(first: InputIterator, last: InputIterator): InputIterator;
 
 	/**
-	 * <p> Find equal adjacent elements in range. </p>
+	 * Find equal adjacent elements in range.
 	 * 
-	 * <p> Searches the range [<i>first</i>, <i>last</i>) for the first occurrence of two consecutive elements that match, 
-	 * and returns an {@link Iterator} to the first of these two elements, or <i>last</i> if no such pair is found. </p>
+	 * Searches the range [<i>first</i>, <i>last</i>) for the first occurrence of two consecutive elements that match, 
+	 * and returns an {@link Iterator} to the first of these two elements, or <i>last</i> if no such pair is found.
 	 * 
-	 * <p> Two elements match if they compare equal using <i>pred</i>. </p>
+	 * Two elements match if they compare equal using <i>pred</i>.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -601,7 +600,7 @@ namespace std
 		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean): InputIterator;
 
 	export function adjacent_find<T, InputIterator extends Iterator<T>>
-		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = std.equal_to): InputIterator
+		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = equal_to): InputIterator
 	{
 		if (!first.equals(last))
 		{
@@ -609,7 +608,7 @@ namespace std
 
 			while (!next.equals(last))
 			{
-				if (std.equal_to(first.value, last.value))
+				if (equal_to(first.value, last.value))
 					return first;
 
 				first = first.next() as InputIterator;
@@ -620,18 +619,18 @@ namespace std
 	}
 
 	/**
-	 * <p> Search range for subsequence. </p>
+	 * Search range for subsequence.
 	 * 
-	 * <p> Searches the range [<i>first1</i>, <i>last1</i>) for the first occurrence of the sequence defined by 
+	 * Searches the range [<i>first1</i>, <i>last1</i>) for the first occurrence of the sequence defined by 
 	 * [<i>first2</i>, <i>last2</i>), and returns an iterator to its first element, or <i>last1</i> if no occurrences are 
-	 * found. </p>
+	 * found.
 	 * 
-	 * <p> The elements in both ranges are compared sequentially using {@link equal_to}: A subsequence of 
+	 * The elements in both ranges are compared sequentially using {@link equal_to}: A subsequence of 
 	 * [<i>first1</i>, <i>last1</i>) is considered a match only when this is true for <b>all</b> the elements of 
-	 * [<i>first2</i>, <i>last2</i>). </p>
+	 * [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> This function returns the first of such occurrences. For an algorithm that returns the last instead, see 
-	 * {@link find_end}. </p>
+	 * This function returns the first of such occurrences. For an algorithm that returns the last instead, see 
+	 * {@link find_end}.
 	 * 
 	 * @param first1 {@link Iterator Forward iterator} to the initial position of the searched sequence.
 	 * @param last1 {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is 
@@ -649,18 +648,18 @@ namespace std
 		(first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2): ForwardIterator1
 
 	/**
-	 * <p> Search range for subsequence. </p>
+	 * Search range for subsequence.
 	 * 
-	 * <p> Searches the range [<i>first1</i>, <i>last1</i>) for the first occurrence of the sequence defined by 
+	 * Searches the range [<i>first1</i>, <i>last1</i>) for the first occurrence of the sequence defined by 
 	 * [<i>first2</i>, <i>last2</i>), and returns an iterator to its first element, or <i>last1</i> if no occurrences are 
-	 * found. </p>
+	 * found.
 	 * 
-	 * <p> The elements in both ranges are compared sequentially using <i>pred</i>: A subsequence of 
+	 * The elements in both ranges are compared sequentially using <i>pred</i>: A subsequence of 
 	 * [<i>first1</i>, <i>last1</i>) is considered a match only when this is true for <b>all</b> the elements of 
-	 * [<i>first2</i>, <i>last2</i>). </p>
+	 * [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> This function returns the first of such occurrences. For an algorithm that returns the last instead, see 
-	 * {@link find_end}. </p>
+	 * This function returns the first of such occurrences. For an algorithm that returns the last instead, see 
+	 * {@link find_end}.
 	 * 
 	 * @param first1 {@link Iterator Forward iterator} to the initial position of the searched sequence.
 	 * @param last1 {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is 
@@ -687,7 +686,7 @@ namespace std
 	export function search<T, ForwardIterator1 extends Iterator<T>, ForwardIterator2 extends Iterator<T>>
 		(
 			first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2,
-			pred: (x: T, y: T) => boolean = std.equal_to
+			pred: (x: T, y: T) => boolean = equal_to
 		): ForwardIterator1
 	{
 		if (first2.equals(last2))
@@ -698,7 +697,7 @@ namespace std
 			let it1: ForwardIterator1 = first1;
 			let it2: ForwardIterator2 = first2;
 
-			while (std.equal_to(it1.value, it2.value))
+			while (equal_to(it1.value, it2.value))
 			{
 				it1 = it1.next() as ForwardIterator1;
 				it2 = it2.next() as ForwardIterator2;
@@ -713,13 +712,12 @@ namespace std
 	}
 
 	/**
-	 * <p> Search range for elements. </p>
+	 * Search range for elements.
 	 * 
-	 * <p> Searches the range [<i>first</i>, <i>last</i>) for a sequence of <i>count</i> elements, each comparing equal to 
-	 * <i>val</i>. </p>
+	 * Searches the range [<i>first</i>, <i>last</i>) for a sequence of <i>count</i> elements, each comparing equal to 
+	 * <i>val</i>.
 	 * 
-	 * <p> The function returns an iterator to the first of such elements, or <i>last</i> if no such sequence is found. 
-	 * </p>
+	 * The function returns an iterator to the first of such elements, or <i>last</i> if no such sequence is found. 
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the searched sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is 
@@ -735,13 +733,13 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, count: number, val: T): ForwardIterator;
 
 	/**
-	 * <p> Search range for elements. </p>
+	 * Search range for elements.
 	 * 
-	 * <p> Searches the range [<i>first</i>, <i>last</i>) for a sequence of <i>count</i> elements, each comparing equal to 
-	 * <i>val</i>. </p>
+	 * Searches the range [<i>first</i>, <i>last</i>) for a sequence of <i>count</i> elements, each comparing equal to 
+	 * <i>val</i>.
 	 * 
-	 * <p> The function returns an iterator to the first of such elements, or <i>last</i> if no such sequence is found. 
-	 * </p>
+	 * The function returns an iterator to the first of such elements, or <i>last</i> if no such sequence is found. 
+	 *
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the searched sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is 
@@ -766,7 +764,7 @@ namespace std
 	export function search_n<T, ForwardIterator extends base.IArrayIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, count: number, val: T, 
-			pred: (x: T, y: T) => boolean = std.equal_to
+			pred: (x: T, y: T) => boolean = equal_to
 		): ForwardIterator
 	{
 		let limit: ForwardIterator = first.advance(distance(first, last) - count) as ForwardIterator;
@@ -776,7 +774,7 @@ namespace std
 			let it: ForwardIterator = first;
 			let i: number = 0;
 
-			while (std.equal_to(it.value, val))
+			while (equal_to(it.value, val))
 			{
 				it = it.next() as ForwardIterator;
 
@@ -788,13 +786,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Return first position where two ranges differ. </p>
+	 * Return first position where two ranges differ.
 	 * 
-	 * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
-	 * <i>first2</i>, and returns the first element of both sequences that does not match. </p>
+	 * Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
+	 * <i>first2</i>, and returns the first element of both sequences that does not match.
 	 *
-	 * <p> The function returns a {@link Pair} of {@link iterators Iterator} to the first element in each range that 
-	 * does not match. </p>
+	 * The function returns a {@link Pair} of {@link iterators Iterator} to the first element in each range that 
+	 * does not match.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -814,13 +812,13 @@ namespace std
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2): Pair<Iterator1, Iterator2>;
 
 	/**
-	 * <p> Return first position where two ranges differ. </p>
+	 * Return first position where two ranges differ.
 	 * 
-	 * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
-	 * <i>first2</i>, and returns the first element of both sequences that does not match. </p>
+	 * Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
+	 * <i>first2</i>, and returns the first element of both sequences that does not match.
 	 *
-	 * <p> The function returns a {@link Pair} of {@link iterators Iterator} to the first element in each range that 
-	 * does not match. </p>
+	 * The function returns a {@link Pair} of {@link iterators Iterator} to the first element in each range that 
+	 * does not match.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -849,11 +847,11 @@ namespace std
 		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
-			compare: (x: T, y: T) => boolean = std.equal_to
+			compare: (x: T, y: T) => boolean = equal_to
 		): Pair<Iterator1, Iterator2>
 	{
 		while (!first1.equals(last1) && !first2.equals(first2.source().end())
-			&& std.equal_to(first1.value, first2.value))
+			&& equal_to(first1.value, first2.value))
 		{
 			first1 = first1.next() as Iterator1;
 			first2 = first2.next() as Iterator2;
@@ -865,11 +863,11 @@ namespace std
 		COUNTERS
 	--------------------------------------------------------- */
 	/**
-	 * <p> Count appearances of value in range. </p>
+	 * Count appearances of value in range.
 	 * 
-	 * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>) that compare equal to <i>val</i>. </p>
+	 * Returns the number of elements in the range [<i>first</i>, <i>last</i>) that compare equal to <i>val</i>.
 	 * 
-	 * <p> The function uses {@link equal_to} to compare the individual elements to <i>val</i>. </p>
+	 * The function uses {@link equal_to} to compare the individual elements to <i>val</i>.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -885,17 +883,16 @@ namespace std
 		let cnt: number = 0;
 
 		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
-			if (std.equal_to(it.value, val))
+			if (equal_to(it.value, val))
 				cnt++;
 
 		return cnt;
 	}
 
 	/**
-	 * <p> Return number of elements in range satisfying condition. </p>
+	 * Return number of elements in range satisfying condition.
 	 * 
-	 * <p> Returns the number of elements in the range [<i>first</i>, <i>last</i>) for which pred is <code>true</code>. 
-	 * </p>
+	 * Returns the number of elements in the range [<i>first</i>, <i>last</i>) for which pred is <code>true</code>. 
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -931,15 +928,15 @@ namespace std
 		FILL
 	--------------------------------------------------------- */
 	/**
-	 * <p> Copy range of elements. </p>
+	 * Copy range of elements.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) into the range beginning at <i>result</i>. </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) into the range beginning at <i>result</i>.
 	 * 
-	 * <p> The function returns an iterator to the end of the destination range (which points to the element following the 
-	 * last element copied). </p>
+	 * The function returns an iterator to the end of the destination range (which points to the element following the 
+	 * last element copied).
 	 * 
-	 * <p> The ranges shall not overlap in such a way that result points to an element in the range 
-	 * [<i>first</i>, <i>last</i>). For such cases, see {@link copy_backward}. </p>
+	 * The ranges shall not overlap in such a way that result points to an element in the range 
+	 * [<i>first</i>, <i>last</i>). For such cases, see {@link copy_backward}.
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position in a sequence to be copied.
 	 * @param last {@link Iterator Input iterator} to the initial position in a sequence to be copied. The range used is 
@@ -963,18 +960,17 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy elements. </p>
+	 * Copy elements.
 	 * 
-	 * <p> Copies the first <i>n</i> elements from the range beginning at <i>first</i> into the range beginning at 
-	 * <i>result</i>. </p>
+	 * Copies the first <i>n</i> elements from the range beginning at <i>first</i> into the range beginning at 
+	 * <i>result</i>.
 	 * 
-	 * <p> The function returns an iterator to the end of the destination range (which points to one past the last element 
-	 * copied). </p>
+	 * The function returns an iterator to the end of the destination range (which points to one past the last element 
+	 * copied).
 	 * 
-	 * <p> If <i>n</i> is negative, the function does nothing. </p>
+	 * If <i>n</i> is negative, the function does nothing.
 	 * 
-	 * <p> If the ranges overlap, some of the elements in the range pointed by result may have undefined but valid values.
-	 * </p>
+	 * If the ranges overlap, some of the elements in the range pointed by result may have undefined but valid values.
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position in a sequence of at least <i>n</i> elements to 
 	 *				be copied. <i>InputIterator</i> shall point to a type assignable to the elements pointed by 
@@ -1000,10 +996,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy certain elements of range. </p>
+	 * Copy certain elements of range.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) for which pred returns <code>true</code> to the 
-	 * range beginning at <i>result</i>. </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) for which pred returns <code>true</code> to the 
+	 * range beginning at <i>result</i>.
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position in a sequence to be copied.
 	 * @param last {@link Iterator Input iterator} to the initial position in a sequence to be copied. The range used is
@@ -1033,21 +1029,21 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy range of elements backward. </p>
+	 * Copy range of elements backward.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) starting from the end into the range terminating 
-	 * at <i>result</i>. </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) starting from the end into the range terminating 
+	 * at <i>result</i>.
 	 * 
-	 * <p> The function returns an iterator to the first element in the destination range. </p>
+	 * The function returns an iterator to the first element in the destination range.
 	 * 
-	 * <p> The resulting range has the elements in the exact same order as [<i>first</i>, <i>last</i>). To reverse their 
-	 * order, see {@link reverse_copy}. </p>
+	 * The resulting range has the elements in the exact same order as [<i>first</i>, <i>last</i>). To reverse their 
+	 * order, see {@link reverse_copy}.
 	 * 
-	 * <p> The function begins by copying <code>*(last-1)</code> into <code>*(result-1)</code>, and then follows backward 
-	 * by the elements preceding these, until <i>first</i> is reached (and including it). </p>
+	 * The function begins by copying <code>*(last-1)</code> into <code>*(result-1)</code>, and then follows backward 
+	 * by the elements preceding these, until <i>first</i> is reached (and including it).
 	 * 
-	 * <p> The ranges shall not overlap in such a way that <i>result</i> (which is the <i>past-the-end element</i> in the 
-	 * destination range) points to an element in the range (first,last]. For such cases, see {@link copy}. </p>
+	 * The ranges shall not overlap in such a way that <i>result</i> (which is the <i>past-the-end element</i> in the 
+	 * destination range) points to an element in the range (first,last]. For such cases, see {@link copy}.
 	 * 
 	 * @param first {@link Iterator Bidirectional iterator} to the initial position in a sequence to be copied.
 	 * @param last {@link Iterator Bidirectional iterator} to the initial position in a sequence to be copied. The range 
@@ -1073,9 +1069,9 @@ namespace std
 	}
 
 	/**
-	 * <p> Fill range with value. </p>
+	 * Fill range with value.
 	 * 
-	 * <p> Assigns val to all the elements in the range [<i>first</i>, <i>last</i>). </p>
+	 * Assigns val to all the elements in the range [<i>first</i>, <i>last</i>).
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position in a sequence of elements that support being
 	 *				assigned a value of type <i>T</i>.
@@ -1093,9 +1089,9 @@ namespace std
 	}
 
 	/**
-	 * <p> Fill sequence with value. </p>
+	 * Fill sequence with value.
 	 * 
-	 * <p> Assigns <i>val</i> to the first <i>n</i> elements of the sequence pointed by <i>first</i>. </p>
+	 * Assigns <i>val</i> to the first <i>n</i> elements of the sequence pointed by <i>first</i>.
 	 * 
 	 * @param first {@link Iterator Output iterator} to the initial position in a sequence of elements that support being
 	 *				assigned a value of type <i>T</i>.
@@ -1116,10 +1112,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Transform range. </p>
+	 * Transform range.
 	 * 
-	 * <p> Applies <i>op</i> to each of the elements in the range [<i>first</i>, <i>last</i>) and stores the value returned 
-	 * by each operation in the range that begins at <i>result</i>. </p>
+	 * Applies <i>op</i> to each of the elements in the range [<i>first</i>, <i>last</i>) and stores the value returned 
+	 * by each operation in the range that begins at <i>result</i>.
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position in a sequence to be transformed.
 	 * @param last {@link Iterator Input iterator} to the initial position in a sequence to be transformed. The range
@@ -1136,11 +1132,11 @@ namespace std
 		(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => T): OutputIterator;
 
 	/**
-	 * <p> Transform range. </p>
+	 * Transform range.
 	 * 
-	 * <p> Calls <i>binary_op</i> using each of the elements in the range [<i>first1</i>, <i>last1</i>) as first argument, 
+	 * Calls <i>binary_op</i> using each of the elements in the range [<i>first1</i>, <i>last1</i>) as first argument, 
 	 * and the respective argument in the range that begins at <i>first2</i> as second argument. The value returned by 
-	 * each call is stored in the range that begins at <i>result</i>. </p>
+	 * each call is stored in the range that begins at <i>result</i>.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sequence. The range used is
@@ -1211,10 +1207,9 @@ namespace std
 	}
 
 	/**
-	 * <p> Generate values for range with function. </p>
+	 * Generate values for range with function.
 	 * 
-	 * <p> Assigns the value returned by successive calls to gen to the elements in the range [<i>first</i>, <i>last</i>). 
-	 * </p>
+	 * Assigns the value returned by successive calls to gen to the elements in the range [<i>first</i>, <i>last</i>).
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position in a sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position in a sequence. The range affected is 
@@ -1231,10 +1226,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Generate values for sequence with function. </p>
+	 * Generate values for sequence with function.
 	 * 
-	 * <p> Assigns the value returned by successive calls to <i>gen</i> to the first <i>n</i> elements of the sequence 
-	 * pointed by <i>first</i>. </p>
+	 * Assigns the value returned by successive calls to <i>gen</i> to the first <i>n</i> elements of the sequence 
+	 * pointed by <i>first</i>.
 	 * 
 	 * @param first {@link Iterator Output iterator} to the initial position in a sequence of at least <i>n</i> elements 
 	 *				that support being assigned a value of the type returned by <i>gen</i>.
@@ -1259,18 +1254,18 @@ namespace std
 		REMOVE
 	--------------------------------------------------------- */
 	/**
-	 * <p> Remove consecutive duplicates in range. </p>
+	 * Remove consecutive duplicates in range.
 	 * 
-	 * <p> Removes all but the first element from every consecutive group of equivalent elements in the range 
-	 * [<i>first</i>, <i>last</i>). </p>
+	 * Removes all but the first element from every consecutive group of equivalent elements in the range 
+	 * [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot 
+	 * The function cannot alter the properties of the object containing the range of elements (i.e., it cannot 
 	 * alter the size of an array or a container): The removal is done by replacing the duplicate elements by the next 
 	 * element that is not a duplicate, and signaling the new size of the shortened range by returning an iterator to 
-	 * the element that should be considered its new past-the-last element. </p>
+	 * the element that should be considered its new past-the-last element.
 	 * 
-	 * <p> The relative order of the elements not removed is preserved, while the elements between the returned 
-	 * iterator and last are left in a valid but unspecified state. </p>
+	 * The relative order of the elements not removed is preserved, while the elements between the returned 
+	 * iterator and last are left in a valid but unspecified state.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1284,18 +1279,18 @@ namespace std
 		(first: InputIterator, last: InputIterator): InputIterator;
 
 	/**
-	 * <p> Remove consecutive duplicates in range. </p>
+	 * Remove consecutive duplicates in range.
 	 * 
-	 * <p> Removes all but the first element from every consecutive group of equivalent elements in the range 
-	 * [<i>first</i>, <i>last</i>). </p>
+	 * Removes all but the first element from every consecutive group of equivalent elements in the range 
+	 * [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot 
+	 * The function cannot alter the properties of the object containing the range of elements (i.e., it cannot 
 	 * alter the size of an array or a container): The removal is done by replacing the duplicate elements by the next 
 	 * element that is not a duplicate, and signaling the new size of the shortened range by returning an iterator to 
-	 * the element that should be considered its new past-the-last element. </p>
+	 * the element that should be considered its new past-the-last element.
 	 * 
-	 * <p> The relative order of the elements not removed is preserved, while the elements between the returned 
-	 * iterator and last are left in a valid but unspecified state. </p>
+	 * The relative order of the elements not removed is preserved, while the elements between the returned 
+	 * iterator and last are left in a valid but unspecified state.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1313,13 +1308,13 @@ namespace std
 		(first: InputIterator, last: InputIterator, pred: (left: t, right: t) => boolean): InputIterator;
 
 	export function unique<t, InputIterator extends Iterator<t>>
-		(first: InputIterator, last: InputIterator, pred: (left: t, right: t) => boolean = std.equal_to): InputIterator
+		(first: InputIterator, last: InputIterator, pred: (left: t, right: t) => boolean = equal_to): InputIterator
 	{
 		let ret: InputIterator = first;
 
 		for (let it = first.next(); !it.equals(last);)
 		{
-			if (std.equal_to(it.value, it.prev().value) == true)
+			if (equal_to(it.value, it.prev().value) == true)
 				it = it.source().erase(it) as InputIterator;
 			else
 			{
@@ -1331,15 +1326,15 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy range removing duplicates. </p>
+	 * Copy range removing duplicates.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except 
-	 * consecutive duplicates (elements that compare equal to the element preceding). </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except 
+	 * consecutive duplicates (elements that compare equal to the element preceding).
 	 * 
-	 * <p> Only the first element from every consecutive group of equivalent elements in the range 
-	 * [<i>first</i>, <i>last</i>) is copied. </p>
+	 * Only the first element from every consecutive group of equivalent elements in the range 
+	 * [<i>first</i>, <i>last</i>) is copied.
 	 * 
-	 * <p> The comparison between elements is performed by applying {@lnk equal_to}. </p>
+	 * The comparison between elements is performed by applying {@lnk equal_to}.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position in a sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position in a sequence. The range used is 
@@ -1355,15 +1350,15 @@ namespace std
 		(first: InputIterator, last: InputIterator, result: OutputIterator): OutputIterator;
 
 	/**
-	 * <p> Copy range removing duplicates. </p>
+	 * Copy range removing duplicates.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except 
-	 * consecutive duplicates (elements that compare equal to the element preceding). </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except 
+	 * consecutive duplicates (elements that compare equal to the element preceding).
 	 * 
-	 * <p> Only the first element from every consecutive group of equivalent elements in the range 
-	 * [<i>first</i>, <i>last</i>) is copied. </p>
+	 * Only the first element from every consecutive group of equivalent elements in the range 
+	 * [<i>first</i>, <i>last</i>) is copied.
 	 * 
-	 * <p> The comparison between elements is performed by applying <i>pred</i>. </p>
+	 * The comparison between elements is performed by applying <i>pred</i>.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position in a sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position in a sequence. The range used is 
@@ -1388,7 +1383,7 @@ namespace std
 	export function unique_copy<T, InputIterator extends Iterator<T>, OutputIterator extends base.ILinearIterator<T>>
 		(
 			first: InputIterator, last: InputIterator, result: OutputIterator, 
-			pred: (x: T, y: T) => boolean = std.equal_to
+			pred: (x: T, y: T) => boolean = equal_to
 		): OutputIterator
 	{
 		if (first.equals(last))
@@ -1408,18 +1403,18 @@ namespace std
 	}
 
 	/**
-	 * <p> Remove value from range. </p>
+	 * Remove value from range.
 	 * 
-	 * <p> Transforms the range [<i>first</i>, <i>last</i>) into a range with all the elements that compare equal to 
-	 * <i>val</i> removed, and returns an iterator to the new last of that range. </p>
+	 * Transforms the range [<i>first</i>, <i>last</i>) into a range with all the elements that compare equal to 
+	 * <i>val</i> removed, and returns an iterator to the new last of that range.
 	 * 
-	 * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot alter 
+	 * The function cannot alter the properties of the object containing the range of elements (i.e., it cannot alter 
 	 * the size of an array or a container): The removal is done by replacing the elements that compare equal to 
 	 * <i>val</i> by the next element that does not, and signaling the new size of the shortened range by returning an 
-	 * iterator to the element that should be considered its new past-the-last element. </p>
+	 * iterator to the element that should be considered its new past-the-last element.
 	 * 
-	 * <p> The relative order of the elements not removed is preserved, while the elements between the returned iterator 
-	 * and last are left in a valid but unspecified state. </p>
+	 * The relative order of the elements not removed is preserved, while the elements between the returned iterator 
+	 * and last are left in a valid but unspecified state.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1434,7 +1429,7 @@ namespace std
 
 		for (let it = first; !it.equals(last); )
 		{
-			if (std.equal_to(it.value, val) == true)
+			if (equal_to(it.value, val) == true)
 				it = it.source().erase(it) as InputIterator;
 			else
 			{
@@ -1446,18 +1441,18 @@ namespace std
 	}
 
 	/**
-	 * <p> Remove elements from range. </p>
+	 * Remove elements from range.
 	 * 
-	 * <p> Transforms the range [<i>first</i>, <i>last</i>) into a range with all the elements for which pred returns 
-	 * <code>true</code> removed, and returns an iterator to the new last of that range. </p>
+	 * Transforms the range [<i>first</i>, <i>last</i>) into a range with all the elements for which pred returns 
+	 * <code>true</code> removed, and returns an iterator to the new last of that range.
 	 * 
-	 * <p> The function cannot alter the properties of the object containing the range of elements (i.e., it cannot 
+	 * The function cannot alter the properties of the object containing the range of elements (i.e., it cannot 
 	 * alter the size of an array or a container): The removal is done by replacing the elements for which pred returns 
 	 * <code>true</code> by the next element for which it does not, and signaling the new size of the shortened range 
-	 * by returning an iterator to the element that should be considered its new past-the-last element. </p>
+	 * by returning an iterator to the element that should be considered its new past-the-last element.
 	 * 
-	 * <p> The relative order of the elements not removed is preserved, while the elements between the returned 
-	 * iterator and last are left in a valid but unspecified state. </p>
+	 * The relative order of the elements not removed is preserved, while the elements between the returned 
+	 * iterator and last are left in a valid but unspecified state.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1486,15 +1481,15 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy range removing value. </p>
+	 * Copy range removing value.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except 
-	 * those elements that compare equal to <i>val</i>. </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except 
+	 * those elements that compare equal to <i>val</i>.
 	 * 
-	 * <p> The resulting range is shorter than [<i>first</i>, <i>last</i>) by as many elements as matches in the sequence, 
-	 * which are "removed". </p>
+	 * The resulting range is shorter than [<i>first</i>, <i>last</i>) by as many elements as matches in the sequence, 
+	 * which are "removed".
 	 * 
-	 * <p> The function uses {@link equal_to} to compare the individual elements to <i>val</i>. </p>
+	 * The function uses {@link equal_to} to compare the individual elements to <i>val</i>.
 	 * 
 	 * @param first {@link Iterator InputIterator} to the initial position in a sequence.
 	 * @param last {@link Iterator InputIterator} to the final position in a sequence. The range used is 
@@ -1513,7 +1508,7 @@ namespace std
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
-			if (std.equal_to(first.value, val))
+			if (equal_to(first.value, val))
 				continue;
 			
 			result.value = first.value;
@@ -1524,13 +1519,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy range removing values. </p>
+	 * Copy range removing values.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except 
-	 * those elements for which <i>pred</i> returns <code>true</code>. </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, except 
+	 * those elements for which <i>pred</i> returns <code>true</code>.
 	 * 
-	 * <p> The resulting range is shorter than [<i>first</i>, <i>last</i>) by as many elements as matches, which are 
-	 * "removed". </p>
+	 * The resulting range is shorter than [<i>first</i>, <i>last</i>) by as many elements as matches, which are 
+	 * "removed".
 	 * 
 	 * @param first {@link Iterator InputIterator} to the initial position in a sequence.
 	 * @param last {@link Iterator InputIterator} to the final position in a sequence. The range used is
@@ -1565,12 +1560,12 @@ namespace std
 		REPLACE & SWAP
 	--------------------------------------------------------- */
 	/**
-	 * <p> Replace value in range. </p>
+	 * Replace value in range.
 	 * 
-	 * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>) that compare equal to 
-	 * <i>old_val</i>. </p>
+	 * Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>) that compare equal to 
+	 * <i>old_val</i>.
 	 * 
-	 * <p> The function uses {@link equal_to} to compare the individual elements to old_val. </p>
+	 * The function uses {@link equal_to} to compare the individual elements to old_val.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1583,15 +1578,15 @@ namespace std
 		(first: InputIterator, last: InputIterator, old_val: T, new_val: T): void
 	{
 		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
-			if (std.equal_to(it.value, old_val))
+			if (equal_to(it.value, old_val))
 				it.value = new_val;
 	}
 
 	/**
-	 * <p> Replace value in range. </p>
+	 * Replace value in range.
 	 * 
-	 * <p> Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>) for which pred returns 
-	 * <code>true</code>. </p>
+	 * Assigns <i>new_val</i> to all the elements in the range [<i>first</i>, <i>last</i>) for which pred returns 
+	 * <code>true</code>.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1611,15 +1606,15 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy range replacing value. </p>
+	 * Copy range replacing value.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, replacing 
-	 * the appearances of <i>old_value</i> by <i>new_value</i>. </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, replacing 
+	 * the appearances of <i>old_value</i> by <i>new_value</i>.
 	 * 
-	 * <p> The function uses {@link std.equal_to} to compare the individual elements to <i>old_value</i>. </p>
+	 * The function uses {@link equal_to} to compare the individual elements to <i>old_value</i>.
 	 * 
-	 * <p> The ranges shall not overlap in such a way that result points to an element in the range 
-	 * [<i>first</i>, <i>last</i>). </p>
+	 * The ranges shall not overlap in such a way that result points to an element in the range 
+	 * [<i>first</i>, <i>last</i>).
 	 * 
 	 * @param first {@link Iterator InputIterator} to the initial position in a sequence.
 	 * @param last {@link Iterator InputIterator} to the final position in a sequence. The range used is
@@ -1638,7 +1633,7 @@ namespace std
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
 		{
-			if (std.equal_to(first.value, old_val))
+			if (equal_to(first.value, old_val))
 				result.value = new_val;
 			else
 				result.value = first.value;
@@ -1650,10 +1645,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy range replacing value. </p>
+	 * Copy range replacing value.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, replacing 
-	 * those for which <i>pred</i> returns <code>true</code> by <i>new_value</i>. </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, replacing 
+	 * those for which <i>pred</i> returns <code>true</code> by <i>new_value</i>.
 	 * 
 	 * @param first {@link Iterator InputIterator} to the initial position in a sequence.
 	 * @param last {@link Iterator InputIterator} to the final position in a sequence. The range used is
@@ -1686,11 +1681,11 @@ namespace std
 	}
 
 	/**
-	 * <p> Exchange values of objects pointed to by two iterators. </p>
+	 * Exchange values of objects pointed to by two iterators.
 	 * 
-	 * <p> Swaps the elements pointed to by <i>x</i> and <i>y</i>. </p>
+	 * Swaps the elements pointed to by <i>x</i> and <i>y</i>.
 	 * 
-	 * <p> The function calls {@link Iterator.swap} to exchange the elements. </p>
+	 * The function calls {@link Iterator.swap} to exchange the elements.
 	 * 
 	 * @param x {@link Iterator Forward iterator} to the objects to swap.
 	 * @param y {@link Iterator Forward iterator} to the objects to swap.
@@ -1701,12 +1696,12 @@ namespace std
 	}
 
 	/**
-	 * <p> Exchange values of two ranges. </p>
+	 * Exchange values of two ranges.
 	 * 
-	 * <p> Exchanges the values of each of the elements in the range [<i>first1</i>, <i>last1</i>) with those of their 
-	 * respective elements in the range beginning at <i>first2</i>. </p>
+	 * Exchanges the values of each of the elements in the range [<i>first1</i>, <i>last1</i>) with those of their 
+	 * respective elements in the range beginning at <i>first2</i>.
 	 * 
-	 * <p> The function calls {@link Iterator.swap} to exchange the elements. </p>
+	 * The function calls {@link Iterator.swap} to exchange the elements.
 	 * 
 	 * @param first1 {@link Iterator Forward iterator} to the initial position of the first sequence.
 	 * @param last1 {@link Iterator Forward iterator} to the final position of the first sequence. The range used is
@@ -1732,11 +1727,11 @@ namespace std
 		RE-ARRANGEMENT
 	--------------------------------------------------------- */
 	/**
-	 * <p> Reverse range. </p>
+	 * Reverse range.
 	 * 
-	 * <p> Reverses the order of the elements in the range [<i>first</i>, <i>last</i>). </p>
+	 * Reverses the order of the elements in the range [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The function calls {@link iter_swap} to swap the elements to their new locations. </p>
+	 * The function calls {@link iter_swap} to swap the elements to their new locations.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1755,10 +1750,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy range reversed. </p>
+	 * Copy range reversed.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, but in 
-	 * reverse order. </p>
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, but in 
+	 * reverse order.
 	 * 
 	 * @param first {@link Iterator Bidirectional iterator} to the initial position in a sequence to be copied.
 	 * @param last {@link Iterator Bidirectional iterator} to the initial position in a sequence to be copied. The range 
@@ -1785,10 +1780,10 @@ namespace std
 	}
 
 	/**
-	 * <p> Rotate left the elements in range. </p>
+	 * Rotate left the elements in range.
 	 * 
-	 * <p> Rotates the order of the elements in the range [<i>first</i>, <i>last</i>), in such a way that the element 
-	 * pointed by middle becomes the new first element. </p>
+	 * Rotates the order of the elements in the range [<i>first</i>, <i>last</i>), in such a way that the element 
+	 * pointed by middle becomes the new first element.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param middle An {@link Iterator} pointing to the element within the range [<i>first</i>, <i>last</i>) that is 
@@ -1819,11 +1814,11 @@ namespace std
 	}
 
 	/**
-	 * <p> Copy range rotated left. </p>
+	 * Copy range rotated left.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, but 
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) to the range beginning at <i>result</i>, but 
 	 * rotating the order of the elements in such a way that the element pointed by <i>middle</i> becomes the first 
-	 * element in the resulting range. </p>
+	 * element in the resulting range.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the range to be copy-rotated.
 	 * @param middle Forward iterator pointing to the element within the range [<i>first</i>, <i>last</i>) that is copied as the first element in the resulting range.
@@ -1845,15 +1840,15 @@ namespace std
 	}
 	
 	/**
-	 * <p> Randomly rearrange elements in range. </p>
+	 * Randomly rearrange elements in range.
 	 * 
-	 * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>) randomly. </p>
+	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>) randomly.
 	 * 
-	 * <p> The function swaps the value of each element with that of some other randomly picked element. When provided, 
+	 * The function swaps the value of each element with that of some other randomly picked element. When provided, 
 	 * the function gen determines which element is picked in every case. Otherwise, the function uses some unspecified 
-	 * source of randomness. </p>
+	 * source of randomness.
 	 * 
-	 * <p> To specify a uniform random generator, see {@link shuffle}. </p>
+	 * To specify a uniform random generator, see {@link shuffle}.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1863,22 +1858,22 @@ namespace std
 	export function random_shuffle<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator): void
 	{
-		return std.shuffle(first, last);
+		return shuffle(first, last);
 	}
 
 	/**
-	 * <p> Randomly rearrange elements in range using generator. </p>
+	 * Randomly rearrange elements in range using generator.
 	 * 
-	 * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>) randomly, using <i>g</i> as uniform random 
-	 * number generator. </p>
+	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>) randomly, using <i>g</i> as uniform random 
+	 * number generator.
 	 * 
-	 * <p> The function swaps the value of each element with that of some other randomly picked element. The function 
-	 * determines the element picked by calling <i>g()</i>. </p>
+	 * The function swaps the value of each element with that of some other randomly picked element. The function 
+	 * determines the element picked by calling <i>g()</i>.
 	 * 
-	 * <p> To shuffle the elements of the range without such a generator, see {@link random_shuffle} instead. </p>
+	 * To shuffle the elements of the range without such a generator, see {@link random_shuffle} instead.
 	 * 
 	 * <h5> Note </h5>
-	 * <p> Using random generator engine is not implemented yet. </p>
+	 * Using random generator engine is not implemented yet.
 	 * 
 	 * @param first An {@link Iterator} to the initial position in a sequence.
 	 * @param last An {@link Iterator} to the final position in a sequence. The range used is [<i>first</i>, <i>last</i>),
@@ -1909,10 +1904,10 @@ namespace std
 		SORT
 	--------------------------------------------------------- */
 	/**
-	 * <p> Sort elements in range. </p>
+	 * Sort elements in range.
 	 *
-	 * <p> Sorts the elements in the range [<i>first</i>, <i>last</i>) into ascending order. The elements are compared 
-	 * using {@link less}. </p>
+	 * Sorts the elements in the range [<i>first</i>, <i>last</i>) into ascending order. The elements are compared 
+	 * using {@link less}.
 	 *
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
@@ -1925,10 +1920,10 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
-	 * <p> Sort elements in range. </p>
+	 * Sort elements in range.
 	 *
-	 * <p> Sorts the elements in the range [<i>first</i>, <i>last</i>) into specific order. The elements are compared
-	 * using <i>compare</i>. </p>
+	 * Sorts the elements in the range [<i>first</i>, <i>last</i>) into specific order. The elements are compared
+	 * using <i>compare</i>.
 	 *
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.		  
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
@@ -1946,19 +1941,19 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean): void;
 
 	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = std.less): void
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = less): void
 	{
-		qsort(first.source() as base.IArrayContainer<T>, first.index(), last.index() - 1, compare);
+		_Quick_sort(first.source() as base.IArrayContainer<T>, first.index(), last.index() - 1, compare);
 	}
 
 	/**
-	 * <p> Partially sort elements in range. </p>
+	 * Partially sort elements in range.
 	 * 
-	 * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that the elements before 
+	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that the elements before 
 	 * <i>middle</i> are the smallest elements in the entire range and are sorted in ascending order, while the remaining 
-	 * elements are left without any specific order. </p>
+	 * elements are left without any specific order.
 	 * 
-	 * <p> The elements are compared using {@link less}. </p>
+	 * The elements are compared using {@link less}.
 	 * 
 	 * @param last {@link IArrayIterator Random-access iterator} to the first position of the sequence to be sorted.
 	 * @param middle {@link IArrayIterator Random-access iterator} pointing to the element within the range [<i>first</i>, <i>last</i>) that is used as the upper boundary of the elements that are fully sorted.
@@ -1971,13 +1966,13 @@ namespace std
 		(first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
-	 * <p> Partially sort elements in range. </p>
+	 * Partially sort elements in range.
 	 * 
-	 * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that the elements before 
+	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that the elements before 
 	 * <i>middle</i> are the smallest elements in the entire range and are sorted in ascending order, while the remaining 
-	 * elements are left without any specific order. </p>
+	 * elements are left without any specific order.
 	 * 
-	 * <p> The elements are compared using <i>comp</i>. </p>
+	 * The elements are compared using <i>comp</i>.
 	 * 
 	 * @param last {@link IArrayIterator Random-access iterator} to the first position of the sequence to be sorted.
 	 * @param middle {@link IArrayIterator Random-access iterator} pointing to the element within the range [<i>first</i>, <i>last</i>) that is used as the upper boundary of the elements that are fully sorted.
@@ -1999,23 +1994,23 @@ namespace std
 	export function partial_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(
 			first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): void
 	{
-		selection_sort(first.source() as base.IArrayContainer<T>, first.index(), middle.index(), last.index(), compare);
+		_Selection_sort(first.source() as base.IArrayContainer<T>, first.index(), middle.index(), last.index(), compare);
 	}
 
 	/**
-	 * <p> Copy and partially sort range. </p>
+	 * Copy and partially sort range.
 	 * 
-	 * <p> Copies the smallest  elements in the range [<i>first</i>, <i>last</i>) to 
+	 * Copies the smallest  elements in the range [<i>first</i>, <i>last</i>) to 
 	 * [<i>result_first</i>, <i>result_last</i>), sorting the elements copied. The number of elements copied is the same 
 	 * as the {@link distance} between <i>result_first</i> and <i>result_last</i> (unless this is more than the amount of 
-	 * elements in [<i>first</i>, <i>last</i>)). </p>
+	 * elements in [<i>first</i>, <i>last</i>)).
 	 * 
-	 * <p> The range [<i>first</i>, <i>last</i>) is not modified. </p>
+	 * The range [<i>first</i>, <i>last</i>) is not modified.
 	 * 
-	 * <p> The elements are compared using {@link less}. </p>
+	 * The elements are compared using {@link less}.
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position of the sequence to copy from.
 	 * @param last {@link Iterator Input iterator} to the final position of the sequence to copy from. The range used is 
@@ -2040,16 +2035,16 @@ namespace std
 		): RandomAccessIterator;
 
 	/**
-	 * <p> Copy and partially sort range. </p>
+	 * Copy and partially sort range.
 	 * 
-	 * <p> Copies the smallest (or largest) elements in the range [<i>first</i>, <i>last</i>) to 
+	 * Copies the smallest (or largest) elements in the range [<i>first</i>, <i>last</i>) to 
 	 * [<i>result_first</i>, <i>result_last</i>), sorting the elements copied. The number of elements copied is the same 
 	 * as the {@link distance} between <i>result_first</i> and <i>result_last</i> (unless this is more than the amount of 
-	 * elements in [<i>first</i>, <i>last</i>)). </p>
+	 * elements in [<i>first</i>, <i>last</i>)).
 	 * 
-	 * <p> The range [<i>first</i>, <i>last</i>) is not modified. </p>
+	 * The range [<i>first</i>, <i>last</i>) is not modified.
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. </p>
+	 * The elements are compared using <i>compare</i>.
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position of the sequence to copy from.
 	 * @param last {@link Iterator Input iterator} to the final position of the sequence to copy from. The range used is 
@@ -2080,7 +2075,7 @@ namespace std
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): RandomAccessIterator
 	{
 		let input_size: number = distance(first, last);
@@ -2101,11 +2096,11 @@ namespace std
 		INSPECTOR
 	--------------------------------------------------------- */
 	/**
-	 * <p> Check whether range is sorted. </p>
+	 * Check whether range is sorted.
 	 * 
-	 * <p> Returns <code>true</code> if the range [<i>first</i>, <i>last</i>) is sorted into ascending order. </p>
+	 * Returns <code>true</code> if the range [<i>first</i>, <i>last</i>) is sorted into ascending order.
 	 * 
-	 * <p> The elements are compared using {@link less}. </p>
+	 * The elements are compared using {@link less}.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position of the sequence. The range checked is 
@@ -2120,11 +2115,11 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator): boolean;
 
 	/**
-	 * <p> Check whether range is sorted. </p>
+	 * Check whether range is sorted.
 	 * 
-	 * <p> Returns <code>true</code> if the range [<i>first</i>, <i>last</i>) is sorted into ascending order. </p>
+	 * Returns <code>true</code> if the range [<i>first</i>, <i>last</i>) is sorted into ascending order.
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. </p>
+	 * The elements are compared using <i>compare</i>.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position of the sequence. The range checked is 
@@ -2143,14 +2138,14 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): boolean;
 
 	export function is_sorted<T, ForwardIterator extends Iterator<T>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.equal_to): boolean
+		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = equal_to): boolean
 	{
 		if (first.equals(last)) 
 			return true;
 		
 		for (let next = first.next() as ForwardIterator; !next.equals(last); next = next.next() as ForwardIterator)
 		{
-			if (std.less(next.value, first.value)) // or, if (comp(*next,*first)) for version (2)
+			if (less(next.value, first.value)) // or, if (comp(*next,*first)) for version (2)
 				return false;
 			
 			first = first.next() as ForwardIterator;
@@ -2159,16 +2154,16 @@ namespace std
 	}
 
 	/**
-	 * <p> Find first unsorted element in range. </p>
+	 * Find first unsorted element in range.
 	 * 
-	 * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which does not follow an 
-	 * ascending order. </p>
+	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which does not follow an 
+	 * ascending order.
 	 * 
-	 * <p> The range between <i>first</i> and the iterator returned {@link is_sorted is sorted}. </p>
+	 * The range between <i>first</i> and the iterator returned {@link is_sorted is sorted}.
 	 * 
-	 * <p> If the entire range is sorted, the function returns <i>last</i>. </p>
+	 * If the entire range is sorted, the function returns <i>last</i>.
 	 * 
-	 * <p> The elements are compared using {@link equal_to}. </p>
+	 * The elements are compared using {@link equal_to}.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position of the sequence. The range checked is
@@ -2186,16 +2181,16 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	/**
-	 * <p> Find first unsorted element in range. </p>
+	 * Find first unsorted element in range.
 	 * 
-	 * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which does not follow an 
-	 * ascending order. </p>
+	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which does not follow an 
+	 * ascending order.
 	 * 
-	 * <p> The range between <i>first</i> and the iterator returned {@link is_sorted is sorted}. </p>
+	 * The range between <i>first</i> and the iterator returned {@link is_sorted is sorted}.
 	 * 
-	 * <p> If the entire range is sorted, the function returns <i>last</i>. </p>
+	 * If the entire range is sorted, the function returns <i>last</i>.
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. </p>
+	 * The elements are compared using <i>compare</i>.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position of the sequence. The range checked is
@@ -2213,14 +2208,14 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
 	export function is_sorted_until<T, ForwardIterator extends Iterator<T>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.equal_to): ForwardIterator
+		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = equal_to): ForwardIterator
 	{
 		if (first.equals(last))
 			return first;
 		
 		for (let next = first.next() as ForwardIterator; !next.equals(last); next = next.next() as ForwardIterator)
 		{
-			if (std.less(next.value ,first.value)) 
+			if (less(next.value ,first.value)) 
 				return next;
 			
 			first = first.next() as ForwardIterator;
@@ -2234,7 +2229,7 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	function qsort<T>
+	function _Quick_sort<T>
 		(container: base.IArrayContainer<T>, first: number, last: number, compare: (left: T, right: T) => boolean): void
 	{
 		if (last == -2)
@@ -2242,15 +2237,15 @@ namespace std
 		if (first >= last)
 			return;
 
-		let index: number = qsort_partition(container, first, last, compare);
-		qsort(container, first, index - 1, compare);
-		qsort(container, index + 1, last, compare);
+		let index: number = _Quick_sort_partition(container, first, last, compare);
+		_Quick_sort(container, first, index - 1, compare);
+		_Quick_sort(container, index + 1, last, compare);
 	}
 
 	/**
 	 * @hidden
 	 */
-	function qsort_partition<T>
+	function _Quick_sort_partition<T>
 		(
 			container: base.IArrayContainer<T>, first: number, last: number, 
 			compare: (left: T, right: T) => boolean
@@ -2289,7 +2284,7 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	function stable_qsort<T>
+	function _Stable_quick_sort<T>
 		(
 			container: base.IArrayContainer<T>, first: number, last: number, 
 			compare: (left: T, right: T) => boolean
@@ -2301,15 +2296,15 @@ namespace std
 		else if (first >= last)
 			return;
 
-		let index: number = stable_qsort_partition(container, first, last, compare);
-		stable_qsort(container, first, index - 1, compare);
-		stable_qsort(container, index + 1, last, compare);
+		let index: number = _Stable_quick_sort_partition(container, first, last, compare);
+		_Stable_quick_sort(container, first, index - 1, compare);
+		_Stable_quick_sort(container, index + 1, last, compare);
 	}
 
 	/**
 	 * @hidden
 	 */
-	function stable_qsort_partition<T>
+	function _Stable_quick_sort_partition<T>
 		(
 			container: base.IArrayContainer<T>, first: number, last: number, 
 			compare: (left: T, right: T) => boolean
@@ -2321,10 +2316,10 @@ namespace std
 
 		while (true)
 		{
-			while (!std.equal_to(container.at(++i), val) && compare(container.at(i), val))
+			while (!equal_to(container.at(++i), val) && compare(container.at(i), val))
 				if (i == last - 1)
 					break;
-			while (!std.equal_to(val, container.at(--j)) && compare(val, container.at(j)))
+			while (!equal_to(val, container.at(--j)) && compare(val, container.at(j)))
 				if (j == first)
 					break;
 
@@ -2348,7 +2343,7 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	function selection_sort<T>
+	function _Selection_sort<T>
 		(
 			container: base.IArrayContainer<T>, first: number, middle: number, last: number,
 			compare: (x: T, y: T) => boolean
@@ -2381,22 +2376,22 @@ namespace std
 		HEAP
 	========================================================= */
 	/**
-	 * <p> Make heap from range. </p>
+	 * Make heap from range.
 	 * 
-	 * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>) in such a way that they form a heap. </p>
+	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>) in such a way that they form a heap.
 	 * 
-	 * <p> A heap is a way to organize the elements of a range that allows for fast retrieval of the element with the 
+	 * A heap is a way to organize the elements of a range that allows for fast retrieval of the element with the 
 	 * highest value at any moment (with {@link pop_heap}), even repeatedly, while allowing for fast insertion of new 
-	 * elements (with {@link push_heap}). </p>
+	 * elements (with {@link push_heap}).
 	 * 
-	 * <p> The element with the highest value is always pointed by first. The order of the other elements depends on the 
-	 * particular implementation, but it is consistent throughout all heap-related functions of this header. </p>
+	 * The element with the highest value is always pointed by first. The order of the other elements depends on the 
+	 * particular implementation, but it is consistent throughout all heap-related functions of this header.
 	 * 
-	 * <p> The elements are compared using {@link less}: The element with the highest value is an element for which this 
-	 * would return false when compared to every other element in the range. </p>
+	 * The elements are compared using {@link less}: The element with the highest value is an element for which this 
+	 * would return false when compared to every other element in the range.
 	 * 
-	 * <p> The standard container adaptor {@link PriorityQueue} calls {@link make_heap}, {@link push_heap} and 
-	 * {@link pop_heap} automatically to maintain heap properties for a container. </p>
+	 * The standard container adaptor {@link PriorityQueue} calls {@link make_heap}, {@link push_heap} and 
+	 * {@link pop_heap} automatically to maintain heap properties for a container.
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be 
 	 *				transformed into a heap.
@@ -2410,22 +2405,22 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
-	 * <p> Make heap from range. </p>
+	 * Make heap from range.
 	 *
-	 * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>) in such a way that they form a heap. </p>
+	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>) in such a way that they form a heap.
 	 *
-	 * <p> A heap is a way to organize the elements of a range that allows for fast retrieval of the element with the
+	 * A heap is a way to organize the elements of a range that allows for fast retrieval of the element with the
 	 * highest value at any moment (with {@link pop_heap}), even repeatedly, while allowing for fast insertion of new
-	 * elements (with {@link push_heap}). </p>
+	 * elements (with {@link push_heap}).
 	 *
-	 * <p> The element with the highest value is always pointed by first. The order of the other elements depends on the
-	 * particular implementation, but it is consistent throughout all heap-related functions of this header. </p>
+	 * The element with the highest value is always pointed by first. The order of the other elements depends on the
+	 * particular implementation, but it is consistent throughout all heap-related functions of this header.
 	 *
-	 * <p> The elements are compared using <i>compare</i>: The element with the highest value is an element for which this
-	 * would return false when compared to every other element in the range. </p>
+	 * The elements are compared using <i>compare</i>: The element with the highest value is an element for which this
+	 * would return false when compared to every other element in the range.
 	 *
-	 * <p> The standard container adaptor {@link PriorityQueue} calls {@link make_heap}, {@link push_heap} and
-	 * {@link pop_heap} automatically to maintain heap properties for a container. </p>
+	 * The standard container adaptor {@link PriorityQueue} calls {@link make_heap}, {@link push_heap} and
+	 * {@link pop_heap} automatically to maintain heap properties for a container.
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be 
 	 *				transformed into a heap.
@@ -2444,7 +2439,7 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 	export function make_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): void
 	{
 		let heap_compare = 
 			function (x: T, y: T): boolean
@@ -2452,19 +2447,19 @@ namespace std
 				return !compare(x, y);
 			}
 
-		std.sort(first, last, heap_compare);
+		sort(first, last, heap_compare);
 	}
 
 	/**
-	 * <p> Push element into heap range. </p>
+	 * Push element into heap range.
 	 * 
-	 * <p> Given a heap in the range [<i>first</i>, <i>last</i> - 1), this function extends the range considered a heap to 
+	 * Given a heap in the range [<i>first</i>, <i>last</i> - 1), this function extends the range considered a heap to 
 	 * [<i>first</i>, <i>last</i>) by placing the value in (<i>last</i> - 1) into its corresponding location within it. 
-	 * </p>
+	 *
 	 * 
-	 * <p> A range can be organized into a heap by calling {@link make_heap}. After that, its heap properties are 
+	 * A range can be organized into a heap by calling {@link make_heap}. After that, its heap properties are 
 	 * preserved if elements are added and removed from it using {@link push_heap} and {@link pop_heap}, respectively. 
-	 * </p>
+	 *
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the new heap range, including 
 	 *				the pushed element.
@@ -2478,15 +2473,14 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
-	 * <p> Push element into heap range. </p>
+	 * Push element into heap range.
 	 *
-	 * <p> Given a heap in the range [<i>first</i>, <i>last</i> - 1), this function extends the range considered a heap to
+	 * Given a heap in the range [<i>first</i>, <i>last</i> - 1), this function extends the range considered a heap to
 	 * [<i>first</i>, <i>last</i>) by placing the value in (<i>last</i> - 1) into its corresponding location within it.
-	 * </p>
 	 *
-	 * <p> A range can be organized into a heap by calling {@link make_heap}. After that, its heap properties are
+	 * A range can be organized into a heap by calling {@link make_heap}. After that, its heap properties are
 	 * preserved if elements are added and removed from it using {@link push_heap} and {@link pop_heap}, respectively.
-	 * </p>
+	 *
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the new heap range, including
 	 *				the pushed element.
@@ -2505,7 +2499,7 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 	export function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): void
 	{
 		let last_item_it = last.prev();
 		let less_it: RandomAccessIterator = null;
@@ -2529,18 +2523,17 @@ namespace std
 	}
 
 	/**
-	 * <p> Pop element from heap range. </p>
+	 * Pop element from heap range.
 	 * 
-	 * <p> Rearranges the elements in the heap range [<i>first</i>, <i>last</i>) in such a way that the part considered a 
-	 * heap is shortened by one: The element with the highest value is moved to (<i>last</i> - 1). </p>
+	 * Rearranges the elements in the heap range [<i>first</i>, <i>last</i>) in such a way that the part considered a 
+	 * heap is shortened by one: The element with the highest value is moved to (<i>last</i> - 1).
 	 * 
-	 * <p> While the element with the highest value is moved from first to (<i>last</i> - 1) (which now is out of the 
+	 * While the element with the highest value is moved from first to (<i>last</i> - 1) (which now is out of the 
 	 * heap), the other elements are reorganized in such a way that the range [<i>first</i>, <i>last</i> - 1) preserves 
-	 * the properties of a heap. </p>
+	 * the properties of a heap.
 	 * 
-	 * <p> A range can be organized into a heap by calling {@link make_heap}. After that, its heap properties are 
+	 * A range can be organized into a heap by calling {@link make_heap}. After that, its heap properties are 
 	 * preserved if elements are added and removed from it using {@link push_heap} and {@link pop_heap}, respectively. 
-	 * </p>
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the heap to be shrank by one.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the heap to be shrank by one. 
@@ -2553,18 +2546,17 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
-	 * <p> Pop element from heap range. </p>
+	 * Pop element from heap range.
 	 *
-	 * <p> Rearranges the elements in the heap range [<i>first</i>, <i>last</i>) in such a way that the part considered a
-	 * heap is shortened by one: The element with the highest value is moved to (<i>last</i> - 1). </p>
+	 * Rearranges the elements in the heap range [<i>first</i>, <i>last</i>) in such a way that the part considered a
+	 * heap is shortened by one: The element with the highest value is moved to (<i>last</i> - 1).
 	 *
-	 * <p> While the element with the highest value is moved from first to (<i>last</i> - 1) (which now is out of the
+	 * While the element with the highest value is moved from first to (<i>last</i> - 1) (which now is out of the
 	 * heap), the other elements are reorganized in such a way that the range [<i>first</i>, <i>last</i> - 1) preserves
-	 * the properties of a heap. </p>
+	 * the properties of a heap.
 	 *
-	 * <p> A range can be organized into a heap by calling {@link make_heap}. After that, its heap properties are
+	 * A range can be organized into a heap by calling {@link make_heap}. After that, its heap properties are
 	 * preserved if elements are added and removed from it using {@link push_heap} and {@link pop_heap}, respectively.
-	 * </p>
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the heap to be shrank by one.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the heap to be shrank by one.
@@ -2582,7 +2574,7 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 	export function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): void
 	{
 		let container = first.source() as base.IArrayContainer<T>;
 
@@ -2591,12 +2583,11 @@ namespace std
 	}
 
 	/**
-	 * <p> Test if range is heap. </p>
+	 * Test if range is heap.
 	 * 
-	 * <p> Returns true if the range [<i>first</i>, <i>last</i>) forms a heap, as if constructed with {@link make_heap}. 
-	 * </p>
+	 * Returns true if the range [<i>first</i>, <i>last</i>) forms a heap, as if constructed with {@link make_heap}. 
 	 * 
-	 * <p> The elements are compared using {@link less}. </p>
+	 * The elements are compared using {@link less}.
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence. The range used is 
@@ -2613,12 +2604,11 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): boolean;
 
 	/**
-	 * <p> Test if range is heap. </p>
+	 * Test if range is heap.
 	 *
-	 * <p> Returns true if the range [<i>first</i>, <i>last</i>) forms a heap, as if constructed with {@link make_heap}.
-	 * </p>
+	 * Returns true if the range [<i>first</i>, <i>last</i>) forms a heap, as if constructed with {@link make_heap}.
 	 *
-	 * <p> The elements are compared using <i>compare</i>. </p>
+	 * The elements are compared using <i>compare</i>.
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence. The range used is
@@ -2640,24 +2630,24 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): boolean;
 
 	export function is_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): boolean
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): boolean
 	{
-		let it = std.is_heap_until(first, last, compare);
+		let it = is_heap_until(first, last, compare);
 
 		return it.equals(last);
 	}
 
 	/**
-	 * <p> Find first element not in heap order. </p>
+	 * Find first element not in heap order.
 	 * 
-	 * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which is not in a valid 
-	 * position if the range is considered a heap (as if constructed with {@link make_heap}). </p>
+	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which is not in a valid 
+	 * position if the range is considered a heap (as if constructed with {@link make_heap}).
 	 * 
-	 * <p> The range between first and the iterator returned is a heap. </p>
+	 * The range between first and the iterator returned is a heap.
 	 * 
-	 * <p> If the entire range is a valid heap, the function returns <i>last</i>. </p>
+	 * If the entire range is a valid heap, the function returns <i>last</i>.
 	 * 
-	 * <p> The elements are compared using {@link less}. </p>
+	 * The elements are compared using {@link less}.
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence. The range used is
@@ -2670,16 +2660,16 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): RandomAccessIterator;
 
 	/**
-	 * <p> Find first element not in heap order. </p>
+	 * Find first element not in heap order.
 	 *
-	 * <p> Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which is not in a valid
-	 * position if the range is considered a heap (as if constructed with {@link make_heap}). </p>
+	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which is not in a valid
+	 * position if the range is considered a heap (as if constructed with {@link make_heap}).
 	 *
-	 * <p> The range between first and the iterator returned is a heap. </p>
+	 * The range between first and the iterator returned is a heap.
 	 *
-	 * <p> If the entire range is a valid heap, the function returns <i>last</i>. </p>
+	 * If the entire range is a valid heap, the function returns <i>last</i>.
 	 *
-	 * <p> The elements are compared using {@link less}. </p>
+	 * The elements are compared using {@link less}.
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence. The range used is
@@ -2697,7 +2687,7 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): RandomAccessIterator;
 
 	export function is_heap_until<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): RandomAccessIterator
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): RandomAccessIterator
 	{
 		let prev = first;
 		for (let it = first.next() as RandomAccessIterator; !it.equals(last); it = it.next() as RandomAccessIterator)
@@ -2711,13 +2701,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Sort elements of heap. </p>
+	 * Sort elements of heap.
 	 * 
-	 * <p> Sorts the elements in the heap range [<i>first</i>, <i>last</i>) into ascending order. </p>
+	 * Sorts the elements in the heap range [<i>first</i>, <i>last</i>) into ascending order.
 	 * 
-	 * <p> The elements are compared using {@link less}, which shall be the same as used to construct the heap. </p>
+	 * The elements are compared using {@link less}, which shall be the same as used to construct the heap.
 	 * 
-	 * <p> The range loses its properties as a heap. </p>
+	 * The range loses its properties as a heap.
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
@@ -2730,13 +2720,13 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	/**
-	 * <p> Sort elements of heap. </p>
+	 * Sort elements of heap.
 	 *
-	 * <p> Sorts the elements in the heap range [<i>first</i>, <i>last</i>) into ascending order. </p>
+	 * Sorts the elements in the heap range [<i>first</i>, <i>last</i>) into ascending order.
 	 *
-	 * <p> The elements are compared using <i>compare</i>, which shall be the same as used to construct the heap. </p>
+	 * The elements are compared using <i>compare</i>, which shall be the same as used to construct the heap.
 	 *
-	 * <p> The range loses its properties as a heap. </p>
+	 * The range loses its properties as a heap.
 	 * 
 	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.
 	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
@@ -2754,9 +2744,9 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 	export function sort_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = std.less): void
+		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): void
 	{
-		std.sort(first, last, compare);
+		sort(first, last, compare);
 	}
 }
 
@@ -2766,20 +2756,20 @@ namespace std
 		BINARY SEARCH
 	========================================================= */
 	/**
-	 * <p> Return iterator to lower bound. </p>
+	 * Return iterator to lower bound.
 	 * 
-	 * <p> Returns an iterator pointing to the first element in the range [<i>first</i>, <i>last</i>) which does not 
-	 * compare less than <i>val</i>. </p>
+	 * Returns an iterator pointing to the first element in the range [<i>first</i>, <i>last</i>) which does not 
+	 * compare less than <i>val</i>.
 	 * 
-	 * <p> The elements are compared using {@link less}. The elements in the range shall already be {@link is_sorted sorted} 
+	 * The elements are compared using {@link less}. The elements in the range shall already be {@link is_sorted sorted} 
 	 * according to this same criterion ({@link less}), or at least {@link is_partitioned partitioned} with respect to 
-	 * <i>val</i>. </p>
+	 * <i>val</i>.
 	 * 
-	 * <p> The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted 
-	 * range, which is specially efficient for {@link IArrayIterator random-access iterators}. </p>
+	 * The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted 
+	 * range, which is specially efficient for {@link IArrayIterator random-access iterators}.
 	 * 
-	 * <p> Unlike {@link upper_bound}, the value pointed by the iterator returned by this function may also be equivalent 
-	 * to <i>val</i>, and not only greater. </p>
+	 * Unlike {@link upper_bound}, the value pointed by the iterator returned by this function may also be equivalent 
+	 * to <i>val</i>, and not only greater.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
 	 *				{@link is_partitioned partitioned}) sequence.
@@ -2797,20 +2787,20 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
 
 	/**
-	 * <p> Return iterator to lower bound. </p>
+	 * Return iterator to lower bound.
 	 *
-	 * <p> Returns an iterator pointing to the first element in the range [<i>first</i>, <i>last</i>) which does not
-	 * compare less than <i>val</i>. </p>
+	 * Returns an iterator pointing to the first element in the range [<i>first</i>, <i>last</i>) which does not
+	 * compare less than <i>val</i>.
 	 *
-	 * <p> The elements are compared using <i>compare</i>. The elements in the range shall already be 
+	 * The elements are compared using <i>compare</i>. The elements in the range shall already be 
 	 * {@link is_sorted sorted} according to this same criterion (<i>compare</i>), or at least 
-	 * {@link is_partitioned partitioned} with respect to <i>val</i>. </p>
+	 * {@link is_partitioned partitioned} with respect to <i>val</i>.
 	 *
-	 * <p> The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted
-	 * range, which is specially efficient for {@link IArrayIterator random-access iterators}. </p>
+	 * The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted
+	 * range, which is specially efficient for {@link IArrayIterator random-access iterators}.
 	 *
-	 * <p> Unlike {@link upper_bound}, the value pointed by the iterator returned by this function may also be equivalent
-	 * to <i>val</i>, and not only greater. </p>
+	 * Unlike {@link upper_bound}, the value pointed by the iterator returned by this function may also be equivalent
+	 * to <i>val</i>, and not only greater.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
 	 *				{@link is_partitioned partitioned}) sequence.
@@ -2836,7 +2826,7 @@ namespace std
 	export function lower_bound<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T, 
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): ForwardIterator
 	{
 		let count: number = distance(first, last);
@@ -2858,20 +2848,20 @@ namespace std
 	}
 
 	/**
-	 * <p> Return iterator to upper bound. </p>
+	 * Return iterator to upper bound.
 	 * 
-	 * <p> Returns an iterator pointing to the first element in the range [<i>first</i>, <i>last</i>) which compares 
-	 * greater than <i>val</i>. </p>
+	 * Returns an iterator pointing to the first element in the range [<i>first</i>, <i>last</i>) which compares 
+	 * greater than <i>val</i>.
 	 * 
-	 * <p> The elements are compared using {@link less}. The elements in the range shall already be {@link is_sorted sorted} 
+	 * The elements are compared using {@link less}. The elements in the range shall already be {@link is_sorted sorted} 
 	 * according to this same criterion ({@link less}), or at least {@link is_partitioned partitioned} with respect to 
-	 * <i>val</i>. </p>
+	 * <i>val</i>.
 	 * 
-	 * <p> The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted 
-	 * range, which is specially efficient for {@link IArrayIterator random-access iterators}. </p>
+	 * The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted 
+	 * range, which is specially efficient for {@link IArrayIterator random-access iterators}.
 	 * 
-	 * <p> Unlike {@link lower_bound}, the value pointed by the iterator returned by this function cannot be equivalent to 
-	 * <i>val</i>, only greater. </p>
+	 * Unlike {@link lower_bound}, the value pointed by the iterator returned by this function cannot be equivalent to 
+	 * <i>val</i>, only greater.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
 	 *				{@link is_partitioned partitioned}) sequence.
@@ -2889,20 +2879,20 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
 
 	/**
-	 * <p> Return iterator to upper bound. </p>
+	 * Return iterator to upper bound.
 	 *
-	 * <p> Returns an iterator pointing to the first element in the range [<i>first</i>, <i>last</i>) which compares
-	 * greater than <i>val</i>. </p>
+	 * Returns an iterator pointing to the first element in the range [<i>first</i>, <i>last</i>) which compares
+	 * greater than <i>val</i>.
 	 *
-	 * <p> The elements are compared using <i>compare</i>. The elements in the range shall already be 
+	 * The elements are compared using <i>compare</i>. The elements in the range shall already be 
 	 * {@link is_sorted sorted} according to this same criterion (<i>compare</i>), or at least 
-	 * {@link is_partitioned partitioned} with respect to <i>val</i>. </p>
+	 * {@link is_partitioned partitioned} with respect to <i>val</i>.
 	 *
-	 * <p> The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted
-	 * range, which is specially efficient for {@link IArrayIterator random-access iterators}. </p>
+	 * The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted
+	 * range, which is specially efficient for {@link IArrayIterator random-access iterators}.
 	 *
-	 * <p> Unlike {@link lower_bound}, the value pointed by the iterator returned by this function cannot be equivalent to
-	 * <i>val</i>, only greater. </p>
+	 * Unlike {@link lower_bound}, the value pointed by the iterator returned by this function cannot be equivalent to
+	 * <i>val</i>, only greater.
 	 *
 	 * @param first {@link Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
 	 *				{@link is_partitioned partitioned}) sequence.
@@ -2928,7 +2918,7 @@ namespace std
 	export function upper_bound<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): ForwardIterator
 	{
 		let count: number = distance(first, last);
@@ -2950,20 +2940,20 @@ namespace std
 	}
 
 	/**
-	 * <p> Get subrange of equal elements. </p>
+	 * Get subrange of equal elements.
 	 * 
-	 * <p> Returns the bounds of the subrange that includes all the elements of the range [<i>first</i>, <i>last</i>) with
-	 * values equivalent to <i>val</i>. </p>
+	 * Returns the bounds of the subrange that includes all the elements of the range [<i>first</i>, <i>last</i>) with
+	 * values equivalent to <i>val</i>.
 	 * 
-	 * <p> The elements are compared using {@link less}. Two elements, <i>ax/i> and <i>y</i> are considered equivalent 
-	 * <code>if (!std.less(x, y) && !std.less(y, x))</code>. </p>
+	 * The elements are compared using {@link less}. Two elements, <i>ax/i> and <i>y</i> are considered equivalent 
+	 * <code>if (!less(x, y) && !less(y, x))</code>.
 	 * 
-	 * <p> The elements in the range shall already be {@link is_sorted sorted} according to this same criterion 
-	 * ({@link less}), or at least {@link is_partitioned partitioned} with respect to <i>val</i>. </p>
+	 * The elements in the range shall already be {@link is_sorted sorted} according to this same criterion 
+	 * ({@link less}), or at least {@link is_partitioned partitioned} with respect to <i>val</i>.
 	 * 
-	 * <p> If <i>val</i> is not equivalent to any value in the range, the subrange returned has a length of zero, with both 
+	 * If <i>val</i> is not equivalent to any value in the range, the subrange returned has a length of zero, with both 
 	 * iterators pointing to the nearest value greater than <i>val</i>, if any, or to <i>last</i>, if <i>val</i> compares 
-	 * greater than all the elements in the range. </p>
+	 * greater than all the elements in the range.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
 	 *				{@link is_partitioned partitioned}) sequence.
@@ -2982,20 +2972,20 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, val: T): Pair<ForwardIterator, ForwardIterator>
 
 	/**
-	 * <p> Get subrange of equal elements. </p>
+	 * Get subrange of equal elements.
 	 * 
-	 * <p> Returns the bounds of the subrange that includes all the elements of the range [<i>first</i>, <i>last</i>) with
-	 * values equivalent to <i>val</i>. </p>
+	 * Returns the bounds of the subrange that includes all the elements of the range [<i>first</i>, <i>last</i>) with
+	 * values equivalent to <i>val</i>.
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. Two elements, <i>ax/i> and <i>y</i> are considered equivalent 
-	 * <code>if (!compare(x, y) && !compare(y, x))</code>. </p>
+	 * The elements are compared using <i>compare</i>. Two elements, <i>ax/i> and <i>y</i> are considered equivalent 
+	 * <code>if (!compare(x, y) && !compare(y, x))</code>.
 	 * 
-	 * <p> The elements in the range shall already be {@link is_sorted sorted} according to this same criterion 
-	 * (<i>compare</i>), or at least {@link is_partitioned partitioned} with respect to <i>val</i>. </p>
+	 * The elements in the range shall already be {@link is_sorted sorted} according to this same criterion 
+	 * (<i>compare</i>), or at least {@link is_partitioned partitioned} with respect to <i>val</i>.
 	 * 
-	 * <p> If <i>val</i> is not equivalent to any value in the range, the subrange returned has a length of zero, with both 
+	 * If <i>val</i> is not equivalent to any value in the range, the subrange returned has a length of zero, with both 
 	 * iterators pointing to the nearest value greater than <i>val</i>, if any, or to <i>last</i>, if <i>val</i> compares 
-	 * greater than all the elements in the range. </p>
+	 * greater than all the elements in the range.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
 	 *				{@link is_partitioned partitioned}) sequence.
@@ -3022,7 +3012,7 @@ namespace std
 	export function equal_range<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): Pair<ForwardIterator, ForwardIterator>
 	{
 		let it: ForwardIterator = lower_bound(first, last, val, compare);
@@ -3031,20 +3021,20 @@ namespace std
 	}
 
 	/**
-	 * <p> Get subrange of equal elements. </p>
+	 * Get subrange of equal elements.
 	 * 
-	 * <p> Returns the bounds of the subrange that includes all the elements of the range [<i>first</i>, <i>last</i>) with 
-	 * values equivalent to <i>val</i>. </p>
+	 * Returns the bounds of the subrange that includes all the elements of the range [<i>first</i>, <i>last</i>) with 
+	 * values equivalent to <i>val</i>.
 	 * 
-	 * <p> The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!std.less(x, y) && !std.less(y, x))</code>. </p>
+	 * The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!less(x, y) && !less(y, x))</code>.
 	 * 
-	 * <p> The elements in the range shall already be {@link is_sorted sorted} according to this same criterion 
-	 * ({@link less}), or at least {@link is_partitioned partitioned} with respect to <i>val</i>. </p>
+	 * The elements in the range shall already be {@link is_sorted sorted} according to this same criterion 
+	 * ({@link less}), or at least {@link is_partitioned partitioned} with respect to <i>val</i>.
 	 * 
-	 * <p> If <i>val</i> is not equivalent to any value in the range, the subrange returned has a length of zero, with both 
+	 * If <i>val</i> is not equivalent to any value in the range, the subrange returned has a length of zero, with both 
 	 * iterators pointing to the nearest value greater than <i>val</i>, if any, or to <i>last</i>, if <i>val</i> compares 
-	 * greater than all the elements in the range. </p>
+	 * greater than all the elements in the range.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
 	 *				{@link is_partitioned partitioned}) sequence.
@@ -3061,20 +3051,20 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, val: T): boolean;
 
 	/**
-	 * <p> Get subrange of equal elements. </p>
+	 * Get subrange of equal elements.
 	 *
-	 * <p> Returns the bounds of the subrange that includes all the elements of the range [<i>first</i>, <i>last</i>) with
-	 * values equivalent to <i>val</i>. </p>
+	 * Returns the bounds of the subrange that includes all the elements of the range [<i>first</i>, <i>last</i>) with
+	 * values equivalent to <i>val</i>.
 	 *
-	 * <p> The elements are compared using {<i>compare</i>}. Two elements, <i>x</i> and <i>y</i> are considered equivalent
-	 * <code>if (!compare(x, y) && !compare(y, x))</code>. </p>
+	 * The elements are compared using {<i>compare</i>}. Two elements, <i>x</i> and <i>y</i> are considered equivalent
+	 * <code>if (!compare(x, y) && !compare(y, x))</code>.
 	 *
-	 * <p> The elements in the range shall already be {@link is_sorted sorted} according to this same criterion
-	 * (<i>compare</i>), or at least {@link is_partitioned partitioned} with respect to <i>val</i>. </p>
+	 * The elements in the range shall already be {@link is_sorted sorted} according to this same criterion
+	 * (<i>compare</i>), or at least {@link is_partitioned partitioned} with respect to <i>val</i>.
 	 *
-	 * <p> If <i>val</i> is not equivalent to any value in the range, the subrange returned has a length of zero, with both
+	 * If <i>val</i> is not equivalent to any value in the range, the subrange returned has a length of zero, with both
 	 * iterators pointing to the nearest value greater than <i>val</i>, if any, or to <i>last</i>, if <i>val</i> compares
-	 * greater than all the elements in the range. </p>
+	 * greater than all the elements in the range.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
 	 *				{@link is_partitioned partitioned}) sequence.
@@ -3099,7 +3089,7 @@ namespace std
 	export function binary_search<T, ForwardIterator extends Iterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): boolean
 	{
 		first = lower_bound(first, last, val, compare);
@@ -3114,12 +3104,12 @@ namespace std
 		PARTITION
 	========================================================= */
 	/**
-	 * <p> Test whether range is partitioned. </p>
+	 * Test whether range is partitioned.
 	 * 
-	 * <p> Returns <code>true</code> if all the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i> 
-	 * returns <code>true</code> precede those for which it returns <code>false</code>. </p>
+	 * Returns <code>true</code> if all the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i> 
+	 * returns <code>true</code> precede those for which it returns <code>false</code>.
 	 * 
-	 * <p> If the range is {@link Container.empty empty}, the function returns <code>true</code>. </p>
+	 * If the range is {@link Container.empty empty}, the function returns <code>true</code>.
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position of the sequence.
 	 * @param last {@link Iterator Input iterator} to the final position of the sequence. The range used is
@@ -3148,14 +3138,14 @@ namespace std
 	}
 
 	/**
-	 * <p> Partition range in two. </p>
+	 * Partition range in two.
 	 * 
-	 * <p> Rearranges the elements from the range [<i>first</i>, <i>last</i>), in such a way that all the elements for 
+	 * Rearranges the elements from the range [<i>first</i>, <i>last</i>), in such a way that all the elements for 
 	 * which <i>pred</i> returns <code>true</code> precede all those for which it returns <code>false</code>. The iterator 
-	 * returned points to the first element of the second group. </p>
+	 * returned points to the first element of the second group.
 	 * 
-	 * <p> The relative ordering within each group is not necessarily the same as before the call. See 
-	 * {@link stable_partition} for a function with a similar behavior but with stable ordering within each group. </p>
+	 * The relative ordering within each group is not necessarily the same as before the call. See 
+	 * {@link stable_partition} for a function with a similar behavior but with stable ordering within each group.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the sequence to partition.
 	 * @param last {@link Iterator Forward iterator} to the final position of the sequence to partition. The range used is
@@ -3196,13 +3186,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Partition range in two - stable ordering. </p>
+	 * Partition range in two - stable ordering.
 	 * 
-	 * <p> Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that all the elements for which 
+	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that all the elements for which 
 	 * <i>pred</i> returns <code>true</code> precede all those for which it returns <code>false</code>, and, unlike 
-	 * function {@link partition}, the relative order of elements within each group is preserved. </p>
+	 * function {@link partition}, the relative order of elements within each group is preserved.
 	 * 
-	 * <p> This is generally implemented using an internal temporary buffer. </p>
+	 * This is generally implemented using an internal temporary buffer.
 	 * 
 	 * @param first {@link Iterator Bidirectional iterator} to the initial position of the sequence to partition.
 	 * @param last {@link Iterator Bidirectional iterator} to the final position of the sequence to partition. The range 
@@ -3223,11 +3213,11 @@ namespace std
 	}
 
 	/**
-	 * <p> Partition range into two. </p>
+	 * Partition range into two.
 	 * 
-	 * <p> Copies the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i> returns <code>true</code> 
+	 * Copies the elements in the range [<i>first</i>, <i>last</i>) for which <i>pred</i> returns <code>true</code> 
 	 * into the range pointed by <i>result_true</i>, and those for which it does not into the range pointed by 
-	 * <i>result_false</i>. </p>
+	 * <i>result_false</i>.
 	 * 
 	 * @param first {@link Iterator Input iterator} to the initial position of the range to be copy-partitioned.
 	 * @param last {@link Iterator Input iterator} to the final position of the range to be copy-partitioned. The range 
@@ -3271,16 +3261,16 @@ namespace std
 	}
 
 	/**
-	 * <p> Get partition point. </p>
+	 * Get partition point.
 	 * 
-	 * <p> Returns an iterator to the first element in the partitioned range [<i>first</i>, <i>last</i>) for which 
-	 * <i>pred</i> is not <code>true</code>, indicating its partition point. </p>
+	 * Returns an iterator to the first element in the partitioned range [<i>first</i>, <i>last</i>) for which 
+	 * <i>pred</i> is not <code>true</code>, indicating its partition point.
 	 * 
-	 * <p> The elements in the range shall already {@link is_partitioned be partitioned}, as if {@link partition} had been 
-	 * called with the same arguments. </p>
+	 * The elements in the range shall already {@link is_partitioned be partitioned}, as if {@link partition} had been 
+	 * called with the same arguments.
 	 * 
-	 * <p> The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted 
-	 * range, which is specially efficient for {@link Iteartor random-access iterators}. </p>
+	 * The function optimizes the number of comparisons performed by comparing non-consecutive elements of the sorted 
+	 * range, which is specially efficient for {@link Iteartor random-access iterators}.
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the partitioned sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position of the partitioned sequence. The range checked 
@@ -3327,13 +3317,13 @@ namespace std
 		MERGE
 	--------------------------------------------------------- */
 	/**
-	 * <p> Merge sorted ranges. </p>
+	 * Merge sorted ranges.
 	 * 
-	 * <p> Combines the elements in the sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>), into 
-	 * a new range beginning at <i>result</i> with all its elements sorted. </p>
+	 * Combines the elements in the sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>), into 
+	 * a new range beginning at <i>result</i> with all its elements sorted.
 	 * 
-	 * <p> The elements are compared using {@link less}. The elements in both ranges shall already be ordered according to 
-	 * this same criterion ({@link less}). The resulting range is also sorted according to this. </p>
+	 * The elements are compared using {@link less}. The elements in both ranges shall already be ordered according to 
+	 * this same criterion ({@link less}). The resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is 
@@ -3356,13 +3346,13 @@ namespace std
 		): OutputIterator;
 
 	/**
-	 * <p> Merge sorted ranges. </p>
+	 * Merge sorted ranges.
 	 * 
-	 * <p> Combines the elements in the sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>), into 
-	 * a new range beginning at <i>result</i> with all its elements sorted. </p>
+	 * Combines the elements in the sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>), into 
+	 * a new range beginning at <i>result</i> with all its elements sorted.
 	 * 
-	 * <p> The elements are compared using {@link less}. The elements in both ranges shall already be ordered according to 
-	 * this same criterion (<i>compare</i>). The resulting range is also sorted according to this. </p>
+	 * The elements are compared using {@link less}. The elements in both ranges shall already be ordered according to 
+	 * this same criterion (<i>compare</i>). The resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is 
@@ -3393,7 +3383,7 @@ namespace std
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
-			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
+			result: OutputIterator, compare: (x: T, y: T) => boolean = less
 		): OutputIterator
 	{
 		while (true)
@@ -3419,16 +3409,16 @@ namespace std
 	}
 
 	/**
-	 * <p> Merge consecutive sorted ranges. </p>
+	 * Merge consecutive sorted ranges.
 	 * 
-	 * <p> Merges two consecutive sorted ranges: [<i>first</i>, <i>middle</i>) and [<i>middle</i>, <i>last</i>), putting 
-	 * the result into the combined sorted range [<i>first</i>, <i>last</i>). </p>
+	 * Merges two consecutive sorted ranges: [<i>first</i>, <i>middle</i>) and [<i>middle</i>, <i>last</i>), putting 
+	 * the result into the combined sorted range [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The elements are compared using {@link less}. The elements in both ranges shall already be ordered according to 
-	 * this same criterion ({@link less}). The resulting range is also sorted according to this. </p>
+	 * The elements are compared using {@link less}. The elements in both ranges shall already be ordered according to 
+	 * this same criterion ({@link less}). The resulting range is also sorted according to this.
 	 * 
-	 * <p> The function preserves the relative order of elements with equivalent values, with the elements in the first 
-	 * range preceding those equivalent in the second. </p>
+	 * The function preserves the relative order of elements with equivalent values, with the elements in the first 
+	 * range preceding those equivalent in the second.
 	 * 
 	 * @param first {@link Iterator Bidirectional iterator} to the initial position in the first sorted sequence to merge. 
 	 *				This is also the initial position where the resulting merged range is stored.
@@ -3443,16 +3433,16 @@ namespace std
 		(first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator): void;
 
 	/**
-	 * <p> Merge consecutive sorted ranges. </p>
+	 * Merge consecutive sorted ranges.
 	 * 
-	 * <p> Merges two consecutive sorted ranges: [<i>first</i>, <i>middle</i>) and [<i>middle</i>, <i>last</i>), putting 
-	 * the result into the combined sorted range [<i>first</i>, <i>last</i>). </p>
+	 * Merges two consecutive sorted ranges: [<i>first</i>, <i>middle</i>) and [<i>middle</i>, <i>last</i>), putting 
+	 * the result into the combined sorted range [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. The elements in both ranges shall already be ordered according 
-	 * to this same criterion (<i>compare</i>). The resulting range is also sorted according to this. </p>
+	 * The elements are compared using <i>compare</i>. The elements in both ranges shall already be ordered according 
+	 * to this same criterion (<i>compare</i>). The resulting range is also sorted according to this.
 	 * 
-	 * <p> The function preserves the relative order of elements with equivalent values, with the elements in the first 
-	 * range preceding those equivalent in the second. </p>
+	 * The function preserves the relative order of elements with equivalent values, with the elements in the first 
+	 * range preceding those equivalent in the second.
 	 * 
 	 * @param first {@link Iterator Bidirectional iterator} to the initial position in the first sorted sequence to merge. 
 	 *				This is also the initial position where the resulting merged range is stored.
@@ -3476,7 +3466,7 @@ namespace std
 	export function inplace_merge<T, BidirectionalIterator extends base.ILinearIterator<T>>
 		(
 			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): void
 	{
 		let vector: Vector<T> = new Vector<T>(distance(first, last), null);
@@ -3489,15 +3479,15 @@ namespace std
 		SET OPERATIONS
 	--------------------------------------------------------- */
 	/**
-	 * <p> Test whether sorted range includes another sorted range. </p>
+	 * Test whether sorted range includes another sorted range.
 	 * 
-	 * <p> Returns <code>true</code> if the sorted range [<i>first1</i>, <i>last1</i>) contains all the elements in the 
-	 * sorted range [<i>first2</i>, <i>last2</i>). </p>
+	 * Returns <code>true</code> if the sorted range [<i>first1</i>, <i>last1</i>) contains all the elements in the 
+	 * sorted range [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!std.less(x, y) && !std.less(y, x))</code>. </p>
+	 * The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!less(x, y) && !less(y, x))</code>.
 	 * 
-	 * <p> The elements in the range shall already be ordered according to this same criterion ({@link less}). </p>
+	 * The elements in the range shall already be ordered according to this same criterion ({@link less}).
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence (which is tested on 
@@ -3516,15 +3506,15 @@ namespace std
 		(first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2): boolean;
 	
 	/**
-	 * <p> Test whether sorted range includes another sorted range. </p>
+	 * Test whether sorted range includes another sorted range.
 	 * 
-	 * <p> Returns <code>true</code> if the sorted range [<i>first1</i>, <i>last1</i>) contains all the elements in the 
-	 * sorted range [<i>first2</i>, <i>last2</i>). </p>
+	 * Returns <code>true</code> if the sorted range [<i>first1</i>, <i>last1</i>) contains all the elements in the 
+	 * sorted range [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!compare(x, y) && !compare(y, x))</code>. </p>
+	 * The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!compare(x, y) && !compare(y, x))</code>.
 	 * 
-	 * <p> The elements in the range shall already be ordered according to this same criterion (<i>compare</i>). </p>
+	 * The elements in the range shall already be ordered according to this same criterion (<i>compare</i>).
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence (which is tested on 
@@ -3552,7 +3542,7 @@ namespace std
 	export function includes<T, InputIterator1 extends Iterator<T>, InputIterator2 extends Iterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
-			compare: (x: T, y: T) => boolean = std.less
+			compare: (x: T, y: T) => boolean = less
 		): boolean
 	{
 		while (!first2.equals(last2))
@@ -3569,20 +3559,20 @@ namespace std
 	}
 
 	/**
-	 * <p> Union of two sorted ranges. </p>
+	 * Union of two sorted ranges.
 	 * 
-	 * <p> Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set union</i> of the 
-	 * two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>). </p>
+	 * Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set union</i> of the 
+	 * two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> The <i>union</i> of two sets is formed by the elements that are present in either one of the sets, or in both. 
+	 * The <i>union</i> of two sets is formed by the elements that are present in either one of the sets, or in both. 
 	 * Elements from the second range that have an equivalent element in the first range are not copied to the resulting 
-	 * range. </p>
+	 * range.
 	 * 
-	 * <p> The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!std.less(x, y) && !std.less(y, x))</code>. </p>
+	 * The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!less(x, y) && !less(y, x))</code>.
 	 * 
-	 * <p> The elements in the ranges shall already be ordered according to this same criterion ({@link less}). The 
-	 * resulting range is also sorted according to this. </p>
+	 * The elements in the ranges shall already be ordered according to this same criterion ({@link less}). The 
+	 * resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is
@@ -3606,20 +3596,20 @@ namespace std
 		): OutputIterator;
 
 	/**
-	 * <p> Union of two sorted ranges. </p>
+	 * Union of two sorted ranges.
 	 * 
-	 * <p> Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set union</i> of the 
-	 * two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>). </p>
+	 * Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set union</i> of the 
+	 * two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> The <i>union</i> of two sets is formed by the elements that are present in either one of the sets, or in both. 
+	 * The <i>union</i> of two sets is formed by the elements that are present in either one of the sets, or in both. 
 	 * Elements from the second range that have an equivalent element in the first range are not copied to the resulting 
-	 * range. </p>
+	 * range.
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!compare(x, y) && !compare(y, x))</code>. </p>
+	 * The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!compare(x, y) && !compare(y, x))</code>.
 	 * 
-	 * <p> The elements in the ranges shall already be ordered according to this same criterion (<i>compare</i>). The 
-	 * resulting range is also sorted according to this. </p>
+	 * The elements in the ranges shall already be ordered according to this same criterion (<i>compare</i>). The 
+	 * resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is
@@ -3652,7 +3642,7 @@ namespace std
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
-			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
+			result: OutputIterator, compare: (x: T, y: T) => boolean = less
 		): OutputIterator
 	{
 		while (true)
@@ -3687,19 +3677,19 @@ namespace std
 	}
 
 	/**
-	 * <p> Intersection of two sorted ranges. </p>
+	 * Intersection of two sorted ranges.
 	 * 
-	 * <p> Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set intersection</i> of 
-	 * the two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>). </p>
+	 * Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set intersection</i> of 
+	 * the two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> The <i>intersection</i> of two sets is formed only by the elements that are present in both sets. The elements 
-	 * copied by the function come always from the first range, in the same order. </p>
+	 * The <i>intersection</i> of two sets is formed only by the elements that are present in both sets. The elements 
+	 * copied by the function come always from the first range, in the same order.
 	 * 
-	 * <p> The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!std.less(x, y) && !std.less(y, x))</code>. </p>
+	 * The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!less(x, y) && !less(y, x))</code>.
 	 * 
-	 * <p> The elements in the ranges shall already be ordered according to this same criterion ({@link less}). The 
-	 * resulting range is also sorted according to this. </p>
+	 * The elements in the ranges shall already be ordered according to this same criterion ({@link less}). The 
+	 * resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is
@@ -3723,19 +3713,19 @@ namespace std
 		): OutputIterator;
 
 	/**
-	 * <p> Intersection of two sorted ranges. </p>
+	 * Intersection of two sorted ranges.
 	 * 
-	 * <p> Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set intersection</i> of 
-	 * the two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>). </p>
+	 * Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set intersection</i> of 
+	 * the two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> The <i>intersection</i> of two sets is formed only by the elements that are present in both sets. The elements 
-	 * copied by the function come always from the first range, in the same order. </p>
+	 * The <i>intersection</i> of two sets is formed only by the elements that are present in both sets. The elements 
+	 * copied by the function come always from the first range, in the same order.
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!compare(x, y) && !compare(y, x))</code>. </p>
+	 * The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!compare(x, y) && !compare(y, x))</code>.
 	 * 
-	 * <p> The elements in the ranges shall already be ordered according to this same criterion (<i>compare</i>). The
-	 * resulting range is also sorted according to this. </p>
+	 * The elements in the ranges shall already be ordered according to this same criterion (<i>compare</i>). The
+	 * resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is
@@ -3768,7 +3758,7 @@ namespace std
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
-			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
+			result: OutputIterator, compare: (x: T, y: T) => boolean = less
 		): OutputIterator
 	{
 		while (true)
@@ -3794,25 +3784,24 @@ namespace std
 	}
 
 	/**
-	 * <p> Difference of two sorted ranges. </p>
+	 * Difference of two sorted ranges.
 	 * 
-	 * <p> Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set difference</i> of 
-	 * the sorted range [<i>first1</i>, <i>last1</i>) with respect to the sorted range [<i>first2</i>, <i>last2</i>). </p>
+	 * Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set difference</i> of 
+	 * the sorted range [<i>first1</i>, <i>last1</i>) with respect to the sorted range [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> The <i>difference</i> of two sets is formed by the elements that are present in the first set, but not in the 
-	 * second one. The elements copied by the function come always from the first range, in the same order. </p>
+	 * The <i>difference</i> of two sets is formed by the elements that are present in the first set, but not in the 
+	 * second one. The elements copied by the function come always from the first range, in the same order.
 	 * 
-	 * <p> For containers supporting multiple occurrences of a value, the <i>difference</i> includes as many occurrences of 
-	 * a given value as in the first range, minus the amount of matching elements in the second, preserving order. </p>
+	 * For containers supporting multiple occurrences of a value, the <i>difference</i> includes as many occurrences of 
+	 * a given value as in the first range, minus the amount of matching elements in the second, preserving order.
 	 * 
-	 * <p> Notice that this is a directional operation - for a symmetrical equivalent, see {@link set_symmetric_difference}. 
-	 * </p>
+	 * Notice that this is a directional operation - for a symmetrical equivalent, see {@link set_symmetric_difference}. 
 	 * 
-	 * <p> The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!std.less(x, y) && !std.less(y, x))</code>. </p>
+	 * The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!less(x, y) && !less(y, x))</code>.
 	 * 
-	 * <p> The elements in the ranges shall already be ordered according to this same criterion ({@link less}). The 
-	 * resulting range is also sorted according to this. </p>
+	 * The elements in the ranges shall already be ordered according to this same criterion ({@link less}). The 
+	 * resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is
@@ -3836,25 +3825,24 @@ namespace std
 		): OutputIterator;
 
 	/**
-	 * <p> Difference of two sorted ranges. </p>
+	 * Difference of two sorted ranges.
 	 * 
-	 * <p> Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set difference</i> of 
-	 * the sorted range [<i>first1</i>, <i>last1</i>) with respect to the sorted range [<i>first2</i>, <i>last2</i>). </p>
+	 * Constructs a sorted range beginning in the location pointed by <i>result</i> with the <i>set difference</i> of 
+	 * the sorted range [<i>first1</i>, <i>last1</i>) with respect to the sorted range [<i>first2</i>, <i>last2</i>).
 	 * 
-	 * <p> The <i>difference</i> of two sets is formed by the elements that are present in the first set, but not in the 
-	 * second one. The elements copied by the function come always from the first range, in the same order. </p>
+	 * The <i>difference</i> of two sets is formed by the elements that are present in the first set, but not in the 
+	 * second one. The elements copied by the function come always from the first range, in the same order.
 	 * 
-	 * <p> For containers supporting multiple occurrences of a value, the <i>difference</i> includes as many occurrences of 
-	 * a given value as in the first range, minus the amount of matching elements in the second, preserving order. </p>
+	 * For containers supporting multiple occurrences of a value, the <i>difference</i> includes as many occurrences of 
+	 * a given value as in the first range, minus the amount of matching elements in the second, preserving order.
 	 * 
-	 * <p> Notice that this is a directional operation - for a symmetrical equivalent, see {@link set_symmetric_difference}. 
-	 * </p>
+	 * Notice that this is a directional operation - for a symmetrical equivalent, see {@link set_symmetric_difference}. 
 	 * 
-	 * <p> The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!compare(x, y) && !compare(y, x))</code>. </p>
+	 * The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!compare(x, y) && !compare(y, x))</code>.
 	 * 
-	 * <p> The elements in the ranges shall already be ordered according to this same criterion (<i>compare</i>). The
-	 * resulting range is also sorted according to this. </p>
+	 * The elements in the ranges shall already be ordered according to this same criterion (<i>compare</i>). The
+	 * resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is
@@ -3887,18 +3875,18 @@ namespace std
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
-			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
+			result: OutputIterator, compare: (x: T, y: T) => boolean = less
 		): OutputIterator
 	{
 		while (!first1.equals(last1) && !first2.equals(last2))
-			if (std.less(first1.value, first2.value))
+			if (less(first1.value, first2.value))
 			{
 				result.value = first1.value;
 
 				result = result.next() as OutputIterator;
 				first1 = first1.next() as InputIterator1;
 			}
-			else if (std.less(first2.value, first1.value))
+			else if (less(first2.value, first1.value))
 				first2 = first2.next() as InputIterator2;
 			else
 			{
@@ -3910,21 +3898,20 @@ namespace std
 	}
 
 	/**
-	 * <p> Symmetric difference of two sorted ranges. </p>
+	 * Symmetric difference of two sorted ranges.
 	 * 
-	 * <p> Constructs a sorted range beginning in the location pointed by0 <i>result</i> with the set 
+	 * Constructs a sorted range beginning in the location pointed by0 <i>result</i> with the set 
 	 * <i>symmetric difference</i> of the two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>). 
-	 * </p>
 	 * 
-	 * <p> The <i>symmetric difference</i> of two sets is formed by the elements that are present in one of the sets, but 
+	 * The <i>symmetric difference</i> of two sets is formed by the elements that are present in one of the sets, but 
 	 * not in the other. Among the equivalent elements in each range, those discarded are those that appear before in the 
-	 * existent order before the call. The existing order is also preserved for the copied elements. </p>
+	 * existent order before the call. The existing order is also preserved for the copied elements.
 	 * 
-	 * <p> The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
-	 * <code>if (!std.less(x, y) && !std.less(y, x))</code>. </p>
+	 * The elements are compared using {@link less}. Two elements, <i>x</i> and <i>y</i> are considered equivalent 
+	 * <code>if (!less(x, y) && !less(y, x))</code>.
 	 * 
-	 * <p> The elements in the ranges shall already be ordered according to this same criterion ({@link std.less}). The 
-	 * resulting range is also sorted according to this. </p>
+	 * The elements in the ranges shall already be ordered according to this same criterion ({@link less}). The 
+	 * resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is
@@ -3952,21 +3939,20 @@ namespace std
 		): OutputIterator;
 
 	/**
-	 * <p> Symmetric difference of two sorted ranges. </p>
+	 * Symmetric difference of two sorted ranges.
 	 *
-	 * <p> Constructs a sorted range beginning in the location pointed by0 <i>result</i> with the set
+	 * Constructs a sorted range beginning in the location pointed by0 <i>result</i> with the set
 	 * <i>symmetric difference</i> of the two sorted ranges [<i>first1</i>, <i>last1</i>) and [<i>first2</i>, <i>last2</i>).
-	 * </p>
 	 *
-	 * <p> The <i>symmetric difference</i> of two sets is formed by the elements that are present in one of the sets, but
+	 * The <i>symmetric difference</i> of two sets is formed by the elements that are present in one of the sets, but
 	 * not in the other. Among the equivalent elements in each range, those discarded are those that appear before in the
-	 * existent order before the call. The existing order is also preserved for the copied elements. </p>
+	 * existent order before the call. The existing order is also preserved for the copied elements.
 	 *
-	 * <p> The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent
-	 * <code>if (!compare(x, y) && !compare(y, x))</code>. </p>
+	 * The elements are compared using <i>compare</i>. Two elements, <i>x</i> and <i>y</i> are considered equivalent
+	 * <code>if (!compare(x, y) && !compare(y, x))</code>.
 	 *
-	 * <p> The elements in the ranges shall already be ordered according to this same criterion (<i>compare</i>). The
-	 * resulting range is also sorted according to this. </p>
+	 * The elements in the ranges shall already be ordered according to this same criterion (<i>compare</i>). The
+	 * resulting range is also sorted according to this.
 	 * 
 	 * @param first1 {@link Iterator Input iterator} to the initial position of the first sorted sequence.
 	 * @param last1 {@link Iterator Input iterator} to the final position of the first sorted sequence. The range used is
@@ -3999,7 +3985,7 @@ namespace std
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
-			result: OutputIterator, compare: (x: T, y: T) => boolean = std.less
+			result: OutputIterator, compare: (x: T, y: T) => boolean = less
 		): OutputIterator
 	{
 		while (true)
@@ -4038,13 +4024,14 @@ namespace std
 		MATHMATICS
 			- MIN & MAX
 			- PERMUTATION
+			- MISCELLANEOUS
 	============================================================
 		MIN & MAX
 	--------------------------------------------------------- */
 	/**
-	 * <p> Return the smallest. </p>
+	 * Return the smallest.
 	 * 
-	 * <p> Returns the smallest of all the elements in the <i>args</i>. </p>
+	 * Returns the smallest of all the elements in the <i>args</i>.
 	 * 
 	 * @param args Values to compare.
 	 * 
@@ -4055,16 +4042,16 @@ namespace std
 		let minimum: T = args[0];
 
 		for (let i: number = 1; i < args.length; i++)
-			if (std.less(args[i], minimum))
+			if (less(args[i], minimum))
 				minimum = args[i];
 
 		return minimum;
 	}
 
 	/**
-	 * <p> Return the largest. </p>
+	 * Return the largest.
 	 * 
-	 * <p> Returns the largest of all the elements in the <i>args</i>. </p>
+	 * Returns the largest of all the elements in the <i>args</i>.
 	 * 
 	 * @param args Values to compare.
 	 * 
@@ -4075,17 +4062,17 @@ namespace std
 		let maximum: T = args[0];
 
 		for (let i: number = 1; i < args.length; i++)
-			if (std.greater(args[i], maximum))
+			if (greater(args[i], maximum))
 				maximum = args[i];
 
 		return maximum;
 	}
 
 	/**
-	 * <p> Return smallest and largest elements. </p>
+	 * Return smallest and largest elements.
 	 *
-	 * <p> Returns a {@link Pair} with the smallest of all the elements in the <i>args</i> as first element (the first of 
-	 * them, if there are more than one), and the largest as second (the last of them, if there are more than one). </p>
+	 * Returns a {@link Pair} with the smallest of all the elements in the <i>args</i> as first element (the first of 
+	 * them, if there are more than one), and the largest as second (the last of them, if there are more than one).
 	 * 
 	 * @param args Values to compare.
 	 * 
@@ -4098,9 +4085,9 @@ namespace std
 
 		for (let i: number = 1; i < args.length; i++)
 		{
-			if (std.less(args[i], minimum))
+			if (less(args[i], minimum))
 				minimum = args[i];
-			if (std.greater(args[i], maximum))
+			if (greater(args[i], maximum))
 				maximum = args[i];
 		}
 
@@ -4108,14 +4095,13 @@ namespace std
 	}
 	
 	/**
-	 * <p> Return smallest element in range. </p>
+	 * Return smallest element in range.
 	 * 
-	 * <p> Returns an iterator pointing to the element with the smallest value in the range  [<i>first</i>, <i>last</i>).
-	 * </p>
+	 * Returns an iterator pointing to the element with the smallest value in the range  [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The comparisons are performed using either {@link less}; An element is the smallest if no other element 
+	 * The comparisons are performed using either {@link less}; An element is the smallest if no other element 
 	 * compares less than it. If more than one element fulfills this condition, the iterator returned points to the first 
-	 * of such elements. </p>
+	 * of such elements.
 	 * 
 	 * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
 	 * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used 
@@ -4128,14 +4114,13 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	/**
-	 * <p> Return smallest element in range. </p>
+	 * Return smallest element in range.
 	 * 
-	 * <p> Returns an iterator pointing to the element with the smallest value in the range  [<i>first</i>, <i>last</i>).
-	 * </p>
+	 * Returns an iterator pointing to the element with the smallest value in the range  [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The comparisons are performed using either <i>compare</i>; An element is the smallest if no other element 
+	 * The comparisons are performed using either <i>compare</i>; An element is the smallest if no other element 
 	 * compares less than it. If more than one element fulfills this condition, the iterator returned points to the first 
-	 * of such elements. </p>
+	 * of such elements.
 	 * 
 	 * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
 	 * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used 
@@ -4151,7 +4136,7 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
 	export function min_element<T, ForwardIterator extends Iterator<T>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.less): ForwardIterator
+		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		let smallest: ForwardIterator = first;
 		first = first.next() as ForwardIterator;
@@ -4164,14 +4149,13 @@ namespace std
 	}
 
 	/**
-	 * <p> Return largest element in range. </p>
+	 * Return largest element in range.
 	 * 
-	 * <p> Returns an iterator pointing to the element with the largest value in the range  [<i>first</i>, <i>last</i>).
-	 * </p>
+	 * Returns an iterator pointing to the element with the largest value in the range  [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The comparisons are performed using either {@link greater}; An element is the largest if no other element 
+	 * The comparisons are performed using either {@link greater}; An element is the largest if no other element 
 	 * compares less than it. If more than one element fulfills this condition, the iterator returned points to the first 
-	 * of such elements. </p>
+	 * of such elements.
 	 * 
 	 * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
 	 * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used 
@@ -4184,14 +4168,13 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	/**
-	 * <p> Return largest element in range. </p>
+	 * Return largest element in range.
 	 * 
-	 * <p> Returns an iterator pointing to the element with the largest value in the range  [<i>first</i>, <i>last</i>).
-	 * </p>
+	 * Returns an iterator pointing to the element with the largest value in the range  [<i>first</i>, <i>last</i>).
 	 * 
-	 * <p> The comparisons are performed using either <i>compare</i>; An element is the largest if no other element 
+	 * The comparisons are performed using either <i>compare</i>; An element is the largest if no other element 
 	 * compares less than it. If more than one element fulfills this condition, the iterator returned points to the first 
-	 * of such elements. </p>
+	 * of such elements.
 	 * 
 	 * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
 	 * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used 
@@ -4207,7 +4190,7 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
 	export function max_element<T, ForwardIterator extends Iterator<T>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.greater): ForwardIterator
+		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = greater): ForwardIterator
 	{
 		let largest: ForwardIterator = first;
 		first = first.next() as ForwardIterator;
@@ -4220,18 +4203,18 @@ namespace std
 	}
 
 	/**
-	 * <p> Return smallest and largest elements in range. </p>
+	 * Return smallest and largest elements in range.
 	 * 
-	 * <p> Returns a {@link Pair} with an iterator pointing to the element with the smallest value in the range 
-	 * [<i>first</i>, <i>last</i>) as first element, and the largest as second. </p>
+	 * Returns a {@link Pair} with an iterator pointing to the element with the smallest value in the range 
+	 * [<i>first</i>, <i>last</i>) as first element, and the largest as second.
 	 * 
-	 * <p> The comparisons are performed using either {@link less} and {@link greater}. </p>
+	 * The comparisons are performed using either {@link less} and {@link greater}.
 	 * 
-	 * <p> If more than one equivalent element has the smallest value, the first iterator points to the first of such 
-	 * elements. </p>
+	 * If more than one equivalent element has the smallest value, the first iterator points to the first of such 
+	 * elements.
 	 * 
-	 * <p> If more than one equivalent element has the largest value, the second iterator points to the last of such 
-	 * elements. </p>
+	 * If more than one equivalent element has the largest value, the second iterator points to the last of such 
+	 * elements.
 	 * 
 	 * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
 	 * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used
@@ -4248,18 +4231,18 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator): Pair<ForwardIterator, ForwardIterator>;
 
 	/**
-	 * <p> Return smallest and largest elements in range. </p>
+	 * Return smallest and largest elements in range.
 	 * 
-	 * <p> Returns a {@link Pair} with an iterator pointing to the element with the smallest value in the range 
-	 * [<i>first</i>, <i>last</i>) as first element, and the largest as second. </p>
+	 * Returns a {@link Pair} with an iterator pointing to the element with the smallest value in the range 
+	 * [<i>first</i>, <i>last</i>) as first element, and the largest as second.
 	 * 
-	 * <p> The comparisons are performed using either <i>compare</i>. </p>
+	 * The comparisons are performed using either <i>compare</i>.
 	 * 
-	 * <p> If more than one equivalent element has the smallest value, the first iterator points to the first of such 
-	 * elements. </p>
+	 * If more than one equivalent element has the smallest value, the first iterator points to the first of such 
+	 * elements.
 	 * 
-	 * <p> If more than one equivalent element has the largest value, the second iterator points to the last of such 
-	 * elements. </p>
+	 * If more than one equivalent element has the largest value, the second iterator points to the last of such 
+	 * elements.
 	 * 
 	 * @param first {@link Iteartor Input iterator} to the initial final position of the sequence to compare.
 	 * @param last {@link Iteartor Input iterator} to the final final position of the sequence to compare. The range used
@@ -4279,7 +4262,7 @@ namespace std
 
 	export function minmax_element<T, ForwardIterator extends Iterator<T>>
 		(
-			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = std.greater
+			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = greater
 		): Pair<ForwardIterator, ForwardIterator>
 	{
 		let smallest: ForwardIterator = first;
@@ -4297,15 +4280,48 @@ namespace std
 		return make_pair(smallest, largest);
 	}
 
+	/**
+	 * Clamp a value between a pair of boundary.
+	 * 
+	 * @param v The value to clamp.
+	 * @param lo Start of the boundaries to clamp *v* to.
+	 * @param hi Terminal of the boundaries to clamp *v* to.
+	 *
+	 * @return *lo* if *v* is less than *lo*, *hi* if *hi* is less than *v*, otherwise *v*.
+	 */
+	export function clamp<T>(v: T, lo: T, hi: T): T;
+
+	/**
+	 * Clamp a value between a pair of boundary.
+	 * 
+	 * @param v The value to clamp.
+	 * @param lo Start of the boundaries to clamp *v* to.
+	 * @param hi Terminal of the boundaries to clamp *v* to.
+	 * @param comp Binary function that accepts two elements as arguments (one of each of the two sequences, in the
+	 *			   same order), and returns a value convertible to <code>bool</code>. The value returned indicates
+	 *			   whether the elements are considered to match in the context of this function.
+	 *
+	 * @return *lo* if *v* is less than *lo*, *hi* if *hi* is less than *v*, otherwise *v*.
+	 */
+	export function clamp<T>(v: T, lo: T, hi: T, comp: (x: T, y: T) => boolean): T;
+
+	export function clamp<T>(v: T, lo: T, hi: T, comp: (x: T, y: T) => boolean = less): T
+	{
+		let vec: Vector<T> = new Vector<T>([v, lo, hi]);
+		sort(vec.begin(), vec.end(), comp);
+
+		return vec.at(1);
+	}
+
 	/* ---------------------------------------------------------
 		PERMUATATIONS
 	--------------------------------------------------------- */
 	/**
-	 * <p> Test whether range is permutation of another. </p>
+	 * Test whether range is permutation of another.
 	 * 
-	 * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
+	 * Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
 	 * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match, even in a different 
-	 * order. </p>
+	 * order.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -4322,11 +4338,11 @@ namespace std
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2): boolean;
 
 	/**
-	 * <p> Test whether range is permutation of another. </p>
+	 * Test whether range is permutation of another.
 	 * 
-	 * <p> Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
+	 * Compares the elements in the range [<i>first1</i>, <i>last1</i>) with those in the range beginning at 
 	 * <i>first2</i>, and returns <code>true</code> if all of the elements in both ranges match, even in a different 
-	 * order. </p>
+	 * order.
 	 * 
 	 * @param first1 An {@link Iterator} to the initial position of the first sequence.
 	 * @param last1 An {@link Iterator} to the final position in a sequence. The range used is
@@ -4352,7 +4368,7 @@ namespace std
 		<T, Iterator1 extends Iterator<T>, Iterator2 extends Iterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
-			pred: (x: T, y: T) => boolean = std.equal_to
+			pred: (x: T, y: T) => boolean = equal_to
 		): boolean
 	{
 		// find the mismatched
@@ -4386,7 +4402,7 @@ namespace std
 	 * that would compare *lexicographically smaller* to all other permutations) is the one which has all its elements 
 	 * sorted in ascending order, and the largest has all its elements sorted in descending order.
 	 * 
-	 * The comparisons of individual elements are performed using the {@link std.less std.less()} function.
+	 * The comparisons of individual elements are performed using the {@link less less()} function.
 	 * 
 	 * If the function can determine the previous permutation, it rearranges the elements as such and returns true. If 
 	 * that was not possible (because it is already at the lowest possible permutation), it rearranges the elements 
@@ -4437,7 +4453,7 @@ namespace std
 		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean): boolean;
 
 	export function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
-		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = std.less): boolean
+		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = less): boolean
 	{
 		if (first.equals(last) == true)
 			return false;
@@ -4458,14 +4474,14 @@ namespace std
 				while (compare(y.value, i.value) == false)
 					y = y.prev() as BidirectionalIterator;
 				
-				std.iter_swap(i, y);
-				std.reverse(x, last);
+				iter_swap(i, y);
+				reverse(x, last);
 				return true;
 			}
 
 			if (i.equals(first) == true)
 			{
-				std.reverse(first, last);
+				reverse(first, last);
 				return false;
 			}
 		}
@@ -4482,7 +4498,7 @@ namespace std
 	 * that would compare *lexicographically smaller* to all other permutations) is the one which has all its elements
 	 * sorted in ascending order, and the largest has all its elements sorted in descending order.
 	 *
-	 * The comparisons of individual elements are performed using the {@link std.less} function.
+	 * The comparisons of individual elements are performed using the {@link less} function.
 	 *
 	 * If the function can determine the next higher permutation, it rearranges the elements as such and returns true. If
 	 * that was not possible (because it is already at the largest possible permutation), it rearranges the elements
@@ -4533,7 +4549,7 @@ namespace std
 		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean): boolean;
 
 	export function next_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
-		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = std.less): boolean
+		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = less): boolean
 	{
 		if (first.equals(last) == true)
 			return false;
@@ -4554,14 +4570,14 @@ namespace std
 				while (compare(i.value, y.value) == false)
 					y = y.prev() as BidirectionalIterator;
 				
-				std.iter_swap(i, y);
-				std.reverse(x, last);
+				iter_swap(i, y);
+				reverse(x, last);
 				return true;
 			}
 
 			if (i.equals(first) == true)
 			{
-				std.reverse(first, last);
+				reverse(first, last);
 				return false;
 			}
 		}
