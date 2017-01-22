@@ -812,7 +812,7 @@ namespace std
 		 */
 		private _Quick_sort(first: ListIterator<T>, last: ListIterator<T>, compare: (left: T, right: T) => boolean): void
 		{
-			if (first != last && last != this.end() && first != last.next())
+			if (!first.equals(last) && !last.equals(this.end()) && !first.equals(last.next()))
 			{
 				let temp: ListIterator<T> = this._Quick_sort_partition(first, last, compare);
 
@@ -830,17 +830,41 @@ namespace std
 			let prev: ListIterator<T> = first.prev(); // TO BE SMALLEST
 
 			let it: ListIterator<T> = first;
-			for (; it != last; it = it.next())
+			for (; !it.equals(last); it = it.next())
 				if (compare(it.value, standard))
 				{
-					prev = (prev == this.end()) ? first : prev.next();
+					prev = prev.equals(this.end()) ? first : prev.next();
 					[prev.value, it.value] = [it.value, prev.value];
 				}
 
-			prev = (prev == this.end()) ? first : prev.next();
+			prev = prev.equals(this.end()) ? first : prev.next();
 			[prev.value, it.value] = [it.value, prev.value];
 		
 			return prev;
+		}
+
+		/**
+		 * Reverse the order of elements.
+		 *
+		 * Reverses the order of the elements in the list container.
+		 */
+		public reverse(): void
+		{
+			let begin: ListIterator<T> = this.end().prev();
+			let prev_of_end: ListIterator<T> = this.begin();
+
+			for (let it = this.begin(); !it.equals(this.end()); )
+			{
+				let next = it.next();
+				[it["prev_"], it["next_"]] = [it["next_"], it["prev_"]];
+
+				it = next;
+			}
+			
+			// ADJUST THE BEGIN AND END
+			this._Set_begin(begin); // THE NEW BEGIN
+			this.end()["prev_"] = prev_of_end;
+			this.end()["next_"] = begin;
 		}
 
 		/* ---------------------------------------------------------
@@ -948,7 +972,7 @@ namespace std
 		 */
 		public prev(): ListIterator<T>
 		{
-			return this["prev_"] as ListIterator<T>;
+			return this.prev_ as ListIterator<T>;
 		}
 
 		/**
@@ -956,7 +980,7 @@ namespace std
 		 */
 		public next(): ListIterator<T>
 		{
-			return this["next_"] as ListIterator<T>;
+			return this.next_ as ListIterator<T>;
 		}
 
 		 /**

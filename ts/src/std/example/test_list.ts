@@ -21,9 +21,10 @@ namespace example
 		it = list.begin().advance(6);
 		it = list.erase(it, it.advance(3)); // erase from 6 to 9
 		console.log(it.value); // print 9
-		
+
+		list.reverse();
 		console.log("-------------------------------------");
-		for (let it = list.begin(); !it.equals(list.end()); it = it.next())
+		for (let it = list.rbegin(); !it.equals(list.rend()); it = it.next())
 			console.log(it.value);
 	}
 }

@@ -427,7 +427,7 @@ namespace std.base
 			last["prev_"] = (prev);
 
 			this.size_ -= size;
-			if (first == this.begin_)
+			if (first.equals(this.begin_))
 				this._Set_begin(last);
 
 			return last;
