@@ -242,15 +242,28 @@ namespace std.base
 		 */
 		public push(...args: [Key, T][]): number;
 
-		public push(...args: any[]): number
+		public push(...items: any[]): number
 		{
-			// TO BE ABSTRACT
-			for (let i: number = 0; i < args.length; i++)
-				if (args[i] instanceof Pair)
-					this._Insert_by_pair(args[i]);
-				else if (args[i] instanceof Array)
-					this._Insert_by_tuple(args[i]);
+			// CONVERT ALL ITEMS TO PAIR
+			let elements: Pair<Key, T>[] = [];
+			for (let i: number = 0; i < items.length; i++)
+			{
+				let elem: Pair<Key, T>;
+				if (items[i] instanceof Array)
+					elem = make_pair(items[i][0], items[i][1]);
+				else
+					elem = items[i];
 
+				elements.push(elem);
+			}
+
+			// INSERT BY RANGE
+			let first = new _ArrayIterator(elements, 0);
+			let last = new _ArrayIterator(elements, elements.length);
+
+			this.insert(first, last);
+
+			// RETURN SIZE
 			return this.size();
 		}
 

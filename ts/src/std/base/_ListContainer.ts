@@ -175,29 +175,16 @@ namespace std.base
 		 */
 		public push(...items: T[]): number 
 		{
-			let prev: BidirectionalIterator = this.end().prev() as BidirectionalIterator;
-			let first: BidirectionalIterator = null;
+			if (items.length == 0)
+				return this.size();
 
-			for (let i: number = 0; i < items.length; i++) 
-			{
-				// CONSTRUCT ITEM, THE NEW ELEMENT
-				let item: BidirectionalIterator = this._Create_iterator(prev, null, items[i]);
-				if (i == 0)
-					first = item;
+			// INSERT BY RANGE
+			let first: _ArrayIterator<T> = new _ArrayIterator<T>(items, 0);
+			let last: _ArrayIterator<T> = new _ArrayIterator<T>(items, items.length);
 
-				prev["next_"] = (item);
-				prev = item;
-			}
+			this._Insert_by_range(this.end(), first, last);
 
-			// IF WAS EMPTY, VAL IS THE BEGIN
-			if (this.empty() == true || first.prev().equals(this.end()) == true)
-				this._Set_begin(first);
-
-			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev["next_"] = (this.end_);
-			this.end_["prev_"] = (prev);
-
-			this.size_ += items.length;
+			// RETURN SIZE
 			return this.size();
 		}
 
@@ -267,7 +254,7 @@ namespace std.base
 
 			// BRANCHES
 			if (args.length == 2)
-				ret = this._Insert_by_val(args[0], args[1]);
+				ret = this._Insert_by_repeating_val(args[0], 1, args[1]);
 			else if (args.length == 3 && typeof args[1] == "number")
 				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
 			else
@@ -280,49 +267,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Insert_by_val(position: BidirectionalIterator, val: T): BidirectionalIterator
+		private _Insert_by_repeating_val(position: BidirectionalIterator, n: number, val: T): BidirectionalIterator
 		{
-			// SHIFT TO INSERT OF THE REPEATING VAL
-			return this._Insert_by_repeating_val(position, 1, val);
-		}
+			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
+			let last: base._Repeater<T> = new base._Repeater<T>(n);
 
-		/**
-		 * @hidden
-		 */
-		protected _Insert_by_repeating_val(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator
-		{
-			// INVALID ITERATOR
-			if (this != position["source_"])
-				throw new InvalidArgument("Parametric iterator is not this container's own.");
-			
-			let prev: BidirectionalIterator = <BidirectionalIterator>position.prev();
-			let first: BidirectionalIterator = null;
-
-			for (let i: number = 0; i < size; i++) 
-			{
-				// CONSTRUCT ITEM, THE NEW ELEMENT
-				let item: BidirectionalIterator = this._Create_iterator(prev, null, val);
-				if (i == 0) 
-					first = item;
-
-				// PLACE ITEM ON THE NEXT OF "PREV"
-				prev["next_"] = item;
-				
-				// SHIFT ITEM LEFT TO BE PREV
-				prev = item;
-			}
-
-			// WILL FIRST BE THE BEGIN?
-			if (position.equals(this.begin()) == true)
-				this._Set_begin(first);
-
-			// CONNECT BETWEEN LAST INSERTED ITEM AND POSITION
-			prev["next_"] = position;
-			position["prev_"] = prev;
-			
-			this.size_ += size;
-
-			return first;
+			return this._Insert_by_range(position, first, last);
 		}
 
 		/**

@@ -195,12 +195,18 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public push(...args: T[]): number
+		public push(...items: T[]): number
 		{
-			// TO BE ABSTRACT
-			for (let i: number = 0; i < args.length; i++)
-				this._Insert_by_val(args[i]);
+			if (items.length == 0)
+				return this.size();
 
+			// INSERT BY RANGE
+			let first: _ArrayIterator<T> = new _ArrayIterator<T>(items, 0);
+			let last: _ArrayIterator<T> = new _ArrayIterator<T>(items, items.length);
+
+			this._Insert_by_range(first, last);
+
+			// RETURN SIZE
 			return this.size();
 		}
 		

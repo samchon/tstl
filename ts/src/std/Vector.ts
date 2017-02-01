@@ -1,5 +1,6 @@
 /// <reference path="API.ts" />
 
+/// <reference path="base/Container.ts" />
 /// <reference path="Iterator.ts" />
 
 namespace std.Vector
@@ -516,35 +517,12 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>
+		private _Insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>
 		{
-			if (position.index() == -1)
-			{ 
-				// WHEN INSERT TO THE LAST
-				for (let i = 0; i < n; i++)
-					this.data_.push(val);
+			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
+			let last: base._Repeater<T> = new base._Repeater<T>(n);
 
-				return this.begin();
-			}
-			else
-			{
-				///////
-				// INSERT TO THE MIDDLE POSITION
-				///////
-				// CUT RIGHT SIDE
-				let spliced_array: T[] = this.data_.splice(position.index());
-				let insert_size: number = 0;
-
-				// INSERT ELEMENTS
-				for (let i = 0; i < n; i++)
-				{
-					this.data_.push(val);
-					insert_size++;
-				}
-				this.data_.push(...spliced_array); // CONCAT THE SPLICEDS
-
-				return position;
-			}
+			return this._Insert_by_range(position, first, last);
 		}
 
 		/**
@@ -899,11 +877,6 @@ namespace std
 		public swap(obj: VectorIterator<T>): void
 		{
 			[this.value, obj.value] = [obj.value, this.value];
-		}
-
-		public toString(): number
-		{
-			return this.index_;
 		}
 	}
 }

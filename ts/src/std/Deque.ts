@@ -66,43 +66,18 @@ namespace std
 		implements base.IArrayContainer<T>, base.IDequeContainer<T>
 	{
 		///
-		// Row size of the {@link matrix_ matrix} which contains elements.
-		// 
-		// Note that the {@link ROW} affects on time complexity of accessing and inserting element. 
-		// Accessing element is {@link ROW} times slower than ordinary {@link Vector} and inserting element 
-		// in middle position is {@link ROW} times faster than ordinary {@link Vector}.
-		// 
-		// When the {@link ROW} returns 8, time complexity of accessing element is O(8) and inserting 
-		// element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
-		// and inserting element is O(N)).
-		/**
-		 * @hidden
-		 */
-		private static get ROW(): number { return 8; }
-
-		///
-		// Minimum {@link capacity}.
-		// 
-		// Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque} 
-		// keeps the minimum {@link capacity} at least.
-		/**
-		 * @hidden
-		 */
-		private static get MIN_CAPACITY(): number { return 100; }
-
-		///
 		// A matrix containing elements.
 		// 
 		// This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
-		// Its number of rows follows {@link ROW} and number of columns follows {@link get_col_size} which 
-		// returns divide of {@link capacity} and {@link ROW}.
+		// Its number of rows follows {@link ROW_SIZE} and number of columns follows {@link get_col_size} which 
+		// returns divide of {@link capacity} and {@link ROW_SIZE}.
 		//  
 		// By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
-		// advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW}
+		// advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW_SIZE}
 		// times faster than {@link Vector} when inserting elements in middle position.
 		// 
 		// However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
-		// time complexity on accessing element. {@link Deque} is {@link ROW} times slower than {@link Vector}
+		// time complexity on accessing element. {@link Deque} is {@link ROW_SIZE} times slower than {@link Vector}
 		// when accessing element.
 		/**
 		 * @hidden
@@ -118,15 +93,6 @@ namespace std
 		 * @hidden
 		 */
 		private capacity_: number;
-
-		/**
-		 * @hidden
-		 */
-		private _Get_col_size(): number
-		{
-			// Get column size; {@link capacity_ capacity} / {@link ROW row}.
-			return Math.floor(this.capacity_ / Deque.ROW);
-		}
 
 		/**
 		 * @hidden
@@ -273,7 +239,7 @@ namespace std
 
 				for (let it = begin; !it.equals(end); it = it.next())
 				{
-					if (array.length >= this._Get_col_size())
+					if (array.length >= this._Compute_col_size())
 					{
 						array = new Array<T>();
 						this.matrix_.push(array);
@@ -295,7 +261,7 @@ namespace std
 
 				for (let i = 0; i < size; i++)
 				{
-					if (array.length >= this._Get_col_size())
+					if (array.length >= this._Compute_col_size())
 					{
 						array = new Array<T>();
 						this.matrix_.push(array);
@@ -342,7 +308,7 @@ namespace std
 			for (let i = 0; i < prevMatrix.length; i++)
 				for (let j = 0; j < prevMatrix[i].length; j++)
 				{
-					if (array.length >= this._Get_col_size())
+					if (array.length >= this._Compute_col_size())
 					{
 						array = new Array<T>();
 						this.matrix_.push(array);
@@ -367,47 +333,12 @@ namespace std
 
 		/* =========================================================
 			ACCESSORS
-				- GETTERS & SETTERS
+				- BASIC ELEMENTS
 				- ITERATORS
-		========================================================= */
-		/**
-		 * @inheritdoc
-		 */
-		public begin(): DequeIterator<T>
-		{
-			if (this.empty() == true)
-				return this.end_;
-			else
-				return this.begin_;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public end(): DequeIterator<T>
-		{
-			return this.end_;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public rbegin(): DequeReverseIterator<T>
-		{
-			return new DequeReverseIterator<T>(this.end_);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public rend(): DequeReverseIterator<T>
-		{
-			if (this.empty() == true)
-				return new DequeReverseIterator<T>(this.end_);
-			else
-				return this.rend_;
-		}
-
+				- INDEX ACCESSORS
+		============================================================
+			BASIC ELEMENTS
+		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
@@ -454,13 +385,77 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
+		public front(): T
+		{
+			return this.matrix_[0][0];
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public back(): T
+		{
+			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
+
+			return lastArray[lastArray.length - 1];
+		}
+
+		/* ---------------------------------------------------------
+			ITERATORS
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public begin(): DequeIterator<T>
+		{
+			if (this.empty() == true)
+				return this.end_;
+			else
+				return this.begin_;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public end(): DequeIterator<T>
+		{
+			return this.end_;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rbegin(): DequeReverseIterator<T>
+		{
+			return new DequeReverseIterator<T>(this.end_);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public rend(): DequeReverseIterator<T>
+		{
+			if (this.empty() == true)
+				return new DequeReverseIterator<T>(this.end_);
+			else
+				return this.rend_;
+		}
+
+		/* ---------------------------------------------------------
+			INDEX ACCESSORS
+		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
 		public at(index: number): T
 		{
-			if (index > this.size())
+			if (index < this.size())
+			{
+				let indexPair: Pair<number, number> = this._Fetch_index(index);
+				return this.matrix_[indexPair.first][indexPair.second];
+			}
+			else
 				throw new OutOfRange("Target index is greater than Deque's size.");
-
-			let indexPair: Pair<number, number> = this._Fetch_index(index);
-			return this.matrix_[indexPair.first][indexPair.second];
 		}
 
 		/**
@@ -476,31 +471,12 @@ namespace std
 		}
 
 		/**
-		 * @inheritdoc
-		 */
-		public front(): T
-		{
-			return this.matrix_[0][0];
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public back(): T
-		{
-			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
-
-			return lastArray[lastArray.length - 1];
-		}
-		
-		/**
 		 * @hidden
 		 */
 		private _Fetch_index(index: number): Pair<number, number>
-		{ 
+		{
 			// Fetch row and column's index.
 			let row: number;
-
 			for (row = 0; row < this.matrix_.length; row++)
 			{
 				let array: Array<T> = this.matrix_[row];
@@ -516,12 +492,20 @@ namespace std
 			return make_pair(row, index);
 		}
 
+		/**
+		 * @hidden
+		 */
+		private _Compute_col_size(capacity = this.capacity_): number
+		{
+			// Get column size; {@link capacity_ capacity} / {@link ROW_SIZE row}.
+			return Math.floor(capacity / Deque.ROW_SIZE);
+		}
+
 		/* =========================================================
 			ELEMENTS I/O
 				- PUSH & POP
 				- INSERT
 				- ERASE
-				- PRE & POST-PROCESS
 				- SWAP
 		============================================================
 			PUSH & POP
@@ -531,27 +515,17 @@ namespace std
 		 */
 		public push(...items: T[]): number
 		{
-			// RE-SIZE
-			if (this.size_ + items.length > this.capacity_)
-				this.reserve(this.size_ + items.length);
+			if (items.length == 0)
+				return this.size();
 
-			// INSERTS
-			let array: Array<T> = this.matrix_[this.matrix_.length - 1];
+			// INSERT BY RANGE
+			let first: base._ArrayIterator<T> = new base._ArrayIterator<T>(items, 0);
+			let last: base._ArrayIterator<T> = new base._ArrayIterator<T>(items, items.length);
 
-			for (let i: number = 0; i < items.length; i++)
-			{
-				if (array.length >= this._Get_col_size())
-				{
-					array = new Array<T>();
-					this.matrix_.push(array);
-				}
-				array.push(items[i]);
-			}
+			this._Insert_by_range(this.end(), first, last);
 
-			// INDEXING
-			this.size_ += items.length;
-
-			return this.size_;
+			// RETURN SIZE
+			return this.size();
 		}
 
 		/**
@@ -573,7 +547,7 @@ namespace std
 		public push_back(val: T): void
 		{
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
-			if (lastArray.length >= this._Get_col_size() && this.matrix_.length < Deque.ROW)
+			if (lastArray.length >= this._Compute_col_size() && this.matrix_.length < Deque.ROW_SIZE)
 			{
 				lastArray = new Array<T>();
 				this.matrix_.push(lastArray);
@@ -693,23 +667,12 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
+		private _Insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
 		{
-			// CONSTRUCT ITEMS
-			let items: T[] = [];
-			items.length = n;
+			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
+			let last: base._Repeater<T> = new base._Repeater<T>(n);
 
-			for (let i = 0; i < n; i++)
-				items[i] = val;
-
-			// INSERT ELEMENTS
-			if (position.equals(this.end()))
-			{
-				this.push(...items);
-				return this.begin();
-			}
-			else
-				return this._Insert_by_items(position, items);
+			return this._Insert_by_range(position, first, last);
 		}
 
 		/**
@@ -755,11 +718,11 @@ namespace std
 				if (spliced_values.length != 0)
 					items = items.concat(...spliced_values);
 
-				if (this.matrix_[index].length < Deque.ROW)
+				if (this.matrix_[index].length < Deque.ROW_SIZE)
 				{
 					this.matrix_[index] = this.matrix_[index].concat
 						(
-							...items.splice(0, Deque.ROW - this.matrix_[index].length)
+							...items.splice(0, Deque.ROW_SIZE - this.matrix_[index].length)
 						);
 				}
 
@@ -767,7 +730,7 @@ namespace std
 
 				// INSERTS
 				while (items.length != 0)
-					this.matrix_.push(items.splice(0, Math.min(Deque.ROW, items.length)));
+					this.matrix_.push(items.splice(0, Math.min(Deque.ROW_SIZE, items.length)));
 
 				// CONCAT WITH BACKS
 				this.matrix_ = this.matrix_.concat(...splicedArray);
@@ -801,6 +764,107 @@ namespace std
 			}
 
 			return position;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private _Insert_to_middle<U extends T, InputIterator extends Iterator<U>>
+			(pos: DequeIterator<T>, first: InputIterator, last: InputIterator): void
+		{
+			let col_size: number = this._Compute_col_size();
+
+			// POSITION OF MATRIX
+			let indexes: Pair<number, number> = this._Fetch_index(pos.index());
+			let row: Array<T> = this.matrix_[indexes.first];
+			let col: number = indexes.second;
+
+			// MOVE BACK SIDE TO TEMPORARY ARRAY
+			let back_array: Array<T> = row.splice(col);
+
+			// INSERT ITEMS
+			for (; !first.equals(last); first = first.next() as InputIterator)
+			{
+				if (row.length == col_size && this.matrix_.length < Deque.ROW_SIZE)
+				{
+					row = new Array<T>();
+
+					let spliced_array: T[][] = this.matrix_.splice(++indexes.first);
+					this.matrix_.push(row);
+					this.matrix_.push(...spliced_array);
+				}
+				row.push(first.value);
+			}
+
+			// INSERT ITEMS IN THE BACK SIDE
+			let $first: base._ArrayIterator<T> = new base._ArrayIterator<T>(back_array, 0);
+			let $last: base._ArrayIterator<T> = new base._ArrayIterator<T>(back_array, back_array.length);
+
+			this._Insert_to_end($first, $last);
+		}
+
+		/**
+		 * @hidden
+		 */
+		private _Insert_to_end<U extends T, InputIterator extends Iterator<U>>
+			(first: InputIterator, last: InputIterator): void
+		{
+			// INSERT ITEMS IN THE BACK
+			for (; !first.equals(last); first = first.next() as InputIterator)
+			{
+				// ADD ROW IF REQUIRED
+				this._Try_add_row_at_back();
+
+				// INSERT VALUE
+				this.matrix_[this.matrix_.length - 1].push(first.value);
+			}
+		}
+
+		/**
+		 * @hidden
+		 */
+		private _Try_expand_capacity(size: number): boolean
+		{
+			if (size <= this.capacity_)
+				return false;
+
+			// MAX (CAPACITY * 1.5, TARGET SIZE)
+			size = Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER));
+			this.reserve(size);
+
+			return true;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private _Try_add_row_at_front(): boolean
+		{
+			let col_size: number = this._Compute_col_size();
+
+			if (this.matrix_[0].length >= col_size && this.matrix_.length < Deque.ROW_SIZE)
+			{
+				this.matrix_ = [[]].concat(...this.matrix_);
+				return true;
+			}
+			else
+				return false;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private _Try_add_row_at_back(): boolean
+		{
+			let col_size: number = this._Compute_col_size();
+
+			if (this.matrix_[this.matrix_.length - 1].length >= col_size && this.matrix_.length < Deque.ROW_SIZE)
+			{
+				this.matrix_.push([]);
+				return true;
+			}
+			else
+				return false;
 		}
 
 		/* ---------------------------------------------------------
@@ -871,18 +935,43 @@ namespace std
 			this.size_ -= size;
 			 
 			// ERASING
+			let first_row: T[] = null;
+			let second_row: T[] = null;
+			let i: number = 0;
+
 			while (size != 0)
 			{
-				let indexPair: Pair<number, number> = this._Fetch_index(first.index());
-				let array: Array<T> = this.matrix_[indexPair.first];
+				// FIND MATCHED ROW AND COLUMN
+				let indexes: Pair<number, number> = this._Fetch_index(first.index());
+				let row: Array<T> = this.matrix_[indexes.first];
+				let col: number = indexes.second;
 
-				let myDeleteSize: number = Math.min(size, array.length - indexPair.second);
-				array.splice(indexPair.second, myDeleteSize);
+				// EARSE FROM THE ROW
+				let my_delete_size: number = Math.min(size, row.length - col);
+				row.splice(col, my_delete_size);
 
-				if (array.length == 0 && this.matrix_.length > 1)
-					this.matrix_.splice(indexPair.first, 1);
+				// TO MERGE
+				if (row.length != 0)
+					if (i == 0)
+						first_row = row;
+					else
+						second_row = row;
 
-				size -= myDeleteSize;
+				// ERASE THE ENTIRE ROW IF REQUIRED
+				if (row.length == 0 && this.matrix_.length > 1)
+					this.matrix_.splice(indexes.first, 1);
+
+				// TO THE NEXT STEP
+				size -= my_delete_size;
+				i++;
+			}
+
+			// MERGE FIRST AND SECOND ROW
+			if (first_row != null && second_row != null
+				&& first_row.length + second_row.length <= this._Compute_col_size())
+			{
+				first_row.push(...second_row);
+				this.matrix_.splice(this.matrix_.indexOf(second_row), 1);
 			}
 			
 			if (last.index() == -1)
@@ -930,6 +1019,39 @@ namespace std
 			else
 				super.swap(obj);
 		}
+
+		/* ---------------------------------------------------------
+			STATIC MEMBERS
+		--------------------------------------------------------- */
+		///
+		// Row size of the {@link matrix_ matrix} which contains elements.
+		// 
+		// Note that the {@link ROW_SIZE} affects on time complexity of accessing and inserting element. 
+		// Accessing element is {@link ROW_SIZE} times slower than ordinary {@link Vector} and inserting element 
+		// in middle position is {@link ROW_SIZE} times faster than ordinary {@link Vector}.
+		// 
+		// When the {@link ROW_SIZE} returns 8, time complexity of accessing element is O(8) and inserting 
+		// element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
+		// and inserting element is O(N)).
+		/**
+		 * @hidden
+		 */
+		private static get ROW_SIZE(): number { return 8; }
+
+		///
+		// Minimum {@link capacity}.
+		// 
+		// Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque} 
+		// keeps the minimum {@link capacity} at least.
+		/**
+		 * @hidden
+		 */
+		private static get MIN_CAPACITY(): number { return 36; }
+
+		/**
+		 * @hidden
+		 */
+		private static get MAGNIFIER(): number { return 1.5; }
 	}
 }
 

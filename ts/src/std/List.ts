@@ -361,13 +361,10 @@ namespace std
 				args[0] = (args[0] as ListReverseIterator<T>).base().prev();
 			}
 
-			// BRANCHES
-			if (args.length == 2)
-				ret = this._Insert_by_repeating_val(args[0], 1, args[1]);
-			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
-			else
-				ret = this._Insert_by_range(args[0], args[1], args[2]);
+			//----
+			// DO INSERT VIA SUPER
+			//----
+			ret = super.insert.apply(this, args);
 			
 			// RETURNS
 			if (is_reverse_iterator == true)
