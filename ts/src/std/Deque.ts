@@ -182,9 +182,10 @@ namespace std
 			if (args.length == 1 && args[0] instanceof Array)
 			{
 				let array: Array<T> = args[0];
+				let first = new base._ArrayIterator(array, 0);
+				let last = new base._ArrayIterator(array, array.length);
 
-				this.clear();
-				this.push(...array);
+				this.assign(first, last);
 			}
 			else if (args.length == 1 && args[0] instanceof Deque)
 			{
@@ -192,13 +193,12 @@ namespace std
 
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 &&
-				args[0] instanceof Iterator && args[1] instanceof Iterator)
+			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
 			{
-				let begin: Iterator<T> = args[0];
-				let end: Iterator<T> = args[1];
+				let first: Iterator<T> = args[0];
+				let last: Iterator<T> = args[1];
 
-				this.assign(begin, end);
+				this.assign(first, last);
 			}
 		}
 
@@ -221,54 +221,8 @@ namespace std
 			// CLEAR PREVIOUS CONTENTS
 			this.clear();
 
-			if (first instanceof Iterator && second instanceof Iterator)
-			{
-				let begin: Iterator<T> = first;
-				let end: Iterator<T> = second;
-
-				let size: number = 0;
-				for (let it = begin; !it.equals(end); it = it.next())
-					size++;
-
-				// RESERVE
-				this.reserve(size);
-				this.size_ = size;
-
-				// ASSIGN CONTENTS
-				let array: Array<T> = this.matrix_[0];
-
-				for (let it = begin; !it.equals(end); it = it.next())
-				{
-					if (array.length >= this._Compute_col_size())
-					{
-						array = new Array<T>();
-						this.matrix_.push(array);
-					}
-					array.push(it.value);
-				}
-			}
-			else
-			{
-				let size: number = first;
-				let val: T = second;
-
-				// RESERVE
-				this.reserve(size);
-				this.size_ = size;
-
-				// ASSIGN CONTENTS
-				let array: Array<T> = this.matrix_[0];
-
-				for (let i = 0; i < size; i++)
-				{
-					if (array.length >= this._Compute_col_size())
-					{
-						array = new Array<T>();
-						this.matrix_.push(array);
-					}
-					array.push(val);
-				}
-			}
+			// INSERT ITEMS
+			this.insert(this.end(), first, second);
 		}
 
 		/**
@@ -292,29 +246,35 @@ namespace std
 		 */
 		public reserve(capacity: number): void
 		{
-			// MEMORIZE
-			let prevMatrix = this.matrix_;
-			let prevSize = this.size_;
+			if (capacity < this.capacity_)
+				return;
 
-			// REFRESH
-			this.matrix_ = new Array<Array<T>>();
-			this.matrix_.push(new Array<T>());
+			// NEW MEMBERS TO BE ASSSIGNED
+			let matrix: T[][] = [[]];
+			let col_size: number = this._Compute_col_size(capacity);
 
-			/////
+			//--------
 			// RE-FILL
-			/////
-			let array: Array<T> = this.matrix_[0];
+			//--------
+			for (let r: number = 0; r < this.matrix_.length; r++)
+			{
+				let row: T[] = this.matrix_[r];
 
-			for (let i = 0; i < prevMatrix.length; i++)
-				for (let j = 0; j < prevMatrix[i].length; j++)
+				for (let c: number = 0; c < row.length; c++)
 				{
-					if (array.length >= this._Compute_col_size())
+					let new_row: T[] = matrix[matrix.length - 1];
+					if (matrix.length < Deque.ROW_SIZE && new_row.length == col_size)
 					{
-						array = new Array<T>();
-						this.matrix_.push(array);
+						new_row = [];
+						matrix.push(new_row);
 					}
-					array.push(prevMatrix[i][j]);
+					new_row.push(row[c]);
 				}
+			}
+
+			// ASSIGN MEMBERS
+			this.matrix_ = matrix;
+			this.capacity_ = capacity;
 		}
 
 		/**
@@ -323,8 +283,7 @@ namespace std
 		public clear(): void
 		{
 			// CLEAR CONTENTS
-			this.matrix_ = new Array<Array<T>>();
-			this.matrix_.push(new Array<T>());
+			this.matrix_ = [[]];
 
 			// RE-INDEX
 			this.size_ = 0;
@@ -395,9 +354,9 @@ namespace std
 		 */
 		public back(): T
 		{
-			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
+			let last_array: Array<T> = this.matrix_[this.matrix_.length - 1];
 
-			return lastArray[lastArray.length - 1];
+			return last_array[last_array.length - 1];
 		}
 
 		/* ---------------------------------------------------------
@@ -449,7 +408,7 @@ namespace std
 		 */
 		public at(index: number): T
 		{
-			if (index < this.size())
+			if (index < this.size() && index >= 0)
 			{
 				let indexPair: Pair<number, number> = this._Fetch_index(index);
 				return this.matrix_[indexPair.first][indexPair.second];
@@ -463,7 +422,7 @@ namespace std
 		 */
 		public set(index: number, val: T): void
 		{
-			if (index >= this.size())
+			if (index >= this.size() || index < 0)
 				throw new OutOfRange("Target index is greater than Deque's size.");
 
 			let indexPair: Pair<number, number> = this._Fetch_index(index);
@@ -533,12 +492,13 @@ namespace std
 		 */
 		public push_front(val: T): void
 		{
-			// INSERT TO THE FRONT
+			// ADD CAPACITY & ROW
+			this._Try_expand_capacity(this.size_ + 1);
+			this._Try_add_row_at_front();
+
+			// INSERT VALUE
 			this.matrix_[0].unshift(val);
 			this.size_++;
-
-			if (this.size_ > this.capacity_)
-				this.reserve(this.size_ * 2);
 		}
 
 		/**
@@ -546,18 +506,13 @@ namespace std
 		 */
 		public push_back(val: T): void
 		{
-			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
-			if (lastArray.length >= this._Compute_col_size() && this.matrix_.length < Deque.ROW_SIZE)
-			{
-				lastArray = new Array<T>();
-				this.matrix_.push(lastArray);
-			}
+			// ADD CAPACITY & ROW
+			this._Try_expand_capacity(this.size_ + 1);
+			this._Try_add_row_at_back();
 
-			lastArray.push(val);
+			// INSERT VALUE
+			this.matrix_[this.matrix_.length - 1].push(val);
 			this.size_++;
-
-			if (this.size_ > this.capacity_)
-				this.reserve(this.size_ * 2);
 		}
 
 		/**
@@ -570,10 +525,11 @@ namespace std
 
 			// EREASE FIRST ELEMENT
 			this.matrix_[0].shift();
-			this.size_--;
-
 			if (this.matrix_[0].length == 0 && this.matrix_.length > 1)
 				this.matrix_.shift();
+
+			// SHRINK SIZE
+			this.size_--;
 		}
 
 		/**
@@ -587,10 +543,12 @@ namespace std
 			// ERASE LAST ELEMENT
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
 			lastArray.splice(lastArray.length - 1, 1);
-			this.size_--;
 
 			if (lastArray.length == 0 && this.matrix_.length > 1)
 				this.matrix_.splice(this.matrix_.length - 1, 1);
+
+			// SHRINK SIZE
+			this.size_--;
 		}
 
 		/* ---------------------------------------------------------
@@ -679,91 +637,46 @@ namespace std
 		 * @hidden
 		 */
 		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
-			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>
+			(pos: DequeIterator<T>, first: InputIterator, last: InputIterator): DequeIterator<T>
 		{
-			// CONSTRUCT ITEMS
-			let items: T[] = [];
+			let size: number = this.size_ = distance(first, last);
+			if (size == this.size_) // FIRST == LAST
+				return pos;
 
-			for (let it = begin; !it.equals(end); it = it.next() as InputIterator)
-				items.push(it.value);
-
-			// INSERT ELEMENTS
-			if (position.equals(this.end()))
+			if (pos.equals(this.end()) == true)
 			{
-				this.push(...items);
-				return this.begin();
-			}
-			else
-				return this._Insert_by_items(position, items);
-		}
+				// EXPAND CAPACITY IF REQUIRED
+				this._Try_expand_capacity(size);
 
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_items(position: DequeIterator<T>, items: Array<T>): DequeIterator<T>
-		{
-			let item_size: number = items.length;
-			this.size_ += item_size;
+				// INSERT TO END
+				this._Insert_to_end(first, last);
 
-			if (this.size_ <= this.capacity_)
-			{
-				// ------------------------------------------------------
-				// WHEN FITTING INTO RESERVED CAPACITY IS POSSIBLE
-				// ------------------------------------------------------
-				// INSERTS CAREFULLY CONSIDERING THE COL_SIZE
-				let index_pair = this._Fetch_index(position.index());
-				let index = index_pair.first;
-
-				let spliced_values = this.matrix_[index].splice(index_pair.second);
-				if (spliced_values.length != 0)
-					items = items.concat(...spliced_values);
-
-				if (this.matrix_[index].length < Deque.ROW_SIZE)
-				{
-					this.matrix_[index] = this.matrix_[index].concat
-						(
-							...items.splice(0, Deque.ROW_SIZE - this.matrix_[index].length)
-						);
-				}
-
-				let splicedArray = this.matrix_.splice(index + 1);
-
-				// INSERTS
-				while (items.length != 0)
-					this.matrix_.push(items.splice(0, Math.min(Deque.ROW_SIZE, items.length)));
-
-				// CONCAT WITH BACKS
-				this.matrix_ = this.matrix_.concat(...splicedArray);
+				// CHANGE POS TO RETURN
+				pos = new DequeIterator<T>(this, size);
 			}
 			else
 			{
-				// -----------------------------------------------------
-				// WHEN CANNOT BE FIT INTO THE RESERVED CAPACITY
-				// -----------------------------------------------------
-				// JUST INSERT CARELESSLY
-				// AND KEEP BLANACE BY THE RESERVE() METHOD
-				if (position.equals(this.end()) == true)
+				// INSERT ITEMS IN THE MIDDLE
+				if (size > this.capacity_)
 				{
-					this.matrix_.push(items); // ALL TO THE LAST
+					// A TEMPORARY DEQUE
+					let deque: Deque<T> = new Deque<T>();
+					deque.reserve(Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER)));
+
+					// INSERT ITEM SEQUENTIALLY
+					deque._Insert_to_end(this.begin(), pos);
+					deque._Insert_to_end(first, last);
+					deque._Insert_to_end(pos, this.end());
+
+					// AND SWAP THIS WITH THE TEMP
+					this.swap(deque);
 				}
 				else
-				{
-					let indexPair = this._Fetch_index(position.index());
-					let index = indexPair.first;
-
-					let splicedValues = this.matrix_[index].splice(indexPair.second);
-					if (splicedValues.length != 0)
-						items = items.concat(...splicedValues);
-
-					// ALL TO THE MIDDLE
-					this.matrix_[index] = this.matrix_[index].concat(...items);
-				}
-
-				// AND KEEP BALANCE BY RESERVE()
-				this.reserve(this.size_);
+					this._Insert_to_middle(pos, first, last);
 			}
 
-			return position;
+			this.size_ = size;
+			return pos;
 		}
 
 		/**
