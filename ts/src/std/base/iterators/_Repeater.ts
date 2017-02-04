@@ -30,6 +30,11 @@ namespace std.base
 			return null;
 		}
 
+		public index(): number
+		{
+			return this.index_;
+		}
+
 		public get value(): T
 		{
 			return this.value_;

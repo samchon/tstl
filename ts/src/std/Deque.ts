@@ -639,7 +639,7 @@ namespace std
 		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(pos: DequeIterator<T>, first: InputIterator, last: InputIterator): DequeIterator<T>
 		{
-			let size: number = this.size_ = distance(first, last);
+			let size: number = this.size_ + distance(first, last);
 			if (size == this.size_) // FIRST == LAST
 				return pos;
 
@@ -652,7 +652,7 @@ namespace std
 				this._Insert_to_end(first, last);
 
 				// CHANGE POS TO RETURN
-				pos = new DequeIterator<T>(this, size);
+				pos = new DequeIterator<T>(this, this.size_);
 			}
 			else
 			{
@@ -693,7 +693,7 @@ namespace std
 			let col: number = indexes.second;
 
 			// MOVE BACK SIDE TO TEMPORARY ARRAY
-			let back_array: Array<T> = row.splice(col);
+			let back_items: Array<T> = row.splice(col);
 
 			// INSERT ITEMS
 			for (; !first.equals(last); first = first.next() as InputIterator)
@@ -710,10 +710,21 @@ namespace std
 			}
 
 			// INSERT ITEMS IN THE BACK SIDE
-			let $first: base._ArrayIterator<T> = new base._ArrayIterator<T>(back_array, 0);
-			let $last: base._ArrayIterator<T> = new base._ArrayIterator<T>(back_array, back_array.length);
+			let $first: base._ArrayIterator<T> = new base._ArrayIterator<T>(back_items, 0);
+			let $last: base._ArrayIterator<T> = new base._ArrayIterator<T>(back_items, back_items.length);
 
-			this._Insert_to_end($first, $last);
+			for (let i: number = 0; i < back_items.length; i++)
+			{
+				if (row.length == col_size && this.matrix_.length < Deque.ROW_SIZE)
+				{
+					row = new Array<T>();
+
+					let spliced_array: T[][] = this.matrix_.splice(++indexes.first);
+					this.matrix_.push(row);
+					this.matrix_.push(...spliced_array);
+				}
+				row.push(back_items[i]);
+			}
 		}
 
 		/**
