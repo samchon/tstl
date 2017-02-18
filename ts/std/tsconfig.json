@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "declaration": true,
+        "sourceMap": true,
+        "outFile": "../../lib/tstl.js",
+        
+        "noImplicitAny": true
+    }
+}

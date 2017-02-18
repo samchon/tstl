@@ -8,12 +8,12 @@ minify();
 
 function compile()
 {
-	process.execSync("tsc -p ts/tsconfig.json");
+	process.execSync("tsc -p ts/std/tsconfig.json");
 }
 
 function attach_header()
 {
-	const TITLE_FILE = "./ts/src/typings/tstl/tstl.d.ts";
+	const TITLE_FILE = "./ts/std/typings/tstl/tstl.d.ts";
 	const HEADER_FILE = "./lib/tstl.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");

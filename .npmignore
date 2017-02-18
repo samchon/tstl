@@ -2,6 +2,7 @@
 #	TYPESCRIPT
 # ======================================================
 .git
+.vscode
 api\
 design\
 ts\
@@ -11,3 +12,4 @@ ts\
 *.*ignore
 
 build.js
+*.js.map
