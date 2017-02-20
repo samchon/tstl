@@ -9,7 +9,7 @@ namespace example
 		map.emplace(2, 2);
 		map.emplace(3, 3);
 
-		map.emplace_hint(map.end(), 4, 4);
+		map.insert(map.end(), [4, 4]);
 
 		for (let it = map.begin(); it != map.end(); it = it.next())
 			console.log(it.first, it.second);

@@ -301,10 +301,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): any
+		protected _Insert_by_val(val: T): Pair<SetIterator<T>, boolean>
 		{
 			// TEST WHETHER EXIST
-			let it = this.find(val);
+			let it: SetIterator<T> = this.find(val);
 			if (it.equals(this.end()) == false)
 				return make_pair(it, false);
 
@@ -323,16 +323,16 @@ namespace std
 		 */
 		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
-			// FIND KEY
-			if (this.has(val) == true)
-				return this.end();
+			// FIND DUPLICATED KEY
+			let it: SetIterator<T> = this.find(val);
+			if (it.equals(this.end()) == true)
+			{
+				// INSERT
+				it = this["data_"].insert(hint, val);
 
-			// INSERT
-			let it = this["data_"].insert(hint, val);
-
-			// POST-PROCESS
-			this._Handle_insert(it, it.next());
-
+				// POST-PROCESS
+				this._Handle_insert(it, it.next());
+			}
 			return it;
 		}
 

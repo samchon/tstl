@@ -10,7 +10,7 @@
 
 	"main": "./lib/tstl.js",
 	"typings": "./lib/tstl.d.ts",
-	"version": "1.4.0",
+	"version": "1.4.1",
 
 	"homepage": "https://github.com/samchon/tstl",
 	"repository": 

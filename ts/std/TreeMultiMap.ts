@@ -305,7 +305,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_pair(pair: Pair<Key, T>): any
+		protected _Insert_by_pair(pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			// FIND POSITION TO INSERT
 			let it: MapIterator<Key, T> = this.upper_bound(pair.first);
@@ -323,42 +323,36 @@ namespace std
 		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			let key: Key = pair.first;
-			let compare = this.key_comp();
 
 			//--------
 			// INSERT BRANCH
 			//--------
 			// prev < current < hint
 			let prev: MapIterator<Key, T> = hint.prev();
-			let keys: Key[] = [];
+			let keys: Vector<Key> = new Vector<Key>();
 
 			// CONSTRUCT KEYS
-			if (!prev.equals(this.end()))
-				keys.push(prev.first);
-			
-			keys.push(key);
-			
-			if (!hint.equals(this.end()))
-				keys.push(hint.first);
+			if (!prev.equals(this.end()) && !equal_to(prev.first, key))
+				keys.push_back(prev.first); // NOT END() AND DIFFERENT WITH KEY
 
-			// IS HINT VALID ?
+			keys.push_back(key); // NEW ITEM'S KEY
+
+			if (!hint.equals(this.end()) && !equal_to(hint.first, key))
+				keys.push_back(hint.first);
+
+			// IS THE HINT VALID ?
 			let ret: MapIterator<Key, T>;
 			
-			if (is_sorted
-				(
-					new base._ArrayIterator(keys, 0), 
-					new base._ArrayIterator(keys, keys.length), 
-					this.key_comp())
-				) // CORRECT HINT
+			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
-				// INSERT
+				// CORRECT HINT
 				ret = this["data_"].insert(hint, pair);
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
 			}
 			else // INVALID HINT
-				ret = this._Insert_by_pair(pair).first;
+				ret = this._Insert_by_pair(pair);
 
 			return ret;
 		}

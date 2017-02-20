@@ -264,7 +264,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): any
+		protected _Insert_by_val(val: T): Pair<SetIterator<T>, boolean>
 		{
 			// FIND POSITION TO INSERT
 			let it: SetIterator<T> = this.lower_bound(val);
@@ -280,35 +280,42 @@ namespace std
 
 		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
-			let compare = this.tree_.key_comp();
-			
-			let ret: SetIterator<T>;
-
 			//--------
 			// INSERT BRANCH
 			//--------
 			// prev < current < hint
 			let prev: SetIterator<T> = hint.prev();
+			let keys: Vector<T> = new Vector<T>();
 
-			if (this.empty() ||
-				(prev.equals(this.end()) && !std.equal_to(val, hint.value) && compare(val, hint.value)) ||
-				(hint.equals(this.end()) && !std.equal_to(prev.value, val) && compare(prev.value, val)) ||
-				(
-					!std.equal_to(prev.value, val) && !std.equal_to(val, hint.value) 
-					&& compare(prev.value, val) && compare(val, hint.value))
-				) // CORRECT HINT
+			// CONSTRUCT KEYS
+			if (!prev.equals(this.end()))
+				if (equal_to(prev.value, val))
+					return prev; // SAME KEY, THEN RETURNS IT`
+				else
+					keys.push_back(prev.value); // DIFFERENT KEY
+
+			keys.push_back(val); // NEW ITEM'S KEY
+
+			if (!hint.equals(this.end()))
+				if (equal_to(hint.value, val))
+					return hint;
+				else
+					keys.push_back(hint.value);
+
+			// IS THE HINT VALID ?
+			let ret: SetIterator<T>;
+
+			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
-				// INSERT
+				// CORRECT HINT
 				ret = this["data_"].insert(hint, val);
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
 			}
 			else // INVALID HINT
-			{ 
-				// INSERT BY AUTOMATIC NODE FINDING
 				ret = this._Insert_by_val(val).first;
-			}
+
 			return ret;
 		}
 

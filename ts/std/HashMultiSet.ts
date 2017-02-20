@@ -318,7 +318,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): any
+		protected _Insert_by_val(val: T): SetIterator<T>
 		{
 			// INSERT
 			let it = this["data_"].insert(this["data_"].end(), val);

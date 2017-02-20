@@ -15,6 +15,8 @@ namespace example
 		for (let i: number = 0; i < LAST; i++)
 		{
 			let it = map.find(i);
+			console.log(it.first, it.second);
+
 			if (it.second != 0)
 				throw new std.DomainError("Invalid sorting.");
 		}

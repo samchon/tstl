@@ -323,7 +323,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_pair(pair: Pair<Key, T>): any
+		protected _Insert_by_pair(pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			// INSERT
 			let it = this["data_"].insert(this["data_"].end(), pair);

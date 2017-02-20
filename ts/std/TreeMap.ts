@@ -304,41 +304,35 @@ namespace std
 		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
 			let key: Key = pair.first;
-			let compare = this.key_comp();
 
 			//--------
 			// INSERT BRANCH
 			//--------
 			// prev < current < hint
 			let prev: MapIterator<Key, T> = hint.prev();
-			let keys: Key[] = [];
+			let keys: Vector<Key> = new Vector<Key>();
 
 			// CONSTRUCT KEYS
 			if (!prev.equals(this.end()))
 				if (equal_to(prev.first, key))
-					return prev;
+					return prev; // SAME KEY, THEN RETURNS IT`
 				else
-					keys.push(prev.first);
+					keys.push_back(prev.first); // DIFFERENT KEY
 
-			keys.push(key);
+			keys.push_back(key); // NEW ITEM'S KEY
 
 			if (!hint.equals(this.end()))
 				if (equal_to(hint.first, key))
 					return hint;
 				else
-					keys.push(hint.first);
+					keys.push_back(hint.first);
 
-			// IS HINT VALID ?
+			// IS THE HINT VALID ?
 			let ret: MapIterator<Key, T>;
-			
-			if (is_sorted
-				(
-					new base._ArrayIterator(keys, 0), 
-					new base._ArrayIterator(keys, keys.length), 
-					this.key_comp())
-				) // CORRECT HINT
+
+			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
-				// INSERT
+				// CORRECT HINT
 				ret = this["data_"].insert(hint, pair);
 
 				// POST-PROCESS

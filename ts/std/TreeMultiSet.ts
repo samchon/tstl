@@ -279,7 +279,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): any
+		protected _Insert_by_val(val: T): SetIterator<T>
 		{
 			// FIND POSITION TO INSERT
 			let it: SetIterator<T> = this.upper_bound(val);
@@ -296,31 +296,36 @@ namespace std
 		 */
 		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
-			// VALIDATE HINT
-			let ret: SetIterator<T>;
-			let compare = this.tree_.key_comp();
+			//--------
+			// INSERT BRANCH
+			//--------
+			// prev < current < hint
+			let prev: SetIterator<T> = hint.prev();
+			let keys: Vector<T> = new Vector<T>();
 
-			// hint <= current && current <= next
-			if ((compare(hint.value, val) || equal_to(hint.value, val))
-				&& (hint.next().equals(this.end()) || (compare(val, hint.next().value) || equal_to(val, hint.next().value))))
+			// CONSTRUCT KEYS
+			if (!prev.equals(this.end()) && !equal_to(prev.value, val))
+				keys.push_back(prev.value); // NOT END() AND DIFFERENT WITH KEY
+
+			keys.push_back(val); // NEW ITEM'S KEY
+
+			if (!hint.equals(this.end()) && !equal_to(hint.value, val))
+				keys.push_back(hint.value);
+
+			// IS HINT VALID ?
+			let ret: SetIterator<T>;
+			
+			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
-				///////
-				// RIGHT HINT
-				///////
-				// INSERT
+				// CORRECT HINT
 				ret = this["data_"].insert(hint, val);
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
 			}
-			else
-			{
-				///////
-				// WRONG HINT
-				///////
-				// INSERT BY AUTOMATIC NODE FINDING
+			else // INVALID HINT
 				ret = this._Insert_by_val(val);
-			}
+
 			return ret;
 		}
 

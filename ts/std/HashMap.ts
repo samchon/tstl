@@ -312,10 +312,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_pair(pair: Pair<Key, T>): any
+		protected _Insert_by_pair(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>
 		{
 			// TEST WHETHER EXIST
-			let it = this.find(pair.first);
+			let it: MapIterator<Key, T> = this.find(pair.first);
 			if (it.equals(this.end()) == false)
 				return make_pair(it, false);
 
@@ -334,16 +334,16 @@ namespace std
 		 */
 		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
-			// FIND KEY
-			if (this.has(pair.first) == true)
-				return this.end();
+			// FIND DUPLICATED KEY
+			let it: MapIterator<Key, T> = this.find(pair.first);
+			if (it.equals(this.end()) == true)
+			{
+				// INSERT
+				it = this["data_"].insert(hint, pair);
 
-			// INSERT
-			let it = this["data_"].insert(hint, pair);
-
-			// POST-PROCESS
-			this._Handle_insert(it, it.next());
-
+				// POST-PROCESS
+				this._Handle_insert(it, it.next());
+			}
 			return it;
 		}
 
