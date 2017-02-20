@@ -268,42 +268,44 @@ namespace std
 		{
 			// FIND POSITION TO INSERT
 			let it: SetIterator<T> = this.lower_bound(val);
+			if (!it.equals(this.end()) && equal_to(it.value, val))
+				return make_pair(it, false);
 
 			// ITERATOR TO RETURN
 			it = this["data_"].insert(it, val);
-			this._Handle_insert(it, it.next());
+			this._Handle_insert(it, it.next()); // POST-PROCESS
 
-			return it;
+			return make_pair(it, true);
 		}
 
 		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
 		{
-			// FIND KEY
-			if (this.has(val) == true)
-				return this.end();
-
-			// VALIDATE HINT
-			let ret: SetIterator<T>;
 			let compare = this.tree_.key_comp();
+			
+			let ret: SetIterator<T>;
 
-			// hint < current && current < next
-			if (compare(hint.value, val) == true
-				&& (hint.next().equals(this.end()) || compare(val, hint.next().value) == true))
+			//--------
+			// INSERT BRANCH
+			//--------
+			// prev < current < hint
+			let prev: SetIterator<T> = hint.prev();
+
+			if (this.empty() ||
+				(prev.equals(this.end()) && !std.equal_to(val, hint.value) && compare(val, hint.value)) ||
+				(hint.equals(this.end()) && !std.equal_to(prev.value, val) && compare(prev.value, val)) ||
+				(
+					!std.equal_to(prev.value, val) && !std.equal_to(val, hint.value) 
+					&& compare(prev.value, val) && compare(val, hint.value))
+				) // CORRECT HINT
 			{
-				///////
-				// RIGHT HINT
-				///////
 				// INSERT
 				ret = this["data_"].insert(hint, val);
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
 			}
-			else
-			{
-				///////
-				// WRONG HINT
-				///////
+			else // INVALID HINT
+			{ 
 				// INSERT BY AUTOMATIC NODE FINDING
 				ret = this._Insert_by_val(val).first;
 			}

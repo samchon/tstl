@@ -43,15 +43,17 @@ namespace std.base
 			if (node == null)
 				return null;
 
+			// FOR THE DUPLICATE KEY
+			let matched: _XTreeNode<MapIterator<Key, T>> = null;
+
 			while (true)
 			{
 				let myNode: _XTreeNode<MapIterator<Key, T>> = null;
 
 				if (equal_to(key, node.value.first))
 				{
+					matched = node;
 					myNode = node.left;
-					if (myNode == null || !equal_to(key, myNode.value.first))
-						break;
 				}
 				else if (this.key_comp()(key, node.value.first))
 					myNode = node.left; // LESS, THEN TO THE LEFT
@@ -65,7 +67,12 @@ namespace std.base
 				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
 				node = myNode;
 			}
-			return node;
+
+			// RETURN BRANCH
+			if (matched != null)
+				return matched;
+			else
+				return node;
 		}
 
 		public upper_bound(key: Key): MapIterator<Key, T>
@@ -77,15 +84,17 @@ namespace std.base
 			if (node == null)
 				return this.map().end();
 
+			// FOR THE DUPLICATE KEY
+			let matched: _XTreeNode<MapIterator<Key, T>> = null;
+
 			while (true)
 			{
 				let myNode: _XTreeNode<MapIterator<Key, T>> = null;
 
 				if (equal_to(key, node.value.first))
 				{
+					matched = node;
 					myNode = node.right;
-					if (myNode == null || !equal_to(key, myNode.value.first))
-						break;
 				}
 				else if (this.key_comp()(key, node.value.first))
 					myNode = node.left; // LESS, THEN TO THE LEFT
@@ -103,8 +112,10 @@ namespace std.base
 			//--------
 			// RETURN BRACH
 			//--------
-			let it: MapIterator<Key, T> = node.value;
+			if (matched != null) // MATCHED KEY EXISTS
+				return matched.value.next();
 
+			let it: MapIterator<Key, T> = node.value;
 			if (this.key_comp()(it.first, key) || equal_to(it.first, key)) // it.first <= key
 				return it.next();
 			else // it.first > key

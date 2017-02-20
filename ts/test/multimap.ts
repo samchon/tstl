@@ -4,29 +4,19 @@ namespace example
 {
 	export function multimap(): void
 	{
-		//let set: std.TreeMultiSet<number> = new std.TreeMultiSet<number>();
-		//let map: std.TreeMultiMap<number, number> = new std.TreeMultiMap<number, number>();
-		
-		//for (let i: number = 0; i < 100; i++)
-		//{
-		//	let val: number = Math.floor(Math.random() * 10);
-
-		//	set.insert(val);
-		//	map.emplace(val, 1);
-		//}
-
-		//let s = set.begin();
-		//for (let m = map.begin(); !m.equals(map.end()); m = m.next())
-		//{
-		//	console.log((s.value != m.first) ? "!" : "", s.value, m.first);
-		//	s = s.next();
-		//}
+		const LAST = 10;
+		const REPEAT = 1000;
 
 		let map = new std.TreeMultiMap<number, number>();
-		for (let i: number = 0; i < 100; i++)
-			map.emplace(1, i);
+		for (let i: number = 0; i < LAST; i++)
+			for (let j: number = 0; j < REPEAT; j++)
+				map.emplace(i, j);
 
-		for (let it = map.begin(); it != map.end(); it = it.next())
-			console.log(it.first, it.second);
+		for (let i: number = 0; i < LAST; i++)
+		{
+			let it = map.find(i);
+			if (it.second != 0)
+				throw new std.DomainError("Invalid sorting.");
+		}
 	}
 }

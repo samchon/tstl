@@ -5,6 +5,7 @@
 .vscode
 api\
 design\
+handbook\
 ts\
 
 *.bat

@@ -5,16 +5,10 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "node2",
-			"request": "attach",
-			"name": "Attach to Port",
-			"port": 9229
-		},
-		{
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceRoot}/ts/test/test.js",
+			"program": "${workspaceRoot}\\ts\\test\\test.js",
 			"cwd": "${workspaceRoot}",
 
 			// TypeScript
@@ -28,7 +22,8 @@
 			"type": "node",
 			"request": "attach",
 			"name": "Attach to Process",
-			"port": 5858
+			"port": 5858,
+			"outFiles": []
 		}
 	]
 }

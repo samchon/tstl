@@ -38,6 +38,9 @@ namespace std.base
 			if (node == null)
 				return null;
 
+			// FOR THE DUPLICATE VALUE
+			let matched: _XTreeNode<SetIterator<T>> = null;
+
 			while (true)
 			{
 				let it: SetIterator<T> = node.value;
@@ -45,9 +48,8 @@ namespace std.base
 				
 				if (equal_to(val, it.value))
 				{
+					matched = node;
 					myNode = node.left;
-					if (myNode == null || !equal_to(val, myNode.value.value))
-						break;
 				}
 				else if (this.key_comp()(val, it.value))
 					myNode = node.left;
@@ -61,7 +63,12 @@ namespace std.base
 				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
 				node = myNode;
 			}
-			return node;
+
+			// RETURN BRANCH
+			if (matched != null)
+				return matched;
+			else
+				return node;
 		}
 
 		public upper_bound(val: T): SetIterator<T>
@@ -73,15 +80,17 @@ namespace std.base
 			if (node == null)
 				return this.set().end();
 
+			// FOR THE DUPLICATE VALUE
+			let matched: _XTreeNode<SetIterator<T>> = null;
+
 			while (true)
 			{
 				let myNode: _XTreeNode<SetIterator<T>> = null;
 
 				if (equal_to(val, node.value.value))
 				{
+					matched = node;
 					myNode = node.right;
-					if (myNode == null || !equal_to(val, myNode.value.value))
-						break;
 				}
 				else if (this.key_comp()(val, node.value.value))
 					myNode = node.left; // LESS, THEN TO THE LEFT
@@ -99,8 +108,10 @@ namespace std.base
 			//--------
 			// RETURN BRANCH
 			//--------
+			if (matched != null) // MATCHED KEY EXISTS
+				return matched.value.next();
+
 			let it: SetIterator<T> = node.value;
-			
 			if (equal_to(it.value, val) || this.key_comp()(it.value, val)) // it.first <= key
 				return it.next();
 			else // it.first > key

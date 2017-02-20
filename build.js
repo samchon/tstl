@@ -4,11 +4,13 @@ const process = require('child_process');
 compile();
 attach_header();
 remove_dynamics();
+test();
 minify();
 
 function compile()
 {
 	process.execSync("tsc -p ts/std/tsconfig.json");
+	process.execSync("tsc -p ts/test/tsconfig.json");
 }
 
 function attach_header()
@@ -52,6 +54,11 @@ function remove_dynamics()
 		text = text.split(org).join(repl);
 	}
 	fs.writeFileSync(JS_FILE, text, "utf8");
+}
+
+function test()
+{
+	process.execSync("node ts/test/test");
 }
 
 function minify()

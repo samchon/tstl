@@ -322,35 +322,44 @@ namespace std
 		 */
 		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
 		{
-			// FIND KEY
-			if (this.has(pair.first) == true)
-				return this.end();
-
-			// VALIDATE HINT
-			let ret: MapIterator<Key, T>;
+			let key: Key = pair.first;
 			let compare = this.key_comp();
 
-			// hint <= current && current <= next
-			if ((compare(hint.first, pair.first) || equal_to(hint.first, pair.first))
-				&& (hint.next().equals(this.end()) || (compare(pair.first, hint.next().first) || equal_to(pair.first, hint.next().first))))
+			//--------
+			// INSERT BRANCH
+			//--------
+			// prev < current < hint
+			let prev: MapIterator<Key, T> = hint.prev();
+			let keys: Key[] = [];
+
+			// CONSTRUCT KEYS
+			if (!prev.equals(this.end()))
+				keys.push(prev.first);
+			
+			keys.push(key);
+			
+			if (!hint.equals(this.end()))
+				keys.push(hint.first);
+
+			// IS HINT VALID ?
+			let ret: MapIterator<Key, T>;
+			
+			if (is_sorted
+				(
+					new base._ArrayIterator(keys, 0), 
+					new base._ArrayIterator(keys, keys.length), 
+					this.key_comp())
+				) // CORRECT HINT
 			{
-				///////
-				// RIGHT HINT
-				///////
 				// INSERT
 				ret = this["data_"].insert(hint, pair);
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
 			}
-			else
-			{
-				///////
-				// WRONG HINT
-				///////
-				// INSERT BY AUTOMATIC NODE FINDING
-				ret = this._Insert_by_pair(pair);
-			}
+			else // INVALID HINT
+				ret = this._Insert_by_pair(pair).first;
+
 			return ret;
 		}
 

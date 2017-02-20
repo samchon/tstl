@@ -4,13 +4,14 @@ namespace example
 {
 	export function map(): void
 	{
-		let map: std.TreeMap<string, number> = new std.TreeMap<string, number>();
-		map.insert(["first", 1]);
-		map.insert(["second", 2]);
+		let map: std.TreeMap<number, number> = new std.TreeMap<number, number>();
+		map.emplace(1, 1);
+		map.emplace(2, 2);
+		map.emplace(3, 3);
 
-		map.erase(map.begin());
+		map.emplace_hint(map.end(), 4, 4);
 
-		for (let it = map.begin(); !it.equals(map.end()); it = it.next())
+		for (let it = map.begin(); it != map.end(); it = it.next())
 			console.log(it.first, it.second);
 	}
 }
