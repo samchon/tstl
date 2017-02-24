@@ -3,7 +3,8 @@
 # ======================================================
 .git
 .vscode
-api\
+
+build\
 design\
 handbook\
 ts\
@@ -11,6 +12,4 @@ ts\
 *.bat
 *.log
 *.*ignore
-
-build.js
 *.js.map

@@ -9,14 +9,14 @@ minify();
 
 function compile()
 {
-	process.execSync("tsc -p ts/std/tsconfig.json");
-	process.execSync("tsc -p ts/test/tsconfig.json");
+	process.execSync("tsc -p ../ts/std/tsconfig.json");
+	process.execSync("tsc -p ../ts/test/tsconfig.json");
 }
 
 function attach_header()
 {
-	const TITLE_FILE = "./ts/std/typings/tstl/tstl.d.ts";
-	const HEADER_FILE = "./lib/tstl.d.ts";
+	const TITLE_FILE = "../ts/std/typings/tstl/tstl.d.ts";
+	const HEADER_FILE = "../lib/tstl.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");
 	text += fs.readFileSync(HEADER_FILE, "utf8");
@@ -26,7 +26,7 @@ function attach_header()
 
 function remove_dynamics()
 {
-	const JS_FILE = "./lib/tstl.js";
+	const JS_FILE = "../lib/tstl.js";
 	
 	var text = fs.readFileSync(JS_FILE, "utf8");
 	if (text.indexOf('["') == -1)
@@ -58,10 +58,10 @@ function remove_dynamics()
 
 function test()
 {
-	process.execSync("node ts/test/test");
+	process.execSync("node ../ts/test/test");
 }
 
 function minify()
 {
-	process.execSync("minify lib/tstl.js");
+	process.execSync("minify ../lib/tstl.js");
 }
