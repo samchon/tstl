@@ -1,43 +1,47 @@
 {
-	"name": "tstl",
-	"description": "TypeScript-STL (Standard Template Library, migrated from C++)",
-	"author": 
-	{
-		"name": "Jeongho Nam",
-		"email": "samchon@samchon.org",
-		"url": "http://samchon.org"
-	},
+  "name": "tstl",
+  "description": "TypeScript-STL (Standard Template Library, migrated from C++)",
+  "author": {
+    "name": "Jeongho Nam",
+    "email": "samchon@samchon.org",
+    "url": "http://samchon.org"
+  },
 
-	"main": "./lib/tstl.js",
-	"typings": "./lib/tstl.d.ts",
-	"version": "1.4.1",
+  "main": "./lib/tstl.js",
+  "typings": "./lib/tstl.d.ts",
+  "version": "1.4.2",
+  "devDependencies": {
+    "@types/node": "^7.0.8"
+  },
+  
+  "homepage": "https://github.com/samchon/tstl",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samchon/tstl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/samchon/tstl/issues"
+  },
+  "licenses": [
+    {
+      "type": "BSD-3-Clause",
+      "url": "https://opensource.org/licenses/BSD-3-Clause"
+    }
+  ],
 
-	"homepage": "https://github.com/samchon/tstl",
-	"repository": 
-	{
-		"type": "git",
-		"url": "https://github.com/samchon/tstl.git"
-	},
-	"bugs": { "url": "https://github.com/samchon/tstl/issues" },
+  "keywords": [
+    "stl", "standard template library",
+    "typescript", "standard", "template", "container",
 
-	"licenses": 
-	[{
-		"type": "BSD-3-Clause",
-		"url": "https://opensource.org/licenses/BSD-3-Clause"
-	}],
-	"keywords": 
-	[
-		"stl", "standard template library",
-		"typescript", "standard", "template", "container", "library", 
-		
-		"algorithm", "iterator", "functional", "utility",
-		
-		"vector", "deque", "list", "stack", "queue", "priority_queue",
-		"set", "multiset", "unordered_set", "unordered_multiset",
-		"map", "multimap", "unordered_map", "unordered_multimap",
-
-		"IComparable" , "Pair", "PriorityQueue",
-		"TreeSet", "TreeMultiSet", "HashSet", "HashMultiSet",
-		"TreeMap", "TreeMultiMap", "HashMap", "HashMultiMap"
-	]
+    "library", "algorithm", "iterator", "functional", "utility",
+    
+    "vector", "deque", "list", "stack", "queue", "priority_queue",
+    "set", "multiset", "unordered_set", "unordered_multiset",
+    "map", "multimap", "unordered_map", "unordered_multimap",
+    
+    "IComparable", "Pair",
+    "PriorityQueue",
+    "TreeSet", "TreeMultiSet", "HashSet", "HashMultiSet",
+    "TreeMap", "TreeMultiMap", "HashMap", "HashMultiMap"
+  ]
 }

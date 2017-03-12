@@ -15,5 +15,5 @@ if (fs.existsSync(RELEASE_DIR))
 	else
 		process.execSync("rm -rf " + RELEASE_DIR);
 
-var command = "typedoc --tsconfig ../ts/std/tsconfig.json --target ES5 --mode file --out " + RELEASE_DIR;
+var command = "typedoc --tsconfig ../src/std/tsconfig.json --target ES5 --mode file --out " + RELEASE_DIR;
 process.execSync(command);

@@ -9,13 +9,17 @@ minify();
 
 function compile()
 {
-	process.execSync("tsc -p ../ts/std/tsconfig.json");
-	process.execSync("tsc -p ../ts/test/tsconfig.json");
+	// KEEP COMMENTS ONLY IN THE DECLARATION
+	process.execSync("tsc -p ../src/std/tsconfig.json");
+	process.execSync("tsc -p ../src/std/tsconfig.json --removeComments --declaration false");
+
+	// TESTING UNIT
+	process.execSync("tsc -p ../src/test/tsconfig.json");
 }
 
 function attach_header()
 {
-	const TITLE_FILE = "../ts/std/typings/tstl/tstl.d.ts";
+	const TITLE_FILE = "../src/std/typings/tstl/tstl.d.ts";
 	const HEADER_FILE = "../lib/tstl.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");
@@ -58,7 +62,7 @@ function remove_dynamics()
 
 function test()
 {
-	process.execSync("node ../ts/test/test");
+	process.execSync("node ../src/test/test");
 }
 
 function minify()
