@@ -542,10 +542,10 @@ namespace std
 
 			// ERASE LAST ELEMENT
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
-			lastArray.splice(lastArray.length - 1, 1);
+			lastArray.pop();
 
 			if (lastArray.length == 0 && this.matrix_.length > 1)
-				this.matrix_.splice(this.matrix_.length - 1, 1);
+				this.matrix_.pop();
 
 			// SHRINK SIZE
 			this.size_--;

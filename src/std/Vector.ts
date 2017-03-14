@@ -568,7 +568,7 @@ namespace std
 		 */
 		public pop_back(): void
 		{
-			this.erase(this.end().prev());
+			this.data_.pop();
 		}
 
 		/**
