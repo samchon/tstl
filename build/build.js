@@ -9,18 +9,21 @@ minify();
 
 function compile()
 {
+	const STD_FILE = __dirname + "/../src/std/tsconfig.json";
+	const TEST_FILE = __dirname + "/../src/test/tsconfig.json";
+
 	// KEEP COMMENTS ONLY IN THE DECLARATION
-	process.execSync("tsc -p ../src/std/tsconfig.json");
-	process.execSync("tsc -p ../src/std/tsconfig.json --removeComments --declaration false");
+	process.execSync("tsc -p " + STD_FILE);
+	process.execSync("tsc -p " + STD_FILE + " --removeComments --declaration false");
 
 	// TESTING UNIT
-	process.execSync("tsc -p ../src/test/tsconfig.json");
+	process.execSync("tsc -p " + TEST_FILE);
 }
 
 function attach_header()
 {
-	const TITLE_FILE = "../src/std/typings/tstl/tstl.d.ts";
-	const HEADER_FILE = "../lib/tstl.d.ts";
+	const TITLE_FILE = __dirname + "/../src/std/typings/tstl/tstl.d.ts";
+	const HEADER_FILE = __dirname + "/../lib/tstl.d.ts";
 
 	var text = fs.readFileSync(TITLE_FILE, "utf8");
 	text += fs.readFileSync(HEADER_FILE, "utf8");
@@ -30,7 +33,7 @@ function attach_header()
 
 function remove_dynamics()
 {
-	const JS_FILE = "../lib/tstl.js";
+	const JS_FILE = __dirname + "/../lib/tstl.js";
 	
 	var text = fs.readFileSync(JS_FILE, "utf8");
 	if (text.indexOf('["') == -1)
@@ -62,10 +65,10 @@ function remove_dynamics()
 
 function test()
 {
-	process.execSync("node ../src/test/test");
+	process.execSync("node " + __dirname + "/../src/test/test");
 }
 
 function minify()
 {
-	process.execSync("minify ../lib/tstl.js");
+	process.execSync("minify " + __dirname + "/../lib/tstl.js");
 }

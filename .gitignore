@@ -2,6 +2,7 @@
 #	CUSTOM IGNORE
 # ======================================================
 handbook/
+node_modules/
 lib/
 
 *.bat
