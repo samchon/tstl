@@ -4,6 +4,7 @@
   - Guide Documents: https://github.com/samchon/tstl/wiki
 
 
+
 ## Introduction
 STL (Standard Template Library) *Containers* and *Algorithms* for the **TypeScript**.
 
@@ -34,7 +35,18 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
 
 ### Global Functions
   - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
+    - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithm/iterations.ts)
+    - [modifiers](https://github.com/samchon/tstl/tree/master/src/std/algorithm/modifiers.ts)
+    - [partition](https://github.com/samchon/tstl/tree/master/src/std/algorithm/partition.ts)
+    - [sorting](https://github.com/samchon/tstl/tree/master/src/std/algorithm/sorting.ts)
+    - [binary search](https://github.com/samchon/tstl/tree/master/src/std/algorithm/binary_search.ts)
+    - [union set](https://github.com/samchon/tstl/tree/master/src/std/algorithm/union_set.ts)
+    - [heap](https://github.com/samchon/tstl/tree/master/src/std/algorithm/heap.ts)
+    - [mathmatics](https://github.com/samchon/tstl/tree/master/src/std/algorithm/mathmatics.ts)
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
+    - [Exception `exception`](http://samchon.github.io/tstl/api/classes/std.exception.html)
+      - [LogicError `logic_error`](http://samchon.github.io/tstl/api/classes/std.logicerror.html)
+      - [RuntimeError `runtime_error`](http://samchon.github.io/tstl/api/classes/std.runtimeerror.html)
   - [`<functional>`](http://www.cplusplus.com/reference/functional/)
     - [IComparable](http://samchon.github.io/tstl/api/interfaces/std.icomparable.html)
   - [`<utility>`](http://www.cplusplus.com/reference/utility/)
