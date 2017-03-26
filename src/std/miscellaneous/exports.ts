@@ -155,4 +155,4 @@ namespace std
 try
 {
 	module.exports = std;
-} catch (exception) { }
+} catch (exception) {}

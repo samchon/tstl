@@ -60,6 +60,7 @@
 		--------------------------------------------------------- */
 		/**
 		 * Access element.
+		 * 
 		 * Returns a value to the element at position <i>index</i> in the {@link IArrayContainer container}.</p>
 		 *
 		 * The function automatically checks whether <i>index</i> is within the bounds of valid elements 
@@ -77,6 +78,7 @@
 
 		/**
 		 * Modify element.
+		 * 
 		 * Replaces an element at the specified position (<i>index</i>) in this {@link IArrayContainer container} 
 		 * with the specified element (<i>val</i>).
 		 *
@@ -84,7 +86,7 @@
 		 * in the {@link IArrayContainer container}, throwing an {@link OutOfRange} exception if it is not (i.e., if 
 		 * <i>index</i> is greater or equal than its {@link size}).
 		 * 
-		 * @.param index A specified position of the value to replace.
+		 * @param index A specified position of the value to replace.
 		 * @param val A value to be stored at the specified position.
 		 *
 		 * @return The previous element had stored at the specified position.

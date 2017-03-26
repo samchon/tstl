@@ -24,7 +24,8 @@ namespace std
 	 * @reference http://www.cplusplus.com/reference/iterator/BidirectionalIterator
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class Iterator<T>
+	export abstract class Iterator<T> 
+		implements IComparable<Iterator<T>>
 	{
 		/**
 		 * @hidden
@@ -99,10 +100,7 @@ namespace std
 		 * @param obj An iterator to compare
 		 * @return Indicates whether equal or not.
 		 */
-		public equals(obj: Iterator<T>): boolean
-		{
-			return this.source_ == obj.source_;
-		}
+		public abstract equals(obj: Iterator<T>): boolean;
 		
 		/**
 		 * Get value of the iterator is pointing.
@@ -406,10 +404,9 @@ namespace std
 	 * @param container A container object of a class type for which member {@link rbegin} is defined.
 	 * @return The same as returned by {@link rbegin()}.
 	 */
-	export function rbegin<T>(container: base.Container<T>): base.IReverseIterator<T>;
-	export function rbegin<T>(container: Vector<T>): VectorReverseIterator<T>;
+	export function rbegin<T, Source extends base.IArrayContainer<T>>
+		(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function rbegin<T>(container: List<T>): ListReverseIterator<T>;
-	export function rbegin<T>(container: Deque<T>): DequeReverseIterator<T>;
 	export function rbegin<T>(container: base.SetContainer<T>): SetReverseIterator<T>;
 	export function rbegin<Key, T>(container: base.MapContainer<Key, T>): MapReverseIterator<Key, T>;
 
@@ -451,9 +448,9 @@ namespace std
 	 * @return The same as returned by {@link end end()}.
 	 */
 	export function rend<T>(container: base.Container<T>): base.IReverseIterator<T>;
-	export function rend<T>(container: Vector<T>): VectorReverseIterator<T>;
+	export function rend<T, Source extends base.IArrayContainer<T>>
+		(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function rend<T>(container: List<T>): ListReverseIterator<T>;
-	export function rend<T>(container: Deque<T>): DequeReverseIterator<T>;
 	export function rend<T>(container: base.SetContainer<T>): SetReverseIterator<T>;
 	export function rend<Key, T>(container: base.MapContainer<Key, T>): MapReverseIterator<Key, T>;
 
@@ -468,18 +465,17 @@ namespace std
 	 * @param it A reference of the base iterator, which iterates in the opposite direction.
 	 * @return A {@link ReverseIterator reverse iterator} based on *it*.
 	 */
-	export function make_reverse_iterator<T>(it: VectorIterator<T>): VectorReverseIterator<T>;
-	export function make_reverse_iterator<T>(it: DequeIterator<T>): DequeReverseIterator<T>;
+	export function make_reverse_iterator<T, Source extends base.IArrayContainer<T>>
+		(it: base.ArrayIterator<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function make_reverse_iterator<T>(it: ListIterator<T>): ListReverseIterator<T>;
 	export function make_reverse_iterator<T>(it: SetIterator<T>): SetReverseIterator<T>;
 	export function make_reverse_iterator<Key, T>(it: MapIterator<Key, T>): MapReverseIterator<Key, T>;
 
-	export function make_reverse_iterator<T>(it: Iterator<T>): base.IReverseIterator<T> | MapReverseIterator<any, any>
+	export function make_reverse_iterator<T, Source extends base.IArrayContainer<T>>
+		(it: Iterator<T>): base.IReverseIterator<T> | MapReverseIterator<any, any>
 	{
-		if (it instanceof VectorIterator)
-			return new VectorReverseIterator<T>(it);
-		else if (it instanceof DequeIterator)
-			return new DequeReverseIterator<T>(it);
+		if (it instanceof base.ArrayIterator)
+			return new base.ArrayReverseIterator<T, Source>(it);
 		else if (it instanceof ListIterator)
 			return new ListReverseIterator<T>(it);
 

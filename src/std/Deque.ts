@@ -1,13 +1,6 @@
 ﻿/// <reference path="API.ts" />
 
-/// <reference path="base/Container.ts" />
-/// <reference path="Iterator.ts" />
-
-namespace std.Deque
-{
-	export type iterator<T> = DequeIterator<T>;
-	export type reverse_iterator<T> = DequeReverseIterator<T>;
-}
+/// <reference path="base/ArrayContainer.ts" />
 
 namespace std
 {
@@ -62,8 +55,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class Deque<T>
-		extends base.Container<T>
-		implements base.IArrayContainer<T>, base.IDequeContainer<T>
+		extends base.ArrayContainer<T, Deque<T>>
 	{
 		///
 		// A matrix containing elements.
@@ -93,21 +85,6 @@ namespace std
 		 * @hidden
 		 */
 		private capacity_: number;
-
-		/**
-		 * @hidden
-		 */
-		private begin_: DequeIterator<T>;
-
-		/**
-		 * @hidden
-		 */
-		private end_: DequeIterator<T>;
-
-		/**
-		 * @hidden
-		 */
-		private rend_: DequeReverseIterator<T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -169,11 +146,6 @@ namespace std
 		{
 			super();
 
-			// RESERVED ITERATORS
-			this.begin_ = new DequeIterator<T>(this, 0);
-			this.end_ = new DequeIterator<T>(this, -1);
-			this.rend_ = new DequeReverseIterator<T>(this.begin_);
-
 			// CONSTRUCTORS BRANCH
 			if (args.length == 0)
 			{
@@ -182,8 +154,8 @@ namespace std
 			if (args.length == 1 && args[0] instanceof Array)
 			{
 				let array: Array<T> = args[0];
-				let first = new base._ArrayIterator(array, 0);
-				let last = new base._ArrayIterator(array, array.length);
+				let first = new base._NativeArrayIterator(array, 0);
+				let last = new base._NativeArrayIterator(array, array.length);
 
 				this.assign(first, last);
 			}
@@ -293,7 +265,6 @@ namespace std
 		/* =========================================================
 			ACCESSORS
 				- BASIC ELEMENTS
-				- ITERATORS
 				- INDEX ACCESSORS
 		============================================================
 			BASIC ELEMENTS
@@ -357,47 +328,6 @@ namespace std
 			let last_array: Array<T> = this.matrix_[this.matrix_.length - 1];
 
 			return last_array[last_array.length - 1];
-		}
-
-		/* ---------------------------------------------------------
-			ITERATORS
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public begin(): DequeIterator<T>
-		{
-			if (this.empty() == true)
-				return this.end_;
-			else
-				return this.begin_;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public end(): DequeIterator<T>
-		{
-			return this.end_;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public rbegin(): DequeReverseIterator<T>
-		{
-			return new DequeReverseIterator<T>(this.end_);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public rend(): DequeReverseIterator<T>
-		{
-			if (this.empty() == true)
-				return new DequeReverseIterator<T>(this.end_);
-			else
-				return this.rend_;
 		}
 
 		/* ---------------------------------------------------------
@@ -478,8 +408,8 @@ namespace std
 				return this.size();
 
 			// INSERT BY RANGE
-			let first: base._ArrayIterator<T> = new base._ArrayIterator<T>(items, 0);
-			let last: base._ArrayIterator<T> = new base._ArrayIterator<T>(items, items.length);
+			let first: base._NativeArrayIterator<T> = new base._NativeArrayIterator<T>(items, 0);
+			let last: base._NativeArrayIterator<T> = new base._NativeArrayIterator<T>(items, items.length);
 
 			this._Insert_by_range(this.end(), first, last);
 
@@ -555,85 +485,6 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
-		 */
-		public insert(position: DequeIterator<T>, val: T): DequeIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<U extends T, InputIterator extends Iterator<U>>
-			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert(position: DequeReverseIterator<T>, val: T): DequeReverseIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert(position: DequeReverseIterator<T>, n: number, val: T): DequeReverseIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<U extends T, InputIterator extends Iterator<U>>
-			(position: DequeReverseIterator<T>, begin: InputIterator, end: InputIterator): DequeReverseIterator<T>;
-
-		public insert<U extends T, InputIterator extends Iterator<U>>
-			(...args: any[]): DequeIterator<T> | DequeReverseIterator<T>
-		{
-			// REVERSE_ITERATOR TO ITERATOR
-			let ret: DequeIterator<T>;
-			let is_reverse_iterator: boolean = false;
-
-			if (args[0] instanceof DequeReverseIterator)
-			{
-				is_reverse_iterator = true;
-				args[0] = (args[0] as DequeReverseIterator<T>).base().prev();
-			}
-
-			// BRANCHES
-			if (args.length == 2)
-				ret = this._Insert_by_val(args[0], args[1]);
-			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
-			else
-				ret = this._Insert_by_range(args[0], args[1], args[2]);
-
-			// RETURNS
-			if (is_reverse_iterator == true)
-				return new DequeReverseIterator<T>(ret.next());
-			else
-				return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_val(position: DequeIterator<T>, val: T): DequeIterator<T>
-		{
-			return this._Insert_by_repeating_val(position, 1, val);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
-		{
-			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
-			let last: base._Repeater<T> = new base._Repeater<T>(n);
-
-			return this._Insert_by_range(position, first, last);
-		}
-
-		/**
 		 * @hidden
 		 */
 		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
@@ -652,7 +503,7 @@ namespace std
 				this._Insert_to_end(first, last);
 
 				// CHANGE POS TO RETURN
-				pos = new DequeIterator<T>(this, this.size_);
+				pos = new base.ArrayIterator<T, Deque<T>>(this, this.size_);
 			}
 			else
 			{
@@ -710,8 +561,8 @@ namespace std
 			}
 
 			// INSERT ITEMS IN THE BACK SIDE
-			let $first: base._ArrayIterator<T> = new base._ArrayIterator<T>(back_items, 0);
-			let $last: base._ArrayIterator<T> = new base._ArrayIterator<T>(back_items, back_items.length);
+			let $first: base._NativeArrayIterator<T> = new base._NativeArrayIterator<T>(back_items, 0);
+			let $last: base._NativeArrayIterator<T> = new base._NativeArrayIterator<T>(back_items, back_items.length);
 
 			for (let i: number = 0; i < back_items.length; i++)
 			{
@@ -794,53 +645,6 @@ namespace std
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public erase(position: DequeIterator<T>): DequeIterator<T>;
-		
-		/**
-		 * @inheritdoc
-		 */
-		public erase(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public erase(position: DequeReverseIterator<T>): DequeReverseIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public erase(first: DequeReverseIterator<T>, last: DequeReverseIterator<T>): DequeReverseIterator<T>;
-
-		public erase(first: any, last: any = first.next()): any
-		{
-			let ret: DequeIterator<T>;
-			let is_reverse_iterator: boolean = false;
-
-			// REVERSE_ITERATOR TO ITERATOR
-			if (first instanceof DequeReverseIterator)
-			{
-				is_reverse_iterator = true;
-
-				let first_it = (last as DequeReverseIterator<T>).base();
-				let last_it = (first as DequeReverseIterator<T>).base();
-
-				first = first_it;
-				last = last_it;
-			}
-
-			// ERASE ELEMENTS
-			ret = this._Erase_by_range(first, last);
-
-			// RETURN BRANCHES
-			if (is_reverse_iterator == true)
-				return new DequeReverseIterator<T>(ret.next());
-			else
-				return ret;	
-		}
-
 		/**
 		 * @hidden
 		 */
@@ -976,215 +780,5 @@ namespace std
 		 * @hidden
 		 */
 		private static get MAGNIFIER(): number { return 1.5; }
-	}
-}
-
-namespace std
-{
-	/**
-	 * An iterator of {@link Deque}.
-	 * 
-	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
-	 *
-	 * @author Jeongho Nam <http://samchon.org>
-	 */
-	export class DequeIterator<T>
-		extends Iterator<T>
-		implements base.IArrayIterator<T>
-	{
-		/**
-		 * @hidden
-		 */
-		private index_: number;
-
-		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
-		/**
-		 * Construct from the source {@link Deque container}.
-		 *
-		 * #### Note
-		 * Do not create the iterator directly, by yourself.
-		 * 
-		 * Use {@link Deque.begin begin()}, {@link Deque.end end()} in {@link Deque container} instead. 
-		 *
-		 * @param source The source {@link Deque container} to reference.
-		 * @param index Sequence number of the element in the source {@link Deque}.
-		 */
-		public constructor(source: Deque<T>, index: number)
-		{
-			super(source);
-
-			this.index_ = index;
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public source(): Deque<T>
-		{
-			return this.source_ as Deque<T>;
-		}
-		
-		/**
-		 * @inheritdoc
-		 */
-		public index(): number
-		{
-			return this.index_;
-		}
-		
-		/**
-		 * @inheritdoc
-		 */
-		public get value(): T
-		{
-			return this.source().at(this.index_);
-		}
-
-		/**
-		 * Set value of the iterator is pointing to.
-		 * 
-		 * @param val Value to set.
-		 */
-		public set value(val: T)
-		{
-			this.source().set(this.index_, val);
-		}
-
-		/* ---------------------------------------------------------
-			MOVERS
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public prev(): DequeIterator<T>
-		{
-			if (this.index_ == -1)
-				return new DequeIterator(this.source(), this.source_.size() - 1);
-			else if (this.index_ - 1 < 0)
-				return this.source().end();
-			else
-				return new DequeIterator<T>(this.source(), this.index_ - 1);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public next(): DequeIterator<T>
-		{
-			if (this.index_ >= this.source_.size() - 1)
-				return this.source().end();
-			else
-				return new DequeIterator<T>(this.source(), this.index_ + 1);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public advance(n: number): DequeIterator<T>
-		{
-			let new_index: number;
-			if (n < 0 && this.index_ == -1)
-				new_index = this.source_.size() + n;
-			else
-				new_index = this.index_ + n;
-
-			if (new_index < 0 || new_index >= this.source_.size())
-				return this.source().end();
-			else
-				return new DequeIterator<T>(this.source(), new_index);
-		}
-
-		/* ---------------------------------------------------------
-			COMPARES
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public equals(obj: DequeIterator<T>): boolean
-		{
-			return super.equals(obj) && this.index_ == obj.index_;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: DequeIterator<T>): void
-		{
-			[this.value, obj.value] = [obj.value, this.value];
-		}
-	}
-}
-
-namespace std
-{
-	/**
-	 * A reverse-iterator of Deque.
-	 * 
-	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
-	 *
-	 * @param <T> Type of the elements.
-	 * 
-	 * @author Jeongho Nam <http://samchon.org>
-	 */
-	export class DequeReverseIterator<T>
-		extends ReverseIterator<T, Deque<T>, DequeIterator<T>, DequeReverseIterator<T>>
-		implements base.IArrayIterator<T>
-	{
-		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
-		/**
-		 * Construct from base iterator.
-		 * 
-		 * @param base A reference of the base iterator, which iterates in the opposite direction.
-		 */
-		public constructor(base: DequeIterator<T>)
-		{
-			super(base);
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected _Create_neighbor(base: DequeIterator<T>): DequeReverseIterator<T>
-		{
-			return new DequeReverseIterator<T>(base);
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
-		public index(): number
-		{
-			return this.base_.index();
-		}
-		
-		/**
-		 * @inheritdoc
-		 */
-		public get value(): T
-		{
-			return this.base_.value;
-		}
-
-		/**
-		 * Set value of the iterator is pointing to.
-		 * 
-		 * @param val Value to set.
-		 */
-		public set value(val: T)
-		{
-			this.base_.value = val;
-		}
 	}
 }

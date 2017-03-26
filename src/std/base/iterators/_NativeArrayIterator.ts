@@ -5,7 +5,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _ArrayIterator<T> extends Iterator<T>
+	export class _NativeArrayIterator<T> extends Iterator<T>
 	{
 		private data_: Array<T>;
 		private index_: number;
@@ -42,18 +42,18 @@ namespace std.base
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
-		public prev(): _ArrayIterator<T>
+		public prev(): _NativeArrayIterator<T>
 		{
 			this.index_--;
 			return this;
 		}
-		public next(): _ArrayIterator<T>
+		public next(): _NativeArrayIterator<T>
 		{
 			this.index_++;
 			return this;
 		}
 
-		public advance(n: number): _ArrayIterator<T>
+		public advance(n: number): _NativeArrayIterator<T>
 		{
 			this.index_ += n;
 			return this;
@@ -62,12 +62,12 @@ namespace std.base
 		/* ---------------------------------------------------------
 			COMPARES
 		--------------------------------------------------------- */
-		public equals(obj: _ArrayIterator<T>): boolean
+		public equals(obj: _NativeArrayIterator<T>): boolean
 		{
 			return this.data_ == obj.data_ && this.index_ == obj.index_;
 		}
 
-		public swap(obj: _ArrayIterator<T>): void
+		public swap(obj: _NativeArrayIterator<T>): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 			[this.index_, obj.index_] = [obj.index_, this.index_];

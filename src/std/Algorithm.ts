@@ -11,11 +11,11 @@
 
 /// <reference path="algorithm/iterations.ts" />
 /// <reference path="algorithm/modifiers.ts" />
-/// <reference path="algorithm/sortings.ts" />
+/// <reference path="algorithm/sorting.ts" />
 
-/// <reference path="algorithm/heaps.ts" />
-/// <reference path="algorithm/binaries.ts" />
-/// <reference path="algorithm/partitions.ts" />
+/// <reference path="algorithm/heap.ts" />
+/// <reference path="algorithm/binary_search.ts" />
+/// <reference path="algorithm/partition.ts" />
 
-/// <reference path="algorithm/sets.ts" />
+/// <reference path="algorithm/union_set.ts" />
 /// <reference path="algorithm/mathmatics.ts" />

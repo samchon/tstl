@@ -24,7 +24,7 @@
 		/**
 		 * Assign container content.
 		 *
-		 * Assigns new contents to the {@link IList container}, replacing its current contents, 
+		 * Assigns new contents to the {@link IListContainer container}, replacing its current contents, 
 		 * and modifying its {@link size} accordingly.
 		 *
 		 * @param n New size for the 
@@ -38,29 +38,59 @@
 		--------------------------------------------------------- */
 		/**
 		 * Access first element.
-		 * Returns a value of the first element in the {@link IList container}.
+		 * 
+		 * Returns a value of the first element in the {@link IListContainer container}.
 		 *
-		 * Unlike member {@link end end()}, which returns an iterator just past this element, 
-		 * this function returns a direct value.
+		 * Unlike member {@link begin begin()}, which returns an iterator to this same element, this 
+		 * function returns a direct value.
 		 *
-		 * Calling this function on an {@link empty} {@link IList container} causes undefined behavior.
+		 * Calling this function on an {@link empty} {@link IListContainer container} causes undefined behavior.
 		 *
-		 * @return A value of the first element of the {@link IList container}.
+		 * @return A value of the first element of the {@link IListContainer container}.
 		 */
 		front(): T;
 
 		/**
+		 * Set first element.
+		 * 
+		 * Modify a value of the first element in the {@link IListContainer container}.
+		 * 
+		 * Unlike member {@link begin begin()}, which returns an iterator to this same element, this 
+		 * function modifies a direct value.
+		 * 
+		 * Calling this funtion on an {@link empty} {@link IListContainer container} causes undefined behavior.
+		 * 
+		 * @param val Value to newly assign.
+		 */
+		front(val: T): void;
+
+		/**
 		 * Access last element.
-		 * Returns a value of the last element in the {@link IList container}.
+		 * 
+		 * Returns a value of the last element in the {@link IListContainer container}.
 		 *
 		 * Unlike member {@link end end()}, which returns an iterator just past this element, 
 		 * this function returns a direct value.
 		 *
-		 * Calling this function on an {@link empty} {@link IList container} causes undefined behavior.
+		 * Calling this function on an {@link empty} {@link IListContainer container} causes undefined behavior.
 		 *
-		 * @return A value of the last element of the {@link IList container}.
+		 * @return A value of the last element of the {@link IListContainer container}.
 		 */
 		back(): T;
+
+		/**
+		 * Set last element.
+		 * 
+		 * Modify a value of the last element in the {@link IListContainer container}.
+		 *
+		 * Unlike member {@link end end()}, which returns an iterator just past this element, 
+		 * this function modifies a direct value.
+		 *
+		 * Calling this function on an {@link empty} {@link IListContainer container} causes undefined behavior.
+		 * 
+		 * @param val Value to newly assign.
+		 */
+		back(val: T): void;
 
 		/* ---------------------------------------------------------
 			ELEMENTS I/O
@@ -68,8 +98,8 @@
 		/**
 		 * Add element at the end. 
 		 *
-		 * Adds a new element at the end of the {@link IList container}, after its current last element. 
-		 * This effectively increases the {@link IList container} {@link size} by one.
+		 * Adds a new element at the end of the {@link IListContainer container}, after its current last element. 
+		 * This effectively increases the {@link IListContainer container} {@link size} by one.
 		 *
 		 * @param val Value to be copied to the new element.
 		 */
@@ -78,19 +108,19 @@
 		/**
 		 * Delete last element.
 		 * 
-		 * Removes the last element in the {@link IList container}, effectively reducing the 
-		 * {@link IList container} {@link size} by one.
+		 * Removes the last element in the {@link IListContainer container}, effectively reducing the 
+		 * {@link IListContainer container} {@link size} by one.
 		 */
 		pop_back(): void;
 
 		/**
 		 * Insert an element.
 		 *
-		 * The {@link IList conatiner} is extended by inserting new element before the element at the 
-		 * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by 
+		 * The {@link IListContainer conatiner} is extended by inserting new element before the element at the 
+		 * specified <i>position</i>, effectively increasing the {@link IListContainer container} {@link size} by 
 		 * one.
 		 *
-		 * @param position Position in the {@link IList container} where the new elements are inserted.
+		 * @param position Position in the {@link IListContainer container} where the new elements are inserted.
 		 *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator} 
 		 *				   type that points to elements.
 		 * @param val Value to be copied to the inserted element.
@@ -102,11 +132,11 @@
 		/**
 		 * Insert elements by range iterators.
 		 *
-		 * The {@link IList container} is extended by inserting new elements before the element at the 
-		 * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by 
+		 * The {@link IListContainer container} is extended by inserting new elements before the element at the 
+		 * specified <i>position</i>, effectively increasing the {@link IListContainer container} {@link size} by 
 		 * the number of repeating elements </i>n</i>.
 		 * 
-		 * @param position Position in the {@link IList container} where the new elements are inserted.
+		 * @param position Position in the {@link IListContainer container} where the new elements are inserted.
 		 *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator} 
 		 *				   type that points to elements.
 		 * @param n Number of elements to insert. Each element is initialized to a copy of <i>val</i>.
@@ -119,20 +149,20 @@
 		/**
 		 * Insert elements by range iterators.
 		 *
-		 * The {@link IList container} is extended by inserting new elements before the element at the 
-		 * specified <i>position</i>, effectively increasing the {@link IList container} {@link size} by 
+		 * The {@link IListContainer container} is extended by inserting new elements before the element at the 
+		 * specified <i>position</i>, effectively increasing the {@link IListContainer container} {@link size} by 
 		 * the number of elements inserted by range iterators.
 		 *
-		 * @param position Position in the {@link IList container} where the new elements are inserted.
+		 * @param position Position in the {@link IListContainer container} where the new elements are inserted.
 		 *				   {@link iterator} is a member type, defined as a {@link iterator random access iterator} 
 		 *				   type that points to elements.
-		 * @param begin Input interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
+		 * @param first Input interator of the initial position in a sequence.
+		 * @param last Input interator of the final position in a sequence.
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
 		insert<U extends T, InputIterator extends Iterator<U>>
-			(position: Iterator<T>, begin: InputIterator, end: InputIterator): Iterator<T>;
+			(position: Iterator<T>, first: InputIterator, last: InputIterator): Iterator<T>;
 	}
 
 	/**

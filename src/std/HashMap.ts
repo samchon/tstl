@@ -320,7 +320,7 @@ namespace std
 				return make_pair(it, false);
 
 			// INSERT
-			this["data_"].push_back(pair);
+			this["data_"].push(pair);
 			it = it.prev();
 
 			// POST-PROCESS
@@ -364,7 +364,7 @@ namespace std
 					continue;
 
 				// INSERTS
-				this["data_"].push_back(make_pair<Key, T>(first.value.first, first.value.second));
+				this["data_"].push(make_pair<Key, T>(first.value.first, first.value.second));
 				size++;
 			}
 			my_first = my_first.next();

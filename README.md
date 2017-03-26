@@ -77,7 +77,7 @@ let map: std.TreeMap<number, string> = new std.TreeMap<number, string>();
 map.insert(std.make_pair(1, "First"));
 map.insert([4, "Fourth"]); // via Tuple, C++11 Feature
 map.insert_or_assign(5, "Fifth"); // C++17 Feature
-map.set(9, "Nineth");
+map.set(9, "Nineth"); // Instead of the operetor[](Key)
 
 // ITERATION
 for (let it = map.begin(); !it.equals(map.end()); it = it.next())
@@ -97,6 +97,79 @@ Use [browserify](https://www.npmjs.com/package/browserify) or just include the *
 <script src="http://samchon.github.io/dist/tstl.min.js"></script>
 ```
 
+
+
+## Differences between C++ STL
+### Binary operator
+```typescript
+namepsace std
+{
+    export interface IComparable<T>
+    {
+        equals(obj: T): boolean;
+
+        less?(obj: T): boolean;
+        hashCode?(): number;
+    }
+}
+```
+
+### Iterator & Iteration
+#### Operators
+C++ STL                 | TypeScript-STL
+------------------------|-----------------------
+`Iterator.operator==()` | `Iterator.equals()`
+`Iterator.operator*()`  | `Iterator.value`
+                        | `MapIterator.first`
+                        | `MapIterator.second`
+
+#### Advancing
+C++ STL           | TypeScript-STL
+------------------|-----------------------
+`it--`            | `it = it.prev();`
+`it++`            | `it = it.next();`
+`advance(it, 5);` | `it = it.advance(5);`
+
+#### Sample Codes
+##### C++ STL
+```cpp
+// Vector
+std::vector<int> v(5, 1);
+for (auto it = v.begin(); it != it.end(); v++)
+    std::cout << *it << std::endl;
+
+// TreeMap
+std::map<int, std::string> m;
+m.insert(std.make_pair(1, "first"));
+m.insert({2, "second"});
+m.emplace(3, "third");
+
+m[4] = "fourth";
+std::cout << m[4] << std::endl;
+
+for (auto it = m.begin(); it != m.end(); it++)
+    std::cout << it->first << ", " << it->second << std::endl;
+```
+
+##### TypeScript-STL
+```typescript
+// Vector
+let v = new std.Vector<number>(5, 1);
+for (let it = v.begin(); !it.equals(v.end()); it = it.next())
+    console.log(it.value);
+
+// TreeMap
+let m = new std.TreeMap<number, string>();
+m.insert(std.make_pair(1, "first"));
+m.insert([2, "second"]);
+m.emplace(3, "third");
+
+m.set(4, "fourth");
+console.log(m.get(4));
+
+for (let it = m.begin(); !it.equals(m.end()); it = it.next())
+    console.log(it.first, it.second);
+```
 
 
 ## References
