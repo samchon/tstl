@@ -14,9 +14,9 @@ namespace std.base
 	 * identify it. <i>Keys</i> are immutable, therefore, the elements in an {@link SetContainer} cannot be
 	 * modified once in the container - they can be inserted and removed, though.
 	 *
-	 * {@link SetContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
-	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index 
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
+	 * {@link MultiSet} stores elements, keeps sequence and enables indexing by inserting elements into a
+	 * {@link List} and registering {@link ListIterator iterators} of the *list container* to an index table
+	 * like *tree* or *hash-table*.
 	 * 
 	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/set_containers.png" style="max-width: 100%" /></a>

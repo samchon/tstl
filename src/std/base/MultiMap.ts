@@ -18,9 +18,9 @@ namespace std.base
 	 *
 	 * <code>typedef pair<const Key, T> value_type;</code>
 	 *
-	 * {@link UniqueMap} stores elements, keeps sequence and enables indexing by inserting elements into a
-	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
+	 * {@link MultiMap} stores elements, keeps sequence and enables indexing by inserting elements into a
+	 * {@link List} and registering {@link ListIterator iterators} of the *list container* to an index table like 
+	 * *tree* or *hash-table*.
 	 *
 	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /></a>

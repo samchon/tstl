@@ -19,8 +19,8 @@ namespace std.base
 	 * <code>typedef pair<const Key, T> value_type;</code>
 	 *
 	 * {@link MapContainer} stores elements, keeps sequence and enables indexing by inserting elements into a
-	 * {@link List} and registering {@link ListIterator iterators} of the {@link data_ list container} to an index
-	 * table like {@link RBTree tree} or {@link HashBuckets hash-table}.
+	 * {@link List} and registering {@link ListIterator iterators} of the *list container* to an index table like 
+	 * *tree* or *hash-table*.
 	 *
 	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram" target="_blank"> 
 	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram" style="max-width: 100%" /></a>
@@ -540,9 +540,9 @@ namespace std.base
 		 * This effectively reduces the container {@link size} by the number of elements removed, which are 
 		 * destroyed.
 		 * 
-		 * @param begin An iterator specifying initial position of a range within {@link MApContainer map container}
+		 * @param begin An iterator specifying initial position of a range within {@link MapContainer map container}
 		 *				to be removed.
-		 * @param end An iterator specifying initial position of a range within {@link MApContainer map container}
+		 * @param end An iterator specifying initial position of a range within {@link MapContainer map container}
 		 *			  to be removed.
 		 *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>,
 		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
@@ -569,9 +569,9 @@ namespace std.base
 		 * This effectively reduces the container {@link size} by the number of elements removed, which are 
 		 * destroyed.
 		 * 
-		 * @param begin An iterator specifying initial position of a range within {@link MApContainer map container}
+		 * @param begin An iterator specifying initial position of a range within {@link MapContainer map container}
 		 *				to be removed.
-		 * @param end An iterator specifying initial position of a range within {@link MApContainer map container}
+		 * @param end An iterator specifying initial position of a range within {@link MapContainer map container}
 		 *			  to be removed.
 		 *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>,
 		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
