@@ -37,7 +37,8 @@ namespace std.base
 			super();
 
 			this.begin_ = new ArrayIterator<T, Source>(this as IArrayContainer<T> as Source, 0);
-			this.begin_ = new ArrayIterator<T, Source>(this as IArrayContainer<T> as Source, -1);
+			this.end_ = new ArrayIterator<T, Source>(this as IArrayContainer<T> as Source, -1);
+			this.rend_ = new ArrayReverseIterator<T, Source>(this.begin_);
 		}
 
 		/* =========================================================
@@ -211,7 +212,7 @@ namespace std.base
 			let ret: ArrayIterator<T, Source>;
 			let is_reverse_iterator: boolean = false;
 
-			if (args[0] instanceof ArrayIterator)
+			if (args[0] instanceof ArrayReverseIterator)
 			{
 				is_reverse_iterator = true;
 				args[0] = (args[0] as ArrayReverseIterator<T, Source>).base().prev();
