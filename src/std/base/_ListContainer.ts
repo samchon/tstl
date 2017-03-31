@@ -113,17 +113,38 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public front(): T
+		public front(): T;
+
+		/**
+		 * @inheritdoc
+		 */
+		public front(val: T): void;
+
+		public front(val: T = null): T | void
 		{
-			return this.begin_.value;
+			if (val == null)
+				return this.begin_.value;
+			else
+				this.begin_["value_"] = val;
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public back(): T
+		public back(): T;
+
+		/**
+		 * @inheritdoc
+		 */
+		public back(val: T): void;
+
+		public back(val: T = null): T | void
 		{
-			return this.end_.prev().value;
+			let it = this.end_.prev();
+			if (val == null)
+				return it.value;
+			else
+				it["value_"] = val;
 		}
 
 		/* =========================================================

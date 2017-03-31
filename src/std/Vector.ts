@@ -219,7 +219,72 @@ namespace std
 
 		/* =========================================================
 			ACCESSORS
-		========================================================= */
+				- BASIC ELEMENTS
+				- ITERATORS
+				- INDEX ACCESSORS
+		============================================================
+			BASIC ELEMENTS
+		--------------------------------------------------------- */
+		/**
+		 * Access data.
+		 * 
+		 * Returns a direct array which is used internally by the {@link Vector} to store its owned elements.
+		 * 
+		 * @returns An array.
+		 */
+		public data(): Array<T>
+		{
+			return this.data_;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public size(): number
+		{
+			return this.data_.length;
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public front(): T;
+
+		/**
+		 * @inheritdoc
+		 */
+		public front(val: T): void;
+
+		public front(val: T = null): T | void
+		{
+			if (val == null)
+				return this.at(0);
+			else
+				this.set(0, val);
+		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public back(): T;
+
+		/**
+		 * @inheritdoc
+		 */
+		public back(val: T): void;
+
+		public back(val: T = null): T | void
+		{
+			let index: number = this.size() - 1;
+			if (val == null)
+				return this.at(index);
+			else
+				this.set(index, val);
+		}
+
+		/* ---------------------------------------------------------
+			ITERATORS
+		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
@@ -258,22 +323,9 @@ namespace std
 				return this.rend_;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
-		public size(): number
-		{
-			return this.data_.length;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public empty(): boolean
-		{
-			return this.size() == 0;
-		}
-
+		/* ---------------------------------------------------------
+			INDEX ACCESSORS
+		--------------------------------------------------------- */
 		/**
 		 * @inheritdoc
 		 */
@@ -297,34 +349,6 @@ namespace std
 			this.data_[index] = val;
 
 			return prev;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public front(): T
-		{
-			return this.at(0);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public back(): T
-		{
-			return this.at(this.size() - 1);
-		}
-
-		/**
-		 * Access data.
-		 * 
-		 * Returns a direct array which is used internally by the {@link vector} to store its owned elements.
-		 * 
-		 * @returns An array.
-		 */
-		public data(): Array<T>
-		{
-			return this.data_;
 		}
 
 		/* =========================================================

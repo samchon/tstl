@@ -307,14 +307,6 @@ namespace std
 		}
 
 		/**
-		 * @inheritdoc
-		 */
-		public empty(): boolean
-		{
-			return this.size_ == 0;
-		}
-
-		/**
 		 * Return size of allocated storage capacity.
 		 * 
 		 * Returns the size of the storage space currently allocated for the {@link Deque container}, 
@@ -344,19 +336,38 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public front(): T
+		public front(): T;
+
+		/**
+		 * @inheritdoc
+		 */
+		public front(val: T): void;
+
+		public front(val: T = null): T | void
 		{
-			return this.matrix_[0][0];
+			if (val == null)
+				return this.at(0);
+			else
+				this.set(0, val);
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public back(): T
-		{
-			let last_array: Array<T> = this.matrix_[this.matrix_.length - 1];
+		public back(): T;
 
-			return last_array[last_array.length - 1];
+		/**
+		 * @inheritdoc
+		 */
+		public back(val: T): void;
+
+		public back(val: T = null): T | void
+		{
+			let index: number = this.size() - 1;
+			if (val == null)
+				return this.at(index);
+			else
+				this.set(index, val);
 		}
 
 		/* ---------------------------------------------------------
