@@ -75,7 +75,7 @@
 		 *
 		 * @return Whether the first parameter is less than the second.
 		 */
-		less(obj: T): boolean;
+		less?(obj: T): boolean;
 
 		/**
 		 * Issue a hash code. 
