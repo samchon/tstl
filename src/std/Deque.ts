@@ -1002,7 +1002,7 @@ namespace std
 	 */
 	export class DequeIterator<T>
 		extends Iterator<T>
-		implements base.IArrayIterator<T>
+		implements base.IArrayIterator<T>, IComparable<DequeIterator<T>>
 	{
 		/**
 		 * @hidden

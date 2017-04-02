@@ -775,7 +775,7 @@ namespace std
 	 */
 	export class VectorIterator<T>
 		extends Iterator<T>
-		implements base.IArrayIterator<T>
+		implements base.IArrayIterator<T>, IComparable<VectorIterator<T>>
 	{
 		/**
 		 * @hidden
@@ -919,7 +919,7 @@ namespace std
 	 */
 	export class VectorReverseIterator<T>
 		extends ReverseIterator<T, Vector<T>, VectorIterator<T>, VectorReverseIterator<T>>
-		implements base.IArrayIterator<T>
+		implements base.IArrayIterator<T>, IComparable<VectorReverseIterator<T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

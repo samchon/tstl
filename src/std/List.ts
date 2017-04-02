@@ -910,6 +910,7 @@ namespace std
 	 */
 	export class ListIterator<T>
 		extends base._ListIteratorBase<T>
+		implements IComparable<ListIterator<T>>
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
@@ -1023,7 +1024,7 @@ namespace std
 	 */
 	export class ListReverseIterator<T>
 		extends ReverseIterator<T, List<T>, ListIterator<T>, ListReverseIterator<T>>
-		implements base.ILinearIterator<T>
+		implements base.ILinearIterator<T>, IComparable<ListReverseIterator<T>>
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS

@@ -452,6 +452,7 @@ namespace std.base
 	 */
 	export abstract class _ListIteratorBase<T>
 		extends Iterator<T>
+		implements IComparable<_ListIteratorBase<T>>
 	{
 		/**
 		 * @hidden

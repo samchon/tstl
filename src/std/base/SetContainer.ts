@@ -456,7 +456,8 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _SetElementList<T> extends _ListContainer<T, SetIterator<T>>
+	export class _SetElementList<T> 
+		extends _ListContainer<T, SetIterator<T>>
 	{
 		private associative_: SetContainer<T>;
 		private rend_: SetReverseIterator<T>;
@@ -608,6 +609,7 @@ namespace std
 	 */
 	export class SetReverseIterator<T>
 		extends ReverseIterator<T, base.SetContainer<T>, SetIterator<T>, SetReverseIterator<T>>
+		implements IComparable<SetReverseIterator<T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

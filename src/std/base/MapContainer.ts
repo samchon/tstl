@@ -683,7 +683,8 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _MapElementList<Key, T> extends _ListContainer<Pair<Key, T>, MapIterator<Key, T>>
+	export class _MapElementList<Key, T> 
+		extends _ListContainer<Pair<Key, T>, MapIterator<Key, T>>
 	{
 		private associative_: MapContainer<Key, T>;
 		private rend_: MapReverseIterator<Key, T>;
@@ -859,6 +860,7 @@ namespace std
 	 */
 	export class MapReverseIterator<Key, T>
 		extends ReverseIterator<Pair<Key, T>, base.MapContainer<Key, T>, MapIterator<Key, T>, MapReverseIterator<Key, T>>
+		implements IComparable<MapReverseIterator<Key, T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

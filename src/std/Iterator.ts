@@ -24,7 +24,8 @@ namespace std
 	 * @reference http://www.cplusplus.com/reference/iterator/BidirectionalIterator
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class Iterator<T>
+	export abstract class Iterator<T> 
+		implements IComparable<Iterator<T>>
 	{
 		/**
 		 * @hidden
@@ -140,6 +141,7 @@ namespace std
 	 */
 	export abstract class ReverseIterator<T, Source extends base.Container<T>, Base extends Iterator<T>, This extends ReverseIterator<T, Source, Base, This>>
 		extends Iterator<T>
+		implements IComparable<ReverseIterator<T, Source, Base, This>>
 	{
 		/**
 		 * @hidden
