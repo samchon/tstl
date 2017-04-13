@@ -147,8 +147,11 @@ m.emplace(3, "third");
 m[4] = "fourth";
 std::cout << m[4] << std::endl;
 
-for (auto it = m.begin(); it != m.end(); it++)
+for (auto it = m.begin(); it != m.end(); it++) // TRADITIONAL METHOD
     std::cout << it->first << ", " << it->second << std::endl;
+
+for (auto &x : m) // NEW FEATURE, FULL-FORWARD-ITERATION
+    std::cout << x.first << ", " << x.second << std::endl;
 ```
 
 ##### TypeScript-STL
@@ -168,7 +171,10 @@ m.set(4, "fourth");
 console.log(m.get(4));
 
 for (let it = m.begin(); !it.equals(m.end()); it = it.next())
-    console.log(it.first, it.second);
+    console.log(it.first, it.second); // TRADITIONAL ITERATION
+
+for (let x of m) // NEW FEATURE, FULL-FORWARD ITERATION
+    console.log(x.first, x.second);
 ```
 
 
