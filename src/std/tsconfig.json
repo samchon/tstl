@@ -5,6 +5,13 @@
         "sourceMap": true,
         "outFile": "../../lib/tstl.js",
         
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "downlevelIteration": true,
+
+        "lib": [
+            "dom",
+            "es5",
+            "es2015.iterable"
+        ]
     }
 }

@@ -25,7 +25,7 @@ namespace std.base
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class Container<T>
+	export abstract class Container<T> implements Iterable<T>
 	{
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -68,9 +68,37 @@ namespace std.base
 			this.erase(this.begin(), this.end());
 		}
 		
-		/* ---------------------------------------------------------------
-			GETTERS
-		--------------------------------------------------------------- */
+		/* =========================================================
+			ACCESSORS
+				- SIZE
+				- ITERATORS
+		============================================================
+			SIZE
+		--------------------------------------------------------- */
+		/**
+		 * Return the number of elements in the {@link Container}.
+		 *
+		 * @return The number of elements in the container.
+		 */
+		public abstract size(): number;
+		
+		/**
+		 * Test whether the container is empty.
+		 * Returns whether the container is empty (i.e. whether its size is 0).
+		 *
+		 * This function does not modify the container in any way. To clear the content of the container,
+		 * see {@link clear clear()}.
+		 *
+		 * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
+		 */
+		public empty(): boolean
+		{
+			return this.size() == 0;
+		}
+
+		/* ---------------------------------------------------------
+			ITERATORS
+		--------------------------------------------------------- */
 		/**
 		 * Return iterator to beginning.
 		 *
@@ -135,24 +163,33 @@ namespace std.base
 		public abstract rend(): IReverseIterator<T>;
 
 		/**
-		 * Return the number of elements in the {@link Container}.
-		 *
-		 * @return The number of elements in the container.
+		 * To the `for of` statement.
+		 * 
+		 * The {@link [Symbol.iterator]} is a method returns an `IterableIterator` instance, who can implement the
+		 * `for of` statement, supporting the *full-forward-iteration*. You don't need to call this method, but just
+		 * use the `for of` statement such below:
+		 * 
+		 * ```typescript
+		 * let container: std.base.Container<number>;
+		 * container.push(1, 2, 3, 4);
+		 * 
+		 * for (let elem of container) // elem: number
+		 *     console.log("An element in the container: " + elem);
+		 * 
+		 * //--------
+		 * // elem is the element in the container
+		 * //--------
+		 * // An element in the container: 1
+		 * // An element in the container: 2
+		 * // An element in the container: 3
+		 * // An element in the container: 4
+		 * ```
+		 * 
+		 * @return An `IterableIterator` instance, but do not consider about it. Just use the `for of` statement.
 		 */
-		public abstract size(): number;
-		
-		/**
-		 * Test whether the container is empty.
-		 * Returns whether the container is empty (i.e. whether its size is 0).
-		 *
-		 * This function does not modify the container in any way. To clear the content of the container,
-		 * see {@link clear clear()}.
-		 *
-		 * @return <code>true</code> if the container size is 0, <code>false</code> otherwise.
-		 */
-		public empty(): boolean
+		public [Symbol.iterator](): IterableIterator<T>
 		{
-			return this.size() == 0;
+			return new _ForOfIterator<T>(this);
 		}
 
 		/* =========================================================

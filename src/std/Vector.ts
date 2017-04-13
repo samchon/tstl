@@ -323,6 +323,14 @@ namespace std
 				return this.rend_;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
+		public [Symbol.iterator](): IterableIterator<T>
+		{
+			return new base._ArrayForOfIterator<T>(this);
+		}
+
 		/* ---------------------------------------------------------
 			INDEX ACCESSORS
 		--------------------------------------------------------- */

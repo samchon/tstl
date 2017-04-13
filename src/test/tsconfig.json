@@ -4,6 +4,12 @@
         "sourceMap": true,
         "outFile": "test.js",
         
-        "noImplicitAny": true
+        "downlevelIteration": true,
+
+        "lib": [
+            "dom",
+            "es5",
+            "es2015.iterable"
+        ]
     }
 }
