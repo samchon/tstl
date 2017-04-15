@@ -5,7 +5,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _ArrayIterator<T> extends Iterator<T>
+	export class _ArrayIterator<T> implements IBidirectionalIterator<T>
 	{
 		private data_: Array<T>;
 		private index_: number;
@@ -15,8 +15,6 @@ namespace std.base
 		--------------------------------------------------------- */
 		public constructor(data: Array<T>, index: number)
 		{
-			super(null);
-
 			this.data_ = data;
 			this.index_ = index;
 		}
@@ -24,11 +22,6 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public source(): Container<T>
-		{
-			return null;
-		}
-
 		public index(): number
 		{
 			return this.index_;

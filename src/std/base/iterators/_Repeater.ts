@@ -5,8 +5,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _Repeater<T>
-		extends Iterator<T>
+	export class _Repeater<T> implements IBidirectionalIterator<T>
 	{
 		private index_: number;
 		private value_: T;
@@ -16,8 +15,6 @@ namespace std.base
 		--------------------------------------------------------- */
 		public constructor(index: number, value: T = null)
 		{
-			super(null);
-
 			this.index_ = index;
 			this.value_ = value;
 		}
@@ -25,11 +22,6 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public source(): base.Container<T>
-		{
-			return null;
-		}
-
 		public index(): number
 		{
 			return this.index_;
