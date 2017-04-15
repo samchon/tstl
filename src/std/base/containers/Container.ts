@@ -189,7 +189,7 @@ namespace std.base
 		 */
 		public [Symbol.iterator](): IterableIterator<T>
 		{
-			return new _ForOfIterator<T>(this);
+			return new ForOfAdaptor<T>(this.begin(), this.end());
 		}
 
 		/* =========================================================

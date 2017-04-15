@@ -327,7 +327,7 @@ namespace std
 		 */
 		public [Symbol.iterator](): IterableIterator<T>
 		{
-			return new base._ArrayForOfIterator<T>(this);
+			return new base._ArrayForOfAdaptor<T>(this);
 		}
 
 		/* ---------------------------------------------------------

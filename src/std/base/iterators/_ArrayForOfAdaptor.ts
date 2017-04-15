@@ -5,7 +5,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _ArrayForOfIterator<T> implements IterableIterator<T>
+	export class _ArrayForOfAdaptor<T> implements IterableIterator<T>
 	{
 		private container_: IArrayContainer<T>;
 		private index_: number;
