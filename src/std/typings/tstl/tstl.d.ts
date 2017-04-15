@@ -1,4 +1,4 @@
-// Type definitions for TSTL v1.4.5
+// Type definitions for TSTL v1.5.0
 // Project: https://github.com/samchon/tstl
 // Definitions by: Jeongho Nam <http://samchon.org>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped

@@ -449,7 +449,7 @@ namespace std.base
 				let first: IForwardIterator<Pair<Key, T>> = args[0];
 
 				if (args[1].next instanceof Function && 
-					(first instanceof MapIterator || (first as MapIterator<Key, T>).source() != this))
+					(first instanceof MapIterator == false || (first as MapIterator<Key, T>).source() != this))
 				{
 					// IT DOESN'T CONTAIN POSITION
 					// RANGES TO INSERT ONLY
