@@ -12,12 +12,14 @@
 /// <reference path="multimap.ts" />
 /// <reference path="unordered_map.ts" />
 
+/// <reference path="for_of.ts" />
+
 namespace example
 {
 	export function main(): void
 	{
 		console.log("TEST ALL");
-		
+
 		for (let key in example)
 			if (key != "main" && (example as any)[key] instanceof Function)
 			{
