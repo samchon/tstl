@@ -105,7 +105,7 @@ namespace std
 	export function prev<T, BidirectionalIterator extends base.Iterator<T>>
 		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 	{
-		return it.advance(n) as BidirectionalIterator;
+		return it.advance(-n) as BidirectionalIterator;
 	}
 	
 	/**
