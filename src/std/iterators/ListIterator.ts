@@ -1,9 +1,5 @@
 /// <reference path="../API.ts" />
 
-<<<<<<< HEAD
-/// <reference path="../Iterator.ts" />
-=======
->>>>>>> v1.4
 /// <reference path="../base/iterators/_ListIteratorBase.ts" />
 
 namespace std
@@ -18,10 +14,7 @@ namespace std
 	 */
 	export class ListIterator<T>
 		extends base._ListIteratorBase<T>
-<<<<<<< HEAD
-=======
 		implements IComparable<ListIterator<T>>
->>>>>>> v1.4
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
@@ -134,13 +127,8 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class ListReverseIterator<T>
-<<<<<<< HEAD
-		extends ReverseIterator<T, List<T>, ListIterator<T>, ListReverseIterator<T>>
-		implements base.ILinearIterator<T>
-=======
 		extends base.ReverseIterator<T, List<T>, ListIterator<T>, ListReverseIterator<T>>
 		implements base.ILinearIterator<T>, IComparable<ListReverseIterator<T>>
->>>>>>> v1.4
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
@@ -184,8 +172,5 @@ namespace std
 			this.base_.value = val;
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> v1.4
+
