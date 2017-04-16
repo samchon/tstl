@@ -1,6 +1,10 @@
 /// <reference path="../../API.ts" />
 
+<<<<<<< HEAD
 /// <reference path="../../Iterator.ts" />
+=======
+/// <reference path="Iterator.ts" />
+>>>>>>> v1.4
 
 namespace std.base
 {
@@ -9,6 +13,10 @@ namespace std.base
 	 */
 	export abstract class _ListIteratorBase<T>
 		extends Iterator<T>
+<<<<<<< HEAD
+=======
+		implements IComparable<_ListIteratorBase<T>>
+>>>>>>> v1.4
 	{
 		/**
 		 * @hidden

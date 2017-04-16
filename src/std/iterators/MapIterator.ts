@@ -1,6 +1,9 @@
 /// <reference path="../API.ts" />
 
+<<<<<<< HEAD
 /// <reference path="../Iterator.ts" />
+=======
+>>>>>>> v1.4
 /// <reference path="../base/iterators/_ListIteratorBase.ts" />
 
 namespace std
@@ -131,10 +134,14 @@ namespace std
 			super.swap(obj);
 		}
 	}
+<<<<<<< HEAD
 }
 
 namespace std
 {
+=======
+
+>>>>>>> v1.4
 	/**
 	 * A reverse-iterator of {@link MapContainer map container}.
 	 * 
@@ -144,7 +151,12 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class MapReverseIterator<Key, T>
+<<<<<<< HEAD
 		extends ReverseIterator<Pair<Key, T>, base.MapContainer<Key, T>, MapIterator<Key, T>, MapReverseIterator<Key, T>>
+=======
+		extends base.ReverseIterator<Pair<Key, T>, base.MapContainer<Key, T>, MapIterator<Key, T>, MapReverseIterator<Key, T>>
+		implements IComparable<MapReverseIterator<Key, T>>
+>>>>>>> v1.4
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

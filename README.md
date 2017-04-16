@@ -6,7 +6,7 @@
 
 
 ## Introduction
-STL (Standard Template Library) *Containers* and *Algorithms* for the **TypeScript**.
+C++ STL (Standard Template Library) *Containers* and *Algorithms* for the **TypeScript**.
 
 **T**ypeScript-**STL** is an open-source project providing **containers** and **algorithms** migrated from *C++ STL* to *TypeScript*. You can enjoy the STL's own specific *coantainers* and *algorithms* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
 
@@ -120,8 +120,8 @@ C++ STL                 | TypeScript-STL
 ------------------------|-----------------------
 `Iterator.operator==()` | `Iterator.equals()`
 `Iterator.operator*()`  | `Iterator.value`
-                        | `MapIterator.first`
-                        | `MapIterator.second`
+...                     | `MapIterator.first`
+...                     | `MapIterator.second`
 
 #### Advancing
 C++ STL           | TypeScript-STL
@@ -135,19 +135,19 @@ C++ STL           | TypeScript-STL
 ```cpp
 // Vector
 std::vector<int> v(5, 1);
-for (auto it = v.begin(); it != it.end(); v++)
+for (auto it = v.begin(); it != it.end(); ++it)
     std::cout << *it << std::endl;
 
 // TreeMap
 std::map<int, std::string> m;
-m.insert(std.make_pair(1, "first"));
+m.insert(std::make_pair(1, "first"));
 m.insert({2, "second"});
 m.emplace(3, "third");
 
 m[4] = "fourth";
 std::cout << m[4] << std::endl;
 
-for (auto it = m.begin(); it != m.end(); it++)
+for (auto it = m.begin(); it != m.end(); ++it)
     std::cout << it->first << ", " << it->second << std::endl;
 ```
 
@@ -170,6 +170,7 @@ console.log(m.get(4));
 for (let it = m.begin(); !it.equals(m.end()); it = it.next())
     console.log(it.first, it.second);
 ```
+
 
 
 ## References

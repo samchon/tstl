@@ -1,6 +1,9 @@
 /// <reference path="../API.ts" />
 
+<<<<<<< HEAD
 /// <reference path="../Iterator.ts" />
+=======
+>>>>>>> v1.4
 /// <reference path="../base/iterators/_ListIteratorBase.ts" />
 
 namespace std
@@ -106,10 +109,14 @@ namespace std
 			super.swap(obj);
 		}
 	}
+<<<<<<< HEAD
 }
 
 namespace std
 {
+=======
+
+>>>>>>> v1.4
 	/**
 	 * A reverse-iterator of Set.
 	 * 
@@ -121,7 +128,12 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class SetReverseIterator<T>
+<<<<<<< HEAD
 		extends ReverseIterator<T, base.SetContainer<T>, SetIterator<T>, SetReverseIterator<T>>
+=======
+		extends base.ReverseIterator<T, base.SetContainer<T>, SetIterator<T>, SetReverseIterator<T>>
+		implements IComparable<SetReverseIterator<T>>
+>>>>>>> v1.4
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -144,4 +156,8 @@ namespace std
 			return new SetReverseIterator<T>(base);
 		}
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> v1.4
