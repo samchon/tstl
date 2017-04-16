@@ -1,4 +1,4 @@
-/// <reference path="../API.ts" />
+/// <reference path="../../API.ts" />
 
 /// <reference path="Container.ts" />
 

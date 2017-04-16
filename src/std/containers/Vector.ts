@@ -1,6 +1,6 @@
 /// <reference path="../API.ts" />
 
-/// <reference path="../base/containers/Container.ts" />
+/// <reference path="../base/containers/ArrayContainer.ts" />
 
 namespace std.Vector
 {
@@ -197,26 +197,23 @@ namespace std
 
 		/* =========================================================
 			ACCESSORS
-				- BASIC ELEMENTS
-				- INDEX ACCESSORS
-		============================================================
-			BASIC ELEMENTS
-		--------------------------------------------------------- */
+		========================================================= */
 		/**
-		 * Access data.
-		 * 
-		 * Returns a direct array which is used internally by the {@link Vector} to store its owned elements.
-		 * 
-		 * @returns An array.
+		 * @inheritdoc
 		 */
-		public data(): Array<T>
+		public size(): number
 		{
-			return this.data_;
+			return this.data_.length;
 		}
 
-		/* ---------------------------------------------------------
-			INDEX ACCESSORS
-		--------------------------------------------------------- */
+		/**
+		 * @inheritdoc
+		 */
+		public empty(): boolean
+		{
+			return this.size() == 0;
+		}
+
 		/**
 		 * @inheritdoc
 		 */
@@ -240,6 +237,18 @@ namespace std
 			this.data_[index] = val;
 
 			return prev;
+		}
+
+		/**
+		 * Access data.
+		 * 
+		 * Returns a direct array which is used internally by the {@link vector} to store its owned elements.
+		 * 
+		 * @returns An array.
+		 */
+		public data(): Array<T>
+		{
+			return this.data_;
 		}
 
 		/* =========================================================
@@ -267,183 +276,6 @@ namespace std
 		}
 
 		/**
-<<<<<<< HEAD:src/std/Vector.ts
-=======
-		 * Insert an element.
-		 *
-		 * The {@link Vector} is extended by inserting new element before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by one.
-		 *
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
-		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
-		 * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 *
-		 * @param position Position in the {@link Vector} where the new element is inserted.
-		 *				   {@link iterator} is a member type, defined as a 
-		 *				   {@link VectorIterator random access iterator} type that points to elements.
-		 * @param val Value to be copied to the inserted element.
-		 *
-		 * @return An iterator that points to the newly inserted element.
-		 */
-		public insert(position: VectorIterator<T>, val: T): VectorIterator<T>;
-
-		/**
-		 * Insert elements by repeated filling.
-		 *
-		 * The {@link Vector} is extended by inserting new elements before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by the number of elements inserted.
-		 * 
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
-		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
-		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
-		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 * 
-		 * @param position Position in the {@link Vector} where the new elements are inserted.
-		 *				   {@link iterator} is a member type, defined as a 
-		 *				   {@link VectorIterator random access iterator} type that points to elements.
-		 * @param n Number of elements to insert. Each element is initialized to a copy of <i>val</i>.
-		 * @param val Value to be copied (or moved) to the inserted elements.
-		 *
-		 * @return An iterator that points to the first of the newly inserted elements.
-		 */
-		public insert(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>;
-
-		/**
-		 * Insert elements by range iterators.
-		 *
-		 * The {@link Vector} is extended by inserting new elements before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by range 
-		 * iterators.
-		 * 
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
-		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
-		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
-		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 *
-		 * @param position Position in the {@link Vector} where the new elements are inserted.
-		 *				   {@link iterator} is a member type, defined as a 
-		 *				   {@link VectorIterator random access iterator} type that points to elements.
-		 * @param begin Input interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
-		 *
-		 * @return An iterator that points to the first of the newly inserted elements.
-		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
-			(position: VectorIterator<T>, begin: InputIterator, end: InputIterator): VectorIterator<T>;
-
-		/**
-		 * Insert an element.
-		 *
-		 * The {@link Vector} is extended by inserting new element before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by one.
-		 *
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting element in 
-		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
-		 * after <i>position</i> to its new position. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 *
-		 * @param position Position in the {@link Vector} where the new element is inserted.
-		 *				   {@link iterator} is a member type, defined as a 
-		 *				   {@link VectorIterator random access iterator} type that points to elements.
-		 * @param val Value to be copied to the inserted element.
-		 *
-		 * @return An iterator that points to the newly inserted element.
-		 */
-		public insert(position: VectorReverseIterator<T>, val: T): VectorReverseIterator<T>;
-
-		/**
-		 * Insert elements by repeated filling.
-		 *
-		 * The {@link Vector} is extended by inserting new elements before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by the number of elements inserted.
-		 * 
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
-		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
-		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
-		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 * 
-		 * @param position Position in the {@link Vector} where the new elements are inserted.
-		 *				   {@link iterator} is a member type, defined as a 
-		 *				   {@link VectorIterator random access iterator} type that points to elements.
-		 * @param n Number of elements to insert. Each element is initialized to a copy of <i>val</i>.
-		 * @param val Value to be copied (or moved) to the inserted elements.
-		 *
-		 * @return An iterator that points to the first of the newly inserted elements.
-		 */
-		public insert(position: VectorReverseIterator<T>, n: number, val: T): VectorReverseIterator<T>;
-
-		/**
-		 * Insert elements by range iterators.
-		 *
-		 * The {@link Vector} is extended by inserting new elements before the element at the specified 
-		 * <i>position</i>, effectively increasing the container size by the number of elements inserted by range 
-		 * iterators.
-		 * 
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, inserting elements in 
-		 * positions other than the {@link end end()} causes the container to relocate all the elements that were 
-		 * after <i>position</i> to their new positions. This is generally an inefficient operation compared to the 
-		 * one performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 *
-		 * @param position Position in the {@link Vector} where the new elements are inserted.
-		 *				   {@link iterator} is a member type, defined as a 
-		 *				   {@link VectorIterator random access iterator} type that points to elements.
-		 * @param begin Input interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
-		 *
-		 * @return An iterator that points to the first of the newly inserted elements.
-		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
-			(position: VectorReverseIterator<T>, begin: InputIterator, end: InputIterator): VectorReverseIterator<T>;
-
-		public insert<U extends T>(...args: any[]): VectorIterator<T> | VectorReverseIterator<T>
-		{
-			// REVERSE_ITERATOR TO ITERATOR
-			let ret: VectorIterator<T>;
-			let is_reverse_iterator: boolean = false;
-
-			if (args[0] instanceof VectorReverseIterator)
-			{
-				is_reverse_iterator = true;
-				args[0] = (args[0] as VectorReverseIterator<T>).base().prev();
-			}
-
-			// BRANCHES
-			if (args.length == 2)
-				ret = this._Insert_by_val(args[0], args[1]);
-			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
-			else
-				ret = this._Insert_by_range(args[0], args[1], args[2]);
-
-			// RETURNS
-			if (is_reverse_iterator == true)
-				return new VectorReverseIterator<T>(ret.next());
-			else
-				return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_val(position: VectorIterator<T>, val: T): VectorIterator<T>
-		{
-			return this._Insert_by_repeating_val(position, 1, val);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_repeating_val(position: VectorIterator<T>, n: number, val: T): VectorIterator<T>
-		{
-			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
-			let last: base._Repeater<T> = new base._Repeater<T>(n);
-
-			return this._Insert_by_range(position, first, last);
-		}
-
-		/**
->>>>>>> v1.4:src/std/containers/Vector.ts
 		 * @hidden
 		 */
 		protected _Insert_by_range<InputIterator extends base.Iterator<T>>
@@ -490,118 +322,6 @@ namespace std
 		}
 
 		/**
-<<<<<<< HEAD:src/std/Vector.ts
-=======
-		 * Erase element.
-		 *
-		 * Removes from the {@link Vector} either a single element; <i>position</i>.
-		 *
-		 * This effectively reduces the container size by the number of element removed.
-		 *
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in 
-		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
-		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 * 
-		 * @param position base.Iterator pointing to a single element to be removed from the {@link Vector}.
-		 *
-		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
-		 *		   the function call. This is the {@link end end()} if the operation erased the last element in the 
-		 *		   sequence.
-		 */
-		public erase(position: VectorIterator<T>): VectorIterator<T>;
-		
-		/**
-		 * Erase element.
-		 *
-		 * Removes from the <ode>Vector</code> either a single element; <i>position</i>.
-		 *
-		 * This effectively reduces the container size by the number of elements removed.
-		 *
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in 
-		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
-		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 * 
-		 * @param begin An iterator specifying a range of beginning to erase.
-		 * @param end An iterator specifying a range of end to erase.
-		 *
-		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
-		 *		   the function call. This is the {@link rend rend()} if the operation erased the last element in the 
-		 *		   sequence.
-		 */
-		public erase(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>;
-
-		/**
-		 * Erase element.
-		 *
-		 * Removes from the {@link Vector} either a single element; <i>position</i>.
-		 *
-		 * This effectively reduces the container size by the number of element removed.
-		 *
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing an element in 
-		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
-		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 * 
-		 * @param position base.Iterator pointing to a single element to be removed from the {@link Vector}.
-		 *
-		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
-		 *		   the function call. This is the {@link rend rend()} if the operation erased the last element in the 
-		 *		   sequence.
-		 */
-		public erase(position: VectorReverseIterator<T>): VectorReverseIterator<T>;
-
-		/**
-		 * Erase element.
-		 *
-		 * Removes from the <ode>Vector</code> either a single element; <i>position</i>.
-		 *
-		 * This effectively reduces the container size by the number of elements removed.
-		 *
-		 * Because {@link Vector}s use an <code>Array</code> as their underlying storage, erasing elements in 
-		 * position other than the {@link end end()} causes the container to relocate all the elements after the 
-		 * segment erased to their new positions. This is generally an inefficient operation compared to the one 
-		 * performed for the same operation by other kinds of sequence containers (such as {@link List}).
-		 * 
-		 * @param begin An iterator specifying a range of beginning to erase.
-		 * @param end An iterator specifying a range of end to erase.
-		 *
-		 * @return An iterator pointing to the new location of the element that followed the last element erased by 
-		 *		   the function call. This is the {@link end end()} if the operation erased the last element in the 
-		 *		   sequence.
-		 */
-		public erase(first: VectorReverseIterator<T>, last: VectorReverseIterator<T>): VectorReverseIterator<T>;
-
-		public erase(first: any, last: any = first.next()): any
-		{
-			let ret: VectorIterator<T>;
-			let is_reverse_iterator: boolean = false;
-
-			// REVERSE_ITERATOR TO ITERATOR
-			if (first instanceof VectorReverseIterator)
-			{
-				is_reverse_iterator = true;
-
-				let first_it = (last as VectorReverseIterator<T>).base();
-				let last_it = (first as VectorReverseIterator<T>).base();
-
-				first = first_it;
-				last = last_it;
-			}
-
-			// ERASE ELEMENTS
-			ret = this._Erase_by_range(first, last);
-
-			// RETURN BRANCHES
-			if (is_reverse_iterator == true)
-				return new VectorReverseIterator<T>(ret.next());
-			else
-				return ret;	
-		}
-
-		/**
->>>>>>> v1.4:src/std/containers/Vector.ts
 		 * @hidden
 		 */
 		protected _Erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>

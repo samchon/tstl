@@ -284,6 +284,14 @@ namespace std
 		}
 
 		/**
+		 * @inheritdoc
+		 */
+		public empty(): boolean
+		{
+			return this.size_ == 0;
+		}
+
+		/**
 		 * Return size of allocated storage capacity.
 		 * 
 		 * Returns the size of the storage space currently allocated for the {@link Deque container}, 
@@ -308,43 +316,6 @@ namespace std
 		public capacity(): number
 		{
 			return this.capacity_;
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public front(): T;
-
-		/**
-		 * @inheritdoc
-		 */
-		public front(val: T): void;
-
-		public front(val: T = null): T | void
-		{
-			if (val == null)
-				return this.at(0);
-			else
-				this.set(0, val);
-		}
-
-		/**
-		 * @inheritdoc
-		 */
-		public back(): T;
-
-		/**
-		 * @inheritdoc
-		 */
-		public back(val: T): void;
-
-		public back(val: T = null): T | void
-		{
-			let index: number = this.size() - 1;
-			if (val == null)
-				return this.at(index);
-			else
-				this.set(index, val);
 		}
 
 		/* ---------------------------------------------------------
@@ -502,86 +473,6 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @inheritdoc
-		 */
-		public insert(position: DequeIterator<T>, val: T): DequeIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
-			(position: DequeIterator<T>, begin: InputIterator, end: InputIterator): DequeIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert(position: DequeReverseIterator<T>, val: T): DequeReverseIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert(position: DequeReverseIterator<T>, n: number, val: T): DequeReverseIterator<T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
-			(position: DequeReverseIterator<T>, begin: InputIterator, end: InputIterator): DequeReverseIterator<T>;
-
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
-			(...args: any[]): DequeIterator<T> | DequeReverseIterator<T>
-		{
-			// REVERSE_ITERATOR TO ITERATOR
-			let ret: DequeIterator<T>;
-			let is_reverse_iterator: boolean = false;
-
-			if (args[0] instanceof base.ArrayReverseIterator)
-			{
-				is_reverse_iterator = true;
-				args[0] = (args[0] as DequeReverseIterator<T>).base().prev();
-			}
-
-			// BRANCHES
-			if (args.length == 2)
-				ret = this._Insert_by_val(args[0], args[1]);
-			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
-			else
-				ret = this._Insert_by_range(args[0], args[1], args[2]);
-
-			// RETURNS
-			if (is_reverse_iterator == true)
-				return new base.ArrayReverseIterator<T, Deque<T>>(ret.next());
-			else
-				return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_val(position: DequeIterator<T>, val: T): DequeIterator<T>
-		{
-			return this._Insert_by_repeating_val(position, 1, val);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_repeating_val(position: DequeIterator<T>, n: number, val: T): DequeIterator<T>
-		{
-			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
-			let last: base._Repeater<T> = new base._Repeater<T>(n);
-
-			return this._Insert_by_range(position, first, last);
-		}
-
-		/**
->>>>>>> v1.4:src/std/containers/Deque.ts
 		 * @hidden
 		 */
 		protected _Insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
