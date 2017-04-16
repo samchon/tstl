@@ -84,7 +84,7 @@ namespace std
 		while (count > 0)
 		{
 			let step: number = Math.floor(count / 2);
-			let it: ForwardIterator = first.advance(step) as ForwardIterator;
+			let it: ForwardIterator = advance(first, step) as ForwardIterator;
 
 			if (!compare(it.value, val))
 			{
@@ -176,7 +176,7 @@ namespace std
 		while (count > 0)
 		{
 			let step: number = Math.floor(count / 2);
-			let it: ForwardIterator = first.advance(step) as ForwardIterator;
+			let it: ForwardIterator = advance(first, step) as ForwardIterator;
 
 			if (!compare(val, it.value))
 			{

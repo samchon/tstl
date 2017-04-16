@@ -194,7 +194,7 @@ namespace std
 		while (n > 0)
 		{
 			let step: number = Math.floor(n / 2);
-			let it: ForwardIterator = first.advance(step) as ForwardIterator;
+			let it: ForwardIterator = advance(first, step) as ForwardIterator;
 
 			if (pred(it.value))
 			{

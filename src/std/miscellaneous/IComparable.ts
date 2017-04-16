@@ -9,7 +9,6 @@
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export interface IComparable<T>
-		extends Object
 	{
 		/**
 		 * Indicates whether some other object is &quot;equal to&quot; this one.

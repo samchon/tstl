@@ -61,7 +61,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private data_: T[];
+		private data_: Array<T>;
 
 		/**
 		 * @hidden
@@ -327,7 +327,7 @@ namespace std
 		 */
 		public [Symbol.iterator](): IterableIterator<T>
 		{
-			return new base._ArrayForOfAdaptor<T>(this);
+			return this.data_[Symbol.iterator]();
 		}
 
 		/* ---------------------------------------------------------

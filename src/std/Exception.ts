@@ -3,6 +3,7 @@
 /// <reference path="exceptions/Exception.ts" />
 /// <reference path="exceptions/LogicError.ts" />
 /// <reference path="exceptions/RuntimeError.ts" />
+/// <reference path="exceptions/SystemError.ts" />
 
 // Standard exceptions
 //

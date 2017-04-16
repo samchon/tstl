@@ -728,7 +728,6 @@ namespace std
 	 * <i>val</i>.
 	 * 
 	 * The function returns an iterator to the first of such elements, or <i>last</i> if no such sequence is found. 
-	 *
 	 * 
 	 * @param first {@link Iterator Forward iterator} to the initial position of the searched sequence.
 	 * @param last {@link Iterator Forward iterator} to the final position of the searched sequence. The range used is 
@@ -756,7 +755,7 @@ namespace std
 			pred: (x: T, y: T) => boolean = equal_to
 		): ForwardIterator
 	{
-		let limit: ForwardIterator = first.advance(distance(first, last) - count) as ForwardIterator;
+		let limit: ForwardIterator = advance(first, distance(first, last) - count) as ForwardIterator;
 
 		for (; !first.equals(limit); first = first.next() as ForwardIterator)
 		{

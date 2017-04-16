@@ -12,8 +12,6 @@
 // @reference http://www.cplusplus.com/reference/iterator
 // @author Jeongho Nam <http://samchon.org>
 
-
-
 namespace std
 {
 	/* =========================================================
@@ -96,15 +94,43 @@ namespace std
 	 * @return An iterator to the element <i>n</i> positions before <i>it</i>.
 	 */
 	export function advance<T, InputIterator extends IForwardIterator<T>>
+		(it: InputIterator, n: number): InputIterator;
+
+	/**
+	 * Advance iterator.
+	 * 
+	 * Advances the iterator <i>it</i> by <i>n</i> elements positions.
+	 * 
+	 * @param it Iterator to be advanced.
+	 * @param n Number of element positions to advance.
+	 * 
+	 * @return An iterator to the element <i>n</i> positions before <i>it</i>.
+	 */
+	export function advance<T, InputIterator extends IBidirectionalIterator<T>>
+		(it: InputIterator, n: number): InputIterator;
+
+	export function advance<T, InputIterator extends IBidirectionalIterator<T>>
 		(it: InputIterator, n: number): InputIterator
 	{
 		if (it.advance)
 			return it.advance(n) as InputIterator;
 
-		while (n > 0)
+		if (n > 0)
+			while (n != 0)
+			{
+				it = it.next() as InputIterator;
+				n--;
+			}
+		else if (n < 0)
 		{
-			it = it.next() as InputIterator;
-			n--;
+			if (it.prev == undefined)
+				throw new DomainError("Unable to find the function, prev().");
+			
+			while (n != 0)
+			{
+				it = it.prev() as InputIterator;
+				n++;
+			}
 		}
 		return it;
 	}
@@ -122,7 +148,7 @@ namespace std
 	export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T>>
 		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 	{
-		return it.advance(n) as BidirectionalIterator;
+		return advance(it, -n) as BidirectionalIterator;
 	}
 	
 	/**
@@ -137,8 +163,8 @@ namespace std
 	 */
 	export function next<T, ForwardIterator extends IForwardIterator<T>>
 		(it: ForwardIterator, n: number = 1): ForwardIterator
-	{	
-		return it.advance(n) as ForwardIterator;
+	{
+		return advance(it, n) as ForwardIterator;
 	}
 
 	/* ---------------------------------------------------------

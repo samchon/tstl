@@ -972,7 +972,7 @@ namespace std
 			let last_index: number = (last.index() == -1) ? last.source().size() : last.index();
 			let rand_index: number = Math.floor(Math.random() * (last_index - first.index()));
 
-			it.swap(first.advance(rand_index));
+			it.swap(advance(first, rand_index));
 		}
 	}
 }
