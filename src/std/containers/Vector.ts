@@ -251,6 +251,14 @@ namespace std
 			return this.data_;
 		}
 
+		/**
+		 * @inheritdoc
+		 */
+		public [Symbol.iterator](): IterableIterator<T>
+		{
+			return this.data_[Symbol.iterator]();
+		}
+
 		/* =========================================================
 			ELEMENTS I/O
 				- INSERT

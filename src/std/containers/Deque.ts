@@ -317,6 +317,11 @@ namespace std
 		{
 			return this.capacity_;
 		}
+
+		public [Symbol.iterator](): IterableIterator<T>
+		{
+			return new base._DequeForOfAdaptor<T>(this.matrix_);
+		}
 		
 		/* ---------------------------------------------------------
 			INDEX ACCESSORS

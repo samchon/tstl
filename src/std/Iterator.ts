@@ -228,16 +228,15 @@ namespace std
 	export function make_reverse_iterator<T>(it: SetIterator<T>): SetReverseIterator<T>;
 	export function make_reverse_iterator<Key, T>(it: MapIterator<Key, T>): MapReverseIterator<Key, T>;
 	
-	export function make_reverse_iterator<T, Source extends base.IArrayContainer<T>>
-		(it: Iterator<T>): base.IReverseIterator<T> | MapReverseIterator<any, any>
+	export function make_reverse_iterator(it: any): any
 	{
 		if (it instanceof base.ArrayIterator)
-			return new base.ArrayReverseIterator<T, Source>(it);
+			return new base.ArrayReverseIterator<any, base.IArrayContainer<any>>(it);
 		else if (it instanceof ListIterator)
-			return new ListReverseIterator<T>(it);
+			return new ListReverseIterator<any>(it);
 
 		else if (it instanceof SetIterator)
-			return new SetReverseIterator<T>(it);
+			return new SetReverseIterator<any>(it);
 		else if (it instanceof MapIterator)
 			return new MapReverseIterator<any, any>(it);
 	}
