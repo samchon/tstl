@@ -9,13 +9,13 @@
 // @reference http://www.cplusplus.com/reference/algorithm
 // @author Jeongho Nam <http://samchon.org>
 
-/// <reference path="algorithm/iterations.ts" />
-/// <reference path="algorithm/modifiers.ts" />
-/// <reference path="algorithm/sorting.ts" />
+/// <reference path="algorithms/iterations.ts" />
+/// <reference path="algorithms/modifiers.ts" />
+/// <reference path="algorithms/sorting.ts" />
 
-/// <reference path="algorithm/heap.ts" />
-/// <reference path="algorithm/binary_search.ts" />
-/// <reference path="algorithm/partition.ts" />
+/// <reference path="algorithms/heap.ts" />
+/// <reference path="algorithms/binary_search.ts" />
+/// <reference path="algorithms/partition.ts" />
 
-/// <reference path="algorithm/union_set.ts" />
-/// <reference path="algorithm/mathmatics.ts" />
+/// <reference path="algorithms/union_set.ts" />
+/// <reference path="algorithms/mathmatics.ts" />
