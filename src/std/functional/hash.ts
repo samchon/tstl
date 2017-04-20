@@ -52,23 +52,30 @@ namespace std
 	 * @return Returns a hash value for its argument, as a value of type number. The number is an unsigned integer.
 	 */
 	export function hash(obj: Object): number;
-	
-	export function hash(par: any): number
-	{
-		let type: string = typeof par;
 
-		if (type == "number")
-			return _Hash_number(par);
-		else if (type == "string")
-			return _Hash_string(par);
-		else
-			return _Hash_object(par);
+	export function hash(...args: any[]): number;
+	
+	export function hash(...args: any[]): number
+	{
+		let ret: number = _HASH_INIT_VALUE;
+		for (let val of args)
+		{
+			let type: string = typeof val;
+
+			if (type == "number")
+				ret = _Hash_number(val, ret);
+			else if (type == "string")
+				ret = _Hash_string(val, ret);
+			else
+				ret = _Hash_object(val, ret);
+		}
+		return ret;
 	}
 
 	/**
 	 * @hidden
 	 */
-	function _Hash_number(val: number): number
+	function _Hash_number(val: number, ret: number): number
 	{
 		// ------------------------------------------
 		//	IN C++
@@ -79,50 +86,49 @@ namespace std
 		let buffer: ArrayBuffer = new ArrayBuffer(8);
 		let byteArray: Int8Array = new Int8Array(buffer);
 		let valueArray: Float64Array = new Float64Array(buffer);
-
 		valueArray[0] = val;
 
-		let code: number = 2166136261;
-		
 		for (let i: number = 0; i < byteArray.length; i++)
 		{
 			let byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
 
-			code ^= byte;
-			code *= 16777619;
+			ret ^= byte;
+			ret *= 16777619;
 		}
-		return Math.abs(code);
+		return Math.abs(ret);
 	}
 
 	/**
 	 * @hidden
 	 */
-	function _Hash_string(str: string): number
+	function _Hash_string(str: string, ret: number): number
 	{
-		let code: number = 2166136261;
-
 		for (let i: number = 0; i < str.length; i++)
 		{
-			code ^= str.charCodeAt(i);
-			code *= 16777619;
+			ret ^= str.charCodeAt(i);
+			ret *= _HASH_MULTIPLIER;
 		}
-		return Math.abs(code);
+		return Math.abs(ret);
 	}
 
 	/**
 	 * @hidden
 	 */
-	function _Hash_object(obj: Object): number
+	function _Hash_object(obj: Object, ret: number): number
 	{
 		if ((<any>obj).hashCode != undefined)
-			return (obj as IComparable<Object>).hashCode();
+			return ret * (obj as IComparable<Object>).hashCode();
 		else
-			return _Hash_number((<any>obj).__get_m_iUID());
+			return _Hash_number((<any>obj).__get_m_iUID(), ret);
 	}
 
 	/* ---------------------------------------------------------
 		UNIQUE ID FOR OBJECTS
 	--------------------------------------------------------- */
+	const _HASH_INIT_VALUE: number = 2166136261;
+	const _HASH_MULTIPLIER: number = 16777619;
+
+
 	// Incremental sequence of unique id for objects.
 	/**
 	 * @hidden
