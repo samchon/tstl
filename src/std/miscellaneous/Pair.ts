@@ -72,5 +72,13 @@ namespace std
 			else
 				return less(this.second, pair.second);
 		}
+
+		/**
+		 * @inheritdoc
+		 */
+		public hashCode(): number
+		{
+			return std.hash(this.first, this.second);
+		}
 	}
 }

@@ -3,72 +3,62 @@
 namespace std
 {
 	/**
-	 * Default hash function for number.
+	 * Default hash function.
 	 * 
-	 * Unary function that defines the default hash function used by the standard library.
+	 * A variadic template function returning a hash value.
 	 * 
-	 * The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
-	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
-	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
-	 *
+	 * This functioncal call returns a hash value of its arguments: A hash value is a value that depends solely on
+	 * its arguments, returning always the same value for the same arguments (for a given execution of a program).
+	 * The value returned shall have a small likelihood of being the same as the one retured for a different arguments.
 	 * 
-	 * @param val Value to be hashed.
+	 * @param val A value to be hashed.
+	 * @param args Rest parameters also to be hashed.
 	 * 
-	 * @return Returns a hash value for its argument, as a value of type number. The number is an unsigned integer.
+	 * @return A hash value for arguments. The number is an unsigned integer.
 	 */
-	export function hash(val: number): number;
-
-	/**
-	 * Default hash function for string.
-	 * 
-	 * Unary function that defines the default hash function used by the standard library.
-	 * 
-	 * The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
-	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
-	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
-	 * 
-	 * @param str A string to be hashed.
-	 * 
-	 * @return Returns a hash value for its argument, as a value of type number. The number is an unsigned integer.
-	 */
-	export function hash(str: string): number;
-
-	/**
-	 * Default hash function for Object.
-	 * 
-	 * Unary function that defines the default hash function used by the standard library.
-	 * 
-	 * The functional call returns a hash value of its argument: A hash value is a value that depends solely on 
-	 * its argument, returning always the same value for the same argument (for a given execution of a program). The 
-	 * value returned shall have a small likelihood of being the same as the one returned for a different argument.
-	 *
-	 * 
-	 * The default {@link hash} function of Object returns a value returned from {@link hash hash(number)} with 
-	 * an <b>unique id</b> of each Object. If you want to specify {@link hash} function of a specific class, then
-	 * define a member function <code>public hashCode(): number</code> in the class.
-	 * 
-	 * @param obj Object to be hashed.
-	 * 
-	 * @return Returns a hash value for its argument, as a value of type number. The number is an unsigned integer.
-	 */
-	export function hash(obj: Object): number;
-
-	export function hash(...args: any[]): number;
-	
-	export function hash(...args: any[]): number
+	export function hash<T>(val: T, ...args: any[]): number
 	{
+		args.unshift(val);
 		let ret: number = _HASH_INIT_VALUE;
-		for (let val of args)
+		
+		for (let item of args)
 		{
-			let type: string = typeof val;
+			let type: string = typeof item;
 
-			if (type == "number")
-				ret = _Hash_number(val, ret);
-			else if (type == "string")
-				ret = _Hash_string(val, ret);
-			else
-				ret = _Hash_object(val, ret);
+			if (type == "boolean")
+				ret = _Hash_boolean(item, ret);
+			else if (type == "number") // NUMBER -> 8 BYTES
+				ret = _Hash_number(item, ret);
+			else if (type == "string") // STRING -> {LENGTH} BYTES
+				ret = _Hash_string(item, ret);
+			else // CALL THE HASH_CODE FUNCTION ?
+			{
+				if ((<IComparable<Object>>item).hashCode != undefined)
+				{
+					let hashed: number = (<IComparable<Object>>item).hashCode();
+					if (args.length == 1)
+						return hashed;
+					else
+					{
+						ret = ret ^ hashed;
+						ret *= _HASH_MULTIPLIER;
+					}
+				}
+				else
+					ret = _Hash_number((<any>item).__get_m_iUID(), ret);
+			}
 		}
+		return ret;
+	}
+
+	/**
+	 * @hidden
+	 */
+	function _Hash_boolean(val: boolean, ret: number): number
+	{
+		ret ^= val ? 1 : 0;
+		ret *= _HASH_MULTIPLIER;
+
 		return ret;
 	}
 
@@ -93,7 +83,7 @@ namespace std
 			let byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
 
 			ret ^= byte;
-			ret *= 16777619;
+			ret *= _HASH_MULTIPLIER;
 		}
 		return Math.abs(ret);
 	}
@@ -117,15 +107,22 @@ namespace std
 	function _Hash_object(obj: Object, ret: number): number
 	{
 		if ((<any>obj).hashCode != undefined)
-			return ret * (obj as IComparable<Object>).hashCode();
+			return (obj as IComparable<Object>).hashCode();
 		else
 			return _Hash_number((<any>obj).__get_m_iUID(), ret);
 	}
 
 	/* ---------------------------------------------------------
-		UNIQUE ID FOR OBJECTS
+		RESERVED ITEMS
 	--------------------------------------------------------- */
+	/**
+	 * @hidden
+	 */
 	const _HASH_INIT_VALUE: number = 2166136261;
+	
+	/**
+	 * @hidden
+	 */
 	const _HASH_MULTIPLIER: number = 16777619;
 
 
