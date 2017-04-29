@@ -156,6 +156,11 @@ namespace std
 				
 				this.assign(size, val);
 			}
+			else if (args.length == 1 && args[0] instanceof std.Vector)
+			{
+				// COPY CONSTRUCTOR
+				this.data_ = (args[0] as Vector<T>).data_.slice();
+			}
 			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
 			{
 				// CONSTRUCT FROM INPUT ITERATORS
