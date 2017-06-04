@@ -17,7 +17,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: std.Queue<std.Pair<boolean, ()=>void>>;
+		private listeners_: Queue<Pair<boolean, ()=>void>>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -30,7 +30,7 @@ namespace std
 			this.read_lock_count_ = 0;
 			this.write_lock_count_ = 0;
 
-			this.listeners_ = new std.Queue<std.Pair<boolean, ()=>void>>();
+			this.listeners_ = new Queue<Pair<boolean, ()=>void>>();
 		}
 
 		/* =========================================================

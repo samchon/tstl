@@ -12,7 +12,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: std.Queue<()=>void>;
+		private listeners_: Queue<()=>void>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -23,7 +23,7 @@ namespace std
 		public constructor()
 		{
 			this.lock_count_ = 0;
-			this.listeners_ = new std.Queue<()=>void>();
+			this.listeners_ = new Queue<()=>void>();
 		}
 
 		/* ---------------------------------------------------------
