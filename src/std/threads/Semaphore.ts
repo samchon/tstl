@@ -25,6 +25,11 @@ namespace std.experiments
 			return this.size_;
 		}
 
+		public expand(size: number): void
+		{
+			this.size_ = size;
+		}
+
 		/* ---------------------------------------------------------
 			ACQURE & RELEASE
 		--------------------------------------------------------- */

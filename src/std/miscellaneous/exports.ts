@@ -5,6 +5,7 @@
 /// <reference path="../exception.ts" />
 /// <reference path="../functional.ts" />
 /// <reference path="../utility.ts" />
+/// <reference path="../thread.ts" />
 
 namespace std
 {
@@ -133,6 +134,21 @@ namespace std
 				export var error_category = ErrorCategory;
 				export var error_condition = ErrorCondition;
 				export var error_code = ErrorCode;
+
+	/* ---------------------------------------------------------
+		THREADS
+	--------------------------------------------------------- */
+	export type mutex = Mutex;
+	export type shared_mutex = SharedMutex;
+
+	export var mutex = Mutex;
+	export var shared_mutex = SharedMutex;
+	
+	export namespace experiments
+	{
+		export type semaphore = Semaphore;
+		export var semaphore = Semaphore;
+	}
 }
 
 try
