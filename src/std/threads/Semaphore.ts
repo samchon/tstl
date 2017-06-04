@@ -57,6 +57,9 @@ namespace std.experiments
 			return true;
 		}
 
+		public release(): void;
+		public release(count: number): void;
+
 		public release(count: number = 1): void
 		{
 			this.acquired_count_ -= count;
