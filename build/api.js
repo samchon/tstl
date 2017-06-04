@@ -15,5 +15,6 @@ if (fs.existsSync(RELEASE_DIR))
 	else
 		process.execSync("rm -rf " + RELEASE_DIR);
 
-var command = "typedoc ../lib/tstl.d.ts --target ES6 --includeDeclarations --mode file --out " + RELEASE_DIR;
+//var command = "typedoc ../lib/tstl.d.ts --target ES6 --includeDeclarations --mode file --out " + RELEASE_DIR;
+var command = "typedoc ../src/std --target ES6 --includeDeclarations --mode file --out " + RELEASE_DIR;
 process.execSync(command);
