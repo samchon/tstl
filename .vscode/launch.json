@@ -8,7 +8,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceRoot}\\src\\test\\index.js",
+			"program": "${workspaceRoot}/src/test/index.js",
 			"cwd": "${workspaceRoot}",
 
 			// TypeScript
