@@ -8,6 +8,7 @@
 
 *.js
 *.js.map
+!test/index.js
 
 ##############################
 # DEFAULT
