@@ -17,7 +17,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: Queue<Pair<boolean, ()=>void>>;
+		private listeners_: Queue<Pair<boolean, IListener>>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -30,7 +30,7 @@ namespace std
 			this.read_lock_count_ = 0;
 			this.write_lock_count_ = 0;
 
-			this.listeners_ = new Queue<Pair<boolean, ()=>void>>();
+			this.listeners_ = new Queue<Pair<boolean, IListener>>();
 		}
 
 		/* =========================================================
@@ -44,7 +44,7 @@ namespace std
 		{
 			return new Promise<void>(resolve =>
 			{
-				if (this.write_lock_count_++ == 0 && this.read_lock_count_ == 0)
+				if (this.read_lock_count_ == 0 && this.write_lock_count_++ == 0)
 					resolve();
 				else
 					this.listeners_.push(make_pair(false, resolve));
@@ -65,18 +65,19 @@ namespace std
 			if (this.write_lock_count_ == 0)
 				throw new RangeError("This mutex is free on the unique lock.");
 
-			this.write_lock_count_--;
 			while (this.listeners_.empty() == false)
 			{
 				let is_write_lock: boolean = this.listeners_.front().first;
+				let fn: IListener = this.listeners_.front().second;
 
-				this.listeners_.front().second();
 				this.listeners_.pop();
+				fn();
 
 				// UNTIL MEET THE WRITE LOCK
 				if (is_write_lock)
 					break;
 			}
+			this.write_lock_count_--;
 		}
 
 		/* ---------------------------------------------------------
@@ -84,10 +85,10 @@ namespace std
 		--------------------------------------------------------- */
 		public lock_shared(): Promise<void>
 		{
-			this.read_lock_count_++;
-
 			return new Promise<void>(resolve =>
 			{
+				++this.read_lock_count_;
+				
 				if (this.write_lock_count_ == 0)
 					resolve();
 				else
@@ -100,7 +101,7 @@ namespace std
 			if (this.write_lock_count_ != 0)
 				return false;
 			
-			this.read_lock_count_++;
+			++this.read_lock_count_;
 			return true;
 		}
 
@@ -109,14 +110,21 @@ namespace std
 			if (this.read_lock_count_ == 0)
 				throw new RangeError("This mutex is free on the shared lock.");
 
-			this.read_lock_count_--;
+			--this.read_lock_count_;
 
 			if (this.listeners_.empty() == false)
-			{	
-				// WRITE LOCK
-				this.listeners_.front().second();
+			{ 
+				// MUST BE WRITE LOCK
+				let fn: IListener = this.listeners_.front().second;
+
 				this.listeners_.pop();
+				fn();
 			}
 		}
+	}
+
+	interface IListener
+	{
+		(): void;
 	}
 }

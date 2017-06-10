@@ -12,7 +12,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: Queue<()=>void>;
+		private listeners_: Queue<IListener>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -23,7 +23,7 @@ namespace std
 		public constructor()
 		{
 			this.lock_count_ = 0;
-			this.listeners_ = new Queue<()=>void>();
+			this.listeners_ = new Queue<IListener>();
 		}
 
 		/* ---------------------------------------------------------
@@ -50,7 +50,7 @@ namespace std
 			if (this.lock_count_ != 0)
 				return false;
 			
-			this.lock_count_++;
+			++this.lock_count_;
 			return true;			
 		}
 
@@ -59,13 +59,19 @@ namespace std
 			if (this.lock_count_ == 0)
 				throw new RangeError("This mutex is free.");
 
-			this.lock_count_--;
-			
+			--this.lock_count_;
 			if (this.listeners_.empty() == false)
 			{
-				this.listeners_.front()();
+				let fn: IListener = this.listeners_.front();
+				
 				this.listeners_.pop();
+				fn();
 			}
 		}
+	}
+
+	interface IListener
+	{
+		(): void;
 	}
 }
