@@ -48,7 +48,7 @@ namespace std
 		public try_lock(): boolean
 		{
 			if (this.lock_count_ != 0)
-				return false;
+				return false; // HAVE LOCKED
 			
 			++this.lock_count_;
 			return true;			
@@ -59,13 +59,13 @@ namespace std
 			if (this.lock_count_ == 0)
 				throw new RangeError("This mutex is free.");
 
-			--this.lock_count_;
+			--this.lock_count_; // DECREASE LOCKED COUNT
 			if (this.listeners_.empty() == false)
 			{
 				let fn: IListener = this.listeners_.front();
 				
-				this.listeners_.pop();
-				fn();
+				this.listeners_.pop(); // POP FIRST
+				fn(); // AND CALL LATER
 			}
 		}
 	}

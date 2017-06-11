@@ -7,7 +7,7 @@ namespace std.experiments
 		private acquired_count_: number;
 		private size_: number;
 
-		private listeners_: Queue<Pair<()=>void, number>>;
+		private listeners_: Queue<Pair<IListener, number>>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -17,7 +17,7 @@ namespace std.experiments
 			this.acquired_count_ = 0;
 			this.size_ = size;
 
-			this.listeners_ = new Queue<Pair<()=>void, number>>();
+			this.listeners_ = new Queue<Pair<IListener, number>>();
 		}
 
 		public size(): number
@@ -78,12 +78,20 @@ namespace std.experiments
 				}
 				else
 				{
-					count -= this.listeners_.front().second;
-					this.listeners_.front().first();
+					let fn: IListener = this.listeners_.front().first;
 
+					// POP AND DECREAE COUNT FIRST
+					count -= this.listeners_.front().second;
 					this.listeners_.pop();
+
+					fn(); // AND CALL LATER
 				}
 			}
 		}
+	}
+
+	interface IListener
+	{
+		(): void;
 	}
 }

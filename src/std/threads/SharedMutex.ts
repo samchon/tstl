@@ -70,8 +70,8 @@ namespace std
 				let is_write_lock: boolean = this.listeners_.front().first;
 				let fn: IListener = this.listeners_.front().second;
 
-				this.listeners_.pop();
-				fn();
+				this.listeners_.pop(); // POP FIRST
+				fn(); // AND CALL LATER
 
 				// UNTIL MEET THE WRITE LOCK
 				if (is_write_lock)
@@ -117,8 +117,8 @@ namespace std
 				// MUST BE WRITE LOCK
 				let fn: IListener = this.listeners_.front().second;
 
-				this.listeners_.pop();
-				fn();
+				this.listeners_.pop(); // POP FIRST
+				fn(); // AND CALL LATER
 			}
 		}
 	}
