@@ -16,13 +16,8 @@ namespace std
 	 * @reference http://www.cplusplus.com/reference/exception/exception
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class Exception
+	export class Exception extends Error
 	{
-		/**
-		 * @hidden
-		 */
-		private message_: string;
-
 		/**
 		 * Default Constructor.
 		 */
@@ -37,7 +32,7 @@ namespace std
 
 		public constructor(message: string = "")
 		{
-			this.message_ = message;
+			super(message);
 		}
 
 		/**
@@ -51,7 +46,7 @@ namespace std
 		 */
 		public what(): string
 		{
-			return this.message_;
+			return this.message;
 		}
 	}
 }
