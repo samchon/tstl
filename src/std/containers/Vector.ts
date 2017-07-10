@@ -4,8 +4,8 @@
 
 namespace std.Vector
 {
-	export type iterator<T> = VectorIterator<T>;
-	export type reverse_iterator<T> = VectorReverseIterator<T>;
+	export type iterator<T> = base.ArrayIterator<T, Vector<T>>;
+	export type reverse_iterator<T> = base.ArrayReverseIterator<T, Vector<T>>;
 }
 
 namespace std

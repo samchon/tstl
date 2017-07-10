@@ -136,7 +136,7 @@ namespace std.base
 	 */
 	export abstract class ReverseIterator<T, Source extends base.Container<T>, Base extends Iterator<T>, This extends ReverseIterator<T, Source, Base, This>>
 		extends Iterator<T>
-		implements IComparable<ReverseIterator<T, Source, Base, This>>
+		implements IComparable<ReverseIterator<T, Source, Base, This>>, IPointer<T>
 	{
 		/**
 		 * @hidden
