@@ -257,7 +257,7 @@ namespace std.base
 		 *		   call. This is the {@link end Container.end} if the operation erased the last element in 
 		 *		   the sequence.
 		 */
-		public abstract erase<U extends T>(begin: Iterator<U>, end: Iterator<U>): Iterator<T>;
+		public abstract erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
 
 		/* ---------------------------------------------------------------
 			UTILITIES
