@@ -165,7 +165,7 @@ namespace std.base
 		 */
 		public merge<L extends Key, U extends T>(source: MapContainer<L, U>): void
 		{
-			this.insert(source.begin(), source.end());
+			this.insert<L, U, MapIterator<L, U>>(source.begin(), source.end());
 			source.clear();
 		}
 	}

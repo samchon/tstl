@@ -88,7 +88,7 @@ namespace std.base
 		 */
 		public merge<U extends T>(source: SetContainer<U>): void
 		{
-			this.insert(source.begin(), source.end());
+			this.insert<U, SetIterator<U>>(source.begin(), source.end());
 			source.clear();
 		}
 	}
