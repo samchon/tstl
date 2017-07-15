@@ -25,7 +25,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected source_: base.Container<T>;
+		protected source_: Container<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -35,7 +35,7 @@ namespace std.base
 		 *
 		 * @param source The source container.
 		 */
-		protected constructor(source: base.Container<T>)
+		protected constructor(source: Container<T>)
 		{
 			this.source_ = source;
 		}
@@ -78,7 +78,7 @@ namespace std.base
 		 *
 		 * Get source container of this iterator is directing for.
 		 */
-		public abstract source(): base.Container<T>;
+		public abstract source(): Container<T>;
 
 		/**
 		 * Whether an iterator is equal with the iterator.
@@ -134,7 +134,7 @@ namespace std.base
 	 * @reference http://www.cplusplus.com/reference/iterator/reverse_iterator
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class ReverseIterator<T, Source extends base.Container<T>, Base extends Iterator<T>, This extends ReverseIterator<T, Source, Base, This>>
+	export abstract class ReverseIterator<T, Source extends Container<T>, Base extends Iterator<T>, This extends ReverseIterator<T, Source, Base, This>>
 		extends Iterator<T>
 		implements IComparable<ReverseIterator<T, Source, Base, This>>
 	{
@@ -210,7 +210,7 @@ namespace std.base
 		 */
 		public prev(): This
 		{
-			return this._Create_neighbor(this.base().next() as Base);
+			return this._Create_neighbor(this.base_);
 		}
 
 		/**
