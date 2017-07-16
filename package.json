@@ -9,7 +9,7 @@
 
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "devDependencies": {
     "@types/node": "^7.0.8"
   },
