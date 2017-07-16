@@ -61,7 +61,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends Iterator<U>>
+		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			this.clear();
@@ -265,7 +265,7 @@ namespace std.base
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends Iterator<U>>
+		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator;
 
 		public insert(...args: any[]): BidirectionalIterator
@@ -298,7 +298,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
 			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator
 		{
 			// INVALID ITERATOR

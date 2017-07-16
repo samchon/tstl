@@ -55,7 +55,7 @@ namespace std.base
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public abstract assign<U extends T, InputIterator extends Iterator<U>>
+		public abstract assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/**
@@ -222,7 +222,8 @@ namespace std.base
 		 *				   type that points to elements.
 		 * @param val Value to be copied to the inserted element.
 		 *
-		 * @re
+		 * @return An iterator that points to the first of the newly inserted elements.
+		 */
 		public abstract insert(position: Iterator<T>, val: T): Iterator<T>;
 
 		/* ---------------------------------------------------------

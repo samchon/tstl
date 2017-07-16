@@ -46,7 +46,7 @@ namespace std.base
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class MapContainer<Key, T>
-		extends Container<Pair<Key, T>>
+		extends Container<Entry<Key, T>>
 	{
 		/**
 		 * @hidden
@@ -69,7 +69,7 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public assign<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+		public assign<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT
@@ -235,31 +235,11 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public push(...args: Pair<Key, T>[]): number;
-
-		/**
-		 * @inheritdoc
-		 */
-		public push(...args: [Key, T][]): number;
-
-		public push(...items: any[]): number
+		public push(...items: IPair<Key, T>[]): number
 		{
-			// CONVERT ALL ITEMS TO PAIR
-			let elements: Pair<Key, T>[] = [];
-			for (let i: number = 0; i < items.length; i++)
-			{
-				let elem: Pair<Key, T>;
-				if (items[i] instanceof Array)
-					elem = make_pair(items[i][0], items[i][1]);
-				else
-					elem = items[i];
-
-				elements.push(elem);
-			}
-
 			// INSERT BY RANGE
-			let first = new _NativeArrayIterator(elements, 0);
-			let last = new _NativeArrayIterator(elements, elements.length);
+			let first = new _NativeArrayIterator(items, 0);
+			let last = new _NativeArrayIterator(items, items.length);
 
 			this.insert(first, last);
 
@@ -326,7 +306,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
 		 *		   equivalent key in the {@link MapContainer}.
 		 */
-		public emplace_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+		public emplace_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
 
 		/**
 		 * Construct and insert element with hint
@@ -347,12 +327,12 @@ namespace std.base
 		 * @return An {@link MapIterator iterator} pointing to either the newly inserted element or to the element 
 		 *		   that already had an equivalent key in the {@link MapContainer}.
 		 */
-		public emplace_hint(hint: MapReverseIterator<Key, T>, pair: Pair<Key, T>): MapReverseIterator<Key, T>;
+		public emplace_hint(hint: MapReverseIterator<Key, T>, pair: IPair<Key, T>): MapReverseIterator<Key, T>;
 
 		public emplace_hint(hint: any, ...args: any[]): any
 		{
 			if (args.length == 1)
-				return this.insert(hint, args[0] as Pair<Key, T>);
+				return this.insert(hint, args[0] as IPair<Key, T>);
 			else
 				return this.insert(hint, make_pair<Key, T>(args[0], args[1]));
 		}
@@ -371,7 +351,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an 
 		 *		   equivalent key in the {@link MapContainer}.
 		 */
-		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+		public insert(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
 
 		/**
 		 * Insert an element.
@@ -387,37 +367,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an 
 		 *		   equivalent key in the {@link MapContainer}.
 		 */
-		public insert(hint: MapReverseIterator<Key, T>, pair: Pair<Key, T>): MapReverseIterator<Key, T>;
-		
-		/**
-		 * Insert an element.
-		 *
-		 * Extends the container by inserting new elements, effectively increasing the container {@link size} 
-		 * by the number of elements inserted.
-		 * 
-		 * @param hint Hint for the position where the element can be inserted.
-		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
-		 * 
-		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
-		 *		   equivalent key in the {@link MapContainer}.
-		 */
-		public insert<L extends Key, U extends T>
-			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
-
-		/**
-		 * Insert an element.
-		 *
-		 * Extends the container by inserting new elements, effectively increasing the container {@link size} 
-		 * by the number of elements inserted.
-		 * 
-		 * @param hint Hint for the position where the element can be inserted.
-		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
-		 * 
-		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
-		 *		   equivalent key in the {@link MapContainer}.
-		 */
-		public insert<L extends Key, U extends T>
-			(hint: MapReverseIterator<Key, T>, tuple: [L, U]): MapReverseIterator<Key, T>;
+		public insert(hint: MapReverseIterator<Key, T>, pair: IPair<Key, T>): MapReverseIterator<Key, T>;
 		
 		/**
 		 * Insert elements from range iterators.
@@ -430,20 +380,16 @@ namespace std.base
 		 *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>, 
 		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
 		 */
-		public insert<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+		public insert<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
-			if (args.length == 1 && args[0] instanceof Pair)
+			if (args.length == 1)
 			{
 				return this._Insert_by_pair(args[0]);
 			}
-			else if (args.length == 1 && args[0] instanceof Array)
-			{
-				return this._Insert_by_tuple(args[0]);
-			}
-			else if (args.length == 2 && args[0] instanceof Iterator && args[1] instanceof Iterator)
+			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				return this._Insert_by_range(args[0], args[1]);
 			}
@@ -460,10 +406,7 @@ namespace std.base
 				}
 
 				// INSERT AN ELEMENT
-				if (args[1] instanceof Pair)
-					ret = this._Insert_by_hint(args[0], args[1]);
-				else
-					ret = this._Insert_by_hint_with_tuple(args[0], args[1]);
+				ret = this._Insert_by_hint(args[0], args[1]);
 
 				// RETURN BRANCHES
 				if (is_reverse_iterator == true)
@@ -476,33 +419,17 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_pair<L extends Key, U extends T>(pair: Pair<L, U>): any;
-		
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_tuple<L extends Key, U extends T>(tuple: [L, U]): any
-		{
-			return this._Insert_by_pair(new Pair<L, U>(tuple[0], tuple[1]));
-		}
+		protected abstract _Insert_by_pair<L extends Key, U extends T>(pair: IPair<L, U>): any;
 
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+		protected abstract _Insert_by_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
 
 		/**
 		 * @hidden
 		 */
-		private _Insert_by_hint_with_tuple(hint: MapIterator<Key, T>, tuple: [Key, T]): MapIterator<Key, T>
-		{
-			return this._Insert_by_hint(hint, make_pair(tuple[0], tuple[1]));
-		}
-
-		/**
-		 * @hidden
-		 */
-		protected abstract _Insert_by_range<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+		protected abstract _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		/* ---------------------------------------------------------
@@ -684,7 +611,7 @@ namespace std.base
 	 * @hidden
 	 */
 	export class _MapElementList<Key, T> 
-		extends _ListContainer<Pair<Key, T>, MapIterator<Key, T>>
+		extends _ListContainer<Entry<Key, T>, MapIterator<Key, T>>
 	{
 		private associative_: MapContainer<Key, T>;
 		private rend_: MapReverseIterator<Key, T>;
@@ -696,7 +623,7 @@ namespace std.base
 			this.associative_ = associative;
 		}
 
-		protected _Create_iterator(prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>): MapIterator<Key, T>
+		protected _Create_iterator(prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Entry<Key, T>): MapIterator<Key, T>
 		{
 			return new MapIterator<Key, T>(this, prev, next, val);
 		}

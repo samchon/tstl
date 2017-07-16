@@ -87,7 +87,7 @@ namespace std
 		/**
 		 * Construct from range iterators.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -115,11 +115,11 @@ namespace std
 				this.rehash(items.length * base._Hash.RATIO);
 				this.push(...items);
 			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
+			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				// RANGE CONSTRUCTOR
-				let first: base.Iterator<T> = args[0];
-				let last: base.Iterator<T> = args[1];
+				let first: IForwardIterator<T> = args[0];
+				let last: IForwardIterator<T> = args[1];
 
 				this.assign(first, last);
 			}
@@ -344,7 +344,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT ELEMENTS

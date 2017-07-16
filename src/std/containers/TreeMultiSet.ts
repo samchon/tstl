@@ -122,7 +122,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
 
 		/**
 		 * Construct from range and compare.
@@ -131,7 +131,7 @@ namespace std
 		 * @param end Input interator of the final position in a sequence.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>, compare: (x: T, y: T) => boolean);
+		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>, compare: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{
@@ -161,11 +161,12 @@ namespace std
 
 				fn = this.push.bind(this, ...items);
 			}
-			else if (args.length >= 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
+			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				// RANGE CONSTRUCTOR
-				let first: base.Iterator<T> = args[0]; // PARAMETER 1
-				let last: base.Iterator<T> = args[1]; // PARAMETER 2
+				let first: IForwardIterator<T> = args[0]; // PARAMETER 1
+				let last: IForwardIterator<T> = args[1]; // PARAMETER 2
+
 				if (args.length == 3) // SPECIFIED COMPARISON FUNCTION
 					compare = args[2];
 
@@ -332,7 +333,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends base.Iterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (; !first.equals(last); first = first.next() as InputIterator)
@@ -379,22 +380,10 @@ namespace std
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
 		 *			  with that of this {@link TreeMultiSet container}.
 		 */
-		public swap(obj: TreeMultiSet<T>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<T>): void;
-
-		public swap(obj: TreeMultiSet<T> | base.Container<T>): void
+		public swap(obj: TreeMultiSet<T>): void
 		{
-			if (obj instanceof TreeMultiSet && this.key_comp() == obj.key_comp())
-			{
-				this._Swap(obj);
-				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
-			}
-			else
-				super.swap(obj);
+			this._Swap(obj);
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

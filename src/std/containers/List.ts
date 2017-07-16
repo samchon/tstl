@@ -110,7 +110,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -133,10 +133,10 @@ namespace std
 
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator) 
+			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function) 
 			{
-				let begin: base.Iterator<T> = args[0];
-				let end: base.Iterator<T> = args[1];
+				let begin: IForwardIterator<T> = args[0];
+				let end: IForwardIterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -177,10 +177,10 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(par1: any, par2: any): void
 		{
 			this.clear();
@@ -271,7 +271,7 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
+		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(position: ListIterator<T>, begin: InputIterator, end: InputIterator): ListIterator<T>;
 		
 		/**
@@ -331,7 +331,7 @@ namespace std
 		 *
 		 * @return An iterator that points to the first of the newly inserted elements.
 		 */
-		public insert<U extends T, InputIterator extends base.Iterator<U>>
+		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(position: ListReverseIterator<T>, begin: InputIterator, end: InputIterator): ListReverseIterator<T>;
 
 		public insert(...args: any[]): ListIterator<T> | ListReverseIterator<T>
@@ -371,7 +371,7 @@ namespace std
 		 * Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
 		 * efficient inserting and removing elements in any position, even in the middle of the sequence.
 		 * 
-		 * @param position base.Iterator pointing to a single element to be removed from the {@link List}.
+		 * @param position IForwardIterator pointing to a single element to be removed from the {@link List}.
 		 *
 		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
 		 *		   This is the {@link end end()} if the operation erased the last element in the sequence.
@@ -406,7 +406,7 @@ namespace std
 		 * Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
 		 * efficient inserting and removing elements in any position, even in the middle of the sequence.
 		 * 
-		 * @param position base.Iterator pointing to a single element to be removed from the {@link List}.
+		 * @param position IForwardIterator pointing to a single element to be removed from the {@link List}.
 		 *
 		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
 		 *		   This is the {@link rend rend()} if the operation erased the last element in the sequence.
@@ -690,7 +690,7 @@ namespace std
 		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
 		 *			  This parameter may be <code>this</code> if <i>position</i> points to an element not actually 
 		 *			  being spliced.
-		 * @param it {@link ListIterator base.Iterator} to an element in <i>obj</i>. Only this single element is 
+		 * @param it {@link ListIterator IForwardIterator} to an element in <i>obj</i>. Only this single element is 
 		 *			 transferred.
 		 */
 		public splice<U extends T>(position: ListIterator<T>, obj: List<U>, it: ListIterator<U>): void;
@@ -712,10 +712,10 @@ namespace std
 		 * @param obj A {@link List} object of the same type (i.e., with the same template parameters, <b>T</b>).
 		 *			  This parameter may be <code>this</code> if <i>position</i> points to an element not actually
 		 *			  being spliced.
-		 * @param begin {@link ListIterator An base.Iterator} specifying initial position of a range of elements in
+		 * @param begin {@link ListIterator An IForwardIterator} specifying initial position of a range of elements in
 		 *				<i>obj</i>. Transfers the elements in the range [<b><i>begin</i></b>, <i>end</i>) to 
 		 *				<i>position</i>.
-		 * @param end {@link ListIterator An base.Iterator} specifying final position of a range of elements in
+		 * @param end {@link ListIterator An IForwardIterator} specifying final position of a range of elements in
 		 *			  <i>obj</i>. Transfers the elements in the range [<i>begin</i>, <b><i>end</i></b>) to
 		 *			  <i>position</i>. Notice that the range includes all the elements between <i>begin<i/> and 
 		 *			  <i>end</i>, including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
@@ -870,13 +870,6 @@ namespace std
 		 *			  {@link List container}.
 		 */
 		public swap(obj: List<T>): void
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<T>): void;
-
-		public swap(obj: List<T> | base.Container<T>): void
 		{
 			super.swap(obj);
 		}

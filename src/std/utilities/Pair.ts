@@ -15,7 +15,8 @@ namespace std
 	 * @reference http://www.cplusplus.com/reference/utility/pair
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class Pair<T1, T2> implements IComparable<Pair<T1, T2>>
+	export class Pair<T1, T2> 
+		implements IPair<T1, T2>, IComparable<Pair<T1, T2>>
 	{
 		/**
 		 * A first value in the Pair.

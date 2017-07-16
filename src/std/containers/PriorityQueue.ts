@@ -116,7 +116,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
 
 		/**
 		 * Range Constructor with compare.
@@ -125,7 +125,7 @@ namespace std
 		 * @param end Input interator of the final position in a sequence.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>, compare: (left: T, right: T) => boolean);
+		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>, compare: (left: T, right: T) => boolean);
 
 		public constructor(...args: any[])
 		{
@@ -150,12 +150,13 @@ namespace std
 
 				this.container_.push(...items);
 			}
-			else if (args.length >= 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
+			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				// RANGE CONSTRUCTOR
-				let first: base.Iterator<T> = args[0]; // PARAMETER 1
-				let last: base.Iterator<T> = args[1]; // PARAMETER 2
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
+				let first: IForwardIterator<T> = args[0]; // PARAMETER 1
+				let last: IForwardIterator<T> = args[1]; // PARAMETER 2
+				
+				if (args.length == 3) // SPECIFIED COMPARISON FUNCTION
 					this.container_["tree_"]["compare_"] = (args[2]);
 
 				this.container_.assign(first, last);

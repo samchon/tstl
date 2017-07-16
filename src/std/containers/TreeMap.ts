@@ -21,7 +21,7 @@ namespace std
 	 * <i>mapped value</i> may differ, and are grouped together in member type <i>value_type</i>, which is a {@link Pair} 
 	 * type combining both:
 	 *
-	 * <code>typedef Pair<Key, T> value_type;</code>
+	 * <code>typedef IPair<Key, T> value_type;</code>
 	 *
 	 * Internally, the elements in a {@link TreeMap} are always sorted by its <i>key</i> following a 
 	 * <i>strict weak ordering</i> criterion indicated by its internal comparison method {@link less}.
@@ -91,7 +91,7 @@ namespace std
 		 *
 		 * @param array Elements to be contained.
 		 */
-		public constructor(array: Array<Pair<Key, T>>);
+		public constructor(array: Array<IPair<Key, T>>);
 
 		/**
 		 * Contruct from elements.
@@ -99,22 +99,7 @@ namespace std
 		 * @param array Elements to be contained.
 		 * @param compare A binary predicate determines order of elements.
 		 */
-		public constructor(array: Array<Pair<Key, T>>, compare: (x: Key, y: Key) => boolean);
-
-		/**
-		 * Contruct from tuples.
-		 *
-		 * @param array Tuples to be contained.
-		 */
-		public constructor(array: Array<[Key, T]>);
-
-		/**
-		 * Contruct from tuples.
-		 *
-		 * @param array Tuples to be contained.
-		 * @param compare A binary predicate determines order of elements.
-		 */
-		public constructor(array: Array<[Key, T]>, compare: (x: Key, y: Key) => boolean);
+		public constructor(array: Array<IPair<Key, T>>, compare: (x: Key, y: Key) => boolean);
 
 		/**
 		 * Copy Constructor.
@@ -137,7 +122,7 @@ namespace std
 		 * @param begin nput interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<Pair<Key, T>>, end: base.Iterator<Pair<Key, T>>);
+		public constructor(begin: IForwardIterator<IPair<Key, T>>, end: IForwardIterator<IPair<Key, T>>);
 
 		/**
 		 * Range Constructor.
@@ -148,7 +133,7 @@ namespace std
 		 */
 		public constructor
 			(
-				begin: base.Iterator<Pair<Key, T>>, end: base.Iterator<Pair<Key, T>>,
+				begin: IForwardIterator<IPair<Key, T>>, end: IForwardIterator<IPair<Key, T>>,
 				compare: (x: Key, y: Key) => boolean
 			);
 		
@@ -174,17 +159,18 @@ namespace std
 			else if (args.length >= 1 && args[0] instanceof Array)
 			{
 				// INITIALIZER LIST CONSTRUCTOR
-				let items: Pair<Key, T>[] = args[0]; // PARAMETER
+				let items: IPair<Key, T>[] = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
 					compare = args[1];
 
 				fn = this.push.bind(this, ...items);
 			}
-			else if (args.length >= 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
+			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				// RANGE CONSTRUCTOR
-				let first: base.Iterator<Pair<Key, T>> = args[0]; // PARAMETER 1
-				let last: base.Iterator<Pair<Key, T>> = args[1]; // PARAMETER 2
+				let first: IForwardIterator<IPair<Key, T>> = args[0]; // PARAMETER 1
+				let last: IForwardIterator<IPair<Key, T>> = args[1]; // PARAMETER 2
+
 				if (args.length == 3) // SPECIFIED COMPARISON FUNCTION
 					compare = args[2];
 
@@ -244,7 +230,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public value_comp(): (x: Pair<Key, T>, y: Pair<Key, T>) => boolean
+		public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 		{
 			return this.tree_.value_comp();
 		}
@@ -284,7 +270,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_pair(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>
+		protected _Insert_by_pair(pair: IPair<Key, T>): Pair<MapIterator<Key, T>, boolean>
 		{
 			// FIND POSITION TO INSERT
 			let it: MapIterator<Key, T> = this.lower_bound(pair.first);
@@ -292,7 +278,7 @@ namespace std
 				return make_pair(it, false);
 
 			// ITERATOR TO RETURN
-			it = this["data_"].insert(it, pair);
+			it = this["data_"].insert(it, new base.Entry(pair.first, pair.second));
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return make_pair(it, true);
@@ -301,7 +287,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>
 		{
 			let key: Key = pair.first;
 
@@ -333,7 +319,7 @@ namespace std
 			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
 				// CORRECT HINT
-				ret = this["data_"].insert(hint, pair);
+				ret = this["data_"].insert(hint, new base.Entry(pair.first, pair.second));
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
@@ -347,11 +333,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends base.Iterator<Pair<L, U>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (; !first.equals(last); first = first.next() as InputIterator)
-				this._Insert_by_pair(make_pair<Key, T>(first.value.first, first.value.second));
+				this._Insert_by_pair(first.value);
 		}
 
 		/* ---------------------------------------------------------
@@ -394,25 +380,10 @@ namespace std
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
 		 *			  with that of this {@link TreeMap container}.
 		 */
-		public swap(obj: TreeMap<Key, T>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<Pair<Key, T>>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: TreeMap<Key, T> | base.Container<Pair<Key, T>>): void
+		public swap(obj: TreeMap<Key, T>): void
 		{
-			if (obj instanceof TreeMap && this.key_comp() == obj.key_comp())
-			{
-				this._Swap(obj);
-				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
-			}
-			else
-				super.swap(obj);
+			this._Swap(obj);
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

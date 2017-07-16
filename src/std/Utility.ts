@@ -1,6 +1,6 @@
 /// <reference path="API.ts" />
 
-/// <reference path="miscellaneous/Pair.ts" />
+/// <reference path="utilities/Pair.ts" />
 
 namespace std
 {

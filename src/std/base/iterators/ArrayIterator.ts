@@ -1,6 +1,7 @@
 /// <reference path="../../API.ts" />
 
 /// <reference path="Iterator.ts" />
+/// <reference path="ReverseIterator.ts" />
 
 namespace std.base
 {

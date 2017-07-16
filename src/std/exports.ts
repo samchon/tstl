@@ -1,11 +1,11 @@
-﻿/// <reference path="../container.ts" />
-/// <reference path="../iterator.ts" />
+﻿/// <reference path="container.ts" />
+/// <reference path="iterator.ts" />
 
-/// <reference path="../algorithm.ts" />
-/// <reference path="../exception.ts" />
-/// <reference path="../functional.ts" />
-/// <reference path="../utility.ts" />
-/// <reference path="../thread.ts" />
+/// <reference path="algorithm.ts" />
+/// <reference path="exception.ts" />
+/// <reference path="functional.ts" />
+/// <reference path="utility.ts" />
+/// <reference path="thread.ts" />
 
 namespace std
 {

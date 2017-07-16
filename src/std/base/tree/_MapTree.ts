@@ -73,7 +73,7 @@ namespace std.base
 			return this.key_compare_;
         }
 
-		public value_comp(): (x: Pair<Key, T>, y: Pair<Key, T>) => boolean
+		public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 		{
 			return this.value_compare_;
 		}

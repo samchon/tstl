@@ -13,7 +13,7 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class MapIterator<Key, T>
-		extends base._ListIteratorBase<Pair<Key, T>>
+		extends base._ListIteratorBase<base.Entry<Key, T>>
 		implements IComparable<MapIterator<Key, T>>
 	{
 		/* ---------------------------------------------------------
@@ -25,7 +25,7 @@ namespace std
 		 * @param source The source {@link MapContainer}.
 		 * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
 		 */
-		public constructor(source: base._MapElementList<Key, T>, prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>)
+		public constructor(source: base._MapElementList<Key, T>, prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: base.Entry<Key, T>)
 		{
 			super(source, prev, next, val);
 		}

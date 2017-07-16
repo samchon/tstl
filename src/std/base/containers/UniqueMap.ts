@@ -148,7 +148,7 @@ namespace std.base
 		 *		   the newly inserted element and a value of true. Otherwise, it returns an 
 		 *		   {@link MapIterator iterator} to the equivalent element within the container and a value of false.
 		 */
-		public emplace(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
+		public emplace(pair: IPair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
 
 		public emplace(...args: any[]): Pair<MapIterator<Key, T>, boolean>
 		{
@@ -180,57 +180,22 @@ namespace std.base
 		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or 
 		 *		   false if an equivalent key already existed.
 		 */
-		public insert(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
+		public insert(pair: IPair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
 		
 		/**
-		 * Insert an element.
-		 *
-		 * Extends the container by inserting a new element, effectively increasing the container size by the
-		 * number of elements inserted.
-		 *
-		 * Because element <i>keys</i> in a {@link UniqueMap} are unique, the insertion operation checks whether
-		 * each inserted element has a <i>key</i> equivalent to the one of an element already in the container, and
-		 * if so, the element is not inserted, returning an iterator to this existing element (if the function
-		 * returns a value).
-		 *
-		 * For a similar container allowing for duplicate elements, see {@link MultiMap}.
-		 * 
-		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
-		 *
-		 * @return A {@link Pair}, with its member {@link Pair.first} set to an iterator pointing to either the newly
-		 *		   inserted element or to the element with an equivalent key in the {@link UniqueMap}. The
-		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or
-		 *		   false if an equivalent key already existed.
+		 * @inheritdoc
 		 */
-		public insert<L extends Key, U extends T>
-			(tuple: [L, U]): Pair<MapIterator<Key, T>, boolean>;
+		public insert(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+		public insert(hint: MapReverseIterator<Key, T>, pair: IPair<Key, T>): MapReverseIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapReverseIterator<Key, T>, pair: Pair<Key, T>): MapReverseIterator<Key, T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<L extends Key, U extends T>
-			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<L extends Key, U extends T>
-			(hint: MapReverseIterator<Key, T>, tuple: [L, U]): MapReverseIterator<Key, T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+		public insert<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 
 		public insert(...args: any[]): any

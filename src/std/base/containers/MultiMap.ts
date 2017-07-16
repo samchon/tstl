@@ -88,7 +88,7 @@ namespace std.base
 		 *			   {@link Pair.second second}.
 		 * @return An {@link MapIterator iterator} to the newly inserted element.
 		 */
-		public emplace(pair: Pair<Key, T>): MapIterator<Key, T>;
+		public emplace(pair: IPair<Key, T>): MapIterator<Key, T>;
 
 		public emplace(...args: any[]): MapIterator<Key, T>
 		{
@@ -110,46 +110,22 @@ namespace std.base
 		 *
 		 * @return An iterator pointing to the newly inserted element.
 		 */
-		public insert(pair: Pair<Key, T>): MapIterator<Key, T>;
-
-		/**
-		 * Insert elements.
-		 *
-		 * Extends the container by inserting new elements, effectively increasing the container {@link size} by 
-		 * the number of elements inserted.
-		 * 
-		 * @param tuple Tuple represensts the {@link Pair} to be inserted as an element.
-		 *
-		 * @return An iterator pointing to the newly inserted element.
-		 */
-		public insert<L extends Key, U extends T>(tuple: [L, U]): MapIterator<Key, T>;
+		public insert(pair: IPair<Key, T>): MapIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>;
+		public insert(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapReverseIterator<Key, T>, pair: Pair<Key, T>): MapReverseIterator<Key, T>;
-
+		public insert(hint: MapReverseIterator<Key, T>, pair: IPair<Key, T>): MapReverseIterator<Key, T>;
+		
 		/**
 		 * @inheritdoc
 		 */
-		public insert<L extends Key, U extends T>
-			(hint: MapIterator<Key, T>, tuple: [L, U]): MapIterator<Key, T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<L extends Key, U extends T>
-			(hint: MapReverseIterator<Key, T>, tuple: [L, U]): MapReverseIterator<Key, T>;
-
-		/**
-		 * @inheritdoc
-		 */
-		public insert<L extends Key, U extends T, InputIterator extends Iterator<Pair<L, U>>>
+		public insert<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 
 		public insert(...args: any[]): any

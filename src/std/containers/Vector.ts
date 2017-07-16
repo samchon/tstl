@@ -120,7 +120,7 @@ namespace std
 		 * @param begin Input interator of the initial position in a sequence.
 		 * @param end Input interator of the final position in a sequence.
 		 */
-		public constructor(begin: base.Iterator<T>, end: base.Iterator<T>);
+		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
 		
 		public constructor(...args: any[])
 		{
@@ -161,11 +161,11 @@ namespace std
 				// COPY CONSTRUCTOR
 				this.data_ = (args[0] as Vector<T>).data_.slice();
 			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
+			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				// CONSTRUCT FROM INPUT ITERATORS
-				let begin: base.Iterator<T> = args[0];
-				let end: base.Iterator<T> = args[1];
+				let begin: IForwardIterator<T> = args[0];
+				let end: IForwardIterator<T> = args[1];
 
 				this.assign(begin, end);
 			}
@@ -177,7 +177,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/**
@@ -185,7 +185,7 @@ namespace std
 		 */
 		public assign(n: number, val: T): void;
 
-		public assign<U extends T, InputIterator extends base.Iterator<U>>
+		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(first: any, second: any): void
 		{
 			this.clear();
@@ -291,7 +291,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<InputIterator extends base.Iterator<T>>
+		protected _Insert_by_range<InputIterator extends IForwardIterator<T>>
 			(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>
 		{
 			if (position.index() == -1)
@@ -374,19 +374,9 @@ namespace std
 		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
 		 *			  {@link Vector container}.
 		 */
-		public swap(obj: Vector<T>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<T>): void;
-
-		public swap(obj: Vector<T> | base.Container<T>): void
+		public swap(obj: Vector<T>): void
 		{
-			if (obj instanceof Vector) // SWAP DATA
-				[this.data_, obj.data_] = [obj.data_, this.data_];
-			else
-				super.swap(obj);
+			[this.data_, obj.data_] = [obj.data_, this.data_];
 		}
 	}
 }

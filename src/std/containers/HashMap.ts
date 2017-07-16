@@ -81,14 +81,7 @@ namespace std
 		/**
 		 * Construct from elements.
 		 */
-		public constructor(items: Pair<Key, T>[]);
-
-		/**
-		 * Contruct from tuples.
-		 *
-		 * @param array Tuples to be contained.
-		 */
-		public constructor(array: [Key, T][]);
+		public constructor(items: Array<IPair<Key, T>>);
 
 		/**
 		 * Copy Constructor.
@@ -98,7 +91,7 @@ namespace std
 		/**
 		 * Construct from range iterators.
 		 */
-		public constructor(begin: base.Iterator<Pair<Key, T>>, end: base.Iterator<Pair<Key, T>>);
+		public constructor(begin: IForwardIterator<IPair<Key, T>>, end: IForwardIterator<IPair<Key, T>>);
 
 		public constructor(...args: any[])
 		{
@@ -121,16 +114,16 @@ namespace std
 			else if (args.length == 1 && args[0] instanceof Array)
 			{
 				// INITIALIZER LIST CONSTRUCTOR
-				let items: Pair<Key, T>[] = args[0];
+				let items: Array<IPair<Key, T>> = args[0];
 
 				this.rehash(items.length * base._Hash.RATIO);
 				this.push(...items);
 			}
-			else if (args.length == 2 && args[0] instanceof base.Iterator && args[1] instanceof base.Iterator)
+			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				// RANGE CONSTRUCTOR
-				let first: base.Iterator<Pair<Key, T>> = args[0];
-				let last: base.Iterator<Pair<Key, T>> = args[1];
+				let first: IForwardIterator<IPair<Key, T>> = args[0];
+				let last: IForwardIterator<IPair<Key, T>> = args[1];
 
 				this.assign(first, last);
 			}
@@ -311,7 +304,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_pair(pair: Pair<Key, T>): Pair<MapIterator<Key, T>, boolean>
+		protected _Insert_by_pair(pair: IPair<Key, T>): Pair<MapIterator<Key, T>, boolean>
 		{
 			// TEST WHETHER EXIST
 			let it: MapIterator<Key, T> = this.find(pair.first);
@@ -319,7 +312,7 @@ namespace std
 				return make_pair(it, false);
 
 			// INSERT
-			this["data_"].push(pair);
+			this["data_"].push(new base.Entry(pair.first, pair.second));
 			it = it.prev();
 
 			// POST-PROCESS
@@ -331,14 +324,14 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: Pair<Key, T>): MapIterator<Key, T>
+		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>
 		{
 			// FIND DUPLICATED KEY
 			let it: MapIterator<Key, T> = this.find(pair.first);
 			if (it.equals(this.end()) == true)
 			{
 				// INSERT
-				it = this["data_"].insert(hint, pair);
+				it = this["data_"].insert(hint, new base.Entry(pair.first, pair.second));
 
 				// POST-PROCESS
 				this._Handle_insert(it, it.next());
@@ -349,7 +342,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends base.Iterator<Pair<L, U>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			let my_first: MapIterator<Key, T> = this.end().prev();
@@ -363,7 +356,7 @@ namespace std
 					continue;
 
 				// INSERTS
-				this["data_"].push(make_pair<Key, T>(first.value.first, first.value.second));
+				this["data_"].push(new base.Entry(first.value.first, first.value.second));
 				size++;
 			}
 			my_first = my_first.next();
@@ -417,25 +410,10 @@ namespace std
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
 		 *			  with that of this {@link HashMap container}.
 		 */
-		public swap(obj: HashMap<Key, T>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<Pair<Key, T>>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: HashMap<Key, T> | base.Container<Pair<Key, T>>): void
+		public swap(obj: HashMap<Key, T>): void
 		{
-			if (obj instanceof HashMap)
-			{
-				this._Swap(obj);
-				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
-			}
-			else
-				super.swap(obj);
+			this._Swap(obj);
+			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
 }

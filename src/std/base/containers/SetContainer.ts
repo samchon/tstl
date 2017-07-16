@@ -67,8 +67,8 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public assign<U extends T, InputIterator extends Iterator<U>>
-			(begin: Iterator<U>, end: Iterator<U>): void
+		public assign<U extends T, InputIterator extends IForwardIterator<U>>
+			(begin: InputIterator, end: InputIterator): void
 		{
 			// INSERT
 			this.clear();
@@ -247,16 +247,16 @@ namespace std.base
 		 * @param begin An iterator specifying range of the begining element.
 		 * @param end An iterator specifying range of the ending element.
 		 */
-		public insert<U extends T, InputIterator extends Iterator<U>>
+		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
 			if (args.length == 1)
 				return this._Insert_by_val(args[0]);
-			else if (args.length == 2 && args[0] instanceof Iterator)
+			else if (args.length == 2)
 			{
-				if (args[1] instanceof Iterator && (args[0] as SetIterator<T>).source() != this && (args[1] as SetIterator<T>).source() != this)
+				if (args[0].next instanceof Function && args[1].next instanceof Function)
 				{
 					// IT DOESN'T CONTAIN POSITION
 					// RANGES TO INSERT ONLY
@@ -324,6 +324,7 @@ namespace std.base
 
 		/**
 		 * Erase elements.
+		 * 
 		 * Removes from the set container a range of elements..
 		 *
 		 * This effectively reduces the container size by the number of elements removed.
@@ -351,7 +352,7 @@ namespace std.base
 
 		public erase(...args: any[]): any
 		{
-			if (args.length == 1 && (args[0] instanceof Iterator == false || (args[0] as SetIterator<T>).source() != this))
+			if (args.length == 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<T>).source() == this))
 				return this._Erase_by_val(args[0]);
 			else
 				if (args.length == 1)
