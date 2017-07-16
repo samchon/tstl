@@ -21,9 +21,9 @@ namespace std
 	 * Unlike {@link upper_bound}, the value pointed by the iterator returned by this function may also be equivalent 
 	 * to <i>val</i>, and not only greater.
 	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
+	 * @param first {@link IForwardIterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
 	 *				{@link is_partitioned partitioned}) sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
+	 * @param last {@link IForwardIterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
 	 *			   {@link is_partitioned partitioned}) sequence. The range used is [<i>first</i>, <i>last</i>), which 
 	 *			   contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by 
 	 *			   <i>first</i> but not the element pointed by <i>last</i>.
@@ -33,7 +33,7 @@ namespace std
 	 * @return An iterator to the lower bound of <i>val</i> in the range. If all the element in the range compare less than 
 	 *		   <i>val</i>, the function returns <i>last</i>.
 	 */
-	export function lower_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function lower_bound<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
 
 	/**
@@ -52,9 +52,9 @@ namespace std
 	 * Unlike {@link upper_bound}, the value pointed by the iterator returned by this function may also be equivalent
 	 * to <i>val</i>, and not only greater.
 	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
+	 * @param first {@link IForwardIterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
 	 *				{@link is_partitioned partitioned}) sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
+	 * @param last {@link IForwardIterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
 	 *			   {@link is_partitioned partitioned}) sequence. The range used is [<i>first</i>, <i>last</i>), which 
 	 *			   contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by 
 	 *			   <i>first</i> but not the element pointed by <i>last</i>.
@@ -67,13 +67,13 @@ namespace std
 	 * @return An iterator to the lower bound of <i>val</i> in the range. If all the element in the range compare less than
 	 *		   <i>val</i>, the function returns <i>last</i>.
 	 */
-	export function lower_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function lower_bound<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T, 
 			compare: (x: T, y: T) => boolean
 		): ForwardIterator;
 
-	export function lower_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function lower_bound<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T, 
 			compare: (x: T, y: T) => boolean = less
@@ -84,7 +84,7 @@ namespace std
 		while (count > 0)
 		{
 			let step: number = Math.floor(count / 2);
-			let it: ForwardIterator = first.advance(step) as ForwardIterator;
+			let it: ForwardIterator = advance(first, step) as ForwardIterator;
 
 			if (!compare(it.value, val))
 			{
@@ -113,9 +113,9 @@ namespace std
 	 * Unlike {@link lower_bound}, the value pointed by the iterator returned by this function cannot be equivalent to 
 	 * <i>val</i>, only greater.
 	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
+	 * @param first {@link IForwardIterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
 	 *				{@link is_partitioned partitioned}) sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
+	 * @param last {@link IForwardIterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
 	 *			   {@link is_partitioned partitioned}) sequence. The range used is [<i>first</i>, <i>last</i>), which 
 	 *			   contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by 
 	 *			   <i>first</i> but not the element pointed by <i>last</i>.
@@ -125,7 +125,7 @@ namespace std
 	 * @return An iterator to the upper bound of <i>val</i> in the range. If no element in the range comparse greater than 
 	 *		   <i>val</i>, the function returns <i>last</i>.
 	 */
-	export function upper_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function upper_bound<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
 
 	/**
@@ -144,9 +144,9 @@ namespace std
 	 * Unlike {@link lower_bound}, the value pointed by the iterator returned by this function cannot be equivalent to
 	 * <i>val</i>, only greater.
 	 *
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
+	 * @param first {@link IForwardIterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly 
 	 *				{@link is_partitioned partitioned}) sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
+	 * @param last {@link IForwardIterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
 	 *			   {@link is_partitioned partitioned}) sequence. The range used is [<i>first</i>, <i>last</i>), which 
 	 *			   contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by 
 	 *			   <i>first</i> but not the element pointed by <i>last</i>.
@@ -159,13 +159,13 @@ namespace std
 	 * @return An iterator to the upper bound of <i>val</i> in the range. If no element in the range comparse greater than
 	 *		   <i>val</i>, the function returns <i>last</i>.
 	 */
-	export function upper_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function upper_bound<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): ForwardIterator;
 
-	export function upper_bound<T, ForwardIterator extends base.Iterator<T>>
+	export function upper_bound<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = less
@@ -176,7 +176,7 @@ namespace std
 		while (count > 0)
 		{
 			let step: number = Math.floor(count / 2);
-			let it: ForwardIterator = first.advance(step) as ForwardIterator;
+			let it: ForwardIterator = advance(first, step) as ForwardIterator;
 
 			if (!compare(val, it.value))
 			{
@@ -205,9 +205,9 @@ namespace std
 	 * iterators pointing to the nearest value greater than <i>val</i>, if any, or to <i>last</i>, if <i>val</i> compares 
 	 * greater than all the elements in the range.
 	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
+	 * @param first {@link IForwardIterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
 	 *				{@link is_partitioned partitioned}) sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
+	 * @param last {@link IForwardIterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
 	 *			   {@link is_partitioned partitioned}) sequence. The range used is [<i>first</i>, <i>last</i>), which
 	 *			   contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
 	 *			   <i>first</i> but not the element pointed by <i>last</i>.
@@ -218,7 +218,7 @@ namespace std
 	 *		   equivalent values, and {@link Pair.second} its upper bound. The values are the same as those that would be 
 	 *		   returned by functions {@link lower_bound} and {@link upper_bound} respectively.
 	 */
-	export function equal_range<T, ForwardIterator extends base.Iterator<T>>
+	export function equal_range<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): Pair<ForwardIterator, ForwardIterator>
 
 	/**
@@ -237,9 +237,9 @@ namespace std
 	 * iterators pointing to the nearest value greater than <i>val</i>, if any, or to <i>last</i>, if <i>val</i> compares 
 	 * greater than all the elements in the range.
 	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
+	 * @param first {@link IForwardIterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
 	 *				{@link is_partitioned partitioned}) sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
+	 * @param last {@link IForwardIterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
 	 *			   {@link is_partitioned partitioned}) sequence. The range used is [<i>first</i>, <i>last</i>), which
 	 *			   contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
 	 *			   <i>first</i> but not the element pointed by <i>last</i>.
@@ -253,13 +253,13 @@ namespace std
 	 *		   equivalent values, and {@link Pair.second} its upper bound. The values are the same as those that would be 
 	 *		   returned by functions {@link lower_bound} and {@link upper_bound} respectively.
 	 */
-	export function equal_range<T, ForwardIterator extends base.Iterator<T>>
+	export function equal_range<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): Pair<ForwardIterator, ForwardIterator>;
 
-	export function equal_range<T, ForwardIterator extends base.Iterator<T>>
+	export function equal_range<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = less
@@ -286,9 +286,9 @@ namespace std
 	 * iterators pointing to the nearest value greater than <i>val</i>, if any, or to <i>last</i>, if <i>val</i> compares 
 	 * greater than all the elements in the range.
 	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
+	 * @param first {@link IForwardIterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
 	 *				{@link is_partitioned partitioned}) sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
+	 * @param last {@link IForwardIterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
 	 *			   {@link is_partitioned partitioned}) sequence. The range used is [<i>first</i>, <i>last</i>), which
 	 *			   contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
 	 *			   <i>first</i> but not the element pointed by <i>last</i>.
@@ -297,7 +297,7 @@ namespace std
 	 * 
 	 * @return <code>true</code> if an element equivalent to <i>val</i> is found, and <code>false</code> otherwise.
 	 */
-	export function binary_search<T, ForwardIterator extends base.Iterator<T>>
+	export function binary_search<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): boolean;
 
 	/**
@@ -316,9 +316,9 @@ namespace std
 	 * iterators pointing to the nearest value greater than <i>val</i>, if any, or to <i>last</i>, if <i>val</i> compares
 	 * greater than all the elements in the range.
 	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
+	 * @param first {@link IForwardIterator Forward iterator} to the initial position of a {@link is_sorted sorted} (or properly
 	 *				{@link is_partitioned partitioned}) sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
+	 * @param last {@link IForwardIterator Forward iterator} to the final position of a {@link is_sorted sorted} (or properly
 	 *			   {@link is_partitioned partitioned}) sequence. The range used is [<i>first</i>, <i>last</i>), which
 	 *			   contains all the elements between <i>first</i> and <i>last</i>, including the element pointed by
 	 *			   <i>first</i> but not the element pointed by <i>last</i>.
@@ -330,13 +330,13 @@ namespace std
 	 * 
 	 * @return <code>true</code> if an element equivalent to <i>val</i> is found, and <code>false</code> otherwise.
 	 */
-	export function binary_search<T, ForwardIterator extends base.Iterator<T>>
+	export function binary_search<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): boolean;
 
-	export function binary_search<T, ForwardIterator extends base.Iterator<T>>
+	export function binary_search<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = less

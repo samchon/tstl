@@ -349,14 +349,14 @@ namespace std
 			let size: number = 0;
 
 			// INSERT ELEMENTS
-			for (; !first.equals(last); first = first.next() as InputIterator)
+			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			{
 				// TEST WHETER EXIST
-				if (this.has(first.value.first))
+				if (this.has(it.value.first))
 					continue;
 
 				// INSERTS
-				this["data_"].push(new base.Entry(first.value.first, first.value.second));
+				this["data_"].push(new base.Entry(it.value.first, it.value.second));
 				size++;
 			}
 			my_first = my_first.next();

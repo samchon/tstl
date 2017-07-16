@@ -142,11 +142,11 @@ namespace std
 	export function begin<T>(container: List<T>): ListIterator<T>;
 	export function begin<T>(container: Deque<T>): DequeIterator<T>;
 	export function begin<T>(container: base.SetContainer<T>): SetIterator<T>;
-	//export function begin<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
+	export function begin<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 
 	// typedef is not specified in TypeScript yet.
 	// Instead, I listed all the containers and its iterators as overloaded functions
-	export function begin<T>(container: base.Container<T>): base.Iterator<T>
+	export function begin(container: any): any
 	{
 		return container.begin();
 	}
@@ -165,9 +165,9 @@ namespace std
 		(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function rbegin<T>(container: List<T>): ListReverseIterator<T>;
 	export function rbegin<T>(container: base.SetContainer<T>): SetReverseIterator<T>;
-	//export function rbegin<Key, T>(container: base.MapContainer<Key, T>): MapReverseIterator<Key, T>;
+	export function rbegin<Key, T>(container: base.MapContainer<Key, T>): MapReverseIterator<Key, T>;
 
-	export function rbegin<T>(container: base.Container<T>): base.IReverseIterator<T>
+	export function rbegin(container: any): any
 	{
 		return container.rbegin();
 	}
@@ -187,9 +187,9 @@ namespace std
 	export function end<T>(container: List<T>): ListIterator<T>;
 	export function end<T>(container: Deque<T>): DequeIterator<T>;
 	export function end<T>(container: base.SetContainer<T>): SetIterator<T>;
-	//export function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
+	export function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
 
-	export function end<T>(container: base.Container<T>): base.Iterator<T>
+	export function end(container: any): any
 	{
 		return container.end();
 	}
@@ -209,9 +209,9 @@ namespace std
 		(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function rend<T>(container: List<T>): ListReverseIterator<T>;
 	export function rend<T>(container: base.SetContainer<T>): SetReverseIterator<T>;
-	//export function rend<Key, T>(container: base.MapContainer<Key, T>): MapReverseIterator<Key, T>;
+	export function rend<Key, T>(container: base.MapContainer<Key, T>): MapReverseIterator<Key, T>;
 
-	export function rend<T>(container: base.Container<T>): base.IReverseIterator<T>
+	export function rend(container: any): any
 	{
 		return container.rend();
 	}
