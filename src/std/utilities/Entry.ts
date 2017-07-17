@@ -1,6 +1,6 @@
-/// <reference path="../../API.ts" />
+/// <reference path="../API.ts" />
 
-namespace std.base
+namespace std
 {
 	export class Entry<Key, T> implements IComparable<Entry<Key, T>>
 	{

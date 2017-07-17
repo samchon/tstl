@@ -319,7 +319,7 @@ namespace std
 		protected _Insert_by_pair(pair: IPair<Key, T>): MapIterator<Key, T>
 		{
 			// INSERT
-			let it = this["data_"].insert(this["data_"].end(), new base.Entry(pair.first, pair.second));
+			let it = this["data_"].insert(this["data_"].end(), new Entry(pair.first, pair.second));
 
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 			return it;
@@ -331,7 +331,7 @@ namespace std
 		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>
 		{
 			// INSERT
-			let it = this["data_"].insert(hint, new base.Entry(pair.first, pair.second));
+			let it = this["data_"].insert(hint, new Entry(pair.first, pair.second));
 
 			// POST-PROCESS
 			this._Handle_insert(it, it.next());
@@ -349,9 +349,9 @@ namespace std
 			// INSERTIONS
 			//--------
 			// CONSTRUCT ENTRIES
-			let entries: Array<base.Entry<Key, T>> = [];
+			let entries: Array<Entry<Key, T>> = [];
 			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
-				entries.push(new base.Entry(it.value.first, it.value.second));
+				entries.push(new Entry(it.value.first, it.value.second));
 
 			
 			// INSERT ELEMENTS

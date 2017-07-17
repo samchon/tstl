@@ -299,7 +299,7 @@ namespace std
 			let it: MapIterator<Key, T> = this.upper_bound(pair.first);
 
 			// ITERATOR TO RETURN
-			it = this["data_"].insert(it, new base.Entry(pair.first, pair.second));
+			it = this["data_"].insert(it, new Entry(pair.first, pair.second));
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return it;
@@ -334,7 +334,7 @@ namespace std
 			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
 				// CORRECT HINT
-				ret = this["data_"].insert(hint, new base.Entry(pair.first, pair.second));
+				ret = this["data_"].insert(hint, new Entry(pair.first, pair.second));
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());

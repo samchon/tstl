@@ -312,7 +312,7 @@ namespace std
 				return make_pair(it, false);
 
 			// INSERT
-			this["data_"].push(new base.Entry(pair.first, pair.second));
+			this["data_"].push(new Entry(pair.first, pair.second));
 			it = it.prev();
 
 			// POST-PROCESS
@@ -331,7 +331,7 @@ namespace std
 			if (it.equals(this.end()) == true)
 			{
 				// INSERT
-				it = this["data_"].insert(hint, new base.Entry(pair.first, pair.second));
+				it = this["data_"].insert(hint, new Entry(pair.first, pair.second));
 
 				// POST-PROCESS
 				this._Handle_insert(it, it.next());
@@ -356,7 +356,7 @@ namespace std
 					continue;
 
 				// INSERTS
-				this["data_"].push(new base.Entry(it.value.first, it.value.second));
+				this["data_"].push(new Entry(it.value.first, it.value.second));
 				size++;
 			}
 			my_first = my_first.next();
