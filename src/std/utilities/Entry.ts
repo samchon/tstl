@@ -2,16 +2,25 @@
 
 namespace std
 {
+<<<<<<< HEAD
 	export class Entry<Key, T> implements IComparable<Entry<Key, T>>
 	{
 		public readonly first: Key;
 		public second: T;
 		
+=======
+	export class Entry<Key, T>
+	{
+		public readonly first: Key;
+		public second: T;
+
+>>>>>>> entry
 		public constructor(first: Key, second: T)
 		{
 			this.first = first;
 			this.second = second;
 		}
+<<<<<<< HEAD
 
 		public equals(obj: Entry<Key, T>): boolean
 		{
@@ -28,3 +37,7 @@ namespace std
 		}
 	}
 }
+=======
+	}
+}
+>>>>>>> entry
