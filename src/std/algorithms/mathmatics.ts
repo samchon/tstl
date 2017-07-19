@@ -92,7 +92,7 @@ namespace std
 	 * 
 	 * @return An iterator to smallest value in the range, or <i>last</i> if the range is empty.
 	 */
-	export function min_element<T, ForwardIterator extends base.Iterator<T>>
+	export function min_element<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	/**
@@ -114,10 +114,10 @@ namespace std
 	 * 
 	 * @return An iterator to smallest value in the range, or <i>last</i> if the range is empty.
 	 */
-	export function min_element<T, ForwardIterator extends base.Iterator<T>>
+	export function min_element<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
-	export function min_element<T, ForwardIterator extends base.Iterator<T>>
+	export function min_element<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		let smallest: ForwardIterator = first;
@@ -146,7 +146,7 @@ namespace std
 	 * 
 	 * @return An iterator to largest value in the range, or <i>last</i> if the range is empty.
 	 */
-	export function max_element<T, ForwardIterator extends base.Iterator<T>>
+	export function max_element<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	/**
@@ -168,10 +168,10 @@ namespace std
 	 * 
 	 * @return An iterator to largest value in the range, or <i>last</i> if the range is empty.
 	 */
-	export function max_element<T, ForwardIterator extends base.Iterator<T>>
+	export function max_element<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
-	export function max_element<T, ForwardIterator extends base.Iterator<T>>
+	export function max_element<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = greater): ForwardIterator
 	{
 		let largest: ForwardIterator = first;
@@ -209,7 +209,7 @@ namespace std
 	 * @return A {@link Pair} with an iterator pointing to the element with the smallest value in the range 
 	 *		   [<i>first</i>, <i>last</i>) as first element, and the largest as second.
 	 */
-	export function minmax_element<T, ForwardIterator extends base.Iterator<T>>
+	export function minmax_element<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): Pair<ForwardIterator, ForwardIterator>;
 
 	/**
@@ -237,12 +237,12 @@ namespace std
 	 * @return A {@link Pair} with an iterator pointing to the element with the smallest value in the range 
 	 *		   [<i>first</i>, <i>last</i>) as first element, and the largest as second.
 	 */
-	export function minmax_element<T, ForwardIterator extends base.Iterator<T>>
+	export function minmax_element<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean
 		): Pair<ForwardIterator, ForwardIterator>;
 
-	export function minmax_element<T, ForwardIterator extends base.Iterator<T>>
+	export function minmax_element<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = greater
 		): Pair<ForwardIterator, ForwardIterator>
@@ -315,8 +315,7 @@ namespace std
 	 * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those 
 	 *		   of the range starting at <i>first2</i> in any order, and <code>false</code> otherwise.
 	 */
-	export function is_permutation
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+	export function is_permutation<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2): boolean;
 
 	/**
@@ -339,15 +338,13 @@ namespace std
 	 * @return <code>true</code> if all the elements in the range [<i>first1</i>, <i>last1</i>) compare equal to those 
 	 *		   of the range starting at <i>first2</i> in any order, and <code>false</code> otherwise.
 	 */
-	export function is_permutation
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+	export function is_permutation<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			pred: (x: T, y: T) => boolean
 		): boolean;
 
-	export function is_permutation
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+	export function is_permutation<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			pred: (x: T, y: T) => boolean = equal_to

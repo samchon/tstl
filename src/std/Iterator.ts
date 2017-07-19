@@ -86,7 +86,7 @@ namespace std
 	 * 
 	 * @return An iterator to the element <i>n</i> positions before <i>it</i>.
 	 */
-	export function advance<T, InputIterator extends base.Iterator<T>>
+	export function advance<T, InputIterator extends IForwardIterator<T>>
 		(it: InputIterator, n: number): InputIterator
 	{
 		return it.advance(n) as InputIterator;
@@ -102,7 +102,7 @@ namespace std
 	 * 
 	 * @return An iterator to the element <i>n</i> positions before <i>it</i>.
 	 */
-	export function prev<T, BidirectionalIterator extends base.Iterator<T>>
+	export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T>>
 		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 	{
 		return it.advance(-n) as BidirectionalIterator;
@@ -118,7 +118,7 @@ namespace std
 	 * 
 	 * @return An iterator to the element <i>n</i> positions away from <i>it</i>.
 	 */
-	export function next<T, ForwardIterator extends base.Iterator<T>>
+	export function next<T, ForwardIterator extends IForwardIterator<T>>
 		(it: ForwardIterator, n: number = 1): ForwardIterator
 	{	
 		return it.advance(n) as ForwardIterator;

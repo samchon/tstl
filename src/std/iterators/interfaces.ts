@@ -5,15 +5,17 @@ namespace std
 		readonly value: T;
 
 		next(): IForwardIterator<T>;
+		advance(n: number): IForwardIterator<T>;
+
 		equals(obj: IForwardIterator<T>): boolean;
 	}
 
-	export interface IBidirectionalIterator<T>
+	export interface IBidirectionalIterator<T> extends IForwardIterator<T>
 	{
 		prev(): IBidirectionalIterator<T>;
 	}
 
-	export interface IRandomAccessIterator<T>
+	export interface IRandomAccessIterator<T> extends IBidirectionalIterator<T>
 	{
 		index(): number;
 	}
