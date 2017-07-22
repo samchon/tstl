@@ -19,4 +19,9 @@ namespace std
 	{
 		index(): number;
 	}
+
+	export interface IOutputIterator<T, Iterator extends IForwardIterator<T> = IForwardIterator<T>>
+	{
+		value: T;
+	}
 }
