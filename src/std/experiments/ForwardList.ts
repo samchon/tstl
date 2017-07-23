@@ -7,6 +7,11 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
+		private ptr_: IPointer<ForwardList<T>>;
+
+		/**
+		 * @hidden
+		 */
 		private size_: number;
 
 		/**
@@ -42,6 +47,8 @@ namespace std.experiments
 
 		public constructor(...args: any[])
 		{
+			this.ptr_ = {value: this};
+
 			this.clear();
 		}
 
@@ -61,8 +68,8 @@ namespace std.experiments
 
 		public clear(): void
 		{
-			this.end_ = new ForwardListIterator<T>(this, null, null);
-			this.before_begin_ = new ForwardListIterator<T>(this, this.end_, null);
+			this.end_ = new ForwardListIterator<T>(this.ptr_, null, null);
+			this.before_begin_ = new ForwardListIterator<T>(this.ptr_, this.end_, null);
 		}
 
 		/* =========================================================
@@ -94,14 +101,13 @@ namespace std.experiments
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
-				- SWAP
+				- ALGORITHMS
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
 		public push_front(val: T): void
 		{
-			this.before_begin_["next_"] = new ForwardListIterator<T>(this, this.begin(), val);
-			++this.size_;
+			this.insert_after(this.before_begin_, val);
 		}
 
 		public insert_after(pos: ForwardListIterator<T>, val: T): ForwardListIterator<T>;
@@ -141,7 +147,7 @@ namespace std.experiments
 
 			for (; !first.equals(last); first = first.next() as InputIterator)
 			{
-				let node = new ForwardListIterator<T>(this, null, first.value);
+				let node = new ForwardListIterator<T>(this.ptr_, null, first.value);
 				nodes.push(node);
 
 				++count;
@@ -170,7 +176,7 @@ namespace std.experiments
 
 		public erase_after(first: ForwardListIterator<T>, last: ForwardListIterator<T>): ForwardListIterator<T>;
 
-		public erase_after(first: ForwardListIterator<T>, last: ForwardListIterator<T> = first.next()): ForwardListIterator<T>
+		public erase_after(first: ForwardListIterator<T>, last: ForwardListIterator<T> = first.advance(2)): ForwardListIterator<T>
 		{
 			// SHRINK SIZE
 			this.size_ -= distance(first, last);
@@ -178,6 +184,53 @@ namespace std.experiments
 			// RE-CONNECT
 			first["next_"] = last;
 			return last;
+		}
+
+		/* ---------------------------------------------------------
+			ALGORITHMS
+		--------------------------------------------------------- */
+		public remove(val: T): void
+		{
+			this.remove_if(function (elem: T): boolean
+				{
+					return equal_to(val, elem);
+				});
+		}
+
+		public remove_if(pred: (val: T) => boolean): void
+		{
+			for (let it = this.before_begin(); !it.next().equals(this.end()); it = it.next())
+				if (pred(it.next().value) == true)
+					it["next_"] = it.next().next();
+		}
+
+		public sort(): void;
+		public sort(comp: (x: T, y: T) => boolean): void;
+
+		public sort(comp: (x: T, y: T) => boolean = less): void
+		{
+			let vec = new Vector<T>(this.begin(), this.end());
+			sort(vec.begin(), vec.end(), comp);
+
+			this.assign(vec.begin(), vec.end());
+		}
+		
+		public reverse(): void
+		{
+			let vec = new Vector<T>(this.begin(), this.end());
+			this.assign(vec.rbegin(), vec.rend());
+		}
+
+		public swap(obj: ForwardList<T>): void
+		{
+			// SIZE AND ITERATORS
+			[this.size_, obj.size_] = [obj.size_, this.size_];
+			[this.before_begin_, obj.before_begin_] = [obj.before_begin_, this.before_begin_];
+			[this.end_, obj.end_] = [obj.before_begin_, this.before_begin_];
+
+			// POINTER OF THE SOURCE
+			[this.ptr_, obj.ptr_] = [obj.ptr_, this.ptr_];
+			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
 		}
 	}
 }

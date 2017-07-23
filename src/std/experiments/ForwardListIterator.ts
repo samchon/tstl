@@ -7,7 +7,7 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
-		private source_: ForwardList<T>;
+		private source_ptr_: IPointer<ForwardList<T>>;
 
 		/**
 		 * @hidden
@@ -26,9 +26,9 @@ namespace std.experiments
 		 * @param next 
 		 * @param value 
 		 */
-		public constructor(source: ForwardList<T>, next: ForwardListIterator<T>, value: T)
+		public constructor(source: IPointer<ForwardList<T>>, next: ForwardListIterator<T>, value: T)
 		{
-			this.source_ = source;
+			this.source_ptr_ = source;
 			this.next_ = next;
 
 			this.value_ = value;
@@ -39,7 +39,7 @@ namespace std.experiments
 		--------------------------------------------------------------- */
 		public source(): ForwardList<T>
 		{
-			return this.source_;
+			return this.source_ptr_.value;
 		}
 
 		public get value(): T
