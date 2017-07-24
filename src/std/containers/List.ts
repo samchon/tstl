@@ -870,13 +870,6 @@ namespace std
 		 *			  {@link List container}.
 		 */
 		public swap(obj: List<T>): void
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<T>): void;
-
-		public swap(obj: List<T> | base.Container<T>): void
 		{
 			super.swap(obj);
 		}

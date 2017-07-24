@@ -424,22 +424,10 @@ namespace std.base
 		 *			  {@link List container}.
 		 */
 		public swap(obj: _ListContainer<T, BidirectionalIterator>): void
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: Container<T>): void;
-
-		public swap(obj: _ListContainer<T, BidirectionalIterator> | Container<T>): void
 		{
-			if (obj instanceof _ListContainer)
-			{
-				[this.begin_, obj.begin_] = [obj.begin_, this.begin_];
-				[this.end_, obj.end_] = [obj.end_, this.end_];
-				[this.size_, obj.size_] = [obj.size_, this.size_];
-			}
-			else
-				super.swap(obj);
+			[this.begin_, obj.begin_] = [obj.begin_, this.begin_];
+			[this.end_, obj.end_] = [obj.end_, this.end_];
+			[this.size_, obj.size_] = [obj.size_, this.size_];
 		}
 	}
 }

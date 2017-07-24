@@ -34,9 +34,9 @@ namespace std.base
 		 * @param next A refenrece of next node ({@link ListIterator iterator}).
 		 * @param value Value to be stored in the node (iterator).
 		 */
-		protected constructor(source: Container<T>, prev: _ListIteratorBase<T>, next: _ListIteratorBase<T>, value: T)
+		protected constructor(prev: _ListIteratorBase<T>, next: _ListIteratorBase<T>, value: T)
 		{
-			super(source);
+			super();
 
 			this.prev_ = prev;
 			this.next_ = next;
@@ -75,7 +75,7 @@ namespace std.base
 				{
 					it = it.next();
 
-					if (it.equals(this.source_.end() as _ListIteratorBase<T>))
+					if (it.equals(this.source().end() as _ListIteratorBase<T>))
 						return it;
 				}
 			}
@@ -85,7 +85,7 @@ namespace std.base
 				{
 					it = it.prev();
 
-					if (it.equals(this.source_.end() as _ListIteratorBase<T>))
+					if (it.equals(this.source().end() as _ListIteratorBase<T>))
 						return it;
 				}
 			}
@@ -117,7 +117,7 @@ namespace std.base
 		 */
 		public swap(obj: _ListIteratorBase<T>): void
 		{
-			let source: _ListContainer<T, _ListIteratorBase<T>> = this.source_ as _ListContainer<T, _ListIteratorBase<T>>;
+			let source: _ListContainer<T, _ListIteratorBase<T>> = this.source() as _ListContainer<T, _ListIteratorBase<T>>;
 			let supp_prev: _ListIteratorBase<T> = this.prev_;
 			let supp_next: _ListIteratorBase<T> = this.next_;
 
