@@ -6,14 +6,12 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "devDependencies": {
     "@types/node": "^7.0.8"
   },
-  
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
     "type": "git",
@@ -28,19 +26,17 @@
       "url": "https://opensource.org/licenses/BSD-3-Clause"
     }
   ],
-
   "keywords": [
-    "stl", "standard template library",
-    "typescript", "standard", "template", "container",
+    "stl", "standard template library", "typescript", "standard", "template", "library",
 
-    "library", "algorithm", "iterator", "functional", "utility",
-    
-    "vector", "deque", "list", "stack", "queue", "priority_queue",
+    "container", "algorithm", "iterator", "functional", "utility",
+    "vector", "deque", "list",
+    "stack", "queue", "priority_queue",
     "set", "multiset", "unordered_set", "unordered_multiset",
     "map", "multimap", "unordered_map", "unordered_multimap",
-    
-    "IComparable", "Pair",
-    "PriorityQueue",
+    "mutex", "thread",
+
+    "IComparable", "Pair", "PriorityQueue",
     "TreeSet", "TreeMultiSet", "HashSet", "HashMultiSet",
     "TreeMap", "TreeMultiMap", "HashMap", "HashMultiMap"
   ]

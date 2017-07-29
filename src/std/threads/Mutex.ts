@@ -2,7 +2,7 @@
 
 namespace std
 {
-	export class Mutex
+	export class Mutex implements ILockable
 	{
 		/**
 		 * @hidden
@@ -12,7 +12,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: Queue<IListener>;
+		private listeners_: Queue<IResolver>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -23,7 +23,7 @@ namespace std
 		public constructor()
 		{
 			this.lock_count_ = 0;
-			this.listeners_ = new Queue<IListener>();
+			this.listeners_ = new Queue<IResolver>();
 		}
 
 		/* ---------------------------------------------------------
@@ -62,7 +62,7 @@ namespace std
 			--this.lock_count_; // DECREASE LOCKED COUNT
 			if (this.listeners_.empty() == false)
 			{
-				let fn: IListener = this.listeners_.front();
+				let fn: IResolver = this.listeners_.front();
 				
 				this.listeners_.pop(); // POP FIRST
 				fn(); // AND CALL LATER
@@ -70,7 +70,7 @@ namespace std
 		}
 	}
 
-	interface IListener
+	interface IResolver
 	{
 		(): void;
 	}
