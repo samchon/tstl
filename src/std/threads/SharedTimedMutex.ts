@@ -17,7 +17,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: HashMap<IListener, boolean>;
+		private listeners_: HashMap<IResolver, ILockType>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -30,7 +30,7 @@ namespace std
 			this.read_lock_count_ = 0;
 			this.write_lock_count_ = 0;
 
-			this.listeners_ = new HashMap<IListener, boolean>();
+			this.listeners_ = new HashMap<IResolver, ILockType>();
 		}
 
 		/* =========================================================
@@ -47,7 +47,11 @@ namespace std
 				if (this.read_lock_count_ == 0 && this.write_lock_count_++ == 0)
 					resolve();
 				else
-					this.listeners_.push(make_pair(resolve, false));
+					this.listeners_.emplace(resolve, 
+					{
+						access: base._LockType.WRITE, 
+						lock: base._LockType.LOCK
+					});
 			});
 		}
 
@@ -56,7 +60,7 @@ namespace std
 			if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
 				return false;
 
-			this.write_lock_count_++;
+			++this.write_lock_count_;
 			return true;
 		}
 
@@ -69,7 +73,11 @@ namespace std
 				else
 				{
 					// DO LOCK
-					this.listeners_.push(make_pair(resolve, false));
+					this.listeners_.emplace(resolve, 
+					{
+						access: base._LockType.WRITE, 
+						lock: base._LockType.TRY_LOCK
+					});
 
 					// AUTOMATIC UNLOCK
 					sleep_for(ms).then(() =>
@@ -102,17 +110,24 @@ namespace std
 
 			while (this.listeners_.empty() == false)
 			{
-				let fn: IListener = this.listeners_.begin().first;
-				let is_write_lock: boolean = this.listeners_.begin().second;
+				// PICK A LISTENER
+				let it = this.listeners_.begin();
+				let listener: IResolver = it.first;
+				let type: ILockType = it.second;
 
-				this.listeners_.erase(this.listeners_.begin()); // POP FIRST
-				fn(); // AND CALL LATER
+				this.listeners_.erase(it); // POP FIRST
+
+				// AND CALL LATER
+				if (type.lock == base._LockType.LOCK)
+					listener();
+				else
+					listener(true);
 
 				// UNTIL MEET THE WRITE LOCK
-				if (is_write_lock)
+				if (type.access == base._LockType.WRITE)
 					break;
 			}
-			this.write_lock_count_--;
+			--this.write_lock_count_;
 		}
 
 		/* ---------------------------------------------------------
@@ -127,7 +142,11 @@ namespace std
 				if (this.write_lock_count_ == 0)
 					resolve();
 				else
-					this.listeners_.push(make_pair(resolve, true));
+					this.listeners_.emplace(resolve, 
+					{
+						access: base._LockType.READ, 
+						lock: base._LockType.LOCK
+					});
 			});
 		}
 
@@ -151,7 +170,11 @@ namespace std
 				else
 				{
 					// DO LOCK
-					this.listeners_.push(make_pair(resolve, true));
+					this.listeners_.emplace(resolve, 
+					{
+						access: base._LockType.READ, 
+						lock: base._LockType.TRY_LOCK
+					});
 
 					// AUTOMATIC UNLOCK
 					sleep_for(ms).then(() =>
@@ -186,17 +209,30 @@ namespace std
 
 			if (this.listeners_.empty() == false)
 			{ 
-				// MUST BE WRITE LOCK
-				let fn: IListener = this.listeners_.begin().first;
+				// PICK A LISTENER
+				let it = this.listeners_.begin();
+				let listener: IResolver = it.first;
+				let type: ILockType = it.second;
 
-				this.listeners_.erase(this.listeners_.begin()); // POP FIRST
-				fn(); // AND CALL LATER
+				this.listeners_.erase(it); // POP FIRST
+				
+				// AND CALL LATER
+				if (type.lock == base._LockType.LOCK)
+					listener();
+				else
+					listener(true);
 			}
 		}
 	}
 
-	interface IListener
+	interface IResolver
 	{
-		(): void | boolean;
+		(value?: any): void;
+	}
+
+	interface ILockType
+	{
+		access: boolean; // read or write
+		lock: boolean; // void or boolean
 	}
 }

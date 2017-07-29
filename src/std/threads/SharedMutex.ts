@@ -47,7 +47,7 @@ namespace std
 				if (this.read_lock_count_ == 0 && this.write_lock_count_++ == 0)
 					resolve();
 				else
-					this.listeners_.push(make_pair(false, resolve));
+					this.listeners_.push(make_pair(base._LockType.WRITE, resolve));
 			});
 		}
 
@@ -67,17 +67,17 @@ namespace std
 
 			while (this.listeners_.empty() == false)
 			{
-				let is_write_lock: boolean = this.listeners_.front().first;
+				let access: boolean = this.listeners_.front().first;
 				let fn: IListener = this.listeners_.front().second;
 
 				this.listeners_.pop(); // POP FIRST
 				fn(); // AND CALL LATER
 
 				// UNTIL MEET THE WRITE LOCK
-				if (is_write_lock)
+				if (access == base._LockType.WRITE)
 					break;
 			}
-			this.write_lock_count_--;
+			--this.write_lock_count_;
 		}
 
 		/* ---------------------------------------------------------
@@ -92,7 +92,7 @@ namespace std
 				if (this.write_lock_count_ == 0)
 					resolve();
 				else
-					this.listeners_.push(make_pair(true, resolve));
+					this.listeners_.push(make_pair(base._LockType.READ, resolve));
 			});
 		}
 

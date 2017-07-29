@@ -12,7 +12,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: HashSet<IListener>;
+		private listeners_: HashMap<IResolver, boolean>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -23,7 +23,7 @@ namespace std
 		public constructor()
 		{
 			this.lock_count_ = 0;
-			this.listeners_ = new HashSet<IListener>();
+			this.listeners_ = new HashMap<IResolver, boolean>();
 		}
 
 		/* ---------------------------------------------------------
@@ -36,7 +36,7 @@ namespace std
 				if (this.lock_count_++ == 0)
 					resolve();
 				else
-					this.listeners_.insert(resolve);
+					this.listeners_.emplace(resolve, base._LockType.LOCK);
 			});
 		}
 
@@ -62,10 +62,17 @@ namespace std
 			--this.lock_count_; // DECREASE LOCKED COUNT
 			if (this.listeners_.empty() == false)
 			{
-				let fn: IListener = this.listeners_.begin().value;
+				// PICK A LISTENER
+				let it = this.listeners_.begin();
+				let listener: IResolver = it.first;
 				
-				this.listeners_.erase(this.listeners_.begin()); // POP FIRST
-				fn(); // AND CALL LATER
+				this.listeners_.erase(it); // POP FIRST
+				
+				// AND CALL LATER
+				if (it.second == base._LockType.LOCK)
+					listener();
+				else
+					listener(true);
 			}
 		}
 
@@ -81,7 +88,7 @@ namespace std
 				else
 				{
 					// DO LOCK
-					this.listeners_.insert(resolve);
+					this.listeners_.emplace(resolve, base._LockType.TRY_LOCK);
 
 					// AUTOMATIC UNLOCK
 					sleep_for(ms).then(() =>
@@ -108,8 +115,8 @@ namespace std
 		}
 	}
 
-	interface IListener
+	interface IResolver
 	{
-		(): void | boolean;
+		(value?: any): void;
 	}
 }
