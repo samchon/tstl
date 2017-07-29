@@ -2,7 +2,7 @@
 
 namespace std
 {
-	export class SharedMutex
+	export class SharedMutex implements ILockable
 	{
 		/**
 		 * @hidden
