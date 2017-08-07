@@ -42,12 +42,12 @@ namespace std.base
 		extends Container<T>
 	{
 		/**
-		 * {@link List} storing elements.
-		 *
-		 * Storing elements and keeping those sequence of the {@link SetContainer} are implemented by 
-		 * {@link data_ this list container}. Implementing index-table is also related with {@link data_ this list} 
-		 * by storing {@link ListIterator iterators} ({@link SetIterator} references {@link ListIterator}) who are 
-		 * created from {@link data_ here}.
+		 * @hidden
+		 */
+		private source_ptr_: IPointer<SetContainer<T>>;
+
+		/**
+		 * @hidden
 		 */
 		private data_: _SetElementList<T>;
 		
@@ -61,6 +61,7 @@ namespace std.base
 		{
 			super();
 
+			this.source_ptr_ = {value: this};
 			this.data_ = new _SetElementList<T>(this);
 		}
 
@@ -425,8 +426,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Swap(obj: SetContainer<T>): void
+		public swap(obj: SetContainer<T>): void
 		{
+			// CHANGE ITERATORS' SOURCES
+			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+
+			// CHANGE CONTENTS
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 		}
 
@@ -459,15 +464,26 @@ namespace std.base
 	export class _SetElementList<T> 
 		extends _ListContainer<T, SetIterator<T>>
 	{
+		/**
+		 * @hidden
+		 */
 		private associative_: SetContainer<T>;
+
+		/**
+		 * @hidden
+		 */
 		private rend_: SetReverseIterator<T>;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(associative: SetContainer<T>)
 		{
 			super();
 
 			this.associative_ = associative;
 		}
+
 		protected _Create_iterator(prev: SetIterator<T>, next: SetIterator<T>, val: T): SetIterator<T>
 		{
 			return new SetIterator<T>(this, prev, next, val);
@@ -478,10 +494,14 @@ namespace std.base
 			this.rend_ = new SetReverseIterator<T>(it);
 		}
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
 		public associative(): SetContainer<T>
 		{
 			return this.associative_;
 		}
+
 		public rbegin(): SetReverseIterator<T>
 		{
 			return new SetReverseIterator<T>(this.end());

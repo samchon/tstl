@@ -78,7 +78,7 @@ namespace std.base
 			//--------
 			let node: _XTreeNode<SetIterator<T>> = this.root_;
 			if (node == null)
-				return this.set().end();
+				return this.source().end();
 
 			// FOR THE DUPLICATE VALUE
 			let matched: _XTreeNode<SetIterator<T>> = null;

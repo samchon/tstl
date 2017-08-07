@@ -55,6 +55,14 @@ namespace std
 		extends base._ListContainer<T, ListIterator<T>>
 		implements base.IDequeContainer<T>
 	{
+		/**
+		 * @hidden
+		 */
+		private ptr_: IPointer<List<T>>;
+
+		/**
+		 * @hidden
+		 */
 		private rend_: ListReverseIterator<T>;
 
 		/* =========================================================
@@ -114,7 +122,9 @@ namespace std
 
 		public constructor(...args: any[])
 		{
+			// DEFAULT CONFIGURATIONS
 			super();
+			this.ptr_ = {value: this};
 
 			// BRANCHES
 			if (args.length == 0) 
@@ -154,7 +164,7 @@ namespace std
 		 */
 		protected _Create_iterator(prev: ListIterator<T>, next: ListIterator<T>, val: T): ListIterator<T>
 		{
-			return new ListIterator<T>(this, prev as ListIterator<T>, next as ListIterator<T>, val);
+			return new ListIterator<T>(this.ptr_, prev as ListIterator<T>, next as ListIterator<T>, val);
 		}
 
 		/**
@@ -871,6 +881,10 @@ namespace std
 		 */
 		public swap(obj: List<T>): void
 		{
+			// CHANGE ITERATORS' SOURCES
+			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
+
+			// CHANGE CONTENTS
 			super.swap(obj);
 		}
 	}

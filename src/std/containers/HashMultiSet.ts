@@ -399,22 +399,14 @@ namespace std
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
 		 *			  with that of this {@link HashMultiSet container}.
 		 */
-		public swap(obj: HashMultiSet<T>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<T>): void;
-
-		public swap(obj: HashMultiSet<T> | base.Container<T>): void
+		public swap(obj: HashMultiSet<T>): void
 		{
-			if (obj instanceof HashMultiSet)
-			{
-				this._Swap(obj);
-				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
-			}
-			else
-				super.swap(obj);
+			// SWAP CONTENTS
+			super.swap(obj);
+
+			// SWAP BUCKETS
+			[this.hash_buckets_["source_"], obj.hash_buckets_["source_"]] = [obj.hash_buckets_["source_"], this.hash_buckets_["source_"]];
+			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
 }

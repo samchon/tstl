@@ -394,25 +394,14 @@ namespace std
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
 		 *			  with that of this {@link TreeMap container}.
 		 */
-		public swap(obj: TreeMap<Key, T>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<Pair<Key, T>>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: TreeMap<Key, T> | base.Container<Pair<Key, T>>): void
+		public swap(obj: TreeMap<Key, T>): void
 		{
-			if (obj instanceof TreeMap && this.key_comp() == obj.key_comp())
-			{
-				this._Swap(obj);
-				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
-			}
-			else
-				super.swap(obj);
+			// SWAP CONTENTS
+			super.swap(obj);
+
+			// SWAP RB-TREE
+			[this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

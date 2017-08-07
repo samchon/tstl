@@ -379,22 +379,14 @@ namespace std
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
 		 *			  with that of this {@link TreeMultiSet container}.
 		 */
-		public swap(obj: TreeMultiSet<T>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<T>): void;
-
-		public swap(obj: TreeMultiSet<T> | base.Container<T>): void
+		public swap(obj: TreeMultiSet<T>): void
 		{
-			if (obj instanceof TreeMultiSet && this.key_comp() == obj.key_comp())
-			{
-				this._Swap(obj);
-				[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
-			}
-			else
-				super.swap(obj);
+			// SWAP CONTENTS
+			super.swap(obj);
+
+			// SWAP RB-TREE
+			[this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

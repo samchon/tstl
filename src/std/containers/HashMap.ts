@@ -417,25 +417,14 @@ namespace std
 		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
 		 *			  with that of this {@link HashMap container}.
 		 */
-		public swap(obj: HashMap<Key, T>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: base.Container<Pair<Key, T>>): void;
-
-		/**
-		 * @inheritdoc
-		 */
-		public swap(obj: HashMap<Key, T> | base.Container<Pair<Key, T>>): void
+		public swap(obj: HashMap<Key, T>): void
 		{
-			if (obj instanceof HashMap)
-			{
-				this._Swap(obj);
-				[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
-			}
-			else
-				super.swap(obj);
+			// SWAP CONTENTS
+			super.swap(obj);
+
+			// SWAP BUCKETS
+			[this.hash_buckets_["source_"], obj.hash_buckets_["source_"]] = [obj.hash_buckets_["source_"], this.hash_buckets_["source_"]];
+			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
 }

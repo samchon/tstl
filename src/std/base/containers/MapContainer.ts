@@ -51,6 +51,11 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
+		private ptr_: IPointer<MapContainer<Key, T>>;
+
+		/**
+		 * @hidden
+		 */
 		private data_: _MapElementList<Key, T>;
 
 		/* ---------------------------------------------------------
@@ -63,6 +68,7 @@ namespace std.base
 		{
 			super();
 
+			this.ptr_ = {value: this};
 			this.data_ = new _MapElementList<Key, T>(this);
 		}
 		
@@ -652,8 +658,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Swap(obj: MapContainer<Key, T>): void
+		public swap(obj: MapContainer<Key, T>): void
 		{
+			// CHANGE ITERATORS' SOURCES
+			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+
+			// CHANGE CONTENTS
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 		}
 
@@ -686,9 +696,19 @@ namespace std.base
 	export class _MapElementList<Key, T> 
 		extends _ListContainer<Pair<Key, T>, MapIterator<Key, T>>
 	{
+		/**
+		 * @hidden
+		 */
 		private associative_: MapContainer<Key, T>;
+
+		/**
+		 * @hidden
+		 */
 		private rend_: MapReverseIterator<Key, T>;
 
+		/* ---------------------------------------------------------
+			CONSTRUCTORS
+		--------------------------------------------------------- */
 		public constructor(associative: MapContainer<Key, T>)
 		{
 			super();
@@ -706,10 +726,14 @@ namespace std.base
 			this.rend_ = new MapReverseIterator<Key, T>(it);
 		}
 
+		/* ---------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------- */
 		public associative(): MapContainer<Key, T>
 		{
 			return this.associative_;
 		}
+
 		public rbegin(): MapReverseIterator<Key, T>
 		{
 			return new MapReverseIterator<Key, T>(this.end());

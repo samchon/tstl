@@ -301,10 +301,6 @@ namespace std.base
 		protected _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
 			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator
 		{
-			// INVALID ITERATOR
-			if (this != position["source_"])
-				throw new InvalidArgument("Parametric iterator is not this container's own.");
-
 			let prev: BidirectionalIterator = <BidirectionalIterator>position.prev();
 			let first: BidirectionalIterator = null;
 

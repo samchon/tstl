@@ -27,12 +27,7 @@ namespace std.base
 		protected value_: T;
 
 		/**
-		 * Initializer Constructor.
-		 * 
-		 * @param source The source {@link Container} to reference.
-		 * @param prev A refenrece of previous node ({@link ListIterator iterator}).
-		 * @param next A refenrece of next node ({@link ListIterator iterator}).
-		 * @param value Value to be stored in the node (iterator).
+		 * @hidden
 		 */
 		protected constructor(prev: _ListIteratorBase<T>, next: _ListIteratorBase<T>, value: T)
 		{
@@ -88,8 +83,7 @@ namespace std.base
 					if (it.equals(this.source().end() as _ListIteratorBase<T>))
 						return it;
 				}
-			}
-			
+			}	
 			return it;
 		}
 

@@ -10,7 +10,7 @@ namespace std.base
 	export abstract class _SetTree<T>
 		extends _XTree<SetIterator<T>>
 	{
-		private set_: ITreeSet<T>;
+		private source_: ITreeSet<T>;
 		private key_comp_: (x: T, y: T) => boolean;
 
 		/* ---------------------------------------------------------
@@ -28,7 +28,7 @@ namespace std.base
 		{
 			super(itCompare);
 
-			this.set_ = set;
+			this.source_ = set;
 			this.key_comp_ = compare;
 		}
 
@@ -42,7 +42,7 @@ namespace std.base
 			let node: _XTreeNode<SetIterator<T>> = this.find_by_val(val);
 
 			if (node == null)
-				return this.set_.end();
+				return this.source_.end();
 			else if (this.key_comp()(node.value.value, val)) // it < key
 				return node.value.next();
 			else
@@ -59,9 +59,9 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public set(): ITreeSet<T>
+		public source(): ITreeSet<T>
 		{
-			return this.set_;
+			return this.source_;
 		}
 
 		public key_comp(): (x: T, y: T) => boolean
