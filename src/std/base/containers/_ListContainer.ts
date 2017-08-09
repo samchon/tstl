@@ -268,20 +268,19 @@ namespace std.base
 		public insert<U extends T, InputIterator extends Iterator<U>>
 			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator;
 
-		public insert(...args: any[]): BidirectionalIterator
+		public insert(pos: BidirectionalIterator, ...args: any[]): BidirectionalIterator
 		{
-			let ret: BidirectionalIterator;
+			// VALIDATION
+			if (pos.source() != this.end_.source())
+				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			// BRANCHES
-			if (args.length == 2)
-				ret = this._Insert_by_repeating_val(args[0], 1, args[1]);
-			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
+			if (args.length == 1)
+				return this._Insert_by_repeating_val(pos, 1, args[0]);
+			else if (args.length == 2 && typeof args[0] == "number")
+				return this._Insert_by_repeating_val(pos, args[0], args[1]);
 			else
-				ret = this._Insert_by_range(args[0], args[1], args[2]);
-			
-			// RETURNS
-			return ret;
+				return this._Insert_by_range(pos, args[0], args[1]);
 		}
 
 		/**
@@ -382,10 +381,12 @@ namespace std.base
 		 */
 		protected _Erase_by_range(first: BidirectionalIterator, last: BidirectionalIterator): BidirectionalIterator
 		{
+			// VALIDATION
+			if (first.source() != this.end_.source() || last.source() != this.end_.source())
+				throw new InvalidArgument("Parametric iterator is not this container's own.");
+
 			// FIND PREV AND NEXT
 			let prev: BidirectionalIterator = <BidirectionalIterator>first.prev();
-
-			// CALCULATE THE SIZE
 			let size: number = distance(first, last);
 
 			// SHRINK
