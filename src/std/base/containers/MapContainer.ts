@@ -1,7 +1,5 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="_ListContainer.ts" />
-
 namespace std.base
 {
 	/**
@@ -51,6 +49,11 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
+		private ptr_: IPointer<MapContainer<Key, T>>;
+
+		/**
+		 * @hidden
+		 */
 		private data_: _MapElementList<Key, T>;
 
 		/* ---------------------------------------------------------
@@ -63,6 +66,7 @@ namespace std.base
 		{
 			super();
 
+			this.ptr_ = {value: this};
 			this.data_ = new _MapElementList<Key, T>(this);
 		}
 		
@@ -579,8 +583,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Swap(obj: MapContainer<Key, T>): void
+		public swap(obj: MapContainer<Key, T>): void
 		{
+			// CHANGE ITERATORS' SOURCES
+			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+
+			// CHANGE CONTENTS
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 		}
 
@@ -605,45 +613,5 @@ namespace std.base
 		 * @hidden
 		 */
 		protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
-	}
-
-	/**
-	 * @hidden
-	 */
-	export class _MapElementList<Key, T> 
-		extends _ListContainer<Entry<Key, T>, MapIterator<Key, T>>
-	{
-		private associative_: MapContainer<Key, T>;
-		private rend_: MapReverseIterator<Key, T>;
-
-		public constructor(associative: MapContainer<Key, T>)
-		{
-			super();
-
-			this.associative_ = associative;
-		}
-
-		protected _Create_iterator(prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Entry<Key, T>): MapIterator<Key, T>
-		{
-			return new MapIterator<Key, T>(this, prev, next, val);
-		}
-		protected _Set_begin(it: MapIterator<Key, T>): void
-		{
-			super._Set_begin(it);
-			this.rend_ = new MapReverseIterator<Key, T>(it);
-		}
-
-		public associative(): MapContainer<Key, T>
-		{
-			return this.associative_;
-		}
-		public rbegin(): MapReverseIterator<Key, T>
-		{
-			return new MapReverseIterator<Key, T>(this.end());
-		}
-		public rend(): MapReverseIterator<Key, T>
-		{
-			return this.rend_;
-		}
 	}
 }

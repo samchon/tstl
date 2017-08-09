@@ -22,24 +22,6 @@ namespace std.base
 	export abstract class Iterator<T> 
 		implements IBidirectionalIterator<T>, IComparable<Iterator<T>>
 	{
-		/**
-		 * @hidden
-		 */
-		protected source_: Container<T>;
-
-		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
-		/**
-		 * Construct from the source {@link Container container}.
-		 *
-		 * @param source The source container.
-		 */
-		protected constructor(source: Container<T>)
-		{
-			this.source_ = source;
-		}
-
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
@@ -95,10 +77,7 @@ namespace std.base
 		 * @param obj An iterator to compare
 		 * @return Indicates whether equal or not.
 		 */
-		public equals(obj: Iterator<T>): boolean
-		{
-			return this.source_ == obj.source_;
-		}
+		public abstract equals(obj: Iterator<T>): boolean;
 		
 		/**
 		 * Get value of the iterator is pointing.

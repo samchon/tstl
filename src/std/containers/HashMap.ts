@@ -412,7 +412,11 @@ namespace std
 		 */
 		public swap(obj: HashMap<Key, T>): void
 		{
-			this._Swap(obj);
+			// SWAP CONTENTS
+			super.swap(obj);
+
+			// SWAP BUCKETS
+			[this.hash_buckets_["source_"], obj.hash_buckets_["source_"]] = [obj.hash_buckets_["source_"], this.hash_buckets_["source_"]];
 			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}

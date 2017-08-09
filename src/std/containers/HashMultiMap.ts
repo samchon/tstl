@@ -417,7 +417,10 @@ namespace std
 		public swap(obj: HashMultiMap<Key, T>): void
 		{
 			// SWAP CONTENTS
-			this._Swap(obj);
+			super.swap(obj);
+
+			// SWAP BUCKETS
+			[this.hash_buckets_["source_"], obj.hash_buckets_["source_"]] = [obj.hash_buckets_["source_"], this.hash_buckets_["source_"]];
 			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}

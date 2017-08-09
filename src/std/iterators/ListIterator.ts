@@ -16,25 +16,21 @@ namespace std
 		extends base._ListIteratorBase<T>
 		implements IComparable<ListIterator<T>>
 	{
+		/**
+		 * @hidden
+		 */
+		private source_ptr_: IPointer<List<T>>;
+
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------------- */
 		/**
-		 * Initializer Constructor.
-		 *
-		 * #### Note
-		 * Do not create the iterator directly, by yourself.
-		 * 
-		 * Use {@link List.begin begin()}, {@link List.end end()} in {@link List container} instead.
-		 *
-		 * @param source The source {@link List container} to reference.
-		 * @param prev A refenrece of previous node ({@link ListIterator iterator}).
-		 * @param next A refenrece of next node ({@link ListIterator iterator}).
-		 * @param value Value to be stored in the node (iterator).
+		 * @hidden
 		 */
-		public constructor(source: List<T>, prev: ListIterator<T>, next: ListIterator<T>, value: T)
+		public constructor(sourcePtr: IPointer<List<T>>, prev: ListIterator<T>, next: ListIterator<T>, value: T)
 		{
-			super(source, prev, next, value);
+			super(prev, next, value);
+			this.source_ptr_ = sourcePtr;
 		}
 
 		/* ---------------------------------------------------------------
@@ -45,7 +41,7 @@ namespace std
 		 */
 		public source(): List<T>
 		{
-			return this.source_ as List<T>;
+			return this.source_ptr_.value;
 		}
 
 		/**

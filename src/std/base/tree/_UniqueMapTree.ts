@@ -64,7 +64,7 @@ namespace std.base
 			//--------
 			let node: _XTreeNode<MapIterator<Key, T>> = this.find_by_key(key);
 			if (node == null)
-				return this.map().end();
+				return this.source().end();
 
 			//--------
 			// RETURN BRANCH

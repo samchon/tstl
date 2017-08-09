@@ -15,7 +15,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public constructor(data: Array<T>, index: number)
 		{
-			super(null);
+			super();
 
 			this.data_ = data;
 			this.index_ = index;

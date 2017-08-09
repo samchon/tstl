@@ -10,13 +10,13 @@ namespace std.base
 	export class _SetHashBuckets<T>
 		extends _HashBuckets<SetIterator<T>>
 	{
-		private set_: IHashSet<T>;
+		private source_: IHashSet<T>;
 		
         public constructor(set: IHashSet<T>)
 		{
 			super();
 
-			this.set_ = set;
+			this.source_ = set;
 		}
 
 		public find(val: T): SetIterator<T>
@@ -28,7 +28,7 @@ namespace std.base
 				if (equal_to(bucket.at(i).value, val))
 					return bucket.at(i);
 
-			return this.set_.end();
+			return this.source_.end();
 		}
 	}
 }

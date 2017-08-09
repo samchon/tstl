@@ -16,6 +16,11 @@ namespace std
 		extends base._ListIteratorBase<T>
 		implements IComparable<SetIterator<T>>
 	{
+		/**
+		 * @hidden
+		 */
+		private source_: base._SetElementList<T>;
+
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
@@ -32,7 +37,9 @@ namespace std
 		 */
 		public constructor(source: base._SetElementList<T>, prev: SetIterator<T>, next: SetIterator<T>, val: T)
 		{
-			super(source, prev, next, val);
+			super(prev, next, val);
+
+			this.source_ = source;
 		}
 
 		/* ---------------------------------------------------------
@@ -43,7 +50,7 @@ namespace std
 		 */
 		public source(): base.SetContainer<T>
 		{
-			return (this.source_ as base._SetElementList<T>).associative();
+			return this.source_.associative();
 		}
 
 		/**

@@ -64,7 +64,7 @@ namespace std.base
 			//--------
 			let node: _XTreeNode<SetIterator<T>> = this.find_by_val(val);
 			if (node == null)
-				return this.set().end();
+				return this.source().end();
 
 			//--------
 			// RETURN BRANCH

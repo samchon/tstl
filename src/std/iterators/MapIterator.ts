@@ -16,18 +16,22 @@ namespace std
 		extends base._ListIteratorBase<Entry<Key, T>>
 		implements IComparable<MapIterator<Key, T>>
 	{
+		/**
+		 * @hidden
+		 */
+		private source_: base._MapElementList<Key, T>;
+
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		/**
-		 * Construct from the {@link MapContainer source map} and {@link ListIterator list iterator}. 
-		 *
-		 * @param source The source {@link MapContainer}.
-		 * @param list_iterator A {@link ListIterator} pointing {@link Pair} of <i>key</i> and <i>value</i>.
+		 * @hidden
 		 */
-		public constructor(source: base._MapElementList<Key, T>, prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Entry<Key, T>)
+		public constructor(associative: base._MapElementList<Key, T>, prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>)
 		{
-			super(source, prev, next, val);
+			super(prev, next, val);
+
+			this.source_ = associative;
 		}
 
 		/* ---------------------------------------------------------
@@ -68,7 +72,7 @@ namespace std
 		 */
 		public source(): base.MapContainer<Key, T>
 		{
-			return (this.source_ as base._MapElementList<Key, T>).associative();
+			return this.source_.associative();
 		}
 
 		/**

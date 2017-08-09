@@ -16,7 +16,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public constructor(index: number, value: T = null)
 		{
-			super(null);
+			super();
 
 			this.index_ = index;
 			this.value_ = value;

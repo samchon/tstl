@@ -208,6 +208,10 @@ namespace std.base
 
 		public insert(...args: any[]): ArrayIterator<T, Source> | ArrayReverseIterator<T, Source>
 		{
+			// VALIDATION
+			if (args[0].source() != this)
+				throw new InvalidArgument("Parametric iterator is not this container's own.");
+
 			// REVERSE_ITERATOR TO ITERATOR
 			let ret: ArrayIterator<T, Source>;
 			let is_reverse_iterator: boolean = false;
@@ -288,6 +292,10 @@ namespace std.base
 
 		public erase(first: any, last: any = first.next()): any
 		{
+			// VALIDATION
+			if (first.source() != this || last.source() != this)
+				throw new InvalidArgument("Parametric iterator is not this container's own.");
+
 			let ret: ArrayIterator<T, Source>;
 			let is_reverse_iterator: boolean = false;
 

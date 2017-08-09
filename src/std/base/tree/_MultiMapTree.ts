@@ -82,7 +82,7 @@ namespace std.base
 			//--------
 			let node: _XTreeNode<MapIterator<Key, T>> = this.root_;
 			if (node == null)
-				return this.map().end();
+				return this.source().end();
 
 			// FOR THE DUPLICATE KEY
 			let matched: _XTreeNode<MapIterator<Key, T>> = null;

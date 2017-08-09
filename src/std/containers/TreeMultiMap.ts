@@ -397,7 +397,11 @@ namespace std
 		 */
 		public swap(obj: TreeMultiMap<Key, T>): void
 		{
-			this._Swap(obj);
+			// SWAP CONTENTS
+			super.swap(obj);
+
+			// SWAP RB-TREE
+			[this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
 			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}

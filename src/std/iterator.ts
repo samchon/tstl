@@ -1,5 +1,11 @@
 ﻿/// <reference path="API.ts" />
 
+/// <reference path="iterators/VectorIterator.ts" />
+/// <reference path="iterators/DequeIterator.ts" />
+/// <reference path="iterators/ListIterator.ts" />
+/// <reference path="iterators/SetIterator.ts" />
+/// <reference path="iterators/MapIterator.ts" />
+
 // base.Iterator definitions.
 //
 // @reference http://www.cplusplus.com/reference/iterator

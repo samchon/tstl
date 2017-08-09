@@ -10,7 +10,7 @@ namespace std.base
 	export abstract class _MapTree<Key, T>
 		extends _XTree<MapIterator<Key, T>>
 	{
-		private map_: ITreeMap<Key, T>;
+		private source_: ITreeMap<Key, T>;
 		private key_compare_: (x: Key, y: Key) => boolean;
 		private value_compare_: (x: Pair<Key, T>, y: Pair<Key, T>) => boolean;
 		
@@ -26,7 +26,7 @@ namespace std.base
 		{
 			super(itCompare);
 			
-			this.map_ = map;
+			this.source_ = map;
 			this.key_compare_ = compare;
 
 			this.value_compare_ =
@@ -46,7 +46,7 @@ namespace std.base
 			let node: _XTreeNode<MapIterator<Key, T>> = this.find_by_key(key);
 
 			if (node == null)
-				return this.map().end();
+				return this.source().end();
 			else if (this.key_comp()(node.value.first, key)) // it < key
 				return node.value.next();
 			else
@@ -63,9 +63,9 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCECSSORS
 		--------------------------------------------------------- */
-		public map(): ITreeMap<Key, T>
+		public source(): ITreeMap<Key, T>
 		{
-			return this.map_;
+			return this.source_;
 		}
 
 		public key_comp(): (x: Key, y: Key) => boolean

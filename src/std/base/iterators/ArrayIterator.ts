@@ -15,6 +15,11 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
+		private source_: Source;
+
+		/**
+		 * @hidden
+		 */
 		private index_: number;
 		
 		/* ---------------------------------------------------------
@@ -33,8 +38,9 @@ namespace std.base
 		 */
 		public constructor(source: Source, index: number)
 		{
-			super(source);
+			super();
 
+			this.source_ = source;
 			this.index_ = index;
 		}
 
