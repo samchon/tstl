@@ -1,6 +1,6 @@
-﻿/// <reference path="../../lib/tstl.d.ts" />
+﻿/// <reference path="../typings/tstl.d.ts" />
 
-eval('var std = require("../../lib/tstl")');
+eval('var std = require("./tstl")');
 
 namespace example
 {

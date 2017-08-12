@@ -2,14 +2,12 @@
     "compilerOptions": {
         "target": "es5",
         "sourceMap": true,
-        "outFile": "test.js",
+        "outFile": "../../lib/test.js",
         
         "downlevelIteration": true,
-
         "lib": [
             "dom",
-            "es5",
-            "es2015.iterable"
+            "es2015"
         ]
     }
 }

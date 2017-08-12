@@ -2,7 +2,7 @@
 
 namespace example
 {
-	export function algorithm(): void
+	export function algorithms(): void
 	{
 		let array: std.Vector<number> = new std.Vector<number>();
 		for (let i: number = 1; i <= 15; i++)
