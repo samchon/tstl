@@ -6,12 +6,17 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
+
+  "version": "1.5.6",
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
-  "version": "1.5.5",
+  "scripts": {
+    "test": "node lib/test"
+  },
   "devDependencies": {
     "@types/node": "^7.0.8"
   },
+
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
     "type": "git",
@@ -26,6 +31,7 @@
       "url": "https://opensource.org/licenses/BSD-3-Clause"
     }
   ],
+
   "keywords": [
     "stl", "standard template library", "typescript", "standard", "template", "library",
 
@@ -34,10 +40,13 @@
     "stack", "queue", "priority_queue",
     "set", "multiset", "unordered_set", "unordered_multiset",
     "map", "multimap", "unordered_map", "unordered_multimap",
-    "mutex", "thread",
 
     "IComparable", "Pair", "PriorityQueue",
     "TreeSet", "TreeMultiSet", "HashSet", "HashMultiSet",
-    "TreeMap", "TreeMultiMap", "HashMap", "HashMultiMap"
+    "TreeMap", "TreeMultiMap", "HashMap", "HashMultiMap",
+
+    "mutex", "thread", "sleep",
+    "TimedMutex", "SharedMutex", "SharedTimedMutex",
+    "timed_mutex", "shared_mutex", "shared_timed_mutex"
   ]
 }

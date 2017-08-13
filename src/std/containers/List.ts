@@ -122,11 +122,19 @@ namespace std
 
 		public constructor(...args: any[])
 		{
+			//----
 			// DEFAULT CONFIGURATIONS
+			//----
+			// INHERITS
 			super();
-			this.ptr_ = {value: this};
 
+			// DECLARE SOURCE POINTER
+			this.ptr_ = {value: this};
+			this["end_"]["source_ptr_"] = this.ptr_;
+
+			//----
 			// BRANCHES
+			//----
 			if (args.length == 0) 
 			{
 				// DO NOTHING

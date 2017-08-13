@@ -8,14 +8,13 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceRoot}/src/test/index.js",
+			"program": "${workspaceRoot}/lib/test.js",
 			"cwd": "${workspaceRoot}",
 
 			// TypeScript
 			"sourceMaps": true,
 			"outFiles": [
-				"${workspaceRoot}/lib/*.js",
-				"${workspaceRoot}/src/test/*.js"
+				"${workspaceRoot}/lib/*.js"
 			]
 		},
 		{
