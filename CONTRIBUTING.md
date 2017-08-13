@@ -22,6 +22,8 @@ I always welcome your suggestion. When you publishing a suggestion, then please 
     - Code examples showing the expected behavior.
   - If relevant, precedent in C++/STL can be useful for establishing context and expected behavior.
 
+
+
 ## Contributing Code
 ### Test your code
 Before sending a pull request, please test your new code. You go into the `build` directory and execute the `build.js`, then compiling your code and test-automation will be all processed.
@@ -68,21 +70,23 @@ namespace test
 }
 ```
 
-### Sending a Pull Request
+
+
+## Sending a Pull Request
 Thanks for your contributing. Before sending a pull request to me, please check those components.
 
-#### 1. Include enough descriptions
+### 1. Include enough descriptions
 When you send a pull request, please include a description, of what your change intends to do, on the content. Title, make it clear and simple such below:
   - Refactor features
   - Fix issue #17
   - Add tests for issue #28
 
-#### 2. Include adequate tests
+### 2. Include adequate tests
 As I've mentioned in the `Contributing Code` section, your PR should pass the test-automation module. Your PR includes *new features* that have not being handled in the ordinary test-automation module, then also update *add the testing unit* please.
 
 If there're some specific reasons that could not pass the test-automation (not error but *intended*), then please update the ordinary test-automation module or write the reasons on your PR content and *let me update the test-automation module*.
 
-#### 3. Follow coding conventions
+### 3. Follow coding conventions
 The basic coding convention of STL is the [`snake_case`](https://en.wikipedia.org/wiki/Snake_case). TypeScript-STL follows the basic coding convention; `snake_case`. However, there's a difference when naming the classes. TSTL uses `snake_case` and [`PascalCase`](https://en.wikipedia.org/wiki/PascalCase) on the classes at the same time. 
 
 ```typescript
@@ -106,6 +110,8 @@ Thus, when you creating a new class, the make it to follow the [PascalCase] and 
 
   - The detailed coding convention will be provided soon.
 
+
+
 ## References
-I've referenced contribution guidance of TypeScript.
+I've referenced contribution guidance of the TypeScript.
   - https://github.com/Microsoft/TypeScript/blob/master/CONTRIBUTING.md
