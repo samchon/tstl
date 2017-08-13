@@ -1,16 +1,9 @@
-﻿/// <reference path="API.ts" />
+﻿/// <reference path="../API.ts" />
 
-namespace example
+namespace test
 {
-	export function exception(): void
+	export function test_exception(): void
 	{
-		try
-		{
-			throw new std.Exception("Some exception");
-		}
-		catch (exception)
-		{
-			console.log((exception as std.Exception).what());
-		}
+		
 	}
 }

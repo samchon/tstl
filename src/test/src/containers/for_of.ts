@@ -1,38 +1,64 @@
 /// <reference path="../API.ts" />
 
-namespace example
+namespace test
 {
-	export function for_of(): void
+	export function test_for_of_iterations(): void
 	{
-		let vec: std.Vector<number> = new std.Vector<number>();
-		let dec: std.Deque<number> = new std.Deque<number>();
-		let list: std.List<number> = new std.List<number>();
-		let set: std.TreeSet<number> = new std.TreeSet<number>();
+		// LINEAR CONTAINERS
+		_Test_for_of_iteration(new std.Vector<number>());
+		_Test_for_of_iteration(new std.Deque<number>());
+		_Test_for_of_iteration(new std.List<number>());
 
-		_Fill_numbers(vec);
-		_Fill_numbers(dec);
-		_Fill_numbers(list);
-		_Fill_numbers(set);
-
-		let map: std.TreeMap<number, number> = new std.TreeMap<number, number>();
-		map.push([1, 1], [2, 2,], [3, 3], [4, 4], [5, 5]);
-
-		_For_of(vec);
-		_For_of(dec);
-		_For_of(list);
-		_For_of(set);
-		_For_of<std.Pair<number, number>>(map);
+		// ASSOCIATIVE CONTAINERS
+		_Test_for_of_iteration(new std.TreeSet<number>());
+		_Test_for_of_map_iteration();
 	}
 
-	function _Fill_numbers(container: std.base.Container<number>): void
+	function _Test_for_of_iteration(vec: std.base.Container<number>): void
 	{
-		container.push(1, 2, 3, 4, 5);
+		//----
+		// CONSTRUCTIONS
+		//----
+		// CONSTRUCT ITEMS TO VALIDATE
+		let items: number[] = [];
+		for (let i: number = 0; i < 10; ++i)
+			items.push(i);
+
+		// PUSH THEM ALL TO THE CONTAINER
+		vec.push(...items);
+
+		//----
+		// VALIDATION
+		//----
+		let i: number = 0;
+
+		for (let elem of vec)
+			if (elem != items[i++])
+				throw new std.DomainError("Wrong for of iteration.");
 	}
 
-	function _For_of<T>(container: std.base.Container<T>): void
+	function _Test_for_of_map_iteration(): void
 	{
-		console.log(container.constructor["name"] + ": #" + container.size());
-		for (let elem of container)
-			console.log(elem);
+		//----
+		// CONSTRUCTIONS
+		//----
+		// CONSTRUCT ITEMS TO VALIDATE
+		let map = new std.TreeMap<number, number>();
+		let items: std.Pair<number, number>[] = [];
+
+		for (let i: number = 0; i < 10; ++i)
+			items.push(std.make_pair(i, i));
+
+		// PUSH THEM ALL TO THE CONTAINER
+		map.push(...items);
+
+		//----
+		// VALIDATION
+		//----
+		let i: number = 0;
+
+		for (let pair of map)
+			if (std.equal_to(pair, items[i++]) == false)
+				throw new std.DomainError("Wrong for of iteration.");
 	}
 }

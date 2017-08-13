@@ -1,34 +1,35 @@
 const fs = require("fs");
 const process = require('child_process');
 
+// STD
 compile();
 attach_header();
 remove_dynamics();
+
+// TEST
 test();
+
+// MINIFY
 minify();
 
 function compile()
 {
 	const STD_FILE = __dirname + "/../src/std/tsconfig.json";
-	const TEST_FILE = __dirname + "/../src/test/tsconfig.json";
-
+	
 	// KEEP COMMENTS ONLY IN THE DECLARATION
 	process.execSync("tsc -p " + STD_FILE);
 	process.execSync("tsc -p " + STD_FILE + " --removeComments --declaration false");
-
-	// TESTING UNIT
-	process.execSync("tsc -p " + TEST_FILE);
 }
 
 function attach_header()
 {
-	const TITLE_FILE = __dirname + "/../src/std/typings/tstl/tstl.d.ts";
-	const HEADER_FILE = __dirname + "/../lib/tstl.d.ts";
+	const HEAD = __dirname + "/../src/std/typings/tstl/tstl.d.ts";
+	const BODY = __dirname + "/../lib/tstl.d.ts";
 
-	var text = fs.readFileSync(TITLE_FILE, "utf8");
-	text += fs.readFileSync(HEADER_FILE, "utf8");
+	var text = fs.readFileSync(HEAD, "utf8");
+	text += fs.readFileSync(BODY, "utf8");
 
-	fs.writeFileSync(HEADER_FILE, text, "utf8");
+	fs.writeFileSync(BODY, text, "utf8");
 }
 
 function remove_dynamics()
@@ -65,7 +66,10 @@ function remove_dynamics()
 
 function test()
 {
-	process.execSync("node " + __dirname + "/../src/test/test");
+	const TEST_FILE = __dirname + "/../src/test/tsconfig.json";
+
+	process.execSync("tsc -p " + TEST_FILE);
+	process.execSync("node " + __dirname + "/../lib/test");
 }
 
 function minify()

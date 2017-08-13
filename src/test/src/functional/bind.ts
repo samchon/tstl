@@ -1,6 +1,6 @@
-﻿/// <reference path="API.ts" />
+﻿/// <reference path="../API.ts" />
 
-namespace example
+namespace test
 {
 	export function bind(): void
 	{

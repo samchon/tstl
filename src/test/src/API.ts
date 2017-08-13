@@ -2,22 +2,29 @@
 
 eval('var std = require("./tstl")');
 
-namespace example
+namespace test
 {
-	export function main(): void
+	export async function main(): Promise<void>
 	{
+		await std.sleep_for(0);
 		console.log("TEST ALL");
 		
-		for (let key in example)
-			if (key != "main" && (example as any)[key] instanceof Function)
-			{
-				console.log("===================================================");
-				console.log("	" + key);
-				console.log("===================================================");
+		for (let key in test)
+		{
+			if (key.indexOf("test_") != 0)
+				continue;
 
-				(example as any)[key]();
-				console.log("\n");
-			}
+			console.log(key);
+			await test[key]();
+		}
 	}
 }
-module.exports = example;
+
+test.main().then(() =>
+{
+	console.log("No error has detected.");
+}).catch(error =>
+{
+	console.log(error);
+	throw error;
+});
