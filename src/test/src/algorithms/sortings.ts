@@ -53,42 +53,4 @@ namespace test
 		if (std.is_sorted(cubes.begin(), cubes.end(), inline_function) == false)
 			throw new std.DomainError("Wrong sorting.");
 	}
-
-	class Cube
-	{
-		public width: number;
-		public height: number;
-		public length: number;
-		public x: number;
-		public y: number;
-		public z: number;
-
-		public constructor()
-		{
-			this.width = Math.random() * 10;
-			this.height = Math.random() * 10;
-			this.length = Math.random() * 10;
-			this.x = Math.random() * 100 - 50;
-			this.y = Math.random() * 100 - 50;
-			this.z = Math.random() * 100 - 50;
-		}
-		public get volume(): number
-		{
-			return this.width * this.height * this.length;
-		}
-
-		public less(obj: Cube): boolean
-		{
-			return this.volume < obj.volume;
-		}
-
-		public debug_size(): void
-		{
-			console.log(this.width, this.height, this.length + " => " + this.volume);
-		}
-		public debug_position(): void
-		{
-			console.log(this.x, this.y, this.z);
-		}
-	}
 }
