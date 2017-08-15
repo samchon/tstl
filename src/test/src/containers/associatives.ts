@@ -114,6 +114,9 @@ namespace test
 
 	function _Test_multi_map(map: std.base.MultiMap<Atomic<string>, number>): void
 	{
+		// CONSTRUCT ELEMENTS
+		_Construct_map(map);
+
 		// DUPLICATED ?
 		if (map.size() != 3 * 11)
 			throw new std.LengthError("Wrong number of elements.");

@@ -159,7 +159,7 @@ namespace std
 		public count(key: T): number
 		{
 			// FIND MATCHED BUCKET
-			let index = hash(key) % this.hash_buckets_.item_size();
+			let index = hash(key) % this.hash_buckets_.size();
 			let bucket = this.hash_buckets_.at(index);
 
 			// ITERATE THE BUCKET

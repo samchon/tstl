@@ -29,6 +29,14 @@ namespace std.base
 			);
 		}
 
+		public insert(val: SetIterator<T>): void
+		{
+			// ISSUE UID BEFORE INSERTION
+			(val as any).__get_m_iUID();
+
+			super.insert(val);
+		}
+
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
@@ -48,10 +56,11 @@ namespace std.base
 				
 				if (equal_to(val, it.value))
 				{
+					// EQUALS, THEN FIND THE NODE OF THE LEFTEST
 					matched = node;
 					myNode = node.left;
 				}
-				else if (this.key_comp()(val, it.value))
+				else if (this.key_comp()(val, it.value)) 
 					myNode = node.left;
 				else
 					myNode = node.right;
