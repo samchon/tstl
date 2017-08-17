@@ -78,9 +78,15 @@ namespace test
 
 	function _Construct_set(set: std.base.SetContainer<Atomic<number>>): void
 	{
+		// INSERT ELEMENTS
 		for (let i: number = 0; i <= 10; ++i)
 			for (let j: number = 0; j < 3; ++j)
 				set.push(new Atomic<number>(i));
+
+		// TEST SEQUENCE
+		let vec = new std.Vector<Atomic<number>>(set.begin(), set.end());
+		if (std.is_sorted(vec.begin(), vec.end()) == false)
+			throw new std.LogicError("Elements are not correctly inserted.");
 	}
 
 	/* ---------------------------------------------------------
@@ -147,8 +153,8 @@ namespace test
 		for (let i: number = 0; i <= 10; ++i)
 			for (let j: number = 0; j < 3; ++j)
 			{
-				let key = new Atomic<string>(NUMBER_NAMES[i]);
-				let value = i;
+				let key: Atomic<string> = new Atomic<string>(NUMBER_NAMES[i]);
+				let value: number = i;
 
 				map.push(std.make_pair(key, value));
 			}
