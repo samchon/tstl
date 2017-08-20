@@ -4,6 +4,8 @@
 /// <reference path="threads/SharedMutex.ts" />
 /// <reference path="threads/TimedMutex.ts" />
 /// <reference path="threads/SharedTimedMutex.ts" />
+
+/// <reference path="threads/ConditionVariable.ts" />
 /// <reference path="threads/Semaphore.ts" />
 
 namespace std

@@ -7,7 +7,7 @@
     "url": "http://samchon.org"
   },
 
-  "version": "1.5.7",
+  "version": "1.5.8",
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
   "scripts": {

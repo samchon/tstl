@@ -14,43 +14,43 @@
 		/**
 		 * Indicates whether some other object is &quot;equal to&quot; this one.
 		 *
-		 * The {@link equal_to} method implements an equivalence relation on non-null object references:
+		 * The {@link IComparable.equals} method implements an equivalence relation on non-null object references:
 		 * 
 		 * <ul>
 		 *	<li> 
-		 *		It is <b>reflexive</b>: for any non-null reference value <code>x</code>, <code>x.equal_to(x)</code> 
+		 *		It is <b>reflexive</b>: for any non-null reference value <code>x</code>, <code>x.equals(x)</code> 
 		 *		should return <code>true</code>. 
 		 *	</li>
 		 *	<li> 
 		 *		It is <b>symmetric</b>: for any non-null reference values <code>x</code> and <code>y</code>, 
-		 *		<code>x.equal_to(y)</code> should return <code>true</code> if and only if <code>y.equal_to(x)</code> 
+		 *		<code>x.equals(y)</code> should return <code>true</code> if and only if <code>y.equals(x)</code> 
 		 *		returns <code>true</code>. </li>
 		 *	<li> 
 		 *		It is <b>transitive</b>: for any non-null reference values <code>x</code>, <code>y</code>, and 
-		 *		<code>z</code>, if <code>x.equal_to(y)</code> returns <code>true</code> and <code>y.equal_to(z)</code> 
-		 *		returns <code>true</code>, then <code>x.equal_to(z)</code> should return <code>true</code>. 
+		 *		<code>z</code>, if <code>x.equals(y)</code> returns <code>true</code> and <code>y.equals(z)</code> 
+		 *		returns <code>true</code>, then <code>x.equals(z)</code> should return <code>true</code>. 
 		 *	</li>
 		 *	<li> 
 		 *		It is <b>consistent</b>: for any non-null reference values <code>x</code> and <code>y</code>, multiple 
-		 *		invocations of <code>x.equal_to(y)</code> consistently return <code>true</code> or consistently return 
-		 *		<code>false</code>, provided no information used in equal_to comparisons on the objects is modified. 
+		 *		invocations of <code>x.equals(y)</code> consistently return <code>true</code> or consistently return 
+		 *		<code>false</code>, provided no information used in equals comparisons on the objects is modified. 
 		 *	</li>
 		 *	<li> 
-		 *		For any non-null reference value <code>x</code>, <code>x.equal_to(null)</code> should return 
+		 *		For any non-null reference value <code>x</code>, <code>x.equals(null)</code> should return 
 		 *		<code>false</code>.
 		 *	</li>
 		 * </ul>
 		 * 
-		 * The {@link equal_to} method for interface {@link IComparable} implements the most discriminating possible 
+		 * The {@link IComparable.equals} method for interface {@link IComparable} implements the most discriminating possible 
 		 * equivalence relation on objects; that is, for any non-null reference values <code>x</code> and 
 		 * <code>y</code>, this method returns <code>true</code> if and only if <code>x</code> and <code>y</code> 
 		 * refer to the same object (<code>x == y</code> has the value <code>true</code>).
 		 * 
-		 * Note that it is generally necessary to override the {@link hash_code} method whenever this method is 
-		 * overridden, so as to maintain the general contract for the {@link hash_code} method, which states that 
+		 * Note that it is generally necessary to override the {@link IComparable.hashCode} method whenever this method is 
+		 * overridden, so as to maintain the general contract for the {@link IComparable.hashCode} method, which states that 
 		 * equal objects must have equal hash codes.
 		 *
-		 * - {@link IComparable.equal_to} is called by {@link equal_to}.
+		 * - {@link IComparable.equals} is called by {@link equal_to}.
 		 * 
 		 * @param obj the reference object with which to compare.
 		 * 
@@ -81,20 +81,15 @@
 		 * Issue a hash code. 
 		 * 
 		 * Returns a hash code value for the object. This method is supported for the benefit of hash tables such 
-		 * as those provided by hash containers; {@link HashSet}, {@link HashMap}, {@link MultiHashSet} and 
-		 * {@link MultiHashMap}.
+		 * as those provided by hash containers; {@link HashSet}, {@link HashMap}, {@link HashMultiSet} and 
+		 * {@link HashMultiMap}.
 		 *
-		 * As much as is reasonably practical, the {@link hash_code} method defined by interface 
+		 * As much as is reasonably practical, the {@link IComparable.hashCode} method defined by interface 
 		 * {@link IComparable} does return distinct integers for distinct objects. (This is typically implemented by 
 		 * converting the internal address of the object into an integer, but this implementation technique is not 
 		 * required by the JavaScript programming language.)
 		 * 
-		 * <ul>
-		 *	<li> 
-		 *		{@link IComparable.hash_code} is called by {@link hash_code}. If you want to keep basically 
-		 *		provided hash function, then returns {@link Hash.code}; <code>return Hash.code(this);</code> 
-		 *	</li>
-		 * </ul>
+		 * - {@link IComparable.hashCode} is called by {@link hash}.
 		 * 
 		 * @return An hash code who represents the object.
 		 */

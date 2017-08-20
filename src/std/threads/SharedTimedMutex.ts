@@ -17,7 +17,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: HashMap<IResolver, ILockType>;
+		private resolvers_: HashMap<IResolver, ILockType>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -30,7 +30,7 @@ namespace std
 			this.read_lock_count_ = 0;
 			this.write_lock_count_ = 0;
 
-			this.listeners_ = new HashMap<IResolver, ILockType>();
+			this.resolvers_ = new HashMap<IResolver, ILockType>();
 		}
 
 		/* =========================================================
@@ -47,7 +47,7 @@ namespace std
 				if (this.read_lock_count_ == 0 && this.write_lock_count_++ == 0)
 					resolve();
 				else
-					this.listeners_.emplace(resolve, 
+					this.resolvers_.emplace(resolve, 
 					{
 						access: base._LockType.WRITE, 
 						lock: base._LockType.LOCK
@@ -73,7 +73,7 @@ namespace std
 				else
 				{
 					// DO LOCK
-					this.listeners_.emplace(resolve, 
+					this.resolvers_.emplace(resolve, 
 					{
 						access: base._LockType.WRITE, 
 						lock: base._LockType.TRY_LOCK
@@ -82,11 +82,11 @@ namespace std
 					// AUTOMATIC UNLOCK
 					sleep_for(ms).then(() =>
 					{
-						if (this.listeners_.has(resolve) == false)
+						if (this.resolvers_.has(resolve) == false)
 							return;
 
 						// DO UNLOCK
-						this.listeners_.erase(resolve); // POP THE LISTENER
+						this.resolvers_.erase(resolve); // POP THE LISTENER
 						--this.write_lock_count_; // DECREAE LOCEKD COUNT
 
 						resolve(false); // RETURN FAILURE
@@ -97,8 +97,9 @@ namespace std
 
 		public try_lock_until(at: Date): Promise<boolean>
 		{
+			// COMPUTE MILLISECONDS TO WAIT
 			let now: Date = new Date();
-			let ms: number = at.getTime() - now.getTime(); // MILLISECONDS TO WAIT
+			let ms: number = at.getTime() - now.getTime();
 
 			return this.try_lock_for(ms);
 		}
@@ -108,14 +109,14 @@ namespace std
 			if (this.write_lock_count_ == 0)
 				throw new RangeError("This mutex is free on the unique lock.");
 
-			while (this.listeners_.empty() == false)
+			while (this.resolvers_.empty() == false)
 			{
 				// PICK A LISTENER
-				let it = this.listeners_.begin();
+				let it = this.resolvers_.begin();
 				let listener: IResolver = it.first;
 				let type: ILockType = it.second;
 
-				this.listeners_.erase(it); // POP FIRST
+				this.resolvers_.erase(it); // POP FIRST
 
 				// AND CALL LATER
 				if (type.lock == base._LockType.LOCK)
@@ -142,7 +143,7 @@ namespace std
 				if (this.write_lock_count_ == 0)
 					resolve();
 				else
-					this.listeners_.emplace(resolve, 
+					this.resolvers_.emplace(resolve, 
 					{
 						access: base._LockType.READ, 
 						lock: base._LockType.LOCK
@@ -170,7 +171,7 @@ namespace std
 				else
 				{
 					// DO LOCK
-					this.listeners_.emplace(resolve, 
+					this.resolvers_.emplace(resolve, 
 					{
 						access: base._LockType.READ, 
 						lock: base._LockType.TRY_LOCK
@@ -179,11 +180,11 @@ namespace std
 					// AUTOMATIC UNLOCK
 					sleep_for(ms).then(() =>
 					{
-						if (this.listeners_.has(resolve) == false)
+						if (this.resolvers_.has(resolve) == false)
 							return;
 
 						// DO UNLOCK
-						this.listeners_.erase(resolve); // POP THE LISTENER
+						this.resolvers_.erase(resolve); // POP THE LISTENER
 						--this.read_lock_count_; // DECREASE LOCKED COUNT
 
 						resolve(false); // RETURN FAILURE
@@ -194,8 +195,9 @@ namespace std
 
 		public try_lock_shared_until(at: Date): Promise<boolean>
 		{
+			// COMPUTE MILLISECONDS TO WAIT
 			let now: Date = new Date();
-			let ms: number = at.getTime() - now.getTime(); // MILLISECONDS TO WAIT
+			let ms: number = at.getTime() - now.getTime();
 
 			return this.try_lock_shared_for(ms);
 		}
@@ -207,14 +209,14 @@ namespace std
 
 			--this.read_lock_count_;
 
-			if (this.listeners_.empty() == false)
+			if (this.resolvers_.empty() == false)
 			{ 
 				// PICK A LISTENER
-				let it = this.listeners_.begin();
+				let it = this.resolvers_.begin();
 				let listener: IResolver = it.first;
 				let type: ILockType = it.second;
 
-				this.listeners_.erase(it); // POP FIRST
+				this.resolvers_.erase(it); // POP FIRST
 				
 				// AND CALL LATER
 				if (type.lock == base._LockType.LOCK)

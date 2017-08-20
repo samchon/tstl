@@ -12,7 +12,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: Queue<IResolver>;
+		private resolvers_: Queue<IResolver>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -23,12 +23,15 @@ namespace std
 		public constructor()
 		{
 			this.lock_count_ = 0;
-			this.listeners_ = new Queue<IResolver>();
+			this.resolvers_ = new Queue<IResolver>();
 		}
 
 		/* ---------------------------------------------------------
 			LOCK & UNLOCK
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public lock(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -36,14 +39,12 @@ namespace std
 				if (this.lock_count_++ == 0)
 					resolve();
 				else
-					this.listeners_.push(resolve);
+					this.resolvers_.push(resolve);
 			});
 		}
 
 		/**
-		 * Lock mutex if not locked.
-		 * 
-		 * Attempts to lock the {@link Mutex}, without blocking:
+		 * @inheritDoc
 		 */
 		public try_lock(): boolean
 		{
@@ -54,17 +55,20 @@ namespace std
 			return true;			
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public unlock(): void
 		{
 			if (this.lock_count_ == 0)
 				throw new RangeError("This mutex is free.");
 
 			--this.lock_count_; // DECREASE LOCKED COUNT
-			if (this.listeners_.empty() == false)
+			if (this.resolvers_.empty() == false)
 			{
-				let fn: IResolver = this.listeners_.front();
+				let fn: IResolver = this.resolvers_.front();
 				
-				this.listeners_.pop(); // POP FIRST
+				this.resolvers_.pop(); // POP FIRST
 				fn(); // AND CALL LATER
 			}
 		}
