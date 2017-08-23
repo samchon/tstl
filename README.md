@@ -53,7 +53,7 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
     - [Pair `pair`](http://samchon.github.io/tstl/api/classes/std.pair.html)
   - [`<thread>`](https://github.com/samchon/tstl/tree/master/src/std/threads)
     - sleep
-    - mutex
+    - critical section
 
 
 ## Installation
@@ -63,9 +63,6 @@ Installing **TSTL** in *NodeJS* is very easy. Just install with the `npm`
 ```bash
 # Install TSTL from the NPM module
 npm install --save tstl
-
-# If you need only definition, then fetch from the @types
-npm install --save-dev @types/tstl
 ```
 
 ### Usage (TypeScript)
