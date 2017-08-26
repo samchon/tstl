@@ -5,6 +5,5 @@ handbook/
 node_modules/
 lib/
 
-build/api.js
 *.bat
 *.lnk
