@@ -104,7 +104,7 @@ Use [browserify](https://www.npmjs.com/package/browserify) or just include the *
     - [NPM Repository](https://www.npmjs.com/package/tstl)
   - **Documents**
     - [**Guide Documents**](https://github.com/samchon/tstl/wiki)
-    - [API Documents](http://samchon.github.io/samchon/tstl)
+    - [API Documents](http://samchon.github.io/tstl/api)
     - [Class Diagram](http://samchon.github.io/tstl/design/class_diagram.pdf)
   - **Related Projects**
     - [Samchon-Framework](https://github.com/samchon/framework)
