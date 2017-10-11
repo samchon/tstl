@@ -35,14 +35,14 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
 
 ### Global Functions
   - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
-    - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithm/iterations.ts)
-    - [modifiers](https://github.com/samchon/tstl/tree/master/src/std/algorithm/modifiers.ts)
-    - [partition](https://github.com/samchon/tstl/tree/master/src/std/algorithm/partition.ts)
-    - [sorting](https://github.com/samchon/tstl/tree/master/src/std/algorithm/sorting.ts)
-    - [binary search](https://github.com/samchon/tstl/tree/master/src/std/algorithm/binary_search.ts)
-    - [union set](https://github.com/samchon/tstl/tree/master/src/std/algorithm/union_set.ts)
-    - [heap](https://github.com/samchon/tstl/tree/master/src/std/algorithm/heap.ts)
-    - [mathmatics](https://github.com/samchon/tstl/tree/master/src/std/algorithm/mathmatics.ts)
+    - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithms/iterations.ts)
+    - [modifiers](https://github.com/samchon/tstl/tree/master/src/std/algorithms/modifiers.ts)
+    - [partition](https://github.com/samchon/tstl/tree/master/src/std/algorithms/partition.ts)
+    - [sorting](https://github.com/samchon/tstl/tree/master/src/std/algorithms/sorting.ts)
+    - [binary search](https://github.com/samchon/tstl/tree/master/src/std/algorithms/binary_search.ts)
+    - [union set](https://github.com/samchon/tstl/tree/master/src/std/algorithms/union_set.ts)
+    - [heap](https://github.com/samchon/tstl/tree/master/src/std/algorithms/heap.ts)
+    - [mathmatics](https://github.com/samchon/tstl/tree/master/src/std/algorithms/mathmatics.ts)
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
     - [Exception `exception`](http://samchon.github.io/tstl/api/classes/std.exception.html)
       - [LogicError `logic_error`](http://samchon.github.io/tstl/api/classes/std.logicerror.html)
@@ -51,9 +51,12 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
     - [IComparable](http://samchon.github.io/tstl/api/interfaces/std.icomparable.html)
   - [`<utility>`](http://www.cplusplus.com/reference/utility/)
     - [Pair `pair`](http://samchon.github.io/tstl/api/classes/std.pair.html)
-  - [`<thread>`](https://github.com/samchon/tstl/tree/master/src/std/threads)
-    - sleep
-    - mutex
+  - [`<thread>`](https://github.com/samchon/tstl/tree/master/src/std/thread.ts)
+    - [ConditionVariable `condition_variable`](http://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
+    - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html)
+    - [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
+    - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html)
+    - [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
 
 
 ## Installation
@@ -63,9 +66,6 @@ Installing **TSTL** in *NodeJS* is very easy. Just install with the `npm`
 ```bash
 # Install TSTL from the NPM module
 npm install --save tstl
-
-# If you need only definition, then fetch from the @types
-npm install --save-dev @types/tstl
 ```
 
 ### Usage (TypeScript)
@@ -107,7 +107,7 @@ Use [browserify](https://www.npmjs.com/package/browserify) or just include the *
     - [NPM Repository](https://www.npmjs.com/package/tstl)
   - **Documents**
     - [**Guide Documents**](https://github.com/samchon/tstl/wiki)
-    - [API Documents](http://samchon.github.io/samchon/tstl)
+    - [API Documents](http://samchon.github.io/tstl/api)
     - [Class Diagram](http://samchon.github.io/tstl/design/class_diagram.pdf)
   - **Related Projects**
     - [Samchon-Framework](https://github.com/samchon/framework)

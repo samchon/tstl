@@ -17,7 +17,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private listeners_: Queue<Pair<boolean, IListener>>;
+		private resolvers_: Queue<Pair<boolean, IListener>>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -30,7 +30,7 @@ namespace std
 			this.read_lock_count_ = 0;
 			this.write_lock_count_ = 0;
 
-			this.listeners_ = new Queue<Pair<boolean, IListener>>();
+			this.resolvers_ = new Queue<Pair<boolean, IListener>>();
 		}
 
 		/* =========================================================
@@ -40,6 +40,9 @@ namespace std
 		============================================================
 			WRITE LOCK
 		--------------------------------------------------------- */
+		/**
+		 * Write lock.
+		 */
 		public lock(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -47,10 +50,13 @@ namespace std
 				if (this.read_lock_count_ == 0 && this.write_lock_count_++ == 0)
 					resolve();
 				else
-					this.listeners_.push(make_pair(base._LockType.WRITE, resolve));
+					this.resolvers_.push(make_pair(base._LockType.WRITE, resolve));
 			});
 		}
 
+		/**
+		 * Try write lock.
+		 */
 		public try_lock(): boolean
 		{
 			if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
@@ -60,17 +66,20 @@ namespace std
 			return true;
 		}
 
+		/**
+		 * Write unlock.
+		 */
 		public unlock(): void
 		{
 			if (this.write_lock_count_ == 0)
 				throw new RangeError("This mutex is free on the unique lock.");
 
-			while (this.listeners_.empty() == false)
+			while (this.resolvers_.empty() == false)
 			{
-				let access: boolean = this.listeners_.front().first;
-				let fn: IListener = this.listeners_.front().second;
+				let access: boolean = this.resolvers_.front().first;
+				let fn: IListener = this.resolvers_.front().second;
 
-				this.listeners_.pop(); // POP FIRST
+				this.resolvers_.pop(); // POP FIRST
 				fn(); // AND CALL LATER
 
 				// UNTIL MEET THE WRITE LOCK
@@ -83,6 +92,9 @@ namespace std
 		/* ---------------------------------------------------------
 			READ LOCK
 		--------------------------------------------------------- */
+		/**
+		 * Read lock.
+		 */
 		public lock_shared(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -92,7 +104,7 @@ namespace std
 				if (this.write_lock_count_ == 0)
 					resolve();
 				else
-					this.listeners_.push(make_pair(base._LockType.READ, resolve));
+					this.resolvers_.push(make_pair(base._LockType.READ, resolve));
 			});
 		}
 
@@ -105,6 +117,9 @@ namespace std
 			return true;
 		}
 
+		/**
+		 * Read unlock.
+		 */
 		public unlock_shared(): void
 		{
 			if (this.read_lock_count_ == 0)
@@ -112,12 +127,12 @@ namespace std
 
 			--this.read_lock_count_;
 
-			if (this.listeners_.empty() == false)
+			if (this.resolvers_.empty() == false)
 			{ 
 				// MUST BE WRITE LOCK
-				let fn: IListener = this.listeners_.front().second;
+				let fn: IListener = this.resolvers_.front().second;
 
-				this.listeners_.pop(); // POP FIRST
+				this.resolvers_.pop(); // POP FIRST
 				fn(); // AND CALL LATER
 			}
 		}

@@ -142,11 +142,13 @@ namespace std
 	export type shared_mutex = SharedMutex;
 	export type timed_mutex = TimedMutex;
 	export type shared_timed_mutex = SharedTimedMutex;
+	export type condition_variable = ConditionVariable;
 
 	export var mutex = Mutex;
 	export var shared_mutex = SharedMutex;
 	export var timed_mutex = TimedMutex;
 	export var shared_timed_mutex = SharedTimedMutex;
+	export var condition_variable = ConditionVariable;
 	
 	export namespace experiments
 	{
