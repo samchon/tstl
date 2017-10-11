@@ -53,10 +53,8 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
     - [Pair `pair`](http://samchon.github.io/tstl/api/classes/std.pair.html)
   - [`<thread>`](https://github.com/samchon/tstl/tree/master/src/std/thread.ts)
     - [ConditionVariable `condition_variable`](http://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
-    - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html)
-    - [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
-    - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html)
-    - [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
+    - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
+    - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
 
 
 ## Installation
