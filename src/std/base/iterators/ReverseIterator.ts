@@ -27,7 +27,7 @@ namespace std.base
 	 */
 	export abstract class ReverseIterator<T, Source extends Container<T>, Base extends Iterator<T>, This extends ReverseIterator<T, Source, Base, This>>
 		extends Iterator<T>
-		implements IBidirectionalIterator<T>, IComparable<ReverseIterator<T, Source, Base, This>>
+		implements IForwardIterator<T>, IComparable<ReverseIterator<T, Source, Base, This>>
 	{
 		/**
 		 * @hidden
@@ -44,13 +44,9 @@ namespace std.base
 		 */
 		protected constructor(base: Base)
 		{
-			if (base == null)
-				super(null);
-			else
-			{
-				super(base.source());
-				this.base_ = base.prev() as Base;
-			}
+			super();
+			
+			this.base_ = base.prev() as Base;
 		}
 
 		// CREATE A NEW OBJECT WITH SAME (DERIVED) TYPE
@@ -64,7 +60,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public source(): Source
 		{
-			return this.source_ as Source;
+			return this.base_.source() as Source;
 		}
 
 		/**

@@ -6,7 +6,7 @@
 /// <reference path="threads/SharedTimedMutex.ts" />
 
 /// <reference path="threads/ConditionVariable.ts" />
-/// <reference path="threads/Semaphore.ts" />
+/// <reference path="experiments/Semaphore.ts" />
 
 namespace std
 {

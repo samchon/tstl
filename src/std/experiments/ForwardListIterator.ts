@@ -2,7 +2,7 @@
 
 namespace std.experiments
 {
-	export class ForwardListIterator<T> implements IOutputIterator<T>
+	export class ForwardListIterator<T> implements IForwardIterator<T>
 	{
 		/**
 		 * @hidden

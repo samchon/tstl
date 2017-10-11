@@ -2,7 +2,8 @@
 
 namespace std
 {
-	export class Entry<Key, T> implements IComparable<Entry<Key, T>>
+	export class Entry<Key, T> 
+		implements IPair<Key, T>, IComparable<Entry<Key, T>>
 	{
 		public readonly first: Key;
 		public second: T;

@@ -8,7 +8,7 @@ namespace std.base
 	 * @hidden
 	 */
 	export class _MapElementList<Key, T> 
-		extends _ListContainer<Pair<Key, T>, MapIterator<Key, T>>
+		extends _ListContainer<Entry<Key, T>, MapIterator<Key, T>>
 	{
 		/**
 		 * @hidden
@@ -30,7 +30,7 @@ namespace std.base
 			this.associative_ = associative;
 		}
 
-		protected _Create_iterator(prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>): MapIterator<Key, T>
+		protected _Create_iterator(prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Entry<Key, T>): MapIterator<Key, T>
 		{
 			return new MapIterator<Key, T>(this, prev, next, val);
 		}

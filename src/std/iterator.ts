@@ -3,6 +3,8 @@
 /// <reference path="iterators/VectorIterator.ts" />
 /// <reference path="iterators/DequeIterator.ts" />
 /// <reference path="iterators/ListIterator.ts" />
+/// <reference path="experiments/ForwardListIterator.ts" />
+
 /// <reference path="iterators/SetIterator.ts" />
 /// <reference path="iterators/MapIterator.ts" />
 
