@@ -270,15 +270,15 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_pair(pair: IPair<Key, T>): Pair<MapIterator<Key, T>, boolean>
+		protected _Emplace(key: Key, val: T): Pair<MapIterator<Key, T>, boolean>
 		{
 			// FIND POSITION TO INSERT
-			let it: MapIterator<Key, T> = this.lower_bound(pair.first);
-			if (!it.equals(this.end()) && equal_to(it.first, pair.first))
+			let it: MapIterator<Key, T> = this.lower_bound(key);
+			if (!it.equals(this.end()) && equal_to(it.first, key))
 				return make_pair(it, false);
 
 			// ITERATOR TO RETURN
-			it = this["data_"].insert(it, new Entry(pair.first, pair.second));
+			it = this["data_"].insert(it, new Entry(key, val));
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return make_pair(it, true);
@@ -287,10 +287,8 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>
+		protected _Emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>
 		{
-			let key: Key = pair.first;
-
 			//--------
 			// INSERT BRANCH
 			//--------
@@ -319,13 +317,13 @@ namespace std
 			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
 				// CORRECT HINT
-				ret = this["data_"].insert(hint, new Entry(pair.first, pair.second));
+				ret = this["data_"].insert(hint, new Entry(key, val));
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
 			}
 			else // INVALID HINT
-				ret = this._Insert_by_pair(pair).first;
+				ret = this._Emplace(key, val).first;
 
 			return ret;
 		}
@@ -333,11 +331,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected _Insert_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			for (; !first.equals(last); first = first.next() as InputIterator)
-				this._Insert_by_pair(first.value);
+			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+				this._Emplace(it.value.first, it.value.second);
 		}
 
 		/* ---------------------------------------------------------

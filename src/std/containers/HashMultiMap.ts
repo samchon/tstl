@@ -316,10 +316,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_pair(pair: IPair<Key, T>): MapIterator<Key, T>
+		protected _Emplace(key: Key, val: T): MapIterator<Key, T>
 		{
 			// INSERT
-			let it = this["data_"].insert(this["data_"].end(), new Entry(pair.first, pair.second));
+			let it = this["data_"].insert(this["data_"].end(), new Entry(key, val));
 
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 			return it;
@@ -328,10 +328,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>
+		protected _Emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>
 		{
 			// INSERT
-			let it = this["data_"].insert(hint, new Entry(pair.first, pair.second));
+			let it = this["data_"].insert(hint, new Entry(key, val));
 
 			// POST-PROCESS
 			this._Handle_insert(it, it.next());
@@ -342,7 +342,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected _Insert_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			//--------

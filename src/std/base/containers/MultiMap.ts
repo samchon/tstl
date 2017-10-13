@@ -93,9 +93,9 @@ namespace std.base
 		public emplace(...args: any[]): MapIterator<Key, T>
 		{
 			if (args.length == 1)
-				return this._Insert_by_pair(args[0]);
+				return this._Emplace(args[0].first, args[0].second);
 			else
-				return this._Insert_by_pair(make_pair<Key, T>(args[0], args[1]));
+				return this._Emplace(args[0], args[1]);
 		}
 
 		/**

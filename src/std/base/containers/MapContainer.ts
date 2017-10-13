@@ -336,9 +336,9 @@ namespace std.base
 		public emplace_hint(hint: any, ...args: any[]): any
 		{
 			if (args.length == 1)
-				return this.insert(hint, args[0] as IPair<Key, T>);
+				return this._Emplace_hint(hint, args[0].first, args[0].second);
 			else
-				return this.insert(hint, make_pair<Key, T>(args[0], args[1]));
+				return this._Emplace_hint(hint, args[0], args[1]);
 		}
 
 		/**
@@ -391,11 +391,11 @@ namespace std.base
 		{
 			if (args.length == 1)
 			{
-				return this._Insert_by_pair(args[0]);
+				return this._Emplace(args[0].first, args[0].second);
 			}
 			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
-				return this._Insert_by_range(args[0], args[1]);
+				return this._Insert_range(args[0], args[1]);
 			}
 			else
 			{
@@ -410,7 +410,7 @@ namespace std.base
 				}
 
 				// INSERT AN ELEMENT
-				ret = this._Insert_by_hint(args[0], args[1]);
+				ret = this._Emplace_hint(args[0], args[1].first, args[1].second);
 
 				// RETURN BRANCHES
 				if (is_reverse_iterator == true)
@@ -423,17 +423,17 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_pair<L extends Key, U extends T>(pair: IPair<L, U>): any;
+		protected abstract _Emplace(key: Key, val: T): any;
 
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
+		protected abstract _Emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>;
 
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected abstract _Insert_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		/* ---------------------------------------------------------

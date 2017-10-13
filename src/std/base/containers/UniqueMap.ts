@@ -153,9 +153,9 @@ namespace std.base
 		public emplace(...args: any[]): Pair<MapIterator<Key, T>, boolean>
 		{
 			if (args.length == 1)
-				return this._Insert_by_pair(args[0]);
+				return this._Emplace(args[0].first, args[0].second);
 			else
-				return this._Insert_by_pair(make_pair<Key, T>(args[0], args[1]));
+				return this._Emplace(args[0], args[1]);
 		}
 
 		/**
@@ -304,7 +304,7 @@ namespace std.base
 			let it = this.find(key);
 
 			if (it.equals(this.end()) == true)
-				return this._Insert_by_pair(make_pair(key, value));
+				return this._Emplace(key, value);
 			else
 			{
 				it.second = value;

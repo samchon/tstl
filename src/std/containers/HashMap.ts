@@ -304,15 +304,15 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_pair(pair: IPair<Key, T>): Pair<MapIterator<Key, T>, boolean>
+		protected _Emplace(key: Key, val: T): Pair<MapIterator<Key, T>, boolean>
 		{
 			// TEST WHETHER EXIST
-			let it: MapIterator<Key, T> = this.find(pair.first);
+			let it: MapIterator<Key, T> = this.find(key);
 			if (it.equals(this.end()) == false)
 				return make_pair(it, false);
 
 			// INSERT
-			this["data_"].push(new Entry(pair.first, pair.second));
+			this["data_"].push(new Entry(key, val));
 			it = it.prev();
 
 			// POST-PROCESS
@@ -324,14 +324,14 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>
+		protected _Emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>
 		{
 			// FIND DUPLICATED KEY
-			let it: MapIterator<Key, T> = this.find(pair.first);
+			let it: MapIterator<Key, T> = this.find(key);
 			if (it.equals(this.end()) == true)
 			{
 				// INSERT
-				it = this["data_"].insert(hint, new Entry(pair.first, pair.second));
+				it = this["data_"].insert(hint, new Entry(key, val));
 
 				// POST-PROCESS
 				this._Handle_insert(it, it.next());
@@ -342,7 +342,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected _Insert_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			let my_first: MapIterator<Key, T> = this.end().prev();
