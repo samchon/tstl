@@ -4,10 +4,10 @@ namespace std.base
 {
 	export class ForOfAdaptor<T> implements IterableIterator<T>
 	{
-		private it_: Iterator<T>;
-		private last_: Iterator<T>;
+		private it_: IForwardIterator<T>;
+		private last_: IForwardIterator<T>;
 
-		public constructor(first: Iterator<T>, last: Iterator<T>)
+		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>)
 		{
 			this.it_ = first;
 			this.last_ = last;
@@ -22,7 +22,7 @@ namespace std.base
 				};
 			else
 			{
-				let it: Iterator<T> = this.it_;
+				let it: IForwardIterator<T> = this.it_;
 				this.it_ = this.it_.next();
 
 				return {

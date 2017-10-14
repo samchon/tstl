@@ -2,7 +2,7 @@
 
 namespace std
 {
-	export class ForwardList<T>
+	export class ForwardList<T> implements Iterable<T>
 	{
 		/**
 		 * @hidden
@@ -95,6 +95,11 @@ namespace std
 		public end(): ForwardListIterator<T>
 		{
 			return this.end_;;
+		}
+
+		public [Symbol.iterator](): IterableIterator<T>
+		{
+			return new base.ForOfAdaptor(this.begin(), this.end());
 		}
 
 		/* =========================================================
