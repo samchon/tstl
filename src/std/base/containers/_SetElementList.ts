@@ -7,52 +7,52 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _SetElementList<T> 
-		extends _ListContainer<T, SetIterator<T>>
+	export class _SetElementList<T, Source extends ISetContainer<T>> 
+		extends _ListContainer<T, SetIterator<T, Source>>
 	{
 		/**
 		 * @hidden
 		 */
-		private associative_: SetContainer<T>;
+		private associative_: Source;
 
 		/**
 		 * @hidden
 		 */
-		private rend_: SetReverseIterator<T>;
+		private rend_: SetReverseIterator<T, Source>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(associative: SetContainer<T>)
+		public constructor(associative: Source)
 		{
 			super();
 
 			this.associative_ = associative;
 		}
 
-		protected _Create_iterator(prev: SetIterator<T>, next: SetIterator<T>, val: T): SetIterator<T>
+		protected _Create_iterator(prev: SetIterator<T, Source>, next: SetIterator<T, Source>, val: T): SetIterator<T, Source>
 		{
-			return new SetIterator<T>(this, prev, next, val);
+			return new SetIterator<T, Source>(this, prev, next, val);
 		}
-		protected _Set_begin(it: SetIterator<T>): void
+		protected _Set_begin(it: SetIterator<T, Source>): void
 		{
 			super._Set_begin(it);
-			this.rend_ = new SetReverseIterator<T>(it);
+			this.rend_ = new SetReverseIterator<T, Source>(it);
 		}
 
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public associative(): SetContainer<T>
+		public associative(): Source
 		{
 			return this.associative_;
 		}
 
-		public rbegin(): SetReverseIterator<T>
+		public rbegin(): SetReverseIterator<T, Source>
 		{
-			return new SetReverseIterator<T>(this.end());
+			return new SetReverseIterator<T, Source>(this.end());
 		}
-		public rend(): SetReverseIterator<T>
+		public rend(): SetReverseIterator<T, Source>
 		{
 			return this.rend_;
 		}

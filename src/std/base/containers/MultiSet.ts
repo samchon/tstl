@@ -41,8 +41,8 @@ namespace std.base
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class MultiSet<T>
-		extends SetContainer<T>
+	export abstract class MultiSet<T, Source extends IMultiSet<T>>
+		extends SetContainer<T, Source>
 	{
 		/* ---------------------------------------------------------
 			INSERT
@@ -57,17 +57,17 @@ namespace std.base
 		 *
 		 * @return An iterator to the newly inserted element.
 		 */
-		public insert(val: T): SetIterator<T>;
+		public insert(val: T): SetIterator<T, Source>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
+		public insert(hint: SetReverseIterator<T, Source>, val: T): SetReverseIterator<T, Source>;
 
 		/**
 		 * @inheritdoc
@@ -86,9 +86,9 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public merge<U extends T>(source: SetContainer<U>): void
+		public merge(source: SetContainer<T, Source>): void
 		{
-			this.insert<U, SetIterator<U>>(source.begin(), source.end());
+			this.insert(source.begin(), source.end());
 			source.clear();
 		}
 	}

@@ -1,12 +1,7 @@
 /// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/UniqueMap.ts" />
-
-namespace std.TreeMap
-{
-	export type iterator<Key, T> = MapIterator<Key, T>;
-	export type reverse_iterator<Key, T> = MapReverseIterator<Key, T>;
-}
+/// <reference path="../base/iterators/MapIterator.ts" />
 
 namespace std
 {
@@ -59,13 +54,13 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMap<Key, T>
-		extends base.UniqueMap<Key, T>
-		implements base.ITreeMap<Key, T>
+		extends base.UniqueMap<Key, T, TreeMap<Key, T>>
+		implements base.ITreeMap<Key, T, TreeMap<Key, T>>
 	{
 		/**
 		 * @hidden
 		 */
-		private tree_: base._UniqueMapTree<Key, T>;
+		private tree_: base._UniqueMapTree<Key, T, TreeMap<Key, T>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -185,7 +180,7 @@ namespace std
 			//--------
 			// ADJUST THE SPECIFIED CONSTRUCTOR
 			//--------
-			this.tree_ = new base._UniqueMapTree<Key, T>(this, compare);
+			this.tree_ = new base._UniqueMapTree<Key, T, TreeMap<Key, T>>(this, compare);
 			if (fn != null)
 				fn();
 		}
@@ -209,7 +204,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: Key): MapIterator<Key, T>
+		public find(key: Key): TreeMap.Iterator<Key, T>
 		{
 			let node = this.tree_.find_by_key(key);
 
@@ -238,7 +233,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public lower_bound(key: Key): MapIterator<Key, T>
+		public lower_bound(key: Key): TreeMap.Iterator<Key, T>
 		{
 			return this.tree_.lower_bound(key);
 		}
@@ -246,7 +241,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public upper_bound(key: Key): MapIterator<Key, T>
+		public upper_bound(key: Key): TreeMap.Iterator<Key, T>
 		{
 			return this.tree_.upper_bound(key);
 		}
@@ -254,7 +249,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_range(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>
+		public equal_range(key: Key): Pair<TreeMap.Iterator<Key, T>, TreeMap.Iterator<Key, T>>
 		{
 			return this.tree_.equal_range(key);
 		}
@@ -270,10 +265,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Emplace(key: Key, val: T): Pair<MapIterator<Key, T>, boolean>
+		protected _Emplace(key: Key, val: T): Pair<TreeMap.Iterator<Key, T>, boolean>
 		{
 			// FIND POSITION TO INSERT
-			let it: MapIterator<Key, T> = this.lower_bound(key);
+			let it: TreeMap.Iterator<Key, T> = this.lower_bound(key);
 			if (!it.equals(this.end()) && equal_to(it.first, key))
 				return make_pair(it, false);
 
@@ -287,13 +282,13 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>
+		protected _Emplace_hint(hint: TreeMap.Iterator<Key, T>, key: Key, val: T): TreeMap.Iterator<Key, T>
 		{
 			//--------
 			// INSERT BRANCH
 			//--------
 			// prev < current < hint
-			let prev: MapIterator<Key, T> = hint.prev();
+			let prev: TreeMap.Iterator<Key, T> = hint.prev();
 			let keys: Vector<Key> = new Vector<Key>();
 
 			// CONSTRUCT KEYS
@@ -312,7 +307,7 @@ namespace std
 					keys.push_back(hint.first);
 
 			// IS THE HINT VALID ?
-			let ret: MapIterator<Key, T>;
+			let ret: TreeMap.Iterator<Key, T>;
 
 			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
@@ -344,7 +339,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_insert(first: TreeMap.Iterator<Key, T>, last: TreeMap.Iterator<Key, T>): void
 		{
 			this.tree_.insert(first);
 		}
@@ -352,7 +347,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_erase(first: TreeMap.Iterator<Key, T>, last: TreeMap.Iterator<Key, T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.tree_.erase(first);
@@ -388,4 +383,29 @@ namespace std
 			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
+}
+
+namespace std.TreeMap
+{
+	//----
+	// PASCAL NOTATION
+	//----
+	// HEAD
+	export type Iterator<Key, T> = base.MapIterator<Key, T, TreeMap<Key, T>>;
+	export type ReverseIterator<Key, T> = base.MapReverseIterator<Key, T, TreeMap<Key, T>>;
+
+	// BODY
+	export var Iterator = base.MapIterator;
+	export var ReverseIterator = base.MapReverseIterator;
+
+	//----
+	// SNAKE NOTATION
+	//----
+	// HEAD
+	export type iterator<Key, T> = Iterator<Key, T>;
+	export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
+
+	// BODY
+	export var iterator = Iterator;
+	export var reverse_iterator = ReverseIterator;
 }

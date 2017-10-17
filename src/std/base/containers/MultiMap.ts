@@ -48,8 +48,8 @@ namespace std.base
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class MultiMap<Key, T>
-		extends MapContainer<Key, T>
+	export abstract class MultiMap<Key, T, Source extends IMultiMap<Key, T>>
+		extends MapContainer<Key, T, Source>
 	{
 		/* ---------------------------------------------------------
 			INSERT
@@ -70,7 +70,7 @@ namespace std.base
 		 * 
 		 * @return An {@link MapIterator iterator} to the newly inserted element.
 		 */
-		public emplace(key: Key, value: T): MapIterator<Key, T>;
+		public emplace(key: Key, value: T): MapIterator<Key, T, Source>;
 
 		/**
 		 * Construct and insert element.
@@ -88,9 +88,9 @@ namespace std.base
 		 *			   {@link Pair.second second}.
 		 * @return An {@link MapIterator iterator} to the newly inserted element.
 		 */
-		public emplace(pair: IPair<Key, T>): MapIterator<Key, T>;
+		public emplace(pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 
-		public emplace(...args: any[]): MapIterator<Key, T>
+		public emplace(...args: any[]): MapIterator<Key, T, Source>
 		{
 			if (args.length == 1)
 				return this._Emplace(args[0].first, args[0].second);
@@ -110,17 +110,17 @@ namespace std.base
 		 *
 		 * @return An iterator pointing to the newly inserted element.
 		 */
-		public insert(pair: IPair<Key, T>): MapIterator<Key, T>;
+		public insert(pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
+		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapReverseIterator<Key, T>, pair: IPair<Key, T>): MapReverseIterator<Key, T>;
+		public insert(hint: MapReverseIterator<Key, T, Source>, pair: IPair<Key, T>): MapReverseIterator<Key, T, Source>;
 		
 		/**
 		 * @inheritdoc
@@ -139,9 +139,9 @@ namespace std.base
 		/**
 		 * @inheritdoc
 		 */
-		public merge<L extends Key, U extends T>(source: MapContainer<L, U>): void
+		public merge(source: MapContainer<Key, T, Source>): void
 		{
-			this.insert<L, U, MapIterator<L, U>>(source.begin(), source.end());
+			this.insert(source.begin(), source.end());
 			source.clear();
 		}
 	}

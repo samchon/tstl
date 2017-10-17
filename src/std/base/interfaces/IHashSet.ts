@@ -42,8 +42,8 @@
 	 * @reference http://www.cplusplus.com/reference/unordered_set/unordered_set
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-    export interface IHashSet<T>
-        extends SetContainer<T>
+    export interface IHashSet<T, Source extends ISetContainer<T>>
+        extends SetContainer<T, Source>
 	{
 		/**
 		 * Return number of buckets.

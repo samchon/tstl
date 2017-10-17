@@ -43,18 +43,18 @@ namespace std.base
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class MapContainer<Key, T>
+	export abstract class MapContainer<Key, T, Source extends IMapContainer<Key, T>>
 		extends Container<Entry<Key, T>>
 	{
 		/**
 		 * @hidden
 		 */
-		private ptr_: IPointer<MapContainer<Key, T>>;
+		private ptr_: IPointer<MapContainer<Key, T, IMapContainer<Key, T>>>;
 
 		/**
 		 * @hidden
 		 */
-		private data_: _MapElementList<Key, T>;
+		private data_: _MapElementList<Key, T, Source>;
 
 		/* ---------------------------------------------------------
 			CONSTURCTORS
@@ -67,7 +67,7 @@ namespace std.base
 			super();
 
 			this.ptr_ = {value: this};
-			this.data_ = new _MapElementList<Key, T>(this);
+			this.data_ = new _MapElementList<Key, T, Source>(this as any);
 		}
 		
 		/**
@@ -113,7 +113,7 @@ namespace std.base
 		 * @return An iterator to the element, if an element with specified <i>key</i> is found, or 
 		 *		   {@link end end()} otherwise.
 		 */
-		public abstract find(key: Key): MapIterator<Key, T>;
+		public abstract find(key: Key): MapIterator<Key, T, Source>;
 
 		/**
 		 * Return iterator to beginning.
@@ -125,7 +125,7 @@ namespace std.base
 		 *
 		 * @return An iterator to the first element in the  The iterator containes the first element's value.
 		 */
-		public begin(): MapIterator<Key, T>
+		public begin(): MapIterator<Key, T, Source>
 		{
 			return this.data_.begin();
 		}
@@ -149,7 +149,7 @@ namespace std.base
 		 * 
 		 * @return An iterator to the end element in the 
 		 */
-		public end(): MapIterator<Key, T>
+		public end(): MapIterator<Key, T, Source>
 		{
 			return this.data_.end();
 		}
@@ -169,7 +169,7 @@ namespace std.base
 		 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse beginning</i> of the sequence 
 		 *		   
 		 */
-		public rbegin(): MapReverseIterator<Key, T>
+		public rbegin(): MapReverseIterator<Key, T, Source>
 		{
 			return this.data_.rbegin();
 		}
@@ -186,7 +186,7 @@ namespace std.base
 		 * 
 		 * @return A {@link MapReverseIterator reverse iterator} to the <i>reverse end</i> of the sequence 
 		 */
-		public rend(): MapReverseIterator<Key, T>
+		public rend(): MapReverseIterator<Key, T, Source>
 		{
 			return this.data_.rend();
 		}
@@ -269,7 +269,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
 		 *		   equivalent key in the {@link MapContainer}.
 		 */
-		public emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>;
+		public emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
 
 		/**
 		 * Construct and insert element with hint
@@ -289,7 +289,7 @@ namespace std.base
 		 * @return An {@link MapIterator iterator} pointing to either the newly inserted element or to the element
 		 *		   that already had an equivalent key in the {@link MapContainer}.
 		 */
-		public emplace_hint(hint: MapReverseIterator<Key, T>, key: Key, val: T): MapReverseIterator<Key, T>;
+		public emplace_hint(hint: MapReverseIterator<Key, T, Source>, key: Key, val: T): MapReverseIterator<Key, T, Source>;
 
 		/**
 		 * Construct and insert element with hint
@@ -310,7 +310,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
 		 *		   equivalent key in the {@link MapContainer}.
 		 */
-		public emplace_hint(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
+		public emplace_hint(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 
 		/**
 		 * Construct and insert element with hint
@@ -331,7 +331,7 @@ namespace std.base
 		 * @return An {@link MapIterator iterator} pointing to either the newly inserted element or to the element 
 		 *		   that already had an equivalent key in the {@link MapContainer}.
 		 */
-		public emplace_hint(hint: MapReverseIterator<Key, T>, pair: IPair<Key, T>): MapReverseIterator<Key, T>;
+		public emplace_hint(hint: MapReverseIterator<Key, T, Source>, pair: IPair<Key, T>): MapReverseIterator<Key, T, Source>;
 
 		public emplace_hint(hint: any, ...args: any[]): any
 		{
@@ -355,7 +355,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an 
 		 *		   equivalent key in the {@link MapContainer}.
 		 */
-		public insert(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
+		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 
 		/**
 		 * Insert an element.
@@ -371,7 +371,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an 
 		 *		   equivalent key in the {@link MapContainer}.
 		 */
-		public insert(hint: MapReverseIterator<Key, T>, pair: IPair<Key, T>): MapReverseIterator<Key, T>;
+		public insert(hint: MapReverseIterator<Key, T, Source>, pair: IPair<Key, T>): MapReverseIterator<Key, T, Source>;
 		
 		/**
 		 * Insert elements from range iterators.
@@ -399,14 +399,14 @@ namespace std.base
 			}
 			else
 			{
-				let ret: MapIterator<Key, T>;
+				let ret: MapIterator<Key, T, Source>;
 				let is_reverse_iterator: boolean = false;
 
 				// REVERSE_ITERATOR TO ITERATOR
 				if (args[0] instanceof MapReverseIterator)
 				{
 					is_reverse_iterator = true;
-					args[0] = (args[0] as MapReverseIterator<Key, T>).base().prev();
+					args[0] = (args[0] as MapReverseIterator<Key, T, Source>).base().prev();
 				}
 
 				// INSERT AN ELEMENT
@@ -414,7 +414,7 @@ namespace std.base
 
 				// RETURN BRANCHES
 				if (is_reverse_iterator == true)
-					return new MapReverseIterator<Key, T>(ret.next());
+					return new MapReverseIterator<Key, T, Source>(ret.next());
 				else
 					return ret;
 			}
@@ -428,7 +428,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>;
+		protected abstract _Emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
 
 		/**
 		 * @hidden
@@ -461,7 +461,7 @@ namespace std.base
 		 * 
 		 * @param it Iterator specifying position winthin the {@link MapContainer map contaier} to be removed.
 		 */
-		public erase(it: MapIterator<Key, T>): MapIterator<Key, T>;
+		public erase(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
 		
 		/**
 		 * Erase elements by range iterators.
@@ -478,7 +478,7 @@ namespace std.base
 		 *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>,
 		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
 		 */
-		public erase(begin: MapIterator<Key, T>, end: MapIterator<Key, T>): MapIterator<Key, T>;
+		public erase(begin: MapIterator<Key, T, Source>, end: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
 
 		/**
 		 * Erase an elemet by iterator.
@@ -490,7 +490,7 @@ namespace std.base
 		 * 
 		 * @param it Iterator specifying position winthin the {@link MapContainer map contaier} to be removed.
 		 */
-		public erase(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+		public erase(it: MapReverseIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>;
 
 		/**
 		 * Erase elements by range iterators.
@@ -507,11 +507,11 @@ namespace std.base
 		 *			  Notice that the range includes all the elements between <i>begin</i> and <i>end</i>,
 		 *			  including the element pointed by <i>begin</i> but not the one pointed by <i>end</i>.
 		 */
-		public erase(begin: MapReverseIterator<Key, T>, end: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+		public erase(begin: MapReverseIterator<Key, T, Source>, end: MapReverseIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>;
 
 		public erase(...args: any[]): any 
 		{
-			if (args.length == 1 && (args[0] instanceof Iterator == false || (args[0] as MapIterator<Key, T>).source() != this))
+			if (args.length == 1 && (args[0] instanceof Iterator == false || (args[0] as MapIterator<Key, T, Source>).source() as any != this))
 				return this._Erase_by_key(args[0]);
 			else
 				if (args.length == 1)
@@ -538,7 +538,7 @@ namespace std.base
 		 */
 		private _Erase_by_iterator(first: any, last: any = first.next()): any
 		{
-			let ret: MapIterator<Key, T>;
+			let ret: MapIterator<Key, T, Source>;
 			let is_reverse_iterator: boolean = false;
 
 			// REVERSE ITERATOR TO ITERATOR
@@ -546,8 +546,8 @@ namespace std.base
 			{
 				is_reverse_iterator = true;
 
-				let first_it = (last as MapReverseIterator<Key, T>).base();
-				let last_it = (first as MapReverseIterator<Key, T>).base();
+				let first_it = (last as MapReverseIterator<Key, T, Source>).base();
+				let last_it = (first as MapReverseIterator<Key, T, Source>).base();
 
 				first = first_it;
 				last = last_it;
@@ -558,7 +558,7 @@ namespace std.base
 
 			// RETURN BRANCHES
 			if (is_reverse_iterator == true)
-				return new MapReverseIterator<Key, T>(ret.next());
+				return new MapReverseIterator<Key, T, Source>(ret.next());
 			else
 				return ret;
 		}
@@ -566,7 +566,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Erase_by_range(first: MapIterator<Key, T>, last: MapIterator<Key, T>): MapIterator<Key, T>
+		private _Erase_by_range(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>
 		{
 			// ERASE
 			let it = this.data_.erase(first, last);
@@ -583,7 +583,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		public swap(obj: MapContainer<Key, T>): void
+		public swap(obj: MapContainer<Key, T, Source>): void
 		{
 			// CHANGE ITERATORS' SOURCES
 			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
@@ -599,7 +599,7 @@ namespace std.base
 		 * 
 		 * @param source A {@link MapContainer map container} to transfer the elements from.
 		 */
-		public abstract merge<L extends Key, U extends T>(source: MapContainer<L, U>): void;
+		public abstract merge(source: MapContainer<Key, T, Source>): void;
 
 		/* ---------------------------------------------------------
 			POST-PROCESS
@@ -607,11 +607,11 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+		protected abstract _Handle_insert(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source>): void;
 
 		/**
 		 * @hidden
 		 */
-		protected abstract _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void;
+		protected abstract _Handle_erase(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source>): void;
 	}
 }

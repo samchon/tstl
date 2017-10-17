@@ -7,19 +7,19 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _UniqueMapTree<Key, T>
-		extends _MapTree<Key, T>
+	export class _UniqueMapTree<Key, T, Source extends IUniqueMap<Key, T>>
+		extends _MapTree<Key, T, Source>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public constructor(map: TreeMap<Key, T>, compare: (x: Key, y: Key) => boolean)
+		public constructor(map: Source, compare: (x: Key, y: Key) => boolean)
 		{
 			super
 			(
 				map,
 				compare,
-				function (x: MapIterator<Key, T>, y: MapIterator<Key, T>): boolean
+				function (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>): boolean
 				{
 					return compare(x.first, y.first);
 				}
@@ -29,16 +29,16 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public find_by_key(key: Key): _XTreeNode<MapIterator<Key, T>>
+		public find_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
 		{
-			let node: _XTreeNode<MapIterator<Key, T>> = this.root_;
+			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
 			if (node == null)
 				return null;
 
 			while (true)
 			{
-				let it: MapIterator<Key, T> = node.value;
-				let myNode: _XTreeNode<MapIterator<Key, T>> = null;
+				let it: MapIterator<Key, T, Source> = node.value;
+				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
 				
 				if (equal_to(key, it.first))
 					break;
@@ -57,19 +57,19 @@ namespace std.base
 			return node;
 		}
 
-		public upper_bound(key: Key): MapIterator<Key, T>
+		public upper_bound(key: Key): MapIterator<Key, T, Source>
 		{
 			//--------
 			// FIND MATCHED NODE
 			//--------
-			let node: _XTreeNode<MapIterator<Key, T>> = this.find_by_key(key);
+			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.find_by_key(key);
 			if (node == null)
-				return this.source().end();
+				return this.source().end() as MapIterator<Key, T, Source>;
 
 			//--------
 			// RETURN BRANCH
 			//--------
-			let it: MapIterator<Key, T> = node.value;
+			let it: MapIterator<Key, T, Source> = node.value;
 			if (equal_to(it.first, key) || this.key_comp()(it.first, key)) // it.first <= key
 				return it.next();
 			else // it.first > key

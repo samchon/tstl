@@ -1,12 +1,7 @@
 /// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/ArrayContainer.ts" />
-
-namespace std.Vector
-{
-	export type iterator<T> = base.ArrayIterator<T, Vector<T>>;
-	export type reverse_iterator<T> = base.ArrayReverseIterator<T, Vector<T>>;
-}
+/// <reference path="../base/iterators/ArrayIterator.ts" />
 
 namespace std
 {	
@@ -292,7 +287,7 @@ namespace std
 		 * @hidden
 		 */
 		protected _Insert_by_range<InputIterator extends IForwardIterator<T>>
-			(position: VectorIterator<T>, first: InputIterator, last: InputIterator): VectorIterator<T>
+			(position: Vector.Iterator<T>, first: InputIterator, last: InputIterator): Vector.Iterator<T>
 		{
 			if (position.index() == -1)
 			{ 
@@ -337,7 +332,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: VectorIterator<T>, last: VectorIterator<T>): VectorIterator<T>
+		protected _Erase_by_range(first: Vector.Iterator<T>, last: Vector.Iterator<T>): Vector.Iterator<T>
 		{
 			if (first.index() == -1)
 				return first;
@@ -379,4 +374,32 @@ namespace std
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 		}
 	}
+}
+
+/**
+ * @hidden
+ */
+namespace std.Vector
+{
+	//----
+	// PASCAL NOTATION
+	//----
+	// HEAD
+	export type Iterator<T> = base.ArrayIterator<T, Vector<T>>;
+	export type ReverseIterator<T> = base.ArrayReverseIterator<T, Vector<T>>;
+
+	// BODY
+	export var Iterator = base.ArrayIterator;
+	export var ReverseIterator = base.ArrayReverseIterator;
+
+	//----
+	// SNAKE NOTATION
+	//----
+	// HEAD
+	export type iterator<T> = Iterator<T>;
+	export type reverse_iterator<T> = ReverseIterator<T>;
+
+	// BODY
+	export var iterator = Iterator;
+	export var reverse_iterator = ReverseIterator;
 }

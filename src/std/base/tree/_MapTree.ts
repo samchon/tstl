@@ -7,10 +7,10 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export abstract class _MapTree<Key, T>
-		extends _XTree<MapIterator<Key, T>>
+	export abstract class _MapTree<Key, T, Source extends IMapContainer<Key, T>>
+		extends _XTree<MapIterator<Key, T, Source>>
 	{
-		private source_: ITreeMap<Key, T>;
+		private source_: Source;
 		private key_compare_: (x: Key, y: Key) => boolean;
 		private value_compare_: (x: Pair<Key, T>, y: Pair<Key, T>) => boolean;
 		
@@ -19,14 +19,14 @@ namespace std.base
 		--------------------------------------------------------- */
         public constructor
 			(
-				map: ITreeMap<Key, T>, 
+				source: Source, 
 				compare: (x: Key, y: Key) => boolean,
-				itCompare: (x: MapIterator<Key, T>, y: MapIterator<Key, T>) => boolean
+				itCompare: (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>) => boolean
 			)
 		{
 			super(itCompare);
 			
-			this.source_ = map;
+			this.source_ = source;
 			this.key_compare_ = compare;
 
 			this.value_compare_ =
@@ -39,23 +39,23 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public abstract find_by_key(key: Key): _XTreeNode<MapIterator<Key, T>>;
+		public abstract find_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>;
 
-		public lower_bound(key: Key): MapIterator<Key, T>
+		public lower_bound(key: Key): MapIterator<Key, T, Source>
 		{
-			let node: _XTreeNode<MapIterator<Key, T>> = this.find_by_key(key);
+			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.find_by_key(key);
 
 			if (node == null)
-				return this.source().end();
+				return this.source().end() as MapIterator<Key, T, Source>;
 			else if (this.key_comp()(node.value.first, key)) // it < key
 				return node.value.next();
 			else
 				return node.value;
 		}
 
-		public abstract upper_bound(key: Key): MapIterator<Key, T>;
+		public abstract upper_bound(key: Key): MapIterator<Key, T, Source>;
 
-		public equal_range(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>
+		public equal_range(key: Key): Pair<MapIterator<Key, T, Source>, MapIterator<Key, T, Source>>
 		{
 			return make_pair(this.lower_bound(key), this.upper_bound(key));
 		}
@@ -63,7 +63,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCECSSORS
 		--------------------------------------------------------- */
-		public source(): ITreeMap<Key, T>
+		public source(): Source
 		{
 			return this.source_;
 		}

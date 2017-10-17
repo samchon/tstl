@@ -1,8 +1,8 @@
-/// <reference path="../API.ts" />
+/// <reference path="../../API.ts" />
 
-/// <reference path="../base/iterators/_ListIteratorBase.ts" />
+/// <reference path="_ListIteratorBase.ts" />
 
-namespace std
+namespace std.base
 {
 	/**
 	 * An iterator of {@link MapContainer map container}.
@@ -12,14 +12,14 @@ namespace std
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class MapIterator<Key, T>
+	export class MapIterator<Key, T, Source extends IMapContainer<Key, T>>
 		extends base._ListIteratorBase<Entry<Key, T>>
-		implements IComparable<MapIterator<Key, T>>
+		implements IComparable<MapIterator<Key, T, Source>>
 	{
 		/**
 		 * @hidden
 		 */
-		private source_: base._MapElementList<Key, T>;
+		private source_: base._MapElementList<Key, T, Source>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -27,7 +27,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		public constructor(associative: base._MapElementList<Key, T>, prev: MapIterator<Key, T>, next: MapIterator<Key, T>, val: Pair<Key, T>)
+		public constructor(associative: base._MapElementList<Key, T, Source>, prev: MapIterator<Key, T, Source>, next: MapIterator<Key, T, Source>, val: Pair<Key, T>)
 		{
 			super(prev, next, val);
 
@@ -40,17 +40,17 @@ namespace std
 		/**
 		 * Get iterator to previous element.
 		 */
-		public prev(): MapIterator<Key, T>
+		public prev(): MapIterator<Key, T, Source>
 		{
-			return this.prev_ as MapIterator<Key, T>;
+			return this.prev_ as MapIterator<Key, T, Source>;
 		}
 
 		/**
 		 * Get iterator to next element.
 		 */
-		public next(): MapIterator<Key, T>
+		public next(): MapIterator<Key, T, Source>
 		{
-			return this.next_ as MapIterator<Key, T>;
+			return this.next_ as MapIterator<Key, T, Source>;
 		}
 
 		/**
@@ -59,9 +59,9 @@ namespace std
 		 * @param step Number of element positions to advance.
 		 * @return An advanced Iterator.
 		 */
-		public advance(step: number): MapIterator<Key, T>
+		public advance(step: number): MapIterator<Key, T, Source>
 		{
-			return super.advance(step) as MapIterator<Key, T>;
+			return super.advance(step) as MapIterator<Key, T, Source>;
 		}
 
 		/* ---------------------------------------------------------
@@ -70,7 +70,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		public source(): base.MapContainer<Key, T>
+		public source(): Source
 		{
 			return this.source_.associative();
 		}
@@ -105,7 +105,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public less(obj: MapIterator<Key, T>): boolean
+		public less(obj: MapIterator<Key, T, Source>): boolean
 		{
 			return less(this.first, obj.first);
 		}
@@ -113,7 +113,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equals(obj: MapIterator<Key, T>): boolean 
+		public equals(obj: MapIterator<Key, T, Source>): boolean 
 		{
 			return this == obj;
 		}
@@ -129,14 +129,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: MapIterator<Key, T>): void
+		public swap(obj: MapIterator<Key, T, Source>): void
 		{
 			super.swap(obj);
 		}
 	}
 }
 
-namespace std
+namespace std.base
 {
 	/**
 	 * A reverse-iterator of {@link MapContainer map container}.
@@ -146,9 +146,9 @@ namespace std
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class MapReverseIterator<Key, T>
-		extends base.ReverseIterator<Pair<Key, T>, base.MapContainer<Key, T>, MapIterator<Key, T>, MapReverseIterator<Key, T>>
-		implements IComparable<MapReverseIterator<Key, T>>
+	export class MapReverseIterator<Key, T, Source extends IMapContainer<Key, T>>
+		extends base.ReverseIterator<Pair<Key, T>, base.MapContainer<Key, T, Source>, MapIterator<Key, T, Source>, MapReverseIterator<Key, T, Source>>
+		implements IComparable<MapReverseIterator<Key, T, Source>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -158,7 +158,7 @@ namespace std
 		 * 
 		 * @param base A reference of the base iterator, which iterates in the opposite direction.
 		 */
-		public constructor(base: MapIterator<Key, T>)
+		public constructor(base: MapIterator<Key, T, Source>)
 		{
 			super(base);
 		}
@@ -166,9 +166,9 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Create_neighbor(base: MapIterator<Key, T>): MapReverseIterator<Key, T>
+		protected _Create_neighbor(base: MapIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>
 		{
-			return new MapReverseIterator<Key, T>(base);
+			return new MapReverseIterator<Key, T, Source>(base);
 		}
 
 		/* ---------------------------------------------------------

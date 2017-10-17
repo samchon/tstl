@@ -1,8 +1,8 @@
-/// <reference path="../API.ts" />
+/// <reference path="../../API.ts" />
 
-/// <reference path="../base/iterators/_ListIteratorBase.ts" />
+/// <reference path="_ListIteratorBase.ts" />
 
-namespace std
+namespace std.base
 {
 	/**
 	 * An iterator of a Set.
@@ -12,14 +12,14 @@ namespace std
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class SetIterator<T>
-		extends base._ListIteratorBase<T>
-		implements IComparable<SetIterator<T>>
+	export class SetIterator<T, Source extends ISetContainer<T>>
+		extends _ListIteratorBase<T>
+		implements IComparable<SetIterator<T, Source>>
 	{
 		/**
 		 * @hidden
 		 */
-		private source_: base._SetElementList<T>;
+		private source_: _SetElementList<T, Source>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -35,7 +35,7 @@ namespace std
 		 * @param map The source Set to reference.
 		 * @param index Sequence number of the element in the source Set.
 		 */
-		public constructor(source: base._SetElementList<T>, prev: SetIterator<T>, next: SetIterator<T>, val: T)
+		public constructor(source: _SetElementList<T, Source>, prev: SetIterator<T, Source>, next: SetIterator<T, Source>, val: T)
 		{
 			super(prev, next, val);
 
@@ -48,7 +48,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public source(): base.SetContainer<T>
+		public source(): Source
 		{
 			return this.source_.associative();
 		}
@@ -56,25 +56,25 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public prev(): SetIterator<T>
+		public prev(): SetIterator<T, Source>
 		{
-			return this.prev_ as SetIterator<T>;
+			return this.prev_ as SetIterator<T, Source>;
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public next(): SetIterator<T>
+		public next(): SetIterator<T, Source>
 		{
-			return this.next_ as SetIterator<T>;
+			return this.next_ as SetIterator<T, Source>;
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public advance(size: number): SetIterator<T>
+		public advance(size: number): SetIterator<T, Source>
 		{
-			return super.advance(size) as SetIterator<T>;
+			return super.advance(size) as SetIterator<T, Source>;
 		}
 		
 		/* ---------------------------------------------------------
@@ -83,7 +83,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public less(obj: SetIterator<T>): boolean
+		public less(obj: SetIterator<T, Source>): boolean
 		{
 			return less(this.value, obj.value);
 		}
@@ -91,7 +91,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equals(obj: SetIterator<T>): boolean 
+		public equals(obj: SetIterator<T, Source>): boolean 
 		{
 			return this == obj;
 		}
@@ -107,14 +107,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public swap(obj: SetIterator<T>): void
+		public swap(obj: SetIterator<T, Source>): void
 		{
 			super.swap(obj);
 		}
 	}
 }
 
-namespace std
+namespace std.base
 {
 	/**
 	 * A reverse-iterator of Set.
@@ -126,9 +126,9 @@ namespace std
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export class SetReverseIterator<T>
-		extends base.ReverseIterator<T, base.SetContainer<T>, SetIterator<T>, SetReverseIterator<T>>
-		implements IComparable<SetReverseIterator<T>>
+	export class SetReverseIterator<T, Source extends ISetContainer<T>>
+		extends ReverseIterator<T, SetContainer<T, Source>, SetIterator<T, Source>, SetReverseIterator<T, Source>>
+		implements IComparable<SetReverseIterator<T, Source>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -138,7 +138,7 @@ namespace std
 		 * 
 		 * @param base A reference of the base iterator, which iterates in the opposite direction.
 		 */
-		public constructor(base: SetIterator<T>)
+		public constructor(base: SetIterator<T, Source>)
 		{
 			super(base);
 		}
@@ -146,9 +146,9 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Create_neighbor(base: SetIterator<T>): SetReverseIterator<T>
+		protected _Create_neighbor(base: SetIterator<T, Source>): SetReverseIterator<T, Source>
 		{
-			return new SetReverseIterator<T>(base);
+			return new SetReverseIterator<T, Source>(base);
 		}
 	}
 }

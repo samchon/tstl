@@ -46,8 +46,8 @@
 	 * @reference http://www.cplusplus.com/reference/map
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-    export interface ITreeMap<Key, T>
-        extends MapContainer<Key, T>
+    export interface ITreeMap<Key, T, Source extends IMapContainer<Key, T>>
+        extends MapContainer<Key, T, Source>
 	{
 		/**
 		 * Return key comparison function.
@@ -111,7 +111,7 @@
 		 * @return An iterator to the the first element in the container whose key is not considered to go before 
 		 *		   <i>k</i>, or {@link ITreeMap.end} if all keys are considered to go before <i>k</i>.
 		 */
-		lower_bound(key: Key): MapIterator<Key, T>;
+		lower_bound(key: Key): MapIterator<Key, T, Source>;
 
 		/**
 		 * Return iterator to upper bound.
@@ -135,7 +135,7 @@
 		 * @return An iterator to the the first element in the container whose key is considered to go after 
 		 *		   <i>k</i>, or {@link TreeMap.end end} if no keys are considered to go after <i>k</i>.
 		 */
-		upper_bound(key: Key): MapIterator<Key, T>;
+		upper_bound(key: Key): MapIterator<Key, T, Source>;
 
 		/**
 		 * Get range of equal elements.
@@ -156,6 +156,6 @@
 		 *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound 
 		 *		   (the same as {@link upper_bound}).
 		 */
-		equal_range(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>;
+		equal_range(key: Key): Pair<MapIterator<Key, T, Source>, MapIterator<Key, T, Source>>;
 	}
 }

@@ -17,12 +17,12 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private before_begin_: ForwardListIterator<T>;
+		private before_begin_: ForwardList.Iterator<T>;
 
 		/**
 		 * @hidden
 		 */
-		private end_: ForwardListIterator<T>;
+		private end_: ForwardList.Iterator<T>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -68,8 +68,8 @@ namespace std
 
 		public clear(): void
 		{
-			this.end_ = new ForwardListIterator<T>(this.ptr_, null, null);
-			this.before_begin_ = new ForwardListIterator<T>(this.ptr_, this.end_, null);
+			this.end_ = new ForwardList.Iterator<T>(this.ptr_, null, null);
+			this.before_begin_ = new ForwardList.Iterator<T>(this.ptr_, this.end_, null);
 		}
 
 		/* =========================================================
@@ -84,15 +84,15 @@ namespace std
 			return this.size_ == 0;
 		}
 
-		public before_begin(): ForwardListIterator<T>
+		public before_begin(): ForwardList.Iterator<T>
 		{
 			return this.before_begin_;
 		}
-		public begin(): ForwardListIterator<T>
+		public begin(): ForwardList.Iterator<T>
 		{
 			return this.before_begin_.next();
 		}
-		public end(): ForwardListIterator<T>
+		public end(): ForwardList.Iterator<T>
 		{
 			return this.end_;;
 		}
@@ -115,14 +115,14 @@ namespace std
 			this.insert_after(this.before_begin_, val);
 		}
 
-		public insert_after(pos: ForwardListIterator<T>, val: T): ForwardListIterator<T>;
-		public insert_after(pos: ForwardListIterator<T>, n: number, val: T): ForwardListIterator<T>;
+		public insert_after(pos: ForwardList.Iterator<T>, val: T): ForwardList.Iterator<T>;
+		public insert_after(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>;
 		public insert_after<T, InputIterator extends IForwardIterator<T>>
-			(pos: ForwardListIterator<T>, first: InputIterator, last: InputIterator): ForwardListIterator<T>;
+			(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>;
 
-		public insert_after(pos: ForwardListIterator<T>, ...args: any[]): ForwardListIterator<T>
+		public insert_after(pos: ForwardList.Iterator<T>, ...args: any[]): ForwardList.Iterator<T>
 		{
-			let ret: ForwardListIterator<T>;
+			let ret: ForwardList.Iterator<T>;
 
 			// BRANCHES
 			if (args.length == 2)
@@ -136,7 +136,7 @@ namespace std
 			return ret;
 		}
 
-		private _Insert_by_repeating_val(pos: ForwardListIterator<T>, n: number, val: T): ForwardListIterator<T>
+		private _Insert_by_repeating_val(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>
 		{
 			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
 			let last: base._Repeater<T> = new base._Repeater<T>(n);
@@ -145,14 +145,14 @@ namespace std
 		}
 
 		private _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
-			(pos: ForwardListIterator<T>, first: InputIterator, last: InputIterator): ForwardListIterator<T>
+			(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
 		{
-			let nodes: ForwardListIterator<T>[] = [];
+			let nodes: ForwardList.Iterator<T>[] = [];
 			let count: number = 0;
 
 			for (; !first.equals(last); first = first.next() as InputIterator)
 			{
-				let node = new ForwardListIterator<T>(this.ptr_, null, first.value);
+				let node = new ForwardList.Iterator<T>(this.ptr_, null, first.value);
 				nodes.push(node);
 
 				++count;
@@ -177,11 +177,11 @@ namespace std
 			this.erase_after(this.before_begin());
 		}
 
-		public erase_after(it: ForwardListIterator<T>): ForwardListIterator<T>;
+		public erase_after(it: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
-		public erase_after(first: ForwardListIterator<T>, last: ForwardListIterator<T>): ForwardListIterator<T>;
+		public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
-		public erase_after(first: ForwardListIterator<T>, last: ForwardListIterator<T> = first.advance(2)): ForwardListIterator<T>
+		public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T> = first.advance(2)): ForwardList.Iterator<T>
 		{
 			// SHRINK SIZE
 			this.size_ -= distance(first, last);
@@ -236,6 +236,85 @@ namespace std
 			// POINTER OF THE SOURCE
 			[this.ptr_, obj.ptr_] = [obj.ptr_, this.ptr_];
 			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
+		}
+	}
+}
+
+namespace std.ForwardList
+{
+	export class Iterator<T> implements IForwardIterator<T>
+	{
+		/**
+		 * @hidden
+		 */
+		private source_ptr_: IPointer<ForwardList<T>>;
+
+		/**
+		 * @hidden
+		 */
+		private next_: Iterator<T>;
+
+		/**
+		 * @hidden
+		 */
+		private value_: T;
+
+		/**
+		 * Initiailizer Constructor.
+		 * 
+		 * @param source 
+		 * @param next 
+		 * @param value 
+		 */
+		public constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value: T)
+		{
+			this.source_ptr_ = source;
+			this.next_ = next;
+
+			this.value_ = value;
+		}
+
+		/* ---------------------------------------------------------------
+			ACCESSORS
+		--------------------------------------------------------------- */
+		public source(): ForwardList<T>
+		{
+			return this.source_ptr_.value;
+		}
+
+		public get value(): T
+		{
+			return this.value_;
+		}
+
+		public set value(val: T)
+		{
+			this.value_ = val;
+		}
+
+		/* ---------------------------------------------------------
+			MOVERS
+		--------------------------------------------------------- */
+		public next(): Iterator<T>
+		{
+			return this.next_;
+		}
+
+		public advance(n: number): Iterator<T>
+		{
+			let ret: Iterator<T> = this;
+			for (let i: number = 0; i < n; ++i)
+				ret = ret.next();
+
+			return ret;
+		}
+
+		/* ---------------------------------------------------------------
+			COMPARISON
+		--------------------------------------------------------------- */
+		public equals(obj: Iterator<T>): boolean
+		{
+			return this == obj;
 		}
 	}
 }

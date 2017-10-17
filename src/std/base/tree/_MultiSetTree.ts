@@ -7,19 +7,19 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _MultiSetTree<T>
-		extends _SetTree<T>
+	export class _MultiSetTree<T, Source extends IMultiSet<T>>
+		extends _SetTree<T, Source>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public constructor(set: TreeMultiSet<T>, compare: (x: T, y: T) => boolean)
+		public constructor(set: Source, compare: (x: T, y: T) => boolean)
 		{
 			super
 			(
 				set, 
 				compare, 
-				function (x: SetIterator<T>, y: SetIterator<T>): boolean
+				function (x: SetIterator<T, Source>, y: SetIterator<T, Source>): boolean
 				{
 					if (equal_to(x.value, y.value))
 						return (x as any).__get_m_iUID() < (y as any).__get_m_iUID();
@@ -29,7 +29,7 @@ namespace std.base
 			);
 		}
 
-		public insert(val: SetIterator<T>): void
+		public insert(val: SetIterator<T, Source>): void
 		{
 			// ISSUE UID BEFORE INSERTION
 			(val as any).__get_m_iUID();
@@ -40,19 +40,19 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public find_by_val(val: T): _XTreeNode<SetIterator<T>>
+		public find_by_val(val: T): _XTreeNode<SetIterator<T, Source>>
 		{
-			let node: _XTreeNode<SetIterator<T>> = this.root_;
+			let node: _XTreeNode<SetIterator<T, Source>> = this.root_;
 			if (node == null)
 				return null;
 
 			// FOR THE DUPLICATE VALUE
-			let matched: _XTreeNode<SetIterator<T>> = null;
+			let matched: _XTreeNode<SetIterator<T, Source>> = null;
 
 			while (true)
 			{
-				let it: SetIterator<T> = node.value;
-				let myNode: _XTreeNode<SetIterator<T>> = null;
+				let it: SetIterator<T, Source> = node.value;
+				let myNode: _XTreeNode<SetIterator<T, Source>> = null;
 				
 				if (equal_to(val, it.value))
 				{
@@ -80,21 +80,21 @@ namespace std.base
 				return node;
 		}
 
-		public upper_bound(val: T): SetIterator<T>
+		public upper_bound(val: T): SetIterator<T, Source>
 		{
 			//--------
 			// FIND MATCHED NODE
 			//--------
-			let node: _XTreeNode<SetIterator<T>> = this.root_;
+			let node: _XTreeNode<SetIterator<T, Source>> = this.root_;
 			if (node == null)
-				return this.source().end();
+				return this.source().end() as SetIterator<T, Source>;
 
 			// FOR THE DUPLICATE VALUE
-			let matched: _XTreeNode<SetIterator<T>> = null;
+			let matched: _XTreeNode<SetIterator<T, Source>> = null;
 
 			while (true)
 			{
-				let myNode: _XTreeNode<SetIterator<T>> = null;
+				let myNode: _XTreeNode<SetIterator<T, Source>> = null;
 
 				if (equal_to(val, node.value.value))
 				{
@@ -120,7 +120,7 @@ namespace std.base
 			if (matched != null) // MATCHED KEY EXISTS
 				return matched.value.next();
 
-			let it: SetIterator<T> = node.value;
+			let it: SetIterator<T, Source> = node.value;
 			if (equal_to(it.value, val) || this.key_comp()(it.value, val)) // it.first <= key
 				return it.next();
 			else // it.first > key

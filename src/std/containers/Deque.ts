@@ -1,12 +1,7 @@
 ﻿/// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/ArrayContainer.ts" />
-
-namespace std.Deque
-{
-	export type iterator<T> = DequeIterator<T>;
-	export type reverse_iterator<T> = DequeReverseIterator<T>;
-}
+/// <reference path="../base/iterators/ArrayIterator.ts" />
 
 namespace std
 {
@@ -481,7 +476,7 @@ namespace std
 		 * @hidden
 		 */
 		protected _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
-			(pos: DequeIterator<T>, first: InputIterator, last: InputIterator): DequeIterator<T>
+			(pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): Deque.Iterator<T>
 		{
 			let size: number = this.size_ + distance(first, last);
 			if (size == this.size_) // FIRST == LAST
@@ -527,7 +522,7 @@ namespace std
 		 * @hidden
 		 */
 		private _Insert_to_middle<U extends T, InputIterator extends IForwardIterator<U>>
-			(pos: DequeIterator<T>, first: InputIterator, last: InputIterator): void
+			(pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): void
 		{
 			let col_size: number = this._Compute_col_size();
 
@@ -641,7 +636,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: DequeIterator<T>, last: DequeIterator<T>): DequeIterator<T>
+		protected _Erase_by_range(first: Deque.Iterator<T>, last: Deque.Iterator<T>): Deque.Iterator<T>
 		{
 			if (first.index() == -1)
 				return first;
@@ -774,4 +769,32 @@ namespace std
 		 */
 		private static get MAGNIFIER(): number { return 1.5; }
 	}
+}
+
+/**
+ * @hidden
+ */
+namespace std.Deque
+{
+	//----
+	// PASCAL NOTATION
+	//----
+	// HEAD
+	export type Iterator<T> = base.ArrayIterator<T, Deque<T>>;
+	export type ReverseIterator<T> = base.ArrayReverseIterator<T, Deque<T>>;
+
+	// BODY
+	export var Iterator = base.ArrayIterator;
+	export var ReverseIterator = base.ArrayReverseIterator;
+
+	//----
+	// SNAKE NOTATION
+	//----
+	// HEAD
+	export type iterator<T> = Iterator<T>;
+	export type reverse_iterator<T> = ReverseIterator<T>;
+
+	// BODY
+	export var iterator = Iterator;
+	export var reverse_iterator = ReverseIterator;
 }

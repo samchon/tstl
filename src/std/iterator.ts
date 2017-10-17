@@ -1,17 +1,32 @@
 ﻿/// <reference path="API.ts" />
 
-/// <reference path="iterators/VectorIterator.ts" />
-/// <reference path="iterators/DequeIterator.ts" />
-/// <reference path="iterators/ListIterator.ts" />
-/// <reference path="iterators/ForwardListIterator.ts" />
-
-/// <reference path="iterators/SetIterator.ts" />
-/// <reference path="iterators/MapIterator.ts" />
-
-// base.Iterator definitions.
+// Iterator definitions.
 //
 // @reference http://www.cplusplus.com/reference/iterator
 // @author Jeongho Nam <http://samchon.org>
+
+namespace std
+{
+	export interface IForwardIterator<T>
+	{
+		readonly value: T;
+
+		next(): IForwardIterator<T>;
+		advance(n: number): IForwardIterator<T>;
+		
+		equals(obj: IForwardIterator<T>): boolean;
+	}
+
+	export interface IBidirectionalIterator<T> extends IForwardIterator<T>
+	{
+		prev(): IBidirectionalIterator<T>;
+	}
+
+	export interface IRandomAccessIterator<T> extends IBidirectionalIterator<T>
+	{
+		index(): number;
+	}
+}
 
 namespace std
 {
@@ -145,12 +160,11 @@ namespace std
 	 * @param container A container object of a class type for which member {@link begin} is defined.
 	 * @return The same as returned by {@link begin begin()}.
 	 */
-	export function begin<T>(container: base.Container<T>): base.Iterator<T>;
-	export function begin<T>(container: Vector<T>): VectorIterator<T>;
-	export function begin<T>(container: List<T>): ListIterator<T>;
-	export function begin<T>(container: Deque<T>): DequeIterator<T>;
-	export function begin<T>(container: base.SetContainer<T>): SetIterator<T>;
-	export function begin<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
+	export function begin<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function begin<T>(container: List<T>): List.Iterator<T>;
+	export function begin<T>(container: Deque<T>): Deque.Iterator<T>;
+	export function begin<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
+	export function begin<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
 	// typedef is not specified in TypeScript yet.
 	// Instead, I listed all the containers and its iterators as overloaded functions
@@ -169,11 +183,10 @@ namespace std
 	 * @param container A container object of a class type for which member {@link rbegin} is defined.
 	 * @return The same as returned by {@link rbegin()}.
 	 */
-	export function rbegin<T, Source extends base.IArrayContainer<T>>
-		(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
-	export function rbegin<T>(container: List<T>): ListReverseIterator<T>;
-	export function rbegin<T>(container: base.SetContainer<T>): SetReverseIterator<T>;
-	export function rbegin<Key, T>(container: base.MapContainer<Key, T>): MapReverseIterator<Key, T>;
+	export function rbegin<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function rbegin<T>(container: List<T>): List.ReverseIterator<T>;
+	export function rbegin<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
+	export function rbegin<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
 	export function rbegin(container: any): any
 	{
@@ -190,12 +203,10 @@ namespace std
 	 * @param container A container of a class type for which member {@link end} is defined.
 	 * @return The same as returned by {@link end end()}.
 	 */
-	export function end<T>(container: base.Container<T>): base.Iterator<T>;
-	export function end<T>(container: Vector<T>): VectorIterator<T>;
-	export function end<T>(container: List<T>): ListIterator<T>;
-	export function end<T>(container: Deque<T>): DequeIterator<T>;
-	export function end<T>(container: base.SetContainer<T>): SetIterator<T>;
-	export function end<Key, T>(container: base.MapContainer<Key, T>): MapIterator<Key, T>;
+	export function end<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function end<T>(container: List<T>): List.ReverseIterator<T>;
+	export function end<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
+	export function end<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
 	export function end(container: any): any
 	{
@@ -212,12 +223,10 @@ namespace std
 	 * @param container A container of a class type for which member {@link end} is defined.
 	 * @return The same as returned by {@link end end()}.
 	 */
-	export function rend<T>(container: base.Container<T>): base.IReverseIterator<T>;
-	export function rend<T, Source extends base.IArrayContainer<T>>
-		(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
-	export function rend<T>(container: List<T>): ListReverseIterator<T>;
-	export function rend<T>(container: base.SetContainer<T>): SetReverseIterator<T>;
-	export function rend<Key, T>(container: base.MapContainer<Key, T>): MapReverseIterator<Key, T>;
+	export function rend<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function rend<T>(container: List<T>): List.ReverseIterator<T>;
+	export function rend<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
+	export function rend<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
 	export function rend(container: any): any
 	{
@@ -230,22 +239,21 @@ namespace std
 	 * @param it A reference of the base iterator, which iterates in the opposite direction.
 	 * @return A {@link ReverseIterator reverse iterator} based on *it*.
 	 */
-	export function make_reverse_iterator<T, Source extends base.IArrayContainer<T>>
-		(it: base.ArrayIterator<T, Source>): base.ArrayReverseIterator<T, Source>;
-	export function make_reverse_iterator<T>(it: ListIterator<T>): ListReverseIterator<T>;
-	export function make_reverse_iterator<T>(it: SetIterator<T>): SetReverseIterator<T>;
-	export function make_reverse_iterator<Key, T>(it: MapIterator<Key, T>): MapReverseIterator<Key, T>;
-	
+	export function make_reverse_iterator<T, Source extends base.IArrayContainer<T>>(it: base.ArrayIterator<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function make_reverse_iterator<T>(it: List.Iterator<T>): List.ReverseIterator<T>;
+	export function make_reverse_iterator<T, Source extends base.ISetContainer<T>>(it: base.SetIterator<T, Source>): base.SetReverseIterator<T, Source>;
+	export function make_reverse_iterator<Key, T, Source extends base.IMapContainer<Key, T>>(it: base.MapIterator<Key, T, Source>): base.MapReverseIterator<Key, T, Source>;
+
 	export function make_reverse_iterator(it: any): any
 	{
 		if (it instanceof base.ArrayIterator)
 			return new base.ArrayReverseIterator<any, base.IArrayContainer<any>>(it);
-		else if (it instanceof ListIterator)
-			return new ListReverseIterator<any>(it);
+		else if (it instanceof List.Iterator)
+			return new List.ReverseIterator<any>(it);
 
-		else if (it instanceof SetIterator)
-			return new SetReverseIterator<any>(it);
-		else if (it instanceof MapIterator)
-			return new MapReverseIterator<any, any>(it);
+		else if (it instanceof base.SetIterator)
+			return new base.SetReverseIterator<any, any>(it);
+		else if (it instanceof base.MapIterator)
+			return new base.MapReverseIterator<any, any, any>(it);
 	}
 }

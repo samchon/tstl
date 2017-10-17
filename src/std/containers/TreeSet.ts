@@ -1,12 +1,7 @@
 /// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/UniqueSet.ts" />
-
-namespace std.TreeSet
-{
-	export type iterator<T> = SetIterator<T>;
-	export type reverse_iterator<T> = SetReverseIterator<T>;
-}
+/// <reference path="../base/iterators/SetIterator.ts" />
 
 namespace std
 {
@@ -60,13 +55,13 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeSet<T>
-		extends base.UniqueSet<T>
-		implements base.ITreeSet<T>
+		extends base.UniqueSet<T, TreeSet<T>>
+		implements base.ITreeSet<T, TreeSet<T>>
 	{
 		/**
 		 * @hidden
 		 */
-		private tree_: base._UniqueSetTree<T>;
+		private tree_: base._UniqueSetTree<T, TreeSet<T>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -179,7 +174,7 @@ namespace std
 			//--------
 			// ADJUST THE SPECIFIED CONSTRUCTOR
 			//--------
-			this.tree_ = new base._UniqueSetTree<T>(this, compare);
+			this.tree_ = new base._UniqueSetTree<T, TreeSet<T>>(this, compare);
 			if (fn != null)
 				fn();
 		}
@@ -203,7 +198,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(val: T): SetIterator<T>
+		public find(val: T): TreeSet.Iterator<T>
 		{
 			let node = this.tree_.find_by_val(val);
 
@@ -232,7 +227,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public lower_bound(val: T): SetIterator<T>
+		public lower_bound(val: T): TreeSet.Iterator<T>
 		{
 			return this.tree_.lower_bound(val);
 		}
@@ -240,7 +235,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public upper_bound(val: T): SetIterator<T>
+		public upper_bound(val: T): TreeSet.Iterator<T>
 		{
 			return this.tree_.upper_bound(val);
 		}
@@ -248,7 +243,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>
+		public equal_range(val: T): Pair<TreeSet.Iterator<T>, TreeSet.Iterator<T>>
 		{
 			return this.tree_.equal_range(val);
 		}
@@ -264,10 +259,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): Pair<SetIterator<T>, boolean>
+		protected _Insert_by_val(val: T): Pair<TreeSet.Iterator<T>, boolean>
 		{
 			// FIND POSITION TO INSERT
-			let it: SetIterator<T> = this.lower_bound(val);
+			let it: TreeSet.Iterator<T> = this.lower_bound(val);
 			if (!it.equals(this.end()) && equal_to(it.value, val))
 				return make_pair(it, false);
 
@@ -278,13 +273,13 @@ namespace std
 			return make_pair(it, true);
 		}
 
-		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		protected _Insert_by_hint(hint: TreeSet.Iterator<T>, val: T): TreeSet.Iterator<T>
 		{
 			//--------
 			// INSERT BRANCH
 			//--------
 			// prev < current < hint
-			let prev: SetIterator<T> = hint.prev();
+			let prev: TreeSet.Iterator<T> = hint.prev();
 			let keys: Vector<T> = new Vector<T>();
 
 			// CONSTRUCT KEYS
@@ -303,7 +298,7 @@ namespace std
 					keys.push_back(hint.value);
 
 			// IS THE HINT VALID ?
-			let ret: SetIterator<T>;
+			let ret: TreeSet.Iterator<T>;
 
 			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
@@ -335,7 +330,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_insert(first: TreeSet.Iterator<T>, last: TreeSet.Iterator<T>): void
 		{
 			this.tree_.insert(first);
 		}
@@ -343,7 +338,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_erase(first: TreeSet.Iterator<T>, last: TreeSet.Iterator<T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.tree_.erase(first);
@@ -379,4 +374,32 @@ namespace std
 			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
+}
+
+/**
+ * @hidden
+ */
+namespace std.TreeSet
+{
+	//----
+	// PASCAL NOTATION
+	//----
+	// HEAD
+	export type Iterator<T> = base.SetIterator<T, TreeSet<T>>;
+	export type ReverseIterator<T> = base.SetReverseIterator<T, TreeSet<T>>;
+
+	// BODY
+	export var Iterator = base.ArrayIterator;
+	export var ReverseIterator = base.ArrayReverseIterator;
+
+	//----
+	// SNAKE NOTATION
+	//----
+	// HEAD
+	export type iterator<T> = Iterator<T>;
+	export type reverse_iterator<T> = ReverseIterator<T>;
+
+	// BODY
+	export var iterator = Iterator;
+	export var reverse_iterator = ReverseIterator;
 }

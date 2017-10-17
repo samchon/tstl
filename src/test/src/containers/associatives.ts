@@ -20,7 +20,7 @@ namespace test
 	/* ---------------------------------------------------------
 		SET CONTAINERS
 	--------------------------------------------------------- */
-	function _Test_unique_set(set: std.base.UniqueSet<Atomic<number>>): void
+	function _Test_unique_set(set: std.base.IUniqueSet<Atomic<number>>): void
 	{
 		// CONSTRUCT ELEMENTS
 		_Construct_set(set);
@@ -46,7 +46,7 @@ namespace test
 			throw new std.LogicError("Elements are not fully inserted.");
 	}
 
-	function _Test_multi_set(set: std.base.MultiSet<Atomic<number>>): void
+	function _Test_multi_set(set: std.base.IMultiSet<Atomic<number>>): void
 	{
 		// CONSTRUCT ELEMENTS
 		_Construct_set(set);
@@ -76,7 +76,7 @@ namespace test
 			throw new std.LogicError("Elements are not fully inserted.");
 	}
 
-	function _Construct_set(set: std.base.SetContainer<Atomic<number>>): void
+	function _Construct_set(set: std.base.ISetContainer<Atomic<number>>): void
 	{
 		// INSERT ELEMENTS
 		for (let i: number = 0; i <= 10; ++i)
@@ -92,7 +92,7 @@ namespace test
 	/* ---------------------------------------------------------
 		MAP CONTAINERS
 	--------------------------------------------------------- */
-	function _Test_unique_map(map: std.base.UniqueMap<Atomic<string>, number>): void
+	function _Test_unique_map(map: std.base.IUniqueMap<Atomic<string>, number>): void
 	{
 		// CONSTRUCT ELEMENTS
 		_Construct_map(map);
@@ -118,7 +118,7 @@ namespace test
 			throw new std.LogicError("Elements are not fully inserted.");
 	}
 
-	function _Test_multi_map(map: std.base.MultiMap<Atomic<string>, number>): void
+	function _Test_multi_map(map: std.base.IMultiMap<Atomic<string>, number>): void
 	{
 		// CONSTRUCT ELEMENTS
 		_Construct_map(map);
@@ -148,7 +148,7 @@ namespace test
 			throw new std.LogicError("Elements are not fully inserted.");
 	}
 
-	function _Construct_map(map: std.base.MapContainer<Atomic<string>, number>): void
+	function _Construct_map(map: std.base.IMapContainer<Atomic<string>, number>): void
 	{
 		for (let i: number = 0; i <= 10; ++i)
 			for (let j: number = 0; j < 3; ++j)

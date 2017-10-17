@@ -1,12 +1,7 @@
 ﻿/// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/MultiMap.ts" />
-
-namespace std.HashMultiMap
-{
-	export type iterator<Key, T> = MapIterator<Key, T>;
-	export type reverse_iterator<Key, T> = MapReverseIterator<Key, T>;
-}
+/// <reference path="../base/iterators/MapIterator.ts" />
 
 namespace std
 {
@@ -59,12 +54,13 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashMultiMap<Key, T>
-		extends base.MultiMap<Key, T>
+		extends base.MultiMap<Key, T, HashMultiMap<Key, T>>
+		implements base.IHashMap<Key, T, HashMultiMap<Key, T>>
 	{
 		/**
 		 * @hidden
 		 */
-		private hash_buckets_: base._MapHashBuckets<Key, T>;
+		private hash_buckets_: base._MapHashBuckets<Key, T, HashMultiMap<Key, T>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -97,7 +93,7 @@ namespace std
 		{
 			// INIT MEMBERS
 			super();
-			this.hash_buckets_ = new base._MapHashBuckets<Key, T>(this);
+			this.hash_buckets_ = new base._MapHashBuckets<Key, T, HashMultiMap<Key, T>>(this);
 
 			// BRANCH - METHOD OVERLOADINGS
 			if (args.length == 0) 
@@ -152,7 +148,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: Key): MapIterator<Key, T>
+		public find(key: Key): HashMultiMap.Iterator<Key, T>
 		{
 			return this.hash_buckets_.find(key);
 		}
@@ -178,14 +174,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public begin(): MapIterator<Key, T>;
+		public begin(): HashMultiMap.Iterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public begin(index: number): MapIterator<Key, T>;
+		public begin(index: number): HashMultiMap.Iterator<Key, T>;
 		
-		public begin(index: number = -1): MapIterator<Key, T>
+		public begin(index: number = -1): HashMultiMap.Iterator<Key, T>
 		{
 			if (index == -1)
 				return super.begin();
@@ -196,14 +192,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public end(): MapIterator<Key, T>;
+		public end(): HashMultiMap.Iterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public end(index: number): MapIterator<Key, T>
+		public end(index: number): HashMultiMap.Iterator<Key, T>
 
-		public end(index: number = -1): MapIterator<Key, T>
+		public end(index: number = -1): HashMultiMap.Iterator<Key, T>
 		{
 			if (index == -1)
 				return super.end();
@@ -214,31 +210,31 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public rbegin(): MapReverseIterator<Key, T>;
+		public rbegin(): HashMultiMap.ReverseIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public rbegin(index: number): MapReverseIterator<Key, T>;
+		public rbegin(index: number): HashMultiMap.ReverseIterator<Key, T>;
 
-		public rbegin(index: number = -1): MapReverseIterator<Key, T>
+		public rbegin(index: number = -1): HashMultiMap.ReverseIterator<Key, T>
 		{
-			return new MapReverseIterator<Key, T>(this.end(index));
+			return new base.MapReverseIterator<Key, T, HashMultiMap<Key, T>>(this.end(index));
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public rend(): MapReverseIterator<Key, T>;
+		public rend(): HashMultiMap.ReverseIterator<Key, T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public rend(index: number): MapReverseIterator<Key, T>;
+		public rend(index: number): HashMultiMap.ReverseIterator<Key, T>;
 
-		public rend(index: number = -1): MapReverseIterator<Key, T>
+		public rend(index: number = -1): HashMultiMap.ReverseIterator<Key, T>
 		{
-			return new MapReverseIterator<Key, T>(this.begin(index));
+			return new base.MapReverseIterator<Key, T, HashMultiMap<Key, T>>(this.begin(index));
 		}
 
 		/* ---------------------------------------------------------
@@ -316,7 +312,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Emplace(key: Key, val: T): MapIterator<Key, T>
+		protected _Emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
 		{
 			// INSERT
 			let it = this["data_"].insert(this["data_"].end(), new Entry(key, val));
@@ -328,7 +324,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>
+		protected _Emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
 		{
 			// INSERT
 			let it = this["data_"].insert(hint, new Entry(key, val));
@@ -379,7 +375,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_insert(first: HashMultiMap.Iterator<Key, T>, last: HashMultiMap.Iterator<Key, T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.insert(first);
@@ -388,7 +384,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_erase(first: HashMultiMap.Iterator<Key, T>, last: HashMultiMap.Iterator<Key, T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.erase(first);
@@ -424,4 +420,29 @@ namespace std
 			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
+}
+
+namespace std.HashMultiMap
+{
+	//----
+	// PASCAL NOTATION
+	//----
+	// HEAD
+	export type Iterator<Key, T> = base.MapIterator<Key, T, HashMultiMap<Key, T>>;
+	export type ReverseIterator<Key, T> = base.MapReverseIterator<Key, T, HashMultiMap<Key, T>>;
+
+	// BODY
+	export var Iterator = base.MapIterator;
+	export var ReverseIterator = base.MapReverseIterator;
+
+	//----
+	// SNAKE NOTATION
+	//----
+	// HEAD
+	export type iterator<Key, T> = Iterator<Key, T>;
+	export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
+
+	// BODY
+	export var iterator = Iterator;
+	export var reverse_iterator = ReverseIterator;
 }

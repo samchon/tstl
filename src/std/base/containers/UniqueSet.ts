@@ -41,8 +41,8 @@ namespace std.base
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class UniqueSet<T>
-		extends SetContainer<T>
+	export abstract class UniqueSet<T, Source extends IUniqueSet<T>>
+		extends SetContainer<T, Source>
 	{
 		/* ---------------------------------------------------------
 			ACCESSOR
@@ -77,17 +77,17 @@ namespace std.base
 		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or 
 		 *		   false if an equivalent element already existed.
 		 */
-		public insert(val: T): Pair<SetIterator<T>, boolean>;
+		public insert(val: T): Pair<SetIterator<T, Source>, boolean>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: SetIterator<T>, val: T): SetIterator<T>;
+		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: SetReverseIterator<T>, val: T): SetReverseIterator<T>;
+		public insert(hint: SetReverseIterator<T, Source>, val: T): SetReverseIterator<T, Source>;
 
 		/**
 		 * @inheritdoc
@@ -124,7 +124,7 @@ namespace std.base
 		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
 		 *		   erased. If no such element exists,returns {@link end end()}.
 		 */
-		public extract(it: SetIterator<T>): SetIterator<T>;
+		public extract(it: SetIterator<T, Source>): SetIterator<T, Source>;
 
 		/**
 		 * Extract an element.
@@ -136,9 +136,9 @@ namespace std.base
 		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
 		 *		   erased. If no such element exists,returns {@link end end()}.
 		 */
-		public extract(it: SetReverseIterator<T>): SetReverseIterator<T>;
+		public extract(it: SetReverseIterator<T, Source>): SetReverseIterator<T, Source>;
 
-		public extract(param: T | SetIterator<T> | SetReverseIterator<T>): any
+		public extract(param: T | SetIterator<T, Source> | SetReverseIterator<T, Source>): any
 		{
 			if (param instanceof SetIterator)
 				return this._Extract_by_iterator(param);
@@ -164,7 +164,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Extract_by_iterator(it: SetIterator<T>): SetIterator<T>
+		private _Extract_by_iterator(it: SetIterator<T, Source>): SetIterator<T, Source>
 		{
 			if (it.equals(this.end()) == true || this.has(it.value) == false)
 				return this.end();
@@ -176,7 +176,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Extract_by_reverse_iterator(it: SetReverseIterator<T>): SetReverseIterator<T>
+		private _Extract_by_reverse_iterator(it: SetReverseIterator<T, Source>): SetReverseIterator<T, Source>
 		{
 			this._Extract_by_iterator(it.base().next());
 			return it;
@@ -195,7 +195,7 @@ namespace std.base
 		 * 
 		 * @param source A {@link SetContainer set container} to transfer the elements from.
 		 */
-		public merge<U extends T>(source: SetContainer<U>): void
+		public merge(source: SetContainer<T, Source>): void
 		{
 			for (let it = source.begin(); !it.equals(source.end());)
 			{

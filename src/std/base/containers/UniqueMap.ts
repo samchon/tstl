@@ -48,8 +48,8 @@ namespace std.base
 	 *
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-	export abstract class UniqueMap<Key, T>
-		extends MapContainer<Key, T>
+	export abstract class UniqueMap<Key, T, Source extends IUniqueMap<Key, T>>
+		extends MapContainer<Key, T, Source>
 	{
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -122,7 +122,7 @@ namespace std.base
 		 *		   the newly inserted element and a value of true. Otherwise, it returns an 
 		 *		   {@link MapIterator iterator} to the equivalent element within the container and a value of false.
 		 */
-		public emplace(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>;
+		public emplace(key: Key, value: T): Pair<MapIterator<Key, T, Source>, boolean>;
 
 		/**
 		 * Construct and insert element.
@@ -148,9 +148,9 @@ namespace std.base
 		 *		   the newly inserted element and a value of true. Otherwise, it returns an 
 		 *		   {@link MapIterator iterator} to the equivalent element within the container and a value of false.
 		 */
-		public emplace(pair: IPair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
+		public emplace(pair: IPair<Key, T>): Pair<MapIterator<Key, T, Source>, boolean>;
 
-		public emplace(...args: any[]): Pair<MapIterator<Key, T>, boolean>
+		public emplace(...args: any[]): Pair<MapIterator<Key, T, Source>, boolean>
 		{
 			if (args.length == 1)
 				return this._Emplace(args[0].first, args[0].second);
@@ -180,17 +180,17 @@ namespace std.base
 		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or 
 		 *		   false if an equivalent key already existed.
 		 */
-		public insert(pair: IPair<Key, T>): Pair<MapIterator<Key, T>, boolean>;
+		public insert(pair: IPair<Key, T>): Pair<MapIterator<Key, T, Source>, boolean>;
 		
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapIterator<Key, T>, pair: IPair<Key, T>): MapIterator<Key, T>;
+		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public insert(hint: MapReverseIterator<Key, T>, pair: IPair<Key, T>): MapReverseIterator<Key, T>;
+		public insert(hint: MapReverseIterator<Key, T, Source>, pair: IPair<Key, T>): MapReverseIterator<Key, T, Source>;
 
 		/**
 		 * @inheritdoc
@@ -223,7 +223,7 @@ namespace std.base
 		 *		   {@link Pair.second} element in the {@link Pair} is set to true if a new element was inserted or
 		 *		   false if an equivalent key already existed so the <i>value</i> is assigned.
 		 */
-		public insert_or_assign(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>;
+		public insert_or_assign(key: Key, value: T): Pair<MapIterator<Key, T, Source>, boolean>;
 
 		/**
 		 * Insert or assign an element.
@@ -244,7 +244,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
 		 *		   equivalent key in the {@link UniqueMap}.
 		 */
-		public insert_or_assign(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>;
+		public insert_or_assign(hint: MapIterator<Key, T, Source>, key: Key, value: T): MapIterator<Key, T, Source>;
 
 		/**
 		 * Insert or assign an element.
@@ -265,7 +265,7 @@ namespace std.base
 		 * @return An iterator pointing to either the newly inserted element or to the element that already had an
 		 *		   equivalent key in the {@link UniqueMap}.
 		 */
-		public insert_or_assign(hint: MapReverseIterator<Key, T>, key: Key, value: T): MapReverseIterator<Key, T>;
+		public insert_or_assign(hint: MapReverseIterator<Key, T, Source>, key: Key, value: T): MapReverseIterator<Key, T, Source>;
 
 		public insert_or_assign(...args: any[]): any
 		{
@@ -275,14 +275,14 @@ namespace std.base
 			}
 			else if (args.length == 3)
 			{
-				let ret: MapIterator<Key, T>;
+				let ret: MapIterator<Key, T, Source>;
 				let is_reverse_iterator: boolean = false;
 
 				// REVERSE_ITERATOR TO ITERATOR
 				if (args[0] instanceof MapReverseIterator)
 				{
 					is_reverse_iterator = true;
-					args[0] = (args[0] as MapReverseIterator<Key, T>).base().prev();
+					args[0] = (args[0] as MapReverseIterator<Key, T, Source>).base().prev();
 				}
 
 				// INSERT OR ASSIGN AN ELEMENT
@@ -290,7 +290,7 @@ namespace std.base
 
 				// RETURN BRANCHES
 				if (is_reverse_iterator == true)
-					return new MapReverseIterator<Key, T>(ret.next());
+					return new MapReverseIterator<Key, T, Source>(ret.next());
 				else
 					return ret;
 			}
@@ -299,7 +299,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<MapIterator<Key, T>, boolean>
+		private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<MapIterator<Key, T, Source>, boolean>
 		{
 			let it = this.find(key);
 
@@ -315,7 +315,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Insert_or_assign_with_hint(hint: MapIterator<Key, T>, key: Key, value: T): MapIterator<Key, T>
+		private _Insert_or_assign_with_hint(hint: MapIterator<Key, T, Source>, key: Key, value: T): MapIterator<Key, T, Source>
 		{
 			return this._Insert_or_assign_with_key_value(key, value).first;
 		}
@@ -344,7 +344,7 @@ namespace std.base
 		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
 		 *		   erased. If no such element exists,returns {@link end end()}.
 		 */
-		public extract(it: MapIterator<Key, T>): MapIterator<Key, T>;
+		public extract(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
 
 		/**
 		 * Extract an element.
@@ -356,9 +356,9 @@ namespace std.base
 		 * @return An iterator pointing to the element immediately following <i>it</i> prior to the element being 
 		 *		   erased. If no such element exists,returns {@link end end()}.
 		 */
-		public extract(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>;
+		public extract(it: MapReverseIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>;
 
-		public extract(param: Key | MapIterator<Key, T> | MapReverseIterator<Key, T>): any
+		public extract(param: Key | MapIterator<Key, T, Source> | MapReverseIterator<Key, T, Source>): any
 		{
 			if (param instanceof MapIterator)
 				return this._Extract_by_iterator(param);
@@ -386,7 +386,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Extract_by_iterator(it: MapIterator<Key, T>): MapIterator<Key, T>
+		private _Extract_by_iterator(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>
 		{
 			if (it.equals(this.end()) == true)
 				return this.end();
@@ -398,7 +398,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Extract_by_reverse_iterator(it: MapReverseIterator<Key, T>): MapReverseIterator<Key, T>
+		private _Extract_by_reverse_iterator(it: MapReverseIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>
 		{
 			this._Extract_by_iterator(it.base().next());
 			return it;
@@ -417,7 +417,7 @@ namespace std.base
 		 * 
 		 * @param source A {@link MapContainer map container} to transfer the elements from.
 		 */
-		public merge<L extends Key, U extends T>(source: MapContainer<L, U>): void
+		public merge(source: MapContainer<Key, T, Source>): void
 		{
 			for (let it = source.begin(); !it.equals(source.end());)
 			{

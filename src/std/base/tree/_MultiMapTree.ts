@@ -4,19 +4,19 @@
 
 namespace std.base
 {
-	export class _MultiMapTree<Key, T>
-		extends _MapTree<Key, T>
+	export class _MultiMapTree<Key, T, Source extends IMultiMap<Key, T>>
+		extends _MapTree<Key, T, Source>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public constructor(map: TreeMultiMap<Key, T>, compare: (x: Key, y: Key) => boolean)
+		public constructor(map: Source, compare: (x: Key, y: Key) => boolean)
 		{
 			super
 			(
 				map,
 				compare,
-				function (x: MapIterator<Key, T>, y: MapIterator<Key, T>): boolean
+				function (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>): boolean
 				{
 					if (equal_to(x.first, y.first))
 						return (x as any).__get_m_iUID() < (y as any).__get_m_iUID();
@@ -26,7 +26,7 @@ namespace std.base
 			);
 		}
 
-		public insert(val: MapIterator<Key, T>): void
+		public insert(val: MapIterator<Key, T, Source>): void
 		{
 			// ISSUE UID BEFORE INSERTION
 			(val as any).__get_m_iUID();
@@ -37,18 +37,18 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public find_by_key(key: Key): _XTreeNode<MapIterator<Key, T>>
+		public find_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
 		{
-			let node: _XTreeNode<MapIterator<Key, T>> = this.root_;
+			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
 			if (node == null)
 				return null;
 
 			// FOR THE DUPLICATE KEY
-			let matched: _XTreeNode<MapIterator<Key, T>> = null;
+			let matched: _XTreeNode<MapIterator<Key, T, Source>> = null;
 
 			while (true)
 			{
-				let myNode: _XTreeNode<MapIterator<Key, T>> = null;
+				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
 
 				if (equal_to(key, node.value.first))
 				{
@@ -75,21 +75,21 @@ namespace std.base
 				return node;
 		}
 
-		public upper_bound(key: Key): MapIterator<Key, T>
+		public upper_bound(key: Key): MapIterator<Key, T, Source>
 		{
 			//--------
 			// FIND MATCHED NODE
 			//--------
-			let node: _XTreeNode<MapIterator<Key, T>> = this.root_;
+			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
 			if (node == null)
-				return this.source().end();
+				return this.source().end() as MapIterator<Key, T, Source>;
 
 			// FOR THE DUPLICATE KEY
-			let matched: _XTreeNode<MapIterator<Key, T>> = null;
+			let matched: _XTreeNode<MapIterator<Key, T, Source>> = null;
 
 			while (true)
 			{
-				let myNode: _XTreeNode<MapIterator<Key, T>> = null;
+				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
 
 				if (equal_to(key, node.value.first))
 				{
@@ -115,7 +115,7 @@ namespace std.base
 			if (matched != null) // MATCHED KEY EXISTS
 				return matched.value.next();
 
-			let it: MapIterator<Key, T> = node.value;
+			let it: MapIterator<Key, T, Source> = node.value;
 			if (this.key_comp()(it.first, key) || equal_to(it.first, key)) // it.first <= key
 				return it.next();
 			else // it.first > key

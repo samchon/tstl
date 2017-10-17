@@ -45,8 +45,8 @@
 	 * @reference http://www.cplusplus.com/reference/unordered_map
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-    export interface IHashMap<Key, T>
-        extends MapContainer<Key, T>
+    export interface IHashMap<Key, T, Source extends IMapContainer<Key, T>>
+        extends MapContainer<Key, T, Source>
 	{
 		/**
 		 * Return number of buckets.

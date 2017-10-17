@@ -7,19 +7,19 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _SetHashBuckets<T>
-		extends _HashBuckets<SetIterator<T>>
+	export class _SetHashBuckets<T, Source extends ISetContainer<T>>
+		extends _HashBuckets<SetIterator<T, Source>>
 	{
-		private source_: IHashSet<T>;
+		private source_: IHashSet<T, Source>;
 		
-        public constructor(set: IHashSet<T>)
+        public constructor(set: IHashSet<T, Source>)
 		{
 			super();
 
 			this.source_ = set;
 		}
 
-		public find(val: T): SetIterator<T>
+		public find(val: T): SetIterator<T, Source>
 		{
 			let index = hash(val) % this.size();
 			let bucket = this.at(index);

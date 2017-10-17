@@ -1,12 +1,7 @@
 ﻿/// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/MultiMap.ts" />
-
-namespace std.TreeMultiMap
-{
-	export type iterator<Key, T> = MapIterator<Key, T>;
-	export type reverse_iterator<Key, T> = MapReverseIterator<Key, T>;
-}
+/// <reference path="../base/iterators/MapIterator.ts" />
 
 namespace std
 {
@@ -67,13 +62,13 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class TreeMultiMap<Key, T>
-		extends base.MultiMap<Key, T>
-		implements base.ITreeMap<Key, T>
+		extends base.MultiMap<Key, T, TreeMultiMap<Key, T>>
+		implements base.ITreeMap<Key, T, TreeMultiMap<Key, T>>
 	{
 		/**
 		 * @hidden
 		 */
-		private tree_: base._MultiMapTree<Key, T>;
+		private tree_: base._MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -194,7 +189,7 @@ namespace std
 			//--------
 			// ADJUST THE SPECIFIED CONSTRUCTOR
 			//--------
-			this.tree_ = new base._MultiMapTree<Key, T>(this, compare);
+			this.tree_ = new base._MultiMapTree<Key, T, TreeMultiMap<Key, T>>(this, compare);
 			if (fn != null)
 				fn();
 		}
@@ -218,9 +213,9 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: Key): MapIterator<Key, T>
+		public find(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
-			let node: base._XTreeNode<MapIterator<Key, T>> = this.tree_.find_by_key(key);
+			let node: base._XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.find_by_key(key);
 			
 			if (node == null || equal_to(node.value.first, key) == false)
 				return this.end();
@@ -261,7 +256,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public lower_bound(key: Key): MapIterator<Key, T>
+		public lower_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			return this.tree_.lower_bound(key);
 		}
@@ -269,7 +264,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public upper_bound(key: Key): MapIterator<Key, T>
+		public upper_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			return this.tree_.upper_bound(key);
 		}
@@ -277,7 +272,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public equal_range(key: Key): Pair<MapIterator<Key, T>, MapIterator<Key, T>>
+		public equal_range(key: Key): Pair<TreeMultiMap.Iterator<Key, T>, TreeMultiMap.Iterator<Key, T>>
 		{
 			return this.tree_.equal_range(key);
 		}
@@ -293,10 +288,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Emplace(key: Key, val: T): MapIterator<Key, T>
+		protected _Emplace(key: Key, val: T): TreeMultiMap.Iterator<Key, T>
 		{
 			// FIND POSITION TO INSERT
-			let it: MapIterator<Key, T> = this.upper_bound(key);
+			let it: TreeMultiMap.Iterator<Key, T> = this.upper_bound(key);
 
 			// ITERATOR TO RETURN
 			it = this["data_"].insert(it, new Entry(key, val));
@@ -308,13 +303,13 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Emplace_hint(hint: MapIterator<Key, T>, key: Key, val: T): MapIterator<Key, T>
+		protected _Emplace_hint(hint: TreeMultiMap.Iterator<Key, T>, key: Key, val: T): TreeMultiMap.Iterator<Key, T>
 		{
 			//--------
 			// INSERT BRANCH
 			//--------
 			// prev < current < hint
-			let prev: MapIterator<Key, T> = hint.prev();
+			let prev: TreeMultiMap.Iterator<Key, T> = hint.prev();
 			let keys: Vector<Key> = new Vector<Key>();
 
 			// CONSTRUCT KEYS
@@ -327,7 +322,7 @@ namespace std
 				keys.push_back(hint.first);
 
 			// IS THE HINT VALID ?
-			let ret: MapIterator<Key, T>;
+			let ret: TreeMultiMap.Iterator<Key, T>;
 			
 			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
@@ -359,7 +354,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_insert(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
 		{
 			this.tree_.insert(first);
 		}
@@ -367,7 +362,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: MapIterator<Key, T>, last: MapIterator<Key, T>): void
+		protected _Handle_erase(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.tree_.erase(first);
@@ -403,4 +398,29 @@ namespace std
 			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
+}
+
+namespace std.TreeMultiMap
+{
+	//----
+	// PASCAL NOTATION
+	//----
+	// HEAD
+	export type Iterator<Key, T> = base.MapIterator<Key, T, TreeMultiMap<Key, T>>;
+	export type ReverseIterator<Key, T> = base.MapReverseIterator<Key, T, TreeMultiMap<Key, T>>;
+
+	// BODY
+	export var Iterator = base.MapIterator;
+	export var ReverseIterator = base.MapReverseIterator;
+
+	//----
+	// SNAKE NOTATION
+	//----
+	// HEAD
+	export type iterator<Key, T> = Iterator<Key, T>;
+	export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
+
+	// BODY
+	export var iterator = Iterator;
+	export var reverse_iterator = ReverseIterator;
 }

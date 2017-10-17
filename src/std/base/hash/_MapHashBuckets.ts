@@ -7,19 +7,19 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _MapHashBuckets<K, T>
-		extends _HashBuckets<MapIterator<K, T>>
+	export class _MapHashBuckets<Key, T, Source extends IMapContainer<Key, T>>
+		extends _HashBuckets<MapIterator<Key, T, Source>>
 	{
-        private source_: IHashMap<K, T>;
+        private source_: IHashMap<Key, T, Source>;
 
-        public constructor(map: IHashMap<K, T>)
+        public constructor(map: IHashMap<Key, T, Source>)
 		{
 			super();
 
 			this.source_ = map;
 		}
 		
-		public find(key: K): MapIterator<K, T>
+		public find(key: Key): MapIterator<Key, T, Source>
 		{
 			let index = hash(key) % this.size();
 			let bucket = this.at(index);

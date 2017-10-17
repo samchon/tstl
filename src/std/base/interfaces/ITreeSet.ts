@@ -46,8 +46,8 @@
 	 * @reference http://www.cplusplus.com/reference/set
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
-    export interface ITreeSet<T>
-        extends SetContainer<T>
+    export interface ITreeSet<T, Source extends ISetContainer<T>>
+        extends SetContainer<T, Source>
 	{
 		/**
 		 * Return comparison function.
@@ -115,7 +115,7 @@
 		 * @return An iterator to the the first element in the container which is not considered to go before 
 		 *		   <i>val</i>, or {@link ITreeSet.end} if all elements are considered to go before <i>val</i>.
 		 */
-		lower_bound(val: T): SetIterator<T>;
+		lower_bound(val: T): SetIterator<T, Source>;
 
 		/**
 		 * Return iterator to upper bound.
@@ -139,7 +139,7 @@
 		 * @return An iterator to the the first element in the container which is considered to go after 
 		 *		   <i>val</i>, or {@link TreeSet.end end} if no elements are considered to go after <i>val</i>.
 		 */
-		upper_bound(val: T): SetIterator<T>;
+		upper_bound(val: T): SetIterator<T, Source>;
 
 		/**
 		 * Get range of equal elements.
@@ -160,6 +160,6 @@
 		 *		   the range (the same as {@link lower_bound}), and {@link Pair.second} is the upper bound 
 		 *		   (the same as {@link upper_bound}).
 		 */
-		equal_range(val: T): Pair<SetIterator<T>, SetIterator<T>>;
+		equal_range(val: T): Pair<SetIterator<T, Source>, SetIterator<T, Source>>;
 	}
 }

@@ -1,12 +1,7 @@
 ﻿/// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/MultiSet.ts" />
-
-namespace std.HashMultiSet
-{
-	export type iterator<T> = SetIterator<T>;
-	export type reverse_iterator<T> = SetReverseIterator<T>;
-}
+/// <reference path="../base/iterators/SetIterator.ts" />
 
 namespace std
 {
@@ -55,12 +50,13 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashMultiSet<T>
-		extends base.MultiSet<T>
+		extends base.MultiSet<T, HashMultiSet<T>>
+		implements base.IHashSet<T, HashMultiSet<T>>
 	{
 		/**
 		 * @hidden
 		 */
-		private hash_buckets_: base._SetHashBuckets<T>;
+		private hash_buckets_: base._SetHashBuckets<T, HashMultiSet<T>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -93,7 +89,7 @@ namespace std
 		{
 			// INIT MEMBERS
 			super();
-			this.hash_buckets_ = new base._SetHashBuckets<T>(this);
+			this.hash_buckets_ = new base._SetHashBuckets<T, HashMultiSet<T>>(this);
 
 			// BRANCH - METHOD OVERLOADINGS
 			if (args.length == 0)
@@ -148,7 +144,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: T): SetIterator<T>
+		public find(key: T): HashMultiSet.Iterator<T>
 		{
 			return this.hash_buckets_.find(key);
 		}
@@ -174,14 +170,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public begin(): SetIterator<T>;
+		public begin(): HashMultiSet.Iterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public begin(index: number): SetIterator<T>;
+		public begin(index: number): HashMultiSet.Iterator<T>;
 
-		public begin(index: number = -1): SetIterator<T>
+		public begin(index: number = -1): HashMultiSet.Iterator<T>
 		{
 			if (index == -1)
 				return super.begin();
@@ -192,14 +188,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public end(): SetIterator<T>;
+		public end(): HashMultiSet.Iterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public end(index: number): SetIterator<T>
+		public end(index: number): HashMultiSet.Iterator<T>
 
-		public end(index: number = -1): SetIterator<T>
+		public end(index: number = -1): HashMultiSet.Iterator<T>
 		{
 			if (index == -1)
 				return super.end();
@@ -210,37 +206,37 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public rbegin(): SetReverseIterator<T>;
+		public rbegin(): HashMultiSet.ReverseIterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public rbegin(index: number): SetReverseIterator<T>;
+		public rbegin(index: number): HashMultiSet.ReverseIterator<T>;
 
-		public rbegin(index: number = -1): SetReverseIterator<T>
+		public rbegin(index: number = -1): HashMultiSet.ReverseIterator<T>
 		{
 			if (index == -1)
 				return super.rbegin();
 			else
-				return new SetReverseIterator<T>(this.end(index));
+				return new base.SetReverseIterator<T, HashMultiSet<T>>(this.end(index));
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public rend(): SetReverseIterator<T>;
+		public rend(): HashMultiSet.ReverseIterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public rend(index: number): SetReverseIterator<T>;
+		public rend(index: number): HashMultiSet.ReverseIterator<T>;
 
-		public rend(index: number = -1): SetReverseIterator<T>
+		public rend(index: number = -1): HashMultiSet.ReverseIterator<T>
 		{
 			if (index == -1)
 				return super.rend();
 			else
-				return new SetReverseIterator<T>(this.begin(index));
+				return new base.SetReverseIterator<T, HashMultiSet<T>>(this.begin(index));
 		}
 
 		/* ---------------------------------------------------------
@@ -318,7 +314,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): SetIterator<T>
+		protected _Insert_by_val(val: T): HashMultiSet.Iterator<T>
 		{
 			// INSERT
 			let it = this["data_"].insert(this["data_"].end(), val);
@@ -330,7 +326,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		protected _Insert_by_hint(hint: HashMultiSet.Iterator<T>, val: T): HashMultiSet.Iterator<T>
 		{
 			// INSERT
 			let it = this["data_"].insert(hint, val);
@@ -364,7 +360,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_insert(first: HashMultiSet.Iterator<T>, last: HashMultiSet.Iterator<T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.insert(first);
@@ -373,7 +369,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_erase(first: HashMultiSet.Iterator<T>, last: HashMultiSet.Iterator<T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.erase(first);
@@ -409,4 +405,32 @@ namespace std
 			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
+}
+
+/**
+ * @hidden
+ */
+namespace std.HashMultiSet
+{
+	//----
+	// PASCAL NOTATION
+	//----
+	// HEAD
+	export type Iterator<T> = base.SetIterator<T, HashMultiSet<T>>;
+	export type ReverseIterator<T> = base.SetReverseIterator<T, HashMultiSet<T>>;
+
+	// BODY
+	export var Iterator = base.ArrayIterator;
+	export var ReverseIterator = base.ArrayReverseIterator;
+
+	//----
+	// SNAKE NOTATION
+	//----
+	// HEAD
+	export type iterator<T> = Iterator<T>;
+	export type reverse_iterator<T> = ReverseIterator<T>;
+
+	// BODY
+	export var iterator = Iterator;
+	export var reverse_iterator = ReverseIterator;
 }

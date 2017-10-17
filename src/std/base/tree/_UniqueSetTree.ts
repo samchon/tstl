@@ -7,19 +7,19 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _UniqueSetTree<T>
-		extends _SetTree<T>
+	export class _UniqueSetTree<T, Source extends IUniqueSet<T>>
+		extends _SetTree<T, Source>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public constructor(set: TreeSet<T>, compare: (x: T, y: T) => boolean)
+		public constructor(set: Source, compare: (x: T, y: T) => boolean)
 		{
 			super
 			(
 				set, 
 				compare, 
-				function (x: SetIterator<T>, y: SetIterator<T>): boolean
+				function (x: SetIterator<T, Source>, y: SetIterator<T, Source>): boolean
 				{
 					return compare(x.value, y.value);
 				}
@@ -29,16 +29,16 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public find_by_val(val: T): _XTreeNode<SetIterator<T>>
+		public find_by_val(val: T): _XTreeNode<SetIterator<T, Source>>
 		{
-			let node: _XTreeNode<SetIterator<T>> = this.root_;
+			let node: _XTreeNode<SetIterator<T, Source>> = this.root_;
 			if (node == null)
 				return null;
 
 			while (true)
 			{
-				let it: SetIterator<T> = node.value;
-				let myNode: _XTreeNode<SetIterator<T>> = null;
+				let it: SetIterator<T, Source> = node.value;
+				let myNode: _XTreeNode<SetIterator<T, Source>> = null;
 				
 				if (equal_to(val, it.value))
 					break;
@@ -57,19 +57,19 @@ namespace std.base
 			return node;
 		}
 
-		public upper_bound(val: T): SetIterator<T>
+		public upper_bound(val: T): SetIterator<T, Source>
 		{
 			//--------
 			// FIND MATCHED NODE
 			//--------
-			let node: _XTreeNode<SetIterator<T>> = this.find_by_val(val);
+			let node: _XTreeNode<SetIterator<T, Source>> = this.find_by_val(val);
 			if (node == null)
-				return this.source().end();
+				return this.source().end() as SetIterator<T, Source>;
 
 			//--------
 			// RETURN BRANCH
 			//--------
-			let it: SetIterator<T> = node.value;
+			let it: SetIterator<T, Source> = node.value;
 			
 			if (equal_to(it.value, val) || this.key_comp()(it.value, val)) // it.first <= key
 				return it.next();

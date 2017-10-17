@@ -1,12 +1,7 @@
 /// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/UniqueSet.ts" />
-
-namespace std.HashSet
-{
-	export type iterator<T> = SetIterator<T>;
-	export type reverse_iterator<T> = SetReverseIterator<T>;
-}
+/// <reference path="../base/iterators/SetIterator.ts" />
 
 namespace std
 {
@@ -55,13 +50,13 @@ namespace std
 	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export class HashSet<T>
-		extends base.UniqueSet<T>
-		implements base.IHashSet<T>
+		extends base.UniqueSet<T, HashSet<T>>
+		implements base.IHashSet<T, HashSet<T>>
 	{
 		/**
 		 * @hidden
 		 */
-		private hash_buckets_: base._SetHashBuckets<T>;
+		private hash_buckets_: base._SetHashBuckets<T, HashSet<T>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -94,7 +89,7 @@ namespace std
 		{
 			// INIT MEMBERS
 			super();
-			this.hash_buckets_ = new base._SetHashBuckets<T>(this);
+			this.hash_buckets_ = new base._SetHashBuckets<T, HashSet<T>>(this);
 
 			// BRANCH - METHOD OVERLOADINGS
 			if (args.length == 0)
@@ -149,7 +144,7 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public find(key: T): SetIterator<T>
+		public find(key: T): HashSet.Iterator<T>
 		{
 			return this.hash_buckets_.find(key);
 		}
@@ -157,14 +152,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public begin(): SetIterator<T>;
+		public begin(): HashSet.Iterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public begin(index: number): SetIterator<T>;
+		public begin(index: number): HashSet.Iterator<T>;
 
-		public begin(index: number = -1): SetIterator<T>
+		public begin(index: number = -1): HashSet.Iterator<T>
 		{
 			if (index == -1)
 				return super.begin();
@@ -175,14 +170,14 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public end(): SetIterator<T>;
+		public end(): HashSet.Iterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public end(index: number): SetIterator<T>
+		public end(index: number): HashSet.Iterator<T>
 
-		public end(index: number = -1): SetIterator<T>
+		public end(index: number = -1): HashSet.Iterator<T>
 		{
 			if (index == -1)
 				return super.end();
@@ -193,37 +188,37 @@ namespace std
 		/**
 		 * @inheritdoc
 		 */
-		public rbegin(): SetReverseIterator<T>;
+		public rbegin(): HashSet.ReverseIterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public rbegin(index: number): SetReverseIterator<T>;
+		public rbegin(index: number): HashSet.ReverseIterator<T>;
 
-		public rbegin(index: number = -1): SetReverseIterator<T>
+		public rbegin(index: number = -1): HashSet.ReverseIterator<T>
 		{
 			if (index == -1)
 				return super.rbegin();
 			else
-				return new SetReverseIterator<T>(this.end(index));
+				return new base.SetReverseIterator<T, HashSet<T>>(this.end(index));
 		}
 
 		/**
 		 * @inheritdoc
 		 */
-		public rend(): SetReverseIterator<T>;
+		public rend(): HashSet.ReverseIterator<T>;
 
 		/**
 		 * @inheritdoc
 		 */
-		public rend(index: number): SetReverseIterator<T>;
+		public rend(index: number): HashSet.ReverseIterator<T>;
 
-		public rend(index: number = -1): SetReverseIterator<T>
+		public rend(index: number = -1): HashSet.ReverseIterator<T>
 		{
 			if (index == -1)
 				return super.rend();
 			else
-				return new SetReverseIterator<T>(this.begin(index));
+				return new base.SetReverseIterator<T, HashSet<T>>(this.begin(index));
 		}
 
 		/* ---------------------------------------------------------
@@ -301,10 +296,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): Pair<SetIterator<T>, boolean>
+		protected _Insert_by_val(val: T): Pair<HashSet.Iterator<T>, boolean>
 		{
 			// TEST WHETHER EXIST
-			let it: SetIterator<T> = this.find(val);
+			let it: HashSet.Iterator<T> = this.find(val);
 			if (it.equals(this.end()) == false)
 				return make_pair(it, false);
 
@@ -321,10 +316,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: SetIterator<T>, val: T): SetIterator<T>
+		protected _Insert_by_hint(hint: HashSet.Iterator<T>, val: T): HashSet.Iterator<T>
 		{
 			// FIND DUPLICATED KEY
-			let it: SetIterator<T> = this.find(val);
+			let it: HashSet.Iterator<T> = this.find(val);
 			if (it.equals(this.end()) == true)
 			{
 				// INSERT
@@ -342,7 +337,7 @@ namespace std
 		protected _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			let my_first: SetIterator<T> = this.end().prev();
+			let my_first: HashSet.Iterator<T> = this.end().prev();
 			let size: number = 0;
 
 			for (; !first.equals(last); first = first.next() as InputIterator)
@@ -371,7 +366,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_insert(first: HashSet.Iterator<T>, last: HashSet.Iterator<T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.insert(first);
@@ -380,7 +375,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: SetIterator<T>, last: SetIterator<T>): void
+		protected _Handle_erase(first: HashSet.Iterator<T>, last: HashSet.Iterator<T>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.hash_buckets_.erase(first);
@@ -416,4 +411,32 @@ namespace std
 			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
 		}
 	}
+}
+
+/**
+ * @hidden
+ */
+namespace std.HashSet
+{
+	//----
+	// PASCAL NOTATION
+	//----
+	// HEAD
+	export type Iterator<T> = base.SetIterator<T, HashSet<T>>;
+	export type ReverseIterator<T> = base.SetReverseIterator<T, HashSet<T>>;
+
+	// BODY
+	export var Iterator = base.ArrayIterator;
+	export var ReverseIterator = base.ArrayReverseIterator;
+
+	//----
+	// SNAKE NOTATION
+	//----
+	// HEAD
+	export type iterator<T> = Iterator<T>;
+	export type reverse_iterator<T> = ReverseIterator<T>;
+
+	// BODY
+	export var iterator = Iterator;
+	export var reverse_iterator = ReverseIterator;
 }
