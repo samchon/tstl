@@ -15,8 +15,9 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
 ### Containers
   - **Linear Containers**
     - [Vector `vector`](http://samchon.github.io/tstl/api/classes/std.vector.html)
-    - [List `list`](http://samchon.github.io/tstl/api/classes/std.list.html)
     - [Deque `deque`](http://samchon.github.io/tstl/api/classes/std.deque.html)
+    - [List `list`](http://samchon.github.io/tstl/api/classes/std.list.html)
+    - [ForwardList `forward_list`](http://samchon.github.io/tstl/api/classes/std.forward_list.html)
   - **Associative Containers**
     - *Tree-structured Containers*
       - [TreeSet `set`](http://samchon.github.io/tstl/api/classes/std.treeset.html)
