@@ -23,6 +23,11 @@ namespace std
 	 * Type definition of {@link Vector} and it's the original name used in C++.
 	 */
 	export import vector = Vector;
+
+	/**
+	 * Type definition of {@link Deque} and it's the original name used in C++.
+	 */
+	export import deque = Deque;
 	
 	/**
 	 * Type definition of {@link List} and it's the original name used in C++.
@@ -30,9 +35,9 @@ namespace std
 	export import list = List;
 	
 	/**
-	 * Type definition of {@link Deque} and it's the original name used in C++.
+	 * Type definition of {@link ForwardList} and it's the original name used in C++.
 	 */
-	export import deque = Deque;
+	export import forward_list = ForwardList;
 
 	/* ---------------------------------------------------------
 		ASSOCIATIVE CONTAINERS
