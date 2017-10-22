@@ -83,6 +83,11 @@ namespace std
 		{
 			return this.size_ == 0;
 		}
+		
+		public front(): T
+		{
+			return this.before_begin_.next().value;
+		}
 
 		public before_begin(): ForwardList.Iterator<T>
 		{
@@ -194,6 +199,22 @@ namespace std
 		/* ---------------------------------------------------------
 			ALGORITHMS
 		--------------------------------------------------------- */
+		public unique(): void;
+		public unique(binary_pred: (left: T, right: T) => boolean): void;
+
+		public unique(binary_pred: (left: T, right: T) => boolean = equal_to): void
+		{
+			for (let it = this.begin().next(); !it.equals(this.end()); it = it.next())
+			{
+				let next_it = it.next();
+				if (next_it.equals(this.end()))
+					break;
+
+				if (binary_pred(it.value, next_it.value))
+					this.erase_after(it);
+			}
+		}
+
 		public remove(val: T): void
 		{
 			this.remove_if(function (elem: T): boolean

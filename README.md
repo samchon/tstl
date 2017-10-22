@@ -6,17 +6,22 @@
 
 
 ## Introduction
-C++ STL (Standard Template Library) *Containers* and *Algorithms* for the **TypeScript**.
+Implementation of STL (Standard Template Library) in TypeScript.
+  - Containers
+  - Iterators
+  - Algorithms
+  - Functors
 
-**T**ypeScript-**STL** is an open-source project providing **containers** and **algorithms** migrated from *C++ STL* to *TypeScript*. You can enjoy the STL's own specific *coantainers* and *algorithms* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
+**T**ypeScript-**STL** is an open-source project providing features of STL, migrated from *C++* to *TypeScript*. You can enjoy the STL's own specific *coantainers*, *algorithms* and *functors* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
 
 Below components are list of provided objects in the **T**ypeScript-**STL**. If you want to know more about the **TypeScript-STL**, then please read the [**Guide Documents**](https://github.com/samchon/tstl/wiki).
 
 ### Containers
   - **Linear Containers**
     - [Vector `vector`](http://samchon.github.io/tstl/api/classes/std.vector.html)
-    - [List `list`](http://samchon.github.io/tstl/api/classes/std.list.html)
     - [Deque `deque`](http://samchon.github.io/tstl/api/classes/std.deque.html)
+    - [List `list`](http://samchon.github.io/tstl/api/classes/std.list.html)
+    - [ForwardList `forward_list`](http://samchon.github.io/tstl/api/classes/std.forwardlist.html)
   - **Associative Containers**
     - *Tree-structured Containers*
       - [TreeSet `set`](http://samchon.github.io/tstl/api/classes/std.treeset.html)
@@ -33,8 +38,8 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
     - [Stack `stack`](http://samchon.github.io/tstl/api/classes/std.stack.html)
     - [PriorityQueue `priority_queue`](http://samchon.github.io/tstl/api/classes/std.priorityqueue.html)
 
-### Global Functions
-  - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
+### Algorithms
+- [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
     - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithms/iterations.ts)
     - [modifiers](https://github.com/samchon/tstl/tree/master/src/std/algorithms/modifiers.ts)
     - [partition](https://github.com/samchon/tstl/tree/master/src/std/algorithms/partition.ts)
@@ -43,6 +48,8 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
     - [union set](https://github.com/samchon/tstl/tree/master/src/std/algorithms/union_set.ts)
     - [heap](https://github.com/samchon/tstl/tree/master/src/std/algorithms/heap.ts)
     - [mathmatics](https://github.com/samchon/tstl/tree/master/src/std/algorithms/mathmatics.ts)
+
+### Functors
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
     - [Exception `exception`](http://samchon.github.io/tstl/api/classes/std.exception.html)
       - [LogicError `logic_error`](http://samchon.github.io/tstl/api/classes/std.logicerror.html)
@@ -51,6 +58,7 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
     - [IComparable](http://samchon.github.io/tstl/api/interfaces/std.icomparable.html)
   - [`<utility>`](http://www.cplusplus.com/reference/utility/)
     - [Pair `pair`](http://samchon.github.io/tstl/api/classes/std.pair.html)
+    - [Entry `entry](http://samchon.github.io/tstl/api/classes/std.entry.html)
   - [`<thread>`](https://github.com/samchon/tstl/tree/master/src/std/thread.ts)
     - [ConditionVariable `condition_variable`](http://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
     - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
@@ -66,9 +74,8 @@ Installing **TSTL** in *NodeJS* is very easy. Just install with the `npm`
 npm install --save tstl
 ```
 
-### Usage (TypeScript)
+### Usage
 ``` typescript
-/// <reference types="tstl" />
 import std = require("tstl");
 
 let map: std.TreeMap<number, string> = new std.TreeMap<number, string>();
@@ -81,20 +88,11 @@ map.set(9, "Nineth"); // Instead of the operetor[](Key)
 
 // ITERATION
 for (let it = map.begin(); !it.equals(map.end()); it = it.next())
-	console.log(it.first, it.second); // (key => number, value => string)
+    console.log(it.first, it.second); // (key => number, value => string)
 
 // LOWER_BOUND
 let x = map.lower_bound(3);
 console.log("lower bound of 3 is: " + x.first + ", " + x.second);
-```
-
-### In Browser
-**TypeScript-STL** follows the `CommonJS` module. 
-
-Use [browserify](https://www.npmjs.com/package/browserify) or just include the **TypeSript-STL**'s JS file with the `<script>` tag.
-
-```html
-<script src="http://samchon.github.io/dist/tstl.min.js"></script>
 ```
 
 
