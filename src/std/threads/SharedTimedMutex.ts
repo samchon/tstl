@@ -22,9 +22,6 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
 		public constructor()
 		{
 			this.read_lock_count_ = 0;

@@ -10,40 +10,9 @@ namespace std
 	============================================================
 		SORT
 	--------------------------------------------------------- */
-	/**
-	 * Sort elements in range.
-	 *
-	 * Sorts the elements in the range [<i>first</i>, <i>last</i>) into ascending order. The elements are compared 
-	 * using {@link less}.
-	 *
-	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.
-	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
-	 *			  The range used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i>
-	 *			  and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-	 *			  <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
-	 *			  {@link base.Iterator.swap swap} is properly defined.
-	 */
 	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
-	/**
-	 * Sort elements in range.
-	 *
-	 * Sorts the elements in the range [<i>first</i>, <i>last</i>) into specific order. The elements are compared
-	 * using <i>compare</i>.
-	 *
-	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.		  
-	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
-	 *			  The range used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i>
-	 *			  and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-	 *			  <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
-	 *			  {@link base.Iterator.swap swap} is properly defined.
-	 * @param compare Binary function that accepts two elements in the range as arguments, and returns a value 
-	 *				  convertible to <code>boolean</code>. The value returned indicates whether the element passed as first 
-	 *				  argument is considered to go before the second in the specific strict weak ordering it defines. The 
-	 *				  function shall not modify any of its arguments. This can either be a function pointer or a function 
-	 *				  object.
-	 */
 	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean): void;
 
@@ -53,44 +22,9 @@ namespace std
 		_Quick_sort(first.source() as base.IArrayContainer<T>, first.index(), last.index() - 1, compare);
 	}
 
-	/**
-	 * Sort elements preserving order of equivalents
-	 * 
-	 * Sorts the elements in the range [*first*, *last*) into ascending order, like {@link sort}, but {@link stable_sort} 
-	 * preserves the relative order of the elements with equivalent values.
-	 * 
-	 * The elements are compared using {@link less}.
-	 * 
-	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.
-	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
-	 *			   The range used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i>
-	 *			   and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-	 *			   <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
-	 *			   {@link base.Iterator.swap swap} is properly defined.
-	 */
 	export function stable_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
-	/**
-	 * Sort elements preserving order of equivalents
-	 * 
-	 * Sorts the elements in the range [*first*, *last*) into ascending order, like {@link sort}, but {@link stable_sort} 
-	 * preserves the relative order of the elements with equivalent values.
-	 * 
-	 * The elements are compared using *compare*.
-	 * 
-	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.
-	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
-	 *			   The range used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i>
-	 *			   and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-	 *			   <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
-	 *			   {@link base.Iterator.swap swap} is properly defined.
-	 * @param compare Binary function that accepts two elements in the range as arguments, and returns a value 
-	 *				  convertible to <code>boolean</code>. The value returned indicates whether the element passed as first 
-	 *				  argument is considered to go before the second in the specific strict weak ordering it defines. The 
-	 *				  function shall not modify any of its arguments. This can either be a function pointer or a function 
-	 *				  object.
-	 */
 	export function stable_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean): void;
 
@@ -100,45 +34,9 @@ namespace std
 		_Stable_quick_sort(first.source(), first.index(), last.index() - 1, compare);
 	}
 
-	/**
-	 * Partially sort elements in range.
-	 * 
-	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that the elements before 
-	 * <i>middle</i> are the smallest elements in the entire range and are sorted in ascending order, while the remaining 
-	 * elements are left without any specific order.
-	 * 
-	 * The elements are compared using {@link less}.
-	 * 
-	 * @param last {@link IArrayIterator Random-access iterator} to the first position of the sequence to be sorted.
-	 * @param middle {@link IArrayIterator Random-access iterator} pointing to the element within the range [<i>first</i>, <i>last</i>) that is used as the upper boundary of the elements that are fully sorted.
-	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
-	 *			  The range used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i>
-	 *			  and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-	 *			  <i>last</i>.
-	 */
 	export function partial_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator): void;
 
-	/**
-	 * Partially sort elements in range.
-	 * 
-	 * Rearranges the elements in the range [<i>first</i>, <i>last</i>), in such a way that the elements before 
-	 * <i>middle</i> are the smallest elements in the entire range and are sorted in ascending order, while the remaining 
-	 * elements are left without any specific order.
-	 * 
-	 * The elements are compared using <i>comp</i>.
-	 * 
-	 * @param last {@link IArrayIterator Random-access iterator} to the first position of the sequence to be sorted.
-	 * @param middle {@link IArrayIterator Random-access iterator} pointing to the element within the range [<i>first</i>, <i>last</i>) that is used as the upper boundary of the elements that are fully sorted.
-	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
-	 *			   The range used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i>
-	 *			   and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-	 *			   <i>last</i>.
-	 * @param compare Binary function that accepts two elements in the range as arguments, and returns a value 
-	 *				  convertible to <code>boolean</code>. The value returned indicates whether the element passed as 
-	 *				  first argument is considered to go before the second in the specific strict weak ordering it 
-	 *				  defines. The function shall not modify any of its arguments.
-	 */
 	export function partial_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(
 			first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
@@ -154,68 +52,12 @@ namespace std
 		_Selection_sort(first.source() as base.IArrayContainer<T>, first.index(), middle.index(), last.index(), compare);
 	}
 
-	/**
-	 * Copy and partially sort range.
-	 * 
-	 * Copies the smallest  elements in the range [<i>first</i>, <i>last</i>) to 
-	 * [<i>result_first</i>, <i>result_last</i>), sorting the elements copied. The number of elements copied is the same 
-	 * as the {@link distance} between <i>result_first</i> and <i>result_last</i> (unless this is more than the amount of 
-	 * elements in [<i>first</i>, <i>last</i>)).
-	 * 
-	 * The range [<i>first</i>, <i>last</i>) is not modified.
-	 * 
-	 * The elements are compared using {@link less}.
-	 * 
-	 * @param first {@link base.Iterator Input iterator} to the initial position of the sequence to copy from.
-	 * @param last {@link base.Iterator Input iterator} to the final position of the sequence to copy from. The range used is 
-	 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>, 
-	 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>. 
-	 *			   <i>InputIterator</i> shall point to a type assignable to the elements pointed by 
-	 *			   <i>RandomAccessIterator</i>.
-	 * @param result_first {@link base.Iterator Random-access iterator} to the initial position of the destination sequence.
-	 * @param result_last {@link base.Iterator Random-access iterator} to the final position of the destination sequence.
-	 *					  The range used is [<i>result_first</i>, <i>result_last</i>).
-	 * @param compare Binary function that accepts two elements in the result range as arguments, and returns a value 
-	 *				  convertible to <code>bool</code>. The value returned indicates whether the element passed as first 
-	 *				  argument is considered to go before the second in the specific <i>strict weak ordering</i> it
-	 *				  defines. The function shall not modify any of its arguments.
-	 *
-	 * @return An iterator pointing to the element that follows the last element written in the result sequence.
-	 */
 	export function partial_sort_copy<T, InputIterator extends base.Iterator<T>, RandomAccessIterator extends base.Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator
 		): RandomAccessIterator;
 
-	/**
-	 * Copy and partially sort range.
-	 * 
-	 * Copies the smallest (or largest) elements in the range [<i>first</i>, <i>last</i>) to 
-	 * [<i>result_first</i>, <i>result_last</i>), sorting the elements copied. The number of elements copied is the same 
-	 * as the {@link distance} between <i>result_first</i> and <i>result_last</i> (unless this is more than the amount of 
-	 * elements in [<i>first</i>, <i>last</i>)).
-	 * 
-	 * The range [<i>first</i>, <i>last</i>) is not modified.
-	 * 
-	 * The elements are compared using <i>compare</i>.
-	 * 
-	 * @param first {@link base.Iterator Input iterator} to the initial position of the sequence to copy from.
-	 * @param last {@link base.Iterator Input iterator} to the final position of the sequence to copy from. The range used is 
-	 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>, 
-	 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>. 
-	 *			   <i>InputIterator</i> shall point to a type assignable to the elements pointed by 
-	 *			   <i>RandomAccessIterator</i>.
-	 * @param result_first {@link base.Iterator Random-access iterator} to the initial position of the destination sequence.
-	 * @param result_last {@link base.Iterator Random-access iterator} to the final position of the destination sequence.
-	 *					  The range used is [<i>result_first</i>, <i>result_last</i>).
-	 * @param compare Binary function that accepts two elements in the result range as arguments, and returns a value 
-	 *				  convertible to <code>bool</code>. The value returned indicates whether the element passed as first 
-	 *				  argument is considered to go before the second in the specific <i>strict weak ordering</i> it
-	 *				  defines. The function shall not modify any of its arguments.
-	 *
-	 * @return An iterator pointing to the element that follows the last element written in the result sequence.
-	 */
 	export function partial_sort_copy
 		<T, InputIterator extends base.Iterator<T>, RandomAccessIterator extends base.Iterator<T>>
 		(
@@ -246,50 +88,9 @@ namespace std
 		return result_first;
 	}
 
-	/**
-	 * Sort element in range
-	 * 
-	 * Rearranges the elements in the range [*first*, *last*), in such a way that the element at the *nth* position 
-	 * is the element that would be in that position in a sorted sequence.
-	 * 
-	 * The other elements are left without any specific order, except that none of the elements preceding *nth* are 
-	 * greater than it, and none of the elements following it are less.
-	 * 
-	 * The elements are compared using {@link less}.
-	 * 
-	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.
-	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
-	 *			   The range used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i>
-	 *			   and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-	 *			   <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
-	 *			   {@link base.Iterator.swap swap} is properly defined.
-	 */
 	export function nth_element<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator): void;
 
-	/**
-	 * Sort element in range
-	 * 
-	 * Rearranges the elements in the range [*first*, *last*), in such a way that the element at the *nth* position 
-	 * is the element that would be in that position in a sorted sequence.
-	 * 
-	 * The other elements are left without any specific order, except that none of the elements preceding *nth* are 
-	 * greater than it, and none of the elements following it are less.
-	 * 
-	 * The elements are compared using *compare*.
-	 * 
-	 * @param first {@link IArrayIterator Random-access iterator} to the initial position of the sequence to be sorted.
-	 * @param last {@link IArrayIterator Random-access iterator} to the final position of the sequence to be sorted.
-	 *			   The range used is [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i>
-	 *			   and <i>last</i>, including the element pointed by <i>first</i> but not the element pointed by
-	 *			   <i>last</i>. {@link IArrayIterator RandomAccessIterator} shall point to a type for which
-	 *			   {@link base.Iterator.swap swap} is properly defined.
-	 * @param compare Binary function that accepts two elements in the range as arguments, and returns a value 
-	 *				  convertible to <code>boolean</code>. The value returned indicates whether the element passed as first 
-	 *				  argument is considered to go before the second in the specific strict weak ordering it defines. The 
-	 *				  function shall not modify any of its arguments. This can either be a function pointer or a function 
-	 *				  object.
-	 */
 	export function nth_element<T, RandomAccessIterator extends base.IArrayIterator<T>>
 		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean): void;
 
@@ -302,45 +103,9 @@ namespace std
 	/* ---------------------------------------------------------
 		INSPECTOR
 	--------------------------------------------------------- */
-	/**
-	 * Check whether range is sorted.
-	 * 
-	 * Returns <code>true</code> if the range [<i>first</i>, <i>last</i>) is sorted into ascending order.
-	 * 
-	 * The elements are compared using {@link less}.
-	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of the sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of the sequence. The range checked is 
-	 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>, 
-	 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-	 * 
-	 * @return <code>true</code> if the range [<i>first</i>, <i>last</i>) is sorted into ascending order, 
-	 *		   <code>false</code> otherwise. If the range [<i>first</i>, <i>last</i>) contains less than two elements, 
-	 *		   the function always returns <code>true</code>.
-	 */
 	export function is_sorted<T, ForwardIterator extends base.Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): boolean;
 
-	/**
-	 * Check whether range is sorted.
-	 * 
-	 * Returns <code>true</code> if the range [<i>first</i>, <i>last</i>) is sorted into ascending order.
-	 * 
-	 * The elements are compared using <i>compare</i>.
-	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of the sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of the sequence. The range checked is 
-	 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>, 
-	 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-	 * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible 
-	 *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is 
-	 *				  considered to go before the second in the specific strict weak ordering it defines. The function 
-	 *				  shall not modify any of its arguments.
-	 * 
-	 * @return <code>true</code> if the range [<i>first</i>, <i>last</i>) is sorted into ascending order, 
-	 *		   <code>false</code> otherwise. If the range [<i>first</i>, <i>last</i>) contains less than two elements, 
-	 *		   the function always returns <code>true</code>.
-	 */
 	export function is_sorted<T, ForwardIterator extends base.Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): boolean;
 
@@ -360,57 +125,9 @@ namespace std
 		return true;
 	}
 
-	/**
-	 * Find first unsorted element in range.
-	 * 
-	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which does not follow an 
-	 * ascending order.
-	 * 
-	 * The range between <i>first</i> and the iterator returned {@link is_sorted is sorted}.
-	 * 
-	 * If the entire range is sorted, the function returns <i>last</i>.
-	 * 
-	 * The elements are compared using {@link equal_to}.
-	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of the sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of the sequence. The range checked is
-	 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-	 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-	 * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
-	 *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
-	 *				  considered to go before the second in the specific strict weak ordering it defines. The function
-	 *				  shall not modify any of its arguments.
-	 * 
-	 * @return An iterator to the first element in the range which does not follow an ascending order, or <i>last</i> if 
-	 *		   all elements are sorted or if the range contains less than two elements.
-	 */
 	export function is_sorted_until<T, ForwardIterator extends base.Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
-	/**
-	 * Find first unsorted element in range.
-	 * 
-	 * Returns an iterator to the first element in the range [<i>first</i>, <i>last</i>) which does not follow an 
-	 * ascending order.
-	 * 
-	 * The range between <i>first</i> and the iterator returned {@link is_sorted is sorted}.
-	 * 
-	 * If the entire range is sorted, the function returns <i>last</i>.
-	 * 
-	 * The elements are compared using <i>compare</i>.
-	 * 
-	 * @param first {@link base.Iterator Forward iterator} to the initial position of the sequence.
-	 * @param last {@link base.Iterator Forward iterator} to the final position of the sequence. The range checked is
-	 *			   [<i>first</i>, <i>last</i>), which contains all the elements between <i>first</i> and <i>last</i>,
-	 *			   including the element pointed by <i>first</i> but not the element pointed by <i>last</i>.
-	 * @param compare Binary function that accepts two elements in the range as arguments, and returns a value convertible
-	 *				  to <code>bool</code>. The value returned indicates whether the element passed as first argument is
-	 *				  considered to go before the second in the specific strict weak ordering it defines. The function
-	 *				  shall not modify any of its arguments.
-	 * 
-	 * @return An iterator to the first element in the range which does not follow an ascending order, or <i>last</i> if 
-	 *		   all elements are sorted or if the range contains less than two elements.
-	 */
 	export function is_sorted_until<T, ForwardIterator extends base.Iterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 

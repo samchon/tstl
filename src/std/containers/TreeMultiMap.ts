@@ -5,62 +5,6 @@
 
 namespace std
 {
-	/**
-	 * Tree-structured multiple-key map.
-	 *
-	 * {@link TreeMultiMap TreeMultiMaps} are associative containers that store elements formed by a combination of 
-	 * a <i>key value</i> and a <i>mapped value</i>, following a specific order, and where multiple elements can 
-	 * have equivalent keys.
-	 *
-	 * In a {@link TreeMultiMap}, the <i>key values</i> are generally used to sort and uniquely identify 
-	 * the elements, while the <i>mapped values</i> store the content associated to this <i>key</i>. The types of 
-	 * <i>key</i> and <i>mapped value</i> may differ, and are grouped together in member type 
-	 * <code>value_type</code>, which is a {@link Pair} type combining both:
-	 * 
-	 * <code>typedef Pair<const Key, T> value_type;</code>
-	 * 
-	 * Internally, the elements in a {@link TreeMultiMap}are always sorted by its key following a 
-	 * strict weak ordering criterion indicated by its internal comparison method (of {@link less}).
-	 *
-	 * {@link TreeMultiMap}containers are generally slower than {@link HashMap} containers 
-	 * to access individual elements by their <i>key</i>, but they allow the direct iteration on subsets based 
-	 * on their order.
-	 *
-	 * {@link TreeMultiMap TreeMultiMaps} are typically implemented as binary search trees.
-	 * 
-	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" target="_blank"> <
-	 * img src="http://samchon.github.io/tstl/images/design/class_diagram/map_containers.png" style="max-width: 100%" /> </a></p>
-	 * 
-	 * ### Container properties
-	 * <dl>
-	 *	<dt> Associative </dt>
-	 *	<dd> 
-	 *		Elements in associative containers are referenced by their <i>key</i> and not by their absolute 
-	 *		position in the container.
-	 *	</dd>
-	 * 
-	 *	<dt> Ordered </dt>
-	 *	<dd> 
-	 *		The elements in the container follow a strict order at all times. All inserted elements are 
-	 *		given a position in this order. 
-	 *	</dd>
-	 * 
-	 *	<dt> Map </dt>
-	 *	<dd> 
-	 *		Each element associates a <i>key</i> to a <i>mapped value</i>: 
-	 *		<i>Keys</i> are meant to identify the elements whose main content is the <i>mapped value</i>. 
-	 *	</dd>
-	 * 
-	 *	<dt> Multiple equivalent keys </dt>
-	 *	<dd> Multiple elements in the container can have equivalent <i>keys</i>. </dd>
-	 * </dl>
-	 *
-	 * @param <Key> Type of the keys. Each element in a map is uniquely identified by its key value.
-	 * @param <T> Type of the mapped value. Each element in a map stores some data as its mapped value.
-	 *
-	 * @reference http://www.cplusplus.com/reference/map/multimap
-	 * @author Jeongho Nam <http://samchon.org>
-	 */
 	export class TreeMultiMap<Key, T>
 		extends base.MultiMap<Key, T, TreeMultiMap<Key, T>>
 		implements base.ITreeMap<Key, T, TreeMultiMap<Key, T>>
@@ -77,63 +21,20 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
 		public constructor();
 
-		/**
-		 * Construct from compare.
-		 * 
-		 * @param compare A binary predicate determines order of elements.
-		 */
 		public constructor(compare: (x: Key, y: Key) => boolean);
 
-		/**
-		 * Contruct from elements.
-		 *
-		 * @param array Elements to be contained.
-		 */
 		public constructor(array: Array<IPair<Key, T>>);
 
-		/**
-		 * Contruct from elements.
-		 *
-		 * @param array Elements to be contained.
-		 * @param compare A binary predicate determines order of elements.
-		 */
 		public constructor(array: Array<IPair<Key, T>>, compare: (x: Key, y: Key) => boolean);
 
-		/**
-		 * Copy Constructor.
-		 *
-		 * @param container Another map to copy.
-		 */
 		public constructor(container: TreeMultiMap<Key, T>);
 
-		/**
-		 * Copy Constructor.
-		 *
-		 * @param container Another map to copy.
-		 * @param compare A binary predicate determines order of elements.
-		 */
 		public constructor(container: TreeMultiMap<Key, T>, compare: (x: Key, y: Key) => boolean);
 
-		/**
-		 * Range Constructor.
-		 *
-		 * @param begin nput interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
-		 */
 		public constructor(begin: IForwardIterator<IPair<Key, T>>, end: IForwardIterator<IPair<Key, T>>);
 
-		/**
-		 * Range Constructor.
-		 *
-		 * @param begin nput interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
-		 * @param compare A binary predicate determines order of elements.
-		 */
 		public constructor
 		(
 			begin: IForwardIterator<IPair<Key, T>>, 
@@ -197,9 +98,6 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
 			super.clear();
@@ -210,9 +108,6 @@ namespace std
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
-		/**
-		 * @inheritdoc
-		 */
 		public find(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			let node: base._XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.find_by_key(key);
@@ -223,9 +118,6 @@ namespace std
 				return node.value;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public count(key: Key): number
 		{
 			let it = this.find(key);
@@ -237,41 +129,26 @@ namespace std
 			return cnt;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public key_comp(): (x: Key, y: Key) => boolean
 		{
 			return this.tree_.key_comp();
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 		{
 			return this.tree_.value_comp();
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public lower_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			return this.tree_.lower_bound(key);
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public upper_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			return this.tree_.upper_bound(key);
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public equal_range(key: Key): Pair<TreeMultiMap.Iterator<Key, T>, TreeMultiMap.Iterator<Key, T>>
 		{
 			return this.tree_.equal_range(key);
@@ -371,23 +248,6 @@ namespace std
 		/* ---------------------------------------------------------
 			SWAP
 		--------------------------------------------------------- */
-		/**
-		 * Swap content.
-		 * 
-		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link TreeMapMulti map} of the same type. Sizes abd container type may differ.
-		 * 
-		 * After the call to this member function, the elements in this container are those which were 
-		 * in <i>obj</i> before the call, and the elements of <i>obj</i> are those which were in this. All 
-		 * iterators, references and pointers remain valid for the swapped objects.
-		 *
-		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function.
-		 * 
-		 * @param obj Another {@link TreeMapMulti map container} of the same type of elements as this (i.e.,
-		 *			  with the same template parameters, <b>Key</b> and <b>T</b>) whose content is swapped 
-		 *			  with that of this {@link TreeMapMulti container}.
-		 */
 		public swap(obj: TreeMultiMap<Key, T>): void
 		{
 			// SWAP CONTENTS

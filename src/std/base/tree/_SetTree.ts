@@ -16,9 +16,6 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
         public constructor
 			(
 				set: Source, 

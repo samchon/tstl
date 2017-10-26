@@ -2,20 +2,6 @@
 
 namespace std
 {
-	/**
-	 * Default hash function.
-	 * 
-	 * A variadic template function returning a hash value.
-	 * 
-	 * This functioncal call returns a hash value of its arguments: A hash value is a value that depends solely on
-	 * its arguments, returning always the same value for the same arguments (for a given execution of a program).
-	 * The value returned shall have a small likelihood of being the same as the one retured for a different arguments.
-	 * 
-	 * @param val A value to be hashed.
-	 * @param args Rest parameters also to be hashed.
-	 * 
-	 * @return A hash value for arguments. The number is an unsigned integer.
-	 */
 	export function hash<T>(val: T, ...args: any[]): number
 	{
 		args.unshift(val);

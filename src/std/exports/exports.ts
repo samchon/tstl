@@ -19,42 +19,21 @@ namespace std
 	============================================================
 		LINEAR CONTAINERS
 	--------------------------------------------------------- */
-	/**
-	 * Type definition of {@link Vector} and it's the original name used in C++.
-	 */
 	export import vector = Vector;
 
-	/**
-	 * Type definition of {@link Deque} and it's the original name used in C++.
-	 */
 	export import deque = Deque;
 	
-	/**
-	 * Type definition of {@link List} and it's the original name used in C++.
-	 */
 	export import list = List;
 	
-	/**
-	 * Type definition of {@link ForwardList} and it's the original name used in C++.
-	 */
 	export import forward_list = ForwardList;
 
 	/* ---------------------------------------------------------
 		ASSOCIATIVE CONTAINERS
 	--------------------------------------------------------- */
-	/**
-	 * Type definition of {@link Stack} and it's the original name used in C++.
-	 */
 	export type stack<T> = Stack<T>;
 
-	/**
-	 * Type definition of {@link Queue} and it's the original name used in C++.
-	 */
 	export type queue<T> = Queue<T>;
 
-	/**
-	 * Type definition of {@link PriorityQueue} and it's the original name used in C++.
-	 */
 	export type priority_queue<T> = PriorityQueue<T>;
 
 	export var stack = Stack;
@@ -64,47 +43,23 @@ namespace std
 	/* ---------------------------------------------------------
 		SET CONTAINERS
 	--------------------------------------------------------- */
-	/**
-	 * Type definition of {@link TreeSet} and it's the original name used in C++.
-	 */
 	export import set = TreeSet;
 	
-	/**
-	 * Type definition of {@link TreeMultiSet} and it's the original name used in C++.
-	 */
 	export import multiset = TreeMultiSet;
 
-	/**
-	 * Type definition of {@link HashSet} and it's the original name used in C++.
-	 */
 	export import unordered_set = HashSet;
 
-	/**
-	 * Type definition of {@link HashMultiSet} and it's the original name used in C++.
-	 */
 	export import unordered_multiset = HashMultiSet;
 
 	/* ---------------------------------------------------------
 		MAP CONTAINERS
 	--------------------------------------------------------- */
-	/**
-	 * Type definition of {@link TreeMap} and it's the original name used in C++.
-	 */
 	export import map = TreeMap;
 
-	/**
-	 * Type definition of {@link TreeMultiMap} and it's the original name used in C++.
-	 */
 	export import multimap = TreeMultiMap;
 
-	/**
-	 * Type definition of {@link HashMap} and it's the original name used in C++.
-	 */
 	export import unordered_map = HashMap;
 
-	/**
-	 * Type definition of {@link HashMultiMap} and it's the original name used in C++.
-	 */
 	export import unordered_multimap = HashMultiMap;
 
 	/* ---------------------------------------------------------

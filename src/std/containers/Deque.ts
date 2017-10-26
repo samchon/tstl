@@ -5,56 +5,6 @@
 
 namespace std
 {
-	/**
-	 * Double ended queue.
-	 * 
-	 * {@link Deque} (usually pronounced like "<i>deck</i>") is an irregular acronym of 
-	 * <b>d</b>ouble-<b>e</b>nded <b>q</b>ueue. Double-ended queues are sequence containers with dynamic sizes that can be 
-	 * expanded or contracted on both ends (either its front or its back).
-	 * 
-	 * Specific libraries may implement deques in different ways, generally as some form of dynamic array. But in any 
-	 * case, they allow for the individual elements to be accessed directly through random access iterators, with storage 
-	 * handled automatically by expanding and contracting the container as needed.
-	 * 
-	 * Therefore, they provide a functionality similar to vectors, but with efficient insertion and deletion of 
-	 * elements also at the beginning of the sequence, and not only at its end. But, unlike {@link Vector Vectors}, 
-	 * {@link Deque Deques} are not guaranteed to store all its elements in contiguous storage locations: accessing 
-	 * elements in a <u>deque</u> by offsetting a pointer to another element causes undefined behavior.
-	 * 
-	 * Both {@link Vector}s and {@link Deque}s provide a very similar interface and can be used for similar purposes, 
-	 * but internally both work in quite different ways: While {@link Vector}s use a single array that needs to be 
-	 * occasionally reallocated for growth, the elements of a {@link Deque} can be scattered in different chunks of 
-	 * storage, with the container keeping the necessary information internally to provide direct access to any of its 
-	 * elements in constant time and with a uniform sequential interface (through iterators). Therefore, 
-	 * {@link Deque Deques} are a little more complex internally than {@link Vector}s, but this allows them to grow more 
-	 * efficiently under certain circumstances, especially with very long sequences, where reallocations become more 
-	 * expensive.
-	 * 
-	 * For operations that involve frequent insertion or removals of elements at positions other than the beginning or 
-	 * the end, {@link Deque Deques} perform worse and have less consistent iterators and references than 
-	 * {@link List Lists}.
-	 *
-	 * <a href="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" target="_blank"> 
-	 * <img src="http://samchon.github.io/tstl/images/design/class_diagram/linear_containers.png" style="max-width: 100%" /> </a>
-	 *
-	 * 
-	 * ### Container properties
-	 * <dl>
-	 *	<dt> Sequence </dt>
-	 *	<dd> Elements in sequence containers are ordered in a strict linear sequence. Individual elements 
-	 *		 are accessed by their position in this sequence. </dd>
-	 *
-	 *	<dt> Dynamic array </dt>
-	 *	<dd> Generally implemented as a dynamic array, it allows direct access to any element in the 
-	 *		 sequence and provides relatively fast addition/removal of elements at the beginning or the end 
-	 *		 of the sequence. </dd>
-	 * </dl>
-	 *
-	 * @param <T> Type of the elements.
-	 *
-	 * @reference http://www.cplusplus.com/reference/deque/deque/
-	 * @author Jeongho Nam <http://samchon.org>
-	 */
 	export class Deque<T>
 		extends base.ArrayContainer<T, Deque<T>>
 	{
@@ -95,52 +45,14 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 *
-		 * Constructs an empty container, with no elements.
-		 */
 		public constructor();
 
-		/**
-		 * Initializer list Constructor.
-		 *
-		 * Constructs a container with a copy of each of the elements in <i>array</i>, in the same order.
-		 *
-		 * @param array An array containing elements to be copied and contained.
-		 */
 		public constructor(items: Array<T>);
 
-		/**
-		 * Fill Constructor.
-		 *
-		 * Constructs a container with <i>n</i> elements. Each element is a copy of <i>val</i> (if provided).
-		 *
-		 * @param n Initial container size (i.e., the number of elements in the container at construction).
-		 * @param val Value to fill the container with. Each of the <i>n</i> elements in the container is 
-		 *			  initialized to a copy of this value.
-		 */
 		public constructor(size: number, val: T);
 
-		/**
-		 * Copy Constructor.
-		 *
-		 * Constructs a container with a copy of each of the elements in <i>container</i>, in the same order.
-		 *
-		 * @param container Another container object of the same type (with the same class template 
-		 *					arguments <i>T</i>), whose contents are either copied or acquired.
-		 */
 		public constructor(container: Deque<T>);
 
-		/**
-		 * Range Constructor.
-		 *
-		 * Constructs a container with as many elements as the range (<i>begin</i>, <i>end<i>), with each 
-		 * element emplace-constructed from its corresponding element in that range, in the same order.
-		 *
-		 * @param begin Input interator of the initial position in a sequence.
-		 * @param end Input interator of the final position in a sequence.
-		 */
 		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
 
 		public constructor(...args: any[])
@@ -178,15 +90,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN, RESERVE & CLEAR
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
 		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
-		/**
-		 * @inheritdoc
-		 */
 		public assign(n: number, val: T): void;
 
 		public assign(first: any, second: any): void
@@ -198,25 +104,6 @@ namespace std
 			this.insert(this.end(), first, second);
 		}
 
-		/**
-		 * Request a change in capacity.
-		 * 
-		 * Requests that the {@link Deque container} {@link capacity} be at least enough to contain 
-		 * <i>n</i> elements.
-		 * 
-		 * If <i>n</i> is greater than the current {@link Deque container} {@link capacity}, the
-		 * function causes the {@link Deque container} to reallocate its storage increasing its
-		 * {@link capacity} to <i>n</i> (or greater).
-		 * 
-		 * In all other cases, the function call does not cause a reallocation and the 
-		 * {@link Deque container} {@link capacity} is not affected.
-		 * 
-		 * This function has no effect on the {@link Deque container} {@link size} and cannot alter
-		 * its elements.
-		 *
-		 * @param n Minimum {@link capacity} for the {@link Deque container}.
-		 *			Note that the resulting {@link capacity} may be equal or greater than <i>n</i>.
-		 */
 		public reserve(capacity: number): void
 		{
 			if (capacity < this.capacity_)
@@ -250,9 +137,6 @@ namespace std
 			this.capacity_ = capacity;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
 			// CLEAR CONTENTS
@@ -270,44 +154,16 @@ namespace std
 		============================================================
 			BASIC ELEMENTS
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
 		public size(): number
 		{
 			return this.size_;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public empty(): boolean
 		{
 			return this.size_ == 0;
 		}
 
-		/**
-		 * Return size of allocated storage capacity.
-		 * 
-		 * Returns the size of the storage space currently allocated for the {@link Deque container}, 
-		 * expressed in terms of elements.
-		 * 
-		 * This {@link capacity} is not necessarily equal to the {@link Deque container} {@link size}.
-		 * It can be equal or greater, with the extra space allowing to accommodate for growth without the 
-		 * need to reallocate on each insertion.
-		 * 
-		 * Notice that this {@link capacity} does not suppose a limit on the {@link size} of the 
-		 * {@link Deque container}. When this {@link capacity} is exhausted and more is needed, it is
-		 * automatically expanded by the {@link Deque container} (reallocating it storage space).
-		 * The theoretical limit on the {@link size} of a {@link Deque container} is given by member
-		 * {@link max_size}.
-		 * 
-		 * The {@link capacity} of a {@link Deque container} can be explicitly altered by calling member
-		 * {@link Deque.reserve}.
-		 *
-		 * @return The size of the currently allocated storage capacity in the {@link Deque container},
-		 *		   measured in terms of the number elements it can hold.
-		 */
 		public capacity(): number
 		{
 			return this.capacity_;
@@ -321,9 +177,6 @@ namespace std
 		/* ---------------------------------------------------------
 			INDEX ACCESSORS
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
 		public at(index: number): T
 		{
 			if (index < this.size() && index >= 0)
@@ -335,9 +188,6 @@ namespace std
 				throw new OutOfRange("Target index is greater than Deque's size.");
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public set(index: number, val: T): void
 		{
 			if (index >= this.size() || index < 0)
@@ -387,9 +237,6 @@ namespace std
 		============================================================
 			PUSH & POP
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
 		public push(...items: T[]): number
 		{
 			if (items.length == 0)
@@ -405,9 +252,6 @@ namespace std
 			return this.size();
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public push_front(val: T): void
 		{
 			// ADD CAPACITY & ROW
@@ -419,9 +263,6 @@ namespace std
 			this.size_++;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public push_back(val: T): void
 		{
 			// ADD CAPACITY & ROW
@@ -433,9 +274,6 @@ namespace std
 			this.size_++;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public pop_front(): void
 		{
 			if (this.empty() == true)
@@ -450,9 +288,6 @@ namespace std
 			this.size_--;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public pop_back(): void
 		{
 			if (this.empty() == true)
@@ -699,28 +534,8 @@ namespace std
 		/* ---------------------------------------------------------
 			SWAP
 		--------------------------------------------------------- */
-		/**
-		 * Swap content.
-		 * 
-		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link Deque container} object with same type of elements. Sizes and container type may differ.
-		 * 
-		 * After the call to this member function, the elements in this container are those which were in <i>obj</i> 
-		 * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and 
-		 * pointers remain valid for the swapped objects.
-		 *
-		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function.
-		 * 
-		 * @param obj Another {@link Deque container} of the same type of elements (i.e., instantiated
-		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
-		 *			  {@link Deque container}.
-		 */
 		public swap(obj: Deque<T>): void
 
-		/**
-		 * @inheritdoc
-		 */
 		public swap(obj: base.Container<T>): void;
 
 		public swap(obj: Deque<T> | base.Container<T>): void

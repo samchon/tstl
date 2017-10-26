@@ -29,9 +29,6 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
 		protected constructor()
 		{
 			super();
@@ -58,9 +55,6 @@ namespace std.base
 			this.begin_ = it;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(first: InputIterator, last: InputIterator): void
 		{
@@ -68,9 +62,6 @@ namespace std.base
 			this.insert(this.end(), first, last);
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public clear(): void
 		{
 			// DISCONNECT NODES
@@ -85,38 +76,23 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
 		public begin(): BidirectionalIterator
 		{
 			return this.begin_;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public end(): BidirectionalIterator
 		{
 			return this.end_;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public size(): number
 		{
 			return this.size_;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public front(): T;
 
-		/**
-		 * @inheritdoc
-		 */
 		public front(val: T): void;
 
 		public front(val: T = null): T | void
@@ -127,14 +103,8 @@ namespace std.base
 				this.begin_["value_"] = val;
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public back(): T;
 
-		/**
-		 * @inheritdoc
-		 */
 		public back(val: T): void;
 
 		public back(val: T = null): T | void
@@ -155,33 +125,21 @@ namespace std.base
 		============================================================
 					PUSH & POP
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
 		public push_front(val: T): void
 		{
 			this.insert(this.begin_, val);
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public push_back(val: T): void
 		{
 			this.insert(this.end_, val);
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public pop_front(): void
 		{
 			this.erase(this.begin_);
 		}
 
-		/**
-		 * @inheritdoc
-		 */
 		public pop_back(): void
 		{
 			this.erase(this.end_.prev() as BidirectionalIterator);
@@ -190,9 +148,6 @@ namespace std.base
 		/* ---------------------------------------------------------
 			INSERT
 		--------------------------------------------------------- */
-		/**
-		 * @inheritdoc
-		 */
 		public push(...items: T[]): number 
 		{
 			if (items.length == 0)
@@ -208,63 +163,10 @@ namespace std.base
 			return this.size();
 		}
 
-		/**
-		 * Insert an element.
-		 *
-		 * The container is extended by inserting a new element before the element at the specified 
-		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements 
-		 * inserted.
-		 *
-		 * Unlike other standard sequence containers, {@link List} is specifically designed to be efficient 
-		 * inserting and removing elements in any position, even in the middle of the sequence.
-		 *
-		 * @param position Position in the container where the new element is inserted.
-		 *				   {@link iterator}> is a member type, defined as a 
-		 *				   {@link ListIterator bidirectional iterator} type that points to elements.
-		 * @param val Value to be inserted as an element.
-		 *
-		 * @return An iterator that points to the newly inserted element; <i>val</i>.
-		 */
 		public insert(position: BidirectionalIterator, val: T): BidirectionalIterator;
 
-		/**
-		 * Insert elements by repeated filling. 
-		 * 
-		 * The container is extended by inserting a new element before the element at the specified
-		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
-		 * inserted.
-		 *
-		 * Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
-		 * inserting and removing elements in any position, even in the middle of the sequence.
-		 *
-		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
-		 *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to 
-		 *				   elements.
-		 * @param size Number of elements to insert.
-		 * @param val Value to be inserted as an element.
-		 *
-		 * @return An iterator that points to the first of the newly inserted elements.
-		 */
 		public insert(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator;
 
-		/**
-		 * Insert elements by range iterators.
-		 * 
-		 * The container is extended by inserting a new element before the element at the specified
-		 * <i>position</i>. This effectively increases the {@link List.size List size} by the amount of elements
-		 * inserted.
-		 *
-		 * Unlike other standard sequence containers, {@link List} is specifically designed to be efficient
-		 * inserting and removing elements in any position, even in the middle of the sequence.
-		 * 
-		 * @param position Position in the container where the new elements are inserted. The {@link iterator} is a 
-		 *				   member type, defined as a {@link ListIterator bidirectional iterator} type that points to 
-		 *				   elements.
-		 * @param begin An iterator specifying range of the begining element.
-		 * @param end An iterator specifying range of the ending element.
-		 *
-		 * @return An iterator that points to the first of the newly inserted elements.
-		 */
 		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator;
 
@@ -336,39 +238,8 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
-		/**
-		 * Erase an element.
-		 *
-		 * Removes from the {@link List} either a single element; <i>position</i>.
-		 *
-		 * This effectively reduces the container size by the number of element removed.
-		 *
-		 * Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
-		 * efficient inserting and removing elements in any position, even in the middle of the sequence.
-		 * 
-		 * @param position Iterator pointing to a single element to be removed from the {@link List}.
-		 *
-		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
-		 *		   This is the {@link end end()} if the operation erased the last element in the sequence.
-		 */
 		public erase(position: BidirectionalIterator): BidirectionalIterator;
 		
-		/**
-		 * Erase elements.
-		 *
-		 * Removes from the {@link List} container a range of elements.
-		 *
-		 * This effectively reduces the container {@link size} by the number of elements removed.
-		 *
-		 * Unlike other standard sequence containers, {@link List} objects are specifically designed to be 
-		 * efficient inserting and removing elements in any position, even in the middle of the sequence.
-		 *
-		 * @param begin An iterator specifying a range of beginning to erase.
-		 * @param end An iterator specifying a range of end to erase.
-		 * 
-		 * @return An iterator pointing to the element that followed the last element erased by the function call. 
-		 *		   This is the {@link end end()} if the operation erased the last element in the sequence.
-		 */
 		public erase(begin: BidirectionalIterator, end: BidirectionalIterator): BidirectionalIterator;
 
 		public erase(first: BidirectionalIterator, last: BidirectionalIterator = first.next() as BidirectionalIterator): BidirectionalIterator
@@ -403,23 +274,6 @@ namespace std.base
 		/* ---------------------------------------------------------
 			SWAP
 		--------------------------------------------------------- */
-		/**
-		 * Swap content.
-		 * 
-		 * Exchanges the content of the container by the content of <i>obj</i>, which is another 
-		 * {@link List container} object with same type of elements. Sizes and container type may differ.
-		 * 
-		 * After the call to this member function, the elements in this container are those which were in <i>obj</i> 
-		 * before the call, and the elements of <i>obj</i> are those which were in this. All iterators, references and 
-		 * pointers remain valid for the swapped objects.
-		 *
-		 * Notice that a non-member function exists with the same name, {@link swap swap}, overloading that 
-		 * algorithm with an optimization that behaves like this member function.
-		 * 
-		 * @param obj Another {@link List container} of the same type of elements (i.e., instantiated
-		 *			  with the same template parameter, <b>T</b>) whose content is swapped with that of this 
-		 *			  {@link List container}.
-		 */
 		public swap(obj: _ListContainer<T, BidirectionalIterator>): void
 		{
 			[this.begin_, obj.begin_] = [obj.begin_, this.begin_];

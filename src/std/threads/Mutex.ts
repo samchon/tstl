@@ -17,9 +17,6 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
 		public constructor()
 		{
 			this.lock_count_ = 0;
@@ -29,9 +26,6 @@ namespace std
 		/* ---------------------------------------------------------
 			LOCK & UNLOCK
 		--------------------------------------------------------- */
-		/**
-		 * @inheritDoc
-		 */
 		public lock(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -43,9 +37,6 @@ namespace std
 			});
 		}
 
-		/**
-		 * @inheritDoc
-		 */
 		public try_lock(): boolean
 		{
 			if (this.lock_count_ != 0)
@@ -55,9 +46,6 @@ namespace std
 			return true;			
 		}
 
-		/**
-		 * @inheritDoc
-		 */
 		public unlock(): void
 		{
 			if (this.lock_count_ == 0)

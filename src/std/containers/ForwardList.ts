@@ -31,16 +31,8 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
 		public constructor();
 
-		/**
-		 * Copy Constructor.
-		 * 
-		 * @param obj Target container to be copied.
-		 */
 		public constructor(obj: ForwardList<T>);
 		public constructor(n: number, val: T);
 		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
@@ -280,13 +272,6 @@ namespace std.ForwardList
 		 */
 		private value_: T;
 
-		/**
-		 * Initiailizer Constructor.
-		 * 
-		 * @param source 
-		 * @param next 
-		 * @param value 
-		 */
 		public constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value: T)
 		{
 			this.source_ptr_ = source;

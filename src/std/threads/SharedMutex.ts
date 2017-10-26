@@ -22,9 +22,6 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Default Constructor.
-		 */
 		public constructor()
 		{
 			this.read_lock_count_ = 0;
@@ -40,9 +37,6 @@ namespace std
 		============================================================
 			WRITE LOCK
 		--------------------------------------------------------- */
-		/**
-		 * Write lock.
-		 */
 		public lock(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -54,9 +48,6 @@ namespace std
 			});
 		}
 
-		/**
-		 * Try write lock.
-		 */
 		public try_lock(): boolean
 		{
 			if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
@@ -66,9 +57,6 @@ namespace std
 			return true;
 		}
 
-		/**
-		 * Write unlock.
-		 */
 		public unlock(): void
 		{
 			if (this.write_lock_count_ == 0)
@@ -92,9 +80,6 @@ namespace std
 		/* ---------------------------------------------------------
 			READ LOCK
 		--------------------------------------------------------- */
-		/**
-		 * Read lock.
-		 */
 		public lock_shared(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -117,9 +102,6 @@ namespace std
 			return true;
 		}
 
-		/**
-		 * Read unlock.
-		 */
 		public unlock_shared(): void
 		{
 			if (this.read_lock_count_ == 0)
