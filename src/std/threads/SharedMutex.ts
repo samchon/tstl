@@ -41,7 +41,7 @@ namespace std
 		{
 			return new Promise<void>(resolve =>
 			{
-				if (this.read_lock_count_ == 0 && this.write_lock_count_++ == 0)
+				if (this.write_lock_count_++ == 0 && this.read_lock_count_ == 0)
 					resolve();
 				else
 					this.resolvers_.push(make_pair(base._LockType.WRITE, resolve));
