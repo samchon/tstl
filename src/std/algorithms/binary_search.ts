@@ -27,7 +27,7 @@ namespace std
 			let step: number = Math.floor(count / 2);
 			let it: ForwardIterator = advance(first, step) as ForwardIterator;
 
-			if (!compare(it.value, val))
+			if (compare(it.value, val))
 			{
 				first = it.next() as ForwardIterator;
 				count -= step + 1;

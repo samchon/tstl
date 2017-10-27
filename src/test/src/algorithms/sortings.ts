@@ -2,7 +2,13 @@
 
 namespace test
 {
-	export function test_atomic_sorting(): void
+	export function test_sortings(): void
+	{
+		_Test_atomic_sorting();
+		_Test_object_sorting();
+	}
+
+	function _Test_atomic_sorting(): void
 	{
 		let array: std.Vector<number> = new std.Vector<number>();
 		for (let i: number = 1; i <= 15; i++)
@@ -13,10 +19,10 @@ namespace test
 		std.stable_sort(array.begin(), array.end());
 		
 		if (std.is_sorted(array.begin(), array.end()) == false)
-			throw new std.DomainError("Wrong sorting.");
+			throw new std.DomainError("Wrong sorting in atoms.");
 	}
 
-	export function test_object_sorting(): void
+	function _Test_object_sorting(): void
 	{
 		//----
 		// CONSTRUCT ITEMS
@@ -33,7 +39,7 @@ namespace test
 		
 		// VALIDATION
 		if (std.is_sorted(cubes.begin(), cubes.end()) == false)
-			throw new std.DomainError("Wrong sorting.");
+			throw new std.DomainError("Wrong sorting in objects.");
 
 		//----
 		// SORT BY inline function
@@ -51,6 +57,6 @@ namespace test
 
 		// VALIDATION
 		if (std.is_sorted(cubes.begin(), cubes.end(), inline_function) == false)
-			throw new std.DomainError("Wrong sorting.");
+			throw new std.DomainError("Wrong sorting in objects.");
 	}
 }

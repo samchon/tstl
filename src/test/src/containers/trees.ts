@@ -4,23 +4,73 @@ namespace test
 {
 	export function test_trees(): void
 	{
-		_Test_tree_order();
-		_Test_finds();
+		_Test_tree_set(new std.TreeSet<number>());
+		_Test_tree_set(new std.TreeMultiSet<number>());
+		_Test_tree_map(new std.TreeMap<number, number>());
+		_Test_tree_map(new std.TreeMultiMap<number, number>());
 		_Test_bounds();
 	}
 
-	function _Test_tree_order(): void
+	function _Test_tree_set(set: std.base.ISetContainer<number>): void
 	{
-		
+		for (let i: number = 0; i < 1000; ++i)
+			(set as std.TreeSet<number>).insert(Math.floor(Math.random() * 100));
+
+		// VALIDATE SORTING
+		if (std.is_sorted(set.begin(), set.end()) == false)
+			throw new std.DomainError("Order of TreeSet or TreeMultiSet is wrong.");
+
+		// VALIDATE FIND
+		for (let i: number = 0; i < 10000; ++i)
+		{
+			let val: number = Math.floor(Math.random() * 100);
+
+			let alg_it = std.find(set.begin(), set.end(), val);
+			let set_it = set.find(val);
+
+			if (alg_it == set.end())
+				if (set_it == set.end())
+					continue;
+				else
+					throw new std.DomainError("find() of TreeSet or TreeMultiSet is wrong; invalid out of range.");
+			else if (alg_it.value != set_it.value)
+				throw new std.DomainError("find() of TreeSet or TreeMultiSet is wrong; different value.");
+		}
 	}
-
-	function _Test_finds(): void
+	
+	function _Test_tree_map(map: std.base.IMapContainer<number, number>): void
 	{
+		for (let i: number = 0; i < 1000; ++i)
+			(map as std.TreeMap<number, number>).emplace(Math.floor(Math.random() * 100), 0);
 
+		// VALIDATE SORTING
+		if (std.is_sorted(map.begin(), map.end()) == false)
+			throw new std.DomainError("Order of TreeMap or TreeMultiMap is wrong.");
+
+		// VALIDATE FIND
+		for (let i: number = 0; i < 10000; ++i)
+		{
+			let val: number = Math.floor(Math.random() * 100);
+
+			let alg_it = std.find_if(map.begin(), map.end(), (entry: std.Entry<number, number>) =>
+				{
+					return val == entry.first;
+				});
+			let set_it = map.find(val);
+
+			if (alg_it == map.end())
+				if (set_it == map.end())
+					continue;
+				else
+					throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; invalid out of range.");
+			else if (alg_it.first != set_it.first)
+				throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; different value.");
+		}
 	}
 
 	function _Test_bounds(): void
 	{
-
+		// test tree container and algorithms' binary search at the same time
+		test_binary_searches();
 	}
 }

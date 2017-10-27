@@ -24,16 +24,9 @@ namespace test
 	export async function test_mutexes(): Promise<void>
 	{
 		await _Test_lock("Mutex", new std.Mutex());
-		console.log("	mutex");
-
 		await _Test_try_lock("TimedMutex", new std.TimedMutex());
-		console.log("	timed_mutex");
-
 		await _Test_lock_shared("SharedMutex", new std.SharedMutex());
-		console.log("	shared_mutex");
-
 		await _Test_try_lock_shared("SharedTimedMutex", new std.SharedTimedMutex());
-		console.log("	shared_timed_mutex");
 	}
 
 	/* ---------------------------------------------------------
