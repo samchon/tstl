@@ -1,4 +1,4 @@
-/// <refernce path="../API.ts" />
+/// <reference path="../../API.ts" />
 
 namespace test
 {
