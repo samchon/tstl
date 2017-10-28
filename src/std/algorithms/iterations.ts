@@ -20,8 +20,8 @@ namespace std
 		return fn;
 	}
 
-	export function for_each_n<T, InputIterator extends IForwardIterator<T>>
-		(first: InputIterator, n: number, fn: (val: T) => any): InputIterator
+	export function for_each_n<T, InputIterator extends IForwardIterator<T>, Func extends (val: T) => any>
+		(first: InputIterator, n: number, fn: Func): InputIterator
 	{
 		for (let i: number = 0; i < n; i++)
 		{
