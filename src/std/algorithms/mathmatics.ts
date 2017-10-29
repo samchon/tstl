@@ -74,13 +74,13 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
 	export function max_element<T, ForwardIterator extends IForwardIterator<T>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = greater): ForwardIterator
+		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		let largest: ForwardIterator = first;
 		first = first.next() as ForwardIterator;
 
 		for (; !first.equals(last); first = first.next() as ForwardIterator)
-			if (compare(first.value, largest.value))
+			if (!compare(first.value, largest.value))
 				largest = first;
 
 		return largest;
@@ -96,7 +96,7 @@ namespace std
 
 	export function minmax_element<T, ForwardIterator extends IForwardIterator<T>>
 		(
-			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = greater
+			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less
 		): Pair<ForwardIterator, ForwardIterator>
 	{
 		let smallest: ForwardIterator = first;

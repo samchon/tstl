@@ -10,7 +10,14 @@ namespace test
 
 	function _Test_pairs(): void
 	{
+		let x = std.make_pair(1, 2);
+		let y = std.make_pair(1, 2);
+		let z = std.make_pair(1, 3);
 
+		if (x.hashCode() != y.hashCode() || x.hashCode() == z.hashCode())
+			throw new std.DomainError("Error in Pair.hashCode()");
+		else if (x.equals(y) == false || x.equals(z) == true)
+			throw new std.DomainError("Error in Pair.equals()");
 	}
 
 	function _Test_entries(): void
