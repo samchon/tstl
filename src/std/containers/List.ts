@@ -279,11 +279,11 @@ namespace std
 
 			while (obj.empty() == false)
 			{
-				let begin = obj.begin();
-				while (!it.equals(this.end()) && compare(it.value, begin.value) == true)
+				let first = obj.begin();
+				while (!it.equals(this.end()) && compare(it.value, first.value) == true)
 					it = it.next();
 
-				this.splice(it, obj, begin);
+				this.splice(it, obj, first);
 			}
 		}
 

@@ -33,6 +33,7 @@ namespace std
 		--------------------------------------------------------------- */
 		public constructor();
 
+		public constructor(items: Array<T>);
 		public constructor(obj: ForwardList<T>);
 		public constructor(n: number, val: T);
 		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
@@ -42,6 +43,21 @@ namespace std
 			this.ptr_ = {value: this};
 
 			this.clear();
+
+			if (args.length == 1 && args[0] instanceof Array)
+			{
+				let array: Array<T> = args[0];
+				let it = this.before_begin();
+
+				for (let val of array)
+					it = this.insert_after(it, val);
+			}
+			else if (args.length == 1 && args[0] instanceof ForwardList)
+			{
+				this.assign(args[0].begin(), args[0].end());
+			}
+			else if (args.length == 2)
+				this.assign(args[0], args[1]);
 		}
 
 		/* ---------------------------------------------------------------
@@ -62,6 +78,8 @@ namespace std
 		{
 			this.end_ = new ForwardList.Iterator<T>(this.ptr_, null, null);
 			this.before_begin_ = new ForwardList.Iterator<T>(this.ptr_, this.end_, null);
+			
+			this.size_ = 0;
 		}
 
 		/* ===============================================================
@@ -180,7 +198,7 @@ namespace std
 		public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T> = first.advance(2)): ForwardList.Iterator<T>
 		{
 			// SHRINK SIZE
-			this.size_ -= distance(first, last);
+			this.size_ -= Math.max(0, distance(first, last) - 1);
 
 			// RE-CONNECT
 			first["next_"] = last;
@@ -221,9 +239,15 @@ namespace std
 
 		public remove_if(pred: (val: T) => boolean): void
 		{
+			let count: number = 0;
+			
 			for (let it = this.before_begin(); !it.next().equals(this.end()); it = it.next())
 				if (pred(it.next().value) == true)
+				{
 					it["next_"] = it.next().next();
+					++count;
+				}
+			this.size_ -= count;
 		}
 
 		/* ---------------------------------------------------------------
@@ -236,30 +260,54 @@ namespace std
 			(
 				pos: ForwardList.Iterator<T>, 
 				from: ForwardList<U>, 
-				first: ForwardList.Iterator<U>
+				before: ForwardList.Iterator<U>
 			): void;
 
 		public splice_after<U extends T>
 			(
 				pos: ForwardList.Iterator<T>, 
 				from: ForwardList<U>, 
-				first: ForwardList.Iterator<U>, last: ForwardList.Iterator<U>
+				first_before: ForwardList.Iterator<U>, last: ForwardList.Iterator<U>
 			): void;
 
 		public splice_after<U extends T>
 			(
 				pos: ForwardList.Iterator<T>, 
 				from: ForwardList<U>, 
-				first: ForwardList.Iterator<U> = null, last: ForwardList.Iterator<U> = null
+				first_before: ForwardList.Iterator<U> = null, last: ForwardList.Iterator<U> = null
 			): void
 		{
 			// DEFAULT PARAMETERS
-			if (first == null)	first = from.before_begin();
-			if (last == null)	last = from.end();
+			if (first_before == null)
+				first_before = from.before_begin();
+			else if (last == null)
+				last = first_before.next().next();
+
+			if (last == null)
+				last = from.end();
 
 			// INSERT & ERASE
-			this.insert_after(pos, first, last);
-			from.erase_after(first, last);
+			this.insert_after(pos, first_before.next(), last);
+			from.erase_after(first_before, last);
+		}
+
+		public merge<U extends T>(from: ForwardList<U>): void;
+		public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean): void;
+
+		public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = std.less): void
+		{
+			if (this == <ForwardList<T>>from)
+				return;
+
+			let it = this.before_begin();
+			while (from.empty() == false)
+			{
+				let value = from.begin().value;
+				while (!it.next().equals(this.end()) && comp(it.next().value, value))
+					it = it.next();
+				
+				this.splice_after(it, from, from.before_begin());
+			}
 		}
 
 		/* ---------------------------------------------------------------
