@@ -214,12 +214,11 @@ namespace std
 
 		/* ===============================================================
 			ALGORITHMS
-				- UNIQUE & REMOVE (IF)
+				- UNIQUE & REMOVE(_IF)
 				- MERGE & SPLICE
-				- SORT
-				- SWAP
+				- SORT & SWAP
 		==================================================================
-			UNIQUE & REMOVE (IF)
+			UNIQUE & REMOVE(_IF)
 		--------------------------------------------------------------- */
 		public unique(): void;
 
@@ -315,7 +314,7 @@ namespace std
 		}
 
 		/* ---------------------------------------------------------
-			SORT
+			SORT & SWAP
 		--------------------------------------------------------- */
 		public sort(): void;
 
@@ -380,17 +379,15 @@ namespace std
 			this.end()["prev_"] = prev_of_end;
 			this.end()["next_"] = begin;
 		}
-
-		/* ---------------------------------------------------------
-			SWAP
-		--------------------------------------------------------- */
+		
 		public swap(obj: List<T>): void
 		{
-			// CHANGE ITERATORS' SOURCES
-			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
-
 			// CHANGE CONTENTS
 			super.swap(obj);
+
+			// CHANGE ITERATORS' SOURCES
+			[this.ptr_, obj.ptr_] = [obj.ptr_, this.ptr_];
+			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
 		}
 	}
 }

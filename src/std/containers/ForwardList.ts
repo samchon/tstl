@@ -24,13 +24,13 @@ namespace std
 		 */
 		private end_: ForwardList.Iterator<T>;
 
-		/* =========================================================
+		/* ===============================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
 				- CONSTRUCTORS
 				- ASSIGN & CLEAR
-		============================================================
+		==================================================================
 			CONSTURCTORS
-		--------------------------------------------------------- */
+		--------------------------------------------------------------- */
 		public constructor();
 
 		public constructor(obj: ForwardList<T>);
@@ -44,9 +44,9 @@ namespace std
 			this.clear();
 		}
 
-		/* ---------------------------------------------------------
+		/* ---------------------------------------------------------------
 			ASSIGN & CLEAR
-		--------------------------------------------------------- */
+		--------------------------------------------------------------- */
 		public assign(n: number, val: T): void;
 		public assign<T, InputIterator extends IForwardIterator<T>>
 			(first: InputIterator, last: InputIterator): void;
@@ -64,9 +64,9 @@ namespace std
 			this.before_begin_ = new ForwardList.Iterator<T>(this.ptr_, this.end_, null);
 		}
 
-		/* =========================================================
+		/* ===============================================================
 			ACCESSORS
-		========================================================= */
+		=============================================================== */
 		public size(): number
 		{
 			return this.size_;
@@ -99,14 +99,13 @@ namespace std
 			return new base.ForOfAdaptor(this.begin(), this.end());
 		}
 
-		/* =========================================================
+		/* ===============================================================
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
-				- ALGORITHMS
-		============================================================
+		==================================================================
 			INSERT
-		--------------------------------------------------------- */
+		--------------------------------------------------------------- */
 		public push_front(val: T): void
 		{
 			this.insert_after(this.before_begin_, val);
@@ -122,12 +121,12 @@ namespace std
 			let ret: ForwardList.Iterator<T>;
 
 			// BRANCHES
-			if (args.length == 2)
-				ret = this._Insert_by_repeating_val(args[0], 1, args[1]);
-			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
+			if (args.length == 1)
+				ret = this._Insert_by_repeating_val(pos, 1, args[0]);
+			else if (typeof args[0] == "number")
+				ret = this._Insert_by_repeating_val(pos, args[0], args[1]);
 			else
-				ret = this._Insert_by_range(args[0], args[1], args[2]);
+				ret = this._Insert_by_range(pos, args[0], args[1]);
 			
 			// RETURNS
 			return ret;
@@ -166,9 +165,9 @@ namespace std
 			return nodes[nodes.length - 1];
 		}
 
-		/* ---------------------------------------------------------
+		/* ---------------------------------------------------------------
 			ERASE
-		--------------------------------------------------------- */
+		--------------------------------------------------------------- */
 		public pop_front(): void
 		{
 			this.erase_after(this.before_begin());
@@ -188,9 +187,14 @@ namespace std
 			return last;
 		}
 
-		/* ---------------------------------------------------------
+		/* ===============================================================
 			ALGORITHMS
-		--------------------------------------------------------- */
+				- UNIQUE & REMOVE(_IF)
+				- MERGE & SPLICE
+				- SORT & SWAP
+		==================================================================
+			UNIQUE & REMOVE(_IF)
+		--------------------------------------------------------------- */
 		public unique(): void;
 		public unique(binary_pred: (left: T, right: T) => boolean): void;
 
@@ -222,6 +226,45 @@ namespace std
 					it["next_"] = it.next().next();
 		}
 
+		/* ---------------------------------------------------------------
+			MERGE & SPLICE
+		--------------------------------------------------------------- */
+		public splice_after<U extends T>
+			(pos: ForwardList.Iterator<T>, from: ForwardList<U>): void;
+
+		public splice_after<U extends T>
+			(
+				pos: ForwardList.Iterator<T>, 
+				from: ForwardList<U>, 
+				first: ForwardList.Iterator<U>
+			): void;
+
+		public splice_after<U extends T>
+			(
+				pos: ForwardList.Iterator<T>, 
+				from: ForwardList<U>, 
+				first: ForwardList.Iterator<U>, last: ForwardList.Iterator<U>
+			): void;
+
+		public splice_after<U extends T>
+			(
+				pos: ForwardList.Iterator<T>, 
+				from: ForwardList<U>, 
+				first: ForwardList.Iterator<U> = null, last: ForwardList.Iterator<U> = null
+			): void
+		{
+			// DEFAULT PARAMETERS
+			if (first == null)	first = from.before_begin();
+			if (last == null)	last = from.end();
+
+			// INSERT & ERASE
+			this.insert_after(pos, first, last);
+			from.erase_after(first, last);
+		}
+
+		/* ---------------------------------------------------------------
+			SORT & SWAP
+		--------------------------------------------------------------- */
 		public sort(): void;
 		public sort(comp: (x: T, y: T) => boolean): void;
 
@@ -241,14 +284,15 @@ namespace std
 
 		public swap(obj: ForwardList<T>): void
 		{
-			// SIZE AND ITERATORS
+			// SIZE AND NODES
 			[this.size_, obj.size_] = [obj.size_, this.size_];
 			[this.before_begin_, obj.before_begin_] = [obj.before_begin_, this.before_begin_];
 			[this.end_, obj.end_] = [obj.before_begin_, this.before_begin_];
 
 			// POINTER OF THE SOURCE
-			[this.ptr_, obj.ptr_] = [obj.ptr_, this.ptr_];
 			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
+			this.ptr_ = {value: this};
+			obj.ptr_ = {value: obj};
 		}
 	}
 }

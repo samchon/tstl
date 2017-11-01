@@ -268,11 +268,11 @@ namespace std.base
 		 */
 		public swap(obj: SetContainer<T, Source>): void
 		{
-			// CHANGE ITERATORS' SOURCES
-			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
-
 			// CHANGE CONTENTS
 			[this.data_, obj.data_] = [obj.data_, this.data_];
+
+			// CHANGE ITERATORS' SOURCES
+			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
 		}
 
 		public abstract merge(source: SetContainer<T, Source>): void;
