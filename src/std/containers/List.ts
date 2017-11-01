@@ -890,6 +890,7 @@ namespace std
 		public swap(obj: List<T>): void
 		{
 			// CHANGE ITERATORS' SOURCES
+			[this.ptr_, obj.ptr_] = [obj.ptr_, this.ptr_];
 			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
 
 			// CHANGE CONTENTS
