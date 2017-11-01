@@ -68,9 +68,15 @@ namespace std.base
 		/* ---------------------------------------------------------
 			COMPARES
 		--------------------------------------------------------- */
-		public equals(obj: This): boolean
+		public equals(obj: This): boolean;
+		public equals(obj: Base): boolean;
+
+		public equals(obj: This | Base): boolean
 		{
-			return this.base_.equals(obj.base_);
+			if (obj instanceof ReverseIterator)
+				return this.base_.equals(obj.base_);
+			else
+				return this.base_.equals(obj as Base);
 		}
 
 		public swap(obj: This): void
