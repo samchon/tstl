@@ -6,6 +6,8 @@ namespace test
 	{
 		_Test_removes();
 		_Test_merges();
+
+		_Test_forward_lists();
 	}
 
 	function _Test_removes(): void
@@ -73,5 +75,45 @@ namespace test
 		// VALIDATE
 		if ((std.equal as Function)(l1.begin(), l1.end(), set.begin()) == false)
 			throw new std.DomainError("Error on std." + creator.name + ".merge() or its dependency.");
+	}
+
+	function _Test_forward_lists(): void
+	{
+		//----
+		// CONSTRUCT ELEMENTS
+		//----
+		let fl = new std.ForwardList<number>();
+		for (let i: number = 9; i >= 0; --i)
+			fl.push_front(i);
+
+		//----
+		// ELEMENTS I/O
+		//----
+		let it = fl.before_begin().advance(3); // STEP TO 2
+		it = fl.erase_after(it); // AND ERASE 3 BY ERASE_AFTER()
+
+		if (it.value != 4)
+			throw new std.DomainError("Error on std.ForwardList.erase_after(); single deletion.");
+
+		// INSERT AN ELEMENT
+		it = fl.before_begin().advance(2);
+		it = fl.insert_after(it, -1); // INSERT -1
+
+		if (it.value != -1)
+			throw new std.DomainError("Error on std.ForwardList.insert_after().");
+
+		// ERASE RANGE
+		it = fl.before_begin().advance(6);
+		it = fl.erase_after(it, it.advance(3).next());
+
+		if (it.value != 9)
+			throw new std.DomainError("Error on std.ForwardList.erase_after(); range deletion.");
+
+		//----
+		// FINAL VALIDATION
+		//----
+		let answer = new std.Vector<number>([0, 1, -1, 2, 4, 5, 9]);
+		if (std.equal(<any>fl.begin(), <any>fl.end(), answer.begin()) == false)
+			throw new std.DomainError("Error on std.ForwardList; elements I/O.");
 	}
 }
