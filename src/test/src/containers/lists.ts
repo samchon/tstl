@@ -13,7 +13,7 @@ namespace test
 	function _Test_removes(): void
 	{
 		let v = new std.Vector<number>();
-		for (let i: number = 0; i < 1000; ++i)
+		for (let i: number = 0; i < 10; ++i)
 			v.push_back(Math.random());
 
 		_Test_remove(std.List, v);

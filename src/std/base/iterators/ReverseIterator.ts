@@ -52,31 +52,28 @@ namespace std.base
 		--------------------------------------------------------- */
 		public prev(): This
 		{
+			// this.base().next()
 			return this._Create_neighbor(this.base_);
 		}
 
 		public next(): This
 		{
+			// this.base().prev()
 			return this._Create_neighbor(this.base().prev() as Base);
 		}
 
 		public advance(n: number): This
 		{
+			// this.base().advance(-n)
 			return this._Create_neighbor(this.base().advance(-n) as Base);
 		}
 
 		/* ---------------------------------------------------------
 			COMPARES
 		--------------------------------------------------------- */
-		public equals(obj: This): boolean;
-		public equals(obj: Base): boolean;
-
-		public equals(obj: This | Base): boolean
+		public equals(obj: This): boolean
 		{
-			if (obj instanceof ReverseIterator)
-				return this.base_.equals(obj.base_);
-			else
-				return this.base_.equals(obj as Base);
+			return this.base_.equals(obj.base_);
 		}
 
 		public swap(obj: This): void
