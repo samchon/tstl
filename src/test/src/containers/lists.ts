@@ -113,7 +113,7 @@ namespace test
 		// FINAL VALIDATION
 		//----
 		let answer = new std.Vector<number>([0, 1, -1, 2, 4, 5, 9]);
-		if (std.equal(<any>fl.begin(), <any>fl.end(), answer.begin()) == false)
+		if (std.equal(fl.begin(), fl.end(), answer.begin()) == false)
 			throw new std.DomainError("Error on std.ForwardList; elements I/O.");
 	}
 }

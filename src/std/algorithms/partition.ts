@@ -5,7 +5,7 @@ namespace std
 	/* =========================================================
 		PARTITION
 	========================================================= */
-	export function is_partitioned<T, InputIterator extends base.Iterator<T>>
+	export function is_partitioned<T, InputIterator extends IForwardIterator<T>>
 		(first: InputIterator, last: InputIterator, pred: (x: T) => boolean): boolean
 	{
 		while (!first.equals(last) && pred(first.value))
@@ -51,7 +51,7 @@ namespace std
 	}
 
 	export function partition_copy<T, 
-			InputIterator extends base.Iterator<T>, 
+			InputIterator extends IForwardIterator<T>, 
 			OutputIterator1 extends base.ILinearIterator<T>, OutputIterator2 extends base.ILinearIterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
@@ -73,7 +73,7 @@ namespace std
 		return make_pair(result_true, result_false);
 	}
 
-	export function partition_point<T, ForwardIterator extends base.Iterator<T>>
+	export function partition_point<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, pred: (x: T) => boolean): ForwardIterator
 	{
 		let n: number = distance(first, last);

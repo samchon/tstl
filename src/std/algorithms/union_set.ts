@@ -10,7 +10,7 @@ namespace std
 		MERGE
 	--------------------------------------------------------- */
 	export function merge<T, 
-			InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>,
+			InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>,
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
@@ -18,7 +18,7 @@ namespace std
 		): OutputIterator;
 
 	export function merge<T, 
-			InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>,
+			InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>,
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
@@ -26,7 +26,7 @@ namespace std
 		): OutputIterator;
 
 	export function merge<T, 
-			InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>,
+			InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>,
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
@@ -79,16 +79,16 @@ namespace std
 	/* ---------------------------------------------------------
 		SET OPERATIONS
 	--------------------------------------------------------- */
-	export function includes<T, InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>>
+	export function includes<T, InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>>
 		(first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2): boolean;
 	
-	export function includes<T, InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>>
+	export function includes<T, InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			compare: (x: T, y: T) => boolean
 		): boolean;
 
-	export function includes<T, InputIterator1 extends base.Iterator<T>, InputIterator2 extends base.Iterator<T>>
+	export function includes<T, InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			compare: (x: T, y: T) => boolean = less
@@ -108,8 +108,8 @@ namespace std
 	}
 
 	export function set_union<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
+			InputIterator1 extends IForwardIterator<T>, 
+			InputIterator2 extends IForwardIterator<T>,
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
@@ -117,8 +117,8 @@ namespace std
 		): OutputIterator;
 
 	export function set_union<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
+			InputIterator1 extends IForwardIterator<T>, 
+			InputIterator2 extends IForwardIterator<T>,
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
@@ -126,7 +126,7 @@ namespace std
 		): OutputIterator;
 	
 	export function set_union<T, 
-			InputIterator1 extends base.Iterator<T>, 
+			InputIterator1 extends IForwardIterator<T>, 
 			InputIterator2 extends base.Iterator<T>,
 			OutputIterator extends base.ILinearIterator<T>>
 		(
@@ -280,7 +280,7 @@ namespace std
 
 	export function set_symmetric_difference<T, 
 			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
+			InputIterator2 extends IForwardIterator<T>,
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,

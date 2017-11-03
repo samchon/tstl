@@ -7,29 +7,6 @@
 
 namespace std
 {
-	export interface IForwardIterator<T>
-	{
-		readonly value: T;
-
-		next(): IForwardIterator<T>;
-		advance(n: number): IForwardIterator<T>;
-		
-		equals(obj: IForwardIterator<T>): boolean;
-	}
-
-	export interface IBidirectionalIterator<T> extends IForwardIterator<T>
-	{
-		prev(): IBidirectionalIterator<T>;
-	}
-
-	export interface IRandomAccessIterator<T> extends IBidirectionalIterator<T>
-	{
-		index(): number;
-	}
-}
-
-namespace std
-{
 	/* =========================================================
 		GLOBAL FUNCTIONS
 			- ACCESSORS
@@ -103,7 +80,7 @@ namespace std
 	--------------------------------------------------------- */
 	export function begin<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function begin<T>(container: List<T>): List.Iterator<T>;
-	export function begin<T>(container: Deque<T>): Deque.Iterator<T>;
+	export function begin<T>(container: ForwardList<T>): ForwardList.Iterator<T>;
 	export function begin<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
 	export function begin<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
@@ -126,6 +103,7 @@ namespace std
 	
 	export function end<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function end<T>(container: List<T>): List.ReverseIterator<T>;
+	export function end<T>(container: ForwardList<T>): ForwardList.Iterator<T>;
 	export function end<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
 	export function end<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 

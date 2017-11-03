@@ -64,14 +64,14 @@ namespace std
 		_Selection_sort(first.source() as base.IArrayContainer<T>, first.index(), middle.index(), last.index(), compare);
 	}
 
-	export function partial_sort_copy<T, InputIterator extends base.Iterator<T>, RandomAccessIterator extends base.Iterator<T>>
+	export function partial_sort_copy<T, InputIterator extends IForwardIterator<T>, RandomAccessIterator extends base.Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator
 		): RandomAccessIterator;
 
 	export function partial_sort_copy
-		<T, InputIterator extends base.Iterator<T>, RandomAccessIterator extends base.Iterator<T>>
+		<T, InputIterator extends IForwardIterator<T>, RandomAccessIterator extends base.Iterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
@@ -79,7 +79,7 @@ namespace std
 		): RandomAccessIterator;
 
 	export function partial_sort_copy
-		<T, InputIterator extends base.Iterator<T>, RandomAccessIterator extends base.IArrayIterator<T>>
+		<T, InputIterator extends IForwardIterator<T>, RandomAccessIterator extends base.IArrayIterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 

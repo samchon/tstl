@@ -60,23 +60,23 @@ namespace std
 		return !any_of(first, last, pred);
 	}
 
-	export function equal<T, InputIterator extends base.Iterator<T>>
-		(first1: InputIterator, last1: InputIterator, first2: base.Iterator<T>): boolean;
+	export function equal<T, InputIterator extends IForwardIterator<T>>
+		(first1: InputIterator, last1: InputIterator, first2: IForwardIterator<T>): boolean;
 
-	export function equal<T, InputIterator extends base.Iterator<T>>
+	export function equal<T, InputIterator extends IForwardIterator<T>>
 		(
-			first1: InputIterator, last1: InputIterator, first2: base.Iterator<T>,
+			first1: InputIterator, last1: InputIterator, first2: IForwardIterator<T>,
 			pred: (x: T, y: T) => boolean
 		): boolean;
 
-	export function equal<T, InputIterator extends base.Iterator<T>>
+	export function equal<T, InputIterator extends IForwardIterator<T>>
 		(
-			first1: InputIterator, last1: InputIterator, first2: base.Iterator<T>,
+			first1: InputIterator, last1: InputIterator, first2: IForwardIterator<T>,
 			pred: (x: T, y: T) => boolean = equal_to
 		): boolean
 	{
 		while (!first1.equals(last1))
-			if (first2.equals(first2.source().end()) || !pred(first1.value, first2.value))
+			if (!pred(first1.value, first2.value))
 				return false;
 			else
 			{
@@ -88,12 +88,12 @@ namespace std
 
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T, 
-			Iterator1 extends base.Iterator<T1>, Iterator2 extends base.Iterator<T2>>
+			Iterator1 extends IForwardIterator<T1>, Iterator2 extends IForwardIterator<T2>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): boolean;
 
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T, 
-			Iterator1 extends base.Iterator<T1>, Iterator2 extends base.Iterator<T2>>
+			Iterator1 extends IForwardIterator<T1>, Iterator2 extends IForwardIterator<T2>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
 			compare: (x: T, y: T) => boolean
@@ -101,7 +101,7 @@ namespace std
 	
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T,
-			Iterator1 extends base.Iterator<T1>, Iterator2 extends base.Iterator<T2>>
+			Iterator1 extends IForwardIterator<T1>, Iterator2 extends IForwardIterator<T2>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
 			compare: (x: T, y: T) => boolean = less
@@ -118,7 +118,7 @@ namespace std
 				first2 = first2.next() as Iterator2;
 			}
 
-		return !equal_to(last2, last2.source().end()) && !equal_to(first2.value, last2.value);
+		return !first2.equals(last2);
 	}
 
 	/* ---------------------------------------------------------
@@ -319,21 +319,20 @@ namespace std
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2): Pair<Iterator1, Iterator2>;
 
 	export function mismatch
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			compare: (x: T, y: T) => boolean
 		): Pair<Iterator1, Iterator2>;
 
 	export function mismatch
-		<T, Iterator1 extends base.Iterator<T>, Iterator2 extends base.Iterator<T>>
+		<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			compare: (x: T, y: T) => boolean = equal_to
 		): Pair<Iterator1, Iterator2>
 	{
-		while (!first1.equals(last1) && !first2.equals(first2.source().end())
-			&& equal_to(first1.value, first2.value))
+		while (!first1.equals(last1) && equal_to(first1.value, first2.value))
 		{
 			first1 = first1.next() as Iterator1;
 			first2 = first2.next() as Iterator2;
