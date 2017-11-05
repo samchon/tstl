@@ -281,16 +281,16 @@ namespace std
 		return last1;
 	}
 
-	export function search_n<T, ForwardIterator extends base.IArrayIterator<T>>
+	export function search_n<T, ForwardIterator extends IForwardIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, count: number, val: T): ForwardIterator;
 
-	export function search_n<T, ForwardIterator extends base.IArrayIterator<T>>
+	export function search_n<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, count: number, val: T, 
 			pred: (x: T, y: T) => boolean
 		): ForwardIterator;
 
-	export function search_n<T, ForwardIterator extends base.IArrayIterator<T>>
+	export function search_n<T, ForwardIterator extends IForwardIterator<T>>
 		(
 			first: ForwardIterator, last: ForwardIterator, count: number, val: T, 
 			pred: (x: T, y: T) => boolean = equal_to

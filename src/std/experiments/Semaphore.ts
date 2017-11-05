@@ -4,9 +4,19 @@ namespace std.experiments
 {
 	export class Semaphore
 	{
+		/**
+		 * @hidden
+		 */
 		private acquired_count_: number;
+
+		/**
+		 * @hidden
+		 */
 		private size_: number;
 
+		/**
+		 * @hidden
+		 */
 		private listeners_: Queue<Pair<IListener, number>>;
 
 		/* ---------------------------------------------------------
