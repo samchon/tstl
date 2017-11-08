@@ -109,12 +109,6 @@ namespace std
 	export var timed_mutex = TimedMutex;
 	export var shared_timed_mutex = SharedTimedMutex;
 	export var condition_variable = ConditionVariable;
-	
-	export namespace experiments
-	{
-		export type semaphore = Semaphore;
-		export var semaphore = Semaphore;
-	}
 }
 
 try
