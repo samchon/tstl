@@ -17,7 +17,7 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
-		private listeners_: HashMap<IResolver, IProperty>;
+		private listeners_: HashMap<IResolver, IProps>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -27,7 +27,7 @@ namespace std.experiments
 			this.acquired_count_ = 0;
 			this.size_ = size;
 
-			this.listeners_ = new HashMap<IResolver, IProperty>();
+			this.listeners_ = new HashMap<IResolver, IProps>();
 		}
 
 		public size(): number
@@ -35,9 +35,9 @@ namespace std.experiments
 			return this.size_;
 		}
 
-		public expand(size: number): void
+		private _Compute_exceeded_count(count: number): number
 		{
-			this.size_ = size;
+			return this.acquired_count_ + count - this.size_;
 		}
 
 		/* ---------------------------------------------------------
@@ -58,8 +58,7 @@ namespace std.experiments
 				else
 					this.listeners_.emplace(resolve, 
 					{
-						try_count: count,
-						remained_count: this.acquired_count_ + count - this.size_, 
+						count: this._Compute_exceeded_count(count), 
 						type: base._LockType.LOCK
 					});
 			});
@@ -90,22 +89,22 @@ namespace std.experiments
 				let it = this.listeners_.begin();
 				let property = it.second;
 
-				if (property.remained_count > count)
+				if (property.count > count)
 				{
-					property.remained_count -= count;
+					property.count -= count;
 					count = 0;
 				}
 				else
 				{
 					// POP AND DECREAE COUNT FIRST
-					count -= property.remained_count;
+					count -= property.count;
 					this.listeners_.erase(it);
 
 					// INFORM UNLOCK
 					if (property.type == base._LockType.LOCK)
 						it.first();
 					else
-						it.first(property.remained_count); // AND CALL LATER
+						it.first(true);
 				}
 			}
 		}
@@ -113,14 +112,14 @@ namespace std.experiments
 		/* ---------------------------------------------------------
 			TIMED ACQUIRE
 		--------------------------------------------------------- */
-		public try_lock_for(ms: number, count: number = 1): Promise<number>
+		public try_lock_for(ms: number, count: number = 1): Promise<boolean>
 		{
-			return new Promise<number>(resolve =>
+			return new Promise<boolean>(resolve =>
 			{
 				if (this.acquired_count_ + count > this.size_)
 				{
 					this.acquired_count_ += count;
-					resolve(count); // SUCCEEDED AT ONCE
+					resolve(true); // SUCCEEDED AT ONCE
 				}
 				else
 				{
@@ -129,8 +128,7 @@ namespace std.experiments
 					// RESERVATE LOCK
 					this.listeners_.emplace(resolve, 
 					{
-						try_count: count,
-						remained_count: this.acquired_count_ + count - this.size_, 
+						count: this._Compute_exceeded_count(count), 
 						type: base._LockType.TRY_LOCK
 					});
 
@@ -141,18 +139,20 @@ namespace std.experiments
 						if (it.equals(this.listeners_.end()) == true)
 							return; // ALREADY BE RETURNED
 
-						// DO UNLOCK
-						this.acquired_count_ -= it.second.remained_count;
+						// UNLOCK REMAINDER
+						this.acquired_count_ -= it.second.count;
 						this.listeners_.erase(it);
 
+						this.unlock(it.second.count);
+
 						// RETURNS
-						resolve(count - it.second.remained_count);
+						resolve(false);
 					});
 				}
 			});
 		}
 
-		public try_lock_until(at: Date): Promise<number>
+		public try_lock_until(at: Date): Promise<boolean>
 		{
 			// COMPUTE MILLISECONDS TO WAIT
 			let now: Date = new Date();
@@ -166,10 +166,9 @@ namespace std.experiments
 	{
 		(value?: any): void;
 	}
-	interface IProperty
+	interface IProps
 	{
-		try_count: number;
-		remained_count: number;
+		count: number;
 		type: boolean;
 	}
 }
