@@ -7,6 +7,9 @@
 
 /// <reference path="threads/ConditionVariable.ts" />
 
+/// <reference path="experiments/Semaphore.ts" />
+/// <reference path="experiments/TimedSemaphore.ts" />
+
 namespace std
 {
 	export function sleep_for(ms: number): Promise<void>
