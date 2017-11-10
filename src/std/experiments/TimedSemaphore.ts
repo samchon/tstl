@@ -7,7 +7,7 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
-		private acquired_count_: number;
+		private locked_count_: number;
 
 		/**
 		 * @hidden
@@ -17,17 +17,17 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
-		private listeners_: HashMap<IResolver, IProps>;
+		private resolvers_: HashMap<IResolver, IProps>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		public constructor(size: number)
 		{
-			this.acquired_count_ = 0;
+			this.locked_count_ = 0;
 			this.size_ = size;
 
-			this.listeners_ = new HashMap<IResolver, IProps>();
+			this.resolvers_ = new HashMap<IResolver, IProps>();
 		}
 
 		public size(): number
@@ -35,9 +35,12 @@ namespace std.experiments
 			return this.size_;
 		}
 
-		private _Compute_exceeded_count(count: number): number
+		/**
+		 * @hidden
+		 */
+		private _Compute_excess_count(count: number): number
 		{
-			return this.acquired_count_ + count - this.size_;
+			return this.locked_count_ + count - this.size_;
 		}
 
 		/* ---------------------------------------------------------
@@ -50,15 +53,15 @@ namespace std.experiments
 		{
 			return new Promise<void>((resolve, reject) =>
 			{
-				let prev_acqured_count: number = this.acquired_count_;
-				this.acquired_count_ += count;
+				let exceeded_count: number = this._Compute_excess_count(count);
+				this.locked_count_ += count;
 
-				if (prev_acqured_count + count <= this.size_)
+				if (exceeded_count <= 0)
 					resolve();
 				else
-					this.listeners_.emplace(resolve, 
+					this.resolvers_.emplace(resolve, 
 					{
-						count: this._Compute_exceeded_count(count), 
+						count: exceeded_count, 
 						type: base._LockType.LOCK
 					});
 			});
@@ -70,10 +73,10 @@ namespace std.experiments
 		public try_lock(count: number = 1): boolean
 		{
 			// ALL OR NOTHING
-			if (this.acquired_count_ + count > this.size_)
+			if (this.locked_count_ + count > this.size_)
 				return false;
 			
-			this.acquired_count_ += count;
+			this.locked_count_ += count;
 			return true;
 		}
 
@@ -82,26 +85,26 @@ namespace std.experiments
 
 		public unlock(count: number = 1): void
 		{
-			this.acquired_count_ -= count;
+			this.locked_count_ -= count;
 
 			while (count != 0)
 			{
-				let it = this.listeners_.begin();
-				let property = it.second;
+				let it/*Iterator*/ = this.resolvers_.begin();
+				let props: IProps = it.second;
 
-				if (property.count > count)
+				if (props.count > count)
 				{
-					property.count -= count;
+					props.count -= count;
 					count = 0;
 				}
 				else
 				{
 					// POP AND DECREAE COUNT FIRST
-					count -= property.count;
-					this.listeners_.erase(it);
+					count -= props.count;
+					this.resolvers_.erase(it);
 
 					// INFORM UNLOCK
-					if (property.type == base._LockType.LOCK)
+					if (props.type == base._LockType.LOCK)
 						it.first();
 					else
 						it.first(true);
@@ -112,36 +115,38 @@ namespace std.experiments
 		/* ---------------------------------------------------------
 			TIMED ACQUIRE
 		--------------------------------------------------------- */
+		public try_lock_for(ms: number): Promise<boolean>;
+		public try_lock_for(ms: number, count: number): Promise<boolean>;
+
 		public try_lock_for(ms: number, count: number = 1): Promise<boolean>
 		{
 			return new Promise<boolean>(resolve =>
 			{
-				if (this.acquired_count_ + count > this.size_)
-				{
-					this.acquired_count_ += count;
+				// INCRESE LOCKED COUNT
+				let exceeded_count: number = this._Compute_excess_count(count);
+				this.locked_count_ += count;
+
+				if (exceeded_count <= 0)
 					resolve(true); // SUCCEEDED AT ONCE
-				}
 				else
 				{
-					this.acquired_count_ += count;
-
 					// RESERVATE LOCK
-					this.listeners_.emplace(resolve, 
+					this.resolvers_.emplace(resolve, 
 					{
-						count: this._Compute_exceeded_count(count), 
+						count: exceeded_count, 
 						type: base._LockType.TRY_LOCK
 					});
 
 					// DO SLEEP
 					sleep_for(ms).then(() =>
 					{
-						let it = this.listeners_.find(resolve);
-						if (it.equals(this.listeners_.end()) == true)
+						let it/*Iterator*/ = this.resolvers_.find(resolve);
+						if (it.equals(this.resolvers_.end()) == true)
 							return; // ALREADY BE RETURNED
 
 						// UNLOCK REMAINDER
-						this.acquired_count_ -= it.second.count;
-						this.listeners_.erase(it);
+						this.locked_count_ -= it.second.count;
+						this.resolvers_.erase(it);
 
 						this.unlock(it.second.count);
 
@@ -152,13 +157,16 @@ namespace std.experiments
 			});
 		}
 
-		public try_lock_until(at: Date): Promise<boolean>
+		public try_lock_until(at: Date): Promise<boolean>;
+		public try_lock_until(at: Date, count: number): Promise<boolean>;
+
+		public try_lock_until(at: Date, count: number = 1): Promise<boolean>
 		{
 			// COMPUTE MILLISECONDS TO WAIT
 			let now: Date = new Date();
 			let ms: number = at.getTime() - now.getTime();
 
-			return this.try_lock_for(ms);
+			return this.try_lock_for(ms, count);
 		}
 	}
 

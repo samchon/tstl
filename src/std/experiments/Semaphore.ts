@@ -7,7 +7,9 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
-		private acquired_count_: number;
+		private locked_count_: number;
+
+		private waiting_count_: number;
 
 		/**
 		 * @hidden
@@ -24,7 +26,8 @@ namespace std.experiments
 		--------------------------------------------------------- */
 		public constructor(size: number)
 		{
-			this.acquired_count_ = 0;
+			this.locked_count_ = 0;
+			this.waiting_count_ = 0;
 			this.size_ = size;
 
 			this.listeners_ = new Queue<Pair<IListener, number>>();
@@ -33,6 +36,14 @@ namespace std.experiments
 		public size(): number
 		{
 			return this.size_;
+		}
+
+		/**
+		 * @hidden
+		 */
+		private _Compute_exceeded_count(count: number): number
+		{
+			return Math.max(0, this.locked_count_ + count - this.size_);
 		}
 
 		/* ---------------------------------------------------------
@@ -45,13 +56,15 @@ namespace std.experiments
 		{
 			return new Promise<void>((resolve, reject) =>
 			{
-				let prev_acqured_count: number = this.acquired_count_;
-				this.acquired_count_ += count;
+				let exceeded_count: number = this._Compute_exceeded_count(count);
+				
+				this.locked_count_ += count;
+				this.waiting_count_ += exceeded_count;
 
-				if (prev_acqured_count + count <= this.size_)
+				if (exceeded_count <= 0)
 					resolve();
 				else
-					this.listeners_.push(make_pair(resolve, count));
+					this.listeners_.push(make_pair(resolve, exceeded_count));
 			});
 		}
 
@@ -60,10 +73,10 @@ namespace std.experiments
 
 		public try_lock(count: number = 1): boolean
 		{
-			if (this.acquired_count_ + count > this.size_)
+			if (this.locked_count_ + count > this.size_)
 				return false;
 			
-			this.acquired_count_ += count;
+			this.locked_count_ += count;
 			return true;
 		}
 
@@ -72,7 +85,7 @@ namespace std.experiments
 
 		public unlock(count: number = 1): void
 		{
-			this.acquired_count_ -= count;
+			this.locked_count_ -= count;
 
 			while (count != 0)
 			{

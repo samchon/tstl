@@ -5,8 +5,8 @@ namespace test
 	const SLEEP_TIME: number = 50;
 	const READ_COUNT: number = 10;
 
-	type ILockable = std.ILockable;
-	interface ITimedLockable extends ILockable
+	export type ILockable = std.ILockable;
+	export interface ITimedLockable extends ILockable
 	{
 		try_lock_for(ms: number): Promise<boolean>;
 	}
@@ -32,7 +32,7 @@ namespace test
 	/* ---------------------------------------------------------
 		WRITE LOCK
 	--------------------------------------------------------- */
-	async function _Test_lock(name: string, mtx: ILockable): Promise<void>
+	export async function _Test_lock(name: string, mtx: ILockable): Promise<void>
 	{
 		let start_time: number = new Date().getTime();
 
@@ -52,7 +52,7 @@ namespace test
 			throw new std.DomainError(name + " does not work.");
 	}
 
-	async function _Test_try_lock(name: string, mtx: ITimedLockable): Promise<void>
+	export async function _Test_try_lock(name: string, mtx: ITimedLockable): Promise<void>
 	{
 		await _Test_lock(name, mtx);
 		let start_time: number = new Date().getTime();
