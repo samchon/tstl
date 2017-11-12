@@ -7,9 +7,12 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
-		private locked_count_: number;
+		private hold_count_: number;
 
-		private waiting_count_: number;
+		/**
+		 * @hidden
+		 */
+		private locked_count_: number;
 
 		/**
 		 * @hidden
@@ -26,8 +29,8 @@ namespace std.experiments
 		--------------------------------------------------------- */
 		public constructor(size: number)
 		{
+			this.hold_count_ = 0;
 			this.locked_count_ = 0;
-			this.waiting_count_ = 0;
 			this.size_ = size;
 
 			this.listeners_ = new Queue<Pair<IListener, number>>();
@@ -41,9 +44,9 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
-		private _Compute_exceeded_count(count: number): number
+		private _Compute_excess_count(count: number): number
 		{
-			return Math.max(0, this.locked_count_ + count - this.size_);
+			return Math.max(0, Math.min(this.locked_count_, this.size_) + count - this.size_);
 		}
 
 		/* ---------------------------------------------------------
@@ -56,15 +59,17 @@ namespace std.experiments
 		{
 			return new Promise<void>((resolve, reject) =>
 			{
-				let exceeded_count: number = this._Compute_exceeded_count(count);
-				
-				this.locked_count_ += count;
-				this.waiting_count_ += exceeded_count;
+				let exceeded_count: number = this._Compute_excess_count(count);
 
-				if (exceeded_count <= 0)
-					resolve();
-				else
+				// INCREASE COUNT PROPERTIES
+				this.hold_count_ += exceeded_count;
+				this.locked_count_ += count;
+
+				// BRANCH; KEEP OR GO?
+				if (exceeded_count > 0)
 					this.listeners_.push(make_pair(resolve, exceeded_count));
+				else
+					resolve();
 			});
 		}
 
@@ -73,6 +78,7 @@ namespace std.experiments
 
 		public try_lock(count: number = 1): boolean
 		{
+			// ALL OR NOTHING
 			if (this.locked_count_ + count > this.size_)
 				return false;
 			
@@ -85,21 +91,27 @@ namespace std.experiments
 
 		public unlock(count: number = 1): void
 		{
+			let resolved_count: number = Math.min(count, this.hold_count_);
+
+			// DECREASE COUNT PROPERTIES
+			this.hold_count_ -= resolved_count;
 			this.locked_count_ -= count;
 
-			while (count != 0)
+			while (resolved_count != 0)
 			{
-				if (this.listeners_.front().second > count)
+				let front: Pair<IListener, number> = this.listeners_.front();
+
+				if (front.second > resolved_count)
 				{
-					this.listeners_.front().second -= count;
-					count = 0;
+					front.second -= resolved_count;
+					resolved_count = 0;
 				}
 				else
 				{
-					let fn: IListener = this.listeners_.front().first;
+					let fn: IListener = front.first;
 
 					// POP AND DECREAE COUNT FIRST
-					count -= this.listeners_.front().second;
+					resolved_count -= front.second;
 					this.listeners_.pop();
 
 					fn(); // AND CALL LATER

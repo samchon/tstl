@@ -7,6 +7,11 @@ namespace std.experiments
 		/**
 		 * @hidden
 		 */
+		private hold_count_: number;
+
+		/**
+		 * @hidden
+		 */
 		private locked_count_: number;
 
 		/**
@@ -25,6 +30,7 @@ namespace std.experiments
 		public constructor(size: number)
 		{
 			this.locked_count_ = 0;
+			this.hold_count_ = 0;
 			this.size_ = size;
 
 			this.resolvers_ = new HashMap<IResolver, IProps>();
@@ -40,7 +46,7 @@ namespace std.experiments
 		 */
 		private _Compute_excess_count(count: number): number
 		{
-			return this.locked_count_ + count - this.size_;
+			return Math.max(0, Math.min(this.locked_count_, this.size_) + count - this.size_);
 		}
 
 		/* ---------------------------------------------------------
@@ -54,16 +60,20 @@ namespace std.experiments
 			return new Promise<void>((resolve, reject) =>
 			{
 				let exceeded_count: number = this._Compute_excess_count(count);
+
+				// INCREASE COUNT PROPERTIES
+				this.hold_count_ += exceeded_count;
 				this.locked_count_ += count;
 
-				if (exceeded_count <= 0)
-					resolve();
-				else
+				// BRANCH; KEEP OR GO?
+				if (exceeded_count > 0)
 					this.resolvers_.emplace(resolve, 
 					{
 						count: exceeded_count, 
 						type: base._LockType.LOCK
 					});
+				else
+					resolve();
 			});
 		}
 
@@ -85,22 +95,26 @@ namespace std.experiments
 
 		public unlock(count: number = 1): void
 		{
+			let resolved_count: number = Math.min(count, this.hold_count_);
+
+			// DECREASE COUNT PROPERTIES
+			this.hold_count_ -= resolved_count;
 			this.locked_count_ -= count;
 
-			while (count != 0)
+			while (resolved_count != 0)
 			{
 				let it/*Iterator*/ = this.resolvers_.begin();
 				let props: IProps = it.second;
 
-				if (props.count > count)
+				if (props.count > resolved_count)
 				{
-					props.count -= count;
-					count = 0;
+					props.count -= resolved_count;
+					resolved_count = 0;
 				}
 				else
 				{
 					// POP AND DECREAE COUNT FIRST
-					count -= props.count;
+					resolved_count -= props.count;
 					this.resolvers_.erase(it);
 
 					// INFORM UNLOCK
@@ -122,13 +136,14 @@ namespace std.experiments
 		{
 			return new Promise<boolean>(resolve =>
 			{
-				// INCRESE LOCKED COUNT
 				let exceeded_count: number = this._Compute_excess_count(count);
+
+				// INCRESE COUNT PROPERTIES
+				this.hold_count_ += exceeded_count;
 				this.locked_count_ += count;
 
-				if (exceeded_count <= 0)
-					resolve(true); // SUCCEEDED AT ONCE
-				else
+				// BRANCH; KEEP OR GO?
+				if (exceeded_count > 0)
 				{
 					// RESERVATE LOCK
 					this.resolvers_.emplace(resolve, 
@@ -144,16 +159,19 @@ namespace std.experiments
 						if (it.equals(this.resolvers_.end()) == true)
 							return; // ALREADY BE RETURNED
 
-						// UNLOCK REMAINDER
-						this.locked_count_ -= it.second.count;
+						// ERASE REMAINDER
+						this.hold_count_ -= it.second.count;
 						this.resolvers_.erase(it);
 
+						// DO UNLOCK FOR THE NEXT HOLDERS
 						this.unlock(it.second.count);
 
 						// RETURNS
 						resolve(false);
 					});
 				}
+				else // SUCCEEDED AT ONCE
+					resolve(true);
 			});
 		}
 
