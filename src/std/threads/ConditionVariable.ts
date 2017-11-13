@@ -59,7 +59,7 @@ namespace std
 		/* ---------------------------------------------------------
 			NOTIFIERS
 		--------------------------------------------------------- */
-		public notify_one(): void
+		public async notify_one(): Promise<void>
 		{
 			// NOTHING TO NOTIFY
 			if (this.resolvers_.empty())
@@ -76,7 +76,7 @@ namespace std
 			this.resolvers_.erase(it);	
 		}
 
-		public notify_all(): void
+		public async notify_all(): Promise<void>
 		{
 			// NOTHING TO NOTIFY
 			if (this.resolvers_.empty())

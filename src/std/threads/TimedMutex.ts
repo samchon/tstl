@@ -46,7 +46,7 @@ namespace std
 			return true;			
 		}
 
-		public unlock(): void
+		public async unlock(): Promise<void>
 		{
 			if (this.lock_count_ == 0)
 				throw new RangeError("This mutex is free.");

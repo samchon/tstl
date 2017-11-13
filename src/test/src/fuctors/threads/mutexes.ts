@@ -14,7 +14,7 @@ namespace test
 	interface ISharedLockable extends ILockable
 	{
 		lock_shared(): Promise<void>;
-		unlock_shared(): void;
+		unlock_shared(): Promise<void>;
 	}
 	interface ISharedTimedLockable extends ITimedLockable, ISharedLockable
 	{
@@ -46,7 +46,7 @@ namespace test
 		// TRY LOCK AGAIN
 		await mtx.lock();
 		let elapsed_time: number = new Date().getTime() - start_time;
-		mtx.unlock();
+		await mtx.unlock();
 
 		if (elapsed_time < SLEEP_TIME * .95)
 			throw new std.DomainError(name + " does not work.");
@@ -71,7 +71,7 @@ namespace test
 		else if (elapsed_time < SLEEP_TIME * .95)
 			throw new std.DomainError(name + " does not work in exact time.");
 
-		mtx.unlock();
+		await mtx.unlock();
 	}
 
 	/* ---------------------------------------------------------
@@ -133,7 +133,7 @@ namespace test
 
 		// RELEASE READING LOCK FOR THE NEXT STEP
 		for (let i: number = 0; i < READ_COUNT; ++i)
-			mtx.unlock_shared();
+			await mtx.unlock_shared();
 	}
 
 	async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
@@ -228,6 +228,6 @@ namespace test
 
 		// RELEASE READING LOCK FOR THE NEXT STEP
 		for (let i: number = 0; i < READ_COUNT; ++i)
-			mtx.unlock_shared();
+			await mtx.unlock_shared();
 	}
 }

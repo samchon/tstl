@@ -59,9 +59,16 @@ namespace std.experiments
 		{
 			return new Promise<void>((resolve, reject) =>
 			{
-				let exceeded_count: number = this._Compute_excess_count(count);
+				// VALIDATE PARAMETER
+				if (count < 1 || count > this.size_)
+				{
+					reject(new OutOfRange("Lock count to semaphore is out of its range."));
+					return;
+				}
 
 				// INCREASE COUNT PROPERTIES
+				let exceeded_count: number = this._Compute_excess_count(count);
+
 				this.hold_count_ += exceeded_count;
 				this.locked_count_ += count;
 
@@ -78,6 +85,10 @@ namespace std.experiments
 
 		public try_lock(count: number = 1): boolean
 		{
+			// VALIDATE PARAMETER
+			if (count < 1 || count > this.size_)
+				throw new OutOfRange("Lock count to semaphore is out of its range.");
+
 			// ALL OR NOTHING
 			if (this.locked_count_ + count > this.size_)
 				return false;
@@ -86,14 +97,20 @@ namespace std.experiments
 			return true;
 		}
 
-		public unlock(): void;
-		public unlock(count: number): void;
+		public unlock(): Promise<void>;
+		public unlock(count: number): Promise<void>;
 
-		public unlock(count: number = 1): void
+		public async unlock(count: number = 1): Promise<void>
 		{
-			let resolved_count: number = Math.min(count, this.hold_count_);
+			// VALIDATE PARAMETER
+			if (count < 1 || count > this.size_)
+				throw new OutOfRange("Unlock count to semaphore is out of its range.");
+			else if (count > this.locked_count_)
+				throw new RangeError("Number of unlocks to semaphore is greater than its locks.");
 
 			// DECREASE COUNT PROPERTIES
+			let resolved_count: number = Math.min(count, this.hold_count_);
+
 			this.hold_count_ -= resolved_count;
 			this.locked_count_ -= count;
 
