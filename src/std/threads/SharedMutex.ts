@@ -57,7 +57,7 @@ namespace std
 			return true;
 		}
 
-		public unlock(): void
+		public async unlock(): Promise<void>
 		{
 			if (this.write_lock_count_ == 0)
 				throw new RangeError("This mutex is free on the unique lock.");
@@ -102,7 +102,7 @@ namespace std
 			return true;
 		}
 
-		public unlock_shared(): void
+		public async unlock_shared(): Promise<void>
 		{
 			if (this.read_lock_count_ == 0)
 				throw new RangeError("This mutex is free on the shared lock.");

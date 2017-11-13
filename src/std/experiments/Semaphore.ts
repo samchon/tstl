@@ -2,11 +2,26 @@
 
 namespace std.experiments
 {
-	export class Semaphore
+	export class Semaphore implements ILockable
 	{
-		private acquired_count_: number;
+		/**
+		 * @hidden
+		 */
+		private hold_count_: number;
+
+		/**
+		 * @hidden
+		 */
+		private locked_count_: number;
+
+		/**
+		 * @hidden
+		 */
 		private size_: number;
 
+		/**
+		 * @hidden
+		 */
 		private listeners_: Queue<Pair<IListener, number>>;
 
 		/* ---------------------------------------------------------
@@ -14,7 +29,8 @@ namespace std.experiments
 		--------------------------------------------------------- */
 		public constructor(size: number)
 		{
-			this.acquired_count_ = 0;
+			this.hold_count_ = 0;
+			this.locked_count_ = 0;
 			this.size_ = size;
 
 			this.listeners_ = new Queue<Pair<IListener, number>>();
@@ -25,63 +41,94 @@ namespace std.experiments
 			return this.size_;
 		}
 
-		public expand(size: number): void
+		/**
+		 * @hidden
+		 */
+		private _Compute_excess_count(count: number): number
 		{
-			this.size_ = size;
+			return Math.max(0, Math.min(this.locked_count_, this.size_) + count - this.size_);
 		}
 
 		/* ---------------------------------------------------------
 			ACQURE & RELEASE
 		--------------------------------------------------------- */
-		public acquire(): Promise<void>;
-		public acquire(count: number): Promise<void>;
+		public lock(): Promise<void>;
+		public lock(count: number): Promise<void>;
 
-		public acquire(count: number = 1): Promise<void>
+		public lock(count: number = 1): Promise<void>
 		{
 			return new Promise<void>((resolve, reject) =>
 			{
-				let prev_acqured_count: number = this.acquired_count_;
-				this.acquired_count_ += count;
+				// VALIDATE PARAMETER
+				if (count < 1 || count > this.size_)
+				{
+					reject(new OutOfRange("Lock count to semaphore is out of its range."));
+					return;
+				}
 
-				if (prev_acqured_count + count <= this.size_)
-					resolve();
+				// INCREASE COUNT PROPERTIES
+				let exceeded_count: number = this._Compute_excess_count(count);
+
+				this.hold_count_ += exceeded_count;
+				this.locked_count_ += count;
+
+				// BRANCH; KEEP OR GO?
+				if (exceeded_count > 0)
+					this.listeners_.push(make_pair(resolve, exceeded_count));
 				else
-					this.listeners_.push(make_pair(resolve, count));
+					resolve();
 			});
 		}
 
-		public try_acquire(): boolean;
-		public try_acquire(count: number): boolean;
+		public try_lock(): boolean;
+		public try_lock(count: number): boolean;
 
-		public try_acquire(count: number = 1): boolean
+		public try_lock(count: number = 1): boolean
 		{
-			if (this.acquired_count_ + count > this.size_)
+			// VALIDATE PARAMETER
+			if (count < 1 || count > this.size_)
+				throw new OutOfRange("Lock count to semaphore is out of its range.");
+
+			// ALL OR NOTHING
+			if (this.locked_count_ + count > this.size_)
 				return false;
 			
-			this.acquired_count_ += count;
+			this.locked_count_ += count;
 			return true;
 		}
 
-		public release(): void;
-		public release(count: number): void;
+		public unlock(): Promise<void>;
+		public unlock(count: number): Promise<void>;
 
-		public release(count: number = 1): void
+		public async unlock(count: number = 1): Promise<void>
 		{
-			this.acquired_count_ -= count;
+			// VALIDATE PARAMETER
+			if (count < 1 || count > this.size_)
+				throw new OutOfRange("Unlock count to semaphore is out of its range.");
+			else if (count > this.locked_count_)
+				throw new RangeError("Number of unlocks to semaphore is greater than its locks.");
 
-			while (count != 0)
+			// DECREASE COUNT PROPERTIES
+			let resolved_count: number = Math.min(count, this.hold_count_);
+
+			this.hold_count_ -= resolved_count;
+			this.locked_count_ -= count;
+
+			while (resolved_count != 0)
 			{
-				if (this.listeners_.front().second > count)
+				let front: Pair<IListener, number> = this.listeners_.front();
+
+				if (front.second > resolved_count)
 				{
-					this.listeners_.front().second -= count;
-					count = 0;
+					front.second -= resolved_count;
+					resolved_count = 0;
 				}
 				else
 				{
-					let fn: IListener = this.listeners_.front().first;
+					let fn: IListener = front.first;
 
 					// POP AND DECREAE COUNT FIRST
-					count -= this.listeners_.front().second;
+					resolved_count -= front.second;
 					this.listeners_.pop();
 
 					fn(); // AND CALL LATER

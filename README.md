@@ -81,8 +81,8 @@ import std = require("tstl");
 let map: std.TreeMap<number, string> = new std.TreeMap<number, string>();
 
 // INSERT ITEMS
-map.insert(std.make_pair(1, "First"));
-map.insert([4, "Fourth"]); // via Tuple, C++11 Feature
+map.insert(std.make_pair(1, "First")); // Via tuple
+map.emplace(4, "Fourth"); // C++11 Feature
 map.insert_or_assign(5, "Fifth"); // C++17 Feature
 map.set(9, "Nineth"); // Instead of the operetor[](Key)
 

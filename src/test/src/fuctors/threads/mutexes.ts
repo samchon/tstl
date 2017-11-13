@@ -5,8 +5,8 @@ namespace test
 	const SLEEP_TIME: number = 50;
 	const READ_COUNT: number = 10;
 
-	type ILockable = std.ILockable;
-	interface ITimedLockable extends ILockable
+	export type ILockable = std.ILockable;
+	export interface ITimedLockable extends ILockable
 	{
 		try_lock_for(ms: number): Promise<boolean>;
 	}
@@ -14,7 +14,7 @@ namespace test
 	interface ISharedLockable extends ILockable
 	{
 		lock_shared(): Promise<void>;
-		unlock_shared(): void;
+		unlock_shared(): Promise<void>;
 	}
 	interface ISharedTimedLockable extends ITimedLockable, ISharedLockable
 	{
@@ -32,7 +32,7 @@ namespace test
 	/* ---------------------------------------------------------
 		WRITE LOCK
 	--------------------------------------------------------- */
-	async function _Test_lock(name: string, mtx: ILockable): Promise<void>
+	export async function _Test_lock(name: string, mtx: ILockable): Promise<void>
 	{
 		let start_time: number = new Date().getTime();
 
@@ -46,13 +46,13 @@ namespace test
 		// TRY LOCK AGAIN
 		await mtx.lock();
 		let elapsed_time: number = new Date().getTime() - start_time;
-		mtx.unlock();
+		await mtx.unlock();
 
 		if (elapsed_time < SLEEP_TIME * .95)
 			throw new std.DomainError(name + " does not work.");
 	}
 
-	async function _Test_try_lock(name: string, mtx: ITimedLockable): Promise<void>
+	export async function _Test_try_lock(name: string, mtx: ITimedLockable): Promise<void>
 	{
 		await _Test_lock(name, mtx);
 		let start_time: number = new Date().getTime();
@@ -71,7 +71,7 @@ namespace test
 		else if (elapsed_time < SLEEP_TIME * .95)
 			throw new std.DomainError(name + " does not work in exact time.");
 
-		mtx.unlock();
+		await mtx.unlock();
 	}
 
 	/* ---------------------------------------------------------
@@ -133,7 +133,7 @@ namespace test
 
 		// RELEASE READING LOCK FOR THE NEXT STEP
 		for (let i: number = 0; i < READ_COUNT; ++i)
-			mtx.unlock_shared();
+			await mtx.unlock_shared();
 	}
 
 	async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
@@ -228,6 +228,6 @@ namespace test
 
 		// RELEASE READING LOCK FOR THE NEXT STEP
 		for (let i: number = 0; i < READ_COUNT; ++i)
-			mtx.unlock_shared();
+			await mtx.unlock_shared();
 	}
 }

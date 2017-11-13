@@ -6,6 +6,6 @@ namespace std
 
 		try_lock(): boolean;
 
-		unlock(): void;
+		unlock(): Promise<void>;
 	}
 }
