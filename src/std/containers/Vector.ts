@@ -227,6 +227,11 @@ namespace std
 		/* ---------------------------------------------------------------
 			SWAP
 		--------------------------------------------------------------- */
+		public equals(obj: Vector<T>): boolean
+		{
+			return this.data_ == obj.data_;
+		}
+
 		public swap(obj: Vector<T>): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];

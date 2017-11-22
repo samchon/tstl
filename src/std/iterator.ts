@@ -92,7 +92,12 @@ namespace std
 	export function begin(container: any): any
 	{
 		if (container instanceof Array)
-			return new JSArray.Iterator<any>(container, container.length > 0 ? 0 : -1);
+		{
+			let vec = new std.Vector<any>();
+			vec["data_"] = container;
+
+			return vec.begin();
+		}
 		else
 			return container.begin();
 	}
@@ -107,7 +112,12 @@ namespace std
 	export function end(container: any): any
 	{
 		if (container instanceof Array)
-			return new JSArray.Iterator<any>(container, -1);
+		{
+			let vec = new std.Vector<any>();
+			vec["data_"] = container;
+
+			return vec.end();
+		}
 		else
 			return container.end();
 	}
@@ -115,7 +125,6 @@ namespace std
 	//--------
 	// REVERSE ITERATORS
 	//--------
-	export function make_reverse_iterator<T>(it: JSArray.Iterator<T>): JSArray.ReverseIterator<T>;
 	export function make_reverse_iterator<T, Source extends base.IArrayContainer<T>>(it: base.ArrayIterator<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function make_reverse_iterator<T>(it: List.Iterator<T>): List.ReverseIterator<T>;
 	export function make_reverse_iterator<T, Source extends base.ISetContainer<T>>(it: base.SetIterator<T, Source>): base.SetReverseIterator<T, Source>;
@@ -123,9 +132,7 @@ namespace std
 
 	export function make_reverse_iterator(it: any): any
 	{
-		if (it instanceof JSArray.ReverseIterator)
-			return new JSArray.ReverseIterator<any>(it as any);
-		else if (it instanceof base.ArrayIterator)
+		if (it instanceof base.ArrayIterator)
 			return new base.ArrayReverseIterator<any, base.IArrayContainer<any>>(it);
 		else if (it instanceof List.Iterator)
 			return new List.ReverseIterator<any>(it);
@@ -135,8 +142,7 @@ namespace std
 		else if (it instanceof base.MapIterator)
 			return new base.MapReverseIterator<any, any, any>(it);
 	}
-
-	export function rbegin<T>(container: Array<T>): JSArray.ReverseIterator<T>;
+	
 	export function rbegin<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function rbegin<T>(container: List<T>): List.ReverseIterator<T>;
 	export function rbegin<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;

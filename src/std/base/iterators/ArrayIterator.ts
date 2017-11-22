@@ -96,7 +96,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public equals(obj: ArrayIterator<T, Source>): boolean
 		{
-			return this.source_ == obj.source_ && this.index_ == obj.index_;
+			return equal_to(this.source_, obj.source_) && this.index_ == obj.index_;
 		}
 
 		public swap(obj: ArrayIterator<T, Source>): void
