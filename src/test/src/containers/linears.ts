@@ -7,6 +7,8 @@ namespace test
 		_Test_linear(new std.Vector<number>());
 		_Test_linear(new std.Deque<number>());
 		_Test_linear(new std.List<number>());
+
+		_Test_linear(std.begin(new Array<number>()).source());
 	}
 
 	function _Test_linear(vec: std.base.ILinearContainer<number>): void
