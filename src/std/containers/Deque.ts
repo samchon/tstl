@@ -535,20 +535,11 @@ namespace std
 			SWAP
 		--------------------------------------------------------- */
 		public swap(obj: Deque<T>): void
-
-		public swap(obj: base.Container<T>): void;
-
-		public swap(obj: Deque<T> | base.Container<T>): void
 		{
-			if (obj instanceof Deque)
-			{
-				// SWAP CONTENTS
-				[this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
-				[this.size_, obj.size_] = [obj.size_, this.size_];
-				[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
-			}
-			else
-				super.swap(obj);
+			// SWAP CONTENTS
+			[this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
+			[this.size_, obj.size_] = [obj.size_, this.size_];
+			[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
 		}
 
 		/* ---------------------------------------------------------
