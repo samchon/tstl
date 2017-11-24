@@ -1,4 +1,4 @@
-# TypeScript-STL
+# **T**ypeScript **S**tandard **T**emplate **L**ibrary
 [![NPM](https://nodei.co/npm/tstl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/tstl)
   - GitHub Repository: https://github.com/samchon/tstl
   - Guide Documents: https://github.com/samchon/tstl/wiki
