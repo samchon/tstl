@@ -12,10 +12,13 @@ Implementation of STL (Standard Template Library) in TypeScript.
   - Algorithms
   - Functors
 
-**T**ypeScript-**STL** is an open-source project providing features of STL, migrated from *C++* to *TypeScript*. You can enjoy the STL's own specific *coantainers*, *algorithms* and *functors* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
+**TSTL** is an open-source project providing features of STL, migrated from *C++* to *TypeScript*. You can enjoy the STL's own specific *coantainers*, *algorithms* and *functors* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
 
-Below components are list of provided objects in the **T**ypeScript-**STL**. If you want to know more about the **TypeScript-STL**, then please read the [**Guide Documents**](https://github.com/samchon/tstl/wiki).
+Below components are list of provided objects in the **TSTL**. If you want to know more about the **TSTL**, then please read the [**Guide Documents**](https://github.com/samchon/tstl/wiki).
 
+
+
+## Features
 ### Containers
   - **Linear Containers**
     - [Vector `vector`](http://samchon.github.io/tstl/api/classes/std.vector.html)
