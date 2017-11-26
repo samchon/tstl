@@ -1,4 +1,4 @@
-# TypeScript-STL
+# **T**ypeScript **S**tandard **T**emplate **L**ibrary
 [![NPM](https://nodei.co/npm/tstl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/tstl)
   - GitHub Repository: https://github.com/samchon/tstl
   - Guide Documents: https://github.com/samchon/tstl/wiki
@@ -63,6 +63,7 @@ Below components are list of provided objects in the **T**ypeScript-**STL**. If 
     - [ConditionVariable `condition_variable`](http://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
     - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
     - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
+    - (experiments) [Semaphore `semaphore`](http://samchon.github.io/tstl/api/classes/std.experiments.semaphore.html) & [TimedSemaphore `timed_semaphore`](http://samchon.github.io/tstl/api/classes/std.experiments.timedsemaphore.html)
 
 
 ## Installation

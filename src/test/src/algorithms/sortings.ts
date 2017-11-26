@@ -10,15 +10,15 @@ namespace test
 
 	function _Test_atomic_sorting(): void
 	{
-		let array: std.Vector<number> = new std.Vector<number>();
+		let array: Array<number> = new Array<number>();
 		for (let i: number = 1; i <= 15; i++)
 			for (let j: number = 0; j < 3; j++)
-				array.push_back(i);
+				array.push(i);
 
-		std.shuffle(array.begin(), array.end());
-		std.stable_sort(array.begin(), array.end());
+		std.shuffle(std.begin(array), std.end(array));
+		std.stable_sort(std.begin(array), std.end(array));
 		
-		if (std.is_sorted(array.begin(), array.end()) == false)
+		if (std.is_sorted(std.begin(array), std.end(array)) == false)
 			throw new std.DomainError("Wrong sorting in atoms.");
 	}
 
