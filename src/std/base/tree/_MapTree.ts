@@ -12,7 +12,7 @@ namespace std.base
 	{
 		private source_: Source;
 		private key_compare_: (x: Key, y: Key) => boolean;
-		private value_compare_: (x: Pair<Key, T>, y: Pair<Key, T>) => boolean;
+		private value_compare_: (x: IPair<Key, T>, y: IPair<Key, T>) => boolean;
 		
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
@@ -30,7 +30,7 @@ namespace std.base
 			this.key_compare_ = compare;
 
 			this.value_compare_ =
-				function (x: Pair<Key, T>, y: Pair<Key, T>): boolean
+				function (x: IPair<Key, T>, y: IPair<Key, T>): boolean
 				{
 					return compare(x.first, y.first);
 				};

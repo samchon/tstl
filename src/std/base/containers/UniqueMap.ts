@@ -120,7 +120,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
-		public extract(key: Key): Pair<Key, T>;
+		public extract(key: Key): Entry<Key, T>;
 
 		public extract(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
 
@@ -139,13 +139,13 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Extract_by_key(key: Key): Pair<Key, T>
+		private _Extract_by_key(key: Key): Entry<Key, T>
 		{
 			let it = this.find(key);
 			if (it.equals(this.end()) == true)
 				throw new OutOfRange("No such key exists.");
 
-			let ret: Pair<Key, T> = it.value;
+			let ret: Entry<Key, T> = it.value;
 			this.erase(it);
 
 			return ret;
