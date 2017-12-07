@@ -5,7 +5,7 @@
 	{
 		key_comp(): (x: Key, y: Key) => boolean;
 
-		value_comp(): (x: Pair<Key, T>, y: Pair<Key, T>) => boolean;
+		value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean;
 
 		lower_bound(key: Key): MapIterator<Key, T, Source>;
 
