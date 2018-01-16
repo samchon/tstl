@@ -11,7 +11,9 @@ namespace std.base
 		extends _XTree<MapIterator<Key, T, Source>>
 	{
 		private source_: Source;
+
 		private key_compare_: (x: Key, y: Key) => boolean;
+		private key_eq_: (x: Key, y: Key) => boolean;
 		private value_compare_: (x: IPair<Key, T>, y: IPair<Key, T>) => boolean;
 		
 		/* ---------------------------------------------------------
@@ -25,15 +27,17 @@ namespace std.base
 			)
 		{
 			super(itCompare);
-			
 			this.source_ = source;
-			this.key_compare_ = compare;
 
-			this.value_compare_ =
-				function (x: IPair<Key, T>, y: IPair<Key, T>): boolean
-				{
-					return compare(x.first, y.first);
-				};
+			this.key_compare_ = compare;
+			this.key_eq_ = function (x: Key, y: Key): boolean
+			{
+				return !compare(x, y) && !compare(y, x);
+			};
+			this.value_compare_ = function (x: IPair<Key, T>, y: IPair<Key, T>): boolean
+			{
+				return compare(x.first, y.first);
+			};
 		}
 
 		/* ---------------------------------------------------------
@@ -71,8 +75,12 @@ namespace std.base
 		public key_comp(): (x: Key, y: Key) => boolean
 		{
 			return this.key_compare_;
-        }
-
+		}
+		public key_eq(): (x: Key, y: Key) => boolean
+		{
+			return this.key_eq_;	
+		}
+		
 		public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 		{
 			return this.value_compare_;

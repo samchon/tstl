@@ -48,26 +48,26 @@ namespace std
 			//--------
 			// SPECIFIY CONSTRUCTOR
 			//--------
-			let compare: (x: Key, y: Key) => boolean = less;
-			let fn: Function = null;
+			let comp: (x: Key, y: Key) => boolean = less;
+			let post_process: Function = null;
 			
 			if (args.length >= 1 && args[0] instanceof TreeMap)
 			{
 				// COPY CONSTRUCTOR
 				let container: TreeMap<Key, T> = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					compare = args[1];
+					comp = args[1];
 
-				fn = this.assign.bind(this, container.begin(), container.end());
+				post_process = this.assign.bind(this, container.begin(), container.end());
 			}
 			else if (args.length >= 1 && args[0] instanceof Array)
 			{
 				// INITIALIZER LIST CONSTRUCTOR
 				let items: IPair<Key, T>[] = args[0]; // PARAMETER
 				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					compare = args[1];
+					comp = args[1];
 
-				fn = this.push.bind(this, ...items);
+				post_process = this.push.bind(this, ...items);
 			}
 			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
@@ -76,22 +76,22 @@ namespace std
 				let last: IForwardIterator<IPair<Key, T>> = args[1]; // PARAMETER 2
 
 				if (args.length == 3) // SPECIFIED COMPARISON FUNCTION
-					compare = args[2];
+					comp = args[2];
 
-				fn = this.assign.bind(this, first, last);
+				post_process = this.assign.bind(this, first, last);
 			}
 			else if (args.length == 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				compare = args[0];
+				comp = args[0];
 			}
 
 			//--------
 			// ADJUST THE SPECIFIED CONSTRUCTOR
 			//--------
-			this.tree_ = new base._UniqueMapTree<Key, T, TreeMap<Key, T>>(this, compare);
-			if (fn != null)
-				fn();
+			this.tree_ = new base._UniqueMapTree<Key, T, TreeMap<Key, T>>(this, comp);
+			if (post_process != null)
+				post_process();
 		}
 
 		/* ---------------------------------------------------------
@@ -111,7 +111,7 @@ namespace std
 		{
 			let node = this.tree_.find_by_key(key);
 
-			if (node == null || equal_to(node.value.first, key) == false)
+			if (node == null || this.tree_.key_eq()(node.value.first, key) == false)
 				return this.end();
 			else
 				return node.value;
@@ -157,7 +157,7 @@ namespace std
 		{
 			// FIND POSITION TO INSERT
 			let it: TreeMap.Iterator<Key, T> = this.lower_bound(key);
-			if (!it.equals(this.end()) && equal_to(it.first, key))
+			if (!it.equals(this.end()) && this.tree_.key_eq()(it.first, key))
 				return make_pair(it, false);
 
 			// ITERATOR TO RETURN
@@ -181,7 +181,7 @@ namespace std
 
 			// CONSTRUCT KEYS
 			if (!prev.equals(this.end()))
-				if (equal_to(prev.first, key))
+				if (this.tree_.key_eq()(prev.first, key))
 					return prev; // SAME KEY, THEN RETURNS IT`
 				else
 					keys.push_back(prev.first); // DIFFERENT KEY
@@ -189,7 +189,7 @@ namespace std
 			keys.push_back(key); // NEW ITEM'S KEY
 
 			if (!hint.equals(this.end()))
-				if (equal_to(hint.first, key))
+				if (this.tree_.key_eq()(hint.first, key))
 					return hint;
 				else
 					keys.push_back(hint.first);

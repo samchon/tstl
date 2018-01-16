@@ -12,7 +12,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private hash_buckets_: base._MapHashBuckets<Key, T, HashMap<Key, T>>;
+		private buckets_: base._MapHashBuckets<Key, T, HashMap<Key, T>>;
 	
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -22,47 +22,93 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
+		public constructor(hash: (key: Key) => number);
+		public constructor(hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
 
 		public constructor(items: Array<IPair<Key, T>>);
+		public constructor(items: Array<IPair<Key, T>>, hash: (key: Key) => number);
+		public constructor(items: Array<IPair<Key, T>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
 
 		public constructor(container: HashMap<Key, T>);
+		public constructor(container: HashMap<Key, T>, hash: (key: Key) => number);
+		public constructor(container: HashMap<Key, T>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
 
-		public constructor(begin: IForwardIterator<IPair<Key, T>>, end: IForwardIterator<IPair<Key, T>>);
+		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>);
+		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>, hash: (key: Key) => number);
+		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
 
 		public constructor(...args: any[])
 		{
-			// INIT MEMBERS
 			super();
-			this.hash_buckets_ = new base._MapHashBuckets<Key, T, HashMap<Key, T>>(this);
 
+			// DECLARE MEMBERS
+			let hash_function: (key: Key) => number = std.hash;
+			let key_eq: (x: Key, y: Key) => boolean = std.equal_to;
+			let post_process: () => void = null;
+
+			//----
+			// INITIALIZE MEMBERS AND POST-PROCESS
+			//----
 			// BRANCH - METHOD OVERLOADINGS
-			if (args.length == 0) 
+			if (args.length >= 1 && args[0] instanceof HashMap)
 			{
-				// DO NOTHING
-			}
-			else if (args.length == 1 && args[0] instanceof HashMap)
-			{
+				// FUNCTION TEMPLATES
+				if (args.length >= 2)	hash_function = args[1];
+				if (args.length == 3)	key_eq = args[2];
+
 				// COPY CONSTRUCTOR
-				let container: HashMap<Key, T> = args[0];
-
-				this.assign(container.begin(), container.end());
+				post_process = () =>
+				{
+					let container: HashMap<Key, T> = args[0];
+					this.assign(container.begin(), container.end());
+				};
 			}
-			else if (args.length == 1 && args[0] instanceof Array)
+			else if (args.length >= 1 && args[0] instanceof Array)
 			{
+				// FUNCTION TEMPLATES
+				if (args.length >= 2)	hash_function = args[1];
+				if (args.length == 3)	key_eq = args[2];
+
 				// INITIALIZER LIST CONSTRUCTOR
-				let items: Array<IPair<Key, T>> = args[0];
+				post_process = () =>
+				{
+					let items: Array<IPair<Key, T>> = args[0];
 
-				this.rehash(items.length * base._Hash.RATIO);
-				this.push(...items);
+					this.reserve(items.length);
+					this.push(...items);
+				};
 			}
-			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
+			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
-				// RANGE CONSTRUCTOR
-				let first: IForwardIterator<IPair<Key, T>> = args[0];
-				let last: IForwardIterator<IPair<Key, T>> = args[1];
+				// FUNCTION TEMPLATES
+				if (args.length >= 3)	hash_function = args[2];
+				if (args.length == 4)	key_eq = args[3];
 
-				this.assign(first, last);
+				// RANGE CONSTRUCTOR
+				post_process = () =>
+				{
+					let first: IForwardIterator<IPair<Key, T>> = args[0];
+					let last: IForwardIterator<IPair<Key, T>> = args[1];
+
+					this.assign(first, last);
+				};
 			}
+			else
+			{
+				// FUNCTION TEMPLATES
+				if (args.length >= 1)	hash_function = args[0];
+				if (args.length == 2)	key_eq = args[1];
+			}
+
+			//----
+			// DO PROCESS
+			//----
+			// CONSTRUCT BUCKET
+			this.buckets_ = new base._MapHashBuckets<Key, T, HashMap<Key, T>>(this, hash_function, key_eq);
+
+			// ACT POST-PROCESS
+			if (post_process != null)
+				post_process();
 		}
 		
 		/* ---------------------------------------------------------
@@ -70,7 +116,7 @@ namespace std
 		--------------------------------------------------------- */
 		public clear(): void
 		{
-			this.hash_buckets_.clear();
+			this.buckets_.clear();
 
 			super.clear();
 		}
@@ -84,37 +130,31 @@ namespace std
 		--------------------------------------------------------- */
 		public find(key: Key): HashMap.Iterator<Key, T>
 		{
-			return this.hash_buckets_.find(key);
+			return this.buckets_.find(key);
 		}
 
 		public begin(): HashMap.Iterator<Key, T>;
-
 		public begin(index: number): HashMap.Iterator<Key, T>;
-
 		public begin(index: number = -1): HashMap.Iterator<Key, T>
 		{
 			if (index == -1)
 				return super.begin();
 			else
-				return this.hash_buckets_.at(index).front();
+				return this.buckets_.at(index).front();
 		}
 
 		public end(): HashMap.Iterator<Key, T>;
-
 		public end(index: number): HashMap.Iterator<Key, T>
-
 		public end(index: number = -1): HashMap.Iterator<Key, T>
 		{
 			if (index == -1)
 				return super.end();
 			else
-				return this.hash_buckets_.at(index).back().next();
+				return this.buckets_.at(index).back().next();
 		}
 
 		public rbegin(): HashMap.ReverseIterator<Key, T>;
-
 		public rbegin(index: number): HashMap.ReverseIterator<Key, T>;
-
 		public rbegin(index: number = -1): HashMap.ReverseIterator<Key, T>
 		{
 			if (index == -1)
@@ -124,9 +164,7 @@ namespace std
 		}
 
 		public rend(): HashMap.ReverseIterator<Key, T>;
-
 		public rend(index: number): HashMap.ReverseIterator<Key, T>;
-
 		public rend(index: number = -1): HashMap.ReverseIterator<Key, T>
 		{
 			if (index == -1)
@@ -140,42 +178,42 @@ namespace std
 		--------------------------------------------------------- */
 		public bucket_count(): number
 		{
-			return this.hash_buckets_.size();
+			return this.buckets_.size();
 		}
-
 		public bucket_size(index: number): number
 		{
-			return this.hash_buckets_.at(index).size();
+			return this.buckets_.at(index).size();
+		}
+
+		public hash_function(): (key: Key) => number
+		{
+			return this.buckets_.hash_function();
+		}
+		public key_eq(): (x: Key, y: Key) => boolean
+		{
+			return this.buckets_.key_eq();
+		}
+		public bucket(key: Key): number
+		{
+			return this.hash_function()(key) % this.buckets_.size();
 		}
 
 		public max_load_factor(): number;
-
 		public max_load_factor(z: number): void;
-
-		public max_load_factor(z: number = -1): any
+		public max_load_factor(z: number = null): any
 		{
-			if (z == -1)
-				return this.size() / this.bucket_count();
-			else
-				this.rehash(Math.ceil(this.bucket_count() / z));
+			return this.buckets_.max_load_factor(z);
 		}
-
-		public bucket(key: Key): number
-		{
-			return hash(key) % this.hash_buckets_.size();
-		}
-
 		public reserve(n: number): void
 		{
-			this.hash_buckets_.rehash(Math.ceil(n * this.max_load_factor()));
+			this.buckets_.reserve(n);
 		}
-
 		public rehash(n: number): void
 		{
 			if (n <= this.bucket_count())
 				return;
 
-			this.hash_buckets_.rehash(n);
+			this.buckets_.rehash(n);
 		}
 
 		/* =========================================================
@@ -230,6 +268,10 @@ namespace std
 		protected _Insert_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
+			//--------
+			// INSERTIONS
+			//--------
+			// PRELIMINARIES
 			let my_first: HashMap.Iterator<Key, T> = this.end().prev();
 			let size: number = 0;
 
@@ -242,13 +284,16 @@ namespace std
 
 				// INSERTS
 				this["data_"].push(new Entry(it.value.first, it.value.second));
-				size++;
+				++size;
 			}
 			my_first = my_first.next();
 
+			//--------
+			// HASHING INSERTED ITEMS
+			//--------
 			// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-			if (this.size() + size > this.hash_buckets_.size() * base._Hash.MAX_RATIO)
-				this.hash_buckets_.rehash((this.size() + size) * base._Hash.RATIO);
+			if (this.size() > this.buckets_.capacity())
+				this.reserve(Math.max(this.size(), this.buckets_.capacity() * 2));
 
 			// POST-PROCESS
 			this._Handle_insert(my_first, this.end());
@@ -263,7 +308,7 @@ namespace std
 		protected _Handle_insert(first: HashMap.Iterator<Key, T>, last: HashMap.Iterator<Key, T>): void
 		{
 			for (; !first.equals(last); first = first.next())
-				this.hash_buckets_.insert(first);
+				this.buckets_.insert(first);
 		}
 
 		/**
@@ -272,7 +317,7 @@ namespace std
 		protected _Handle_erase(first: HashMap.Iterator<Key, T>, last: HashMap.Iterator<Key, T>): void
 		{
 			for (; !first.equals(last); first = first.next())
-				this.hash_buckets_.erase(first);
+				this.buckets_.erase(first);
 		}
 
 		/* ---------------------------------------------------------
@@ -284,8 +329,8 @@ namespace std
 			super.swap(obj);
 
 			// SWAP BUCKETS
-			[this.hash_buckets_["source_"], obj.hash_buckets_["source_"]] = [obj.hash_buckets_["source_"], this.hash_buckets_["source_"]];
-			[this.hash_buckets_, obj.hash_buckets_] = [obj.hash_buckets_, this.hash_buckets_];
+			[this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+			[this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
 		}
 	}
 }

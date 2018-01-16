@@ -13,15 +13,12 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public constructor(set: Source, compare: (x: T, y: T) => boolean)
+		public constructor(source: Source, comp: (x: T, y: T) => boolean)
 		{
-			super
-			(
-				set, 
-				compare, 
+			super(source, comp, 
 				function (x: SetIterator<T, Source>, y: SetIterator<T, Source>): boolean
 				{
-					return compare(x.value, y.value);
+					return comp(x.value, y.value);
 				}
 			);
 		}
@@ -40,7 +37,7 @@ namespace std.base
 				let it: SetIterator<T, Source> = node.value;
 				let myNode: _XTreeNode<SetIterator<T, Source>> = null;
 				
-				if (equal_to(val, it.value))
+				if (this.key_eq()(val, it.value))
 					break;
 				else if (this.key_comp()(val, it.value))
 					myNode = node.left;
@@ -71,7 +68,7 @@ namespace std.base
 			//--------
 			let it: SetIterator<T, Source> = node.value;
 			
-			if (equal_to(it.value, val) || this.key_comp()(it.value, val)) // it.first <= key
+			if (this.key_eq()(it.value, val) || this.key_comp()(it.value, val)) // it.first <= key
 				return it.next();
 			else // it.first > key
 				return it;

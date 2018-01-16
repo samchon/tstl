@@ -112,18 +112,17 @@ namespace std
 		{
 			let node: base._XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.find_by_key(key);
 			
-			if (node == null || equal_to(node.value.first, key) == false)
+			if (node == null || this.tree_.key_eq()(node.value.first, key) == false)
 				return this.end();
 			else
 				return node.value;
 		}
-
 		public count(key: Key): number
 		{
 			let it = this.find(key);
 			let cnt: number = 0;
 
-			for (; !it.equals(this.end()) && equal_to(it.first, key); it = it.next())
+			for (; !it.equals(this.end()) && this.tree_.key_eq()(it.first, key); it = it.next())
 				cnt++;
 
 			return cnt;
@@ -133,7 +132,6 @@ namespace std
 		{
 			return this.tree_.key_comp();
 		}
-
 		public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 		{
 			return this.tree_.value_comp();
@@ -143,12 +141,10 @@ namespace std
 		{
 			return this.tree_.lower_bound(key);
 		}
-
 		public upper_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			return this.tree_.upper_bound(key);
 		}
-
 		public equal_range(key: Key): Pair<TreeMultiMap.Iterator<Key, T>, TreeMultiMap.Iterator<Key, T>>
 		{
 			return this.tree_.equal_range(key);
@@ -190,12 +186,12 @@ namespace std
 			let keys: Vector<Key> = new Vector<Key>();
 
 			// CONSTRUCT KEYS
-			if (!prev.equals(this.end()) && !equal_to(prev.first, key))
+			if (!prev.equals(this.end()) && !this.tree_.key_eq()(prev.first, key))
 				keys.push_back(prev.first); // NOT END() AND DIFFERENT WITH KEY
 
 			keys.push_back(key); // NEW ITEM'S KEY
 
-			if (!hint.equals(this.end()) && !equal_to(hint.first, key))
+			if (!hint.equals(this.end()) && !this.tree_.key_eq()(hint.first, key))
 				keys.push_back(hint.first);
 
 			// IS THE HINT VALID ?

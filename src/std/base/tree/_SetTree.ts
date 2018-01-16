@@ -12,6 +12,7 @@ namespace std.base
 	{
 		private source_: Source;
 		private key_comp_: (x: T, y: T) => boolean;
+		private key_eq_: (x: T, y: T) => boolean;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
@@ -19,14 +20,18 @@ namespace std.base
         public constructor
 			(
 				set: Source, 
-				compare: (x: T, y: T) => boolean,
-				itCompare: (x: SetIterator<T, Source>, y: SetIterator<T, Source>) => boolean
+				comp: (x: T, y: T) => boolean,
+				it_comp: (x: SetIterator<T, Source>, y: SetIterator<T, Source>) => boolean
 			)
 		{
-			super(itCompare);
-
+			super(it_comp);
 			this.source_ = set;
-			this.key_comp_ = compare;
+
+			this.key_comp_ = comp;
+			this.key_eq_ = function (x: T, y: T): boolean
+			{
+				return !comp(x, y) && !(comp);
+			};
 		}
 
 		/* ---------------------------------------------------------
@@ -64,7 +69,11 @@ namespace std.base
 		public key_comp(): (x: T, y: T) => boolean
 		{
 			return this.key_comp_;
-        }
+		}
+		public key_eq(): (x: T, y: T) => boolean
+		{
+			return this.key_eq_;
+		}
 
 		public value_comp(): (x: T, y: T) => boolean
 		{

@@ -107,18 +107,17 @@ namespace std
 		{
 			let node = this.tree_.find_by_val(val);
 
-			if (node == null || equal_to(node.value.value, val) == false)
+			if (node == null || this.tree_.key_eq()(node.value.value, val) == false)
 				return this.end();
 			else
 				return node.value;
 		}
-
 		public count(val: T): number
 		{
 			let it = this.find(val);
 			let cnt: number = 0;
 
-			for (; !it.equals(this.end()) && equal_to(it.value, val); it = it.next())
+			for (; !it.equals(this.end()) && this.tree_.key_eq()(it.value, val); it = it.next())
 				cnt++;
 
 			return cnt;
@@ -128,7 +127,6 @@ namespace std
 		{
 			return this.tree_.key_comp();
 		}
-
 		public value_comp(): (x: T, y: T) => boolean
 		{
 			return this.tree_.key_comp();
@@ -138,12 +136,10 @@ namespace std
 		{
 			return this.tree_.lower_bound(val);
 		}
-
 		public upper_bound(val: T): TreeMultiSet.Iterator<T>
 		{
 			return this.tree_.upper_bound(val);
 		}
-
 		public equal_range(val: T): Pair<TreeMultiSet.Iterator<T>, TreeMultiSet.Iterator<T>>
 		{
 			return this.tree_.equal_range(val);
@@ -185,12 +181,12 @@ namespace std
 			let keys: Vector<T> = new Vector<T>();
 
 			// CONSTRUCT KEYS
-			if (!prev.equals(this.end()) && !equal_to(prev.value, val))
+			if (!prev.equals(this.end()) && !this.tree_.key_eq()(prev.value, val))
 				keys.push_back(prev.value); // NOT END() AND DIFFERENT WITH KEY
 
 			keys.push_back(val); // NEW ITEM'S KEY
 
-			if (!hint.equals(this.end()) && !equal_to(hint.value, val))
+			if (!hint.equals(this.end()) && !this.tree_.key_eq()(hint.value, val))
 				keys.push_back(hint.value);
 
 			// IS HINT VALID ?

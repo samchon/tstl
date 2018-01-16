@@ -5,15 +5,15 @@ namespace test
 	export function test_associatives(): void
 	{
 		// SET-CONTAINERS
-		_Test_unique_set(new std.HashSet<Atomic<number>>());
+		//_Test_unique_set(new std.HashSet<Atomic<number>>());
 		_Test_unique_set(new std.TreeSet<Atomic<number>>());
-		_Test_multi_set(new std.HashMultiSet<Atomic<number>>());
+		//_Test_multi_set(new std.HashMultiSet<Atomic<number>>());
 		_Test_multi_set(new std.TreeMultiSet<Atomic<number>>());
 
 		// MAP-CONTAINERS
-		_Test_unique_map(new std.HashMap<Atomic<string>, number>());
+		//_Test_unique_map(new std.HashMap<Atomic<string>, number>());
 		_Test_unique_map(new std.TreeMap<Atomic<string>, number>());
-		_Test_multi_map(new std.HashMultiMap<Atomic<string>, number>());
+		//_Test_multi_map(new std.HashMultiMap<Atomic<string>, number>());
 		_Test_multi_map(new std.TreeMultiMap<Atomic<string>, number>());
 	}
 
@@ -34,6 +34,7 @@ namespace test
 		{
 			// TO VALIDATE
 			sum += elem.value;
+			console.log(elem.value);
 
 			// RE-FIND THE ELEMENT BY ITS KEY WITH FIND() FUNCTION.
 			let it = set.find(elem);
