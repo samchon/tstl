@@ -33,60 +33,61 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
+		public constructor(comp: (x: T, y: T) => boolean);
 
-		public constructor(compare: (left: T, right: T) => boolean);
-
-		public constructor(array: Array<T>);
-
-		public constructor(array: Array<T>, compare: (left: T, right: T) => boolean);
-
-		public constructor(container: base.Container<T>);
-
-		public constructor(container: base.Container<T>, compare: (left: T, right: T) => boolean);
-
-		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
-
-		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>, compare: (left: T, right: T) => boolean);
+		public constructor(obj: PriorityQueue<T>);
+		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
+		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>, comp: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{
-			// INIT MEMBER
-			this.container_ = new TreeMultiSet<T>();
+			// DECLARE MEMBERS
+			let comp: (x: T, y: T) => boolean = std.less;
+			let post_process: () => void = null;
 
-			if (args.length >= 1 && args[0] instanceof base.Container)
+			//----
+			// INITIALIZE MEMBERS AND POST-PROCESS
+			//----
+			// BRANCH - METHOD OVERLOADINGS
+			if (args.length == 1 && args[0] instanceof PriorityQueue)
 			{
-				// COPY CONSTRUCTOR
-				let container: base.Container<T> = args[0]; // PARAMETER
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.container_["tree_"]["compare_"] = (args[1]);
+				let obj: PriorityQueue<T> = args[0];
+				
+				comp = obj.container_.key_comp();
+				post_process = () => 
+				{
+					let first = obj.container_.begin();
+					let last = obj.container_.end();
 
-				this.container_.assign(container.begin(), container.end());
-			}
-			else if (args.length >= 1 && args[0] instanceof Array)
-			{
-				// INITIALIZER LIST CONSTRUCTOR
-				let items: T[] = args[0]; // PARAMETER
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					this.container_["tree_"]["compare_"] = (args[1]);
-
-				this.container_.push(...items);
+					this.container_.assign(first, last);
+				};
 			}
 			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
-				// RANGE CONSTRUCTOR
-				let first: IForwardIterator<T> = args[0]; // PARAMETER 1
-				let last: IForwardIterator<T> = args[1]; // PARAMETER 2
-				
-				if (args.length == 3) // SPECIFIED COMPARISON FUNCTION
-					this.container_["tree_"]["compare_"] = (args[2]);
+				// FUNCTION TEMPLATE
+				if (args.length == 3)	comp = args[2];
 
-				this.container_.assign(first, last);
+				post_process = () =>
+				{
+					// RANGE CONSTRUCTOR
+					let first: IForwardIterator<T> = args[0]; // PARAMETER 1
+					let last: IForwardIterator<T> = args[1]; // PARAMETER 2
+
+					this.container_.assign(first, last);
+				};
 			}
 			else if (args.length == 1)
-			{
-				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				this.container_["tree_"]["compare_"] = (args[0]);
-			}
+				comp = args[0];
+
+			//----
+			// DO PROCESS
+			//----
+			// CONSTRUCT CONTAINER
+			this.container_ = new std.TreeMultiSet<T>(comp);
+
+			// ACT POST-PROCESS
+			if (post_process != null)
+				post_process();
 		}
 
 		/* ---------------------------------------------------------

@@ -22,71 +22,83 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
-
 		public constructor(compare: (x: T, y: T) => boolean);
 
 		public constructor(array: Array<T>);
-
 		public constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
 
-		public constructor(container: TreeMultiSet<T>);
-
-		public constructor(container: TreeMultiSet<T>, compare: (x: T, y: T) => boolean);
-
+		public constructor(container: TreeSet<T>);
 		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
-
 		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>, compare: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{
 			super();
 
-			//--------
-			// SPECIFIY CONSTRUCTOR
-			//--------
-			let compare: (x: T, y: T) => boolean = less;
-			let fn: Function = null;
+			// DECLARE MEMBERS
+			let comp: (x: T, y: T) => boolean = less;
+			let post_process: () => void = null;
 
-			if (args.length >= 1 && args[0] instanceof TreeSet)
+			//----
+			// INITIALIZE MEMBERS AND POST-PROCESS
+			//----
+			// BRANCH - METHOD OVERLOADINGS
+			if (args.length == 1 && args[0] instanceof TreeSet)
 			{
-				// COPY CONSTRUCTOR
-				let container: TreeSet<T> = args[0]; // PARAMETER
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					compare = args[1];
+				// PARAMETERS
+				let container: TreeSet<T> = args[0];
+				comp = container.key_comp();
 
-				fn = this.assign.bind(this, container.begin(), container.end());
+				// COPY CONSTRUCTOR
+				post_process = () =>
+				{
+					let first = container.begin();
+					let last = container.end();
+
+					this.assign(first, last);
+				};
 			}
 			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				// INITIALIZER LIST CONSTRUCTOR
-				let items: T[] = args[0]; // PARAMETER
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					compare = args[1];
+				// FUNCTION TEMPLATE
+				if (args.length == 2)	comp = args[1];
 
-				fn = this.push.bind(this, ...items);
+				// INITIALIZER LIST CONSTRUCTOR
+				post_process = () => 
+				{
+					let items: T[] = args[0];
+					this.push(...items);
+				};
 			}
 			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
-				// RANGE CONSTRUCTOR
-				let first: IForwardIterator<T> = args[0]; // PARAMETER 1
-				let last: IForwardIterator<T> = args[1]; // PARAMETER 2
-				if (args.length == 3) // SPECIFIED COMPARISON FUNCTION
-					compare = args[2];
+				// FUNCTION TEMPLATE
+				if (args.length == 3)	comp = args[2];
 
-				fn = this.assign.bind(this, first, last);
+				// RANGE CONSTRUCTOR
+				post_process = () =>
+				{
+					let first: IForwardIterator<T> = args[0];
+					let last: IForwardIterator<T> = args[1];
+
+					this.assign(first, last);
+				};
 			}
 			else if (args.length == 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				compare = args[0];
+				comp = args[0];
 			}
 
-			//--------
-			// ADJUST THE SPECIFIED CONSTRUCTOR
-			//--------
-			this.tree_ = new base._UniqueSetTree<T, TreeSet<T>>(this, compare);
-			if (fn != null)
-				fn();
+			//----
+			// DO PROCESS
+			//----
+			// CONSTRUCT TREE
+			this.tree_ = new base._UniqueSetTree(this, comp);
+			
+			// ACT POST-PROCESS
+			if (post_process != null)
+				post_process();
 		}
 
 		/* ---------------------------------------------------------
@@ -106,17 +118,16 @@ namespace std
 		{
 			let node = this.tree_.find_by_val(val);
 
-			if (node == null || equal_to(node.value.value, val) == false)
+			if (node == null || this.tree_.key_eq()(node.value.value, val) == false)
 				return this.end();
 			else
 				return node.value;
 		}
-
+		
 		public key_comp(): (x: T, y: T) => boolean
 		{
 			return this.tree_.key_comp();
 		}
-
 		public value_comp(): (x: T, y: T) => boolean
 		{
 			return this.tree_.key_comp();
@@ -126,12 +137,10 @@ namespace std
 		{
 			return this.tree_.lower_bound(val);
 		}
-
 		public upper_bound(val: T): TreeSet.Iterator<T>
 		{
 			return this.tree_.upper_bound(val);
 		}
-
 		public equal_range(val: T): Pair<TreeSet.Iterator<T>, TreeSet.Iterator<T>>
 		{
 			return this.tree_.equal_range(val);
@@ -152,7 +161,7 @@ namespace std
 		{
 			// FIND POSITION TO INSERT
 			let it: TreeSet.Iterator<T> = this.lower_bound(val);
-			if (!it.equals(this.end()) && equal_to(it.value, val))
+			if (!it.equals(this.end()) && this.tree_.key_eq()(it.value, val))
 				return make_pair(it, false);
 
 			// ITERATOR TO RETURN
@@ -173,7 +182,7 @@ namespace std
 
 			// CONSTRUCT KEYS
 			if (!prev.equals(this.end()))
-				if (equal_to(prev.value, val))
+				if (this.tree_.key_eq()(prev.value, val))
 					return prev; // SAME KEY, THEN RETURNS IT`
 				else
 					keys.push_back(prev.value); // DIFFERENT KEY
@@ -181,7 +190,7 @@ namespace std
 			keys.push_back(val); // NEW ITEM'S KEY
 
 			if (!hint.equals(this.end()))
-				if (equal_to(hint.value, val))
+				if (this.tree_.key_eq()(hint.value, val))
 					return hint;
 				else
 					keys.push_back(hint.value);

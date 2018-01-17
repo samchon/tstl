@@ -13,15 +13,12 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public constructor(map: Source, compare: (x: Key, y: Key) => boolean)
+		public constructor(source: Source, comp: (x: Key, y: Key) => boolean)
 		{
-			super
-			(
-				map,
-				compare,
+			super(source, comp,
 				function (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>): boolean
 				{
-					return compare(x.first, y.first);
+					return comp(x.first, y.first);
 				}
 			);
 		}
@@ -40,7 +37,7 @@ namespace std.base
 				let it: MapIterator<Key, T, Source> = node.value;
 				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
 				
-				if (equal_to(key, it.first))
+				if (this.key_eq()(key, it.first))
 					break;
 				else if (this.key_comp()(key, it.first))
 					myNode = node.left;
@@ -70,7 +67,7 @@ namespace std.base
 			// RETURN BRANCH
 			//--------
 			let it: MapIterator<Key, T, Source> = node.value;
-			if (equal_to(it.first, key) || this.key_comp()(it.first, key)) // it.first <= key
+			if (this.key_eq()(it.first, key) || this.key_comp()(it.first, key)) // it.first <= key
 				return it.next();
 			else // it.first > key
 				return it;

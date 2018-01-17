@@ -1,7 +1,25 @@
 /// <reference path="../API.ts" />
 
+
 namespace test
 {
+	export function test_priority_queue(): void
+	{
+		let pq = new std.PriorityQueue<number>();
+		for (let i: number = 0; i < 1000; ++i)
+			pq.push(Math.random() * 100);
+
+		let items: Array<number> = [];
+		while (pq.empty() == false)
+		{
+			items.push(pq.top());
+			pq.pop();
+		}
+
+		if (std.is_sorted(std.begin(items), std.end(items)) == false)
+			throw new std.DomainError("PriorityQueue is invalid.");
+	}
+
 	export function test_adaptors(): void
 	{
 		// CONSTRUCT ADAPTOR CONATINERS

@@ -13,18 +13,16 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public constructor(set: Source, compare: (x: T, y: T) => boolean)
+		public constructor(source: Source, comp: (x: T, y: T) => boolean)
 		{
-			super
-			(
-				set, 
-				compare, 
+			super(source, comp, 
 				function (x: SetIterator<T, Source>, y: SetIterator<T, Source>): boolean
 				{
-					if (equal_to(x.value, y.value))
+					let ret: boolean = comp(x.value, y.value);
+					if (!ret && !comp(y.value, x.value))
 						return (x as any).__get_m_iUID() < (y as any).__get_m_iUID();
 					else
-						return compare(x.value, y.value);
+						return ret;
 				}
 			);
 		}
@@ -54,7 +52,7 @@ namespace std.base
 				let it: SetIterator<T, Source> = node.value;
 				let myNode: _XTreeNode<SetIterator<T, Source>> = null;
 				
-				if (equal_to(val, it.value))
+				if (this.key_eq()(val, it.value))
 				{
 					// EQUALS, THEN FIND THE NODE OF THE LEFTEST
 					matched = node;
@@ -96,7 +94,7 @@ namespace std.base
 			{
 				let myNode: _XTreeNode<SetIterator<T, Source>> = null;
 
-				if (equal_to(val, node.value.value))
+				if (this.key_eq()(val, node.value.value))
 				{
 					matched = node;
 					myNode = node.right;
@@ -121,7 +119,7 @@ namespace std.base
 				return matched.value.next();
 
 			let it: SetIterator<T, Source> = node.value;
-			if (equal_to(it.value, val) || this.key_comp()(it.value, val)) // it.first <= key
+			if (this.key_eq()(it.value, val) || this.key_comp()(it.value, val)) // it.first <= key
 				return it.next();
 			else // it.first > key
 				return it;

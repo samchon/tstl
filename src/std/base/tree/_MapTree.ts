@@ -11,7 +11,9 @@ namespace std.base
 		extends _XTree<MapIterator<Key, T, Source>>
 	{
 		private source_: Source;
+
 		private key_compare_: (x: Key, y: Key) => boolean;
+		private key_eq_: (x: Key, y: Key) => boolean;
 		private value_compare_: (x: IPair<Key, T>, y: IPair<Key, T>) => boolean;
 		
 		/* ---------------------------------------------------------
@@ -20,20 +22,22 @@ namespace std.base
         public constructor
 			(
 				source: Source, 
-				compare: (x: Key, y: Key) => boolean,
-				itCompare: (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>) => boolean
+				comp: (x: Key, y: Key) => boolean,
+				it_comp: (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>) => boolean
 			)
 		{
-			super(itCompare);
-			
+			super(it_comp);
 			this.source_ = source;
-			this.key_compare_ = compare;
 
-			this.value_compare_ =
-				function (x: IPair<Key, T>, y: IPair<Key, T>): boolean
-				{
-					return compare(x.first, y.first);
-				};
+			this.key_compare_ = comp;
+			this.key_eq_ = function (x: Key, y: Key): boolean
+			{
+				return !comp(x, y) && !comp(y, x);
+			};
+			this.value_compare_ = function (x: IPair<Key, T>, y: IPair<Key, T>): boolean
+			{
+				return comp(x.first, y.first);
+			};
 		}
 
 		/* ---------------------------------------------------------
@@ -71,8 +75,12 @@ namespace std.base
 		public key_comp(): (x: Key, y: Key) => boolean
 		{
 			return this.key_compare_;
-        }
-
+		}
+		public key_eq(): (x: Key, y: Key) => boolean
+		{
+			return this.key_eq_;	
+		}
+		
 		public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 		{
 			return this.value_compare_;
