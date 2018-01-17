@@ -22,72 +22,83 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
-
 		public constructor(compare: (x: T, y: T) => boolean);
 
 		public constructor(array: Array<T>);
-
 		public constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
 
 		public constructor(container: TreeMultiSet<T>);
-
-		public constructor(container: TreeMultiSet<T>, compare: (x: T, y: T) => boolean);
-
 		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
-
 		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>, compare: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{
 			super();
 
-			//--------
-			// SPECIFI CONSTRUCTOR
-			//--------
-			let compare: (x: T, y: T) => boolean = less;
-			let fn: Function = null;
+			// DECLARE MEMBERS
+			let comp: (x: T, y: T) => boolean = less;
+			let post_process: () => void = null;
 
-			if (args.length >= 1 && args[0] instanceof TreeMultiSet)
+			//----
+			// INITIALIZE MEMBERS AND POST-PROCESS
+			//----
+			// BRANCH - METHOD OVERLOADINGS
+			if (args.length == 1 && args[0] instanceof TreeMultiSet)
 			{
-				// COPY CONSTRUCTOR
-				let container: TreeMultiSet<T> = args[0]; // PARAMETER
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					compare = args[1];
+				// PARAMETERS
+				let container: TreeMultiSet<T> = args[0];
+				comp = container.key_comp();
 
-				fn = this.assign.bind(this, container.begin(), container.end());
+				// COPY CONSTRUCTOR
+				post_process = () =>
+				{
+					let first = container.begin();
+					let last = container.end();
+
+					this.assign(first, last);
+				};
 			}
 			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				// INITIALIZER LIST CONSTRUCTOR
-				let items: T[] = args[0]; // PARAMETER
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					compare = args[1];
+				// FUNCTION TEMPLATE
+				if (args.length == 2)	comp = args[1];
 
-				fn = this.push.bind(this, ...items);
+				// INITIALIZER LIST CONSTRUCTOR
+				post_process = () => 
+				{
+					let items: T[] = args[0];
+					this.push(...items);
+				};
 			}
 			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
+				// FUNCTION TEMPLATE
+				if (args.length == 3)	comp = args[2];
+
 				// RANGE CONSTRUCTOR
-				let first: IForwardIterator<T> = args[0]; // PARAMETER 1
-				let last: IForwardIterator<T> = args[1]; // PARAMETER 2
+				post_process = () =>
+				{
+					let first: IForwardIterator<T> = args[0];
+					let last: IForwardIterator<T> = args[1];
 
-				if (args.length == 3) // SPECIFIED COMPARISON FUNCTION
-					compare = args[2];
-
-				fn = this.assign.bind(this, first, last);
+					this.assign(first, last);
+				};
 			}
 			else if (args.length == 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				compare = args[0];
+				comp = args[0];
 			}
 
-			//--------
-			// ADJUST THE SPECIFIED CONSTRUCTOR
-			//--------
-			this.tree_ = new base._MultiSetTree<T, TreeMultiSet<T>>(this, compare);
-			if (fn != null)
-				fn();
+			//----
+			// DO PROCESS
+			//----
+			// CONSTRUCT TREE
+			this.tree_ = new base._MultiSetTree(this, comp);
+			
+			// ACT POST-PROCESS
+			if (post_process != null)
+				post_process();
 		}
 
 		/* ---------------------------------------------------------
@@ -107,18 +118,17 @@ namespace std
 		{
 			let node = this.tree_.find_by_val(val);
 
-			if (node == null || equal_to(node.value.value, val) == false)
+			if (node == null || this.tree_.key_eq()(node.value.value, val) == false)
 				return this.end();
 			else
 				return node.value;
 		}
-
 		public count(val: T): number
 		{
 			let it = this.find(val);
 			let cnt: number = 0;
 
-			for (; !it.equals(this.end()) && equal_to(it.value, val); it = it.next())
+			for (; !it.equals(this.end()) && this.tree_.key_eq()(it.value, val); it = it.next())
 				cnt++;
 
 			return cnt;
@@ -128,7 +138,6 @@ namespace std
 		{
 			return this.tree_.key_comp();
 		}
-
 		public value_comp(): (x: T, y: T) => boolean
 		{
 			return this.tree_.key_comp();
@@ -138,12 +147,10 @@ namespace std
 		{
 			return this.tree_.lower_bound(val);
 		}
-
 		public upper_bound(val: T): TreeMultiSet.Iterator<T>
 		{
 			return this.tree_.upper_bound(val);
 		}
-
 		public equal_range(val: T): Pair<TreeMultiSet.Iterator<T>, TreeMultiSet.Iterator<T>>
 		{
 			return this.tree_.equal_range(val);
@@ -185,12 +192,12 @@ namespace std
 			let keys: Vector<T> = new Vector<T>();
 
 			// CONSTRUCT KEYS
-			if (!prev.equals(this.end()) && !equal_to(prev.value, val))
+			if (!prev.equals(this.end()) && !this.tree_.key_eq()(prev.value, val))
 				keys.push_back(prev.value); // NOT END() AND DIFFERENT WITH KEY
 
 			keys.push_back(val); // NEW ITEM'S KEY
 
-			if (!hint.equals(this.end()) && !equal_to(hint.value, val))
+			if (!hint.equals(this.end()) && !this.tree_.key_eq()(hint.value, val))
 				keys.push_back(hint.value);
 
 			// IS HINT VALID ?

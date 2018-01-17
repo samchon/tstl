@@ -2,15 +2,8 @@
 
 namespace std.base
 {
-    /**
-     * @hidden
-     */
-	export enum _Hash
-	{
-		MIN_SIZE = 10,
-		RATIO = 1.0,
-		MAX_RATIO = 2.0
-	}
+	const MIN_BUCKET_COUNT = 10;
+	const DEFAULT_MAX_FACTOR = 1.0;
 
 	/**
 	 * @hidden
@@ -19,6 +12,7 @@ namespace std.base
 	{
 		private buckets_: Vector<Vector<T>>;
 		private item_size_: number;
+		private max_load_factor_: number;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -26,28 +20,8 @@ namespace std.base
 		protected constructor()
 		{
 			this.clear();
-        }
-
-		public rehash(size: number): void
-		{
-			if (size < _Hash.MIN_SIZE)
-				size = _Hash.MIN_SIZE;
-
-			let prev_matrix: Vector<Vector<T>> = this.buckets_;
-			this.buckets_ = new Vector<Vector<T>>();
-
-			for (let i: number = 0; i < size; i++)
-				this.buckets_.push_back(new Vector<T>());
-
-			for (let i: number = 0; i < prev_matrix.size(); i++)
-				for (let j: number = 0; j < prev_matrix.at(i).size(); j++)
-				{
-					let val: T = prev_matrix.at(i).at(j);
-					let bucket = this.buckets_.at(this.hash_index(val));
-
-					bucket.push_back(val);
-					this.item_size_++;
-				}
+			
+			this.max_load_factor_ = DEFAULT_MAX_FACTOR;
 		}
 
 		public clear(): void
@@ -55,8 +29,38 @@ namespace std.base
 			this.buckets_ = new Vector<Vector<T>>();
 			this.item_size_ = 0;
 
-			for (let i: number = 0; i < _Hash.MIN_SIZE; i++)
+			for (let i: number = 0; i < MIN_BUCKET_COUNT; ++i)
 				this.buckets_.push_back(new Vector<T>());
+		}
+
+		public rehash(size: number): void
+		{
+			if (size < MIN_BUCKET_COUNT)
+				size = MIN_BUCKET_COUNT;
+
+			let prev_matrix: Vector<Vector<T>> = this.buckets_;
+			this.buckets_ = new Vector<Vector<T>>();
+
+			for (let i: number = 0; i < size; ++i)
+				this.buckets_.push_back(new Vector<T>());
+
+			for (let row of prev_matrix)
+				for (let col of row)
+				{
+					let index: number = this.hash_index(col);
+					let bucket: std.Vector<T> = this.buckets_.at(index);
+					
+					bucket.push_back(col);
+					++this.item_size_;
+				}
+		}
+
+		public reserve(size: number): void
+		{
+			this.item_size_ += size;
+
+			if (this.item_size_ > this.capacity())
+				this.rehash(Math.max(this.item_size_, this.capacity() * 2));
 		}
 
 		/* ---------------------------------------------------------
@@ -66,15 +70,9 @@ namespace std.base
 		{
 			return this.buckets_.size();
 		}
-
-		public item_size(): number
-		{
-			return this.item_size_;
-		}
-
 		public capacity(): number
 		{
-			return this.buckets_.size() * _Hash.MAX_RATIO;
+			return this.buckets_.size() * this.max_load_factor_;
 		}
 
 
@@ -82,10 +80,20 @@ namespace std.base
 		{
 			return this.buckets_.at(index);
 		}
+		public abstract hash_index(val: T): number;
 
-		public hash_index(val: T): number
+		public load_factor(): number
 		{
-			return hash(val) % this.buckets_.size();
+			return this.item_size_ / this.size();
+		}
+		public max_load_factor(): number;
+		public max_load_factor(z: number): void;
+		public max_load_factor(z: number = null)
+		{
+			if (z == null)
+				return this.max_load_factor_;
+			else
+				this.max_load_factor_ = z;
 		}
 
 		/* ---------------------------------------------------------
@@ -93,21 +101,24 @@ namespace std.base
 		--------------------------------------------------------- */
 		public insert(val: T): void
 		{
-			this.buckets_.at(this.hash_index(val)).push_back(val);
+			let capacity: number = this.capacity();
+			if (++this.item_size_ > capacity)
+				this.rehash(capacity * 2);
 
-			if (++this.item_size_ > this.capacity())
-				this.rehash(this.item_size_ * _Hash.RATIO);
+			let index: number = this.hash_index(val);
+			this.buckets_.at(index).push_back(val);
 		}
 
 		public erase(val: T): void
 		{
-			let bucket: Vector<T> = this.buckets_.at(this.hash_index(val));
+			let index: number = this.hash_index(val);
+			let bucket: Vector<T> = this.buckets_.at(index);
 
-			for (let i: number = 0; i < bucket.size(); i++)
+			for (let i: number = 0; i < bucket.size(); ++i)
 				if (bucket.at(i) == val)
 				{
 					bucket.erase(bucket.begin().advance(i));
-					this.item_size_--;
+					--this.item_size_;
 
 					break;
 				}
