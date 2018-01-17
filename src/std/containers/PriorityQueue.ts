@@ -35,6 +35,7 @@ namespace std
 		public constructor();
 		public constructor(comp: (x: T, y: T) => boolean);
 
+		public constructor(obj: PriorityQueue<T>);
 		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
 		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>, comp: (x: T, y: T) => boolean);
 
@@ -48,7 +49,20 @@ namespace std
 			// INITIALIZE MEMBERS AND POST-PROCESS
 			//----
 			// BRANCH - METHOD OVERLOADINGS
-			if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
+			if (args.length == 1 && args[0] instanceof PriorityQueue)
+			{
+				let obj: PriorityQueue<T> = args[0];
+				
+				comp = obj.container_.key_comp();
+				post_process = () => 
+				{
+					let first = obj.container_.begin();
+					let last = obj.container_.end();
+
+					this.container_.assign(first, last);
+				};
+			}
+			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				// FUNCTION TEMPLATE
 				if (args.length == 3)	comp = args[2];

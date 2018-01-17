@@ -30,9 +30,6 @@ namespace std
 		public constructor(items: T[], hash: (val: T) => number, equal: (x: T, y: T) => boolean);
 
 		public constructor(container: HashSet<T>);
-		public constructor(container: HashSet<T>, hash: (val: T) => number);
-		public constructor(container: HashSet<T>, hash: (val: T) => number, equal: (x: T, y: T) => boolean);
-
 		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
 		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>, hash: (val: T) => number);
 		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>, hash: (val: T) => number, equal: (x: T, y: T) => boolean);
@@ -50,17 +47,20 @@ namespace std
 			// INITIALIZE MEMBERS AND POST-PROCESS
 			//----
 			// BRANCH - METHOD OVERLOADINGS
-			if (args.length >= 1 && args[0] instanceof HashSet)
+			if (args.length == 1 && args[0] instanceof HashSet)
 			{
-				// FUNCTION TEMPLATES
-				if (args.length >= 2)	hash_function = args[1];
-				if (args.length == 3)	key_eq = args[2];
+				// PARAMETERS
+				let container: std.HashSet<T> = args[0];
+				hash_function = container.hash_function();
+				key_eq = container.key_eq();
 
 				// COPY CONSTRUCTOR
 				post_process = () =>
 				{
-					let container: HashSet<T> = args[0];
-					this.assign(container.begin(), container.end());
+					let first = container.begin();
+					let last = container.end();
+
+					this.assign(first, last);
 				};
 			}
 			else if (args.length >= 1 && args[0] instanceof Array)
@@ -93,12 +93,18 @@ namespace std
 					this.assign(first, last);
 				};
 			}
+			else
+			{
+				// FUNCTION TEMPLATES
+				if (args.length >= 1)	hash_function = args[0];
+				if (args.length == 2)	key_eq = args[1];
+			}
 
 			//----
 			// DO PROCESS
 			//----
 			// CONSTRUCT BUCKET
-			this.buckets_ = new base._SetHashBuckets<T, HashSet<T>>(this, hash_function, key_eq);
+			this.buckets_ = new base._SetHashBuckets(this, hash_function, key_eq);
 
 			// ACT POST-PROCESS
 			if (post_process != null)
