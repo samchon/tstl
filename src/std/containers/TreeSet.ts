@@ -106,17 +106,16 @@ namespace std
 		{
 			let node = this.tree_.find_by_val(val);
 
-			if (node == null || equal_to(node.value.value, val) == false)
+			if (node == null || this.tree_.key_eq()(node.value.value, val) == false)
 				return this.end();
 			else
 				return node.value;
 		}
-
+		
 		public key_comp(): (x: T, y: T) => boolean
 		{
 			return this.tree_.key_comp();
 		}
-
 		public value_comp(): (x: T, y: T) => boolean
 		{
 			return this.tree_.key_comp();
@@ -126,12 +125,10 @@ namespace std
 		{
 			return this.tree_.lower_bound(val);
 		}
-
 		public upper_bound(val: T): TreeSet.Iterator<T>
 		{
 			return this.tree_.upper_bound(val);
 		}
-
 		public equal_range(val: T): Pair<TreeSet.Iterator<T>, TreeSet.Iterator<T>>
 		{
 			return this.tree_.equal_range(val);
@@ -152,7 +149,7 @@ namespace std
 		{
 			// FIND POSITION TO INSERT
 			let it: TreeSet.Iterator<T> = this.lower_bound(val);
-			if (!it.equals(this.end()) && equal_to(it.value, val))
+			if (!it.equals(this.end()) && this.tree_.key_eq()(it.value, val))
 				return make_pair(it, false);
 
 			// ITERATOR TO RETURN
@@ -173,7 +170,7 @@ namespace std
 
 			// CONSTRUCT KEYS
 			if (!prev.equals(this.end()))
-				if (equal_to(prev.value, val))
+				if (this.tree_.key_eq()(prev.value, val))
 					return prev; // SAME KEY, THEN RETURNS IT`
 				else
 					keys.push_back(prev.value); // DIFFERENT KEY
@@ -181,7 +178,7 @@ namespace std
 			keys.push_back(val); // NEW ITEM'S KEY
 
 			if (!hint.equals(this.end()))
-				if (equal_to(hint.value, val))
+				if (this.tree_.key_eq()(hint.value, val))
 					return hint;
 				else
 					keys.push_back(hint.value);

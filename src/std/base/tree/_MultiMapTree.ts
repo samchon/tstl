@@ -10,18 +10,17 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		public constructor(map: Source, compare: (x: Key, y: Key) => boolean)
+		public constructor(source: Source, comp: (x: Key, y: Key) => boolean)
 		{
-			super
-			(
-				map,
-				compare,
+			super(source, comp,
 				function (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>): boolean
 				{
-					if (equal_to(x.first, y.first))
+					let ret: boolean = comp(x.first, y.first);
+
+					if (!ret && !comp(y.first, x.first))
 						return (x as any).__get_m_iUID() < (y as any).__get_m_iUID();
 					else
-						return compare(x.first, y.first);
+						return ret;
 				}
 			);
 		}
@@ -50,7 +49,7 @@ namespace std.base
 			{
 				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
 
-				if (equal_to(key, node.value.first))
+				if (this.key_eq()(key, node.value.first))
 				{
 					matched = node;
 					myNode = node.left;
@@ -91,7 +90,7 @@ namespace std.base
 			{
 				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
 
-				if (equal_to(key, node.value.first))
+				if (this.key_eq()(key, node.value.first))
 				{
 					matched = node;
 					myNode = node.right;
@@ -116,7 +115,7 @@ namespace std.base
 				return matched.value.next();
 
 			let it: MapIterator<Key, T, Source> = node.value;
-			if (this.key_comp()(it.first, key) || equal_to(it.first, key)) // it.first <= key
+			if (this.key_comp()(it.first, key) || this.key_eq()(it.first, key)) // it.first <= key
 				return it.next();
 			else // it.first > key
 				return it;

@@ -16,20 +16,22 @@ namespace std.base
 	{
 		protected root_: _XTreeNode<T>;
 
-		private compare_: (x: T, y: T) => boolean;
+		private comp_: (x: T, y: T) => boolean;
+		private equal_: (x: T, y: T) => boolean;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTOR
 		--------------------------------------------------------- */
-		protected constructor();
-
-		protected constructor(compare: (x: T, y: T) => boolean);
-
-		protected constructor(compare: (x: T, y: T) => boolean = less)
+		protected constructor(comp: (x: T, y: T) => boolean)
 		{
 			this.root_ = null;
-			this.compare_ = compare;
-        }
+
+			this.comp_ = comp;
+			this.equal_ = function (x: T, y: T): boolean
+			{
+				return !comp(x, y) && !comp(y, x);
+			};
+		}
 
 		public clear(): void
 		{
@@ -59,9 +61,9 @@ namespace std.base
 			{
 				let newNode: _XTreeNode<T> = null;
 
-				if (equal_to(val, node.value))
+				if (this.equal_(val, node.value))
 					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-				else if (this.compare_(val, node.value))
+				else if (this.comp_(val, node.value))
 					newNode = node.left; // LESS, THEN TO THE LEFT
 				else //
 					newNode = node.right; // GREATER, THEN TO THE RIGHT
@@ -104,7 +106,7 @@ namespace std.base
 			{
 				node.parent = parent;
 
-				if (this.compare_(node.value, parent.value))
+				if (this.comp_(node.value, parent.value))
 					parent.left = node;
 				else
 					parent.right = node;
@@ -178,7 +180,7 @@ namespace std.base
 		public erase(val: T): void
 		{
 			let node = this.find(val);
-			if (node == null || equal_to(val, node.value) == false)
+			if (node == null || this.equal_(val, node.value) == false)
 				return;
 
 			if (node.left != null && node.right != null)
