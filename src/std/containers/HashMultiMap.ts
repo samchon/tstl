@@ -192,6 +192,10 @@ namespace std
 		{
 			return this.buckets_.at(index).size();
 		}
+		public load_factor(): number
+		{
+			return this.buckets_.load_factor();
+		}
 
 		public hash_function(): (key: Key) => number
 		{

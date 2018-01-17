@@ -22,21 +22,21 @@ namespace std.base
         public constructor
 			(
 				source: Source, 
-				compare: (x: Key, y: Key) => boolean,
-				itCompare: (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>) => boolean
+				comp: (x: Key, y: Key) => boolean,
+				it_comp: (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>) => boolean
 			)
 		{
-			super(itCompare);
+			super(it_comp);
 			this.source_ = source;
 
-			this.key_compare_ = compare;
+			this.key_compare_ = comp;
 			this.key_eq_ = function (x: Key, y: Key): boolean
 			{
-				return !compare(x, y) && !compare(y, x);
+				return !comp(x, y) && !comp(y, x);
 			};
 			this.value_compare_ = function (x: IPair<Key, T>, y: IPair<Key, T>): boolean
 			{
-				return compare(x.first, y.first);
+				return comp(x.first, y.first);
 			};
 		}
 

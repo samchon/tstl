@@ -34,7 +34,6 @@ namespace test
 		{
 			// TO VALIDATE
 			sum += elem.value;
-			console.log(elem.value);
 
 			// RE-FIND THE ELEMENT BY ITS KEY WITH FIND() FUNCTION.
 			let it = set.find(elem);
@@ -83,6 +82,9 @@ namespace test
 		for (let i: number = 0; i <= 10; ++i)
 			for (let j: number = 0; j < 3; ++j)
 				set.push(new Atomic<number>(i));
+
+		for (let elem of set)
+			console.log(elem.value);
 
 		// TEST SEQUENCE
 		let vec = new std.Vector<Atomic<number>>(set.begin(), set.end());

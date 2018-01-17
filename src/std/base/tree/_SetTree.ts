@@ -30,7 +30,7 @@ namespace std.base
 			this.key_comp_ = comp;
 			this.key_eq_ = function (x: T, y: T): boolean
 			{
-				return !comp(x, y) && !(comp);
+				return !comp(x, y) && !comp(y, x);
 			};
 		}
 
