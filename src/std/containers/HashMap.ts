@@ -30,9 +30,6 @@ namespace std
 		public constructor(items: Array<IPair<Key, T>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
 
 		public constructor(container: HashMap<Key, T>);
-		public constructor(container: HashMap<Key, T>, hash: (key: Key) => number);
-		public constructor(container: HashMap<Key, T>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
-
 		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>);
 		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>, hash: (key: Key) => number);
 		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
@@ -50,17 +47,20 @@ namespace std
 			// INITIALIZE MEMBERS AND POST-PROCESS
 			//----
 			// BRANCH - METHOD OVERLOADINGS
-			if (args.length >= 1 && args[0] instanceof HashMap)
+			if (args.length == 1 && args[0] instanceof HashMap)
 			{
-				// FUNCTION TEMPLATES
-				if (args.length >= 2)	hash_function = args[1];
-				if (args.length == 3)	key_eq = args[2];
+				// PARAMETERS
+				let container: std.HashMap<Key, T> = args[0];
+				hash_function = container.hash_function();
+				key_eq = container.key_eq();
 
 				// COPY CONSTRUCTOR
 				post_process = () =>
 				{
-					let container: HashMap<Key, T> = args[0];
-					this.assign(container.begin(), container.end());
+					let first = container.begin();
+					let last = container.end();
+
+					this.assign(first, last);
 				};
 			}
 			else if (args.length >= 1 && args[0] instanceof Array)
@@ -104,7 +104,7 @@ namespace std
 			// DO PROCESS
 			//----
 			// CONSTRUCT BUCKET
-			this.buckets_ = new base._MapHashBuckets<Key, T, HashMap<Key, T>>(this, hash_function, key_eq);
+			this.buckets_ = new base._MapHashBuckets(this, hash_function, key_eq);
 
 			// ACT POST-PROCESS
 			if (post_process != null)

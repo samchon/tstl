@@ -22,19 +22,13 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
-
 		public constructor(compare: (x: Key, y: Key) => boolean);
 
 		public constructor(array: Array<IPair<Key, T>>);
-
 		public constructor(array: Array<IPair<Key, T>>, compare: (x: Key, y: Key) => boolean);
 
 		public constructor(container: TreeMultiMap<Key, T>);
-
-		public constructor(container: TreeMultiMap<Key, T>, compare: (x: Key, y: Key) => boolean);
-
 		public constructor(begin: IForwardIterator<IPair<Key, T>>, end: IForwardIterator<IPair<Key, T>>);
-
 		public constructor
 		(
 			begin: IForwardIterator<IPair<Key, T>>, 
@@ -46,53 +40,70 @@ namespace std
 		{
 			super();
 
-			//--------
-			// SPECIFIY CONSTRUCTOR
-			//--------
-			let compare: (x: Key, y: Key) => boolean = less;
-			let fn: Function = null;
-
-			if (args.length >= 1 && args[0] instanceof TreeMultiMap)
+			// DECLARE MEMBERS
+			let comp: (x: Key, y: Key) => boolean = less;
+			let post_process: () => void = null;
+			
+			//----
+			// INITIALIZE MEMBERS AND POST-PROCESS
+			//----
+			// BRANCH - METHOD OVERLOADINGS
+			if (args.length == 1 && args[0] instanceof TreeMultiMap)
 			{
-				// COPY CONSTRUCTOR
-				let container: TreeMultiMap<Key, T> = args[0]; // PARAMETER
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					compare = args[1];
+				// PARAMETERS
+				let container: TreeMultiMap<Key, T> = args[0];
+				comp = container.key_comp();
 
-				fn = this.assign.bind(this, container.begin(), container.end());
+				// COPY CONSTRUCTOR
+				post_process = () =>
+				{
+					let first = container.begin();
+					let last = container.end();
+
+					this.assign(first, last);
+				};
 			}
 			else if (args.length >= 1 && args[0] instanceof Array)
 			{
-				// INITIALIZER LIST CONSTRUCTOR
-				let items: IPair<Key, T>[] = args[0]; // PARAMETER
-				if (args.length == 2) // SPECIFIED COMPARISON FUNCTION
-					compare = args[1];
+				// FUNCTION TEMPLATE
+				if (args.length == 2)	comp = args[1];
 
-				fn = this.push.bind(this, ...items);
+				// INITIALIZER LIST CONSTRUCTOR
+				post_process = () =>
+				{
+					let items: IPair<Key, T>[] = args[0];
+					this.push(...items);
+				};
 			}
 			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
+				// FUNCTION TEMPLATE
+				if (args.length == 3)	comp = args[2];
+
 				// RANGE CONSTRUCTOR
-				let first: IForwardIterator<IPair<Key, T>> = args[0]; // PARAMETER 1
-				let last: IForwardIterator<IPair<Key, T>> = args[1]; // PARAMETER 2
+				post_process = () =>
+				{
+					let first: IForwardIterator<IPair<Key, T>> = args[0];
+					let last: IForwardIterator<IPair<Key, T>> = args[1];
 
-				if (args.length == 3) // SPECIFIED COMPARISON FUNCTION
-					compare = args[2];
-
-				fn = this.assign.bind(this, first, last);
+					this.assign(first, last);
+				};
 			}
 			else if (args.length == 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-				compare = args[0];
+				comp = args[0];
 			}
 
-			//--------
-			// ADJUST THE SPECIFIED CONSTRUCTOR
-			//--------
-			this.tree_ = new base._MultiMapTree<Key, T, TreeMultiMap<Key, T>>(this, compare);
-			if (fn != null)
-				fn();
+			//----
+			// DO PROCESS
+			//----
+			// CONSTRUCT TREE
+			this.tree_ = new base._MultiMapTree(this, comp);
+			
+			// ACT POST-PROCESS
+			if (post_process != null)
+				post_process();
 		}
 
 		/* ---------------------------------------------------------
