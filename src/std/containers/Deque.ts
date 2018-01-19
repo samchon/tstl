@@ -104,6 +104,16 @@ namespace std
 			this.insert(this.end(), first, second);
 		}
 
+		public clear(): void
+		{
+			// CLEAR CONTENTS
+			this.matrix_ = [[]];
+
+			// RE-INDEX
+			this.size_ = 0;
+			this.capacity_ = Deque.MIN_CAPACITY;
+		}
+
 		public reserve(capacity: number): void
 		{
 			if (capacity < this.capacity_)
@@ -137,14 +147,9 @@ namespace std
 			this.capacity_ = capacity;
 		}
 
-		public clear(): void
+		public shrink_to_fit(): void
 		{
-			// CLEAR CONTENTS
-			this.matrix_ = [[]];
-
-			// RE-INDEX
-			this.size_ = 0;
-			this.capacity_ = Deque.MIN_CAPACITY;
+			this.reserve(this.size());
 		}
 
 		/* =========================================================
