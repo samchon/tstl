@@ -4,6 +4,7 @@
 /// <reference path="functional/comparisons.ts" />
 /// <reference path="functional/hash.ts" />
 
+
 // Standard Template Library: Function objects
 // Function objects are objects specifically designed to be used with a syntax similar to that of functions.
 //
@@ -17,11 +18,8 @@ namespace std
 	/* ---------------------------------------------------------
 		SWAP
 	--------------------------------------------------------- */
-	export function swap<T>
-		(left: base.Container<T>, right: base.Container<T>): void;
-
-	export function swap(left: any, right: any)
+	export function swap<T extends ISwappable<T>>(x: T, y: T)
 	{
-		left.swap(right);
+		x.swap(y);
 	}
 }
