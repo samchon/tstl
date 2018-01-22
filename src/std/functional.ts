@@ -1,6 +1,5 @@
 ﻿/// <reference path="API.ts" />
 
-/// <reference path="functional/bind.ts" />
 /// <reference path="functional/bit_operations.ts" />
 /// <reference path="functional/comparisons.ts" />
 /// <reference path="functional/hash.ts" />

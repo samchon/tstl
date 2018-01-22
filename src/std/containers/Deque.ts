@@ -147,6 +147,15 @@ namespace std
 			this.capacity_ = capacity;
 		}
 
+		public resize(n: number): void
+		{
+			let expansion: number = n - this.size();
+			if (expansion > 0)
+				this.insert(this.end(), expansion, undefined);
+			else if (expansion < 0)
+				this.erase(this.end().advance(-expansion), this.end());
+		}
+
 		public shrink_to_fit(): void
 		{
 			this.reserve(this.size());
