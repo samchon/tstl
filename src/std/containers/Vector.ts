@@ -21,16 +21,10 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
-
 		public constructor(array: Array<T>);
-
-		public constructor(n: number);
-
 		public constructor(n: number, val: T);
-
 		public constructor(container: Vector<T>);
-
-		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
+		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
 		
 		public constructor(...args: any[])
 		{
@@ -50,13 +44,6 @@ namespace std
 				let array: Array<T> = args[0];
 				
 				this.data_ = array.slice();
-			}
-			else if (args.length == 1 && typeof args[0] == "number")
-			{
-				// CONSTRUCT FROM SIZE
-				let size: number = args[0];
-				
-				this.data_.length = size;
 			}
 			else if (args.length == 2 && typeof args[0] == "number")
 			{
@@ -107,11 +94,6 @@ namespace std
 		public size(): number
 		{
 			return this.data_.length;
-		}
-
-		public empty(): boolean
-		{
-			return this.size() == 0;
 		}
 
 		public at(index: number): T

@@ -159,11 +159,6 @@ namespace std
 			return this.size_;
 		}
 
-		public empty(): boolean
-		{
-			return this.size_ == 0;
-		}
-
 		public capacity(): number
 		{
 			return this.capacity_;

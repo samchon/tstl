@@ -24,20 +24,15 @@ namespace std
 		LINEAR CONTAINERS
 	--------------------------------------------------------- */
 	export import vector = Vector;
-
 	export import deque = Deque;
-	
 	export import list = List;
-	
 	export import forward_list = ForwardList;
 
 	/* ---------------------------------------------------------
 		ASSOCIATIVE CONTAINERS
 	--------------------------------------------------------- */
 	export type stack<T> = Stack<T>;
-
 	export type queue<T> = Queue<T>;
-
 	export type priority_queue<T> = PriorityQueue<T>;
 
 	export var stack = Stack;
@@ -48,22 +43,16 @@ namespace std
 		SET CONTAINERS
 	--------------------------------------------------------- */
 	export import set = TreeSet;
-	
 	export import multiset = TreeMultiSet;
-
 	export import unordered_set = HashSet;
-
 	export import unordered_multiset = HashMultiSet;
 
 	/* ---------------------------------------------------------
 		MAP CONTAINERS
 	--------------------------------------------------------- */
 	export import map = TreeMap;
-
 	export import multimap = TreeMultiMap;
-
 	export import unordered_map = HashMap;
-
 	export import unordered_multimap = HashMultiMap;
 
 	/* ---------------------------------------------------------
@@ -122,6 +111,8 @@ namespace std.experiments
 
 	export var semaphore = Semaphore;
 	export var timed_semaphore = TimedSemaphore;
+
+	export import vector_bool = VectorBool;
 }
 
 try

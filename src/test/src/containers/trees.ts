@@ -8,7 +8,33 @@ namespace test
 		_Test_tree_set(new std.TreeMultiSet<number>());
 		_Test_tree_map(new std.TreeMap<number, number>());
 		_Test_tree_map(new std.TreeMultiMap<number, number>());
+
+		_Test_tree_set_inserts_and_erases();
 		_Test_bounds();
+	}
+
+	function _Test_tree_set_inserts_and_erases(): void
+	{
+		for (let k = 0; k < 1000; ++k)
+		{
+			let s = new std.TreeSet();
+			for (let i = 0; i < 100; ++i)
+				s.insert(Math.floor(Math.random() * 10000));
+
+			for (let it = s.begin(); it != s.end(); it = it.next())
+				if (s.has(it.value) == false)
+					console.log("something wrong.");
+
+			while (!s.empty())
+			{
+				let advance = Math.floor(Math.random() * s.size());
+				let it = s.begin().advance(advance);
+
+				s.erase(it);
+				if (s.has(it.value))
+					console.log("something wrong.");
+			}
+		}
 	}
 
 	function _Test_tree_set(set: std.base.ISetContainer<number>): void

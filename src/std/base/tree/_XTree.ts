@@ -280,6 +280,7 @@ namespace std.base
 
 				this._Rotate_left(N.sibling);
 			}
+			this._Erase_case6(N);
 		}
         
 		private _Erase_case6(node: _XTreeNode<T>): void
@@ -290,7 +291,6 @@ namespace std.base
 			if (node == node.parent.left)
 			{
 				node.sibling.right.color = _Color.BLACK;
-
 				this._Rotate_left(node.parent);
 			}
 			else
