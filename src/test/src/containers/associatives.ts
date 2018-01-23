@@ -83,9 +83,6 @@ namespace test
 			for (let j: number = 0; j < 3; ++j)
 				set.push(new Atomic<number>(i));
 
-		for (let elem of set)
-			console.log(elem.value);
-
 		// TEST SEQUENCE
 		let vec = new std.Vector<Atomic<number>>(set.begin(), set.end());
 		if (std.is_sorted(vec.begin(), vec.end()) == false)

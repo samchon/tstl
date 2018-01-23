@@ -283,21 +283,21 @@ namespace std.base
 			this._Erase_case6(N);
 		}
         
-		private _Erase_case6(node: _XTreeNode<T>): void
+		private _Erase_case6(N: _XTreeNode<T>): void
 		{
-			node.sibling.color = this._Fetch_color(node.parent);
-			node.parent.color = _Color.BLACK;
+			N.sibling.color = this._Fetch_color(N.parent);
+			N.parent.color = _Color.BLACK;
 
-			if (node == node.parent.left)
+			if (N == N.parent.left)
 			{
-				node.sibling.right.color = _Color.BLACK;
-				this._Rotate_left(node.parent);
+				N.sibling.right.color = _Color.BLACK;
+				this._Rotate_left(N.parent);
 			}
 			else
 			{
-				node.sibling.left.color = _Color.BLACK;
+				N.sibling.left.color = _Color.BLACK;
 				
-				this._Rotate_right(node.parent);
+				this._Rotate_right(N.parent);
 			}
 		}
 

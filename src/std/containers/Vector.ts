@@ -22,8 +22,8 @@ namespace std
 		--------------------------------------------------------- */
 		public constructor();
 		public constructor(array: Array<T>);
-		public constructor(n: number, val: T);
 		public constructor(container: Vector<T>);
+		public constructor(n: number, val: T);
 		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
 		
 		public constructor(...args: any[])
@@ -40,41 +40,28 @@ namespace std
 			}
 			else if (args.length == 1 && args[0] instanceof Array)
 			{
-				// CONSTRUCT FROM AN ARRAY OF ITEMS
+				// INITIALIZER CONSTRUCTOR
 				let array: Array<T> = args[0];
-				
 				this.data_ = array.slice();
-			}
-			else if (args.length == 2 && typeof args[0] == "number")
-			{
-				// CONSTRUCT FROM SIZE AND REPEATING VALUE
-				let size: number = args[0];
-				let val: T = args[1];
-				
-				this.assign(size, val);
 			}
 			else if (args.length == 1 && args[0] instanceof std.Vector)
 			{
 				// COPY CONSTRUCTOR
 				this.data_ = (args[0] as Vector<T>).data_.slice();
 			}
-			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
+			else if (args.length == 2)
 			{
-				// CONSTRUCT FROM INPUT ITERATORS
-				let begin: IForwardIterator<T> = args[0];
-				let end: IForwardIterator<T> = args[1];
-
-				this.assign(begin, end);
+				// ASSIGN CONSTRUCTOR
+				this.assign(args[0], args[1]);
 			}
 		}
 
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		public assign(n: number, val: T): void;
 		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
-
-		public assign(n: number, val: T): void;
 
 		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(first: any, second: any): void
