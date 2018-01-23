@@ -88,6 +88,11 @@ namespace std
 			this.erase(this.begin(), this.end());
 		}
 
+		public resize(n: number)
+		{
+			this.data_.length = n;
+		}
+
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
