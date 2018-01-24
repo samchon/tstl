@@ -325,9 +325,7 @@ namespace std.experiments
 			for (let it = this._Find_node(last_index); !it.equals(this.data_.end()); it = it.next())
 			{
 				let next: TreeMap.Iterator<number, boolean> = it.next();
-				let sx: number = it.first <= last_index
-					? last_index
-					: it.first;
+				let sx: number = Math.max(it.first, last_index);
 				let sy: number = next.equals(this.data_.end()) 
 					? this.size() // IT'S THE LAST ELEMENT
 					: next.first; // TO NEXT ELEMENT
@@ -344,6 +342,9 @@ namespace std.experiments
 				this.data_.lower_bound(this.size_),
 				this.data_.end()
 			);
+			
+			console.log(this.size_, this.data_.size(), elements.size());
+			console.log(elements.front());
 
 			return this._Insert_to_end(elements);
 		}

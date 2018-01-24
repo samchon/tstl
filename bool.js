@@ -70,13 +70,24 @@ function main()
 
 		modify(v, d, l, vb, function (obj)
 		{
-			obj.erase(obj.begin().advance(first), obj.begin().advance(last));
+			obj.erase(obj.begin(), obj.end());
 		});
 		validate(v, d, l, vb);
+
+		let is_invalid_tree = false;
+		for (let entry of vb.data_)
+			if (entry.first >= vb.size())
+			{
+				console.log("Invalid Tree", entry.first, vb.size());
+				is_invalid_tree = true;
+			}
+		if (is_invalid_tree)
+			std.terminate();
 
 		if (v.empty())
 			break;
 	}
+	return;
 
 	//----
 	// REPEATED INSERTIONS & DELETIONS KEEPING SIZE
@@ -116,16 +127,6 @@ function main()
 		{
 			obj.erase(obj.begin().advance(first_index), obj.begin().advance(last_index));
 		});
-
-		let is_invalid_tree = false;
-		for (let entry of vb.data_)
-			if (entry.first >= vb.size())
-			{
-				console.log("Invalid Tree", entry.first, vb.size());
-				is_invalid_tree = true;
-			}
-		if (is_invalid_tree)
-			std.terminate();
 
 		// INSERT ELEMENTS
 		let index = rand_between(0, v.size());
