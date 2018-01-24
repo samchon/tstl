@@ -146,10 +146,7 @@ namespace std.experiments
 
 			// ARRANGE LEFT SIDE
 			if (std.not_equal_to(prev, this.data_.end()) && prev.second == it.second)
-			{
-				console.log("it => " + it.first + ", " + it.second);
 				this.data_.erase(it);
-			}
 
 			// ARRANGE RIGHT SIDE
 			if (next.equals(this.data_.end()) == true 
@@ -211,6 +208,9 @@ namespace std.experiments
 
 		public pop_back(): void
 		{
+			if (this.empty())
+				return; // TODO: THROW EXCEPTION
+
 			let it = this.data_.rbegin();
 			let index: number = --this.size_;
 
@@ -230,6 +230,7 @@ namespace std.experiments
 		{
 			// RESERVE ELEMENTS -> REPEATED SIZE & VALUE
 			let elements: Vector<Pair<number, boolean>> = new Vector();
+
 			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
 			{
 				if (elements.empty() || elements.back().second != it.value)
@@ -250,24 +251,37 @@ namespace std.experiments
 		private _Insert_to_middle(pos: VectorBool.Iterator, elements: Vector<Pair<number, boolean>>): VectorBool.Iterator
 		{
 			let first = this._Find_node(pos.index());
+
 			for (let it = first; !it.equals(this.data_.end()); it = it.next())
 			{
-				// COMPUTE SIZE
-				let next = it.next();
-				let size: number = (next.equals(this.data_.end()) == true)
-					? this.size() - it.first // THE LAST NODE
-					: next.first - it.first; // MIDDLE NODE
-				if (it == first)
-					size -= pos.index() - first.first; // DECREASE OVER COUNT
-				
-				// ENROLL OR INCREASE
-				if (elements.empty() || elements.back().second != it.second)
-					elements.push_back(std.make_pair(size, it.second));
-				else
-					elements.back().first += size;
+				// COMPUTE SIZE TO ENROLL
+				let next: TreeMap.Iterator<number, boolean> = it.next();
+
+				let sx: number = (it.first < pos.index()) 
+					? pos.index() // POSITION TO INSERT
+					: it.first; // CURRENT POINT
+				let sy: number = next.equals(this.data_.end()) 
+					? this.size() // IT'S THE LAST ELEMENT
+					: next.first; // TO NEXT ELEMENT
+
+				// DO ENROLL
+				let size: number = sy - sx;
+				let value: boolean = it.second;
+
+				elements.push_back(std.make_pair(size, value));
 			}
 
-			this.data_.erase(first, this.data_.end());
+			// ERASE BACK-SIDE ELEMENTS FOR THE POST-INSERTION
+			this.size_ = pos.index();
+			this.data_.erase
+			(
+				first.first == pos.index() 
+					? first 
+					: first.next(), 
+				this.data_.end()
+			);
+
+			// DO POST-INSERTION
 			return this._Insert_to_end(elements);
 		}
 		
@@ -277,12 +291,13 @@ namespace std.experiments
 		private _Insert_to_end(elements: Vector<Pair<number, boolean>>): VectorBool.Iterator
 		{
 			let old_size: number = this.size();
-			let last_value: boolean = this.empty() ? null : this.data_.rbegin().second;
+			let last_value: boolean = this.data_.empty() ? null : this.data_.rbegin().second;
 
 			for (let i: number = 0; i < elements.size(); ++i)
 			{
-				// INDEXING
 				let p: Pair<number, boolean> = elements.at(i);
+
+				// INDEXING
 				let index: number = this.size();
 				this.size_ += p.first;
 
@@ -304,42 +319,42 @@ namespace std.experiments
 		 */
 		protected _Erase_by_range(first: VectorBool.Iterator, last: VectorBool.Iterator): VectorBool.Iterator
 		{
-			let distance: number = last.index() - first.index();
+			let elements: Vector<Pair<number, boolean>> = new Vector();
+			let last_index: number = this._Compute_index(last);
 
-			//----
-			// SHRINK INDEXES
-			//----
-			// PRELIMINARIES
-			let entries: Entry<number, boolean>[] = [];
-			let cut_first = this.data_.lower_bound(first.index());
-			let cut_last = this.data_.lower_bound(last.index());
+			for (let it = this._Find_node(last_index); !it.equals(this.data_.end()); it = it.next())
+			{
+				let next: TreeMap.Iterator<number, boolean> = it.next();
+				let sx: number = it.first <= last_index
+					? last_index
+					: it.first;
+				let sy: number = next.equals(this.data_.end()) 
+					? this.size() // IT'S THE LAST ELEMENT
+					: next.first; // TO NEXT ELEMENT
 
-			// RESERVE ENTRIES
-			for (let it = cut_last; !it.equals(this.data_.end()); it = it.next())
-				entries.push(it.value);
+				let size: number = sy - sx;
+				let value: boolean = it.second;
+				
+				elements.push_back(std.make_pair(size, value));
+			}
 
-			// ERASE NODES AND SHRINK SIZE
-			this.data_.erase(cut_first, this.data_.end());
-			this.size_ -= distance;
+			this.size_ = this._Compute_index(first);
+			this.data_.erase
+			(
+				this.data_.lower_bound(this.size_),
+				this.data_.end()
+			);
 
-			// INSERT THEM AGAIN
-			for (let entry of entries)
-				this.data_.emplace(entry.first - distance, entry.second);
+			return this._Insert_to_end(elements);
+		}
 
-			//----
-			// ARRANGEMENT
-			//----
-			// TWO POINTS - PREV POINT OF CUT_FIRST & NEXT POINT OF THE P1
-			// ~ P1 ----CUT------ P2 ~
-			let p1 = cut_first.prev();
-			let p2 = p1.next();
-
-			// ERASE WHEN P1 == P2
-			if (p1.second == p2.second)
-				this.data_.erase(p2);
-
-			// RETURNS
-			return (first.index() < this.size()) ? first : this.end();
+		private _Compute_index(it: VectorBool.Iterator): number
+		{
+			let ret: number = it.index();
+			if (ret == -1)
+				return this.size();
+			else
+				return ret;
 		}
 	}
 }
