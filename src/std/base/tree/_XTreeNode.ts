@@ -7,9 +7,6 @@ namespace std.base
 	 */
 	export class _XTreeNode<T>
 	{
-		private static sequence: number = 0;
-		public uid: number;
-
         public parent: _XTreeNode<T>;
 		public left: _XTreeNode<T>;
 		public right: _XTreeNode<T>;
@@ -22,7 +19,6 @@ namespace std.base
 		--------------------------------------------------------- */
 		public constructor(value: T, color: _Color)
 		{
-			this.uid = ++_XTreeNode.sequence;
 			this.value = value;
 			this.color = color;
 			
@@ -31,7 +27,7 @@ namespace std.base
 			this.right = null;
 		}
 
-		public get grandParent(): _XTreeNode<T>
+		public get grand(): _XTreeNode<T>
 		{
 			return this.parent.parent;
 		}

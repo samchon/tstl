@@ -121,7 +121,7 @@ namespace std
 		========================================================= */
 		public find(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
-			let node: base._XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.find_by_key(key);
+			let node: base._XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.nearest_by_key(key);
 			
 			if (node == null || this.tree_.key_eq()(node.value.first, key) == false)
 				return this.end();

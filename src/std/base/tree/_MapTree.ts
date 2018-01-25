@@ -43,11 +43,19 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public abstract find_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>;
+		public get_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
+		{
+			let ret = this.nearest_by_key(key);
+			if (ret == null || !this.key_eq_(key, ret.value.first))
+				return null;
+			else
+				return ret;
+		}
+		public abstract nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>;
 
 		public lower_bound(key: Key): MapIterator<Key, T, Source>
 		{
-			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.find_by_key(key);
+			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.nearest_by_key(key);
 
 			if (node == null)
 				return this.source().end() as MapIterator<Key, T, Source>;
