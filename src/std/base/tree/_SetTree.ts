@@ -37,20 +37,27 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public abstract find_by_val(val: T): _XTreeNode<SetIterator<T, Source>>
+		public get_by_key(val: T): _XTreeNode<SetIterator<T, Source>>
+		{
+			let ret = this.nearest_by_key(val);
+			if (ret == null || !this.key_eq_(val, ret.value.value))
+				return null;
+			else
+				return ret;
+		}
+		public abstract nearest_by_key(val: T): _XTreeNode<SetIterator<T, Source>>;
 
 		public lower_bound(val: T): SetIterator<T, Source>
 		{
-			let node: _XTreeNode<SetIterator<T, Source>> = this.find_by_val(val);
+			let node: _XTreeNode<SetIterator<T, Source>> = this.nearest_by_key(val);
 
 			if (node == null)
 				return this.source_.end() as SetIterator<T, Source>;
-			else if (this.key_comp()(node.value.value, val)) // it < key
+			else if (this.key_comp_(node.value.value, val)) // it < key
 				return node.value.next();
 			else
 				return node.value;
         }
-
 		public abstract upper_bound(val: T): SetIterator<T, Source>;
 
 		public equal_range(val: T): Pair<SetIterator<T, Source>, SetIterator<T, Source>>

@@ -116,7 +116,7 @@ namespace std
 		========================================================= */
 		public find(val: T): TreeMultiSet.Iterator<T>
 		{
-			let node = this.tree_.find_by_val(val);
+			let node = this.tree_.nearest_by_key(val);
 
 			if (node == null || this.tree_.key_eq()(node.value.value, val) == false)
 				return this.end();

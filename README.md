@@ -96,7 +96,7 @@ for (let it = map.begin(); !it.equals(map.end()); it = it.next())
 
 // LOWER_BOUND
 let x = map.lower_bound(3);
-console.log("lower bound of 3 is: " + x.first + ", " + x.second);
+console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
 ```
 
 

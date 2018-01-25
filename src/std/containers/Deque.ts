@@ -46,14 +46,10 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
-
 		public constructor(items: Array<T>);
-
-		public constructor(size: number, val: T);
-
 		public constructor(container: Deque<T>);
-
-		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
+		public constructor(size: number, val: T);
+		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
 
 		public constructor(...args: any[])
 		{
@@ -66,6 +62,7 @@ namespace std
 			}
 			if (args.length == 1 && args[0] instanceof Array)
 			{
+				// INITIALIZER CONSTRUCTOR
 				let array: Array<T> = args[0];
 				let first = new base._NativeArrayIterator(array, 0);
 				let last = new base._NativeArrayIterator(array, array.length);
@@ -74,26 +71,23 @@ namespace std
 			}
 			else if (args.length == 1 && args[0] instanceof Deque)
 			{
+				// COPY CONSTRUCTOR
 				let container: Deque<T> = args[0];
-
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
+			else if (args.length == 2)
 			{
-				let first: IForwardIterator<T> = args[0];
-				let last: IForwardIterator<T> = args[1];
-
-				this.assign(first, last);
+				// ASSIGN CONSTRUCTOR
+				this.assign(args[0], args[1]);
 			}
 		}
 
 		/* ---------------------------------------------------------
 			ASSIGN, RESERVE & CLEAR
 		--------------------------------------------------------- */
+		public assign(n: number, val: T): void;
 		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
-
-		public assign(n: number, val: T): void;
 
 		public assign(first: any, second: any): void
 		{
@@ -102,6 +96,16 @@ namespace std
 
 			// INSERT ITEMS
 			this.insert(this.end(), first, second);
+		}
+
+		public clear(): void
+		{
+			// CLEAR CONTENTS
+			this.matrix_ = [[]];
+
+			// RE-INDEX
+			this.size_ = 0;
+			this.capacity_ = Deque.MIN_CAPACITY;
 		}
 
 		public reserve(capacity: number): void
@@ -137,14 +141,18 @@ namespace std
 			this.capacity_ = capacity;
 		}
 
-		public clear(): void
+		public resize(n: number): void
 		{
-			// CLEAR CONTENTS
-			this.matrix_ = [[]];
+			let expansion: number = n - this.size();
+			if (expansion > 0)
+				this.insert(this.end(), expansion, undefined);
+			else if (expansion < 0)
+				this.erase(this.end().advance(-expansion), this.end());
+		}
 
-			// RE-INDEX
-			this.size_ = 0;
-			this.capacity_ = Deque.MIN_CAPACITY;
+		public shrink_to_fit(): void
+		{
+			this.reserve(this.size());
 		}
 
 		/* =========================================================
@@ -157,11 +165,6 @@ namespace std
 		public size(): number
 		{
 			return this.size_;
-		}
-
-		public empty(): boolean
-		{
-			return this.size_ == 0;
 		}
 
 		public capacity(): number

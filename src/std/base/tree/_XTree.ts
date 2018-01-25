@@ -50,32 +50,58 @@ namespace std.base
 			return this.root_;
 		}
 
-		public find(val: T): _XTreeNode<T>
+		public get(val: T): _XTreeNode<T>
 		{
+			let ret = this.nearest(val);
+			if (ret == null || !this.equal_(val, ret.value))
+				return null;
+			else
+				return ret;
+
+			// let ret: _XTreeNode<T> = this.root_;
+
+			// while (ret != null)
+			// {
+			// 	if (this.comp_(val, ret.value))
+			// 		ret = ret.left;
+			// 	else if (this.comp_(ret.value, val))
+			// 		ret = ret.right;
+			// 	else
+			// 		return ret; // MATCHED VALUE
+			// }
+			// return ret; // NULL -> UNABLE TO FIND THE MATCHED VALUE
+		}
+
+		public nearest(val: T): _XTreeNode<T>
+		{
+			// NEED NOT TO ITERATE
 			if (this.root_ == null)
 				return null;
 
-			let node: _XTreeNode<T> = this.root_;
+			//----
+			// ITERATE
+			//----
+			let ret: _XTreeNode<T> = this.root_;
 
-			while (true)
+			while (true) // UNTIL MEET THE MATCHED VALUE OR FINAL BRANCH
 			{
-				let newNode: _XTreeNode<T> = null;
+				let my_node: _XTreeNode<T> = null;
 
-				if (this.equal_(val, node.value))
-					break; // EQUALS, MEANS MATCHED, THEN TERMINATE
-				else if (this.comp_(val, node.value))
-					newNode = node.left; // LESS, THEN TO THE LEFT
-				else //
-					newNode = node.right; // GREATER, THEN TO THE RIGHT
+				// COMPARE
+				if (this.comp_(val, ret.value))
+					my_node = ret.left;
+				else if (this.comp_(ret.value, val))
+					my_node = ret.right;
+				else
+					return ret; // MATCHED VALUE
 
-				// ULTIL CHILD NODE EXISTS
-				if (newNode == null)
+				// FINAL BRANCH? OR KEEP GOING
+				if (my_node != null)
+					ret = my_node;
+				else
 					break;
-
-				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-				node = newNode;
 			}
-			return node;
+			return ret; // DIFFERENT NODE
         }
 
 		protected _Fetch_maximum(node: _XTreeNode<T>): _XTreeNode<T>
@@ -97,7 +123,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public insert(val: T): void
 		{
-			let parent = this.find(val);
+			let parent = this.nearest(val);
 			let node = new _XTreeNode<T>(val, _Color.RED);
 
 			if (parent == null)
@@ -115,63 +141,61 @@ namespace std.base
 			this._Insert_case1(node);
         }
 
-		private _Insert_case1(N: _XTreeNode<T>): void
+		private _Insert_case1(n: _XTreeNode<T>): void
 		{
-			if (N.parent == null)
-				N.color = _Color.BLACK;
+			if (n.parent == null)
+				n.color = _Color.BLACK;
 			else
-				this._Insert_case2(N);
+				this._Insert_case2(n);
         }
 
-		private _Insert_case2(N: _XTreeNode<T>): void
+		private _Insert_case2(n: _XTreeNode<T>): void
 		{
-			if (this._Fetch_color(N.parent) == _Color.BLACK)
+			if (this._Fetch_color(n.parent) == _Color.BLACK)
 				return;
 			else
-				this._Insert_case3(N);
+				this._Insert_case3(n);
         }
 
-		private _Insert_case3(N: _XTreeNode<T>): void
+		private _Insert_case3(n: _XTreeNode<T>): void
 		{
-			if (this._Fetch_color(N.uncle) == _Color.RED)
+			if (this._Fetch_color(n.uncle) == _Color.RED)
 			{
-				N.parent.color = _Color.BLACK;
-				N.uncle.color = _Color.BLACK;
-				N.grandParent.color = _Color.RED;
+				n.parent.color = _Color.BLACK;
+				n.uncle.color = _Color.BLACK;
+				n.grand.color = _Color.RED;
 
-				this._Insert_case1(N.grandParent);
+				this._Insert_case1(n.grand);
 			}
 			else
-			{
-				this._Insert_case4(N);
-			}
+				this._Insert_case4(n);
         }
 
-		private _Insert_case4(node: _XTreeNode<T>): void
+		private _Insert_case4(n: _XTreeNode<T>): void
 		{
-			if (node == node.parent.right && node.parent == node.grandParent.left)
+			if (n == n.parent.right && n.parent == n.grand.left)
 			{
-				this._Rotate_left(node.parent);
-				node = node.left;
+				this._Rotate_left(n.parent);
+				n = n.left;
 			}
-			else if (node == node.parent.left && node.parent == node.grandParent.right)
+			else if (n == n.parent.left && n.parent == n.grand.right)
 			{
-				this._Rotate_right(node.parent);
-				node = node.right;
+				this._Rotate_right(n.parent);
+				n = n.right;
 			}
 
-			this._Insert_case5(node);
+			this._Insert_case5(n);
         }
 
-		private _Insert_case5(node: _XTreeNode<T>): void
+		private _Insert_case5(n: _XTreeNode<T>): void
 		{
-			node.parent.color = _Color.BLACK;
-			node.grandParent.color = _Color.RED;
+			n.parent.color = _Color.BLACK;
+			n.grand.color = _Color.RED;
 
-			if (node == node.parent.left && node.parent == node.grandParent.left)
-				this._Rotate_right(node.grandParent);
+			if (n == n.parent.left && n.parent == n.grand.left)
+				this._Rotate_right(n.grand);
 			else
-				this._Rotate_left(node.grandParent);
+				this._Rotate_left(n.grand);
 		}
 
 		/* ---------------------------------------------------------
@@ -179,9 +203,9 @@ namespace std.base
 		--------------------------------------------------------- */
 		public erase(val: T): void
 		{
-			let node = this.find(val);
-			if (node == null || this.equal_(val, node.value) == false)
-				return;
+			let node: _XTreeNode<T> = this.get(val);
+			if (node == null)
+				return; // UNABLE TO FIND THE MATCHED NODE
 
 			if (node.left != null && node.right != null)
 			{
@@ -192,53 +216,53 @@ namespace std.base
 			}
 
 			let child = (node.right == null) ? node.left : node.right;
-			
 			if (this._Fetch_color(node) == _Color.BLACK)
 			{
 				node.color = this._Fetch_color(child);
 				this._Erase_case1(node);
 			}
-
 			this._Replace_node(node, child);
+
+			if (this._Fetch_color(this.root_) == _Color.RED)
+				this.root_.color = _Color.BLACK;
         }
 
-		private _Erase_case1(N: _XTreeNode<T>): void
+		private _Erase_case1(n: _XTreeNode<T>): void
 		{
-			if (N.parent == null)
+			if (n.parent == null)
 				return;
 			else
-				this._Erase_case2(N);
+				this._Erase_case2(n);
         }
 
-		private _Erase_case2(N: _XTreeNode<T>): void
+		private _Erase_case2(n: _XTreeNode<T>): void
 		{
-			if (this._Fetch_color(N.sibling) == _Color.RED)
+			if (this._Fetch_color(n.sibling) == _Color.RED)
 			{
-				N.parent.color = _Color.RED;
-				N.sibling.color = _Color.BLACK;
+				n.parent.color = _Color.RED;
+				n.sibling.color = _Color.BLACK;
 
-				if (N == N.parent.left)
-					this._Rotate_left(N.parent);
+				if (n == n.parent.left)
+					this._Rotate_left(n.parent);
 				else
-					this._Rotate_right(N.parent);
+					this._Rotate_right(n.parent);
 			}
 
-			this._Erase_case3(N);
+			this._Erase_case3(n);
         }
 
-		private _Erase_case3(N: _XTreeNode<T>): void
+		private _Erase_case3(n: _XTreeNode<T>): void
 		{
-			if (this._Fetch_color(N.parent) == _Color.BLACK &&
-				this._Fetch_color(N.sibling) == _Color.BLACK &&
-				this._Fetch_color(N.sibling.left) == _Color.BLACK &&
-				this._Fetch_color(N.sibling.right) == _Color.BLACK)
+			if (this._Fetch_color(n.parent) == _Color.BLACK &&
+				this._Fetch_color(n.sibling) == _Color.BLACK &&
+				this._Fetch_color(n.sibling.left) == _Color.BLACK &&
+				this._Fetch_color(n.sibling.right) == _Color.BLACK)
 			{
-				N.sibling.color = _Color.RED;
-
-				this._Erase_case1(N.parent);
+				n.sibling.color = _Color.RED;
+				this._Erase_case1(n.parent);
 			}
 			else
-				this._Erase_case4(N);
+				this._Erase_case4(n);
         }
 
 		private _Erase_case4(N: _XTreeNode<T>): void
@@ -256,48 +280,47 @@ namespace std.base
 				this._Erase_case5(N);
         }
 
-		private _Erase_case5(N: _XTreeNode<T>): void
+		private _Erase_case5(n: _XTreeNode<T>): void
 		{
-			if (N == N.parent.left &&
-				N.sibling != null &&
-				this._Fetch_color(N.sibling) == _Color.BLACK &&
-				this._Fetch_color(N.sibling.left) == _Color.RED &&
-				this._Fetch_color(N.sibling.right) == _Color.BLACK)
+			if (n == n.parent.left &&
+				n.sibling != null &&
+				this._Fetch_color(n.sibling) == _Color.BLACK &&
+				this._Fetch_color(n.sibling.left) == _Color.RED &&
+				this._Fetch_color(n.sibling.right) == _Color.BLACK)
 			{
-				N.sibling.color = _Color.RED;
-				N.sibling.left.color = _Color.BLACK;
+				n.sibling.color = _Color.RED;
+				n.sibling.left.color = _Color.BLACK;
 
-				this._Rotate_right(N.sibling);
+				this._Rotate_right(n.sibling);
 			}
-			else if (N == N.parent.right &&
-				N.sibling != null &&
-				this._Fetch_color(N.sibling) == _Color.BLACK &&
-				this._Fetch_color(N.sibling.left) == _Color.BLACK &&
-				this._Fetch_color(N.sibling.right) == _Color.RED)
+			else if (n == n.parent.right &&
+				n.sibling != null &&
+				this._Fetch_color(n.sibling) == _Color.BLACK &&
+				this._Fetch_color(n.sibling.left) == _Color.BLACK &&
+				this._Fetch_color(n.sibling.right) == _Color.RED)
 			{
-				N.sibling.color = _Color.RED;
-				N.sibling.right.color = _Color.BLACK;
+				n.sibling.color = _Color.RED;
+				n.sibling.right.color = _Color.BLACK;
 
-				this._Rotate_left(N.sibling);
+				this._Rotate_left(n.sibling);
 			}
+			this._Erase_case6(n);
 		}
         
-		private _Erase_case6(node: _XTreeNode<T>): void
+		private _Erase_case6(n: _XTreeNode<T>): void
 		{
-			node.sibling.color = this._Fetch_color(node.parent);
-			node.parent.color = _Color.BLACK;
+			n.sibling.color = this._Fetch_color(n.parent);
+			n.parent.color = _Color.BLACK;
 
-			if (node == node.parent.left)
+			if (n == n.parent.left)
 			{
-				node.sibling.right.color = _Color.BLACK;
-
-				this._Rotate_left(node.parent);
+				n.sibling.right.color = _Color.BLACK;
+				this._Rotate_left(n.parent);
 			}
 			else
 			{
-				node.sibling.left.color = _Color.BLACK;
-				
-				this._Rotate_right(node.parent);
+				n.sibling.left.color = _Color.BLACK;
+				this._Rotate_right(n.parent);
 			}
 		}
 
