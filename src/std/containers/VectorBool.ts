@@ -320,20 +320,24 @@ namespace std.experiments
 		protected _Erase_by_range(first: VectorBool.Iterator, last: VectorBool.Iterator): VectorBool.Iterator
 		{
 			let elements: Vector<Pair<number, boolean>> = new Vector();
-			let last_index: number = this._Compute_index(last);
 
-			for (let it = this._Find_node(last_index); !it.equals(this.data_.end()); it = it.next())
+			if (last.equals(this.end()) == false)
 			{
-				let next: TreeMap.Iterator<number, boolean> = it.next();
-				let sx: number = Math.max(it.first, last_index);
-				let sy: number = next.equals(this.data_.end()) 
-					? this.size() // IT'S THE LAST ELEMENT
-					: next.first; // TO NEXT ELEMENT
+				let last_index: number = this._Compute_index(last);
 
-				let size: number = sy - sx;
-				let value: boolean = it.second;
-				
-				elements.push_back(std.make_pair(size, value));
+				for (let it = this._Find_node(last_index); !it.equals(this.data_.end()); it = it.next())
+				{
+					let next: TreeMap.Iterator<number, boolean> = it.next();
+					let sx: number = Math.max(it.first, last_index);
+					let sy: number = next.equals(this.data_.end()) 
+						? this.size() // IT'S THE LAST ELEMENT
+						: next.first; // TO NEXT ELEMENT
+
+					let size: number = sy - sx;
+					let value: boolean = it.second;
+					
+					elements.push_back(std.make_pair(size, value));
+				}
 			}
 
 			this.size_ = this._Compute_index(first);
@@ -343,9 +347,6 @@ namespace std.experiments
 				this.data_.end()
 			);
 			
-			console.log(this.size_, this.data_.size(), elements.size());
-			console.log(elements.front());
-
 			return this._Insert_to_end(elements);
 		}
 

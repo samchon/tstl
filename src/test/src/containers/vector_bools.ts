@@ -2,68 +2,157 @@
 
 namespace test
 {
-	export function test_vector_bools(): void
+	export function rand_bool(): boolean
 	{
-		for (let k: number = 0; k < 100; ++k)
-			_Test_vector_bool();
+		return Math.random() < .5 ? false : true;
+	}
+	export function rand_between(x, y): number
+	{
+		return Math.round(Math.random() * (y - x)) + x;
 	}
 
-	function _Test_vector_bool(): void
+	export function test_vector_bools()
 	{
-		// ASSIGN INITIAL-ELEMENTS
-		let x = new std.Vector(100, _Generate_random_bool());
-		let y = new std.experiments.VectorBool(x.begin(), x.end());	
+		let v: std.Vector<boolean> = new std.Vector();
+		let d: std.Deque<boolean> = new std.Deque();
+		let l: std.List<boolean> = new std.List();
+		let vb: std.experiments.VectorBool = new std.experiments.VectorBool();
+
+		//----
+		// PARTIAL TESTS
+		//----
+		// INITIALIZE WITH 10 FALSES
+		_Modify_bool_containers(v, d, l, vb, function (obj)
+		{
+			obj.assign(10, false);
+		});
+
+		// REPEAT INSERTIONS
+		for (let i: number = 0; i < 100; ++i)
+		{
+			let pos: number = rand_between(0, v.size());
+			let size: number = rand_between(1, 10);
+			let value: boolean = rand_bool();
+
+			_Modify_bool_containers(v, d, l, vb, function (obj)
+			{
+				obj.insert(obj.begin().advance(pos), size, value);
+			});
+			_Validate_bool_containers(v, d, l, vb);
+		}
+
+		// REPEAT DELETIONS
+		for (let i: number = 0; i < 100; ++i)
+		{
+			let first: number = rand_between(0, v.size() - 1);
+			let last: number = rand_between(first + 1, v.size());
+
+			_Modify_bool_containers(v, d, l, vb, function (obj)
+			{
+				obj.erase(obj.begin(), obj.end());
+			});
+			_Validate_bool_containers(v, d, l, vb);
+		}
+
+		//----
+		// REPEATED INSERTIONS & DELETIONS KEEPING SIZE
+		//----
+		// ASSIGN 10 FLAGS
+		let initial_value: boolean = rand_bool();
+
+		_Modify_bool_containers(v, d, l, vb, function (obj)
+		{
+			obj.assign(100, initial_value);
+		});
 
 		// CHANGE VALUES RANDOMLY
-		for (let i: number = 0; i < 100; ++i)
+		for (let i = 0; i < 100; ++i)
 		{
-			// GENERATE INDEX & VALUE
-			let index: number = _Generate_random_between(0, 99);
-			let value: boolean = _Generate_random_bool();
+			let index: number = rand_between(0, 99);
+			let value: boolean = rand_bool();
 
-			// DO CHANGE
-			x.set(index, value);
-			y.set(index, value);
+			_Modify_bool_containers(v, d, l, vb, function (obj)
+			{
+				(obj.begin().advance(index) as std.Vector.Iterator<boolean>).value = value;
+			});
+			_Validate_bool_containers(v, d, l, vb);
 		}
 
-		// REPEAT MASS DELETIONS AND INSERTIONS
-		console.log("----------------------------------------");
-		for (let i: number = 0; i < 100; ++i)
+		// MASS DELETIONS AND INSERTIONS KEEPING SIZE
+		for (let i = 0; i < 100; ++i)
 		{
 			// ERASE ELEMENTS
-			let first_index: number = _Generate_random_between(0, x.size());
-			let last_index: number = _Generate_random_between(first_index + 1, x.size());
-			
-			x.erase(x.begin().advance(first_index), x.begin().advance(last_index));
-			y.erase(y.begin().advance(first_index), y.begin().advance(last_index));
-			
+			let first_index: number = rand_between(0, v.size());
+			let last_index: number = rand_between(first_index + 1, v.size());
+
+			if (v.empty() || first_index >= last_index)
+				continue;
+
+			_Modify_bool_containers(v, d, l, vb, function (obj)
+			{
+				obj.erase(obj.begin().advance(first_index), obj.begin().advance(last_index));
+			});
+
 			// INSERT ELEMENTS
-			let index: number = _Generate_random_between(0, 99);
+			let index: number = rand_between(0, v.size());
 			let size: number = last_index - first_index;
-			let value: boolean = _Generate_random_bool();
+			let value: boolean = rand_bool();
 
-			x.insert(x.begin().advance(index), size, value);
-			y.insert(y.begin().advance(index), size, value);
+			_Modify_bool_containers(v, d, l, vb, function (obj)
+			{
+				obj.insert(obj.begin().advance(index), size, value);
+			});
 
-			console.log(first_index, last_index);
+			try
+			{
+				_Validate_bool_containers(v, d, l, vb);
+			} 
+			catch (exp)
+			{
+				console.log("Parameters", first_index, last_index, index, size, value);
+				for (let i: number = 0; i < v.size(); ++i)
+					if (v.at(i) != vb.at(i))
+					{
+						if (i != 0)
+							console.log("Previous Index => " + (i-1), v.at(i-1), vb.at(i-1));
+						console.log("Index => " + i, v.at(i), vb.at(i));
+						
+						break;
+					}
+
+				throw exp;
+			}
 		}
-
-		// VALIDATE
-		console.log("Sizes:" + x.size(), y.size());
-		console.log("----------------------------------------");
-
-		if (std.equal(x.begin(), x.end(), y.begin()) == false)
-			throw new std.DomainError("vector_bool is invalid.");
 	}
 
-	function _Generate_random_between(x, y)
+	function _Validate_bool_containers
+		(
+			v: std.Vector<boolean>, 
+			d: std.Deque<boolean>, 
+			l: std.List<boolean>, 
+			vb: std.experiments.VectorBool
+		): void
 	{
-		let ret = Math.random() * (y - x);
-		return Math.round(ret) + x;
+		if (v.size() != d.size() || std.equal(v.begin(), v.end(), d.begin()) == false)
+			throw new std.DomainError("Invalid deque");
+		else if (v.size() != l.size() || std.equal(v.begin(), v.end(), l.begin()) == false)
+			throw new std.DomainError("Invalid list");
+		else if (v.size() != vb.size() || std.equal(v.begin(), v.end(), vb.begin()) == false)
+			throw new std.DomainError("Invalid vector_bool");
 	}
 
-	function _Generate_random_bool()
+	function _Modify_bool_containers
+		(
+			v: std.Vector<boolean>, 
+			d: std.Deque<boolean>, 
+			l: std.List<boolean>, 
+			vb: std.experiments.VectorBool, 
+			func: (container: std.base.ILinearContainer<boolean>) => void
+		): void
 	{
-		return (Math.random() < .5) ? false : true;
+		func(v);
+		func(d);
+		func(l);
+		func(vb);
 	}
 }

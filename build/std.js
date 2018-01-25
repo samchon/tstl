@@ -1,13 +1,21 @@
 const fs = require("fs");
-const process = require("child_process");
+const cmd = require("child_process");
 
 function compile()
 {
 	const STD_FILE = __dirname + "/../src/std/tsconfig.json";
 	
-	// KEEP COMMENTS ONLY IN THE DECLARATION
-	process.execSync("tsc -p " + STD_FILE);
-	process.execSync("tsc -p " + STD_FILE + " --removeComments --declaration false");
+	try
+	{
+		// KEEP COMMENTS ONLY IN THE DECLARATION
+		cmd.execSync("tsc -p " + STD_FILE);
+		cmd.execSync("tsc -p " + STD_FILE + " --removeComments --declaration false");
+	}
+	catch (exp)
+	{
+		console.log(exp.stdout.toString());
+		process.exit();
+	}
 }
 
 function attach_header()
@@ -55,7 +63,7 @@ function remove_dynamics()
 
 function minify()
 {
-	process.execSync("minify " + __dirname + "/../lib/tstl.js");
+	cmd.execSync("minify " + __dirname + "/../lib/tstl.js");
 }
 
 function main()
