@@ -36,89 +36,75 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public find_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
+		private _Nearest_by_key
+			(
+				key: Key, 
+				equal_mover: (node: _XTreeNode<MapIterator<Key, T, Source>>) => _XTreeNode<MapIterator<Key, T, Source>>
+			): _XTreeNode<MapIterator<Key, T, Source>>
 		{
-			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
-			if (node == null)
+			// NEED NOT TO ITERATE
+			if (this.root_ == null)
 				return null;
 
-			// FOR THE DUPLICATE KEY
+			//----
+			// ITERATE
+			//----
+			let ret: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
 			let matched: _XTreeNode<MapIterator<Key, T, Source>> = null;
 
 			while (true)
 			{
-				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
+				let it: MapIterator<Key, T, Source> = ret.value;
+				let my_node: _XTreeNode<MapIterator<Key, T, Source>> = null;
 
-				if (this.key_eq()(key, node.value.first))
-				{
-					matched = node;
-					myNode = node.left;
-				}
-				else if (this.key_comp()(key, node.value.first))
-					myNode = node.left; // LESS, THEN TO THE LEFT
+				// COMPARE
+				if (this.key_comp()(key, it.first))
+					my_node = ret.left;
+				else if (this.key_comp()(it.first, key))
+					my_node = ret.right;
 				else
-					myNode = node.right; // GREATER, THEN TO THE RIGHT
+				{
+					// EQUAL, RESERVE THAT POINT
+					matched = ret;
+					my_node = equal_mover(ret);
+				}
 
 				// ULTIL CHILD NODE EXISTS
-				if (myNode == null)
+				if (my_node == null)
 					break;
-				
-				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-				node = myNode;
+				else
+					ret = my_node;
 			}
 
-			// RETURN BRANCH
-			if (matched != null)
-				return matched;
-			else
-				return node;
+			// RETURNS -> MATCHED OR NOT
+			return (matched != null) ? matched : ret;
+		}
+
+		public nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
+		{
+			return this._Nearest_by_key(key, function (node)
+			{
+				return node.left;
+			});
 		}
 
 		public upper_bound(key: Key): MapIterator<Key, T, Source>
 		{
-			//--------
 			// FIND MATCHED NODE
-			//--------
-			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
-			if (node == null)
+			let node: _XTreeNode<MapIterator<Key, T, Source>> = this._Nearest_by_key(key, 
+				function (node)
+				{
+					return node.right;
+				});
+			if (node == null) // NOTHING
 				return this.source().end() as MapIterator<Key, T, Source>;
 
-			// FOR THE DUPLICATE KEY
-			let matched: _XTreeNode<MapIterator<Key, T, Source>> = null;
-
-			while (true)
-			{
-				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
-
-				if (this.key_eq()(key, node.value.first))
-				{
-					matched = node;
-					myNode = node.right;
-				}
-				else if (this.key_comp()(key, node.value.first))
-					myNode = node.left; // LESS, THEN TO THE LEFT
-				else
-					myNode = node.right; // GREATER, THEN TO THE RIGHT
-
-				// ULTIL CHILD NODE EXISTS
-				if (myNode == null)
-					break;
-				
-				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-				node = myNode;
-			}
-
-			//--------
-			// RETURN BRACH
-			//--------
-			if (matched != null) // MATCHED KEY EXISTS
-				return matched.value.next();
-
+			// MUST BE it.first > key
 			let it: MapIterator<Key, T, Source> = node.value;
-			if (this.key_comp()(it.first, key) || this.key_eq()(it.first, key)) // it.first <= key
-				return it.next();
-			else // it.first > key
+			if (this.key_comp()(key, it.first))
 				return it;
+			else
+				return it.next();
 		}
 	}
 }

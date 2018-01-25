@@ -120,7 +120,7 @@ namespace std
 		========================================================= */
 		public find(key: Key): TreeMap.Iterator<Key, T>
 		{
-			let node = this.tree_.find_by_key(key);
+			let node = this.tree_.nearest_by_key(key);
 
 			if (node == null || this.tree_.key_eq()(node.value.first, key) == false)
 				return this.end();

@@ -26,51 +26,52 @@ namespace std.base
 		/* ---------------------------------------------------------
 			FINDERS
 		--------------------------------------------------------- */
-		public find_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
+		public nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
 		{
-			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
-			if (node == null)
+			// NEED NOT TO ITERATE
+			if (this.root_ == null)
 				return null;
 
-			while (true)
+			//----
+			// ITERATE
+			//----
+			let ret: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
+			
+			while (true) // UNTIL MEET THE MATCHED VALUE OR FINAL BRANCH
 			{
-				let it: MapIterator<Key, T, Source> = node.value;
-				let myNode: _XTreeNode<MapIterator<Key, T, Source>> = null;
+				let it: MapIterator<Key, T, Source> = ret.value;
+				let my_node: _XTreeNode<MapIterator<Key, T, Source>> = null;
 				
-				if (this.key_eq()(key, it.first))
-					break;
-				else if (this.key_comp()(key, it.first))
-					myNode = node.left;
+				// COMPARE
+				if (this.key_comp()(key, it.first))
+					my_node = ret.left;
+				else if (this.key_comp()(it.first, key))
+					my_node = ret.right;
 				else
-					myNode = node.right;
+					return ret; // MATCHED VALUE
 
-				// ULTIL CHILD NODE EXISTS
-				if (myNode == null)
+				// FINAL BRANCH? OR KEEP GOING
+				if (my_node == null)
 					break;
-				
-				// SHIFT A NEW NODE TO THE NODE TO BE RETURNED
-				node = myNode;
+				else
+					ret = my_node;
 			}
-			return node;
+			return ret; // DIFFERENT NODE
 		}
 
 		public upper_bound(key: Key): MapIterator<Key, T, Source>
 		{
-			//--------
 			// FIND MATCHED NODE
-			//--------
-			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.find_by_key(key);
+			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.nearest_by_key(key);
 			if (node == null)
 				return this.source().end() as MapIterator<Key, T, Source>;
 
-			//--------
-			// RETURN BRANCH
-			//--------
+			// MUST BE it.first > key
 			let it: MapIterator<Key, T, Source> = node.value;
-			if (this.key_eq()(it.first, key) || this.key_comp()(it.first, key)) // it.first <= key
-				return it.next();
-			else // it.first > key
+			if (this.key_comp()(key, it.first))
 				return it;
+			else
+				return it.next();
         }
 	}
 }
