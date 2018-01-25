@@ -169,7 +169,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Insert_by_repeating_val(position: ArrayIterator<T, Source>, n: number, val: T): ArrayIterator<T, Source>
+		protected _Insert_by_repeating_val(position: ArrayIterator<T, Source>, n: number, val: T): ArrayIterator<T, Source>
 		{
 			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
 			let last: base._Repeater<T> = new base._Repeater<T>(n);

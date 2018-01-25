@@ -80,6 +80,12 @@ namespace std.experiments
 			this.size_ = 0;
 		}
 
+		public flip(): void
+		{
+			for (let entry of this.data_)
+				entry.second = !entry.second;
+		}
+
 		public swap(obj: VectorBool): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];
@@ -222,6 +228,19 @@ namespace std.experiments
 		/* ---------------------------------------------------------
 			INSERT
 		--------------------------------------------------------- */
+		protected _Insert_by_repeating_val(pos: VectorBool.Iterator, n: number, val: boolean): VectorBool.Iterator
+		{
+			// RESERVE ELEMENTS -> THE REPEATED COUNT AND VALUE
+			let elements: Vector<Pair<number, boolean>> = new Vector();
+			elements.push_back(std.make_pair(n, val));
+
+			// DO INSERT
+			if (pos.equals(this.end()) == true)
+				return this._Insert_to_end(elements);
+			else
+				return this._Insert_to_middle(pos, elements);
+		}
+
 		/**
 		 * @hidden
 		 */
