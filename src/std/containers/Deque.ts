@@ -280,7 +280,7 @@ namespace std
 		public pop_front(): void
 		{
 			if (this.empty() == true)
-				return; // SOMEWHERE PLACE TO THROW EXCEPTION
+				return; // TODO: THROW EXCEPTION
 
 			// EREASE FIRST ELEMENT
 			this.matrix_[0].shift();
@@ -294,7 +294,7 @@ namespace std
 		public pop_back(): void
 		{
 			if (this.empty() == true)
-				return; // SOMEWHERE PLACE TO THROW EXCEPTION
+				return; // TODO: THROW EXCEPTION
 
 			// ERASE LAST ELEMENT
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
