@@ -24,7 +24,7 @@ namespace std.base
 
 		public insert(hint: SetReverseIterator<T, Source>, val: T): SetReverseIterator<T, Source>;
 
-		public insert<U extends T, InputIterator extends Iterator<U>>
+		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any

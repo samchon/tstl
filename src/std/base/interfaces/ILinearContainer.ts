@@ -6,7 +6,7 @@
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		assign<U extends T, InputIterator extends Iterator<U>>
+		assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 		
 		assign(n: number, val: T): void;
@@ -33,7 +33,7 @@
 
 		insert(position: Iterator<T>, n: number, val: T): Iterator<T>;
 
-		insert<U extends T, InputIterator extends Iterator<U>>
+		insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(position: Iterator<T>, first: InputIterator, last: InputIterator): Iterator<T>;
 	}
 
