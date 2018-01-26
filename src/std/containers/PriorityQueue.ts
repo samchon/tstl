@@ -25,11 +25,7 @@ namespace std
 		 */
 		private container_: TreeMultiSet<T>;
 
-		/* =========================================================
-			CONSTRUCTORS & SEMI-CONSTRUCTORS
-				- CONSTRUCTORS
-				- ASSIGN & CLEAR
-		============================================================
+		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
@@ -90,6 +86,11 @@ namespace std
 				post_process();
 		}
 
+		public swap(obj: PriorityQueue<T>): void
+		{
+			this.container_.swap(obj.container_);
+		}
+
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
@@ -101,6 +102,11 @@ namespace std
 		public empty(): boolean
 		{
 			return this.container_.empty();
+		}
+
+		public value_comp(): (x: T, y: T) => boolean
+		{
+			return this.container_.value_comp();
 		}
 
 		/* ---------------------------------------------------------
@@ -119,11 +125,6 @@ namespace std
 		public pop(): void
 		{
 			this.container_.erase(this.container_.begin());
-		}
-
-		public swap(obj: PriorityQueue<T>): void
-		{
-			this.container_.swap(obj.container_);
 		}
 	}
 }

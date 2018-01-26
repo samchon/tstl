@@ -110,6 +110,16 @@ namespace std
 
 			this.tree_.clear();
 		}
+
+		public swap(obj: TreeSet<T>): void
+		{
+			// SWAP CONTENTS
+			super.swap(obj);
+
+			// SWAP RB-TREE
+			[this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
+			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
+		}
 		
 		/* =========================================================
 			ACCESSORS
@@ -150,7 +160,6 @@ namespace std
 			ELEMENTS I/O
 				- INSERT
 				- POST-PROCESS
-				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -240,19 +249,6 @@ namespace std
 		{
 			for (; !first.equals(last); first = first.next())
 				this.tree_.erase(first);
-		}
-
-		/* ---------------------------------------------------------
-			SWAP
-		--------------------------------------------------------- */
-		public swap(obj: TreeSet<T>): void
-		{
-			// SWAP CONTENTS
-			super.swap(obj);
-
-			// SWAP RB-TREE
-			[this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
-			[this.tree_, obj.tree_] = [obj.tree_, this.tree_];
 		}
 	}
 }

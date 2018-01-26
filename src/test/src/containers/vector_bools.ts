@@ -13,6 +13,15 @@ namespace test
 
 	export function test_vector_bools()
 	{
+		_Test_vector_bool_elements_io();
+		_Test_vector_bool_flip();
+	}
+
+	/* ---------------------------------------------------------
+		ELEMENTS I/O
+	--------------------------------------------------------- */
+	function _Test_vector_bool_elements_io()
+	{
 		let v: std.Vector<boolean> = new std.Vector();
 		let d: std.Deque<boolean> = new std.Deque();
 		let l: std.List<boolean> = new std.List();
@@ -154,5 +163,22 @@ namespace test
 		func(d);
 		func(l);
 		func(vb);
+	}
+
+	/* ---------------------------------------------------------
+		FLIP
+	--------------------------------------------------------- */
+	function _Test_vector_bool_flip()
+	{
+		let vb = new std.experiments.VectorBool();
+		for (let i: number = 0; i < 100; ++i)
+			vb.push_back(rand_bool());
+
+		let cpy = new std.experiments.VectorBool(vb);
+		cpy.flip();
+
+		let valid = std.equal(vb.begin(), vb.end(), cpy.begin(), std.not_equal_to);
+		if (valid == false)
+			throw new std.DomainError("Error on std.vector_bool.flip().");
 	}
 }

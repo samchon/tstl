@@ -41,10 +41,10 @@ namespace std.experiments
 			if (args.length == 1 && args[0] instanceof VectorBool)
 			{
 				// COPY CONSTRUCTOR
-				let first: IForwardIterator<boolean> = args[0].begin();
-				let last: IForwardIterator<boolean> = args[0].end();
+				let obj: VectorBool = args[0];
 
-				this.assign(first, last);
+				this.data_ = new TreeMap(obj.data_.begin(), obj.data_.end());
+				this.size_ = obj.size_;
 			}
 			else if (args.length == 1 && args[0] instanceof Array)
 			{
@@ -208,7 +208,7 @@ namespace std.experiments
 			let index: number = this.size_++;
 
 			// EMPLACE OR NOT
-			if (it.second != val)
+			if (this.data_.empty() || it.second != val)
 				this.data_.emplace(index, val);
 		}
 

@@ -80,6 +80,11 @@ namespace std
 			this.data_.length = n;
 		}
 
+		public swap(obj: Vector<T>): void
+		{
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+		}
+
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
@@ -112,6 +117,11 @@ namespace std
 			return this.data_;
 		}
 
+		public equals(obj: Vector<T>): boolean
+		{
+			return this.data_ == obj.data_;
+		}
+
 		public [Symbol.iterator](): IterableIterator<T>
 		{
 			return this.data_[Symbol.iterator]();
@@ -121,7 +131,6 @@ namespace std
 			ELEMENTS I/O
 				- INSERT
 				- ERASE
-				- SWAP
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
@@ -196,19 +205,6 @@ namespace std
 				this.data_.splice(first.index(), last.index() - first.index());
 
 			return first;
-		}
-
-		/* ---------------------------------------------------------------
-			SWAP
-		--------------------------------------------------------------- */
-		public equals(obj: Vector<T>): boolean
-		{
-			return this.data_ == obj.data_;
-		}
-
-		public swap(obj: Vector<T>): void
-		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
 		}
 	}
 }

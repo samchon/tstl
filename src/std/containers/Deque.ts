@@ -155,6 +155,14 @@ namespace std
 			this.reserve(this.size());
 		}
 
+		public swap(obj: Deque<T>): void
+		{
+			// SWAP CONTENTS
+			[this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
+			[this.size_, obj.size_] = [obj.size_, this.size_];
+			[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
+		}
+
 		/* =========================================================
 			ACCESSORS
 				- BASIC ELEMENTS
@@ -236,7 +244,6 @@ namespace std
 				- PUSH & POP
 				- INSERT
 				- ERASE
-				- SWAP
 		============================================================
 			PUSH & POP
 		--------------------------------------------------------- */
@@ -532,17 +539,6 @@ namespace std
 				return this.end();
 			else
 				return first;
-		}
-
-		/* ---------------------------------------------------------
-			SWAP
-		--------------------------------------------------------- */
-		public swap(obj: Deque<T>): void
-		{
-			// SWAP CONTENTS
-			[this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
-			[this.size_, obj.size_] = [obj.size_, this.size_];
-			[this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
 		}
 
 		/* ---------------------------------------------------------

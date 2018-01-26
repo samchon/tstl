@@ -121,6 +121,16 @@ namespace std
 			super.clear();
 		}
 
+		public swap(obj: HashSet<T>): void
+		{
+			// SWAP CONTENTS
+			super.swap(obj);
+
+			// SWAP BUCKETS
+			[this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+			[this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
+		}
+
 		/* =========================================================
 			ACCESSORS
 				- MEMBER
@@ -322,19 +332,6 @@ namespace std
 		{
 			for (; !first.equals(last); first = first.next())
 				this.buckets_.erase(first);
-		}
-
-		/* ---------------------------------------------------------
-			SWAP
-		--------------------------------------------------------- */
-		public swap(obj: HashSet<T>): void
-		{
-			// SWAP CONTENTS
-			super.swap(obj);
-
-			// SWAP BUCKETS
-			[this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
-			[this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
 		}
 	}
 }
