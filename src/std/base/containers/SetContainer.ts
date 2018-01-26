@@ -174,7 +174,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_range<U extends T, InputIterator extends Iterator<U>>
+		protected abstract _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/* ---------------------------------------------------------
