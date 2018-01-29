@@ -26,6 +26,8 @@ namespace std
 	export import vector = Vector;
 	export import deque = Deque;
 	export import list = List;
+
+	export import vector_bool = VectorBool;
 	export import forward_list = ForwardList;
 
 	/* ---------------------------------------------------------
@@ -111,11 +113,9 @@ namespace std.experiments
 
 	export var semaphore = Semaphore;
 	export var timed_semaphore = TimedSemaphore;
-
-	export import vector_bool = VectorBool;
 }
 
 try
 {
 	module.exports = std;
-} catch (exception) {}
+} catch {}

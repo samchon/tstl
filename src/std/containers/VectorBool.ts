@@ -3,7 +3,7 @@
 /// <reference path="../base/containers/ArrayContainer.ts" />
 /// <reference path="../base/iterators/ArrayIterator.ts" />
 
-namespace std.experiments
+namespace std
 {
 	export class VectorBool extends base.ArrayContainer<boolean, VectorBool>
 	{
@@ -383,7 +383,7 @@ namespace std.experiments
 /**
  * @hidden
  */
-namespace std.experiments.VectorBool
+namespace std.VectorBool
 {
 	//----
 	// PASCAL NOTATION

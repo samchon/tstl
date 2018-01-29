@@ -6,6 +6,8 @@
 /// <reference path="containers/Vector.ts" />
 /// <reference path="containers/Deque.ts" />
 /// <reference path="containers/List.ts" />
+
+/// <reference path="containers/VectorBool.ts" />
 /// <reference path="containers/ForwardList.ts" />
 
 //--------
