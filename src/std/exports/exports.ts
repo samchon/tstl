@@ -27,7 +27,7 @@ namespace std
 	export import deque = Deque;
 	export import list = List;
 
-	export import vector_bool = VectorBool;
+	export import vector_bool = VectorBoolean;
 	export import forward_list = ForwardList;
 
 	/* ---------------------------------------------------------

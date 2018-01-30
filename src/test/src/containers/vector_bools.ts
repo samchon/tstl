@@ -25,7 +25,7 @@ namespace test
 		let v: std.Vector<boolean> = new std.Vector();
 		let d: std.Deque<boolean> = new std.Deque();
 		let l: std.List<boolean> = new std.List();
-		let vb: std.VectorBool = new std.VectorBool();
+		let vb: std.VectorBoolean = new std.VectorBoolean();
 
 		//----
 		// PARTIAL TESTS
@@ -139,7 +139,7 @@ namespace test
 			v: std.Vector<boolean>, 
 			d: std.Deque<boolean>, 
 			l: std.List<boolean>, 
-			vb: std.VectorBool
+			vb: std.VectorBoolean
 		): void
 	{
 		if (v.size() != d.size() || std.equal(v.begin(), v.end(), d.begin()) == false)
@@ -155,7 +155,7 @@ namespace test
 			v: std.Vector<boolean>, 
 			d: std.Deque<boolean>, 
 			l: std.List<boolean>, 
-			vb: std.VectorBool, 
+			vb: std.VectorBoolean, 
 			func: (container: std.base.ILinearContainer<boolean>) => void
 		): void
 	{
@@ -170,11 +170,11 @@ namespace test
 	--------------------------------------------------------- */
 	function _Test_vector_bool_flip()
 	{
-		let vb = new std.VectorBool();
+		let vb = new std.VectorBoolean();
 		for (let i: number = 0; i < 100; ++i)
 			vb.push_back(rand_bool());
 
-		let cpy = new std.VectorBool(vb);
+		let cpy = new std.VectorBoolean(vb);
 		cpy.flip();
 
 		let valid = std.equal(vb.begin(), vb.end(), cpy.begin(), std.not_equal_to);

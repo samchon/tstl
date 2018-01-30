@@ -5,7 +5,7 @@
 
 namespace std
 {
-	export class VectorBool extends base.ArrayContainer<boolean, VectorBool>
+	export class VectorBoolean extends base.ArrayContainer<boolean, VectorBoolean>
 	{
 		//----
 		// first => (index: number)
@@ -29,7 +29,7 @@ namespace std
 			CONSTURCTORS
 		--------------------------------------------------------- */
 		public constructor();
-		public constructor(obj: VectorBool);
+		public constructor(obj: VectorBoolean);
 		public constructor(array: boolean[]);
 		public constructor(n: number, val: boolean);
 		public constructor(first: IForwardIterator<boolean>, last: IForwardIterator<boolean>);
@@ -38,10 +38,10 @@ namespace std
 		{
 			super();
 
-			if (args.length == 1 && args[0] instanceof VectorBool)
+			if (args.length == 1 && args[0] instanceof VectorBoolean)
 			{
 				// COPY CONSTRUCTOR
-				let obj: VectorBool = args[0];
+				let obj: VectorBoolean = args[0];
 
 				this.data_ = new TreeMap(obj.data_.begin(), obj.data_.end());
 				this.size_ = obj.size_;
@@ -86,7 +86,7 @@ namespace std
 				entry.second = !entry.second;
 		}
 
-		public swap(obj: VectorBool): void
+		public swap(obj: VectorBoolean): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 			[this.size_, obj.size_] = [obj.size_, this.size_];
@@ -228,7 +228,7 @@ namespace std
 		/* ---------------------------------------------------------
 			INSERT
 		--------------------------------------------------------- */
-		protected _Insert_by_repeating_val(pos: VectorBool.Iterator, n: number, val: boolean): VectorBool.Iterator
+		protected _Insert_by_repeating_val(pos: VectorBoolean.Iterator, n: number, val: boolean): VectorBoolean.Iterator
 		{
 			// RESERVE ELEMENTS -> THE REPEATED COUNT AND VALUE
 			let elements: Vector<Pair<number, boolean>> = new Vector();
@@ -245,7 +245,7 @@ namespace std
 		 * @hidden
 		 */
 		protected _Insert_by_range<InputIterator extends IForwardIterator<boolean>>
-			(pos: VectorBool.Iterator, first: InputIterator, last: InputIterator): VectorBool.Iterator
+			(pos: VectorBoolean.Iterator, first: InputIterator, last: InputIterator): VectorBoolean.Iterator
 		{
 			// RESERVE ELEMENTS -> REPEATED SIZE & VALUE
 			let elements: Vector<Pair<number, boolean>> = new Vector();
@@ -267,7 +267,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private _Insert_to_middle(pos: VectorBool.Iterator, elements: Vector<Pair<number, boolean>>): VectorBool.Iterator
+		private _Insert_to_middle(pos: VectorBoolean.Iterator, elements: Vector<Pair<number, boolean>>): VectorBoolean.Iterator
 		{
 			let first = this._Find_node(pos.index());
 
@@ -307,7 +307,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private _Insert_to_end(elements: Vector<Pair<number, boolean>>): VectorBool.Iterator
+		private _Insert_to_end(elements: Vector<Pair<number, boolean>>): VectorBoolean.Iterator
 		{
 			let old_size: number = this.size();
 			let last_value: boolean = this.data_.empty() ? null : this.data_.rbegin().second;
@@ -336,7 +336,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: VectorBool.Iterator, last: VectorBool.Iterator): VectorBool.Iterator
+		protected _Erase_by_range(first: VectorBoolean.Iterator, last: VectorBoolean.Iterator): VectorBoolean.Iterator
 		{
 			let elements: Vector<Pair<number, boolean>> = new Vector();
 
@@ -369,7 +369,7 @@ namespace std
 			return this._Insert_to_end(elements);
 		}
 
-		private _Compute_index(it: VectorBool.Iterator): number
+		private _Compute_index(it: VectorBoolean.Iterator): number
 		{
 			let ret: number = it.index();
 			if (ret == -1)
@@ -383,14 +383,14 @@ namespace std
 /**
  * @hidden
  */
-namespace std.VectorBool
+namespace std.VectorBoolean
 {
 	//----
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator = base.ArrayIterator<boolean, VectorBool>;
-	export type ReverseIterator = base.ArrayReverseIterator<boolean, VectorBool>;
+	export type Iterator = base.ArrayIterator<boolean, VectorBoolean>;
+	export type ReverseIterator = base.ArrayReverseIterator<boolean, VectorBoolean>;
 
 	// BODY
 	export var Iterator = base.ArrayIterator;
