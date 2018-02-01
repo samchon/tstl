@@ -1,21 +1,23 @@
+
 # **T**ypeScript **S**tandard **T**emplate **L**ibrary
-[![NPM](https://nodei.co/npm/tstl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/tstl)
-  - GitHub Repository: https://github.com/samchon/tstl
-  - Guide Documents: https://github.com/samchon/tstl/wiki
+[![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
+[![Downloads](https://img.shields.io/npm/dm/tstl.svg)](https://www.npmjs.com/package/tstl)
+[![Chat on Gitter](https://badges.gitter.im/samchon/tstl.svg)](https://gitter.im/samchon/tstl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![DeepScan Grade](https://deepscan.io/api/projects/1799/branches/7793/badge/grade.svg)](https://deepscan.io/dashboard/#view=project&pid=1799&bid=7793)
 
-
-
-## Introduction
 Implementation of STL (Standard Template Library) in TypeScript.
   - Containers
   - Iterators
   - Algorithms
   - Functors
 
-**T**ypeScript-**STL** is an open-source project providing features of STL, migrated from *C++* to *TypeScript*. You can enjoy the STL's own specific *coantainers*, *algorithms* and *functors* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
+**TSTL** is an open-source project providing features of STL, migrated from *C++* to *TypeScript*. You can enjoy the STL's own specific *coantainers*, *algorithms* and *functors* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
 
-Below components are list of provided objects in the **T**ypeScript-**STL**. If you want to know more about the **TypeScript-STL**, then please read the [**Guide Documents**](https://github.com/samchon/tstl/wiki).
+Below components are list of provided objects in the **TSTL**. If you want to know more about the **TSTL**, then please read the [**Guide Documents**](https://github.com/samchon/tstl/wiki).
 
+
+
+## Features
 ### Containers
   - **Linear Containers**
     - [Vector `vector`](http://samchon.github.io/tstl/api/classes/std.vector.html)
