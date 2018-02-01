@@ -92,10 +92,9 @@ namespace std
 		--------------------------------------------------------- */
 		public assign(n: number, val: T): void;
 		public assign<U extends T, InputIterator extends IForwardIterator<U>>
-			(begin: InputIterator, end: InputIterator): void;
+			(first: InputIterator, last: InputIterator): void;
 
-		public assign<U extends T, InputIterator extends IForwardIterator<U>>
-			(par1: any, par2: any): void
+		public assign(par1: any, par2: any): void
 		{
 			this.clear();
 			this.insert(this.end(), par1, par2);
@@ -216,7 +215,7 @@ namespace std
 
 			while (!it.equals(this.end()))
 			{
-				if (equal_to(it.value, it.prev().value) == true)
+				if (binary_pred(it.value, it.prev().value) == true)
 					it = this.erase(it);
 				else
 					it = it.next();
@@ -225,15 +224,10 @@ namespace std
 
 		public remove(val: T): void
 		{
-			let it = this.begin();
-
-			while (!it.equals(this.end()))
+			this.remove_if(function (x: T): boolean
 			{
-				if (equal_to(it.value, val) == true)
-					it = this.erase(it);
-				else
-					it = it.next();
-			}
+				return x == val;
+			});
 		}
 
 		public remove_if(pred: (val: T) => boolean): void

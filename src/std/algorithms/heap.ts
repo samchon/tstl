@@ -27,17 +27,17 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	export function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
 
 	export function push_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): void
+		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
 		let last_item_it = last.prev();
 		let less_it: RandomAccessIterator = null;
 		
 		for (let it = first; !it.equals(last_item_it); it = it.next() as RandomAccessIterator)
 		{
-			if (compare(it.value, last_item_it.value))
+			if (comp(it.value, last_item_it.value))
 			{
 				less_it = it;
 				break;
@@ -57,11 +57,14 @@ namespace std
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	export function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
+		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
 
 	export function pop_heap<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): void
+		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
+		if (is_heap(first, last, comp) == false)
+			throw new std.InvalidArgument("Elements are not sorted by heap.");
+
 		let container = first.source() as base.IArrayContainer<T>;
 
 		container.insert(last, first.value);
@@ -86,15 +89,15 @@ namespace std
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
 	export function is_heap_until<T, ForwardIterator extends IForwardIterator<T>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
+		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean): ForwardIterator;
 
 	export function is_heap_until<T, ForwardIterator extends IForwardIterator<T>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
+		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		let prev = first;
 		for (let it = first.next() as ForwardIterator; !it.equals(last); it = it.next() as ForwardIterator)
 		{
-			if (compare(prev.value, it.value) == true)
+			if (comp(prev.value, it.value) == true)
 				return it;
 
 			prev = it;

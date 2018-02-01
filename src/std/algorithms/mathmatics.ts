@@ -155,12 +155,19 @@ namespace std
 		let last2: Iterator2 = first2.advance(distance(first1, last1)) as Iterator2;
 
 		for (let it = first1; !it.equals(last1); it = it.next() as Iterator1)
-			if (find(first1, it, it.value).equals(it))
+		{
+			let lamda = function (val: T): boolean 
+			{
+				return pred(val, it.value);
+			};
+
+			if (find_if(first1, it, lamda).equals(it))
 			{
 				let n: number = count(first2, last2, it.value);
 				if (n == 0 || count(it, last1, it.value) != n)
 					return false;
 			}
+		}
 		return true;
 	}
 
@@ -168,10 +175,10 @@ namespace std
 		(first: BidirectionalIterator, last: BidirectionalIterator): boolean;
 
 	export function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
-		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean): boolean;
+		(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean): boolean;
 
 	export function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
-		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = less): boolean
+		(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean = less): boolean
 	{
 		if (first.equals(last) == true)
 			return false;
@@ -186,10 +193,10 @@ namespace std
 			let y: BidirectionalIterator;
 
 			i = i.prev() as BidirectionalIterator;
-			if (compare(x.value, i.value) == true)
+			if (comp(x.value, i.value) == true)
 			{
 				y = last.prev() as BidirectionalIterator;
-				while (compare(y.value, i.value) == false)
+				while (comp(y.value, i.value) == false)
 					y = y.prev() as BidirectionalIterator;
 				
 				iter_swap(i, y);

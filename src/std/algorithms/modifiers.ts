@@ -176,7 +176,7 @@ namespace std
 
 		for (let it = first.next(); !it.equals(last);)
 		{
-			if (equal_to(it.value, it.prev().value) == true)
+			if (pred(it.value, it.prev().value) == true)
 				it = it.source().erase(it) as InputIterator;
 			else
 			{
