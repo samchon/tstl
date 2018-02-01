@@ -96,7 +96,7 @@ namespace std
 			Iterator1 extends IForwardIterator<T1>, Iterator2 extends IForwardIterator<T2>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
-			compare: (x: T, y: T) => boolean
+			comp: (x: T, y: T) => boolean
 		) : boolean;
 	
 	export function lexicographical_compare
@@ -104,20 +104,20 @@ namespace std
 			Iterator1 extends IForwardIterator<T1>, Iterator2 extends IForwardIterator<T2>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
-			compare: (x: T, y: T) => boolean = less
+			comp: (x: T, y: T) => boolean = less
 		): boolean
 	{
 		while (!first1.equals(last1))
-			if (first2.equals(last2) || !compare(first1.value, first2.value))
+			if (first2.equals(last2) || comp(first2.value, first1.value))
 				return false;
-			else if (compare(first1.value, first2.value))
+			else if (comp(first1.value, first2.value))
 				return true;
 			else
 			{
 				first1 = first1.next() as Iterator1;
 				first2 = first2.next() as Iterator2;
 			}
-
+			
 		return !first2.equals(last2);
 	}
 
@@ -166,7 +166,7 @@ namespace std
 	export function find_end<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
-			compare: (x: T, y: T) => boolean = equal_to
+			pred: (x: T, y: T) => boolean = equal_to
 		): Iterator1
 	{
 		if (first2.equals(last2))
@@ -179,7 +179,7 @@ namespace std
 			let it1: Iterator1 = first1;
 			let it2: Iterator2 = first2;
 
-			while (equal_to(it1.value, it2.value))
+			while (pred(it1.value, it2.value))
 			{
 				it1 = it1.next() as Iterator1;
 				it2 = it2.next() as Iterator2;
@@ -234,7 +234,7 @@ namespace std
 
 			while (!next.equals(last))
 			{
-				if (equal_to(first.value, last.value))
+				if (pred(first.value, last.value))
 					return first;
 
 				first = first.next() as InputIterator;
@@ -267,7 +267,7 @@ namespace std
 			let it1: ForwardIterator1 = first1;
 			let it2: ForwardIterator2 = first2;
 
-			while (equal_to(it1.value, it2.value))
+			while (pred(it1.value, it2.value))
 			{
 				it1 = it1.next() as ForwardIterator1;
 				it2 = it2.next() as ForwardIterator2;
@@ -303,7 +303,7 @@ namespace std
 			let it: ForwardIterator = first;
 			let i: number = 0;
 
-			while (equal_to(it.value, val))
+			while (pred(it.value, val))
 			{
 				it = it.next() as ForwardIterator;
 
@@ -329,10 +329,10 @@ namespace std
 		<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
-			compare: (x: T, y: T) => boolean = equal_to
+			pred: (x: T, y: T) => boolean = equal_to
 		): Pair<Iterator1, Iterator2>
 	{
-		while (!first1.equals(last1) && equal_to(first1.value, first2.value))
+		while (!first1.equals(last1) && pred(first1.value, first2.value))
 		{
 			first1 = first1.next() as Iterator1;
 			first2 = first2.next() as Iterator2;

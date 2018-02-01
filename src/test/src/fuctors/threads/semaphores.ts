@@ -51,9 +51,6 @@ namespace test
 
 	async function _Test_timed_semaphore(ts: std.experiments.TimedSemaphore): Promise<void>
 	{
-		let name: string = "TimedSemaphore";
-		//_Test_semaphore(name, <any>ts);
-
 		// TRY LOCK FIRST
 		let flag: boolean = await ts.try_lock_for(0, SIZE / 2);
 		if (flag == false)

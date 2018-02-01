@@ -275,9 +275,8 @@ namespace std
 			//--------
 			// INSERTIONS
 			//--------
-			// PRELIMINARIES
+			// PRELIMINARY
 			let my_first: HashSet.Iterator<T> = this.end().prev();
-			let size: number = 0;
 
 			// INSERT ELEMENTS
 			for (; !first.equals(last); first = first.next() as InputIterator)
@@ -288,7 +287,6 @@ namespace std
 				
 				// INSERTS
 				this["data_"].push(first.value);
-				size++;
 			}
 			my_first = my_first.next();
 			

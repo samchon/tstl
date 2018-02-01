@@ -12,6 +12,7 @@ namespace test
 		_Test_equals();
 		_Test_mismatch();
 		_Test_count();
+		_Test_lexicographical_compare();
 	}
 
 	function _Test_for_of_iterations(): void

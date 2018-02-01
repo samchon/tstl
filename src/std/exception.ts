@@ -34,18 +34,15 @@ namespace std
 		_Terminate_handler = f;
 
 		if (is_node() == true)
-			process.on("uncaughtException", 
-				function (error: Error): void
-				{
-					_Terminate_handler();
-				}
-			);
+			process.on("uncaughtException", function (): void
+			{
+				_Terminate_handler();
+			});
 		else
-			window.onerror = 
-				function (message: string, filename?: string, lineno?: number, colno?: number, error?: Error): void
-				{
-					_Terminate_handler();
-				};
+			window.onerror = function (): void
+			{
+				_Terminate_handler();
+			};
 	}
 
 	export function get_terminate(): () => void
