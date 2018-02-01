@@ -4,6 +4,8 @@
         "sourceMap": true,
         "outFile": "../../lib/test.js",
         
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "downlevelIteration": true,
         "lib": [
             "dom",

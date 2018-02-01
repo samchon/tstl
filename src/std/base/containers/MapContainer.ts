@@ -8,11 +8,6 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private ptr_: IPointer<MapContainer<Key, T, IMapContainer<Key, T>>>;
-
-		/**
-		 * @hidden
-		 */
 		private data_: _MapElementList<Key, T, Source>;
 
 		/* ---------------------------------------------------------
@@ -21,8 +16,7 @@ namespace std.base
 		protected constructor()
 		{
 			super();
-
-			this.ptr_ = {value: this};
+			
 			this.data_ = new _MapElementList<Key, T, Source>(this as any);
 		}
 		
@@ -136,7 +130,7 @@ namespace std.base
 			}
 			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
-				return this._Insert_range(args[0], args[1]);
+				return this._Insert_by_range(args[0], args[1]);
 			}
 			else
 			{
@@ -174,7 +168,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected abstract _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		/* ---------------------------------------------------------

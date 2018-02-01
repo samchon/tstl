@@ -1,9 +1,10 @@
 const fs = require("fs");
 const cmd = require("child_process");
+const Global = require("./global");
 
 function compile()
 {
-	const STD_FILE = __dirname + "/../src/std/tsconfig.json";
+	const STD_FILE = Global.SOURCE_PATH + "/tsconfig.json";
 	
 	try
 	{
@@ -20,8 +21,8 @@ function compile()
 
 function attach_header()
 {
-	const HEAD = __dirname + "/../src/std/typings/tstl/tstl.d.ts";
-	const BODY = __dirname + "/../lib/tstl.d.ts";
+	const HEAD = Global.SOURCE_PATH + "/typings/" + Global.FILE_NAME + ".d.ts";
+	const BODY = Global.RELEASE_PATH + "/" + Global.FILE_NAME + ".d.ts";
 
 	var text = fs.readFileSync(HEAD, "utf8");
 	text += fs.readFileSync(BODY, "utf8");
@@ -31,7 +32,7 @@ function attach_header()
 
 function remove_dynamics()
 {
-	const JS_FILE = __dirname + "/../lib/tstl.js";
+	const JS_FILE = Global.RELEASE_PATH + "/" + Global.FILE_NAME + ".js";
 	
 	var text = fs.readFileSync(JS_FILE, "utf8");
 	if (text.indexOf('["') == -1)
@@ -61,16 +62,10 @@ function remove_dynamics()
 	fs.writeFileSync(JS_FILE, text, "utf8");
 }
 
-function minify()
-{
-	cmd.execSync("minify " + __dirname + "/../lib/tstl.js");
-}
-
 function main()
 {
 	compile();
 	attach_header();
 	remove_dynamics();
-	minify();
 }
 main();

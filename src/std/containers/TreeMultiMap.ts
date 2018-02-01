@@ -225,7 +225,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
@@ -240,7 +240,8 @@ namespace std
 		 */
 		protected _Handle_insert(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
 		{
-			this.tree_.insert(first);
+			for (; !first.equals(last); first = first.next())
+				this.tree_.insert(first);
 		}
 
 		/**

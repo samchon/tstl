@@ -387,9 +387,6 @@ namespace std
 			}
 
 			// INSERT ITEMS IN THE BACK SIDE
-			let $first: base._NativeArrayIterator<T> = new base._NativeArrayIterator<T>(back_items, 0);
-			let $last: base._NativeArrayIterator<T> = new base._NativeArrayIterator<T>(back_items, back_items.length);
-
 			for (let i: number = 0; i < back_items.length; i++)
 			{
 				if (row.length == col_size && this.matrix_.length < Deque.ROW_SIZE)

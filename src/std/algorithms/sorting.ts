@@ -75,7 +75,7 @@ namespace std
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
-			compare: (x: T, y: T) => boolean
+			comp: (x: T, y: T) => boolean
 		): RandomAccessIterator;
 
 	export function partial_sort_copy
@@ -83,14 +83,14 @@ namespace std
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
-			compare: (x: T, y: T) => boolean = less
+			comp: (x: T, y: T) => boolean = less
 		): RandomAccessIterator
 	{
 		let input_size: number = distance(first, last);
 		let result_size: number = distance(result_first, result_last);
 
 		let vector: Vector<T> = new Vector<T>(first, last);
-		sort(vector.begin(), vector.end());
+		sort(vector.begin(), vector.end(), comp);
 
 		if (input_size > result_size)
 			result_first = copy(vector.begin(), vector.begin().advance(result_size), result_first);
@@ -104,12 +104,14 @@ namespace std
 		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator): void;
 
 	export function nth_element<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean): void;
+		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean): void;
 
 	export function nth_element<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = less): void
+		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean = less): void
 	{
-		sort(first, last, compare);
+		nth.index(); // TODO: How to utilize it?
+
+		sort(first, last, comp);
 	}
 
 	/* ---------------------------------------------------------
@@ -189,41 +191,6 @@ namespace std
 		
 		_Quick_sort(container, start, start+i-1, compare);
 		_Quick_sort(container, start+i, end, compare);
-	}
-
-	/**
-	 * @hidden
-	 */
-	function _Quick_sort_partition<T>
-		(
-			container: base.IArrayContainer<T>, first: number, last: number, 
-			compare: (left: T, right: T) => boolean
-		): number
-	{
-		let standard: T = container.at(first);
-		let i: number = first;
-		let j: number = last + 1;
-
-		while (true)
-		{
-			while (compare(container.at(++i), standard))
-				if (i == last)
-					break;
-			while (compare(standard, container.at(--j)))
-				if (j == first)
-					break;
-
-			if (i >= j)
-				break;
-
-			// SWAP; AT(I) WITH AT(J)
-			_Swap_array_element(container, i, j);
-		}
-
-		// SWAP; AT(BEGIN) WITH AT(J)
-		_Swap_array_element(container, first, j);
-
-		return j;
 	}
 
 	/**

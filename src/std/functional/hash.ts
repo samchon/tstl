@@ -87,17 +87,6 @@ namespace std
 		return Math.abs(ret);
 	}
 
-	/**
-	 * @hidden
-	 */
-	function _Hash_object(obj: Object, ret: number): number
-	{
-		if ((<any>obj).hashCode != undefined)
-			return (obj as IComparable<Object>).hashCode();
-		else
-			return _Hash_number((<any>obj).__get_m_iUID(), ret);
-	}
-
 	/* ---------------------------------------------------------
 		RESERVED ITEMS
 	--------------------------------------------------------- */
@@ -116,10 +105,7 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	var __s_iUID: number
-
-	if (__s_iUID == undefined)
-		__s_iUID = 0;
+	var __s_iUID: number = 0;
 
 	if (Object.prototype.hasOwnProperty("__get_m_iUID") == false)
 	{

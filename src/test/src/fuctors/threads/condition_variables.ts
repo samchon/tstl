@@ -41,7 +41,6 @@ namespace test
 		// WAIT FOR & NOTIFY
 		//----
 		let success_count: number = 0;
-		let start_time: number = new Date().getTime();
 
 		// THERE'RE 10 WAITERS, HOLDERS, WITH DIFFERENT TIMES
 		for (let i: number = 0; i < WAIT_COUNT; ++i)

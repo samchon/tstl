@@ -10,11 +10,6 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private source_ptr_: IPointer<SetContainer<T, Source>>;
-
-		/**
-		 * @hidden
-		 */
 		private data_: _SetElementList<T, Source>;
 		
 		/* ---------------------------------------------------------
@@ -24,7 +19,6 @@ namespace std.base
 		{
 			super();
 
-			this.source_ptr_ = {value: this};
 			this.data_ = new _SetElementList<T, Source>(this as any);
 		}
 

@@ -114,7 +114,11 @@ namespace std.base
 		 */
 		private _Insert_or_assign_with_hint(hint: MapIterator<Key, T, Source>, key: Key, value: T): MapIterator<Key, T, Source>
 		{
-			return this._Insert_or_assign_with_key_value(key, value).first;
+			let it = this._Emplace_hint(hint, key, value);
+			if (it.second != value)
+				it.second = value;
+
+			return it;
 		}
 
 		/* ---------------------------------------------------------

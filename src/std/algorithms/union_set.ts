@@ -61,17 +61,17 @@ namespace std
 	export function inplace_merge<T, BidirectionalIterator extends base.ILinearIterator<T>>
 		(
 			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
-			compare: (x: T, y: T) => boolean
+			comp: (x: T, y: T) => boolean
 		): void;
 
 	export function inplace_merge<T, BidirectionalIterator extends base.ILinearIterator<T>>
 		(
 			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
-			compare: (x: T, y: T) => boolean = less
+			comp: (x: T, y: T) => boolean = less
 		): void
 	{
 		let vector: Vector<T> = new Vector<T>(distance(first, last), null);
-		merge(first, middle, middle, last, vector.begin());
+		merge(first, middle, middle, last, vector.begin(), comp);
 
 		copy(vector.begin(), vector.end(), first);
 	}
@@ -96,7 +96,7 @@ namespace std
 	{
 		while (!first2.equals(last2))
 		{
-			if (first1.equals(last2) || compare(first2.value, first1.value))
+			if (first1.equals(last1) || compare(first2.value, first1.value))
 				return false;
 			else if (!compare(first1.value, first2.value))
 				first2 = first2.next() as InputIterator2;
@@ -229,7 +229,7 @@ namespace std
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
-			result: OutputIterator, compare: (x: T, y: T) => boolean
+			result: OutputIterator, comp: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function set_difference<T, 
@@ -238,18 +238,18 @@ namespace std
 			OutputIterator extends base.ILinearIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
-			result: OutputIterator, compare: (x: T, y: T) => boolean = less
+			result: OutputIterator, comp: (x: T, y: T) => boolean = less
 		): OutputIterator
 	{
 		while (!first1.equals(last1) && !first2.equals(last2))
-			if (less(first1.value, first2.value))
+			if (comp(first1.value, first2.value))
 			{
 				result.value = first1.value;
 
 				result = result.next() as OutputIterator;
 				first1 = first1.next() as InputIterator1;
 			}
-			else if (less(first2.value, first1.value))
+			else if (comp(first2.value, first1.value))
 				first2 = first2.next() as InputIterator2;
 			else
 			{
