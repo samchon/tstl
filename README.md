@@ -1,4 +1,6 @@
 # **T**ypeScript **S**tandard **T**emplate **L**ibrary
+
+[![Join the chat at https://gitter.im/samchon/tstl](https://badges.gitter.im/samchon/tstl.svg)](https://gitter.im/samchon/tstl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![NPM](https://nodei.co/npm/tstl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/tstl)
   - GitHub Repository: https://github.com/samchon/tstl
   - Guide Documents: https://github.com/samchon/tstl/wiki
