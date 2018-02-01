@@ -5,11 +5,11 @@
 //----
 // FUNCTORS
 //----
-/// <reference path="../functional.ts" />
 /// <reference path="../exception.ts" />
-/// <reference path="../utility.ts" />
+/// <reference path="../functional.ts" />
+/// <reference path="../math.ts" />
 /// <reference path="../thread.ts" />
-/// <reference path="../maths.ts" />
+/// <reference path="../utility.ts" />
 
 namespace std
 {
@@ -118,4 +118,5 @@ namespace std.experiments
 try
 {
 	module.exports = std;
-} catch {}
+} 
+catch {}
