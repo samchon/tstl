@@ -63,8 +63,7 @@ namespace std
 		public assign<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
-		public assign<U extends T, InputIterator extends IForwardIterator<U>>
-			(first: any, second: any): void
+		public assign(first: any, second: any): void
 		{
 			this.clear();
 			this.insert(this.end(), first, second);
@@ -160,19 +159,16 @@ namespace std
 			}
 			else
 			{
-				///////
+				//----
 				// INSERT TO THE MIDDLE POSITION
-				///////
+				//----
 				// CUT RIGHT SIDE
 				let spliced_array: T[] = this.data_.splice(position.index());
-				let insert_size: number = 0;
 
 				// INSERT ELEMENTS
 				for (; !first.equals(last); first = first.next() as InputIterator)
-				{
 					this.data_.push(first.value);
-					insert_size++;
-				}
+				
 				this.data_.push(...spliced_array); // CONCAT THE SPLICEDS
 				
 				return position;

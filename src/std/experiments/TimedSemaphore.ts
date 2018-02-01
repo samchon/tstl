@@ -125,7 +125,7 @@ namespace std.experiments
 		private async _Unlock(resolved_count: number): Promise<void>
 		{
 			// COMPUTE PROPERTY
-			resolved_count = Math.min(resolved_count, this.hold_count_);
+			resolved_count = this._Compute_resolve_count(resolved_count);
 			this.hold_count_ -= resolved_count;
 
 			while (resolved_count != 0)

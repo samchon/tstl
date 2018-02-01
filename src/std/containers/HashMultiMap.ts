@@ -274,7 +274,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			//--------

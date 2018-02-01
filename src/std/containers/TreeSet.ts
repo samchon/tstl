@@ -239,7 +239,8 @@ namespace std
 		 */
 		protected _Handle_insert(first: TreeSet.Iterator<T>, last: TreeSet.Iterator<T>): void
 		{
-			this.tree_.insert(first);
+			for (; !first.equals(last); first = first.next())
+				this.tree_.insert(first);
 		}
 
 		/**

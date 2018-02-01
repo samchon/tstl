@@ -34,7 +34,7 @@ namespace test
 		{
 			this.width = width;
 			this.height = height;
-			this.length = this.length;
+			this.length = length;
 
 			this.x = x;
 			this.y = y;

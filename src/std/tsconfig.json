@@ -5,8 +5,11 @@
         "sourceMap": true,
         "outFile": "../../lib/tstl.js",
         
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "noImplicitAny": true,
         "downlevelIteration": true,
+        
         "lib": [
             "dom",
             "es2015"
