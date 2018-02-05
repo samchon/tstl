@@ -2,8 +2,8 @@
 # **T**ypeScript **S**tandard **T**emplate **L**ibrary
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![Downloads](https://img.shields.io/npm/dm/tstl.svg)](https://www.npmjs.com/package/tstl)
-[![Chat on Gitter](https://badges.gitter.im/samchon/tstl.svg)](https://gitter.im/samchon/tstl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![DeepScan Grade](https://deepscan.io/api/projects/1799/branches/7793/badge/grade.svg)](https://deepscan.io/dashboard/#view=project&pid=1799&bid=7793)
+[![Chat on Gitter](https://badges.gitter.im/samchon/tstl.svg)](https://gitter.im/samchon/tstl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Implementation of STL (Standard Template Library) in TypeScript.
   - Containers
@@ -11,7 +11,7 @@ Implementation of STL (Standard Template Library) in TypeScript.
   - Algorithms
   - Functors
 
-**TSTL** is an open-source project providing features of STL, migrated from *C++* to *TypeScript*. You can enjoy the STL's own specific *coantainers*, *algorithms* and *functors* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
+**TSTL** is an open-source project providing features of STL, migrated from *C++* to *TypeScript*. You can enjoy the STL's own specific *containers*, *algorithms* and *functors* in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.
 
 Below components are list of provided objects in the **TSTL**. If you want to know more about the **TSTL**, then please read the [**Guide Documents**](https://github.com/samchon/tstl/wiki).
 
@@ -60,7 +60,7 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [IComparable](http://samchon.github.io/tstl/api/interfaces/std.icomparable.html)
   - [`<utility>`](http://www.cplusplus.com/reference/utility/)
     - [Pair `pair`](http://samchon.github.io/tstl/api/classes/std.pair.html)
-    - [Entry `entry](http://samchon.github.io/tstl/api/classes/std.entry.html)
+    - [Entry `entry`](http://samchon.github.io/tstl/api/classes/std.entry.html)
   - [`<thread>`](https://github.com/samchon/tstl/tree/master/src/std/thread.ts)
     - [ConditionVariable `condition_variable`](http://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
     - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
@@ -109,5 +109,6 @@ console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
     - [API Documents](http://samchon.github.io/tstl/api)
     - [Class Diagram](http://samchon.github.io/tstl/design/class_diagram.pdf)
   - **Related Projects**
+    - [Simple XML](https://github.com/samchon/sxml)
     - [Samchon-Framework](https://github.com/samchon/framework)
     - [3D-Bin-Packing](https://github.com/betterwaysystems/packer)
