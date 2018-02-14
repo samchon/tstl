@@ -13,7 +13,7 @@ function main()
 	catch (exp)
 	{
 		console.log(exp.stdout.toString());
-		process.exit();
+		process.exit(1);
 	}
 }
 main();
