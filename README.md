@@ -1,5 +1,5 @@
-
 # **T**ypeScript **S**tandard **T**emplate **L**ibrary
+[![Build Status](https://travis-ci.org/samchon/tstl.svg?branch=master)](https://travis-ci.org/samchon/tstl)
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![Downloads](https://img.shields.io/npm/dm/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![DeepScan Grade](https://deepscan.io/api/projects/1799/branches/7793/badge/grade.svg)](https://deepscan.io/dashboard/#view=project&pid=1799&bid=7793)
