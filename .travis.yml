@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - 'stable'
+  - '8'
+  - '6'
+before_install:
+  - npm install -g typescript
+install:
+  - npm install
+  - npm run build
