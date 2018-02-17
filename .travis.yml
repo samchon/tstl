@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - 'stable'
+before_install:
+  - npm install -g typescript@2.6.2
+  - npm install -g minifier
+install:
+  - npm install
+script:
+  - npm run build
