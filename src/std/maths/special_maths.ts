@@ -66,7 +66,7 @@ namespace std
 			return x;
 
 		let pn_1: number = _Compute_assoc_legendre(n - 1, m, x);
-		let pn_2: number = _Compute_assoc_legendre(n - 1, m, x);
+		let pn_2: number = _Compute_assoc_legendre(n - 2, m, x);
 
 		let ret: number = (2*n - 1)*pn_1 - (n + m)*pn_2;
 		ret = ret / (n - m);
@@ -81,7 +81,7 @@ namespace std
 	{
 		// VALIDATE PARAMETER
 		if (Math.floor(n) != n || n < 0)
-			throw new std.InvalidArgument("Parameter n of assoc_legendre() must be unsigned integer.");
+			throw new std.InvalidArgument("Parameter n of hermite() must be unsigned integer.");
 
 		// COMPUTE RETURN VALUE
 		return _Hermite(n, x);

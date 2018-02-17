@@ -24,6 +24,7 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [Deque `deque`](http://samchon.github.io/tstl/api/classes/std.deque.html)
     - [List `list`](http://samchon.github.io/tstl/api/classes/std.list.html)
     - [ForwardList `forward_list`](http://samchon.github.io/tstl/api/classes/std.forwardlist.html)
+    - [VectorBoolean `vector_bool`](http://samchon.github.io/tstl/api/classes/std.vectorboolean.html)
   - **Associative Containers**
     - *Tree-structured Containers*
       - [TreeSet `set`](http://samchon.github.io/tstl/api/classes/std.treeset.html)

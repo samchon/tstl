@@ -3,9 +3,13 @@
 //--------
 // LINEAR CONTAINERS
 //--------
+// FORMAL CONTAINERS
 /// <reference path="containers/Vector.ts" />
 /// <reference path="containers/Deque.ts" />
 /// <reference path="containers/List.ts" />
+
+// SPECIAL CONTAINERS
+/// <reference path="containers/VectorBoolean.ts" />
 /// <reference path="containers/ForwardList.ts" />
 
 //--------

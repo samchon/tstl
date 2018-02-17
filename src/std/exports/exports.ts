@@ -5,11 +5,11 @@
 //----
 // FUNCTORS
 //----
-/// <reference path="../functional.ts" />
 /// <reference path="../exception.ts" />
-/// <reference path="../utility.ts" />
+/// <reference path="../functional.ts" />
+/// <reference path="../math.ts" />
 /// <reference path="../thread.ts" />
-/// <reference path="../maths.ts" />
+/// <reference path="../utility.ts" />
 
 namespace std
 {
@@ -26,6 +26,8 @@ namespace std
 	export import vector = Vector;
 	export import deque = Deque;
 	export import list = List;
+
+	export import vector_bool = VectorBoolean;
 	export import forward_list = ForwardList;
 
 	/* ---------------------------------------------------------
@@ -122,11 +124,10 @@ namespace std.experiments
 
 	export var semaphore = Semaphore;
 	export var timed_semaphore = TimedSemaphore;
-
-	export import vector_bool = VectorBool;
 }
 
 try
 {
 	module.exports = std;
-} catch (exception) {}
+} 
+catch {}
