@@ -56,6 +56,17 @@ namespace std
 	export import unordered_multimap = HashMultiMap;
 
 	/* ---------------------------------------------------------
+		ITERATORS
+	--------------------------------------------------------- */
+	export type insert_iterator<T> = InsertIterator<T>;
+	export type front_insert_iterator<T, Source extends base.IDequeContainer<T>> = FrontInsertIterator<T, Source>;
+	export type back_insert_iterator<T, Source extends base.ILinearContainer<T>> = BackInsertIterator<T, Source>;
+
+	export var insert_iterator = InsertIterator;
+	export var front_insert_iterator = FrontInsertIterator;
+	export var back_insert_iterator = BackInsertIterator;
+
+	/* ---------------------------------------------------------
 		EXCEPTIONS
 	--------------------------------------------------------- */
 	export type exception = Exception;

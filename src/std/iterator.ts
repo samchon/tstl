@@ -1,5 +1,10 @@
 ﻿/// <reference path="API.ts" />
 
+/// <reference path="iterators/InsertIterator.ts" />
+/// <reference path="iterators/FrontInsertIterator.ts" />
+/// <reference path="iterators/BackInsertIterator.ts" />
+/// <reference path="iterators/JSArrayIterator.ts" />
+
 // Iterator definitions.
 //
 // @reference http://www.cplusplus.com/reference/iterator
@@ -79,7 +84,7 @@ namespace std
 		FACTORIES
 	--------------------------------------------------------- */
 	// BEGIN & END
-	//--------
+	//----
 	export function begin<T>(container: Array<T>): JSArray.Iterator<T>;
 	export function begin<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function begin<T>(container: List<T>): List.Iterator<T>;
@@ -122,9 +127,29 @@ namespace std
 			return container.end();
 	}
 
-	//--------
+	//----
+	// INSERTERS
+	//----
+	export function inserter<T>(container: base.Container<T>, it: base.Iterator<T>): InsertIterator<T>
+	{
+		return new InsertIterator(container, it);
+	}
+
+	export function front_inserter<T, Source extends base.IDequeContainer<T>>
+		(source: Source): FrontInsertIterator<T, Source>
+	{
+		return new FrontInsertIterator(source);
+	}
+
+	export function back_inserter<T, Source extends base.ILinearContainer<T>>
+		(source: Source): BackInsertIterator<T, Source>
+	{
+		return new BackInsertIterator(source);
+	}
+
+	//----
 	// REVERSE ITERATORS
-	//--------
+	//----
 	export function make_reverse_iterator<T, Source extends base.IArrayContainer<T>>(it: base.ArrayIterator<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function make_reverse_iterator<T>(it: List.Iterator<T>): List.ReverseIterator<T>;
 	export function make_reverse_iterator<T, Source extends base.ISetContainer<T>>(it: base.SetIterator<T, Source>): base.SetReverseIterator<T, Source>;

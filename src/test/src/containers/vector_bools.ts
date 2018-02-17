@@ -58,7 +58,7 @@ namespace test
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
 			{
-				obj.erase(obj.begin(), obj.end());
+				obj.erase(obj.begin().advance(first), obj.begin().advance(last));
 			});
 			_Validate_bool_containers(v, d, l, vb);
 		}
