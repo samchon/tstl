@@ -296,7 +296,7 @@ namespace std
 			pred: (x: T, y: T) => boolean = equal_to
 		): ForwardIterator
 	{
-		let limit: ForwardIterator = first.advance(distance(first, last) - count) as ForwardIterator;
+		let limit: ForwardIterator = advance(first, distance(first, last) - count);
 
 		for (; !first.equals(limit); first = first.next() as ForwardIterator)
 		{

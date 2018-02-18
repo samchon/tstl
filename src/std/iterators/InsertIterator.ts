@@ -2,43 +2,34 @@
 
 namespace std
 {
-	export class InsertIterator<T>
+	export class InsertIterator<T, 
+			Container extends base.IInsertContainer<T, Iterator>, 
+			Iterator extends IForwardIterator<T>
+		>
 	{
-		private container_: base.Container<T>;
-		private it_: base.Iterator<T>;
+		private container_: Container;
+		private it_: Iterator;
 
-		public constructor(container: base.Container<T>, it: base.Iterator<T>)
+		public constructor(container: Container, it: Iterator)
 		{
 			this.container_ = container;
 			this.it_ = it;
 		}
 
-		/* ---------------------------------------------------------
-			MOVERS
-		--------------------------------------------------------- */
-		public next(): InsertIterator<T>
-		{
-			return this;
-		}
-
-		public advance(n: number): InsertIterator<T>
-		{
-			n;
-			return this;
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
-		public equals(obj: InsertIterator<T>): boolean
-		{
-			return std.equal_to(this.it_, obj.it_);
-		}
-
 		public set value(val: T)
 		{
 			this.container_.insert(this.it_, val);
-			this.it_ = this.it_.next();
+			this.it_ = this.it_.next() as Iterator;
+		}
+
+		public next(): InsertIterator<T, Container, Iterator>
+		{
+			return this;
+		}
+
+		public equals(obj: InsertIterator<T, Container, Iterator>): boolean
+		{
+			return std.equal_to(this.it_, obj.it_);
 		}
 	}
 }

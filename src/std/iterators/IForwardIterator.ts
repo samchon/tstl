@@ -5,8 +5,6 @@ namespace std
 		readonly value: T;
 
 		next(): IForwardIterator<T>;
-		advance(n: number): IForwardIterator<T>;
-		
 		equals(obj: IForwardIterator<T>): boolean;
 	}
 }

@@ -52,10 +52,12 @@ namespace std
 
 	export function partition_copy<T, 
 			InputIterator extends IForwardIterator<T>, 
-			OutputIterator1 extends base.ILinearIterator<T>, OutputIterator2 extends base.ILinearIterator<T>>
+			OutputIterator1 extends IOutputIterator<T>, 
+			OutputIterator2 extends IOutputIterator<T>>
 		(
 			first: InputIterator, last: InputIterator, 
-			result_true: OutputIterator1, result_false: OutputIterator2, pred: (val: T) => T
+			result_true: OutputIterator1, result_false: OutputIterator2, 
+			pred: (val: T) => T
 		): Pair<OutputIterator1, OutputIterator2>
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
@@ -81,7 +83,7 @@ namespace std
 		while (n > 0)
 		{
 			let step: number = Math.floor(n / 2);
-			let it: ForwardIterator = first.advance(step) as ForwardIterator;
+			let it: ForwardIterator = advance(first, step);
 
 			if (pred(it.value))
 			{

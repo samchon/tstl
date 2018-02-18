@@ -2,7 +2,7 @@
 
 namespace std
 {
-	export class FrontInsertIterator<T, Source extends base.IDequeContainer<T>>
+	export class FrontInsertIterator<T, Source extends base.IPushFrontContainer<T>>
 		implements IOutputIterator<T>
 	{
 		private source_: Source;
@@ -11,24 +11,12 @@ namespace std
 		{
 			this.source_ = source;
 		}
-
-		/* ---------------------------------------------------------
-			MOVERS
-		--------------------------------------------------------- */
+	
 		public next(): FrontInsertIterator<T, Source>
 		{
 			return this;
 		}
 
-		public advance(n: number): FrontInsertIterator<T, Source>
-		{
-			n;
-			return this;
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
 		public equals(obj: FrontInsertIterator<T, Source>): boolean
 		{
 			return std.equal_to(this.source_, obj.source_);

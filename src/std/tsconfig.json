@@ -14,5 +14,8 @@
             "dom",
             "es2015"
         ]
-    }
+    },
+    "exclude": [
+        "typings/tstl.d.ts"
+    ]
 }

@@ -152,7 +152,7 @@ namespace std
 		if (first1.equals(last1))
 			return true;
 
-		let last2: Iterator2 = first2.advance(distance(first1, last1)) as Iterator2;
+		let last2: Iterator2 = advance(first2, distance(first1, last1));
 
 		for (let it = first1; !it.equals(last1); it = it.next() as Iterator1)
 		{

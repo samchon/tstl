@@ -65,19 +65,42 @@ namespace std
 	export function advance<T, InputIterator extends IForwardIterator<T>>
 		(it: InputIterator, n: number): InputIterator
 	{
-		return it.advance(n) as InputIterator;
+		if ((<any>it).advance instanceof Function)
+			it = (<any>it).advance(n);
+		else if (n > 0)
+			for (let i: number = 0; i < n; ++i)
+				it = it.next() as InputIterator;
+		else
+		{
+			let p_it: IBidirectionalIterator<T> = <any>it;
+			if (!(p_it.next instanceof Function))
+				throw new std.OutOfRange("It's not bidirectional iterator. Advancing to negative value is impossible.");
+
+			n = -n;
+			for (let i: number = 0; i < n; ++i)
+				p_it = p_it.prev();
+
+			it = <any>p_it;
+		}
+		return it;
 	}
 	
 	export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T>>
 		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 	{
-		return it.advance(-n) as BidirectionalIterator;
+		if (n == 1)
+			return it.prev() as BidirectionalIterator;
+		else
+			return advance(it, -n);
 	}
 	
 	export function next<T, ForwardIterator extends IForwardIterator<T>>
 		(it: ForwardIterator, n: number = 1): ForwardIterator
 	{	
-		return it.advance(n) as ForwardIterator;
+		if (n == 1)
+			return it.next() as ForwardIterator;
+		else
+			return advance(it, n);
 	}
 
 	/* ---------------------------------------------------------
@@ -130,18 +153,19 @@ namespace std
 	//----
 	// INSERTERS
 	//----
-	export function inserter<T>(container: base.Container<T>, it: base.Iterator<T>): InsertIterator<T>
+	export function inserter<T, Container extends base.IInsertContainer<T, Iterator>, Iterator extends IForwardIterator<T>>
+		(container: Container, it: Iterator): InsertIterator<T, Container, Iterator>
 	{
 		return new InsertIterator(container, it);
 	}
 
-	export function front_inserter<T, Source extends base.IDequeContainer<T>>
+	export function front_inserter<T, Source extends base.IPushFrontContainer<T>>
 		(source: Source): FrontInsertIterator<T, Source>
 	{
 		return new FrontInsertIterator(source);
 	}
 
-	export function back_inserter<T, Source extends base.ILinearContainer<T>>
+	export function back_inserter<T, Source extends base.IPushBackContainer<T>>
 		(source: Source): BackInsertIterator<T, Source>
 	{
 		return new BackInsertIterator(source);

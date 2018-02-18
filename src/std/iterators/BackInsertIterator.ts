@@ -2,7 +2,7 @@
 
 namespace std
 {
-	export class BackInsertIterator<T, Source extends base.ILinearContainer<T>>
+	export class BackInsertIterator<T, Source extends base.IPushBackContainer<T>>
 		implements IOutputIterator<T>
 	{
 		private source_: Source;
@@ -12,23 +12,11 @@ namespace std
 			this.source_ = source;
 		}
 
-		/* ---------------------------------------------------------
-			MOVERS
-		--------------------------------------------------------- */
 		public next(): BackInsertIterator<T, Source>
 		{
 			return this;
 		}
-
-		public advance(n: number): BackInsertIterator<T, Source>
-		{
-			n;
-			return this;
-		}
-
-		/* ---------------------------------------------------------
-			ACCESSORS
-		--------------------------------------------------------- */
+		
 		public equals(obj: BackInsertIterator<T, Source>): boolean
 		{
 			return std.equal_to(this.source_, obj.source_);

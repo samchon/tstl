@@ -11,8 +11,7 @@ namespace std
 	============================================================
 		FILL
 	--------------------------------------------------------- */
-	export function copy
-		<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator): OutputIterator
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
@@ -23,8 +22,7 @@ namespace std
 		return result;
 	}
 
-	export function copy_n
-		<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function copy_n<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, n: number, result: OutputIterator): OutputIterator
 	{
 		for (let i: number = 0; i < n; i++)
@@ -37,8 +35,7 @@ namespace std
 		return result;
 	}
 
-	export function copy_if
-		<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function copy_if<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (x: T) => boolean): OutputIterator
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
@@ -52,8 +49,7 @@ namespace std
 		return result;
 	}
 
-	export function copy_backward
-		<T, BidirectionalIterator1 extends IBidirectionalIterator<T>, BidirectionalIterator2 extends base.ILinearIterator<T>>
+	export function copy_backward<T, BidirectionalIterator1 extends IBidirectionalIterator<T>, BidirectionalIterator2 extends IOutputBidirectionalIterator<T>>
 		(first: BidirectionalIterator1, last: BidirectionalIterator1, result: BidirectionalIterator2): BidirectionalIterator2
 	{
 		last = last.prev() as BidirectionalIterator1
@@ -66,14 +62,14 @@ namespace std
 		return result;
 	}
 
-	export function fill<T, ForwardIterator extends base.ILinearIterator<T>>
+	export function fill<T, ForwardIterator extends IOutputIterator<T>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): void
 	{
 		for (; !first.equals(last); first = first.next() as ForwardIterator)
 			first.value = val;
 	}
 
-	export function fill_n<T, OutputIterator extends base.ILinearIterator<T>>
+	export function fill_n<T, OutputIterator extends IOutputIterator<T>>
 		(first: OutputIterator, n: number, val: T): OutputIterator
 	{
 		for (let i: number = 0; i < n; i++)
@@ -84,19 +80,19 @@ namespace std
 		return first;
 	}
 
-	export function transform<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function transform<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => T): OutputIterator;
 
 	export function transform<T, 
 			InputIterator1 extends IForwardIterator<T>,
 			InputIterator2 extends IForwardIterator<T>, 
-			OutputIterator extends base.ILinearIterator<T>>
+			OutputIterator extends IOutputIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, 
 			result: OutputIterator, binary_op: (x: T, y: T) => T
 		): OutputIterator;
 
-	export function transform<T, OutputIterator extends base.ILinearIterator<T>>
+	export function transform<T, OutputIterator extends IOutputIterator<T>>
 		(...args: any[]): OutputIterator
 	{
 		if (args.length == 4)
@@ -108,7 +104,7 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	function unary_transform<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	function unary_transform<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => T): OutputIterator
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
@@ -125,7 +121,7 @@ namespace std
 	function binary_transform<T, 
 			InputIterator1 extends IForwardIterator<T>,
 			InputIterator2 extends IForwardIterator<T>, 
-			OutputIterator extends base.ILinearIterator<T>>
+			OutputIterator extends IOutputIterator<T>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, 
 			result: OutputIterator, binary_op: (x: T, y: T) => T
@@ -187,16 +183,16 @@ namespace std
 		return ret;
 	}
 
-	export function unique_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function unique_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator): OutputIterator;
 
-	export function unique_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function unique_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(
 			first: InputIterator, last: InputIterator, result: OutputIterator, 
 			pred: (x: T, y: T) => boolean
 		): OutputIterator;
 
-	export function unique_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function unique_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(
 			first: InputIterator, last: InputIterator, result: OutputIterator, 
 			pred: (x: T, y: T) => boolean = equal_to
@@ -254,7 +250,7 @@ namespace std
 		return ret;
 	}
 
-	export function remove_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function remove_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, val: T): OutputIterator
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
@@ -265,11 +261,10 @@ namespace std
 			result.value = first.value;
 			result = result.next() as OutputIterator;
 		}
-
 		return result;
 	}
 
-	export function remove_copy_if<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function remove_copy_if<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean): OutputIterator
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
@@ -303,7 +298,7 @@ namespace std
 				it.value = new_val;
 	}
 
-	export function replace_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function replace_copy<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, old_val: T, new_val: T): OutputIterator
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
@@ -319,7 +314,7 @@ namespace std
 		return result;
 	}
 
-	export function replace_copy_if<T, InputIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function replace_copy_if<T, InputIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean, new_val: T): OutputIterator
 	{
 		for (; !first.equals(last); first = first.next() as InputIterator)
@@ -365,7 +360,7 @@ namespace std
 		}
 	}
 
-	export function reverse_copy<T, BidirectionalIterator extends IBidirectionalIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function reverse_copy<T, BidirectionalIterator extends IBidirectionalIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, result: OutputIterator): OutputIterator
 	{
 		while (!last.equals(first))
@@ -397,7 +392,7 @@ namespace std
 		return first;
 	}
 
-	export function rotate_copy<T, ForwardIterator extends IForwardIterator<T>, OutputIterator extends base.ILinearIterator<T>>
+	export function rotate_copy<T, ForwardIterator extends IForwardIterator<T>, OutputIterator extends IOutputIterator<T>>
 		(first: ForwardIterator, middle: ForwardIterator, last: ForwardIterator, result: OutputIterator): OutputIterator
 	{
 		result = copy(middle, last, result);

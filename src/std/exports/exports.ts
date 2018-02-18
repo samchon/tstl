@@ -60,7 +60,10 @@ namespace std
 	/* ---------------------------------------------------------
 		ITERATORS
 	--------------------------------------------------------- */
-	export type insert_iterator<T> = InsertIterator<T>;
+	export type insert_iterator<T, 
+		Container extends base.IInsertContainer<T, Iterator>, 
+		Iterator extends IForwardIterator<T>
+	> = InsertIterator<T, Container, Iterator>;
 	export type front_insert_iterator<T, Source extends base.IDequeContainer<T>> = FrontInsertIterator<T, Source>;
 	export type back_insert_iterator<T, Source extends base.ILinearContainer<T>> = BackInsertIterator<T, Source>;
 
