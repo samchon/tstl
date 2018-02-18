@@ -1,6 +1,6 @@
 /// <reference path="../API.ts" />
 
-namespace std.experiments
+namespace std.experimental
 {
 	export class Semaphore implements ILockable
 	{

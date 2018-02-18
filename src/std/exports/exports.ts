@@ -120,7 +120,7 @@ namespace std
 	export var condition_variable = ConditionVariable;
 }
 
-namespace std.experiments
+namespace std.experimental
 {
 	export type semaphore = Semaphore;
 	export type timed_semaphore = TimedSemaphore;
