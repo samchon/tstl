@@ -32,9 +32,4 @@ namespace std
 	{
 		return Math.log(tgamma(x));
 	}
-
-	export function beta(x: number, y: number): number
-	{
-		return tgamma(x) * tgamma(y) / tgamma(x + y);
-	}
 }

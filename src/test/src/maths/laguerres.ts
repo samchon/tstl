@@ -2,7 +2,7 @@
 
 namespace test
 {
-	export function test_special_maths(): void
+	export function test_laguerres(): void
 	{
 		_Test_laguerres();
 	}
@@ -18,7 +18,7 @@ namespace test
 			let ret: number = std.assoc_laguerre(n, m, x);
 			let solution: number = (n == 2) ? _Compute_l2(m, x) : _Compute_l3(m, x);
 
-			if (Math.abs(ret - solution) > .1)
+			if (similar(ret, solution) == false)
 				throw new std.DomainError("Error on std.assoc_laguerre().");
 		}
 	}
