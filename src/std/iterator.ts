@@ -120,14 +120,9 @@ namespace std
 	export function begin(container: any): any
 	{
 		if (container instanceof Array)
-		{
-			let vec = new std.Vector<any>();
-			vec["data_"] = container;
-
-			return vec.begin();
-		}
-		else
-			return container.begin();
+			container = _Capsule(container);
+		
+		return container.begin();
 	}
 	
 	export function end<T>(container: Array<T>): JSArray.Iterator<T>;
@@ -140,23 +135,27 @@ namespace std
 	export function end(container: any): any
 	{
 		if (container instanceof Array)
-		{
-			let vec = new std.Vector<any>();
-			vec["data_"] = container;
-
-			return vec.end();
-		}
-		else
-			return container.end();
+			container = _Capsule(container);
+		
+		return container.end();
 	}
 
 	//----
 	// INSERTERS
 	//----
+	export function inserter<T>
+		(container: Array<T>, it: Vector.Iterator<T>): InsertIterator<T, Vector<T>, Vector.Iterator<T>>;
+
 	export function inserter<T, Container extends base.IInsertContainer<T, Iterator>, Iterator extends IForwardIterator<T>>
-		(container: Container, it: Iterator): InsertIterator<T, Container, Iterator>
+		(container: Container, it: Iterator): InsertIterator<T, Container, Iterator>;
+
+	export function inserter<T>
+		(container: Array<T> | base.IInsertContainer<T, any>, it: IForwardIterator<T>): InsertIterator<T, any, any>
 	{
-		return new InsertIterator(container, it);
+		if (container instanceof Array)
+			container = _Capsule(container);
+		
+		return new InsertIterator(<any>container, it);
 	}
 
 	export function front_inserter<T, Source extends base.IPushFrontContainer<T>>
@@ -165,10 +164,19 @@ namespace std
 		return new FrontInsertIterator(source);
 	}
 
+	export function back_inserter<T>
+		(source: Array<T>): BackInsertIterator<T, Vector<T>>;
+	
 	export function back_inserter<T, Source extends base.IPushBackContainer<T>>
 		(source: Source): BackInsertIterator<T, Source>
+
+	export function back_inserter<T>
+		(source: Array<T> | base.IPushBackContainer<T>): BackInsertIterator<T, any>
 	{
-		return new BackInsertIterator(source);
+		if (source instanceof Array)
+			source = _Capsule(source);
+
+		return new BackInsertIterator(<any>source);
 	}
 
 	//----
@@ -210,5 +218,13 @@ namespace std
 	export function rend(container: any): any
 	{
 		return make_reverse_iterator(begin(container));
+	}
+
+	function _Capsule<T>(array: Array<T>): Vector<T>
+	{
+		let ret: Vector<T> = new Vector();
+		ret["data_"] = array;
+
+		return ret;
 	}
 }
