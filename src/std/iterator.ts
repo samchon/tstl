@@ -20,14 +20,26 @@ namespace std
 	============================================================
 		ACCESSORS
 	--------------------------------------------------------- */
-	export function size<T>(container: base.Container<T>): number
+	export function empty<T>(source: Array<T>): boolean;
+	export function empty(source: base.IEmpty): boolean;
+
+	export function empty(source: Array<any> | base.IEmpty): boolean
 	{
-		return container.size();
+		if (source instanceof Array)
+			return source.length != 0;
+		else
+			return source.empty();
 	}
 
-	export function empty<T>(container: base.Container<T>): boolean
+	export function size<T>(source: Array<T>): number;
+	export function size(source: base.ISize): number
+
+	export function size(source: Array<any> | base.ISize): number
 	{
-		return container.empty();
+		if (source instanceof Array)
+			return source.length;
+		else
+			return source.size();
 	}
 
 	export function distance<T, InputIterator extends IForwardIterator<T>>
@@ -158,7 +170,7 @@ namespace std
 		return new InsertIterator(<any>container, it);
 	}
 
-	export function front_inserter<T, Source extends base.IPushFrontContainer<T>>
+	export function front_inserter<T, Source extends base.IPushFront<T>>
 		(source: Source): FrontInsertIterator<T, Source>
 	{
 		return new FrontInsertIterator(source);
@@ -167,11 +179,11 @@ namespace std
 	export function back_inserter<T>
 		(source: Array<T>): BackInsertIterator<T, Vector<T>>;
 	
-	export function back_inserter<T, Source extends base.IPushBackContainer<T>>
+	export function back_inserter<T, Source extends base.IPushBack<T>>
 		(source: Source): BackInsertIterator<T, Source>
 
 	export function back_inserter<T>
-		(source: Array<T> | base.IPushBackContainer<T>): BackInsertIterator<T, any>
+		(source: Array<T> | base.IPushBack<T>): BackInsertIterator<T, any>
 	{
 		if (source instanceof Array)
 			source = _Capsule(source);

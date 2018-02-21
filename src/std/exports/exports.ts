@@ -7,7 +7,7 @@
 //----
 /// <reference path="../exception.ts" />
 /// <reference path="../functional.ts" />
-/// <reference path="../math.ts" />
+/// <reference path="../special_math.ts" />
 /// <reference path="../thread.ts" />
 /// <reference path="../utility.ts" />
 
