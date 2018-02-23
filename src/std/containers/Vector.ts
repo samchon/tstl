@@ -60,7 +60,7 @@ namespace std
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
 		public assign(n: number, val: T): void;
-		public assign<U extends T, InputIterator extends IForwardIterator<U>>
+		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public assign(first: any, second: any): void

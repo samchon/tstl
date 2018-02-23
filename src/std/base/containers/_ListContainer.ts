@@ -57,7 +57,7 @@ namespace std.base
 			this.begin_ = it;
 		}
 
-		public assign<U extends T, InputIterator extends IForwardIterator<U>>
+		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			this.clear();
@@ -165,7 +165,7 @@ namespace std.base
 
 		public insert(position: Iterator, val: T): Iterator;
 		public insert(position: Iterator, size: number, val: T): Iterator;
-		public insert<U extends T, InputIterator extends IForwardIterator<U>>
+		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(position: Iterator, begin: InputIterator, end: InputIterator): Iterator;
 
 		public insert(pos: Iterator, ...args: any[]): Iterator
@@ -197,7 +197,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(position: Iterator, begin: InputIterator, end: InputIterator): Iterator
 		{
 			let prev: Iterator = <Iterator>position.prev();

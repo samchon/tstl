@@ -88,12 +88,12 @@ namespace std
 
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T, 
-			Iterator1 extends IForwardIterator<T1>, Iterator2 extends IForwardIterator<T2>>
+			Iterator1 extends Readonly<IForwardIterator<T1>>, Iterator2 extends Readonly<IForwardIterator<T2>>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): boolean;
 
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T, 
-			Iterator1 extends IForwardIterator<T1>, Iterator2 extends IForwardIterator<T2>>
+			Iterator1 extends Readonly<IForwardIterator<T1>>, Iterator2 extends Readonly<IForwardIterator<T2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
 			comp: (x: T, y: T) => boolean
@@ -101,7 +101,7 @@ namespace std
 	
 	export function lexicographical_compare
 		<T, T1 extends T, T2 extends T,
-			Iterator1 extends IForwardIterator<T1>, Iterator2 extends IForwardIterator<T2>>
+			Iterator1 extends Readonly<IForwardIterator<T1>>, Iterator2 extends Readonly<IForwardIterator<T2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
 			comp: (x: T, y: T) => boolean = less

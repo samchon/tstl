@@ -86,7 +86,7 @@ namespace std
 			ASSIGN, RESERVE & CLEAR
 		--------------------------------------------------------- */
 		public assign(n: number, val: T): void;
-		public assign<U extends T, InputIterator extends IForwardIterator<U>>
+		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public assign(first: any, second: any): void
@@ -320,7 +320,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
+		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): Deque.Iterator<T>
 		{
 			let size: number = this.size_ + distance(first, last);
@@ -366,7 +366,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private _Insert_to_middle<U extends T, InputIterator extends IForwardIterator<U>>
+		private _Insert_to_middle<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): void
 		{
 			let col_size: number = this._Compute_col_size();
@@ -411,7 +411,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private _Insert_to_end<U extends T, InputIterator extends IForwardIterator<U>>
+		private _Insert_to_end<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT ITEMS IN THE BACK

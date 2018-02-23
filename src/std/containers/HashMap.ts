@@ -30,9 +30,9 @@ namespace std
 		public constructor(items: Array<IPair<Key, T>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
 
 		public constructor(container: HashMap<Key, T>);
-		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>);
-		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>, hash: (key: Key) => number);
-		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
+		public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>);
+		public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>, hash: (key: Key) => number);
+		public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
 
 		public constructor(...args: any[])
 		{
@@ -87,8 +87,8 @@ namespace std
 				// RANGE CONSTRUCTOR
 				post_process = () =>
 				{
-					let first: IForwardIterator<IPair<Key, T>> = args[0];
-					let last: IForwardIterator<IPair<Key, T>> = args[1];
+					let first: Readonly<IForwardIterator<IPair<Key, T>>> = args[0];
+					let last: Readonly<IForwardIterator<IPair<Key, T>>> = args[1];
 
 					this.assign(first, last);
 				};
@@ -278,7 +278,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			//--------

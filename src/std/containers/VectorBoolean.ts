@@ -32,7 +32,7 @@ namespace std
 		public constructor(obj: VectorBoolean);
 		public constructor(array: boolean[]);
 		public constructor(n: number, val: boolean);
-		public constructor(first: IForwardIterator<boolean>, last: IForwardIterator<boolean>);
+		public constructor(first: Readonly<IForwardIterator<boolean>>, last: Readonly<IForwardIterator<boolean>>);
 
 		public constructor(...args: any[])
 		{
@@ -65,7 +65,7 @@ namespace std
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
 		public assign(n: number, val: boolean): void;
-		public assign<InputIterator extends IForwardIterator<boolean>>
+		public assign<InputIterator extends Readonly<IForwardIterator<boolean>>>
 			(first: InputIterator, last: InputIterator): void;
 		
 		public assign(first: any, last: any): void
@@ -244,7 +244,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<InputIterator extends IForwardIterator<boolean>>
+		protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<boolean>>>
 			(pos: VectorBoolean.Iterator, first: InputIterator, last: InputIterator): VectorBoolean.Iterator
 		{
 			// RESERVE ELEMENTS -> REPEATED SIZE & VALUE

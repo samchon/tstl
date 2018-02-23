@@ -24,7 +24,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
-		public abstract assign<U extends T, InputIterator extends IForwardIterator<U>>
+		public abstract assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public clear(): void

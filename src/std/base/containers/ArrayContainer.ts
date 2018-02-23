@@ -84,7 +84,7 @@ namespace std.base
 
 		public insert(pos: ArrayIterator<T, Source>, val: T): ArrayIterator<T, Source>;
 		public insert(pos: ArrayIterator<T, Source>, n: number, val: T): ArrayIterator<T, Source>;
-		public insert<U extends T, InputIterator extends IForwardIterator<U>>
+		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(pos: ArrayIterator<T, Source>, first: InputIterator, last: InputIterator): ArrayIterator<T, Source>;
 
 		public insert(pos: ArrayIterator<T, Source>, ...args: any[]): ArrayIterator<T, Source>
@@ -120,7 +120,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
+		protected abstract _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(pos: ArrayIterator<T, Source>, first: InputIterator, last: InputIterator): ArrayIterator<T, Source>;
 
 		/* ---------------------------------------------------------

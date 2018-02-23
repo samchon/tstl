@@ -45,7 +45,7 @@ namespace std.base
 
 		public insert(pair: IPair<Key, T>): Pair<MapIterator<Key, T, Source>, boolean>;
 		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-		public insert<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		public insert<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>>>>
 			(first: InputIterator, last: InputIterator): void
 
 		public insert(...args: any[]): any

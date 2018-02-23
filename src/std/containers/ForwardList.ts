@@ -158,7 +158,7 @@ namespace std
 			return this._Insert_by_range(pos, first, last);
 		}
 
-		private _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
+		private _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
 		{
 			let nodes: ForwardList.Iterator<T>[] = [];

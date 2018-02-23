@@ -25,7 +25,7 @@ namespace std.base
 			this.data_ = new _SetElementList<T, Source>(this as any);
 		}
 
-		public assign<U extends T, InputIterator extends IForwardIterator<U>>
+		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(begin: InputIterator, end: InputIterator): void
 		{
 			// INSERT
@@ -116,7 +116,7 @@ namespace std.base
 		}
 		
 		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
-		public insert<U extends T, InputIterator extends IForwardIterator<U>>
+		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
@@ -152,7 +152,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
+		protected abstract _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/* ---------------------------------------------------------

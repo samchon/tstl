@@ -28,10 +28,10 @@ namespace std
 		public constructor(array: Array<IPair<Key, T>>, comp: (x: Key, y: Key) => boolean);
 
 		public constructor(obj: TreeMap<Key, T>);
-		public constructor(first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>);
+		public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>);
 		public constructor
 			(
-				first: IForwardIterator<IPair<Key, T>>, last: IForwardIterator<IPair<Key, T>>,
+				first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>,
 				comp: (x: Key, y: Key) => boolean
 			);
 		
@@ -82,8 +82,8 @@ namespace std
 				// RANGE CONSTRUCTOR
 				post_process = () =>
 				{
-					let first: IForwardIterator<IPair<Key, T>> = args[0];
-					let last: IForwardIterator<IPair<Key, T>> = args[1];
+					let first: Readonly<IForwardIterator<IPair<Key, T>>> = args[0];
+					let last: Readonly<IForwardIterator<IPair<Key, T>>> = args[1];
 
 					this.assign(first, last);
 				};
@@ -234,7 +234,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
