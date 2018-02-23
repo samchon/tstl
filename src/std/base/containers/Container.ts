@@ -2,7 +2,11 @@
 
 namespace std.base
 {
-	export abstract class Container<T> implements Iterable<T>
+	export abstract class Container<T, 
+			Source extends IContainer<T>,
+			Iterator extends IIterator<T>,
+			ReverseIterator extends IReverseIterator<T>>
+		implements Iterable<T>
 	{
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -45,51 +49,38 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ITERATORS
 		--------------------------------------------------------- */
-		public abstract begin(): Iterator<T>;
+		public abstract begin(): Iterator;
+		public abstract end(): Iterator;
 
-		public abstract end(): Iterator<T>;
-
-		public abstract rbegin(): IReverseIterator<T>;
-
-		public abstract rend(): IReverseIterator<T>;
+		public abstract rbegin(): ReverseIterator;
+		public abstract rend(): ReverseIterator;
 
 		public [Symbol.iterator](): IterableIterator<T>
 		{
 			return new ForOfAdaptor<T>(this.begin(), this.end());
 		}
 
-		/* =========================================================
+		/* ---------------------------------------------------------
 			ELEMENTS I/O
-				- INSERT
-				- ERASE
-		============================================================
-			INSERT
 		--------------------------------------------------------- */
 		public abstract push(...items: T[]): number;
+		public abstract insert(position: Iterator, val: T): Iterator;
 
-		public abstract insert(position: Iterator<T>, val: T): Iterator<T>;
-
-		/* ---------------------------------------------------------
-			ERASE
-		--------------------------------------------------------- */
-		public abstract erase(position: Iterator<T>): Iterator<T>;
-
-		public abstract erase(begin: Iterator<T>, end: Iterator<T>): Iterator<T>;
+		public abstract erase(position: Iterator): Iterator;
+		public abstract erase(begin: Iterator, end: Iterator): Iterator;
 
 		/* ---------------------------------------------------------------
 			UTILITIES
 		--------------------------------------------------------------- */
-		public swap(obj: Container<T>): void
+		public abstract swap(obj: Source): void;
+
+		public toJSON(): Array<T>
 		{
-			let supplement: Vector<T> = new Vector<T>(this.begin(), this.end());
+			let ret: Array<T> = [];
+			for (let elem of this)
+				ret.push(elem);
 
-			this.assign(obj.begin(), obj.end());
-			obj.assign(supplement.begin(), supplement.end());
+			return ret;
 		}
-	}
-
-	export interface IReverseIterator<T>
-		extends ReverseIterator<T, Container<T>, Iterator<T>, IReverseIterator<T>>
-	{
 	}
 }

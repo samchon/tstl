@@ -23,22 +23,22 @@ namespace test
 		// ELEMENTS I/O
 		//----
 		// ERASE AN ELEMENT
-		let it = vec.begin().advance(3); // STEP TO 3
+		let it = std.advance(vec.begin(), 3); // STEP TO 3
 		it = vec.erase(it); // AND ERASE THE 3
 		
 		if (it.value != 4) // MUST BE 4
 			throw new std.DomainError("It's wrong");
 		
 		// INSERT AN ELEMENT
-		it = vec.begin().advance(2);
+		it = std.advance(vec.begin(), 2);
 		it = vec.insert(it, -1); // insert -1
 
 		if (it.value != -1)
 			throw new std.DomainError("It's wrong");
 
 		// ERASE RANGE
-		it = vec.begin().advance(6);
-		it = vec.erase(it, it.advance(3)); // erase from 6 to 9
+		it = std.advance(vec.begin(), 6);
+		it = vec.erase(it, std.advance(it, 3)); // erase from 6 to 9
 
 		if (it.value != 9)
 			throw new std.DomainError("It's wrong");

@@ -23,7 +23,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			UTILITY
 		--------------------------------------------------------- */
-		public merge(source: SetContainer<T, Source>): void
+		public merge(source: Source): void
 		{
 			this.insert(source.begin(), source.end());
 			source.clear();

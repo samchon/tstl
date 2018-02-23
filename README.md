@@ -59,6 +59,7 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
       - [RuntimeError `runtime_error`](http://samchon.github.io/tstl/api/classes/std.runtimeerror.html)
   - [`<functional>`](http://www.cplusplus.com/reference/functional/)
     - [IComparable](http://samchon.github.io/tstl/api/interfaces/std.icomparable.html)
+  - [`<special_math>`](http://en.cppreference.com/w/cpp/numeric/special_math)
   - [`<utility>`](http://www.cplusplus.com/reference/utility/)
     - [Pair `pair`](http://samchon.github.io/tstl/api/classes/std.pair.html)
     - [Entry `entry`](http://samchon.github.io/tstl/api/classes/std.entry.html)

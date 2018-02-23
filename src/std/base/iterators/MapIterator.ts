@@ -1,16 +1,16 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="_ListIteratorBase.ts" />
+/// <reference path="_ListIterator.ts" />
 
 namespace std.base
 {
 	export class MapIterator<Key, T, Source extends IMapContainer<Key, T>>
-		extends base._ListIteratorBase<Entry<Key, T>>
+		extends _ListIterator<Entry<Key, T>, Source, MapIterator<Key, T, Source>>
 	{
 		/**
 		 * @hidden
 		 */
-		private source_: base._MapElementList<Key, T, Source>;
+		private source_: _MapElementList<Key, T, Source>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -18,29 +18,11 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		public constructor(associative: base._MapElementList<Key, T, Source>, prev: MapIterator<Key, T, Source>, next: MapIterator<Key, T, Source>, val: Pair<Key, T>)
+		public constructor(associative: _MapElementList<Key, T, Source>, prev: MapIterator<Key, T, Source>, next: MapIterator<Key, T, Source>, val: Pair<Key, T>)
 		{
 			super(prev, next, val);
 
 			this.source_ = associative;
-		}
-
-		/* ---------------------------------------------------------
-			MOVERS
-		--------------------------------------------------------- */
-		public prev(): MapIterator<Key, T, Source>
-		{
-			return this.prev_ as MapIterator<Key, T, Source>;
-		}
-
-		public next(): MapIterator<Key, T, Source>
-		{
-			return this.next_ as MapIterator<Key, T, Source>;
-		}
-
-		public advance(step: number): MapIterator<Key, T, Source>
-		{
-			return super.advance(step) as MapIterator<Key, T, Source>;
 		}
 
 		/* ---------------------------------------------------------
@@ -77,11 +59,6 @@ namespace std.base
 			return less(this.first, obj.first);
 		}
 		
-		public equals(obj: MapIterator<Key, T, Source>): boolean 
-		{
-			return this == obj;
-		}
-
 		public hashCode(): number
 		{
 			return hash(this.first);
@@ -92,8 +69,8 @@ namespace std.base
 namespace std.base
 {
 	export class MapReverseIterator<Key, T, Source extends IMapContainer<Key, T>>
-		extends base.ReverseIterator<Entry<Key, T>, 
-			base.MapContainer<Key, T, Source>, 
+		extends ReverseIterator<Entry<Key, T>, 
+			MapContainer<Key, T, Source>, 
 			MapIterator<Key, T, Source>, 
 			MapReverseIterator<Key, T, Source>>
 	{

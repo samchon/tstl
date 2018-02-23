@@ -7,9 +7,8 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export abstract class ArrayContainer<T, Source extends IArrayContainer<T>> 
-		extends Container<T>
-		implements IArrayContainer<T>
+	export abstract class ArrayContainer<T, Source extends IArrayContainer<T>>
+		extends Container<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
 	{
 		protected constructor()
 		{
@@ -51,25 +50,23 @@ namespace std.base
 		public abstract set(index: number, val: T): void;
 
 		public front(): T;
-
 		public front(val: T): void;
 
-		public front(val: T = null): T | void
+		public front(val: T = undefined): T | void
 		{
-			if (val == null)
+			if (val == undefined)
 				return this.at(0);
 			else
 				this.set(0, val);
 		}
 
 		public back(): T;
-
 		public back(val: T): void;
 
-		public back(val: T = null): T | void
+		public back(val: T = undefined): T | void
 		{
 			let index: number = this.size() - 1;
-			if (val == null)
+			if (val == undefined)
 				return this.at(index);
 			else
 				this.set(index, val);

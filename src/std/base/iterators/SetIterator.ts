@@ -1,12 +1,11 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="_ListIteratorBase.ts" />
+/// <reference path="_ListIterator.ts" />
 
 namespace std.base
 {
 	export class SetIterator<T, Source extends ISetContainer<T>>
-		extends _ListIteratorBase<T>
-		implements IComparable<SetIterator<T, Source>>
+		extends _ListIterator<T, Source, SetIterator<T, Source>>
 	{
 		/**
 		 * @hidden
@@ -30,33 +29,10 @@ namespace std.base
 		{
 			return this.source_.associative();
 		}
-
-		public prev(): SetIterator<T, Source>
-		{
-			return this.prev_ as SetIterator<T, Source>;
-		}
-
-		public next(): SetIterator<T, Source>
-		{
-			return this.next_ as SetIterator<T, Source>;
-		}
-
-		public advance(size: number): SetIterator<T, Source>
-		{
-			return super.advance(size) as SetIterator<T, Source>;
-		}
 		
-		/* ---------------------------------------------------------
-			COMPARISONS
-		--------------------------------------------------------- */
 		public less(obj: SetIterator<T, Source>): boolean
 		{
 			return less(this.value, obj.value);
-		}
-		
-		public equals(obj: SetIterator<T, Source>): boolean 
-		{
-			return this == obj;
 		}
 
 		public hashCode(): number
@@ -69,8 +45,10 @@ namespace std.base
 namespace std.base
 {
 	export class SetReverseIterator<T, Source extends ISetContainer<T>>
-		extends ReverseIterator<T, SetContainer<T, Source>, SetIterator<T, Source>, SetReverseIterator<T, Source>>
-		implements IComparable<SetReverseIterator<T, Source>>
+		extends ReverseIterator<T, 
+			SetContainer<T, Source>, 
+			SetIterator<T, Source>, 
+			SetReverseIterator<T, Source>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

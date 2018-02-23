@@ -1,13 +1,12 @@
 /// <reference path="../API.ts" />
 
 /// <reference path="../base/containers/_ListContainer.ts" />
-/// <reference path="../base/iterators/_ListIteratorBase.ts" />
+/// <reference path="../base/iterators/_ListIterator.ts" />
 
 namespace std
 {
 	export class List<T>
-		extends base._ListContainer<T, List.Iterator<T>>
-		implements base.IDequeContainer<T>
+		extends base._ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
 	{
 		/**
 		 * @hidden
@@ -291,8 +290,7 @@ namespace std
 namespace std.List
 {
 	export class Iterator<T>
-		extends base._ListIteratorBase<T>
-		implements IComparable<Iterator<T>>
+		extends base._ListIterator<T, List<T>, Iterator<T>>
 	{
 		/**
 		 * @hidden
@@ -321,30 +319,12 @@ namespace std.List
 
 		public get value(): T
 		{
-			return this.value_;
+			return this["value_"];
 		}
 
 		public set value(val: T)
 		{
-			this.value_ = val;
-		}
-
-		/* ---------------------------------------------------------
-			MOVERS
-		--------------------------------------------------------- */
-		public prev(): Iterator<T>
-		{
-			return this.prev_ as Iterator<T>;
-		}
-
-		public next(): Iterator<T>
-		{
-			return this.next_ as Iterator<T>;
-		}
-
-		public advance(step: number): Iterator<T>
-		{
-			return super.advance(step) as Iterator<T>;
+			this["value_"] = val;
 		}
 
 		/* ---------------------------------------------------------------
@@ -358,7 +338,6 @@ namespace std.List
 
 	export class ReverseIterator<T>
 		extends base.ReverseIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
-		implements base.ILinearIterator<T>, IComparable<ReverseIterator<T>>
 	{
 		/* ---------------------------------------------------------------
 			CONSTRUCTORS

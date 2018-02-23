@@ -4,7 +4,7 @@ namespace std
 {
 	export class Queue<T>
 	{
-		private container_: base.IDequeContainer<T>;
+		private container_: List<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -59,7 +59,7 @@ namespace std
 
 		public swap(obj: Queue<T>): void
 		{
-			this.container_.swap(obj.container_);
+			[this.container_, obj.container_] = [obj.container_, this.container_];
 		}
 	}
 }

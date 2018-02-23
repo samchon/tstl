@@ -9,8 +9,7 @@ namespace std.base
 	 * @hidden
 	 */
 	export class ArrayIterator<T, Source extends IArrayContainer<T>>
-		extends Iterator<T>
-		implements IArrayIterator<T>
+		extends Iterator<T, Source, ArrayIterator<T, Source>>
 	{
 		/**
 		 * @hidden
@@ -103,6 +102,11 @@ namespace std.base
 		protected _Create_neighbor(base: ArrayIterator<T, Source>): ArrayReverseIterator<T, Source>
 		{
 			return new ArrayReverseIterator<T, Source>(base);
+		}
+
+		public advance(n: number): ArrayReverseIterator<T, Source>
+		{
+			return this._Create_neighbor(this.base().advance(-n));
 		}
 
 		/* ---------------------------------------------------------

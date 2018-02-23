@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _NativeArrayIterator<T> extends Iterator<T>
+	export class _NativeArrayIterator<T> implements IForwardIterator<T>
 	{
 		private data_: Array<T>;
 		private index_: number;
@@ -17,8 +17,6 @@ namespace std.base
 		--------------------------------------------------------- */
 		public constructor(data: Array<T>, index: number)
 		{
-			super();
-
 			this.data_ = data;
 			this.index_ = index;
 		}
@@ -26,11 +24,6 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public source(): Container<T>
-		{
-			return null;
-		}
-
 		public index(): number
 		{
 			return this.index_;

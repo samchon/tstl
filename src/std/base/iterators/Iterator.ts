@@ -2,22 +2,21 @@
 
 namespace std.base
 {
-	export abstract class Iterator<T> 
-		implements Readonly<IBidirectionalIterator<T>>, IComparable<Iterator<T>>
+	export abstract class Iterator<T, 
+			Source extends IContainer<T>, 
+			This extends IIterator<T>>
 	{
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
-		public abstract prev(): Iterator<T>;
-		public abstract next(): Iterator<T>;
-		public abstract advance(n: number): Iterator<T>;
+		public abstract prev(): This;
+		public abstract next(): This;
 
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public abstract source(): Container<T>;
-
-		public abstract equals(obj: Iterator<T>): boolean;
+		public abstract source(): Source;
+		public abstract equals(obj: This): boolean;
 		
 		public abstract get value(): T; // TS2.0 New Feature
 	}

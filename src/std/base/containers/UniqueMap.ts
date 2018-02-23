@@ -141,7 +141,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			UTILITY
 		--------------------------------------------------------- */
-		public merge(source: MapContainer<Key, T, Source>): void
+		public merge(source: Source): void
 		{
 			for (let it = source.begin(); !it.equals(source.end());)
 			{

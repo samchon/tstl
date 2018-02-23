@@ -2,7 +2,7 @@
 
 namespace std
 {
-	export class FrontInsertIterator<T, Source extends base.IPushFront<T>>
+	export class FrontInsertIterator<T, Source extends base._IPushFront<T>>
 		implements Readonly<IForwardIterator<T>>
 	{
 		private source_: Source;

@@ -41,7 +41,7 @@ namespace test
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
 			{
-				obj.insert(obj.begin().advance(pos), size, value);
+				obj.insert(std.advance(obj.begin(), pos), size, value);
 			});
 			_Validate_bool_containers(v, d, l, vb);
 		}
@@ -54,7 +54,7 @@ namespace test
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
 			{
-				obj.erase(obj.begin().advance(first), obj.begin().advance(last));
+				obj.erase(std.advance(obj.begin(), first), std.advance(obj.begin(), last));
 			});
 			_Validate_bool_containers(v, d, l, vb);
 		}
@@ -78,7 +78,7 @@ namespace test
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
 			{
-				(obj.begin().advance(index) as std.Vector.Iterator<boolean>).value = value;
+				std.advance(obj.begin(), index).value = value;
 			});
 			_Validate_bool_containers(v, d, l, vb);
 		}
@@ -87,7 +87,7 @@ namespace test
 		for (let i = 0; i < 100; ++i)
 		{
 			// ERASE ELEMENTS
-			let first_index: number = std.experimental.randint(0, v.size());
+			let first_index: number = std.experimental.randint(0, v.size() - 1);
 			let last_index: number = std.experimental.randint(first_index + 1, v.size());
 
 			if (v.empty() || first_index >= last_index)
@@ -95,7 +95,7 @@ namespace test
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
 			{
-				obj.erase(obj.begin().advance(first_index), obj.begin().advance(last_index));
+				obj.erase(std.advance(obj.begin(), first_index), std.advance(obj.begin(), last_index));
 			});
 
 			// INSERT ELEMENTS
@@ -105,7 +105,7 @@ namespace test
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
 			{
-				obj.insert(obj.begin().advance(index), size, value);
+				obj.insert(std.advance(obj.begin(), index), size, value);
 			});
 
 			try

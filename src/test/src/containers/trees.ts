@@ -28,7 +28,7 @@ namespace test
 			while (!s.empty())
 			{
 				let advance = Math.floor(Math.random() * s.size());
-				let it = s.begin().advance(advance);
+				let it = std.advance(s.begin(), advance);
 
 				s.erase(it);
 				if (s.has(it.value))

@@ -6,8 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-
-  "version": "1.7.0-dev.20180223",
+  "version": "1.7.0-dev.20180224",
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
   "scripts": {
@@ -15,7 +14,7 @@
     "test": "node lib/test"
   },
   "devDependencies": {
-    "@types/node": "^7.0.8"
+    "@types/node": "^7.0.55"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
@@ -32,50 +31,26 @@
     }
   ],
   "keywords": [
-    "stl",
-    "standard template library",
-    "typescript",
-    "standard",
-    "template",
-    "library",
-    "container",
-    "algorithm",
-    "iterator",
-    "functional",
-    "utility",
-    "vector",
-    "deque",
-    "list",
-    "stack",
-    "queue",
-    "priority_queue",
-    "set",
-    "multiset",
-    "unordered_set",
-    "unordered_multiset",
-    "map",
-    "multimap",
-    "unordered_map",
-    "unordered_multimap",
-    "IComparable",
-    "Pair",
-    "PriorityQueue",
-    "TreeSet",
-    "TreeMultiSet",
-    "HashSet",
-    "HashMultiSet",
-    "TreeMap",
-    "TreeMultiMap",
-    "HashMap",
-    "HashMultiMap",
-    "mutex",
-    "thread",
-    "sleep",
-    "TimedMutex",
-    "SharedMutex",
-    "SharedTimedMutex",
-    "timed_mutex",
-    "shared_mutex",
-    "shared_timed_mutex"
+    "tstl", "typescript-stl", "typescript", "stl", "standard template library",
+
+    "container", "iterator", "algorithm", "functor",
+
+    "vector", "deque", "list", "forward_list",
+    "stack", "queue", "priority_queue",
+    "set", "multiset", "unordered_set", "unordered_multiset",
+    "map", "multimap", "unordered_map", "unordered_multimap",
+
+    "IComparable", "PriorityQueue",
+    "TreeSet", "TreeMultiSet", "HashSet", "HashMultiSet",
+    "TreeMap", "TreeMultiMap", "HashMap", "HashMultiMap",
+
+    "exception", "functional", "utility", "thread", "special_math", 
+    "pair", "entry",
+
+    "sleep", "sleep_for", "sleep_until",
+    "mutex", "shared_mutex", "timed_mutex", "shared_timed_mutex",
+    "semaphore", "timed_semaphore",
+
+    "TimedMutex", "SharedMutex", "SharedTimedMutex", "TimedSemaphore"
   ]
 }

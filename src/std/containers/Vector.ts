@@ -79,11 +79,6 @@ namespace std
 			this.data_.length = n;
 		}
 
-		public swap(obj: Vector<T>): void
-		{
-			[this.data_, obj.data_] = [obj.data_, this.data_];
-		}
-
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
@@ -201,6 +196,19 @@ namespace std
 				this.data_.splice(first.index(), last.index() - first.index());
 
 			return first;
+		}
+
+		/* ---------------------------------------------------------------
+			UTILITIES
+		--------------------------------------------------------------- */
+		public swap(obj: Vector<T>): void
+		{
+			[this.data_, obj.data_] = [obj.data_, this.data_];
+		}
+
+		public toJSON(): Array<T>
+		{
+			return this.data_;
 		}
 	}
 }

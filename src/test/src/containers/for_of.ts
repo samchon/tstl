@@ -14,7 +14,7 @@ namespace test
 		_Test_for_of_map_iteration();
 	}
 
-	function _Test_for_of_iteration(vec: std.base.Container<number>): void
+	function _Test_for_of_iteration(vec: std.base.IContainer<number>): void
 	{
 		//----
 		// CONSTRUCTIONS

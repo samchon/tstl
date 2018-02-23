@@ -7,8 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _Repeater<T>
-		extends Iterator<T>
+	export class _Repeater<T> implements Readonly<IForwardIterator<T>>
 	{
 		private index_: number;
 		private value_: T;
@@ -18,8 +17,6 @@ namespace std.base
 		--------------------------------------------------------- */
 		public constructor(index: number, value: T = null)
 		{
-			super();
-
 			this.index_ = index;
 			this.value_ = value;
 		}
@@ -27,11 +24,6 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public source(): base.Container<T>
-		{
-			return null;
-		}
-
 		public index(): number
 		{
 			return this.index_;
@@ -43,36 +35,17 @@ namespace std.base
 		}
 
 		/* ---------------------------------------------------------
-			MOVERS
+			MOVERS & COMPARE
 		--------------------------------------------------------- */
-		public prev(): _Repeater<T>
-		{
-			this.index_--;
-			return this;
-		}
 		public next(): _Repeater<T>
 		{
-			this.index_++;
+			++this.index_;
 			return this;
 		}
-
-		public advance(n: number): _Repeater<T>
-		{
-			this.index_ += n;
-			return this;
-		}
-
-		/* ---------------------------------------------------------
-			COMPARES
-		--------------------------------------------------------- */
+		
 		public equals(obj: _Repeater<T>): boolean
 		{
 			return this.index_ == obj.index_;
-		}
-
-		public swap(obj: _Repeater<T>): void
-		{
-			[this.index_, obj.index_] = [obj.index_, this.index_];
 		}
 	}
 }

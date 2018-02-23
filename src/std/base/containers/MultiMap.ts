@@ -34,7 +34,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			UTILITY
 		--------------------------------------------------------- */
-		public merge(source: MapContainer<Key, T, Source>): void
+		public merge(source: Source): void
 		{
 			this.insert(source.begin(), source.end());
 			source.clear();

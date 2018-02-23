@@ -4,8 +4,11 @@
 
 namespace std.base
 {
-	export abstract class ReverseIterator<T, Source extends Container<T>, Base extends Iterator<T>, This extends ReverseIterator<T, Source, Base, This>>
-		extends Iterator<T>
+	export abstract class ReverseIterator<T, 
+			Source extends IContainer<T>, 
+			Base extends IIterator<T>, 
+			This extends IReverseIterator<T>>
+		extends Iterator<T, Source, This>
 	{
 		/**
 		 * @hidden
@@ -59,12 +62,6 @@ namespace std.base
 		{
 			// this.base().prev()
 			return this._Create_neighbor(this.base().prev() as Base);
-		}
-
-		public advance(n: number): This
-		{
-			// this.base().advance(-n)
-			return this._Create_neighbor(this.base().advance(-n) as Base);
 		}
 
 		/* ---------------------------------------------------------

@@ -4,7 +4,7 @@ namespace std
 {
 	export class Stack<T>
 	{
-		private container_: base.ILinearContainer<T>;
+		private container_: List<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -54,7 +54,7 @@ namespace std
 
 		public swap(obj: Stack<T>): void
 		{
-			this.container_.swap(obj.container_);
+			[this.container_, obj.container_] = [obj.container_, this.container_];
 		}
 	}
 }

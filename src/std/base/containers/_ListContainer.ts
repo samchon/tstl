@@ -7,19 +7,21 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export abstract class _ListContainer<T, BidirectionalIterator extends _ListIteratorBase<T>>
-		extends Container<T>
-		implements IDequeContainer<T>
+	export abstract class _ListContainer<T, 
+			Source extends IContainer<T>,
+			Iterator extends _IListIterator<T>,
+			ReverseIterator extends IReverseIterator<T>>
+		extends Container<T, Source, Iterator, ReverseIterator>
 	{
 		/**
 		 * @hidden
 		 */
-		private begin_: BidirectionalIterator;
+		private begin_: Iterator;
 		
 		/**
 		 * @hidden
 		 */
-		private end_: BidirectionalIterator;
+		private end_: Iterator;
 		
 		/**
 		 * @hidden
@@ -45,12 +47,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Create_iterator(prev: BidirectionalIterator, next: BidirectionalIterator, val: T): BidirectionalIterator;
+		protected abstract _Create_iterator(prev: Iterator, next: Iterator, val: T): Iterator;
 
 		/**
 		 * @hidden
 		 */
-		protected _Set_begin(it: BidirectionalIterator): void
+		protected _Set_begin(it: Iterator): void
 		{
 			this.begin_ = it;
 		}
@@ -76,12 +78,12 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public begin(): BidirectionalIterator
+		public begin(): Iterator
 		{
 			return this.begin_;
 		}
 
-		public end(): BidirectionalIterator
+		public end(): Iterator
 		{
 			return this.end_;
 		}
@@ -92,25 +94,23 @@ namespace std.base
 		}
 
 		public front(): T;
-
 		public front(val: T): void;
 
-		public front(val: T = null): T | void
+		public front(val: T = undefined): T | void
 		{
-			if (val == null)
+			if (val == undefined)
 				return this.begin_.value;
 			else
 				this.begin_["value_"] = val;
 		}
 
 		public back(): T;
-
 		public back(val: T): void;
 
-		public back(val: T = null): T | void
+		public back(val: T = undefined): T | void
 		{
-			let it: _ListIteratorBase<T> = this.end().prev();
-			if (val == null)
+			let it = this.end().prev();
+			if (val == undefined)
 				return it.value;
 			else
 				it["value_"] = val;
@@ -142,7 +142,7 @@ namespace std.base
 
 		public pop_back(): void
 		{
-			this.erase(this.end_.prev() as BidirectionalIterator);
+			this.erase(this.end_.prev() as Iterator);
 		}
 
 		/* ---------------------------------------------------------
@@ -163,12 +163,12 @@ namespace std.base
 			return this.size();
 		}
 
-		public insert(position: BidirectionalIterator, val: T): BidirectionalIterator;
-		public insert(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator;
+		public insert(position: Iterator, val: T): Iterator;
+		public insert(position: Iterator, size: number, val: T): Iterator;
 		public insert<U extends T, InputIterator extends IForwardIterator<U>>
-			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator;
+			(position: Iterator, begin: InputIterator, end: InputIterator): Iterator;
 
-		public insert(pos: BidirectionalIterator, ...args: any[]): BidirectionalIterator
+		public insert(pos: Iterator, ...args: any[]): Iterator
 		{
 			// VALIDATION
 			if (pos.source() != this.end_.source())
@@ -186,7 +186,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Insert_by_repeating_val(position: BidirectionalIterator, n: number, val: T): BidirectionalIterator
+		private _Insert_by_repeating_val(position: Iterator, n: number, val: T): Iterator
 		{
 			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
 			let last: base._Repeater<T> = new base._Repeater<T>(n);
@@ -198,17 +198,17 @@ namespace std.base
 		 * @hidden
 		 */
 		protected _Insert_by_range<U extends T, InputIterator extends IForwardIterator<U>>
-			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator
+			(position: Iterator, begin: InputIterator, end: InputIterator): Iterator
 		{
-			let prev: BidirectionalIterator = <BidirectionalIterator>position.prev();
-			let first: BidirectionalIterator = null;
+			let prev: Iterator = <Iterator>position.prev();
+			let first: Iterator = null;
 
 			let size: number = 0;
 
 			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
-				let item: BidirectionalIterator = this._Create_iterator(prev, null, it.value);
+				let item: Iterator = this._Create_iterator(prev, null, it.value);
 				if (size == 0)
 					first = item;
 
@@ -236,10 +236,10 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
-		public erase(position: BidirectionalIterator): BidirectionalIterator;
-		public erase(begin: BidirectionalIterator, end: BidirectionalIterator): BidirectionalIterator;
+		public erase(position: Iterator): Iterator;
+		public erase(begin: Iterator, end: Iterator): Iterator;
 
-		public erase(first: BidirectionalIterator, last: BidirectionalIterator = first.next() as BidirectionalIterator): BidirectionalIterator
+		public erase(first: Iterator, last: Iterator = first.next() as Iterator): Iterator
 		{
 			return this._Erase_by_range(first, last);
 		}
@@ -247,14 +247,14 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: BidirectionalIterator, last: BidirectionalIterator): BidirectionalIterator
+		protected _Erase_by_range(first: Iterator, last: Iterator): Iterator
 		{
 			// VALIDATION
 			if (first.source() != this.end_.source() || last.source() != this.end_.source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			// FIND PREV AND NEXT
-			let prev: BidirectionalIterator = <BidirectionalIterator>first.prev();
+			let prev: Iterator = <Iterator>first.prev();
 			let size: number = distance(first, last);
 
 			// SHRINK
@@ -271,11 +271,11 @@ namespace std.base
 		/* ---------------------------------------------------------
 			SWAP
 		--------------------------------------------------------- */
-		public swap(obj: _ListContainer<T, BidirectionalIterator>): void
+		public swap(obj: Source): void
 		{
-			[this.begin_, obj.begin_] = [obj.begin_, this.begin_];
-			[this.end_, obj.end_] = [obj.end_, this.end_];
-			[this.size_, obj.size_] = [obj.size_, this.size_];
+			[this.begin_, (obj as any).begin_] = [(obj as any).begin_, this.begin_];
+			[this.end_, (obj as any).end_] = [(obj as any).end_, this.end_];
+			[this.size_, (obj as any).size_] = [(obj as any).size_, this.size_];
 		}
 	}
 }
