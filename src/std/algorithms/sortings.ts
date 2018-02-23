@@ -10,68 +10,92 @@ namespace std
 	============================================================
 		SORT
 	--------------------------------------------------------- */
-	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
+	export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
-	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean): void;
+	export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
+		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
 
-	export function sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = less): void
+	export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
+		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
-		let start: number = first.index();
-		let end: number = last.index();
+		let size: number = last.index() - first.index();
+		if (size <= 0)
+			return;
 
-		if (start == -1)	start = first.source().size();
-		if (end == -1)		end = first.source().size();
+		let pivot_it: IRandomAccessIterator<T> = first.advance(Math.floor(size / 2));
+		let pivot: T = pivot_it.value;
 
-		_Quick_sort
-		(
-			first.source() as base.IArrayContainer<T>, 
-			Math.min(start, end),
-			Math.max(start, end),
-			compare
-		);
+		if (pivot_it.index() != first.index())
+			iter_swap(first, pivot_it);
+		
+		let i: number = 1;
+		for (let j: number = 1; j < size; ++j)
+		{
+			let j_it: IRandomAccessIterator<T> = first.advance(j);
+			if (comp(j_it.value, pivot))
+			{
+				iter_swap(j_it, first.advance(i));
+				++i;
+			}
+		}
+		iter_swap(first, first.advance(i - 1));
+
+		sort(first, first.advance(i-1), comp);
+		sort(first.advance(i), last, comp);
 	}
 
-	export function stable_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
+	export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(first: RandomAccessIterator, last: RandomAccessIterator): void;
 
-	export function stable_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean): void;
+	export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
+		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
 
-	export function stable_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, compare: (left: T, right: T) => boolean = less): void
+	export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
+		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
-		_Stable_quick_sort(first.source(), first.index(), last.index() - 1, compare);
+		let ramda = function (x: T, y: T): boolean
+		{
+			return comp(x, y) && !comp(y, x);
+		};
+		sort(first, last, ramda);
 	}
 
-	export function partial_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
+	export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator): void;
 
-	export function partial_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
+	export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(
 			first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
-			compare: (x: T, y: T) => boolean
+			comp: (x: T, y: T) => boolean
 		): void
 
-	export function partial_sort<T, RandomAccessIterator extends base.IArrayIterator<T>>
+	export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(
 			first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
-			compare: (x: T, y: T) => boolean = less
+			comp: (x: T, y: T) => boolean = less
 		): void
 	{
-		_Selection_sort(first.source() as base.IArrayContainer<T>, first.index(), middle.index(), last.index(), compare);
+		for (let i = first; !i.equals(middle); i = i.next() as RandomAccessIterator)
+		{
+			let min: RandomAccessIterator = i;
+
+			for (let j = i.next() as RandomAccessIterator; !j.equals(last); j = j.next() as RandomAccessIterator)
+				if (comp(j.value, min.value))
+					min = j;
+			
+				if (!i.equals(min))
+					iter_swap(i, min);
+		}
 	}
 
-	export function partial_sort_copy<T, InputIterator extends IForwardIterator<T>, RandomAccessIterator extends base.Iterator<T>>
+	export function partial_sort_copy<T, InputIterator extends Readonly<IForwardIterator<T>>, RandomAccessIterator extends General<IForwardIterator<T>>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator
 		): RandomAccessIterator;
 
-	export function partial_sort_copy
-		<T, InputIterator extends IForwardIterator<T>, RandomAccessIterator extends base.Iterator<T>>
+	export function partial_sort_copy<T, InputIterator extends Readonly<IForwardIterator<T>>, RandomAccessIterator extends General<IForwardIterator<T>>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
@@ -79,7 +103,7 @@ namespace std
 		): RandomAccessIterator;
 
 	export function partial_sort_copy
-		<T, InputIterator extends IForwardIterator<T>, RandomAccessIterator extends base.IArrayIterator<T>>
+		<T, InputIterator extends Readonly<IForwardIterator<T>>, RandomAccessIterator extends General<IForwardIterator<T>>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
@@ -100,13 +124,13 @@ namespace std
 		return result_first;
 	}
 
-	export function nth_element<T, RandomAccessIterator extends base.IArrayIterator<T>>
+	export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator): void;
 
-	export function nth_element<T, RandomAccessIterator extends base.IArrayIterator<T>>
+	export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean): void;
 
-	export function nth_element<T, RandomAccessIterator extends base.IArrayIterator<T>>
+	export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean = less): void
 	{
 		nth.index(); // TODO: How to utilize it?
@@ -117,13 +141,13 @@ namespace std
 	/* ---------------------------------------------------------
 		INSPECTOR
 	--------------------------------------------------------- */
-	export function is_sorted<T, ForwardIterator extends IForwardIterator<T>>
+	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator): boolean;
 
-	export function is_sorted<T, ForwardIterator extends IForwardIterator<T>>
+	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): boolean;
 
-	export function is_sorted<T, ForwardIterator extends IForwardIterator<T>>
+	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): boolean
 	{
 		if (first.equals(last)) 
@@ -139,13 +163,13 @@ namespace std
 		return true;
 	}
 
-	export function is_sorted_until<T, ForwardIterator extends IForwardIterator<T>>
+	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
-	export function is_sorted_until<T, ForwardIterator extends IForwardIterator<T>>
+	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
-	export function is_sorted_until<T, ForwardIterator extends IForwardIterator<T>>
+	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		if (first.equals(last))
@@ -159,128 +183,5 @@ namespace std
 			first = first.next() as ForwardIterator;
 		}
 		return last;
-	}
-
-	/* ---------------------------------------------------------
-		BACKGROUND
-	--------------------------------------------------------- */
-	/**
-	 * @hidden
-	 */
-	function _Quick_sort<T>
-		(container: base.IArrayContainer<T>, start: number, end: number, compare: (left: T, right: T) => boolean): void
-	{
-		let size: number = end - start;
-		if (size <= 0)
-			return;
-
-		let pivotIndex: number = Math.floor(size / 2);
-		let pivot: T = container.at(start + pivotIndex);
-		
-		if (pivotIndex != 0)
-			_Swap_array_element(container, start + pivotIndex, start);
-		
-		let i: number = 1;
-		for (let j: number = 1; j < size; ++j)
-			if ( compare(container.at(start + j), pivot)) 
-			{
-				_Swap_array_element(container, start+j, start+i);
-				++i;
-			}
-		_Swap_array_element(container, start, start + i - 1);
-		
-		_Quick_sort(container, start, start+i-1, compare);
-		_Quick_sort(container, start+i, end, compare);
-	}
-
-	/**
-	 * @hidden
-	 */
-	function _Stable_quick_sort<T>
-		(
-			container: base.IArrayContainer<T>, first: number, last: number, 
-			compare: (left: T, right: T) => boolean
-		): void
-	{
-		if (last == -2)
-			last = container.size() - 1;
-		if (first >= last)
-			return;
-
-		let index: number = _Stable_quick_sort_partition(container, first, last, compare);
-		_Stable_quick_sort(container, first, index - 1, compare);
-		_Stable_quick_sort(container, index + 1, last, compare);
-	}
-
-	/**
-	 * @hidden
-	 */
-	function _Stable_quick_sort_partition<T>
-		(
-			container: base.IArrayContainer<T>, first: number, last: number, 
-			compare: (left: T, right: T) => boolean
-		): number
-	{
-		let standard: T = container.at(first);
-		let i: number = first;
-		let j: number = last + 1;
-
-		while (true)
-		{
-			while (compare(container.at(++i), standard))
-				if (i == last)
-					break;
-			while (compare(standard, container.at(--j)))
-				if (j == first)
-					break;
-
-			if (i >= j)
-				break;
-
-			// SWAP; AT(I) WITH AT(J)
-			if (std.equal_to(container.at(i), container.at(j)) == false)
-				_Swap_array_element(container, i, j);
-		}
-
-		// SWAP; AT(BEGIN) WITH AT(J)
-		if (std.equal_to(container.at(first), container.at(j)) == false)
-			_Swap_array_element(container, first, j);
-
-		return j;
-	}
-
-	/**
-	 * @hidden
-	 */
-	function _Swap_array_element<T>(container: base.IArrayContainer<T>, i: number, j: number): void
-	{
-		let supplement:T = container.at(i);
-		container.set(i, container.at(j));
-		container.set(j, supplement);
-	}
-
-	/**
-	 * @hidden
-	 */
-	function _Selection_sort<T>
-		(
-			container: base.IArrayContainer<T>, first: number, middle: number, last: number,
-			compare: (x: T, y: T) => boolean
-		): void
-	{
-		if (last == -1)
-			last = container.size();
-
-		for (let i: number = first; i < middle; i++)
-		{
-			let min_index: number = i;
-
-			for (let j: number = i + 1; j < last; j++)
-				if (compare(container.at(j), container.at(min_index)))
-					min_index = j;
-
-			if (i != min_index)
-				_Swap_array_element(container, i, min_index);
-		}
 	}
 }

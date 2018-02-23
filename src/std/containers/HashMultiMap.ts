@@ -159,9 +159,9 @@ namespace std
 
 		public begin(): HashMultiMap.Iterator<Key, T>;
 		public begin(index: number): HashMultiMap.Iterator<Key, T>;
-		public begin(index: number = -1): HashMultiMap.Iterator<Key, T>
+		public begin(index: number = null): HashMultiMap.Iterator<Key, T>
 		{
-			if (index == -1)
+			if (index == null)
 				return super.begin();
 			else
 				return this.buckets_.at(index).front();
@@ -169,9 +169,9 @@ namespace std
 
 		public end(): HashMultiMap.Iterator<Key, T>;
 		public end(index: number): HashMultiMap.Iterator<Key, T>
-		public end(index: number = -1): HashMultiMap.Iterator<Key, T>
+		public end(index: number = null): HashMultiMap.Iterator<Key, T>
 		{
-			if (index == -1)
+			if (index == null)
 				return super.end();
 			else
 				return this.buckets_.at(index).back().next();
@@ -179,14 +179,14 @@ namespace std
 
 		public rbegin(): HashMultiMap.ReverseIterator<Key, T>;
 		public rbegin(index: number): HashMultiMap.ReverseIterator<Key, T>;
-		public rbegin(index: number = -1): HashMultiMap.ReverseIterator<Key, T>
+		public rbegin(index: number = null): HashMultiMap.ReverseIterator<Key, T>
 		{
 			return new base.MapReverseIterator<Key, T, HashMultiMap<Key, T>>(this.end(index));
 		}
 
 		public rend(): HashMultiMap.ReverseIterator<Key, T>;
 		public rend(index: number): HashMultiMap.ReverseIterator<Key, T>;
-		public rend(index: number = -1): HashMultiMap.ReverseIterator<Key, T>
+		public rend(index: number = null): HashMultiMap.ReverseIterator<Key, T>
 		{
 			return new base.MapReverseIterator<Key, T, HashMultiMap<Key, T>>(this.begin(index));
 		}

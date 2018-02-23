@@ -28,8 +28,8 @@ namespace std
 		public constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
 
 		public constructor(container: TreeMultiSet<T>);
-		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>);
-		public constructor(begin: IForwardIterator<T>, end: IForwardIterator<T>, compare: (x: T, y: T) => boolean);
+		public constructor(begin: Readonly<IForwardIterator<T>>, end: Readonly<IForwardIterator<T>>);
+		public constructor(begin: Readonly<IForwardIterator<T>>, end: Readonly<IForwardIterator<T>>, compare: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{
@@ -78,8 +78,8 @@ namespace std
 				// RANGE CONSTRUCTOR
 				post_process = () =>
 				{
-					let first: IForwardIterator<T> = args[0];
-					let last: IForwardIterator<T> = args[1];
+					let first: Readonly<IForwardIterator<T>> = args[0];
+					let last: Readonly<IForwardIterator<T>> = args[1];
 
 					this.assign(first, last);
 				};

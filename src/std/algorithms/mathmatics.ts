@@ -48,13 +48,13 @@ namespace std
 		return make_pair(minimum, maximum);
 	}
 	
-	export function min_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function min_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
-	export function min_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function min_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
-	export function min_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function min_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		let smallest: ForwardIterator = first;
@@ -67,13 +67,13 @@ namespace std
 		return smallest;
 	}
 
-	export function max_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function max_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
 
-	export function max_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function max_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
-	export function max_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function max_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		let largest: ForwardIterator = first;
@@ -86,15 +86,15 @@ namespace std
 		return largest;
 	}
 
-	export function minmax_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function minmax_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator): Pair<ForwardIterator, ForwardIterator>;
 
-	export function minmax_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function minmax_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean
 		): Pair<ForwardIterator, ForwardIterator>;
 
-	export function minmax_element<T, ForwardIterator extends IForwardIterator<T>>
+	export function minmax_element<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less
 		): Pair<ForwardIterator, ForwardIterator>
@@ -129,16 +129,16 @@ namespace std
 	/* ---------------------------------------------------------
 		PERMUATATIONS
 	--------------------------------------------------------- */
-	export function is_permutation<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
+	export function is_permutation<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2): boolean;
 
-	export function is_permutation<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
+	export function is_permutation<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			pred: (x: T, y: T) => boolean
 		): boolean;
 
-	export function is_permutation<T, Iterator1 extends IForwardIterator<T>, Iterator2 extends IForwardIterator<T>>
+	export function is_permutation<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			pred: (x: T, y: T) => boolean = equal_to
@@ -171,13 +171,13 @@ namespace std
 		return true;
 	}
 
-	export function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
+	export function prev_permutation<T, BidirectionalIterator extends General<IRandomAccessIterator<T>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator): boolean;
 
-	export function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
+	export function prev_permutation<T, BidirectionalIterator extends General<IRandomAccessIterator<T>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean): boolean;
 
-	export function prev_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
+	export function prev_permutation<T, BidirectionalIterator extends General<IRandomAccessIterator<T>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean = less): boolean
 	{
 		if (first.equals(last) == true)
@@ -212,13 +212,13 @@ namespace std
 		}
 	}
 
-	export function next_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
+	export function next_permutation<T, BidirectionalIterator extends General<IRandomAccessIterator<T>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator): boolean;
 
-	export function next_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
+	export function next_permutation<T, BidirectionalIterator extends General<IRandomAccessIterator<T>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean): boolean;
 
-	export function next_permutation<T, BidirectionalIterator extends base.IArrayIterator<T>>
+	export function next_permutation<T, BidirectionalIterator extends General<IRandomAccessIterator<T>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = less): boolean
 	{
 		if (first.equals(last) == true)

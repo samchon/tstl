@@ -3,15 +3,13 @@
 namespace std.base
 {
 	export abstract class Iterator<T> 
-		implements IBidirectionalIterator<T>, IComparable<Iterator<T>>
+		implements Readonly<IBidirectionalIterator<T>>, IComparable<Iterator<T>>
 	{
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
 		public abstract prev(): Iterator<T>;
-
 		public abstract next(): Iterator<T>;
-
 		public abstract advance(n: number): Iterator<T>;
 
 		/* ---------------------------------------------------------
@@ -22,7 +20,5 @@ namespace std.base
 		public abstract equals(obj: Iterator<T>): boolean;
 		
 		public abstract get value(): T; // TS2.0 New Feature
-
-		public abstract swap(obj: Iterator<T>): void;
 	}
 }

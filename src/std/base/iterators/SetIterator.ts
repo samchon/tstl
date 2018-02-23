@@ -63,11 +63,6 @@ namespace std.base
 		{
 			return hash(this.value);
 		}
-
-		public swap(obj: SetIterator<T, Source>): void
-		{
-			super.swap(obj);
-		}
 	}
 }
 

@@ -164,9 +164,7 @@ namespace std.base
 		}
 
 		public insert(position: BidirectionalIterator, val: T): BidirectionalIterator;
-
 		public insert(position: BidirectionalIterator, size: number, val: T): BidirectionalIterator;
-
 		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(position: BidirectionalIterator, begin: InputIterator, end: InputIterator): BidirectionalIterator;
 
@@ -239,7 +237,6 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		public erase(position: BidirectionalIterator): BidirectionalIterator;
-		
 		public erase(begin: BidirectionalIterator, end: BidirectionalIterator): BidirectionalIterator;
 
 		public erase(first: BidirectionalIterator, last: BidirectionalIterator = first.next() as BidirectionalIterator): BidirectionalIterator

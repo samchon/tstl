@@ -24,7 +24,7 @@ namespace std
 		public constructor(array: Array<T>);
 		public constructor(container: Vector<T>);
 		public constructor(n: number, val: T);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 		
 		public constructor(...args: any[])
 		{
@@ -146,10 +146,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<InputIterator extends IForwardIterator<T>>
+		protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T>>>
 			(position: Vector.Iterator<T>, first: InputIterator, last: InputIterator): Vector.Iterator<T>
 		{
-			if (position.index() == -1)
+			if (position.index() >= this.size())
 			{ 
 				// WHEN INSERT TO THE LAST
 				for (; !first.equals(last); first = first.next() as InputIterator)
@@ -188,11 +188,11 @@ namespace std
 		 */
 		protected _Erase_by_range(first: Vector.Iterator<T>, last: Vector.Iterator<T>): Vector.Iterator<T>
 		{
-			if (first.index() == -1)
+			if (first.index() >= this.size())
 				return first;
 
 			// ERASE ELEMENTS
-			if (last.index() == -1)
+			if (last.index() >= this.size())
 			{
 				this.data_.splice(first.index());
 				return this.end();

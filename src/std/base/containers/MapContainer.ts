@@ -47,7 +47,6 @@ namespace std.base
 		{
 			return this.data_.begin();
 		}
-
 		public end(): MapIterator<Key, T, Source>
 		{
 			return this.data_.end();
@@ -57,7 +56,6 @@ namespace std.base
 		{
 			return this.data_.rbegin();
 		}
-
 		public rend(): MapReverseIterator<Key, T, Source>
 		{
 			return this.data_.rend();
@@ -100,12 +98,7 @@ namespace std.base
 		}
 
 		public emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
-
-		public emplace_hint(hint: MapReverseIterator<Key, T, Source>, key: Key, val: T): MapReverseIterator<Key, T, Source>;
-
 		public emplace_hint(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-
-		public emplace_hint(hint: MapReverseIterator<Key, T, Source>, pair: IPair<Key, T>): MapReverseIterator<Key, T, Source>;
 
 		public emplace_hint(hint: any, ...args: any[]): any
 		{
@@ -115,50 +108,25 @@ namespace std.base
 				return this._Emplace_hint(hint, args[0], args[1]);
 		}
 
+		public insert(pair: IPair<Key, T>): InsertRet;
 		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-
-		public insert(hint: MapReverseIterator<Key, T, Source>, pair: IPair<Key, T>): MapReverseIterator<Key, T, Source>;
-		
 		public insert<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
 			if (args.length == 1)
-			{
 				return this._Emplace(args[0].first, args[0].second);
-			}
 			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-			{
 				return this._Insert_by_range(args[0], args[1]);
-			}
 			else
-			{
-				let ret: MapIterator<Key, T, Source>;
-				let is_reverse_iterator: boolean = false;
-
-				// REVERSE_ITERATOR TO ITERATOR
-				if (args[0] instanceof MapReverseIterator)
-				{
-					is_reverse_iterator = true;
-					args[0] = (args[0] as MapReverseIterator<Key, T, Source>).base().prev();
-				}
-
-				// INSERT AN ELEMENT
-				ret = this._Emplace_hint(args[0], args[1].first, args[1].second);
-
-				// RETURN BRANCHES
-				if (is_reverse_iterator == true)
-					return new MapReverseIterator<Key, T, Source>(ret.next());
-				else
-					return ret;
-			}
+				return this._Emplace_hint(args[0], args[1].first, args[1].second);
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected abstract _Emplace(key: Key, val: T): any;
+		protected abstract _Emplace(key: Key, val: T): InsertRet;
 
 		/**
 		 * @hidden
@@ -175,14 +143,8 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		public erase(key: Key): number;
-		
 		public erase(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
-		
 		public erase(begin: MapIterator<Key, T, Source>, end: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
-
-		public erase(it: MapReverseIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>;
-
-		public erase(begin: MapReverseIterator<Key, T, Source>, end: MapReverseIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>;
 
 		public erase(...args: any[]): any 
 		{
@@ -190,9 +152,9 @@ namespace std.base
 				return this._Erase_by_key(args[0]);
 			else
 				if (args.length == 1)
-					return this._Erase_by_iterator(args[0]);
+					return this._Erase_by_range(args[0]);
 				else
-					return this._Erase_by_iterator(args[0], args[1]);
+					return this._Erase_by_range(args[0], args[1]);
 		}
 
 		/**
@@ -204,44 +166,14 @@ namespace std.base
 			if (it.equals(this.end()) == true)
 				return 0;
 
-			this._Erase_by_iterator(it);
+			this._Erase_by_range(it);
 			return 1;
 		}
 
 		/**
 		 * @hidden
 		 */
-		private _Erase_by_iterator(first: any, last: any = first.next()): any
-		{
-			let ret: MapIterator<Key, T, Source>;
-			let is_reverse_iterator: boolean = false;
-
-			// REVERSE ITERATOR TO ITERATOR
-			if (first instanceof MapReverseIterator)
-			{
-				is_reverse_iterator = true;
-
-				let first_it = (last as MapReverseIterator<Key, T, Source>).base();
-				let last_it = (first as MapReverseIterator<Key, T, Source>).base();
-
-				first = first_it;
-				last = last_it;
-			}
-
-			// ERASE ELEMENTS
-			ret = this._Erase_by_range(first, last);
-
-			// RETURN BRANCHES
-			if (is_reverse_iterator == true)
-				return new MapReverseIterator<Key, T, Source>(ret.next());
-			else
-				return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Erase_by_range(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>
+		private _Erase_by_range(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source> = first.next()): MapIterator<Key, T, Source>
 		{
 			// ERASE
 			let it = this.data_.erase(first, last);

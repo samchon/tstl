@@ -5,7 +5,7 @@ namespace std
 	/* =========================================================
 		PARTITION
 	========================================================= */
-	export function is_partitioned<T, InputIterator extends IForwardIterator<T>>
+	export function is_partitioned<T, InputIterator extends Readonly<IForwardIterator<T>>>
 		(first: InputIterator, last: InputIterator, pred: (x: T) => boolean): boolean
 	{
 		while (!first.equals(last) && pred(first.value))
@@ -18,7 +18,7 @@ namespace std
 		return true;
 	}
 
-	export function partition<T, BidirectionalIterator extends base.Iterator<T>>
+	export function partition<T, BidirectionalIterator extends General<IBidirectionalIterator<T>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
 	{
 		while (!first.equals(last))
@@ -37,23 +37,23 @@ namespace std
 					return first;
 			} while (!pred(last.value));
 
-			first.swap(last);
+			iter_swap(first, last);
 			first = first.next() as BidirectionalIterator;
 		}
 
 		return last;
 	}
 
-	export function stable_partition<T, BidirectionalIterator extends base.Iterator<T>>
+	export function stable_partition<T, BidirectionalIterator extends General<IBidirectionalIterator<T>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
 	{
 		return partition(first, last, pred);
 	}
 
 	export function partition_copy<T, 
-			InputIterator extends IForwardIterator<T>, 
-			OutputIterator1 extends IOutputIterator<T>, 
-			OutputIterator2 extends IOutputIterator<T>>
+			InputIterator extends Readonly<IForwardIterator<T>>, 
+			OutputIterator1 extends Writeonly<IForwardIterator<T>>, 
+			OutputIterator2 extends Writeonly<IForwardIterator<T>>>
 		(
 			first: InputIterator, last: InputIterator, 
 			result_true: OutputIterator1, result_false: OutputIterator2, 
@@ -75,7 +75,7 @@ namespace std
 		return make_pair(result_true, result_false);
 	}
 
-	export function partition_point<T, ForwardIterator extends IForwardIterator<T>>
+	export function partition_point<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, pred: (x: T) => boolean): ForwardIterator
 	{
 		let n: number = distance(first, last);

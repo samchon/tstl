@@ -26,7 +26,7 @@ namespace test
 		l.remove_if(_Remove_if);
 		l.reverse();
 
-		std.remove_if(v.begin(), v.end(), _Remove_if);
+		v.erase(std.remove_if(v.begin(), v.end(), _Remove_if), v.end());
 		if (std.equal(l.begin(), l.end(), v.rbegin()) == false)
 			throw new std.DomainError("Error on std." + creator.name + ".remove_if() or its dependency.");
 	}

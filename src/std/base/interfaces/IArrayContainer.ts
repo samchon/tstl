@@ -15,11 +15,9 @@
 		extends ILinearIterator<T>
 	{
 		source(): IArrayContainer<T>;
-
 		index(): number;
-
+		
 		prev(): IArrayIterator<T>;
-
 		next(): IArrayIterator<T>;
 	}
 }

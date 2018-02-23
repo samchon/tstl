@@ -32,8 +32,8 @@ namespace std
 		public constructor(comp: (x: T, y: T) => boolean);
 
 		public constructor(obj: PriorityQueue<T>);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>, comp: (x: T, y: T) => boolean);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, comp: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{
@@ -66,8 +66,8 @@ namespace std
 				post_process = () =>
 				{
 					// RANGE CONSTRUCTOR
-					let first: IForwardIterator<T> = args[0]; // PARAMETER 1
-					let last: IForwardIterator<T> = args[1]; // PARAMETER 2
+					let first: Readonly<IForwardIterator<T>> = args[0]; // PARAMETER 1
+					let last: Readonly<IForwardIterator<T>> = args[1]; // PARAMETER 2
 
 					this.container_.assign(first, last);
 				};

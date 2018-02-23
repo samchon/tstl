@@ -91,27 +91,5 @@ namespace std.base
 		{
 			return this == obj;
 		}
-
-		public swap(obj: _ListIteratorBase<T>): void
-		{
-			let source: _ListContainer<T, _ListIteratorBase<T>> = this.source() as _ListContainer<T, _ListIteratorBase<T>>;
-			let supp_prev: _ListIteratorBase<T> = this.prev_;
-			let supp_next: _ListIteratorBase<T> = this.next_;
-
-			this.prev_ = obj.prev_;
-			this.next_ = obj.next_;
-			obj.prev_ = supp_prev;
-			obj.next_ = supp_next;
-
-			if (source.end() == this)
-				source["end_"] = obj;
-			else if (source.end() == obj)
-				source["end_"] = this;
-
-			if (source.begin() == this)
-				source["begin_"] = obj;
-			else if (source.begin() == obj)
-				source["begin_"] = this;
-		}
 	}
 }

@@ -30,9 +30,9 @@ namespace std
 		public constructor(items: T[], hash: (val: T) => number, equal: (x: T, y: T) => boolean);
 
 		public constructor(container: HashMultiSet<T>);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>, hash: (val: T) => number);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>, hash: (val: T) => number, equal: (x: T, y: T) => boolean);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash: (val: T) => number);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash: (val: T) => number, equal: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{
@@ -87,8 +87,8 @@ namespace std
 				// RANGE CONSTRUCTOR
 				post_process = () =>
 				{
-					let first: IForwardIterator<T> = args[0];
-					let last: IForwardIterator<T> = args[1];
+					let first: Readonly<IForwardIterator<T>> = args[0];
+					let last: Readonly<IForwardIterator<T>> = args[1];
 
 					this.assign(first, last);
 				};
@@ -159,9 +159,9 @@ namespace std
 
 		public begin(): HashMultiSet.Iterator<T>;
 		public begin(index: number): HashMultiSet.Iterator<T>;
-		public begin(index: number = -1): HashMultiSet.Iterator<T>
+		public begin(index: number = null): HashMultiSet.Iterator<T>
 		{
-			if (index == -1)
+			if (index == null)
 				return super.begin();
 			else
 				return this.buckets_.at(index).front();
@@ -169,9 +169,9 @@ namespace std
 
 		public end(): HashMultiSet.Iterator<T>;
 		public end(index: number): HashMultiSet.Iterator<T>
-		public end(index: number = -1): HashMultiSet.Iterator<T>
+		public end(index: number = null): HashMultiSet.Iterator<T>
 		{
-			if (index == -1)
+			if (index == null)
 				return super.end();
 			else
 				return this.buckets_.at(index).back().next();
@@ -179,9 +179,9 @@ namespace std
 
 		public rbegin(): HashMultiSet.ReverseIterator<T>;
 		public rbegin(index: number): HashMultiSet.ReverseIterator<T>;
-		public rbegin(index: number = -1): HashMultiSet.ReverseIterator<T>
+		public rbegin(index: number = null): HashMultiSet.ReverseIterator<T>
 		{
-			if (index == -1)
+			if (index == null)
 				return super.rbegin();
 			else
 				return new base.SetReverseIterator<T, HashMultiSet<T>>(this.end(index));
@@ -189,9 +189,9 @@ namespace std
 
 		public rend(): HashMultiSet.ReverseIterator<T>;
 		public rend(index: number): HashMultiSet.ReverseIterator<T>;
-		public rend(index: number = -1): HashMultiSet.ReverseIterator<T>
+		public rend(index: number = null): HashMultiSet.ReverseIterator<T>
 		{
-			if (index == -1)
+			if (index == null)
 				return super.rend();
 			else
 				return new base.SetReverseIterator<T, HashMultiSet<T>>(this.begin(index));

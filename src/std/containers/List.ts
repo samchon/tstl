@@ -30,7 +30,7 @@ namespace std
 		public constructor(items: Array<T>);
 		public constructor(size: number, val: T);
 		public constructor(container: List<T>);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 		public constructor(...args: any[])
 		{
@@ -111,90 +111,6 @@ namespace std
 		public rend(): List.ReverseIterator<T>
 		{
 			return this.rend_;
-		}
-
-		/* =========================================================
-			ELEMENTS I/O
-				- INSERT
-				- ERASE
-				- POST-PROCESS
-		============================================================
-			INSERT
-		--------------------------------------------------------- */
-		public insert(position: List.Iterator<T>, val: T): List.Iterator<T>;
-
-		public insert(position: List.Iterator<T>, size: number, val: T): List.Iterator<T>;
-
-		public insert<U extends T, InputIterator extends IForwardIterator<U>>
-			(position: List.Iterator<T>, begin: InputIterator, end: InputIterator): List.Iterator<T>;
-		
-		public insert(position: List.ReverseIterator<T>, val: T): List.ReverseIterator<T>;
-
-		public insert(position: List.ReverseIterator<T>, size: number, val: T): List.ReverseIterator<T>;
-
-		public insert<U extends T, InputIterator extends IForwardIterator<U>>
-			(position: List.ReverseIterator<T>, begin: InputIterator, end: InputIterator): List.ReverseIterator<T>;
-
-		public insert(...args: any[]): List.Iterator<T> | List.ReverseIterator<T>
-		{
-			// REVERSE_ITERATOR TO ITERATOR
-			let ret: List.Iterator<T>;
-			let is_reverse_iterator: boolean = false;
-
-			if (args[0] instanceof List.ReverseIterator)
-			{
-				is_reverse_iterator = true;
-				args[0] = (args[0] as List.ReverseIterator<T>).base().prev();
-			}
-
-			//----
-			// DO INSERT VIA SUPER
-			//----
-			ret = super.insert.apply(this, args);
-			
-			// RETURNS
-			if (is_reverse_iterator == true)
-				return new List.ReverseIterator<T>(ret.next());
-			else
-				return ret;
-		}
-
-		/* ---------------------------------------------------------
-			ERASE
-		--------------------------------------------------------- */
-		public erase(position: List.Iterator<T>): List.Iterator<T>;
-		
-		public erase(begin: List.Iterator<T>, end: List.Iterator<T>): List.Iterator<T>;
-
-		public erase(position: List.ReverseIterator<T>): List.ReverseIterator<T>;
-
-		public erase(begin: List.ReverseIterator<T>, end: List.ReverseIterator<T>): List.ReverseIterator<T>;
-
-		public erase(first: any, last: any = first.next()): List.Iterator<T> | List.ReverseIterator<T>
-		{
-			let ret: List.Iterator<T>;
-			let is_reverse_iterator: boolean = false;
-
-			// REVERSE ITERATOR TO ITERATOR
-			if (first instanceof List.ReverseIterator)
-			{
-				is_reverse_iterator = true;
-
-				let first_it = (last as List.ReverseIterator<T>).base();
-				let last_it = (first as List.ReverseIterator<T>).base();
-
-				first = first_it;
-				last = last_it;
-			}
-
-			// ERASE ELEMENTS
-			ret = this._Erase_by_range(first, last);
-
-			// RETURN BRANCHES
-			if (is_reverse_iterator == true)
-				return new List.ReverseIterator<T>(ret.next());
-			else
-				return ret;
 		}
 
 		/* ===============================================================
@@ -437,11 +353,6 @@ namespace std.List
 		public equals(obj: Iterator<T>): boolean
 		{
 			return this == obj;
-		}
-
-		public swap(obj: Iterator<T>): void
-		{
-			super.swap(obj);
 		}
 	}
 

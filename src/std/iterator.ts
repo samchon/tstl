@@ -63,11 +63,6 @@ namespace std
 		let start: number = first.index();
 		let end: number = last.index();
 
-		if (start == -1)
-			start = first.source().size();
-		else if (end == -1)
-			end = first.source().size();
-
 		return Math.abs(end - start);
 	}
 

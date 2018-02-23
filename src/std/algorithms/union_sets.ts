@@ -10,24 +10,27 @@ namespace std
 		MERGE
 	--------------------------------------------------------- */
 	export function merge<T, 
-			InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
 		): OutputIterator;
 
 	export function merge<T, 
-			InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function merge<T, 
-			InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = less
@@ -50,28 +53,27 @@ namespace std
 				result.value = first2.value;
 				first2 = first2.next() as InputIterator2;
 			}
-
 			result = result.next() as OutputIterator;
 		}
 	}
 
-	export function inplace_merge<T, BidirectionalIterator extends base.Iterator<T>>
-		(first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator): void;
+	export function inplace_merge<T, ForwardIterator extends General<IForwardIterator<T>>>
+		(first: ForwardIterator, middle: ForwardIterator, last: ForwardIterator): void;
 
-	export function inplace_merge<T, BidirectionalIterator extends base.ILinearIterator<T>>
+	export function inplace_merge<T, ForwardIterator extends General<IForwardIterator<T>>>
 		(
-			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
+			first: ForwardIterator, middle: ForwardIterator, last: ForwardIterator,
 			comp: (x: T, y: T) => boolean
 		): void;
 
-	export function inplace_merge<T, BidirectionalIterator extends base.ILinearIterator<T>>
+	export function inplace_merge<T, ForwardIterator extends General<IForwardIterator<T>>>
 		(
-			first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
+			first: ForwardIterator, middle: ForwardIterator, last: ForwardIterator,
 			comp: (x: T, y: T) => boolean = less
 		): void
 	{
-		let vector: Vector<T> = new Vector<T>(distance(first, last), null);
-		merge(first, middle, middle, last, vector.begin(), comp);
+		let vector: Vector<T> = new Vector();
+		merge(first, middle, middle, last, back_inserter<T, Vector<T>>(vector), comp);
 
 		copy(vector.begin(), vector.end(), first);
 	}
@@ -79,16 +81,16 @@ namespace std
 	/* ---------------------------------------------------------
 		SET OPERATIONS
 	--------------------------------------------------------- */
-	export function includes<T, InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>>
+	export function includes<T, InputIterator1 extends Readonly<IForwardIterator<T>>, InputIterator2 extends Readonly<IForwardIterator<T>>>
 		(first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2): boolean;
 	
-	export function includes<T, InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>>
+	export function includes<T, InputIterator1 extends Readonly<IForwardIterator<T>>, InputIterator2 extends Readonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			compare: (x: T, y: T) => boolean
 		): boolean;
 
-	export function includes<T, InputIterator1 extends IForwardIterator<T>, InputIterator2 extends IForwardIterator<T>>
+	export function includes<T, InputIterator1 extends Readonly<IForwardIterator<T>>, InputIterator2 extends Readonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			compare: (x: T, y: T) => boolean = less
@@ -108,27 +110,27 @@ namespace std
 	}
 
 	export function set_union<T, 
-			InputIterator1 extends IForwardIterator<T>, 
-			InputIterator2 extends IForwardIterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
 		): OutputIterator;
 
 	export function set_union<T, 
-			InputIterator1 extends IForwardIterator<T>, 
-			InputIterator2 extends IForwardIterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 	
 	export function set_union<T, 
-			InputIterator1 extends IForwardIterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = less
@@ -144,13 +146,11 @@ namespace std
 			if (compare(first1.value, first2.value))
 			{
 				result.value = first1.value;
-
 				first1 = first1.next() as InputIterator1;
 			}
 			else if (compare(first2.value, first1.value))
 			{
 				result.value = first2.value;
-
 				first2 = first2.next() as InputIterator2;
 			}
 			else 
@@ -166,27 +166,27 @@ namespace std
 	}
 
 	export function set_intersection<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
 		): OutputIterator;
 
 	export function set_intersection<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function set_intersection<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = less
@@ -215,27 +215,27 @@ namespace std
 	}
 
 	export function set_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
 		): OutputIterator;
 
 	export function set_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, comp: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function set_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, comp: (x: T, y: T) => boolean = less
@@ -261,27 +261,27 @@ namespace std
 	}
 
 	export function set_symmetric_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator
 		): OutputIterator;
 
 	export function set_symmetric_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends base.Iterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean
 		): OutputIterator;
 
 	export function set_symmetric_difference<T, 
-			InputIterator1 extends base.Iterator<T>, 
-			InputIterator2 extends IForwardIterator<T>,
-			OutputIterator extends base.ILinearIterator<T>>
+			InputIterator1 extends Readonly<IForwardIterator<T>>, 
+			InputIterator2 extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, last2: InputIterator2,
 			result: OutputIterator, compare: (x: T, y: T) => boolean = less

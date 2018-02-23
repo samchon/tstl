@@ -40,12 +40,11 @@
 	export interface ILinearIterator<T>
 		extends Iterator<T>
 	{
-		source(): ILinearContainer<T>;
-
 		value: T;
 
-		prev(): ILinearIterator<T>;
+		source(): ILinearContainer<T>;
 
+		prev(): ILinearIterator<T>;
 		next(): ILinearIterator<T>;
 	}
 }

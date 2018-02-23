@@ -11,31 +11,9 @@ namespace std.base
 		extends Container<T>
 		implements IArrayContainer<T>
 	{
-		/**
-		 * @hidden
-		 */
-		private begin_: ArrayIterator<T, Source>;
-
-		/**
-		 * @hidden
-		 */
-		private end_: ArrayIterator<T, Source>;
-
-		/**
-		 * @hidden
-		 */
-		private rend_: ArrayReverseIterator<T, Source>;
-
-		/* ---------------------------------------------------------
-			CONSTRUCTORS
-		--------------------------------------------------------- */
 		protected constructor()
 		{
 			super();
-
-			this.begin_ = new ArrayIterator<T, Source>(this as IArrayContainer<T> as Source, 0);
-			this.end_ = new ArrayIterator<T, Source>(this as IArrayContainer<T> as Source, -1);
-			this.rend_ = new ArrayReverseIterator<T, Source>(this.begin_);
 		}
 
 		/* =========================================================
@@ -47,28 +25,22 @@ namespace std.base
 		--------------------------------------------------------- */
 		public begin(): ArrayIterator<T, Source>
 		{
-			if (this.empty() == true)
-				return this.end_;
-			else
-				return this.begin_;
+			return new ArrayIterator(<any>this as Source, 0);
 		}
 
 		public end(): ArrayIterator<T, Source>
 		{
-			return this.end_;
+			return new ArrayIterator(<any>this as Source, this.size());
 		}
 
 		public rbegin(): ArrayReverseIterator<T, Source>
 		{
-			return new ArrayReverseIterator<T, Source>(this.end_);
+			return new ArrayReverseIterator(this.end());
 		}
 
 		public rend(): ArrayReverseIterator<T, Source>
 		{
-			if (this.empty() == true)
-				return new ArrayReverseIterator<T, Source>(this.end_);
-			else
-				return this.rend_;
+			return new ArrayReverseIterator(this.begin());
 		}
 
 		/* ---------------------------------------------------------
@@ -114,56 +86,27 @@ namespace std.base
 		public abstract push_back(val: T): void;
 
 		public insert(pos: ArrayIterator<T, Source>, val: T): ArrayIterator<T, Source>;
-		
 		public insert(pos: ArrayIterator<T, Source>, n: number, val: T): ArrayIterator<T, Source>;
-		
 		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(pos: ArrayIterator<T, Source>, first: InputIterator, last: InputIterator): ArrayIterator<T, Source>;
 
-		public insert(pos: ArrayReverseIterator<T, Source>, val: T): ArrayIterator<T, Source>;
-		
-		public insert(pos: ArrayReverseIterator<T, Source>, n: number, val: T): ArrayIterator<T, Source>;
-		
-		public insert<U extends T, InputIterator extends IForwardIterator<U>>
-			(pos: ArrayReverseIterator<T, Source>, first: InputIterator, last: InputIterator): ArrayIterator<T, Source>;
-
-		public insert(...args: any[]): ArrayIterator<T, Source> | ArrayReverseIterator<T, Source>
+		public insert(pos: ArrayIterator<T, Source>, ...args: any[]): ArrayIterator<T, Source>
 		{
 			// VALIDATION
-			if (args[0].source() != this)
+			if (pos.source() != <any>this)
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
-
-			// REVERSE_ITERATOR TO ITERATOR
-			let ret: ArrayIterator<T, Source>;
-			let is_reverse_iterator: boolean = false;
-
-			if (args[0] instanceof ArrayReverseIterator)
-			{
-				is_reverse_iterator = true;
-				args[0] = (args[0] as ArrayReverseIterator<T, Source>).base().prev();
-			}
+			else if (pos.index() < 0)
+				throw new LengthError("Parametric iterator is directing invalid position.");
+			else if (pos.index() > this.size())
+				pos = this.end();
 
 			// BRANCHES
-			if (args.length == 2)
-				ret = this._Insert_by_val(args[0], args[1]);
-			else if (args.length == 3 && typeof args[1] == "number")
-				ret = this._Insert_by_repeating_val(args[0], args[1], args[2]);
+			if (args.length == 1)
+				return this._Insert_by_repeating_val(pos, 1, args[0]);
+			else if (args.length == 2 && typeof args[0] == "number")
+				return this._Insert_by_repeating_val(pos, args[0], args[1]);
 			else
-				ret = this._Insert_by_range(args[0], args[1], args[2]);
-
-			// RETURNS
-			if (is_reverse_iterator == true)
-				return new ArrayReverseIterator<T, Source>(ret.next());
-			else
-				return ret;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Insert_by_val(position: ArrayIterator<T, Source>, val: T): ArrayIterator<T, Source>
-		{
-			return this._Insert_by_repeating_val(position, 1, val);
+				return this._Insert_by_range(pos, args[0], args[1]);
 		}
 
 		/**
@@ -189,42 +132,18 @@ namespace std.base
 		public abstract pop_back(): void;
 
 		public erase(it: ArrayIterator<T, Source>): ArrayIterator<T, Source>;
-
 		public erase(first: ArrayIterator<T, Source>, last: ArrayIterator<T, Source>): ArrayIterator<T, Source>;
 
-		public erase(it: ArrayReverseIterator<T, Source>): ArrayReverseIterator<T, Source>;
-
-		public erase(first: ArrayReverseIterator<T, Source>, last: ArrayReverseIterator<T, Source>): ArrayReverseIterator<T, Source>;
-
-		public erase(first: any, last: any = first.next()): any
+		public erase(first: ArrayIterator<T, Source>, last: ArrayIterator<T, Source> = first.next()): ArrayIterator<T, Source>
 		{
 			// VALIDATION
-			if (first.source() != this || last.source() != this)
+			if (first.source() != <any>this || last.source() != <any>this)
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
-
-			let ret: ArrayIterator<T, Source>;
-			let is_reverse_iterator: boolean = false;
-
-			// REVERSE_ITERATOR TO ITERATOR
-			if (first instanceof ArrayReverseIterator)
-			{
-				is_reverse_iterator = true;
-
-				let first_it = (last as ArrayReverseIterator<T, Source>).base();
-				let last_it = (first as ArrayReverseIterator<T, Source>).base();
-
-				first = first_it;
-				last = last_it;
-			}
+			else if (first.index() < 0 || first.index() >= this.size() || first.index() >= last.index())
+				throw new LengthError("Invalid range.");
 
 			// ERASE ELEMENTS
-			ret = this._Erase_by_range(first, last);
-
-			// RETURN BRANCHES
-			if (is_reverse_iterator == true)
-				return new ArrayReverseIterator<T, Source>(ret.next());
-			else
-				return ret;
+			return this._Erase_by_range(first, last);
 		}
 
 		/**

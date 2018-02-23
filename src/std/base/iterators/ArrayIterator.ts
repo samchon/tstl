@@ -40,7 +40,6 @@ namespace std.base
 		{
 			return this.source_ as Source;
 		};
-
 		public index(): number
 		{
 			return this.index_;
@@ -49,8 +48,7 @@ namespace std.base
 		public get value(): T
 		{
 			return this.source().at(this.index_)
-		};
-
+		}
 		public set value(val: T)
 		{
 			this.source().set(this.index_, val);
@@ -61,34 +59,16 @@ namespace std.base
 		--------------------------------------------------------- */
 		public prev(): ArrayIterator<T, Source>
 		{
-			if (this.index_ == -1)
-				return new ArrayIterator<T, Source>(this.source(), this.source_.size() - 1);
-			else if (this.index_ - 1 < 0)
-				return this.source().end() as ArrayIterator<T, Source>;
-			else
-				return new ArrayIterator<T, Source>(this.source(), this.index_ - 1);
+			return new ArrayIterator<T, Source>(this.source(), this.index_ - 1);
 		}
-
 		public next(): ArrayIterator<T, Source>
 		{
-			if (this.index_ >= this.source_.size() - 1)
-				return this.source().end() as ArrayIterator<T, Source>;
-			else
-				return new ArrayIterator<T, Source>(this.source(), this.index_ + 1);
+			return new ArrayIterator<T, Source>(this.source(), this.index_ + 1);
 		}
 
 		public advance(n: number): ArrayIterator<T, Source>
 		{
-			let new_index: number;
-			if (n < 0 && this.index_ == -1)
-				new_index = this.source_.size() + n;
-			else
-				new_index = this.index_ + n;
-
-			if (new_index < 0 || new_index >= this.source_.size())
-				return this.source().end() as ArrayIterator<T, Source>;
-			else
-				return new ArrayIterator<T, Source>(this.source(), new_index);
+			return new ArrayIterator<T, Source>(this.source(), this.index_ + n);
 		}
 
 		/* ---------------------------------------------------------
@@ -98,11 +78,6 @@ namespace std.base
 		{
 			return equal_to(this.source_, obj.source_) && this.index_ == obj.index_;
 		}
-
-		public swap(obj: ArrayIterator<T, Source>): void
-		{
-			[this.value, obj.value] = [obj.value, this.value];
-		};
 	}
 }
 

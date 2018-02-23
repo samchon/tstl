@@ -36,7 +36,7 @@ namespace std
 		public constructor(items: Array<T>);
 		public constructor(obj: ForwardList<T>);
 		public constructor(n: number, val: T);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 		public constructor(...args: any[])
 		{
@@ -64,7 +64,7 @@ namespace std
 			ASSIGN & CLEAR
 		--------------------------------------------------------------- */
 		public assign(n: number, val: T): void;
-		public assign<T, InputIterator extends IForwardIterator<T>>
+		public assign<T, InputIterator extends Readonly<IForwardIterator<T>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		public assign(first: any, last: any): void
@@ -131,7 +131,7 @@ namespace std
 
 		public insert_after(pos: ForwardList.Iterator<T>, val: T): ForwardList.Iterator<T>;
 		public insert_after(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>;
-		public insert_after<T, InputIterator extends IForwardIterator<T>>
+		public insert_after<T, InputIterator extends Readonly<IForwardIterator<T>>>
 			(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>;
 
 		public insert_after(pos: ForwardList.Iterator<T>, ...args: any[]): ForwardList.Iterator<T>
@@ -347,7 +347,7 @@ namespace std
 
 namespace std.ForwardList
 {
-	export class Iterator<T> implements IForwardIterator<T>
+	export class Iterator<T> implements Readonly<IForwardIterator<T>>
 	{
 		/**
 		 * @hidden

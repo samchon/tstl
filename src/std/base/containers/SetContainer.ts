@@ -113,9 +113,6 @@ namespace std.base
 		}
 		
 		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
-
-		public insert(hint: SetReverseIterator<T, Source>, val: T): SetReverseIterator<T, Source>;
-
 		public insert<U extends T, InputIterator extends IForwardIterator<U>>
 			(begin: InputIterator, end: InputIterator): void;
 
@@ -133,24 +130,8 @@ namespace std.base
 				}
 				else
 				{
-					let ret: SetIterator<T, Source>;
-					let is_reverse_iterator: boolean = false;
-
-					// REVERSE_ITERATOR TO ITERATOR
-					if (args[0] instanceof SetReverseIterator)
-					{
-						is_reverse_iterator = true;
-						args[0] = (args[0] as SetReverseIterator<T, Source>).base().prev();
-					}
-
 					// INSERT AN ELEMENT
-					ret = this._Insert_by_hint(args[0], args[1]);
-
-					// RETURN BRANCHES
-					if (is_reverse_iterator == true)
-						return new SetReverseIterator<T, Source>(ret.next());
-					else
-						return ret;
+					return this._Insert_by_hint(args[0], args[1]);
 				}
 			}
 		}
@@ -175,54 +156,17 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		public erase(val: T): number;
-
 		public erase(it: SetIterator<T, Source>): SetIterator<T, Source>;
-
 		public erase(begin: SetIterator<T, Source>, end: SetIterator<T, Source>): SetIterator<T, Source>;
-
-		public erase(it: SetReverseIterator<T, Source>): SetReverseIterator<T, Source>;
-
-		public erase(begin: SetReverseIterator<T, Source>, end: SetReverseIterator<T, Source>): SetReverseIterator<T, Source>;
 
 		public erase(...args: any[]): any
 		{
 			if (args.length == 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<T, Source>).source() as any == this))
 				return this._Erase_by_val(args[0]);
+			else if (args.length == 1)
+				return this._Erase_by_range(args[0]);
 			else
-				if (args.length == 1)
-					return this._Erase_by_iterator(args[0]);
-				else
-					return this._Erase_by_iterator(args[0], args[1]);
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Erase_by_iterator(first: any, last: any = first.next()): any
-		{
-			let ret: SetIterator<T, Source>;
-			let is_reverse_iterator: boolean = false;
-
-			// REVERSE ITERATOR TO ITERATOR
-			if (first instanceof SetReverseIterator)
-			{
-				is_reverse_iterator = true;
-
-				let first_it = (last as SetReverseIterator<T, Source>).base();
-				let last_it = (first as SetReverseIterator<T, Source>).base();
-
-				first = first_it;
-				last = last_it;
-			}
-
-			// ERASE ELEMENTS
-			ret = this._Erase_by_range(first, last);
-
-			// RETURN BRANCHES
-			if (is_reverse_iterator == true)
-				return new SetReverseIterator<T, Source>(ret.next());
-			else
-				return ret;
+				return this._Erase_by_range(args[0], args[1]);
 		}
 
 		/**
@@ -236,14 +180,14 @@ namespace std.base
 				return 0;
 
 			// ERASE
-			this._Erase_by_iterator(it);
+			this._Erase_by_range(it);
 			return 1;
 		}
 
 		/**
 		 * @hidden
 		 */
-		private _Erase_by_range(first: SetIterator<T, Source>, last: SetIterator<T, Source>): SetIterator<T, Source>
+		private _Erase_by_range(first: SetIterator<T, Source>, last: SetIterator<T, Source> = first.next()): SetIterator<T, Source>
 		{
 			// ERASE
 			let it = this.data_.erase(first, last);

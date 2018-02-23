@@ -11,7 +11,6 @@ namespace std.base
 			INSERT
 		--------------------------------------------------------- */
 		public emplace(key: Key, value: T): MapIterator<Key, T, Source>;
-
 		public emplace(pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 
 		public emplace(...args: any[]): MapIterator<Key, T, Source>
@@ -23,11 +22,7 @@ namespace std.base
 		}
 
 		public insert(pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-
 		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-
-		public insert(hint: MapReverseIterator<Key, T, Source>, pair: IPair<Key, T>): MapReverseIterator<Key, T, Source>;
-		
 		public insert<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 

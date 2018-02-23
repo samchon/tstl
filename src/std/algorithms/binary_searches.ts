@@ -5,19 +5,19 @@ namespace std
 	/* =========================================================
 		BINARY SEARCH
 	========================================================= */
-	export function lower_bound<T, ForwardIterator extends IForwardIterator<T>>
+	export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
 
-	export function lower_bound<T, ForwardIterator extends IForwardIterator<T>>
+	export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T, 
-			compare: (x: T, y: T) => boolean
+			comp: (x: T, y: T) => boolean
 		): ForwardIterator;
 
-	export function lower_bound<T, ForwardIterator extends IForwardIterator<T>>
+	export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T, 
-			compare: (x: T, y: T) => boolean = less
+			comp: (x: T, y: T) => boolean = less
 		): ForwardIterator
 	{
 		let count: number = distance(first, last);
@@ -27,7 +27,7 @@ namespace std
 			let step: number = Math.floor(count / 2);
 			let it: ForwardIterator = advance(first, step) as ForwardIterator;
 
-			if (compare(it.value, val))
+			if (comp(it.value, val))
 			{
 				first = it.next() as ForwardIterator;
 				count -= step + 1;
@@ -38,16 +38,16 @@ namespace std
 		return first;
 	}
 
-	export function upper_bound<T, ForwardIterator extends IForwardIterator<T>>
+	export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
 
-	export function upper_bound<T, ForwardIterator extends IForwardIterator<T>>
+	export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): ForwardIterator;
 
-	export function upper_bound<T, ForwardIterator extends IForwardIterator<T>>
+	export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = less
@@ -71,16 +71,16 @@ namespace std
 		return first;
 	}
 
-	export function equal_range<T, ForwardIterator extends IForwardIterator<T>>
+	export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): Pair<ForwardIterator, ForwardIterator>
 
-	export function equal_range<T, ForwardIterator extends IForwardIterator<T>>
+	export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): Pair<ForwardIterator, ForwardIterator>;
 
-	export function equal_range<T, ForwardIterator extends IForwardIterator<T>>
+	export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = less
@@ -91,16 +91,16 @@ namespace std
 		return make_pair(it, upper_bound(it, last, val, compare));
 	}
 
-	export function binary_search<T, ForwardIterator extends IForwardIterator<T>>
+	export function binary_search<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(first: ForwardIterator, last: ForwardIterator, val: T): boolean;
 
-	export function binary_search<T, ForwardIterator extends IForwardIterator<T>>
+	export function binary_search<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean
 		): boolean;
 
-	export function binary_search<T, ForwardIterator extends IForwardIterator<T>>
+	export function binary_search<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, val: T,
 			compare: (x: T, y: T) => boolean = less

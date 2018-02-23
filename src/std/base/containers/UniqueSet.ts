@@ -19,13 +19,9 @@ namespace std.base
 			INSERT
 		--------------------------------------------------------- */
 		public insert(val: T): Pair<SetIterator<T, Source>, boolean>;
-
 		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
-
-		public insert(hint: SetReverseIterator<T, Source>, val: T): SetReverseIterator<T, Source>;
-
-		public insert<U extends T, InputIterator extends IForwardIterator<U>>
-			(begin: InputIterator, end: InputIterator): void;
+		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+			(first: InputIterator, last: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
@@ -36,17 +32,12 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		public extract(val: T): T;
-
 		public extract(it: SetIterator<T, Source>): SetIterator<T, Source>;
 
-		public extract(it: SetReverseIterator<T, Source>): SetReverseIterator<T, Source>;
-
-		public extract(param: T | SetIterator<T, Source> | SetReverseIterator<T, Source>): any
+		public extract(param: T | SetIterator<T, Source>): any
 		{
 			if (param instanceof SetIterator)
 				return this._Extract_by_iterator(param);
-			else if (param instanceof SetReverseIterator)
-				return this._Extract_by_reverse_iterator(param);
 			else
 				return this._Extract_by_key(param);
 		}
@@ -73,15 +64,6 @@ namespace std.base
 				return this.end();
 
 			this.erase(it);
-			return it;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Extract_by_reverse_iterator(it: SetReverseIterator<T, Source>): SetReverseIterator<T, Source>
-		{
-			this._Extract_by_iterator(it.base().next());
 			return it;
 		}
 

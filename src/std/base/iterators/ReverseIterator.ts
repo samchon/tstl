@@ -6,7 +6,6 @@ namespace std.base
 {
 	export abstract class ReverseIterator<T, Source extends Container<T>, Base extends Iterator<T>, This extends ReverseIterator<T, Source, Base, This>>
 		extends Iterator<T>
-		implements IForwardIterator<T>, IComparable<ReverseIterator<T, Source, Base, This>>
 	{
 		/**
 		 * @hidden
@@ -74,11 +73,6 @@ namespace std.base
 		public equals(obj: This): boolean
 		{
 			return this.base_.equals(obj.base_);
-		}
-
-		public swap(obj: This): void
-		{
-			this.base_.swap(obj.base_);
 		}
 	}
 }

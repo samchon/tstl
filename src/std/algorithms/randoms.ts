@@ -9,8 +9,8 @@ namespace std.experimental
 	}
 
 	export function sample<T, 
-			InputIterator extends IForwardIterator<T>,
-			OutputIterator extends IOutputIterator<T>>
+			InputIterator extends Readonly<IForwardIterator<T>>,
+			OutputIterator extends Writeonly<IForwardIterator<T>>>
 		(
 			first: InputIterator, last: InputIterator, 
 			output: OutputIterator, n: number

@@ -49,7 +49,7 @@ namespace std
 		public constructor(items: Array<T>);
 		public constructor(container: Deque<T>);
 		public constructor(size: number, val: T);
-		public constructor(first: IForwardIterator<T>, last: IForwardIterator<T>);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 		public constructor(...args: any[])
 		{
@@ -480,12 +480,12 @@ namespace std
 		 */
 		protected _Erase_by_range(first: Deque.Iterator<T>, last: Deque.Iterator<T>): Deque.Iterator<T>
 		{
-			if (first.index() == -1)
+			if (first.index() >= this.size())
 				return first;
 
 			// INDEXING
 			let size: number;
-			if (last.index() == -1) // LAST IS END()
+			if (last.index() >= this.size()) // LAST IS END()
 				size = this.size() - first.index();
 			else // LAST IS NOT END()
 				size = last.index() - first.index();
@@ -532,10 +532,7 @@ namespace std
 				this.matrix_.splice(this.matrix_.indexOf(second_row), 1);
 			}
 			
-			if (last.index() == -1)
-				return this.end();
-			else
-				return first;
+			return first;
 		}
 
 		/* ---------------------------------------------------------

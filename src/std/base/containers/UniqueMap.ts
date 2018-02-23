@@ -33,7 +33,6 @@ namespace std.base
 			INSERT
 		--------------------------------------------------------- */
 		public emplace(key: Key, value: T): Pair<MapIterator<Key, T, Source>, boolean>;
-
 		public emplace(pair: IPair<Key, T>): Pair<MapIterator<Key, T, Source>, boolean>;
 
 		public emplace(...args: any[]): Pair<MapIterator<Key, T, Source>, boolean>
@@ -45,11 +44,7 @@ namespace std.base
 		}
 
 		public insert(pair: IPair<Key, T>): Pair<MapIterator<Key, T, Source>, boolean>;
-		
 		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-
-		public insert(hint: MapReverseIterator<Key, T, Source>, pair: IPair<Key, T>): MapReverseIterator<Key, T, Source>;
-
 		public insert<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void
 
@@ -59,10 +54,7 @@ namespace std.base
 		}
 
 		public insert_or_assign(key: Key, value: T): Pair<MapIterator<Key, T, Source>, boolean>;
-
 		public insert_or_assign(hint: MapIterator<Key, T, Source>, key: Key, value: T): MapIterator<Key, T, Source>;
-
-		public insert_or_assign(hint: MapReverseIterator<Key, T, Source>, key: Key, value: T): MapReverseIterator<Key, T, Source>;
 
 		public insert_or_assign(...args: any[]): any
 		{
@@ -72,24 +64,8 @@ namespace std.base
 			}
 			else if (args.length == 3)
 			{
-				let ret: MapIterator<Key, T, Source>;
-				let is_reverse_iterator: boolean = false;
-
-				// REVERSE_ITERATOR TO ITERATOR
-				if (args[0] instanceof MapReverseIterator)
-				{
-					is_reverse_iterator = true;
-					args[0] = (args[0] as MapReverseIterator<Key, T, Source>).base().prev();
-				}
-
 				// INSERT OR ASSIGN AN ELEMENT
-				ret = this._Insert_or_assign_with_hint(args[0], args[1], args[2]);
-
-				// RETURN BRANCHES
-				if (is_reverse_iterator == true)
-					return new MapReverseIterator<Key, T, Source>(ret.next());
-				else
-					return ret;
+				return this._Insert_or_assign_with_hint(args[0], args[1], args[2]);
 			}
 		}
 
@@ -125,17 +101,12 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		public extract(key: Key): Entry<Key, T>;
-
 		public extract(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
 
-		public extract(it: MapReverseIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>;
-
-		public extract(param: Key | MapIterator<Key, T, Source> | MapReverseIterator<Key, T, Source>): any
+		public extract(param: Key | MapIterator<Key, T, Source>): any
 		{
 			if (param instanceof MapIterator)
 				return this._Extract_by_iterator(param);
-			else if (param instanceof MapReverseIterator)
-				return this._Extract_by_reverse_iterator(param);
 			else
 				return this._Extract_by_key(param);
 		}
@@ -164,15 +135,6 @@ namespace std.base
 				return this.end();
 
 			this.erase(it);
-			return it;
-		}
-
-		/**
-		 * @hidden
-		 */
-		private _Extract_by_reverse_iterator(it: MapReverseIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>
-		{
-			this._Extract_by_iterator(it.base().next());
 			return it;
 		}
 

@@ -342,7 +342,7 @@ namespace std
 
 			if (last.equals(this.end()) == false)
 			{
-				let last_index: number = this._Compute_index(last);
+				let last_index: number = Math.min(this.size(), last.index());
 
 				for (let it = this._Find_node(last_index); !it.equals(this.data_.end()); it = it.next())
 				{
@@ -359,7 +359,7 @@ namespace std
 				}
 			}
 
-			this.size_ = this._Compute_index(first);
+			this.size_ = first.index();
 			this.data_.erase
 			(
 				this.data_.lower_bound(this.size_),
@@ -367,15 +367,6 @@ namespace std
 			);
 			
 			return this._Insert_to_end(elements);
-		}
-
-		private _Compute_index(it: VectorBoolean.Iterator): number
-		{
-			let ret: number = it.index();
-			if (ret == -1)
-				return this.size();
-			else
-				return ret;
 		}
 	}
 }

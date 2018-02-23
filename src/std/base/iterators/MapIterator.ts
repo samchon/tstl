@@ -6,7 +6,6 @@ namespace std.base
 {
 	export class MapIterator<Key, T, Source extends IMapContainer<Key, T>>
 		extends base._ListIteratorBase<Entry<Key, T>>
-		implements IComparable<MapIterator<Key, T, Source>>
 	{
 		/**
 		 * @hidden
@@ -87,19 +86,17 @@ namespace std.base
 		{
 			return hash(this.first);
 		}
-
-		public swap(obj: MapIterator<Key, T, Source>): void
-		{
-			super.swap(obj);
-		}
 	}
 }
 
 namespace std.base
 {
 	export class MapReverseIterator<Key, T, Source extends IMapContainer<Key, T>>
-		extends base.ReverseIterator<Pair<Key, T>, base.MapContainer<Key, T, Source>, MapIterator<Key, T, Source>, MapReverseIterator<Key, T, Source>>
-		implements IComparable<MapReverseIterator<Key, T, Source>>
+		extends base.ReverseIterator<Entry<Key, T>, 
+			base.MapContainer<Key, T, Source>, 
+			MapIterator<Key, T, Source>, 
+			MapReverseIterator<Key, T, Source>, 
+			InsertRet>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
