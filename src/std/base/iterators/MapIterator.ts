@@ -95,8 +95,7 @@ namespace std.base
 		extends base.ReverseIterator<Entry<Key, T>, 
 			base.MapContainer<Key, T, Source>, 
 			MapIterator<Key, T, Source>, 
-			MapReverseIterator<Key, T, Source>, 
-			InsertRet>
+			MapReverseIterator<Key, T, Source>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

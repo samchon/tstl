@@ -108,7 +108,6 @@ namespace std.base
 				return this._Emplace_hint(hint, args[0], args[1]);
 		}
 
-		public insert(pair: IPair<Key, T>): InsertRet;
 		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 		public insert<L extends Key, U extends T, InputIterator extends IForwardIterator<IPair<L, U>>>
 			(first: InputIterator, last: InputIterator): void;
@@ -126,7 +125,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Emplace(key: Key, val: T): InsertRet;
+		protected abstract _Emplace(key: Key, val: T): any;
 
 		/**
 		 * @hidden

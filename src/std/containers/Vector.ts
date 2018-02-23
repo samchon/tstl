@@ -71,7 +71,7 @@ namespace std
 
 		public clear(): void
 		{
-			this.erase(this.begin(), this.end());
+			this.data_.splice(0, this.data_.length);
 		}
 
 		public resize(n: number)

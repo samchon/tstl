@@ -139,8 +139,14 @@ namespace std.base
 			// VALIDATION
 			if (first.source() != <any>this || last.source() != <any>this)
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
-			else if (first.index() < 0 || first.index() >= this.size() || first.index() >= last.index())
-				throw new LengthError("Invalid range.");
+			else if (first.index() < 0)
+				throw new LengthError("Invalid parameter: first is directing negative index.");
+
+			// ADJUSTMENTS
+			if (first.index() >= this.size())
+				return this.end();
+			else if (first.index() > last.index())
+				throw new RangeError("Invalid range. Paramter first is greater than last.");
 
 			// ERASE ELEMENTS
 			return this._Erase_by_range(first, last);
