@@ -6,11 +6,13 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.7.0-dev.20180224-2",
+  "version": "1.7.0-dev.20180225",
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
   "scripts": {
     "build": "node build/build",
+    "build-module": "node build/module",
+    "build-test": "node build/test",
     "test": "node lib/test"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@
 namespace std
 {
 	export class FrontInsertIterator<T, Source extends base._IPushFront<T>>
-		implements Readonly<IForwardIterator<T>>
+		implements Writeonly<IForwardIterator<T>>
 	{
 		private source_: Source;
 
