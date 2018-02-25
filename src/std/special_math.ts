@@ -17,7 +17,7 @@
 //--------------------------------
 // [o] beta & gamma
 // [+] bessel
-// [+] ellint
+// [o] ellint
 // [o] expint
 // [o] hermite
 // [o] legendre

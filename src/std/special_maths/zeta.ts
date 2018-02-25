@@ -28,20 +28,19 @@ namespace std
 	function _Riemann_zeta_between_0_to_1(s: number): number
 	{
 		let divider: number = 1 - Math.pow(2, 1 - s);
-		let sum: number = 0.0;
+		let sigma: number = base.MathUtil.sigma(function (k: number): number
+		{
+			return Math.pow(-1, k + 1) / Math.pow(k, s);
+		}, 1, 100 * 1000);
 
-		for (let n: number = 1; n <= 100 * 1000; ++n)
-			sum += Math.pow(-1, n+1) / Math.pow(n, s);
-
-		return sum / divider;
+		return sigma / divider;
 	}
 
 	function _Riemann_zeta_over_1(arg: number): number
 	{
-		let ret: number = 0.0;
-		for (let n: number = 1; n < 1000; ++n)
-			ret += Math.pow(n, -arg);
-		
-		return ret;
+		return base.MathUtil.sigma(function (k: number): number
+		{
+			return Math.pow(k, -arg);
+		}, 0, 1000);
 	}
 }

@@ -2,127 +2,93 @@
 
 namespace std
 {
-	const MAXIT = 100;
-	const EPS = 1.0e-10;
-	const FPMIN = 1.0e-30;
-	const GAMMA = 0.5772156649015329;
+	const EULER = 0.57721566490153286060;
+	const MAX_K = 150;
 
-	export function expint(x: number): number;
-	export function expint(n: number, x: number): number;
-
-	export function expint(x: number, y: number = null): number
+	export function expint(x: number): number
 	{
-		if (y == null)
-			return ei(x);
+		if (x == 0)
+			return -Infinity;
+		else if (x < 0)
+			return -_E1_G(-x);
 		else
-			return exp_int(Math.floor(x), y);
+			return _EI_Factorial(x);
 	}
 
-	function exp_int(n: number /*int*/, x: number): number 
+	function _EI_Factorial(x: number): number
 	{
-		let i: number, ii: number, nm1: number; // int
-		let a: number, b: number, c: number, d: number;
-		let del: number, fact: number, h: number, psi: number;
-		let ans: number;
-
-		nm1 = n-1;
-
-		if ( n < 0 || x < 0.0 || ( x == 0.0 && ( n == 0 || n == 1 ) ) ) 
-			throw new std.InvalidArgument( "Bad arguments in exp_int." );
-		else if ( n == 0 ) 
-			return Math.exp(-x)/x;
-		else if ( x == 0.0 ) 
-			return 1.0/nm1;
-
-		if ( x > 1.0 ) 
-		{
-			b = x + n;
-			c = 1.0/FPMIN;
-			d = 1.0/b;
-			h = d;
-
-			for (i = 1; i <= MAXIT; ++i) 
+		return EULER + Math.log(Math.abs(x)) / Math.log(Math.E)
+			+ base.MathUtil.sigma(function (k: number): number
 			{
-				a = -i*(nm1 + i);
-				b += 2.0;
-				d = 1.0/(a*d + b);
-				c = b + a/c;
-				del = c*d;
-				h *= del;
-
-				if ( Math.abs(del - 1.0) < EPS ) 
-				{
-					ans = h*Math.exp(-x);
-					return ans;
-				}
-			}
-			throw new std.DomainError( "Continued fraction failed in exp_int." );
-		} 
-		else 
-		{
-			ans = (nm1 != 0 ? 1.0/nm1 : -Math.log(x) - GAMMA );
-			fact = 1.0;
-			for ( i = 1; i <= MAXIT; ++i ) {
-				fact *= -x/i;
-				if ( i != nm1 ) del = -fact/(i - nm1);
-				else {
-					psi = -GAMMA;
-					for ( ii = 1; ii <= nm1; ++ii ) psi += 1.0/ii;
-					del = fact*(psi - Math.log(x)); 
-				}
-				ans += del;
-				if (Math.abs(del) < EPS*Math.abs(ans) )
-					return ans;
-			}
-			throw new std.DomainError( "Series failed in exp_int." );
-		}
+				return Math.pow(x, k) / (k * base.MathUtil.factorial(k));
+			}, 1, MAX_K);
 	}
 
-	function ei(x: number): number
-	{
-		let k: number;
-		let fact: number, prev: number, sum: number, term: number;
+	/* ---------------------------------------------------------------
+		SWAMEE AND OHIJA APPROXIMATION
+	--------------------------------------------------------------- */
+	// function _E1_AB(x: number): number
+	// {
+	// 	let A: number = _Compute_A(x);
+	// 	let B: number = _Compute_B(x);
 
-		if ( x <= 0.0 ) 
-			throw new std.InvalidArgument( "Bad argument in ei." );
-		else if ( x < FPMIN )
-			return GAMMA + Math.log(x);
+	// 	let ret: number = Math.pow(A, -7.7) + B;
+	// 	return Math.pow(ret, -0.13);
+	// }
+	
+	// function _Compute_A(x: number): number
+	// {
+	// 	let ret: number = 0.56146 / x + 0.65;
+	// 	ret *= 1 + x;
+	// 	ret = Math.log(ret) / Math.log(Math.E);
+
+	// 	return ret;
+	// }
+
+	// function _Compute_B(x: number): number
+	// {
+	// 	let ret: number = Math.pow(x, 4);
+	// 	ret *= Math.pow(Math.E, 7.7*x);
+	// 	ret *= Math.pow(2 + x, 3.7);
+
+	// 	return ret;
+	// }
+
+	/* ---------------------------------------------------------------
+		BARRY APPROXIMATION
+	--------------------------------------------------------------- */
+	function _E1_G(x: number): number
+	{
+		let h: number = _Compute_h(x);
+
+		let ret: number = G + (1-G) * Math.pow(Math.E, -x / (1-G));
+		ret = Math.pow(Math.E, -x) / ret;
 		
-		if ( x <= -Math.log(EPS) ) {
-			sum = 0.0;
-			fact = 1.0;
-			for ( k = 1; k <= MAXIT; ++k ) {
-				fact *= x/k;
-				term = fact/k;
-				sum += term;
-				if ( term < EPS*sum ) break;
-			}
-			if ( k > MAXIT ) 
-				throw new std.DomainError( "Series failed in ei." );
+		let ln: number = 1 + G/x - (1-G)/Math.pow(h + B*x, 2);
+		ln = Math.log(ln) / Math.log(Math.E);
 
-			return GAMMA + sum + Math.log(x);
-		} 
-		else 
-		{
-			sum = 0.0;
-			fact = 1.0;
-
-			for ( k = 1; k <= MAXIT; ++k ) 
-			{
-				prev = term;
-				term *= k/x;
-
-				if ( term < EPS ) 
-					break;
-				else if ( term < prev ) 
-					sum += term;
-				else 
-				{
-					sum -= prev;
-					break;
-				}
-			}
-			return (1.0 + sum)*Math.exp(x)/x;
-		}
+		return ret * ln;
 	}
+
+	function _Compute_h(x: number): number
+	{
+		let q: number = _Compute_q(x);
+		let left: number = 1 / (1 + Math.pow(x, 1.5));
+		let right: number = (H_INF * q) / (1 + q);
+
+		return left + right;
+	}
+	function _Compute_q(x: number): number
+	{
+		return 20/47 * Math.pow(x, Math.sqrt(31/26));
+	}
+
+	const G = Math.pow(Math.E, -EULER);
+	const B = Math.sqrt
+	(
+		(2*(1-G)) / (G*(2-G))
+	);
+	const H_INF = (1-G)
+		* (G*G - 6*G + 12)
+		/ (3*G * Math.pow(2-G, 2) * B);
 }
