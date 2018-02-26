@@ -41,6 +41,6 @@ namespace std
 		return base.MathUtil.sigma(function (k: number): number
 		{
 			return Math.pow(k, -arg);
-		}, 0, 1000);
+		}, 1, 1000);
 	}
 }

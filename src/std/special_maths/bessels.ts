@@ -2,7 +2,7 @@
 
 namespace std
 {
-	const _MAX_K = 30; // (1 / 30!) is nearby 0.
+	const MAX_K = 100; // (1 / 30!) is nearby 0.
 
 	/* ---------------------------------------------------------------
 		CYL_BESSEL_I
@@ -14,13 +14,25 @@ namespace std
 
 	function _Bessel_i(v: number, x: number): number
 	{
-		return base.MathUtil.sigma(function (k: number): number
+		let multiplier: number = Math.pow(.5 * x, v);
+		let sigma: number = base.MathUtil.sigma(function (k: number): number
 		{
-			let numerator: number = Math.pow(x/2, v+2*k);
-			let denominator: number = base.MathUtil.factorial(k) * tgamma(v + k + 1);
+			let numerator: number = Math.pow(.25 * x*x, k);
+			let denominator: number = base.MathUtil.factorial(k);
+			denominator *= tgamma(v + k + 1);
 
-			return numerator / denominator;
-		}, 0, _MAX_K);
+			return numerator / denominator
+		}, 0, MAX_K);
+
+		return multiplier * sigma;
+
+		// return base.MathUtil.sigma(function (k: number): number
+		// {
+		// 	let numerator: number = Math.pow(x / 2, v + 2*k);
+		// 	let denominator: number = base.MathUtil.factorial(k) * tgamma(v + k + 1);
+
+		// 	return numerator / denominator;
+		// }, 0, _MAX_K);
 	}
 	
 	/* ---------------------------------------------------------------
@@ -31,18 +43,17 @@ namespace std
 		return _Bessel_j(n, x);
 	}
 
-	function _Bessel_j(v: number, z: number): number
+	function _Bessel_j(v: number, x: number): number
 	{
-		let multiplier: number = Math.pow(z/2, v);
 		let sigma: number = base.MathUtil.sigma(function (k: number): number
 		{
-			let numerator: number = Math.pow(-.25*z*z, k);
-			let denominator: number = base.MathUtil.factorial(k) * tgamma(v + k + 1);
+			let ret: number = Math.pow(-1, k) * Math.pow(x/2, v + 2*k);
+			ret /= base.MathUtil.factorial(k) * tgamma(v + k + 1);
 
-			return numerator / denominator;
-		}, 0, _MAX_K);
+			return ret;
+		}, 0, MAX_K);
 
-		return multiplier * sigma;
+		return sigma;
 	}
 
 	/* ---------------------------------------------------------------

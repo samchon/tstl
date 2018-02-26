@@ -17,7 +17,7 @@ namespace std
 
 		// MEMORIZATION
 		let matrix: number[][] = [[1, x]];
-		matrix.length = n + m + 2;
+		matrix.length = m + 1;
 		
 		for (let i: number = 1; i < matrix.length; ++i)
 			matrix[i] = [];
@@ -30,7 +30,7 @@ namespace std
 	{
 		if (memory.length > n)
 			return memory[n];
-
+		
 		let pn_1: number = _Compute_legendre(n - 1, x, memory);
 		let pn_2: number = _Compute_legendre(n - 2, x, memory);
 
@@ -48,8 +48,8 @@ namespace std
 
 		if (m == 0)
 			return _Compute_legendre(n, x, matrix[0]);
-		else if (matrix[n].length > m && matrix[n][m] != undefined)
-			return matrix[n][m];
+		else if (matrix[m].length > n && matrix[m][n] != undefined)
+			return matrix[m][n];
 
 		let left: number = (n - m + 1) * (n - m + 2) * _Compute_assoc_legendre(n + 1, m - 1, x, matrix);
 		let right: number = (n + m - 1) * (n + m) * _Compute_assoc_legendre(n - 1, m - 1, x, matrix);
@@ -57,7 +57,7 @@ namespace std
 		let ret: number = (left - right) / (2*n + 1);
 		ret /= Math.sqrt(1 - x*x);
 
-		matrix[n][m] = ret;
+		matrix[m][n] = ret;
 		return ret;
 	}
 }
