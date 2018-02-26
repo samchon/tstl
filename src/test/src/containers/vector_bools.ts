@@ -35,8 +35,8 @@ namespace test
 		// REPEAT INSERTIONS
 		for (let i: number = 0; i < 100; ++i)
 		{
-			let pos: number = std.experimental.randint(0, v.size());
-			let size: number = std.experimental.randint(1, 10);
+			let pos: number = std.randint(0, v.size());
+			let size: number = std.randint(1, 10);
 			let value: boolean = rand_bool();
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
@@ -49,8 +49,8 @@ namespace test
 		// REPEAT DELETIONS
 		for (let i: number = 0; i < 100; ++i)
 		{
-			let first: number = std.experimental.randint(0, v.size() - 1);
-			let last: number = std.experimental.randint(first + 1, v.size());
+			let first: number = std.randint(0, v.size() - 1);
+			let last: number = std.randint(first + 1, v.size());
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
 			{
@@ -73,7 +73,7 @@ namespace test
 		// CHANGE VALUES RANDOMLY
 		for (let i = 0; i < 100; ++i)
 		{
-			let index: number = std.experimental.randint(0, 99);
+			let index: number = std.randint(0, 99);
 			let value: boolean = rand_bool();
 
 			_Modify_bool_containers(v, d, l, vb, function (obj)
@@ -87,8 +87,8 @@ namespace test
 		for (let i = 0; i < 100; ++i)
 		{
 			// ERASE ELEMENTS
-			let first_index: number = std.experimental.randint(0, v.size() - 1);
-			let last_index: number = std.experimental.randint(first_index + 1, v.size());
+			let first_index: number = std.randint(0, v.size() - 1);
+			let last_index: number = std.randint(first_index + 1, v.size());
 
 			if (v.empty() || first_index >= last_index)
 				continue;
@@ -99,7 +99,7 @@ namespace test
 			});
 
 			// INSERT ELEMENTS
-			let index: number = std.experimental.randint(0, v.size());
+			let index: number = std.randint(0, v.size());
 			let size: number = last_index - first_index;
 			let value: boolean = rand_bool();
 

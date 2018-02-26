@@ -61,9 +61,8 @@ namespace std
 		ITERATORS
 	--------------------------------------------------------- */
 	export type insert_iterator<T, 
-		Container extends base._IInsertContainer<T, Iterator>, 
-		Iterator extends Readonly<IForwardIterator<T>>
-	> = InsertIterator<T, Container, Iterator>;
+		Container extends base._IInsert<T, Iterator>, 
+		Iterator extends Readonly<IForwardIterator<T>>> = InsertIterator<T, Container, Iterator>;
 	export type front_insert_iterator<T, Source extends base._IPushFront<T>> = FrontInsertIterator<T, Source>;
 	export type back_insert_iterator<T, Source extends base._IPushBack<T>> = BackInsertIterator<T, Source>;
 

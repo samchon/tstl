@@ -379,19 +379,13 @@ namespace std
 		result = copy(middle, last, result);
 		return copy(first, middle, result);
 	}
-	
-	export function random_shuffle<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
-		(first: RandomAccessIterator, last: RandomAccessIterator): void
-	{
-		return shuffle(first, last);
-	}
 
 	export function shuffle<T, RandomAccessIterator extends General<IRandomAccessIterator<T>>>
 		(first: RandomAccessIterator, last: RandomAccessIterator): void
 	{
 		for (let it = first; !it.equals(last); it = it.next() as RandomAccessIterator)
 		{
-			let rand_index: number = experimental.randint(first.index(), last.index() - 1);
+			let rand_index: number = randint(first.index(), last.index() - 1);
 			iter_swap(it, first.advance(rand_index));
 		}
 	}

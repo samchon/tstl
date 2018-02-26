@@ -1,6 +1,6 @@
 /// <reference path="../API.ts" />
 
-namespace std.experimental
+namespace std
 {
 	export function randint(x: number, y: number): number
 	{

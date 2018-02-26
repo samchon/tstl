@@ -4,7 +4,7 @@ namespace std
 {
 	export class Stack<T>
 	{
-		private container_: List<T>;
+		private source_: List<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -15,10 +15,10 @@ namespace std
 
 		public constructor(stack: Stack<T> = null)
 		{
-			this.container_ = new List<T>();
+			this.source_ = new List<T>();
 
 			if (stack != null)
-				this.container_.assign(stack.container_.begin(), stack.container_.end());
+				this.source_.assign(stack.source_.begin(), stack.source_.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -26,17 +26,17 @@ namespace std
 		--------------------------------------------------------- */
 		public size(): number
 		{
-			return this.container_.size();
+			return this.source_.size();
 		}
 
 		public empty(): boolean
 		{
-			return this.container_.empty();
+			return this.source_.empty();
 		}
 
 		public top(): T
 		{
-			return this.container_.back();
+			return this.source_.back();
 		}
 
 		/* ---------------------------------------------------------
@@ -44,17 +44,17 @@ namespace std
 		--------------------------------------------------------- */
 		public push(val: T): void
 		{
-			this.container_.push_back(val);
+			this.source_.push_back(val);
 		}
 
 		public pop(): void
 		{
-			this.container_.pop_back();
+			this.source_.pop_back();
 		}
 
 		public swap(obj: Stack<T>): void
 		{
-			[this.container_, obj.container_] = [obj.container_, this.container_];
+			[this.source_, obj.source_] = [obj.source_, this.source_];
 		}
 	}
 }

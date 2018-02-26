@@ -4,7 +4,7 @@ namespace std
 {
 	export class Queue<T>
 	{
-		private container_: List<T>;
+		private source_: List<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -15,10 +15,10 @@ namespace std
 
 		public constructor(queue: Queue<T> = null)
 		{
-			this.container_ = new List<T>();
+			this.source_ = new List<T>();
 
 			if (queue != null)
-				this.container_.assign(queue.container_.begin(), queue.container_.end());
+				this.source_.assign(queue.source_.begin(), queue.source_.end());
 		}
 
 		/* ---------------------------------------------------------
@@ -26,22 +26,22 @@ namespace std
 		--------------------------------------------------------- */
 		public size(): number
 		{
-			return this.container_.size();
+			return this.source_.size();
 		}
 
 		public empty(): boolean
 		{
-			return this.container_.empty();
+			return this.source_.empty();
 		}
 		
 		public front(): T
 		{
-			return this.container_.front();
+			return this.source_.front();
 		}
 
 		public back(): T
 		{
-			return this.container_.back();
+			return this.source_.back();
 		}
 
 		/* ---------------------------------------------------------
@@ -49,17 +49,17 @@ namespace std
 		--------------------------------------------------------- */
 		public push(val: T): void
 		{
-			this.container_.push_back(val);
+			this.source_.push_back(val);
 		}
 
 		public pop(): void
 		{
-			this.container_.pop_front();
+			this.source_.pop_front();
 		}
 
 		public swap(obj: Queue<T>): void
 		{
-			[this.container_, obj.container_] = [obj.container_, this.container_];
+			[this.source_, obj.source_] = [obj.source_, this.source_];
 		}
 	}
 }

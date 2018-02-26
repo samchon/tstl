@@ -23,7 +23,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private container_: TreeMultiSet<T>;
+		private source_: TreeMultiSet<T>;
 
 		/* ---------------------------------------------------------
 			CONSTURCTORS
@@ -49,13 +49,13 @@ namespace std
 			{
 				let obj: PriorityQueue<T> = args[0];
 				
-				comp = obj.container_.key_comp();
+				comp = obj.source_.key_comp();
 				post_process = () => 
 				{
-					let first = obj.container_.begin();
-					let last = obj.container_.end();
+					let first = obj.source_.begin();
+					let last = obj.source_.end();
 
-					this.container_.assign(first, last);
+					this.source_.assign(first, last);
 				};
 			}
 			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
@@ -69,7 +69,7 @@ namespace std
 					let first: Readonly<IForwardIterator<T>> = args[0]; // PARAMETER 1
 					let last: Readonly<IForwardIterator<T>> = args[1]; // PARAMETER 2
 
-					this.container_.assign(first, last);
+					this.source_.assign(first, last);
 				};
 			}
 			else if (args.length == 1)
@@ -79,7 +79,7 @@ namespace std
 			// DO PROCESS
 			//----
 			// CONSTRUCT CONTAINER
-			this.container_ = new std.TreeMultiSet<T>(comp);
+			this.source_ = new std.TreeMultiSet<T>(comp);
 
 			// ACT POST-PROCESS
 			if (post_process != null)
@@ -88,7 +88,7 @@ namespace std
 
 		public swap(obj: PriorityQueue<T>): void
 		{
-			this.container_.swap(obj.container_);
+			this.source_.swap(obj.source_);
 		}
 
 		/* ---------------------------------------------------------
@@ -96,17 +96,17 @@ namespace std
 		--------------------------------------------------------- */
 		public size(): number
 		{
-			return this.container_.size();
+			return this.source_.size();
 		}
 
 		public empty(): boolean
 		{
-			return this.container_.empty();
+			return this.source_.empty();
 		}
 
 		public value_comp(): (x: T, y: T) => boolean
 		{
-			return this.container_.value_comp();
+			return this.source_.value_comp();
 		}
 
 		/* ---------------------------------------------------------
@@ -114,17 +114,17 @@ namespace std
 		--------------------------------------------------------- */
 		public top(): T
 		{
-			return this.container_.begin().value;
+			return this.source_.begin().value;
 		}
 
 		public push(val: T): void
 		{
-			this.container_.insert(val);
+			this.source_.insert(val);
 		}
 
 		public pop(): void
 		{
-			this.container_.erase(this.container_.begin());
+			this.source_.erase(this.source_.begin());
 		}
 	}
 }

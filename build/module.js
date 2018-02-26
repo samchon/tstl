@@ -53,8 +53,8 @@ function compile()
 	try
 	{
 		// KEEP COMMENTS ONLY IN THE DECLARATION
-		cmd.execSync("tsc -p " + TS_FILE);
 		cmd.execSync("tsc -p " + TS_FILE + " --removeComments --declaration false");
+		cmd.execSync("tsc -p " + TS_FILE + " --emitDeclarationOnly");
 	}
 	catch (exp)
 	{

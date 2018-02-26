@@ -153,11 +153,11 @@ namespace std
 	export function inserter<T>
 		(container: Array<T>, it: Vector.Iterator<T>): InsertIterator<T, Vector<T>, Vector.Iterator<T>>;
 
-	export function inserter<T, Container extends base._IInsertContainer<T, Iterator>, Iterator extends IForwardIterator<T>>
+	export function inserter<T, Container extends base._IInsert<T, Iterator>, Iterator extends IForwardIterator<T>>
 		(container: Container, it: Iterator): InsertIterator<T, Container, Iterator>;
 
 	export function inserter<T>
-		(container: Array<T> | base._IInsertContainer<T, any>, it: IForwardIterator<T>): InsertIterator<T, any, any>
+		(container: Array<T> | base._IInsert<T, any>, it: IForwardIterator<T>): InsertIterator<T, any, any>
 	{
 		if (container instanceof Array)
 			container = _Capsule(container);
