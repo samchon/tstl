@@ -6,6 +6,7 @@
 #include <boost/math/special_functions.hpp>
 
 #define K 10
+#define PI (acos(-1) / 2.0)
 
 void bessels()
 {
@@ -41,7 +42,7 @@ void betas()
 void ellints()
 {
 	double k = rand_between<double>(-1, 1);
-	double phi = rand_between<double>(-K, K);
+	double phi = rand_between<double>(0, 2 * PI);
 	double v = rand_between<double>(-K, 1 / (pow(sin(phi), 2.0)));
 
 	double first = boost::math::ellint_1(k, phi);
