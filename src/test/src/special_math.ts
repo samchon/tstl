@@ -44,7 +44,7 @@ namespace test
 			if (isNaN(difference))
 				difference = 1.0;
 				
-			if (!similar(ret, answer))
+			if (!similar(ret, answer, .1))
 			{
 				output += `std.${name}(${args.toString()}) = ${answer} && ${ret} -> ${difference}\n`;
 

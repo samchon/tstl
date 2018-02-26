@@ -16,12 +16,12 @@
 // SPECIAL MATHS
 //--------------------------------
 // [o] beta & gamma
-// [+] bessel
-// [o] ellint
+// [o] bessel
+// [+] ellint
 // [o] expint
 // [o] hermite
 // [o] legendre
 // [o] laguerre
-// [+] neumann
-// [+] zeta
+// [o] neumann
+// [o] zeta
 //--------------------------------
