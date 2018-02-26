@@ -1,17 +1,33 @@
-#include <iostream>
-#include <algorithm>
-#include <boost/math/special_functions.hpp>
-
+// Compiled on https://wandbox.org/
 #include "utils.hpp"
 
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+
+#define PI 3.14159265358979323846264338327950288
+#define K 10
+
 using namespace std;
-using namespace boost::math;
+
+void gammas()
+{
+	double x = rand_between<double>(-100, 100);
+	if (rand_between<double>(0, 1) < .1)
+		x = floor(x);
+
+	double t = std::tgamma(x);
+	double l = std::lgamma(x);
+
+	print("tgamma", x, t);
+	print("lgamma", x, l);
+}
 
 void bessels()
 {
-	double v = rand_between<double>(-100, 100);
-	double x = rand_between<double>(-100, 100);
-	unsigned int n = rand_int(0, 100);
+	double v = rand_between<double>(0, K);
+	double x = rand_between<double>(0, K);
+	unsigned int n = rand_int(0, K);
 
 	double i = cyl_bessel_i((x < 0) ? floor(v) : v, x);
 	double j = cyl_bessel_j((x < 0) ? floor(v) : v, x);
@@ -32,8 +48,8 @@ void bessels()
 
 void betas()
 {
-	double x = rand_between<double>(0, 100);
-	double y = rand_between<double>(0, 100);
+	double x = rand_between<double>(0, K);
+	double y = rand_between<double>(0, K);
 
 	print("beta", x, y, beta(x, y));
 }
@@ -41,8 +57,8 @@ void betas()
 void ellints()
 {
 	double k = rand_between<double>(-1, 1);
-	double phi = rand_between<double>(-100, 100);
-	double v = rand_between<double>(-100, 1 / (pow(sin(phi), 2.0)));
+	double phi = rand_between<double>(0, PI/2.0);
+	double v = rand_between<double>(-K, min<double>(1 / (pow(sin(phi), 2.0)), K));
 
 	double first = ellint_1(k, phi);
 	double second = ellint_2(k, phi);
@@ -55,50 +71,51 @@ void ellints()
 
 void expints()
 {
-	double x = rand_between<double>(-100, 100);
+	double x = rand_between<double>(-K, K);
 
 	print("expint", x, expint(x));
 }
 
 void hermites()
 {
-	unsigned int n = rand_int(0, 100);
-	double x = rand_between<double>(-100, 100);
+	unsigned int n = rand_int(0, K);
+	double x = rand_between<double>(-K, K);
 
 	print("hermite", n, x, hermite(n, x));
 }
 
 void laguerres()
 {
-	unsigned int n = rand_int(0, 100);
-	unsigned int m = rand_int(0, 100);
-	double x = rand_between<double>(-100, 100);
+	unsigned int n = rand_int(0, K);
+	unsigned int m = rand_int(0, K);
+	double x = rand_between<double>(0, K);
 
-	double ret = laguerre(n, m, x);
+	double ret = assoc_laguerre(n, m, x);
 	print("assoc_laguerre", n, m, x, ret);
 }
 
 void legendres()
 {
-	unsigned int n = rand_int(0, 100);
-	unsigned int m = rand_int(0, 100);
-	double x = rand_between<double>(-1, 1);
+	unsigned int n = rand_int(0, 3);
+	unsigned int m = rand_int(0, 3);
+	double x = rand_between<double>(0, 1);
 
-	double ret = legendre_p(n, m, x);
-	print("assoc_legendre", n, m, x, ret);
+	//double ret = assoc_legendre(n, m, x);
+	//print("assoc_legendre", n, m, x, ret);
 }
 
 void zetas()
 {
-	double x = rand_between<double>(-100, 100);
+	double x = rand_between<double>(-K, K);
 
-	print("riemann_zeta", x, zeta(x));
+	print("riemann_zeta", x, riemann_zeta(x));
 }
 
-void main()
+int main()
 {
 	cout << "[" << endl;
 	{
+		repeat(gammas);
 		repeat(bessels);
 		repeat(betas);
 		repeat(ellints);
@@ -111,5 +128,5 @@ void main()
 	};
 	cout << "]" << endl;
 
-	system("pause");
+	return 0;
 }

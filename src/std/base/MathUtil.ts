@@ -15,7 +15,7 @@ namespace std.base.MathUtil
 			formula: (x: number) => number,
 			first: number,
 			last: number,
-			segment_count: number = 1000
+			segment_count: number = 100 * 1000
 		): number
 	{
 		if (first > last)

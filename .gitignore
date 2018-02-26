@@ -5,6 +5,4 @@ handbook/
 node_modules/
 lib/
 
-*.bat
-*.lnk
-result.json
+*.log

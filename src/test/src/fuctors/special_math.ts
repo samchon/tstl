@@ -1,4 +1,4 @@
-/// <reference path="API.ts" />
+/// <reference path="../API.ts" />
 
 namespace test
 {
@@ -46,18 +46,18 @@ namespace test
 				
 			if (!similar(ret, answer, .1))
 			{
-				output += `std.${name}(${args.toString()}) = ${answer} && ${ret} -> ${difference}\n`;
-
 				let it = results.find(name);
 				if (it.equals(results.end()) == true)
 					it = results.emplace(name, {count: 0, difference: 0}).first;
 
 				++it.second.count;
 				it.second.difference += difference;
+
+				output += `std.${name}(${args.toString()}) = ${answer} && ${ret} -> ${difference}\n`;
 			}
 		}
 
-		fs.writeFileSync(__dirname + "/../build/special_math/result.json", output, "utf8");
+		fs.writeFileSync(__dirname + "/../build/special_math/result.log", output, "utf8");
 		for (let entry of results)
 		{
 			entry.second.difference /= entry.second.count;

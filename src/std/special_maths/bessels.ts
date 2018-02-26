@@ -9,6 +9,11 @@ namespace std
 	--------------------------------------------------------------- */
 	export function cyl_bessel_i(n: number, x: number): number
 	{
+		if (x < 0 && n != Math.floor(n))
+			throw new std.DomainError("cyl_bessel_i function requires integer n when x < 0");
+		else if (n == .5)
+			return Math.sqrt(2 / (Math.PI*x)) * Math.sinh(x);
+
 		return _Bessel_i(n, x);
 	}
 
@@ -40,10 +45,45 @@ namespace std
 	--------------------------------------------------------------- */
 	export function cyl_bessel_j(n: number, x: number): number
 	{
-		return _Bessel_j(n, x);
+		if (n == Math.floor(n))
+			return _J_int(n, x);
+		else if (n < 0)
+			return _J_negative(n, x);
+		else
+			return _J_positive(n, x);
 	}
 
-	function _Bessel_j(v: number, x: number): number
+	// function _J_int(n: number, x: number): number
+	// {
+	// 	if (n < 0)
+	// 		return Math.pow(-1, n) * _J_int(-n, x);
+
+	// 	let integral: number = base.MathUtil.integral(function (r: number): number
+	// 	{
+	// 		return Math.cos(n*r - x*Math.sin(r));
+	// 	}, 0, Math.PI);
+	// 	return integral / Math.PI;
+	// }
+
+	function _J_int(n: number, x: number): number
+	{
+		if (n < 0)
+			return Math.pow(-1, n) * _J_positive(-n, x);
+		else
+			return _J_positive(n, x);
+	}
+
+	function _J_negative(v: number, x: number): number
+	{
+		v = -v;
+
+		let ret: number = Math.cos(v * Math.PI) * _J_positive(v, x);
+		ret -= Math.sin(v * Math.PI) * sph_bessel(v, x);
+
+		return ret;
+	}
+
+	function _J_positive(v: number, x: number): number
 	{
 		let sigma: number = base.MathUtil.sigma(function (k: number): number
 		{
