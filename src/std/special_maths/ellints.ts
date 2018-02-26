@@ -40,16 +40,16 @@ namespace std
 	/* ---------------------------------------------------------------
 		THIRD
 	--------------------------------------------------------------- */
-	export function ellint_3(k: number, n: number, phi: number): number
+	export function ellint_3(k: number, v: number, phi: number): number
 	{
 		// SPECIAL VALIDATION ONLY FOR SERIES-3
-		if (n >= 1 / Math.pow(Math.sin(phi), 2))
+		if (v >= 1 / Math.pow(Math.sin(phi), 2))
 			throw new std.DomainError("ellint_3 function requires n < (1 / sin^2(phi))");
 
 		// CONSTRUCT FORMULA
 		let formula = function (x: number): number
 		{
-			let denominator: number = 1 - n * Math.pow(Math.sin(x), 2);
+			let denominator: number = 1 - v * Math.pow(Math.sin(x), 2);
 			denominator *= _Common_formula(k, x);
 
 			return 1.0 / denominator;
@@ -75,7 +75,7 @@ namespace std
 		if (Math.abs(k) > 1)
 			throw new std.DomainError("ellint functions require |k| <= 1");
 
-		let area: number = base.MathUtil.integral(formula, 0, phi, 100 * 100);
+		let area: number = base.MathUtil.integral(formula, 0, phi, 100 * 1000);
 		return (phi < 0) ? -area : area;
 	}
 }

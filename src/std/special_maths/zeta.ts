@@ -2,6 +2,8 @@
 
 namespace std
 {
+	const INFINITY = 100 * 1000;
+
 	export function riemann_zeta(arg: number): number
 	{
 		if (arg < 0)
@@ -18,11 +20,18 @@ namespace std
 
 	function _Negative(s: number): number
 	{
-		return Math.pow(2, s)
-			* Math.pow(Math.PI, s - 1)
-			* Math.sin(Math.PI * s / 2)
-			* tgamma(1 - s)
-			* riemann_zeta(1 - s);
+		s = 1 - s;
+
+		return 2 * Math.sin(Math.PI * (1 - s) / 2)
+			* Math.pow(2*Math.PI, -s)
+			* tgamma(s)
+			* riemann_zeta(s);
+
+		// return Math.pow(2, arg)
+		// 	* Math.pow(Math.PI, arg - 1)
+		// 	* Math.sin(Math.PI * arg / 2)
+		// 	* tgamma(1 - arg)
+		// 	* riemann_zeta(1 - arg);
 	}
 
 	function _Fractional(arg: number): number
@@ -30,17 +39,17 @@ namespace std
 		let divider: number = 1 - Math.pow(2, 1 - arg);
 		let sigma: number = base.MathUtil.sigma(function (n: number): number
 		{
-			return Math.pow(-1, n - 1) / Math.pow(n, -arg);
-		}, 1, 100 * 1000);
+			return Math.pow(-1, n + 1) * Math.pow(n, -arg);
+		}, 1, INFINITY);
 
 		return sigma / divider;
 	}
 
-	function _Positive(s: number): number
+	function _Positive(arg: number): number
 	{
-		return base.MathUtil.sigma(function (k: number): number
+		return base.MathUtil.sigma(function (n: number): number
 		{
-			return Math.pow(k, -s);
-		}, 1, 100 * 1000);
+			return Math.pow(n, -arg);
+		}, 1, INFINITY);
 	}
 }

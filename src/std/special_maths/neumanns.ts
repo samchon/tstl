@@ -2,14 +2,24 @@
 
 namespace std
 {
-	export function cyl_neumann(n: number, x: number): number
+	export function cyl_neumann(v: number, z: number): number
 	{
-		return _Cyl_neumann(n, x);
+		if (z <= 0)
+			throw new DomainError("");
+
+		// if (v < 0)
+		// {
+		// 	v = -v;
+		// 	return Math.sin(v * Math.PI) * cyl_bessel_j(v, z)
+		// 		+ Math.cos(v * Math.PI) * cyl_neumann(v, z);
+		// }
+		// else
+			return _Cyl_neumann(v, z);
 	}
 
-	function _Cyl_neumann(v: number, z: number): number
+	function _Cyl_neumann(v: number, x: number): number
 	{
-		let numerator: number = cyl_bessel_j(v, z) * Math.cos(v*Math.PI) - cyl_bessel_j(-v, z)
+		let numerator: number = cyl_bessel_j(v, x) * Math.cos(v*Math.PI) - cyl_bessel_j(-v, x)
 		let denominator: number = Math.sin(v * Math.PI);
 
 		return numerator / denominator;

@@ -8,6 +8,8 @@ namespace test
 			return 0;
 		else if (isNaN(x) && isNaN(y))
 			return 0;
+		else if (Math.abs(x - y) < Math.pow(10, -5))
+			return 0;
 		
 		let diff: number = Math.abs(y - x);
 		if ((x == 0 || y == 0) && diff < .00001)

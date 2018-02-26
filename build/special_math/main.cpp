@@ -5,20 +5,7 @@
 #include <algorithm>
 #include <boost/math/special_functions.hpp>
 
-#define K 100
-
-void gammas()
-{
-	double x = rand_between<double>(-100, 100);
-	if (rand_between<double>(0, 1) < .1)
-		x = floor(x);
-
-	double t = std::tgamma(x);
-	double l = std::lgamma(x);
-
-	print("tgamma", x, t);
-	print("lgamma", x, l);
-}
+#define K 10
 
 void bessels()
 {
@@ -48,7 +35,7 @@ void betas()
 	double x = rand_between<double>(0, K);
 	double y = rand_between<double>(0, K);
 
-	print("beta", x, y, beta(x, y));
+	print("beta", x, y, boost::math::beta(x, y));
 }
 
 void ellints()
@@ -112,7 +99,6 @@ int main()
 {
 	std::cout << "[" << std::endl;
 	{
-		repeat(gammas);
 		repeat(bessels);
 		repeat(betas);
 		repeat(ellints);
@@ -125,5 +111,6 @@ int main()
 	};
 	std::cout << "]" << std::endl;
 
+	system("pause");
 	return 0;
 }

@@ -9,11 +9,13 @@ namespace std
 
 	export function assoc_legendre(n: number, m: number, x: number): number
 	{
+		// PARAMETERS ARE INTEGER
+		n = Math.floor(n);
+		m = Math.floor(m);
+
 		// VALIDATE PARAMETERS
-		if (Math.floor(n) != n || n < 0)
-			throw new std.InvalidArgument("Parameter n of assoc_legendre() must be unsigned integer.");
-		else if (Math.floor(m) != m || m < 0)
-			throw new std.InvalidArgument("Parameter m of assoc_legendre() must be unsigned integer.");
+		if (m < 0)
+			throw new std.InvalidArgument("assoc_legendre() requires unsigned integer 'm'.");
 
 		// MEMORIZATION
 		let matrix: number[][] = [[1, x]];
