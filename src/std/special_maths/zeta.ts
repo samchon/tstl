@@ -18,20 +18,13 @@ namespace std
 			return _Positive(arg);
 	}
 
-	function _Negative(s: number): number
+	function _Negative(arg: number): number
 	{
-		s = 1 - s;
-
-		return 2 * Math.sin(Math.PI * (1 - s) / 2)
-			* Math.pow(2*Math.PI, -s)
-			* tgamma(s)
-			* riemann_zeta(s);
-
-		// return Math.pow(2, arg)
-		// 	* Math.pow(Math.PI, arg - 1)
-		// 	* Math.sin(Math.PI * arg / 2)
-		// 	* tgamma(1 - arg)
-		// 	* riemann_zeta(1 - arg);
+		return Math.pow(2, arg)
+			* Math.pow(Math.PI, arg - 1)
+			* Math.sin(Math.PI * arg / 2)
+			* tgamma(1 - arg)
+			* riemann_zeta(1 - arg);
 	}
 
 	function _Fractional(arg: number): number
@@ -39,7 +32,7 @@ namespace std
 		let divider: number = 1 - Math.pow(2, 1 - arg);
 		let sigma: number = base.MathUtil.sigma(function (n: number): number
 		{
-			return Math.pow(-1, n + 1) * Math.pow(n, -arg);
+			return Math.pow(-1, n - 1) * Math.pow(n, -arg);
 		}, 1, INFINITY);
 
 		return sigma / divider;

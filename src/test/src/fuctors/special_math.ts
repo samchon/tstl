@@ -30,7 +30,8 @@ namespace test
 		let content: string = fs.readFileSync(__dirname + "/../build/special_math/data.json").toString("utf8");
 		let solutions: ISolution[] = JSON.parse(content);
 
-		let results: std.HashMap<string, IAggregate> = new std.HashMap();
+		// TRACING ERRORS
+		let aggregates: std.HashMap<string, number> = new std.HashMap();
 		let output: string = "";
 
 		for (let solve of solutions)
@@ -48,33 +49,29 @@ namespace test
 				
 			if (!similar(ret, answer, .1))
 			{
-				let it = results.find(name);
-				if (it.equals(results.end()) == true)
-					it = results.emplace(name, {count: 0, difference: 0}).first;
+				let it = aggregates.find(name);
+				if (it.equals(aggregates.end()) == true)
+					it = aggregates.emplace(name, 0).first;
 
-				++it.second.count;
-				it.second.difference += difference;
-
+				++it.second;
 				output += `std.${name}(${args.toString()}) = ${answer} && ${ret} -> ${difference}\n`;
 			}
 		}
 
-		fs.writeFileSync(__dirname + "/../build/special_math/result.log", output, "utf8");
-		for (let entry of results)
-		{
-			entry.second.difference /= entry.second.count;
-			console.log("\t", entry.first, entry.second);
-		}
+		if (aggregates.empty() == false)
+			fs.writeFileSync(__dirname + "/../build/special_math/errors.log", output, "utf8");
+
+		let validate: boolean = true;
+		for (let entry of aggregates)
+			if (entry.second > 5)
+				validate = false;
+
+		if (!validate)
+			throw new std.DomainError("Error on special math function(s).");
 	}
 
 	interface ISolution extends Array<string|number>
 	{
 		0: string;
-	}
-
-	interface IAggregate
-	{
-		count: number;
-		difference: number;
 	}
 }

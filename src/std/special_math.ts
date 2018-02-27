@@ -11,17 +11,3 @@
 /// <reference path="special_maths/laguerres.ts" />
 /// <reference path="special_maths/neumanns.ts" />
 /// <reference path="special_maths/zeta.ts" />
-
-//--------------------------------
-// SPECIAL MATHS
-//--------------------------------
-// [o] beta & gamma
-// [o] bessel
-// [+] ellint
-// [o] expint
-// [o] hermite
-// [o] legendre
-// [o] laguerre
-// [o] neumann
-// [o] zeta
-//--------------------------------
