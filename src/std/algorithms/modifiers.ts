@@ -177,7 +177,7 @@ namespace std
 				ret = ret.next() as InputIterator;
 				ret.value = first.value;
 			}
-		return ret;
+		return ret.next() as InputIterator;
 	}
 
 	export function unique_copy<T, InputIterator extends Readonly<IForwardIterator<T>>, OutputIterator extends Writeonly<IForwardIterator<T>>>
@@ -207,8 +207,7 @@ namespace std
 				result = result.next() as OutputIterator;
 				result.value = first.value;
 			}
-
-		return result;
+		return result.next() as OutputIterator;
 	}
 
 	export function remove<T, InputIterator extends General<IForwardIterator<T>>>

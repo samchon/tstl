@@ -31,13 +31,13 @@ namespace test
 			let populations: std.Vector<number> = _Generate_populations(size);
 
 			let n: number = Math.min(size, std.randint(5, 20));
-			let samples: std.Vector<number> = new std.Vector(n, 0);
+			let samples: std.Vector<number> = new std.Vector();
 
-			std.sample(populations.begin(), populations.end(), samples.begin(), n);
+			std.sample(populations.begin(), populations.end(), std.back_inserter(samples), n);
 			if (std.is_sorted(samples.begin(), samples.end()) == false)
 				throw new std.DomainError("Error on std.sample(); Elements are not sorted.");
 			
-			std.unique(samples.begin(), samples.end());
+			samples.erase(std.unique(samples.begin(), samples.end()), samples.end());
 			if (samples.size() != n)
 				throw new std.DomainError("Error on std.sample(); Elements are not unique.");
 		}
