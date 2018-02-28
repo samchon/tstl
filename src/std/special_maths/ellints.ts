@@ -54,21 +54,6 @@ namespace std
 		return ellint_3(k, n, Math.PI / 2);
 	}
 
-	// function _Carlson_3(k: number, n: number, phi: number): number
-	// {
-	// 	// TRIANGLES
-	// 	let sin: number = Math.sin(phi);
-	// 	let sin2: number = sin * sin;
-	// 	let sin3: number = sin * sin2;
-	// 	let cos2: number = Math.pow(Math.cos(phi), 2);
-
-	// 	// FORMULA
-	// 	let ret: number = sin * base.Carlson.rf(cos2, 1 - k*k*sin2, 1);
-	// 	ret += n / 3 * sin3 * base.Carlson.rj(cos2, 1 - k*k*sin2, 1, 1 - n*sin2);
-
-	// 	return ret;
-	// }
-
 	function _Ellint_3(k: number, v: number, phi: number): number
 	{
 		let formula = function (x: number): number

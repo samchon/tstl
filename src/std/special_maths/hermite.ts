@@ -5,9 +5,10 @@ namespace std
 	export function hermite(n: number, x: number): number
 	{
 		// VALIDATE PARAMETER
-		if (Math.floor(n) != n || n < 0)
-			throw new std.InvalidArgument("Parameter n of hermite() must be unsigned integer.");
+		if ((n = Math.floor(n)) < 0)
+			throw new std.InvalidArgument("In hermite function, n must be unsigned integer.");
 
+		// MEMORIZATION
 		let solutions: number[] = [1, 2*x];
 
 		// COMPUTE RETURN VALUE

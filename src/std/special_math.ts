@@ -9,5 +9,4 @@
 /// <reference path="special_maths/hermite.ts" />
 /// <reference path="special_maths/legendres.ts" />
 /// <reference path="special_maths/laguerres.ts" />
-/// <reference path="special_maths/neumanns.ts" />
 /// <reference path="special_maths/zeta.ts" />

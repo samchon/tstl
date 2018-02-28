@@ -10,10 +10,8 @@ namespace std
 	export function assoc_laguerre(n: number, m: number, x: number): number
 	{
 		// VALIDATE PARAMETERS
-		if (Math.floor(n) != n || n < 0)
-			throw new std.InvalidArgument("Parameter n of assoc_laguerre() must be unsigned integer.");
-		else if (Math.floor(m) != m || m < 0)
-			throw new std.InvalidArgument("Parameter m of assoc_laguerre() must be unsigned integer.");
+		if ((n = Math.floor(n)) < 0 || (m = Math.floor(m)) < 0)
+			throw new std.InvalidArgument("In assoc_laguerre function, both n and m must be unsigned integer.");
 
 		// MEMORIZATION
 		let solutions: number[] = [1, -x+m+1];
