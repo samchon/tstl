@@ -26,10 +26,20 @@ I always welcome your suggestion. When you publishing a suggestion, then please 
 
 ## Contributing Code
 ### Test your code
-Before sending a pull request, please test your new code. You go into the `build` directory and execute the `build.js`, then compiling your code and test-automation will be all processed.
+Before sending a pull request, please test your new code. You type the command `npm run build`, then compiling your code and test-automation will be all processed.
 
 ```bash
-tstl> node build/build
+####
+# COMPILE & TEST
+####
+npm run build # COMPILE MODULE & TESTING UNIT AND RUN TEST.
+npm run test # RUN TEST ONLY
+
+####
+# PARTIAL COMPILE
+####
+npm run build-module # COMPILE MODULE ONLY
+npm run build-test # COMPILE TESTING UNITS ONLY
 ```
 
 If you succeeded to compile, but failed to pass the test-automation, then *debug* the test-automation module. I've configured the `.vscode/launch.json`. You just run the `VSCode` and click the `Start Debugging` button or press `F5` key. By the *debugging*, find the reason why the *test* is failed and fix it.

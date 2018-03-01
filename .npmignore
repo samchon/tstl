@@ -1,16 +1,14 @@
 # ======================================================
 #	TYPESCRIPT
 # ======================================================
-.git\
-.vscode\
-node_modules\
+.git/
+.github/
+.vscode/
 
-build\
-design\
-handbook\
-src\
+node_modules/
+build/
+src/
 
-*.bat
 *.log
 *.*ignore
 *.js.map
