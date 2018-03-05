@@ -1,11 +1,11 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="_ListIterator.ts" />
+/// <reference path="ListIterator.ts" />
 
 namespace std.base
 {
 	export class SetIterator<T, Source extends SetContainer<T, Source>>
-		extends _ListIterator<T, 
+		extends ListIterator<T, 
 			Source, 
 			SetIterator<T, Source>, 
 			SetReverseIterator<T, Source>>

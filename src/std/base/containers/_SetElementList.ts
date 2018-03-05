@@ -1,6 +1,6 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="_ListContainer.ts" />
+/// <reference path="ListContainer.ts" />
 
 namespace std.base
 {
@@ -8,7 +8,7 @@ namespace std.base
 	 * @hidden
 	 */
 	export class _SetElementList<T, Source extends SetContainer<T, Source>> 
-		extends _ListContainer<T, 
+		extends ListContainer<T, 
 			Source,
 			SetIterator<T, Source>,
 			SetReverseIterator<T, Source>>

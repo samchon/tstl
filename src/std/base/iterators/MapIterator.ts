@@ -1,11 +1,11 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="_ListIterator.ts" />
+/// <reference path="ListIterator.ts" />
 
 namespace std.base
 {
 	export class MapIterator<Key, T, Source extends MapContainer<Key, T, Source>>
-		extends _ListIterator<Entry<Key, T>, 
+		extends ListIterator<Entry<Key, T>, 
 			Source, 
 			MapIterator<Key, T, Source>, 
 			MapReverseIterator<Key, T, Source>>

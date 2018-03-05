@@ -1,12 +1,12 @@
 /// <reference path="../API.ts" />
 
-/// <reference path="../base/containers/_ListContainer.ts" />
-/// <reference path="../base/iterators/_ListIterator.ts" />
+/// <reference path="../base/containers/ListContainer.ts" />
+/// <reference path="../base/iterators/ListIterator.ts" />
 
 namespace std
 {
 	export class List<T>
-		extends base._ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
+		extends base.ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
 	{
 		/**
 		 * @hidden
@@ -290,7 +290,7 @@ namespace std
 namespace std.List
 {
 	export class Iterator<T>
-		extends base._ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
+		extends base.ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
 	{
 		/**
 		 * @hidden

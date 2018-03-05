@@ -8,9 +8,9 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export abstract class _ListIterator<T, 
+	export abstract class ListIterator<T, 
 			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
-			IteratorT extends _ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
+			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 		extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>
 	{

@@ -1,6 +1,6 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="_ListContainer.ts" />
+/// <reference path="ListContainer.ts" />
 
 namespace std.base
 {
@@ -8,7 +8,7 @@ namespace std.base
 	 * @hidden
 	 */
 	export class _MapElementList<Key, T, Source extends MapContainer<Key, T, Source>> 
-		extends _ListContainer<Entry<Key, T>, 
+		extends ListContainer<Entry<Key, T>, 
 			Source, 
 			MapIterator<Key, T, Source>,
 			MapReverseIterator<Key, T, Source>>

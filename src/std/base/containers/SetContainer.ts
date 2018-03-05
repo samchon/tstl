@@ -1,6 +1,6 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="_ListContainer.ts" />
+/// <reference path="ListContainer.ts" />
 
 namespace std.base
 {
