@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _MultiSetTree<T, Source extends IMultiSet<T>>
+	export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 		extends _SetTree<T, Source>
 	{
 		/* ---------------------------------------------------------

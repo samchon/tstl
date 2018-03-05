@@ -4,7 +4,7 @@
 
 namespace std.base
 {
-	export class _MultiMapTree<Key, T, Source extends IMultiMap<Key, T>>
+	export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 		extends _MapTree<Key, T, Source>
 	{
 		/* ---------------------------------------------------------

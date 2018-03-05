@@ -2,7 +2,7 @@
 
 namespace std.base
 {
-	export abstract class MapContainer<Key, T, Source extends IMapContainer<Key, T>>
+	export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, Source>>
 		extends Container<Entry<Key, T>,
 			Source,
 			MapIterator<Key, T, Source>,
@@ -195,10 +195,10 @@ namespace std.base
 		public swap(obj: Source): void
 		{
 			// CHANGE CONTENTS
-			[this.data_ as any, obj.data_] = [obj.data_, this.data_];
+			[this.data_, obj.data_] = [obj.data_, this.data_];
 
 			// CHANGE ITERATORS' SOURCES
-			[this.data_["associative_"] as any, obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
 		}
 
 		public abstract merge(source: Source): void;

@@ -4,7 +4,7 @@
 
 namespace std.base
 {
-	export abstract class MultiSet<T, Source extends IMultiSet<T>>
+	export abstract class MultiSet<T, Source extends MultiSet<T, Source>>
 		extends SetContainer<T, Source>
 	{
 		/* ---------------------------------------------------------

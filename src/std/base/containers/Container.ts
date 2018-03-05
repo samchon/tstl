@@ -3,9 +3,9 @@
 namespace std.base
 {
 	export abstract class Container<T, 
-			Source extends IContainer<T>,
-			Iterator extends IIterator<T>,
-			ReverseIterator extends IReverseIterator<T>>
+			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
+			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 		implements Iterable<T>
 	{
 		/* =========================================================
@@ -49,11 +49,11 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ITERATORS
 		--------------------------------------------------------- */
-		public abstract begin(): Iterator;
-		public abstract end(): Iterator;
+		public abstract begin(): IteratorT;
+		public abstract end(): IteratorT;
 
-		public abstract rbegin(): ReverseIterator;
-		public abstract rend(): ReverseIterator;
+		public abstract rbegin(): ReverseIteratorT;
+		public abstract rend(): ReverseIteratorT;
 
 		public [Symbol.iterator](): IterableIterator<T>
 		{
@@ -64,15 +64,15 @@ namespace std.base
 			ELEMENTS I/O
 		--------------------------------------------------------- */
 		public abstract push(...items: T[]): number;
-		public abstract insert(position: Iterator, val: T): Iterator;
+		public abstract insert(position: IteratorT, val: T): IteratorT;
 
-		public abstract erase(position: Iterator): Iterator;
-		public abstract erase(begin: Iterator, end: Iterator): Iterator;
+		public abstract erase(position: IteratorT): IteratorT;
+		public abstract erase(begin: IteratorT, end: IteratorT): IteratorT;
 
 		/* ---------------------------------------------------------------
 			UTILITIES
 		--------------------------------------------------------------- */
-		public abstract swap(obj: Source): void;
+		public abstract swap(obj: SourceT): void;
 
 		public toJSON(): Array<T>
 		{

@@ -8,20 +8,20 @@ namespace std.base
 	 * @hidden
 	 */
 	export abstract class _ListContainer<T, 
-			Source extends IContainer<T>,
-			Iterator extends _IListIterator<T>,
-			ReverseIterator extends IReverseIterator<T>>
-		extends Container<T, Source, Iterator, ReverseIterator>
+			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+			IteratorT extends _ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
+			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
+		extends Container<T, SourceT, IteratorT, ReverseIteratorT>
 	{
 		/**
 		 * @hidden
 		 */
-		private begin_: Iterator;
+		private begin_: IteratorT;
 		
 		/**
 		 * @hidden
 		 */
-		private end_: Iterator;
+		private end_: IteratorT;
 		
 		/**
 		 * @hidden
@@ -47,12 +47,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Create_iterator(prev: Iterator, next: Iterator, val: T): Iterator;
+		protected abstract _Create_iterator(prev: IteratorT, next: IteratorT, val: T): IteratorT;
 
 		/**
 		 * @hidden
 		 */
-		protected _Set_begin(it: Iterator): void
+		protected _Set_begin(it: IteratorT): void
 		{
 			this.begin_ = it;
 		}
@@ -78,12 +78,11 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public begin(): Iterator
+		public begin(): IteratorT
 		{
 			return this.begin_;
 		}
-
-		public end(): Iterator
+		public end(): IteratorT
 		{
 			return this.end_;
 		}
@@ -95,7 +94,6 @@ namespace std.base
 
 		public front(): T;
 		public front(val: T): void;
-
 		public front(val: T = undefined): T | void
 		{
 			if (val == undefined)
@@ -106,7 +104,6 @@ namespace std.base
 
 		public back(): T;
 		public back(val: T): void;
-
 		public back(val: T = undefined): T | void
 		{
 			let it = this.end().prev();
@@ -129,7 +126,6 @@ namespace std.base
 		{
 			this.insert(this.begin_, val);
 		}
-
 		public push_back(val: T): void
 		{
 			this.insert(this.end_, val);
@@ -139,10 +135,9 @@ namespace std.base
 		{
 			this.erase(this.begin_);
 		}
-
 		public pop_back(): void
 		{
-			this.erase(this.end_.prev() as Iterator);
+			this.erase(this.end_.prev());
 		}
 
 		/* ---------------------------------------------------------
@@ -163,12 +158,12 @@ namespace std.base
 			return this.size();
 		}
 
-		public insert(position: Iterator, val: T): Iterator;
-		public insert(position: Iterator, size: number, val: T): Iterator;
+		public insert(position: IteratorT, val: T): IteratorT;
+		public insert(position: IteratorT, size: number, val: T): IteratorT;
 		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
-			(position: Iterator, begin: InputIterator, end: InputIterator): Iterator;
+			(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT;
 
-		public insert(pos: Iterator, ...args: any[]): Iterator
+		public insert(pos: IteratorT, ...args: any[]): IteratorT
 		{
 			// VALIDATION
 			if (pos.source() != this.end_.source())
@@ -186,7 +181,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Insert_by_repeating_val(position: Iterator, n: number, val: T): Iterator
+		private _Insert_by_repeating_val(position: IteratorT, n: number, val: T): IteratorT
 		{
 			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
 			let last: base._Repeater<T> = new base._Repeater<T>(n);
@@ -198,17 +193,17 @@ namespace std.base
 		 * @hidden
 		 */
 		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
-			(position: Iterator, begin: InputIterator, end: InputIterator): Iterator
+			(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT
 		{
-			let prev: Iterator = <Iterator>position.prev();
-			let first: Iterator = null;
+			let prev: IteratorT = <IteratorT>position.prev();
+			let first: IteratorT = null;
 
 			let size: number = 0;
 
 			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
-				let item: Iterator = this._Create_iterator(prev, null, it.value);
+				let item: IteratorT = this._Create_iterator(prev, null, it.value);
 				if (size == 0)
 					first = item;
 
@@ -236,10 +231,10 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
-		public erase(position: Iterator): Iterator;
-		public erase(begin: Iterator, end: Iterator): Iterator;
+		public erase(position: IteratorT): IteratorT;
+		public erase(begin: IteratorT, end: IteratorT): IteratorT;
 
-		public erase(first: Iterator, last: Iterator = first.next() as Iterator): Iterator
+		public erase(first: IteratorT, last: IteratorT = first.next() as IteratorT): IteratorT
 		{
 			return this._Erase_by_range(first, last);
 		}
@@ -247,14 +242,14 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: Iterator, last: Iterator): Iterator
+		protected _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT
 		{
 			// VALIDATION
 			if (first.source() != this.end_.source() || last.source() != this.end_.source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			// FIND PREV AND NEXT
-			let prev: Iterator = <Iterator>first.prev();
+			let prev: IteratorT = first.prev();
 			let size: number = distance(first, last);
 
 			// SHRINK
@@ -271,7 +266,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			SWAP
 		--------------------------------------------------------- */
-		public swap(obj: Source): void
+		public swap(obj: SourceT): void
 		{
 			[this.begin_, (obj as any).begin_] = [(obj as any).begin_, this.begin_];
 			[this.end_, (obj as any).end_] = [(obj as any).end_, this.end_];

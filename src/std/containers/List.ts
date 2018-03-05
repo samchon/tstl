@@ -290,7 +290,7 @@ namespace std
 namespace std.List
 {
 	export class Iterator<T>
-		extends base._ListIterator<T, List<T>, Iterator<T>>
+		extends base._ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
 	{
 		/**
 		 * @hidden

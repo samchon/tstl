@@ -9,19 +9,20 @@ namespace std.base
 	 * @hidden
 	 */
 	export abstract class _ListIterator<T, 
-			Source extends IContainer<T>,
-			This extends _IListIterator<T>>
-		extends Iterator<T, Source, This>
+			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+			IteratorT extends _ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
+			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
+		extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>
 	{
 		/**
 		 * @hidden
 		 */
-		private prev_: This;
+		private prev_: IteratorT;
 
 		/**
 		 * @hidden
 		 */
-		private next_: This;
+		private next_: IteratorT;
 
 		/**
 		 * @hidden
@@ -31,7 +32,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected constructor(prev: This, next: This, value: T)
+		protected constructor(prev: IteratorT, next: IteratorT, value: T)
 		{
 			super();
 
@@ -43,12 +44,12 @@ namespace std.base
 		/* ---------------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------------- */
-		public prev(): This
+		public prev(): IteratorT
 		{
 			return this.prev_;
 		}
 
-		public next(): This
+		public next(): IteratorT
 		{
 			return this.next_;
 		}
@@ -61,7 +62,7 @@ namespace std.base
 		/* ---------------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------------- */
-		public equals(obj: This): boolean
+		public equals(obj: IteratorT): boolean
 		{
 			return this == <any>obj;
 		}

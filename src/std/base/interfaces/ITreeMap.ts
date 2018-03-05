@@ -1,6 +1,6 @@
 ﻿namespace std.base
 {
-    export interface ITreeMap<Key, T, Source extends IMapContainer<Key, T>>
+    export interface ITreeMap<Key, T, Source extends MapContainer<Key, T, Source>>
         extends MapContainer<Key, T, Source>
 	{
 		key_comp(): (x: Key, y: Key) => boolean;

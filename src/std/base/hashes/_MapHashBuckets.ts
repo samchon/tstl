@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _MapHashBuckets<Key, T, Source extends IMapContainer<Key, T>>
+	export class _MapHashBuckets<Key, T, Source extends MapContainer<Key, T, Source>>
 		extends _HashBuckets<MapIterator<Key, T, Source>>
 	{
 		private source_: IHashMap<Key, T, Source>;

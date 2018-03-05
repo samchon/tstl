@@ -8,8 +8,8 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class ArrayIterator<T, Source extends IArrayContainer<T>>
-		extends Iterator<T, Source, ArrayIterator<T, Source>>
+	export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
+		extends Iterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
 	{
 		/**
 		 * @hidden
@@ -37,7 +37,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public source(): Source
 		{
-			return this.source_ as Source;
+			return this.source_;
 		};
 		public index(): number
 		{
@@ -85,7 +85,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class ArrayReverseIterator<T, Source extends IArrayContainer<T>>
+	export class ArrayReverseIterator<T, Source extends ArrayContainer<T, Source>>
 		extends ReverseIterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
 	{
 		/* ---------------------------------------------------------

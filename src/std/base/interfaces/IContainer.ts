@@ -11,7 +11,8 @@ namespace std.base
 	export interface IIterator<T> 
 		extends Iterator<T, 
 			IContainer<T>, 
-			IIterator<T>> 
+			IIterator<T>,
+			IReverseIterator<T>> 
 	{
 	}
 

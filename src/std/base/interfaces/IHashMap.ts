@@ -1,6 +1,6 @@
 ﻿namespace std.base
 {
-    export interface IHashMap<Key, T, Source extends IMapContainer<Key, T>>
+    export interface IHashMap<Key, T, Source extends MapContainer<Key, T, Source>>
         extends MapContainer<Key, T, Source>
 	{
 		hash_function(): (key: Key) => number;

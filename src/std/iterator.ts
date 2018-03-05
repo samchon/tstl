@@ -116,11 +116,11 @@ namespace std
 	// BEGIN & END
 	//----
 	export function begin<T>(container: Array<T>): JSArray.Iterator<T>;
-	export function begin<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function begin<T, Source extends base.ArrayContainer<T, Source>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function begin<T>(container: List<T>): List.Iterator<T>;
 	export function begin<T>(container: ForwardList<T>): ForwardList.Iterator<T>;
-	export function begin<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
-	export function begin<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
+	export function begin<T, Source extends base.SetContainer<T, Source>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
+	export function begin<Key, T, Source extends base.MapContainer<Key, T, Source>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
 	// typedef is not specified in TypeScript yet.
 	// Instead, I listed all the containers and its iterators as overloaded functions
@@ -133,11 +133,11 @@ namespace std
 	}
 	
 	export function end<T>(container: Array<T>): JSArray.Iterator<T>;
-	export function end<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function end<T, Source extends base.ArrayContainer<T, Source>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function end<T>(container: List<T>): List.ReverseIterator<T>;
 	export function end<T>(container: ForwardList<T>): ForwardList.Iterator<T>;
-	export function end<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
-	export function end<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
+	export function end<T, Source extends base.SetContainer<T, Source>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
+	export function end<Key, T, Source extends base.MapContainer<Key, T, Source>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
 	export function end(container: any): any
 	{
@@ -189,15 +189,15 @@ namespace std
 	//----
 	// REVERSE ITERATORS
 	//----
-	export function make_reverse_iterator<T, Source extends base.IArrayContainer<T>>(it: base.ArrayIterator<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function make_reverse_iterator<T, Source extends base.ArrayContainer<T, Source>>(it: base.ArrayIterator<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function make_reverse_iterator<T>(it: List.Iterator<T>): List.ReverseIterator<T>;
-	export function make_reverse_iterator<T, Source extends base.ISetContainer<T>>(it: base.SetIterator<T, Source>): base.SetReverseIterator<T, Source>;
-	export function make_reverse_iterator<Key, T, Source extends base.IMapContainer<Key, T>>(it: base.MapIterator<Key, T, Source>): base.MapReverseIterator<Key, T, Source>;
+	export function make_reverse_iterator<T, Source extends base.SetContainer<T, Source>>(it: base.SetIterator<T, Source>): base.SetReverseIterator<T, Source>;
+	export function make_reverse_iterator<Key, T, Source extends base.MapContainer<Key, T, Source>>(it: base.MapIterator<Key, T, Source>): base.MapReverseIterator<Key, T, Source>;
 
 	export function make_reverse_iterator(it: any): any
 	{
 		if (it instanceof base.ArrayIterator)
-			return new base.ArrayReverseIterator<any, base.IArrayContainer<any>>(it);
+			return new base.ArrayReverseIterator(it);
 		else if (it instanceof List.Iterator)
 			return new List.ReverseIterator<any>(it);
 
@@ -207,20 +207,20 @@ namespace std
 			return new base.MapReverseIterator<any, any, any>(it);
 	}
 	
-	export function rbegin<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function rbegin<T, Source extends base.ArrayContainer<T, Source>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function rbegin<T>(container: List<T>): List.ReverseIterator<T>;
-	export function rbegin<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
-	export function rbegin<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
+	export function rbegin<T, Source extends base.SetContainer<T, Source>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
+	export function rbegin<Key, T, Source extends base.MapContainer<Key, T, Source>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
 	export function rbegin(container: any): any
 	{
 		make_reverse_iterator(end(container));
 	}
 
-	export function rend<T, Source extends base.IArrayContainer<T>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
+	export function rend<T, Source extends base.ArrayContainer<T, Source>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
 	export function rend<T>(container: List<T>): List.ReverseIterator<T>;
-	export function rend<T, Source extends base.ISetContainer<T>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
-	export function rend<Key, T, Source extends base.IMapContainer<Key, T>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
+	export function rend<T, Source extends base.SetContainer<T, Source>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
+	export function rend<Key, T, Source extends base.MapContainer<Key, T, Source>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
 
 	export function rend(container: any): any
 	{

@@ -4,8 +4,11 @@
 
 namespace std.base
 {
-	export class MapIterator<Key, T, Source extends IMapContainer<Key, T>>
-		extends _ListIterator<Entry<Key, T>, Source, MapIterator<Key, T, Source>>
+	export class MapIterator<Key, T, Source extends MapContainer<Key, T, Source>>
+		extends _ListIterator<Entry<Key, T>, 
+			Source, 
+			MapIterator<Key, T, Source>, 
+			MapReverseIterator<Key, T, Source>>
 	{
 		/**
 		 * @hidden
@@ -21,7 +24,6 @@ namespace std.base
 		public constructor(associative: _MapElementList<Key, T, Source>, prev: MapIterator<Key, T, Source>, next: MapIterator<Key, T, Source>, val: Pair<Key, T>)
 		{
 			super(prev, next, val);
-
 			this.source_ = associative;
 		}
 
@@ -68,9 +70,9 @@ namespace std.base
 
 namespace std.base
 {
-	export class MapReverseIterator<Key, T, Source extends IMapContainer<Key, T>>
+	export class MapReverseIterator<Key, T, Source extends MapContainer<Key, T, Source>>
 		extends ReverseIterator<Entry<Key, T>, 
-			MapContainer<Key, T, Source>, 
+			Source, 
 			MapIterator<Key, T, Source>, 
 			MapReverseIterator<Key, T, Source>>
 	{
@@ -87,7 +89,7 @@ namespace std.base
 		 */
 		protected _Create_neighbor(base: MapIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>
 		{
-			return new MapReverseIterator<Key, T, Source>(base);
+			return new MapReverseIterator(base);
 		}
 
 		/* ---------------------------------------------------------

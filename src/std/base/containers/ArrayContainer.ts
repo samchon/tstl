@@ -7,8 +7,8 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export abstract class ArrayContainer<T, Source extends IArrayContainer<T>>
-		extends Container<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
+	export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, SourceT>>
+		extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 	{
 		protected constructor()
 		{
@@ -22,22 +22,22 @@ namespace std.base
 		============================================================
 			ITERATORS
 		--------------------------------------------------------- */
-		public begin(): ArrayIterator<T, Source>
+		public begin(): ArrayIterator<T, SourceT>
 		{
-			return new ArrayIterator(<any>this as Source, 0);
+			return new ArrayIterator(<any>this, 0);
 		}
 
-		public end(): ArrayIterator<T, Source>
+		public end(): ArrayIterator<T, SourceT>
 		{
-			return new ArrayIterator(<any>this as Source, this.size());
+			return new ArrayIterator(<any>this, this.size());
 		}
 
-		public rbegin(): ArrayReverseIterator<T, Source>
+		public rbegin(): ArrayReverseIterator<T, SourceT>
 		{
 			return new ArrayReverseIterator(this.end());
 		}
 
-		public rend(): ArrayReverseIterator<T, Source>
+		public rend(): ArrayReverseIterator<T, SourceT>
 		{
 			return new ArrayReverseIterator(this.begin());
 		}
@@ -46,12 +46,10 @@ namespace std.base
 			INDEXES
 		--------------------------------------------------------- */
 		public abstract at(index: number): T;
-
 		public abstract set(index: number, val: T): void;
 
 		public front(): T;
 		public front(val: T): void;
-
 		public front(val: T = undefined): T | void
 		{
 			if (val == undefined)
@@ -62,7 +60,6 @@ namespace std.base
 
 		public back(): T;
 		public back(val: T): void;
-
 		public back(val: T = undefined): T | void
 		{
 			let index: number = this.size() - 1;
@@ -82,12 +79,12 @@ namespace std.base
 		--------------------------------------------------------- */
 		public abstract push_back(val: T): void;
 
-		public insert(pos: ArrayIterator<T, Source>, val: T): ArrayIterator<T, Source>;
-		public insert(pos: ArrayIterator<T, Source>, n: number, val: T): ArrayIterator<T, Source>;
+		public insert(pos: ArrayIterator<T, SourceT>, val: T): ArrayIterator<T, SourceT>;
+		public insert(pos: ArrayIterator<T, SourceT>, n: number, val: T): ArrayIterator<T, SourceT>;
 		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
-			(pos: ArrayIterator<T, Source>, first: InputIterator, last: InputIterator): ArrayIterator<T, Source>;
+			(pos: ArrayIterator<T, SourceT>, first: InputIterator, last: InputIterator): ArrayIterator<T, SourceT>;
 
-		public insert(pos: ArrayIterator<T, Source>, ...args: any[]): ArrayIterator<T, Source>
+		public insert(pos: ArrayIterator<T, SourceT>, ...args: any[]): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION
 			if (pos.source() != <any>this)
@@ -109,7 +106,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_repeating_val(position: ArrayIterator<T, Source>, n: number, val: T): ArrayIterator<T, Source>
+		protected _Insert_by_repeating_val(position: ArrayIterator<T, SourceT>, n: number, val: T): ArrayIterator<T, SourceT>
 		{
 			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
 			let last: base._Repeater<T> = new base._Repeater<T>(n);
@@ -121,17 +118,17 @@ namespace std.base
 		 * @hidden
 		 */
 		protected abstract _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
-			(pos: ArrayIterator<T, Source>, first: InputIterator, last: InputIterator): ArrayIterator<T, Source>;
+			(pos: ArrayIterator<T, SourceT>, first: InputIterator, last: InputIterator): ArrayIterator<T, SourceT>;
 
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
 		public abstract pop_back(): void;
 
-		public erase(it: ArrayIterator<T, Source>): ArrayIterator<T, Source>;
-		public erase(first: ArrayIterator<T, Source>, last: ArrayIterator<T, Source>): ArrayIterator<T, Source>;
+		public erase(it: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
+		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
 
-		public erase(first: ArrayIterator<T, Source>, last: ArrayIterator<T, Source> = first.next()): ArrayIterator<T, Source>
+		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT> = first.next()): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION
 			if (first.source() != <any>this || last.source() != <any>this)
@@ -153,6 +150,6 @@ namespace std.base
 		 * @hidden
 		 */
 		protected abstract _Erase_by_range
-			(first: ArrayIterator<T, Source>, last: ArrayIterator<T, Source>): ArrayIterator<T, Source>;
+			(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
 	}
 }

@@ -99,7 +99,7 @@ namespace std
 			// DO PROCESS
 			//----
 			// CONSTRUCT TREE
-			this.tree_ = new base._MultiMapTree(this, comp);
+			this.tree_ = new base._MultiMapTree<Key, T, TreeMultiMap<Key, T>>(this, comp);
 			
 			// ACT POST-PROCESS
 			if (post_process != null)

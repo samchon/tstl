@@ -4,7 +4,7 @@
 
 namespace std.base
 {
-	export abstract class SetContainer<T, Source extends ISetContainer<T>>
+	export abstract class SetContainer<T, Source extends SetContainer<T, Source>>
 		extends Container<T, 
 			Source, 
 			SetIterator<T, Source>, 
@@ -213,7 +213,7 @@ namespace std.base
 			[this.data_ as any, obj.data_] = [obj.data_, this.data_];
 
 			// CHANGE ITERATORS' SOURCES
-			[this.data_["associative_"] as any, obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
 		}
 
 		public abstract merge(source: Source): void;

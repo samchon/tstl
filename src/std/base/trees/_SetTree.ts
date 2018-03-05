@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export abstract class _SetTree<T, Source extends ISetContainer<T>>
+	export abstract class _SetTree<T, Source extends SetContainer<T, Source>>
 		extends _XTree<SetIterator<T, Source>>
 	{
 		private source_: Source;

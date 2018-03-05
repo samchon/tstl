@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export abstract class _MapTree<Key, T, Source extends IMapContainer<Key, T>>
+	export abstract class _MapTree<Key, T, Source extends MapContainer<Key, T, Source>>
 		extends _XTree<MapIterator<Key, T, Source>>
 	{
 		private source_: Source;

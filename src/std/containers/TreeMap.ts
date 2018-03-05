@@ -98,7 +98,7 @@ namespace std
 			// DO PROCESS
 			//----
 			// CONSTRUCT TREE
-			this.tree_ = new base._UniqueMapTree(this, comp);
+			this.tree_ = new base._UniqueMapTree<Key, T, TreeMap<Key, T>>(this, comp);
 			
 			// ACT POST-PROCESS
 			if (post_process != null)

@@ -5,10 +5,9 @@
 namespace std.base
 {
 	export abstract class ReverseIterator<T, 
-			Source extends IContainer<T>, 
-			Base extends IIterator<T>, 
-			This extends IReverseIterator<T>>
-		extends Iterator<T, Source, This>
+			Source extends Container<T, Source, Base, This>, 
+			Base extends Iterator<T, Source, Base, This>, 
+			This extends ReverseIterator<T, Source, Base, This>>
 	{
 		/**
 		 * @hidden
@@ -20,9 +19,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		protected constructor(base: Base)
 		{
-			super();
-			
-			this.base_ = base.prev() as Base;
+			this.base_ = base.prev();
 		}
 
 		// CREATE A NEW OBJECT WITH SAME (DERIVED) TYPE
@@ -36,12 +33,12 @@ namespace std.base
 		--------------------------------------------------------- */
 		public source(): Source
 		{
-			return this.base_.source() as Source;
+			return this.base_.source();
 		}
 
 		public base(): Base
 		{
-			return this.base_.next() as Base;
+			return this.base_.next();
 		}
 		
 		public get value(): T
@@ -61,7 +58,7 @@ namespace std.base
 		public next(): This
 		{
 			// this.base().prev()
-			return this._Create_neighbor(this.base().prev() as Base);
+			return this._Create_neighbor(this.base().prev());
 		}
 
 		/* ---------------------------------------------------------

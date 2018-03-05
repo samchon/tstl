@@ -94,7 +94,7 @@ namespace std
 			// DO PROCESS
 			//----
 			// CONSTRUCT TREE
-			this.tree_ = new base._UniqueSetTree(this, comp);
+			this.tree_ = new base._UniqueSetTree<T, TreeSet<T>>(this, comp);
 			
 			// ACT POST-PROCESS
 			if (post_process != null)

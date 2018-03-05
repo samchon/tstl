@@ -4,7 +4,7 @@
 
 namespace std.base
 {
-	export abstract class UniqueMap<Key, T, Source extends IUniqueMap<Key, T>>
+	export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>>
 		extends MapContainer<Key, T, Source>
 	{
 		/* ---------------------------------------------------------

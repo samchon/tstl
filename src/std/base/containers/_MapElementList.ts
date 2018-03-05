@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _MapElementList<Key, T, Source extends IMapContainer<Key, T>> 
+	export class _MapElementList<Key, T, Source extends MapContainer<Key, T, Source>> 
 		extends _ListContainer<Entry<Key, T>, 
 			Source, 
 			MapIterator<Key, T, Source>,

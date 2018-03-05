@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _UniqueSetTree<T, Source extends IUniqueSet<T>>
+	export class _UniqueSetTree<T, Source extends UniqueSet<T, Source>>
 		extends _SetTree<T, Source>
 	{
 		/* ---------------------------------------------------------

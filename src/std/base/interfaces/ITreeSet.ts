@@ -1,6 +1,6 @@
 ﻿namespace std.base
 {
-    export interface ITreeSet<T, Source extends ISetContainer<T>>
+    export interface ITreeSet<T, Source extends SetContainer<T, Source>>
         extends SetContainer<T, Source>
 	{
 		key_comp(): (x: T, y: T) => boolean;

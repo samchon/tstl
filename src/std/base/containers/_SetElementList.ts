@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _SetElementList<T, Source extends ISetContainer<T>> 
+	export class _SetElementList<T, Source extends SetContainer<T, Source>> 
 		extends _ListContainer<T, 
 			Source,
 			SetIterator<T, Source>,

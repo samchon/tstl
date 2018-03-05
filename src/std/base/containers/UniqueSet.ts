@@ -4,7 +4,7 @@
 
 namespace std.base
 {
-	export abstract class UniqueSet<T, Source extends IUniqueSet<T>>
+	export abstract class UniqueSet<T, Source extends UniqueSet<T, Source>>
 		extends SetContainer<T, Source>
 	{
 		/* ---------------------------------------------------------

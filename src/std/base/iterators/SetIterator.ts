@@ -4,8 +4,11 @@
 
 namespace std.base
 {
-	export class SetIterator<T, Source extends ISetContainer<T>>
-		extends _ListIterator<T, Source, SetIterator<T, Source>>
+	export class SetIterator<T, Source extends SetContainer<T, Source>>
+		extends _ListIterator<T, 
+			Source, 
+			SetIterator<T, Source>, 
+			SetReverseIterator<T, Source>>
 	{
 		/**
 		 * @hidden
@@ -44,9 +47,9 @@ namespace std.base
 
 namespace std.base
 {
-	export class SetReverseIterator<T, Source extends ISetContainer<T>>
+	export class SetReverseIterator<T, Source extends SetContainer<T, Source>>
 		extends ReverseIterator<T, 
-			SetContainer<T, Source>, 
+			Source, 
 			SetIterator<T, Source>, 
 			SetReverseIterator<T, Source>>
 	{

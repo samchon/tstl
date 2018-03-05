@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _UniqueMapTree<Key, T, Source extends IUniqueMap<Key, T>>
+	export class _UniqueMapTree<Key, T, Source extends UniqueMap<Key, T, Source>>
 		extends _MapTree<Key, T, Source>
 	{
 		/* ---------------------------------------------------------

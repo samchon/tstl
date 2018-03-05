@@ -1,6 +1,6 @@
 ﻿namespace std.base
 {
-    export interface IHashSet<T, Source extends ISetContainer<T>>
+    export interface IHashSet<T, Source extends SetContainer<T, Source>>
         extends SetContainer<T, Source>
 	{
 		hash_function(): (key:T) => number;

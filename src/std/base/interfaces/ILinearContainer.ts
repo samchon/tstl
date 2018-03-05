@@ -4,7 +4,7 @@ namespace std.base
 		extends Container<T,
 			ILinearContainer<T>,
 			ILinearIterator<T>,
-			IReverseIterator<T>>
+			ILinearReverseIterator<T>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -37,7 +37,8 @@ namespace std.base
 	export interface ILinearIterator<T>
 		extends Iterator<T, 
 			ILinearContainer<T>, 
-			ILinearIterator<T>>
+			ILinearIterator<T>,
+			ILinearReverseIterator<T>>
 	{
 		value: T;
 	}

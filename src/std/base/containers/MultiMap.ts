@@ -4,7 +4,7 @@
 
 namespace std.base
 {
-	export abstract class MultiMap<Key, T, Source extends IMultiMap<Key, T>>
+	export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 		extends MapContainer<Key, T, Source>
 	{
 		/* ---------------------------------------------------------
