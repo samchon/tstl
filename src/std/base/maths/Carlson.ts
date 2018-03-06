@@ -1,5 +1,8 @@
 /// <reference path="../../API.ts" />
 
+/** 
+ * @hidden
+ */
 namespace std.base.Carlson
 {
 	const INFINITY = 100 * 1000;

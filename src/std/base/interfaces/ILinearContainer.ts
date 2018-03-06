@@ -1,5 +1,8 @@
 namespace std.base
 {
+	/** 
+	 * @hidden
+	 */
 	export interface ILinearContainer<T>
 		extends Container<T,
 			ILinearContainer<T>,
@@ -34,6 +37,9 @@ namespace std.base
 			(position: ILinearIterator<T>, first: InputIterator, last: InputIterator): ILinearIterator<T>;
 	}
 
+	/** 
+	 * @hidden
+	 */
 	export interface ILinearIterator<T>
 		extends Iterator<T, 
 			ILinearContainer<T>, 
@@ -43,6 +49,9 @@ namespace std.base
 		value: T;
 	}
 
+	/** 
+	 * @hidden
+	 */
 	export interface ILinearReverseIterator<T>
 		extends ReverseIterator<T, 
 			ILinearContainer<T>, 

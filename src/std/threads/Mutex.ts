@@ -62,6 +62,9 @@ namespace std
 		}
 	}
 
+	/**
+	 * @hidden
+	 */
 	interface IResolver
 	{
 		(): void;

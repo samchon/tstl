@@ -5,9 +5,6 @@
 
 namespace std.base
 {
-	/**
-	 * @hidden
-	 */
 	export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
 		extends Iterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
 	{

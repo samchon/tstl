@@ -371,9 +371,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.VectorBoolean
 {
 	//----

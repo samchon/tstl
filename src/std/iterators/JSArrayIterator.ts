@@ -1,5 +1,8 @@
 /// <reference path="../API.ts" />
 
+/** 
+ * @hidden
+ */
 namespace std.JSArray
 {
 	export type Iterator<T> = Vector.Iterator<T>;

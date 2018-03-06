@@ -1,5 +1,8 @@
 ﻿namespace std.base
 {
+	/** 
+	 * @hidden
+	 */
     export interface ITreeMap<Key, T, Source extends MapContainer<Key, T, Source>>
         extends MapContainer<Key, T, Source>
 	{

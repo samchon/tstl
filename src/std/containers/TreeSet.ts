@@ -254,9 +254,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.TreeSet
 {
 	//----

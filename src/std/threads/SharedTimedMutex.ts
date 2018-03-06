@@ -224,11 +224,17 @@ namespace std
 		}
 	}
 
+	/**
+	 * @hidden
+	 */
 	interface IResolver
 	{
 		(value?: any): void;
 	}
 
+	/**
+	 * @hidden
+	 */
 	interface ILockType
 	{
 		access: boolean; // read or write

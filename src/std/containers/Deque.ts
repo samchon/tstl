@@ -570,9 +570,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.Deque
 {
 	//----

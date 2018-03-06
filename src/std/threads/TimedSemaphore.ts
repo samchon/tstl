@@ -229,10 +229,17 @@ namespace std.experimental
 		}
 	}
 
+	/**
+	 * @hidden
+	 */
 	interface IResolver
 	{
 		(value?: any): void;
 	}
+
+	/**
+	 * @hidden
+	 */
 	interface IProps
 	{
 		count: number;

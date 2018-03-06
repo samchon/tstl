@@ -334,9 +334,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.HashSet
 {
 	//----

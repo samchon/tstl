@@ -259,9 +259,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.TreeMultiSet
 {
 	//----

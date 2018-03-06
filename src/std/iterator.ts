@@ -227,6 +227,9 @@ namespace std
 		return make_reverse_iterator(begin(container));
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Capsule<T>(array: Array<T>): Vector<T>
 	{
 		let ret: Vector<T> = new Vector();

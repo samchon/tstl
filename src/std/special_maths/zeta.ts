@@ -2,6 +2,9 @@
 
 namespace std
 {
+	/**
+	 * @hidden
+	 */
 	const INFINITY = 100 * 1000;
 
 	export function riemann_zeta(arg: number): number
@@ -18,6 +21,9 @@ namespace std
 			return _Positive(arg);
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Negative(arg: number): number
 	{
 		return Math.pow(2, arg)
@@ -27,6 +33,9 @@ namespace std
 			* riemann_zeta(1 - arg);
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Fractional(arg: number): number
 	{
 		let divider: number = 1 - Math.pow(2, 1 - arg);
@@ -38,6 +47,9 @@ namespace std
 		return sigma / divider;
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Positive(arg: number): number
 	{
 		return base.MathUtil.sigma(function (n: number): number

@@ -317,9 +317,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.HashMultiSet
 {
 	//----

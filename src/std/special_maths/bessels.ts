@@ -2,6 +2,9 @@
 
 namespace std
 {
+	/**
+	 * @hidden
+	 */
 	const INFINITY = 100; // (1 / 30!) is nearby 0.
 
 	/*================================================================
@@ -37,6 +40,9 @@ namespace std
 		return numerator / denominator;
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _J_int(n: number, x: number): number
 	{
 		if (n < 0)
@@ -45,6 +51,9 @@ namespace std
 			return _J_positive(n, x);
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _J_positive(v: number, x: number): number
 	{
 		let sigma: number = base.MathUtil.sigma(function (k: number): number
@@ -96,6 +105,9 @@ namespace std
 			return _Bessel_i(n, x);
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Bessel_i(v: number, x: number): number
 	{
 		return base.MathUtil.sigma(function (k: number): number
@@ -118,6 +130,9 @@ namespace std
 		return _Bessel_k(n, x);
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Bessel_k(v: number, z: number): number
 	{
 		let ret: number = Math.PI / 2;

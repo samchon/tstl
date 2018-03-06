@@ -213,9 +213,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.Vector
 {
 	//----
