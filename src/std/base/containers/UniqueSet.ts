@@ -20,7 +20,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public insert(val: T): Pair<SetIterator<T, Source>, boolean>;
 		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
-		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		public insert(...args: any[]): any

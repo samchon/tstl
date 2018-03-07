@@ -42,14 +42,14 @@ namespace std
 			return source.size();
 	}
 
-	export function distance<T, InputIterator extends IForwardIterator<T>>
+	export function distance<T, InputIterator extends IForwardIterator<T, InputIterator>>
 		(first: InputIterator, last: InputIterator): number
 	{
 		if ((<any>first).index != undefined)
 			return _Distance_via_index(<any>first, <any>last);
 
 		let length: number = 0;
-		for (; !first.equals(last); first = first.next() as InputIterator)
+		for (; !first.equals(last); first = first.next())
 			length++;
 
 		return length;
@@ -58,7 +58,8 @@ namespace std
 	/**
 	 * @hidden
 	 */
-	function _Distance_via_index<T>(first: IRandomAccessIterator<T>, last: IRandomAccessIterator<T>): number
+	function _Distance_via_index<T, RandomAccessIterator extends IRandomAccessIterator<T, RandomAccessIterator>>
+		(first: RandomAccessIterator, last: RandomAccessIterator): number
 	{
 		let start: number = first.index();
 		let end: number = last.index();
@@ -69,17 +70,17 @@ namespace std
 	/* ---------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------- */
-	export function advance<T, InputIterator extends IForwardIterator<T>>
+	export function advance<T, InputIterator extends IForwardIterator<T, InputIterator>>
 		(it: InputIterator, n: number): InputIterator
 	{
 		if ((<any>it).advance instanceof Function)
 			it = (<any>it).advance(n);
 		else if (n > 0)
 			for (let i: number = 0; i < n; ++i)
-				it = it.next() as InputIterator;
+				it = it.next();
 		else
 		{
-			let p_it: IBidirectionalIterator<T> = <any>it;
+			let p_it: IBidirectionalIterator<T, any> = <any>it;
 			if (!(p_it.next instanceof Function))
 				throw new std.OutOfRange("It's not bidirectional iterator. Advancing to negative value is impossible.");
 
@@ -92,20 +93,20 @@ namespace std
 		return it;
 	}
 	
-	export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T>>
+	export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, BidirectionalIterator>>
 		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 	{
 		if (n == 1)
-			return it.prev() as BidirectionalIterator;
+			return it.prev();
 		else
 			return advance(it, -n);
 	}
 	
-	export function next<T, ForwardIterator extends IForwardIterator<T>>
+	export function next<T, ForwardIterator extends IForwardIterator<T, ForwardIterator>>
 		(it: ForwardIterator, n: number = 1): ForwardIterator
 	{	
 		if (n == 1)
-			return it.next() as ForwardIterator;
+			return it.next();
 		else
 			return advance(it, n);
 	}
@@ -153,11 +154,11 @@ namespace std
 	export function inserter<T>
 		(container: Array<T>, it: Vector.Iterator<T>): InsertIterator<T, Vector<T>, Vector.Iterator<T>>;
 
-	export function inserter<T, Container extends base._IInsert<T, Iterator>, Iterator extends IForwardIterator<T>>
+	export function inserter<T, Container extends base._IInsert<T, Iterator>, Iterator extends IForwardIterator<T, Iterator>>
 		(container: Container, it: Iterator): InsertIterator<T, Container, Iterator>;
 
 	export function inserter<T>
-		(container: Array<T> | base._IInsert<T, any>, it: IForwardIterator<T>): InsertIterator<T, any, any>
+		(container: Array<T> | base._IInsert<T, any>, it: IForwardIterator<T, any>): InsertIterator<T, any, any>
 	{
 		if (container instanceof Array)
 			container = _Capsule(container);

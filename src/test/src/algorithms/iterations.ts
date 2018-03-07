@@ -25,7 +25,7 @@ namespace test
 		{
 			sum += val;
 		};
-
+		
 		std.for_each(items.begin(), items.end(), fn);
 		std.for_each_n(items.begin(), items.size(), fn);
 

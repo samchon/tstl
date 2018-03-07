@@ -2,12 +2,13 @@
 
 namespace std.base
 {
-	export class ForOfAdaptor<T> implements IterableIterator<T>
+	export class ForOfAdaptor<T, Iterator extends Readonly<IForwardIterator<T, Iterator>>> 
+		implements IterableIterator<T>
 	{
-		private it_: Readonly<IForwardIterator<T>>;
-		private last_: Readonly<IForwardIterator<T>>;
+		private it_: Iterator;
+		private last_: Iterator;
 
-		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>)
+		public constructor(first: Iterator, last: Iterator)
 		{
 			this.it_ = first;
 			this.last_ = last;
@@ -22,7 +23,7 @@ namespace std.base
 				};
 			else
 			{
-				let it: Readonly<IForwardIterator<T>> = this.it_;
+				let it: Iterator = this.it_;
 				this.it_ = this.it_.next();
 
 				return {

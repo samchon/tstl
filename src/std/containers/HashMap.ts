@@ -278,7 +278,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			//--------
@@ -288,7 +288,7 @@ namespace std
 			let my_first: HashMap.Iterator<Key, T> = this.end().prev();
 
 			// INSERT ELEMENTS
-			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+			for (let it = first; !it.equals(last); it = it.next())
 			{
 				// TEST WHETER EXIST
 				if (this.has(it.value.first))

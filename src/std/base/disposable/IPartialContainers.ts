@@ -9,7 +9,7 @@ namespace std.base
 		size(): number;
 	}
 
-	export interface _IInsert<T, Iterator extends IForwardIterator<T>>
+	export interface _IInsert<T, Iterator extends IForwardIterator<T, Iterator>>
 	{
 		insert(it: Iterator, value: T): Iterator;
 	}

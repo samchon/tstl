@@ -274,7 +274,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>>>>
+		protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			//--------
@@ -282,7 +282,7 @@ namespace std
 			//--------
 			// PRELIMINARIES
 			let entries: Array<Entry<Key, T>> = [];
-			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+			for (let it = first; !it.equals(last); it = it.next())
 				entries.push(new Entry(it.value.first, it.value.second));
 			
 			// INSERT ELEMENTS

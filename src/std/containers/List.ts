@@ -90,7 +90,7 @@ namespace std
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
 		public assign(n: number, val: T): void;
-		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		public assign(par1: any, par2: any): void

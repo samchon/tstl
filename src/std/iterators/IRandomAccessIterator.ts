@@ -1,8 +1,9 @@
 namespace std
 {
-	export interface IRandomAccessIterator<T> extends IBidirectionalIterator<T>
+	export interface IRandomAccessIterator<T, Iterator extends IRandomAccessIterator<T, Iterator> = IRandomAccessIterator<T, any>>
+		extends IBidirectionalIterator<T, Iterator>
 	{
 		index(): number;
-		advance(n: number): IRandomAccessIterator<T>;
+		advance(n: number): Iterator;
 	}
 }

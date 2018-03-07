@@ -3,7 +3,7 @@
 namespace std
 {
 	export class BackInsertIterator<T, Source extends base._IPushBack<T>>
-		implements Writeonly<IForwardIterator<T>>
+		implements IForwardIterator<T, BackInsertIterator<T, Source>>
 	{
 		private source_: Source;
 

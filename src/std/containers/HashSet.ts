@@ -279,7 +279,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			//--------
@@ -289,7 +289,7 @@ namespace std
 			let my_first: HashSet.Iterator<T> = this.end().prev();
 
 			// INSERT ELEMENTS
-			for (; !first.equals(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next())
 			{
 				// TEST WHETER EXIST
 				if (this.has(first.value))

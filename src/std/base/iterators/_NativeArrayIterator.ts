@@ -7,7 +7,8 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _NativeArrayIterator<T> implements IForwardIterator<T>
+	export class _NativeArrayIterator<T> 
+		implements Readonly<IForwardIterator<T, _NativeArrayIterator<T>>>
 	{
 		private data_: Array<T>;
 		private index_: number;

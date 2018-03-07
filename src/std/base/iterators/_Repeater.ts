@@ -7,7 +7,7 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
-	export class _Repeater<T> implements Readonly<IForwardIterator<T>>
+	export class _Repeater<T> implements Readonly<IForwardIterator<T, _Repeater<T>>>
 	{
 		private index_: number;
 		private value_: T;
