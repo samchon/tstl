@@ -6,7 +6,7 @@ namespace std.base
 			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>, 
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-		implements Readonly<IForwardIterator<T, Iterator<T, SourceT, IteratorT, ReverseIteratorT>>>
+		implements Readonly<IBidirectionalIterator<T, IteratorT>>
 	{
 		/* ---------------------------------------------------------
 			MOVERS

@@ -11,9 +11,10 @@ namespace std
 	============================================================
 		FOR_EACH
 	--------------------------------------------------------- */
-	export function for_each<T, Ret, 
-			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-		(first: InputIterator, last: InputIterator, fn: (val: T) => Ret): (val: T) => Ret
+	export function for_each<T,
+			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
+			Func extends (val: T) => void>
+		(first: InputIterator, last: InputIterator, fn: Func): Func
 	{
 		for (let it = first; !it.equals(last); it = it.next())
 			fn(it.value);
@@ -21,9 +22,10 @@ namespace std
 		return fn;
 	}
 
-	export function for_each_n<T, Ret, 
-			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-		(first: InputIterator, n: number, fn: (val: T) => Ret): InputIterator
+	export function for_each_n<T, 
+			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
+			Func extends (val: T) => void>
+		(first: InputIterator, n: number, fn: Func): InputIterator
 	{
 		for (let i: number = 0; i < n; ++i)
 		{
