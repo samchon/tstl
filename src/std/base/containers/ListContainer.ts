@@ -4,9 +4,6 @@
 
 namespace std.base
 {
-	/**
-	 * @hidden
-	 */
 	export abstract class ListContainer<T, 
 			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
@@ -57,7 +54,7 @@ namespace std.base
 			this.begin_ = it;
 		}
 
-		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			this.clear();
@@ -160,7 +157,7 @@ namespace std.base
 
 		public insert(position: IteratorT, val: T): IteratorT;
 		public insert(position: IteratorT, size: number, val: T): IteratorT;
-		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT;
 
 		public insert(pos: IteratorT, ...args: any[]): IteratorT
@@ -192,7 +189,7 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT
 		{
 			let prev: IteratorT = <IteratorT>position.prev();
@@ -200,7 +197,7 @@ namespace std.base
 
 			let size: number = 0;
 
-			for (let it = begin; it.equals(end) == false; it = it.next() as InputIterator) 
+			for (let it = begin; it.equals(end) == false; it = it.next()) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: IteratorT = this._Create_iterator(prev, null, it.value);

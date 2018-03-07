@@ -1,5 +1,8 @@
 ﻿namespace std.base
 {
+	/** 
+	 * @hidden
+	 */
     export interface ITreeSet<T, Source extends SetContainer<T, Source>>
         extends SetContainer<T, Source>
 	{

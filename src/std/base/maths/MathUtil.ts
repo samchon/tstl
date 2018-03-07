@@ -1,5 +1,8 @@
 /// <reference path="../../API.ts" />
 
+/** 
+ * @hidden
+ */
 namespace std.base.MathUtil
 {
 	export function factorial(k: number): number

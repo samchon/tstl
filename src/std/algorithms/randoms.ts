@@ -9,8 +9,8 @@ namespace std
 	}
 
 	export function sample<T, 
-			InputIterator extends Readonly<IForwardIterator<T>>,
-			OutputIterator extends Writeonly<IForwardIterator<T>>>
+			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
+			OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 		(
 			first: InputIterator, last: InputIterator, 
 			output: OutputIterator, n: number
@@ -46,10 +46,10 @@ namespace std
 		//----
 		for (let adv of advances)
 		{
-			first = advance(first, adv) as InputIterator;
+			first = advance(first, adv);
 
 			output.value = first.value;
-			output = output.next() as OutputIterator;
+			output = output.next();
 		}
 		return output;
 	}

@@ -4,6 +4,9 @@
 
 namespace std.base
 {
+	/** 
+	 * @hidden
+	 */
 	export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 		extends _MapTree<Key, T, Source>
 	{

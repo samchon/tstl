@@ -120,6 +120,9 @@ namespace std
 		}
 	}
 
+	/**
+	 * @hidden
+	 */
 	interface IListener
 	{
 		(): void;

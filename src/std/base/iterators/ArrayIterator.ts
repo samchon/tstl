@@ -5,11 +5,9 @@
 
 namespace std.base
 {
-	/**
-	 * @hidden
-	 */
 	export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
 		extends Iterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
+		implements IRandomAccessIterator<T, ArrayIterator<T, Source>>
 	{
 		/**
 		 * @hidden
@@ -38,7 +36,7 @@ namespace std.base
 		public source(): Source
 		{
 			return this.source_;
-		};
+		}
 		public index(): number
 		{
 			return this.index_;
@@ -51,7 +49,7 @@ namespace std.base
 		public set value(val: T)
 		{
 			this.source().set(this.index_, val);
-		};
+		}
 
 		/* ---------------------------------------------------------
 			MOVERS
@@ -87,6 +85,7 @@ namespace std.base
 	 */
 	export class ArrayReverseIterator<T, Source extends ArrayContainer<T, Source>>
 		extends ReverseIterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
+		implements IRandomAccessIterator<T, ArrayReverseIterator<T, Source>>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS

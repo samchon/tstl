@@ -86,7 +86,7 @@ namespace std
 			ASSIGN, RESERVE & CLEAR
 		--------------------------------------------------------- */
 		public assign(n: number, val: T): void;
-		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public assign(first: any, second: any): void
@@ -320,7 +320,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): Deque.Iterator<T>
 		{
 			let size: number = this.size_ + distance(first, last);
@@ -366,7 +366,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private _Insert_to_middle<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		private _Insert_to_middle<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): void
 		{
 			let col_size: number = this._Compute_col_size();
@@ -380,7 +380,7 @@ namespace std
 			let back_items: Array<T> = row.splice(col);
 
 			// INSERT ITEMS
-			for (; !first.equals(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next())
 			{
 				if (row.length == col_size && this.matrix_.length < Deque.ROW_SIZE)
 				{
@@ -411,11 +411,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		private _Insert_to_end<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		private _Insert_to_end<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT ITEMS IN THE BACK
-			for (; !first.equals(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next())
 			{
 				// ADD ROW IF REQUIRED
 				this._Try_add_row_at_back();
@@ -570,9 +570,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.Deque
 {
 	//----

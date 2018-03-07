@@ -15,6 +15,9 @@ namespace std
 		return _Hermite(n, x, solutions);
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Hermite(n: number, x: number, solutions: number[]): number
 	{
 		if (solutions.length > n)

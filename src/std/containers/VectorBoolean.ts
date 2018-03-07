@@ -244,13 +244,13 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<boolean>>>
+		protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<boolean, InputIterator>>>
 			(pos: VectorBoolean.Iterator, first: InputIterator, last: InputIterator): VectorBoolean.Iterator
 		{
 			// RESERVE ELEMENTS -> REPEATED SIZE & VALUE
 			let elements: Vector<Pair<number, boolean>> = new Vector();
 
-			for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+			for (let it = first; !it.equals(last); it = it.next())
 			{
 				if (elements.empty() || elements.back().second != it.value)
 					elements.push_back(std.make_pair(1, it.value));
@@ -371,9 +371,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.VectorBoolean
 {
 	//----

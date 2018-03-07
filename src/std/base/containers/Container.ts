@@ -24,7 +24,7 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
-		public abstract assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		public abstract assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public clear(): void
@@ -57,7 +57,7 @@ namespace std.base
 
 		public [Symbol.iterator](): IterableIterator<T>
 		{
-			return new ForOfAdaptor<T>(this.begin(), this.end());
+			return new ForOfAdaptor(this.begin(), this.end());
 		}
 
 		/* ---------------------------------------------------------

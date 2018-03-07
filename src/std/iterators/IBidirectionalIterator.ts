@@ -1,7 +1,8 @@
 namespace std
 {
-	export interface IBidirectionalIterator<T> extends IForwardIterator<T>
+	export interface IBidirectionalIterator<T, Iterator extends IBidirectionalIterator<T, Iterator> = IBidirectionalIterator<T, any>>
+		extends IForwardIterator<T, Iterator>
 	{
-		prev(): IBidirectionalIterator<T>;
+		prev(): Iterator;
 	}
 }

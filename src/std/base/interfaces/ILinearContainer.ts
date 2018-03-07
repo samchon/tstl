@@ -1,5 +1,8 @@
 namespace std.base
 {
+	/** 
+	 * @hidden
+	 */
 	export interface ILinearContainer<T>
 		extends Container<T,
 			ILinearContainer<T>,
@@ -10,7 +13,7 @@ namespace std.base
 			CONSTRUCTORS
 		--------------------------------------------------------- */
 		assign(n: number, val: T): void;
-		assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/* ---------------------------------------------------------
@@ -30,10 +33,13 @@ namespace std.base
 
 		insert(position: ILinearIterator<T>, val: T): ILinearIterator<T>;
 		insert(position: ILinearIterator<T>, n: number, val: T): ILinearIterator<T>;
-		insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(position: ILinearIterator<T>, first: InputIterator, last: InputIterator): ILinearIterator<T>;
 	}
 
+	/** 
+	 * @hidden
+	 */
 	export interface ILinearIterator<T>
 		extends Iterator<T, 
 			ILinearContainer<T>, 
@@ -43,6 +49,9 @@ namespace std.base
 		value: T;
 	}
 
+	/** 
+	 * @hidden
+	 */
 	export interface ILinearReverseIterator<T>
 		extends ReverseIterator<T, 
 			ILinearContainer<T>, 

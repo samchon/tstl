@@ -11,22 +11,24 @@ namespace std
 	============================================================
 		FOR_EACH
 	--------------------------------------------------------- */
-	export function for_each<T, InputIterator extends Readonly<IForwardIterator<T>>, Func extends (val: T) => any>
-		(first: InputIterator, last: InputIterator, fn: Func): Func
+	export function for_each<T, Ret, 
+			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
+		(first: InputIterator, last: InputIterator, fn: (val: T) => Ret): (val: T) => Ret
 	{
-		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next())
 			fn(it.value);
 
 		return fn;
 	}
 
-	export function for_each_n<T, InputIterator extends Readonly<IForwardIterator<T>>, Func extends (val: T) => any>
-		(first: InputIterator, n: number, fn: Func): InputIterator
+	export function for_each_n<T, Ret, 
+			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
+		(first: InputIterator, n: number, fn: (val: T) => Ret): InputIterator
 	{
 		for (let i: number = 0; i < n; ++i)
 		{
 			fn(first.value);
-			first = first.next() as InputIterator;
+			first = first.next();
 		}
 		return first;
 	}
@@ -34,44 +36,50 @@ namespace std
 	/* ---------------------------------------------------------
 		AGGREGATE CONDITIONS
 	--------------------------------------------------------- */
-	export function all_of<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function all_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
-		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next())
 			if (pred(it.value) == false)
 				return false;
 
 		return true;
 	}
 
-	export function any_of<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function any_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
-		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next())
 			if (pred(it.value) == true)
 				return true;
 
 		return false;
 	}
 
-	export function none_of<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function none_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
 		return !any_of(first, last, pred);
 	}
 
-	export function equal<T, InputIterator extends Readonly<IForwardIterator<T>>>
-		(first1: InputIterator, last1: InputIterator, first2: Readonly<IForwardIterator<T>>): boolean;
+	export function equal<T, 
+			InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
+			InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>>
+		(first1: InputIterator1, last1: InputIterator1, first2: InputIterator2): boolean;
 
-	export function equal<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function equal<T, 
+			InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
+			InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>>
 		(
-			first1: InputIterator, last1: InputIterator, first2: Readonly<IForwardIterator<T>>,
+			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2,
 			pred: (x: T, y: T) => boolean
 		): boolean;
 
-	export function equal<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function equal<T, 
+			InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
+			InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>>
 		(
-			first1: InputIterator, last1: InputIterator, first2: Readonly<IForwardIterator<T>>,
+			first1: InputIterator1, last1: InputIterator1, first2: InputIterator2,
 			pred: (x: T, y: T) => boolean = equal_to
 		): boolean
 	{
@@ -80,28 +88,28 @@ namespace std
 				return false;
 			else
 			{
-				first1 = first1.next() as InputIterator;
+				first1 = first1.next();
 				first2 = first2.next();
 			}
 		return true;
 	}
 
-	export function lexicographical_compare
-		<T, T1 extends T, T2 extends T, 
-			Iterator1 extends Readonly<IForwardIterator<T1>>, Iterator2 extends Readonly<IForwardIterator<T2>>>
+	export function lexicographical_compare<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): boolean;
 
-	export function lexicographical_compare
-		<T, T1 extends T, T2 extends T, 
-			Iterator1 extends Readonly<IForwardIterator<T1>>, Iterator2 extends Readonly<IForwardIterator<T2>>>
+	export function lexicographical_compare<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
 			comp: (x: T, y: T) => boolean
 		) : boolean;
 	
-	export function lexicographical_compare
-		<T, T1 extends T, T2 extends T,
-			Iterator1 extends Readonly<IForwardIterator<T1>>, Iterator2 extends Readonly<IForwardIterator<T2>>>
+	export function lexicographical_compare<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
 			comp: (x: T, y: T) => boolean = less
@@ -114,8 +122,8 @@ namespace std
 				return true;
 			else
 			{
-				first1 = first1.next() as Iterator1;
-				first2 = first2.next() as Iterator2;
+				first1 = first1.next();
+				first2 = first2.next();
 			}
 			
 		return !first2.equals(last2);
@@ -124,46 +132,52 @@ namespace std
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
-	export function find<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function find<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, val: T): InputIterator
 	{
-		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next())
 			if (equal_to(it.value, val))
 				return it;
 
 		return last;
 	}
 
-	export function find_if<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function find_if<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
-		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next())
 			if (pred(it.value))
 				return it;
 
 		return last;
 	}
 
-	export function find_if_not<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function find_if_not<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
-		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next())
 			if (pred(it.value) == false)
 				return it;
 
 		return last;
 	}
 
-	export function find_end<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function find_end<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): Iterator1;
 	
-	export function find_end<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function find_end<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
 			pred: (x: T, y: T) => boolean
 		): Iterator1;
 
-	export function find_end<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function find_end<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
 			pred: (x: T, y: T) => boolean = equal_to
@@ -174,15 +188,15 @@ namespace std
 
 		let ret: Iterator1 = last1;
 
-		for (; !first1.equals(last1); first1 = first1.next() as Iterator1)
+		for (; !first1.equals(last1); first1 = first1.next())
 		{
 			let it1: Iterator1 = first1;
 			let it2: Iterator2 = first2;
 
 			while (pred(it1.value, it2.value))
 			{
-				it1 = it1.next() as Iterator1;
-				it2 = it2.next() as Iterator2;
+				it1 = it1.next();
+				it2 = it2.next();
 
 				if (it2.equals(last2))
 				{
@@ -196,64 +210,76 @@ namespace std
 		return ret;
 	}
 
-	export function find_first_of<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function find_first_of<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2): Iterator1;
 
-	export function find_first_of<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function find_first_of<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
 			pred: (x: T, y: T) => boolean
 		): Iterator1;
 
-	export function find_first_of<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function find_first_of<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
 			pred: (x: T, y: T) => boolean = equal_to
 		): Iterator1
 	{
-		for (; !first1.equals(last1); first1 = first1.next() as Iterator1)
-			for (let it = first2; !it.equals(last2); it = it.next() as Iterator2)
+		for (; !first1.equals(last1); first1 = first1.next())
+			for (let it = first2; !it.equals(last2); it = it.next())
 				if (pred(it.value, first1.value))
 					return first1;
 
 		return last1;
 	}
 
-	export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator): InputIterator;
 
-	export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean): InputIterator;
 
-	export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = equal_to): InputIterator
 	{
 		if (!first.equals(last))
 		{
-			let next: InputIterator = first.next() as InputIterator;
+			let next: InputIterator = first.next();
 
 			while (!next.equals(last))
 			{
 				if (pred(first.value, last.value))
 					return first;
 
-				first = first.next() as InputIterator;
-				next = next.next() as InputIterator;
+				first = first.next();
+				next = next.next();
 			}
 		}
 		return last;
 	}
 
-	export function search<T, ForwardIterator1 extends Readonly<IForwardIterator<T>>, ForwardIterator2 extends Readonly<IForwardIterator<T>>>
+	export function search<T, 
+			ForwardIterator1 extends Readonly<IForwardIterator<T, ForwardIterator1>>, 
+			ForwardIterator2 extends Readonly<IForwardIterator<T, ForwardIterator2>>>
 		(first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2): ForwardIterator1
 
-	export function search<T, ForwardIterator1 extends Readonly<IForwardIterator<T>>, ForwardIterator2 extends Readonly<IForwardIterator<T>>>
+	export function search<T, 
+			ForwardIterator1 extends Readonly<IForwardIterator<T, ForwardIterator1>>, 
+			ForwardIterator2 extends Readonly<IForwardIterator<T, ForwardIterator2>>>
 		(
 			first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2,
 			pred: (x: T, y: T) => boolean
 		): ForwardIterator1
 
-	export function search<T, ForwardIterator1 extends Readonly<IForwardIterator<T>>, ForwardIterator2 extends Readonly<IForwardIterator<T>>>
+	export function search<T, 
+			ForwardIterator1 extends Readonly<IForwardIterator<T, ForwardIterator1>>, 
+			ForwardIterator2 extends Readonly<IForwardIterator<T, ForwardIterator2>>>
 		(
 			first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2,
 			pred: (x: T, y: T) => boolean = equal_to
@@ -262,15 +288,15 @@ namespace std
 		if (first2.equals(last2))
 			return first1;
 
-		for (; !first1.equals(last1); first1 = first1.next() as ForwardIterator1)
+		for (; !first1.equals(last1); first1 = first1.next())
 		{
 			let it1: ForwardIterator1 = first1;
 			let it2: ForwardIterator2 = first2;
 
 			while (pred(it1.value, it2.value))
 			{
-				it1 = it1.next() as ForwardIterator1;
-				it2 = it2.next() as ForwardIterator2;
+				it1 = it1.next();
+				it2 = it2.next();
 
 				if (it2.equals(last2))
 					return first1;
@@ -281,16 +307,16 @@ namespace std
 		return last1;
 	}
 
-	export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
+	export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 		(first: ForwardIterator, last: ForwardIterator, count: number, val: T): ForwardIterator;
 
-	export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
+	export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, count: number, val: T, 
 			pred: (x: T, y: T) => boolean
 		): ForwardIterator;
 
-	export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T>>>
+	export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, count: number, val: T, 
 			pred: (x: T, y: T) => boolean = equal_to
@@ -298,14 +324,14 @@ namespace std
 	{
 		let limit: ForwardIterator = advance(first, distance(first, last) - count);
 
-		for (; !first.equals(limit); first = first.next() as ForwardIterator)
+		for (; !first.equals(limit); first = first.next())
 		{
 			let it: ForwardIterator = first;
 			let i: number = 0;
 
 			while (pred(it.value, val))
 			{
-				it = it.next() as ForwardIterator;
+				it = it.next();
 
 				if (++i == count)
 					return first;
@@ -314,19 +340,22 @@ namespace std
 		return last;
 	}
 
-	export function mismatch
-		<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function mismatch<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(first1: Iterator1, last1: Iterator1, first2: Iterator2): Pair<Iterator1, Iterator2>;
 
-	export function mismatch
-		<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function mismatch<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			compare: (x: T, y: T) => boolean
 		): Pair<Iterator1, Iterator2>;
 
-	export function mismatch
-		<T, Iterator1 extends Readonly<IForwardIterator<T>>, Iterator2 extends Readonly<IForwardIterator<T>>>
+	export function mismatch<T, 
+			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
+			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
 		(
 			first1: Iterator1, last1: Iterator1, first2: Iterator2,
 			pred: (x: T, y: T) => boolean = equal_to
@@ -334,8 +363,8 @@ namespace std
 	{
 		while (!first1.equals(last1) && pred(first1.value, first2.value))
 		{
-			first1 = first1.next() as Iterator1;
-			first2 = first2.next() as Iterator2;
+			first1 = first1.next();
+			first2 = first2.next();
 		}
 		return make_pair(first1, first2);
 	}
@@ -343,24 +372,24 @@ namespace std
 	/* ---------------------------------------------------------
 		COUNTERS
 	--------------------------------------------------------- */
-	export function count<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function count<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, val: T): number
 	{
 		let cnt: number = 0;
 
-		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next())
 			if (equal_to(it.value, val))
 				cnt++;
 
 		return cnt;
 	}
 
-	export function count_if<T, InputIterator extends Readonly<IForwardIterator<T>>>
+	export function count_if<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): number
 	{
 		let cnt: number = 0;
 
-		for (let it = first; !it.equals(last); it = it.next() as InputIterator)
+		for (let it = first; !it.equals(last); it = it.next())
 			if (pred(it.value))
 				cnt++;
 

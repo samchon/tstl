@@ -26,6 +26,9 @@ namespace std
 		return _Compute_assoc_legendre(n, m, x, matrix);
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Compute_legendre(n: number, x: number, memory: number[]): number
 	{
 		if (memory.length > n)
@@ -41,6 +44,9 @@ namespace std
 		return ret;
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Compute_assoc_legendre(n: number, m: number, x: number, matrix: number[][]): number
 	{
 		if (n < 0)

@@ -64,7 +64,7 @@ namespace std
 			ASSIGN & CLEAR
 		--------------------------------------------------------------- */
 		public assign(n: number, val: T): void;
-		public assign<T, InputIterator extends Readonly<IForwardIterator<T>>>
+		public assign<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		public assign(first: any, last: any): void
@@ -131,7 +131,7 @@ namespace std
 
 		public insert_after(pos: ForwardList.Iterator<T>, val: T): ForwardList.Iterator<T>;
 		public insert_after(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>;
-		public insert_after<T, InputIterator extends Readonly<IForwardIterator<T>>>
+		public insert_after<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 			(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>;
 
 		public insert_after(pos: ForwardList.Iterator<T>, ...args: any[]): ForwardList.Iterator<T>
@@ -158,13 +158,13 @@ namespace std
 			return this._Insert_by_range(pos, first, last);
 		}
 
-		private _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		private _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
 		{
 			let nodes: ForwardList.Iterator<T>[] = [];
 			let count: number = 0;
 
-			for (; !first.equals(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next())
 			{
 				let node = new ForwardList.Iterator<T>(this.ptr_, null, first.value);
 				nodes.push(node);

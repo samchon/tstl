@@ -8,6 +8,7 @@ namespace std.base
 			Source extends Container<T, Source, Base, This>, 
 			Base extends Iterator<T, Source, Base, This>, 
 			This extends ReverseIterator<T, Source, Base, This>>
+		implements Readonly<IForwardIterator<T, ReverseIterator<T, Source, Base, This>>>
 	{
 		/**
 		 * @hidden

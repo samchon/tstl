@@ -137,6 +137,9 @@ namespace std.experimental
 		}
 	}
 
+	/**
+	 * @hidden
+	 */
 	interface IListener
 	{
 		(): void;

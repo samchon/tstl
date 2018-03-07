@@ -2,7 +2,14 @@
 
 namespace std
 {
+	/**
+	 * @hidden
+	 */
 	const EULER = 0.57721566490153286060;
+
+	/**
+	 * @hidden
+	 */
 	const MAX_K = 150;
 
 	export function expint(x: number): number
@@ -15,6 +22,9 @@ namespace std
 			return _EI_Factorial(x);
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _EI_Factorial(x: number): number
 	{
 		return EULER + Math.log(Math.abs(x)) / Math.log(Math.E)
@@ -57,6 +67,9 @@ namespace std
 	/* ---------------------------------------------------------------
 		BARRY APPROXIMATION
 	--------------------------------------------------------------- */
+	/**
+	 * @hidden
+	 */
 	function _E1_G(x: number): number
 	{
 		let h: number = _Compute_h(x);
@@ -70,6 +83,9 @@ namespace std
 		return ret * ln;
 	}
 
+	/**
+	 * @hidden
+	 */
 	function _Compute_h(x: number): number
 	{
 		let q: number = _Compute_q(x);
@@ -78,16 +94,31 @@ namespace std
 
 		return left + right;
 	}
+
+	/**
+	 * @hidden
+	 */
 	function _Compute_q(x: number): number
 	{
 		return 20/47 * Math.pow(x, Math.sqrt(31/26));
 	}
 
+	/**
+	 * @hidden
+	 */
 	const G = Math.pow(Math.E, -EULER);
+
+	/**
+	 * @hidden
+	 */
 	const B = Math.sqrt
 	(
 		(2*(1-G)) / (G*(2-G))
 	);
+
+	/**
+	 * @hidden
+	 */
 	const H_INF = (1-G)
 		* (G*G - 6*G + 12)
 		/ (3*G * Math.pow(2-G, 2) * B);

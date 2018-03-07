@@ -4,8 +4,8 @@ namespace std
 {
 	export class InsertIterator<T, 
 			Container extends base._IInsert<T, Iterator>, 
-			Iterator extends IForwardIterator<T>>
-		implements Writeonly<IForwardIterator<T>>
+			Iterator extends IForwardIterator<T, Iterator>>
+		implements IForwardIterator<T, InsertIterator<T, Container, Iterator>>
 	{
 		private container_: Container;
 		private it_: Iterator;

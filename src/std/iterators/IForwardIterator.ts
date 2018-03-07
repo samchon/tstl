@@ -1,10 +1,10 @@
 namespace std
 {
-	export interface IForwardIterator<T>
+	export interface IForwardIterator<T, Iterator extends IForwardIterator<T, Iterator> = IForwardIterator<T, any>>
 	{
 		value: T;
 
-		next(): IForwardIterator<T>;
-		equals(obj: IForwardIterator<T>): boolean;
+		next(): Iterator;
+		equals(obj: Iterator): boolean;
 	}
 }

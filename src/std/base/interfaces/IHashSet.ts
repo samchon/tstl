@@ -1,5 +1,8 @@
 ﻿namespace std.base
 {
+	/** 
+	 * @hidden
+	 */
     export interface IHashSet<T, Source extends SetContainer<T, Source>>
         extends SetContainer<T, Source>
 	{

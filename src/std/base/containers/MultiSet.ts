@@ -12,7 +12,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public insert(val: T): SetIterator<T, Source>;
 		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
-		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any

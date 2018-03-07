@@ -224,10 +224,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
-			for (; !first.equals(last); first = first.next() as InputIterator)
+			for (; !first.equals(last); first = first.next())
 				this._Insert_by_val(first.value);
 		}
 
@@ -254,9 +254,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.TreeSet
 {
 	//----

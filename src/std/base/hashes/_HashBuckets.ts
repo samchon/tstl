@@ -2,7 +2,14 @@
 
 namespace std.base
 {
+	/**
+	 * @hidden
+	 */
 	const MIN_BUCKET_COUNT = 10;
+
+	/**
+	 * @hidden
+	 */
 	const DEFAULT_MAX_FACTOR = 1.0;
 
 	/**

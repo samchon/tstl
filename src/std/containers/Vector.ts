@@ -60,7 +60,7 @@ namespace std
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
 		public assign(n: number, val: T): void;
-		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U>>>
+		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public assign(first: any, second: any): void
@@ -141,13 +141,13 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T>>>
+		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(position: Vector.Iterator<T>, first: InputIterator, last: InputIterator): Vector.Iterator<T>
 		{
 			if (position.index() >= this.size())
 			{ 
 				// WHEN INSERT TO THE LAST
-				for (; !first.equals(last); first = first.next() as InputIterator)
+				for (; !first.equals(last); first = first.next())
 					this.data_.push(first.value);
 				
 				return this.begin();
@@ -161,7 +161,7 @@ namespace std
 				let spliced_array: T[] = this.data_.splice(position.index());
 
 				// INSERT ELEMENTS
-				for (; !first.equals(last); first = first.next() as InputIterator)
+				for (; !first.equals(last); first = first.next())
 					this.data_.push(first.value);
 				
 				this.data_.push(...spliced_array); // CONCAT THE SPLICEDS
@@ -213,9 +213,6 @@ namespace std
 	}
 }
 
-/**
- * @hidden
- */
 namespace std.Vector
 {
 	//----

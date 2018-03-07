@@ -6,13 +6,14 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.7.1",
+  "version": "1.7.2",
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
   "scripts": {
     "build": "node build/build",
     "build-module": "node build/module",
     "build-test": "node build/test",
+    "build-api": "typedoc src/std --target es2015 --mode file --out ../api",
     "test": "node lib/test"
   },
   "devDependencies": {
