@@ -347,7 +347,7 @@ namespace std
 
 namespace std.ForwardList
 {
-	export class Iterator<T> implements Readonly<IForwardIterator<T>>
+	export class Iterator<T> implements Readonly<IForwardIterator<T, Iterator<T>>>
 	{
 		/**
 		 * @hidden
