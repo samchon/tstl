@@ -141,7 +141,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
+		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(position: Vector.Iterator<T>, first: InputIterator, last: InputIterator): Vector.Iterator<T>
 		{
 			if (position.index() >= this.size())
