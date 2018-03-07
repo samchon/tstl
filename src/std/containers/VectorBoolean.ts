@@ -65,7 +65,7 @@ namespace std
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
 		public assign(n: number, val: boolean): void;
-		public assign<InputIterator extends Readonly<IForwardIterator<boolean>>>
+		public assign<InputIterator extends Readonly<IForwardIterator<boolean, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void;
 		
 		public assign(first: any, last: any): void
