@@ -6,7 +6,7 @@ namespace std.base
 			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-		implements Iterable<T>
+		implements Iterable<T>, IBidirectionalContainer<T, IteratorT, ReverseIteratorT>
 	{
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
