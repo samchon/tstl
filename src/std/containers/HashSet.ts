@@ -167,20 +167,14 @@ namespace std
 		public rbegin(index: number): HashSet.ReverseIterator<T>;
 		public rbegin(index: number = null): HashSet.ReverseIterator<T>
 		{
-			if (index == null)
-				return super.rbegin();
-			else
-				return new base.SetReverseIterator<T, HashSet<T>>(this.end(index));
+			return this.end(index).reverse();
 		}
 
 		public rend(): HashSet.ReverseIterator<T>;
 		public rend(index: number): HashSet.ReverseIterator<T>;
 		public rend(index: number = null): HashSet.ReverseIterator<T>
 		{
-			if (index == null)
-				return super.rend();
-			else
-				return new base.SetReverseIterator<T, HashSet<T>>(this.begin(index));
+			return this.begin(index).reverse();
 		}
 
 		/* ---------------------------------------------------------

@@ -14,11 +14,6 @@ namespace std
 		 */
 		private ptr_: IPointer<List<T>>;
 
-		/**
-		 * @hidden
-		 */
-		private rend_: List.ReverseIterator<T>;
-
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
 				- CONSTRUCTORS
@@ -78,15 +73,6 @@ namespace std
 			return new List.Iterator<T>(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
 		}
 
-		/**
-		 * @hidden
-		 */
-		protected _Set_begin(it: List.Iterator<T>): void
-		{
-			super._Set_begin(it);
-			this.rend_ = new List.ReverseIterator<T>(it);
-		}
-
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
@@ -99,19 +85,6 @@ namespace std
 			this.clear();
 			this.insert(this.end(), par1, par2);
 		}
-		
-		/* =========================================================
-			ACCESSORS
-		========================================================= */
-		public rbegin(): List.ReverseIterator<T>
-		{
-			return new List.ReverseIterator<T>(this.end());
-		}
-
-		public rend(): List.ReverseIterator<T>
-		{
-			return this.rend_;
-		}
 
 		/* ===============================================================
 			ALGORITHMS
@@ -123,9 +96,9 @@ namespace std
 		--------------------------------------------------------------- */
 		public unique(): void;
 
-		public unique(binary_pred: (left: T, right: T) => boolean): void;
+		public unique(binary_pred: (x: T, y: T) => boolean): void;
 
-		public unique(binary_pred: (left: T, right: T) => boolean = equal_to): void
+		public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 		{
 			let it = this.begin().next();
 
@@ -164,9 +137,9 @@ namespace std
 		--------------------------------------------------------- */
 		public merge<U extends T>(obj: List<U>): void;
 
-		public merge<U extends T>(obj: List<U>, compare: (left: T, right: T) => boolean): void;
+		public merge<U extends T>(obj: List<U>, comp: (x: T, y: T) => boolean): void;
 
-		public merge<U extends T>(obj: List<U>, compare: (left: T, right: T) => boolean = less): void
+		public merge<U extends T>(obj: List<U>, comp: (x: T, y: T) => boolean = less): void
 		{
 			if (this == <List<T>>obj)
 				return;
@@ -176,7 +149,7 @@ namespace std
 			while (obj.empty() == false)
 			{
 				let first = obj.begin();
-				while (!it.equals(this.end()) && compare(it.value, first.value) == true)
+				while (!it.equals(this.end()) && comp(it.value, first.value) == true)
 					it = it.next();
 
 				this.splice(it, obj, first);
@@ -188,25 +161,26 @@ namespace std
 		public splice<U extends T>(position: List.Iterator<T>, obj: List<U>, it: List.Iterator<U>): void;
 		
 		public splice<U extends T>
-			(position: List.Iterator<T>, obj: List<U>, begin: List.Iterator<U>, end: List.Iterator<U>): void;
+			(position: List.Iterator<T>, obj: List<U>, first: List.Iterator<U>, last: List.Iterator<U>): void;
 
 		public splice<U extends T>
 			(
 				position: List.Iterator<T>, obj: List<U>, 
-				begin: List.Iterator<U> = null, end: List.Iterator<U> = null): void
+				first: List.Iterator<U> = null, last: List.Iterator<U> = null
+			): void
 		{
-			if (begin == null)
+			if (first == null)
 			{
-				begin = obj.begin();
-				end = obj.end();
+				first = obj.begin();
+				last = obj.end();
 			}
-			else if (end == null)
+			else if (last == null)
 			{
-				end = begin.next();
+				last = first.next();
 			}
 
-			this.insert(position, begin, end);
-			obj.erase(begin, end);
+			this.insert(position, first, last);
+			obj.erase(first, last);
 		}
 
 		/* ---------------------------------------------------------
@@ -214,45 +188,45 @@ namespace std
 		--------------------------------------------------------- */
 		public sort(): void;
 
-		public sort(compare: (left: T, right: T) => boolean): void;
+		public sort(comp: (x: T, y: T) => boolean): void;
 
-		public sort(compare: (left: T, right: T) => boolean = less): void
+		public sort(comp: (x: T, y: T) => boolean = less): void
 		{
-			this._Quick_sort(this.begin(), this.end().prev(), compare);
+			this._Quick_sort(this.begin(), this.end().prev(), comp);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private _Quick_sort(first: List.Iterator<T>, last: List.Iterator<T>, compare: (left: T, right: T) => boolean): void
+		private _Quick_sort(first: List.Iterator<T>, last: List.Iterator<T>, comp: (x: T, y: T) => boolean): void
 		{
 			if (!first.equals(last) && !last.equals(this.end()) && !first.equals(last.next()))
 			{
-				let temp: List.Iterator<T> = this._Quick_sort_partition(first, last, compare);
+				let temp: List.Iterator<T> = this._Quick_sort_partition(first, last, comp);
 
-				this._Quick_sort(first, temp.prev(), compare);
-				this._Quick_sort(temp.next(), last, compare);
+				this._Quick_sort(first, temp.prev(), comp);
+				this._Quick_sort(temp.next(), last, comp);
 			}
 		}
 
 		/**
 		 * @hidden
 		 */
-		private _Quick_sort_partition(first: List.Iterator<T>, last: List.Iterator<T>, compare: (left: T, right: T) => boolean): List.Iterator<T>
+		private _Quick_sort_partition(first: List.Iterator<T>, last: List.Iterator<T>, comp: (x: T, y: T) => boolean): List.Iterator<T>
 		{
 			let standard: T = last.value; // TO BE COMPARED
 			let prev: List.Iterator<T> = first.prev(); // TO BE SMALLEST
 
 			let it: List.Iterator<T> = first;
 			for (; !it.equals(last); it = it.next())
-				if (compare(it.value, standard))
+				if (comp(it.value, standard))
 				{
 					prev = prev.equals(this.end()) ? first : prev.next();
-					[prev.value, it.value] = [it.value, prev.value];
+					[prev["value_"], it["value_"]] = [it["value_"], prev["value_"]];
 				}
 
 			prev = prev.equals(this.end()) ? first : prev.next();
-			[prev.value, it.value] = [it.value, prev.value];
+			[prev["value_"], it["value_"]] = [it["value_"], prev["value_"]];
 		
 			return prev;
 		}
@@ -271,7 +245,7 @@ namespace std
 			}
 			
 			// ADJUST THE BEGIN AND END
-			this._Set_begin(begin); // THE NEW BEGIN
+			this["begin_"] = begin; // THE NEW BEGIN
 			this.end()["prev_"] = prev_of_end;
 			this.end()["next_"] = begin;
 		}

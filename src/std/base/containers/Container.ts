@@ -52,8 +52,14 @@ namespace std.base
 		public abstract begin(): IteratorT;
 		public abstract end(): IteratorT;
 
-		public abstract rbegin(): ReverseIteratorT;
-		public abstract rend(): ReverseIteratorT;
+		public rbegin(): ReverseIteratorT
+		{
+			return this.end().reverse();
+		}
+		public rend(): ReverseIteratorT
+		{
+			return this.begin().reverse();
+		}
 
 		public [Symbol.iterator](): IterableIterator<T>
 		{

@@ -181,14 +181,14 @@ namespace std
 		public rbegin(index: number): HashMultiMap.ReverseIterator<Key, T>;
 		public rbegin(index: number = null): HashMultiMap.ReverseIterator<Key, T>
 		{
-			return new base.MapReverseIterator<Key, T, HashMultiMap<Key, T>>(this.end(index));
+			return this.end(index).reverse();
 		}
 
 		public rend(): HashMultiMap.ReverseIterator<Key, T>;
 		public rend(index: number): HashMultiMap.ReverseIterator<Key, T>;
 		public rend(index: number = null): HashMultiMap.ReverseIterator<Key, T>
 		{
-			return new base.MapReverseIterator<Key, T, HashMultiMap<Key, T>>(this.begin(index));
+			return this.begin(index).reverse();
 		}
 
 		/* ---------------------------------------------------------

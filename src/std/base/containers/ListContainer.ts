@@ -37,7 +37,7 @@ namespace std.base
 			this.end_["prev_"] = this.end_;
 			this.end_["next_"] = this.end_;
 
-			this._Set_begin(this.end_);
+			this.begin_ = (this.end_);
 			this.size_ = 0;
 		}
 
@@ -45,14 +45,6 @@ namespace std.base
 		 * @hidden
 		 */
 		protected abstract _Create_iterator(prev: IteratorT, next: IteratorT, val: T): IteratorT;
-
-		/**
-		 * @hidden
-		 */
-		protected _Set_begin(it: IteratorT): void
-		{
-			this.begin_ = it;
-		}
 
 		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
@@ -64,7 +56,7 @@ namespace std.base
 		public clear(): void
 		{
 			// DISCONNECT NODES
-			this._Set_begin(this.end_);
+			this.begin_ = (this.end_);
 			this.end_["prev_"] = (this.end_);
 			this.end_["next_"] = (this.end_);
 
@@ -214,7 +206,7 @@ namespace std.base
 
 			// WILL FIRST BE THE BEGIN?
 			if (position.equals(this.begin()) == true)
-				this._Set_begin(first);
+				this.begin_ = (first);
 
 			// CONNECT BETWEEN LAST AND POSITION
 			prev["next_"] = position;
@@ -255,7 +247,7 @@ namespace std.base
 
 			this.size_ -= size;
 			if (first.equals(this.begin_))
-				this._Set_begin(last);
+				this.begin_ = (last);
 
 			return last;
 		}

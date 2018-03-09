@@ -340,12 +340,11 @@ namespace std
 			// SIZE AND NODES
 			[this.size_, obj.size_] = [obj.size_, this.size_];
 			[this.before_begin_, obj.before_begin_] = [obj.before_begin_, this.before_begin_];
-			[this.end_, obj.end_] = [obj.before_begin_, this.before_begin_];
+			[this.end_, obj.end_] = [obj.end_, this.end_];
 
 			// POINTER OF THE SOURCE
+			[this.ptr_, obj.ptr_] = [obj.ptr_, this.ptr_];
 			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
-			this.ptr_ = {value: this};
-			obj.ptr_ = {value: obj};
 		}
 
 		public toJSON(): Array<T>

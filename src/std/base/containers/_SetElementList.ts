@@ -18,11 +18,6 @@ namespace std.base
 		 */
 		private associative_: Source;
 
-		/**
-		 * @hidden
-		 */
-		private rend_: SetReverseIterator<T, Source>;
-
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
@@ -37,11 +32,6 @@ namespace std.base
 		{
 			return new SetIterator<T, Source>(this, prev, next, val);
 		}
-		protected _Set_begin(it: SetIterator<T, Source>): void
-		{
-			super._Set_begin(it);
-			this.rend_ = new SetReverseIterator<T, Source>(it);
-		}
 
 		/* ---------------------------------------------------------
 			ACCESSORS
@@ -49,15 +39,6 @@ namespace std.base
 		public associative(): Source
 		{
 			return this.associative_;
-		}
-
-		public rbegin(): SetReverseIterator<T, Source>
-		{
-			return new SetReverseIterator<T, Source>(this.end());
-		}
-		public rend(): SetReverseIterator<T, Source>
-		{
-			return this.rend_;
 		}
 	}
 }

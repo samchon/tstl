@@ -44,7 +44,9 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 > ### ECON
 > Extension of TSTL Containers dispatching Events.
 > 
-> **ECON** is an extension module of **TSTL**, providing special containers dispatching events. The special containers are almost similar with the original STL Containers, but you also can observe elements' I/O events with the special containers. Types of the event dispatched by the special containers are `"insert"`, `"erase"` and `"refresh"`.
+> **ECON** is an extension module of **TSTL**, providing special containers dispatching events. The special containers are almost similar with the original STL Containers, but you also can observe elements' I/O events with the special containers. 
+> 
+> Types of the event dispatched by the special containers are `"insert"`, `"erase"` and `"refresh"`.
 > 
 > - [Visit ECON](https://github.com/samchon/econ)
 

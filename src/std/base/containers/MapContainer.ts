@@ -20,7 +20,7 @@ namespace std.base
 		{
 			super();
 			
-			this.data_ = new _MapElementList<Key, T, Source>(this as any);
+			this.data_ = this._Create_element_list();
 		}
 		
 		public assign<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
@@ -37,6 +37,11 @@ namespace std.base
 			this.data_.clear();
 		}
 
+		protected _Create_element_list(): _MapElementList<Key, T, Source>
+		{
+			return new _MapElementList(<any>this);
+		}
+
 		/* =========================================================
 			ACCESSORS
 				- ITERATORS
@@ -50,18 +55,10 @@ namespace std.base
 		{
 			return this.data_.begin();
 		}
+		
 		public end(): MapIterator<Key, T, Source>
 		{
 			return this.data_.end();
-		}
-
-		public rbegin(): MapReverseIterator<Key, T, Source>
-		{
-			return this.data_.rbegin();
-		}
-		public rend(): MapReverseIterator<Key, T, Source>
-		{
-			return this.data_.rend();
 		}
 
 		/* ---------------------------------------------------------

@@ -181,20 +181,14 @@ namespace std
 		public rbegin(index: number): HashMultiSet.ReverseIterator<T>;
 		public rbegin(index: number = null): HashMultiSet.ReverseIterator<T>
 		{
-			if (index == null)
-				return super.rbegin();
-			else
-				return new base.SetReverseIterator<T, HashMultiSet<T>>(this.end(index));
+			return this.end(index).reverse();
 		}
 
 		public rend(): HashMultiSet.ReverseIterator<T>;
 		public rend(index: number): HashMultiSet.ReverseIterator<T>;
 		public rend(index: number = null): HashMultiSet.ReverseIterator<T>
 		{
-			if (index == null)
-				return super.rend();
-			else
-				return new base.SetReverseIterator<T, HashMultiSet<T>>(this.begin(index));
+			return this.begin(index).reverse();
 		}
 
 		/* ---------------------------------------------------------

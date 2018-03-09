@@ -30,16 +30,6 @@ namespace std.base
 			return new ArrayIterator(<any>this, this.size());
 		}
 
-		public rbegin(): ArrayReverseIterator<T, SourceT>
-		{
-			return new ArrayReverseIterator(this.end());
-		}
-
-		public rend(): ArrayReverseIterator<T, SourceT>
-		{
-			return new ArrayReverseIterator(this.begin());
-		}
-
 		/* ---------------------------------------------------------
 			INDEXES
 		--------------------------------------------------------- */

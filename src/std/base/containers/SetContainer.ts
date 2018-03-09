@@ -58,16 +58,6 @@ namespace std.base
 			return this.data_.end();
 		}
 
-		public rbegin(): SetReverseIterator<T, Source>
-		{
-			return this.data_.rbegin();
-		}
-
-		public rend(): SetReverseIterator<T, Source>
-		{
-			return this.data_.rend();
-		}
-
 		/* ---------------------------------------------------------
 			ELEMENTS
 		--------------------------------------------------------- */
@@ -82,14 +72,6 @@ namespace std.base
 		{
 			return this.data_.size();
 		}
-
-		///**
-		// * @hidden
-		// */
-		//protected _Get_data(): List<T>
-		//{
-		//	return this.data_;
-		//}
 
 		/* =========================================================
 			ELEMENTS I/O

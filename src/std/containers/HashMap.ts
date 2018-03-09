@@ -167,20 +167,14 @@ namespace std
 		public rbegin(index: number): HashMap.ReverseIterator<Key, T>;
 		public rbegin(index: number = null): HashMap.ReverseIterator<Key, T>
 		{
-			if (index == null)
-				return super.rbegin();
-			else
-				return new base.MapReverseIterator<Key, T, HashMap<Key, T>>(this.end(index));
+			return this.end(index).reverse();
 		}
 
 		public rend(): HashMap.ReverseIterator<Key, T>;
 		public rend(index: number): HashMap.ReverseIterator<Key, T>;
 		public rend(index: number = null): HashMap.ReverseIterator<Key, T>
 		{
-			if (index == null)
-				return super.rend();
-			else
-				return new base.MapReverseIterator<Key, T, HashMap<Key, T>>(this.begin(index));
+			return this.begin(index).reverse();
 		}
 
 		/* ---------------------------------------------------------
