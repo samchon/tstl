@@ -41,6 +41,13 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [Stack `stack`](http://samchon.github.io/tstl/api/classes/std.stack.html)
     - [PriorityQueue `priority_queue`](http://samchon.github.io/tstl/api/classes/std.priorityqueue.html)
 
+> ### ECON
+> Extension of TSTL Containers dispatching Events.
+> 
+> **ECON** is an extension module of **TSTL**, providing special containers dispatching events. The special containers are almost similar with the original STL Containers, but you also can observe elements' I/O events with the special containers. Types of the event dispatched by the special containers are `"insert"`, `"erase"` and `"refresh"`.
+> 
+> - [Visit ECON](https://github.com/samchon/econ)
+
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
     - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithms/iterations.ts)
@@ -68,13 +75,6 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
     - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
     - (experiments) [Semaphore `semaphore`](http://samchon.github.io/tstl/api/classes/std.experiments.semaphore.html) & [TimedSemaphore `timed_semaphore`](http://samchon.github.io/tstl/api/classes/std.experiments.timedsemaphore.html)
-
-> ### ECON
-> Extension of TSTL Containers dispatching Events.
-> 
-> **ECON** is an extension module of **TSTL**, providing special containers dispatching events. The special containers are almost similar with the original STL Containers, but you also can observe elements' I/O events with the special containers. Types of the event dispatched by the special containers are `"insert"`, `"erase"` and `"refresh"`.
-> 
-> - [Visit ECON](https://github.com/samchon/econ)
 
 
 
