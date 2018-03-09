@@ -25,6 +25,11 @@ namespace std.base
 			this.source_ = source;
 		}
 
+		public reverse(): SetReverseIterator<T, Source>
+		{
+			return new SetReverseIterator(this);
+		}
+
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
@@ -66,7 +71,7 @@ namespace std.base
 		 */
 		protected _Create_neighbor(base: SetIterator<T, Source>): SetReverseIterator<T, Source>
 		{
-			return new SetReverseIterator<T, Source>(base);
+			return new SetReverseIterator(base);
 		}
 	}
 }

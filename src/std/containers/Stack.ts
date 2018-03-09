@@ -4,7 +4,7 @@ namespace std
 {
 	export class Stack<T>
 	{
-		private source_: List<T>;
+		private source_: Vector<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -15,7 +15,7 @@ namespace std
 
 		public constructor(stack: Stack<T> = null)
 		{
-			this.source_ = new List<T>();
+			this.source_ = new Vector<T>();
 
 			if (stack != null)
 				this.source_.assign(stack.source_.begin(), stack.source_.end());
@@ -42,9 +42,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ELEMENTS I/O
 		--------------------------------------------------------- */
-		public push(val: T): void
+		public push(...elems: T[]): void
 		{
-			this.source_.push_back(val);
+			this.source_.push(...elems);
 		}
 
 		public pop(): void

@@ -6,8 +6,8 @@
 namespace std.base
 {
 	export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
-		extends Iterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
-		implements IRandomAccessIterator<T, ArrayIterator<T, Source>>
+		implements Iterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>,
+			IRandomAccessIterator<T, ArrayIterator<T, Source>>
 	{
 		/**
 		 * @hidden
@@ -24,10 +24,13 @@ namespace std.base
 		--------------------------------------------------------- */
 		public constructor(source: Source, index: number)
 		{
-			super();
-
 			this.source_ = source;
 			this.index_ = index;
+		}
+
+		public reverse(): ArrayReverseIterator<T, Source>
+		{
+			return new ArrayReverseIterator(this);
 		}
 
 		/* ---------------------------------------------------------
@@ -56,16 +59,16 @@ namespace std.base
 		--------------------------------------------------------- */
 		public prev(): ArrayIterator<T, Source>
 		{
-			return new ArrayIterator<T, Source>(this.source(), this.index_ - 1);
+			return new ArrayIterator(this.source(), this.index_ - 1);
 		}
 		public next(): ArrayIterator<T, Source>
 		{
-			return new ArrayIterator<T, Source>(this.source(), this.index_ + 1);
+			return new ArrayIterator(this.source(), this.index_ + 1);
 		}
 
 		public advance(n: number): ArrayIterator<T, Source>
 		{
-			return new ArrayIterator<T, Source>(this.source(), this.index_ + n);
+			return new ArrayIterator(this.source(), this.index_ + n);
 		}
 
 		/* ---------------------------------------------------------
@@ -100,7 +103,7 @@ namespace std.base
 		 */
 		protected _Create_neighbor(base: ArrayIterator<T, Source>): ArrayReverseIterator<T, Source>
 		{
-			return new ArrayReverseIterator<T, Source>(base);
+			return new ArrayReverseIterator(base);
 		}
 
 		public advance(n: number): ArrayReverseIterator<T, Source>

@@ -69,6 +69,14 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
     - (experiments) [Semaphore `semaphore`](http://samchon.github.io/tstl/api/classes/std.experiments.semaphore.html) & [TimedSemaphore `timed_semaphore`](http://samchon.github.io/tstl/api/classes/std.experiments.timedsemaphore.html)
 
+> ### ECON
+> Extension of TSTL Containers dispatching Events.
+> 
+> **ECON** is an extension module of **TSTL**, providing special containers dispatching events. The special containers are almost similar with the original STL Containers, but you also can observe elements' I/O events with the special containers. Types of the event dispatched by the special containers are `"insert"`, `"erase"` and `"refresh"`.
+> 
+> - [Visit ECON](https://github.com/samchon/econ)
+
+
 
 ## Installation
 ### NPM Module
@@ -109,8 +117,7 @@ console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
   - **Documents**
     - [**Guide Documents**](https://github.com/samchon/tstl/wiki)
     - [API Documents](http://samchon.github.io/tstl/api)
-    - [Class Diagram](http://samchon.github.io/tstl/design/class_diagram.pdf)
+    - [Release Notes](https://github.com/samchon/tstl/releases)
   - **Related Projects**
-    - [Simple XML](https://github.com/samchon/sxml)
+    - [ECON](https://github.com/samchon/econ)
     - [Samchon-Framework](https://github.com/samchon/framework)
-    - [3D-Bin-Packing](https://github.com/betterwaysystems/packer)

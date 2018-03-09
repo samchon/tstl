@@ -47,9 +47,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ELEMENTS I/O
 		--------------------------------------------------------- */
-		public push(val: T): void
+		public push(...elems: T[]): void
 		{
-			this.source_.push_back(val);
+			this.source_.push(...elems);
 		}
 
 		public pop(): void

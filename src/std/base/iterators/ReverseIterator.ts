@@ -1,7 +1,5 @@
 /// <reference path="../../API.ts" />
 
-/// <reference path="Iterator.ts" />
-
 namespace std.base
 {
 	export abstract class ReverseIterator<T, 

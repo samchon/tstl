@@ -117,9 +117,9 @@ namespace std
 			return this.source_.begin().value;
 		}
 
-		public push(val: T): void
+		public push(...elems: T[]): void
 		{
-			this.source_.insert(val);
+			this.source_.push(...elems);
 		}
 
 		public pop(): void

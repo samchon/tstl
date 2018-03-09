@@ -2,7 +2,9 @@
 
 namespace std
 {
-	export class ForwardList<T> implements Iterable<T>
+	export class ForwardList<T> 
+		implements base.IForwardContainer<T, ForwardList.Iterator<T>>, 
+			Iterable<T>
 	{
 		/**
 		 * @hidden
@@ -209,7 +211,7 @@ namespace std
 			ALGORITHMS
 				- UNIQUE & REMOVE(_IF)
 				- MERGE & SPLICE
-				- SORT & SWAP
+				- SORT
 		==================================================================
 			UNIQUE & REMOVE(_IF)
 		--------------------------------------------------------------- */
@@ -330,6 +332,9 @@ namespace std
 			this.assign(vec.rbegin(), vec.rend());
 		}
 
+		/* ---------------------------------------------------------------
+			UTILITIES
+		--------------------------------------------------------------- */
 		public swap(obj: ForwardList<T>): void
 		{
 			// SIZE AND NODES
@@ -342,12 +347,21 @@ namespace std
 			this.ptr_ = {value: this};
 			obj.ptr_ = {value: obj};
 		}
+
+		public toJSON(): Array<T>
+		{
+			let ret: T[] = [];
+			for (let elem of this)
+				ret.push(elem);
+
+			return ret;
+		}
 	}
 }
 
 namespace std.ForwardList
 {
-	export class Iterator<T> implements Readonly<IForwardIterator<T, Iterator<T>>>
+	export class Iterator<T> implements IForwardIterator<T, Iterator<T>>
 	{
 		/**
 		 * @hidden

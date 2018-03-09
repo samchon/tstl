@@ -37,10 +37,11 @@ namespace test
 		}
 	}
 
-	function _Test_tree_set(set: std.base.ISetContainer<number>): void
+	function _Test_tree_set<Source extends std.base.SetContainer<number, Source>>
+		(set: Source): void
 	{
 		for (let i: number = 0; i < 1000; ++i)
-			(set as std.TreeSet<number>).insert(Math.floor(Math.random() * 100));
+			set.push(Math.floor(Math.random() * 100));
 
 		// VALIDATE SORTING
 		if (std.is_sorted(set.begin(), set.end()) == false)
@@ -64,10 +65,11 @@ namespace test
 		}
 	}
 	
-	function _Test_tree_map(map: std.base.IMapContainer<number, number>): void
+	function _Test_tree_map<Source extends std.base.ITreeMap<number, number, Source>>
+		(map: Source): void
 	{
 		for (let i: number = 0; i < 1000; ++i)
-			(map as std.TreeMap<number, number>).emplace(Math.floor(Math.random() * 100), 0);
+			map.push(std.make_pair(Math.floor(Math.random() * 100), 0));
 
 		// VALIDATE SORTING
 		if (std.is_sorted(map.begin(), map.end()) == false)

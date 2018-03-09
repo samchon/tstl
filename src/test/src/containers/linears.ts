@@ -11,7 +11,11 @@ namespace test
 		_Test_linear(std.begin(new Array<number>()).source());
 	}
 
-	function _Test_linear(vec: std.base.ILinearContainer<number>): void
+	function _Test_linear<
+			SourceT extends std.base.ILinearContainer<number, SourceT, IteratorT, ReverseT>,
+			IteratorT extends std.base.Iterator<number, SourceT, IteratorT, ReverseT>,
+			ReverseT extends std.base.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
+		(vec: SourceT): void
 	{
 		//----
 		// CONSTRUCT ELEMENTS
@@ -49,7 +53,11 @@ namespace test
 		_Validate_linear_elements(vec, [0, 1, -1, 2, 4, 5, 9]);
 	}
 
-	function _Validate_linear_elements(vec: std.base.ILinearContainer<number>, answer: number[]): void
+	function _Validate_linear_elements<
+			SourceT extends std.base.ILinearContainer<number, SourceT, IteratorT, ReverseT>,
+			IteratorT extends std.base.Iterator<number, SourceT, IteratorT, ReverseT>,
+			ReverseT extends std.base.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
+		(vec: SourceT, answer: number[]): void
 	{
 		if (vec.size() != answer.length)
 			throw new std.DomainError("Number of elements are wrong.");

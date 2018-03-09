@@ -22,8 +22,7 @@ namespace std
 	--------------------------------------------------------- */
 	export function empty<T>(source: Array<T>): boolean;
 	export function empty(source: base._IEmpty): boolean;
-
-	export function empty(source: Array<any> | base._IEmpty): boolean
+	export function empty(source: any): boolean
 	{
 		if (source instanceof Array)
 			return source.length != 0;
@@ -33,8 +32,7 @@ namespace std
 
 	export function size<T>(source: Array<T>): number;
 	export function size(source: base._ISize): number
-
-	export function size(source: Array<any> | base._ISize): number
+	export function size(source: any): number
 	{
 		if (source instanceof Array)
 			return source.length;
@@ -116,15 +114,10 @@ namespace std
 	--------------------------------------------------------- */
 	// BEGIN & END
 	//----
-	export function begin<T>(container: Array<T>): JSArray.Iterator<T>;
-	export function begin<T, Source extends base.ArrayContainer<T, Source>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
-	export function begin<T>(container: List<T>): List.Iterator<T>;
-	export function begin<T>(container: ForwardList<T>): ForwardList.Iterator<T>;
-	export function begin<T, Source extends base.SetContainer<T, Source>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
-	export function begin<Key, T, Source extends base.MapContainer<Key, T, Source>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
+	export function begin<T>(container: Array<T>): Vector.Iterator<T>;
+	export function begin<T, Iterator extends IForwardIterator<T, Iterator>>
+		(container: base.IForwardContainer<T, Iterator>): Iterator;
 
-	// typedef is not specified in TypeScript yet.
-	// Instead, I listed all the containers and its iterators as overloaded functions
 	export function begin(container: any): any
 	{
 		if (container instanceof Array)
@@ -133,12 +126,9 @@ namespace std
 		return container.begin();
 	}
 	
-	export function end<T>(container: Array<T>): JSArray.Iterator<T>;
-	export function end<T, Source extends base.ArrayContainer<T, Source>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
-	export function end<T>(container: List<T>): List.ReverseIterator<T>;
-	export function end<T>(container: ForwardList<T>): ForwardList.Iterator<T>;
-	export function end<T, Source extends base.SetContainer<T, Source>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
-	export function end<Key, T, Source extends base.MapContainer<Key, T, Source>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
+	export function end<T>(container: Array<T>): Vector.Iterator<T>;
+	export function end<T, Iterator extends IForwardIterator<T, Iterator>>
+		(container: base.IForwardContainer<T, Iterator>): Iterator;
 
 	export function end(container: any): any
 	{
@@ -190,42 +180,40 @@ namespace std
 	//----
 	// REVERSE ITERATORS
 	//----
-	export function make_reverse_iterator<T, Source extends base.ArrayContainer<T, Source>>(it: base.ArrayIterator<T, Source>): base.ArrayReverseIterator<T, Source>;
-	export function make_reverse_iterator<T>(it: List.Iterator<T>): List.ReverseIterator<T>;
-	export function make_reverse_iterator<T, Source extends base.SetContainer<T, Source>>(it: base.SetIterator<T, Source>): base.SetReverseIterator<T, Source>;
-	export function make_reverse_iterator<Key, T, Source extends base.MapContainer<Key, T, Source>>(it: base.MapIterator<Key, T, Source>): base.MapReverseIterator<Key, T, Source>;
-
-	export function make_reverse_iterator(it: any): any
+	export function make_reverse_iterator<T, 
+			IteratorT extends base.IReversableIterator<T, IteratorT, ReverseT>, 
+			ReverseT extends base.IReverseIterator<T, IteratorT, ReverseT>>
+		(it: IteratorT): ReverseT
 	{
-		if (it instanceof base.ArrayIterator)
-			return new base.ArrayReverseIterator(it);
-		else if (it instanceof List.Iterator)
-			return new List.ReverseIterator<any>(it);
-
-		else if (it instanceof base.SetIterator)
-			return new base.SetReverseIterator<any, any>(it);
-		else if (it instanceof base.MapIterator)
-			return new base.MapReverseIterator<any, any, any>(it);
-	}
-	
-	export function rbegin<T, Source extends base.ArrayContainer<T, Source>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
-	export function rbegin<T>(container: List<T>): List.ReverseIterator<T>;
-	export function rbegin<T, Source extends base.SetContainer<T, Source>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
-	export function rbegin<Key, T, Source extends base.MapContainer<Key, T, Source>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
-
-	export function rbegin(container: any): any
-	{
-		make_reverse_iterator(end(container));
+		return it.reverse();
 	}
 
-	export function rend<T, Source extends base.ArrayContainer<T, Source>>(container: base.ArrayContainer<T, Source>): base.ArrayReverseIterator<T, Source>;
-	export function rend<T>(container: List<T>): List.ReverseIterator<T>;
-	export function rend<T, Source extends base.SetContainer<T, Source>>(container: base.SetContainer<T, Source>): base.SetIterator<T, Source>;
-	export function rend<Key, T, Source extends base.MapContainer<Key, T, Source>>(container: base.MapContainer<Key, T, Source>): base.MapIterator<Key, T, Source>;
+	export function rbegin<T>(container: Array<T>): Vector.ReverseIterator<T>;
+	export function rbegin<T, 
+		Iterator extends IBidirectionalIterator<T, Iterator>,
+		ReverseIterator extends IBidirectionalIterator<T, ReverseIterator>>
+		(container: base.IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
 
-	export function rend(container: any): any
+	export function rbegin(source: any): any
 	{
-		return make_reverse_iterator(begin(container));
+		if (source instanceof Array)
+			source = _Capsule(source);
+
+		source.rbegin();
+	}
+
+	export function rend<T>(container: Array<T>): Vector.ReverseIterator<T>;
+	export function rend<T, 
+		Iterator extends IBidirectionalIterator<T, Iterator>,
+		ReverseIterator extends IBidirectionalIterator<T, ReverseIterator>>
+		(container: base.IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
+
+	export function rend(source: any): any
+	{
+		if (source instanceof Array)
+			source = _Capsule(source);
+
+		source.rend();
 	}
 
 	/**

@@ -7,6 +7,7 @@ namespace std
 {
 	export class List<T>
 		extends base.ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
+		implements base.ILinearContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
 	{
 		/**
 		 * @hidden
@@ -307,6 +308,11 @@ namespace std.List
 		{
 			super(prev, next, value);
 			this.source_ptr_ = sourcePtr;
+		}
+
+		public reverse(): ReverseIterator<T>
+		{
+			return new ReverseIterator(this);
 		}
 
 		/* ---------------------------------------------------------------

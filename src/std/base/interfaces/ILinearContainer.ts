@@ -3,11 +3,11 @@ namespace std.base
 	/** 
 	 * @hidden
 	 */
-	export interface ILinearContainer<T>
-		extends Container<T,
-			ILinearContainer<T>,
-			ILinearIterator<T>,
-			ILinearReverseIterator<T>>
+	export interface ILinearContainer<T, 
+			SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseIteratorT>, 
+			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>, 
+			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
+		extends Container<T, SourceT, IteratorT, ReverseIteratorT>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -31,33 +31,9 @@ namespace std.base
 		push_back(val: T): void;
 		pop_back(): void;
 
-		insert(position: ILinearIterator<T>, val: T): ILinearIterator<T>;
-		insert(position: ILinearIterator<T>, n: number, val: T): ILinearIterator<T>;
+		insert(position: IteratorT, val: T): IteratorT;
+		insert(position: IteratorT, n: number, val: T): IteratorT;
 		insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-			(position: ILinearIterator<T>, first: InputIterator, last: InputIterator): ILinearIterator<T>;
-	}
-
-	/** 
-	 * @hidden
-	 */
-	export interface ILinearIterator<T>
-		extends Iterator<T, 
-			ILinearContainer<T>, 
-			ILinearIterator<T>,
-			ILinearReverseIterator<T>>
-	{
-		value: T;
-	}
-
-	/** 
-	 * @hidden
-	 */
-	export interface ILinearReverseIterator<T>
-		extends ReverseIterator<T, 
-			ILinearContainer<T>, 
-			ILinearIterator<T>, 
-			ILinearReverseIterator<T>>
-	{
-		value: T;
+			(position: IteratorT, first: InputIterator, last: InputIterator): IteratorT;
 	}
 }

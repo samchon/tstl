@@ -27,6 +27,11 @@ namespace std.base
 			this.source_ = associative;
 		}
 
+		public reverse(): MapReverseIterator<Key, T, Source>
+		{
+			return new MapReverseIterator(this);
+		}
+
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */

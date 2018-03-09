@@ -6,6 +6,7 @@ namespace std.base
 {
 	export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, SourceT>>
 		extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
+		implements ILinearContainer<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 	{
 		protected constructor()
 		{
