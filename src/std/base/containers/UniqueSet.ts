@@ -39,19 +39,19 @@ namespace std.base
 			if (param instanceof SetIterator)
 				return this._Extract_by_iterator(param);
 			else
-				return this._Extract_by_key(param);
+				return this._Extract_by_val(param);
 		}
 
 		/**
 		 * @hidden
 		 */
-		private _Extract_by_key(val: T): T
+		private _Extract_by_val(val: T): T
 		{
 			let it = this.find(val);
 			if (it.equals(this.end()) == true)
 				throw new OutOfRange("No such key exists.");
 
-			this.erase(val);
+			this._Erase_by_range(it);
 			return val;
 		}
 
@@ -63,8 +63,21 @@ namespace std.base
 			if (it.equals(this.end()) == true || this.has(it.value) == false)
 				return this.end();
 
-			this.erase(it);
+			this._Erase_by_range(it);
 			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected _Erase_by_val(val: T): number
+		{
+			let it = this.find(val);
+			if (it.equals(this.end()) == true)
+				return 0;
+
+			this._Erase_by_range(it);
+			return 1;
 		}
 
 		/* ---------------------------------------------------------

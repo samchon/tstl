@@ -121,7 +121,7 @@ namespace std.base
 				throw new OutOfRange("No such key exists.");
 
 			let ret: Entry<Key, T> = it.value;
-			this.erase(it);
+			this._Erase_by_range(it);
 
 			return ret;
 		}
@@ -134,8 +134,21 @@ namespace std.base
 			if (it.equals(this.end()) == true)
 				return this.end();
 
-			this.erase(it);
+			this._Erase_by_range(it);
 			return it;
+		}
+
+		/**
+		 * @hidden
+		 */
+		protected _Erase_by_key(key: Key): number
+		{
+			let it = this.find(key);
+			if (it.equals(this.end()) == true)
+				return 0;
+
+			this._Erase_by_range(it);
+			return 1;
 		}
 
 		/* ---------------------------------------------------------

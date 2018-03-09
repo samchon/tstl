@@ -20,7 +20,7 @@ namespace std.base
 		{
 			super();
 			
-			this.data_ = this._Create_element_list();
+			this.data_ = new _MapElementList(<any>this);
 		}
 		
 		public assign<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
@@ -35,11 +35,6 @@ namespace std.base
 		{
 			// TO BE ABSTRACT
 			this.data_.clear();
-		}
-
-		protected _Create_element_list(): _MapElementList<Key, T, Source>
-		{
-			return new _MapElementList(<any>this);
 		}
 
 		/* =========================================================
@@ -159,20 +154,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Erase_by_key(key: Key): number
-		{
-			let it = this.find(key);
-			if (it.equals(this.end()) == true)
-				return 0;
-
-			this._Erase_by_range(it);
-			return 1;
-		}
+		protected abstract _Erase_by_key(key: Key): number;
 
 		/**
 		 * @hidden
 		 */
-		private _Erase_by_range(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source> = first.next()): MapIterator<Key, T, Source>
+		protected _Erase_by_range(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source> = first.next()): MapIterator<Key, T, Source>
 		{
 			// ERASE
 			let it = this.data_.erase(first, last);

@@ -28,6 +28,9 @@ namespace std.base
 			this.associative_ = associative;
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected _Create_iterator(prev: SetIterator<T, Source>, next: SetIterator<T, Source>, val: T): SetIterator<T, Source>
 		{
 			return new SetIterator<T, Source>(this, prev, next, val);

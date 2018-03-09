@@ -28,6 +28,9 @@ namespace std.base
 			this.associative_ = associative;
 		}
 
+		/**
+		 * @hidden
+		 */
 		protected _Create_iterator(prev: MapIterator<Key, T, Source>, next: MapIterator<Key, T, Source>, val: Entry<Key, T>): MapIterator<Key, T, Source>
 		{
 			return new MapIterator<Key, T, Source>(this, prev, next, val);

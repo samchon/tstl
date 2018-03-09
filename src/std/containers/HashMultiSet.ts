@@ -237,6 +237,14 @@ namespace std
 
 			this.buckets_.rehash(n);
 		}
+
+		/**
+		 * @hidden
+		 */
+		protected _Key_eq(x: T, y: T): boolean
+		{
+			return this.key_eq()(x, y);
+		}
 		
 		/* =========================================================
 			ELEMENTS I/O

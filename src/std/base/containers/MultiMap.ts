@@ -32,6 +32,35 @@ namespace std.base
 		}
 
 		/* ---------------------------------------------------------
+			ERASE
+		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		protected abstract _Key_eq(x: Key, y: Key): boolean;
+
+		/**
+		 * @hidden
+		 */
+		protected _Erase_by_key(key: Key): number
+		{
+			let first = this.find(key);
+			if (first.equals(this.end()) == true)
+				return 0;
+
+			let last = first.next();
+			let ret: number = 1;
+
+			while (!last.equals(this.end()) && this._Key_eq(key, last.first))
+			{
+				last = last.next();
+				++ret;
+			}
+			this._Erase_by_range(first, last);
+			return ret;
+		}
+
+		/* ---------------------------------------------------------
 			UTILITY
 		--------------------------------------------------------- */
 		public merge(source: Source): void

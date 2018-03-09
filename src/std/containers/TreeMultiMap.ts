@@ -171,6 +171,14 @@ namespace std
 			return this.tree_.equal_range(key);
 		}
 
+		/**
+		 * @hidden
+		 */
+		protected _Key_eq(x: Key, y: Key): boolean
+		{
+			return this.tree_.key_eq()(x, y);
+		}
+
 		/* =========================================================
 			ELEMENTS I/O
 				- INSERT

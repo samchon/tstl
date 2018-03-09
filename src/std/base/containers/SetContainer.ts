@@ -157,22 +157,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		private _Erase_by_val(val: T): number
-		{
-			// TEST WHETHER EXISTS
-			let it = this.find(val);
-			if (it.equals(this.end()) == true)
-				return 0;
-
-			// ERASE
-			this._Erase_by_range(it);
-			return 1;
-		}
+		protected abstract _Erase_by_val(val: T): number;
 
 		/**
 		 * @hidden
 		 */
-		private _Erase_by_range(first: SetIterator<T, Source>, last: SetIterator<T, Source> = first.next()): SetIterator<T, Source>
+		protected _Erase_by_range(first: SetIterator<T, Source>, last: SetIterator<T, Source> = first.next()): SetIterator<T, Source>
 		{
 			// ERASE
 			let it = this.data_.erase(first, last);
