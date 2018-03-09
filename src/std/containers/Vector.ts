@@ -95,15 +95,12 @@ namespace std
 				throw new OutOfRange("Target index is greater than Vector's size.");
 		}
 
-		public set(index: number, val: T): T
+		public set(index: number, val: T): void
 		{
 			if (index >= this.size())
 				throw new OutOfRange("Target index is greater than Vector's size.");
 
-			let prev: T = this.data_[index];
 			this.data_[index] = val;
-
-			return prev;
 		}
 
 		public data(): Array<T>

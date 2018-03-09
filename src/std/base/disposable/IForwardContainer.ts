@@ -1,4 +1,4 @@
-namespace std
+namespace std.base
 {
 	export interface IForwardContainer<T, Iterator extends IForwardIterator<T, Iterator>>
 	{

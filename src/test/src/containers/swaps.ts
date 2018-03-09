@@ -21,7 +21,10 @@ namespace test
 		_Test_container_swap("HashMap", new std.HashMap<number, number>(), new std.HashMap<number, number>());
 	}
 
-	function _Test_container_swap(name: string, v1: std.base.IContainer<P>, v2: std.base.IContainer<P>): void
+	function _Test_container_swap<SourceT extends std.base.Container<P, SourceT, IteratorT, ReverseT>, 
+			IteratorT extends std.base.Iterator<P, SourceT, IteratorT, ReverseT>, 
+			ReverseT extends std.base.ReverseIterator<P, SourceT, IteratorT, ReverseT>>
+		(name: string, v1: SourceT, v2: SourceT): void
 	{
 		// INSERT ITEMS ON EACH CONTAINERS
 		for (let i: number = 1; i <= 3; ++i)

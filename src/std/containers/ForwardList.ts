@@ -3,7 +3,7 @@
 namespace std
 {
 	export class ForwardList<T> 
-		implements IForwardContainer<T, ForwardList.Iterator<T>>,
+		implements base.IForwardContainer<T, ForwardList.Iterator<T>>, 
 			Iterable<T>
 	{
 		/**

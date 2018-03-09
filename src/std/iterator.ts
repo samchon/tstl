@@ -116,7 +116,7 @@ namespace std
 	//----
 	export function begin<T>(container: Array<T>): Vector.Iterator<T>;
 	export function begin<T, Iterator extends IForwardIterator<T, Iterator>>
-		(container: IForwardContainer<T, Iterator>): Iterator;
+		(container: base.IForwardContainer<T, Iterator>): Iterator;
 
 	export function begin(container: any): any
 	{
@@ -128,7 +128,7 @@ namespace std
 	
 	export function end<T>(container: Array<T>): Vector.Iterator<T>;
 	export function end<T, Iterator extends IForwardIterator<T, Iterator>>
-		(container: IForwardContainer<T, Iterator>): Iterator;
+		(container: base.IForwardContainer<T, Iterator>): Iterator;
 
 	export function end(container: any): any
 	{
@@ -180,11 +180,19 @@ namespace std
 	//----
 	// REVERSE ITERATORS
 	//----
+	export function make_reverse_iterator<T, 
+			IteratorT extends base.IReversableIterator<T, IteratorT, ReverseT>, 
+			ReverseT extends base.IReverseIterator<T, IteratorT, ReverseT>>
+		(it: IteratorT): ReverseT
+	{
+		return it.reverse();
+	}
+
 	export function rbegin<T>(container: Array<T>): Vector.ReverseIterator<T>;
 	export function rbegin<T, 
 		Iterator extends IBidirectionalIterator<T, Iterator>,
 		ReverseIterator extends IBidirectionalIterator<T, ReverseIterator>>
-		(container: IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
+		(container: base.IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
 
 	export function rbegin(source: any): any
 	{
@@ -198,7 +206,7 @@ namespace std
 	export function rend<T, 
 		Iterator extends IBidirectionalIterator<T, Iterator>,
 		ReverseIterator extends IBidirectionalIterator<T, ReverseIterator>>
-		(container: IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
+		(container: base.IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
 
 	export function rend(source: any): any
 	{
