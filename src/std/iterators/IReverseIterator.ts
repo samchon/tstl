@@ -1,4 +1,4 @@
-namespace std.base
+namespace std
 {
 	export interface IReversableIterator<T,
 			IteratorT extends IReversableIterator<T, IteratorT, ReverseT>,

@@ -7,8 +7,8 @@ namespace std.base
 	}
 
 	export interface IBidirectionalContainer<T, 
-			IteratorT extends IBidirectionalIterator<T, IteratorT>,
-			ReverseIteratorT extends IBidirectionalIterator<T, ReverseIteratorT>>
+			IteratorT extends IReversableIterator<T, IteratorT, ReverseIteratorT>,
+			ReverseIteratorT extends IReverseIterator<T, IteratorT, ReverseIteratorT>>
 		extends IForwardContainer<T, IteratorT>
 	{
 		rbegin(): ReverseIteratorT;
