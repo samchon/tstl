@@ -19,7 +19,6 @@ namespace std
 			- ASSOCIATIVE CONTAINERS
 			- SET CONTAINERS
 			- MAP CONTAINERS
-			- EXCEPTIONS
 	============================================================
 		LINEAR CONTAINERS
 	--------------------------------------------------------- */
@@ -57,9 +56,9 @@ namespace std
 	export import unordered_map = HashMap;
 	export import unordered_multimap = HashMultiMap;
 
-	/* ---------------------------------------------------------
+	/* =========================================================
 		ITERATORS
-	--------------------------------------------------------- */
+	========================================================= */
 	export type insert_iterator<T, 
 		Container extends base._IInsert<T, Iterator>, 
 		Iterator extends Readonly<IForwardIterator<T, Iterator>>> = InsertIterator<T, Container, Iterator>;
@@ -70,7 +69,12 @@ namespace std
 	export var front_insert_iterator = FrontInsertIterator;
 	export var back_insert_iterator = BackInsertIterator;
 
-	/* ---------------------------------------------------------
+	/* =========================================================
+		CONTAINER SHORTCUTS
+			- EXCEPTIONS
+			- THREADS
+			- UTILITIES
+	============================================================
 		EXCEPTIONS
 	--------------------------------------------------------- */
 	export type exception = Exception;
@@ -117,6 +121,15 @@ namespace std
 	export var timed_mutex = TimedMutex;
 	export var shared_timed_mutex = SharedTimedMutex;
 	export var condition_variable = ConditionVariable;
+
+	/* ---------------------------------------------------------
+		UTILITIES
+	--------------------------------------------------------- */
+	export type pair<T1, T2> = Pair<T1, T2>;
+	export type entry<Key, T> = Entry<Key, T>;
+
+	export var pair = Pair;
+	export var entry = Entry;
 }
 
 namespace std.experimental

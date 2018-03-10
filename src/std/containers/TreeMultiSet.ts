@@ -277,8 +277,8 @@ namespace std.TreeMultiSet
 	export type ReverseIterator<T> = base.SetReverseIterator<T, TreeMultiSet<T>>;
 
 	// BODY
-	export var Iterator = base.ArrayIterator;
-	export var ReverseIterator = base.ArrayReverseIterator;
+	export var Iterator = base.SetIterator;
+	export var ReverseIterator = base.SetReverseIterator;
 
 	//----
 	// SNAKE NOTATION
