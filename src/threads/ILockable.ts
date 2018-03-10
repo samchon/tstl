@@ -1,0 +1,8 @@
+export interface ILockable
+{
+	lock(): Promise<void>;
+
+	try_lock(): boolean;
+
+	unlock(): Promise<void>;
+}

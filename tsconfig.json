@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "declaration": true,
+        "sourceMap": true,
+        "outDir": "lib",
+        
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitAny": true,
+        "downlevelIteration": true,
+        
+        "lib": [
+            "dom",
+            "es2015"
+        ]
+    }
+}

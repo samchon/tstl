@@ -1,0 +1,95 @@
+import { IBidirectionalContainer } from "../disposable/IForwardContainer";
+
+import { Iterator } from "../iterators/Iterator";
+import { ReverseIterator } from "../iterators/ReverseIterator";
+import { IForwardIterator } from "../../iterators/IForwardIterator";
+
+import { ForOfAdaptor } from "../iterators/ForOfAdaptor";
+
+export abstract class Container<T, 
+		SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
+	implements Iterable<T>, IBidirectionalContainer<T, IteratorT, ReverseIteratorT>
+{
+	/* =========================================================
+		CONSTRUCTORS & SEMI-CONSTRUCTORS
+			- CONSTRUCTORS
+			- ASSIGN & CLEAR
+	============================================================
+		CONSTURCTORS
+	--------------------------------------------------------- */
+	protected constructor()
+	{
+		// THIS IS ABSTRACT CLASS
+		// NOTHING TO DO ESPECIALLY
+	}
+
+	/* ---------------------------------------------------------
+		ASSIGN & CLEAR
+	--------------------------------------------------------- */
+	public abstract assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+		(begin: InputIterator, end: InputIterator): void;
+
+	public clear(): void
+	{
+		this.erase(this.begin(), this.end());
+	}
+	
+	/* =========================================================
+		ACCESSORS
+			- SIZE
+			- ITERATORS
+	============================================================
+		SIZE
+	--------------------------------------------------------- */
+	public abstract size(): number;
+	
+	public empty(): boolean
+	{
+		return this.size() == 0;
+	}
+
+	/* ---------------------------------------------------------
+		ITERATORS
+	--------------------------------------------------------- */
+	public abstract begin(): IteratorT;
+	public abstract end(): IteratorT;
+
+	public rbegin(): ReverseIteratorT
+	{
+		return this.end().reverse();
+	}
+	public rend(): ReverseIteratorT
+	{
+		return this.begin().reverse();
+	}
+
+	public [Symbol.iterator](): IterableIterator<T>
+	{
+		return new ForOfAdaptor(this.begin(), this.end());
+	}
+
+	/* ---------------------------------------------------------
+		ELEMENTS I/O
+	--------------------------------------------------------- */
+	public abstract push(...items: T[]): number;
+	public abstract insert(position: IteratorT, val: T): IteratorT;
+
+	public abstract erase(position: IteratorT): IteratorT;
+	public abstract erase(begin: IteratorT, end: IteratorT): IteratorT;
+
+	/* ---------------------------------------------------------------
+		UTILITIES
+	--------------------------------------------------------------- */
+	public abstract swap(obj: SourceT): void;
+
+	public toJSON(): Array<T>
+	{
+		let ret: Array<T> = [];
+		for (let elem of this)
+			ret.push(elem);
+
+		return ret;
+	}
+}

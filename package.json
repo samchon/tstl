@@ -6,18 +6,12 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.7.7",
+  "version": "1.8.0-dev.20180311",
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
   "scripts": {
-    "build": "node build/build",
-    "build-module": "node build/module",
-    "build-test": "node build/test",
-    "build-api": "typedoc src/std --target es2015 --mode file --out ../api",
-    "test": "node lib/test"
-  },
-  "devDependencies": {
-    "@types/node": "^7.0.55"
+    "build": "tsc & npm run test",
+    "test": "node lib/tests/main"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
@@ -34,26 +28,62 @@
     }
   ],
   "keywords": [
-    "tstl", "typescript-stl", "typescript", "stl", "standard template library",
-
-    "container", "iterator", "algorithm", "functor",
-
-    "vector", "deque", "list", "forward_list",
-    "stack", "queue", "priority_queue",
-    "set", "multiset", "unordered_set", "unordered_multiset",
-    "map", "multimap", "unordered_map", "unordered_multimap",
-
-    "IComparable", "PriorityQueue",
-    "TreeSet", "TreeMultiSet", "HashSet", "HashMultiSet",
-    "TreeMap", "TreeMultiMap", "HashMap", "HashMultiMap",
-
-    "exception", "functional", "utility", "thread", "special_math", 
-    "pair", "entry",
-
-    "sleep", "sleep_for", "sleep_until",
-    "mutex", "shared_mutex", "timed_mutex", "shared_timed_mutex",
-    "semaphore", "timed_semaphore",
-
-    "TimedMutex", "SharedMutex", "SharedTimedMutex", "TimedSemaphore"
-  ]
+    "tstl",
+    "typescript-stl",
+    "typescript",
+    "stl",
+    "standard template library",
+    "container",
+    "iterator",
+    "algorithm",
+    "functor",
+    "vector",
+    "deque",
+    "list",
+    "forward_list",
+    "stack",
+    "queue",
+    "priority_queue",
+    "set",
+    "multiset",
+    "unordered_set",
+    "unordered_multiset",
+    "map",
+    "multimap",
+    "unordered_map",
+    "unordered_multimap",
+    "IComparable",
+    "PriorityQueue",
+    "TreeSet",
+    "TreeMultiSet",
+    "HashSet",
+    "HashMultiSet",
+    "TreeMap",
+    "TreeMultiMap",
+    "HashMap",
+    "HashMultiMap",
+    "exception",
+    "functional",
+    "utility",
+    "thread",
+    "special_math",
+    "pair",
+    "entry",
+    "sleep",
+    "sleep_for",
+    "sleep_until",
+    "mutex",
+    "shared_mutex",
+    "timed_mutex",
+    "shared_timed_mutex",
+    "semaphore",
+    "timed_semaphore",
+    "TimedMutex",
+    "SharedMutex",
+    "SharedTimedMutex",
+    "TimedSemaphore"
+  ],
+  "devDependencies": {
+    "@types/node": "^9.4.7"
+  }
 }

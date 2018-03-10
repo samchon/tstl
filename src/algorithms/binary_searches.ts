@@ -1,0 +1,114 @@
+import { IForwardIterator } from "../iterators/IForwardIterator";
+
+import { Pair } from "../utilities/Pair";
+import { less } from "../functional/comparisons";
+import { advance, distance } from "../iterators/global";
+
+/* =========================================================
+	BINARY SEARCH
+========================================================= */
+export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
+
+export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(
+		first: ForwardIterator, last: ForwardIterator, val: T, 
+		comp: (x: T, y: T) => boolean
+	): ForwardIterator;
+
+export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(
+		first: ForwardIterator, last: ForwardIterator, val: T, 
+		comp: (x: T, y: T) => boolean = less
+	): ForwardIterator
+{
+	let count: number = distance(first, last);
+
+	while (count > 0)
+	{
+		let step: number = Math.floor(count / 2);
+		let it: ForwardIterator = advance(first, step);
+
+		if (comp(it.value, val))
+		{
+			first = it.next();
+			count -= step + 1;
+		}
+		else
+			count = step;
+	}
+	return first;
+}
+
+export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(first: ForwardIterator, last: ForwardIterator, val: T): ForwardIterator;
+
+export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(
+		first: ForwardIterator, last: ForwardIterator, val: T,
+		compare: (x: T, y: T) => boolean
+	): ForwardIterator;
+
+export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(
+		first: ForwardIterator, last: ForwardIterator, val: T,
+		compare: (x: T, y: T) => boolean = less
+	): ForwardIterator
+{
+	let count: number = distance(first, last);
+	
+	while (count > 0)
+	{
+		let step: number = Math.floor(count / 2);
+		let it: ForwardIterator = advance(first, step);
+
+		if (!compare(val, it.value))
+		{
+			first = it.next();
+			count -= step + 1;
+		}
+		else
+			count = step;
+	}
+	return first;
+}
+
+export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(first: ForwardIterator, last: ForwardIterator, val: T): Pair<ForwardIterator, ForwardIterator>
+
+export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(
+		first: ForwardIterator, last: ForwardIterator, val: T,
+		compare: (x: T, y: T) => boolean
+	): Pair<ForwardIterator, ForwardIterator>;
+
+export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(
+		first: ForwardIterator, last: ForwardIterator, val: T,
+		compare: (x: T, y: T) => boolean = less
+	): Pair<ForwardIterator, ForwardIterator>
+{
+	let it: ForwardIterator = lower_bound(first, last, val, compare);
+
+	return new Pair(it, upper_bound(it, last, val, compare));
+}
+
+export function binary_search<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(first: ForwardIterator, last: ForwardIterator, val: T): boolean;
+
+export function binary_search<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(
+		first: ForwardIterator, last: ForwardIterator, val: T,
+		compare: (x: T, y: T) => boolean
+	): boolean;
+
+export function binary_search<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+	(
+		first: ForwardIterator, last: ForwardIterator, val: T,
+		compare: (x: T, y: T) => boolean = less
+	): boolean
+{
+	first = lower_bound(first, last, val, compare);
+
+	return !first.equals(last) && !compare(val, first.value);
+}
