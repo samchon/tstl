@@ -5,12 +5,12 @@ import { MapIterator, MapReverseIterator } from "../base/iterators/MapIterator";
 import { _MapHashBuckets } from "../base/hashes/_MapHashBuckets";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { IPair } from "../utilities/IPair";
-import { Pair } from "../utilities/Pair";
-import { Entry } from "../utilities/Entry";
+import { IPair } from "../functors/utilities/IPair";
+import { Pair } from "../functors/utilities/Pair";
+import { Entry } from "../functors/utilities/Entry";
 
-import { hash } from "../functional/hash";
-import { equal_to } from "../functional/comparisons";
+import { hash } from "../functors/functional/hash";
+import { equal_to } from "../functors/functional/comparisons";
 
 export class HashMap<Key, T>
 	extends UniqueMap<Key, T, HashMap<Key, T>>

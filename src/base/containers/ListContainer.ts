@@ -5,7 +5,7 @@ import { ReverseIterator } from "../iterators/ReverseIterator";
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 import { _NativeArrayIterator } from "../iterators/_NativeArrayIterator";
 
-import { InvalidArgument } from "../../exceptions/LogicError";
+import { InvalidArgument } from "../../functors/exceptions/LogicError";
 import { _Repeater } from "../iterators/_Repeater";
 import { distance } from "../../iterators/global";
 

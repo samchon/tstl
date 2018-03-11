@@ -3,10 +3,10 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
 import { iter_swap } from "./modifiers";
-import { less } from "../functional/comparisons";
+import { less } from "../functors/functional/comparisons";
 import { sort } from "./sortings";
 
-import { InvalidArgument } from "../exceptions/LogicError";
+import { InvalidArgument } from "../functors/exceptions/LogicError";
 
 /* =========================================================
 	HEAPS

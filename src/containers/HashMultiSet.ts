@@ -5,8 +5,8 @@ import { _SetHashBuckets } from "../base/hashes/_SetHashBuckets";
 import { SetIterator, SetReverseIterator } from "../base/iterators/SetIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { hash } from "../functional/hash";
-import { equal_to } from "../functional/comparisons";
+import { hash } from "../functors/functional/hash";
+import { equal_to } from "../functors/functional/comparisons";
 
 export class HashMultiSet<T>
 	extends MultiSet<T, HashMultiSet<T>>

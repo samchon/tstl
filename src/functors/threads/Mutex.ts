@@ -1,6 +1,6 @@
 import { ILockable } from "./ILockable";
 
-import { Queue } from "../containers/Queue";
+import { Queue } from "../../containers/Queue";
 import { RangeError } from "../exceptions/RuntimeError";
 
 export class Mutex implements ILockable

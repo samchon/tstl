@@ -1,7 +1,7 @@
-import { _LockType } from "../base/threads/_LockType";
+import { _LockType } from "../../base/threads/_LockType";
 import { sleep_for } from "./global";
 
-import { HashMap } from "../containers/HashMap";
+import { HashMap } from "../../containers/HashMap";
 
 export class ConditionVariable
 {

@@ -2,7 +2,7 @@ import { ArrayContainer } from "../base/containers/ArrayContainer";
 import { ArrayIterator, ArrayReverseIterator } from "../base/iterators/ArrayIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { OutOfRange } from "../exceptions/LogicError";
+import { OutOfRange } from "../functors/exceptions/LogicError";
 
 export class Vector<T>
 	extends ArrayContainer<T, Vector<T>>

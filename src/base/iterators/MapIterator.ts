@@ -4,9 +4,9 @@ import { ReverseIterator } from "./ReverseIterator";
 import { MapContainer } from "../containers/MapContainer";
 import { _MapElementList } from "../containers/_MapElementList";
 
-import { Entry } from "../../utilities/Entry";
-import { less } from "../../functional/comparisons";
-import { hash } from "../../functional/hash";
+import { Entry } from "../../functors/utilities/Entry";
+import { less } from "../../functors/functional/comparisons";
+import { hash } from "../../functors/functional/hash";
 
 export class MapIterator<Key, T, Source extends MapContainer<Key, T, Source>>
 	extends ListIterator<Entry<Key, T>, 

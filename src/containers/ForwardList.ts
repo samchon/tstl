@@ -1,11 +1,11 @@
 import { IForwardContainer } from "../base/disposable/IForwardContainer";
 import { IForwardIterator } from "../iterators/IForwardIterator";
 
-import { IPointer } from "../functional/IPointer";
+import { IPointer } from "../functors/functional/IPointer";
 import { _Repeater } from "../base/iterators/_Repeater";
 import { ForOfAdaptor } from "../base/iterators/ForOfAdaptor";
 
-import { less, equal_to } from "../functional/comparisons";
+import { less, equal_to } from "../functors/functional/comparisons";
 import { distance } from "../iterators/global";
 import { sort } from "../algorithms/sortings";
 import { Vector } from "./Vector";

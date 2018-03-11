@@ -3,7 +3,7 @@ import { IRandomAccessIterator } from "./IRandomAccessIterator";
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
 
 import { _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
-import { OutOfRange } from "../exceptions/LogicError";
+import { OutOfRange } from "../functors/exceptions/LogicError";
 
 /* ---------------------------------------------------------
 	ACCESSORS

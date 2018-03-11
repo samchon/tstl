@@ -6,12 +6,12 @@ import { _XTreeNode } from "../base/trees/_XTreeNode";
 import { MapIterator, MapReverseIterator } from "../base/iterators/MapIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { IPair } from "../utilities/IPair";
-import { Pair } from "../utilities/Pair";
-import { Entry } from "../utilities/Entry";
+import { IPair } from "../functors/utilities/IPair";
+import { Pair } from "../functors/utilities/Pair";
+import { Entry } from "../functors/utilities/Entry";
 
 import { is_sorted } from "../algorithms/sortings";
-import { less } from "../functional/comparisons";
+import { less } from "../functors/functional/comparisons";
 import { Vector } from "./Vector";
 
 export class TreeMultiMap<Key, T>

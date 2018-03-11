@@ -1,8 +1,8 @@
 import { IForwardIterator } from "../iterators/IForwardIterator";
 
-import { less, equal_to } from "../functional/comparisons";
+import { less, equal_to } from "../functors/functional/comparisons";
 import { advance, distance } from "../iterators/global";
-import { Pair } from "../utilities/Pair";
+import { Pair } from "../functors/utilities/Pair";
 
 /* =========================================================
 	ITERATIONS (NON-MODIFYING SEQUENCE)

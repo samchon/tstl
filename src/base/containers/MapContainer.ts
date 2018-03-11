@@ -5,8 +5,8 @@ import { MapIterator, MapReverseIterator } from "../iterators/MapIterator";
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 import { _NativeArrayIterator } from "../iterators/_NativeArrayIterator";
 
-import { IPair } from "../../utilities/IPair";
-import { Entry } from "../../utilities/Entry";
+import { IPair } from "../../functors/utilities/IPair";
+import { Entry } from "../../functors/utilities/Entry";
 
 export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, Source>>
 	extends Container<Entry<Key, T>,

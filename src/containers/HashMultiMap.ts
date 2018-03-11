@@ -6,11 +6,11 @@ import { MapIterator, MapReverseIterator } from "../base/iterators/MapIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
 import { _NativeArrayIterator } from "../base/iterators/_NativeArrayIterator";
-import { IPair } from "../utilities/IPair";
-import { Entry } from "../utilities/Entry";
+import { IPair } from "../functors/utilities/IPair";
+import { Entry } from "../functors/utilities/Entry";
 
-import { hash } from "../functional/hash";
-import { equal_to } from "../functional/comparisons";
+import { hash } from "../functors/functional/hash";
+import { equal_to } from "../functors/functional/comparisons";
 
 export class HashMultiMap<Key, T>
 	extends MultiMap<Key, T, HashMultiMap<Key, T>>

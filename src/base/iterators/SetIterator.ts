@@ -4,8 +4,8 @@ import { ReverseIterator } from "./ReverseIterator";
 import { SetContainer } from "../containers/SetContainer";
 import { _SetElementList } from "../containers/_SetElementList";
 
-import { less } from "../../functional/comparisons";
-import { hash } from "../../functional/hash";
+import { less } from "../../functors/functional/comparisons";
+import { hash } from "../../functors/functional/hash";
 
 export class SetIterator<T, Source extends SetContainer<T, Source>>
 	extends ListIterator<T, 

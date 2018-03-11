@@ -4,9 +4,9 @@ import { ILinearContainer } from "../base/interfaces/ILinearContainer";
 import { ListIterator } from "../base/iterators/ListIterator";
 import { ReverseIterator as ReverseIteratorBase } from "../base/iterators/ReverseIterator";
 
-import { IPointer } from "../functional/IPointer";
+import { IPointer } from "../functors/functional/IPointer";
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { less, equal_to } from "../functional/comparisons";
+import { less, equal_to } from "../functors/functional/comparisons";
 
 export class List<T>
 	extends ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>

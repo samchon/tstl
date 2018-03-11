@@ -5,9 +5,9 @@ import { _SetHashBuckets } from "../base/hashes/_SetHashBuckets";
 import { SetIterator, SetReverseIterator } from "../base/iterators/SetIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { Pair } from "../utilities/Pair";
-import { hash } from "../functional/hash";
-import { equal_to } from "../functional/comparisons";
+import { Pair } from "../functors/utilities/Pair";
+import { hash } from "../functors/functional/hash";
+import { equal_to } from "../functors/functional/comparisons";
 
 export class HashSet<T>
 	extends UniqueSet<T, HashSet<T>>

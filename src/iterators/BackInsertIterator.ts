@@ -1,7 +1,7 @@
 import { IForwardIterator } from "./IForwardIterator";
 
 import { _IPushBack } from "../base/disposable/IPartialContainers";
-import { equal_to } from "../functional/comparisons";
+import { equal_to } from "../functors/functional/comparisons";
 
 export class BackInsertIterator<T, Source extends _IPushBack<T>>
 	implements IForwardIterator<T, BackInsertIterator<T, Source>>

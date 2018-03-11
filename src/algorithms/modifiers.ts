@@ -4,7 +4,7 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IBidirectionalIterator } from "../iterators/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
-import { equal_to } from "../functional/comparisons";
+import { equal_to } from "../functors/functional/comparisons";
 import { randint } from "./randoms";
 
 /* =========================================================

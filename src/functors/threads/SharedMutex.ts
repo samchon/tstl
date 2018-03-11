@@ -1,8 +1,8 @@
 import { ILockable } from "./ILockable";
-import { _LockType } from "../base/threads/_LockType";
+import { _LockType } from "../../base/threads/_LockType";
 
-import { Queue } from "../containers/Queue";
-import { Pair } from "../utility";
+import { Queue } from "../../containers/Queue";
+import { Pair } from "../utilities/Pair";
 import { RangeError } from "../exceptions/RuntimeError";
 
 export class SharedMutex implements ILockable

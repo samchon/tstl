@@ -2,11 +2,11 @@ import { ArrayContainer } from "../base/containers/ArrayContainer";
 import { ArrayIterator, ArrayReverseIterator } from "../base/iterators/ArrayIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { Pair } from "../utilities/Pair";
-import { OutOfRange } from "../exceptions/LogicError";
+import { Pair } from "../functors/utilities/Pair";
+import { OutOfRange } from "../functors/exceptions/LogicError";
 import { _NativeArrayIterator } from "../base/iterators/_NativeArrayIterator";
 import { TreeMap } from "./TreeMap";
-import { not_equal_to } from "../functional/comparisons";
+import { not_equal_to } from "../functors/functional/comparisons";
 
 export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 {

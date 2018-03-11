@@ -2,12 +2,12 @@ import { General } from "../iterators/IFake";
 import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IBidirectionalIterator } from "../iterators/IBidirectionalIterator";
 
-import { less, greater, equal_to } from "../functional/comparisons";
+import { less, greater, equal_to } from "../functors/functional/comparisons";
 import { sort } from "./sortings";
 import { iter_swap, reverse } from "./modifiers";
 import { distance, advance } from "../iterators/global";
 
-import { Pair } from "../utilities/Pair";
+import { Pair } from "../functors/utilities/Pair";
 import { Vector } from "../containers/Vector";
 import { mismatch, find_if, count } from "./iterations";
 

@@ -2,7 +2,7 @@ import { Writeonly, General } from "../iterators/IFake";
 import { IForwardIterator } from "../iterators/IForwardIterator";
 
 import { back_inserter } from "../iterators/factory";
-import { less } from "../functional/comparisons";
+import { less } from "../functors/functional/comparisons";
 import { copy } from "./modifiers";
 import { Vector } from "../containers/Vector";
 

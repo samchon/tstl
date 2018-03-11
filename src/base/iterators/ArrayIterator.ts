@@ -3,7 +3,7 @@ import { ReverseIterator } from "./ReverseIterator";
 
 import { ArrayContainer } from "../containers/ArrayContainer";
 import { IRandomAccessIterator } from "../../iterators/IRandomAccessIterator";
-import { equal_to } from "../../functional/comparisons";
+import { equal_to } from "../../functors/functional/comparisons";
 
 export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
 	implements Iterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>,

@@ -5,9 +5,9 @@ import { _MultiSetTree } from "../base/trees/_MultiSetTree";
 import { SetIterator, SetReverseIterator } from "../base/iterators/SetIterator";
 import { IForwardIterator } from "../iterators/IForwardIterator";
 
-import { less } from "../functional/comparisons";
+import { less } from "../functors/functional/comparisons";
 import { is_sorted } from "../algorithms/sortings";
-import { Pair } from "../utilities/Pair";
+import { Pair } from "../functors/utilities/Pair";
 import { Vector } from "./Vector";
 
 export class TreeMultiSet<T>

@@ -1,4 +1,4 @@
-﻿import { ErrorCategory, ErrorCondition } from "../exceptions/SystemError";
+﻿import { ErrorCategory, ErrorCondition } from "../functors/exceptions/SystemError";
 
 export abstract class ErrorInstance
 {

@@ -3,8 +3,8 @@ import { SetContainer } from "./SetContainer";
 import { SetIterator } from "../iterators/SetIterator";
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 
-import { Pair } from "../../utilities/Pair";
-import { OutOfRange } from "../../exceptions/LogicError";
+import { Pair } from "../../functors/utilities/Pair";
+import { OutOfRange } from "../../functors/exceptions/LogicError";
 
 export abstract class UniqueSet<T, Source extends UniqueSet<T, Source>>
 	extends SetContainer<T, Source>

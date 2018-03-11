@@ -1,5 +1,5 @@
 import { tgamma } from "./gamma";
-import { sigma } from "../base/maths/MathUtil";
+import { sigma } from "../../base/maths/MathUtil";
 
 /**
  * @hidden

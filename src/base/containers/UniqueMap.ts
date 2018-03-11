@@ -3,10 +3,10 @@ import { MapContainer } from "./MapContainer";
 import { MapIterator } from "../iterators/MapIterator";
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 
-import { IPair } from "../../utilities/IPair";
-import { Pair } from "../../utilities/Pair";
-import { Entry } from "../../utilities/Entry";
-import { OutOfRange } from "../../exceptions/LogicError";
+import { IPair } from "../../functors/utilities/IPair";
+import { Pair } from "../../functors/utilities/Pair";
+import { Entry } from "../../functors/utilities/Entry";
+import { OutOfRange } from "../../functors/exceptions/LogicError";
 
 export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>>
 	extends MapContainer<Key, T, Source>

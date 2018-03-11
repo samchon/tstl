@@ -1,7 +1,7 @@
 ﻿import { IForwardIterator } from "../iterators/IForwardIterator";
 
 import { TreeMultiSet } from "./TreeMultiSet";
-import { less } from "../functional/comparisons";
+import { less } from "../functors/functional/comparisons";
 
 export class PriorityQueue<T>
 {

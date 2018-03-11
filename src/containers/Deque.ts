@@ -5,8 +5,8 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { _NativeArrayIterator } from "../base/iterators/_NativeArrayIterator";
 import { _DequeForOfAdaptor } from "../base/iterators/_DequeForOfAdaptor";
 
-import { Pair } from "../utilities/Pair";
-import { OutOfRange } from "../exceptions/LogicError";
+import { Pair } from "../functors/utilities/Pair";
+import { OutOfRange } from "../functors/exceptions/LogicError";
 import { distance } from "../iterators/global";
 
 export class Deque<T>

@@ -1,5 +1,5 @@
-import { sigma, factorial } from "../base/maths/MathUtil";
-import { tgamma } from "..";
+import { sigma, factorial } from "../../base/maths/MathUtil";
+import { tgamma } from "./gamma";
 
 import { DomainError } from "../exceptions/LogicError";
 

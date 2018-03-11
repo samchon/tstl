@@ -4,7 +4,7 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
 import { Vector } from "../containers/Vector";
-import { less, equal_to } from "../functional/comparisons";
+import { less, equal_to } from "../functors/functional/comparisons";
 import { distance } from "../iterators/global";
 import { iter_swap, copy } from "./modifiers";
 
