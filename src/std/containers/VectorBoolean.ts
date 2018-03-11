@@ -381,8 +381,8 @@ namespace std.VectorBoolean
 	export type ReverseIterator = base.ArrayReverseIterator<boolean, VectorBoolean>;
 
 	// BODY
-	export var Iterator = base.ArrayIterator;
-	export var ReverseIterator = base.ArrayReverseIterator;
+	export const Iterator = base.ArrayIterator;
+	export const ReverseIterator = base.ArrayReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -392,6 +392,6 @@ namespace std.VectorBoolean
 	export type reverse_iterator = ReverseIterator;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }

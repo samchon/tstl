@@ -15,7 +15,7 @@ namespace std
 		let a: number = P[0];
 		let t: number = x + G + 0.5;
 		
-		for (var i = 1; i < P.length; ++i)
+		for (let i: number = 1; i < P.length; ++i)
 			a += P[i] / (x + i);
 	 
 		return Math.sqrt(2 * Math.PI) * Math.pow(t, x + 0.5) * Math.exp(-t) * a;

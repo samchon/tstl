@@ -580,8 +580,8 @@ namespace std.Deque
 	export type ReverseIterator<T> = base.ArrayReverseIterator<T, Deque<T>>;
 
 	// BODY
-	export var Iterator = base.ArrayIterator;
-	export var ReverseIterator = base.ArrayReverseIterator;
+	export const Iterator = base.ArrayIterator;
+	export const ReverseIterator = base.ArrayReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -591,6 +591,6 @@ namespace std.Deque
 	export type reverse_iterator<T> = ReverseIterator<T>;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }

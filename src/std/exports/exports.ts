@@ -36,9 +36,9 @@ namespace std
 	export type queue<T> = Queue<T>;
 	export type priority_queue<T> = PriorityQueue<T>;
 
-	export var stack = Stack;
-	export var queue = Queue;
-	export var priority_queue = PriorityQueue;
+	export const stack = Stack;
+	export const queue = Queue;
+	export const priority_queue = PriorityQueue;
 
 	/* ---------------------------------------------------------
 		SET CONTAINERS
@@ -65,9 +65,9 @@ namespace std
 	export type front_insert_iterator<T, Source extends base._IPushFront<T>> = FrontInsertIterator<T, Source>;
 	export type back_insert_iterator<T, Source extends base._IPushBack<T>> = BackInsertIterator<T, Source>;
 
-	export var insert_iterator = InsertIterator;
-	export var front_insert_iterator = FrontInsertIterator;
-	export var back_insert_iterator = BackInsertIterator;
+	export const insert_iterator = InsertIterator;
+	export const front_insert_iterator = FrontInsertIterator;
+	export const back_insert_iterator = BackInsertIterator;
 
 	/* =========================================================
 		CONTAINER SHORTCUTS
@@ -92,20 +92,20 @@ namespace std
 				export type error_condition = ErrorCondition;
 				export type error_code = ErrorCode;
 		
-	export var exception = Exception;
-		export var logic_error = LogicError;
-			export var domain_error = DomainError;
-			export var invalid_argument = InvalidArgument;
-			export var length_error = LengthError;
-			export var out_of_range = OutOfRange;
-		export var runtime_error = RuntimeError;
-			export var overflow_error = OverflowError;
-			export var underflow_error = UnderflowError;
-			export var range_error = RangeError;
-			export var system_error = SystemError;
-				export var error_category = ErrorCategory;
-				export var error_condition = ErrorCondition;
-				export var error_code = ErrorCode;
+	export const exception = Exception;
+		export const logic_error = LogicError;
+			export const domain_error = DomainError;
+			export const invalid_argument = InvalidArgument;
+			export const length_error = LengthError;
+			export const out_of_range = OutOfRange;
+		export const runtime_error = RuntimeError;
+			export const overflow_error = OverflowError;
+			export const underflow_error = UnderflowError;
+			export const range_error = RangeError;
+			export const system_error = SystemError;
+				export const error_category = ErrorCategory;
+				export const error_condition = ErrorCondition;
+				export const error_code = ErrorCode;
 
 	/* ---------------------------------------------------------
 		THREADS
@@ -116,11 +116,11 @@ namespace std
 	export type shared_timed_mutex = SharedTimedMutex;
 	export type condition_variable = ConditionVariable;
 
-	export var mutex = Mutex;
-	export var shared_mutex = SharedMutex;
-	export var timed_mutex = TimedMutex;
-	export var shared_timed_mutex = SharedTimedMutex;
-	export var condition_variable = ConditionVariable;
+	export const mutex = Mutex;
+	export const shared_mutex = SharedMutex;
+	export const timed_mutex = TimedMutex;
+	export const shared_timed_mutex = SharedTimedMutex;
+	export const condition_variable = ConditionVariable;
 
 	/* ---------------------------------------------------------
 		UTILITIES
@@ -128,8 +128,8 @@ namespace std
 	export type pair<T1, T2> = Pair<T1, T2>;
 	export type entry<Key, T> = Entry<Key, T>;
 
-	export var pair = Pair;
-	export var entry = Entry;
+	export const pair = Pair;
+	export const entry = Entry;
 }
 
 namespace std.experimental
@@ -137,8 +137,8 @@ namespace std.experimental
 	export type semaphore = Semaphore;
 	export type timed_semaphore = TimedSemaphore;
 
-	export var semaphore = Semaphore;
-	export var timed_semaphore = TimedSemaphore;
+	export const semaphore = Semaphore;
+	export const timed_semaphore = TimedSemaphore;
 }
 
 try

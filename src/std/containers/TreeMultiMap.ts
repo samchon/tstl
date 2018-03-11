@@ -282,8 +282,8 @@ namespace std.TreeMultiMap
 	export type ReverseIterator<Key, T> = base.MapReverseIterator<Key, T, TreeMultiMap<Key, T>>;
 
 	// BODY
-	export var Iterator = base.MapIterator;
-	export var ReverseIterator = base.MapReverseIterator;
+	export const Iterator = base.MapIterator;
+	export const ReverseIterator = base.MapReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -293,6 +293,6 @@ namespace std.TreeMultiMap
 	export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }

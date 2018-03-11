@@ -338,8 +338,8 @@ namespace std.HashSet
 	export type ReverseIterator<T> = base.SetReverseIterator<T, HashSet<T>>;
 
 	// BODY
-	export var Iterator = base.SetIterator;
-	export var ReverseIterator = base.SetReverseIterator;
+	export const Iterator = base.SetIterator;
+	export const ReverseIterator = base.SetReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -349,6 +349,6 @@ namespace std.HashSet
 	export type reverse_iterator<T> = ReverseIterator<T>;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }
