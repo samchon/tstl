@@ -41,14 +41,14 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [Stack `stack`](http://samchon.github.io/tstl/api/classes/std.stack.html)
     - [PriorityQueue `priority_queue`](http://samchon.github.io/tstl/api/classes/std.priorityqueue.html)
 
-> ### ECON
+> ### ECOL
 > Extension of TSTL Containers dispatching Events.
 > 
-> **ECON** is an extension module of **TSTL**, providing special containers dispatching events. The special containers are almost similar with the original STL Containers, but you also can observe elements' I/O events with the special containers. 
+> **ECOL** is an extension module of **TSTL**, providing special collections dispatching events. The special collections are almost similar with the original STL Containers, but you also can observe elements' I/O events with the special collections. 
 > 
-> Types of the event dispatched by the special containers are `"insert"`, `"erase"` and `"refresh"`.
+> Types of the event dispatched by the special collections are `"insert"`, `"erase"` and `"refresh"`.
 > 
-> - [Visit ECON](https://github.com/samchon/econ)
+> - [Visit ECOL](https://github.com/samchon/ecol)
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
