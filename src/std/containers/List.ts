@@ -94,10 +94,6 @@ namespace std
 		==================================================================
 			UNIQUE & REMOVE(_IF)
 		--------------------------------------------------------------- */
-		public unique(): void;
-
-		public unique(binary_pred: (x: T, y: T) => boolean): void;
-
 		public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 		{
 			let it = this.begin().next();
@@ -135,10 +131,6 @@ namespace std
 		/* ---------------------------------------------------------
 			MERGE & SPLICE
 		--------------------------------------------------------- */
-		public merge<U extends T>(obj: List<U>): void;
-
-		public merge<U extends T>(obj: List<U>, comp: (x: T, y: T) => boolean): void;
-
 		public merge<U extends T>(obj: List<U>, comp: (x: T, y: T) => boolean = less): void
 		{
 			if (this == <List<T>>obj)
@@ -186,10 +178,6 @@ namespace std
 		/* ---------------------------------------------------------
 			SORT & SWAP
 		--------------------------------------------------------- */
-		public sort(): void;
-
-		public sort(comp: (x: T, y: T) => boolean): void;
-
 		public sort(comp: (x: T, y: T) => boolean = less): void
 		{
 			this._Quick_sort(this.begin(), this.end().prev(), comp);

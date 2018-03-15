@@ -215,10 +215,7 @@ namespace std
 		==================================================================
 			UNIQUE & REMOVE(_IF)
 		--------------------------------------------------------------- */
-		public unique(): void;
-		public unique(binary_pred: (left: T, right: T) => boolean): void;
-
-		public unique(binary_pred: (left: T, right: T) => boolean = equal_to): void
+		public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 		{
 			for (let it = this.begin().next(); !it.equals(this.end()); it = it.next())
 			{
@@ -293,9 +290,6 @@ namespace std
 			from.erase_after(first_before, last);
 		}
 
-		public merge<U extends T>(from: ForwardList<U>): void;
-		public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean): void;
-
 		public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = std.less): void
 		{
 			if (this == <ForwardList<T>>from)
@@ -315,9 +309,6 @@ namespace std
 		/* ---------------------------------------------------------------
 			SORT & SWAP
 		--------------------------------------------------------------- */
-		public sort(): void;
-		public sort(comp: (x: T, y: T) => boolean): void;
-
 		public sort(comp: (x: T, y: T) => boolean = less): void
 		{
 			let vec = new Vector<T>(this.begin(), this.end());

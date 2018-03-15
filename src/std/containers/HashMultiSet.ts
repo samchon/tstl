@@ -21,18 +21,14 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		public constructor();
-		public constructor(hash: (val: T) => number);
-		public constructor(hash: (val: T) => number, equal: (x: T, y: T) => boolean);
-
-		public constructor(items: T[]);
-		public constructor(items: T[], hash: (val: T) => number);
-		public constructor(items: T[], hash: (val: T) => number, equal: (x: T, y: T) => boolean);
-
+		public constructor(hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+		public constructor(items: T[], hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
 		public constructor(container: HashMultiSet<T>);
-		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
-		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash: (val: T) => number);
-		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash: (val: T) => number, equal: (x: T, y: T) => boolean);
+		public constructor
+		(
+			first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, 
+			hash?: (val: T) => number, equal?: (x: T, y: T) => boolean
+		);
 
 		public constructor(...args: any[])
 		{

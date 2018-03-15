@@ -21,18 +21,14 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		public constructor();
-		public constructor(hash: (key: Key) => number);
-		public constructor(hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
-
-		public constructor(items: Array<IPair<Key, T>>);
-		public constructor(items: Array<IPair<Key, T>>, hash: (key: Key) => number);
-		public constructor(items: Array<IPair<Key, T>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
-
+		public constructor(hash?: (key: Key) => number, pred?: (x: Key, y: Key) => boolean);
+		public constructor(items: Array<IPair<Key, T>>, hash?: (key: Key) => number, pred?: (x: Key, y: Key) => boolean);
 		public constructor(container: HashMultiMap<Key, T>);
-		public constructor(begin: Readonly<IForwardIterator<IPair<Key, T>>>, end: Readonly<IForwardIterator<IPair<Key, T>>>);
-		public constructor(begin: Readonly<IForwardIterator<IPair<Key, T>>>, end: Readonly<IForwardIterator<IPair<Key, T>>>, hash: (key: Key) => number);
-		public constructor(begin: Readonly<IForwardIterator<IPair<Key, T>>>, end: Readonly<IForwardIterator<IPair<Key, T>>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
+		public constructor
+		(
+			begin: Readonly<IForwardIterator<IPair<Key, T>>>, end: Readonly<IForwardIterator<IPair<Key, T>>>, 
+			hash?: (key: Key) => number, pred?: (x: Key, y: Key) => boolean
+		);
 
 		public constructor(...args: any[])
 		{

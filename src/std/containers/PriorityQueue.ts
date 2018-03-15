@@ -28,12 +28,9 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		public constructor();
-		public constructor(comp: (x: T, y: T) => boolean);
-
+		public constructor(comp?: (x: T, y: T) => boolean);
 		public constructor(obj: PriorityQueue<T>);
-		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
-		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, comp: (x: T, y: T) => boolean);
+		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, comp?: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{

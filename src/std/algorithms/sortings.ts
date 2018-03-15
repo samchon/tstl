@@ -11,12 +11,6 @@ namespace std
 		SORT
 	--------------------------------------------------------- */
 	export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-		(first: RandomAccessIterator, last: RandomAccessIterator): void;
-
-	export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
-
-	export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
 		let size: number = last.index() - first.index();
@@ -46,12 +40,6 @@ namespace std
 	}
 
 	export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-		(first: RandomAccessIterator, last: RandomAccessIterator): void;
-
-	export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
-
-	export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
 		let ramda = function (x: T, y: T): boolean
@@ -60,15 +48,6 @@ namespace std
 		};
 		sort(first, last, ramda);
 	}
-
-	export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-		(first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator): void;
-
-	export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-		(
-			first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
-			comp: (x: T, y: T) => boolean
-		): void
 
 	export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(
@@ -94,23 +73,6 @@ namespace std
 			RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>>
 		(
 			first: InputIterator, last: InputIterator, 
-			result_first: RandomAccessIterator, result_last: RandomAccessIterator
-		): RandomAccessIterator;
-
-	export function partial_sort_copy<T, 
-			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-			RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>>
-		(
-			first: InputIterator, last: InputIterator, 
-			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
-			comp: (x: T, y: T) => boolean
-		): RandomAccessIterator;
-
-	export function partial_sort_copy<T, 
-			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-			RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>>
-		(
-			first: InputIterator, last: InputIterator, 
 			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
 			comp: (x: T, y: T) => boolean = less
 		): RandomAccessIterator
@@ -130,12 +92,6 @@ namespace std
 	}
 
 	export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator): void;
-
-	export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean): void;
-
-	export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean = less): void
 	{
 		nth.index(); // TODO: How to utilize it?
@@ -146,12 +102,6 @@ namespace std
 	/* ---------------------------------------------------------
 		INSPECTOR
 	--------------------------------------------------------- */
-	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator): boolean;
-
-	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): boolean;
-
 	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): boolean
 	{
@@ -167,12 +117,6 @@ namespace std
 		}
 		return true;
 	}
-
-	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
-
-	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
 	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator

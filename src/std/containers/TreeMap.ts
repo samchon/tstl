@@ -21,18 +21,13 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		public constructor();
-		public constructor(comp: (x: Key, y: Key) => boolean);
-
-		public constructor(array: Array<IPair<Key, T>>);
-		public constructor(array: Array<IPair<Key, T>>, comp: (x: Key, y: Key) => boolean);
-
+		public constructor(comp?: (x: Key, y: Key) => boolean);
+		public constructor(array: Array<IPair<Key, T>>, comp?: (x: Key, y: Key) => boolean);
 		public constructor(obj: TreeMap<Key, T>);
-		public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>);
 		public constructor
 			(
 				first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>,
-				comp: (x: Key, y: Key) => boolean
+				comp?: (x: Key, y: Key) => boolean
 			);
 		
 		public constructor(...args: any[])

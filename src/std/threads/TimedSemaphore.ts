@@ -57,9 +57,6 @@ namespace std.experimental
 		/* ---------------------------------------------------------
 			ACQURE & RELEASE
 		--------------------------------------------------------- */
-		public lock(): Promise<void>;
-		public lock(count: number): Promise<void>;
-
 		public lock(count: number = 1): Promise<void>
 		{
 			return new Promise<void>((resolve, reject) =>
@@ -89,9 +86,6 @@ namespace std.experimental
 			});
 		}
 
-		public try_lock(): boolean;
-		public try_lock(count: number): boolean;
-
 		public try_lock(count: number = 1): boolean
 		{
 			// VALIDATE PARAMETER
@@ -105,9 +99,6 @@ namespace std.experimental
 			this.locked_count_ += count;
 			return true;
 		}
-
-		public unlock(): Promise<void>;
-		public unlock(count: number): Promise<void>;
 
 		public async unlock(count: number = 1): Promise<void>
 		{
@@ -156,9 +147,6 @@ namespace std.experimental
 		/* ---------------------------------------------------------
 			TIMED ACQUIRE
 		--------------------------------------------------------- */
-		public try_lock_for(ms: number): Promise<boolean>;
-		public try_lock_for(ms: number, count: number): Promise<boolean>;
-
 		public async try_lock_for(ms: number, count: number = 1): Promise<boolean>
 		{
 			return new Promise<boolean>((resolve, reject) =>
@@ -215,9 +203,6 @@ namespace std.experimental
 					resolve(true);
 			});
 		}
-
-		public try_lock_until(at: Date): Promise<boolean>;
-		public try_lock_until(at: Date, count: number): Promise<boolean>;
 
 		public try_lock_until(at: Date, count: number = 1): Promise<boolean>
 		{

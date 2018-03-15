@@ -21,15 +21,10 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		public constructor();
-		public constructor(compare: (x: T, y: T) => boolean);
-
-		public constructor(array: Array<T>);
-		public constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
-
+		public constructor(compare?: (x: T, y: T) => boolean);
+		public constructor(array: Array<T>, compare?: (x: T, y: T) => boolean);
 		public constructor(container: TreeMultiSet<T>);
-		public constructor(begin: Readonly<IForwardIterator<T>>, end: Readonly<IForwardIterator<T>>);
-		public constructor(begin: Readonly<IForwardIterator<T>>, end: Readonly<IForwardIterator<T>>, compare: (x: T, y: T) => boolean);
+		public constructor(begin: Readonly<IForwardIterator<T>>, end: Readonly<IForwardIterator<T>>, compare?: (x: T, y: T) => boolean);
 
 		public constructor(...args: any[])
 		{

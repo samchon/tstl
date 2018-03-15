@@ -52,9 +52,6 @@ namespace std.experimental
 		/* ---------------------------------------------------------
 			ACQURE & RELEASE
 		--------------------------------------------------------- */
-		public lock(): Promise<void>;
-		public lock(count: number): Promise<void>;
-
 		public lock(count: number = 1): Promise<void>
 		{
 			return new Promise<void>((resolve, reject) =>
@@ -80,9 +77,6 @@ namespace std.experimental
 			});
 		}
 
-		public try_lock(): boolean;
-		public try_lock(count: number): boolean;
-
 		public try_lock(count: number = 1): boolean
 		{
 			// VALIDATE PARAMETER
@@ -96,9 +90,6 @@ namespace std.experimental
 			this.locked_count_ += count;
 			return true;
 		}
-
-		public unlock(): Promise<void>;
-		public unlock(count: number): Promise<void>;
 
 		public async unlock(count: number = 1): Promise<void>
 		{
