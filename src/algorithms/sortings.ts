@@ -4,7 +4,7 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
 import { Vector } from "../containers/Vector";
-import { less, equal_to } from "../functors/functional/comparisons";
+import { less, equal_to } from "../functional/comparisons";
 import { distance } from "../iterators/global";
 import { iter_swap, copy } from "./modifiers";
 
@@ -16,12 +16,6 @@ import { iter_swap, copy } from "./modifiers";
 ============================================================
 	SORT
 --------------------------------------------------------- */
-export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator): void;
-
-export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
-
 export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
@@ -52,12 +46,6 @@ export function sort<T, RandomAccessIterator extends General<IRandomAccessIterat
 }
 
 export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator): void;
-
-export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
-
-export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
 	let ramda = function (x: T, y: T): boolean
@@ -66,15 +54,6 @@ export function stable_sort<T, RandomAccessIterator extends General<IRandomAcces
 	};
 	sort(first, last, ramda);
 }
-
-export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator): void;
-
-export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(
-		first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
-		comp: (x: T, y: T) => boolean
-	): void
 
 export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(
@@ -100,23 +79,6 @@ export function partial_sort_copy<T,
 		RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>>
 	(
 		first: InputIterator, last: InputIterator, 
-		result_first: RandomAccessIterator, result_last: RandomAccessIterator
-	): RandomAccessIterator;
-
-export function partial_sort_copy<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>>
-	(
-		first: InputIterator, last: InputIterator, 
-		result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
-		comp: (x: T, y: T) => boolean
-	): RandomAccessIterator;
-
-export function partial_sort_copy<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>>
-	(
-		first: InputIterator, last: InputIterator, 
 		result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
 		comp: (x: T, y: T) => boolean = less
 	): RandomAccessIterator
@@ -136,12 +98,6 @@ export function partial_sort_copy<T,
 }
 
 export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator): void;
-
-export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean): void;
-
-export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean = less): void
 {
 	nth.index(); // TODO: How to utilize it?
@@ -152,12 +108,6 @@ export function nth_element<T, RandomAccessIterator extends General<IRandomAcces
 /* ---------------------------------------------------------
 	INSPECTOR
 --------------------------------------------------------- */
-export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator): boolean;
-
-export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): boolean;
-
 export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 	(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): boolean
 {
@@ -173,12 +123,6 @@ export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T
 	}
 	return true;
 }
-
-export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
-
-export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): ForwardIterator;
 
 export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 	(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator

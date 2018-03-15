@@ -1,4 +1,4 @@
-import { factorial, sigma } from "../../base/maths/MathUtil";
+import { factorial, sigma } from "../base/maths/MathUtil";
 
 /**
  * @hidden

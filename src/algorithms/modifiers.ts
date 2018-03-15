@@ -4,7 +4,7 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IBidirectionalIterator } from "../iterators/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
-import { equal_to } from "../functors/functional/comparisons";
+import { equal_to } from "../functional/comparisons";
 import { randint } from "./randoms";
 
 /* =========================================================
@@ -110,15 +110,15 @@ export function transform<T, Ret,
 export function transform(...args: any[]): any
 {
 	if (args.length == 4)
-		return unary_transform.apply(null, args);
+		return _Unary_transform.apply(null, args);
 	else // args: #5
-		return binary_transform.apply(null, args);
+		return _Binary_transform.apply(null, args);
 }
 
 /**
  * @hidden
  */
-function unary_transform<T, Ret, 
+function _Unary_transform<T, Ret, 
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
 		OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
 	(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => Ret): OutputIterator
@@ -134,7 +134,7 @@ function unary_transform<T, Ret,
 /**
  * @hidden
  */
-function binary_transform<T, Ret,
+function _Binary_transform<T, Ret,
 		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
 		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>, 
 		OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
@@ -176,12 +176,6 @@ export function generate_n<T, ForwardIterator extends Writeonly<IForwardIterator
 	REMOVE
 --------------------------------------------------------- */
 export function unique<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
-	(first: InputIterator, last: InputIterator): InputIterator;
-
-export function unique<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
-	(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean): InputIterator;
-
-export function unique<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
 	(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = equal_to): InputIterator
 {
 	if (first.equals(last))
@@ -196,19 +190,6 @@ export function unique<T, InputIterator extends General<IForwardIterator<T, Inpu
 		}
 	return ret.next();
 }
-
-export function unique_copy<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, result: OutputIterator): OutputIterator;
-
-export function unique_copy<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(
-		first: InputIterator, last: InputIterator, result: OutputIterator, 
-		pred: (x: T, y: T) => boolean
-	): OutputIterator;
 
 export function unique_copy<T, 
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 

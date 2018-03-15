@@ -5,9 +5,9 @@ import { _SetHashBuckets } from "../base/hashes/_SetHashBuckets";
 import { SetIterator, SetReverseIterator } from "../base/iterators/SetIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { Pair } from "../functors/utilities/Pair";
-import { hash } from "../functors/functional/hash";
-import { equal_to } from "../functors/functional/comparisons";
+import { Pair } from "../utilities/Pair";
+import { hash } from "../functional/hash";
+import { equal_to } from "../functional/comparisons";
 
 export class HashSet<T>
 	extends UniqueSet<T, HashSet<T>>
@@ -25,18 +25,15 @@ export class HashSet<T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
-	public constructor();
-	public constructor(hash: (val: T) => number);
-	public constructor(hash: (val: T) => number, equal: (x: T, y: T) => boolean);
-
-	public constructor(items: T[]);
-	public constructor(items: T[], hash: (val: T) => number);
-	public constructor(items: T[], hash: (val: T) => number, equal: (x: T, y: T) => boolean);
-
-	public constructor(container: HashSet<T>);
-	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
-	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash: (val: T) => number);
-	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash: (val: T) => number, equal: (x: T, y: T) => boolean);
+	public constructor(hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+	public constructor(items: T[], hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+	public constructor(obj: HashSet<T>);
+	public constructor
+	(
+		first: Readonly<IForwardIterator<T>>, 
+		last: Readonly<IForwardIterator<T>>, 
+		hash?: (val: T) => number, equal?: (x: T, y: T) => boolean
+	);
 
 	public constructor(...args: any[])
 	{

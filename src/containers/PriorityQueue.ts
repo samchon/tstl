@@ -1,7 +1,7 @@
 ﻿import { IForwardIterator } from "../iterators/IForwardIterator";
 
 import { TreeMultiSet } from "./TreeMultiSet";
-import { less } from "../functors/functional/comparisons";
+import { less } from "../functional/comparisons";
 
 export class PriorityQueue<T>
 {
@@ -29,12 +29,14 @@ export class PriorityQueue<T>
 	/* ---------------------------------------------------------
 		CONSTURCTORS
 	--------------------------------------------------------- */
-	public constructor();
-	public constructor(comp: (x: T, y: T) => boolean);
-
+	public constructor(comp?: (x: T, y: T) => boolean);
 	public constructor(obj: PriorityQueue<T>);
-	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
-	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, comp: (x: T, y: T) => boolean);
+	public constructor
+	(
+		first: Readonly<IForwardIterator<T>>, 
+		last: Readonly<IForwardIterator<T>>, 
+		comp?: (x: T, y: T) => boolean
+	);
 
 	public constructor(...args: any[])
 	{

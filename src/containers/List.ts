@@ -4,9 +4,9 @@ import { ILinearContainer } from "../base/interfaces/ILinearContainer";
 import { ListIterator } from "../base/iterators/ListIterator";
 import { ReverseIterator as ReverseIteratorBase } from "../base/iterators/ReverseIterator";
 
-import { IPointer } from "../functors/functional/IPointer";
+import { IPointer } from "../functional/IPointer";
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { less, equal_to } from "../functors/functional/comparisons";
+import { less, equal_to } from "../functional/comparisons";
 
 export class List<T>
 	extends ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
@@ -27,7 +27,7 @@ export class List<T>
 	public constructor();
 	public constructor(items: Array<T>);
 	public constructor(size: number, val: T);
-	public constructor(container: List<T>);
+	public constructor(obj: List<T>);
 	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 	public constructor(...args: any[])
@@ -97,10 +97,6 @@ export class List<T>
 	==================================================================
 		UNIQUE & REMOVE(_IF)
 	--------------------------------------------------------------- */
-	public unique(): void;
-
-	public unique(binary_pred: (x: T, y: T) => boolean): void;
-
 	public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 	{
 		let it = this.begin().next();
@@ -138,10 +134,6 @@ export class List<T>
 	/* ---------------------------------------------------------
 		MERGE & SPLICE
 	--------------------------------------------------------- */
-	public merge<U extends T>(obj: List<U>): void;
-
-	public merge<U extends T>(obj: List<U>, comp: (x: T, y: T) => boolean): void;
-
 	public merge<U extends T>(obj: List<U>, comp: (x: T, y: T) => boolean = less): void
 	{
 		if (this == <List<T>>obj)
@@ -160,12 +152,8 @@ export class List<T>
 	}
 
 	public splice<U extends T>(position: List.Iterator<T>, obj: List<U>): void;
-	
 	public splice<U extends T>(position: List.Iterator<T>, obj: List<U>, it: List.Iterator<U>): void;
-	
-	public splice<U extends T>
-		(position: List.Iterator<T>, obj: List<U>, first: List.Iterator<U>, last: List.Iterator<U>): void;
-
+	public splice<U extends T>(position: List.Iterator<T>, obj: List<U>, first: List.Iterator<U>, last: List.Iterator<U>): void;
 	public splice<U extends T>
 		(
 			position: List.Iterator<T>, obj: List<U>, 
@@ -189,10 +177,6 @@ export class List<T>
 	/* ---------------------------------------------------------
 		SORT & SWAP
 	--------------------------------------------------------- */
-	public sort(): void;
-
-	public sort(comp: (x: T, y: T) => boolean): void;
-
 	public sort(comp: (x: T, y: T) => boolean = less): void
 	{
 		this._Quick_sort(this.begin(), this.end().prev(), comp);

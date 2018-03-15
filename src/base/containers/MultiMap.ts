@@ -3,7 +3,7 @@ import { MapContainer } from "./MapContainer";
 import { MapIterator } from "../iterators/MapIterator";
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 
-import { IPair } from "../../functors/utilities/IPair";
+import { IPair } from "../../utilities/IPair";
 
 export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	extends MapContainer<Key, T, Source>

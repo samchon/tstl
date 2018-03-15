@@ -1,4 +1,4 @@
-import * as std from "../../../index";
+import * as std from "../../index";
 
 export async function test_sleeps(): Promise<void>
 {

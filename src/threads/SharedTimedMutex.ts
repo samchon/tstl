@@ -1,9 +1,9 @@
 import { ILockable } from "./ILockable";
-import { _LockType } from "../../base/threads/_LockType";
+import { _LockType } from "../base/threads/_LockType";
 
 import { sleep_for } from "./global";
 import { RangeError } from "../exceptions/RuntimeError";
-import { HashMap } from "../../containers/HashMap";
+import { HashMap } from "../containers/HashMap";
 
 export class SharedTimedMutex implements ILockable
 {

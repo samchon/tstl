@@ -2,7 +2,7 @@ import { ArrayContainer } from "../base/containers/ArrayContainer";
 import { ArrayIterator, ArrayReverseIterator } from "../base/iterators/ArrayIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { OutOfRange } from "../functors/exceptions/LogicError";
+import { OutOfRange } from "../exceptions/LogicError";
 
 export class Vector<T>
 	extends ArrayContainer<T, Vector<T>>
@@ -21,7 +21,7 @@ export class Vector<T>
 	--------------------------------------------------------- */
 	public constructor();
 	public constructor(array: Array<T>);
-	public constructor(container: Vector<T>);
+	public constructor(obj: Vector<T>);
 	public constructor(n: number, val: T);
 	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 	

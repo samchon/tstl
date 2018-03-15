@@ -1,4 +1,4 @@
-import { sigma, factorial } from "../../base/maths/MathUtil";
+import { sigma, factorial } from "../base/maths/MathUtil";
 import { tgamma } from "./gamma";
 
 import { DomainError } from "../exceptions/LogicError";

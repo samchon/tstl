@@ -1,6 +1,6 @@
 import { ILockable } from "./ILockable";
 
-import { Queue } from "../../containers/Queue";
+import { Queue } from "../containers/Queue";
 import { Pair } from "../utilities/Pair";
 import { OutOfRange } from "../exceptions/LogicError";
 import { RangeError } from "../exceptions/RuntimeError";

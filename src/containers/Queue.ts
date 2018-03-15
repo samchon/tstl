@@ -9,14 +9,14 @@ export class Queue<T>
 	--------------------------------------------------------- */
 	public constructor();
 
-	public constructor(container: Queue<T>);
+	public constructor(obj: Queue<T>);
 
-	public constructor(queue: Queue<T> = null)
+	public constructor(obj: Queue<T> = null)
 	{
 		this.source_ = new List<T>();
 
-		if (queue != null)
-			this.source_.assign(queue.source_.begin(), queue.source_.end());
+		if (obj != null)
+			this.source_.assign(obj.source_.begin(), obj.source_.end());
 	}
 
 	/* ---------------------------------------------------------

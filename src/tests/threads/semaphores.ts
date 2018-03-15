@@ -1,4 +1,4 @@
-import * as std from "../../../index";
+import * as std from "../../index";
 
 import { _Test_lock, _Test_try_lock } from "./mutexes";
 

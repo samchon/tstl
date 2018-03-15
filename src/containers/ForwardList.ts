@@ -1,11 +1,11 @@
 import { IForwardContainer } from "../base/disposable/IForwardContainer";
 import { IForwardIterator } from "../iterators/IForwardIterator";
 
-import { IPointer } from "../functors/functional/IPointer";
+import { IPointer } from "../functional/IPointer";
 import { _Repeater } from "../base/iterators/_Repeater";
 import { ForOfAdaptor } from "../base/iterators/ForOfAdaptor";
 
-import { less, equal_to } from "../functors/functional/comparisons";
+import { less, equal_to } from "../functional/comparisons";
 import { distance } from "../iterators/global";
 import { sort } from "../algorithms/sortings";
 import { Vector } from "./Vector";
@@ -223,9 +223,6 @@ export class ForwardList<T>
 	==================================================================
 		UNIQUE & REMOVE(_IF)
 	--------------------------------------------------------------- */
-	public unique(): void;
-	public unique(binary_pred: (left: T, right: T) => boolean): void;
-
 	public unique(binary_pred: (left: T, right: T) => boolean = equal_to): void
 	{
 		for (let it = this.begin().next(); !it.equals(this.end()); it = it.next())
@@ -301,9 +298,6 @@ export class ForwardList<T>
 		from.erase_after(first_before, last);
 	}
 
-	public merge<U extends T>(from: ForwardList<U>): void;
-	public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean): void;
-
 	public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = less): void
 	{
 		if (this == <ForwardList<T>>from)
@@ -323,9 +317,6 @@ export class ForwardList<T>
 	/* ---------------------------------------------------------------
 		SORT & SWAP
 	--------------------------------------------------------------- */
-	public sort(): void;
-	public sort(comp: (x: T, y: T) => boolean): void;
-
 	public sort(comp: (x: T, y: T) => boolean = less): void
 	{
 		let vec = new Vector<T>(this.begin(), this.end());

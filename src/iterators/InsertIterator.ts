@@ -1,7 +1,7 @@
 import { IForwardIterator } from "./IForwardIterator";
 
 import { _IInsert } from "../base/disposable/IPartialContainers";
-import { equal_to } from "../functors/functional/comparisons";
+import { equal_to } from "../functional/comparisons";
 
 export class InsertIterator<T, 
 		Container extends _IInsert<T, Iterator>, 

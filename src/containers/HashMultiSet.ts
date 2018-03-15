@@ -5,8 +5,8 @@ import { _SetHashBuckets } from "../base/hashes/_SetHashBuckets";
 import { SetIterator, SetReverseIterator } from "../base/iterators/SetIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { hash } from "../functors/functional/hash";
-import { equal_to } from "../functors/functional/comparisons";
+import { hash } from "../functional/hash";
+import { equal_to } from "../functional/comparisons";
 
 export class HashMultiSet<T>
 	extends MultiSet<T, HashMultiSet<T>>
@@ -24,18 +24,15 @@ export class HashMultiSet<T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
-	public constructor();
-	public constructor(hash: (val: T) => number);
-	public constructor(hash: (val: T) => number, equal: (x: T, y: T) => boolean);
-
-	public constructor(items: T[]);
-	public constructor(items: T[], hash: (val: T) => number);
-	public constructor(items: T[], hash: (val: T) => number, equal: (x: T, y: T) => boolean);
-
-	public constructor(container: HashMultiSet<T>);
-	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
-	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash: (val: T) => number);
-	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash: (val: T) => number, equal: (x: T, y: T) => boolean);
+	public constructor(hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+	public constructor(items: T[], hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+	public constructor(obj: HashMultiSet<T>);
+	public constructor
+	(
+		first: Readonly<IForwardIterator<T>>, 
+		last: Readonly<IForwardIterator<T>>, 
+		hash?: (val: T) => number, equal?: (x: T, y: T) => boolean
+	);
 
 	public constructor(...args: any[])
 	{

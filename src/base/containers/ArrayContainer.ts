@@ -5,8 +5,8 @@ import { ArrayIterator, ArrayReverseIterator } from "../iterators/ArrayIterator"
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 import { _Repeater } from "../iterators/_Repeater";
 
-import { InvalidArgument, LengthError } from "../../functors/exceptions/LogicError";
-import { RangeError } from "../../functors/exceptions/RuntimeError";
+import { InvalidArgument, LengthError } from "../../exceptions/LogicError";
+import { RangeError } from "../../exceptions/RuntimeError";
 
 export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, SourceT>>
 	extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>

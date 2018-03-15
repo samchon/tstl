@@ -1,7 +1,7 @@
 import * as fs from "fs";
-import * as std from "../../../index";
+import * as std from "../../index";
 
-const PATH = __dirname + "/../../../src/tests/functors/special_math";
+const PATH = __dirname + "/../../src/tests/special_math";
 
 export function similar(x: number, y: number, precision = .05): boolean
 {

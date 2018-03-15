@@ -5,9 +5,9 @@ import { _UniqueSetTree } from "../base/trees/_UniqueSetTree";
 import { SetIterator, SetReverseIterator } from "../base/iterators/SetIterator";
 import { IForwardIterator } from "../iterators/IForwardIterator";
 
-import { less } from "../functors/functional/comparisons";
+import { less } from "../functional/comparisons";
 import { is_sorted } from "../algorithms/sortings";
-import { Pair } from "../functors/utilities/Pair";
+import { Pair } from "../utilities/Pair";
 import { Vector } from "./Vector";
 
 export class TreeSet<T>
@@ -26,15 +26,15 @@ export class TreeSet<T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
-	public constructor();
-	public constructor(compare: (x: T, y: T) => boolean);
-
-	public constructor(array: Array<T>);
-	public constructor(array: Array<T>, compare: (x: T, y: T) => boolean);
-
-	public constructor(container: TreeSet<T>);
-	public constructor(begin: Readonly<IForwardIterator<T>>, end: Readonly<IForwardIterator<T>>);
-	public constructor(begin: Readonly<IForwardIterator<T>>, end: Readonly<IForwardIterator<T>>, compare: (x: T, y: T) => boolean);
+	public constructor(comp?: (x: T, y: T) => boolean);
+	public constructor(array: Array<T>, comp?: (x: T, y: T) => boolean);
+	public constructor(obj: TreeSet<T>);
+	public constructor
+	(
+		first: Readonly<IForwardIterator<T>>, 
+		last: Readonly<IForwardIterator<T>>, 
+		comp?: (x: T, y: T) => boolean
+	);
 
 	public constructor(...args: any[])
 	{

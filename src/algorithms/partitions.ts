@@ -4,7 +4,7 @@ import { IBidirectionalIterator } from "../iterators/IBidirectionalIterator";
 
 import { iter_swap } from "./modifiers";
 import { distance, advance } from "../iterators/global";
-import { Pair } from "../functors/utilities/Pair";
+import { Pair } from "../utilities/Pair";
 
 /* =========================================================
 	PARTITION

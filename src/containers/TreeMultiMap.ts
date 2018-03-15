@@ -6,12 +6,12 @@ import { _XTreeNode } from "../base/trees/_XTreeNode";
 import { MapIterator, MapReverseIterator } from "../base/iterators/MapIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { IPair } from "../functors/utilities/IPair";
-import { Pair } from "../functors/utilities/Pair";
-import { Entry } from "../functors/utilities/Entry";
+import { IPair } from "../utilities/IPair";
+import { Pair } from "../utilities/Pair";
+import { Entry } from "../utilities/Entry";
 
 import { is_sorted } from "../algorithms/sortings";
-import { less } from "../functors/functional/comparisons";
+import { less } from "../functional/comparisons";
 import { Vector } from "./Vector";
 
 export class TreeMultiMap<Key, T>
@@ -30,19 +30,14 @@ export class TreeMultiMap<Key, T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
-	public constructor();
-	public constructor(compare: (x: Key, y: Key) => boolean);
-
-	public constructor(array: Array<IPair<Key, T>>);
-	public constructor(array: Array<IPair<Key, T>>, compare: (x: Key, y: Key) => boolean);
-
-	public constructor(container: TreeMultiMap<Key, T>);
-	public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>);
+	public constructor(comp?: (x: Key, y: Key) => boolean);
+	public constructor(array: Array<IPair<Key, T>>, comp?: (x: Key, y: Key) => boolean);
+	public constructor(obj: TreeMultiMap<Key, T>);
 	public constructor
 	(
 		first: Readonly<IForwardIterator<IPair<Key, T>>>, 
 		last: Readonly<IForwardIterator<IPair<Key, T>>>, 
-		compare: (x: Key, y: Key) => boolean
+		comp?: (x: Key, y: Key) => boolean
 	);
 
 	public constructor(...args: any[])

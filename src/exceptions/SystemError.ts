@@ -1,5 +1,5 @@
 import { RuntimeError } from "./RuntimeError";
-import { ErrorInstance } from "../../base/ErrorInstance";
+import { ErrorInstance } from "../base/ErrorInstance";
 
 import { equal_to } from "../functional/comparisons";
 

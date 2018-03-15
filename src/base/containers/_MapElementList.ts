@@ -3,7 +3,7 @@ import { ListContainer } from "./ListContainer";
 import { MapContainer } from "./MapContainer";
 import { MapIterator, MapReverseIterator } from "../iterators/MapIterator";
 
-import { Entry } from "../../functors/utilities/Entry";
+import { Entry } from "../../utilities/Entry";
 
 /**
  * @hidden

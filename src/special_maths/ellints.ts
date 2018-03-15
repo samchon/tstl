@@ -1,5 +1,5 @@
 import { DomainError } from "../exceptions/LogicError";
-import { integral } from "../../base/maths/MathUtil";
+import { integral } from "../base/maths/MathUtil";
 
 /* ---------------------------------------------------------------
 	FIRST

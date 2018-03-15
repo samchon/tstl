@@ -3,20 +3,14 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
 import { iter_swap } from "./modifiers";
-import { less } from "../functors/functional/comparisons";
+import { less } from "../functional/comparisons";
 import { sort } from "./sortings";
 
-import { InvalidArgument } from "../functors/exceptions/LogicError";
+import { InvalidArgument } from "../exceptions/LogicError";
 
 /* =========================================================
 	HEAPS
 ========================================================= */
-export function make_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator): void;
-
-export function make_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
-
 export function make_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
@@ -26,12 +20,6 @@ export function make_heap<T, RandomAccessIterator extends General<IRandomAccessI
 	};
 	sort(first, last, heap_compare);
 }
-
-export function push_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator): void;
-
-export function push_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
 
 export function push_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
@@ -53,12 +41,6 @@ export function push_heap<T, RandomAccessIterator extends General<IRandomAccessI
 }
 
 export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator): void;
-
-export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean): void;
-
-export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
 	if (is_heap(first, last, comp) == false)
@@ -68,24 +50,12 @@ export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIt
 }
 
 export function is_heap<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator): boolean;
-
-export function is_heap<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean): boolean;
-
-export function is_heap<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 	(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): boolean
 {
 	let it = is_heap_until(first, last, compare);
 
 	return it.equals(last);
 }
-
-export function is_heap_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator): ForwardIterator;
-
-export function is_heap_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean): ForwardIterator;
 
 export function is_heap_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 	(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): ForwardIterator
@@ -100,12 +70,6 @@ export function is_heap_until<T, ForwardIterator extends Readonly<IForwardIterat
 	}
 	return last;
 }
-
-export function sort_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator): void;
-
-export function sort_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean): void;
 
 export function sort_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, compare: (x: T, y: T) => boolean = less): void

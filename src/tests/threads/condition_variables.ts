@@ -1,4 +1,4 @@
-import * as std from "../../../index";
+import * as std from "../../index";
 
 const SLEEP_TIME: number = 100;
 const WAIT_COUNT: number = 10;

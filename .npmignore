@@ -8,6 +8,7 @@
 node_modules/
 build/
 src/
+tests/
 
 *.log
 *.*ignore

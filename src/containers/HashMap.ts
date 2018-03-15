@@ -5,12 +5,12 @@ import { MapIterator, MapReverseIterator } from "../base/iterators/MapIterator";
 import { _MapHashBuckets } from "../base/hashes/_MapHashBuckets";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { IPair } from "../functors/utilities/IPair";
-import { Pair } from "../functors/utilities/Pair";
-import { Entry } from "../functors/utilities/Entry";
+import { IPair } from "../utilities/IPair";
+import { Pair } from "../utilities/Pair";
+import { Entry } from "../utilities/Entry";
 
-import { hash } from "../functors/functional/hash";
-import { equal_to } from "../functors/functional/comparisons";
+import { hash } from "../functional/hash";
+import { equal_to } from "../functional/comparisons";
 
 export class HashMap<Key, T>
 	extends UniqueMap<Key, T, HashMap<Key, T>>
@@ -28,18 +28,15 @@ export class HashMap<Key, T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
-	public constructor();
-	public constructor(hash: (key: Key) => number);
-	public constructor(hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
-
-	public constructor(items: Array<IPair<Key, T>>);
-	public constructor(items: Array<IPair<Key, T>>, hash: (key: Key) => number);
-	public constructor(items: Array<IPair<Key, T>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
-
-	public constructor(container: HashMap<Key, T>);
-	public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>);
-	public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>, hash: (key: Key) => number);
-	public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean);
+	public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+	public constructor(items: Array<IPair<Key, T>>, hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+	public constructor(obj: HashMap<Key, T>);
+	public constructor
+	(
+		first: Readonly<IForwardIterator<IPair<Key, T>>>, 
+		last: Readonly<IForwardIterator<IPair<Key, T>>>, 
+		hash?: (key: Key) => number, pred?: (x: Key, y: Key) => boolean
+	);
 
 	public constructor(...args: any[])
 	{

@@ -5,10 +5,10 @@ import { _UniqueMapTree } from "../base/trees/_UniqueMapTree";
 import { MapIterator, MapReverseIterator } from "../base/iterators/MapIterator";
 import { IForwardIterator } from "../iterators/IForwardIterator";
 
-import { IPair } from "../functors/utilities/IPair";
-import { Pair } from "../functors/utilities/Pair";
-import { Entry } from "../functors/utilities/Entry";
-import { less } from "../functors/functional/comparisons";
+import { IPair } from "../utilities/IPair";
+import { Pair } from "../utilities/Pair";
+import { Entry } from "../utilities/Entry";
+import { less } from "../functional/comparisons";
 import { is_sorted } from "../algorithms/sortings";
 
 import { Vector } from "./Vector";
@@ -29,19 +29,15 @@ export class TreeMap<Key, T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
-	public constructor();
-	public constructor(comp: (x: Key, y: Key) => boolean);
-
-	public constructor(array: Array<IPair<Key, T>>);
-	public constructor(array: Array<IPair<Key, T>>, comp: (x: Key, y: Key) => boolean);
-
+	public constructor(comp?: (x: Key, y: Key) => boolean);
+	public constructor(array: Array<IPair<Key, T>>, comp?: (x: Key, y: Key) => boolean);
 	public constructor(obj: TreeMap<Key, T>);
-	public constructor(first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>);
 	public constructor
-		(
-			first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>,
-			comp: (x: Key, y: Key) => boolean
-		);
+	(
+		first: Readonly<IForwardIterator<IPair<Key, T>>>, 
+		last: Readonly<IForwardIterator<IPair<Key, T>>>,
+		comp?: (x: Key, y: Key) => boolean
+	);
 	
 	public constructor(...args: any[])
 	{
