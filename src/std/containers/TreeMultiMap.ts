@@ -21,14 +21,40 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		public constructor(compare?: (x: Key, y: Key) => boolean);
-		public constructor(array: Array<IPair<Key, T>>, compare?: (x: Key, y: Key) => boolean);
-		public constructor(container: TreeMultiMap<Key, T>);
+		/**
+		 * Default Constructor.
+		 * 
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
+		public constructor(comp?: (x: Key, y: Key) => boolean);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
+		public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+
+		/**
+		 * Copy Constructor.
+		 * 
+		 * @param obj Object to copy.
+		 */
+		public constructor(obj: TreeMultiMap<Key, T>);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
 		public constructor
 		(
 			first: Readonly<IForwardIterator<IPair<Key, T>>>, 
 			last: Readonly<IForwardIterator<IPair<Key, T>>>, 
-			compare?: (x: Key, y: Key) => boolean
+			comp?: (x: Key, y: Key) => boolean
 		);
 
 		public constructor(...args: any[])

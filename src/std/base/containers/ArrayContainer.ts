@@ -8,10 +8,10 @@ namespace std.base
 		extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 		implements ILinearContainer<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 	{
-		protected constructor()
-		{
-			super();
-		}
+		/**
+		 * @inheritDoc
+		 */
+		public abstract resize(n: number): void;
 
 		/* =========================================================
 			ACCESSORS
@@ -20,11 +20,17 @@ namespace std.base
 		============================================================
 			ITERATORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public begin(): ArrayIterator<T, SourceT>
 		{
 			return new ArrayIterator(<any>this, 0);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public end(): ArrayIterator<T, SourceT>
 		{
 			return new ArrayIterator(<any>this, this.size());
@@ -33,10 +39,29 @@ namespace std.base
 		/* ---------------------------------------------------------
 			INDEXES
 		--------------------------------------------------------- */
+		/**
+		 * Get element at specific position.
+		 * 
+		 * @param index Specific position.
+		 * @return The element at the *index*.
+		 */
 		public abstract at(index: number): T;
+
+		/**
+		 * Change element at specific position.
+		 * 
+		 * @param index Specific position.
+		 * @param val The new value to change.
+		 */
 		public abstract set(index: number, val: T): void;
 
+		/**
+		 * @inheritDoc
+		 */
 		public front(): T;
+		/**
+		 * @inheritDoc
+		 */
 		public front(val: T): void;
 		public front(val: T = undefined): T | void
 		{
@@ -46,7 +71,13 @@ namespace std.base
 				this.set(0, val);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public back(): T;
+		/**
+		 * @inheritDoc
+		 */
 		public back(val: T): void;
 		public back(val: T = undefined): T | void
 		{
@@ -65,13 +96,25 @@ namespace std.base
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public abstract push_back(val: T): void;
 
+		/**
+		 * @inheritDoc
+		 */
 		public insert(pos: ArrayIterator<T, SourceT>, val: T): ArrayIterator<T, SourceT>;
+		/**
+		 * @inheritDoc
+		 */
 		public insert(pos: ArrayIterator<T, SourceT>, n: number, val: T): ArrayIterator<T, SourceT>;
+		/**
+		 * @inheritDoc
+		 */
 		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(pos: ArrayIterator<T, SourceT>, first: InputIterator, last: InputIterator): ArrayIterator<T, SourceT>;
-
+		
 		public insert(pos: ArrayIterator<T, SourceT>, ...args: any[]): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION
@@ -111,11 +154,19 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public abstract pop_back(): void;
 
+		/**
+		 * @inheritDoc
+		 */
 		public erase(it: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
 		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
-
+		/**
+		 * @inheritDoc
+		 */
 		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT> = first.next()): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION

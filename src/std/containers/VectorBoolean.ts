@@ -28,10 +28,39 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
-		public constructor(obj: VectorBoolean);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 */
 		public constructor(array: boolean[]);
+
+		/**
+		 * Copy Constructor
+		 * 
+		 * @param obj Object to copy.
+		 */
+		public constructor(obj: VectorBoolean);
+
+		/**
+		 * Fill Constructor.
+		 * 
+		 * @param size Initial size.
+		 * @param val Value to fill.
+		 */
 		public constructor(n: number, val: boolean);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iteartor of the last position.
+		 */
 		public constructor(first: Readonly<IForwardIterator<boolean>>, last: Readonly<IForwardIterator<boolean>>);
 
 		public constructor(...args: any[])
@@ -64,7 +93,13 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public assign(n: number, val: boolean): void;
+		/**
+		 * @inheritDoc
+		 */
 		public assign<InputIterator extends Readonly<IForwardIterator<boolean, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void;
 		
@@ -74,18 +109,39 @@ namespace std
 			this.insert(this.end(), first, last);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			this.data_ = new TreeMap();
 			this.size_ = 0;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
+		public resize(n: number): void
+		{
+			let expansion: number = n - this.size();
+			if (expansion > 0)
+				this.insert(this.end(), expansion, false);
+			else if (expansion < 0)
+				this.erase(this.end().advance(-expansion), this.end());
+		}
+
+		/**
+		 * Flip all values.
+		 */
 		public flip(): void
 		{
 			for (let entry of this.data_)
 				entry.second = !entry.second;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public swap(obj: VectorBoolean): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];
@@ -95,11 +151,17 @@ namespace std
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
+		/**
+		 * @inheritDoc
+		 */
 		public size(): number
 		{
 			return this.size_;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public at(index: number): boolean
 		{
 			// IS OUT OF RANGE?
@@ -111,6 +173,9 @@ namespace std
 			return it.second; // RETURNS
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set(index: number, val: boolean): void
 		{
 			//----
@@ -190,6 +255,9 @@ namespace std
 		============================================================
 			PUSH & POP
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public push(...items: boolean[]): number
 		{
 			if (items.length == 0)
@@ -202,6 +270,9 @@ namespace std
 			return this.size();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public push_back(val: boolean): void
 		{
 			let it = this.data_.rbegin();
@@ -212,6 +283,9 @@ namespace std
 				this.data_.emplace(index, val);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public pop_back(): void
 		{
 			if (this.empty())
@@ -228,6 +302,9 @@ namespace std
 		/* ---------------------------------------------------------
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
 		protected _Insert_by_repeating_val(pos: VectorBoolean.Iterator, n: number, val: boolean): VectorBoolean.Iterator
 		{
 			// RESERVE ELEMENTS -> THE REPEATED COUNT AND VALUE

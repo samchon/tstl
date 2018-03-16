@@ -7,24 +7,49 @@ namespace std
 {
 	export class List<T>
 		extends base.ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
-		implements base.ILinearContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
+		implements base.IDequeContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
 	{
 		/**
 		 * @hidden
 		 */
 		private ptr_: IPointer<List<T>>;
 
-		/* =========================================================
-			CONSTRUCTORS & SEMI-CONSTRUCTORS
-				- CONSTRUCTORS
-				- ASSIGN & CLEAR
-		============================================================
+		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 */
 		public constructor(items: Array<T>);
+
+		/**
+		 * Copy Constructor
+		 * 
+		 * @param obj Object to copy.
+		 */
+		public constructor(obj: List<T>);
+
+		/**
+		 * Fill Constructor.
+		 * 
+		 * @param size Initial size.
+		 * @param val Value to fill.
+		 */
 		public constructor(size: number, val: T);
-		public constructor(container: List<T>);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iteartor of the last position.
+		 */
 		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 		public constructor(...args: any[])
@@ -71,19 +96,6 @@ namespace std
 		protected _Create_iterator(prev: List.Iterator<T>, next: List.Iterator<T>, val: T): List.Iterator<T>
 		{
 			return new List.Iterator<T>(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
-		}
-
-		/* ---------------------------------------------------------
-			ASSIGN & CLEAR
-		--------------------------------------------------------- */
-		public assign(n: number, val: T): void;
-		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-			(first: InputIterator, last: InputIterator): void;
-
-		public assign(par1: any, par2: any): void
-		{
-			this.clear();
-			this.insert(this.end(), par1, par2);
 		}
 
 		/* ===============================================================
@@ -238,6 +250,9 @@ namespace std
 			this.end()["next_"] = begin;
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public swap(obj: List<T>): void
 		{
 			// CHANGE CONTENTS

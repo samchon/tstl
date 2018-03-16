@@ -2,7 +2,8 @@
 
 namespace std
 {
-	export class PriorityQueue<T>
+	export class PriorityQueue<T> 
+		implements base.IAdaptorContainer<T, PriorityQueue<T>>
 	{
 		//--------
 		// The <i>underlying container</i> for implementing the <i>priority queue</i>.
@@ -28,9 +29,33 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 * 
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
 		public constructor(comp?: (x: T, y: T) => boolean);
+
+		/**
+		 * Copy Constructor.
+		 * 
+		 * @param obj Object to copy.
+		 */
 		public constructor(obj: PriorityQueue<T>);
-		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, comp?: (x: T, y: T) => boolean);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
+		public constructor
+		(
+			first: Readonly<IForwardIterator<T>>, 
+			last: Readonly<IForwardIterator<T>>, 
+			comp?: (x: T, y: T) => boolean
+		);
 
 		public constructor(...args: any[])
 		{

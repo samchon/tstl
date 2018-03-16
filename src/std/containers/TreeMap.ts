@@ -21,12 +21,39 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 * 
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
 		public constructor(comp?: (x: Key, y: Key) => boolean);
-		public constructor(array: Array<IPair<Key, T>>, comp?: (x: Key, y: Key) => boolean);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
+		public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+
+		/**
+		 * Copy Constructor.
+		 * 
+		 * @param obj Object to copy.
+		 */
 		public constructor(obj: TreeMap<Key, T>);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
 		public constructor
 			(
-				first: Readonly<IForwardIterator<IPair<Key, T>>>, last: Readonly<IForwardIterator<IPair<Key, T>>>,
+				first: Readonly<IForwardIterator<IPair<Key, T>>>, 
+				last: Readonly<IForwardIterator<IPair<Key, T>>>,
 				comp?: (x: Key, y: Key) => boolean
 			);
 		
@@ -37,7 +64,7 @@ namespace std
 			// DECLARE MEMBERS
 			let comp: (x: Key, y: Key) => boolean = less;
 			let post_process: () => void = null;
-			
+
 			//----
 			// INITIALIZE MEMBERS AND POST-PROCESS
 			//----
@@ -103,6 +130,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			super.clear();
@@ -110,6 +140,9 @@ namespace std
 			this.tree_.clear();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public swap(obj: TreeMap<Key, T>): void
 		{
 			// SWAP CONTENTS
@@ -123,6 +156,9 @@ namespace std
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
+		/**
+		 * @inheritDoc
+		 */
 		public find(key: Key): TreeMap.Iterator<Key, T>
 		{
 			let node = this.tree_.nearest_by_key(key);
@@ -133,26 +169,41 @@ namespace std
 				return node.value;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public key_comp(): (x: Key, y: Key) => boolean
 		{
 			return this.tree_.key_comp();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 		{
 			return this.tree_.value_comp();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public lower_bound(key: Key): TreeMap.Iterator<Key, T>
 		{
 			return this.tree_.lower_bound(key);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public upper_bound(key: Key): TreeMap.Iterator<Key, T>
 		{
 			return this.tree_.upper_bound(key);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public equal_range(key: Key): Pair<TreeMap.Iterator<Key, T>, TreeMap.Iterator<Key, T>>
 		{
 			return this.tree_.equal_range(key);

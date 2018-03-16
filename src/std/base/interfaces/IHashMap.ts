@@ -1,23 +1,35 @@
 ﻿namespace std.base
 {
-	/** 
-	 * @hidden
-	 */
     export interface IHashMap<Key, T, Source extends MapContainer<Key, T, Source>>
-        extends MapContainer<Key, T, Source>
+		extends MapContainer<Key, T, Source>, IHashContainer<Key>
 	{
-		hash_function(): (key: Key) => number;
-		key_eq(): (x: Key, y: Key) => boolean;
+		/* ---------------------------------------------------------
+			ITERATORS
+		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
+		begin(): MapIterator<Key, T, Source>;
 
-		bucket(key: Key): number;
-		bucket_count(): number;
-		bucket_size(n: number): number;
+		/**
+		 * Iterator to the first element in a specific bucket.
+		 * 
+		 * @param index Index number of the specific bucket.
+		 * @return Iterator from the specific bucket.
+		 */
+		begin(index: number): MapIterator<Key, T, Source>;
 
-		load_factor(): number;
-		max_load_factor(): number;
-		max_load_factor(z: number): void;
+		/**
+		 * @inheritDoc
+		 */
+		end(): MapIterator<Key, T, Source>;
 
-		reserve(n: number): void;
-		rehash(n: number): void;
+		/**
+		 * Iterator to the end in a specific bucket.
+		 * 
+		 * @param index Index number of the specific bucket.
+		 * @return Iterator from the specific bucket.
+		 */
+		end(index: number): MapIterator<Key, T, Source>;
 	}
 }

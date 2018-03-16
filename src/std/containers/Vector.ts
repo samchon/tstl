@@ -20,10 +20,39 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
-		public constructor(array: Array<T>);
-		public constructor(container: Vector<T>);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 */
+		public constructor(items: Array<T>);
+
+		/**
+		 * Copy Constructor
+		 * 
+		 * @param obj Object to copy.
+		 */
+		public constructor(obj: Vector<T>);
+
+		/**
+		 * Fill Constructor.
+		 * 
+		 * @param size Initial size.
+		 * @param val Value to fill.
+		 */
 		public constructor(n: number, val: T);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iteartor of the last position.
+		 */
 		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 		
 		public constructor(...args: any[])
@@ -59,7 +88,13 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public assign(n: number, val: T): void;
+		/**
+		 * @inheritDoc
+		 */
 		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
@@ -69,11 +104,17 @@ namespace std
 			this.insert(this.end(), first, second);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			this.data_.splice(0, this.data_.length);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public resize(n: number)
 		{
 			this.data_.length = n;
@@ -82,11 +123,17 @@ namespace std
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
+		/**
+		 * @inheritDoc
+		 */
 		public size(): number
 		{
 			return this.data_.length;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public at(index: number): T
 		{
 			if (index < this.size())
@@ -95,6 +142,9 @@ namespace std
 				throw new OutOfRange("Target index is greater than Vector's size.");
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set(index: number, val: T): void
 		{
 			if (index >= this.size())
@@ -103,16 +153,27 @@ namespace std
 			this.data_[index] = val;
 		}
 
+		/**
+		 * Access data.
+		 * 
+		 * @return An array capsuled by this {@link Vector}.
+		 */
 		public data(): Array<T>
 		{
 			return this.data_;
 		}
 
+		/**
+		 * @hidden
+		 */
 		public equals(obj: Vector<T>): boolean
 		{
 			return this.data_ == obj.data_;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public [Symbol.iterator](): IterableIterator<T>
 		{
 			return this.data_[Symbol.iterator]();
@@ -125,11 +186,17 @@ namespace std
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public push(...items: T[]): number
 		{
 			return this.data_.push(...items);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public push_back(val: T): void
 		{
 			this.data_.push(val);
@@ -170,6 +237,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public pop_back(): void
 		{
 			this.data_.pop();
@@ -198,11 +268,17 @@ namespace std
 		/* ---------------------------------------------------------------
 			UTILITIES
 		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public swap(obj: Vector<T>): void
 		{
 			[this.data_, obj.data_] = [obj.data_, this.data_];
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public toJSON(): Array<T>
 		{
 			return this.data_;

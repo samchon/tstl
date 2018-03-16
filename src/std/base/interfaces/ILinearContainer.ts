@@ -1,10 +1,7 @@
 namespace std.base
 {
-	/** 
-	 * @hidden
-	 */
 	export interface ILinearContainer<T, 
-			SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseIteratorT>, 
+			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>, 
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>, 
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 		extends Container<T, SourceT, IteratorT, ReverseIteratorT>
@@ -12,28 +9,93 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Fill Assigner.
+		 * 
+		 * @param n Initial size.
+		 * @param val Value to fill.
+		 */
 		assign(n: number, val: T): void;
+
+		/**
+		 * Range Assigner.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 */
 		assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-			(begin: InputIterator, end: InputIterator): void;
+			(first: InputIterator, last: InputIterator): void;
+
+		/**
+		 * Resize this {@link Vector} forcibly.
+		 * 
+		 * @param n New container size.
+		 */
+		resize(n: number): void;
 
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * Get the first element.
+		 */
 		front(): T;
+
+		/**
+		 * Change the first element.
+		 */
 		front(val: T): void;
 
+		/**
+		 * Get the last element.
+		 */
 		back(): T;
+
+		/**
+		 * Change the last element.
+		 */
 		back(val: T): void;
 
 		/* ---------------------------------------------------------
 			ELEMENTS I/O
 		--------------------------------------------------------- */
+		/**
+		 * Insert an element at the end.
+		 * 
+		 * @param val Value to insert.
+		 */
 		push_back(val: T): void;
+
+		/**
+		 * Erase the last element.
+		 */
 		pop_back(): void;
 
-		insert(position: IteratorT, val: T): IteratorT;
-		insert(position: IteratorT, n: number, val: T): IteratorT;
+		/**
+		 * Insert a single element.
+		 * 
+		 * @param pos Position to insert.
+		 * @param val Value to insert.
+		 */
+		insert(pos: IteratorT, val: T): IteratorT;
+
+		/**
+		 * Insert repeated elements.
+		 * 
+		 * @param pos Position to insert.
+		 * @param n Number of elements to insert.
+		 * @param val Value to insert repeatedly.
+		 */
+		insert(pos: IteratorT, n: number, val: T): IteratorT;
+
+		/**
+		 * Insert range elements.
+		 * 
+		 * @param pos Position to insert.
+		 * @param first Input iterator of the first position.
+		 * @param last Input iteartor of the last position.
+		 */
 		insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-			(position: IteratorT, first: InputIterator, last: InputIterator): IteratorT;
+			(pos: IteratorT, first: InputIterator, last: InputIterator): IteratorT;
 	}
 }

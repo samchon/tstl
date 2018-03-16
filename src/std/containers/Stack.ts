@@ -2,23 +2,32 @@
 
 namespace std
 {
-	export class Stack<T>
+	export class Stack<T> 
+		implements base.IAdaptorContainer<T, Stack<T>>
 	{
 		private source_: Vector<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
 
-		public constructor(stack: Stack<T>);
+		/**
+		 * Copy Constructor.
+		 * 
+		 * @param obj Object to copy.
+		 */
+		public constructor(obj: Stack<T>);
 
-		public constructor(stack: Stack<T> = null)
+		public constructor(obj: Stack<T> = null)
 		{
 			this.source_ = new Vector<T>();
 
-			if (stack != null)
-				this.source_.assign(stack.source_.begin(), stack.source_.end());
+			if (obj != null)
+				this.source_.assign(obj.source_.begin(), obj.source_.end());
 		}
 
 		/* ---------------------------------------------------------

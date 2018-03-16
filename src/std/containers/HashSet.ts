@@ -21,10 +21,44 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 * 
+		 * @param hash An unary function returns hash code. Default is {hash}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 */
 		public constructor(hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 * @param hash An unary function returns hash code. Default is {hash}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 */
 		public constructor(items: T[], hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
-		public constructor(container: HashSet<T>);
-		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>, hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+
+		/**
+		 * Copy Constructor.
+		 * 
+		 * @param obj Object to copy. 
+		 */
+		public constructor(obj: HashSet<T>);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 * @param hash An unary function returns hash code. Default is {hash}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 */
+		public constructor
+		(
+			first: Readonly<IForwardIterator<T>>, 
+			last: Readonly<IForwardIterator<T>>, 
+			hash?: (val: T) => number, equal?: (x: T, y: T) => boolean
+		);
 
 		public constructor(...args: any[])
 		{
@@ -106,6 +140,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			this.buckets_.clear();
@@ -113,6 +150,9 @@ namespace std
 			super.clear();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public swap(obj: HashSet<T>): void
 		{
 			// SWAP CONTENTS
@@ -130,12 +170,21 @@ namespace std
 		============================================================
 			MEMBER
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public find(key: T): HashSet.Iterator<T>
 		{
 			return this.buckets_.find(key);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public begin(): HashSet.Iterator<T>;
+		/**
+		 * @inheritDoc
+		 */
 		public begin(index: number): HashSet.Iterator<T>;
 		public begin(index: number = null): HashSet.Iterator<T>
 		{
@@ -145,7 +194,13 @@ namespace std
 				return this.buckets_.at(index).front();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public end(): HashSet.Iterator<T>;
+		/**
+		 * @inheritDoc
+		 */
 		public end(index: number): HashSet.Iterator<T>
 		public end(index: number = null): HashSet.Iterator<T>
 		{
@@ -155,14 +210,26 @@ namespace std
 				return this.buckets_.at(index).back().next();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public rbegin(): HashSet.ReverseIterator<T>;
+		/**
+		 * @inheritDoc
+		 */
 		public rbegin(index: number): HashSet.ReverseIterator<T>;
 		public rbegin(index: number = null): HashSet.ReverseIterator<T>
 		{
 			return this.end(index).reverse();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public rend(): HashSet.ReverseIterator<T>;
+		/**
+		 * @inheritDoc
+		 */
 		public rend(index: number): HashSet.ReverseIterator<T>;
 		public rend(index: number = null): HashSet.ReverseIterator<T>
 		{
@@ -172,42 +239,78 @@ namespace std
 		/* ---------------------------------------------------------
 			HASH
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public bucket_count(): number
 		{
 			return this.buckets_.size();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public bucket_size(n: number): number
 		{
 			return this.buckets_.at(n).size();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public load_factor(): number
 		{
 			return this.buckets_.load_factor();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public hash_function(): (val: T) => number
 		{
 			return this.buckets_.hash_function();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public key_eq(): (x: T, y: T) => boolean
 		{
 			return this.buckets_.key_eq();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public bucket(key: T): number
 		{
 			return this.hash_function()(key) % this.buckets_.size();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public max_load_factor(): number;
+		/**
+		 * @inheritDoc
+		 */
 		public max_load_factor(z: number): void;
 		public max_load_factor(z: number = null): any
 		{
 			return this.buckets_.max_load_factor(z);
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public reserve(n: number): void
 		{
 			this.buckets_.rehash(Math.ceil(n * this.max_load_factor()));
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public rehash(n: number): void
 		{
 			if (n <= this.bucket_count())

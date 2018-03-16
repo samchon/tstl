@@ -21,13 +21,43 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		public constructor(hash?: (key: Key) => number, pred?: (x: Key, y: Key) => boolean);
-		public constructor(items: Array<IPair<Key, T>>, hash?: (key: Key) => number, pred?: (x: Key, y: Key) => boolean);
-		public constructor(container: HashMultiMap<Key, T>);
+		/**
+		 * Default Constructor.
+		 * 
+		 * @param hash An unary function returns hash code. Default is {hash}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 */
+		public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+		
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 * @param hash An unary function returns hash code. Default is {hash}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 */
+		public constructor(items: IPair<Key, T>[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+		
+		/**
+		 * Copy Constructor.
+		 * 
+		 * @param obj Object to copy. 
+		 */
+		public constructor(obj: HashMultiMap<Key, T>);
+		
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 * @param hash An unary function returns hash code. Default is {hash}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 */
 		public constructor
 		(
-			begin: Readonly<IForwardIterator<IPair<Key, T>>>, end: Readonly<IForwardIterator<IPair<Key, T>>>, 
-			hash?: (key: Key) => number, pred?: (x: Key, y: Key) => boolean
+			first: Readonly<IForwardIterator<IPair<Key, T>>>, 
+			last: Readonly<IForwardIterator<IPair<Key, T>>>, 
+			hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean
 		);
 
 		public constructor(...args: any[])
@@ -110,6 +140,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			this.buckets_.clear();
@@ -117,6 +150,9 @@ namespace std
 			super.clear();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public swap(obj: HashMultiMap<Key, T>): void
 		{
 			// SWAP CONTENTS
@@ -134,10 +170,17 @@ namespace std
 		============================================================
 			MEMBER
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public find(key: Key): HashMultiMap.Iterator<Key, T>
 		{
 			return this.buckets_.find(key);
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public count(key: Key): number
 		{
 			// FIND MATCHED BUCKET
@@ -153,7 +196,13 @@ namespace std
 			return cnt;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public begin(): HashMultiMap.Iterator<Key, T>;
+		/**
+		 * @inheritDoc
+		 */
 		public begin(index: number): HashMultiMap.Iterator<Key, T>;
 		public begin(index: number = null): HashMultiMap.Iterator<Key, T>
 		{
@@ -163,7 +212,13 @@ namespace std
 				return this.buckets_.at(index).front();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public end(): HashMultiMap.Iterator<Key, T>;
+		/**
+		 * @inheritDoc
+		 */
 		public end(index: number): HashMultiMap.Iterator<Key, T>
 		public end(index: number = null): HashMultiMap.Iterator<Key, T>
 		{
@@ -173,14 +228,26 @@ namespace std
 				return this.buckets_.at(index).back().next();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public rbegin(): HashMultiMap.ReverseIterator<Key, T>;
+		/**
+		 * @inheritDoc
+		 */
 		public rbegin(index: number): HashMultiMap.ReverseIterator<Key, T>;
 		public rbegin(index: number = null): HashMultiMap.ReverseIterator<Key, T>
 		{
 			return this.end(index).reverse();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public rend(): HashMultiMap.ReverseIterator<Key, T>;
+		/**
+		 * @inheritDoc
+		 */
 		public rend(index: number): HashMultiMap.ReverseIterator<Key, T>;
 		public rend(index: number = null): HashMultiMap.ReverseIterator<Key, T>
 		{
@@ -190,42 +257,78 @@ namespace std
 		/* ---------------------------------------------------------
 			HASH
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public bucket_count(): number
 		{
 			return this.buckets_.size();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public bucket_size(index: number): number
 		{
 			return this.buckets_.at(index).size();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public load_factor(): number
 		{
 			return this.buckets_.load_factor();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public hash_function(): (key: Key) => number
 		{
 			return this.buckets_.hash_function();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public key_eq(): (x: Key, y: Key) => boolean
 		{
 			return this.buckets_.key_eq();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public bucket(key: Key): number
 		{
 			return this.hash_function()(key) % this.buckets_.size();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public max_load_factor(): number;
+		/**
+		 * @inheritDoc
+		 */
 		public max_load_factor(z: number): void;
 		public max_load_factor(z: number = null): any
 		{
 			return this.buckets_.max_load_factor(z);
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public reserve(n: number): void
 		{
 			this.buckets_.reserve(n);
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public rehash(n: number): void
 		{
 			if (n <= this.bucket_count())

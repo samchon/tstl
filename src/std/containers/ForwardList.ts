@@ -33,11 +33,39 @@ namespace std
 		==================================================================
 			CONSTURCTORS
 		--------------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
 
-		public constructor(items: Array<T>);
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 */
+		public constructor(items: T[]);
+
+		/**
+		 * Copy Constructor
+		 * 
+		 * @param obj Object to copy.
+		 */
 		public constructor(obj: ForwardList<T>);
+
+		/**
+		 * Fill Constructor.
+		 * 
+		 * @param size Initial size.
+		 * @param val Value to fill.
+		 */
 		public constructor(n: number, val: T);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 */
 		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 		public constructor(...args: any[])

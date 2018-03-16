@@ -16,6 +16,9 @@ namespace std.base
 		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		protected constructor()
 		{
 			super();
@@ -23,6 +26,9 @@ namespace std.base
 			this.data_ = new _MapElementList(<any>this);
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public assign<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
@@ -31,6 +37,9 @@ namespace std.base
 			this.insert(first, last);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			// TO BE ABSTRACT
@@ -46,11 +55,17 @@ namespace std.base
 		--------------------------------------------------------- */
 		public abstract find(key: Key): MapIterator<Key, T, Source>;
 
+		/**
+		 * @inheritDoc
+		 */
 		public begin(): MapIterator<Key, T, Source>
 		{
 			return this.data_.begin();
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public end(): MapIterator<Key, T, Source>
 		{
 			return this.data_.end();
@@ -66,6 +81,9 @@ namespace std.base
 
 		public abstract count(key: Key): number;
 
+		/**
+		 * @inheritDoc
+		 */
 		public size(): number
 		{
 			return this.data_.size();
@@ -80,6 +98,9 @@ namespace std.base
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public push(...items: IPair<Key, T>[]): number
 		{
 			// INSERT BY RANGE
@@ -94,7 +115,6 @@ namespace std.base
 
 		public emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
 		public emplace_hint(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-
 		public emplace_hint(hint: any, ...args: any[]): any
 		{
 			if (args.length == 1)
@@ -137,7 +157,15 @@ namespace std.base
 			ERASE
 		--------------------------------------------------------- */
 		public erase(key: Key): number;
+
+		/**
+		 * @inheritDoc
+		 */
 		public erase(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
+
+		/**
+		 * @inheritDoc
+		 */
 		public erase(begin: MapIterator<Key, T, Source>, end: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
 
 		public erase(...args: any[]): any 
@@ -174,7 +202,7 @@ namespace std.base
 			UTILITY
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
 		public swap(obj: Source): void
 		{

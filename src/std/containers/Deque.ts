@@ -45,10 +45,39 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
-		public constructor(items: Array<T>);
-		public constructor(container: Deque<T>);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 */
+		public constructor(items: T[]);
+
+		/**
+		 * Copy Constructor
+		 * 
+		 * @param obj Object to copy.
+		 */
+		public constructor(obj: Deque<T>);
+
+		/**
+		 * Fill Constructor.
+		 * 
+		 * @param size Initial size.
+		 * @param val Value to fill.
+		 */
 		public constructor(size: number, val: T);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 */
 		public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 		public constructor(...args: any[])
@@ -85,7 +114,13 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN, RESERVE & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public assign(n: number, val: T): void;
+		/**
+		 * @inheritDoc
+		 */
 		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
@@ -98,6 +133,9 @@ namespace std
 			this.insert(this.end(), first, second);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			// CLEAR CONTENTS
@@ -141,6 +179,9 @@ namespace std
 			this.capacity_ = capacity;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public resize(n: number): void
 		{
 			let expansion: number = n - this.size();
@@ -155,6 +196,9 @@ namespace std
 			this.reserve(this.size());
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public swap(obj: Deque<T>): void
 		{
 			// SWAP CONTENTS
@@ -170,6 +214,9 @@ namespace std
 		============================================================
 			BASIC ELEMENTS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public size(): number
 		{
 			return this.size_;
@@ -180,6 +227,9 @@ namespace std
 			return this.capacity_;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public [Symbol.iterator](): IterableIterator<T>
 		{
 			return new base._DequeForOfAdaptor<T>(this.matrix_);
@@ -188,6 +238,9 @@ namespace std
 		/* ---------------------------------------------------------
 			INDEX ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public at(index: number): T
 		{
 			if (index < this.size() && index >= 0)
@@ -199,6 +252,9 @@ namespace std
 				throw new OutOfRange("Target index is greater than Deque's size.");
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set(index: number, val: T): void
 		{
 			if (index >= this.size() || index < 0)
@@ -247,6 +303,9 @@ namespace std
 		============================================================
 			PUSH & POP
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public push(...items: T[]): number
 		{
 			if (items.length == 0)
@@ -262,6 +321,9 @@ namespace std
 			return this.size();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public push_front(val: T): void
 		{
 			// ADD CAPACITY & ROW
@@ -273,6 +335,9 @@ namespace std
 			this.size_++;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public push_back(val: T): void
 		{
 			// ADD CAPACITY & ROW
@@ -284,6 +349,9 @@ namespace std
 			this.size_++;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public pop_front(): void
 		{
 			if (this.empty() == true)
@@ -298,6 +366,9 @@ namespace std
 			this.size_--;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public pop_back(): void
 		{
 			if (this.empty() == true)

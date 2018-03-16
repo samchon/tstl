@@ -11,7 +11,7 @@ namespace std.base
 			INSERT
 		--------------------------------------------------------- */
 		public emplace(key: Key, value: T): MapIterator<Key, T, Source>;
-		public emplace(pair: IPair<Key, T>): MapIterator<Key, T, Source>;
+		public emplace(tuple: IPair<Key, T>): MapIterator<Key, T, Source>;
 
 		public emplace(...args: any[]): MapIterator<Key, T, Source>
 		{

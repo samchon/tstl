@@ -21,10 +21,41 @@ namespace std
 		============================================================
 			CONSTURCTORS
 		--------------------------------------------------------- */
-		public constructor(compare?: (x: T, y: T) => boolean);
-		public constructor(array: Array<T>, compare?: (x: T, y: T) => boolean);
+		/**
+		 * Default Constructor.
+		 * 
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
+		public constructor(comp?: (x: T, y: T) => boolean);
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param items Items to assign.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
+		public constructor(items: T[], comp?: (x: T, y: T) => boolean);
+
+		/**
+		 * Copy Constructor.
+		 * 
+		 * @param obj Object to copy.
+		 */
 		public constructor(container: TreeSet<T>);
-		public constructor(begin: Readonly<IForwardIterator<T>>, end: Readonly<IForwardIterator<T>>, compare?: (x: T, y: T) => boolean);
+
+		/**
+		 * Range Constructor.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iterator of the last position.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+		 */
+		public constructor
+		(
+			first: Readonly<IForwardIterator<T>>, 
+			last: Readonly<IForwardIterator<T>>, 
+			comp?: (x: T, y: T) => boolean
+		);
 
 		public constructor(...args: any[])
 		{

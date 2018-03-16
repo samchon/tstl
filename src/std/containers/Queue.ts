@@ -2,23 +2,32 @@
 
 namespace std
 {
-	export class Queue<T>
+	export class Queue<T> 
+		implements base.IAdaptorContainer<T, Queue<T>>
 	{
 		private source_: List<T>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor();
 
-		public constructor(container: Queue<T>);
+		/**
+		 * Copy Constructor.
+		 * 
+		 * @param obj Object to copy.
+		 */
+		public constructor(obj: Queue<T>);
 
-		public constructor(queue: Queue<T> = null)
+		public constructor(obj: Queue<T> = null)
 		{
 			this.source_ = new List<T>();
 
-			if (queue != null)
-				this.source_.assign(queue.source_.begin(), queue.source_.end());
+			if (obj != null)
+				this.source_.assign(obj.source_.begin(), obj.source_.end());
 		}
 
 		/* ---------------------------------------------------------
