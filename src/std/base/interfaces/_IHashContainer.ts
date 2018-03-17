@@ -1,6 +1,6 @@
 namespace std.base
 {
-	export interface IHashContainer<Key>
+	export interface _IHashContainer<Key>
 	{
 		/* ---------------------------------------------------------
 			PREDICATORS

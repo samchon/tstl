@@ -1,6 +1,6 @@
 namespace std.base
 {
-	export interface IAdaptorContainer<T, Source extends IAdaptorContainer<T, Source>>
+	export interface _IAdaptorContainer<T, Source extends _IAdaptorContainer<T, Source>>
 	{
 		size(): number;
 		empty(): boolean;

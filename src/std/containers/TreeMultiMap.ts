@@ -130,6 +130,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			super.clear();
@@ -137,6 +140,9 @@ namespace std
 			this.tree_.clear();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public swap(obj: TreeMultiMap<Key, T>): void
 		{
 			// SWAP CONTENTS
@@ -150,6 +156,9 @@ namespace std
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
+		/**
+		 * @inheritDoc
+		 */
 		public find(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			let node: base._XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.nearest_by_key(key);
@@ -159,6 +168,10 @@ namespace std
 			else
 				return node.value;
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public count(key: Key): number
 		{
 			let it = this.find(key);
@@ -170,23 +183,41 @@ namespace std
 			return cnt;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public key_comp(): (x: Key, y: Key) => boolean
 		{
 			return this.tree_.key_comp();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 		{
 			return this.tree_.value_comp();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public lower_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			return this.tree_.lower_bound(key);
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public upper_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 		{
 			return this.tree_.upper_bound(key);
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public equal_range(key: Key): Pair<TreeMultiMap.Iterator<Key, T>, TreeMultiMap.Iterator<Key, T>>
 		{
 			return this.tree_.equal_range(key);
@@ -208,9 +239,9 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
-		protected _Emplace(key: Key, val: T): TreeMultiMap.Iterator<Key, T>
+		public emplace(key: Key, val: T): TreeMultiMap.Iterator<Key, T>
 		{
 			// FIND POSITION TO INSERT
 			let it: TreeMultiMap.Iterator<Key, T> = this.upper_bound(key);
@@ -223,9 +254,9 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
-		protected _Emplace_hint(hint: TreeMultiMap.Iterator<Key, T>, key: Key, val: T): TreeMultiMap.Iterator<Key, T>
+		public emplace_hint(hint: TreeMultiMap.Iterator<Key, T>, key: Key, val: T): TreeMultiMap.Iterator<Key, T>
 		{
 			//--------
 			// INSERT BRANCH
@@ -255,7 +286,7 @@ namespace std
 				this._Handle_insert(ret, ret.next());
 			}
 			else // INVALID HINT
-				ret = this._Emplace(key, val);
+				ret = this.emplace(key, val);
 
 			return ret;
 		}
@@ -267,7 +298,7 @@ namespace std
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (let it = first; !it.equals(last); it = it.next())
-				this._Emplace(it.value.first, it.value.second);
+				this.emplace(it.value.first, it.value.second);
 		}
 
 		/* ---------------------------------------------------------

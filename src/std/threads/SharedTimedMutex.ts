@@ -2,7 +2,8 @@
 
 namespace std
 {
-	export class SharedTimedMutex implements ILockable
+	export class SharedTimedMutex 
+		implements base._ISharedLockable, base._ITimedLockable
 	{
 		/**
 		 * @hidden
@@ -22,12 +23,15 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			this.read_lock_count_ = 0;
 			this.write_lock_count_ = 0;
 
-			this.resolvers_ = new HashMap<IResolver, ILockType>();
+			this.resolvers_ = new HashMap();
 		}
 
 		/* =========================================================
@@ -37,6 +41,9 @@ namespace std
 		============================================================
 			WRITE LOCK
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public lock(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -52,7 +59,10 @@ namespace std
 			});
 		}
 
-		public try_lock(): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public async try_lock(): Promise<boolean>
 		{
 			if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
 				return false;
@@ -61,6 +71,9 @@ namespace std
 			return true;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public try_lock_for(ms: number): Promise<boolean>
 		{
 			return new Promise<boolean>(resolve =>
@@ -92,6 +105,9 @@ namespace std
 			});
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public try_lock_until(at: Date): Promise<boolean>
 		{
 			// COMPUTE MILLISECONDS TO WAIT
@@ -101,6 +117,9 @@ namespace std
 			return this.try_lock_for(ms);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public async unlock(): Promise<void>
 		{
 			if (this.write_lock_count_ == 0)
@@ -131,6 +150,9 @@ namespace std
 		/* ---------------------------------------------------------
 			READ LOCK
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public lock_shared(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -148,7 +170,10 @@ namespace std
 			});
 		}
 
-		public try_lock_shared(): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public async try_lock_shared(): Promise<boolean>
 		{
 			if (this.write_lock_count_ != 0)
 				return false;
@@ -157,6 +182,12 @@ namespace std
 			return true;
 		}
 
+		/**
+		 * Try lock shared until timeout.
+		 * 
+		 * @param ms The maximum miliseconds for waiting.
+		 * @return Whether succeded to lock or not.
+		 */
 		public try_lock_shared_for(ms: number): Promise<boolean>
 		{
 			return new Promise<boolean>(resolve =>
@@ -190,6 +221,12 @@ namespace std
 			});
 		}
 
+		/**
+		 * Try lock shared until time expiration.
+		 * 
+		 * @param at The maximum time point to wait.
+		 * @return Whether succeded to lock or not.
+		 */
 		public try_lock_shared_until(at: Date): Promise<boolean>
 		{
 			// COMPUTE MILLISECONDS TO WAIT
@@ -199,6 +236,9 @@ namespace std
 			return this.try_lock_shared_for(ms);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public async unlock_shared(): Promise<void>
 		{
 			if (this.read_lock_count_ == 0)

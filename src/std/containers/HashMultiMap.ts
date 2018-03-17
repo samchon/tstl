@@ -25,7 +25,7 @@ namespace std
 		 * Default Constructor.
 		 * 
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
 		public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
 		
@@ -34,7 +34,7 @@ namespace std
 		 * 
 		 * @param items Items to assign.
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
 		public constructor(items: IPair<Key, T>[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
 		
@@ -51,7 +51,7 @@ namespace std
 		 * @param first Input iterator of the first position.
 		 * @param last Input iterator of the last position.
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
 		public constructor
 		(
@@ -353,9 +353,9 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
-		protected _Emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
+		public emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
 		{
 			// INSERT
 			let it = this["data_"].insert(this["data_"].end(), new Entry(key, val));
@@ -365,9 +365,9 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
-		protected _Emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
+		public emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
 		{
 			// INSERT
 			let it = this["data_"].insert(hint, new Entry(key, val));

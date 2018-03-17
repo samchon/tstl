@@ -106,6 +106,11 @@ namespace std
 		==================================================================
 			UNIQUE & REMOVE(_IF)
 		--------------------------------------------------------------- */
+		/**
+		 * Remove duplicated elements.
+		 * 
+		 * @param binary_pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+		 */
 		public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 		{
 			let it = this.begin().next();
@@ -119,6 +124,11 @@ namespace std
 			}
 		}
 
+		/**
+		 * Remove elements with specific value.
+		 * 
+		 * @param val The value to remove.
+		 */
 		public remove(val: T): void
 		{
 			this.remove_if(function (x: T): boolean
@@ -127,6 +137,11 @@ namespace std
 			});
 		}
 
+		/**
+		 * Remove elements with specific function.
+		 * 
+		 * @param pred A unary function determines whether remove or not.
+		 */
 		public remove_if(pred: (val: T) => boolean): void
 		{
 			let it = this.begin();
@@ -143,33 +158,60 @@ namespace std
 		/* ---------------------------------------------------------
 			MERGE & SPLICE
 		--------------------------------------------------------- */
-		public merge<U extends T>(obj: List<U>, comp: (x: T, y: T) => boolean = less): void
+		/**
+		 * Merge two *sorted* containers.
+		 * 
+		 * @param source Source container to transfer.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+		 */
+		public merge<U extends T>(source: List<U>, comp: (x: T, y: T) => boolean = less): void
 		{
-			if (this == <List<T>>obj)
+			if (this == <List<T>>source)
 				return;
 
 			let it = this.begin();
 
-			while (obj.empty() == false)
+			while (source.empty() == false)
 			{
-				let first = obj.begin();
+				let first = source.begin();
 				while (!it.equals(this.end()) && comp(it.value, first.value) == true)
 					it = it.next();
 
-				this.splice(it, obj, first);
+				this.splice(it, source, first);
 			}
 		}
 
-		public splice<U extends T>(position: List.Iterator<T>, obj: List<U>): void;
+		/**
+		 * Transfer elements.
+		 * 
+		 * @param pos Position to be inserted.
+		 * @param from Target container to transfer.
+		 */
+		public splice<U extends T>(pos: List.Iterator<T>, from: List<U>): void;
 		
-		public splice<U extends T>(position: List.Iterator<T>, obj: List<U>, it: List.Iterator<U>): void;
+		/**
+		 * Transfer a single element.
+		 * 
+		 * @param pos Position to be inserted.
+		 * @param from Target container to transfer.
+		 * @param it Position of the single element to transfer.
+		 */
+		public splice<U extends T>(pos: List.Iterator<T>, from: List<U>, it: List.Iterator<U>): void;
 		
+		/**
+		 * Transfer range elements.
+		 * 
+		 * @param pos Position to be inserted.
+		 * @param from Target container to transfer.
+		 * @param first Range of the first position to transfer.
+		 * @param last Rangee of the last position to transfer.
+		 */
 		public splice<U extends T>
-			(position: List.Iterator<T>, obj: List<U>, first: List.Iterator<U>, last: List.Iterator<U>): void;
+			(pos: List.Iterator<T>, from: List<U>, first: List.Iterator<U>, last: List.Iterator<U>): void;
 
 		public splice<U extends T>
 			(
-				position: List.Iterator<T>, obj: List<U>, 
+				pos: List.Iterator<T>, obj: List<U>, 
 				first: List.Iterator<U> = null, last: List.Iterator<U> = null
 			): void
 		{
@@ -183,13 +225,18 @@ namespace std
 				last = first.next();
 			}
 
-			this.insert(position, first, last);
+			this.insert(pos, first, last);
 			obj.erase(first, last);
 		}
 
 		/* ---------------------------------------------------------
 			SORT & SWAP
 		--------------------------------------------------------- */
+		/**
+		 * Sort elements.
+		 * 
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+		 */
 		public sort(comp: (x: T, y: T) => boolean = less): void
 		{
 			this._Quick_sort(this.begin(), this.end().prev(), comp);
@@ -231,6 +278,9 @@ namespace std
 			return prev;
 		}
 
+		/**
+		 * Reverse elements.
+		 */
 		public reverse(): void
 		{
 			let begin: List.Iterator<T> = this.end().prev();

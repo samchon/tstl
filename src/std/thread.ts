@@ -48,10 +48,10 @@ namespace std
 		});
 	}
 
-	export function try_lock(...items: ILockable[]): number
+	export async function try_lock(...items: ILockable[]): Promise<number>
 	{
 		for (let i: number = 0; i < items.length; ++i)
-			if (items[i].try_lock() == false)
+			if (await items[i].try_lock() == false)
 				return i;
 
 		return -1;

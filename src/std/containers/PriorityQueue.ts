@@ -3,7 +3,7 @@
 namespace std
 {
 	export class PriorityQueue<T> 
-		implements base.IAdaptorContainer<T, PriorityQueue<T>>
+		implements base._IAdaptorContainer<T, PriorityQueue<T>>
 	{
 		//--------
 		// The <i>underlying container</i> for implementing the <i>priority queue</i>.

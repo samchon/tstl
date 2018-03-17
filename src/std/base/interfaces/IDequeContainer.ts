@@ -17,5 +17,5 @@ namespace std.base
 		 * Erase the first element.
 		 */
 		pop_front(): void;
-	}		
+	}
 }

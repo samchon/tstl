@@ -2,7 +2,7 @@
 
 namespace std.experimental
 {
-	export class Semaphore implements ILockable
+	export class Semaphore implements base._ISemaphore
 	{
 		/**
 		 * @hidden
@@ -33,9 +33,12 @@ namespace std.experimental
 			this.locked_count_ = 0;
 			this.size_ = size;
 
-			this.listeners_ = new Queue<Pair<IListener, number>>();
+			this.listeners_ = new Queue();
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public size(): number
 		{
 			return this.size_;
@@ -52,6 +55,9 @@ namespace std.experimental
 		/* ---------------------------------------------------------
 			ACQURE & RELEASE
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public lock(count: number = 1): Promise<void>
 		{
 			return new Promise<void>((resolve, reject) =>
@@ -77,7 +83,10 @@ namespace std.experimental
 			});
 		}
 
-		public try_lock(count: number = 1): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public async try_lock(count: number = 1): Promise<boolean>
 		{
 			// VALIDATE PARAMETER
 			if (count < 1 || count > this.size_)
@@ -91,6 +100,9 @@ namespace std.experimental
 			return true;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public async unlock(count: number = 1): Promise<void>
 		{
 			// VALIDATE PARAMETER

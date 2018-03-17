@@ -122,7 +122,7 @@ namespace std
 		 * @inheritDoc
 		 */
 		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-			(begin: InputIterator, end: InputIterator): void;
+			(first: InputIterator, last: InputIterator): void;
 
 		public assign(first: any, second: any): void
 		{
@@ -146,14 +146,19 @@ namespace std
 			this.capacity_ = Deque.MIN_CAPACITY;
 		}
 
-		public reserve(capacity: number): void
+		/**
+		 * Reserve {@link capacity} enable to store *n* elements.
+		 * 
+		 * @param n The capacity to reserve.
+		 */
+		public reserve(n: number): void
 		{
-			if (capacity < this.capacity_)
+			if (n < this.capacity_)
 				return;
 
 			// NEW MEMBERS TO BE ASSSIGNED
 			let matrix: T[][] = [[]];
-			let col_size: number = this._Compute_col_size(capacity);
+			let col_size: number = this._Compute_col_size(n);
 
 			//--------
 			// RE-FILL
@@ -176,7 +181,7 @@ namespace std
 
 			// ASSIGN MEMBERS
 			this.matrix_ = matrix;
-			this.capacity_ = capacity;
+			this.capacity_ = n;
 		}
 
 		/**
@@ -191,6 +196,9 @@ namespace std
 				this.erase(this.end().advance(-expansion), this.end());
 		}
 
+		/**
+		 * Shrink {@link capacity} to actual {@link size}.
+		 */
 		public shrink_to_fit(): void
 		{
 			this.reserve(this.size());
@@ -222,6 +230,11 @@ namespace std
 			return this.size_;
 		}
 
+		/**
+		 * The capacity to store elements.
+		 * 
+		 * @return The capacity.
+		 */
 		public capacity(): number
 		{
 			return this.capacity_;

@@ -1,4 +1,4 @@
-/// <reference path="../../API.ts" />
+/// <reference path="../API.ts" />
 
 /// <reference path="mutexes.ts" />
 
@@ -30,7 +30,7 @@ namespace test
 		}
 		if (acquired_count != SIZE)
 			throw new std.DomainError(`Error on ${name}.lock().`);
-		else if (s.try_lock() == true)
+		else if (await s.try_lock() == true)
 			throw new std.DomainError(`Error on ${name}.try_lock().`);
 
 		// LOCK 4 TIMES AGAIN -> THEY SHOULD BE HOLD

@@ -5,14 +5,14 @@
 
 namespace std
 {
-	export class HashMultiSet<T>
-		extends base.MultiSet<T, HashMultiSet<T>>
-		implements base.IHashSet<T, HashMultiSet<T>>
+	export class HashMultiSet<Key>
+		extends base.MultiSet<Key, HashMultiSet<Key>>
+		implements base.IHashSet<Key, HashMultiSet<Key>>
 	{
 		/**
 		 * @hidden
 		 */
-		private buckets_: base._SetHashBuckets<T, HashMultiSet<T>>;
+		private buckets_: base._SetHashBuckets<Key, HashMultiSet<Key>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -25,25 +25,25 @@ namespace std
 		 * Default Constructor.
 		 * 
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
-		public constructor(hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+		public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
 		
 		/**
 		 * Initializer Constructor.
 		 * 
 		 * @param items Items to assign.
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
-		public constructor(items: T[], hash?: (val: T) => number, equal?: (x: T, y: T) => boolean);
+		public constructor(items: Key[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
 		
 		/**
 		 * Copy Constructor.
 		 * 
 		 * @param obj Object to copy. 
 		 */
-		public constructor(obj: HashMultiSet<T>);
+		public constructor(obj: HashMultiSet<Key>);
 
 		/**
 		 * Range Constructor.
@@ -51,13 +51,13 @@ namespace std
 		 * @param first Input iterator of the first position.
 		 * @param last Input iterator of the last position.
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
 		public constructor
 		(
-			first: Readonly<IForwardIterator<T>>, 
-			last: Readonly<IForwardIterator<T>>, 
-			hash?: (val: T) => number, equal?: (x: T, y: T) => boolean
+			first: Readonly<IForwardIterator<Key>>, 
+			last: Readonly<IForwardIterator<Key>>, 
+			hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean
 		);
 
 		public constructor(...args: any[])
@@ -65,8 +65,8 @@ namespace std
 			super();
 
 			// DECLARE MEMBERS
-			let hash_function: (val: T) => number = std.hash;
-			let key_eq: (x: T, y: T) => boolean = std.equal_to;
+			let hash_function: (key: Key) => number = std.hash;
+			let key_eq: (x: Key, y: Key) => boolean = std.equal_to;
 			let post_process: () => void = null;
 
 			//----
@@ -76,7 +76,7 @@ namespace std
 			if (args.length == 1 && args[0] instanceof HashMultiSet)
 			{
 				// PARAMETERS
-				let container: std.HashMultiSet<T> = args[0];
+				let container: std.HashMultiSet<Key> = args[0];
 				hash_function = container.hash_function();
 				key_eq = container.key_eq();
 
@@ -98,7 +98,7 @@ namespace std
 				// INITIALIZER LIST CONSTRUCTOR
 				post_process = () =>
 				{
-					let items: T[] = args[0];
+					let items: Key[] = args[0];
 
 					this.reserve(items.length);
 					this.push(...items);
@@ -113,8 +113,8 @@ namespace std
 				// RANGE CONSTRUCTOR
 				post_process = () =>
 				{
-					let first: Readonly<IForwardIterator<T>> = args[0];
-					let last: Readonly<IForwardIterator<T>> = args[1];
+					let first: Readonly<IForwardIterator<Key>> = args[0];
+					let last: Readonly<IForwardIterator<Key>> = args[1];
 
 					this.assign(first, last);
 				};
@@ -153,7 +153,7 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public swap(obj: HashMultiSet<T>): void
+		public swap(obj: HashMultiSet<Key>): void
 		{
 			// SWAP CONTENTS
 			super.swap(obj);
@@ -173,7 +173,7 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public find(key: T): HashMultiSet.Iterator<T>
+		public find(key: Key): HashMultiSet.Iterator<Key>
 		{
 			return this.buckets_.find(key);
 		}
@@ -181,7 +181,7 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public count(key: T): number
+		public count(key: Key): number
 		{
 			// FIND MATCHED BUCKET
 			let index = this.bucket(key);
@@ -199,12 +199,12 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public begin(): HashMultiSet.Iterator<T>;
+		public begin(): HashMultiSet.Iterator<Key>;
 		/**
 		 * @inheritDoc
 		 */
-		public begin(index: number): HashMultiSet.Iterator<T>;
-		public begin(index: number = null): HashMultiSet.Iterator<T>
+		public begin(index: number): HashMultiSet.Iterator<Key>;
+		public begin(index: number = null): HashMultiSet.Iterator<Key>
 		{
 			if (index == null)
 				return super.begin();
@@ -215,12 +215,12 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public end(): HashMultiSet.Iterator<T>;
+		public end(): HashMultiSet.Iterator<Key>;
 		/**
 		 * @inheritDoc
 		 */
-		public end(index: number): HashMultiSet.Iterator<T>
-		public end(index: number = null): HashMultiSet.Iterator<T>
+		public end(index: number): HashMultiSet.Iterator<Key>
+		public end(index: number = null): HashMultiSet.Iterator<Key>
 		{
 			if (index == null)
 				return super.end();
@@ -231,12 +231,12 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public rbegin(): HashMultiSet.ReverseIterator<T>;
+		public rbegin(): HashMultiSet.ReverseIterator<Key>;
 		/**
 		 * @inheritDoc
 		 */
-		public rbegin(index: number): HashMultiSet.ReverseIterator<T>;
-		public rbegin(index: number = null): HashMultiSet.ReverseIterator<T>
+		public rbegin(index: number): HashMultiSet.ReverseIterator<Key>;
+		public rbegin(index: number = null): HashMultiSet.ReverseIterator<Key>
 		{
 			return this.end(index).reverse();
 		}
@@ -244,12 +244,12 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public rend(): HashMultiSet.ReverseIterator<T>;
+		public rend(): HashMultiSet.ReverseIterator<Key>;
 		/**
 		 * @inheritDoc
 		 */
-		public rend(index: number): HashMultiSet.ReverseIterator<T>;
-		public rend(index: number = null): HashMultiSet.ReverseIterator<T>
+		public rend(index: number): HashMultiSet.ReverseIterator<Key>;
+		public rend(index: number = null): HashMultiSet.ReverseIterator<Key>
 		{
 			return this.begin(index).reverse();
 		}
@@ -284,7 +284,7 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public hash_function(): (val: T) => number
+		public hash_function(): (key: Key) => number
 		{
 			return this.buckets_.hash_function();
 		}
@@ -292,7 +292,7 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public key_eq(): (x: T, y: T) => boolean
+		public key_eq(): (x: Key, y: Key) => boolean
 		{
 			return this.buckets_.key_eq();
 		}
@@ -300,7 +300,7 @@ namespace std
 		/**
 		 * @inheritDoc
 		 */
-		public bucket(key: T): number
+		public bucket(key: Key): number
 		{
 			return this.hash_function()(key) % this.buckets_.size();
 		}
@@ -340,7 +340,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Key_eq(x: T, y: T): boolean
+		protected _Key_eq(x: Key, y: Key): boolean
 		{
 			return this.key_eq()(x, y);
 		}
@@ -355,10 +355,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): HashMultiSet.Iterator<T>
+		protected _Insert_by_key(key: Key): HashMultiSet.Iterator<Key>
 		{
 			// INSERT
-			let it = this["data_"].insert(this["data_"].end(), val);
+			let it = this["data_"].insert(this["data_"].end(), key);
 
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 			return it;
@@ -367,10 +367,10 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: HashMultiSet.Iterator<T>, val: T): HashMultiSet.Iterator<T>
+		protected _Insert_by_hint(hint: HashMultiSet.Iterator<Key>, key: Key): HashMultiSet.Iterator<Key>
 		{
 			// INSERT
-			let it = this["data_"].insert(hint, val);
+			let it = this["data_"].insert(hint, key);
 
 			// POST-PROCESS
 			this._Handle_insert(it, it.next());
@@ -381,7 +381,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+		protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT ELEMENTS
@@ -401,7 +401,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: HashMultiSet.Iterator<T>, last: HashMultiSet.Iterator<T>): void
+		protected _Handle_insert(first: HashMultiSet.Iterator<Key>, last: HashMultiSet.Iterator<Key>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.buckets_.insert(first);
@@ -410,7 +410,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: HashMultiSet.Iterator<T>, last: HashMultiSet.Iterator<T>): void
+		protected _Handle_erase(first: HashMultiSet.Iterator<Key>, last: HashMultiSet.Iterator<Key>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.buckets_.erase(first);
@@ -424,8 +424,8 @@ namespace std.HashMultiSet
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<T> = base.SetIterator<T, HashMultiSet<T>>;
-	export type ReverseIterator<T> = base.SetReverseIterator<T, HashMultiSet<T>>;
+	export type Iterator<Key> = base.SetIterator<Key, HashMultiSet<Key>>;
+	export type ReverseIterator<Key> = base.SetReverseIterator<Key, HashMultiSet<Key>>;
 
 	// BODY
 	export const Iterator = base.SetIterator;
@@ -435,8 +435,8 @@ namespace std.HashMultiSet
 	// SNAKE NOTATION
 	//----
 	// HEAD
-	export type iterator<T> = Iterator<T>;
-	export type reverse_iterator<T> = ReverseIterator<T>;
+	export type iterator<Key> = Iterator<Key>;
+	export type reverse_iterator<Key> = ReverseIterator<Key>;
 
 	// BODY
 	export const iterator = Iterator;

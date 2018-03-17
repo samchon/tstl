@@ -38,6 +38,8 @@ namespace std.base
 		--------------------------------------------------------- */
 		/**
 		 * Get the first element.
+		 * 
+		 * @return The first element.
 		 */
 		front(): T;
 
@@ -48,6 +50,8 @@ namespace std.base
 
 		/**
 		 * Get the last element.
+		 * 
+		 * @return The last element.
 		 */
 		back(): T;
 
@@ -76,6 +80,7 @@ namespace std.base
 		 * 
 		 * @param pos Position to insert.
 		 * @param val Value to insert.
+		 * @return An iterator to the newly inserted element.
 		 */
 		insert(pos: IteratorT, val: T): IteratorT;
 
@@ -85,6 +90,7 @@ namespace std.base
 		 * @param pos Position to insert.
 		 * @param n Number of elements to insert.
 		 * @param val Value to insert repeatedly.
+		 * @return An iterator to the first of the newly inserted elements.
 		 */
 		insert(pos: IteratorT, n: number, val: T): IteratorT;
 
@@ -94,6 +100,7 @@ namespace std.base
 		 * @param pos Position to insert.
 		 * @param first Input iterator of the first position.
 		 * @param last Input iteartor of the last position.
+		 * @return An iterator to the first of the newly inserted elements.
 		 */
 		insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(pos: IteratorT, first: InputIterator, last: InputIterator): IteratorT;

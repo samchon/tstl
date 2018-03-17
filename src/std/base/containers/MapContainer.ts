@@ -7,6 +7,7 @@ namespace std.base
 			Source,
 			MapIterator<Key, T, Source>,
 			MapReverseIterator<Key, T, Source>>
+		implements _IAssociativeContainer<Key, MapIterator<Key, T, Source>>
 	{
 		/**
 		 * @hidden
@@ -53,6 +54,9 @@ namespace std.base
 		============================================================
 			ITERATOR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public abstract find(key: Key): MapIterator<Key, T, Source>;
 
 		/**
@@ -74,11 +78,17 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ELEMENTS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public has(key: Key): boolean
 		{
 			return !this.find(key).equals(this.end());
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public abstract count(key: Key): number;
 
 		/**
@@ -112,40 +122,19 @@ namespace std.base
 			// RETURN SIZE
 			return this.size();
 		}
-
-		public emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
-		public emplace_hint(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-		public emplace_hint(hint: any, ...args: any[]): any
-		{
-			if (args.length == 1)
-				return this._Emplace_hint(hint, args[0].first, args[0].second);
-			else
-				return this._Emplace_hint(hint, args[0], args[1]);
-		}
+		public abstract emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
 
 		public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 		public insert<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void;
 
-		public insert(...args: any[]): any
+		public insert(par1: any, par2: any): any
 		{
-			if (args.length == 1)
-				return this._Emplace(args[0].first, args[0].second);
-			else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-				return this._Insert_by_range(args[0], args[1]);
+			if (par1.next instanceof Function && par2.next instanceof Function)
+				return this._Insert_by_range(par1, par2);
 			else
-				return this._Emplace_hint(args[0], args[1].first, args[1].second);
+				return this.emplace_hint(par1, par2.first, par2.second);
 		}
-
-		/**
-		 * @hidden
-		 */
-		protected abstract _Emplace(key: Key, val: T): any;
-
-		/**
-		 * @hidden
-		 */
-		protected abstract _Emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
 
 		/**
 		 * @hidden
@@ -156,6 +145,9 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public erase(key: Key): number;
 
 		/**
@@ -213,6 +205,11 @@ namespace std.base
 			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
 		}
 
+		/**
+		 * Merge two containers.
+		 * 
+		 * @param source Source container to transfer.
+		 */
 		public abstract merge(source: Source): void;
 
 		/* ---------------------------------------------------------

@@ -4,35 +4,45 @@
 
 namespace std.base
 {
-	export abstract class SetContainer<T, Source extends SetContainer<T, Source>>
-		extends Container<T, 
+	export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>>
+		extends Container<Key, 
 			Source, 
-			SetIterator<T, Source>, 
-			SetReverseIterator<T, Source>>
+			SetIterator<Key, Source>, 
+			SetReverseIterator<Key, Source>>
+		implements _IAssociativeContainer<Key, SetIterator<Key, Source>>
 	{
 		/**
 		 * @hidden
 		 */
-		private data_: _SetElementList<T, Source>;
+		private data_: _SetElementList<Key, Source>;
 		
 		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		protected constructor()
 		{
 			super();
 
-			this.data_ = new _SetElementList<T, Source>(this as any);
+			this.data_ = new _SetElementList<Key, Source>(this as any);
 		}
 
-		public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-			(begin: InputIterator, end: InputIterator): void
+		/**
+		 * @inheritDoc
+		 */
+		public assign<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+			(first: InputIterator, last: InputIterator): void
 		{
 			// INSERT
 			this.clear();
-			this.insert(begin, end);
+			this.insert(first, last);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			// TO BE ABSTRACT
@@ -46,14 +56,23 @@ namespace std.base
 		============================================================
 			ITERATOR
 		--------------------------------------------------------- */
-		public abstract find(val: T): SetIterator<T, Source>;
+		/**
+		 * @inheritDoc
+		 */
+		public abstract find(key: Key): SetIterator<Key, Source>;
 
-		public begin(): SetIterator<T, Source>
+		/**
+		 * @inheritDoc
+		 */
+		public begin(): SetIterator<Key, Source>
 		{
 			return this.data_.begin();
 		}
 
-		public end(): SetIterator<T, Source>
+		/**
+		 * @inheritDoc
+		 */
+		public end(): SetIterator<Key, Source>
 		{
 			return this.data_.end();
 		}
@@ -61,13 +80,22 @@ namespace std.base
 		/* ---------------------------------------------------------
 			ELEMENTS
 		--------------------------------------------------------- */
-		public has(val: T): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public has(key: Key): boolean
 		{
-			return !this.find(val).equals(this.end());
+			return !this.find(key).equals(this.end());
 		}
 
-		public abstract count(val: T): number;
+		/**
+		 * @inheritDoc
+		 */
+		public abstract count(key: Key): number;
 
+		/**
+		 * @inheritDoc
+		 */
 		public size(): number
 		{
 			return this.data_.size();
@@ -82,14 +110,17 @@ namespace std.base
 		============================================================
 			INSERT
 		--------------------------------------------------------- */
-		public push(...items: T[]): number
+		/**
+		 * @inheritDoc
+		 */
+		public push(...items: Key[]): number
 		{
 			if (items.length == 0)
 				return this.size();
 
 			// INSERT BY RANGE
-			let first: _NativeArrayIterator<T> = new _NativeArrayIterator<T>(items, 0);
-			let last: _NativeArrayIterator<T> = new _NativeArrayIterator<T>(items, items.length);
+			let first: _NativeArrayIterator<Key> = new _NativeArrayIterator<Key>(items, 0);
+			let last: _NativeArrayIterator<Key> = new _NativeArrayIterator<Key>(items, items.length);
 
 			this._Insert_by_range(first, last);
 
@@ -97,56 +128,48 @@ namespace std.base
 			return this.size();
 		}
 		
-		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
-		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-			(begin: InputIterator, end: InputIterator): void;
+		public insert(hint: SetIterator<Key, Source>, key: Key): SetIterator<Key, Source>;
+		public insert<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+			(first: InputIterator, last: InputIterator): void;
 
-		public insert(...args: any[]): any
+			public insert(par1: any, par2: any): any
 		{
-			if (args.length == 1)
-				return this._Insert_by_val(args[0]);
-			else if (args.length == 2)
-			{
-				if (args[0].next instanceof Function && args[1].next instanceof Function)
-				{
-					// IT DOESN'T CONTAIN POSITION
-					// RANGES TO INSERT ONLY
-					return this._Insert_by_range(args[0], args[1]);
-				}
-				else
-				{
-					// INSERT AN ELEMENT
-					return this._Insert_by_hint(args[0], args[1]);
-				}
-			}
+			if (par1.next instanceof Function && par2.next instanceof Function)
+				return this._Insert_by_range(par1, par2);
+			else
+				return this._Insert_by_hint(par1, par2);
 		}
-
-		/**
-		 * @hidden
-		 */
-		protected abstract _Insert_by_val(val: T): any;
 		
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_hint(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
+		protected abstract _Insert_by_hint(hint: SetIterator<Key, Source>, key: Key): SetIterator<Key, Source>;
 		
 		/**
 		 * @hidden
 		 */
-		protected abstract _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+		protected abstract _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		/* ---------------------------------------------------------
 			ERASE
 		--------------------------------------------------------- */
-		public erase(val: T): number;
-		public erase(it: SetIterator<T, Source>): SetIterator<T, Source>;
-		public erase(begin: SetIterator<T, Source>, end: SetIterator<T, Source>): SetIterator<T, Source>;
+		/**
+		 * @inheritDoc
+		 */
+		public erase(key: Key): number;
+		/**
+		 * @inheritDoc
+		 */
+		public erase(it: SetIterator<Key, Source>): SetIterator<Key, Source>;
+		/**
+		 * @inheritDoc
+		 */
+		public erase(begin: SetIterator<Key, Source>, end: SetIterator<Key, Source>): SetIterator<Key, Source>;
 
 		public erase(...args: any[]): any
 		{
-			if (args.length == 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<T, Source>).source() as any == this))
+			if (args.length == 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<Key, Source>).source() as any == this))
 				return this._Erase_by_val(args[0]);
 			else if (args.length == 1)
 				return this._Erase_by_range(args[0]);
@@ -157,12 +180,12 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Erase_by_val(val: T): number;
+		protected abstract _Erase_by_val(key: Key): number;
 
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_range(first: SetIterator<T, Source>, last: SetIterator<T, Source> = first.next()): SetIterator<T, Source>
+		protected _Erase_by_range(first: SetIterator<Key, Source>, last: SetIterator<Key, Source> = first.next()): SetIterator<Key, Source>
 		{
 			// ERASE
 			let it = this.data_.erase(first, last);
@@ -188,6 +211,9 @@ namespace std.base
 			[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public abstract merge(source: Source): void;
 
 		/* ---------------------------------------------------------
@@ -196,11 +222,11 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Handle_insert(first: SetIterator<T, Source>, last: SetIterator<T, Source>): void;
+		protected abstract _Handle_insert(first: SetIterator<Key, Source>, last: SetIterator<Key, Source>): void;
 
 		/**
 		 * @hidden
 		 */
-		protected abstract _Handle_erase(first: SetIterator<T, Source>, last: SetIterator<T, Source>): void;
+		protected abstract _Handle_erase(first: SetIterator<Key, Source>, last: SetIterator<Key, Source>): void;
 	}
 }

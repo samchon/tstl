@@ -2,7 +2,7 @@
 
 namespace std
 {
-	export class TimedMutex implements ILockable
+	export class TimedMutex implements base._ITimedLockable
 	{
 		/**
 		 * @hidden
@@ -17,15 +17,21 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			this.lock_count_ = 0;
-			this.resolvers_ = new HashMap<IResolver, boolean>();
+			this.resolvers_ = new HashMap();
 		}
 
 		/* ---------------------------------------------------------
 			LOCK & UNLOCK
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public lock(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -37,7 +43,10 @@ namespace std
 			});
 		}
 
-		public try_lock(): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public async try_lock(): Promise<boolean>
 		{
 			if (this.lock_count_ != 0)
 				return false; // HAVE LOCKED
@@ -46,6 +55,9 @@ namespace std
 			return true;			
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public async unlock(): Promise<void>
 		{
 			if (this.lock_count_ == 0)
@@ -71,6 +83,9 @@ namespace std
 		/* ---------------------------------------------------------
 			TIMED LOCK
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public try_lock_for(ms: number): Promise<boolean>
 		{
 			return new Promise<boolean>(resolve =>
@@ -98,6 +113,9 @@ namespace std
 			});
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public try_lock_until(at: Date): Promise<boolean>
 		{
 			// COMPUTE MILLISECONDS TO WAIT

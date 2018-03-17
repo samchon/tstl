@@ -243,6 +243,11 @@ namespace std
 		==================================================================
 			UNIQUE & REMOVE(_IF)
 		--------------------------------------------------------------- */
+		/**
+		 * Remove duplicated elements.
+		 * 
+		 * @param binary_pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+		 */
 		public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 		{
 			for (let it = this.begin().next(); !it.equals(this.end()); it = it.next())
@@ -256,6 +261,11 @@ namespace std
 			}
 		}
 
+		/**
+		 * Remove elements with specific value.
+		 * 
+		 * @param val The value to remove.
+		 */
 		public remove(val: T): void
 		{
 			this.remove_if(function (elem: T): boolean
@@ -264,6 +274,11 @@ namespace std
 				});
 		}
 
+		/**
+		 * Remove elements with specific function.
+		 * 
+		 * @param pred A unary function determines whether remove or not.
+		 */
 		public remove_if(pred: (val: T) => boolean): void
 		{
 			let count: number = 0;
@@ -280,9 +295,44 @@ namespace std
 		/* ---------------------------------------------------------------
 			MERGE & SPLICE
 		--------------------------------------------------------------- */
+		/**
+		 * Merge two *sorted* containers.
+		 * 
+		 * @param source Source container to transfer.
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+		 */
+		public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = std.less): void
+		{
+			if (this == <ForwardList<T>>from)
+				return;
+
+			let it = this.before_begin();
+			while (from.empty() == false)
+			{
+				let value = from.begin().value;
+				while (!it.next().equals(this.end()) && comp(it.next().value, value))
+					it = it.next();
+				
+				this.splice_after(it, from, from.before_begin());
+			}
+		}
+
+		/**
+		 * Transfer elements.
+		 * 
+		 * @param pos Position to be inserted.
+		 * @param from Target container to transfer.
+		 */
 		public splice_after<U extends T>
 			(pos: ForwardList.Iterator<T>, from: ForwardList<U>): void;
 
+		/**
+		 * Transfer a single element.
+		 * 
+		 * @param pos Position to be inserted.
+		 * @param from Target container to transfer.
+		 * @param before Previous position of the single element to transfer.
+		 */
 		public splice_after<U extends T>
 			(
 				pos: ForwardList.Iterator<T>, 
@@ -290,6 +340,14 @@ namespace std
 				before: ForwardList.Iterator<U>
 			): void;
 
+		/**
+		 * Transfer range elements.
+		 * 
+		 * @param pos Position to be inserted.
+		 * @param from Target container to transfer.
+		 * @param first Range of previous of the first position to transfer.
+		 * @param last Rangee of the last position to transfer.
+		 */
 		public splice_after<U extends T>
 			(
 				pos: ForwardList.Iterator<T>, 
@@ -318,25 +376,14 @@ namespace std
 			from.erase_after(first_before, last);
 		}
 
-		public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = std.less): void
-		{
-			if (this == <ForwardList<T>>from)
-				return;
-
-			let it = this.before_begin();
-			while (from.empty() == false)
-			{
-				let value = from.begin().value;
-				while (!it.next().equals(this.end()) && comp(it.next().value, value))
-					it = it.next();
-				
-				this.splice_after(it, from, from.before_begin());
-			}
-		}
-
 		/* ---------------------------------------------------------------
 			SORT & SWAP
 		--------------------------------------------------------------- */
+		/**
+		 * Sort elements.
+		 * 
+		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+		 */
 		public sort(comp: (x: T, y: T) => boolean = less): void
 		{
 			let vec = new Vector<T>(this.begin(), this.end());
@@ -345,6 +392,9 @@ namespace std
 			this.assign(vec.begin(), vec.end());
 		}
 		
+		/**
+		 * Reverse elements.
+		 */
 		public reverse(): void
 		{
 			let vec = new Vector<T>(this.begin(), this.end());
@@ -354,6 +404,11 @@ namespace std
 		/* ---------------------------------------------------------------
 			UTILITIES
 		--------------------------------------------------------------- */
+		/**
+		 * Swap elements.
+		 * 
+		 * @param obj Target container to swap.
+		 */
 		public swap(obj: ForwardList<T>): void
 		{
 			// SIZE AND NODES
@@ -366,6 +421,11 @@ namespace std
 			[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
 		}
 
+		/**
+		 * Native function for `JSON.stringify()`.
+		 * 
+		 * @return An array containing children elements.
+		 */
 		public toJSON(): Array<T>
 		{
 			let ret: T[] = [];

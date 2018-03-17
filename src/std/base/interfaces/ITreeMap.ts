@@ -2,7 +2,7 @@
 {
     export interface ITreeMap<Key, T, Source extends MapContainer<Key, T, Source>>
 		extends MapContainer<Key, T, Source>, 
-			ITreeContainer<Key, MapIterator<Key, T, Source>>
+			_ITreeContainer<Key, MapIterator<Key, T, Source>>
 	{
 		/**
 		 * Get value comparison function.

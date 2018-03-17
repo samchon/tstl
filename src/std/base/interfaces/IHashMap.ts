@@ -1,7 +1,7 @@
 ﻿namespace std.base
 {
     export interface IHashMap<Key, T, Source extends MapContainer<Key, T, Source>>
-		extends MapContainer<Key, T, Source>, IHashContainer<Key>
+		extends MapContainer<Key, T, Source>, _IHashContainer<Key>
 	{
 		/* ---------------------------------------------------------
 			ITERATORS

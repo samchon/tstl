@@ -12,14 +12,20 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
-			this.resolvers_ = new HashMap<IResolver, boolean>();
+			this.resolvers_ = new HashMap();
 		}
 
 		/* ---------------------------------------------------------
 			WAITERS
 		--------------------------------------------------------- */
+		/**
+		 * Wait until notified.
+		 */
 		public wait(): Promise<void>
 		{
 			return new Promise<void>(resolve => 
@@ -28,6 +34,12 @@ namespace std
 			});
 		}
 
+		/**
+		 * Wait for timeout or until notified.
+		 * 
+		 * @param ms The maximum miliseconds for waiting.
+		 * @return Whether awaken by notification or timeout.
+		 */
 		public wait_for(ms: number): Promise<boolean>
 		{
 			return new Promise<boolean>(resolve =>
@@ -47,6 +59,12 @@ namespace std
 			});
 		}
 
+		/**
+		 * Wait until notified or time expiration.
+		 * 
+		 * @param at The maximum time point to wait.
+		 * @return Whether awaken by notification or time expiration.
+		 */
 		public wait_until(at: Date): Promise<boolean>
 		{
 			// COMPUTE MILLISECONDS TO WAIT
@@ -59,6 +77,9 @@ namespace std
 		/* ---------------------------------------------------------
 			NOTIFIERS
 		--------------------------------------------------------- */
+		/**
+		 * Notify, wake one.
+		 */
 		public async notify_one(): Promise<void>
 		{
 			// NOTHING TO NOTIFY
@@ -76,6 +97,9 @@ namespace std
 			this.resolvers_.erase(it);	
 		}
 
+		/**
+		 * Notify, wake all
+		 */
 		public async notify_all(): Promise<void>
 		{
 			// NOTHING TO NOTIFY

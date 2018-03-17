@@ -1,7 +1,7 @@
 ﻿namespace std.base
 {
     export interface IHashSet<T, Source extends SetContainer<T, Source>>
-        extends SetContainer<T, Source>, IHashContainer<T>
+        extends SetContainer<T, Source>, _IHashContainer<T>
 	{
 		/* ---------------------------------------------------------
 			ITERATORS

@@ -2,7 +2,7 @@
 
 namespace std
 {
-	export class SharedMutex implements ILockable
+	export class SharedMutex implements base._ISharedLockable
 	{
 		/**
 		 * @hidden
@@ -22,12 +22,15 @@ namespace std
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
+		/**
+		 * Default Constructor.
+		 */
 		public constructor()
 		{
 			this.read_lock_count_ = 0;
 			this.write_lock_count_ = 0;
 
-			this.resolvers_ = new Queue<Pair<boolean, IListener>>();
+			this.resolvers_ = new Queue();
 		}
 
 		/* =========================================================
@@ -37,6 +40,9 @@ namespace std
 		============================================================
 			WRITE LOCK
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public lock(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -48,7 +54,10 @@ namespace std
 			});
 		}
 
-		public try_lock(): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public async try_lock(): Promise<boolean>
 		{
 			if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
 				return false;
@@ -57,6 +66,9 @@ namespace std
 			return true;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public async unlock(): Promise<void>
 		{
 			if (this.write_lock_count_ == 0)
@@ -80,6 +92,9 @@ namespace std
 		/* ---------------------------------------------------------
 			READ LOCK
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public lock_shared(): Promise<void>
 		{
 			return new Promise<void>(resolve =>
@@ -93,7 +108,10 @@ namespace std
 			});
 		}
 
-		public try_lock_shared(): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public async try_lock_shared(): Promise<boolean>
 		{
 			if (this.write_lock_count_ != 0)
 				return false;
@@ -102,6 +120,9 @@ namespace std
 			return true;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public async unlock_shared(): Promise<void>
 		{
 			if (this.read_lock_count_ == 0)

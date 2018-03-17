@@ -217,9 +217,9 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
-		protected _Emplace(key: Key, val: T): Pair<TreeMap.Iterator<Key, T>, boolean>
+		public emplace(key: Key, val: T): Pair<TreeMap.Iterator<Key, T>, boolean>
 		{
 			// FIND POSITION TO INSERT
 			let it: TreeMap.Iterator<Key, T> = this.lower_bound(key);
@@ -234,9 +234,9 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
-		protected _Emplace_hint(hint: TreeMap.Iterator<Key, T>, key: Key, val: T): TreeMap.Iterator<Key, T>
+		public emplace_hint(hint: TreeMap.Iterator<Key, T>, key: Key, val: T): TreeMap.Iterator<Key, T>
 		{
 			//--------
 			// INSERT BRANCH
@@ -272,7 +272,7 @@ namespace std
 				this._Handle_insert(ret, ret.next());
 			}
 			else // INVALID HINT
-				ret = this._Emplace(key, val).first;
+				ret = this.emplace(key, val).first;
 
 			return ret;
 		}
@@ -284,7 +284,7 @@ namespace std
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (let it = first; !it.equals(last); it = it.next())
-				this._Emplace(it.value.first, it.value.second);
+				this.emplace(it.value.first, it.value.second);
 		}
 
 		/* ---------------------------------------------------------

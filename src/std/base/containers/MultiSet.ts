@@ -4,21 +4,50 @@
 
 namespace std.base
 {
-	export abstract class MultiSet<T, Source extends MultiSet<T, Source>>
-		extends SetContainer<T, Source>
+	export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
+		extends SetContainer<Key, Source>
 	{
 		/* ---------------------------------------------------------
 			INSERT
 		--------------------------------------------------------- */
-		public insert(val: T): SetIterator<T, Source>;
-		public insert(hint: SetIterator<T, Source>, val: T): SetIterator<T, Source>;
-		public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+		/**
+		 * Insert an element.
+		 * 
+		 * @param pair A tuple to be referenced for the insert.
+		 * @return An iterator to the newly inserted element.
+		 */
+		public insert(key: Key): SetIterator<Key, Source>;
+
+		/**
+		 * Insert an element with hint.
+		 * 
+		 * @param hint Hint for the position where the element can be inserted.
+		 * @param pair A tuple to be referenced for the insert.
+		 * @return An iterator to the newly inserted element.
+		 */
+		public insert(hint: SetIterator<Key, Source>, key: Key): SetIterator<Key, Source>;
+
+		/**
+		 * Insert range elements.
+		 * 
+		 * @param first Input iterator of the first position.
+		 * @param last Input iteartor of the last position.
+		 */
+		public insert<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(begin: InputIterator, end: InputIterator): void;
 
 		public insert(...args: any[]): any
 		{
-			return super.insert.apply(this, args);
+			if (args.length == 1)
+				return this._Insert_by_key(args[0]);
+			else
+				return super.insert.apply(this, args);
 		}
+
+		/**
+		 * @hidden
+		 */
+		protected abstract _Insert_by_key(key: Key): SetIterator<Key, Source>;
 
 		/* ---------------------------------------------------------
 			ERASE
@@ -26,21 +55,21 @@ namespace std.base
 		/**
 		 * @hidden
 		 */
-		protected abstract _Key_eq(x: T, y: T): boolean;
+		protected abstract _Key_eq(x: Key, y: Key): boolean;
 
 		/**
 		 * @hidden
 		 */
-		protected _Erase_by_val(val: T): number
+		protected _Erase_by_val(key: Key): number
 		{
-			let first = this.find(val);
+			let first = this.find(key);
 			if (first.equals(this.end()) == true)
 				return 0;
 
 			let last = first.next();
 			let ret: number = 1;
 
-			while (!last.equals(this.end()) && this._Key_eq(val, last.value))
+			while (!last.equals(this.end()) && this._Key_eq(key, last.value))
 			{
 				last = last.next();
 				++ret;
@@ -52,6 +81,9 @@ namespace std.base
 		/* ---------------------------------------------------------
 			UTILITY
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public merge(source: Source): void
 		{
 			this.insert(source.begin(), source.end());

@@ -3,7 +3,7 @@
 namespace std
 {
 	export class Queue<T> 
-		implements base.IAdaptorContainer<T, Queue<T>>
+		implements base._IAdaptorContainer<T, Queue<T>>
 	{
 		private source_: List<T>;
 

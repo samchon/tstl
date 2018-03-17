@@ -163,10 +163,10 @@ namespace std.base
 		 * @inheritDoc
 		 */
 		public erase(it: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
-		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
 		/**
 		 * @inheritDoc
 		 */
+		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
 		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT> = first.next()): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION

@@ -3,7 +3,7 @@
 namespace std
 {
 	export class Stack<T> 
-		implements base.IAdaptorContainer<T, Stack<T>>
+		implements base._IAdaptorContainer<T, Stack<T>>
 	{
 		private source_: Vector<T>;
 

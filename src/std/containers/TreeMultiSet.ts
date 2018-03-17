@@ -5,14 +5,14 @@
 
 namespace std
 {
-	export class TreeMultiSet<T>
-		extends base.MultiSet<T, TreeMultiSet<T>>
-		implements base.ITreeSet<T, TreeMultiSet<T>>
+	export class TreeMultiSet<Key>
+		extends base.MultiSet<Key, TreeMultiSet<Key>>
+		implements base.ITreeSet<Key, TreeMultiSet<Key>>
 	{
 		/**
 		 * @hidden
 		 */
-		private tree_: base._MultiSetTree<T, TreeMultiSet<T>>;
+		private tree_: base._MultiSetTree<Key, TreeMultiSet<Key>>;
 
 		/* =========================================================
 			CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -26,7 +26,7 @@ namespace std
 		 * 
 		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
 		 */
-		public constructor(comp?: (x: T, y: T) => boolean);
+		public constructor(comp?: (x: Key, y: Key) => boolean);
 
 		/**
 		 * Initializer Constructor.
@@ -34,14 +34,14 @@ namespace std
 		 * @param items Items to assign.
 		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
 		 */
-		public constructor(items: T[], comp?: (x: T, y: T) => boolean);
+		public constructor(items: Key[], comp?: (x: Key, y: Key) => boolean);
 		
 		/**
 		 * Copy Constructor.
 		 * 
 		 * @param obj Object to copy.
 		 */
-		public constructor(obj: TreeMultiSet<T>);
+		public constructor(obj: TreeMultiSet<Key>);
 
 		/**
 		 * Range Constructor.
@@ -52,9 +52,9 @@ namespace std
 		 */
 		public constructor
 		(
-			first: Readonly<IForwardIterator<T>>, 
-			last: Readonly<IForwardIterator<T>>, 
-			comp?: (x: T, y: T) => boolean
+			first: Readonly<IForwardIterator<Key>>, 
+			last: Readonly<IForwardIterator<Key>>, 
+			comp?: (x: Key, y: Key) => boolean
 		);
 
 		public constructor(...args: any[])
@@ -62,7 +62,7 @@ namespace std
 			super();
 
 			// DECLARE MEMBERS
-			let comp: (x: T, y: T) => boolean = less;
+			let comp: (x: Key, y: Key) => boolean = less;
 			let post_process: () => void = null;
 
 			//----
@@ -72,7 +72,7 @@ namespace std
 			if (args.length == 1 && args[0] instanceof TreeMultiSet)
 			{
 				// PARAMETERS
-				let container: TreeMultiSet<T> = args[0];
+				let container: TreeMultiSet<Key> = args[0];
 				comp = container.key_comp();
 
 				// COPY CONSTRUCTOR
@@ -92,7 +92,7 @@ namespace std
 				// INITIALIZER LIST CONSTRUCTOR
 				post_process = () => 
 				{
-					let items: T[] = args[0];
+					let items: Key[] = args[0];
 					this.push(...items);
 				};
 			}
@@ -104,8 +104,8 @@ namespace std
 				// RANGE CONSTRUCTOR
 				post_process = () =>
 				{
-					let first: Readonly<IForwardIterator<T>> = args[0];
-					let last: Readonly<IForwardIterator<T>> = args[1];
+					let first: Readonly<IForwardIterator<Key>> = args[0];
+					let last: Readonly<IForwardIterator<Key>> = args[1];
 
 					this.assign(first, last);
 				};
@@ -120,7 +120,7 @@ namespace std
 			// DO PROCESS
 			//----
 			// CONSTRUCT TREE
-			this.tree_ = new base._MultiSetTree<T, TreeMultiSet<T>>(this, comp);
+			this.tree_ = new base._MultiSetTree<Key, TreeMultiSet<Key>>(this, comp);
 			
 			// ACT POST-PROCESS
 			if (post_process != null)
@@ -130,6 +130,9 @@ namespace std
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			super.clear();
@@ -137,7 +140,10 @@ namespace std
 			this.tree_.clear();
 		}
 
-		public swap(obj: TreeMultiSet<T>): void
+		/**
+		 * @inheritDoc
+		 */
+		public swap(obj: TreeMultiSet<Key>): void
 		{
 			// SWAP CONTENTS
 			super.swap(obj);
@@ -150,52 +156,77 @@ namespace std
 		/* =========================================================
 			ACCESSORS
 		========================================================= */
-		public find(val: T): TreeMultiSet.Iterator<T>
+		/**
+		 * @inheritDoc
+		 */
+		public find(key: Key): TreeMultiSet.Iterator<Key>
 		{
-			let node = this.tree_.nearest_by_key(val);
+			let node = this.tree_.nearest_by_key(key);
 
-			if (node == null || this.tree_.key_eq()(node.value.value, val) == false)
+			if (node == null || this.tree_.key_eq()(node.value.value, key) == false)
 				return this.end();
 			else
 				return node.value;
 		}
-		public count(val: T): number
+
+		/**
+		 * @inheritDoc
+		 */
+		public count(key: Key): number
 		{
-			let it = this.find(val);
+			let it = this.find(key);
 			let cnt: number = 0;
 
-			for (; !it.equals(this.end()) && this.tree_.key_eq()(it.value, val); it = it.next())
+			for (; !it.equals(this.end()) && this.tree_.key_eq()(it.value, key); it = it.next())
 				cnt++;
 
 			return cnt;
 		}
 
-		public key_comp(): (x: T, y: T) => boolean
-		{
-			return this.tree_.key_comp();
-		}
-		public value_comp(): (x: T, y: T) => boolean
+		/**
+		 * @inheritDoc
+		 */
+		public key_comp(): (x: Key, y: Key) => boolean
 		{
 			return this.tree_.key_comp();
 		}
 
-		public lower_bound(val: T): TreeMultiSet.Iterator<T>
+		/**
+		 * @inheritDoc
+		 */
+		public value_comp(): (x: Key, y: Key) => boolean
 		{
-			return this.tree_.lower_bound(val);
+			return this.tree_.key_comp();
 		}
-		public upper_bound(val: T): TreeMultiSet.Iterator<T>
+
+		/**
+		 * @inheritDoc
+		 */
+		public lower_bound(key: Key): TreeMultiSet.Iterator<Key>
 		{
-			return this.tree_.upper_bound(val);
+			return this.tree_.lower_bound(key);
 		}
-		public equal_range(val: T): Pair<TreeMultiSet.Iterator<T>, TreeMultiSet.Iterator<T>>
+
+		/**
+		 * @inheritDoc
+		 */
+		public upper_bound(key: Key): TreeMultiSet.Iterator<Key>
 		{
-			return this.tree_.equal_range(val);
+			return this.tree_.upper_bound(key);
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public equal_range(key: Key): Pair<TreeMultiSet.Iterator<Key>, TreeMultiSet.Iterator<Key>>
+		{
+			return this.tree_.equal_range(key);
 		}
 
 		/**
 		 * @hidden
 		 */
-		protected _Key_eq(x: T, y: T): boolean
+		protected _Key_eq(x: Key, y: Key): boolean
 		{
 			return this.tree_.key_eq()(x, y);
 		}
@@ -210,13 +241,13 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_val(val: T): TreeMultiSet.Iterator<T>
+		protected _Insert_by_key(key: Key): TreeMultiSet.Iterator<Key>
 		{
 			// FIND POSITION TO INSERT
-			let it: TreeMultiSet.Iterator<T> = this.upper_bound(val);
+			let it: TreeMultiSet.Iterator<Key> = this.upper_bound(key);
 
 			// ITERATOR TO RETURN
-			it = this["data_"].insert(it, val);
+			it = this["data_"].insert(it, key);
 			this._Handle_insert(it, it.next()); // POST-PROCESS
 
 			return it;
@@ -225,37 +256,37 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_hint(hint: TreeMultiSet.Iterator<T>, val: T): TreeMultiSet.Iterator<T>
+		protected _Insert_by_hint(hint: TreeMultiSet.Iterator<Key>, key: Key): TreeMultiSet.Iterator<Key>
 		{
 			//--------
 			// INSERT BRANCH
 			//--------
 			// prev < current < hint
-			let prev: TreeMultiSet.Iterator<T> = hint.prev();
-			let keys: Vector<T> = new Vector<T>();
+			let prev: TreeMultiSet.Iterator<Key> = hint.prev();
+			let keys: Vector<Key> = new Vector<Key>();
 
 			// CONSTRUCT KEYS
-			if (!prev.equals(this.end()) && !this.tree_.key_eq()(prev.value, val))
+			if (!prev.equals(this.end()) && !this.tree_.key_eq()(prev.value, key))
 				keys.push_back(prev.value); // NOT END() AND DIFFERENT WITH KEY
 
-			keys.push_back(val); // NEW ITEM'S KEY
+			keys.push_back(key); // NEW ITEM'S KEY
 
-			if (!hint.equals(this.end()) && !this.tree_.key_eq()(hint.value, val))
+			if (!hint.equals(this.end()) && !this.tree_.key_eq()(hint.value, key))
 				keys.push_back(hint.value);
 
 			// IS HINT VALID ?
-			let ret: TreeMultiSet.Iterator<T>;
+			let ret: TreeMultiSet.Iterator<Key>;
 			
 			if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
 			{
 				// CORRECT HINT
-				ret = this["data_"].insert(hint, val);
+				ret = this["data_"].insert(hint, key);
 
 				// POST-PROCESS
 				this._Handle_insert(ret, ret.next());
 			}
 			else // INVALID HINT
-				ret = this._Insert_by_val(val);
+				ret = this._Insert_by_key(key);
 
 			return ret;
 		}
@@ -263,11 +294,11 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+		protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void
 		{
 			for (; !first.equals(last); first = first.next())
-				this._Insert_by_val(first.value);
+				this._Insert_by_key(first.value);
 		}
 
 		/* ---------------------------------------------------------
@@ -276,7 +307,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_insert(first: TreeMultiSet.Iterator<T>, last: TreeMultiSet.Iterator<T>): void
+		protected _Handle_insert(first: TreeMultiSet.Iterator<Key>, last: TreeMultiSet.Iterator<Key>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.tree_.insert(first);
@@ -285,7 +316,7 @@ namespace std
 		/**
 		 * @hidden
 		 */
-		protected _Handle_erase(first: TreeMultiSet.Iterator<T>, last: TreeMultiSet.Iterator<T>): void
+		protected _Handle_erase(first: TreeMultiSet.Iterator<Key>, last: TreeMultiSet.Iterator<Key>): void
 		{
 			for (; !first.equals(last); first = first.next())
 				this.tree_.erase(first);
@@ -299,8 +330,8 @@ namespace std.TreeMultiSet
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<T> = base.SetIterator<T, TreeMultiSet<T>>;
-	export type ReverseIterator<T> = base.SetReverseIterator<T, TreeMultiSet<T>>;
+	export type Iterator<Key> = base.SetIterator<Key, TreeMultiSet<Key>>;
+	export type ReverseIterator<Key> = base.SetReverseIterator<Key, TreeMultiSet<Key>>;
 
 	// BODY
 	export const Iterator = base.SetIterator;
@@ -310,8 +341,8 @@ namespace std.TreeMultiSet
 	// SNAKE NOTATION
 	//----
 	// HEAD
-	export type iterator<T> = Iterator<T>;
-	export type reverse_iterator<T> = ReverseIterator<T>;
+	export type iterator<Key> = Iterator<Key>;
+	export type reverse_iterator<Key> = ReverseIterator<Key>;
 
 	// BODY
 	export const iterator = Iterator;

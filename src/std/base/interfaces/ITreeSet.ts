@@ -1,7 +1,7 @@
 ﻿namespace std.base
 {
     export interface ITreeSet<T, Source extends SetContainer<T, Source>>
-        extends SetContainer<T, Source>, ITreeContainer<T, SetIterator<T, Source>>
+        extends SetContainer<T, Source>, _ITreeContainer<T, SetIterator<T, Source>>
 	{
 		/**
 		 * Get value comparison function.

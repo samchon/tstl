@@ -23,7 +23,7 @@ namespace std
 		 * Default Constructor.
 		 * 
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
 		public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
 
@@ -32,7 +32,7 @@ namespace std
 		 * 
 		 * @param items Items to assign.
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
 		public constructor(items: IPair<Key, T>[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
 
@@ -49,7 +49,7 @@ namespace std
 		 * @param first Input iterator of the first position.
 		 * @param last Input iterator of the last position.
 		 * @param hash An unary function returns hash code. Default is {hash}.
-		 * @param equal A binary function predicates two arguments are equal. Default is {equal_to}.
+		 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
 		 */
 		public constructor
 		(
@@ -325,9 +325,9 @@ namespace std
 			INSERT
 		--------------------------------------------------------- */
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
-		protected _Emplace(key: Key, val: T): Pair<HashMap.Iterator<Key, T>, boolean>
+		public emplace(key: Key, val: T): Pair<HashMap.Iterator<Key, T>, boolean>
 		{
 			// TEST WHETHER EXIST
 			let it: HashMap.Iterator<Key, T> = this.find(key);
@@ -345,9 +345,9 @@ namespace std
 		}
 
 		/**
-		 * @hidden
+		 * @inheritDoc
 		 */
-		protected _Emplace_hint(hint: HashMap.Iterator<Key, T>, key: Key, val: T): HashMap.Iterator<Key, T>
+		public emplace_hint(hint: HashMap.Iterator<Key, T>, key: Key, val: T): HashMap.Iterator<Key, T>
 		{
 			// FIND DUPLICATED KEY
 			let it: HashMap.Iterator<Key, T> = this.find(key);

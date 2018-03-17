@@ -1,6 +1,6 @@
 namespace std.base
 {
-	export interface ITreeContainer<Key, Iterator>
+	export interface _ITreeContainer<Key, Iterator>
 	{
 		/**
 		 * Get key comparison function.
