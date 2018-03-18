@@ -3,7 +3,7 @@
 namespace std.base
 {
 	export abstract class ReverseIterator<T, 
-			Source extends Container<T, Source, Base, This>, 
+			Source extends IContainer<T, Source, Base, This>, 
 			Base extends Iterator<T, Source, Base, This>, 
 			This extends ReverseIterator<T, Source, Base, This>>
 		implements Readonly<IBidirectionalIterator<T, This>>

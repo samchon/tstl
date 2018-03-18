@@ -1,7 +1,7 @@
 namespace std.base
 {
 	export interface IDequeContainer<T,
-			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>, 
+			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>, 
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>, 
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 		extends ILinearContainer<T, SourceT, IteratorT, ReverseIteratorT>

@@ -5,7 +5,7 @@
 namespace std.base
 {
 	export abstract class ListContainer<T, 
-			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 		extends Container<T, SourceT, IteratorT, ReverseIteratorT>

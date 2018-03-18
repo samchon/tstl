@@ -49,6 +49,13 @@ namespace std
 		sort(first, last, ramda);
 	}
 
+	/**
+	 * 
+	 * @param first 
+	 * @param middle 
+	 * @param last 
+	 * @param comp 
+	 */
 	export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(
 			first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
@@ -103,14 +110,14 @@ namespace std
 		INSPECTOR
 	--------------------------------------------------------- */
 	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): boolean
+		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): boolean
 	{
 		if (first.equals(last)) 
 			return true;
 		
 		for (let next = first.next(); !next.equals(last); next = next.next())
 		{
-			if (!(equal_to(next.value, first.value) || compare(first.value, next.value)))
+			if (!(equal_to(next.value, first.value) || comp(first.value, next.value)))
 				return false;
 			
 			first = first.next();
@@ -119,14 +126,14 @@ namespace std
 	}
 
 	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
+		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		if (first.equals(last))
 			return first;
 		
 		for (let next = first.next(); !next.equals(last); next = next.next())
 		{
-			if (!(equal_to(next.value, first.value) || compare(first.value, next.value)))
+			if (!(equal_to(next.value, first.value) || comp(first.value, next.value)))
 				return next;
 			
 			first = first.next();

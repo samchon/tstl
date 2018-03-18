@@ -11,6 +11,15 @@ namespace std
 	============================================================
 		FOR_EACH
 	--------------------------------------------------------- */
+	/**
+	 * Apply a function to elements in range.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param fn The function to apply.
+	 * 
+	 * @return The function *fn* itself.
+	 */
 	export function for_each<T,
 			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
 			Func extends (val: T) => void>
@@ -22,6 +31,15 @@ namespace std
 		return fn;
 	}
 
+	/**
+	 * Apply a function to elements in steps.
+	 * 
+	 * @param first Input iteartor of the starting position.
+	 * @param n Steps to maximum advance.
+	 * @param fn The function to apply.
+	 * 
+	 * @return Iterator advanced from *first* for *n* steps.
+	 */
 	export function for_each_n<T, 
 			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
 			Func extends (val: T) => void>
@@ -38,6 +56,15 @@ namespace std
 	/* ---------------------------------------------------------
 		AGGREGATE CONDITIONS
 	--------------------------------------------------------- */
+	/**
+	 * Test whether all elements meet a specific condition.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param pred A function predicates an element meets the specific condition.
+	 * 
+	 * @return Whether the *pred* returns always `true` for all elements.
+	 */
 	export function all_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
@@ -48,6 +75,15 @@ namespace std
 		return true;
 	}
 
+	/**
+	 * Test whether any element meets a specific condition.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param pred A function predicates an element meets the specific condition.
+	 * 
+	 * @return Whether the *pred* returns at least a `true` for all elements.
+	 */
 	export function any_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
@@ -58,12 +94,28 @@ namespace std
 		return false;
 	}
 
+	/**
+	 * Test whether any element doesn't meet a specific condition.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param pred A function predicates an element meets the specific condition.
+	 * 
+	 * @return Whether the *pred* doesn't return `true` for all elements.
+	 */
 	export function none_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
 		return !any_of(first, last, pred);
 	}
 
+	/**
+	 * 
+	 * @param first1 Input iteartor of the first position of the 1st range.
+	 * @param last1 Input iterator of the last position of the 1st range.
+	 * @param first2 Input iterator of the first position of the 2nd range.
+	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 */
 	export function equal<T, 
 			InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
 			InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>>
@@ -83,6 +135,14 @@ namespace std
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param first1 Input iteartor of the first position of the 1st range.
+	 * @param last1 Input iterator of the last position of the 1st range.
+	 * @param first2 Input iterator of the first position of the 2nd range.
+	 * @param last2 Input iterator of the last position of the 2nd range.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 */
 	export function lexicographical_compare<T, 
 			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
 			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
@@ -108,6 +168,15 @@ namespace std
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
+	/**
+	 * Find a value in range.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param val The value to find.
+	 * 
+	 * @return Iterator to the first element {@link equal to equal_to} the value.
+	 */
 	export function find<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, val: T): InputIterator
 	{
@@ -118,6 +187,15 @@ namespace std
 		return last;
 	}
 
+	/**
+	 * Find a matched condition in range.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param pred A function predicates specific condition.
+	 * 
+	 * @return Iterator to the first element *pred* returns `true`.
+	 */
 	export function find_if<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
@@ -128,6 +206,13 @@ namespace std
 		return last;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param first 
+	 * @param last 
+	 * @param pred 
+	 */
 	export function find_if_not<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
@@ -138,6 +223,14 @@ namespace std
 		return last;
 	}
 
+	/**
+	 * 
+	 * @param first1 Input iteartor of the first position of the 1st range.
+	 * @param last1 Input iterator of the last position of the 1st range.
+	 * @param first2 Input iterator of the first position of the 2nd range.
+	 * @param last2 Input iterator of the last position of the 2nd range.
+	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 */
 	export function find_end<T, 
 			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
 			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
@@ -173,6 +266,17 @@ namespace std
 		return ret;
 	}
 
+	/**
+	 * Find the first sub range.
+	 * 
+	 * @param first1 Input iteartor of the first position of the 1st range.
+	 * @param last1 Input iterator of the last position of the 1st range.
+	 * @param first2 Input iterator of the first position of the 2nd range.
+	 * @param last2 Input iterator of the last position of the 2nd range.
+	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 * 
+	 * @return Iterator to the first element of the first sub range.
+	 */
 	export function find_first_of<T, 
 			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
 			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
@@ -189,6 +293,15 @@ namespace std
 		return last1;
 	}
 
+	/**
+	 * Find the first adjacent element.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 * 
+	 * @return Iterator to the first element of adjacent find.
+	 */
 	export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = equal_to): InputIterator
 	{
@@ -208,6 +321,17 @@ namespace std
 		return last;
 	}
 
+	/**
+	 * Search sub range.
+	 * 
+	 * @param first1 Forward iteartor of the first position of the 1st range.
+	 * @param last1 Forward iterator of the last position of the 1st range.
+	 * @param first2 Forward iterator of the first position of the 2nd range.
+	 * @param last2 Forward iterator of the last position of the 2nd range.
+	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 * 
+	 * @return Iterator to the first element of the sub range.
+	 */
 	export function search<T, 
 			ForwardIterator1 extends Readonly<IForwardIterator<T, ForwardIterator1>>, 
 			ForwardIterator2 extends Readonly<IForwardIterator<T, ForwardIterator2>>>
@@ -238,6 +362,17 @@ namespace std
 		return last1;
 	}
 
+	/**
+	 * Search specific and repeated elements.
+	 * 
+	 * @param first Forward iteartor of the first position.
+	 * @param last Forward iterator of the last position.
+	 * @param count Count to be repeated.
+	 * @param val Value to search.
+	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 * 
+	 * @return Iterator to the first element of the repetition.
+	 */
 	export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 		(
 			first: ForwardIterator, last: ForwardIterator, count: number, val: T, 
@@ -262,6 +397,16 @@ namespace std
 		return last;
 	}
 	
+	/**
+	 * Find the first mistmached position between two ranges.
+	 * 
+	 * @param first1 Input iteartor of the first position of the 1st range.
+	 * @param last1 Input iterator of the last position of the 1st range.
+	 * @param first2 Input iterator of the first position of the 2nd range.
+	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 * 
+	 * @return A {@link Pair} of mismatched positions.
+	 */
 	export function mismatch<T, 
 			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
 			Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
@@ -281,6 +426,15 @@ namespace std
 	/* ---------------------------------------------------------
 		COUNTERS
 	--------------------------------------------------------- */
+	/**
+	 * Count matched value in range.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param val The value to count.
+	 * 
+	 * @return The matched count.
+	 */
 	export function count<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, val: T): number
 	{
@@ -293,6 +447,15 @@ namespace std
 		return cnt;
 	}
 
+	/**
+	 * Count matched condition in range.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param pred A function predicates the specific condition.
+	 * 
+	 * @return The matched count.
+	 */
 	export function count_if<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): number
 	{

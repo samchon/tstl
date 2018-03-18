@@ -15,7 +15,7 @@ namespace test
 	}
 
 	function _Test_for_of_iteration<
-			SourceT extends std.base.Container<number, SourceT, IteratorT, ReverseT>,
+			SourceT extends std.base.IContainer<number, SourceT, IteratorT, ReverseT>,
 			IteratorT extends std.base.Iterator<number, SourceT, IteratorT, ReverseT>, 
 			ReverseT extends std.base.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
 		(vec: SourceT): void

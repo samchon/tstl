@@ -3,7 +3,7 @@
 namespace std.base
 {
 	export abstract class Container<T, 
-			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 		implements Iterable<T>, IBidirectionalContainer<T, IteratorT, ReverseIteratorT>
@@ -12,16 +12,13 @@ namespace std.base
 			ASSIGN & CLEAR
 		--------------------------------------------------------- */
 		/**
-		 * Range Assigner.
-		 * 
-		 * @param first Input iteartor of the first position.
-		 * @param last Input iterator of the last position.
+		 * @inheritDoc
 		 */
 		public abstract assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void;
 
 		/**
-		 * Clear elements.
+		 * @inheritDoc
 		 */
 		public clear(): void
 		{
@@ -36,12 +33,12 @@ namespace std.base
 			SIZE
 		--------------------------------------------------------- */
 		/**
-		 * Number of elements in the container.
+		 * @inheritDoc
 		 */
 		public abstract size(): number;
 		
 		/**
-		 * Test whether container is empty.
+		 * @inheritDoc
 		 */
 		public empty(): boolean
 		{
@@ -52,21 +49,17 @@ namespace std.base
 			ITERATORS
 		--------------------------------------------------------- */
 		/**
-		 * Iterator to the first element.
-		 * 
-		 * @return Iterator to the first element.
+		 * @inheritDoc
 		 */
 		public abstract begin(): IteratorT;
 
 		/**
-		 * Iterator to the end.
-		 * 
-		 * @return Iterator to the end.
+		 * @inheritDoc
 		 */
 		public abstract end(): IteratorT;
 
 		/**
-		 * Reverse iterator to the first element in reverse.
+		 * @inheritDoc
 		 */
 		public rbegin(): ReverseIteratorT
 		{
@@ -74,7 +67,7 @@ namespace std.base
 		}
 
 		/**
-		 * Reverse iterator to the reverse end.
+		 * @inheritDoc
 		 */
 		public rend(): ReverseIteratorT
 		{
@@ -82,9 +75,7 @@ namespace std.base
 		}
 
 		/**
-		 * Native function for `for ... of` iteration.
-		 * 
-		 * @return For ... of iterator
+		 * @inheritDoc
 		 */
 		public [Symbol.iterator](): IterableIterator<T>
 		{
@@ -95,35 +86,22 @@ namespace std.base
 			ELEMENTS I/O
 		--------------------------------------------------------- */
 		/**
-		 * Insert items at the end.
-		 * 
-		 * @param items Items to insert.
-		 * @return Number of elements in the container after insertion.
+		 * @inheritDoc
 		 */
 		public abstract push(...items: T[]): number;
 
 		/**
-		 * Insert a single element.
-		 * 
-		 * @param pos Position to insert.
-		 * @param val Value to insert.
+		 * @inheritDoc
 		 */
 		public abstract insert(pos: IteratorT, val: T): IteratorT;
 
 		/**
-		 * Erase an element.
-		 * 
-		 * @param pos Position to erase.
-		 * @return Iterator following the *pos*, strained by the erasing.
+		 * @inheritDoc
 		 */
 		public abstract erase(pos: IteratorT): IteratorT;
 
 		/**
-		 * Erase elements in range.
-		 * 
-		 * @param first Range of the first position to erase.
-		 * @param last Rangee of the last position to erase.
-		 * @return Iterator following the last removed element, strained by the erasing.
+		 * @inheritDoc
 		 */
 		public abstract erase(first: IteratorT, last: IteratorT): IteratorT;
 
@@ -131,16 +109,12 @@ namespace std.base
 			UTILITIES
 		--------------------------------------------------------------- */
 		/**
-		 * Swap elements.
-		 * 
-		 * @param obj Target container to swap.
+		 * @inheritDoc
 		 */
 		public abstract swap(obj: SourceT): void;
 
 		/**
-		 * Native function for `JSON.stringify()`.
-		 * 
-		 * @return An array containing children elements.
+		 * @inheritDoc
 		 */
 		public toJSON(): Array<T>
 		{

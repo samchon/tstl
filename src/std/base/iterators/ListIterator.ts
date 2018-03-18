@@ -6,7 +6,7 @@
 namespace std.base
 {
 	export abstract class ListIterator<T, 
-			SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 		implements Readonly<Iterator<T, SourceT, IteratorT, ReverseIteratorT>>

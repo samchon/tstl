@@ -36,7 +36,7 @@ namespace test
 	/* ---------------------------------------------------------
 		REGULAR CONTAINERS
 	--------------------------------------------------------- */
-	function _Test_container_swap<SourceT extends std.base.Container<P, SourceT, IteratorT, ReverseT>, 
+	function _Test_container_swap<SourceT extends std.base.IContainer<P, SourceT, IteratorT, ReverseT>, 
 			IteratorT extends std.base.Iterator<P, SourceT, IteratorT, ReverseT>, 
 			ReverseT extends std.base.ReverseIterator<P, SourceT, IteratorT, ReverseT>>
 		(name: string, v1: SourceT, v2: SourceT): void
@@ -84,7 +84,7 @@ namespace test
 	}
 
 	function _Validate_iterators_source<T,
-			SourceT extends std.base.Container<T, SourceT, IteratorT, ReverseT>, 
+			SourceT extends std.base.IContainer<T, SourceT, IteratorT, ReverseT>, 
 			IteratorT extends std.base.Iterator<T, SourceT, IteratorT, ReverseT>, 
 			ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
 		(name: string, container: SourceT): void

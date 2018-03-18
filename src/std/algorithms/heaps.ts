@@ -33,7 +33,7 @@ namespace std
 		if (less_it != null)
 			iter_swap(less_it, last_item_it);
 	}
-	
+
 	export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
