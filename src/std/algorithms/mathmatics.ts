@@ -10,74 +10,122 @@ namespace std
 	============================================================
 		MIN & MAX
 	--------------------------------------------------------- */
-	export function min<T>(...args: T[]): T
+	/**
+	 * Get the minium value.
+	 * 
+	 * @param items Items to search through.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return The minimum value.
+	 */
+	export function min<T>(items: T[], comp: (x: T, y: T) => boolean = less): T
 	{
-		let minimum: T = args[0];
+		let minimum: T = items[0];
 
-		for (let i: number = 1; i < args.length; i++)
-			if (less(args[i], minimum))
-				minimum = args[i];
+		for (let i: number = 1; i < items.length; i++)
+			if (comp(items[i], minimum))
+				minimum = items[i];
 
 		return minimum;
 	}
 
-	export function max<T>(...args: T[]): T
+	/**
+	 * Get the maximum value.
+	 * 
+	 * @param items Items to search through.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return The maximum value.
+	 */
+	export function max<T>(items: T[], comp: (x: T, y: T) => boolean = less): T
 	{
-		let maximum: T = args[0];
+		let maximum: T = items[0];
 
-		for (let i: number = 1; i < args.length; i++)
-			if (greater(args[i], maximum))
-				maximum = args[i];
+		for (let i: number = 1; i < items.length; i++)
+			if (comp(maximum, items[i]))
+				maximum = items[i];
 
 		return maximum;
 	}
 
-	export function minmax<T>(...args: T[]): Pair<T, T>
+	/**
+	 * Get the minimum & maximum values.
+	 * 
+	 * @param items Items to search through.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return A {@link Pair} of minimum & maximum values.
+	 */
+	export function minmax<T>(items: T[], comp: (x: T, y: T) => boolean): Pair<T, T>
 	{
-		let minimum: T = args[0];
-		let maximum: T = args[0];
+		let minimum: T = items[0];
+		let maximum: T = items[0];
 
-		for (let i: number = 1; i < args.length; i++)
+		for (let i: number = 1; i < items.length; i++)
 		{
-			if (less(args[i], minimum))
-				minimum = args[i];
-			if (greater(args[i], maximum))
-				maximum = args[i];
+			if (comp(items[i], minimum))
+				minimum = items[i];
+			if (comp(maximum, items[i]))
+				maximum = items[i];
 		}
-
 		return make_pair(minimum, maximum);
 	}
 	
+	/**
+	 * Get the minimum element in range.
+	 * 
+	 * @param first Forward iterator of the first position.
+	 * @param last Forward iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return Iterator to the minimum element.
+	 */
 	export function min_element<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
+		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		let smallest: ForwardIterator = first;
 		first = first.next();
 		
 		for (; !first.equals(last); first = first.next())
-			if (compare(first.value, smallest.value))
+			if (comp(first.value, smallest.value))
 				smallest = first;
 
 		return smallest;
 	}
 
+	/**
+	 * Get the maximum element in range.
+	 * 
+	 * @param first Forward iterator of the first position.
+	 * @param last Forward iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return Iterator to the maximum element.
+	 */
 	export function max_element<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less): ForwardIterator
+		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): ForwardIterator
 	{
 		let largest: ForwardIterator = first;
 		first = first.next();
 
 		for (; !first.equals(last); first = first.next())
-			if (!compare(first.value, largest.value))
+			if (comp(largest.value, first.value))
 				largest = first;
 
 		return largest;
 	}
 
+	/**
+	 * Get the minimum & maximum elements in range.
+	 * 
+	 * @param first Forward iterator of the first position.
+	 * @param last Forward iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return A {@link Pair} of iterators to the minimum & maximum elements.
+	 */
 	export function minmax_element<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(
-			first: ForwardIterator, last: ForwardIterator, compare: (x: T, y: T) => boolean = less
-		): Pair<ForwardIterator, ForwardIterator>
+		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): Pair<ForwardIterator, ForwardIterator>
 	{
 		let smallest: ForwardIterator = first;
 		let largest: ForwardIterator = first;
@@ -85,41 +133,61 @@ namespace std
 		first = first.next();
 		for (; !first.equals(last); first = first.next())
 		{
-			if (compare(first.value, smallest.value)) // first is less than the smallest.
+			if (comp(first.value, smallest.value)) // first is less than the smallest.
 				smallest = first;
-			if (!compare(first.value, largest.value)) // first is not less than the largest.
+			if (comp(largest.value, first.value)) // first is not less than the largest.
 				largest = first;
 		}
-
 		return make_pair(smallest, largest);
 	}
 
+	/**
+	 * Get the clamp value.
+	 * 
+	 * @param v The value to clamp.
+	 * @param lo Lower value than *hi*.
+	 * @param hi Higher value than *lo*.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return The clamp value.
+	 */
 	export function clamp<T>(v: T, lo: T, hi: T, comp: (x: T, y: T) => boolean = less): T
 	{
-		let vec: Vector<T> = new Vector<T>([v, lo, hi]);
-		sort(vec.begin(), vec.end(), comp);
-
-		return vec.at(1);
+		return comp(v, lo) ? lo
+			: comp(hi, v) ? hi : v;
 	}
 
 	/* ---------------------------------------------------------
 		PERMUATATIONS
 	--------------------------------------------------------- */
-	export function is_permutation<T, Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
+	/**
+	 * Test whether two ranges are in permutation relationship.
+	 * 
+	 * @param first1 Forward iteartor of the first position of the 1st range.
+	 * @param last1 Forward iterator of the last position of the 1st range.
+	 * @param first2 Forward iterator of the first position of the 2nd range.
+	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 * 
+	 * @return Whether permutation or not.
+	 */
+	export function is_permutation<T, 
+			ForwardIterator1 extends Readonly<IForwardIterator<T, ForwardIterator1>>, 
+			ForwardIterator2 extends Readonly<IForwardIterator<T, ForwardIterator2>>>
 		(
-			first1: Iterator1, last1: Iterator1, first2: Iterator2,
+			first1: ForwardIterator1, last1: ForwardIterator1, 
+			first2: ForwardIterator2,
 			pred: (x: T, y: T) => boolean = equal_to
 		): boolean
 	{
 		// find the mismatched
-		let pair: Pair<Iterator1, Iterator2> = mismatch(first1, last1, first2);
+		let pair: Pair<ForwardIterator1, ForwardIterator2> = mismatch(first1, last1, first2);
 		first1 = pair.first;
 		first2 = pair.second;
 
 		if (first1.equals(last1))
 			return true;
 
-		let last2: Iterator2 = advance(first2, distance(first1, last1));
+		let last2: ForwardIterator2 = advance(first2, distance(first1, last1));
 
 		for (let it = first1; !it.equals(last1); it = it.next())
 		{
@@ -138,6 +206,15 @@ namespace std
 		return true;
 	}
 
+	/**
+	 * Transform to the previous permutation.
+	 * 
+	 * @param first Bidirectional iterator of the first position.
+	 * @param last Bidirectional iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return Whether the transformation was meaningful.
+	 */
 	export function prev_permutation<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean = less): boolean
 	{
@@ -173,6 +250,15 @@ namespace std
 		}
 	}
 
+	/**
+	 * Transform to the next permutation.
+	 * 
+	 * @param first Bidirectional iterator of the first position.
+	 * @param last Bidirectional iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return Whether the transformation was meaningful.
+	 */
 	export function next_permutation<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = less): boolean
 	{

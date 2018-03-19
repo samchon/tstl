@@ -61,7 +61,7 @@ namespace std
 	 * 
 	 * @param first Input iteartor of the first position.
 	 * @param last Input iterator of the last position.
-	 * @param pred A function predicates an element meets the specific condition.
+	 * @param pred A function predicates the specific condition.
 	 * 
 	 * @return Whether the *pred* returns always `true` for all elements.
 	 */
@@ -80,7 +80,7 @@ namespace std
 	 * 
 	 * @param first Input iteartor of the first position.
 	 * @param last Input iterator of the last position.
-	 * @param pred A function predicates an element meets the specific condition.
+	 * @param pred A function predicates the specific condition.
 	 * 
 	 * @return Whether the *pred* returns at least a `true` for all elements.
 	 */
@@ -99,7 +99,7 @@ namespace std
 	 * 
 	 * @param first Input iteartor of the first position.
 	 * @param last Input iterator of the last position.
-	 * @param pred A function predicates an element meets the specific condition.
+	 * @param pred A function predicates the specific condition.
 	 * 
 	 * @return Whether the *pred* doesn't return `true` for all elements.
 	 */
@@ -110,11 +110,14 @@ namespace std
 	}
 
 	/**
+	 * Test whether two ranges are equal.
 	 * 
 	 * @param first1 Input iteartor of the first position of the 1st range.
 	 * @param last1 Input iterator of the last position of the 1st range.
 	 * @param first2 Input iterator of the first position of the 2nd range.
 	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 * 
+	 * @return Whether two ranges are equal.
 	 */
 	export function equal<T, 
 			InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
@@ -136,12 +139,15 @@ namespace std
 	}
 
 	/**
+	 * Compare lexicographically.
 	 * 
 	 * @param first1 Input iteartor of the first position of the 1st range.
 	 * @param last1 Input iterator of the last position of the 1st range.
 	 * @param first2 Input iterator of the first position of the 2nd range.
 	 * @param last2 Input iterator of the last position of the 2nd range.
 	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return Whether the 1st range precedes the 2nd.
 	 */
 	export function lexicographical_compare<T, 
 			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
@@ -192,7 +198,7 @@ namespace std
 	 * 
 	 * @param first Input iteartor of the first position.
 	 * @param last Input iterator of the last position.
-	 * @param pred A function predicates specific condition.
+	 * @param pred A function predicates the specific condition.
 	 * 
 	 * @return Iterator to the first element *pred* returns `true`.
 	 */
@@ -207,11 +213,13 @@ namespace std
 	}
 
 	/**
+	 * Find a mismatched condition in range.
 	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param pred A function predicates the specific condition.
 	 * 
-	 * @param first 
-	 * @param last 
-	 * @param pred 
+	 * @return Iterator to the first element *pred* returns `false`.
 	 */
 	export function find_if_not<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
@@ -224,12 +232,15 @@ namespace std
 	}
 
 	/**
+	 * Find the last sub range.
 	 * 
 	 * @param first1 Input iteartor of the first position of the 1st range.
 	 * @param last1 Input iterator of the last position of the 1st range.
 	 * @param first2 Input iterator of the first position of the 2nd range.
 	 * @param last2 Input iterator of the last position of the 2nd range.
 	 * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 * 
+	 * @return Iterator to the first element of the last sub range.
 	 */
 	export function find_end<T, 
 			Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 

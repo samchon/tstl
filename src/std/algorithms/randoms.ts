@@ -2,12 +2,30 @@
 
 namespace std
 {
+	/**
+	 * Generate random integer.
+	 * 
+	 * @param x Minimum value.
+	 * @param y Maximum value.
+	 * 
+	 * @return A random integer between [x, y].
+	 */
 	export function randint(x: number, y: number): number
 	{
 		let rand: number = Math.random() * (y - x + 1);
 		return Math.floor(rand) + x;
 	}
 
+	/**
+	 * Pick sample elements up.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param output Output iterator of the first position.
+	 * @param n Number of elements to pick up.
+	 * 
+	 * @return Output Iterator to the last position by advancing.
+	 */
 	export function sample<T, 
 			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
 			OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
