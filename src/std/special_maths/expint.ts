@@ -12,6 +12,9 @@ namespace std
 	 */
 	const MAX_K = 150;
 
+	/**
+	 * Exponential integral.
+	 */
 	export function expint(x: number): number
 	{
 		if (x == 0)

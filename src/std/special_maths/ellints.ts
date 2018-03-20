@@ -5,6 +5,11 @@ namespace std
 	/* ---------------------------------------------------------------
 		FIRST
 	--------------------------------------------------------------- */
+	/**
+	 * Incomplete elliptic integral of the 1st kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_first_kind
+	 */
 	export function ellint_1(k: number, phi: number): number
 	{
 		// FORMULA OF INTEGRAL
@@ -15,6 +20,11 @@ namespace std
 		return _Post_process(k, phi, formula);
 	}
 
+	/**
+	 * Complete elliptic integral of the 1st kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Elliptic_integral_of_the_first_kind
+	 */
 	export function comp_ellint_1(k: number): number
 	{
 		return ellint_1(k, Math.PI / 2);
@@ -23,6 +33,11 @@ namespace std
 	/* ---------------------------------------------------------------
 		SECOND
 	--------------------------------------------------------------- */
+	/**
+	 * Incomplete elliptic integral of the 2nd kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Incomplete_elliptic_integral_of_the_second_kind
+	 */
 	export function ellint_2(k: number, phi: number): number
 	{
 		let formula = function (x: number): number
@@ -32,6 +47,11 @@ namespace std
 		return _Post_process(k, phi, formula);
 	}
 
+	/**
+	 * Complete elliptic integral of the 2nd kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_second_kind
+	 */
 	export function comp_ellint_2(k: number): number
 	{
 		return ellint_2(k, Math.PI / 2);
@@ -40,6 +60,11 @@ namespace std
 	/* ---------------------------------------------------------------
 		THIRD
 	--------------------------------------------------------------- */
+	/**
+	 * Incomplete elliptic integral of the 3rd kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_third_kind
+	 */
 	export function ellint_3(k: number, v: number, phi: number): number
 	{
 		// SPECIAL VALIDATIONS ONLY FOR SERIES-3
@@ -49,6 +74,11 @@ namespace std
 		return _Ellint_3(k, v, phi);
 	}
 
+	/**
+	 * Complete elliptic integral of the 3rd kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Incomplete_elliptic_integral_of_the_third_kind
+	 */
 	export function comp_ellint_3(k: number, n: number): number
 	{
 		return ellint_3(k, n, Math.PI / 2);

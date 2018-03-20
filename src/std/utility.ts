@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Test whether the code is running on NodeJS.
+	 * 
+	 * @return Whether NodeJS or not.
+	 */
 	export function is_node(): boolean
 	{
 		if (typeof process === "object")
@@ -15,8 +20,17 @@ namespace std
 		return false;
 	}
 	
-	export function make_pair<T1, T2>(x: T1, y: T2): Pair<T1, T2>
+	/**
+	 * Create a {@link Pair}.
+	 * 
+	 * @param first The 1st element.
+	 * @param second The 2nd element.
+	 * 
+	 * @return A {@link Pair} object.
+	 */
+	export function make_pair<First, Second>
+		(first: First, second: Second): Pair<First, Second>
 	{
-		return new Pair<T1, T2>(x, y);
+		return new Pair<First, Second>(first, second);
 	}
 }

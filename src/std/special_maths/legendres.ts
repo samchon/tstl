@@ -2,11 +2,21 @@
 
 namespace std
 {
+	/**
+	 * Legendre polynomials.
+	 * 
+	 * @reference http://en.cppreference.com/w/cpp/numeric/special_math/legendre
+	 */
 	export function legendre(n: number, x: number): number
 	{
 		return assoc_legendre(n, 0, x);
 	}
 
+	/**
+	 * Associated Legendre polynomials.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Associated_Legendre_polynomials
+	 */
 	export function assoc_legendre(n: number, m: number, x: number): number
 	{
 		// VALIDATE PARAMETERS

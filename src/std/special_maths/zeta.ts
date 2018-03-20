@@ -7,6 +7,11 @@ namespace std
 	 */
 	const INFINITY = 100 * 1000;
 
+	/**
+	 * Riemann zeta function.
+	 * 
+	 * @reference http://en.cppreference.com/w/cpp/numeric/special_math/riemann_zeta
+	 */
 	export function riemann_zeta(arg: number): number
 	{
 		if (arg < 0)

@@ -1,12 +1,12 @@
 ﻿/// <reference path="../API.ts" />
 
+/// <reference path="../base/containers/AdaptorContainer.ts" />
+
 namespace std
 {
 	export class Queue<T> 
-		implements base._IAdaptorContainer<T, Queue<T>>
+		extends base.AdaptorContainer<T, List<T>, Queue<T>>
 	{
-		private source_: List<T>;
-
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
@@ -24,8 +24,9 @@ namespace std
 
 		public constructor(obj: Queue<T> = null)
 		{
-			this.source_ = new List<T>();
+			super();
 
+			this.source_ = new List();
 			if (obj != null)
 				this.source_.assign(obj.source_.begin(), obj.source_.end());
 		}
@@ -33,42 +34,32 @@ namespace std
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public size(): number
-		{
-			return this.source_.size();
-		}
-
-		public empty(): boolean
-		{
-			return this.source_.empty();
-		}
-		
+		/**
+		 * Get the first element.
+		 * 
+		 * @return The first element.
+		 */
 		public front(): T
 		{
 			return this.source_.front();
 		}
 
+		/**
+		 * Get the last element.
+		 * 
+		 * @return The last element.
+		 */
 		public back(): T
 		{
 			return this.source_.back();
 		}
 
-		/* ---------------------------------------------------------
-			ELEMENTS I/O
-		--------------------------------------------------------- */
-		public push(...elems: T[]): void
-		{
-			this.source_.push(...elems);
-		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public pop(): void
 		{
 			this.source_.pop_front();
-		}
-
-		public swap(obj: Queue<T>): void
-		{
-			[this.source_, obj.source_] = [obj.source_, this.source_];
 		}
 	}
 }

@@ -2,8 +2,11 @@
 
 namespace std
 {
-	// Lanczos Approximation
-	// - https://rosettacode.org/wiki/Gamma_function#JavaScript
+	/**
+	 * Gamma function.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Gamma_function, https://rosettacode.org/wiki/Gamma_function#JavaScript
+	 */
 	export function tgamma(x: number): number
 	{
 		if (x < 0.5)
@@ -21,6 +24,9 @@ namespace std
 		return Math.sqrt(2 * Math.PI) * Math.pow(t, x + 0.5) * Math.exp(-t) * a;
 	}
 
+	/**
+	 * Log gamma function.
+	 */
 	export function lgamma(x: number): number
 	{
 		return Math.log(tgamma(x));

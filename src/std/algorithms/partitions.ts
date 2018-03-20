@@ -93,7 +93,6 @@ namespace std
 			else
 				n = step;
 		}
-
 		return first;
 	}
 }

@@ -24,7 +24,7 @@ namespace std
 	 * @param output Output iterator of the first position.
 	 * @param n Number of elements to pick up.
 	 * 
-	 * @return Output Iterator to the last position by advancing.
+	 * @return Output Iterator of the last position by advancing.
 	 */
 	export function sample<T, 
 			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,

@@ -5,16 +5,16 @@
 /// <reference path="exceptions/RuntimeError.ts" />
 /// <reference path="exceptions/SystemError.ts" />
 
-// Standard exceptions
-//
-// This header defines the base class for all exceptions thrown by the elements of the standard library: 
-// {@link Exception}, along with several types and utilities to assist handling exceptions:
+// <exception>
 //
 // @reference http://www.cplusplus.com/reference/exception/
 // @author Jeongho Nam <http://samchon.org>
 
 namespace std
 {
+	/**
+	 * Terminate program.
+	 */
 	export function terminate(): void
 	{
 		if (_Terminate_handler != null)
@@ -29,9 +29,14 @@ namespace std
 		}
 	}
 
-	export function set_terminate(f: () => void): void
+	/**
+	 * Set terminate handler.
+	 * 
+	 * @param func The terminate handler.
+	 */
+	export function set_terminate(func: () => void): void
 	{
-		_Terminate_handler = f;
+		_Terminate_handler = func;
 
 		if (is_node() == true)
 			process.on("uncaughtException", function (): void
@@ -45,6 +50,11 @@ namespace std
 			};
 	}
 
+	/**
+	 * Get terminate handler.
+	 * 
+	 * @return The terminate handler.
+	 */
 	export function get_terminate(): () => void
 	{
 		return _Terminate_handler;

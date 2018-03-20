@@ -14,6 +14,11 @@ namespace std
 	==================================================================
 		FIRST KIND
 	--------------------------------------------------------------- */
+	/**
+	 * Bessel function of the 1st kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Bessel_function#Bessel_functions_of_the_first_kind:_J.CE.B1
+	 */
 	export function cyl_bessel_j(n: number, x: number): number
 	{
 		// VALIDATION
@@ -29,6 +34,11 @@ namespace std
 			return _J_positive(n, x);
 	}
 
+	/**
+	 * Bessel function of the 2nd kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Bessel_function#Bessel_functions_of_the_second_kind:_Y.CE.B1
+	 */
 	export function cyl_neumann(v: number, x: number): number
 	{
 		if (x <= 0)
@@ -70,11 +80,21 @@ namespace std
 	/* ---------------------------------------------------------------
 		SPHERICAL
 	--------------------------------------------------------------- */
+	/**
+	 * Spherical Bessel function of the 1st kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn.2C_yn
+	 */
 	export function sph_bessel(n: number, x: number): number
 	{
 		return Math.sqrt(Math.PI / (2*x)) * cyl_bessel_j(n+.5, x);
 	}
 
+	/**
+	 * Spherical Bessel function of the 2nd kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn.2C_yn
+	 */
 	export function sph_neumann(n: number, x: number): number
 	{
 		let ret: number = Math.sqrt(Math.PI / (2*x));
@@ -90,6 +110,11 @@ namespace std
 	==================================================================
 		FIRST KIND
 	--------------------------------------------------------------- */
+	/**
+	 * Modified cylindrical Bessel function of the 1st kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions:_I.CE.B1_.2C_K.CE.B1
+	 */
 	export function cyl_bessel_i(n: number, x: number): number
 	{
 		// VALIDATION
@@ -122,6 +147,11 @@ namespace std
 	/* ---------------------------------------------------------------
 		SECOND KIND
 	--------------------------------------------------------------- */
+	/**
+	 * Modified cylindrical Bessel function of the 2nd kind.
+	 * 
+	 * @reference https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions:_I.CE.B1_.2C_K.CE.B1
+	 */
 	export function cyl_bessel_k(n: number, x: number): number
 	{
 		if (x <= 0)

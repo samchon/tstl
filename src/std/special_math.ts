@@ -10,3 +10,8 @@
 /// <reference path="special_maths/legendres.ts" />
 /// <reference path="special_maths/laguerres.ts" />
 /// <reference path="special_maths/zeta.ts" />
+
+// <special_math>
+//
+// @reference http://en.cppreference.com/w/cpp/numeric/special_math
+// @author Jeongho Nam <http://samchon.org>

@@ -11,6 +11,11 @@
 
 namespace std
 {
+	/**
+	 * Sleep for time span.
+	 * 
+	 * @param ms The milliseconds to sleep.
+	 */
 	export function sleep_for(ms: number): Promise<void>
 	{
 		return new Promise<void>((resolve, reject) =>
@@ -25,6 +30,11 @@ namespace std
 		});
 	}
 
+	/**
+	 * Sleep until time expiration.
+	 * 
+	 * @param at The time point to wake up.
+	 */
 	export function sleep_until(at: Date): Promise<void>
 	{
 		let now: Date = new Date();
@@ -33,6 +43,11 @@ namespace std
 		return sleep_for(ms); // CONVERT TO THE SLEEP_FOR
 	}
 
+	/**
+	 * Lock multiple mutexes.
+	 * 
+	 * @param items Items to lock.
+	 */
 	export function lock(...items: ILockable[]): Promise<void>
 	{
 		return new Promise<void>(resolve =>
@@ -48,6 +63,12 @@ namespace std
 		});
 	}
 
+	/**
+	 * Try lock mutexes.
+	 * 
+	 * @param items Items to try lock.
+	 * @return Index of mutex who failed to lock. None of them're failed, then returns `-1`.
+	 */
 	export async function try_lock(...items: ILockable[]): Promise<number>
 	{
 		for (let i: number = 0; i < items.length; ++i)

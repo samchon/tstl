@@ -4,7 +4,8 @@ namespace std.base
 			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-		extends Iterable<T>, IBidirectionalContainer<T, IteratorT, ReverseIteratorT>
+		extends IBidirectionalContainer<T, IteratorT, ReverseIteratorT>, 
+			Iterable<T>, _IEmpty, _ISize, _IPush<T>
 	{
 		/* ---------------------------------------------------------
 			ASSIGN & CLEAR
@@ -31,12 +32,12 @@ namespace std.base
 			SIZE
 		--------------------------------------------------------- */
 		/**
-		 * Number of elements in the container.
+		 * @inheritDoc
 		 */
 		size(): number;
 		
 		/**
-		 * Test whether container is empty.
+		 * @inheritDoc
 		 */
 		empty(): boolean;
 
@@ -78,10 +79,7 @@ namespace std.base
 			ELEMENTS I/O
 		--------------------------------------------------------- */
 		/**
-		 * Insert items at the end.
-		 * 
-		 * @param items Items to insert.
-		 * @return Number of elements in the container after insertion.
+		 * @inheritDoc
 		 */
 		push(...items: T[]): number;
 

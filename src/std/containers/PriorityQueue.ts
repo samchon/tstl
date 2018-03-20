@@ -1,9 +1,11 @@
 ﻿/// <reference path="../API.ts" />
 
+/// <reference path="../base/containers/AdaptorContainer.ts" />
+
 namespace std
 {
 	export class PriorityQueue<T> 
-		implements base._IAdaptorContainer<T, PriorityQueue<T>>
+		extends base.AdaptorContainer<T, TreeMultiSet<T>, PriorityQueue<T>>
 	{
 		//--------
 		// The <i>underlying container</i> for implementing the <i>priority queue</i>.
@@ -21,11 +23,6 @@ namespace std
 		// operations and it even meets full criteria of {@link PriorityQueue}. Those are the reason why I've adopted
 		// {@link TreeMultiSet} as the <i>underlying container</i> of {@link PriorityQueue}.
 		//--------
-		/**
-		 * @hidden
-		 */
-		private source_: TreeMultiSet<T>;
-
 		/* ---------------------------------------------------------
 			CONSTURCTORS
 		--------------------------------------------------------- */
@@ -59,6 +56,8 @@ namespace std
 
 		public constructor(...args: any[])
 		{
+			super();
+
 			// DECLARE MEMBERS
 			let comp: (x: T, y: T) => boolean = std.less;
 			let post_process: () => void = null;
@@ -108,45 +107,31 @@ namespace std
 				post_process();
 		}
 
-		public swap(obj: PriorityQueue<T>): void
-		{
-			this.source_.swap(obj.source_);
-		}
-
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
-		public size(): number
-		{
-			return this.source_.size();
-		}
-
-		public empty(): boolean
-		{
-			return this.source_.empty();
-		}
-
+		/**
+		 * Get value comparison function.
+		 */
 		public value_comp(): (x: T, y: T) => boolean
 		{
 			return this.source_.value_comp();
 		}
 
-		/* ---------------------------------------------------------
-			ELEMENTS I/O
-		--------------------------------------------------------- */
+		/**
+		 * Get top element.
+		 */
 		public top(): T
 		{
-			return this.source_.begin().value;
+			return this.source_.end().prev().value;
 		}
 
-		public push(...elems: T[]): void
-		{
-			this.source_.push(...elems);
-		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public pop(): void
 		{
-			this.source_.erase(this.source_.begin());
+			this.source_.erase(this.source_.end().prev());
 		}
 	}
 }

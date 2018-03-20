@@ -5,7 +5,7 @@
 /// <reference path="iterators/BackInsertIterator.ts" />
 /// <reference path="iterators/JSArrayIterator.ts" />
 
-// Iterator definitions.
+// <iterator>
 //
 // @reference http://www.cplusplus.com/reference/iterator
 // @author Jeongho Nam <http://samchon.org>
@@ -20,8 +20,18 @@ namespace std
 	============================================================
 		ACCESSORS
 	--------------------------------------------------------- */
-	export function empty<T>(source: Array<T>): boolean;
+	/**
+	 * Test whether a container is empty.
+	 * 
+	 * @param source Target container.
+	 * @return Whether empty or not.
+	 */
 	export function empty(source: base._IEmpty): boolean;
+
+	/**
+	 * @hidden
+	 */
+	export function empty<T>(source: Array<T>): boolean;
 	export function empty(source: any): boolean
 	{
 		if (source instanceof Array)
@@ -30,8 +40,18 @@ namespace std
 			return source.empty();
 	}
 
-	export function size<T>(source: Array<T>): number;
+	/**
+	 * Get number of elements of a container.
+	 * 
+	 * @param source Target container.
+	 * @return The number of elements in the container.
+	 */
 	export function size(source: base._ISize): number
+
+	/**
+	 * @hidden
+	 */
+	export function size<T>(source: Array<T>): number;
 	export function size(source: any): number
 	{
 		if (source instanceof Array)
@@ -40,6 +60,14 @@ namespace std
 			return source.size();
 	}
 
+	/**
+	 * Get distance between two iterators.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * 
+	 * @return The distance.
+	 */
 	export function distance<T, InputIterator extends IForwardIterator<T, InputIterator>>
 		(first: InputIterator, last: InputIterator): number
 	{
@@ -68,6 +96,14 @@ namespace std
 	/* ---------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------- */
+	/**
+	 * Advance iterator.
+	 * 
+	 * @param it Target iterator to advance.
+	 * @param n Count to step.
+	 * 
+	 * @return The advanced iterator.
+	 */
 	export function advance<T, InputIterator extends IForwardIterator<T, InputIterator>>
 		(it: InputIterator, n: number): InputIterator
 	{
@@ -114,6 +150,9 @@ namespace std
 	--------------------------------------------------------- */
 	// BEGIN & END
 	//----
+	/**
+	 * @hidden
+	 */
 	export function begin<T>(container: Array<T>): Vector.Iterator<T>;
 	export function begin<T, Iterator extends IForwardIterator<T, Iterator>>
 		(container: base.IForwardContainer<T, Iterator>): Iterator;
@@ -126,6 +165,9 @@ namespace std
 		return container.begin();
 	}
 	
+	/**
+	 * @hidden
+	 */
 	export function end<T>(container: Array<T>): Vector.Iterator<T>;
 	export function end<T, Iterator extends IForwardIterator<T, Iterator>>
 		(container: base.IForwardContainer<T, Iterator>): Iterator;
@@ -141,6 +183,9 @@ namespace std
 	//----
 	// INSERTERS
 	//----
+	/**
+	 * @hidden
+	 */
 	export function inserter<T>
 		(container: Array<T>, it: Vector.Iterator<T>): InsertIterator<T, Vector<T>, Vector.Iterator<T>>;
 
@@ -162,6 +207,9 @@ namespace std
 		return new FrontInsertIterator(source);
 	}
 
+	/**
+	 * @hidden
+	 */
 	export function back_inserter<T>
 		(source: Array<T>): BackInsertIterator<T, Vector<T>>;
 	
@@ -188,6 +236,9 @@ namespace std
 		return it.reverse();
 	}
 
+	/**
+	 * @hidden
+	 */
 	export function rbegin<T>(container: Array<T>): Vector.ReverseIterator<T>;
 	export function rbegin<T, 
 		Iterator extends IReversableIterator<T, Iterator, ReverseIterator>,
@@ -202,6 +253,9 @@ namespace std
 		source.rbegin();
 	}
 
+	/**
+	 * @hidden
+	 */
 	export function rend<T>(container: Array<T>): Vector.ReverseIterator<T>;
 	export function rend<T, 
 		Iterator extends IReversableIterator<T, Iterator, ReverseIterator>,

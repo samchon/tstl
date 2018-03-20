@@ -1,11 +1,10 @@
 /// <reference path="../API.ts" />
 
-
 namespace test
 {
 	export function test_priority_queue(): void
 	{
-		let pq = new std.PriorityQueue<number>();
+		let pq = new std.PriorityQueue<number>(std.less);
 		for (let i: number = 0; i < 1000; ++i)
 			pq.push(Math.random() * 100);
 
@@ -16,7 +15,7 @@ namespace test
 			pq.pop();
 		}
 
-		if (std.is_sorted(std.begin(items), std.end(items)) == false)
+		if (std.is_sorted(std.begin(items), std.end(items), std.greater) == false)
 			throw new std.DomainError("PriorityQueue is invalid.");
 	}
 

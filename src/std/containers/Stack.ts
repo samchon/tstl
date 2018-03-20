@@ -1,12 +1,12 @@
 ﻿/// <reference path="../API.ts" />
 
+/// <reference path="../base/containers/AdaptorContainer.ts" />
+
 namespace std
 {
 	export class Stack<T> 
-		implements base._IAdaptorContainer<T, Stack<T>>
+		extends base.AdaptorContainer<T, Vector<T>, Stack<T>>
 	{
-		private source_: Vector<T>;
-
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
@@ -24,46 +24,32 @@ namespace std
 
 		public constructor(obj: Stack<T> = null)
 		{
-			this.source_ = new Vector<T>();
+			super();
 
+			this.source_ = new Vector();
 			if (obj != null)
 				this.source_.assign(obj.source_.begin(), obj.source_.end());
 		}
 
 		/* ---------------------------------------------------------
-			ACCESSORS
+			ACCESSOR
 		--------------------------------------------------------- */
-		public size(): number
-		{
-			return this.source_.size();
-		}
-
-		public empty(): boolean
-		{
-			return this.source_.empty();
-		}
-
+		/**
+		 * Get the last element.
+		 * 
+		 * @return The last element.
+		 */
 		public top(): T
 		{
 			return this.source_.back();
 		}
 
-		/* ---------------------------------------------------------
-			ELEMENTS I/O
-		--------------------------------------------------------- */
-		public push(...elems: T[]): void
-		{
-			this.source_.push(...elems);
-		}
-
+		/**
+		 * @inheritDoc
+		 */
 		public pop(): void
 		{
 			this.source_.pop_back();
-		}
-
-		public swap(obj: Stack<T>): void
-		{
-			[this.source_, obj.source_] = [obj.source_, this.source_];
 		}
 	}
 }

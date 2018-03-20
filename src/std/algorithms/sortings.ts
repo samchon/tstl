@@ -10,6 +10,13 @@ namespace std
 	============================================================
 		SORT
 	--------------------------------------------------------- */
+	/**
+	 * Sort elements in range.
+	 * 
+	 * @param first Random access iterator of the first position.
+	 * @param last Random access iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 */
 	export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
@@ -39,6 +46,13 @@ namespace std
 		sort(first.advance(i), last, comp);
 	}
 
+	/**
+	 * Sort elements in range stably.
+	 * 
+	 * @param first Random access iterator of the first position.
+	 * @param last Random access iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 */
 	export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 	{
@@ -50,11 +64,12 @@ namespace std
 	}
 
 	/**
+	 * Sort elements in range partially.
 	 * 
-	 * @param first 
-	 * @param middle 
-	 * @param last 
-	 * @param comp 
+	 * @param first Random access iterator of the first position.
+	 * @param middle Random access iterator of the middle position between [first, last). Elements only in [first, middle) are fully sorted.
+	 * @param last Random access iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
 	 */
 	export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(
@@ -75,40 +90,81 @@ namespace std
 		}
 	}
 
+	/**
+	 * Copy elements in range with partial sort.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param output_first Output iterator of the first position.
+	 * @param output_last Output iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return Output Iterator of the last position by advancing.
+	 */
 	export function partial_sort_copy<T, 
 			InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
 			RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>>
 		(
 			first: InputIterator, last: InputIterator, 
-			result_first: RandomAccessIterator, result_last: RandomAccessIterator, 
+			output_first: RandomAccessIterator, output_last: RandomAccessIterator, 
 			comp: (x: T, y: T) => boolean = less
 		): RandomAccessIterator
 	{
 		let input_size: number = distance(first, last);
-		let result_size: number = distance(result_first, result_last);
+		let result_size: number = distance(output_first, output_last);
 
 		let vector: Vector<T> = new Vector<T>(first, last);
 		sort(vector.begin(), vector.end(), comp);
 
 		if (input_size > result_size)
-			result_first = copy(vector.begin(), vector.begin().advance(result_size), result_first);
+			output_first = copy(vector.begin(), vector.begin().advance(result_size), output_first);
 		else
-			result_first = copy(vector.begin(), vector.end(), result_first);
+			output_first = copy(vector.begin(), vector.end(), output_first);
 
-		return result_first;
+		return output_first;
 	}
 
+	/**
+	 * Rearrange for the n'th element.
+	 * 
+	 * @param first Random access iterator of the first position.
+	 * @param nth Random access iterator the n'th position.
+	 * @param last Random access iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 */
 	export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 		(first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean = less): void
 	{
-		nth.index(); // TODO: How to utilize it?
+		let n: number = distance(first, nth);
+		for (let i = first; !i.equals(last); i = i.next())
+		{
+			let count: number = 0;
+			for (let j = first; !j.equals(last); j = j.next())
+				if (i.equals(j))
+					continue;
+				else if (comp(i.value, j.value) && ++count > n)
+					break;
 
-		sort(first, last, comp);
+			if (count == n)
+			{
+				iter_swap(nth, i);
+				return;
+			}
+		}
 	}
 
 	/* ---------------------------------------------------------
 		INSPECTOR
 	--------------------------------------------------------- */
+	/**
+	 * Test whether a range is sorted.
+	 * 
+	 * @param first Random access iterator of the first position.
+	 * @param last Random access iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return Whether sorted or not.
+	 */
 	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): boolean
 	{
@@ -125,6 +181,15 @@ namespace std
 		return true;
 	}
 
+	/**
+	 * Find the first unsorted element in range.
+	 * 
+	 * @param first Random access iterator of the first position.
+	 * @param last Random access iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+	 * 
+	 * @return Iterator to the first element who violates the order.
+	 */
 	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
 		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): ForwardIterator
 	{
