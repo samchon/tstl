@@ -2,6 +2,11 @@
 
 namespace std
 {
+	/**
+	 * Condition variable.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class ConditionVariable
 	{
 		/**

@@ -4,6 +4,11 @@
 
 namespace std.base
 {
+	/**
+	 * Base class for Set Containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>>
 		extends Container<Key, 
 			Source, 

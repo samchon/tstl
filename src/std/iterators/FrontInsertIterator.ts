@@ -4,6 +4,11 @@
 
 namespace std
 {
+	/**
+	 * Front insert iterator.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class FrontInsertIterator<T, Source extends base._IPushFront<T>>
 		extends base._InsertIterator<T, FrontInsertIterator<T, Source>>
 	{

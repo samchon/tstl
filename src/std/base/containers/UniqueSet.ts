@@ -4,6 +4,11 @@
 
 namespace std.base
 {
+	/**
+	 * Base class for Unique-key Set Containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class UniqueSet<Key, Source extends UniqueSet<Key, Source>>
 		extends SetContainer<Key, Source>
 	{

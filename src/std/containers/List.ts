@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Doubly Linked List.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class List<T>
 		extends base.ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
 		implements base.IDequeContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
@@ -317,6 +322,11 @@ namespace std
 
 namespace std.List
 {
+	/**
+	 * Iterator of the List.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Iterator<T>
 		extends base.ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
 	{
@@ -337,6 +347,9 @@ namespace std.List
 			this.source_ptr_ = sourcePtr;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public reverse(): ReverseIterator<T>
 		{
 			return new ReverseIterator(this);
@@ -345,16 +358,25 @@ namespace std.List
 		/* ---------------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public source(): List<T>
 		{
 			return this.source_ptr_.value;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public get value(): T
 		{
 			return this["value_"];
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set value(val: T)
 		{
 			this["value_"] = val;
@@ -369,6 +391,11 @@ namespace std.List
 		}
 	}
 
+	/**
+	 * Reverse iterator of the List.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class ReverseIterator<T>
 		extends base.ReverseIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
 	{
@@ -391,11 +418,17 @@ namespace std.List
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public get value(): T
 		{
 			return this.base_.value;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set value(val: T)
 		{
 			this.base_.value = val;

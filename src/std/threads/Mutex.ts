@@ -2,6 +2,11 @@
 
 namespace std
 {
+	/**
+	 * Mutex.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Mutex implements ILockable
 	{
 		/**

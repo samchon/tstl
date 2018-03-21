@@ -1,5 +1,10 @@
 namespace std
 {
+	/**
+	 * Lockable object.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export interface ILockable
 	{
 		/**

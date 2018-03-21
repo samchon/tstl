@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Multiple-key Set based on Hash buckets.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class HashMultiSet<Key>
 		extends base.MultiSet<Key, HashMultiSet<Key>>
 		implements base.IHashSet<Key, HashMultiSet<Key>>

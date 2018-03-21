@@ -4,45 +4,91 @@
 
 namespace std
 {
-	export class LogicError
-		extends Exception
+	/**
+	 * Logic Error.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class LogicError extends Exception
 	{
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param message The error messgae.
+		 */
 		public constructor(message: string)
 		{
 			super(message);
 		}
 	}
 
-	export class DomainError
-		extends LogicError
+	/**
+	 * Domain Error.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class DomainError extends LogicError
 	{
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param message The error messgae.
+		 */
 		public constructor(message: string)
 		{
 			super(message);
 		}
 	}
 
-	export class InvalidArgument
-		extends LogicError
+	/**
+	 * Invalid Argument Exception.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class InvalidArgument extends LogicError
 	{
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param message The error messgae.
+		 */
 		public constructor(message: string)
 		{
 			super(message);
 		}
 	}
 
+	/**
+	 * Length Error.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class LengthError
 		extends LogicError
 	{
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param message The error messgae.
+		 */
 		public constructor(message: string)
 		{
 			super(message);
 		}
 	}
 
-	export class OutOfRange
-		extends LogicError
+	/**
+	 * Out-of-range Exception.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class OutOfRange extends LogicError
 	{
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param message The error messgae.
+		 */
 		public constructor(message: string)
 		{
 			super(message);

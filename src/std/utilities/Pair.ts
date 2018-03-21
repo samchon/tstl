@@ -2,17 +2,34 @@
 
 namespace std
 {
-	export class Pair<T1, T2> 
-		implements IPair<T1, T2>, IComparable<Pair<T1, T2>>
+	/**
+	 * Pair of two elements.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class Pair<First, Second> 
+		implements IPair<First, Second>, IComparable<Pair<First, Second>>
 	{
-		public first: T1;
+		/**
+		 * @inheritDoc
+		 */
+		public first: First;
 
-		public second: T2;
+		/**
+		 * @inheritDoc
+		 */
+		public second: Second;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		public constructor(first: T1, second: T2)
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param first The first element.
+		 * @param second The second element.
+		 */
+		public constructor(first: First, second: Second)
 		{
 			this.first = first;
 			this.second = second;
@@ -21,12 +38,18 @@ namespace std
 		/* ---------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------- */
-		public equals<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public equals<U1 extends First, U2 extends Second>(pair: Pair<U1, U2>): boolean
 		{
 			return equal_to(this.first, pair.first) && equal_to(this.second, pair.second);
 		}
 
-		public less<U1 extends T1, U2 extends T2>(pair: Pair<U1, U2>): boolean
+		/**
+		 * @inheritDoc
+		 */
+		public less<U1 extends First, U2 extends Second>(pair: Pair<U1, U2>): boolean
 		{
 			if (equal_to(this.first, pair.first) == false)
 				return less(this.first, pair.first);
@@ -34,6 +57,9 @@ namespace std
 				return less(this.second, pair.second);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public hashCode(): number
 		{
 			return std.hash(this.first, this.second);

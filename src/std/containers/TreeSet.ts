@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Unique-key Set based on Tree.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class TreeSet<Key>
 		extends base.UniqueSet<Key, TreeSet<Key>>
 		implements base.ITreeSet<Key, TreeSet<Key>>

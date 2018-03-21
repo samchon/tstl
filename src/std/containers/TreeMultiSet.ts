@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Multiple-key Set based on Tree.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class TreeMultiSet<Key>
 		extends base.MultiSet<Key, TreeMultiSet<Key>>
 		implements base.ITreeSet<Key, TreeMultiSet<Key>>

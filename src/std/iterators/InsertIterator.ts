@@ -4,6 +4,11 @@
 
 namespace std
 {
+	/**
+	 * Insert iterator.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class InsertIterator<T, 
 			Container extends base._IInsert<T, Iterator>, 
 			Iterator extends IForwardIterator<T, Iterator>>

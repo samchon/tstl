@@ -4,6 +4,11 @@
 
 namespace std.base
 {
+	/**
+	 * Base class for Unique-key Map Containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>>
 		extends MapContainer<Key, T, Source>
 	{

@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Unique-key Set based on Hash buckets.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class HashSet<Key>
 		extends base.UniqueSet<Key, HashSet<Key>>
 		implements base.IHashSet<Key, HashSet<Key>>

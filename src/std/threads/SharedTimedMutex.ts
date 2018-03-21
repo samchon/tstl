@@ -2,6 +2,11 @@
 
 namespace std
 {
+	/**
+	 * Shared timed mutex.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class SharedTimedMutex 
 		implements base._ISharedLockable, base._ITimedLockable
 	{

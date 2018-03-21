@@ -159,14 +159,14 @@ namespace std
 	/**
 	 * Test whether a range is sorted.
 	 * 
-	 * @param first Random access iterator of the first position.
-	 * @param last Random access iterator of the last position.
+	 * @param first Input iterator of the first position.
+	 * @param last Input iterator of the last position.
 	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
 	 * 
 	 * @return Whether sorted or not.
 	 */
-	export function is_sorted<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): boolean
+	export function is_sorted<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
+		(first: InputIterator, last: InputIterator, comp: (x: T, y: T) => boolean = less): boolean
 	{
 		if (first.equals(last)) 
 			return true;
@@ -184,14 +184,14 @@ namespace std
 	/**
 	 * Find the first unsorted element in range.
 	 * 
-	 * @param first Random access iterator of the first position.
-	 * @param last Random access iterator of the last position.
+	 * @param first Input iterator of the first position.
+	 * @param last Input iterator of the last position.
 	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
 	 * 
 	 * @return Iterator to the first element who violates the order.
 	 */
-	export function is_sorted_until<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-		(first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): ForwardIterator
+	export function is_sorted_until<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
+		(first: InputIterator, last: InputIterator, comp: (x: T, y: T) => boolean = less): InputIterator
 	{
 		if (first.equals(last))
 			return first;

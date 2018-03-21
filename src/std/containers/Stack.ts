@@ -4,6 +4,11 @@
 
 namespace std
 {
+	/**
+	 * Stack; LIFO (Last In First Out).
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Stack<T> 
 		extends base.AdaptorContainer<T, Vector<T>, Stack<T>>
 	{

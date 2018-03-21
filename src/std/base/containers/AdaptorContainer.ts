@@ -2,6 +2,9 @@
 
 namespace std.base
 {
+	/**
+	 * @hidden
+	 */
 	export abstract class AdaptorContainer<T, 
 			Source extends _IEmpty & _ISize & _IPush<T>,
 			This extends AdaptorContainer<T, Source, This>>

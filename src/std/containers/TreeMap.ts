@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Unique-key Map based on Tree.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class TreeMap<Key, T>
 		extends base.UniqueMap<Key, T, TreeMap<Key, T>>
 		implements base.ITreeMap<Key, T, TreeMap<Key, T>>

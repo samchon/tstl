@@ -2,6 +2,11 @@
 
 namespace std.base
 {
+	/**
+	 * Base container.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class Container<T, 
 			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,

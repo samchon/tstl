@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Multiple-key Map based on Tree.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class TreeMultiMap<Key, T>
 		extends base.MultiMap<Key, T, TreeMultiMap<Key, T>>
 		implements base.ITreeMap<Key, T, TreeMultiMap<Key, T>>

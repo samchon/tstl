@@ -4,7 +4,12 @@
 /// <reference path="../base/iterators/ArrayIterator.ts" />
 
 namespace std
-{	
+{
+	/**
+	 * Vector, an array with variable capacity.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Vector<T>
 		extends base.ArrayContainer<T, Vector<T>>
 	{

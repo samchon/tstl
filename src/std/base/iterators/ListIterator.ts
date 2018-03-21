@@ -5,6 +5,9 @@
 
 namespace std.base
 {
+	/**
+	 * @hidden
+	 */
 	export abstract class ListIterator<T, 
 			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
@@ -36,23 +39,38 @@ namespace std.base
 			this.value_ = value;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public abstract reverse(): ReverseIteratorT;
 
 		/* ---------------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public abstract source(): SourceT;
 
+		/**
+		 * @inheritDoc
+		 */
 		public prev(): IteratorT
 		{
 			return this.prev_;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public next(): IteratorT
 		{
 			return this.next_;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public get value(): T
 		{
 			return this.value_;
@@ -61,6 +79,9 @@ namespace std.base
 		/* ---------------------------------------------------------------
 			COMPARISON
 		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public equals(obj: IteratorT): boolean
 		{
 			return this == <any>obj;

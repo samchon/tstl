@@ -1,5 +1,10 @@
 namespace std.base
 {
+	/**
+	 * Interface for linear containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export interface ILinearContainer<T, 
 			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>, 
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>, 

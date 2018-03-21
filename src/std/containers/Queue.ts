@@ -4,6 +4,11 @@
 
 namespace std
 {
+	/**
+	 * Queue; FIFO (First In First Out).
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Queue<T> 
 		extends base.AdaptorContainer<T, List<T>, Queue<T>>
 	{

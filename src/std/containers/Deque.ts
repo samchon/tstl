@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Double ended queue.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Deque<T>
 		extends base.ArrayContainer<T, Deque<T>>
 	{

@@ -2,18 +2,39 @@
 
 namespace std.base
 {
-	export class ForOfAdaptor<T, Iterator extends Readonly<IForwardIterator<T, Iterator>>> 
+	/**
+	 * Adaptor for `for ... of` iteration.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
+	export class ForOfAdaptor<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>> 
 		implements IterableIterator<T>
 	{
-		private it_: Iterator;
-		private last_: Iterator;
+		/**
+		 * @hidden
+		 */
+		private it_: InputIterator;
 
-		public constructor(first: Iterator, last: Iterator)
+		/**
+		 * @hidden
+		 */
+		private last_: InputIterator;
+
+		/**
+		 * Initializer Constructor.
+		 * 
+		 * @param first Input iteartor of the first position.
+		 * @param last Input iterator of the last position.
+		 */
+		public constructor(first: InputIterator, last: InputIterator)
 		{
 			this.it_ = first;
 			this.last_ = last;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public next(): IteratorResult<T>
 		{
 			if (this.it_.equals(this.last_))
@@ -23,7 +44,7 @@ namespace std.base
 				};
 			else
 			{
-				let it: Iterator = this.it_;
+				let it: InputIterator = this.it_;
 				this.it_ = this.it_.next();
 
 				return {
@@ -33,6 +54,9 @@ namespace std.base
 			}
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public [Symbol.iterator](): IterableIterator<T>
 		{
 			return this;

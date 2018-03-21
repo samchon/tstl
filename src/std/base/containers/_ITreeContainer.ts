@@ -1,5 +1,8 @@
 namespace std.base
 {
+	/**
+	 * @hidden
+	 */
 	export interface _ITreeContainer<Key, Iterator>
 	{
 		/**

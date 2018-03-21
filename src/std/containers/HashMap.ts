@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Unique-key Map based on Hash buckets.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class HashMap<Key, T>
 		extends base.UniqueMap<Key, T, HashMap<Key, T>>
 		implements base.IHashMap<Key, T, HashMap<Key, T>>

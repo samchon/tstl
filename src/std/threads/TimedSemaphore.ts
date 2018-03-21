@@ -2,6 +2,11 @@
 
 namespace std.experimental
 {
+	/**
+	 * Timed semaphore
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class TimedSemaphore implements base._ISemaphore
 	{
 		/**

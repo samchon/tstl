@@ -2,6 +2,11 @@
 
 namespace std
 {
+	/**
+	 * Timed mutex
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class TimedMutex implements base._ITimedLockable
 	{
 		/**

@@ -4,6 +4,11 @@
 
 namespace std.base
 {
+	/**
+	 * Base class for Multiple-key Map Containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 		extends MapContainer<Key, T, Source>
 	{

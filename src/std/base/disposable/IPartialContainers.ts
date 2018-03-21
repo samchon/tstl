@@ -1,5 +1,11 @@
 namespace std.base
 {
+	/* ---------------------------------------------------------
+		CAPACITY
+	--------------------------------------------------------- */
+	/**
+	 * @hidden
+	 */
 	export interface _IEmpty
 	{
 		/**
@@ -7,6 +13,10 @@ namespace std.base
 		 */
 		empty(): boolean;
 	}
+
+	/**
+	 * @hidden
+	 */
 	export interface _ISize
 	{
 		/**
@@ -15,11 +25,20 @@ namespace std.base
 		size(): number;
 	}
 
+	/* ---------------------------------------------------------
+		INSERTER
+	--------------------------------------------------------- */
+	/**
+	 * @hidden
+	 */
 	export interface _IInsert<T, Iterator extends IForwardIterator<T, Iterator>>
 	{
 		insert(it: Iterator, value: T): Iterator;
 	}
 
+	/**
+	 * @hidden
+	 */
 	export interface _IPush<T>
 	{
 		/**
@@ -30,10 +49,18 @@ namespace std.base
 		 */
 		push(...items: T[]): number;
 	}
+
+	/**
+	 * @hidden
+	 */
 	export interface _IPushFront<T>
 	{
 		push_front(val: T): void;
 	}
+
+	/**
+	 * @hidden
+	 */
 	export interface _IPushBack<T>
 	{
 		push_back(val: T): void;

@@ -4,6 +4,11 @@
 
 namespace std
 {
+	/**
+	 * Priority Queue; Higher Out First.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class PriorityQueue<T> 
 		extends base.AdaptorContainer<T, TreeMultiSet<T>, PriorityQueue<T>>
 	{

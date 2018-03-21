@@ -4,6 +4,11 @@
 
 namespace std
 {
+	/**
+	 * Back insert iterator.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class BackInsertIterator<T, Source extends base._IPushBack<T>>
 		extends base._InsertIterator<T, BackInsertIterator<T, Source>>
 	{

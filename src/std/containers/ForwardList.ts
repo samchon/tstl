@@ -2,6 +2,11 @@
 
 namespace std
 {
+	/**
+	 * Singly Linked List.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class ForwardList<T> 
 		implements base.IForwardContainer<T, ForwardList.Iterator<T>>, 
 			Iterable<T>

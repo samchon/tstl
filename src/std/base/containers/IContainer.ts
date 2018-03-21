@@ -1,5 +1,10 @@
 namespace std.base
 {
+	/**
+	 * Interface for Containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export interface IContainer<T, 
 			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
@@ -60,11 +65,15 @@ namespace std.base
 
 		/**
 		 * Reverse iterator to the first element in reverse.
+		 * 
+		 * @return Reverse iterator to the first.
 		 */
 		rbegin(): ReverseIteratorT;
 
 		/**
 		 * Reverse iterator to the reverse end.
+		 * 
+		 * @return Reverse iterator to the end.
 		 */
 		rend(): ReverseIteratorT;
 

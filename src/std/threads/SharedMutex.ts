@@ -2,6 +2,11 @@
 
 namespace std
 {
+	/**
+	 * Shared mutex.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class SharedMutex implements base._ISharedLockable
 	{
 		/**

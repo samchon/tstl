@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Multiple-key Map based on Hash buckets.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class HashMultiMap<Key, T>
 		extends base.MultiMap<Key, T, HashMultiMap<Key, T>>
 		implements base.IHashMap<Key, T, HashMultiMap<Key, T>>

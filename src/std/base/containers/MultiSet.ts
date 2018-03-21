@@ -4,6 +4,11 @@
 
 namespace std.base
 {
+	/**
+	 * Base class for Multiple-key Set Containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
 		extends SetContainer<Key, Source>
 	{

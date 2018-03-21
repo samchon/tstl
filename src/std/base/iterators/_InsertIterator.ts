@@ -2,6 +2,9 @@
 
 namespace std.base
 {
+	/**
+	 * @hidden
+	 */
 	export abstract class _InsertIterator<T, This extends _InsertIterator<T, This>>
 		implements Writeonly<IForwardIterator<T, This>>
 	{

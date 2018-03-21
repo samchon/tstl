@@ -4,6 +4,9 @@
 
 namespace std.base
 {
+	/**
+	 * @hidden
+	 */
 	export abstract class ListContainer<T, 
 			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,

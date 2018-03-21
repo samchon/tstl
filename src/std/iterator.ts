@@ -100,7 +100,7 @@ namespace std
 	 * Advance iterator.
 	 * 
 	 * @param it Target iterator to advance.
-	 * @param n Count to step.
+	 * @param n Step to advance.
 	 * 
 	 * @return The advanced iterator.
 	 */
@@ -127,6 +127,13 @@ namespace std
 		return it;
 	}
 	
+	/**
+	 * Get previous iterator.
+	 * 
+	 * @param it Iterator to move.
+	 * @param n Step to move prev.
+	 * @return An iterator moved to prev *n* steps.
+	 */
 	export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, BidirectionalIterator>>
 		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 	{
@@ -136,6 +143,13 @@ namespace std
 			return advance(it, -n);
 	}
 	
+	/**
+	 * Get next iterator.
+	 * 
+	 * @param it Iterator to move.
+	 * @param n Step to move next.
+	 * @return Iterator moved to next *n* steps.
+	 */
 	export function next<T, ForwardIterator extends IForwardIterator<T, ForwardIterator>>
 		(it: ForwardIterator, n: number = 1): ForwardIterator
 	{	
@@ -151,12 +165,18 @@ namespace std
 	// BEGIN & END
 	//----
 	/**
-	 * @hidden
+	 * Iterator to the first element.
+	 * 
+	 * @param container Target container.
+	 * @return Iterator to the first element.
 	 */
-	export function begin<T>(container: Array<T>): Vector.Iterator<T>;
 	export function begin<T, Iterator extends IForwardIterator<T, Iterator>>
 		(container: base.IForwardContainer<T, Iterator>): Iterator;
 
+	/**
+	 * @hidden
+	 */
+	export function begin<T>(container: Array<T>): Vector.Iterator<T>;
 	export function begin(container: any): any
 	{
 		if (container instanceof Array)
@@ -166,12 +186,18 @@ namespace std
 	}
 	
 	/**
-	 * @hidden
+	 * Iterator to the end.
+	 * 
+	 * @param container Target container.
+	 * @return Iterator to the end.
 	 */
-	export function end<T>(container: Array<T>): Vector.Iterator<T>;
 	export function end<T, Iterator extends IForwardIterator<T, Iterator>>
 		(container: base.IForwardContainer<T, Iterator>): Iterator;
 
+	/**
+	 * @hidden
+	 */
+	export function end<T>(container: Array<T>): Vector.Iterator<T>;
 	export function end(container: any): any
 	{
 		if (container instanceof Array)
@@ -184,13 +210,20 @@ namespace std
 	// INSERTERS
 	//----
 	/**
+	 * Construct insert iterator.
+	 * 
+	 * @param container Target container.
+	 * @param it Iterator to the first insertion position.
+	 * @return The {@link InsertIterator insert iterator} object.
+	 */
+	export function inserter<T, Container extends base._IInsert<T, Iterator>, Iterator extends IForwardIterator<T, Iterator>>
+		(container: Container, it: Iterator): InsertIterator<T, Container, Iterator>;
+
+	/**
 	 * @hidden
 	 */
 	export function inserter<T>
 		(container: Array<T>, it: Vector.Iterator<T>): InsertIterator<T, Vector<T>, Vector.Iterator<T>>;
-
-	export function inserter<T, Container extends base._IInsert<T, Iterator>, Iterator extends IForwardIterator<T, Iterator>>
-		(container: Container, it: Iterator): InsertIterator<T, Container, Iterator>;
 
 	export function inserter<T>
 		(container: Array<T> | base._IInsert<T, any>, it: IForwardIterator<T, any>): InsertIterator<T, any, any>
@@ -201,6 +234,12 @@ namespace std
 		return new InsertIterator(<any>container, it);
 	}
 
+	/**
+	 * Construct front insert iterator.
+	 * 
+	 * @param source Target container.
+	 * @return The {@link FrontInsertIterator front insert iterator} object.
+	 */
 	export function front_inserter<T, Source extends base._IPushFront<T>>
 		(source: Source): FrontInsertIterator<T, Source>
 	{
@@ -208,13 +247,19 @@ namespace std
 	}
 
 	/**
+	 * Construct back insert iterator.
+	 * 
+	 * @param source Target container.
+	 * @return The {@link back insert iterator} object.
+	 */
+	export function back_inserter<T, Source extends base._IPushBack<T>>
+		(source: Source): BackInsertIterator<T, Source>
+
+	/**
 	 * @hidden
 	 */
 	export function back_inserter<T>
 		(source: Array<T>): BackInsertIterator<T, Vector<T>>;
-	
-	export function back_inserter<T, Source extends base._IPushBack<T>>
-		(source: Source): BackInsertIterator<T, Source>
 
 	export function back_inserter<T>
 		(source: Array<T> | base._IPushBack<T>): BackInsertIterator<T, any>
@@ -228,6 +273,12 @@ namespace std
 	//----
 	// REVERSE ITERATORS
 	//----
+	/**
+	 * Construct reverse iterator.
+	 * 
+	 * @param it Target iterator that reversable.
+	 * @return The reverse iterator object.
+	 */
 	export function make_reverse_iterator<T, 
 			IteratorT extends IReversableIterator<T, IteratorT, ReverseT>, 
 			ReverseT extends IReverseIterator<T, IteratorT, ReverseT>>
@@ -237,14 +288,20 @@ namespace std
 	}
 
 	/**
-	 * @hidden
+	 * Get reverse iterator to the first element in reverse.
+	 * 
+	 * @param container Target container.
+	 * @return The reverse iterator to the first.
 	 */
-	export function rbegin<T>(container: Array<T>): Vector.ReverseIterator<T>;
 	export function rbegin<T, 
 		Iterator extends IReversableIterator<T, Iterator, ReverseIterator>,
 		ReverseIterator extends IReverseIterator<T, Iterator, ReverseIterator>>
 		(container: base.IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
 
+	/**
+	 * @hidden
+	 */
+	export function rbegin<T>(container: Array<T>): Vector.ReverseIterator<T>;
 	export function rbegin(source: any): any
 	{
 		if (source instanceof Array)
@@ -254,14 +311,20 @@ namespace std
 	}
 
 	/**
-	 * @hidden
+	 * Get reverse iterator to the reverse end.
+	 * 
+	 * @param container Target container.
+	 * @return The reverse iterator to the end.
 	 */
-	export function rend<T>(container: Array<T>): Vector.ReverseIterator<T>;
-	export function rend<T, 
+	export function rend<T,
 		Iterator extends IReversableIterator<T, Iterator, ReverseIterator>,
 		ReverseIterator extends IReverseIterator<T, Iterator, ReverseIterator>>
 		(container: base.IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
 
+	/**
+	 * @hidden
+	 */
+	export function rend<T>(container: Array<T>): Vector.ReverseIterator<T>;
 	export function rend(source: any): any
 	{
 		if (source instanceof Array)

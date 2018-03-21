@@ -1,5 +1,8 @@
 ﻿namespace std.base
 {
+	/**
+	 * @hidden
+	 */
     export interface IHashMap<Key, T, Source extends MapContainer<Key, T, Source>>
 		extends MapContainer<Key, T, Source>, _IHashContainer<Key>
 	{

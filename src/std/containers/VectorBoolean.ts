@@ -5,6 +5,11 @@
 
 namespace std
 {
+	/**
+	 * Vector only for `boolean`.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class VectorBoolean extends base.ArrayContainer<boolean, VectorBoolean>
 	{
 		//----
@@ -178,6 +183,8 @@ namespace std
 		 */
 		public set(index: number, val: boolean): void
 		{
+			val = !!val; // SIFT
+
 			//----
 			// PRELIMINARIES
 			//----
@@ -278,6 +285,8 @@ namespace std
 			let it = this.data_.rbegin();
 			let index: number = this.size_++;
 
+			val = !!val; // SIFT
+
 			// EMPLACE OR NOT
 			if (this.data_.empty() || it.second != val)
 				this.data_.emplace(index, val);
@@ -362,7 +371,7 @@ namespace std
 
 				// DO ENROLL
 				let size: number = sy - sx;
-				let value: boolean = it.second;
+				let value: boolean = !!it.second;
 
 				elements.push_back(std.make_pair(size, value));
 			}
@@ -395,14 +404,16 @@ namespace std
 
 				// INDEXING
 				let index: number = this.size();
+				let value: boolean = !!p.second;
+
 				this.size_ += p.first;
 
 				// NEED NOT TO EMPLACE, JUST SKIP
-				if (i == 0 && p.second == last_value)
+				if (i == 0 && value == last_value)
 					continue;
 
 				// DO EMPLACE
-				this.data_.emplace(index, p.second);
+				this.data_.emplace(index, value);
 			}
 			return this.begin().advance(old_size);
 		}

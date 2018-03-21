@@ -2,6 +2,11 @@
 
 namespace std.base
 {
+	/**
+	 * Base class for Map Containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, Source>>
 		extends Container<Entry<Key, T>,
 			Source,

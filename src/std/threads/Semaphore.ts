@@ -2,6 +2,11 @@
 
 namespace std.experimental
 {
+	/**
+	 * Semaphore.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Semaphore implements base._ISemaphore
 	{
 		/**

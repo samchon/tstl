@@ -2,6 +2,11 @@
 
 namespace std
 {
+	/**
+	 * Base Exception.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Exception extends Error
 	{
 		/**
@@ -10,9 +15,9 @@ namespace std
 		public constructor();
 
 		/**
-		 * Construct from error message.
+		 * Initializer Constructor.
 		 * 
-		 * @param message The error messgae
+		 * @param message The error messgae.
 		 */
 		public constructor(message: string);
 
