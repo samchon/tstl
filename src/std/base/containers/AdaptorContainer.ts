@@ -3,7 +3,9 @@
 namespace std.base
 {
 	/**
-	 * @hidden
+	 * Base class for Adaptor Containers.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
 	 */
 	export abstract class AdaptorContainer<T, 
 			Source extends _IEmpty & _ISize & _IPush<T>,

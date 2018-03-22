@@ -1,6 +1,26 @@
 namespace std.base
 {
 	/**
+	 * @hidden
+	 */
+	export interface _IFront<T>
+	{
+		/**
+		 * Get the first element.
+		 * 
+		 * @return The first element.
+		 */
+		front(): T;
+
+		/**
+		 * Change the first element.
+		 * 
+		 * @param val The value to change.
+		 */
+		front(val: T): void;
+	}
+
+	/**
 	 * Interface for linear containers.
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
@@ -9,7 +29,8 @@ namespace std.base
 			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>, 
 			IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>, 
 			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-		extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>
+		extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>, 
+			_IPushBack<T>
 	{
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -42,18 +63,6 @@ namespace std.base
 			ACCESSORS
 		--------------------------------------------------------- */
 		/**
-		 * Get the first element.
-		 * 
-		 * @return The first element.
-		 */
-		front(): T;
-
-		/**
-		 * Change the first element.
-		 */
-		front(val: T): void;
-
-		/**
 		 * Get the last element.
 		 * 
 		 * @return The last element.
@@ -62,6 +71,8 @@ namespace std.base
 
 		/**
 		 * Change the last element.
+		 * 
+		 * @param val The value to change.
 		 */
 		back(val: T): void;
 
@@ -69,9 +80,7 @@ namespace std.base
 			ELEMENTS I/O
 		--------------------------------------------------------- */
 		/**
-		 * Insert an element at the end.
-		 * 
-		 * @param val Value to insert.
+		 * @inheritDoc
 		 */
 		push_back(val: T): void;
 

@@ -6,6 +6,17 @@ namespace std.base
 	/**
 	 * @hidden
 	 */
+	export interface _IClear
+	{
+		/**
+		 * Clear elements.
+		 */
+		clear(): void;
+	}
+
+	/**
+	 * @hidden
+	 */
 	export interface _IEmpty
 	{
 		/**
@@ -55,6 +66,11 @@ namespace std.base
 	 */
 	export interface _IPushFront<T>
 	{
+		/**
+		 * Insert an element at the first.
+		 * 
+		 * @param val Value to insert.
+		 */
 		push_front(val: T): void;
 	}
 
@@ -63,6 +79,11 @@ namespace std.base
 	 */
 	export interface _IPushBack<T>
 	{
+		/**
+		 * Insert an element at the end.
+		 * 
+		 * @param val Value to insert.
+		 */
 		push_back(val: T): void;
 	}
 }

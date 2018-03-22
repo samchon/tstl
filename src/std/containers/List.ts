@@ -12,7 +12,8 @@ namespace std
 	 */
 	export class List<T>
 		extends base.ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
-		implements base.IDequeContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
+		implements base.IDequeContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>,
+			base._IListAlgorithm<T, List<T>>
 	{
 		/**
 		 * @hidden
@@ -112,9 +113,7 @@ namespace std
 			UNIQUE & REMOVE(_IF)
 		--------------------------------------------------------------- */
 		/**
-		 * Remove duplicated elements.
-		 * 
-		 * @param binary_pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+		 * @inheritDoc
 		 */
 		public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 		{
@@ -130,9 +129,7 @@ namespace std
 		}
 
 		/**
-		 * Remove elements with specific value.
-		 * 
-		 * @param val The value to remove.
+		 * @inheritDoc
 		 */
 		public remove(val: T): void
 		{
@@ -143,9 +140,7 @@ namespace std
 		}
 
 		/**
-		 * Remove elements with specific function.
-		 * 
-		 * @param pred A unary function determines whether remove or not.
+		 * @inheritDoc
 		 */
 		public remove_if(pred: (val: T) => boolean): void
 		{
@@ -164,10 +159,7 @@ namespace std
 			MERGE & SPLICE
 		--------------------------------------------------------- */
 		/**
-		 * Merge two *sorted* containers.
-		 * 
-		 * @param source Source container to transfer.
-		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+		 * @inheritDoc
 		 */
 		public merge<U extends T>(source: List<U>, comp: (x: T, y: T) => boolean = less): void
 		{
@@ -189,7 +181,7 @@ namespace std
 		/**
 		 * Transfer elements.
 		 * 
-		 * @param pos Position to be inserted.
+		 * @param pos Position to insert.
 		 * @param from Target container to transfer.
 		 */
 		public splice<U extends T>(pos: List.Iterator<T>, from: List<U>): void;
@@ -197,7 +189,7 @@ namespace std
 		/**
 		 * Transfer a single element.
 		 * 
-		 * @param pos Position to be inserted.
+		 * @param pos Position to insert.
 		 * @param from Target container to transfer.
 		 * @param it Position of the single element to transfer.
 		 */
@@ -206,13 +198,12 @@ namespace std
 		/**
 		 * Transfer range elements.
 		 * 
-		 * @param pos Position to be inserted.
+		 * @param pos Position to insert.
 		 * @param from Target container to transfer.
 		 * @param first Range of the first position to transfer.
 		 * @param last Rangee of the last position to transfer.
 		 */
-		public splice<U extends T>
-			(pos: List.Iterator<T>, from: List<U>, first: List.Iterator<U>, last: List.Iterator<U>): void;
+		public splice(pos: List.Iterator<T>, from: List<T>, first: List.Iterator<T>, last: List.Iterator<T>): void;
 
 		public splice<U extends T>
 			(
@@ -238,9 +229,7 @@ namespace std
 			SORT & SWAP
 		--------------------------------------------------------- */
 		/**
-		 * Sort elements.
-		 * 
-		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+		 * @inheritDoc
 		 */
 		public sort(comp: (x: T, y: T) => boolean = less): void
 		{
@@ -284,7 +273,7 @@ namespace std
 		}
 
 		/**
-		 * Reverse elements.
+		 * @inheritDoc
 		 */
 		public reverse(): void
 		{

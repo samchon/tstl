@@ -9,7 +9,9 @@ namespace std
 	 */
 	export class ForwardList<T> 
 		implements base.IForwardContainer<T, ForwardList.Iterator<T>>, 
-			Iterable<T>
+			base._IClear, base._IEmpty, base._ISize,
+			base._IDeque<T>, base._IFront<T>, Iterable<T>,
+			base._IListAlgorithm<T, ForwardList<T>>
 	{
 		/**
 		 * @hidden
@@ -98,7 +100,20 @@ namespace std
 		/* ---------------------------------------------------------------
 			ASSIGN & CLEAR
 		--------------------------------------------------------------- */
+		/**
+		 * Fill Assigner.
+		 * 
+		 * @param n Initial size.
+		 * @param val Value to fill.
+		 */
 		public assign(n: number, val: T): void;
+
+		/**
+		 * Range Assigner.
+		 * 
+		 * @param first Input iteartor of the first position.
+		 * @param last Input iterator of the last position.
+		 */
 		public assign<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 			(first: InputIterator, last: InputIterator): void;
 
@@ -109,6 +124,9 @@ namespace std
 			this.insert_after(this.before_begin_, first, last);
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public clear(): void
 		{
 			this.end_ = new ForwardList.Iterator<T>(this.ptr_, null, null);
@@ -120,33 +138,71 @@ namespace std
 		/* ===============================================================
 			ACCESSORS
 		=============================================================== */
+		/**
+		 * @inheritDoc
+		 */
 		public size(): number
 		{
 			return this.size_;
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public empty(): boolean
 		{
 			return this.size_ == 0;
 		}
 		
-		public front(): T
+		/**
+		 * @inheritDoc
+		 */
+		public front(): T;
+
+		/**
+		 * @inheritDoc
+		 */
+		public front(val: T): void;
+
+		public front(val: T = undefined)
 		{
-			return this.before_begin_.next().value;
+			let it: ForwardList.Iterator<T> = this.begin();
+
+			if (val == undefined)
+				return it.value;
+			else
+				it.value = val;
 		}
 
+		/**
+		 * Iterator to before beginning.
+		 * 
+		 * @return Iterator to the before beginning.
+		 */
 		public before_begin(): ForwardList.Iterator<T>
 		{
 			return this.before_begin_;
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public begin(): ForwardList.Iterator<T>
 		{
 			return this.before_begin_.next();
 		}
+
+		/**
+		 * @inheritDoc
+		 */
 		public end(): ForwardList.Iterator<T>
 		{
 			return this.end_;;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public [Symbol.iterator](): IterableIterator<T>
 		{
 			return new base.ForOfAdaptor(this.begin(), this.end());
@@ -159,13 +215,41 @@ namespace std
 		==================================================================
 			INSERT
 		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public push_front(val: T): void
 		{
 			this.insert_after(this.before_begin_, val);
 		}
 
+		/**
+		 * Insert an element.
+		 * 
+		 * @param pos Position to insert after.
+		 * @param val Value to insert.
+		 * @return An iterator to the newly inserted element.
+		 */
 		public insert_after(pos: ForwardList.Iterator<T>, val: T): ForwardList.Iterator<T>;
+
+		/**
+		 * Inserted repeated elements.
+		 * 
+		 * @param pos Position to insert after.
+		 * @param n Number of elements to insert.
+		 * @param val Value to insert repeatedly.
+		 * @return An iterator to the last of the newly inserted elements.
+		 */
 		public insert_after(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>;
+
+		/**
+		 * Insert range elements.
+		 * 
+		 * @param pos Position to insert after.
+		 * @param first Input iterator of the first position.
+		 * @param last Input iteartor of the last position.
+		 * @return An iterator to the last of the newly inserted elements.
+		 */
 		public insert_after<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 			(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>;
 
@@ -185,6 +269,9 @@ namespace std
 			return ret;
 		}
 
+		/**
+		 * @hidden
+		 */
 		private _Insert_by_repeating_val(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>
 		{
 			let first: base._Repeater<T> = new base._Repeater<T>(0, val);
@@ -193,6 +280,9 @@ namespace std
 			return this._Insert_by_range(pos, first, last);
 		}
 
+		/**
+		 * @hidden
+		 */
 		private _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 			(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
 		{
@@ -221,16 +311,32 @@ namespace std
 		/* ---------------------------------------------------------------
 			ERASE
 		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public pop_front(): void
 		{
 			this.erase_after(this.before_begin());
 		}
 
+		/**
+		 * Erase an element.
+		 * 
+		 * @param it Position to erase after.
+		 * @return Iterator to the erased element.
+		 */
 		public erase_after(it: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
+		/**
+		 * Erase elements.
+		 * 
+		 * @param first Range of the first position to erase after.
+		 * @param last Rangee of the last position to erase.
+		 * @return Iterator to the last removed element.
+		 */
 		public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
-		public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T> = first.advance(2)): ForwardList.Iterator<T>
+		public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T> = advance(first, 2)): ForwardList.Iterator<T>
 		{
 			// SHRINK SIZE
 			this.size_ -= Math.max(0, distance(first, last) - 1);
@@ -249,9 +355,7 @@ namespace std
 			UNIQUE & REMOVE(_IF)
 		--------------------------------------------------------------- */
 		/**
-		 * Remove duplicated elements.
-		 * 
-		 * @param binary_pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+		 * @inheritDoc
 		 */
 		public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 		{
@@ -267,9 +371,7 @@ namespace std
 		}
 
 		/**
-		 * Remove elements with specific value.
-		 * 
-		 * @param val The value to remove.
+		 * @inheritDoc
 		 */
 		public remove(val: T): void
 		{
@@ -280,9 +382,7 @@ namespace std
 		}
 
 		/**
-		 * Remove elements with specific function.
-		 * 
-		 * @param pred A unary function determines whether remove or not.
+		 * @inheritDoc
 		 */
 		public remove_if(pred: (val: T) => boolean): void
 		{
@@ -301,10 +401,7 @@ namespace std
 			MERGE & SPLICE
 		--------------------------------------------------------------- */
 		/**
-		 * Merge two *sorted* containers.
-		 * 
-		 * @param source Source container to transfer.
-		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+		 * @inheritDoc
 		 */
 		public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = std.less): void
 		{
@@ -325,7 +422,7 @@ namespace std
 		/**
 		 * Transfer elements.
 		 * 
-		 * @param pos Position to be inserted.
+		 * @param pos Position to insert after.
 		 * @param from Target container to transfer.
 		 */
 		public splice_after<U extends T>
@@ -334,7 +431,7 @@ namespace std
 		/**
 		 * Transfer a single element.
 		 * 
-		 * @param pos Position to be inserted.
+		 * @param pos Position to insert after.
 		 * @param from Target container to transfer.
 		 * @param before Previous position of the single element to transfer.
 		 */
@@ -348,7 +445,7 @@ namespace std
 		/**
 		 * Transfer range elements.
 		 * 
-		 * @param pos Position to be inserted.
+		 * @param pos Position to insert after.
 		 * @param from Target container to transfer.
 		 * @param first Range of previous of the first position to transfer.
 		 * @param last Rangee of the last position to transfer.
@@ -382,12 +479,10 @@ namespace std
 		}
 
 		/* ---------------------------------------------------------------
-			SORT & SWAP
+			SORT
 		--------------------------------------------------------------- */
 		/**
-		 * Sort elements.
-		 * 
-		 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+		 * @inheritDoc
 		 */
 		public sort(comp: (x: T, y: T) => boolean = less): void
 		{
@@ -398,7 +493,7 @@ namespace std
 		}
 		
 		/**
-		 * Reverse elements.
+		 * @inheritDoc
 		 */
 		public reverse(): void
 		{
@@ -410,9 +505,7 @@ namespace std
 			UTILITIES
 		--------------------------------------------------------------- */
 		/**
-		 * Swap elements.
-		 * 
-		 * @param obj Target container to swap.
+		 * @inheritDoc
 		 */
 		public swap(obj: ForwardList<T>): void
 		{
@@ -444,6 +537,11 @@ namespace std
 
 namespace std.ForwardList
 {
+	/**
+	 * Iterator of the ForwardList.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Iterator<T> implements IForwardIterator<T, Iterator<T>>
 	{
 		/**
@@ -472,16 +570,27 @@ namespace std.ForwardList
 		/* ---------------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------------- */
+		/**
+		 * Get source container.
+		 * 
+		 * @return The source container.
+		 */
 		public source(): ForwardList<T>
 		{
 			return this.source_ptr_.value;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public get value(): T
 		{
 			return this.value_;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set value(val: T)
 		{
 			this.value_ = val;
@@ -490,23 +599,17 @@ namespace std.ForwardList
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public next(): Iterator<T>
 		{
 			return this.next_;
 		}
 
-		public advance(n: number): Iterator<T>
-		{
-			let ret: Iterator<T> = this;
-			for (let i: number = 0; i < n; ++i)
-				ret = ret.next();
-
-			return ret;
-		}
-
-		/* ---------------------------------------------------------------
-			COMPARISON
-		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public equals(obj: Iterator<T>): boolean
 		{
 			return this == obj;

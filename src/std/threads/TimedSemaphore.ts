@@ -3,7 +3,7 @@
 namespace std.experimental
 {
 	/**
-	 * Timed semaphore
+	 * Timed semaphore.
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

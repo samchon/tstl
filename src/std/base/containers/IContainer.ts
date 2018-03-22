@@ -25,7 +25,7 @@ namespace std.base
 			(first: InputIterator, last: InputIterator): void;
 
 		/**
-		 * Clear elements.
+		 * @inheritDoc
 		 */
 		clear(): void;
 
@@ -50,37 +50,27 @@ namespace std.base
 			ITERATORS
 		--------------------------------------------------------- */
 		/**
-		 * Iterator to the first element.
-		 * 
-		 * @return Iterator to the first element.
+		 * @inheritDoc
 		 */
 		begin(): IteratorT;
 
 		/**
-		 * Iterator to the end.
-		 * 
-		 * @return Iterator to the end.
+		 * @inheritDoc
 		 */
 		end(): IteratorT;
 
 		/**
-		 * Reverse iterator to the first element in reverse.
-		 * 
-		 * @return Reverse iterator to the first.
+		 * @inheritDoc
 		 */
 		rbegin(): ReverseIteratorT;
 
 		/**
-		 * Reverse iterator to the reverse end.
-		 * 
-		 * @return Reverse iterator to the end.
+		 * @inheritDoc
 		 */
 		rend(): ReverseIteratorT;
 
 		/**
-		 * Native function for `for ... of` iteration.
-		 * 
-		 * @return For ... of iterator
+		 * @inheritDoc
 		 */
 		[Symbol.iterator](): IterableIterator<T>;
 

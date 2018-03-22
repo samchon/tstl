@@ -27,7 +27,7 @@ namespace test
 
 	export function test_special_maths(): void
 	{
-		let content: string = fs.readFileSync(__dirname + "/../build/special_math/data.json").toString("utf8");
+		let content: string = fs.readFileSync(__dirname + "/../src/test/special_maths/data.json").toString("utf8");
 		let solutions: ISolution[] = JSON.parse(content);
 
 		// TRACING ERRORS
@@ -59,7 +59,7 @@ namespace test
 		}
 
 		if (aggregates.empty() == false)
-			fs.writeFileSync(__dirname + "/../build/special_math/errors.log", output, "utf8");
+			fs.writeFileSync(__dirname + "/../src/test/special_maths/errors.log", output, "utf8");
 
 		let validate: boolean = true;
 		for (let entry of aggregates)

@@ -3,7 +3,7 @@
 namespace std
 {
 	/**
-	 * Timed mutex
+	 * Timed mutex.
 	 * 
 	 * @author Jeongho Nam <http://samchon.org>
 	 */

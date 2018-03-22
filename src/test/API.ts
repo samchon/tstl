@@ -1,6 +1,4 @@
-﻿/// <reference path="../typings/tstl.d.ts" />
-
-eval('var fs = require("fs");');
+﻿eval('var fs = require("fs");');
 eval('var std = require("./tstl");');
 
 namespace test
