@@ -1,11 +1,15 @@
-import { ILockable } from "./ILockable";
+import { _ISemaphore } from "../base/threads/_ISemaphore";
 
 import { Queue } from "../containers/Queue";
 import { Pair } from "../utilities/Pair";
 import { OutOfRange } from "../exceptions/LogicError";
-import { RangeError } from "../exceptions/RuntimeError";
 
-export class Semaphore implements ILockable
+/**
+ * Semaphore.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class Semaphore implements _ISemaphore
 {
 	/**
 	 * @hidden
@@ -36,9 +40,12 @@ export class Semaphore implements ILockable
 		this.locked_count_ = 0;
 		this.size_ = size;
 
-		this.listeners_ = new Queue<Pair<IListener, number>>();
+		this.listeners_ = new Queue();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public size(): number
 	{
 		return this.size_;
@@ -55,9 +62,9 @@ export class Semaphore implements ILockable
 	/* ---------------------------------------------------------
 		ACQURE & RELEASE
 	--------------------------------------------------------- */
-	public lock(): Promise<void>;
-	public lock(count: number): Promise<void>;
-
+	/**
+	 * @inheritDoc
+	 */
 	public lock(count: number = 1): Promise<void>
 	{
 		return new Promise<void>((resolve, reject) =>
@@ -83,10 +90,10 @@ export class Semaphore implements ILockable
 		});
 	}
 
-	public try_lock(): boolean;
-	public try_lock(count: number): boolean;
-
-	public try_lock(count: number = 1): boolean
+	/**
+	 * @inheritDoc
+	 */
+	public async try_lock(count: number = 1): Promise<boolean>
 	{
 		// VALIDATE PARAMETER
 		if (count < 1 || count > this.size_)
@@ -100,9 +107,9 @@ export class Semaphore implements ILockable
 		return true;
 	}
 
-	public unlock(): Promise<void>;
-	public unlock(count: number): Promise<void>;
-
+	/**
+	 * @inheritDoc
+	 */
 	public async unlock(count: number = 1): Promise<void>
 	{
 		// VALIDATE PARAMETER
@@ -140,9 +147,6 @@ export class Semaphore implements ILockable
 	}
 }
 
-export type semaphore = Semaphore;
-export var semaphore = Semaphore;
-
 /**
  * @hidden
  */
@@ -150,3 +154,6 @@ interface IListener
 {
 	(): void;
 }
+
+export type semaphore = Semaphore;
+export const semaphore = Semaphore;

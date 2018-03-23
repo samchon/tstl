@@ -1,20 +1,34 @@
-﻿import { List } from "./List";
+﻿import { AdaptorContainer } from "../base/containers/AdaptorContainer";
+import { List } from "./List";
 
-export class Queue<T>
+/**
+ * Queue; FIFO (First In First Out).
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class Queue<T> 
+	extends AdaptorContainer<T, List<T>, Queue<T>>
 {
-	private source_: List<T>;
-
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor();
 
+	/**
+	 * Copy Constructor.
+	 * 
+	 * @param obj Object to copy.
+	 */
 	public constructor(obj: Queue<T>);
 
 	public constructor(obj: Queue<T> = null)
 	{
-		this.source_ = new List<T>();
+		super();
 
+		this.source_ = new List();
 		if (obj != null)
 			this.source_.assign(obj.source_.begin(), obj.source_.end());
 	}
@@ -22,44 +36,34 @@ export class Queue<T>
 	/* ---------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------- */
-	public size(): number
-	{
-		return this.source_.size();
-	}
-
-	public empty(): boolean
-	{
-		return this.source_.empty();
-	}
-	
+	/**
+	 * Get the first element.
+	 * 
+	 * @return The first element.
+	 */
 	public front(): T
 	{
 		return this.source_.front();
 	}
 
+	/**
+	 * Get the last element.
+	 * 
+	 * @return The last element.
+	 */
 	public back(): T
 	{
 		return this.source_.back();
 	}
 
-	/* ---------------------------------------------------------
-		ELEMENTS I/O
-	--------------------------------------------------------- */
-	public push(...elems: T[]): void
-	{
-		this.source_.push(...elems);
-	}
-
+	/**
+	 * @inheritDoc
+	 */
 	public pop(): void
 	{
 		this.source_.pop_front();
 	}
-
-	public swap(obj: Queue<T>): void
-	{
-		[this.source_, obj.source_] = [obj.source_, this.source_];
-	}
 }
 
 export type queue<T> = Queue<T>;
-export var queue = Queue;
+export const queue = Queue;

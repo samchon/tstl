@@ -1,7 +1,6 @@
-import { sigma, factorial } from "../base/maths/MathUtil";
-import { tgamma } from "./gamma";
-
+import { MathUtil } from "../base/maths/MathUtil";
 import { DomainError } from "../exceptions/LogicError";
+import { tgamma } from "./gamma";
 
 /**
  * @hidden
@@ -15,6 +14,11 @@ const INFINITY = 100; // (1 / 30!) is nearby 0.
 ==================================================================
 	FIRST KIND
 --------------------------------------------------------------- */
+/**
+ * Bessel function of the 1st kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Bessel_function#Bessel_functions_of_the_first_kind:_J.CE.B1
+ */
 export function cyl_bessel_j(n: number, x: number): number
 {
 	// VALIDATION
@@ -30,6 +34,11 @@ export function cyl_bessel_j(n: number, x: number): number
 		return _J_positive(n, x);
 }
 
+/**
+ * Bessel function of the 2nd kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Bessel_function#Bessel_functions_of_the_second_kind:_Y.CE.B1
+ */
 export function cyl_neumann(v: number, x: number): number
 {
 	if (x <= 0)
@@ -57,23 +66,35 @@ function _J_int(n: number, x: number): number
  */
 function _J_positive(v: number, x: number): number
 {
-	return sigma(function (k: number): number
+	let sigma: number = MathUtil.sigma(function (k: number): number
 	{
 		let ret: number = Math.pow(-1, k) * Math.pow(x/2, v + 2*k);
-		ret /= factorial(k) * tgamma(v + k + 1);
+		ret /= MathUtil.factorial(k) * tgamma(v + k + 1);
 
 		return ret;
 	}, 0, INFINITY);
+
+	return sigma;
 }
 
 /* ---------------------------------------------------------------
 	SPHERICAL
 --------------------------------------------------------------- */
+/**
+ * Spherical Bessel function of the 1st kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn.2C_yn
+ */
 export function sph_bessel(n: number, x: number): number
 {
 	return Math.sqrt(Math.PI / (2*x)) * cyl_bessel_j(n+.5, x);
 }
 
+/**
+ * Spherical Bessel function of the 2nd kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn.2C_yn
+ */
 export function sph_neumann(n: number, x: number): number
 {
 	let ret: number = Math.sqrt(Math.PI / (2*x));
@@ -89,6 +110,11 @@ export function sph_neumann(n: number, x: number): number
 ==================================================================
 	FIRST KIND
 --------------------------------------------------------------- */
+/**
+ * Modified cylindrical Bessel function of the 1st kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions:_I.CE.B1_.2C_K.CE.B1
+ */
 export function cyl_bessel_i(n: number, x: number): number
 {
 	// VALIDATION
@@ -109,10 +135,10 @@ export function cyl_bessel_i(n: number, x: number): number
  */
 function _Bessel_i(v: number, x: number): number
 {
-	return sigma(function (k: number): number
+	return MathUtil.sigma(function (k: number): number
 	{
 		let numerator: number = Math.pow(x / 2, v + 2*k);
-		let denominator: number = factorial(k) * tgamma(v + k + 1);
+		let denominator: number = MathUtil.factorial(k) * tgamma(v + k + 1);
 
 		return numerator / denominator;
 	}, 0, INFINITY);
@@ -121,6 +147,11 @@ function _Bessel_i(v: number, x: number): number
 /* ---------------------------------------------------------------
 	SECOND KIND
 --------------------------------------------------------------- */
+/**
+ * Modified cylindrical Bessel function of the 2nd kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions:_I.CE.B1_.2C_K.CE.B1
+ */
 export function cyl_bessel_k(n: number, x: number): number
 {
 	if (x <= 0)

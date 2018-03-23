@@ -8,8 +8,9 @@
 node_modules/
 build/
 src/
-tests/
+lib/tests/
 
 *.log
 *.*ignore
 *.js.map
+tsconfig.json

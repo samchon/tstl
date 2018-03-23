@@ -1,7 +1,7 @@
 import { _HashBuckets } from "./_HashBuckets";
 
 import { MapContainer } from "../containers/MapContainer";
-import { IHashMap } from "../interfaces/IHashMap";
+import { IHashMap } from "../containers/IHashMap";
 import { MapIterator } from "../iterators/MapIterator";
 
 /**

@@ -4,31 +4,39 @@ import { ReverseIterator } from "./ReverseIterator";
 import { SetContainer } from "../containers/SetContainer";
 import { _SetElementList } from "../containers/_SetElementList";
 
-import { less } from "../../functional/comparisons";
-import { hash } from "../../functional/hash";
-
-export class SetIterator<T, Source extends SetContainer<T, Source>>
-	extends ListIterator<T, 
+/**
+ * Iterator of Set Containers.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class SetIterator<Key, Source extends SetContainer<Key, Source>>
+	extends ListIterator<Key, 
 		Source, 
-		SetIterator<T, Source>, 
-		SetReverseIterator<T, Source>>
+		SetIterator<Key, Source>, 
+		SetReverseIterator<Key, Source>>
 {
 	/**
 	 * @hidden
 	 */
-	private source_: _SetElementList<T, Source>;
+	private source_: _SetElementList<Key, Source>;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
-	public constructor(source: _SetElementList<T, Source>, prev: SetIterator<T, Source>, next: SetIterator<T, Source>, val: T)
+	/**
+	 * @hidden
+	 */
+	public constructor(list: _SetElementList<Key, Source>, prev: SetIterator<Key, Source>, next: SetIterator<Key, Source>, key: Key)
 	{
-		super(prev, next, val);
+		super(prev, next, key);
 
-		this.source_ = source;
+		this.source_ = list;
 	}
 
-	public reverse(): SetReverseIterator<T, Source>
+	/**
+	 * @inheritDoc
+	 */
+	public reverse(): SetReverseIterator<Key, Source>
 	{
 		return new SetReverseIterator(this);
 	}
@@ -36,32 +44,35 @@ export class SetIterator<T, Source extends SetContainer<T, Source>>
 	/* ---------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public source(): Source
 	{
 		return this.source_.associative();
 	}
-	
-	public less(obj: SetIterator<T, Source>): boolean
-	{
-		return less(this.value, obj.value);
-	}
-
-	public hashCode(): number
-	{
-		return hash(this.value);
-	}
 }
 
-export class SetReverseIterator<T, Source extends SetContainer<T, Source>>
-	extends ReverseIterator<T, 
+/**
+ * Reverse iterator of Set Containers.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class SetReverseIterator<Key, Source extends SetContainer<Key, Source>>
+	extends ReverseIterator<Key, 
 		Source, 
-		SetIterator<T, Source>, 
-		SetReverseIterator<T, Source>>
+		SetIterator<Key, Source>, 
+		SetReverseIterator<Key, Source>>
 {
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
-	public constructor(base: SetIterator<T, Source>)
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param base The base iterator.
+	 */
+	public constructor(base: SetIterator<Key, Source>)
 	{
 		super(base);
 	}
@@ -69,7 +80,7 @@ export class SetReverseIterator<T, Source extends SetContainer<T, Source>>
 	/**
 	 * @hidden
 	 */
-	protected _Create_neighbor(base: SetIterator<T, Source>): SetReverseIterator<T, Source>
+	protected _Create_neighbor(base: SetIterator<Key, Source>): SetReverseIterator<Key, Source>
 	{
 		return new SetReverseIterator(base);
 	}

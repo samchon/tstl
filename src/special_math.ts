@@ -1,3 +1,8 @@
+// <special_math>
+//
+// @reference http://en.cppreference.com/w/cpp/numeric/special_math
+// @author Jeongho Nam <http://samchon.org>
+
 export * from "./special_maths/beta";
 export * from "./special_maths/gamma";
 

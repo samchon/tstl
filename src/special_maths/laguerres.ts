@@ -1,10 +1,20 @@
 import { InvalidArgument } from "../exceptions/LogicError";
 
+/**
+ * Laguerre polynomials.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Laguerre_polynomials
+ */
 export function laguerre(n: number, x: number): number
 {
 	return assoc_laguerre(n, 0, x);
 }
 
+/**
+ * Associated laguerre polynomials.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Laguerre_polynomials#Generalized_Laguerre_polynomials
+ */
 export function assoc_laguerre(n: number, m: number, x: number): number
 {
 	// VALIDATE PARAMETERS

@@ -1,11 +1,16 @@
-import { ILockable } from "./ILockable";
-import { _LockType } from "../base/threads/_LockType";
+import { _ISharedLockable } from "../base/threads/_ISharedLockable";
 
 import { Queue } from "../containers/Queue";
 import { Pair } from "../utilities/Pair";
-import { RangeError } from "../exceptions/RuntimeError";
 
-export class SharedMutex implements ILockable
+import { _LockType } from "../base/threads/_LockType";
+
+/**
+ * Shared mutex.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class SharedMutex implements _ISharedLockable
 {
 	/**
 	 * @hidden
@@ -25,12 +30,15 @@ export class SharedMutex implements ILockable
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor()
 	{
 		this.read_lock_count_ = 0;
 		this.write_lock_count_ = 0;
 
-		this.resolvers_ = new Queue<Pair<boolean, IListener>>();
+		this.resolvers_ = new Queue();
 	}
 
 	/* =========================================================
@@ -40,6 +48,9 @@ export class SharedMutex implements ILockable
 	============================================================
 		WRITE LOCK
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public lock(): Promise<void>
 	{
 		return new Promise<void>(resolve =>
@@ -51,7 +62,10 @@ export class SharedMutex implements ILockable
 		});
 	}
 
-	public try_lock(): boolean
+	/**
+	 * @inheritDoc
+	 */
+	public async try_lock(): Promise<boolean>
 	{
 		if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
 			return false;
@@ -60,6 +74,9 @@ export class SharedMutex implements ILockable
 		return true;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public async unlock(): Promise<void>
 	{
 		if (this.write_lock_count_ == 0)
@@ -83,6 +100,9 @@ export class SharedMutex implements ILockable
 	/* ---------------------------------------------------------
 		READ LOCK
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public lock_shared(): Promise<void>
 	{
 		return new Promise<void>(resolve =>
@@ -96,7 +116,10 @@ export class SharedMutex implements ILockable
 		});
 	}
 
-	public try_lock_shared(): boolean
+	/**
+	 * @inheritDoc
+	 */
+	public async try_lock_shared(): Promise<boolean>
 	{
 		if (this.write_lock_count_ != 0)
 			return false;
@@ -105,6 +128,9 @@ export class SharedMutex implements ILockable
 		return true;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public async unlock_shared(): Promise<void>
 	{
 		if (this.read_lock_count_ == 0)
@@ -123,9 +149,6 @@ export class SharedMutex implements ILockable
 	}
 }
 
-export type shared_mutex = SharedMutex;
-export var shared_mutex = SharedMutex;
-
 /**
  * @hidden
  */
@@ -133,3 +156,6 @@ interface IListener
 {
 	(): void;
 }
+
+export type shared_mutex = SharedMutex;
+export const shared_mutex = SharedMutex;

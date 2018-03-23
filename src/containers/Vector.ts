@@ -4,6 +4,11 @@ import { ArrayIterator, ArrayReverseIterator } from "../base/iterators/ArrayIter
 import { IForwardIterator } from "../iterators/IForwardIterator";
 import { OutOfRange } from "../exceptions/LogicError";
 
+/**
+ * Vector, an array with variable capacity.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class Vector<T>
 	extends ArrayContainer<T, Vector<T>>
 {
@@ -19,10 +24,39 @@ export class Vector<T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor();
-	public constructor(array: Array<T>);
+
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param items Items to assign.
+	 */
+	public constructor(items: Array<T>);
+
+	/**
+	 * Copy Constructor
+	 * 
+	 * @param obj Object to copy.
+	 */
 	public constructor(obj: Vector<T>);
+
+	/**
+	 * Fill Constructor.
+	 * 
+	 * @param size Initial size.
+	 * @param val Value to fill.
+	 */
 	public constructor(n: number, val: T);
+
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iteartor of the last position.
+	 */
 	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 	
 	public constructor(...args: any[])
@@ -58,7 +92,13 @@ export class Vector<T>
 	/* ---------------------------------------------------------
 		ASSIGN & CLEAR
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public assign(n: number, val: T): void;
+	/**
+	 * @inheritDoc
+	 */
 	public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 		(begin: InputIterator, end: InputIterator): void;
 
@@ -68,11 +108,17 @@ export class Vector<T>
 		this.insert(this.end(), first, second);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		this.data_.splice(0, this.data_.length);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public resize(n: number)
 	{
 		this.data_.length = n;
@@ -81,11 +127,17 @@ export class Vector<T>
 	/* =========================================================
 		ACCESSORS
 	========================================================= */
+	/**
+	 * @inheritDoc
+	 */
 	public size(): number
 	{
 		return this.data_.length;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public at(index: number): T
 	{
 		if (index < this.size())
@@ -94,6 +146,9 @@ export class Vector<T>
 			throw new OutOfRange("Target index is greater than Vector's size.");
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public set(index: number, val: T): void
 	{
 		if (index >= this.size())
@@ -102,16 +157,27 @@ export class Vector<T>
 		this.data_[index] = val;
 	}
 
+	/**
+	 * Access data.
+	 * 
+	 * @return An array capsuled by this {@link Vector}.
+	 */
 	public data(): Array<T>
 	{
 		return this.data_;
 	}
 
+	/**
+	 * @hidden
+	 */
 	public equals(obj: Vector<T>): boolean
 	{
 		return this.data_ == obj.data_;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public [Symbol.iterator](): IterableIterator<T>
 	{
 		return this.data_[Symbol.iterator]();
@@ -124,11 +190,17 @@ export class Vector<T>
 	============================================================
 		INSERT
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public push(...items: T[]): number
 	{
 		return this.data_.push(...items);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public push_back(val: T): void
 	{
 		this.data_.push(val);
@@ -169,6 +241,9 @@ export class Vector<T>
 	/* ---------------------------------------------------------
 		ERASE
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public pop_back(): void
 	{
 		this.data_.pop();
@@ -197,11 +272,17 @@ export class Vector<T>
 	/* ---------------------------------------------------------------
 		UTILITIES
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public swap(obj: Vector<T>): void
 	{
 		[this.data_, obj.data_] = [obj.data_, this.data_];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public toJSON(): Array<T>
 	{
 		return this.data_;
@@ -218,8 +299,8 @@ export namespace Vector
 	export type ReverseIterator<T> = ArrayReverseIterator<T, Vector<T>>;
 
 	// BODY
-	export var Iterator = ArrayIterator;
-	export var ReverseIterator = ArrayReverseIterator;
+	export const Iterator = ArrayIterator;
+	export const ReverseIterator = ArrayReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -229,8 +310,7 @@ export namespace Vector
 	export type reverse_iterator<T> = ReverseIterator<T>;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }
-
 export import vector = Vector;

@@ -6,13 +6,15 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.8.0-dev.20180315-2",
-  "main": "./index.js",
-  "typings": "./index.d.ts",
+  "version": "1.8.0-dev.20180323",
+  "main": "./lib/tstl.js",
+  "typings": "./lib/tstl.d.ts",
   "scripts": {
     "build": "tsc & npm run test",
-    "test": "node tests/main",
-    "clean": "git clean -Xdf && git clean -df"
+    "test": "node lib/tests/main"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.55"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
@@ -83,8 +85,5 @@
     "SharedMutex",
     "SharedTimedMutex",
     "TimedSemaphore"
-  ],
-  "devDependencies": {
-    "@types/node": "^9.4.7"
-  }
+  ]
 }

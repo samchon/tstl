@@ -1,21 +1,24 @@
 import { Container } from "./Container";
-import { ILinearContainer } from "../interfaces/ILinearContainer";
-
+import { ILinearContainer } from "./ILinearContainer";
 import { ArrayIterator, ArrayReverseIterator } from "../iterators/ArrayIterator";
-import { IForwardIterator } from "../../iterators/IForwardIterator";
+
 import { _Repeater } from "../iterators/_Repeater";
-
+import { IForwardIterator } from "../../iterators/IForwardIterator";
 import { InvalidArgument, LengthError } from "../../exceptions/LogicError";
-import { RangeError } from "../../exceptions/RuntimeError";
 
+/**
+ * Base array container.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, SourceT>>
 	extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 	implements ILinearContainer<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 {
-	protected constructor()
-	{
-		super();
-	}
+	/**
+	 * @inheritDoc
+	 */
+	public abstract resize(n: number): void;
 
 	/* =========================================================
 		ACCESSORS
@@ -24,11 +27,17 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	============================================================
 		ITERATORS
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public begin(): ArrayIterator<T, SourceT>
 	{
 		return new ArrayIterator(<any>this, 0);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public end(): ArrayIterator<T, SourceT>
 	{
 		return new ArrayIterator(<any>this, this.size());
@@ -37,10 +46,29 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	/* ---------------------------------------------------------
 		INDEXES
 	--------------------------------------------------------- */
+	/**
+	 * Get element at specific position.
+	 * 
+	 * @param index Specific position.
+	 * @return The element at the *index*.
+	 */
 	public abstract at(index: number): T;
+
+	/**
+	 * Change element at specific position.
+	 * 
+	 * @param index Specific position.
+	 * @param val The new value to change.
+	 */
 	public abstract set(index: number, val: T): void;
 
+	/**
+	 * @inheritDoc
+	 */
 	public front(): T;
+	/**
+	 * @inheritDoc
+	 */
 	public front(val: T): void;
 	public front(val: T = undefined): T | void
 	{
@@ -50,7 +78,13 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 			this.set(0, val);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public back(): T;
+	/**
+	 * @inheritDoc
+	 */
 	public back(val: T): void;
 	public back(val: T = undefined): T | void
 	{
@@ -69,13 +103,25 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	============================================================
 		INSERT
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract push_back(val: T): void;
 
+	/**
+	 * @inheritDoc
+	 */
 	public insert(pos: ArrayIterator<T, SourceT>, val: T): ArrayIterator<T, SourceT>;
+	/**
+	 * @inheritDoc
+	 */
 	public insert(pos: ArrayIterator<T, SourceT>, n: number, val: T): ArrayIterator<T, SourceT>;
+	/**
+	 * @inheritDoc
+	 */
 	public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 		(pos: ArrayIterator<T, SourceT>, first: InputIterator, last: InputIterator): ArrayIterator<T, SourceT>;
-
+	
 	public insert(pos: ArrayIterator<T, SourceT>, ...args: any[]): ArrayIterator<T, SourceT>
 	{
 		// VALIDATION
@@ -115,11 +161,19 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	/* ---------------------------------------------------------
 		ERASE
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract pop_back(): void;
 
+	/**
+	 * @inheritDoc
+	 */
 	public erase(it: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
+	/**
+	 * @inheritDoc
+	 */
 	public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT>): ArrayIterator<T, SourceT>;
-
 	public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT> = first.next()): ArrayIterator<T, SourceT>
 	{
 		// VALIDATION

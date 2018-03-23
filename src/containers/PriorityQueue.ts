@@ -1,9 +1,16 @@
-﻿import { IForwardIterator } from "../iterators/IForwardIterator";
+﻿import { AdaptorContainer } from "../base/containers/AdaptorContainer";
 
-import { TreeMultiSet } from "./TreeMultiSet";
+import { TreeMultiSet } from "..";
+import { IForwardIterator } from "../iterators/IForwardIterator";
 import { less } from "../functional/comparisons";
 
-export class PriorityQueue<T>
+/**
+ * Priority Queue; Higher Out First.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class PriorityQueue<T> 
+	extends AdaptorContainer<T, TreeMultiSet<T>, PriorityQueue<T>>
 {
 	//--------
 	// The <i>underlying container</i> for implementing the <i>priority queue</i>.
@@ -21,16 +28,30 @@ export class PriorityQueue<T>
 	// operations and it even meets full criteria of {@link PriorityQueue}. Those are the reason why I've adopted
 	// {@link TreeMultiSet} as the <i>underlying container</i> of {@link PriorityQueue}.
 	//--------
-	/**
-	 * @hidden
-	 */
-	private source_: TreeMultiSet<T>;
-
 	/* ---------------------------------------------------------
 		CONSTURCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 * 
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+	 */
 	public constructor(comp?: (x: T, y: T) => boolean);
+
+	/**
+	 * Copy Constructor.
+	 * 
+	 * @param obj Object to copy.
+	 */
 	public constructor(obj: PriorityQueue<T>);
+
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+	 */
 	public constructor
 	(
 		first: Readonly<IForwardIterator<T>>, 
@@ -40,6 +61,8 @@ export class PriorityQueue<T>
 
 	public constructor(...args: any[])
 	{
+		super();
+
 		// DECLARE MEMBERS
 		let comp: (x: T, y: T) => boolean = less;
 		let post_process: () => void = null;
@@ -89,47 +112,33 @@ export class PriorityQueue<T>
 			post_process();
 	}
 
-	public swap(obj: PriorityQueue<T>): void
-	{
-		this.source_.swap(obj.source_);
-	}
-
 	/* ---------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------- */
-	public size(): number
-	{
-		return this.source_.size();
-	}
-
-	public empty(): boolean
-	{
-		return this.source_.empty();
-	}
-
+	/**
+	 * Get value comparison function.
+	 */
 	public value_comp(): (x: T, y: T) => boolean
 	{
 		return this.source_.value_comp();
 	}
 
-	/* ---------------------------------------------------------
-		ELEMENTS I/O
-	--------------------------------------------------------- */
+	/**
+	 * Get top element.
+	 */
 	public top(): T
 	{
-		return this.source_.begin().value;
+		return this.source_.end().prev().value;
 	}
 
-	public push(...elems: T[]): void
-	{
-		this.source_.push(...elems);
-	}
-
+	/**
+	 * @inheritDoc
+	 */
 	public pop(): void
 	{
-		this.source_.erase(this.source_.begin());
+		this.source_.erase(this.source_.end().prev());
 	}
 }
 
 export type priority_queue<T> = PriorityQueue<T>;
-export var priority_queue = PriorityQueue;
+export const priority_queue = PriorityQueue;

@@ -1,17 +1,21 @@
 ﻿import { MultiMap } from "../base/containers/MultiMap";
-import { IHashMap } from "../base/interfaces/IHashMap";
+import { IHashMap } from "../base/containers/IHashMap";
 
 import { _MapHashBuckets } from "../base/hashes/_MapHashBuckets";
 import { MapIterator, MapReverseIterator } from "../base/iterators/MapIterator";
+import { Entry } from "../utilities/Entry";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
 import { _NativeArrayIterator } from "../base/iterators/_NativeArrayIterator";
 import { IPair } from "../utilities/IPair";
-import { Entry } from "../utilities/Entry";
-
 import { hash } from "../functional/hash";
 import { equal_to } from "../functional/comparisons";
 
+/**
+ * Multiple-key Map based on Hash buckets.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class HashMultiMap<Key, T>
 	extends MultiMap<Key, T, HashMultiMap<Key, T>>
 	implements IHashMap<Key, T, HashMultiMap<Key, T>>
@@ -28,9 +32,38 @@ export class HashMultiMap<Key, T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 * 
+	 * @param hash An unary function returns hash code. Default is {hash}.
+	 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 */
 	public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
-	public constructor(items: Array<IPair<Key, T>>, hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+	
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param items Items to assign.
+	 * @param hash An unary function returns hash code. Default is {hash}.
+	 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 */
+	public constructor(items: IPair<Key, T>[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+	
+	/**
+	 * Copy Constructor.
+	 * 
+	 * @param obj Object to copy. 
+	 */
 	public constructor(obj: HashMultiMap<Key, T>);
+	
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param hash An unary function returns hash code. Default is {hash}.
+	 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+	 */
 	public constructor
 	(
 		first: Readonly<IForwardIterator<IPair<Key, T>>>, 
@@ -118,6 +151,9 @@ export class HashMultiMap<Key, T>
 	/* ---------------------------------------------------------
 		ASSIGN & CLEAR
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		this.buckets_.clear();
@@ -125,6 +161,9 @@ export class HashMultiMap<Key, T>
 		super.clear();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public swap(obj: HashMultiMap<Key, T>): void
 	{
 		// SWAP CONTENTS
@@ -142,10 +181,17 @@ export class HashMultiMap<Key, T>
 	============================================================
 		MEMBER
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public find(key: Key): HashMultiMap.Iterator<Key, T>
 	{
 		return this.buckets_.find(key);
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public count(key: Key): number
 	{
 		// FIND MATCHED BUCKET
@@ -161,7 +207,13 @@ export class HashMultiMap<Key, T>
 		return cnt;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public begin(): HashMultiMap.Iterator<Key, T>;
+	/**
+	 * @inheritDoc
+	 */
 	public begin(index: number): HashMultiMap.Iterator<Key, T>;
 	public begin(index: number = null): HashMultiMap.Iterator<Key, T>
 	{
@@ -171,7 +223,13 @@ export class HashMultiMap<Key, T>
 			return this.buckets_.at(index)[0];
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public end(): HashMultiMap.Iterator<Key, T>;
+	/**
+	 * @inheritDoc
+	 */
 	public end(index: number): HashMultiMap.Iterator<Key, T>
 	public end(index: number = null): HashMultiMap.Iterator<Key, T>
 	{
@@ -184,14 +242,26 @@ export class HashMultiMap<Key, T>
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public rbegin(): HashMultiMap.ReverseIterator<Key, T>;
+	/**
+	 * @inheritDoc
+	 */
 	public rbegin(index: number): HashMultiMap.ReverseIterator<Key, T>;
 	public rbegin(index: number = null): HashMultiMap.ReverseIterator<Key, T>
 	{
 		return this.end(index).reverse();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public rend(): HashMultiMap.ReverseIterator<Key, T>;
+	/**
+	 * @inheritDoc
+	 */
 	public rend(index: number): HashMultiMap.ReverseIterator<Key, T>;
 	public rend(index: number = null): HashMultiMap.ReverseIterator<Key, T>
 	{
@@ -201,42 +271,78 @@ export class HashMultiMap<Key, T>
 	/* ---------------------------------------------------------
 		HASH
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public bucket_count(): number
 	{
 		return this.buckets_.size();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public bucket_size(index: number): number
 	{
 		return this.buckets_.at(index).length;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public load_factor(): number
 	{
 		return this.buckets_.load_factor();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public hash_function(): (key: Key) => number
 	{
 		return this.buckets_.hash_function();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public key_eq(): (x: Key, y: Key) => boolean
 	{
 		return this.buckets_.key_eq();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public bucket(key: Key): number
 	{
 		return this.hash_function()(key) % this.buckets_.size();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public max_load_factor(): number;
+	/**
+	 * @inheritDoc
+	 */
 	public max_load_factor(z: number): void;
 	public max_load_factor(z: number = null): any
 	{
 		return this.buckets_.max_load_factor(z);
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public reserve(n: number): void
 	{
 		this.buckets_.reserve(n);
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public rehash(n: number): void
 	{
 		if (n <= this.bucket_count())
@@ -261,9 +367,9 @@ export class HashMultiMap<Key, T>
 		INSERT
 	--------------------------------------------------------- */
 	/**
-	 * @hidden
+	 * @inheritDoc
 	 */
-	protected _Emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
+	public emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
 	{
 		// INSERT
 		let it = this["data_"].insert(this["data_"].end(), new Entry(key, val));
@@ -273,9 +379,9 @@ export class HashMultiMap<Key, T>
 	}
 
 	/**
-	 * @hidden
+	 * @inheritDoc
 	 */
-	protected _Emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
+	public emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
 	{
 		// INSERT
 		let it = this["data_"].insert(hint, new Entry(key, val));
@@ -351,8 +457,8 @@ export namespace HashMultiMap
 	export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, HashMultiMap<Key, T>>;
 
 	// BODY
-	export var Iterator = MapIterator;
-	export var ReverseIterator = MapReverseIterator;
+	export const Iterator = MapIterator;
+	export const ReverseIterator = MapReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -362,8 +468,7 @@ export namespace HashMultiMap
 	export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }
-
 export import unordered_multimap = HashMultiMap;

@@ -1,33 +1,48 @@
-import { IForwardIterator } from "./IForwardIterator";
+import { _InsertIterator } from "../base/iterators/_InsertIterator";
 
 import { _IPushFront } from "../base/disposable/IPartialContainers";
 import { equal_to } from "../functional/comparisons";
 
+/**
+ * Front insert iterator.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class FrontInsertIterator<T, Source extends _IPushFront<T>>
-	implements IForwardIterator<T, FrontInsertIterator<T, Source>>
+	extends _InsertIterator<T, FrontInsertIterator<T, Source>>
 {
+	/**
+	 * @hidden
+	 */
 	private source_: Source;
 
+	/* ---------------------------------------------------------
+		METHODS
+	--------------------------------------------------------- */
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param source The source container.
+	 */
 	public constructor(source: Source)
 	{
+		super();
 		this.source_ = source;
 	}
 
-	public next(): FrontInsertIterator<T, Source>
-	{
-		return this;
-	}
-
-	public equals(obj: FrontInsertIterator<T, Source>): boolean
-	{
-		return equal_to(this.source_, obj.source_);
-	}
-
+	/**
+	 * @inheritDoc
+	 */
 	public set value(val: T)
 	{
 		this.source_.push_front(val);
 	}
-}
 
-export type front_insert_iterator<T, Source extends _IPushFront<T>> = FrontInsertIterator<T, Source>;
-export var front_insert_iterator = FrontInsertIterator;
+	/**
+	 * @inheritDoc
+	 */
+	public equals(obj: FrontInsertIterator<T, Source>): boolean
+	{
+		return equal_to(this.source_, obj.source_);
+	}
+}

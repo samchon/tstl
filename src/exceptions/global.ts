@@ -1,5 +1,8 @@
 import { is_node } from "../utilities/global";
 
+/**
+ * Terminate program.
+ */
 export function terminate(): void
 {
 	if (_Terminate_handler != null)
@@ -14,9 +17,14 @@ export function terminate(): void
 	}
 }
 
-export function set_terminate(f: () => void): void
+/**
+ * Set terminate handler.
+ * 
+ * @param func The terminate handler.
+ */
+export function set_terminate(func: () => void): void
 {
-	_Terminate_handler = f;
+	_Terminate_handler = func;
 
 	if (is_node() == true)
 		process.on("uncaughtException", function (): void
@@ -30,6 +38,11 @@ export function set_terminate(f: () => void): void
 		};
 }
 
+/**
+ * Get terminate handler.
+ * 
+ * @return The terminate handler.
+ */
 export function get_terminate(): () => void
 {
 	return _Terminate_handler;

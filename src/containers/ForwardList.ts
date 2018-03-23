@@ -1,18 +1,30 @@
 import { IForwardContainer } from "../base/disposable/IForwardContainer";
 import { IForwardIterator } from "../iterators/IForwardIterator";
-
 import { IPointer } from "../functional/IPointer";
-import { _Repeater } from "../base/iterators/_Repeater";
-import { ForOfAdaptor } from "../base/iterators/ForOfAdaptor";
 
-import { less, equal_to } from "../functional/comparisons";
-import { distance } from "../iterators/global";
-import { sort } from "../algorithms/sortings";
+import { _IClear, _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
+import { _IDeque } from "../base/containers/IDequeContainer";
+import { _IFront } from "../base/containers/ILinearContainer";
+import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
+
+import { ForOfAdaptor } from "../base/iterators/ForOfAdaptor";
+import { _Repeater } from "../base/iterators/_Repeater";
 import { Vector } from "./Vector";
 
+import { advance, distance } from "../iterators/global";
+import { equal_to, less } from "../functional/comparisons";
+import { sort as sort_func } from "../algorithms/sortings";
+
+/**
+ * Singly Linked List.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class ForwardList<T> 
 	implements IForwardContainer<T, ForwardList.Iterator<T>>, 
-		Iterable<T>
+		_IClear, _IEmpty, _ISize,
+		_IDeque<T>, _IFront<T>, Iterable<T>,
+		_IListAlgorithm<T, ForwardList<T>>
 {
 	/**
 	 * @hidden
@@ -41,11 +53,39 @@ export class ForwardList<T>
 	==================================================================
 		CONSTURCTORS
 	--------------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor();
 
-	public constructor(items: Array<T>);
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param items Items to assign.
+	 */
+	public constructor(items: T[]);
+
+	/**
+	 * Copy Constructor
+	 * 
+	 * @param obj Object to copy.
+	 */
 	public constructor(obj: ForwardList<T>);
+
+	/**
+	 * Fill Constructor.
+	 * 
+	 * @param size Initial size.
+	 * @param val Value to fill.
+	 */
 	public constructor(n: number, val: T);
+
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iterator of the last position.
+	 */
 	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 	public constructor(...args: any[])
@@ -73,7 +113,20 @@ export class ForwardList<T>
 	/* ---------------------------------------------------------------
 		ASSIGN & CLEAR
 	--------------------------------------------------------------- */
+	/**
+	 * Fill Assigner.
+	 * 
+	 * @param n Initial size.
+	 * @param val Value to fill.
+	 */
 	public assign(n: number, val: T): void;
+
+	/**
+	 * Range Assigner.
+	 * 
+	 * @param first Input iteartor of the first position.
+	 * @param last Input iterator of the last position.
+	 */
 	public assign<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
@@ -84,6 +137,9 @@ export class ForwardList<T>
 		this.insert_after(this.before_begin_, first, last);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		this.end_ = new ForwardList.Iterator<T>(this.ptr_, null, null);
@@ -95,33 +151,71 @@ export class ForwardList<T>
 	/* ===============================================================
 		ACCESSORS
 	=============================================================== */
+	/**
+	 * @inheritDoc
+	 */
 	public size(): number
 	{
 		return this.size_;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public empty(): boolean
 	{
 		return this.size_ == 0;
 	}
 	
-	public front(): T
+	/**
+	 * @inheritDoc
+	 */
+	public front(): T;
+
+	/**
+	 * @inheritDoc
+	 */
+	public front(val: T): void;
+
+	public front(val: T = undefined)
 	{
-		return this.before_begin_.next().value;
+		let it: ForwardList.Iterator<T> = this.begin();
+
+		if (val == undefined)
+			return it.value;
+		else
+			it.value = val;
 	}
 
+	/**
+	 * Iterator to before beginning.
+	 * 
+	 * @return Iterator to the before beginning.
+	 */
 	public before_begin(): ForwardList.Iterator<T>
 	{
 		return this.before_begin_;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public begin(): ForwardList.Iterator<T>
 	{
 		return this.before_begin_.next();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public end(): ForwardList.Iterator<T>
 	{
 		return this.end_;;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public [Symbol.iterator](): IterableIterator<T>
 	{
 		return new ForOfAdaptor(this.begin(), this.end());
@@ -134,13 +228,41 @@ export class ForwardList<T>
 	==================================================================
 		INSERT
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public push_front(val: T): void
 	{
 		this.insert_after(this.before_begin_, val);
 	}
 
+	/**
+	 * Insert an element.
+	 * 
+	 * @param pos Position to insert after.
+	 * @param val Value to insert.
+	 * @return An iterator to the newly inserted element.
+	 */
 	public insert_after(pos: ForwardList.Iterator<T>, val: T): ForwardList.Iterator<T>;
+
+	/**
+	 * Inserted repeated elements.
+	 * 
+	 * @param pos Position to insert after.
+	 * @param n Number of elements to insert.
+	 * @param val Value to insert repeatedly.
+	 * @return An iterator to the last of the newly inserted elements.
+	 */
 	public insert_after(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>;
+
+	/**
+	 * Insert range elements.
+	 * 
+	 * @param pos Position to insert after.
+	 * @param first Input iterator of the first position.
+	 * @param last Input iteartor of the last position.
+	 * @return An iterator to the last of the newly inserted elements.
+	 */
 	public insert_after<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>;
 
@@ -160,14 +282,20 @@ export class ForwardList<T>
 		return ret;
 	}
 
+	/**
+	 * @hidden
+	 */
 	private _Insert_by_repeating_val(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>
 	{
-		let first: _Repeater<T> = new _Repeater<T>(0, val);
-		let last: _Repeater<T> = new _Repeater<T>(n);
+		let first: _Repeater<T> = new _Repeater(0, val);
+		let last: _Repeater<T> = new _Repeater(n);
 
 		return this._Insert_by_range(pos, first, last);
 	}
 
+	/**
+	 * @hidden
+	 */
 	private _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 		(pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
 	{
@@ -196,16 +324,32 @@ export class ForwardList<T>
 	/* ---------------------------------------------------------------
 		ERASE
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public pop_front(): void
 	{
 		this.erase_after(this.before_begin());
 	}
 
+	/**
+	 * Erase an element.
+	 * 
+	 * @param it Position to erase after.
+	 * @return Iterator to the erased element.
+	 */
 	public erase_after(it: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
+	/**
+	 * Erase elements.
+	 * 
+	 * @param first Range of the first position to erase after.
+	 * @param last Rangee of the last position to erase.
+	 * @return Iterator to the last removed element.
+	 */
 	public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
-	public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T> = first.advance(2)): ForwardList.Iterator<T>
+	public erase_after(first: ForwardList.Iterator<T>, last: ForwardList.Iterator<T> = advance(first, 2)): ForwardList.Iterator<T>
 	{
 		// SHRINK SIZE
 		this.size_ -= Math.max(0, distance(first, last) - 1);
@@ -223,7 +367,10 @@ export class ForwardList<T>
 	==================================================================
 		UNIQUE & REMOVE(_IF)
 	--------------------------------------------------------------- */
-	public unique(binary_pred: (left: T, right: T) => boolean = equal_to): void
+	/**
+	 * @inheritDoc
+	 */
+	public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 	{
 		for (let it = this.begin().next(); !it.equals(this.end()); it = it.next())
 		{
@@ -236,6 +383,9 @@ export class ForwardList<T>
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public remove(val: T): void
 	{
 		this.remove_if(function (elem: T): boolean
@@ -244,6 +394,9 @@ export class ForwardList<T>
 			});
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public remove_if(pred: (val: T) => boolean): void
 	{
 		let count: number = 0;
@@ -260,9 +413,41 @@ export class ForwardList<T>
 	/* ---------------------------------------------------------------
 		MERGE & SPLICE
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
+	public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = less): void
+	{
+		if (this == <ForwardList<T>>from)
+			return;
+
+		let it = this.before_begin();
+		while (from.empty() == false)
+		{
+			let value = from.begin().value;
+			while (!it.next().equals(this.end()) && comp(it.next().value, value))
+				it = it.next();
+			
+			this.splice_after(it, from, from.before_begin());
+		}
+	}
+
+	/**
+	 * Transfer elements.
+	 * 
+	 * @param pos Position to insert after.
+	 * @param from Target container to transfer.
+	 */
 	public splice_after<U extends T>
 		(pos: ForwardList.Iterator<T>, from: ForwardList<U>): void;
 
+	/**
+	 * Transfer a single element.
+	 * 
+	 * @param pos Position to insert after.
+	 * @param from Target container to transfer.
+	 * @param before Previous position of the single element to transfer.
+	 */
 	public splice_after<U extends T>
 		(
 			pos: ForwardList.Iterator<T>, 
@@ -270,6 +455,14 @@ export class ForwardList<T>
 			before: ForwardList.Iterator<U>
 		): void;
 
+	/**
+	 * Transfer range elements.
+	 * 
+	 * @param pos Position to insert after.
+	 * @param from Target container to transfer.
+	 * @param first Range of previous of the first position to transfer.
+	 * @param last Rangee of the last position to transfer.
+	 */
 	public splice_after<U extends T>
 		(
 			pos: ForwardList.Iterator<T>, 
@@ -298,33 +491,23 @@ export class ForwardList<T>
 		from.erase_after(first_before, last);
 	}
 
-	public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = less): void
-	{
-		if (this == <ForwardList<T>>from)
-			return;
-
-		let it = this.before_begin();
-		while (from.empty() == false)
-		{
-			let value = from.begin().value;
-			while (!it.next().equals(this.end()) && comp(it.next().value, value))
-				it = it.next();
-			
-			this.splice_after(it, from, from.before_begin());
-		}
-	}
-
 	/* ---------------------------------------------------------------
-		SORT & SWAP
+		SORT
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public sort(comp: (x: T, y: T) => boolean = less): void
 	{
 		let vec = new Vector<T>(this.begin(), this.end());
-		sort(vec.begin(), vec.end(), comp);
+		sort_func(vec.begin(), vec.end(), comp);
 
 		this.assign(vec.begin(), vec.end());
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public reverse(): void
 	{
 		let vec = new Vector<T>(this.begin(), this.end());
@@ -334,6 +517,9 @@ export class ForwardList<T>
 	/* ---------------------------------------------------------------
 		UTILITIES
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public swap(obj: ForwardList<T>): void
 	{
 		// SIZE AND NODES
@@ -346,6 +532,11 @@ export class ForwardList<T>
 		[this.ptr_.value, obj.ptr_.value] = [obj.ptr_.value, this.ptr_.value];
 	}
 
+	/**
+	 * Native function for `JSON.stringify()`.
+	 * 
+	 * @return An array containing children elements.
+	 */
 	public toJSON(): Array<T>
 	{
 		let ret: T[] = [];
@@ -358,6 +549,11 @@ export class ForwardList<T>
 
 export namespace ForwardList
 {
+	/**
+	 * Iterator of the ForwardList.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Iterator<T> implements IForwardIterator<T, Iterator<T>>
 	{
 		/**
@@ -386,16 +582,27 @@ export namespace ForwardList
 		/* ---------------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------------- */
+		/**
+		 * Get source container.
+		 * 
+		 * @return The source container.
+		 */
 		public source(): ForwardList<T>
 		{
 			return this.source_ptr_.value;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public get value(): T
 		{
 			return this.value_;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set value(val: T)
 		{
 			this.value_ = val;
@@ -404,28 +611,21 @@ export namespace ForwardList
 		/* ---------------------------------------------------------
 			MOVERS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public next(): Iterator<T>
 		{
 			return this.next_;
 		}
 
-		public advance(n: number): Iterator<T>
-		{
-			let ret: Iterator<T> = this;
-			for (let i: number = 0; i < n; ++i)
-				ret = ret.next();
-
-			return ret;
-		}
-
-		/* ---------------------------------------------------------------
-			COMPARISON
-		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public equals(obj: Iterator<T>): boolean
 		{
 			return this == obj;
 		}
 	}
 }
-
 export import forward_list = ForwardList;

@@ -1,18 +1,25 @@
 import { Container } from "./Container";
+import { _IAssociativeContainer } from "./_IAssociativeContainer";
+
 import { _MapElementList } from "./_MapElementList";
-
 import { MapIterator, MapReverseIterator } from "../iterators/MapIterator";
-import { IForwardIterator } from "../../iterators/IForwardIterator";
-import { _NativeArrayIterator } from "../iterators/_NativeArrayIterator";
-
-import { IPair } from "../../utilities/IPair";
 import { Entry } from "../../utilities/Entry";
 
+import { IForwardIterator } from "../../iterators/IForwardIterator";
+import { _NativeArrayIterator } from "../iterators/_NativeArrayIterator";
+import { IPair } from "../../utilities/IPair";
+
+/**
+ * Base class for Map Containers.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, Source>>
 	extends Container<Entry<Key, T>,
 		Source,
 		MapIterator<Key, T, Source>,
 		MapReverseIterator<Key, T, Source>>
+	implements _IAssociativeContainer<Key, MapIterator<Key, T, Source>>
 {
 	/**
 	 * @hidden
@@ -22,6 +29,9 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	/* ---------------------------------------------------------
 		CONSTURCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	protected constructor()
 	{
 		super();
@@ -29,6 +39,9 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 		this.data_ = new _MapElementList(<any>this);
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public assign<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void
 	{
@@ -37,6 +50,9 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 		this.insert(first, last);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		// TO BE ABSTRACT
@@ -50,13 +66,22 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	============================================================
 		ITERATOR
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract find(key: Key): MapIterator<Key, T, Source>;
 
+	/**
+	 * @inheritDoc
+	 */
 	public begin(): MapIterator<Key, T, Source>
 	{
 		return this.data_.begin();
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public end(): MapIterator<Key, T, Source>
 	{
 		return this.data_.end();
@@ -65,13 +90,22 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	/* ---------------------------------------------------------
 		ELEMENTS
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public has(key: Key): boolean
 	{
 		return !this.find(key).equals(this.end());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public abstract count(key: Key): number;
 
+	/**
+	 * @inheritDoc
+	 */
 	public size(): number
 	{
 		return this.data_.size();
@@ -86,6 +120,9 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	============================================================
 		INSERT
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public push(...items: IPair<Key, T>[]): number
 	{
 		// INSERT BY RANGE
@@ -97,41 +134,19 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 		// RETURN SIZE
 		return this.size();
 	}
-
-	public emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
-	public emplace_hint(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
-
-	public emplace_hint(hint: any, ...args: any[]): any
-	{
-		if (args.length == 1)
-			return this._Emplace_hint(hint, args[0].first, args[0].second);
-		else
-			return this._Emplace_hint(hint, args[0], args[1]);
-	}
+	public abstract emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
 
 	public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
 	public insert<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
-	public insert(...args: any[]): any
+	public insert(par1: any, par2: any): any
 	{
-		if (args.length == 1)
-			return this._Emplace(args[0].first, args[0].second);
-		else if (args.length == 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-			return this._Insert_by_range(args[0], args[1]);
+		if (par1.next instanceof Function && par2.next instanceof Function)
+			return this._Insert_by_range(par1, par2);
 		else
-			return this._Emplace_hint(args[0], args[1].first, args[1].second);
+			return this.emplace_hint(par1, par2.first, par2.second);
 	}
-
-	/**
-	 * @hidden
-	 */
-	protected abstract _Emplace(key: Key, val: T): any;
-
-	/**
-	 * @hidden
-	 */
-	protected abstract _Emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
 
 	/**
 	 * @hidden
@@ -142,8 +157,19 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	/* ---------------------------------------------------------
 		ERASE
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public erase(key: Key): number;
+
+	/**
+	 * @inheritDoc
+	 */
 	public erase(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
+
+	/**
+	 * @inheritDoc
+	 */
 	public erase(begin: MapIterator<Key, T, Source>, end: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
 
 	public erase(...args: any[]): any 
@@ -180,7 +206,7 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 		UTILITY
 	--------------------------------------------------------- */
 	/**
-	 * @hidden
+	 * @inheritDoc
 	 */
 	public swap(obj: Source): void
 	{
@@ -191,6 +217,11 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 		[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
 	}
 
+	/**
+	 * Merge two containers.
+	 * 
+	 * @param source Source container to transfer.
+	 */
 	public abstract merge(source: Source): void;
 
 	/* ---------------------------------------------------------

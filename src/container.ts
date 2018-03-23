@@ -13,13 +13,13 @@ export * from "./containers/ForwardList";
 //--------
 // ASSOCIATIVE CONTAINERS
 //--------
-// SET
+// SETS
 export * from "./containers/TreeSet";
 export * from "./containers/HashSet";
 export * from "./containers/TreeMultiSet";
 export * from "./containers/HashMultiSet";
 
-// MAP
+// MAPS
 export * from "./containers/TreeMap";
 export * from "./containers/HashMap";
 export * from "./containers/TreeMultiMap";

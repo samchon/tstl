@@ -1,12 +1,18 @@
-import { Container } from "../containers/Container";
-import { Iterator } from "./Iterator";
-import { IBidirectionalIterator } from "../../iterators/IBidirectionalIterator";
+import { IContainer } from "../containers/IContainer";
 
+import { Iterator } from "./Iterator";
+import { IReverseIterator } from "../../iterators/IReverseIterator";
+
+/**
+ * Base reverse iterator for {@link IContainer}
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export abstract class ReverseIterator<T, 
-		Source extends Container<T, Source, Base, This>, 
+		Source extends IContainer<T, Source, Base, This>, 
 		Base extends Iterator<T, Source, Base, This>, 
 		This extends ReverseIterator<T, Source, Base, This>>
-	implements Readonly<IBidirectionalIterator<T, This>>
+	implements Readonly<IReverseIterator<T, Base, This>>
 {
 	/**
 	 * @hidden
@@ -16,6 +22,11 @@ export abstract class ReverseIterator<T,
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param base The base iterator.
+	 */
 	protected constructor(base: Base)
 	{
 		this.base_ = base.prev();
@@ -30,16 +41,27 @@ export abstract class ReverseIterator<T,
 	/* ---------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------- */
+	/**
+	 * Get source container.
+	 * 
+	 * @return The source container.
+	 */
 	public source(): Source
 	{
 		return this.base_.source();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public base(): Base
 	{
 		return this.base_.next();
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public get value(): T
 	{
 		return this.base_.value;
@@ -48,12 +70,18 @@ export abstract class ReverseIterator<T,
 	/* ---------------------------------------------------------
 		MOVERS
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public prev(): This
 	{
 		// this.base().next()
 		return this._Create_neighbor(this.base_);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public next(): This
 	{
 		// this.base().prev()
@@ -63,6 +91,9 @@ export abstract class ReverseIterator<T,
 	/* ---------------------------------------------------------
 		COMPARES
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public equals(obj: This): boolean
 	{
 		return this.base_.equals(obj.base_);

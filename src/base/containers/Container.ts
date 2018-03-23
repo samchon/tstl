@@ -1,36 +1,33 @@
-import { IBidirectionalContainer } from "../disposable/IForwardContainer";
-
+import { IContainer } from "./IContainer";
 import { Iterator } from "../iterators/Iterator";
 import { ReverseIterator } from "../iterators/ReverseIterator";
-import { IForwardIterator } from "../../iterators/IForwardIterator";
 
+import { IForwardIterator } from "../../iterators/IForwardIterator";
 import { ForOfAdaptor } from "../iterators/ForOfAdaptor";
 
+/**
+ * Base container.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export abstract class Container<T, 
-		SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
 		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-	implements Iterable<T>, IBidirectionalContainer<T, IteratorT, ReverseIteratorT>
+	implements IContainer<T, SourceT, IteratorT, ReverseIteratorT>
 {
-	/* =========================================================
-		CONSTRUCTORS & SEMI-CONSTRUCTORS
-			- CONSTRUCTORS
-			- ASSIGN & CLEAR
-	============================================================
-		CONSTURCTORS
-	--------------------------------------------------------- */
-	protected constructor()
-	{
-		// THIS IS ABSTRACT CLASS
-		// NOTHING TO DO ESPECIALLY
-	}
-
 	/* ---------------------------------------------------------
 		ASSIGN & CLEAR
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-		(begin: InputIterator, end: InputIterator): void;
+		(first: InputIterator, last: InputIterator): void;
 
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		this.erase(this.begin(), this.end());
@@ -43,8 +40,14 @@ export abstract class Container<T,
 	============================================================
 		SIZE
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract size(): number;
 	
+	/**
+	 * @inheritDoc
+	 */
 	public empty(): boolean
 	{
 		return this.size() == 0;
@@ -53,18 +56,35 @@ export abstract class Container<T,
 	/* ---------------------------------------------------------
 		ITERATORS
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract begin(): IteratorT;
+
+	/**
+	 * @inheritDoc
+	 */
 	public abstract end(): IteratorT;
 
+	/**
+	 * @inheritDoc
+	 */
 	public rbegin(): ReverseIteratorT
 	{
 		return this.end().reverse();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public rend(): ReverseIteratorT
 	{
 		return this.begin().reverse();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public [Symbol.iterator](): IterableIterator<T>
 	{
 		return new ForOfAdaptor(this.begin(), this.end());
@@ -73,17 +93,37 @@ export abstract class Container<T,
 	/* ---------------------------------------------------------
 		ELEMENTS I/O
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract push(...items: T[]): number;
-	public abstract insert(position: IteratorT, val: T): IteratorT;
 
-	public abstract erase(position: IteratorT): IteratorT;
-	public abstract erase(begin: IteratorT, end: IteratorT): IteratorT;
+	/**
+	 * @inheritDoc
+	 */
+	public abstract insert(pos: IteratorT, val: T): IteratorT;
+
+	/**
+	 * @inheritDoc
+	 */
+	public abstract erase(pos: IteratorT): IteratorT;
+
+	/**
+	 * @inheritDoc
+	 */
+	public abstract erase(first: IteratorT, last: IteratorT): IteratorT;
 
 	/* ---------------------------------------------------------------
 		UTILITIES
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract swap(obj: SourceT): void;
 
+	/**
+	 * @inheritDoc
+	 */
 	public toJSON(): Array<T>
 	{
 		let ret: Array<T> = [];

@@ -1,60 +1,59 @@
-﻿import { Vector } from "./Vector";
+﻿import { AdaptorContainer } from "../base/containers/AdaptorContainer";
+import { Vector } from "./Vector";
 
-export class Stack<T>
+/**
+ * Stack; LIFO (Last In First Out).
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class Stack<T> 
+	extends AdaptorContainer<T, Vector<T>, Stack<T>>
 {
-	private source_: Vector<T>;
-
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor();
 
+	/**
+	 * Copy Constructor.
+	 * 
+	 * @param obj Object to copy.
+	 */
 	public constructor(obj: Stack<T>);
 
 	public constructor(obj: Stack<T> = null)
 	{
-		this.source_ = new Vector<T>();
+		super();
 
+		this.source_ = new Vector();
 		if (obj != null)
 			this.source_.assign(obj.source_.begin(), obj.source_.end());
 	}
 
 	/* ---------------------------------------------------------
-		ACCESSORS
+		ACCESSOR
 	--------------------------------------------------------- */
-	public size(): number
-	{
-		return this.source_.size();
-	}
-
-	public empty(): boolean
-	{
-		return this.source_.empty();
-	}
-
+	/**
+	 * Get the last element.
+	 * 
+	 * @return The last element.
+	 */
 	public top(): T
 	{
 		return this.source_.back();
 	}
 
-	/* ---------------------------------------------------------
-		ELEMENTS I/O
-	--------------------------------------------------------- */
-	public push(...elems: T[]): void
-	{
-		this.source_.push(...elems);
-	}
-
+	/**
+	 * @inheritDoc
+	 */
 	public pop(): void
 	{
 		this.source_.pop_back();
 	}
-
-	public swap(obj: Stack<T>): void
-	{
-		[this.source_, obj.source_] = [obj.source_, this.source_];
-	}
 }
 
 export type stack<T> = Stack<T>;
-export var stack = Stack;
+export const stack = Stack;

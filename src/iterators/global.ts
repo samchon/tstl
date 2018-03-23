@@ -1,15 +1,30 @@
 import { IForwardIterator } from "./IForwardIterator";
-import { IRandomAccessIterator } from "./IRandomAccessIterator";
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
+import { IRandomAccessIterator } from "./IRandomAccessIterator";
 
-import { _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
 import { OutOfRange } from "../exceptions/LogicError";
+import { _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
 
-/* ---------------------------------------------------------
+/* =========================================================
+	GLOBAL FUNCTIONS
+		- ACCESSORS
+		- MOVERS
+		- FACTORIES
+============================================================
 	ACCESSORS
 --------------------------------------------------------- */
-export function empty<T>(source: Array<T>): boolean;
+/**
+ * Test whether a container is empty.
+ * 
+ * @param source Target container.
+ * @return Whether empty or not.
+ */
 export function empty(source: _IEmpty): boolean;
+
+/**
+ * @hidden
+ */
+export function empty<T>(source: Array<T>): boolean;
 export function empty(source: any): boolean
 {
 	if (source instanceof Array)
@@ -18,8 +33,18 @@ export function empty(source: any): boolean
 		return source.empty();
 }
 
-export function size<T>(source: Array<T>): number;
+/**
+ * Get number of elements of a container.
+ * 
+ * @param source Target container.
+ * @return The number of elements in the container.
+ */
 export function size(source: _ISize): number
+
+/**
+ * @hidden
+ */
+export function size<T>(source: Array<T>): number;
 export function size(source: any): number
 {
 	if (source instanceof Array)
@@ -28,6 +53,14 @@ export function size(source: any): number
 		return source.size();
 }
 
+/**
+ * Get distance between two iterators.
+ * 
+ * @param first Input iteartor of the first position.
+ * @param last Input iterator of the last position.
+ * 
+ * @return The distance.
+ */
 export function distance<T, InputIterator extends IForwardIterator<T, InputIterator>>
 	(first: InputIterator, last: InputIterator): number
 {
@@ -56,6 +89,14 @@ function _Distance_via_index<T, RandomAccessIterator extends IRandomAccessIterat
 /* ---------------------------------------------------------
 	ACCESSORS
 --------------------------------------------------------- */
+/**
+ * Advance iterator.
+ * 
+ * @param it Target iterator to advance.
+ * @param n Step to advance.
+ * 
+ * @return The advanced iterator.
+ */
 export function advance<T, InputIterator extends IForwardIterator<T, InputIterator>>
 	(it: InputIterator, n: number): InputIterator
 {
@@ -79,6 +120,13 @@ export function advance<T, InputIterator extends IForwardIterator<T, InputIterat
 	return it;
 }
 
+/**
+ * Get previous iterator.
+ * 
+ * @param it Iterator to move.
+ * @param n Step to move prev.
+ * @return An iterator moved to prev *n* steps.
+ */
 export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, BidirectionalIterator>>
 	(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 {
@@ -88,6 +136,13 @@ export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, 
 		return advance(it, -n);
 }
 
+/**
+ * Get next iterator.
+ * 
+ * @param it Iterator to move.
+ * @param n Step to move next.
+ * @return Iterator moved to next *n* steps.
+ */
 export function next<T, ForwardIterator extends IForwardIterator<T, ForwardIterator>>
 	(it: ForwardIterator, n: number = 1): ForwardIterator
 {	
@@ -96,3 +151,4 @@ export function next<T, ForwardIterator extends IForwardIterator<T, ForwardItera
 	else
 		return advance(it, n);
 }
+

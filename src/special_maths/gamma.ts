@@ -1,5 +1,8 @@
-// Lanczos Approximation
-// - https://rosettacode.org/wiki/Gamma_function#JavaScript
+/**
+ * Gamma function.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Gamma_function, https://rosettacode.org/wiki/Gamma_function#JavaScript
+ */
 export function tgamma(x: number): number
 {
 	if (x < 0.5)
@@ -11,12 +14,15 @@ export function tgamma(x: number): number
 	let a: number = P[0];
 	let t: number = x + G + 0.5;
 	
-	for (var i = 1; i < P.length; ++i)
+	for (let i: number = 1; i < P.length; ++i)
 		a += P[i] / (x + i);
 	
 	return Math.sqrt(2 * Math.PI) * Math.pow(t, x + 0.5) * Math.exp(-t) * a;
 }
 
+/**
+ * Log gamma function.
+ */
 export function lgamma(x: number): number
 {
 	return Math.log(tgamma(x));

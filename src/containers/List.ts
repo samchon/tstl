@@ -1,33 +1,65 @@
 import { ListContainer } from "../base/containers/ListContainer";
-import { ILinearContainer } from "../base/interfaces/ILinearContainer";
+import { IDequeContainer } from "../base/containers/IDequeContainer";
+import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
 
 import { ListIterator } from "../base/iterators/ListIterator";
 import { ReverseIterator as ReverseIteratorBase } from "../base/iterators/ReverseIterator";
 
 import { IPointer } from "../functional/IPointer";
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { less, equal_to } from "../functional/comparisons";
+import { equal_to, less } from "../functional/comparisons";
 
+/**
+ * Doubly Linked List.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class List<T>
 	extends ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
-	implements ILinearContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
+	implements IDequeContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>,
+		_IListAlgorithm<T, List<T>>
 {
 	/**
 	 * @hidden
 	 */
 	private ptr_: IPointer<List<T>>;
 
-	/* =========================================================
-		CONSTRUCTORS & SEMI-CONSTRUCTORS
-			- CONSTRUCTORS
-			- ASSIGN & CLEAR
-	============================================================
+	/* ---------------------------------------------------------
 		CONSTURCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor();
+
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param items Items to assign.
+	 */
 	public constructor(items: Array<T>);
-	public constructor(size: number, val: T);
+
+	/**
+	 * Copy Constructor
+	 * 
+	 * @param obj Object to copy.
+	 */
 	public constructor(obj: List<T>);
+
+	/**
+	 * Fill Constructor.
+	 * 
+	 * @param size Initial size.
+	 * @param val Value to fill.
+	 */
+	public constructor(size: number, val: T);
+
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iteartor of the last position.
+	 */
 	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 	public constructor(...args: any[])
@@ -76,19 +108,6 @@ export class List<T>
 		return new List.Iterator<T>(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
 	}
 
-	/* ---------------------------------------------------------
-		ASSIGN & CLEAR
-	--------------------------------------------------------- */
-	public assign(n: number, val: T): void;
-	public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-		(first: InputIterator, last: InputIterator): void;
-
-	public assign(par1: any, par2: any): void
-	{
-		this.clear();
-		this.insert(this.end(), par1, par2);
-	}
-
 	/* ===============================================================
 		ALGORITHMS
 			- UNIQUE & REMOVE(_IF)
@@ -97,6 +116,9 @@ export class List<T>
 	==================================================================
 		UNIQUE & REMOVE(_IF)
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
 	{
 		let it = this.begin().next();
@@ -110,6 +132,9 @@ export class List<T>
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public remove(val: T): void
 	{
 		this.remove_if(function (x: T): boolean
@@ -118,6 +143,9 @@ export class List<T>
 		});
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public remove_if(pred: (val: T) => boolean): void
 	{
 		let it = this.begin();
@@ -134,29 +162,56 @@ export class List<T>
 	/* ---------------------------------------------------------
 		MERGE & SPLICE
 	--------------------------------------------------------- */
-	public merge<U extends T>(obj: List<U>, comp: (x: T, y: T) => boolean = less): void
+	/**
+	 * @inheritDoc
+	 */
+	public merge<U extends T>(source: List<U>, comp: (x: T, y: T) => boolean = less): void
 	{
-		if (this == <List<T>>obj)
+		if (this == <List<T>>source)
 			return;
 
 		let it = this.begin();
 
-		while (obj.empty() == false)
+		while (source.empty() == false)
 		{
-			let first = obj.begin();
+			let first = source.begin();
 			while (!it.equals(this.end()) && comp(it.value, first.value) == true)
 				it = it.next();
 
-			this.splice(it, obj, first);
+			this.splice(it, source, first);
 		}
 	}
 
-	public splice<U extends T>(position: List.Iterator<T>, obj: List<U>): void;
-	public splice<U extends T>(position: List.Iterator<T>, obj: List<U>, it: List.Iterator<U>): void;
-	public splice<U extends T>(position: List.Iterator<T>, obj: List<U>, first: List.Iterator<U>, last: List.Iterator<U>): void;
+	/**
+	 * Transfer elements.
+	 * 
+	 * @param pos Position to insert.
+	 * @param from Target container to transfer.
+	 */
+	public splice<U extends T>(pos: List.Iterator<T>, from: List<U>): void;
+	
+	/**
+	 * Transfer a single element.
+	 * 
+	 * @param pos Position to insert.
+	 * @param from Target container to transfer.
+	 * @param it Position of the single element to transfer.
+	 */
+	public splice<U extends T>(pos: List.Iterator<T>, from: List<U>, it: List.Iterator<U>): void;
+	
+	/**
+	 * Transfer range elements.
+	 * 
+	 * @param pos Position to insert.
+	 * @param from Target container to transfer.
+	 * @param first Range of the first position to transfer.
+	 * @param last Rangee of the last position to transfer.
+	 */
+	public splice(pos: List.Iterator<T>, from: List<T>, first: List.Iterator<T>, last: List.Iterator<T>): void;
+
 	public splice<U extends T>
 		(
-			position: List.Iterator<T>, obj: List<U>, 
+			pos: List.Iterator<T>, obj: List<U>, 
 			first: List.Iterator<U> = null, last: List.Iterator<U> = null
 		): void
 	{
@@ -170,13 +225,16 @@ export class List<T>
 			last = first.next();
 		}
 
-		this.insert(position, first, last);
+		this.insert(pos, first, last);
 		obj.erase(first, last);
 	}
 
 	/* ---------------------------------------------------------
 		SORT & SWAP
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public sort(comp: (x: T, y: T) => boolean = less): void
 	{
 		this._Quick_sort(this.begin(), this.end().prev(), comp);
@@ -218,6 +276,9 @@ export class List<T>
 		return prev;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public reverse(): void
 	{
 		let begin: List.Iterator<T> = this.end().prev();
@@ -237,6 +298,9 @@ export class List<T>
 		this.end()["next_"] = begin;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public swap(obj: List<T>): void
 	{
 		// CHANGE CONTENTS
@@ -250,6 +314,11 @@ export class List<T>
 
 export namespace List
 {
+	/**
+	 * Iterator of the List.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class Iterator<T>
 		extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
 	{
@@ -270,6 +339,9 @@ export namespace List
 			this.source_ptr_ = sourcePtr;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public reverse(): ReverseIterator<T>
 		{
 			return new ReverseIterator(this);
@@ -278,16 +350,25 @@ export namespace List
 		/* ---------------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public source(): List<T>
 		{
 			return this.source_ptr_.value;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public get value(): T
 		{
 			return this["value_"];
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set value(val: T)
 		{
 			this["value_"] = val;
@@ -302,6 +383,11 @@ export namespace List
 		}
 	}
 
+	/**
+	 * Reverse iterator of the List.
+	 * 
+	 * @author Jeongho Nam <http://samchon.org>
+	 */
 	export class ReverseIterator<T>
 		extends ReverseIteratorBase<T, List<T>, Iterator<T>, ReverseIterator<T>>
 	{
@@ -324,16 +410,21 @@ export namespace List
 		/* ---------------------------------------------------------
 			ACCESSORS
 		--------------------------------------------------------- */
+		/**
+		 * @inheritDoc
+		 */
 		public get value(): T
 		{
 			return this.base_.value;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public set value(val: T)
 		{
 			this.base_.value = val;
 		}
 	}
 }
-
 export import list = List;

@@ -1,9 +1,14 @@
+import { MathUtil } from "../base/maths/MathUtil";
 import { DomainError } from "../exceptions/LogicError";
-import { integral } from "../base/maths/MathUtil";
 
 /* ---------------------------------------------------------------
 	FIRST
 --------------------------------------------------------------- */
+/**
+ * Incomplete elliptic integral of the 1st kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_first_kind
+ */
 export function ellint_1(k: number, phi: number): number
 {
 	// FORMULA OF INTEGRAL
@@ -14,6 +19,11 @@ export function ellint_1(k: number, phi: number): number
 	return _Post_process(k, phi, formula);
 }
 
+/**
+ * Complete elliptic integral of the 1st kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Elliptic_integral_of_the_first_kind
+ */
 export function comp_ellint_1(k: number): number
 {
 	return ellint_1(k, Math.PI / 2);
@@ -22,6 +32,11 @@ export function comp_ellint_1(k: number): number
 /* ---------------------------------------------------------------
 	SECOND
 --------------------------------------------------------------- */
+/**
+ * Incomplete elliptic integral of the 2nd kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Incomplete_elliptic_integral_of_the_second_kind
+ */
 export function ellint_2(k: number, phi: number): number
 {
 	let formula = function (x: number): number
@@ -31,6 +46,11 @@ export function ellint_2(k: number, phi: number): number
 	return _Post_process(k, phi, formula);
 }
 
+/**
+ * Complete elliptic integral of the 2nd kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_second_kind
+ */
 export function comp_ellint_2(k: number): number
 {
 	return ellint_2(k, Math.PI / 2);
@@ -39,6 +59,11 @@ export function comp_ellint_2(k: number): number
 /* ---------------------------------------------------------------
 	THIRD
 --------------------------------------------------------------- */
+/**
+ * Incomplete elliptic integral of the 3rd kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_third_kind
+ */
 export function ellint_3(k: number, v: number, phi: number): number
 {
 	// SPECIAL VALIDATIONS ONLY FOR SERIES-3
@@ -48,6 +73,11 @@ export function ellint_3(k: number, v: number, phi: number): number
 	return _Ellint_3(k, v, phi);
 }
 
+/**
+ * Complete elliptic integral of the 3rd kind.
+ * 
+ * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Incomplete_elliptic_integral_of_the_third_kind
+ */
 export function comp_ellint_3(k: number, n: number): number
 {
 	return ellint_3(k, n, Math.PI / 2);
@@ -87,6 +117,6 @@ function _Post_process(k: number, phi: number, formula: (x: number) => number): 
 	if (Math.abs(k) > 1)
 		throw new DomainError("ellint functions require |k| <= 1");
 
-	let area: number = integral(formula, 0, phi);
+	let area: number = MathUtil.integral(formula, 0, phi);
 	return (phi < 0) ? -area : area;
 }

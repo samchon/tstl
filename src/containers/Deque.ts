@@ -2,13 +2,18 @@
 import { ArrayIterator, ArrayReverseIterator } from "../base/iterators/ArrayIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { _NativeArrayIterator } from "../base/iterators/_NativeArrayIterator";
 import { _DequeForOfAdaptor } from "../base/iterators/_DequeForOfAdaptor";
+import { _NativeArrayIterator } from "../base/iterators/_NativeArrayIterator";
 
 import { Pair } from "../utilities/Pair";
 import { OutOfRange } from "../exceptions/LogicError";
 import { distance } from "../iterators/global";
 
+/**
+ * Double ended queue.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class Deque<T>
 	extends ArrayContainer<T, Deque<T>>
 {
@@ -49,10 +54,39 @@ export class Deque<T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor();
-	public constructor(items: Array<T>);
-	public constructor(container: Deque<T>);
+
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param items Items to assign.
+	 */
+	public constructor(items: T[]);
+
+	/**
+	 * Copy Constructor
+	 * 
+	 * @param obj Object to copy.
+	 */
+	public constructor(obj: Deque<T>);
+
+	/**
+	 * Fill Constructor.
+	 * 
+	 * @param size Initial size.
+	 * @param val Value to fill.
+	 */
 	public constructor(size: number, val: T);
+
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iterator of the last position.
+	 */
 	public constructor(first: Readonly<IForwardIterator<T>>, last: Readonly<IForwardIterator<T>>);
 
 	public constructor(...args: any[])
@@ -89,9 +123,15 @@ export class Deque<T>
 	/* ---------------------------------------------------------
 		ASSIGN, RESERVE & CLEAR
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public assign(n: number, val: T): void;
+	/**
+	 * @inheritDoc
+	 */
 	public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-		(begin: InputIterator, end: InputIterator): void;
+		(first: InputIterator, last: InputIterator): void;
 
 	public assign(first: any, second: any): void
 	{
@@ -102,6 +142,9 @@ export class Deque<T>
 		this.insert(this.end(), first, second);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		// CLEAR CONTENTS
@@ -112,14 +155,19 @@ export class Deque<T>
 		this.capacity_ = Deque.MIN_CAPACITY;
 	}
 
-	public reserve(capacity: number): void
+	/**
+	 * Reserve {@link capacity} enable to store *n* elements.
+	 * 
+	 * @param n The capacity to reserve.
+	 */
+	public reserve(n: number): void
 	{
-		if (capacity < this.capacity_)
+		if (n < this.capacity_)
 			return;
 
 		// NEW MEMBERS TO BE ASSSIGNED
 		let matrix: T[][] = [[]];
-		let col_size: number = this._Compute_col_size(capacity);
+		let col_size: number = this._Compute_col_size(n);
 
 		//--------
 		// RE-FILL
@@ -142,9 +190,12 @@ export class Deque<T>
 
 		// ASSIGN MEMBERS
 		this.matrix_ = matrix;
-		this.capacity_ = capacity;
+		this.capacity_ = n;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public resize(n: number): void
 	{
 		let expansion: number = n - this.size();
@@ -154,11 +205,17 @@ export class Deque<T>
 			this.erase(this.end().advance(-expansion), this.end());
 	}
 
+	/**
+	 * Shrink {@link capacity} to actual {@link size}.
+	 */
 	public shrink_to_fit(): void
 	{
 		this.reserve(this.size());
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public swap(obj: Deque<T>): void
 	{
 		// SWAP CONTENTS
@@ -174,16 +231,27 @@ export class Deque<T>
 	============================================================
 		BASIC ELEMENTS
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public size(): number
 	{
 		return this.size_;
 	}
 
+	/**
+	 * The capacity to store elements.
+	 * 
+	 * @return The capacity.
+	 */
 	public capacity(): number
 	{
 		return this.capacity_;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public [Symbol.iterator](): IterableIterator<T>
 	{
 		return new _DequeForOfAdaptor<T>(this.matrix_);
@@ -192,6 +260,9 @@ export class Deque<T>
 	/* ---------------------------------------------------------
 		INDEX ACCESSORS
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public at(index: number): T
 	{
 		if (index < this.size() && index >= 0)
@@ -203,6 +274,9 @@ export class Deque<T>
 			throw new OutOfRange("Target index is greater than Deque's size.");
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public set(index: number, val: T): void
 	{
 		if (index >= this.size() || index < 0)
@@ -251,14 +325,17 @@ export class Deque<T>
 	============================================================
 		PUSH & POP
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public push(...items: T[]): number
 	{
 		if (items.length == 0)
 			return this.size();
 
 		// INSERT BY RANGE
-		let first: _NativeArrayIterator<T> = new _NativeArrayIterator<T>(items, 0);
-		let last: _NativeArrayIterator<T> = new _NativeArrayIterator<T>(items, items.length);
+		let first: _NativeArrayIterator<T> = new _NativeArrayIterator(items, 0);
+		let last: _NativeArrayIterator<T> = new _NativeArrayIterator(items, items.length);
 
 		this._Insert_by_range(this.end(), first, last);
 
@@ -266,6 +343,9 @@ export class Deque<T>
 		return this.size();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public push_front(val: T): void
 	{
 		// ADD CAPACITY & ROW
@@ -277,6 +357,9 @@ export class Deque<T>
 		this.size_++;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public push_back(val: T): void
 	{
 		// ADD CAPACITY & ROW
@@ -288,6 +371,9 @@ export class Deque<T>
 		this.size_++;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public pop_front(): void
 	{
 		if (this.empty() == true)
@@ -302,6 +388,9 @@ export class Deque<T>
 		this.size_--;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public pop_back(): void
 	{
 		if (this.empty() == true)
@@ -583,8 +672,8 @@ export namespace Deque
 	export type ReverseIterator<T> = ArrayReverseIterator<T, Deque<T>>;
 
 	// BODY
-	export var Iterator = ArrayIterator;
-	export var ReverseIterator = ArrayReverseIterator;
+	export const Iterator = ArrayIterator;
+	export const ReverseIterator = ArrayReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -594,8 +683,7 @@ export namespace Deque
 	export type reverse_iterator<T> = ReverseIterator<T>;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }
-
 export import deque = Deque;

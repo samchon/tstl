@@ -1,10 +1,12 @@
+import { IContainer } from "../containers/IContainer";
 import { Iterator } from "./Iterator";
 import { ReverseIterator } from "./ReverseIterator";
 
-import { Container } from "../containers/Container";
-
+/**
+ * @hidden
+ */
 export abstract class ListIterator<T, 
-		SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT>,
+		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 		IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
 		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 	implements Readonly<Iterator<T, SourceT, IteratorT, ReverseIteratorT>>
@@ -34,23 +36,38 @@ export abstract class ListIterator<T,
 		this.value_ = value;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public abstract reverse(): ReverseIteratorT;
 
 	/* ---------------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public abstract source(): SourceT;
 
+	/**
+	 * @inheritDoc
+	 */
 	public prev(): IteratorT
 	{
 		return this.prev_;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public next(): IteratorT
 	{
 		return this.next_;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public get value(): T
 	{
 		return this.value_;
@@ -59,6 +76,9 @@ export abstract class ListIterator<T,
 	/* ---------------------------------------------------------------
 		COMPARISON
 	--------------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public equals(obj: IteratorT): boolean
 	{
 		return this == <any>obj;

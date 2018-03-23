@@ -1,5 +1,17 @@
-export interface IPair<T1, T2>
+/**
+ * Pair of two elements.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export interface IPair<First, Second>
 {
-	first: T1;
-	second: T2;
+	/**
+	 * The first element.
+	 */
+	first: First;
+
+	/**
+	 * The second element.
+	 */
+	second: Second;
 }

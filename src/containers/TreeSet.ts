@@ -1,23 +1,26 @@
 import { UniqueSet } from "../base/containers/UniqueSet";
-import { ITreeSet } from "../base/interfaces/ITreeSet";
+import { ITreeSet } from "../base/containers/ITreeSet";
 
 import { _UniqueSetTree } from "../base/trees/_UniqueSetTree";
 import { SetIterator, SetReverseIterator } from "../base/iterators/SetIterator";
+
 import { IForwardIterator } from "../iterators/IForwardIterator";
-
-import { less } from "../functional/comparisons";
-import { is_sorted } from "../algorithms/sortings";
 import { Pair } from "../utilities/Pair";
-import { Vector } from "./Vector";
+import { less } from "../functional/comparisons";
 
-export class TreeSet<T>
-	extends UniqueSet<T, TreeSet<T>>
-	implements ITreeSet<T, TreeSet<T>>
+/**
+ * Unique-key Set based on Tree.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class TreeSet<Key>
+	extends UniqueSet<Key, TreeSet<Key>>
+	implements ITreeSet<Key, TreeSet<Key>>
 {
 	/**
 	 * @hidden
 	 */
-	private tree_: _UniqueSetTree<T, TreeSet<T>>;
+	private tree_: _UniqueSetTree<Key, TreeSet<Key>>;
 
 	/* =========================================================
 		CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -26,14 +29,40 @@ export class TreeSet<T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
-	public constructor(comp?: (x: T, y: T) => boolean);
-	public constructor(array: Array<T>, comp?: (x: T, y: T) => boolean);
-	public constructor(obj: TreeSet<T>);
+	/**
+	 * Default Constructor.
+	 * 
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+	 */
+	public constructor(comp?: (x: Key, y: Key) => boolean);
+
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param items Items to assign.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+	 */
+	public constructor(items: Key[], comp?: (x: Key, y: Key) => boolean);
+
+	/**
+	 * Copy Constructor.
+	 * 
+	 * @param obj Object to copy.
+	 */
+	public constructor(container: TreeSet<Key>);
+
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+	 */
 	public constructor
 	(
-		first: Readonly<IForwardIterator<T>>, 
-		last: Readonly<IForwardIterator<T>>, 
-		comp?: (x: T, y: T) => boolean
+		first: Readonly<IForwardIterator<Key>>, 
+		last: Readonly<IForwardIterator<Key>>, 
+		comp?: (x: Key, y: Key) => boolean
 	);
 
 	public constructor(...args: any[])
@@ -41,7 +70,7 @@ export class TreeSet<T>
 		super();
 
 		// DECLARE MEMBERS
-		let comp: (x: T, y: T) => boolean = less;
+		let comp: (x: Key, y: Key) => boolean = less;
 		let post_process: () => void = null;
 
 		//----
@@ -51,7 +80,7 @@ export class TreeSet<T>
 		if (args.length == 1 && args[0] instanceof TreeSet)
 		{
 			// PARAMETERS
-			let container: TreeSet<T> = args[0];
+			let container: TreeSet<Key> = args[0];
 			comp = container.key_comp();
 
 			// COPY CONSTRUCTOR
@@ -71,7 +100,7 @@ export class TreeSet<T>
 			// INITIALIZER LIST CONSTRUCTOR
 			post_process = () => 
 			{
-				let items: T[] = args[0];
+				let items: Key[] = args[0];
 				this.push(...items);
 			};
 		}
@@ -83,8 +112,8 @@ export class TreeSet<T>
 			// RANGE CONSTRUCTOR
 			post_process = () =>
 			{
-				let first: Readonly<IForwardIterator<T>> = args[0];
-				let last: Readonly<IForwardIterator<T>> = args[1];
+				let first: Readonly<IForwardIterator<Key>> = args[0];
+				let last: Readonly<IForwardIterator<Key>> = args[1];
 
 				this.assign(first, last);
 			};
@@ -99,7 +128,7 @@ export class TreeSet<T>
 		// DO PROCESS
 		//----
 		// CONSTRUCT TREE
-		this.tree_ = new _UniqueSetTree<T, TreeSet<T>>(this, comp);
+		this.tree_ = new _UniqueSetTree<Key, TreeSet<Key>>(this, comp);
 		
 		// ACT POST-PROCESS
 		if (post_process != null)
@@ -109,6 +138,9 @@ export class TreeSet<T>
 	/* ---------------------------------------------------------
 		ASSIGN & CLEAR
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		super.clear();
@@ -116,7 +148,10 @@ export class TreeSet<T>
 		this.tree_.clear();
 	}
 
-	public swap(obj: TreeSet<T>): void
+	/**
+	 * @inheritDoc
+	 */
+	public swap(obj: TreeSet<Key>): void
 	{
 		// SWAP CONTENTS
 		super.swap(obj);
@@ -129,36 +164,57 @@ export class TreeSet<T>
 	/* =========================================================
 		ACCESSORS
 	========================================================= */
-	public find(val: T): TreeSet.Iterator<T>
+	/**
+	 * @inheritDoc
+	 */
+	public find(key: Key): TreeSet.Iterator<Key>
 	{
-		let node = this.tree_.nearest_by_key(val);
+		let node = this.tree_.nearest_by_key(key);
 
-		if (node == null || this.tree_.key_eq()(node.value.value, val) == false)
+		if (node == null || this.tree_.key_eq()(node.value.value, key) == false)
 			return this.end();
 		else
 			return node.value;
 	}
 	
-	public key_comp(): (x: T, y: T) => boolean
-	{
-		return this.tree_.key_comp();
-	}
-	public value_comp(): (x: T, y: T) => boolean
+	/**
+	 * @inheritDoc
+	 */
+	public key_comp(): (x: Key, y: Key) => boolean
 	{
 		return this.tree_.key_comp();
 	}
 
-	public lower_bound(val: T): TreeSet.Iterator<T>
+	/**
+	 * @inheritDoc
+	 */
+	public value_comp(): (x: Key, y: Key) => boolean
 	{
-		return this.tree_.lower_bound(val);
+		return this.tree_.key_comp();
 	}
-	public upper_bound(val: T): TreeSet.Iterator<T>
+
+	/**
+	 * @inheritDoc
+	 */
+	public lower_bound(key: Key): TreeSet.Iterator<Key>
 	{
-		return this.tree_.upper_bound(val);
+		return this.tree_.lower_bound(key);
 	}
-	public equal_range(val: T): Pair<TreeSet.Iterator<T>, TreeSet.Iterator<T>>
+
+	/**
+	 * @inheritDoc
+	 */
+	public upper_bound(key: Key): TreeSet.Iterator<Key>
 	{
-		return this.tree_.equal_range(val);
+		return this.tree_.upper_bound(key);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public equal_range(key: Key): Pair<TreeSet.Iterator<Key>, TreeSet.Iterator<Key>>
+	{
+		return this.tree_.equal_range(key);
 	}
 
 	/* =========================================================
@@ -171,69 +227,37 @@ export class TreeSet<T>
 	/**
 	 * @hidden
 	 */
-	protected _Insert_by_val(val: T): Pair<TreeSet.Iterator<T>, boolean>
+	protected _Insert_by_key(key: Key): Pair<TreeSet.Iterator<Key>, boolean>
 	{
 		// FIND POSITION TO INSERT
-		let it: TreeSet.Iterator<T> = this.lower_bound(val);
-		if (!it.equals(this.end()) && this.tree_.key_eq()(it.value, val))
+		let it: TreeSet.Iterator<Key> = this.lower_bound(key);
+		if (!it.equals(this.end()) && this.tree_.key_eq()(it.value, key))
 			return new Pair(it, false);
 
 		// ITERATOR TO RETURN
-		it = this["data_"].insert(it, val);
+		it = this["data_"].insert(it, key);
 		this._Handle_insert(it, it.next()); // POST-PROCESS
 
 		return new Pair(it, true);
 	}
 
-	protected _Insert_by_hint(hint: TreeSet.Iterator<T>, val: T): TreeSet.Iterator<T>
+	/**
+	 * @hidden
+	 */
+	protected _Insert_by_hint(hint: TreeSet.Iterator<Key>, key: Key): TreeSet.Iterator<Key>
 	{
-		//--------
-		// INSERT BRANCH
-		//--------
-		// prev < current < hint
-		let prev: TreeSet.Iterator<T> = hint.prev();
-		let keys: Vector<T> = new Vector<T>();
-
-		// CONSTRUCT KEYS
-		if (!prev.equals(this.end()))
-			if (this.tree_.key_eq()(prev.value, val))
-				return prev; // SAME KEY, THEN RETURNS IT`
-			else
-				keys.push_back(prev.value); // DIFFERENT KEY
-
-		keys.push_back(val); // NEW ITEM'S KEY
-
-		if (!hint.equals(this.end()))
-			if (this.tree_.key_eq()(hint.value, val))
-				return hint;
-			else
-				keys.push_back(hint.value);
-
-		// IS THE HINT VALID ?
-		let ret: TreeSet.Iterator<T>;
-
-		if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
-		{
-			// CORRECT HINT
-			ret = this["data_"].insert(hint, val);
-
-			// POST-PROCESS
-			this._Handle_insert(ret, ret.next());
-		}
-		else // INVALID HINT
-			ret = this._Insert_by_val(val).first;
-
-		return ret;
+		hint;
+		return this._Insert_by_key(key).first;
 	}
 
 	/**
 	 * @hidden
 	 */
-	protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void
 	{
 		for (; !first.equals(last); first = first.next())
-			this._Insert_by_val(first.value);
+			this._Insert_by_key(first.value);
 	}
 
 	/* ---------------------------------------------------------
@@ -242,7 +266,7 @@ export class TreeSet<T>
 	/**
 	 * @hidden
 	 */
-	protected _Handle_insert(first: TreeSet.Iterator<T>, last: TreeSet.Iterator<T>): void
+	protected _Handle_insert(first: TreeSet.Iterator<Key>, last: TreeSet.Iterator<Key>): void
 	{
 		for (; !first.equals(last); first = first.next())
 			this.tree_.insert(first);
@@ -251,7 +275,7 @@ export class TreeSet<T>
 	/**
 	 * @hidden
 	 */
-	protected _Handle_erase(first: TreeSet.Iterator<T>, last: TreeSet.Iterator<T>): void
+	protected _Handle_erase(first: TreeSet.Iterator<Key>, last: TreeSet.Iterator<Key>): void
 	{
 		for (; !first.equals(last); first = first.next())
 			this.tree_.erase(first);
@@ -264,23 +288,22 @@ export namespace TreeSet
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<T> = SetIterator<T, TreeSet<T>>;
-	export type ReverseIterator<T> = SetReverseIterator<T, TreeSet<T>>;
+	export type Iterator<Key> = SetIterator<Key, TreeSet<Key>>;
+	export type ReverseIterator<Key> = SetReverseIterator<Key, TreeSet<Key>>;
 
 	// BODY
-	export var Iterator = SetIterator;
-	export var ReverseIterator = SetReverseIterator;
+	export const Iterator = SetIterator;
+	export const ReverseIterator = SetReverseIterator;
 
 	//----
 	// SNAKE NOTATION
 	//----
 	// HEAD
-	export type iterator<T> = Iterator<T>;
-	export type reverse_iterator<T> = ReverseIterator<T>;
+	export type iterator<Key> = Iterator<Key>;
+	export type reverse_iterator<Key> = ReverseIterator<Key>;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }
-
 export import set = TreeSet;

@@ -1,11 +1,16 @@
+import { MathUtil } from "../base/maths/MathUtil";
 import { tgamma } from "./gamma";
-import { sigma } from "../base/maths/MathUtil";
 
 /**
  * @hidden
  */
 const INFINITY = 100 * 1000;
 
+/**
+ * Riemann zeta function.
+ * 
+ * @reference http://en.cppreference.com/w/cpp/numeric/special_math/riemann_zeta
+ */
 export function riemann_zeta(arg: number): number
 {
 	if (arg < 0)
@@ -38,12 +43,12 @@ function _Negative(arg: number): number
 function _Fractional(arg: number): number
 {
 	let divider: number = 1 - Math.pow(2, 1 - arg);
-	let ret: number = sigma(function (n: number): number
+	let sigma: number = MathUtil.sigma(function (n: number): number
 	{
 		return Math.pow(-1, n - 1) * Math.pow(n, -arg);
 	}, 1, INFINITY);
 
-	return ret / divider;
+	return sigma / divider;
 }
 
 /**
@@ -51,7 +56,7 @@ function _Fractional(arg: number): number
  */
 function _Positive(arg: number): number
 {
-	return sigma(function (n: number): number
+	return MathUtil.sigma(function (n: number): number
 	{
 		return Math.pow(n, -arg);
 	}, 1, INFINITY);

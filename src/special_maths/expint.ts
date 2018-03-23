@@ -1,4 +1,4 @@
-import { factorial, sigma } from "../base/maths/MathUtil";
+import { MathUtil } from "../base/maths/MathUtil";
 
 /**
  * @hidden
@@ -10,6 +10,9 @@ const EULER = 0.57721566490153286060;
  */
 const MAX_K = 150;
 
+/**
+ * Exponential integral.
+ */
 export function expint(x: number): number
 {
 	if (x == 0)
@@ -26,9 +29,9 @@ export function expint(x: number): number
 function _EI_Factorial(x: number): number
 {
 	return EULER + Math.log(Math.abs(x)) / Math.log(Math.E)
-		+ sigma(function (k: number): number
+		+ MathUtil.sigma(function (k: number): number
 		{
-			return Math.pow(x, k) / (k * factorial(k));
+			return Math.pow(x, k) / (k * MathUtil.factorial(k));
 		}, 1, MAX_K);
 }
 

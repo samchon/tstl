@@ -1,5 +1,10 @@
 import { InvalidArgument } from "../exceptions/LogicError";
 
+/**
+ * Hermite polynomial
+ * 
+ * @reference https://en.wikipedia.org/wiki/Hermite_polynomials
+ */
 export function hermite(n: number, x: number): number
 {
 	// VALIDATE PARAMETER

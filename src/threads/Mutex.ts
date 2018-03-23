@@ -1,8 +1,11 @@
 import { ILockable } from "./ILockable";
-
 import { Queue } from "../containers/Queue";
-import { RangeError } from "../exceptions/RuntimeError";
 
+/**
+ * Mutex.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class Mutex implements ILockable
 {
 	/**
@@ -18,15 +21,21 @@ export class Mutex implements ILockable
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor()
 	{
 		this.lock_count_ = 0;
-		this.resolvers_ = new Queue<IResolver>();
+		this.resolvers_ = new Queue();
 	}
 
 	/* ---------------------------------------------------------
 		LOCK & UNLOCK
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public lock(): Promise<void>
 	{
 		return new Promise<void>(resolve =>
@@ -38,15 +47,21 @@ export class Mutex implements ILockable
 		});
 	}
 
-	public try_lock(): boolean
+	/**
+	 * @inheritDoc
+	 */
+	public async try_lock(): Promise<boolean>
 	{
 		if (this.lock_count_ != 0)
 			return false; // HAVE LOCKED
 		
 		++this.lock_count_;
-		return true;			
+		return true;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public async unlock(): Promise<void>
 	{
 		if (this.lock_count_ == 0)
@@ -63,9 +78,6 @@ export class Mutex implements ILockable
 	}
 }
 
-export type mutex = Mutex;
-export var mutex = Mutex;
-
 /**
  * @hidden
  */
@@ -73,3 +85,6 @@ interface IResolver
 {
 	(): void;
 }
+
+export type mutex = Mutex;
+export const mutex = Mutex;

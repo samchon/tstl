@@ -1,12 +1,17 @@
-import { ILockable } from "./ILockable";
+import { _ISemaphore } from "../base/threads/_ISemaphore";
+
+import { HashMap } from "../containers/HashMap";
+import { OutOfRange } from "../exceptions/LogicError";
 import { _LockType } from "../base/threads/_LockType";
 
-import { sleep_for } from "./global";
-import { RangeError } from "../exceptions/RuntimeError";
-import { OutOfRange } from "../exceptions/LogicError";
-import { HashMap } from "../containers/HashMap";
+import { sleep_for } from "../thread";
 
-export class TimedSemaphore implements ILockable
+/**
+ * Timed semaphore.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class TimedSemaphore implements _ISemaphore
 {
 	/**
 	 * @hidden
@@ -31,15 +36,23 @@ export class TimedSemaphore implements ILockable
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Construct from section size.
+	 * 
+	 * @param size Number of maximum sections lockable.
+	 */
 	public constructor(size: number)
 	{
 		this.locked_count_ = 0;
 		this.hold_count_ = 0;
 		this.size_ = size;
 
-		this.resolvers_ = new HashMap<IResolver, IProps>();
+		this.resolvers_ = new HashMap();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public size(): number
 	{
 		return this.size_;
@@ -53,6 +66,9 @@ export class TimedSemaphore implements ILockable
 		return Math.max(0, Math.min(this.locked_count_, this.size_) + count - this.size_);
 	}
 
+	/**
+	 * @hidden
+	 */
 	private _Compute_resolve_count(count: number): number
 	{
 		return Math.min(count, this.hold_count_);
@@ -61,9 +77,9 @@ export class TimedSemaphore implements ILockable
 	/* ---------------------------------------------------------
 		ACQURE & RELEASE
 	--------------------------------------------------------- */
-	public lock(): Promise<void>;
-	public lock(count: number): Promise<void>;
-
+	/**
+	 * @inheritDoc
+	 */
 	public lock(count: number = 1): Promise<void>
 	{
 		return new Promise<void>((resolve, reject) =>
@@ -93,10 +109,10 @@ export class TimedSemaphore implements ILockable
 		});
 	}
 
-	public try_lock(): boolean;
-	public try_lock(count: number): boolean;
-
-	public try_lock(count: number = 1): boolean
+	/**
+	 * @inheritDoc
+	 */
+	public async try_lock(count: number = 1): Promise<boolean>
 	{
 		// VALIDATE PARAMETER
 		if (count < 1 || count > this.size_)
@@ -110,9 +126,9 @@ export class TimedSemaphore implements ILockable
 		return true;
 	}
 
-	public unlock(): Promise<void>;
-	public unlock(count: number): Promise<void>;
-
+	/**
+	 * @inheritDoc
+	 */
 	public async unlock(count: number = 1): Promise<void>
 	{
 		// VALIDATE PARAMETER
@@ -126,6 +142,9 @@ export class TimedSemaphore implements ILockable
 		await this._Unlock(count);
 	}
 
+	/**
+	 * @hidden
+	 */
 	private async _Unlock(resolved_count: number): Promise<void>
 	{
 		// COMPUTE PROPERTY
@@ -160,9 +179,13 @@ export class TimedSemaphore implements ILockable
 	/* ---------------------------------------------------------
 		TIMED ACQUIRE
 	--------------------------------------------------------- */
-	public try_lock_for(ms: number): Promise<boolean>;
-	public try_lock_for(ms: number, count: number): Promise<boolean>;
-
+	/**
+	 * Try lock sections until timeout.
+	 * 
+	 * @param ms The maximum miliseconds for waiting.
+	 * @param count Count to lock.
+	 * @return Whether succeded to lock or not.
+	 */
 	public async try_lock_for(ms: number, count: number = 1): Promise<boolean>
 	{
 		return new Promise<boolean>((resolve, reject) =>
@@ -220,9 +243,13 @@ export class TimedSemaphore implements ILockable
 		});
 	}
 
-	public try_lock_until(at: Date): Promise<boolean>;
-	public try_lock_until(at: Date, count: number): Promise<boolean>;
-
+	/**
+	 * Try lock sections until time expiration.
+	 * 
+	 * @param at The maximum time point to wait.
+	 * @param count Count to lock.
+	 * @return Whether succeded to lock or not.
+	 */
 	public try_lock_until(at: Date, count: number = 1): Promise<boolean>
 	{
 		// COMPUTE MILLISECONDS TO WAIT
@@ -232,9 +259,6 @@ export class TimedSemaphore implements ILockable
 		return this.try_lock_for(ms, count);
 	}
 }
-
-export type timed_semaphore = TimedSemaphore;
-export var timed_semaphore = TimedSemaphore;
 
 /**
  * @hidden
@@ -252,3 +276,6 @@ interface IProps
 	count: number;
 	type: boolean;
 }
+
+export type timed_semaphore = TimedSemaphore;
+export const timed_semaphore = TimedSemaphore;

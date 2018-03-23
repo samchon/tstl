@@ -1,8 +1,12 @@
+import { HashMap } from "../containers/HashMap";
 import { _LockType } from "../base/threads/_LockType";
 import { sleep_for } from "./global";
 
-import { HashMap } from "../containers/HashMap";
-
+/**
+ * Condition variable.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class ConditionVariable
 {
 	/**
@@ -13,14 +17,20 @@ export class ConditionVariable
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor()
 	{
-		this.resolvers_ = new HashMap<IResolver, boolean>();
+		this.resolvers_ = new HashMap();
 	}
 
 	/* ---------------------------------------------------------
 		WAITERS
 	--------------------------------------------------------- */
+	/**
+	 * Wait until notified.
+	 */
 	public wait(): Promise<void>
 	{
 		return new Promise<void>(resolve => 
@@ -29,6 +39,12 @@ export class ConditionVariable
 		});
 	}
 
+	/**
+	 * Wait for timeout or until notified.
+	 * 
+	 * @param ms The maximum miliseconds for waiting.
+	 * @return Whether awaken by notification or timeout.
+	 */
 	public wait_for(ms: number): Promise<boolean>
 	{
 		return new Promise<boolean>(resolve =>
@@ -48,6 +64,12 @@ export class ConditionVariable
 		});
 	}
 
+	/**
+	 * Wait until notified or time expiration.
+	 * 
+	 * @param at The maximum time point to wait.
+	 * @return Whether awaken by notification or time expiration.
+	 */
 	public wait_until(at: Date): Promise<boolean>
 	{
 		// COMPUTE MILLISECONDS TO WAIT
@@ -60,6 +82,9 @@ export class ConditionVariable
 	/* ---------------------------------------------------------
 		NOTIFIERS
 	--------------------------------------------------------- */
+	/**
+	 * Notify, wake one.
+	 */
 	public async notify_one(): Promise<void>
 	{
 		// NOTHING TO NOTIFY
@@ -77,6 +102,9 @@ export class ConditionVariable
 		this.resolvers_.erase(it);	
 	}
 
+	/**
+	 * Notify, wake all
+	 */
 	public async notify_all(): Promise<void>
 	{
 		// NOTHING TO NOTIFY
@@ -95,9 +123,6 @@ export class ConditionVariable
 	}
 }
 
-export type condition_variable = ConditionVariable;
-export var condition_variable = ConditionVariable;
-
 /**
  * @hidden
  */
@@ -105,3 +130,6 @@ interface IResolver
 {
 	(value?: any): void;
 }
+
+export type condition_variable = ConditionVariable;
+export const condition_variable = ConditionVariable;

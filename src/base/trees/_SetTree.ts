@@ -3,7 +3,6 @@ import { _XTreeNode } from "./_XTreeNode";
 
 import { SetContainer } from "../containers/SetContainer";
 import { SetIterator } from "../iterators/SetIterator";
-
 import { Pair } from "../../utilities/Pair";
 
 /**

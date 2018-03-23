@@ -1,11 +1,17 @@
-import { ILockable } from "./ILockable";
-import { _LockType } from "../base/threads/_LockType";
+import { _ISharedLockable } from "../base/threads/_ISharedLockable";
+import { _ITimedLockable } from "../base/threads/_ITimedLockable";
 
-import { sleep_for } from "./global";
-import { RangeError } from "../exceptions/RuntimeError";
 import { HashMap } from "../containers/HashMap";
+import { _LockType } from "../base/threads/_LockType";
+import { sleep_for } from "../thread";
 
-export class SharedTimedMutex implements ILockable
+/**
+ * Shared timed mutex.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class SharedTimedMutex 
+	implements _ISharedLockable, _ITimedLockable
 {
 	/**
 	 * @hidden
@@ -25,12 +31,15 @@ export class SharedTimedMutex implements ILockable
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor()
 	{
 		this.read_lock_count_ = 0;
 		this.write_lock_count_ = 0;
 
-		this.resolvers_ = new HashMap<IResolver, ILockType>();
+		this.resolvers_ = new HashMap();
 	}
 
 	/* =========================================================
@@ -40,6 +49,9 @@ export class SharedTimedMutex implements ILockable
 	============================================================
 		WRITE LOCK
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public lock(): Promise<void>
 	{
 		return new Promise<void>(resolve =>
@@ -55,7 +67,10 @@ export class SharedTimedMutex implements ILockable
 		});
 	}
 
-	public try_lock(): boolean
+	/**
+	 * @inheritDoc
+	 */
+	public async try_lock(): Promise<boolean>
 	{
 		if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
 			return false;
@@ -64,6 +79,9 @@ export class SharedTimedMutex implements ILockable
 		return true;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public try_lock_for(ms: number): Promise<boolean>
 	{
 		return new Promise<boolean>(resolve =>
@@ -95,6 +113,9 @@ export class SharedTimedMutex implements ILockable
 		});
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public try_lock_until(at: Date): Promise<boolean>
 	{
 		// COMPUTE MILLISECONDS TO WAIT
@@ -104,6 +125,9 @@ export class SharedTimedMutex implements ILockable
 		return this.try_lock_for(ms);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public async unlock(): Promise<void>
 	{
 		if (this.write_lock_count_ == 0)
@@ -134,6 +158,9 @@ export class SharedTimedMutex implements ILockable
 	/* ---------------------------------------------------------
 		READ LOCK
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public lock_shared(): Promise<void>
 	{
 		return new Promise<void>(resolve =>
@@ -151,7 +178,10 @@ export class SharedTimedMutex implements ILockable
 		});
 	}
 
-	public try_lock_shared(): boolean
+	/**
+	 * @inheritDoc
+	 */
+	public async try_lock_shared(): Promise<boolean>
 	{
 		if (this.write_lock_count_ != 0)
 			return false;
@@ -160,6 +190,12 @@ export class SharedTimedMutex implements ILockable
 		return true;
 	}
 
+	/**
+	 * Try lock shared until timeout.
+	 * 
+	 * @param ms The maximum miliseconds for waiting.
+	 * @return Whether succeded to lock or not.
+	 */
 	public try_lock_shared_for(ms: number): Promise<boolean>
 	{
 		return new Promise<boolean>(resolve =>
@@ -193,6 +229,12 @@ export class SharedTimedMutex implements ILockable
 		});
 	}
 
+	/**
+	 * Try lock shared until time expiration.
+	 * 
+	 * @param at The maximum time point to wait.
+	 * @return Whether succeded to lock or not.
+	 */
 	public try_lock_shared_until(at: Date): Promise<boolean>
 	{
 		// COMPUTE MILLISECONDS TO WAIT
@@ -202,6 +244,9 @@ export class SharedTimedMutex implements ILockable
 		return this.try_lock_shared_for(ms);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public async unlock_shared(): Promise<void>
 	{
 		if (this.read_lock_count_ == 0)
@@ -227,9 +272,6 @@ export class SharedTimedMutex implements ILockable
 	}
 }
 
-export type shared_timed_mutex = SharedTimedMutex;
-export var shared_timed_mutex = SharedTimedMutex;
-
 /**
  * @hidden
  */
@@ -246,3 +288,6 @@ interface ILockType
 	access: boolean; // read or write
 	lock: boolean; // void or boolean
 }
+
+export type shared_timed_mutex = SharedTimedMutex;
+export const shared_timed_mutex = SharedTimedMutex;

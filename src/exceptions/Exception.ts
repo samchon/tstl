@@ -1,7 +1,20 @@
+/**
+ * Base Exception.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class Exception extends Error
 {
+	/**
+	 * Default Constructor.
+	 */
 	public constructor();
 
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param message The error messgae.
+	 */
 	public constructor(message: string);
 
 	public constructor(message: string = "")
@@ -9,6 +22,11 @@ export class Exception extends Error
 		super(message);
 	}
 
+	/**
+	 * Get error message.
+	 * 
+	 * @return The error message.
+	 */
 	public what(): string
 	{
 		return this.message;
@@ -16,4 +34,4 @@ export class Exception extends Error
 }
 
 export type exception = Exception;
-export var exception = Exception;
+export const exception = Exception;

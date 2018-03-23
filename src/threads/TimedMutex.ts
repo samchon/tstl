@@ -1,11 +1,15 @@
-import { ILockable } from "./ILockable";
-import { _LockType } from "../base/threads/_LockType";
+import { _ITimedLockable } from "../base/threads/_ITimedLockable";
 
-import { sleep_for } from "./global";
-import { RangeError } from "../exceptions/RuntimeError";
 import { HashMap } from "../containers/HashMap";
+import { _LockType } from "../base/threads/_LockType";
+import { sleep_for } from "../thread";
 
-export class TimedMutex implements ILockable
+/**
+ * Timed mutex.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
+export class TimedMutex implements _ITimedLockable
 {
 	/**
 	 * @hidden
@@ -20,15 +24,21 @@ export class TimedMutex implements ILockable
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor()
 	{
 		this.lock_count_ = 0;
-		this.resolvers_ = new HashMap<IResolver, boolean>();
+		this.resolvers_ = new HashMap();
 	}
 
 	/* ---------------------------------------------------------
 		LOCK & UNLOCK
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public lock(): Promise<void>
 	{
 		return new Promise<void>(resolve =>
@@ -40,7 +50,10 @@ export class TimedMutex implements ILockable
 		});
 	}
 
-	public try_lock(): boolean
+	/**
+	 * @inheritDoc
+	 */
+	public async try_lock(): Promise<boolean>
 	{
 		if (this.lock_count_ != 0)
 			return false; // HAVE LOCKED
@@ -49,6 +62,9 @@ export class TimedMutex implements ILockable
 		return true;			
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public async unlock(): Promise<void>
 	{
 		if (this.lock_count_ == 0)
@@ -74,6 +90,9 @@ export class TimedMutex implements ILockable
 	/* ---------------------------------------------------------
 		TIMED LOCK
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public try_lock_for(ms: number): Promise<boolean>
 	{
 		return new Promise<boolean>(resolve =>
@@ -101,6 +120,9 @@ export class TimedMutex implements ILockable
 		});
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public try_lock_until(at: Date): Promise<boolean>
 	{
 		// COMPUTE MILLISECONDS TO WAIT
@@ -111,8 +133,6 @@ export class TimedMutex implements ILockable
 	}
 }
 
-export type timed_mutex = TimedMutex;
-
 /**
  * @hidden
  */
@@ -120,3 +140,6 @@ interface IResolver
 {
 	(value?: any): void;
 }
+
+export type timed_mutex = TimedMutex;
+export const timed_mutex = TimedMutex;

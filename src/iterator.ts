@@ -1,3 +1,8 @@
+﻿// <iterator>
+//
+// @reference http://www.cplusplus.com/reference/iterator
+// @author Jeongho Nam <http://samchon.org>
+
 export * from "./iterators/IForwardIterator";
 export * from "./iterators/IBidirectionalIterator";
 export * from "./iterators/IRandomAccessIterator";

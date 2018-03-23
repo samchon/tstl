@@ -1,11 +1,11 @@
 /**
  * @hidden
  */
-export class _LockType
+export namespace _LockType
 {
-	public static readonly WRITE: boolean = false;
-	public static readonly READ: boolean = true;
+	export const WRITE: boolean = false;
+	export const READ: boolean = true;
 
-	public static readonly LOCK: boolean = false;
-	public static readonly TRY_LOCK: boolean = true;
+	export const LOCK: boolean = false;
+	export const TRY_LOCK: boolean = true;
 }

@@ -1,13 +1,18 @@
 import { ArrayContainer } from "../base/containers/ArrayContainer";
 import { ArrayIterator, ArrayReverseIterator } from "../base/iterators/ArrayIterator";
+import { TreeMap } from "./TreeMap";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { Pair } from "../utilities/Pair";
-import { OutOfRange } from "../exceptions/LogicError";
 import { _NativeArrayIterator } from "../base/iterators/_NativeArrayIterator";
-import { TreeMap } from "./TreeMap";
+import { OutOfRange } from "../exceptions/LogicError";
+import { Pair } from "../utilities/Pair";
 import { not_equal_to } from "../functional/comparisons";
 
+/**
+ * Vector only for `boolean`.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 {
 	//----
@@ -31,10 +36,39 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 */
 	public constructor();
-	public constructor(obj: VectorBoolean);
+
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param items Items to assign.
+	 */
 	public constructor(array: boolean[]);
+
+	/**
+	 * Copy Constructor
+	 * 
+	 * @param obj Object to copy.
+	 */
+	public constructor(obj: VectorBoolean);
+
+	/**
+	 * Fill Constructor.
+	 * 
+	 * @param size Initial size.
+	 * @param val Value to fill.
+	 */
 	public constructor(n: number, val: boolean);
+
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iteartor of the last position.
+	 */
 	public constructor(first: Readonly<IForwardIterator<boolean>>, last: Readonly<IForwardIterator<boolean>>);
 
 	public constructor(...args: any[])
@@ -67,7 +101,13 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 	/* ---------------------------------------------------------
 		ASSIGN & CLEAR
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public assign(n: number, val: boolean): void;
+	/**
+	 * @inheritDoc
+	 */
 	public assign<InputIterator extends Readonly<IForwardIterator<boolean, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 	
@@ -77,18 +117,39 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 		this.insert(this.end(), first, last);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		this.data_ = new TreeMap();
 		this.size_ = 0;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public resize(n: number): void
+	{
+		let expansion: number = n - this.size();
+		if (expansion > 0)
+			this.insert(this.end(), expansion, false);
+		else if (expansion < 0)
+			this.erase(this.end().advance(-expansion), this.end());
+	}
+
+	/**
+	 * Flip all values.
+	 */
 	public flip(): void
 	{
 		for (let entry of this.data_)
 			entry.second = !entry.second;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public swap(obj: VectorBoolean): void
 	{
 		[this.data_, obj.data_] = [obj.data_, this.data_];
@@ -98,11 +159,17 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 	/* =========================================================
 		ACCESSORS
 	========================================================= */
+	/**
+	 * @inheritDoc
+	 */
 	public size(): number
 	{
 		return this.size_;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public at(index: number): boolean
 	{
 		// IS OUT OF RANGE?
@@ -114,8 +181,13 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 		return it.second; // RETURNS
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public set(index: number, val: boolean): void
 	{
+		val = !!val; // SIFT
+
 		//----
 		// PRELIMINARIES
 		//----
@@ -193,28 +265,39 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 	============================================================
 		PUSH & POP
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public push(...items: boolean[]): number
 	{
 		if (items.length == 0)
 			return this.size();
 
-		let first = new _NativeArrayIterator<boolean>(items, 0);
-		let last = new _NativeArrayIterator<boolean>(items, items.length);
+		let first = new _NativeArrayIterator(items, 0);
+		let last = new _NativeArrayIterator(items, items.length);
 
 		this._Insert_by_range(this.end(), first, last);
 		return this.size();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public push_back(val: boolean): void
 	{
 		let it = this.data_.rbegin();
 		let index: number = this.size_++;
+
+		val = !!val; // SIFT
 
 		// EMPLACE OR NOT
 		if (this.data_.empty() || it.second != val)
 			this.data_.emplace(index, val);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public pop_back(): void
 	{
 		if (this.empty())
@@ -231,6 +314,9 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 	/* ---------------------------------------------------------
 		INSERT
 	--------------------------------------------------------- */
+	/**
+	 * @hidden
+	 */
 	protected _Insert_by_repeating_val(pos: VectorBoolean.Iterator, n: number, val: boolean): VectorBoolean.Iterator
 	{
 		// RESERVE ELEMENTS -> THE REPEATED COUNT AND VALUE
@@ -288,7 +374,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 
 			// DO ENROLL
 			let size: number = sy - sx;
-			let value: boolean = it.second;
+			let value: boolean = !!it.second;
 
 			elements.push(new Pair(size, value));
 		}
@@ -321,14 +407,16 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 
 			// INDEXING
 			let index: number = this.size();
+			let value: boolean = !!p.second;
+
 			this.size_ += p.first;
 
 			// NEED NOT TO EMPLACE, JUST SKIP
-			if (i == 0 && p.second == last_value)
+			if (i == 0 && value == last_value)
 				continue;
 
 			// DO EMPLACE
-			this.data_.emplace(index, p.second);
+			this.data_.emplace(index, value);
 		}
 		return this.begin().advance(old_size);
 	}
@@ -354,7 +442,6 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 				let sy: number = next.equals(this.data_.end()) 
 					? this.size() // IT'S THE LAST ELEMENT
 					: next.first; // TO NEXT ELEMENT
-
 				let size: number = sy - sx;
 				let value: boolean = it.second;
 				
@@ -368,7 +455,6 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 			this.data_.lower_bound(this.size_),
 			this.data_.end()
 		);
-		
 		return this._Insert_to_end(elements);
 	}
 }
@@ -383,8 +469,8 @@ export namespace VectorBoolean
 	export type ReverseIterator = ArrayReverseIterator<boolean, VectorBoolean>;
 
 	// BODY
-	export var Iterator = ArrayIterator;
-	export var ReverseIterator = ArrayReverseIterator;
+	export const Iterator = ArrayIterator;
+	export const ReverseIterator = ArrayReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -394,8 +480,7 @@ export namespace VectorBoolean
 	export type reverse_iterator = ReverseIterator;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }
-
-export import vector_bool = VectorBoolean;
+export import vetor_bool = VectorBoolean;

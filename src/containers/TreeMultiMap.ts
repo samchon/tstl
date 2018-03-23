@@ -1,5 +1,5 @@
 ﻿import { MultiMap } from "../base/containers/MultiMap";
-import { ITreeMap } from "../base/interfaces/ITreeMap";
+import { ITreeMap } from "../base/containers/ITreeMap";
 
 import { _MultiMapTree } from "../base/trees/_MultiMapTree";
 import { _XTreeNode } from "../base/trees/_XTreeNode";
@@ -10,10 +10,13 @@ import { IPair } from "../utilities/IPair";
 import { Pair } from "../utilities/Pair";
 import { Entry } from "../utilities/Entry";
 
-import { is_sorted } from "../algorithms/sortings";
 import { less } from "../functional/comparisons";
-import { Vector } from "./Vector";
 
+/**
+ * Multiple-key Map based on Tree.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class TreeMultiMap<Key, T>
 	extends MultiMap<Key, T, TreeMultiMap<Key, T>>
 	implements ITreeMap<Key, T, TreeMultiMap<Key, T>>
@@ -30,9 +33,35 @@ export class TreeMultiMap<Key, T>
 	============================================================
 		CONSTURCTORS
 	--------------------------------------------------------- */
+	/**
+	 * Default Constructor.
+	 * 
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+	 */
 	public constructor(comp?: (x: Key, y: Key) => boolean);
-	public constructor(array: Array<IPair<Key, T>>, comp?: (x: Key, y: Key) => boolean);
+
+	/**
+	 * Initializer Constructor.
+	 * 
+	 * @param items Items to assign.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+	 */
+	public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+
+	/**
+	 * Copy Constructor.
+	 * 
+	 * @param obj Object to copy.
+	 */
 	public constructor(obj: TreeMultiMap<Key, T>);
+
+	/**
+	 * Range Constructor.
+	 * 
+	 * @param first Input iterator of the first position.
+	 * @param last Input iterator of the last position.
+	 * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+	 */
 	public constructor
 	(
 		first: Readonly<IForwardIterator<IPair<Key, T>>>, 
@@ -113,6 +142,9 @@ export class TreeMultiMap<Key, T>
 	/* ---------------------------------------------------------
 		ASSIGN & CLEAR
 	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
 	public clear(): void
 	{
 		super.clear();
@@ -120,6 +152,9 @@ export class TreeMultiMap<Key, T>
 		this.tree_.clear();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public swap(obj: TreeMultiMap<Key, T>): void
 	{
 		// SWAP CONTENTS
@@ -133,6 +168,9 @@ export class TreeMultiMap<Key, T>
 	/* =========================================================
 		ACCESSORS
 	========================================================= */
+	/**
+	 * @inheritDoc
+	 */
 	public find(key: Key): TreeMultiMap.Iterator<Key, T>
 	{
 		let node: _XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.nearest_by_key(key);
@@ -142,6 +180,10 @@ export class TreeMultiMap<Key, T>
 		else
 			return node.value;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public count(key: Key): number
 	{
 		let it = this.find(key);
@@ -153,23 +195,41 @@ export class TreeMultiMap<Key, T>
 		return cnt;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public key_comp(): (x: Key, y: Key) => boolean
 	{
 		return this.tree_.key_comp();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
 	{
 		return this.tree_.value_comp();
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public lower_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 	{
 		return this.tree_.lower_bound(key);
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public upper_bound(key: Key): TreeMultiMap.Iterator<Key, T>
 	{
 		return this.tree_.upper_bound(key);
 	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public equal_range(key: Key): Pair<TreeMultiMap.Iterator<Key, T>, TreeMultiMap.Iterator<Key, T>>
 	{
 		return this.tree_.equal_range(key);
@@ -191,9 +251,9 @@ export class TreeMultiMap<Key, T>
 		INSERT
 	--------------------------------------------------------- */
 	/**
-	 * @hidden
+	 * @inheritDoc
 	 */
-	protected _Emplace(key: Key, val: T): TreeMultiMap.Iterator<Key, T>
+	public emplace(key: Key, val: T): TreeMultiMap.Iterator<Key, T>
 	{
 		// FIND POSITION TO INSERT
 		let it: TreeMultiMap.Iterator<Key, T> = this.upper_bound(key);
@@ -206,41 +266,12 @@ export class TreeMultiMap<Key, T>
 	}
 
 	/**
-	 * @hidden
+	 * @inheritDoc
 	 */
-	protected _Emplace_hint(hint: TreeMultiMap.Iterator<Key, T>, key: Key, val: T): TreeMultiMap.Iterator<Key, T>
+	public emplace_hint(hint: TreeMultiMap.Iterator<Key, T>, key: Key, val: T): TreeMultiMap.Iterator<Key, T>
 	{
-		//--------
-		// INSERT BRANCH
-		//--------
-		// prev < current < hint
-		let prev: TreeMultiMap.Iterator<Key, T> = hint.prev();
-		let keys: Vector<Key> = new Vector<Key>();
-
-		// CONSTRUCT KEYS
-		if (!prev.equals(this.end()) && !this.tree_.key_eq()(prev.first, key))
-			keys.push_back(prev.first); // NOT END() AND DIFFERENT WITH KEY
-
-		keys.push_back(key); // NEW ITEM'S KEY
-
-		if (!hint.equals(this.end()) && !this.tree_.key_eq()(hint.first, key))
-			keys.push_back(hint.first);
-
-		// IS THE HINT VALID ?
-		let ret: TreeMultiMap.Iterator<Key, T>;
-		
-		if (is_sorted(keys.begin(), keys.end(), this.key_comp()))
-		{
-			// CORRECT HINT
-			ret = this["data_"].insert(hint, new Entry(key, val));
-
-			// POST-PROCESS
-			this._Handle_insert(ret, ret.next());
-		}
-		else // INVALID HINT
-			ret = this._Emplace(key, val);
-
-		return ret;
+		hint;
+		return this.emplace(key, val);
 	}
 
 	/**
@@ -250,7 +281,7 @@ export class TreeMultiMap<Key, T>
 		(first: InputIterator, last: InputIterator): void
 	{
 		for (let it = first; !it.equals(last); it = it.next())
-			this._Emplace(it.value.first, it.value.second);
+			this.emplace(it.value.first, it.value.second);
 	}
 
 	/* ---------------------------------------------------------
@@ -285,8 +316,8 @@ export namespace TreeMultiMap
 	export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, TreeMultiMap<Key, T>>;
 
 	// BODY
-	export var Iterator = MapIterator;
-	export var ReverseIterator = MapReverseIterator;
+	export const Iterator = MapIterator;
+	export const ReverseIterator = MapReverseIterator;
 
 	//----
 	// SNAKE NOTATION
@@ -296,8 +327,7 @@ export namespace TreeMultiMap
 	export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
 
 	// BODY
-	export var iterator = Iterator;
-	export var reverse_iterator = ReverseIterator;
+	export const iterator = Iterator;
+	export const reverse_iterator = ReverseIterator;
 }
-
 export import multimap = TreeMultiMap;

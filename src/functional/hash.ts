@@ -1,11 +1,14 @@
-import { IComparable } from "./IComparable";
-
-export function hash<T>(val: T, ...args: any[]): number
+/**
+ * Hash function.
+ * 
+ * @param items The items to be hashed.
+ * @return The hash code.
+ */
+export function hash(...items: any[]): number
 {
-	args.unshift(val);
 	let ret: number = _HASH_INIT_VALUE;
 	
-	for (let item of args)
+	for (let item of items)
 	{
 		let type: string = typeof item;
 
@@ -17,10 +20,10 @@ export function hash<T>(val: T, ...args: any[]): number
 			ret = _Hash_string(item, ret);
 		else // CALL THE HASH_CODE FUNCTION ?
 		{
-			if ((<IComparable<Object>>item).hashCode != undefined)
+			if ((item as any).hashCode != undefined)
 			{
-				let hashed: number = (<IComparable<Object>>item).hashCode();
-				if (args.length == 1)
+				let hashed: number = (item as any).hashCode();
+				if (items.length == 1)
 					return hashed;
 				else
 				{

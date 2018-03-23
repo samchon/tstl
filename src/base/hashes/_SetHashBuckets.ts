@@ -1,7 +1,7 @@
 import { _HashBuckets } from "./_HashBuckets";
 
 import { SetContainer } from "../containers/SetContainer";
-import { IHashSet } from "../interfaces/IHashSet";
+import { IHashSet } from "../containers/IHashSet";
 import { SetIterator } from "../iterators/SetIterator";
 
 /**
