@@ -3,6 +3,7 @@ import { _ITimedLockable } from "../base/threads/_ITimedLockable";
 
 import { HashMap } from "../containers/HashMap";
 import { _LockType } from "../base/threads/_LockType";
+import { RangeError } from "../exceptions/RuntimeError";
 import { sleep_for } from "../thread";
 
 /**

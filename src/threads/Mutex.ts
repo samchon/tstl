@@ -1,5 +1,7 @@
 import { ILockable } from "./ILockable";
+
 import { Queue } from "../containers/Queue";
+import { RangeError } from "../exceptions/RuntimeError";
 
 /**
  * Mutex.

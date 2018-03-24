@@ -2,8 +2,8 @@ import { _ISharedLockable } from "../base/threads/_ISharedLockable";
 
 import { Queue } from "../containers/Queue";
 import { Pair } from "../utilities/Pair";
-
 import { _LockType } from "../base/threads/_LockType";
+import { RangeError } from "../exceptions/RuntimeError";
 
 /**
  * Shared mutex.

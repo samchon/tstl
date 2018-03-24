@@ -3,6 +3,7 @@ import { _ISemaphore } from "../base/threads/_ISemaphore";
 import { HashMap } from "../containers/HashMap";
 import { OutOfRange } from "../exceptions/LogicError";
 import { _LockType } from "../base/threads/_LockType";
+import { RangeError } from "../exceptions/RuntimeError";
 
 import { sleep_for } from "../thread";
 

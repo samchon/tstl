@@ -5,6 +5,7 @@ import { ArrayIterator, ArrayReverseIterator } from "../iterators/ArrayIterator"
 import { _Repeater } from "../iterators/_Repeater";
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 import { InvalidArgument, LengthError } from "../../exceptions/LogicError";
+import { RangeError } from "../../exceptions/RuntimeError";
 
 /**
  * Base array container.
