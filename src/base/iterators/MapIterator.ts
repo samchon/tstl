@@ -10,16 +10,16 @@ import { Entry } from "../../utilities/Entry";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class MapIterator<Key, T, Source extends MapContainer<Key, T, Source>>
+export class MapIterator<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
 	extends ListIterator<Entry<Key, T>, 
 		Source, 
-		MapIterator<Key, T, Source>, 
-		MapReverseIterator<Key, T, Source>>
+		MapIterator<Key, T, Unique, Source>, 
+		MapReverseIterator<Key, T, Unique, Source>>
 {
 	/**
 	 * @hidden
 	 */
-	private source_: _MapElementList<Key, T, Source>;
+	private source_: _MapElementList<Key, T, Unique, Source>;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -27,7 +27,7 @@ export class MapIterator<Key, T, Source extends MapContainer<Key, T, Source>>
 	/**
 	 * @hidden
 	 */
-	public constructor(list: _MapElementList<Key, T, Source>, prev: MapIterator<Key, T, Source>, next: MapIterator<Key, T, Source>, val: Entry<Key, T>)
+	public constructor(list: _MapElementList<Key, T, Unique, Source>, prev: MapIterator<Key, T, Unique, Source>, next: MapIterator<Key, T, Unique, Source>, val: Entry<Key, T>)
 	{
 		super(prev, next, val);
 		this.source_ = list;
@@ -36,7 +36,7 @@ export class MapIterator<Key, T, Source extends MapContainer<Key, T, Source>>
 	/**
 	 * @inheritDoc
 	 */
-	public reverse(): MapReverseIterator<Key, T, Source>
+	public reverse(): MapReverseIterator<Key, T, Unique, Source>
 	{
 		return new MapReverseIterator(this);
 	}
@@ -88,11 +88,11 @@ export class MapIterator<Key, T, Source extends MapContainer<Key, T, Source>>
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class MapReverseIterator<Key, T, Source extends MapContainer<Key, T, Source>>
+export class MapReverseIterator<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
 	extends ReverseIterator<Entry<Key, T>, 
 		Source, 
-		MapIterator<Key, T, Source>, 
-		MapReverseIterator<Key, T, Source>>
+		MapIterator<Key, T, Unique, Source>, 
+		MapReverseIterator<Key, T, Unique, Source>>
 {
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -102,7 +102,7 @@ export class MapReverseIterator<Key, T, Source extends MapContainer<Key, T, Sour
 	 * 
 	 * @param base The base iterator.
 	 */
-	public constructor(base: MapIterator<Key, T, Source>)
+	public constructor(base: MapIterator<Key, T, Unique, Source>)
 	{
 		super(base);
 	}
@@ -110,7 +110,7 @@ export class MapReverseIterator<Key, T, Source extends MapContainer<Key, T, Sour
 	/**
 	 * @hidden
 	 */
-	protected _Create_neighbor(base: MapIterator<Key, T, Source>): MapReverseIterator<Key, T, Source>
+	protected _Create_neighbor(base: MapIterator<Key, T, Unique, Source>): MapReverseIterator<Key, T, Unique, Source>
 	{
 		return new MapReverseIterator(base);
 	}

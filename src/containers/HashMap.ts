@@ -17,10 +17,10 @@ import { equal_to } from "../functional/comparisons";
  */
 export class HashMap<Key, T>
 	extends UniqueMap<Key, T, HashMap<Key, T>>
-	implements IHashMap<Key, T, HashMap<Key, T>>
+	implements IHashMap<Key, T, true, HashMap<Key, T>>
 {
 	/// @hidden
-	private buckets_: _MapHashBuckets<Key, T, HashMap<Key, T>>;
+	private buckets_: _MapHashBuckets<Key, T, true, HashMap<Key, T>>;
 
 	/* =========================================================
 		CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -438,8 +438,8 @@ export namespace HashMap
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<Key, T> = MapIterator<Key, T, HashMap<Key, T>>;
-	export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, HashMap<Key, T>>;
+	export type Iterator<Key, T> = MapIterator<Key, T, true, HashMap<Key, T>>;
+	export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, true, HashMap<Key, T>>;
 
 	// BODY
 	export const Iterator = MapIterator;

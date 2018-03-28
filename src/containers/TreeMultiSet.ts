@@ -15,7 +15,7 @@ import { less } from "../functional/comparisons";
  */
 export class TreeMultiSet<Key>
 	extends MultiSet<Key, TreeMultiSet<Key>>
-	implements ITreeSet<Key, TreeMultiSet<Key>>
+	implements ITreeSet<Key, false, TreeMultiSet<Key>>
 {
 	/**
 	 * @hidden
@@ -308,8 +308,8 @@ export namespace TreeMultiSet
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<Key> = SetIterator<Key, TreeMultiSet<Key>>;
-	export type ReverseIterator<Key> = SetReverseIterator<Key, TreeMultiSet<Key>>;
+	export type Iterator<Key> = SetIterator<Key, false, TreeMultiSet<Key>>;
+	export type ReverseIterator<Key> = SetReverseIterator<Key, false, TreeMultiSet<Key>>;
 
 	// BODY
 	export const Iterator = SetIterator;

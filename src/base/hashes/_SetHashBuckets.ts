@@ -7,10 +7,10 @@ import { SetIterator } from "../iterators/SetIterator";
 /**
  * @hidden
  */
-export class _SetHashBuckets<T, Source extends SetContainer<T, Source>>
-	extends _HashBuckets<SetIterator<T, Source>>
+export class _SetHashBuckets<T, Unique extends boolean, Source extends SetContainer<T, Unique, Source>>
+	extends _HashBuckets<SetIterator<T, Unique, Source>>
 {
-	private source_: IHashSet<T, Source>;
+	private source_: IHashSet<T, Unique, Source>;
 
 	private hash_function_: (val: T) => number;
 	private key_eq_: (x: T, y: T) => boolean;
@@ -18,7 +18,7 @@ export class _SetHashBuckets<T, Source extends SetContainer<T, Source>>
 	/* ---------------------------------------------------------
 		CONSTRUCTORS & ACCESSORS
 	--------------------------------------------------------- */
-	public constructor(source: IHashSet<T, Source>, hash: (val: T) => number, pred: (x: T, y: T) => boolean)
+	public constructor(source: IHashSet<T, Unique, Source>, hash: (val: T) => number, pred: (x: T, y: T) => boolean)
 	{
 		super();
 
@@ -39,7 +39,7 @@ export class _SetHashBuckets<T, Source extends SetContainer<T, Source>>
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
-	public find(val: T): SetIterator<T, Source>
+	public find(val: T): SetIterator<T, Unique, Source>
 	{
 		let index = this.hash_function_(val) % this.size();
 		let bucket = this.at(index);
@@ -51,7 +51,7 @@ export class _SetHashBuckets<T, Source extends SetContainer<T, Source>>
 		return this.source_.end();
 	}
 
-	public hash_index(it: SetIterator<T, Source>): number
+	public hash_index(it: SetIterator<T, Unique, Source>): number
 	{
 		return this.hash_function_(it.value) % this.size();
 	}

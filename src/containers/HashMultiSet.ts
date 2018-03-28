@@ -14,12 +14,12 @@ import { equal_to } from "../functional/comparisons";
  */
 export class HashMultiSet<Key>
 	extends MultiSet<Key, HashMultiSet<Key>>
-	implements IHashSet<Key, HashMultiSet<Key>>
+	implements IHashSet<Key, false, HashMultiSet<Key>>
 {
 	/**
 	 * @hidden
 	 */
-	private buckets_: _SetHashBuckets<Key, HashMultiSet<Key>>;
+	private buckets_: _SetHashBuckets<Key, false, HashMultiSet<Key>>;
 
 	/* =========================================================
 		CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -433,8 +433,8 @@ export namespace HashMultiSet
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<Key> = SetIterator<Key, HashMultiSet<Key>>;
-	export type ReverseIterator<Key> = SetReverseIterator<Key, HashMultiSet<Key>>;
+	export type Iterator<Key> = SetIterator<Key, false, HashMultiSet<Key>>;
+	export type ReverseIterator<Key> = SetReverseIterator<Key, false, HashMultiSet<Key>>;
 
 	// BODY
 	export const Iterator = SetIterator;

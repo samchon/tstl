@@ -14,7 +14,7 @@ import { OutOfRange } from "../../exceptions/LogicError";
  * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>>
-	extends MapContainer<Key, T, Source>
+	extends MapContainer<Key, T, true, Source>
 {
 	/* ---------------------------------------------------------
 		ACCESSORS
@@ -63,7 +63,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 * @param value Value to emplace.
 	 * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
 	 */
-	public abstract emplace(key: Key, value: T): Pair<MapIterator<Key, T, Source>, boolean>;
+	public abstract emplace(key: Key, value: T): Pair<MapIterator<Key, T, true, Source>, boolean>;
 
 	/**
 	 * Construct and insert element with hint.
@@ -73,7 +73,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 * @param val Value of the new element.
 	 * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
 	 */
-	public abstract emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
+	public abstract emplace_hint(hint: MapIterator<Key, T, true, Source>, key: Key, val: T): MapIterator<Key, T, true, Source>;
 
 	/**
 	 * Insert an element.
@@ -81,7 +81,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
 	 */
-	public insert(pair: IPair<Key, T>): Pair<MapIterator<Key, T, Source>, boolean>;
+	public insert(pair: IPair<Key, T>): Pair<MapIterator<Key, T, true, Source>, boolean>;
 
 	/**
 	 * Insert an element with hint.
@@ -90,7 +90,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
 	 */
-	public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
+	public insert(hint: MapIterator<Key, T, true, Source>, pair: IPair<Key, T>): MapIterator<Key, T, true, Source>;
 	
 	/**
 	 * Insert range elements.
@@ -103,10 +103,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 
 	public insert(...args: any[]): any
 	{
-		if (args.length == 1)
-			return this.emplace(args[0].first, args[0].second);
-		else
-			return super.insert.apply(this, args);
+		return super.insert.apply(this, args);
 	}
 
 	/* ---------------------------------------------------------
@@ -119,7 +116,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 * @param value Value to insert or assign.
 	 * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
 	 */
-	public insert_or_assign(key: Key, value: T): Pair<MapIterator<Key, T, Source>, boolean>;
+	public insert_or_assign(key: Key, value: T): Pair<MapIterator<Key, T, true, Source>, boolean>;
 	
 	/**
 	 * Insert or assign an element with hint.
@@ -129,7 +126,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 * @param value Value to insert or assign.
 	 * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
 	 */
-	public insert_or_assign(hint: MapIterator<Key, T, Source>, key: Key, value: T): MapIterator<Key, T, Source>;
+	public insert_or_assign(hint: MapIterator<Key, T, true, Source>, key: Key, value: T): MapIterator<Key, T, true, Source>;
 
 	public insert_or_assign(...args: any[]): any
 	{
@@ -147,7 +144,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	/**
 	 * @hidden
 	 */
-	private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<MapIterator<Key, T, Source>, boolean>
+	private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<MapIterator<Key, T, true, Source>, boolean>
 	{
 		let ret = this.emplace(key, value);
 		if (ret.second == false)
@@ -159,7 +156,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	/**
 	 * @hidden
 	 */
-	private _Insert_or_assign_with_hint(hint: MapIterator<Key, T, Source>, key: Key, value: T): MapIterator<Key, T, Source>
+	private _Insert_or_assign_with_hint(hint: MapIterator<Key, T, true, Source>, key: Key, value: T): MapIterator<Key, T, true, Source>
 	{
 		let ret = this.emplace_hint(hint, key, value);
 		if (ret.second != value)
@@ -185,9 +182,9 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 * @param pos The iterator to the element for extraction.
 	 * @return Iterator following the *pos*, strained by the extraction.
 	 */
-	public extract(pos: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
+	public extract(pos: MapIterator<Key, T, true, Source>): MapIterator<Key, T, true, Source>;
 
-	public extract(param: Key | MapIterator<Key, T, Source>): any
+	public extract(param: Key | MapIterator<Key, T, true, Source>): any
 	{
 		if (param instanceof MapIterator)
 			return this._Extract_by_iterator(param);
@@ -213,7 +210,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	/**
 	 * @hidden
 	 */
-	private _Extract_by_iterator(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>
+	private _Extract_by_iterator(it: MapIterator<Key, T, true, Source>): MapIterator<Key, T, true, Source>
 	{
 		if (it.equals(this.end()) == true)
 			return this.end();

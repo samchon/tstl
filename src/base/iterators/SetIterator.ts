@@ -9,16 +9,16 @@ import { _SetElementList } from "../containers/_SetElementList";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class SetIterator<Key, Source extends SetContainer<Key, Source>>
+export class SetIterator<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
 	extends ListIterator<Key, 
 		Source, 
-		SetIterator<Key, Source>, 
-		SetReverseIterator<Key, Source>>
+		SetIterator<Key, Unique, Source>, 
+		SetReverseIterator<Key, Unique, Source>>
 {
 	/**
 	 * @hidden
 	 */
-	private source_: _SetElementList<Key, Source>;
+	private source_: _SetElementList<Key, Unique, Source>;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -26,7 +26,7 @@ export class SetIterator<Key, Source extends SetContainer<Key, Source>>
 	/**
 	 * @hidden
 	 */
-	public constructor(list: _SetElementList<Key, Source>, prev: SetIterator<Key, Source>, next: SetIterator<Key, Source>, key: Key)
+	public constructor(list: _SetElementList<Key, Unique, Source>, prev: SetIterator<Key, Unique, Source>, next: SetIterator<Key, Unique, Source>, key: Key)
 	{
 		super(prev, next, key);
 
@@ -36,7 +36,7 @@ export class SetIterator<Key, Source extends SetContainer<Key, Source>>
 	/**
 	 * @inheritDoc
 	 */
-	public reverse(): SetReverseIterator<Key, Source>
+	public reverse(): SetReverseIterator<Key, Unique, Source>
 	{
 		return new SetReverseIterator(this);
 	}
@@ -58,11 +58,11 @@ export class SetIterator<Key, Source extends SetContainer<Key, Source>>
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class SetReverseIterator<Key, Source extends SetContainer<Key, Source>>
+export class SetReverseIterator<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
 	extends ReverseIterator<Key, 
 		Source, 
-		SetIterator<Key, Source>, 
-		SetReverseIterator<Key, Source>>
+		SetIterator<Key, Unique, Source>, 
+		SetReverseIterator<Key, Unique, Source>>
 {
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -72,7 +72,7 @@ export class SetReverseIterator<Key, Source extends SetContainer<Key, Source>>
 	 * 
 	 * @param base The base iterator.
 	 */
-	public constructor(base: SetIterator<Key, Source>)
+	public constructor(base: SetIterator<Key, Unique, Source>)
 	{
 		super(base);
 	}
@@ -80,7 +80,7 @@ export class SetReverseIterator<Key, Source extends SetContainer<Key, Source>>
 	/**
 	 * @hidden
 	 */
-	protected _Create_neighbor(base: SetIterator<Key, Source>): SetReverseIterator<Key, Source>
+	protected _Create_neighbor(base: SetIterator<Key, Unique, Source>): SetReverseIterator<Key, Unique, Source>
 	{
 		return new SetReverseIterator(base);
 	}

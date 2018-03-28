@@ -15,7 +15,7 @@ import { less } from "../functional/comparisons";
  */
 export class TreeSet<Key>
 	extends UniqueSet<Key, TreeSet<Key>>
-	implements ITreeSet<Key, TreeSet<Key>>
+	implements ITreeSet<Key, true, TreeSet<Key>>
 {
 	/**
 	 * @hidden
@@ -288,8 +288,8 @@ export namespace TreeSet
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<Key> = SetIterator<Key, TreeSet<Key>>;
-	export type ReverseIterator<Key> = SetReverseIterator<Key, TreeSet<Key>>;
+	export type Iterator<Key> = SetIterator<Key, true, TreeSet<Key>>;
+	export type ReverseIterator<Key> = SetReverseIterator<Key, true, TreeSet<Key>>;
 
 	// BODY
 	export const Iterator = SetIterator;

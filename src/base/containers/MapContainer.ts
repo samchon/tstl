@@ -8,23 +8,24 @@ import { Entry } from "../../utilities/Entry";
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 import { _NativeArrayIterator } from "../iterators/_NativeArrayIterator";
 import { IPair } from "../../utilities/IPair";
+import { Pair } from "../../utilities/Pair";
 
 /**
  * Base class for Map Containers.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, Source>>
+export abstract class MapContainer<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
 	extends Container<Entry<Key, T>,
 		Source,
-		MapIterator<Key, T, Source>,
-		MapReverseIterator<Key, T, Source>>
-	implements _IAssociativeContainer<Key, MapIterator<Key, T, Source>>
+		MapIterator<Key, T, Unique, Source>,
+		MapReverseIterator<Key, T, Unique, Source>>
+	implements _IAssociativeContainer<Key, MapIterator<Key, T, Unique, Source>>
 {
 	/**
 	 * @hidden
 	 */
-	private data_: _MapElementList<Key, T, Source>;
+	private data_: _MapElementList<Key, T, Unique, Source>;
 
 	/* ---------------------------------------------------------
 		CONSTURCTORS
@@ -69,12 +70,12 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	/**
 	 * @inheritDoc
 	 */
-	public abstract find(key: Key): MapIterator<Key, T, Source>;
+	public abstract find(key: Key): MapIterator<Key, T, Unique, Source>;
 
 	/**
 	 * @inheritDoc
 	 */
-	public begin(): MapIterator<Key, T, Source>
+	public begin(): MapIterator<Key, T, Unique, Source>
 	{
 		return this.data_.begin();
 	}
@@ -82,7 +83,7 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	/**
 	 * @inheritDoc
 	 */
-	public end(): MapIterator<Key, T, Source>
+	public end(): MapIterator<Key, T, Unique, Source>
 	{
 		return this.data_.end();
 	}
@@ -134,18 +135,23 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 		// RETURN SIZE
 		return this.size();
 	}
-	public abstract emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
+	
+	public abstract emplace(key: Key, val: T): MapContainer.InsertRet<Key, T, Unique, Source>;
+	public abstract emplace_hint(hint: MapIterator<Key, T, Unique, Source>, key: Key, val: T): MapIterator<Key, T, Unique, Source>;
 
-	public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
+	public insert(pair: IPair<Key, T>): MapContainer.InsertRet<Key, T, Unique, Source>;
+	public insert(hint: MapIterator<Key, T, Unique, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Unique, Source>;
 	public insert<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
-	public insert(par1: any, par2: any): any
+	public insert(...args: any[]): any
 	{
-		if (par1.next instanceof Function && par2.next instanceof Function)
-			return this._Insert_by_range(par1, par2);
+		if (args.length == 1)
+			return this.emplace(args[0].first, args[0].second);
+		else if (args[0].next instanceof Function && args[1].next instanceof Function)
+			return this._Insert_by_range(args[0], args[1]);
 		else
-			return this.emplace_hint(par1, par2.first, par2.second);
+			return this.emplace_hint(args[0], args[1].first, args[1].second);
 	}
 
 	/**
@@ -165,16 +171,16 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	/**
 	 * @inheritDoc
 	 */
-	public erase(it: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
+	public erase(it: MapIterator<Key, T, Unique, Source>): MapIterator<Key, T, Unique, Source>;
 
 	/**
 	 * @inheritDoc
 	 */
-	public erase(begin: MapIterator<Key, T, Source>, end: MapIterator<Key, T, Source>): MapIterator<Key, T, Source>;
+	public erase(begin: MapIterator<Key, T, Unique, Source>, end: MapIterator<Key, T, Unique, Source>): MapIterator<Key, T, Unique, Source>;
 
 	public erase(...args: any[]): any 
 	{
-		if (args.length == 1 && (args[0] instanceof MapIterator == false || (args[0] as MapIterator<Key, T, Source>).source() as any != this))
+		if (args.length == 1 && (args[0] instanceof MapIterator == false || (args[0] as MapIterator<Key, T, Unique, Source>).source() as any != this))
 			return this._Erase_by_key(args[0]);
 		else
 			if (args.length == 1)
@@ -191,7 +197,7 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	/**
 	 * @hidden
 	 */
-	protected _Erase_by_range(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source> = first.next()): MapIterator<Key, T, Source>
+	protected _Erase_by_range(first: MapIterator<Key, T, Unique, Source>, last: MapIterator<Key, T, Unique, Source> = first.next()): MapIterator<Key, T, Unique, Source>
 	{
 		// ERASE
 		let it = this.data_.erase(first, last);
@@ -230,10 +236,20 @@ export abstract class MapContainer<Key, T, Source extends MapContainer<Key, T, S
 	/**
 	 * @hidden
 	 */
-	protected abstract _Handle_insert(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source>): void;
+	protected abstract _Handle_insert(first: MapIterator<Key, T, Unique, Source>, last: MapIterator<Key, T, Unique, Source>): void;
 
 	/**
 	 * @hidden
 	 */
-	protected abstract _Handle_erase(first: MapIterator<Key, T, Source>, last: MapIterator<Key, T, Source>): void;
+	protected abstract _Handle_erase(first: MapIterator<Key, T, Unique, Source>, last: MapIterator<Key, T, Unique, Source>): void;
+}
+
+export namespace MapContainer
+{
+	export type InsertRet<Key, T, 
+			Unique extends boolean, 
+			Source extends MapContainer<Key, T, Unique, Source>>
+		= Unique extends true 
+			? Pair<MapIterator<Key, T, Unique, Source>, boolean> 
+			: MapIterator<Key, T, Unique, Source>;
 }

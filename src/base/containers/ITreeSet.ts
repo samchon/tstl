@@ -6,8 +6,9 @@ import { SetIterator } from "../iterators/SetIterator";
 /**
  * @hidden
  */
-export interface ITreeSet<T, Source extends SetContainer<T, Source>>
-	extends SetContainer<T, Source>, _ITreeContainer<T, SetIterator<T, Source>>
+export interface ITreeSet<T, Unique extends boolean, Source extends SetContainer<T, Unique, Source>>
+	extends SetContainer<T, Unique, Source>, 
+		_ITreeContainer<T, SetIterator<T, Unique, Source>>
 {
 	/**
 	 * Get value comparison function.

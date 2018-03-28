@@ -18,12 +18,12 @@ import { equal_to } from "../functional/comparisons";
  */
 export class HashMultiMap<Key, T>
 	extends MultiMap<Key, T, HashMultiMap<Key, T>>
-	implements IHashMap<Key, T, HashMultiMap<Key, T>>
+	implements IHashMap<Key, T, false, HashMultiMap<Key, T>>
 {
 	/**
 	 * @hidden
 	 */
-	private buckets_: _MapHashBuckets<Key, T, HashMultiMap<Key, T>>;
+	private buckets_: _MapHashBuckets<Key, T, false, HashMultiMap<Key, T>>;
 
 	/* =========================================================
 		CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -453,8 +453,8 @@ export namespace HashMultiMap
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<Key, T> = MapIterator<Key, T, HashMultiMap<Key, T>>;
-	export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, HashMultiMap<Key, T>>;
+	export type Iterator<Key, T> = MapIterator<Key, T, false, HashMultiMap<Key, T>>;
+	export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, false, HashMultiMap<Key, T>>;
 
 	// BODY
 	export const Iterator = MapIterator;

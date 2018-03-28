@@ -9,7 +9,7 @@ import { IForwardIterator } from "../../iterators/IForwardIterator";
  * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
-	extends SetContainer<Key, Source>
+	extends SetContainer<Key, false, Source>
 {
 	/* ---------------------------------------------------------
 		INSERT
@@ -20,7 +20,7 @@ export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public insert(key: Key): SetIterator<Key, Source>;
+	public insert(key: Key): SetIterator<Key, false, Source>;
 
 	/**
 	 * Insert an element with hint.
@@ -29,7 +29,7 @@ export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public insert(hint: SetIterator<Key, Source>, key: Key): SetIterator<Key, Source>;
+	public insert(hint: SetIterator<Key, false, Source>, key: Key): SetIterator<Key, false, Source>;
 
 	/**
 	 * Insert range elements.
@@ -42,16 +42,8 @@ export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
 
 	public insert(...args: any[]): any
 	{
-		if (args.length == 1)
-			return this._Insert_by_key(args[0]);
-		else
-			return super.insert.apply(this, args);
+		return super.insert.apply(this, args);
 	}
-
-	/**
-	 * @hidden
-	 */
-	protected abstract _Insert_by_key(key: Key): SetIterator<Key, Source>;
 
 	/* ---------------------------------------------------------
 		ERASE

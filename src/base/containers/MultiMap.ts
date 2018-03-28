@@ -10,7 +10,7 @@ import { IPair } from "../../utilities/IPair";
  * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
-	extends MapContainer<Key, T, Source>
+	extends MapContainer<Key, T, false, Source>
 {
 	/* ---------------------------------------------------------
 		INSERT
@@ -22,7 +22,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	 * @param value Value to emplace.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public abstract emplace(key: Key, value: T): MapIterator<Key, T, Source>;
+	public abstract emplace(key: Key, value: T): MapIterator<Key, T, false, Source>;
 
 	/**
 	 * Construct and insert element with hint.
@@ -32,7 +32,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	 * @param val Value of the new element.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public abstract emplace_hint(hint: MapIterator<Key, T, Source>, key: Key, val: T): MapIterator<Key, T, Source>;
+	public abstract emplace_hint(hint: MapIterator<Key, T, false, Source>, key: Key, val: T): MapIterator<Key, T, false, Source>;
 
 	/**
 	 * Insert an element.
@@ -40,7 +40,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public insert(pair: IPair<Key, T>): MapIterator<Key, T, Source>;
+	public insert(pair: IPair<Key, T>): MapIterator<Key, T, false, Source>;
 
 	/**
 	 * Insert an element with hint.
@@ -49,7 +49,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public insert(hint: MapIterator<Key, T, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Source>;
+	public insert(hint: MapIterator<Key, T, false, Source>, pair: IPair<Key, T>): MapIterator<Key, T, false, Source>;
 
 	/**
 	 * Insert range elements.
@@ -62,10 +62,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 
 	public insert(...args: any[]): any
 	{
-		if (args.length == 1)
-			return this.emplace(args[0].first, args[0].second);
-		else
-			return super.insert.apply(this, args);
+		return super.insert.apply(this, args);
 	}
 
 	/* ---------------------------------------------------------

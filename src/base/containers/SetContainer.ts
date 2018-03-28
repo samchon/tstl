@@ -6,23 +6,24 @@ import { SetIterator, SetReverseIterator } from "../iterators/SetIterator";
 
 import { IForwardIterator } from "../../iterators/IForwardIterator";
 import { _NativeArrayIterator } from "../iterators/_NativeArrayIterator";
+import { Pair } from "../../utilities/Pair";
 
 /**
  * Base class for Set Containers.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>>
+export abstract class SetContainer<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
 	extends Container<Key, 
 		Source, 
-		SetIterator<Key, Source>, 
-		SetReverseIterator<Key, Source>>
-	implements _IAssociativeContainer<Key, SetIterator<Key, Source>>
+		SetIterator<Key, Unique, Source>, 
+		SetReverseIterator<Key, Unique, Source>>
+	implements _IAssociativeContainer<Key, SetIterator<Key, Unique, Source>>
 {
 	/**
 	 * @hidden
 	 */
-	private data_: _SetElementList<Key, Source>;
+	private data_: _SetElementList<Key, Unique, Source>;
 	
 	/* ---------------------------------------------------------
 		CONSTURCTORS
@@ -34,7 +35,7 @@ export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>
 	{
 		super();
 
-		this.data_ = new _SetElementList<Key, Source>(this as any);
+		this.data_ = new _SetElementList<Key, Unique, Source>(this as any);
 	}
 
 	/**
@@ -67,12 +68,12 @@ export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>
 	/**
 	 * @inheritDoc
 	 */
-	public abstract find(key: Key): SetIterator<Key, Source>;
+	public abstract find(key: Key): SetIterator<Key, Unique, Source>;
 
 	/**
 	 * @inheritDoc
 	 */
-	public begin(): SetIterator<Key, Source>
+	public begin(): SetIterator<Key, Unique, Source>
 	{
 		return this.data_.begin();
 	}
@@ -80,7 +81,7 @@ export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>
 	/**
 	 * @inheritDoc
 	 */
-	public end(): SetIterator<Key, Source>
+	public end(): SetIterator<Key, Unique, Source>
 	{
 		return this.data_.end();
 	}
@@ -136,22 +137,30 @@ export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>
 		return this.size();
 	}
 	
-	public insert(hint: SetIterator<Key, Source>, key: Key): SetIterator<Key, Source>;
+	public insert(key: Key): SetContainer.InsertRet<Key, Unique, Source>;
+	public insert(hint: SetIterator<Key, Unique, Source>, key: Key): SetIterator<Key, Unique, Source>;
 	public insert<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
-		public insert(par1: any, par2: any): any
+	public insert(...args: any[]): any
 	{
-		if (par1.next instanceof Function && par2.next instanceof Function)
-			return this._Insert_by_range(par1, par2);
+		if (args.length == 1)
+			return this._Insert_by_key(args[0]);
+		else if (args[0].next instanceof Function && args[1].next instanceof Function)
+			return this._Insert_by_range(args[0], args[1]);
 		else
-			return this._Insert_by_hint(par1, par2);
+			return this._Insert_by_hint(args[0], args[1]);
 	}
+
+	/**
+	 * @hidden
+	 */
+	protected abstract _Insert_by_key(key: Key): SetContainer.InsertRet<Key, Unique, Source>;
 	
 	/**
 	 * @hidden
 	 */
-	protected abstract _Insert_by_hint(hint: SetIterator<Key, Source>, key: Key): SetIterator<Key, Source>;
+	protected abstract _Insert_by_hint(hint: SetIterator<Key, Unique, Source>, key: Key): SetIterator<Key, Unique, Source>;
 	
 	/**
 	 * @hidden
@@ -169,15 +178,15 @@ export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>
 	/**
 	 * @inheritDoc
 	 */
-	public erase(it: SetIterator<Key, Source>): SetIterator<Key, Source>;
+	public erase(it: SetIterator<Key, Unique, Source>): SetIterator<Key, Unique, Source>;
 	/**
 	 * @inheritDoc
 	 */
-	public erase(begin: SetIterator<Key, Source>, end: SetIterator<Key, Source>): SetIterator<Key, Source>;
+	public erase(begin: SetIterator<Key, Unique, Source>, end: SetIterator<Key, Unique, Source>): SetIterator<Key, Unique, Source>;
 
 	public erase(...args: any[]): any
 	{
-		if (args.length == 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<Key, Source>).source() as any == this))
+		if (args.length == 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<Key, Unique, Source>).source() as any == this))
 			return this._Erase_by_val(args[0]);
 		else if (args.length == 1)
 			return this._Erase_by_range(args[0]);
@@ -193,7 +202,7 @@ export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>
 	/**
 	 * @hidden
 	 */
-	protected _Erase_by_range(first: SetIterator<Key, Source>, last: SetIterator<Key, Source> = first.next()): SetIterator<Key, Source>
+	protected _Erase_by_range(first: SetIterator<Key, Unique, Source>, last: SetIterator<Key, Unique, Source> = first.next()): SetIterator<Key, Unique, Source>
 	{
 		// ERASE
 		let it = this.data_.erase(first, last);
@@ -230,10 +239,18 @@ export abstract class SetContainer<Key, Source extends SetContainer<Key, Source>
 	/**
 	 * @hidden
 	 */
-	protected abstract _Handle_insert(first: SetIterator<Key, Source>, last: SetIterator<Key, Source>): void;
+	protected abstract _Handle_insert(first: SetIterator<Key, Unique, Source>, last: SetIterator<Key, Unique, Source>): void;
 
 	/**
 	 * @hidden
 	 */
-	protected abstract _Handle_erase(first: SetIterator<Key, Source>, last: SetIterator<Key, Source>): void;
+	protected abstract _Handle_erase(first: SetIterator<Key, Unique, Source>, last: SetIterator<Key, Unique, Source>): void;
+}
+
+export namespace SetContainer
+{
+	export type InsertRet<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
+		= Unique extends true
+			? Pair<SetIterator<Key, Unique, Source>, boolean>
+			: SetIterator<Key, Unique, Source>;
 }

@@ -8,7 +8,7 @@ import { MapIterator } from "../iterators/MapIterator";
  * @hidden
  */
 export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
-	extends _MapTree<Key, T, Source>
+	extends _MapTree<Key, T, false, Source>
 {
 	/* ---------------------------------------------------------
 		CONSTRUCTOR
@@ -16,7 +16,7 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 	public constructor(source: Source, comp: (x: Key, y: Key) => boolean)
 	{
 		super(source, comp,
-			function (x: MapIterator<Key, T, Source>, y: MapIterator<Key, T, Source>): boolean
+			function (x: MapIterator<Key, T, false, Source>, y: MapIterator<Key, T, false, Source>): boolean
 			{
 				let ret: boolean = comp(x.first, y.first);
 
@@ -28,7 +28,7 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 		);
 	}
 
-	public insert(val: MapIterator<Key, T, Source>): void
+	public insert(val: MapIterator<Key, T, false, Source>): void
 	{
 		// ISSUE UID BEFORE INSERTION
 		(val as any).__get_m_iUID();
@@ -42,8 +42,8 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 	private _Nearest_by_key
 		(
 			key: Key, 
-			equal_mover: (node: _XTreeNode<MapIterator<Key, T, Source>>) => _XTreeNode<MapIterator<Key, T, Source>>
-		): _XTreeNode<MapIterator<Key, T, Source>>
+			equal_mover: (node: _XTreeNode<MapIterator<Key, T, false, Source>>) => _XTreeNode<MapIterator<Key, T, false, Source>>
+		): _XTreeNode<MapIterator<Key, T, false, Source>>
 	{
 		// NEED NOT TO ITERATE
 		if (this.root_ == null)
@@ -52,13 +52,13 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 		//----
 		// ITERATE
 		//----
-		let ret: _XTreeNode<MapIterator<Key, T, Source>> = this.root_;
-		let matched: _XTreeNode<MapIterator<Key, T, Source>> = null;
+		let ret: _XTreeNode<MapIterator<Key, T, false, Source>> = this.root_;
+		let matched: _XTreeNode<MapIterator<Key, T, false, Source>> = null;
 
 		while (true)
 		{
-			let it: MapIterator<Key, T, Source> = ret.value;
-			let my_node: _XTreeNode<MapIterator<Key, T, Source>> = null;
+			let it: MapIterator<Key, T, false, Source> = ret.value;
+			let my_node: _XTreeNode<MapIterator<Key, T, false, Source>> = null;
 
 			// COMPARE
 			if (this.key_comp()(key, it.first))
@@ -83,7 +83,7 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 		return (matched != null) ? matched : ret;
 	}
 
-	public nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
+	public nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, false, Source>>
 	{
 		return this._Nearest_by_key(key, function (node)
 		{
@@ -91,19 +91,19 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 		});
 	}
 
-	public upper_bound(key: Key): MapIterator<Key, T, Source>
+	public upper_bound(key: Key): MapIterator<Key, T, false, Source>
 	{
 		// FIND MATCHED NODE
-		let node: _XTreeNode<MapIterator<Key, T, Source>> = this._Nearest_by_key(key, 
+		let node: _XTreeNode<MapIterator<Key, T, false, Source>> = this._Nearest_by_key(key, 
 			function (node)
 			{
 				return node.right;
 			});
 		if (node == null) // NOTHING
-			return this.source().end() as MapIterator<Key, T, Source>;
+			return this.source().end() as MapIterator<Key, T, false, Source>;
 
 		// MUST BE it.first > key
-		let it: MapIterator<Key, T, Source> = node.value;
+		let it: MapIterator<Key, T, false, Source> = node.value;
 		if (this.key_comp()(key, it.first))
 			return it;
 		else

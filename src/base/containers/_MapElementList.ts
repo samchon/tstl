@@ -7,11 +7,11 @@ import { Entry } from "../../utilities/Entry";
 /**
  * @hidden
  */
-export class _MapElementList<Key, T, Source extends MapContainer<Key, T, Source>> 
+export class _MapElementList<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>> 
 	extends ListContainer<Entry<Key, T>, 
 		Source, 
-		MapIterator<Key, T, Source>,
-		MapReverseIterator<Key, T, Source>>
+		MapIterator<Key, T, Unique, Source>,
+		MapReverseIterator<Key, T, Unique, Source>>
 {
 	/**
 	 * @hidden
@@ -31,9 +31,9 @@ export class _MapElementList<Key, T, Source extends MapContainer<Key, T, Source>
 	/**
 	 * @hidden
 	 */
-	protected _Create_iterator(prev: MapIterator<Key, T, Source>, next: MapIterator<Key, T, Source>, val: Entry<Key, T>): MapIterator<Key, T, Source>
+	protected _Create_iterator(prev: MapIterator<Key, T, Unique, Source>, next: MapIterator<Key, T, Unique, Source>, val: Entry<Key, T>): MapIterator<Key, T, Unique, Source>
 	{
-		return new MapIterator<Key, T, Source>(this, prev, next, val);
+		return new MapIterator<Key, T, Unique, Source>(this, prev, next, val);
 	}
 
 	/* ---------------------------------------------------------

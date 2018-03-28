@@ -8,7 +8,7 @@ import { SetIterator } from "../iterators/SetIterator";
  * @hidden
  */
 export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
-	extends _SetTree<T, Source>
+	extends _SetTree<T, false, Source>
 {
 	/* ---------------------------------------------------------
 		CONSTRUCTOR
@@ -16,7 +16,7 @@ export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 	public constructor(source: Source, comp: (x: T, y: T) => boolean)
 	{
 		super(source, comp, 
-			function (x: SetIterator<T, Source>, y: SetIterator<T, Source>): boolean
+			function (x: SetIterator<T, false, Source>, y: SetIterator<T, false, Source>): boolean
 			{
 				let ret: boolean = comp(x.value, y.value);
 				if (!ret && !comp(y.value, x.value))
@@ -27,7 +27,7 @@ export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 		);
 	}
 
-	public insert(val: SetIterator<T, Source>): void
+	public insert(val: SetIterator<T, false, Source>): void
 	{
 		// ISSUE UID BEFORE INSERTION
 		(val as any).__get_m_iUID();
@@ -41,8 +41,8 @@ export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 	private _Nearest_by_key
 		(
 			val: T, 
-			equal_mover: (node: _XTreeNode<SetIterator<T, Source>>) => _XTreeNode<SetIterator<T, Source>>
-		): _XTreeNode<SetIterator<T, Source>>
+			equal_mover: (node: _XTreeNode<SetIterator<T, false, Source>>) => _XTreeNode<SetIterator<T, false, Source>>
+		): _XTreeNode<SetIterator<T, false, Source>>
 	{
 		// NEED NOT TO ITERATE
 		if (this.root_ == null)
@@ -51,13 +51,13 @@ export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 		//----
 		// ITERATE
 		//----
-		let ret: _XTreeNode<SetIterator<T, Source>> = this.root_;
-		let matched: _XTreeNode<SetIterator<T, Source>> = null;
+		let ret: _XTreeNode<SetIterator<T, false, Source>> = this.root_;
+		let matched: _XTreeNode<SetIterator<T, false, Source>> = null;
 
 		while (true)
 		{
-			let it: SetIterator<T, Source> = ret.value;
-			let my_node: _XTreeNode<SetIterator<T, Source>> = null;
+			let it: SetIterator<T, false, Source> = ret.value;
+			let my_node: _XTreeNode<SetIterator<T, false, Source>> = null;
 
 			// COMPARE
 			if (this.key_comp()(val, it.value))
@@ -82,7 +82,7 @@ export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 		return (matched != null) ? matched : ret;
 	}
 
-	public nearest_by_key(val: T): _XTreeNode<SetIterator<T, Source>>
+	public nearest_by_key(val: T): _XTreeNode<SetIterator<T, false, Source>>
 	{
 		return this._Nearest_by_key(val, function (node)
 		{
@@ -90,19 +90,19 @@ export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 		});
 	}
 
-	public upper_bound(val: T): SetIterator<T, Source>
+	public upper_bound(val: T): SetIterator<T, false, Source>
 	{
 		// FIND MATCHED NODE
-		let node: _XTreeNode<SetIterator<T, Source>> = this._Nearest_by_key(val, 
+		let node: _XTreeNode<SetIterator<T, false, Source>> = this._Nearest_by_key(val, 
 			function (node)
 			{
 				return node.right;
 			});
 		if (node == null) // NOTHING
-			return this.source().end() as SetIterator<T, Source>;
+			return this.source().end() as SetIterator<T, false, Source>;
 
 		// MUST BE it.first > key
-		let it: SetIterator<T, Source> = node.value;
+		let it: SetIterator<T, false, Source> = node.value;
 		
 		if (this.key_comp()(val, it.value))
 			return it;

@@ -7,9 +7,9 @@ import { IPair } from "../../utilities/IPair";
 /**
  * @hidden
  */
-export interface ITreeMap<Key, T, Source extends MapContainer<Key, T, Source>>
-	extends MapContainer<Key, T, Source>, 
-		_ITreeContainer<Key, MapIterator<Key, T, Source>>
+export interface ITreeMap<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
+	extends MapContainer<Key, T, Unique, Source>, 
+		_ITreeContainer<Key, MapIterator<Key, T, Unique, Source>>
 {
 	/**
 	 * Get value comparison function.

@@ -37,7 +37,7 @@ function _Test_tree_set_inserts_and_erases(): void
 	}
 }
 
-function _Test_tree_set<Source extends std.base.SetContainer<number, Source>>
+function _Test_tree_set<Unique extends boolean, Source extends std.base.SetContainer<number, Unique, Source>>
 	(set: Source): void
 {
 	for (let i: number = 0; i < 1000; ++i)
@@ -65,7 +65,7 @@ function _Test_tree_set<Source extends std.base.SetContainer<number, Source>>
 	}
 }
 
-function _Test_tree_map<Source extends std.base.ITreeMap<number, number, Source>>
+function _Test_tree_map<Unique extends boolean, Source extends std.base.ITreeMap<number, number, Unique, Source>>
 	(map: Source): void
 {
 	for (let i: number = 0; i < 1000; ++i)

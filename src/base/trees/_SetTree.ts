@@ -8,8 +8,8 @@ import { Pair } from "../../utilities/Pair";
 /**
  * @hidden
  */
-export abstract class _SetTree<T, Source extends SetContainer<T, Source>>
-	extends _XTree<SetIterator<T, Source>>
+export abstract class _SetTree<T, Unique extends boolean, Source extends SetContainer<T, Unique, Source>>
+	extends _XTree<SetIterator<T, Unique, Source>>
 {
 	private source_: Source;
 	private key_comp_: (x: T, y: T) => boolean;
@@ -22,7 +22,7 @@ export abstract class _SetTree<T, Source extends SetContainer<T, Source>>
 		(
 			set: Source, 
 			comp: (x: T, y: T) => boolean,
-			it_comp: (x: SetIterator<T, Source>, y: SetIterator<T, Source>) => boolean
+			it_comp: (x: SetIterator<T, Unique, Source>, y: SetIterator<T, Unique, Source>) => boolean
 		)
 	{
 		super(it_comp);
@@ -38,7 +38,7 @@ export abstract class _SetTree<T, Source extends SetContainer<T, Source>>
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
-	public get_by_key(val: T): _XTreeNode<SetIterator<T, Source>>
+	public get_by_key(val: T): _XTreeNode<SetIterator<T, Unique, Source>>
 	{
 		let ret = this.nearest_by_key(val);
 		if (ret == null || !this.key_eq_(val, ret.value.value))
@@ -46,22 +46,22 @@ export abstract class _SetTree<T, Source extends SetContainer<T, Source>>
 		else
 			return ret;
 	}
-	public abstract nearest_by_key(val: T): _XTreeNode<SetIterator<T, Source>>;
+	public abstract nearest_by_key(val: T): _XTreeNode<SetIterator<T, Unique, Source>>;
 
-	public lower_bound(val: T): SetIterator<T, Source>
+	public lower_bound(val: T): SetIterator<T, Unique, Source>
 	{
-		let node: _XTreeNode<SetIterator<T, Source>> = this.nearest_by_key(val);
+		let node: _XTreeNode<SetIterator<T, Unique, Source>> = this.nearest_by_key(val);
 
 		if (node == null)
-			return this.source_.end() as SetIterator<T, Source>;
+			return this.source_.end() as SetIterator<T, Unique, Source>;
 		else if (this.key_comp_(node.value.value, val)) // it < key
 			return node.value.next();
 		else
 			return node.value;
 	}
-	public abstract upper_bound(val: T): SetIterator<T, Source>;
+	public abstract upper_bound(val: T): SetIterator<T, Unique, Source>;
 
-	public equal_range(val: T): Pair<SetIterator<T, Source>, SetIterator<T, Source>>
+	public equal_range(val: T): Pair<SetIterator<T, Unique, Source>, SetIterator<T, Unique, Source>>
 	{
 		return new Pair(this.lower_bound(val), this.upper_bound(val));
 	}

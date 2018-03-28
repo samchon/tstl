@@ -6,11 +6,11 @@ import { SetIterator, SetReverseIterator } from "../iterators/SetIterator";
 /**
  * @hidden
  */
-export class _SetElementList<T, Source extends SetContainer<T, Source>> 
-	extends ListContainer<T, 
+export class _SetElementList<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>> 
+	extends ListContainer<Key, 
 		Source,
-		SetIterator<T, Source>,
-		SetReverseIterator<T, Source>>
+		SetIterator<Key, Unique, Source>,
+		SetReverseIterator<Key, Unique, Source>>
 {
 	/**
 	 * @hidden
@@ -30,9 +30,9 @@ export class _SetElementList<T, Source extends SetContainer<T, Source>>
 	/**
 	 * @hidden
 	 */
-	protected _Create_iterator(prev: SetIterator<T, Source>, next: SetIterator<T, Source>, val: T): SetIterator<T, Source>
+	protected _Create_iterator(prev: SetIterator<Key, Unique, Source>, next: SetIterator<Key, Unique, Source>, val: Key): SetIterator<Key, Unique, Source>
 	{
-		return new SetIterator<T, Source>(this, prev, next, val);
+		return new SetIterator<Key, Unique, Source>(this, prev, next, val);
 	}
 
 	/* ---------------------------------------------------------

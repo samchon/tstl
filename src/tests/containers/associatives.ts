@@ -78,7 +78,7 @@ function _Test_multi_set<Source extends std.base.MultiSet<Atomic<number>, Source
 		throw new std.LogicError("Elements are not fully inserted.");
 }
 
-function _Construct_set<Source extends std.base.SetContainer<Atomic<number>, Source>>
+function _Construct_set<Unique extends boolean, Source extends std.base.SetContainer<Atomic<number>, Unique, Source>>
 	(set: Source): void
 {
 	// INSERT ELEMENTS
@@ -153,7 +153,7 @@ function _Test_multi_map<Source extends std.base.MultiMap<Atomic<string>, number
 		throw new std.LogicError("Elements are not fully inserted.");
 }
 
-function _Construct_map<Source extends std.base.MapContainer<Atomic<string>, number, Source>>
+function _Construct_map<Unique extends boolean, Source extends std.base.MapContainer<Atomic<string>, number, Unique, Source>>
 	(map: Source): void
 {
 	for (let i: number = 0; i <= 10; ++i)

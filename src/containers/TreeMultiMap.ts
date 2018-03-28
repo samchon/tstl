@@ -19,7 +19,7 @@ import { less } from "../functional/comparisons";
  */
 export class TreeMultiMap<Key, T>
 	extends MultiMap<Key, T, TreeMultiMap<Key, T>>
-	implements ITreeMap<Key, T, TreeMultiMap<Key, T>>
+	implements ITreeMap<Key, T, false, TreeMultiMap<Key, T>>
 {
 	/**
 	 * @hidden
@@ -312,8 +312,8 @@ export namespace TreeMultiMap
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<Key, T> = MapIterator<Key, T, TreeMultiMap<Key, T>>;
-	export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, TreeMultiMap<Key, T>>;
+	export type Iterator<Key, T> = MapIterator<Key, T, false, TreeMultiMap<Key, T>>;
+	export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, false, TreeMultiMap<Key, T>>;
 
 	// BODY
 	export const Iterator = MapIterator;

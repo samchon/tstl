@@ -6,8 +6,8 @@ import { MapIterator } from "../iterators/MapIterator";
 /**
  * @hidden
  */
-export interface IHashMap<Key, T, Source extends MapContainer<Key, T, Source>>
-	extends MapContainer<Key, T, Source>, _IHashContainer<Key>
+export interface IHashMap<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
+	extends MapContainer<Key, T, Unique, Source>, _IHashContainer<Key>
 {
 	/* ---------------------------------------------------------
 		ITERATORS
@@ -15,7 +15,7 @@ export interface IHashMap<Key, T, Source extends MapContainer<Key, T, Source>>
 	/**
 	 * @inheritDoc
 	 */
-	begin(): MapIterator<Key, T, Source>;
+	begin(): MapIterator<Key, T, Unique, Source>;
 
 	/**
 	 * Iterator to the first element in a specific bucket.
@@ -23,12 +23,12 @@ export interface IHashMap<Key, T, Source extends MapContainer<Key, T, Source>>
 	 * @param index Index number of the specific bucket.
 	 * @return Iterator from the specific bucket.
 	 */
-	begin(index: number): MapIterator<Key, T, Source>;
+	begin(index: number): MapIterator<Key, T, Unique, Source>;
 
 	/**
 	 * @inheritDoc
 	 */
-	end(): MapIterator<Key, T, Source>;
+	end(): MapIterator<Key, T, Unique, Source>;
 
 	/**
 	 * Iterator to the end in a specific bucket.
@@ -36,5 +36,5 @@ export interface IHashMap<Key, T, Source extends MapContainer<Key, T, Source>>
 	 * @param index Index number of the specific bucket.
 	 * @return Iterator from the specific bucket.
 	 */
-	end(index: number): MapIterator<Key, T, Source>;
+	end(index: number): MapIterator<Key, T, Unique, Source>;
 }

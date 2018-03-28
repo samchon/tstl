@@ -16,12 +16,12 @@ import { Pair } from "../utilities/Pair";
  */
 export class HashSet<Key>
 	extends UniqueSet<Key, HashSet<Key>>
-	implements IHashSet<Key, HashSet<Key>>
+	implements IHashSet<Key, true, HashSet<Key>>
 {
 	/**
 	 * @hidden
 	 */
-	private buckets_: _SetHashBuckets<Key, HashSet<Key>>;
+	private buckets_: _SetHashBuckets<Key, true, HashSet<Key>>;
 
 	/* =========================================================
 		CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -440,8 +440,8 @@ export namespace HashSet
 	// PASCAL NOTATION
 	//----
 	// HEAD
-	export type Iterator<Key> = SetIterator<Key, HashSet<Key>>;
-	export type ReverseIterator<Key> = SetReverseIterator<Key, HashSet<Key>>;
+	export type Iterator<Key> = SetIterator<Key, true, HashSet<Key>>;
+	export type ReverseIterator<Key> = SetReverseIterator<Key, true, HashSet<Key>>;
 
 	// BODY
 	export const Iterator = SetIterator;
