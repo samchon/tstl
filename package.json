@@ -6,13 +6,13 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.8.0-dev.20180328",
+  "version": "1.8.0-dev.20180330",
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
   "scripts": {
     "build": "tsc & npm run test",
-    "build-api": "typedoc src/index.ts --target es2015 --module commonjs --out",
-    "test": "node lib/tests/main"
+    "clean": "node build/clean",
+    "test": "node tests/main"
   },
   "devDependencies": {
     "@types/node": "^7.0.55"
