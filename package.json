@@ -6,11 +6,11 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "1.8.0-dev.20180330",
+  "version": "1.8.0-dev.20180402",
   "main": "./lib/tstl.js",
   "typings": "./lib/tstl.d.ts",
   "scripts": {
-    "build": "tsc & npm run test",
+    "build": "tsc && npm run test",
     "clean": "node build/clean",
     "test": "node tests/main"
   },
@@ -25,12 +25,7 @@
   "bugs": {
     "url": "https://github.com/samchon/tstl/issues"
   },
-  "licenses": [
-    {
-      "type": "BSD-3-Clause",
-      "url": "https://opensource.org/licenses/BSD-3-Clause"
-    }
-  ],
+  "license": "MIT",
   "keywords": [
     "tstl",
     "typescript-stl",

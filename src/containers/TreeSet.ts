@@ -1,12 +1,12 @@
 import { UniqueSet } from "../base/containers/UniqueSet";
 import { ITreeSet } from "../base/containers/ITreeSet";
+import { _Construct } from "../base/containers/_ITreeContainer";
 
 import { _UniqueSetTree } from "../base/trees/_UniqueSetTree";
 import { SetIterator, SetReverseIterator } from "../base/iterators/SetIterator";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
 import { Pair } from "../utilities/Pair";
-import { less } from "../functional/comparisons";
 
 /**
  * Unique-key Set based on Tree.
@@ -68,71 +68,72 @@ export class TreeSet<Key>
 	public constructor(...args: any[])
 	{
 		super();
+		_Construct.bind(this, TreeSet, _UniqueSetTree)(...args);
 
-		// DECLARE MEMBERS
-		let comp: (x: Key, y: Key) => boolean = less;
-		let post_process: () => void = null;
+		// // DECLARE MEMBERS
+		// let comp: (x: Key, y: Key) => boolean = less;
+		// let post_process: () => void = null;
 
-		//----
-		// INITIALIZE MEMBERS AND POST-PROCESS
-		//----
-		// BRANCH - METHOD OVERLOADINGS
-		if (args.length == 1 && args[0] instanceof TreeSet)
-		{
-			// PARAMETERS
-			let container: TreeSet<Key> = args[0];
-			comp = container.key_comp();
+		// //----
+		// // INITIALIZE MEMBERS AND POST-PROCESS
+		// //----
+		// // BRANCH - METHOD OVERLOADINGS
+		// if (args.length == 1 && args[0] instanceof TreeSet)
+		// {
+		// 	// PARAMETERS
+		// 	let container: TreeSet<Key> = args[0];
+		// 	comp = container.key_comp();
 
-			// COPY CONSTRUCTOR
-			post_process = () =>
-			{
-				let first = container.begin();
-				let last = container.end();
+		// 	// COPY CONSTRUCTOR
+		// 	post_process = () =>
+		// 	{
+		// 		let first = container.begin();
+		// 		let last = container.end();
 
-				this.assign(first, last);
-			};
-		}
-		else if (args.length >= 1 && args[0] instanceof Array)
-		{
-			// FUNCTION TEMPLATE
-			if (args.length == 2)	comp = args[1];
+		// 		this.assign(first, last);
+		// 	};
+		// }
+		// else if (args.length >= 1 && args[0] instanceof Array)
+		// {
+		// 	// FUNCTION TEMPLATE
+		// 	if (args.length == 2)	comp = args[1];
 
-			// INITIALIZER LIST CONSTRUCTOR
-			post_process = () => 
-			{
-				let items: Key[] = args[0];
-				this.push(...items);
-			};
-		}
-		else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-		{
-			// FUNCTION TEMPLATE
-			if (args.length == 3)	comp = args[2];
+		// 	// INITIALIZER LIST CONSTRUCTOR
+		// 	post_process = () => 
+		// 	{
+		// 		let items: Key[] = args[0];
+		// 		this.push(...items);
+		// 	};
+		// }
+		// else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
+		// {
+		// 	// FUNCTION TEMPLATE
+		// 	if (args.length == 3)	comp = args[2];
 
-			// RANGE CONSTRUCTOR
-			post_process = () =>
-			{
-				let first: Readonly<IForwardIterator<Key>> = args[0];
-				let last: Readonly<IForwardIterator<Key>> = args[1];
+		// 	// RANGE CONSTRUCTOR
+		// 	post_process = () =>
+		// 	{
+		// 		let first: Readonly<IForwardIterator<Key>> = args[0];
+		// 		let last: Readonly<IForwardIterator<Key>> = args[1];
 
-				this.assign(first, last);
-			};
-		}
-		else if (args.length == 1)
-		{
-			// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-			comp = args[0];
-		}
+		// 		this.assign(first, last);
+		// 	};
+		// }
+		// else if (args.length == 1)
+		// {
+		// 	// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
+		// 	comp = args[0];
+		// }
 
-		//----
-		// DO PROCESS
-		//----
-		// CONSTRUCT TREE
-		this.tree_ = new _UniqueSetTree<Key, TreeSet<Key>>(this, comp);
+		// //----
+		// // DO PROCESS
+		// //----
+		// // CONSTRUCT TREE
+		// this.tree_ = new _UniqueSetTree<Key, TreeSet<Key>>(this, comp);
 		
-		// ACT POST-PROCESS
-		if (post_process != null)
-			post_process();
+		// // ACT POST-PROCESS
+		// if (post_process != null)
+		// 	post_process();
 	}
 
 	/* ---------------------------------------------------------

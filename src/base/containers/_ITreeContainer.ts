@@ -1,5 +1,7 @@
 import { Pair } from "../../utilities/Pair";
 
+import { less } from "../../functional/comparisons";
+
 /**
  * @hidden
  */
@@ -35,4 +37,72 @@ export interface _ITreeContainer<Key, Iterator>
 	 * @return Pair of {@link lower_bound} and {@link upper_bound}.
 	 */
 	equal_range(key: Key): Pair<Iterator, Iterator>;
+}
+
+export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
+{
+	// DECLARE MEMBERS
+	let comp: (x: Key, y: Key) => boolean = less;
+	let post_process: () => void = null;
+
+	//----
+	// INITIALIZE MEMBERS AND POST-PROCESS
+	//----
+	// BRANCH - METHOD OVERLOADINGS
+	if (args.length == 1 && args[0] instanceof Source)
+	{
+		// PARAMETERS
+		let container: _ITreeContainer<Key, any> = args[0];
+		comp = container.key_comp();
+
+		// COPY CONSTRUCTOR
+		post_process = () =>
+		{
+			let first = (container as any).begin();
+			let last = (container as any).end();
+
+			this.assign(first, last);
+		};
+	}
+	else if (args.length >= 1 && args[0] instanceof Array)
+	{
+		// FUNCTION TEMPLATE
+		if (args.length == 2)	comp = args[1];
+
+		// INITIALIZER LIST CONSTRUCTOR
+		post_process = () =>
+		{
+			let items: Array<any> = args[0];
+			this.push(...items);
+		};
+	}
+	else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
+	{
+		// FUNCTION TEMPLATE
+		if (args.length == 3)	comp = args[2];
+
+		// RANGE CONSTRUCTOR
+		post_process = () =>
+		{
+			let first: any = args[0];
+			let last: any = args[1];
+
+			this.assign(first, last);
+		};
+	}
+	else if (args.length == 1)
+	{
+		// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
+		comp = args[0];
+	}
+
+	//----
+	// DO PROCESS
+	//----
+	// CONSTRUCT TREE
+	this.tree_ = new XTree(this, comp);
+	
+	// ACT POST-PROCESS
+	if (post_process != null)
+		post_process();
 }

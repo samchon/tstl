@@ -1,5 +1,6 @@
 import { UniqueMap } from "../base/containers/UniqueMap";
 import { IHashMap } from "../base/containers/IHashMap";
+import { _Construct } from "../base/containers/_IHashContainer";
 
 import { _MapHashBuckets } from "../base/hashes/_MapHashBuckets";
 import { MapIterator, MapReverseIterator } from "../base/iterators/MapIterator";
@@ -7,8 +8,7 @@ import { Entry } from "../utilities/Entry";
 
 import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IPair } from "../utilities/IPair";
-import { hash } from "../functional/hash";
-import { equal_to } from "../functional/comparisons";
+import { Pair } from "../utilities/Pair";
 
 /**
  * Unique-key Map based on Hash buckets.
@@ -72,77 +72,79 @@ export class HashMap<Key, T>
 	{
 		super();
 
-		// DECLARE MEMBERS
-		let hash_function: (key: Key) => number = hash;
-		let key_eq: (x: Key, y: Key) => boolean = equal_to;
-		let post_process: () => void = null;
+		_Construct.bind(this, HashMap, _MapHashBuckets)(...args);
 
-		//----
-		// INITIALIZE MEMBERS AND POST-PROCESS
-		//----
-		// BRANCH - METHOD OVERLOADINGS
-		if (args.length == 1 && args[0] instanceof HashMap)
-		{
-			// PARAMETERS
-			let container: HashMap<Key, T> = args[0];
-			hash_function = container.hash_function();
-			key_eq = container.key_eq();
+		// // DECLARE MEMBERS
+		// let hash_function: (key: Key) => number = hash;
+		// let key_eq: (x: Key, y: Key) => boolean = equal_to;
+		// let post_process: () => void = null;
 
-			// COPY CONSTRUCTOR
-			post_process = () =>
-			{
-				let first = container.begin();
-				let last = container.end();
+		// //----
+		// // INITIALIZE MEMBERS AND POST-PROCESS
+		// //----
+		// // BRANCH - METHOD OVERLOADINGS
+		// if (args.length == 1 && args[0] instanceof HashMap)
+		// {
+		// 	// PARAMETERS
+		// 	let container: HashMap<Key, T> = args[0];
+		// 	hash_function = container.hash_function();
+		// 	key_eq = container.key_eq();
 
-				this.assign(first, last);
-			};
-		}
-		else if (args.length >= 1 && args[0] instanceof Array)
-		{
-			// FUNCTION TEMPLATES
-			if (args.length >= 2)	hash_function = args[1];
-			if (args.length == 3)	key_eq = args[2];
+		// 	// COPY CONSTRUCTOR
+		// 	post_process = () =>
+		// 	{
+		// 		let first = container.begin();
+		// 		let last = container.end();
 
-			// INITIALIZER LIST CONSTRUCTOR
-			post_process = () =>
-			{
-				let items: Array<IPair<Key, T>> = args[0];
+		// 		this.assign(first, last);
+		// 	};
+		// }
+		// else if (args.length >= 1 && args[0] instanceof Array)
+		// {
+		// 	// FUNCTION TEMPLATES
+		// 	if (args.length >= 2)	hash_function = args[1];
+		// 	if (args.length == 3)	key_eq = args[2];
 
-				this.reserve(items.length);
-				this.push(...items);
-			};
-		}
-		else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-		{
-			// FUNCTION TEMPLATES
-			if (args.length >= 3)	hash_function = args[2];
-			if (args.length == 4)	key_eq = args[3];
+		// 	// INITIALIZER LIST CONSTRUCTOR
+		// 	post_process = () =>
+		// 	{
+		// 		let items: Array<IPair<Key, T>> = args[0];
 
-			// RANGE CONSTRUCTOR
-			post_process = () =>
-			{
-				let first: Readonly<IForwardIterator<IPair<Key, T>>> = args[0];
-				let last: Readonly<IForwardIterator<IPair<Key, T>>> = args[1];
+		// 		this.reserve(items.length);
+		// 		this.push(...items);
+		// 	};
+		// }
+		// else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
+		// {
+		// 	// FUNCTION TEMPLATES
+		// 	if (args.length >= 3)	hash_function = args[2];
+		// 	if (args.length == 4)	key_eq = args[3];
 
-				this.assign(first, last);
-			};
-		}
-		else
-		{
-			// FUNCTION TEMPLATES
-			if (args.length >= 1)	hash_function = args[0];
-			if (args.length == 2)	key_eq = args[1];
-		}
+		// 	// RANGE CONSTRUCTOR
+		// 	post_process = () =>
+		// 	{
+		// 		let first: Readonly<IForwardIterator<IPair<Key, T>>> = args[0];
+		// 		let last: Readonly<IForwardIterator<IPair<Key, T>>> = args[1];
 
-		//----
-		// DO PROCESS
-		//----
-		// CONSTRUCT BUCKET
-		this.buckets_ = new _MapHashBuckets(this, hash_function, key_eq);
+		// 		this.assign(first, last);
+		// 	};
+		// }
+		// else
+		// {
+		// 	// FUNCTION TEMPLATES
+		// 	if (args.length >= 1)	hash_function = args[0];
+		// 	if (args.length == 2)	key_eq = args[1];
+		// }
 
-		// ACT POST-PROCESS
-		if (post_process != null)
-			post_process();
+		// //----
+		// // DO PROCESS
+		// //----
+		// // CONSTRUCT BUCKET
+		// this.buckets_ = new _MapHashBuckets(this, hash_function, key_eq);
+
+		// // ACT POST-PROCESS
+		// if (post_process != null)
+		// 	post_process();
 	}
 	
 	/* ---------------------------------------------------------
@@ -456,4 +458,5 @@ export namespace HashMap
 	export const iterator = Iterator;
 	export const reverse_iterator = ReverseIterator;
 }
-export import unordered_map = HashMap;import { Pair } from "../utilities/Pair";
+export import unordered_map = HashMap;
+
