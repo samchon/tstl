@@ -35,3 +35,40 @@ export interface _IAssociativeContainer<Key, Iterator>
 	 */
 	erase(key: Key): number;
 }
+
+export function _Fetch_arguments(...args: any[])
+{
+	let ramda: ()=>void;
+	let tail: any[];
+
+	if (args.length >= 1 && args[0] instanceof Array)
+	{
+		// INITIALIZER LIST CONSTRUCTOR
+		ramda = () =>
+		{
+			let items: Array<any> = args[0];
+			this.push(...items);
+		};
+		tail = args.slice(1);
+	}
+	else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
+	{
+		// RANGE CONSTRUCTOR
+		ramda = () =>
+		{
+			let first: any = args[0];
+			let last: any = args[1];
+
+			this.assign(first, last);
+		};
+		tail = args.slice(2);
+	}
+	else
+	{
+		// DEFAULT CONSTRUCTOR
+		ramda = null;
+		tail = args;
+	}
+
+	return {ramda: ramda, tail: tail};
+}

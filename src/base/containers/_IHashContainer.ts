@@ -1,3 +1,5 @@
+import { _Fetch_arguments } from "./_IAssociativeContainer";
+
 import { hash } from "../../functional/hash";
 import { equal_to } from "../../functional/comparisons";
 
@@ -89,9 +91,9 @@ export interface _IHashContainer<Key>
 export function _Construct<Key>(Source: any, Bucket: any, ...args: any[])
 {
 	// DECLARE MEMBERS
+	let post_process: () => void = null;
 	let hash_function: (key: Key) => number = hash;
 	let key_eq: (x: Key, y: Key) => boolean = equal_to;
-	let post_process: () => void = null;
 
 	//----
 	// INITIALIZE MEMBERS AND POST-PROCESS
@@ -113,39 +115,13 @@ export function _Construct<Key>(Source: any, Bucket: any, ...args: any[])
 			this.assign(first, last);
 		};
 	}
-	else if (args.length >= 1 && args[0] instanceof Array)
-	{
-		// FUNCTION TEMPLATES
-		if (args.length >= 2)	hash_function = args[1];
-		if (args.length == 3)	key_eq = args[2];
-
-		// INITIALIZER LIST CONSTRUCTOR
-		post_process = () =>
-		{
-			let items: Array<any> = args[0];
-			this.push(...items);
-		};
-	}
-	else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-	{
-		// FUNCTION TEMPLATES
-		if (args.length >= 3)	hash_function = args[2];
-		if (args.length == 4)	key_eq = args[3];
-
-		// RANGE CONSTRUCTOR
-		post_process = () =>
-		{
-			let first: Readonly<any> = args[0];
-			let last: Readonly<any> = args[1];
-
-			this.assign(first, last);
-		};
-	}
 	else
 	{
-		// FUNCTION TEMPLATES
-		if (args.length >= 1)	hash_function = args[0];
-		if (args.length == 2)	key_eq = args[1];
+		let tuple = _Fetch_arguments.bind(this)(...args);
+
+		post_process = tuple.ramda;
+		if (tuple.tail.length >= 1)	hash_function = tuple.tail[0];
+		if (tuple.tail.length >= 2) key_eq = tuple.tail[1];
 	}
 
 	//----

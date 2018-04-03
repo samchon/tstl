@@ -1,5 +1,6 @@
-import { Pair } from "../../utilities/Pair";
+import { _Fetch_arguments } from "./_IAssociativeContainer";
 
+import { Pair } from "../../utilities/Pair";
 import { less } from "../../functional/comparisons";
 
 /**
@@ -42,8 +43,8 @@ export interface _ITreeContainer<Key, Iterator>
 export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 {
 	// DECLARE MEMBERS
-	let comp: (x: Key, y: Key) => boolean = less;
 	let post_process: () => void = null;
+	let comp: (x: Key, y: Key) => boolean = less;
 
 	//----
 	// INITIALIZE MEMBERS AND POST-PROCESS
@@ -64,36 +65,12 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 			this.assign(first, last);
 		};
 	}
-	else if (args.length >= 1 && args[0] instanceof Array)
+	else
 	{
-		// FUNCTION TEMPLATE
-		if (args.length == 2)	comp = args[1];
+		let tuple = _Fetch_arguments.bind(this)(...args);
 
-		// INITIALIZER LIST CONSTRUCTOR
-		post_process = () =>
-		{
-			let items: Array<any> = args[0];
-			this.push(...items);
-		};
-	}
-	else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-	{
-		// FUNCTION TEMPLATE
-		if (args.length == 3)	comp = args[2];
-
-		// RANGE CONSTRUCTOR
-		post_process = () =>
-		{
-			let first: any = args[0];
-			let last: any = args[1];
-
-			this.assign(first, last);
-		};
-	}
-	else if (args.length == 1)
-	{
-		// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-		comp = args[0];
+		post_process = tuple.ramda;
+		if (tuple.tail.length >= 1) comp = tuple.tail[0];
 	}
 
 	//----
