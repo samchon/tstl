@@ -6,17 +6,17 @@ const SIZE = 4;
 
 export async function test_semaphores(): Promise<void>
 {
-	await _Test_lock("Semaphore", new std.Semaphore(1));
-	await _Test_try_lock("TimedSemaphore", new std.TimedSemaphore(1));
+	await _Test_lock("Semaphore", new std.experimental.Semaphore(1));
+	await _Test_try_lock("TimedSemaphore", new std.experimental.TimedSemaphore(1));
 
-	let s = new std.Semaphore(SIZE);
-	let ts = new std.TimedSemaphore(SIZE);
+	let s = new std.experimental.Semaphore(SIZE);
+	let ts = new std.experimental.TimedSemaphore(SIZE);
 
 	await _Test_semaphore("Semaphore", s);
 	await _Test_timed_semaphore(ts);
 }
 
-async function _Test_semaphore(name: string, s: std.Semaphore): Promise<void>
+async function _Test_semaphore(name: string, s: std.experimental.Semaphore): Promise<void>
 {
 	let acquired_count: number = 0;
 	
@@ -45,10 +45,17 @@ async function _Test_semaphore(name: string, s: std.Semaphore): Promise<void>
 
 	if (acquired_count != 2 * SIZE)
 		throw new std.DomainError(`Error on ${name}.unlock().`);
+
+	// RELEASE UNRESOLVED LOCKS
+	await std.sleep_for(0);
+	await s.unlock(SIZE);
 }
 
-async function _Test_timed_semaphore(ts: std.TimedSemaphore): Promise<void>
+async function _Test_timed_semaphore(ts: std.experimental.TimedSemaphore): Promise<void>
 {
+	// COMMON TEST
+	_Test_semaphore("timed_semaphore", <any>ts);
+
 	// TRY LOCK FIRST
 	let flag: boolean = await ts.try_lock_for(0, SIZE / 2);
 	if (flag == false)
