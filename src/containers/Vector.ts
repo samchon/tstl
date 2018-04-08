@@ -168,14 +168,6 @@ export class Vector<T>
 	}
 
 	/**
-	 * @hidden
-	 */
-	public equals(obj: Vector<T>): boolean
-	{
-		return this.data_ == obj.data_;
-	}
-
-	/**
 	 * @inheritDoc
 	 */
 	public [Symbol.iterator](): IterableIterator<T>
@@ -272,6 +264,14 @@ export class Vector<T>
 	/* ---------------------------------------------------------------
 		UTILITIES
 	--------------------------------------------------------------- */
+	/**
+	 * @hidden
+	 */
+	public equals(obj: Vector<T>): boolean
+	{
+		return this.data_ === obj.data_;
+	}
+
 	/**
 	 * @inheritDoc
 	 */

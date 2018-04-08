@@ -12,10 +12,10 @@ export function equal_to<T>(x: T, y: T): boolean
 		if ((x as any).equals)
 			return (x as any).equals(y);
 		else
-			return x == y;
+			return x === y;
 	}
 	else
-		return x == y;
+		return x === y;
 }
 
 /**
