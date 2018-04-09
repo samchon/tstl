@@ -28,9 +28,9 @@ namespace test
 			await s.lock();
 			++acquired_count;
 		}
-		if (acquired_count != SIZE)
+		if (acquired_count !==SIZE)
 			throw new std.DomainError(`Error on ${name}.lock().`);
-		else if (await s.try_lock() == true)
+		else if (await s.try_lock() === true)
 			throw new std.DomainError(`Error on ${name}.try_lock().`);
 
 		// LOCK 4 TIMES AGAIN -> THEY SHOULD BE HOLD
@@ -39,13 +39,13 @@ namespace test
 			{
 				++acquired_count;
 			});
-		if (acquired_count != SIZE)
+		if (acquired_count !==SIZE)
 			throw new std.DomainError(`Error on ${name}.lock() when ${name} is full.`);
 
 		// DO UNLOCK
 		await s.unlock(SIZE);
 
-		if (acquired_count != 2 * SIZE)
+		if (acquired_count !==2 * SIZE)
 			throw new std.DomainError(`Error on ${name}.unlock().`);
 	}
 
@@ -53,13 +53,13 @@ namespace test
 	{
 		// TRY LOCK FIRST
 		let flag: boolean = await ts.try_lock_for(0, SIZE / 2);
-		if (flag == false)
+		if (flag === false)
 			throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when clear.");
 
 		// TRY LOCK FOR -> MUST BE FAILED
 		ts.try_lock_for(50, SIZE).then((ret: boolean) =>
 		{
-			if (ret == true)
+			if (ret === true)
 				throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); succeeded to lock when must be failed.");
 		});
 
@@ -74,14 +74,14 @@ namespace test
 		}
 
 		await std.sleep_for(100);
-		if (cnt != SIZE / 2)
+		if (cnt !==SIZE / 2)
 			throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to release holdings.");
 
 		// RELEASE AND LOCK
 		await ts.unlock(SIZE);
 
 		flag = await ts.try_lock_for(100, 4);
-		if (flag == false)
+		if (flag === false)
 			throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when released.");
 
 		await ts.unlock(SIZE);

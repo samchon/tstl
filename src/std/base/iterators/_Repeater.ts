@@ -43,7 +43,7 @@ namespace std.base
 		
 		public equals(obj: _Repeater<T>): boolean
 		{
-			return this.index_ == obj.index_;
+			return this.index_ === obj.index_;
 		}
 	}
 }

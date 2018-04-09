@@ -81,7 +81,7 @@ namespace std
 
 			this.clear();
 
-			if (args.length == 1 && args[0] instanceof Array)
+			if (args.length === 1 && args[0] instanceof Array)
 			{
 				let array: Array<T> = args[0];
 				let it = this.before_begin();
@@ -89,11 +89,11 @@ namespace std
 				for (let val of array)
 					it = this.insert_after(it, val);
 			}
-			else if (args.length == 1 && args[0] instanceof ForwardList)
+			else if (args.length === 1 && args[0] instanceof ForwardList)
 			{
 				this.assign(args[0].begin(), args[0].end());
 			}
-			else if (args.length == 2)
+			else if (args.length === 2)
 				this.assign(args[0], args[1]);
 		}
 
@@ -151,7 +151,7 @@ namespace std
 		 */
 		public empty(): boolean
 		{
-			return this.size_ == 0;
+			return this.size_ === 0;
 		}
 		
 		/**
@@ -168,7 +168,7 @@ namespace std
 		{
 			let it: ForwardList.Iterator<T> = this.begin();
 
-			if (val == undefined)
+			if (val === undefined)
 				return it.value;
 			else
 				it.value = val;
@@ -258,9 +258,9 @@ namespace std
 			let ret: ForwardList.Iterator<T>;
 
 			// BRANCHES
-			if (args.length == 1)
+			if (args.length === 1)
 				ret = this._Insert_by_repeating_val(pos, 1, args[0]);
-			else if (typeof args[0] == "number")
+			else if (typeof args[0] === "number")
 				ret = this._Insert_by_repeating_val(pos, args[0], args[1]);
 			else
 				ret = this._Insert_by_range(pos, args[0], args[1]);
@@ -296,7 +296,7 @@ namespace std
 
 				++count;
 			}
-			if (count == 0)
+			if (count === 0)
 				return pos;
 
 			for (let i: number = 0; i < count - 1; ++i)
@@ -389,7 +389,7 @@ namespace std
 			let count: number = 0;
 			
 			for (let it = this.before_begin(); !it.next().equals(this.end()); it = it.next())
-				if (pred(it.next().value) == true)
+				if (pred(it.next().value) === true)
 				{
 					it["next_"] = it.next().next();
 					++count;
@@ -405,11 +405,11 @@ namespace std
 		 */
 		public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = std.less): void
 		{
-			if (this == <ForwardList<T>>from)
+			if (this === <ForwardList<T>>from)
 				return;
 
 			let it = this.before_begin();
-			while (from.empty() == false)
+			while (from.empty() === false)
 			{
 				let value = from.begin().value;
 				while (!it.next().equals(this.end()) && comp(it.next().value, value))
@@ -465,12 +465,12 @@ namespace std
 			): void
 		{
 			// DEFAULT PARAMETERS
-			if (first_before == null)
+			if (first_before === null)
 				first_before = from.before_begin();
-			else if (last == null)
+			else if (last === null)
 				last = first_before.next().next();
 
-			if (last == null)
+			if (last === null)
 				last = from.end();
 
 			// INSERT & ERASE
@@ -612,7 +612,7 @@ namespace std.ForwardList
 		 */
 		public equals(obj: Iterator<T>): boolean
 		{
-			return this == obj;
+			return this === obj;
 		}
 	}
 }

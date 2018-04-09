@@ -9,11 +9,11 @@ namespace test
 			let elems: std.Vector<number> = _Create_elements();
 			std.make_heap(elems.begin(), elems.end());
 
-			if (std.is_heap(elems.begin(), elems.end()) == false)
+			if (std.is_heap(elems.begin(), elems.end()) === false)
 				throw new std.DomainError("Error on std.push_heap() or std.is_heap().");
 
 			std.sort_heap(elems.begin(), elems.end());
-			if (std.is_sorted(elems.begin(), elems.end()) == false)
+			if (std.is_sorted(elems.begin(), elems.end()) === false)
 				throw new std.DomainError("Error on std.pop_heap().");
 		}
 	}

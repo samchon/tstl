@@ -10,7 +10,7 @@ namespace test
 		
 		for (let key in test)
 		{
-			if (key.indexOf("test_") != 0)
+			if (key.indexOf("test_") !==0)
 				continue;
 
 			console.log(key);

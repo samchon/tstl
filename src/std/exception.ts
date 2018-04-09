@@ -17,10 +17,10 @@ namespace std
 	 */
 	export function terminate(): void
 	{
-		if (_Terminate_handler != null)
+		if (_Terminate_handler !==null)
 			_Terminate_handler();
 		
-		if (is_node() == true)
+		if (is_node() === true)
 			process.exit();
 		else
 		{
@@ -38,7 +38,7 @@ namespace std
 	{
 		_Terminate_handler = func;
 
-		if (is_node() == true)
+		if (is_node() === true)
 			process.on("uncaughtException", function (): void
 			{
 				_Terminate_handler();

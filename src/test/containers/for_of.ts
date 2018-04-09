@@ -37,7 +37,7 @@ namespace test
 		let i: number = 0;
 
 		for (let elem of vec)
-			if (elem != items[i++])
+			if (elem !==items[i++])
 				throw new std.DomainError("Wrong for of iteration.");
 	}
 
@@ -62,7 +62,7 @@ namespace test
 		let i: number = 0;
 
 		for (let pair of map)
-			if (std.equal_to(pair, items[i++]) == false)
+			if (std.equal_to(pair, items[i++]) === false)
 				throw new std.DomainError("Wrong for of iteration.");
 	}
 }

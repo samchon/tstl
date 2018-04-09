@@ -51,7 +51,7 @@ namespace std
 		 */
 		public less<U1 extends First, U2 extends Second>(pair: Pair<U1, U2>): boolean
 		{
-			if (equal_to(this.first, pair.first) == false)
+			if (equal_to(this.first, pair.first) === false)
 				return less(this.first, pair.first);
 			else
 				return less(this.second, pair.second);

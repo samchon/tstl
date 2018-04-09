@@ -54,7 +54,7 @@ namespace std.base
 
 		public insert(...args: any[]): any
 		{
-			if (args.length == 1)
+			if (args.length === 1)
 				return this._Insert_by_key(args[0]);
 			else
 				return super.insert.apply(this, args);
@@ -98,7 +98,7 @@ namespace std.base
 		private _Extract_by_val(key: Key): Key
 		{
 			let it = this.find(key);
-			if (it.equals(this.end()) == true)
+			if (it.equals(this.end()) === true)
 				throw new OutOfRange("No such key exists.");
 
 			this._Erase_by_range(it);
@@ -110,7 +110,7 @@ namespace std.base
 		 */
 		private _Extract_by_iterator(it: SetIterator<Key, Source>): SetIterator<Key, Source>
 		{
-			if (it.equals(this.end()) == true || this.has(it.value) == false)
+			if (it.equals(this.end()) === true || this.has(it.value) === false)
 				return this.end();
 
 			this._Erase_by_range(it);
@@ -123,7 +123,7 @@ namespace std.base
 		protected _Erase_by_val(key: Key): number
 		{
 			let it = this.find(key);
-			if (it.equals(this.end()) == true)
+			if (it.equals(this.end()) === true)
 				return 0;
 
 			this._Erase_by_range(it);
@@ -140,7 +140,7 @@ namespace std.base
 		{
 			for (let it = source.begin(); !it.equals(source.end());)
 			{
-				if (this.has(it.value) == false)
+				if (this.has(it.value) === false)
 				{
 					this.insert(it.value);
 					it = source.erase(it);

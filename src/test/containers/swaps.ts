@@ -56,14 +56,14 @@ namespace test
 		for (let pair of v1)
 			sum += pair.first;
 
-		if (sum != 4 + 5 + 6)
+		if (sum !==4 + 5 + 6)
 			throw new std.DomainError(`Error on std.${name}.swap(); contents.`);
-		else if (v1.begin().source() != v1)
+		else if (v1.begin().source() !==v1)
 			throw new std.DomainError(`Error on std.${name}.swap(); source.`);
 		
 		// VALIDATE NEW ITEMS
 		v1.push(std.make_pair(7, 7));
-		if (v1.end().prev().source() != v1)
+		if (v1.end().prev().source() !==v1)
 			throw new std.DomainError(`Error on  std.${name}.swap(); source of newly inserted item.`);
 
 		// VALIDATE ITERATORS' SOURCE
@@ -73,12 +73,12 @@ namespace test
 		// SPECIAL VALIDATION -> SET OR MAP
 		if (v1 instanceof std.base.SetContainer && v2 instanceof std.base.SetContainer)
 		{
-			if (v1.find(std.make_pair(5, 5)).source() != v1 || v2.find(std.make_pair(2, 2)).source() != v2)
+			if (v1.find(std.make_pair(5, 5)).source() !==v1 || v2.find(std.make_pair(2, 2)).source() !==v2)
 				throw new std.DomainError(`Error on std.${name}.swap(); Invalid key-source mapping.`);
 		}
 		else if (v1 instanceof std.base.MapContainer && v2 instanceof std.base.MapContainer)
 		{
-			if (v1.find(4).source() != v1 || v2.find(1).source() != v2)
+			if (v1.find(4).source() !==v1 || v2.find(1).source() !==v2)
 				throw new std.DomainError(`Error on std.${name}.swap(); Invalid key-source mapping.`);
 		}		
 	}
@@ -90,11 +90,11 @@ namespace test
 		(name: string, container: SourceT): void
 	{
 		for (let it = container.begin(); !it.equals(container.end()); it = it.next())
-			if (it.source() != container)
+			if (it.source() !==container)
 				throw new std.DomainError(`Error on std.${name}.swap(); reversable-iterator's source.`);
 
 		for (let it = container.rbegin(); !it.equals(container.rend()); it = it.next())
-			if (it.source() != container)
+			if (it.source() !==container)
 				throw new std.DomainError(`Error on std.${name}.swap(); reverse-iterator's source.`);
 	}
 
@@ -112,7 +112,7 @@ namespace test
 		y.flip(); // {y} = {!x}
 
 		x.swap(y);
-		if (std.equal(refer.begin(), refer.end(), y.begin()) == false)
+		if (std.equal(refer.begin(), refer.end(), y.begin()) === false)
 			throw new std.DomainError("Error on std.vector_bool.swap(); contents.");
 
 		_Validate_iterators_source("vector_bool", x);
@@ -135,7 +135,7 @@ namespace test
 		for (let it = x.begin(); !it.equals(x.end()); it = it.next())
 			sum += it.value;
 
-		if (sum != 4 + 5 + 6)
+		if (sum !==4 + 5 + 6)
 			throw new std.DomainError("Error on std.forward_list.swap(); contents -> " + sum);
 
 		_Validate_forward_list_iterator_source(x);
@@ -145,7 +145,7 @@ namespace test
 	function _Validate_forward_list_iterator_source(source: std.ForwardList<number>): void
 	{
 		for (let it = source.before_begin(); !it.equals(source.end()); it = it.next())
-			if (it.source() != source)
+			if (it.source() !==source)
 				throw new std.DomainError("Error on std.forward_list.swap(); source.");
 	}
 }

@@ -34,7 +34,7 @@ namespace std.base
 
 		public get sibling(): _XTreeNode<T>
 		{
-			if (this == this.parent.left)
+			if (this === this.parent.left)
 				return this.parent.right;
 			else
 				return this.parent.left;

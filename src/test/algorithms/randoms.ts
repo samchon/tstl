@@ -34,11 +34,11 @@ namespace test
 			let samples: std.Vector<number> = new std.Vector();
 
 			std.sample(populations.begin(), populations.end(), std.back_inserter(samples), n);
-			if (std.is_sorted(samples.begin(), samples.end()) == false)
+			if (std.is_sorted(samples.begin(), samples.end()) === false)
 				throw new std.DomainError("Error on std.sample(); Elements are not sorted.");
 			
 			samples.erase(std.unique(samples.begin(), samples.end()), samples.end());
-			if (samples.size() != n)
+			if (samples.size() !==n)
 				throw new std.DomainError("Error on std.sample(); Elements are not unique.");
 		}
 	}

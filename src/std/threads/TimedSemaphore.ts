@@ -147,7 +147,7 @@ namespace std.experimental
 			resolved_count = this._Compute_resolve_count(resolved_count);
 			this.hold_count_ -= resolved_count;
 
-			while (resolved_count != 0)
+			while (resolved_count !==0)
 			{
 				let it/*Iterator*/ = this.resolvers_.begin();
 				let props: IProps = it.second;
@@ -164,7 +164,7 @@ namespace std.experimental
 					this.resolvers_.erase(it);
 
 					// INFORM UNLOCK
-					if (props.type == base._LockType.LOCK)
+					if (props.type === base._LockType.LOCK)
 						it.first();
 					else
 						it.first(true);
@@ -213,7 +213,7 @@ namespace std.experimental
 					sleep_for(ms).then(() =>
 					{
 						let it/*Iterator*/ = this.resolvers_.find(resolve);
-						if (it.equals(this.resolvers_.end()) == true)
+						if (it.equals(this.resolvers_.end()) === true)
 							return; // ALREADY BE RETURNED
 
 						//----

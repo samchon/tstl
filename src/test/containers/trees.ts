@@ -21,8 +21,8 @@ namespace test
 			for (let i = 0; i < 100; ++i)
 				s.insert(Math.floor(Math.random() * 10000));
 
-			for (let it = s.begin(); it != s.end(); it = it.next())
-				if (s.has(it.value) == false)
+			for (let it = s.begin(); it !==s.end(); it = it.next())
+				if (s.has(it.value) === false)
 					console.log("something wrong.");
 
 			while (!s.empty())
@@ -44,7 +44,7 @@ namespace test
 			set.push(Math.floor(Math.random() * 100));
 
 		// VALIDATE SORTING
-		if (std.is_sorted(set.begin(), set.end()) == false)
+		if (std.is_sorted(set.begin(), set.end()) === false)
 			throw new std.DomainError("Order of TreeSet or TreeMultiSet is wrong.");
 
 		// VALIDATE FIND
@@ -55,12 +55,12 @@ namespace test
 			let alg_it = std.find(set.begin(), set.end(), val);
 			let set_it = set.find(val);
 
-			if (alg_it == set.end())
-				if (set_it == set.end())
+			if (alg_it === set.end())
+				if (set_it === set.end())
 					continue;
 				else
 					throw new std.DomainError("find() of TreeSet or TreeMultiSet is wrong; invalid out of range.");
-			else if (alg_it.value != set_it.value)
+			else if (alg_it.value !==set_it.value)
 				throw new std.DomainError("find() of TreeSet or TreeMultiSet is wrong; different value.");
 		}
 	}
@@ -72,7 +72,7 @@ namespace test
 			map.push(std.make_pair(Math.floor(Math.random() * 100), 0));
 
 		// VALIDATE SORTING
-		if (std.is_sorted(map.begin(), map.end()) == false)
+		if (std.is_sorted(map.begin(), map.end()) === false)
 			throw new std.DomainError("Order of TreeMap or TreeMultiMap is wrong.");
 
 		// VALIDATE FIND
@@ -82,16 +82,16 @@ namespace test
 
 			let alg_it = std.find_if(map.begin(), map.end(), (entry: std.Entry<number, number>) =>
 				{
-					return val == entry.first;
+					return val === entry.first;
 				});
 			let set_it = map.find(val);
 
-			if (alg_it == map.end())
-				if (set_it == map.end())
+			if (alg_it === map.end())
+				if (set_it === map.end())
 					continue;
 				else
 					throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; invalid out of range.");
-			else if (alg_it.first != set_it.first)
+			else if (alg_it.first !==set_it.first)
 				throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; different value.");
 		}
 	}

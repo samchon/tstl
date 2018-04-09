@@ -90,11 +90,11 @@ namespace std
 			super();
 
 			// CONSTRUCTORS BRANCH
-			if (args.length == 0)
+			if (args.length === 0)
 			{
 				this.clear();
 			}
-			if (args.length == 1 && args[0] instanceof Array)
+			if (args.length === 1 && args[0] instanceof Array)
 			{
 				// INITIALIZER CONSTRUCTOR
 				let array: Array<T> = args[0];
@@ -103,13 +103,13 @@ namespace std
 
 				this.assign(first, last);
 			}
-			else if (args.length == 1 && args[0] instanceof Deque)
+			else if (args.length === 1 && args[0] instanceof Deque)
 			{
 				// COPY CONSTRUCTOR
 				let container: Deque<T> = args[0];
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2)
+			else if (args.length === 2)
 			{
 				// ASSIGN CONSTRUCTOR
 				this.assign(args[0], args[1]);
@@ -175,7 +175,7 @@ namespace std
 				for (let c: number = 0; c < row.length; c++)
 				{
 					let new_row: T[] = matrix[matrix.length - 1];
-					if (matrix.length < Deque.ROW_SIZE && new_row.length == col_size)
+					if (matrix.length < Deque.ROW_SIZE && new_row.length === col_size)
 					{
 						new_row = [];
 						matrix.push(new_row);
@@ -298,7 +298,7 @@ namespace std
 				index -= array.length;
 			}
 
-			if (row == this.matrix_.length)
+			if (row === this.matrix_.length)
 				row--;
 
 			return make_pair(row, index);
@@ -326,7 +326,7 @@ namespace std
 		 */
 		public push(...items: T[]): number
 		{
-			if (items.length == 0)
+			if (items.length === 0)
 				return this.size();
 
 			// INSERT BY RANGE
@@ -372,12 +372,12 @@ namespace std
 		 */
 		public pop_front(): void
 		{
-			if (this.empty() == true)
+			if (this.empty() === true)
 				return; // TODO: THROW EXCEPTION
 
 			// EREASE FIRST ELEMENT
 			this.matrix_[0].shift();
-			if (this.matrix_[0].length == 0 && this.matrix_.length > 1)
+			if (this.matrix_[0].length === 0 && this.matrix_.length > 1)
 				this.matrix_.shift();
 
 			// SHRINK SIZE
@@ -389,14 +389,14 @@ namespace std
 		 */
 		public pop_back(): void
 		{
-			if (this.empty() == true)
+			if (this.empty() === true)
 				return; // TODO: THROW EXCEPTION
 
 			// ERASE LAST ELEMENT
 			let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
 			lastArray.pop();
 
-			if (lastArray.length == 0 && this.matrix_.length > 1)
+			if (lastArray.length === 0 && this.matrix_.length > 1)
 				this.matrix_.pop();
 
 			// SHRINK SIZE
@@ -413,10 +413,10 @@ namespace std
 			(pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): Deque.Iterator<T>
 		{
 			let size: number = this.size_ + distance(first, last);
-			if (size == this.size_) // FIRST == LAST
+			if (size === this.size_) // FIRST === LAST
 				return pos;
 
-			if (pos.equals(this.end()) == true)
+			if (pos.equals(this.end()) === true)
 			{
 				// EXPAND CAPACITY IF REQUIRED
 				this._Try_expand_capacity(size);
@@ -471,7 +471,7 @@ namespace std
 			// INSERT ITEMS
 			for (; !first.equals(last); first = first.next())
 			{
-				if (row.length == col_size && this.matrix_.length < Deque.ROW_SIZE)
+				if (row.length === col_size && this.matrix_.length < Deque.ROW_SIZE)
 				{
 					row = new Array<T>();
 
@@ -485,7 +485,7 @@ namespace std
 			// INSERT ITEMS IN THE BACK SIDE
 			for (let i: number = 0; i < back_items.length; i++)
 			{
-				if (row.length == col_size && this.matrix_.length < Deque.ROW_SIZE)
+				if (row.length === col_size && this.matrix_.length < Deque.ROW_SIZE)
 				{
 					row = new Array<T>();
 
@@ -586,7 +586,7 @@ namespace std
 			let second_row: T[] = null;
 			let i: number = 0;
 
-			while (size != 0)
+			while (size !==0)
 			{
 				// FIND MATCHED ROW AND COLUMN
 				let indexes: Pair<number, number> = this._Fetch_index(first.index());
@@ -598,14 +598,14 @@ namespace std
 				row.splice(col, my_delete_size);
 
 				// TO MERGE
-				if (row.length != 0)
-					if (i == 0)
+				if (row.length !==0)
+					if (i === 0)
 						first_row = row;
 					else
 						second_row = row;
 
 				// ERASE THE ENTIRE ROW IF REQUIRED
-				if (row.length == 0 && this.matrix_.length > 1)
+				if (row.length === 0 && this.matrix_.length > 1)
 					this.matrix_.splice(indexes.first, 1);
 
 				// TO THE NEXT STEP
@@ -614,7 +614,7 @@ namespace std
 			}
 
 			// MERGE FIRST AND SECOND ROW
-			if (first_row != null && second_row != null
+			if (first_row !==null && second_row !==null
 				&& first_row.length + second_row.length <= this._Compute_col_size())
 			{
 				first_row.push(...second_row);

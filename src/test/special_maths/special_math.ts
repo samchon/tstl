@@ -4,7 +4,7 @@ namespace test
 {
 	function _Difference(x: number, y: number): number
 	{
-		if (x == 0 && y == 0)
+		if (x === 0 && y === 0)
 			return 0;
 		else if (isNaN(x) && isNaN(y))
 			return 0;
@@ -12,7 +12,7 @@ namespace test
 			return 0;
 		
 		let diff: number = Math.abs(y - x);
-		if ((x == 0 || y == 0) && diff < .00001)
+		if ((x === 0 || y === 0) && diff < .00001)
 			return 0;
 		else
 			return diff / Math.max(Math.abs(x), Math.abs(y));
@@ -50,7 +50,7 @@ namespace test
 			if (!similar(ret, answer, .1))
 			{
 				let it = aggregates.find(name);
-				if (it.equals(aggregates.end()) == true)
+				if (it.equals(aggregates.end()) === true)
 					it = aggregates.emplace(name, 0).first;
 
 				++it.second;
@@ -58,7 +58,7 @@ namespace test
 			}
 		}
 
-		if (aggregates.empty() == false)
+		if (aggregates.empty() === false)
 			fs.writeFileSync(__dirname + "/../src/test/special_maths/errors.log", output, "utf8");
 
 		let validate: boolean = true;

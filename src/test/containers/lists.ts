@@ -27,7 +27,7 @@ namespace test
 		l.reverse();
 
 		v.erase(std.remove_if(v.begin(), v.end(), _Remove_if), v.end());
-		if (std.equal(l.begin(), l.end(), v.rbegin()) == false)
+		if (std.equal(l.begin(), l.end(), v.rbegin()) === false)
 			throw new std.DomainError("Error on std." + creator.name + ".remove_if() or its dependency.");
 	}
 	function _Remove_if(val: number): boolean
@@ -73,7 +73,7 @@ namespace test
 		l1.merge(l2);
 
 		// VALIDATE
-		if ((std.equal as Function)(l1.begin(), l1.end(), set.begin()) == false)
+		if ((std.equal as Function)(l1.begin(), l1.end(), set.begin()) === false)
 			throw new std.DomainError("Error on std." + creator.name + ".merge() or its dependency.");
 	}
 
@@ -92,28 +92,28 @@ namespace test
 		let it = std.advance(fl.before_begin(), 3); // STEP TO 2
 		it = fl.erase_after(it); // AND ERASE 3 BY ERASE_AFTER()
 
-		if (it.value != 4)
+		if (it.value !==4)
 			throw new std.DomainError("Error on std.ForwardList.erase_after(); single deletion.");
 
 		// INSERT AN ELEMENT
 		it = std.advance(fl.before_begin(), 2);
 		it = fl.insert_after(it, -1); // INSERT -1
 
-		if (it.value != -1)
+		if (it.value !==-1)
 			throw new std.DomainError("Error on std.ForwardList.insert_after().");
 
 		// ERASE RANGE
 		it = std.advance(fl.before_begin(), 6);
 		it = fl.erase_after(it, std.advance(it, 3+1));
 
-		if (it.value != 9)
+		if (it.value !==9)
 			throw new std.DomainError("Error on std.ForwardList.erase_after(); range deletion.");
 
 		//----
 		// FINAL VALIDATION
 		//----
 		let answer = new std.Vector<number>([0, 1, -1, 2, 4, 5, 9]);
-		if (std.equal(fl.begin(), fl.end(), answer.begin()) == false)
+		if (std.equal(fl.begin(), fl.end(), answer.begin()) === false)
 			throw new std.DomainError("Error on std.ForwardList; elements I/O.");
 	}
 }

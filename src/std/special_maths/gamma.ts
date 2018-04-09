@@ -11,7 +11,7 @@ namespace std
 	{
 		if (x < 0.5)
 			return Math.PI / (Math.sin(Math.PI * x) * tgamma(1 - x));
-		/*else if (x >= 1 && x == Math.floor(x))
+		/*else if (x >= 1 && x === Math.floor(x))
 			return base.MathUtil.factorial(x - 1);*/
 
 		x -= 1;

@@ -53,7 +53,7 @@ namespace std
 		{
 			return new Promise<void>(resolve =>
 			{
-				if (this.write_lock_count_++ == 0 && this.read_lock_count_ == 0)
+				if (this.write_lock_count_++ === 0 && this.read_lock_count_ === 0)
 					resolve();
 				else
 					this.resolvers_.emplace(resolve, 
@@ -69,7 +69,7 @@ namespace std
 		 */
 		public async try_lock(): Promise<boolean>
 		{
-			if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
+			if (this.write_lock_count_ !==0 || this.read_lock_count_ !==0)
 				return false;
 
 			++this.write_lock_count_;
@@ -83,7 +83,7 @@ namespace std
 		{
 			return new Promise<boolean>(resolve =>
 			{
-				if (this.write_lock_count_++ == 0 && this.read_lock_count_ == 0)
+				if (this.write_lock_count_++ === 0 && this.read_lock_count_ === 0)
 					resolve(true);
 				else
 				{
@@ -97,7 +97,7 @@ namespace std
 					// AUTOMATIC UNLOCK
 					sleep_for(ms).then(() =>
 					{
-						if (this.resolvers_.has(resolve) == false)
+						if (this.resolvers_.has(resolve) === false)
 							return;
 
 						// DO UNLOCK
@@ -127,10 +127,10 @@ namespace std
 		 */
 		public async unlock(): Promise<void>
 		{
-			if (this.write_lock_count_ == 0)
+			if (this.write_lock_count_ === 0)
 				throw new RangeError("This mutex is free on the unique lock.");
 
-			while (this.resolvers_.empty() == false)
+			while (this.resolvers_.empty() === false)
 			{
 				// PICK A LISTENER
 				let it = this.resolvers_.begin();
@@ -140,13 +140,13 @@ namespace std
 				this.resolvers_.erase(it); // POP FIRST
 
 				// AND CALL LATER
-				if (type.lock == base._LockType.LOCK)
+				if (type.lock === base._LockType.LOCK)
 					listener();
 				else
 					listener(true);
 
 				// UNTIL MEET THE WRITE LOCK
-				if (type.access == base._LockType.WRITE)
+				if (type.access === base._LockType.WRITE)
 					break;
 			}
 			--this.write_lock_count_;
@@ -164,7 +164,7 @@ namespace std
 			{
 				++this.read_lock_count_;
 				
-				if (this.write_lock_count_ == 0)
+				if (this.write_lock_count_ === 0)
 					resolve();
 				else
 					this.resolvers_.emplace(resolve, 
@@ -180,7 +180,7 @@ namespace std
 		 */
 		public async try_lock_shared(): Promise<boolean>
 		{
-			if (this.write_lock_count_ != 0)
+			if (this.write_lock_count_ !==0)
 				return false;
 			
 			++this.read_lock_count_;
@@ -199,7 +199,7 @@ namespace std
 			{
 				++this.read_lock_count_;
 				
-				if (this.write_lock_count_ == 0)
+				if (this.write_lock_count_ === 0)
 					resolve(true);
 				else
 				{
@@ -213,7 +213,7 @@ namespace std
 					// AUTOMATIC UNLOCK
 					sleep_for(ms).then(() =>
 					{
-						if (this.resolvers_.has(resolve) == false)
+						if (this.resolvers_.has(resolve) === false)
 							return;
 
 						// DO UNLOCK
@@ -246,12 +246,12 @@ namespace std
 		 */
 		public async unlock_shared(): Promise<void>
 		{
-			if (this.read_lock_count_ == 0)
+			if (this.read_lock_count_ === 0)
 				throw new RangeError("This mutex is free on the shared lock.");
 
 			--this.read_lock_count_;
 
-			if (this.resolvers_.empty() == false)
+			if (this.resolvers_.empty() === false)
 			{ 
 				// PICK A LISTENER
 				let it = this.resolvers_.begin();
@@ -261,7 +261,7 @@ namespace std
 				this.resolvers_.erase(it); // POP FIRST
 				
 				// AND CALL LATER
-				if (type.lock == base._LockType.LOCK)
+				if (type.lock === base._LockType.LOCK)
 					listener();
 				else
 					listener(true);

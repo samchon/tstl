@@ -16,18 +16,18 @@ namespace std
 		{
 			let type: string = typeof item;
 
-			if (type == "boolean")
+			if (type === "boolean")
 				ret = _Hash_boolean(item, ret);
-			else if (type == "number") // NUMBER -> 8 BYTES
+			else if (type === "number") // NUMBER -> 8 BYTES
 				ret = _Hash_number(item, ret);
-			else if (type == "string") // STRING -> {LENGTH} BYTES
+			else if (type === "string") // STRING -> {LENGTH} BYTES
 				ret = _Hash_string(item, ret);
 			else // CALL THE HASH_CODE FUNCTION ?
 			{
-				if ((<IComparable<Object>>item).hashCode != undefined)
+				if ((<IComparable<Object>>item).hashCode !==undefined)
 				{
 					let hashed: number = (<IComparable<Object>>item).hashCode();
-					if (items.length == 1)
+					if (items.length === 1)
 						return hashed;
 					else
 					{
@@ -112,7 +112,7 @@ namespace std
 	 */
 	var __s_iUID: number = 0;
 
-	if (Object.prototype.hasOwnProperty("__get_m_iUID") == false)
+	if (Object.prototype.hasOwnProperty("__get_m_iUID") === false)
 	{
 		Object.defineProperties(Object.prototype,
 		{
@@ -120,7 +120,7 @@ namespace std
 			{
 				value: function (): number
 				{
-					if (this.hasOwnProperty("__m_iUID") == false)
+					if (this.hasOwnProperty("__m_iUID") === false)
 					{
 						var uid: number = ++__s_iUID;
 							Object.defineProperty(this, "__m_iUID",

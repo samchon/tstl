@@ -199,7 +199,7 @@ namespace std
 			if (find_if(first1, it, lamda).equals(it))
 			{
 				let n: number = count(first2, last2, it.value);
-				if (n == 0 || count(it, last1, it.value) != n)
+				if (n === 0 || count(it, last1, it.value) !==n)
 					return false;
 			}
 		}
@@ -218,11 +218,11 @@ namespace std
 	export function prev_permutation<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean = less): boolean
 	{
-		if (first.equals(last) == true)
+		if (first.equals(last) === true)
 			return false;
 
 		let i: BidirectionalIterator = last.prev();
-		if (first.equals(i) == true)
+		if (first.equals(i) === true)
 			return false;
 
 		while (true)
@@ -231,10 +231,10 @@ namespace std
 			let y: BidirectionalIterator;
 
 			i = i.prev();
-			if (comp(x.value, i.value) == true)
+			if (comp(x.value, i.value) === true)
 			{
 				y = last.prev();
-				while (comp(y.value, i.value) == false)
+				while (comp(y.value, i.value) === false)
 					y = y.prev();
 				
 				iter_swap(i, y);
@@ -242,7 +242,7 @@ namespace std
 				return true;
 			}
 
-			if (i.equals(first) == true)
+			if (i.equals(first) === true)
 			{
 				reverse(first, last);
 				return false;
@@ -262,11 +262,11 @@ namespace std
 	export function next_permutation<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = less): boolean
 	{
-		if (first.equals(last) == true)
+		if (first.equals(last) === true)
 			return false;
 
 		let i: BidirectionalIterator = last.prev();
-		if (first.equals(i) == true)
+		if (first.equals(i) === true)
 			return false;
 
 		while (true)
@@ -275,10 +275,10 @@ namespace std
 			let y: BidirectionalIterator;
 
 			i = i.prev();
-			if (compare(i.value, x.value) == true)
+			if (compare(i.value, x.value) === true)
 			{
 				y = last.prev();
-				while (compare(i.value, y.value) == false)
+				while (compare(i.value, y.value) === false)
 					y = y.prev();
 				
 				iter_swap(i, y);
@@ -286,7 +286,7 @@ namespace std
 				return true;
 			}
 
-			if (i.equals(first) == true)
+			if (i.equals(first) === true)
 			{
 				reverse(first, last);
 				return false;

@@ -38,12 +38,12 @@ namespace std.base
 		--------------------------------------------------------- */
 		public prev(): _NativeArrayIterator<T>
 		{
-			this.index_--;
+			--this.index_;
 			return this;
 		}
 		public next(): _NativeArrayIterator<T>
 		{
-			this.index_++;
+			++this.index_;
 			return this;
 		}
 
@@ -58,7 +58,7 @@ namespace std.base
 		--------------------------------------------------------- */
 		public equals(obj: _NativeArrayIterator<T>): boolean
 		{
-			return this.data_ == obj.data_ && this.index_ == obj.index_;
+			return this.data_ === obj.data_ && this.index_ === obj.index_;
 		}
 
 		public swap(obj: _NativeArrayIterator<T>): void

@@ -17,7 +17,7 @@ namespace test
 		v.erase(std.remove(v.begin(), v.end(), 2), v.end());
 
 		let it = std.find(v.begin(), v.end(), 2);
-		if (it.equals(v.end()) == false)
+		if (it.equals(v.end()) === false)
 			throw new std.DomainError("Error on std.remove().");
 	}
 	function _Test_replaces(): void
@@ -26,7 +26,7 @@ namespace test
 		std.replace(v.begin(), v.end(), 2, 4);
 
 		let it = std.find(v.begin(), v.end(), 2);
-		if (it.equals(v.end()) == false)
+		if (it.equals(v.end()) === false)
 			throw new std.DomainError("Error on std.replace().");
 	}
 
@@ -42,7 +42,7 @@ namespace test
 		l.unique();
 		v.erase(std.unique(v.begin(), v.end()), v.end());
 
-		if (std.equal(v.begin(), v.end(), l.begin()) == false)
+		if (std.equal(v.begin(), v.end(), l.begin()) === false)
 			throw new std.DomainError("Error on std.unique().");
 	}
 	function _Test_rotate(): void
@@ -52,7 +52,7 @@ namespace test
 
 		std.rotate(x.begin(), x.begin().advance(3), x.end());
 
-		if (std.equal(x.begin(), x.end(), y.begin()) == false)
+		if (std.equal(x.begin(), x.end(), y.begin()) === false)
 			throw new std.DomainError("Error on std.rotate().");
 	}
 

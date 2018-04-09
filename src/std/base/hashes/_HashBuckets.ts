@@ -97,7 +97,7 @@ namespace std.base
 		public max_load_factor(z: number): void;
 		public max_load_factor(z: number = null)
 		{
-			if (z == null)
+			if (z === null)
 				return this.max_load_factor_;
 			else
 				this.max_load_factor_ = z;
@@ -122,7 +122,7 @@ namespace std.base
 			let bucket: Vector<T> = this.buckets_.at(index);
 
 			for (let i: number = 0; i < bucket.size(); ++i)
-				if (bucket.at(i) == val)
+				if (bucket.at(i) === val)
 				{
 					bucket.erase(bucket.begin().advance(i));
 					--this.item_size_;

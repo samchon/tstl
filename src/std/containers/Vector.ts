@@ -68,22 +68,22 @@ namespace std
 			this.data_ = [];
 
 			// CONSTRUCTORS BRANCH
-			if (args.length == 0)
+			if (args.length === 0)
 			{
 				// DEFAULT CONSTRUCTOR
 			}
-			else if (args.length == 1 && args[0] instanceof Array)
+			else if (args.length === 1 && args[0] instanceof Array)
 			{
 				// INITIALIZER CONSTRUCTOR
 				let array: Array<T> = args[0];
 				this.data_ = array.slice();
 			}
-			else if (args.length == 1 && args[0] instanceof std.Vector)
+			else if (args.length === 1 && args[0] instanceof std.Vector)
 			{
 				// COPY CONSTRUCTOR
 				this.data_ = (args[0] as Vector<T>).data_.slice();
 			}
-			else if (args.length == 2)
+			else if (args.length === 2)
 			{
 				// ASSIGN CONSTRUCTOR
 				this.assign(args[0], args[1]);
@@ -166,14 +166,6 @@ namespace std
 		public data(): Array<T>
 		{
 			return this.data_;
-		}
-
-		/**
-		 * @hidden
-		 */
-		public equals(obj: Vector<T>): boolean
-		{
-			return this.data_ == obj.data_;
 		}
 
 		/**
@@ -273,6 +265,14 @@ namespace std
 		/* ---------------------------------------------------------------
 			UTILITIES
 		--------------------------------------------------------------- */
+		/**
+		 * @hidden
+		 */
+		public equals(obj: Vector<T>): boolean
+		{
+			return this.data_ === obj.data_;
+		}
+
 		/**
 		 * @inheritDoc
 		 */

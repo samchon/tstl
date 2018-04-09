@@ -11,15 +11,10 @@ namespace std
 	 */
 	export function equal_to<T>(x: T, y: T): boolean
 	{
-		if (x instanceof Object)
-		{
-			if ((x as any).equals)
-				return (x as Object as IComparable<T>).equals(y);
-			else
-				return x == y;
-		}
+		if (x instanceof Object && (x as any).equals instanceof Function)
+			return (x as Object as IComparable<T>).equals(y);
 		else
-			return x == y;
+			return x === y;
 	}
 
 	/**
@@ -44,7 +39,7 @@ namespace std
 	export function less<T>(x: T, y: T): boolean
 	{
 		if (x instanceof Object)
-			if ((<any>x).less != undefined) // has less()
+			if ((<any>x).less instanceof Function) // has less()
 				return (<any>x).less(y);
 			else
 				return (<any>x).__get_m_iUID() < (<any>y).__get_m_iUID();

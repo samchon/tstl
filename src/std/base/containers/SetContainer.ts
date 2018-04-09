@@ -120,7 +120,7 @@ namespace std.base
 		 */
 		public push(...items: Key[]): number
 		{
-			if (items.length == 0)
+			if (items.length === 0)
 				return this.size();
 
 			// INSERT BY RANGE
@@ -174,9 +174,9 @@ namespace std.base
 
 		public erase(...args: any[]): any
 		{
-			if (args.length == 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<Key, Source>).source() as any == this))
+			if (args.length === 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<Key, Source>).source() as any === this))
 				return this._Erase_by_val(args[0]);
-			else if (args.length == 1)
+			else if (args.length === 1)
 				return this._Erase_by_range(args[0]);
 			else
 				return this._Erase_by_range(args[0], args[1]);

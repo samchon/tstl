@@ -74,7 +74,7 @@ namespace std
 			// INITIALIZE MEMBERS AND POST-PROCESS
 			//----
 			// BRANCH - METHOD OVERLOADINGS
-			if (args.length == 1 && args[0] instanceof TreeSet)
+			if (args.length === 1 && args[0] instanceof TreeSet)
 			{
 				// PARAMETERS
 				let container: TreeSet<Key> = args[0];
@@ -92,7 +92,7 @@ namespace std
 			else if (args.length >= 1 && args[0] instanceof Array)
 			{
 				// FUNCTION TEMPLATE
-				if (args.length == 2)	comp = args[1];
+				if (args.length === 2)	comp = args[1];
 
 				// INITIALIZER LIST CONSTRUCTOR
 				post_process = () => 
@@ -104,7 +104,7 @@ namespace std
 			else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 			{
 				// FUNCTION TEMPLATE
-				if (args.length == 3)	comp = args[2];
+				if (args.length === 3)	comp = args[2];
 
 				// RANGE CONSTRUCTOR
 				post_process = () =>
@@ -115,7 +115,7 @@ namespace std
 					this.assign(first, last);
 				};
 			}
-			else if (args.length == 1)
+			else if (args.length === 1)
 			{
 				// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
 				comp = args[0];
@@ -128,7 +128,7 @@ namespace std
 			this.tree_ = new base._UniqueSetTree<Key, TreeSet<Key>>(this, comp);
 			
 			// ACT POST-PROCESS
-			if (post_process != null)
+			if (post_process !==null)
 				post_process();
 		}
 
@@ -168,7 +168,7 @@ namespace std
 		{
 			let node = this.tree_.nearest_by_key(key);
 
-			if (node == null || this.tree_.key_eq()(node.value.value, key) == false)
+			if (node === null || this.tree_.key_eq()(node.value.value, key) === false)
 				return this.end();
 			else
 				return node.value;

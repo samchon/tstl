@@ -10,9 +10,9 @@ namespace test
 
 		std.partition(v.begin(), v.end(), _Pred);
 
-		if (std.all_of(v.begin(), v.begin().advance(500), _Pred) == false)
+		if (std.all_of(v.begin(), v.begin().advance(500), _Pred) === false)
 			throw new std.DomainError("Error on std.partition().");
-		else if (std.is_partitioned(v.begin(), v.end(), _Pred) == false)
+		else if (std.is_partitioned(v.begin(), v.end(), _Pred) === false)
 			throw new std.DomainError("Error on std.is_partitioned().");
 	}
 

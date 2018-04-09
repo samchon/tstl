@@ -29,7 +29,7 @@ namespace std.base
 		public nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
 		{
 			// NEED NOT TO ITERATE
-			if (this.root_ == null)
+			if (this.root_ === null)
 				return null;
 
 			//----
@@ -51,7 +51,7 @@ namespace std.base
 					return ret; // MATCHED VALUE
 
 				// FINAL BRANCH? OR KEEP GOING
-				if (my_node == null)
+				if (my_node === null)
 					break;
 				else
 					ret = my_node;
@@ -63,7 +63,7 @@ namespace std.base
 		{
 			// FIND MATCHED NODE
 			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.nearest_by_key(key);
-			if (node == null)
+			if (node === null)
 				return this.source().end() as MapIterator<Key, T, Source>;
 
 			// MUST BE it.first > key

@@ -69,7 +69,7 @@ namespace std
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
 		for (let it = first; !it.equals(last); it = it.next())
-			if (pred(it.value) == false)
+			if (pred(it.value) === false)
 				return false;
 
 		return true;
@@ -88,7 +88,7 @@ namespace std
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 	{
 		for (let it = first; !it.equals(last); it = it.next())
-			if (pred(it.value) == true)
+			if (pred(it.value) === true)
 				return true;
 
 		return false;
@@ -225,7 +225,7 @@ namespace std
 		(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 	{
 		for (let it = first; !it.equals(last); it = it.next())
-			if (pred(it.value) == false)
+			if (pred(it.value) === false)
 				return it;
 
 		return last;
@@ -401,7 +401,7 @@ namespace std
 			{
 				it = it.next();
 
-				if (++i == count)
+				if (++i === count)
 					return first;
 			}
 		}

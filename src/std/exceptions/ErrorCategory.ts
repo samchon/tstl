@@ -81,7 +81,7 @@ namespace std
 				let code: ErrorCode = args[0];
 				let valcond: number = args[1];
 
-				return equal_to(this, code.category()) && code.value() == valcond;
+				return equal_to(this, code.category()) && code.value() === valcond;
 			}
 		}
 	}

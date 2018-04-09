@@ -35,7 +35,7 @@ namespace std
 	export function empty(source: any): boolean
 	{
 		if (source instanceof Array)
-			return source.length != 0;
+			return source.length !==0;
 		else
 			return source.empty();
 	}
@@ -71,7 +71,7 @@ namespace std
 	export function distance<T, InputIterator extends IForwardIterator<T, InputIterator>>
 		(first: InputIterator, last: InputIterator): number
 	{
-		if ((<any>first).index != undefined)
+		if ((<any>first).index !==undefined)
 			return _Distance_via_index(<any>first, <any>last);
 
 		let length: number = 0;
@@ -137,7 +137,7 @@ namespace std
 	export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, BidirectionalIterator>>
 		(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 	{
-		if (n == 1)
+		if (n === 1)
 			return it.prev();
 		else
 			return advance(it, -n);
@@ -153,7 +153,7 @@ namespace std
 	export function next<T, ForwardIterator extends IForwardIterator<T, ForwardIterator>>
 		(it: ForwardIterator, n: number = 1): ForwardIterator
 	{	
-		if (n == 1)
+		if (n === 1)
 			return it.next();
 		else
 			return advance(it, n);

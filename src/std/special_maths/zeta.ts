@@ -16,11 +16,11 @@ namespace std
 	{
 		if (arg < 0)
 			return _Negative(arg);
-		else if (arg == 0)
+		else if (arg === 0)
 			return -0.5;
 		else if (arg < 1)
 			return _Fractional(arg);
-		else if (arg == 1)
+		else if (arg === 1)
 			return Infinity;
 		else
 			return _Positive(arg);

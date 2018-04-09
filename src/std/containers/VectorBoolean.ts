@@ -72,7 +72,7 @@ namespace std
 		{
 			super();
 
-			if (args.length == 1 && args[0] instanceof VectorBoolean)
+			if (args.length === 1 && args[0] instanceof VectorBoolean)
 			{
 				// COPY CONSTRUCTOR
 				let obj: VectorBoolean = args[0];
@@ -80,13 +80,13 @@ namespace std
 				this.data_ = new TreeMap(obj.data_.begin(), obj.data_.end());
 				this.size_ = obj.size_;
 			}
-			else if (args.length == 1 && args[0] instanceof Array)
+			else if (args.length === 1 && args[0] instanceof Array)
 			{
 				// INITIALIZER
 				this.clear();
 				this.push(...args[0]);
 			}
-			else if (args.length == 2)
+			else if (args.length === 2)
 			{
 				// ASSIGNER
 				this.assign(args[0], args[1]);
@@ -194,13 +194,13 @@ namespace std
 
 			// FIND THE NEAREAST NODE OF LEFT
 			let it = this._Find_node(index);
-			if (it.second == val)
+			if (it.second === val)
 				return; // NO NEED TO CHANGE
 
 			//----
 			// CHANGE VALUE
 			//----
-			if (it.first == index)
+			if (it.first === index)
 			{
 				// CHANGE VALUE DIRECTLY
 				it.second = val;
@@ -215,7 +215,7 @@ namespace std
 			// POST-PROCESS
 			//----
 			// THE LAST ELEMENT, NO POST-PROCESS REQUIRED
-			if (index == this.size() - 1)
+			if (index === this.size() - 1)
 				return;
 
 			// LIST UP NEIGHBORS
@@ -223,12 +223,12 @@ namespace std
 			let next = it.next();
 
 			// ARRANGE LEFT SIDE
-			if (std.not_equal_to(prev, this.data_.end()) && prev.second == it.second)
+			if (std.not_equal_to(prev, this.data_.end()) && prev.second === it.second)
 				this.data_.erase(it);
 
 			// ARRANGE RIGHT SIDE
-			if (next.equals(this.data_.end()) == true 
-				|| (next.first != index + 1 || next.second != val))
+			if (next.equals(this.data_.end()) === true 
+				|| (next.first !==index + 1 || next.second !==val))
 			{
 				// 1) IT'S THE LAST NODE
 				// 2) NEXT NODE DOES NOT POINT THE INDEX + 1 (NEAREST NEIGHBOR)
@@ -267,7 +267,7 @@ namespace std
 		 */
 		public push(...items: boolean[]): number
 		{
-			if (items.length == 0)
+			if (items.length === 0)
 				return this.size();
 
 			let first = new base._NativeArrayIterator<boolean>(items, 0);
@@ -288,7 +288,7 @@ namespace std
 			val = !!val; // SIFT
 
 			// EMPLACE OR NOT
-			if (this.data_.empty() || it.second != val)
+			if (this.data_.empty() || it.second !==val)
 				this.data_.emplace(index, val);
 		}
 
@@ -304,7 +304,7 @@ namespace std
 			let index: number = --this.size_;
 
 			// ERASE OR NOT
-			if (it.first == index)
+			if (it.first === index)
 				this.data_.erase(it.base());
 		}
 
@@ -321,7 +321,7 @@ namespace std
 			elements.push_back(std.make_pair(n, val));
 
 			// DO INSERT
-			if (pos.equals(this.end()) == true)
+			if (pos.equals(this.end()) === true)
 				return this._Insert_to_end(elements);
 			else
 				return this._Insert_to_middle(pos, elements);
@@ -338,13 +338,13 @@ namespace std
 
 			for (let it = first; !it.equals(last); it = it.next())
 			{
-				if (elements.empty() || elements.back().second != it.value)
+				if (elements.empty() || elements.back().second !==it.value)
 					elements.push_back(std.make_pair(1, it.value));
 				else
 					++elements.back().first;
 			}
 
-			if (pos.equals(this.end()) == true)
+			if (pos.equals(this.end()) === true)
 				return this._Insert_to_end(elements);
 			else
 				return this._Insert_to_middle(pos, elements);
@@ -380,7 +380,7 @@ namespace std
 			this.size_ = pos.index();
 			this.data_.erase
 			(
-				first.first == pos.index() 
+				first.first === pos.index() 
 					? first 
 					: first.next(), 
 				this.data_.end()
@@ -409,7 +409,7 @@ namespace std
 				this.size_ += p.first;
 
 				// NEED NOT TO EMPLACE, JUST SKIP
-				if (i == 0 && value == last_value)
+				if (i === 0 && value === last_value)
 					continue;
 
 				// DO EMPLACE
@@ -428,7 +428,7 @@ namespace std
 		{
 			let elements: Vector<Pair<number, boolean>> = new Vector();
 
-			if (last.equals(this.end()) == false)
+			if (last.equals(this.end()) === false)
 			{
 				let last_index: number = Math.min(this.size(), last.index());
 

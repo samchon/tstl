@@ -40,7 +40,7 @@ namespace std.base
 		public get_by_key(val: T): _XTreeNode<SetIterator<T, Source>>
 		{
 			let ret = this.nearest_by_key(val);
-			if (ret == null || !this.key_eq_(val, ret.value.value))
+			if (ret === null || !this.key_eq_(val, ret.value.value))
 				return null;
 			else
 				return ret;
@@ -51,7 +51,7 @@ namespace std.base
 		{
 			let node: _XTreeNode<SetIterator<T, Source>> = this.nearest_by_key(val);
 
-			if (node == null)
+			if (node === null)
 				return this.source_.end() as SetIterator<T, Source>;
 			else if (this.key_comp_(node.value.value, val)) // it < key
 				return node.value.next();

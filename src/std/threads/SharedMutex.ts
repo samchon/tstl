@@ -52,7 +52,7 @@ namespace std
 		{
 			return new Promise<void>(resolve =>
 			{
-				if (this.write_lock_count_++ == 0 && this.read_lock_count_ == 0)
+				if (this.write_lock_count_++ === 0 && this.read_lock_count_ === 0)
 					resolve();
 				else
 					this.resolvers_.push(make_pair(base._LockType.WRITE, resolve));
@@ -64,7 +64,7 @@ namespace std
 		 */
 		public async try_lock(): Promise<boolean>
 		{
-			if (this.write_lock_count_ != 0 || this.read_lock_count_ != 0)
+			if (this.write_lock_count_ !==0 || this.read_lock_count_ !==0)
 				return false;
 
 			this.write_lock_count_++;
@@ -76,10 +76,10 @@ namespace std
 		 */
 		public async unlock(): Promise<void>
 		{
-			if (this.write_lock_count_ == 0)
+			if (this.write_lock_count_ === 0)
 				throw new RangeError("This mutex is free on the unique lock.");
 
-			while (this.resolvers_.empty() == false)
+			while (this.resolvers_.empty() === false)
 			{
 				let access: boolean = this.resolvers_.front().first;
 				let fn: IListener = this.resolvers_.front().second;
@@ -88,7 +88,7 @@ namespace std
 				fn(); // AND CALL LATER
 
 				// UNTIL MEET THE WRITE LOCK
-				if (access == base._LockType.WRITE)
+				if (access === base._LockType.WRITE)
 					break;
 			}
 			--this.write_lock_count_;
@@ -106,7 +106,7 @@ namespace std
 			{
 				++this.read_lock_count_;
 				
-				if (this.write_lock_count_ == 0)
+				if (this.write_lock_count_ === 0)
 					resolve();
 				else
 					this.resolvers_.push(make_pair(base._LockType.READ, resolve));
@@ -118,7 +118,7 @@ namespace std
 		 */
 		public async try_lock_shared(): Promise<boolean>
 		{
-			if (this.write_lock_count_ != 0)
+			if (this.write_lock_count_ !==0)
 				return false;
 			
 			++this.read_lock_count_;
@@ -130,12 +130,12 @@ namespace std
 		 */
 		public async unlock_shared(): Promise<void>
 		{
-			if (this.read_lock_count_ == 0)
+			if (this.read_lock_count_ === 0)
 				throw new RangeError("This mutex is free on the shared lock.");
 
 			--this.read_lock_count_;
 
-			if (this.resolvers_.empty() == false)
+			if (this.resolvers_.empty() === false)
 			{ 
 				// MUST BE WRITE LOCK
 				let fn: IListener = this.resolvers_.front().second;

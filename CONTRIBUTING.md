@@ -64,7 +64,7 @@ namespace test
 
         std.sort(vec.begin(), vec.end());
 
-        if (std.is_sorted(vec.begin(), vec.end()) == false)
+        if (std.is_sorted(vec.begin(), vec.end()) === false)
             throw new std.DomainError("std.sort doesn't work.");
     }
     

@@ -167,10 +167,10 @@ namespace std.base
 
 		public erase(...args: any[]): any 
 		{
-			if (args.length == 1 && (args[0] instanceof MapIterator == false || (args[0] as MapIterator<Key, T, Source>).source() as any != this))
+			if (args.length === 1 && (args[0] instanceof MapIterator === false || (args[0] as MapIterator<Key, T, Source>).source() as any !==this))
 				return this._Erase_by_key(args[0]);
 			else
-				if (args.length == 1)
+				if (args.length === 1)
 					return this._Erase_by_range(args[0]);
 				else
 					return this._Erase_by_range(args[0], args[1]);

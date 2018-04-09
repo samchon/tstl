@@ -12,8 +12,8 @@ namespace test
 		for (let x of atoms)
 			for (let y of atoms)
 			{
-				_Test_comparison_results(x, y, x.value == y.value, std.equal_to);
-				_Test_comparison_results(x, y, x.value != y.value, std.not_equal_to);
+				_Test_comparison_results(x, y, x.value === y.value, std.equal_to);
+				_Test_comparison_results(x, y, x.value !==y.value, std.not_equal_to);
 				_Test_comparison_results(x, y, x.value < y.value, std.less);
 				_Test_comparison_results(x, y, x.value > y.value, std.greater);
 				_Test_comparison_results(x, y, x.value <= y.value, std.less_equal);
@@ -24,7 +24,7 @@ namespace test
 	function _Test_comparison_results<T>
 		(x: T, y: T, bit: boolean, func: (x: T, y: T) => boolean): void
 	{
-		if (bit != func(x, y))
+		if (bit !==func(x, y))
 			throw new std.DomainError("Invalid comparison.");
 	}
 }

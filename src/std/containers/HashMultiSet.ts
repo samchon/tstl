@@ -78,7 +78,7 @@ namespace std
 			// INITIALIZE MEMBERS AND POST-PROCESS
 			//----
 			// BRANCH - METHOD OVERLOADINGS
-			if (args.length == 1 && args[0] instanceof HashMultiSet)
+			if (args.length === 1 && args[0] instanceof HashMultiSet)
 			{
 				// PARAMETERS
 				let container: std.HashMultiSet<Key> = args[0];
@@ -98,7 +98,7 @@ namespace std
 			{
 				// FUNCTION TEMPLATES
 				if (args.length >= 2)	hash_function = args[1];
-				if (args.length == 3)	key_eq = args[2];
+				if (args.length === 3)	key_eq = args[2];
 
 				// INITIALIZER LIST CONSTRUCTOR
 				post_process = () =>
@@ -113,7 +113,7 @@ namespace std
 			{
 				// FUNCTION TEMPLATES
 				if (args.length >= 3)	hash_function = args[2];
-				if (args.length == 4)	key_eq = args[3];
+				if (args.length === 4)	key_eq = args[3];
 
 				// RANGE CONSTRUCTOR
 				post_process = () =>
@@ -128,7 +128,7 @@ namespace std
 			{
 				// FUNCTION TEMPLATES
 				if (args.length >= 1)	hash_function = args[0];
-				if (args.length == 2)	key_eq = args[1];
+				if (args.length === 2)	key_eq = args[1];
 			}
 
 			//----
@@ -138,7 +138,7 @@ namespace std
 			this.buckets_ = new base._SetHashBuckets(this, hash_function, key_eq);
 
 			// ACT POST-PROCESS
-			if (post_process != null)
+			if (post_process !==null)
 				post_process();
 		}
 
@@ -211,7 +211,7 @@ namespace std
 		public begin(index: number): HashMultiSet.Iterator<Key>;
 		public begin(index: number = null): HashMultiSet.Iterator<Key>
 		{
-			if (index == null)
+			if (index === null)
 				return super.begin();
 			else
 				return this.buckets_.at(index).front();
@@ -227,7 +227,7 @@ namespace std
 		public end(index: number): HashMultiSet.Iterator<Key>
 		public end(index: number = null): HashMultiSet.Iterator<Key>
 		{
-			if (index == null)
+			if (index === null)
 				return super.end();
 			else
 				return this.buckets_.at(index).back().next();

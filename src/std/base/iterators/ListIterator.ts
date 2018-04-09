@@ -84,7 +84,7 @@ namespace std.base
 		 */
 		public equals(obj: IteratorT): boolean
 		{
-			return this == <any>obj;
+			return this === <any>obj;
 		}
 	}
 }

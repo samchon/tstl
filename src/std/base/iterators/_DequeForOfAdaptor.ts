@@ -20,7 +20,7 @@ namespace std.base
 
 		public next(): IteratorResult<T>
 		{
-			if (this.row_ == this.matrix_.length)
+			if (this.row_ === this.matrix_.length)
 				return {
 					done: true,
 					value: undefined
@@ -28,9 +28,9 @@ namespace std.base
 			else
 			{
 				let val: T = this.matrix_[this.row_][this.col_];
-				if (++this.col_ == this.matrix_[this.row_].length)
+				if (++this.col_ === this.matrix_[this.row_].length)
 				{
-					this.row_++;
+					++this.row_;
 					this.col_ = 0;
 				}
 

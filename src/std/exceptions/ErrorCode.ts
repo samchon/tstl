@@ -36,7 +36,7 @@ namespace std
 		 */
 		public default_error_condition(): ErrorCondition
 		{
-			if (this.category_ == null || this.value_ == 0)
+			if (this.category_ === null || this.value_ === 0)
 				return null;
 			else
 				return this.category_.default_error_condition(this.value_);

@@ -62,7 +62,7 @@ namespace std.base
 
 		public insert(...args: any[]): any
 		{
-			if (args.length == 1)
+			if (args.length === 1)
 				return this.emplace(args[0].first, args[0].second);
 			else
 				return super.insert.apply(this, args);
@@ -82,7 +82,7 @@ namespace std.base
 		protected _Erase_by_key(key: Key): number
 		{
 			let first = this.find(key);
-			if (first.equals(this.end()) == true)
+			if (first.equals(this.end()) === true)
 				return 0;
 
 			let last = first.next();

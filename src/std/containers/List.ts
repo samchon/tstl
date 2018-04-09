@@ -73,23 +73,23 @@ namespace std
 			//----
 			// BRANCHES
 			//----
-			if (args.length == 0) 
+			if (args.length === 0) 
 			{
 				// DEFAULT CONSTRUCTOR
 			}
-			else if (args.length == 1 && args[0] instanceof Array) 
+			else if (args.length === 1 && args[0] instanceof Array) 
 			{
 				// INITIALIZER CONSTRUCTOR
 				let array: Array<T> = args[0];
 				this.push(...array);
 			}
-			else if (args.length == 1 && (args[0] instanceof List)) 
+			else if (args.length === 1 && (args[0] instanceof List)) 
 			{
 				// COPY CONSTRUCTOR
 				let container: List<T> = args[0];
 				this.assign(container.begin(), container.end());
 			}
-			else if (args.length == 2) 
+			else if (args.length === 2) 
 			{
 				// ASSIGN CONTRUCTOR
 				this.assign(args[0], args[1]);
@@ -121,7 +121,7 @@ namespace std
 
 			while (!it.equals(this.end()))
 			{
-				if (binary_pred(it.value, it.prev().value) == true)
+				if (binary_pred(it.value, it.prev().value) === true)
 					it = this.erase(it);
 				else
 					it = it.next();
@@ -135,7 +135,7 @@ namespace std
 		{
 			this.remove_if(function (x: T): boolean
 			{
-				return x == val;
+				return x === val;
 			});
 		}
 
@@ -148,7 +148,7 @@ namespace std
 
 			while (!it.equals(this.end()))
 			{
-				if (pred(it.value) == true)
+				if (pred(it.value) === true)
 					it = this.erase(it);
 				else
 					it = it.next();
@@ -163,15 +163,15 @@ namespace std
 		 */
 		public merge<U extends T>(source: List<U>, comp: (x: T, y: T) => boolean = less): void
 		{
-			if (this == <List<T>>source)
+			if (this === <List<T>>source)
 				return;
 
 			let it = this.begin();
 
-			while (source.empty() == false)
+			while (source.empty() === false)
 			{
 				let first = source.begin();
-				while (!it.equals(this.end()) && comp(it.value, first.value) == true)
+				while (!it.equals(this.end()) && comp(it.value, first.value) === true)
 					it = it.next();
 
 				this.splice(it, source, first);
@@ -211,12 +211,12 @@ namespace std
 				first: List.Iterator<U> = null, last: List.Iterator<U> = null
 			): void
 		{
-			if (first == null)
+			if (first === null)
 			{
 				first = obj.begin();
 				last = obj.end();
 			}
-			else if (last == null)
+			else if (last === null)
 			{
 				last = first.next();
 			}
@@ -376,7 +376,7 @@ namespace std.List
 		--------------------------------------------------------------- */
 		public equals(obj: Iterator<T>): boolean
 		{
-			return this == obj;
+			return this === obj;
 		}
 	}
 

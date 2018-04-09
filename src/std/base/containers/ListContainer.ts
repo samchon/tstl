@@ -132,7 +132,7 @@ namespace std.base
 		public front(val: T): void;
 		public front(val: T = undefined): T | void
 		{
-			if (val == undefined)
+			if (val === undefined)
 				return this.begin_.value;
 			else
 				this.begin_["value_"] = val;
@@ -149,7 +149,7 @@ namespace std.base
 		public back(val: T = undefined): T | void
 		{
 			let it = this.end().prev();
-			if (val == undefined)
+			if (val === undefined)
 				return it.value;
 			else
 				it["value_"] = val;
@@ -204,7 +204,7 @@ namespace std.base
 		 */
 		public push(...items: T[]): number 
 		{
-			if (items.length == 0)
+			if (items.length === 0)
 				return this.size();
 
 			// INSERT BY RANGE
@@ -234,13 +234,13 @@ namespace std.base
 		public insert(pos: IteratorT, ...args: any[]): IteratorT
 		{
 			// VALIDATION
-			if (pos.source() != this.end_.source())
+			if (pos.source() !==this.end_.source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			// BRANCHES
-			if (args.length == 1)
+			if (args.length === 1)
 				return this._Insert_by_repeating_val(pos, 1, args[0]);
-			else if (args.length == 2 && typeof args[0] == "number")
+			else if (args.length === 2 && typeof args[0] === "number")
 				return this._Insert_by_repeating_val(pos, args[0], args[1]);
 			else
 				return this._Insert_by_range(pos, args[0], args[1]);
@@ -268,11 +268,11 @@ namespace std.base
 
 			let size: number = 0;
 
-			for (let it = begin; it.equals(end) == false; it = it.next()) 
+			for (let it = begin; it.equals(end) === false; it = it.next()) 
 			{
 				// CONSTRUCT ITEM, THE NEW ELEMENT
 				let item: IteratorT = this._Create_iterator(prev, null, it.value);
-				if (size == 0)
+				if (size === 0)
 					first = item;
 
 				// PLACE ITEM ON THE NEXT OF "PREV"
@@ -284,7 +284,7 @@ namespace std.base
 			}
 
 			// WILL FIRST BE THE BEGIN?
-			if (position.equals(this.begin()) == true)
+			if (position.equals(this.begin()) === true)
 				this.begin_ = (first);
 
 			// CONNECT BETWEEN LAST AND POSITION
@@ -318,7 +318,7 @@ namespace std.base
 		protected _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT
 		{
 			// VALIDATION
-			if (first.source() != this.end_.source() || last.source() != this.end_.source())
+			if (first.source() !==this.end_.source() || last.source() !==this.end_.source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			// FIND PREV AND NEXT

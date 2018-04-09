@@ -70,7 +70,7 @@ namespace std.base
 		public front(val: T): void;
 		public front(val: T = undefined): T | void
 		{
-			if (val == undefined)
+			if (val === undefined)
 				return this.at(0);
 			else
 				this.set(0, val);
@@ -87,7 +87,7 @@ namespace std.base
 		public back(val: T = undefined): T | void
 		{
 			let index: number = this.size() - 1;
-			if (val == undefined)
+			if (val === undefined)
 				return this.at(index);
 			else
 				this.set(index, val);
@@ -123,7 +123,7 @@ namespace std.base
 		public insert(pos: ArrayIterator<T, SourceT>, ...args: any[]): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION
-			if (pos.source() != <any>this)
+			if (pos.source() !==<any>this)
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 			else if (pos.index() < 0)
 				throw new LengthError("Parametric iterator is directing invalid position.");
@@ -131,9 +131,9 @@ namespace std.base
 				pos = this.end();
 
 			// BRANCHES
-			if (args.length == 1)
+			if (args.length === 1)
 				return this._Insert_by_repeating_val(pos, 1, args[0]);
-			else if (args.length == 2 && typeof args[0] == "number")
+			else if (args.length === 2 && typeof args[0] === "number")
 				return this._Insert_by_repeating_val(pos, args[0], args[1]);
 			else
 				return this._Insert_by_range(pos, args[0], args[1]);
@@ -175,7 +175,7 @@ namespace std.base
 		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT> = first.next()): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION
-			if (first.source() != <any>this || last.source() != <any>this)
+			if (first.source() !==<any>this || last.source() !==<any>this)
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 			else if (first.index() < 0)
 				throw new LengthError("Invalid parameter: first is directing negative index.");

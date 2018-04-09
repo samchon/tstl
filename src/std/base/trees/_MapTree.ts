@@ -46,7 +46,7 @@ namespace std.base
 		public get_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>
 		{
 			let ret = this.nearest_by_key(key);
-			if (ret == null || !this.key_eq_(key, ret.value.first))
+			if (ret === null || !this.key_eq_(key, ret.value.first))
 				return null;
 			else
 				return ret;
@@ -57,7 +57,7 @@ namespace std.base
 		{
 			let node: _XTreeNode<MapIterator<Key, T, Source>> = this.nearest_by_key(key);
 
-			if (node == null)
+			if (node === null)
 				return this.source().end() as MapIterator<Key, T, Source>;
 			else if (this.key_comp()(node.value.first, key)) // it < key
 				return node.value.next();
