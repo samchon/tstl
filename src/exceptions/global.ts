@@ -5,10 +5,10 @@ import { is_node } from "../utilities/global";
  */
 export function terminate(): void
 {
-	if (_Terminate_handler != null)
+	if (_Terminate_handler !== null)
 		_Terminate_handler();
 	
-	if (is_node() == true)
+	if (is_node() === true)
 		process.exit();
 	else
 	{
@@ -26,7 +26,7 @@ export function set_terminate(func: () => void): void
 {
 	_Terminate_handler = func;
 
-	if (is_node() == true)
+	if (is_node() === true)
 		process.on("uncaughtException", function (): void
 		{
 			_Terminate_handler();

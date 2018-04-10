@@ -50,7 +50,7 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 	// INITIALIZE MEMBERS AND POST-PROCESS
 	//----
 	// BRANCH - METHOD OVERLOADINGS
-	if (args.length == 1 && args[0] instanceof Source)
+	if (args.length === 1 && args[0] instanceof Source)
 	{
 		// PARAMETERS
 		let container: _ITreeContainer<Key, any> = args[0];
@@ -80,6 +80,6 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 	this.tree_ = new XTree(this, comp);
 	
 	// ACT POST-PROCESS
-	if (post_process != null)
+	if (post_process !== null)
 		post_process();
 }

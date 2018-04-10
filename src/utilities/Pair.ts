@@ -53,7 +53,7 @@ export class Pair<First, Second>
 	 */
 	public less<U1 extends First, U2 extends Second>(pair: Pair<U1, U2>): boolean
 	{
-		if (equal_to(this.first, pair.first) == false)
+		if (equal_to(this.first, pair.first) === false)
 			return less_fn(this.first, pair.first);
 		else
 			return less_fn(this.second, pair.second);

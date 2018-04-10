@@ -81,7 +81,7 @@ export class TreeMultiMap<Key, T>
 		// // INITIALIZE MEMBERS AND POST-PROCESS
 		// //----
 		// // BRANCH - METHOD OVERLOADINGS
-		// if (args.length == 1 && args[0] instanceof TreeMultiMap)
+		// if (args.length === 1 && args[0] instanceof TreeMultiMap)
 		// {
 		// 	// PARAMETERS
 		// 	let container: TreeMultiMap<Key, T> = args[0];
@@ -99,7 +99,7 @@ export class TreeMultiMap<Key, T>
 		// else if (args.length >= 1 && args[0] instanceof Array)
 		// {
 		// 	// FUNCTION TEMPLATE
-		// 	if (args.length == 2)	comp = args[1];
+		// 	if (args.length === 2)	comp = args[1];
 
 		// 	// INITIALIZER LIST CONSTRUCTOR
 		// 	post_process = () =>
@@ -111,7 +111,7 @@ export class TreeMultiMap<Key, T>
 		// else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 		// {
 		// 	// FUNCTION TEMPLATE
-		// 	if (args.length == 3)	comp = args[2];
+		// 	if (args.length === 3)	comp = args[2];
 
 		// 	// RANGE CONSTRUCTOR
 		// 	post_process = () =>
@@ -122,7 +122,7 @@ export class TreeMultiMap<Key, T>
 		// 		this.assign(first, last);
 		// 	};
 		// }
-		// else if (args.length == 1)
+		// else if (args.length === 1)
 		// {
 		// 	// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
 		// 	comp = args[0];
@@ -135,7 +135,7 @@ export class TreeMultiMap<Key, T>
 		// this.tree_ = new _MultiMapTree<Key, T, TreeMultiMap<Key, T>>(this, comp);
 		
 		// // ACT POST-PROCESS
-		// if (post_process != null)
+		// if (post_process !== null)
 		// 	post_process();
 	}
 
@@ -175,7 +175,7 @@ export class TreeMultiMap<Key, T>
 	{
 		let node: _XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.nearest_by_key(key);
 		
-		if (node == null || this.tree_.key_eq()(node.value.first, key) == false)
+		if (node === null || this.tree_.key_eq()(node.value.first, key) === false)
 			return this.end();
 		else
 			return node.value;

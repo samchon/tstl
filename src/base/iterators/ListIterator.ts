@@ -81,6 +81,6 @@ export abstract class ListIterator<T,
 	 */
 	public equals(obj: IteratorT): boolean
 	{
-		return this == <any>obj;
+		return this === <any>obj;
 	}
 }

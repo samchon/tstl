@@ -29,7 +29,7 @@ export class Queue<T>
 		super();
 
 		this.source_ = new List();
-		if (obj != null)
+		if (obj !== null)
 			this.source_.assign(obj.source_.begin(), obj.source_.end());
 	}
 

@@ -7,13 +7,13 @@ export function test_priority_queue(): void
 		pq.push(Math.random() * 100);
 
 	let items: Array<number> = [];
-	while (pq.empty() == false)
+	while (pq.empty() === false)
 	{
 		items.push(pq.top());
 		pq.pop();
 	}
 
-	if (std.is_sorted(std.begin(items), std.end(items), std.greater) == false)
+	if (std.is_sorted(std.begin(items), std.end(items), std.greater) === false)
 		throw new std.DomainError("PriorityQueue is invalid.");
 }
 
@@ -25,7 +25,7 @@ export function test_adaptors(): void
 
 	// VALIDATE QUEUE
 	let queue_items: number[] = [];
-	while (queue.empty() == false)
+	while (queue.empty() === false)
 	{
 		queue_items.push(queue.front());
 		queue.pop();
@@ -34,7 +34,7 @@ export function test_adaptors(): void
 
 	// VALIDATE STACK
 	let stack_items: number[] = [];
-	while (stack.empty() == false)
+	while (stack.empty() === false)
 	{
 		stack_items.push(stack.top());
 		stack.pop();
@@ -53,11 +53,11 @@ function _Construct_adaptor<T extends IAdaptor>
 
 function _Validate_adaptor_items(items: number[], answer: number[]): void
 {
-	if (items.length != answer.length)
+	if (items.length !== answer.length)
 		throw new std.DomainError("Number of elements are wrong.");
 
 	for (let i: number = 0; i < items.length; ++i)
-		if (items[i] != answer[i])
+		if (items[i] !== answer[i])
 			throw new std.DomainError("Wrong element is inserted in.");
 }
 

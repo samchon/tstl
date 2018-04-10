@@ -71,7 +71,7 @@ export class PriorityQueue<T>
 		// INITIALIZE MEMBERS AND POST-PROCESS
 		//----
 		// BRANCH - METHOD OVERLOADINGS
-		if (args.length == 1 && args[0] instanceof PriorityQueue)
+		if (args.length === 1 && args[0] instanceof PriorityQueue)
 		{
 			let obj: PriorityQueue<T> = args[0];
 			
@@ -87,7 +87,7 @@ export class PriorityQueue<T>
 		else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 		{
 			// FUNCTION TEMPLATE
-			if (args.length == 3)	comp = args[2];
+			if (args.length === 3)	comp = args[2];
 
 			post_process = () =>
 			{
@@ -98,7 +98,7 @@ export class PriorityQueue<T>
 				this.source_.assign(first, last);
 			};
 		}
-		else if (args.length == 1)
+		else if (args.length === 1)
 			comp = args[0];
 
 		//----
@@ -108,7 +108,7 @@ export class PriorityQueue<T>
 		this.source_ = new TreeMultiSet<T>(comp);
 
 		// ACT POST-PROCESS
-		if (post_process != null)
+		if (post_process !== null)
 			post_process();
 	}
 

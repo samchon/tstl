@@ -33,7 +33,7 @@ export function sort<T, RandomAccessIterator extends General<IRandomAccessIterat
 	let pivot_it: RandomAccessIterator = first.advance(Math.floor(size / 2));
 	let pivot: T = pivot_it.value;
 
-	if (pivot_it.index() != first.index())
+	if (pivot_it.index() !== first.index())
 		iter_swap(first, pivot_it);
 	
 	let i: number = 1;
@@ -151,7 +151,7 @@ export function nth_element<T, RandomAccessIterator extends General<IRandomAcces
 			else if (comp(i.value, j.value) && ++count > n)
 				break;
 
-		if (count == n)
+		if (count === n)
 		{
 			iter_swap(nth, i);
 			return;

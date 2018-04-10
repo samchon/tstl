@@ -146,7 +146,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 
 	public insert(...args: any[]): any
 	{
-		if (args.length == 1)
+		if (args.length === 1)
 			return this.emplace(args[0].first, args[0].second);
 		else if (args[0].next instanceof Function && args[1].next instanceof Function)
 			return this._Insert_by_range(args[0], args[1]);
@@ -180,10 +180,10 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 
 	public erase(...args: any[]): any 
 	{
-		if (args.length == 1 && (args[0] instanceof MapIterator == false || (args[0] as MapIterator<Key, T, Unique, Source>).source() as any != this))
+		if (args.length === 1 && (args[0] instanceof MapIterator === false || (args[0] as MapIterator<Key, T, Unique, Source>).source() as any !== this))
 			return this._Erase_by_key(args[0]);
 		else
-			if (args.length == 1)
+			if (args.length === 1)
 				return this._Erase_by_range(args[0]);
 			else
 				return this._Erase_by_range(args[0], args[1]);

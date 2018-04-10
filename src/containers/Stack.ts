@@ -29,7 +29,7 @@ export class Stack<T>
 		super();
 
 		this.source_ = new Vector();
-		if (obj != null)
+		if (obj !== null)
 			this.source_.assign(obj.source_.begin(), obj.source_.end());
 	}
 

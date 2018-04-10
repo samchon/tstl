@@ -13,7 +13,7 @@ export class _DequeForOfAdaptor<T> implements IterableIterator<T>
 
 	public next(): IteratorResult<T>
 	{
-		if (this.row_ == this.matrix_.length)
+		if (this.row_ === this.matrix_.length)
 			return {
 				done: true,
 				value: undefined
@@ -21,7 +21,7 @@ export class _DequeForOfAdaptor<T> implements IterableIterator<T>
 		else
 		{
 			let val: T = this.matrix_[this.row_][this.col_];
-			if (++this.col_ == this.matrix_[this.row_].length)
+			if (++this.col_ === this.matrix_[this.row_].length)
 			{
 				this.row_++;
 				this.col_ = 0;

@@ -44,7 +44,7 @@ export function push_heap<T, RandomAccessIterator extends General<IRandomAccessI
 
 	// COMPUTE LAST_POLOR_SIZE
 	let last_poplar_size: number = _Hyper_floor(size + 1) - 1;
-	while (size - last_poplar_size != 0)
+	while (size - last_poplar_size !== 0)
 	{
 		size -= last_poplar_size;
 		last_poplar_size = _Hyper_floor(size + 1) - 1;
@@ -93,7 +93,7 @@ export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIt
 	}
 
 	// Swap & sift if needed
-	if (bigger != last_root) 
+	if (bigger !== last_root) 
 	{
 		iter_swap(bigger, last_root);
 		_Sift(bigger.advance(-bigger_size + 1), bigger_size, comp);
@@ -145,7 +145,7 @@ export function is_heap_until<T, BidirectionalIterator extends Readonly<IBidirec
 		let poplar_size: number = 1;
 
 		// The loop increment follows the binary carry sequence for some reason
-		for (let i: number = (poplar_level & -poplar_level) >> 1 ; i != 0 ; i >>= 1) 
+		for (let i: number = (poplar_level & -poplar_level) >> 1 ; i !== 0 ; i >>= 1) 
 		{
 			// Beginning and size of the poplar to track
 			it = advance(it, -poplar_size);

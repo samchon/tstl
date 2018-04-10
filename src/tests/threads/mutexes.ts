@@ -57,14 +57,14 @@ export async function _Test_try_lock(name: string, mtx: ITimedLockable): Promise
 
 	// DO LOCK
 	let ret: boolean = await mtx.try_lock_for(SLEEP_TIME);
-	if (ret == false)
+	if (ret === false)
 		throw new std.DomainError(name + "::try_lock_for does not return exact value.");
 
 	// TRY LOCK AGAIN
 	ret = await mtx.try_lock_for(SLEEP_TIME);
 	let elapsed_time: number = new Date().getTime() - start_time;
 
-	if (ret == true)
+	if (ret === true)
 		throw new std.DomainError(name + "::try_lock_for does not return exact value.");
 	else if (elapsed_time < SLEEP_TIME * .95)
 		throw new std.DomainError(name + " does not work in exact time.");
@@ -90,7 +90,7 @@ async function _Test_lock_shared(name: string, mtx: ISharedLockable): Promise<vo
 		mtx.lock_shared();
 		++read_count;
 	}
-	if (read_count != READ_COUNT) // READ LOCK CAN BE DONE SIMULTANEOUSLY
+	if (read_count !== READ_COUNT) // READ LOCK CAN BE DONE SIMULTANEOUSLY
 		throw new std.DomainError(name + "::lock_shared does not support simultaneous lock.");
 
 	//----
@@ -153,7 +153,7 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
 	for (let i: number = 0; i < READ_COUNT; ++i)
 	{
 		flag = await mtx.try_lock_shared_for(SLEEP_TIME);
-		if (flag == false)
+		if (flag === false)
 			throw new std.DomainError(name + "::try_lock_shared_for does not return exact value.");
 	}
 
@@ -170,7 +170,7 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
 	flag = await mtx.try_lock_for(SLEEP_TIME);
 	elapsed_time = new Date().getTime() - start_time;
 
-	if (flag == true)
+	if (flag === true)
 		throw new std.DomainError(name + "::try_lock_for does not return exact value on reading.");
 	else if (elapsed_time < SLEEP_TIME * .95)
 		throw new std.DomainError(name + "::try_lock_for does not block on reading.");
@@ -185,7 +185,7 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
 	flag = await mtx.try_lock_for(SLEEP_TIME);
 	elapsed_time = new Date().getTime() - start_time;
 
-	if (flag == false)
+	if (flag === false)
 		throw new std.DomainError(name + "::try_lock_for does not return exact value on reading.");
 	else if (elapsed_time < SLEEP_TIME * .95)
 		throw new std.DomainError(name + "::try_lock_for does not work in exact time.");
@@ -198,7 +198,7 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
 	for (let i: number = 0; i < READ_COUNT; ++i)
 	{
 		flag = await mtx.try_lock_shared_for(SLEEP_TIME);
-		if (flag == true)
+		if (flag === true)
 			throw new std.DomainError(name + "::try_lock_shared_for does not return exact value on writing.");
 	}
 	elapsed_time = new Date().getTime() - start_time;
@@ -216,7 +216,7 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
 	for (let i: number = 0; i < READ_COUNT; ++i)
 	{
 		flag = await mtx.try_lock_shared_for(SLEEP_TIME);
-		if (flag == false)
+		if (flag === false)
 			throw new std.DomainError(name + "::try_lock_shared_for does not return exact value after writing.");
 	}
 	elapsed_time = new Date().getTime() - start_time;

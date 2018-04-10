@@ -10,17 +10,17 @@ async function iterate(path: string): Promise<void>
 		let current_path: string = path + "/" + file;
 		let stat: fs.Stats = fs.lstatSync(current_path);
 		
-		if (stat.isDirectory() == true)
+		if (stat.isDirectory() === true)
 		{
 			await iterate(current_path);
 			continue;
 		}
-		else if (file.substr(-3) != ".js" || current_path == PATH + "/main.js")
+		else if (file.substr(-3) !== ".js" || current_path === PATH + "/main.js")
 			continue;
 
 		let external: any = await import(current_path.substr(0, current_path.length - 3));
 		for (let key in external)
-			if (key.substr(0, 5) == "test_")
+			if (key.substr(0, 5) === "test_")
 			{
 				console.log(key);
 				await external[key]();

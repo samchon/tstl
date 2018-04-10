@@ -36,7 +36,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	public get(key: Key): T
 	{
 		let it = this.find(key);
-		if (it.equals(this.end()) == true)
+		if (it.equals(this.end()) === true)
 			throw new OutOfRange("unable to find the matched key.");
 
 		return it.second;
@@ -130,11 +130,11 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 
 	public insert_or_assign(...args: any[]): any
 	{
-		if (args.length == 2)
+		if (args.length === 2)
 		{
 			return this._Insert_or_assign_with_key_value(args[0], args[1]);
 		}
-		else if (args.length == 3)
+		else if (args.length === 3)
 		{
 			// INSERT OR ASSIGN AN ELEMENT
 			return this._Insert_or_assign_with_hint(args[0], args[1], args[2]);
@@ -147,7 +147,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<MapIterator<Key, T, true, Source>, boolean>
 	{
 		let ret = this.emplace(key, value);
-		if (ret.second == false)
+		if (ret.second === false)
 			ret.first.second = value;
 
 		return ret;
@@ -159,7 +159,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	private _Insert_or_assign_with_hint(hint: MapIterator<Key, T, true, Source>, key: Key, value: T): MapIterator<Key, T, true, Source>
 	{
 		let ret = this.emplace_hint(hint, key, value);
-		if (ret.second != value)
+		if (ret.second !== value)
 			ret.second = value;
 
 		return ret;
@@ -198,7 +198,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	private _Extract_by_key(key: Key): Entry<Key, T>
 	{
 		let it = this.find(key);
-		if (it.equals(this.end()) == true)
+		if (it.equals(this.end()) === true)
 			throw new OutOfRange("No such key exists.");
 
 		let ret: Entry<Key, T> = it.value;
@@ -212,7 +212,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 */
 	private _Extract_by_iterator(it: MapIterator<Key, T, true, Source>): MapIterator<Key, T, true, Source>
 	{
-		if (it.equals(this.end()) == true)
+		if (it.equals(this.end()) === true)
 			return this.end();
 
 		this._Erase_by_range(it);
@@ -225,7 +225,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	protected _Erase_by_key(key: Key): number
 	{
 		let it = this.find(key);
-		if (it.equals(this.end()) == true)
+		if (it.equals(this.end()) === true)
 			return 0;
 
 		this._Erase_by_range(it);
@@ -241,7 +241,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	public merge(source: Source): void
 	{
 		for (let it = source.begin(); !it.equals(source.end());)
-			if (this.has(it.first) == false)
+			if (this.has(it.first) === false)
 			{
 				this.insert(it.value);
 				it = source.erase(it);

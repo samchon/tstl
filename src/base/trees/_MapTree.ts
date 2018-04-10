@@ -48,7 +48,7 @@ export abstract class _MapTree<Key, T, Unique extends boolean, Source extends Ma
 	public get_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Unique, Source>>
 	{
 		let ret = this.nearest_by_key(key);
-		if (ret == null || !this.key_eq_(key, ret.value.first))
+		if (ret === null || !this.key_eq_(key, ret.value.first))
 			return null;
 		else
 			return ret;
@@ -59,7 +59,7 @@ export abstract class _MapTree<Key, T, Unique extends boolean, Source extends Ma
 	{
 		let node: _XTreeNode<MapIterator<Key, T, Unique, Source>> = this.nearest_by_key(key);
 
-		if (node == null)
+		if (node === null)
 			return this.source().end() as MapIterator<Key, T, Unique, Source>;
 		else if (this.key_comp()(node.value.first, key)) // it < key
 			return node.value.next();

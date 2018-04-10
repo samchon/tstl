@@ -83,7 +83,7 @@ export class HashMap<Key, T>
 		// // INITIALIZE MEMBERS AND POST-PROCESS
 		// //----
 		// // BRANCH - METHOD OVERLOADINGS
-		// if (args.length == 1 && args[0] instanceof HashMap)
+		// if (args.length === 1 && args[0] instanceof HashMap)
 		// {
 		// 	// PARAMETERS
 		// 	let container: HashMap<Key, T> = args[0];
@@ -103,7 +103,7 @@ export class HashMap<Key, T>
 		// {
 		// 	// FUNCTION TEMPLATES
 		// 	if (args.length >= 2)	hash_function = args[1];
-		// 	if (args.length == 3)	key_eq = args[2];
+		// 	if (args.length === 3)	key_eq = args[2];
 
 		// 	// INITIALIZER LIST CONSTRUCTOR
 		// 	post_process = () =>
@@ -118,7 +118,7 @@ export class HashMap<Key, T>
 		// {
 		// 	// FUNCTION TEMPLATES
 		// 	if (args.length >= 3)	hash_function = args[2];
-		// 	if (args.length == 4)	key_eq = args[3];
+		// 	if (args.length === 4)	key_eq = args[3];
 
 		// 	// RANGE CONSTRUCTOR
 		// 	post_process = () =>
@@ -133,7 +133,7 @@ export class HashMap<Key, T>
 		// {
 		// 	// FUNCTION TEMPLATES
 		// 	if (args.length >= 1)	hash_function = args[0];
-		// 	if (args.length == 2)	key_eq = args[1];
+		// 	if (args.length === 2)	key_eq = args[1];
 		// }
 
 		// //----
@@ -143,7 +143,7 @@ export class HashMap<Key, T>
 		// this.buckets_ = new _MapHashBuckets(this, hash_function, key_eq);
 
 		// // ACT POST-PROCESS
-		// if (post_process != null)
+		// if (post_process !== null)
 		// 	post_process();
 	}
 	
@@ -198,7 +198,7 @@ export class HashMap<Key, T>
 	public begin(index: number): HashMap.Iterator<Key, T>;
 	public begin(index: number = null): HashMap.Iterator<Key, T>
 	{
-		if (index == null)
+		if (index === null)
 			return super.begin();
 		else
 			return this.buckets_.at(index)[0];
@@ -214,7 +214,7 @@ export class HashMap<Key, T>
 	public end(index: number): HashMap.Iterator<Key, T>
 	public end(index: number = null): HashMap.Iterator<Key, T>
 	{
-		if (index == null)
+		if (index === null)
 			return super.end();
 		else
 		{
@@ -346,7 +346,7 @@ export class HashMap<Key, T>
 	{
 		// TEST WHETHER EXIST
 		let it: HashMap.Iterator<Key, T> = this.find(key);
-		if (it.equals(this.end()) == false)
+		if (it.equals(this.end()) === false)
 			return new Pair(it, false);
 
 		// INSERT
@@ -366,7 +366,7 @@ export class HashMap<Key, T>
 	{
 		// FIND DUPLICATED KEY
 		let it: HashMap.Iterator<Key, T> = this.find(key);
-		if (it.equals(this.end()) == true)
+		if (it.equals(this.end()) === true)
 		{
 			// INSERT
 			it = this["data_"].insert(hint, new Entry(key, val));

@@ -25,14 +25,14 @@ export async function test_condition_variables(): Promise<void>
 	cv.notify_one();
 	await std.sleep_for(SLEEP_TIME);
 
-	if (wait_count != WAIT_COUNT - 1)
+	if (wait_count !== WAIT_COUNT - 1)
 		throw new std.DomainError("Error on ConditionVariable::notify_one.");
 
 	// NOTIFY ALL
 	cv.notify_all();
 	await std.sleep_for(SLEEP_TIME);
 
-	if (wait_count != 0)
+	if (wait_count !== 0)
 		throw new std.DomainError("Error on ConditionVariable::notify_all.");
 
 	//----
@@ -45,7 +45,7 @@ export async function test_condition_variables(): Promise<void>
 	{
 		cv.wait_for(i * SLEEP_TIME).then((ret: boolean) =>
 		{
-			if (ret == true)
+			if (ret === true)
 				++success_count;
 		});
 	}

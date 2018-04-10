@@ -44,7 +44,7 @@ export class TimedMutex implements _ITimedLockable
 	{
 		return new Promise<void>(resolve =>
 		{
-			if (this.lock_count_++ == 0)
+			if (this.lock_count_++ === 0)
 				resolve();
 			else
 				this.resolvers_.emplace(resolve, _LockType.LOCK);
@@ -56,7 +56,7 @@ export class TimedMutex implements _ITimedLockable
 	 */
 	public async try_lock(): Promise<boolean>
 	{
-		if (this.lock_count_ != 0)
+		if (this.lock_count_ !== 0)
 			return false; // HAVE LOCKED
 		
 		++this.lock_count_;
@@ -68,11 +68,11 @@ export class TimedMutex implements _ITimedLockable
 	 */
 	public async unlock(): Promise<void>
 	{
-		if (this.lock_count_ == 0)
+		if (this.lock_count_ === 0)
 			throw new RangeError("This mutex is free.");
 
 		--this.lock_count_; // DECREASE LOCKED COUNT
-		if (this.resolvers_.empty() == false)
+		if (this.resolvers_.empty() === false)
 		{
 			// PICK A LISTENER
 			let it = this.resolvers_.begin();
@@ -81,7 +81,7 @@ export class TimedMutex implements _ITimedLockable
 			this.resolvers_.erase(it); // POP FIRST
 			
 			// AND CALL LATER
-			if (it.second == _LockType.LOCK)
+			if (it.second === _LockType.LOCK)
 				listener();
 			else
 				listener(true);
@@ -98,7 +98,7 @@ export class TimedMutex implements _ITimedLockable
 	{
 		return new Promise<boolean>(resolve =>
 		{
-			if (this.lock_count_++ == 0)
+			if (this.lock_count_++ === 0)
 				resolve(true);
 			else
 			{
@@ -108,7 +108,7 @@ export class TimedMutex implements _ITimedLockable
 				// AUTOMATIC UNLOCK
 				sleep_for(ms).then(() =>
 				{
-					if (this.resolvers_.has(resolve) == false)
+					if (this.resolvers_.has(resolve) === false)
 						return;
 
 					// DO UNLOCK

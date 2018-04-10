@@ -125,7 +125,7 @@ export class Semaphore implements _ISemaphore
 		this.hold_count_ -= resolved_count;
 		this.locked_count_ -= count;
 
-		while (resolved_count != 0)
+		while (resolved_count !== 0)
 		{
 			let front: Pair<IListener, number> = this.listeners_.front();
 

@@ -40,7 +40,7 @@ export function not_equal_to<T>(x: T, y: T): boolean
 export function less<T>(x: T, y: T): boolean
 {
 	if (x instanceof Object)
-		if ((<any>x).less != undefined) // has less()
+		if ((<any>x).less !== undefined) // has less()
 			return (<any>x).less(y);
 		else
 			return (<any>x).__get_m_iUID() < (<any>y).__get_m_iUID();

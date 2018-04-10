@@ -85,7 +85,7 @@ export class HashMultiMap<Key, T>
 		// // INITIALIZE MEMBERS AND POST-PROCESS
 		// //----
 		// // BRANCH - METHOD OVERLOADINGS
-		// if (args.length == 1 && args[0] instanceof HashMultiMap)
+		// if (args.length === 1 && args[0] instanceof HashMultiMap)
 		// {
 		// 	// PARAMETERS
 		// 	let container: HashMultiMap<Key, T> = args[0];
@@ -105,7 +105,7 @@ export class HashMultiMap<Key, T>
 		// {
 		// 	// FUNCTION TEMPLATES
 		// 	if (args.length >= 2)	hash_function = args[1];
-		// 	if (args.length == 3)	key_eq = args[2];
+		// 	if (args.length === 3)	key_eq = args[2];
 
 		// 	// INITIALIZER LIST CONSTRUCTOR
 		// 	post_process = () =>
@@ -120,7 +120,7 @@ export class HashMultiMap<Key, T>
 		// {
 		// 	// FUNCTION TEMPLATES
 		// 	if (args.length >= 3)	hash_function = args[2];
-		// 	if (args.length == 4)	key_eq = args[3];
+		// 	if (args.length === 4)	key_eq = args[3];
 
 		// 	// RANGE CONSTRUCTOR
 		// 	post_process = () =>
@@ -135,7 +135,7 @@ export class HashMultiMap<Key, T>
 		// {
 		// 	// FUNCTION TEMPLATES
 		// 	if (args.length >= 1)	hash_function = args[0];
-		// 	if (args.length == 2)	key_eq = args[1];
+		// 	if (args.length === 2)	key_eq = args[1];
 		// }
 
 		// //----
@@ -145,7 +145,7 @@ export class HashMultiMap<Key, T>
 		// this.buckets_ = new _MapHashBuckets(this, hash_function, key_eq);
 
 		// // ACT POST-PROCESS
-		// if (post_process != null)
+		// if (post_process !== null)
 		// 	post_process();
 	}
 
@@ -218,7 +218,7 @@ export class HashMultiMap<Key, T>
 	public begin(index: number): HashMultiMap.Iterator<Key, T>;
 	public begin(index: number = null): HashMultiMap.Iterator<Key, T>
 	{
-		if (index == null)
+		if (index === null)
 			return super.begin();
 		else
 			return this.buckets_.at(index)[0];
@@ -234,7 +234,7 @@ export class HashMultiMap<Key, T>
 	public end(index: number): HashMultiMap.Iterator<Key, T>
 	public end(index: number = null): HashMultiMap.Iterator<Key, T>
 	{
-		if (index == null)
+		if (index === null)
 			return super.end();
 		else
 		{

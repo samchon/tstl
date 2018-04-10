@@ -126,7 +126,7 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	public insert(pos: ArrayIterator<T, SourceT>, ...args: any[]): ArrayIterator<T, SourceT>
 	{
 		// VALIDATION
-		if (pos.source() != <any>this)
+		if (pos.source() !== <any>this)
 			throw new InvalidArgument("Parametric iterator is not this container's own.");
 		else if (pos.index() < 0)
 			throw new LengthError("Parametric iterator is directing invalid position.");
@@ -134,9 +134,9 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 			pos = this.end();
 
 		// BRANCHES
-		if (args.length == 1)
+		if (args.length === 1)
 			return this._Insert_by_repeating_val(pos, 1, args[0]);
-		else if (args.length == 2 && typeof args[0] == "number")
+		else if (args.length === 2 && typeof args[0] === "number")
 			return this._Insert_by_repeating_val(pos, args[0], args[1]);
 		else
 			return this._Insert_by_range(pos, args[0], args[1]);
@@ -178,7 +178,7 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT> = first.next()): ArrayIterator<T, SourceT>
 	{
 		// VALIDATION
-		if (first.source() != <any>this || last.source() != <any>this)
+		if (first.source() !== <any>this || last.source() !== <any>this)
 			throw new InvalidArgument("Parametric iterator is not this container's own.");
 		else if (first.index() < 0)
 			throw new LengthError("Invalid parameter: first is directing negative index.");

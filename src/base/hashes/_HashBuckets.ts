@@ -93,7 +93,7 @@ export abstract class _HashBuckets<T>
 	public max_load_factor(z: number): void;
 	public max_load_factor(z: number = null)
 	{
-		if (z == null)
+		if (z === null)
 			return this.max_load_factor_;
 		else
 			this.max_load_factor_ = z;
@@ -118,7 +118,7 @@ export abstract class _HashBuckets<T>
 		let bucket: T[] = this.buckets_[index];
 
 		for (let i: number = 0; i < bucket.length; ++i)
-			if (bucket[i] == val)
+			if (bucket[i] === val)
 			{
 				bucket.splice(i);
 				--this.item_size_;

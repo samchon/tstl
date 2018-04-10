@@ -47,7 +47,7 @@ export function lock(...items: ILockable[]): Promise<void>
 		for (let mtx of items)
 			mtx.lock().then(function (): void 
 			{
-				if (++count == items.length)
+				if (++count === items.length)
 					resolve();
 			});
 	});
@@ -62,7 +62,7 @@ export function lock(...items: ILockable[]): Promise<void>
 export async function try_lock(...items: ILockable[]): Promise<number>
 {
 	for (let i: number = 0; i < items.length; ++i)
-		if (await items[i].try_lock() == false)
+		if (await items[i].try_lock() === false)
 			return i;
 
 	return -1;

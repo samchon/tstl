@@ -186,7 +186,7 @@ export function transform<T, Ret,
 
 export function transform(...args: any[]): any
 {
-	if (args.length == 4)
+	if (args.length === 4)
 		return _Unary_transform.apply(null, args);
 	else // args: #5
 		return _Binary_transform.apply(null, args);
@@ -453,7 +453,7 @@ export function replace_if<T, InputIterator extends General<IForwardIterator<T, 
 	(first: InputIterator, last: InputIterator, pred: (val: T) => boolean, new_val: T): void
 {
 	for (let it = first; !it.equals(last); it = it.next())
-		if (pred(it.value) == true)
+		if (pred(it.value) === true)
 			it.value = new_val;
 }
 
@@ -557,8 +557,8 @@ export function swap_ranges<T,
 export function reverse<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
 	(first: BidirectionalIterator, last: BidirectionalIterator): void
 {
-	// first != last && first != --last
-	while (first.equals(last) == false && first.equals((last = last.prev())) == false)
+	// first !== last && first !== --last
+	while (first.equals(last) === false && first.equals((last = last.prev())) === false)
 	{
 		iter_swap(first, last);
 		first = first.next();

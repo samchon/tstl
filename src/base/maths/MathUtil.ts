@@ -21,7 +21,7 @@ export namespace MathUtil
 	{
 		if (first > last)
 			[first, last] = [last, first];
-		else if (first == last)
+		else if (first === last)
 			return 0;
 
 		let ret: number = 0.0;

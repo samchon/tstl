@@ -71,7 +71,7 @@ export function all_of<T, InputIterator extends Readonly<IForwardIterator<T, Inp
 	(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 {
 	for (let it = first; !it.equals(last); it = it.next())
-		if (pred(it.value) == false)
+		if (pred(it.value) === false)
 			return false;
 
 	return true;
@@ -90,7 +90,7 @@ export function any_of<T, InputIterator extends Readonly<IForwardIterator<T, Inp
 	(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
 {
 	for (let it = first; !it.equals(last); it = it.next())
-		if (pred(it.value) == true)
+		if (pred(it.value) === true)
 			return true;
 
 	return false;
@@ -227,7 +227,7 @@ export function find_if_not<T, InputIterator extends Readonly<IForwardIterator<T
 	(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 {
 	for (let it = first; !it.equals(last); it = it.next())
-		if (pred(it.value) == false)
+		if (pred(it.value) === false)
 			return it;
 
 	return last;
@@ -403,7 +403,7 @@ export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T,
 		{
 			it = it.next();
 
-			if (++i == count)
+			if (++i === count)
 				return first;
 		}
 	}

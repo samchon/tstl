@@ -46,7 +46,7 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 		): _XTreeNode<MapIterator<Key, T, false, Source>>
 	{
 		// NEED NOT TO ITERATE
-		if (this.root_ == null)
+		if (this.root_ === null)
 			return null;
 
 		//----
@@ -73,14 +73,14 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 			}
 
 			// ULTIL CHILD NODE EXISTS
-			if (my_node == null)
+			if (my_node === null)
 				break;
 			else
 				ret = my_node;
 		}
 
 		// RETURNS -> MATCHED OR NOT
-		return (matched != null) ? matched : ret;
+		return (matched !== null) ? matched : ret;
 	}
 
 	public nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, false, Source>>
@@ -99,7 +99,7 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 			{
 				return node.right;
 			});
-		if (node == null) // NOTHING
+		if (node === null) // NOTHING
 			return this.source().end() as MapIterator<Key, T, false, Source>;
 
 		// MUST BE it.first > key

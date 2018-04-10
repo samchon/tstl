@@ -39,7 +39,7 @@ export class SystemError extends RuntimeError
 	{
 		super("");
 
-		if (args.length >= 2 && typeof args[0] == "number")
+		if (args.length >= 2 && typeof args[0] === "number")
 		{
 			let val: number = args[0];
 			let category: ErrorCategory = args[1];

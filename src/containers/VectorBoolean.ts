@@ -75,7 +75,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 	{
 		super();
 
-		if (args.length == 1 && args[0] instanceof VectorBoolean)
+		if (args.length === 1 && args[0] instanceof VectorBoolean)
 		{
 			// COPY CONSTRUCTOR
 			let obj: VectorBoolean = args[0];
@@ -83,13 +83,13 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 			this.data_ = new TreeMap(obj.data_.begin(), obj.data_.end());
 			this.size_ = obj.size_;
 		}
-		else if (args.length == 1 && args[0] instanceof Array)
+		else if (args.length === 1 && args[0] instanceof Array)
 		{
 			// INITIALIZER
 			this.clear();
 			this.push(...args[0]);
 		}
-		else if (args.length == 2)
+		else if (args.length === 2)
 		{
 			// ASSIGNER
 			this.assign(args[0], args[1]);
@@ -197,13 +197,13 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 
 		// FIND THE NEAREAST NODE OF LEFT
 		let it = this._Find_node(index);
-		if (it.second == val)
+		if (it.second === val)
 			return; // NO NEED TO CHANGE
 
 		//----
 		// CHANGE VALUE
 		//----
-		if (it.first == index)
+		if (it.first === index)
 		{
 			// CHANGE VALUE DIRECTLY
 			it.second = val;
@@ -218,7 +218,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 		// POST-PROCESS
 		//----
 		// THE LAST ELEMENT, NO POST-PROCESS REQUIRED
-		if (index == this.size() - 1)
+		if (index === this.size() - 1)
 			return;
 
 		// LIST UP NEIGHBORS
@@ -226,12 +226,12 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 		let next = it.next();
 
 		// ARRANGE LEFT SIDE
-		if (not_equal_to(prev, this.data_.end()) && prev.second == it.second)
+		if (not_equal_to(prev, this.data_.end()) && prev.second === it.second)
 			this.data_.erase(it);
 
 		// ARRANGE RIGHT SIDE
-		if (next.equals(this.data_.end()) == true 
-			|| (next.first != index + 1 || next.second != val))
+		if (next.equals(this.data_.end()) === true 
+			|| (next.first !== index + 1 || next.second !== val))
 		{
 			// 1) IT'S THE LAST NODE
 			// 2) NEXT NODE DOES NOT POINT THE INDEX + 1 (NEAREST NEIGHBOR)
@@ -270,7 +270,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 	 */
 	public push(...items: boolean[]): number
 	{
-		if (items.length == 0)
+		if (items.length === 0)
 			return this.size();
 
 		let first = new _NativeArrayIterator(items, 0);
@@ -291,7 +291,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 		val = !!val; // SIFT
 
 		// EMPLACE OR NOT
-		if (this.data_.empty() || it.second != val)
+		if (this.data_.empty() || it.second !== val)
 			this.data_.emplace(index, val);
 	}
 
@@ -307,7 +307,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 		let index: number = --this.size_;
 
 		// ERASE OR NOT
-		if (it.first == index)
+		if (it.first === index)
 			this.data_.erase(it.base());
 	}
 
@@ -324,7 +324,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 		elements.push(new Pair(n, val));
 
 		// DO INSERT
-		if (pos.equals(this.end()) == true)
+		if (pos.equals(this.end()) === true)
 			return this._Insert_to_end(elements);
 		else
 			return this._Insert_to_middle(pos, elements);
@@ -341,13 +341,13 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 
 		for (let it = first; !it.equals(last); it = it.next())
 		{
-			if (elements.length == 0 || elements[elements.length - 1].second != it.value)
+			if (elements.length === 0 || elements[elements.length - 1].second !== it.value)
 				elements.push(new Pair(1, it.value));
 			else
 				++elements[elements.length - 1].first;
 		}
 
-		if (pos.equals(this.end()) == true)
+		if (pos.equals(this.end()) === true)
 			return this._Insert_to_end(elements);
 		else
 			return this._Insert_to_middle(pos, elements);
@@ -383,7 +383,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 		this.size_ = pos.index();
 		this.data_.erase
 		(
-			first.first == pos.index() 
+			first.first === pos.index() 
 				? first 
 				: first.next(), 
 			this.data_.end()
@@ -412,7 +412,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 			this.size_ += p.first;
 
 			// NEED NOT TO EMPLACE, JUST SKIP
-			if (i == 0 && value == last_value)
+			if (i === 0 && value === last_value)
 				continue;
 
 			// DO EMPLACE
@@ -431,7 +431,7 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
 	{
 		let elements: Pair<number, boolean>[] = [];
 
-		if (last.equals(this.end()) == false)
+		if (last.equals(this.end()) === false)
 		{
 			let last_index: number = Math.min(this.size(), last.index());
 

@@ -79,7 +79,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	protected _Erase_by_key(key: Key): number
 	{
 		let first = this.find(key);
-		if (first.equals(this.end()) == true)
+		if (first.equals(this.end()) === true)
 			return 0;
 
 		let last = first.next();

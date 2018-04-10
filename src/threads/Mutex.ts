@@ -42,7 +42,7 @@ export class Mutex implements ILockable
 	{
 		return new Promise<void>(resolve =>
 		{
-			if (this.lock_count_++ == 0)
+			if (this.lock_count_++ === 0)
 				resolve();
 			else
 				this.resolvers_.push(resolve);
@@ -54,7 +54,7 @@ export class Mutex implements ILockable
 	 */
 	public async try_lock(): Promise<boolean>
 	{
-		if (this.lock_count_ != 0)
+		if (this.lock_count_ !== 0)
 			return false; // HAVE LOCKED
 		
 		++this.lock_count_;
@@ -66,11 +66,11 @@ export class Mutex implements ILockable
 	 */
 	public async unlock(): Promise<void>
 	{
-		if (this.lock_count_ == 0)
+		if (this.lock_count_ === 0)
 			throw new RangeError("This mutex is free.");
 
 		--this.lock_count_; // DECREASE LOCKED COUNT
-		if (this.resolvers_.empty() == false)
+		if (this.resolvers_.empty() === false)
 		{
 			let fn: IResolver = this.resolvers_.front();
 			

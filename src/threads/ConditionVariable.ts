@@ -54,7 +54,7 @@ export class ConditionVariable
 			// AUTOMATIC UNLOCK
 			sleep_for(ms).then(() =>
 			{
-				if (this.resolvers_.has(resolve) == false)
+				if (this.resolvers_.has(resolve) === false)
 					return;
 
 				// DO UNLOCK
@@ -93,7 +93,7 @@ export class ConditionVariable
 
 		// THE 1ST RESOLVER
 		let it = this.resolvers_.begin();
-		if (it.second == _LockType.LOCK)
+		if (it.second === _LockType.LOCK)
 			it.first();
 		else
 			it.first(true);
@@ -113,7 +113,7 @@ export class ConditionVariable
 
 		// ITERATE RESOLVERS
 		for (let pair of this.resolvers_)
-			if (pair.second == _LockType.LOCK)
+			if (pair.second === _LockType.LOCK)
 				pair.first();
 			else
 				pair.first(true);

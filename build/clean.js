@@ -16,7 +16,7 @@ function iterate(path)
 		{
 			let skip = false;
 			for (let exclude of EXCLUDES)
-				if (elem == exclude)
+				if (elem === exclude)
 				{
 					skip = true;
 					break;
@@ -26,7 +26,7 @@ function iterate(path)
 		}
 		
 		for (let target of TARGETS)
-			if (elem.substr(-target.length) == target)
+			if (elem.substr(-target.length) === target)
 			{
 				fs.unlinkSync(location);
 				break;
@@ -34,7 +34,7 @@ function iterate(path)
 	}
 
 	directory = fs.readdirSync(path);
-	if (directory.length == 0)
+	if (directory.length === 0)
 		fs.rmdirSync(path);
 }
 

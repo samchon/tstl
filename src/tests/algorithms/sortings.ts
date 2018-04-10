@@ -18,7 +18,7 @@ function _Test_atomic_sorting(): void
 	std.shuffle(std.begin(array), std.end(array));
 	std.stable_sort(std.begin(array), std.end(array));
 	
-	if (std.is_sorted(std.begin(array), std.end(array)) == false)
+	if (std.is_sorted(std.begin(array), std.end(array)) === false)
 		throw new std.DomainError("Wrong sorting in atoms.");
 }
 
@@ -38,7 +38,7 @@ function _Test_object_sorting(): void
 	std.sort(cubes.begin(), cubes.end());
 	
 	// VALIDATION
-	if (std.is_sorted(cubes.begin(), cubes.end()) == false)
+	if (std.is_sorted(cubes.begin(), cubes.end()) === false)
 		throw new std.DomainError("Wrong sorting in objects.");
 
 	//----
@@ -47,8 +47,8 @@ function _Test_object_sorting(): void
 	// DECLARE INLINE FUNCTION
 	let inline_function = function (left: Cube, right: Cube): boolean
 	{
-		if (left.x != right.x) return left.x < right.x;
-		else if (left.y != right.y) return left.y < right.y;
+		if (left.x !== right.x) return left.x < right.x;
+		else if (left.y !== right.y) return left.y < right.y;
 		else return left.z < right.z;
 	};
 
@@ -56,6 +56,6 @@ function _Test_object_sorting(): void
 	std.sort(cubes.begin(), cubes.end(), inline_function);
 
 	// VALIDATION
-	if (std.is_sorted(cubes.begin(), cubes.end(), inline_function) == false)
+	if (std.is_sorted(cubes.begin(), cubes.end(), inline_function) === false)
 		throw new std.DomainError("Wrong sorting in objects.");
 }

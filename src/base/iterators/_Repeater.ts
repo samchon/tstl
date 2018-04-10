@@ -41,6 +41,6 @@ export class _Repeater<T> implements Readonly<IForwardIterator<T, _Repeater<T>>>
 	
 	public equals(obj: _Repeater<T>): boolean
 	{
-		return this.index_ == obj.index_;
+		return this.index_ === obj.index_;
 	}
 }

@@ -35,7 +35,7 @@ function _Test_for_of_iteration<
 	let i: number = 0;
 
 	for (let elem of vec)
-		if (elem != items[i++])
+		if (elem !== items[i++])
 			throw new std.DomainError("Wrong for of iteration.");
 }
 
@@ -60,6 +60,6 @@ function _Test_for_of_map_iteration(): void
 	let i: number = 0;
 
 	for (let pair of map)
-		if (std.equal_to(pair, items[i++]) == false)
+		if (std.equal_to(pair, items[i++]) === false)
 			throw new std.DomainError("Wrong for of iteration.");
 }

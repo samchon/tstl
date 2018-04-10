@@ -88,7 +88,7 @@ export abstract class ErrorInstance
 	 */
 	public message(): string
 	{
-		if (this.category_ == null || this.value_ == 0)
+		if (this.category_ === null || this.value_ === 0)
 			return "";
 		else
 			return this.category_.message(this.value_);
@@ -104,6 +104,6 @@ export abstract class ErrorInstance
 	 */
 	public to_bool(): boolean
 	{
-		return this.value_ != 0;
+		return this.value_ !== 0;
 	}
 }

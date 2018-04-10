@@ -15,7 +15,7 @@ const MAX_K = 150;
  */
 export function expint(x: number): number
 {
-	if (x == 0)
+	if (x === 0)
 		return -Infinity;
 	else if (x < 0)
 		return -_E1_G(-x);

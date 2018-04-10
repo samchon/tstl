@@ -59,7 +59,7 @@ export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
 	protected _Erase_by_val(key: Key): number
 	{
 		let first = this.find(key);
-		if (first.equals(this.end()) == true)
+		if (first.equals(this.end()) === true)
 			return 0;
 
 		let last = first.next();

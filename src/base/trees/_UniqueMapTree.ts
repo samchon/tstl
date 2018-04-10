@@ -29,7 +29,7 @@ export class _UniqueMapTree<Key, T, Source extends UniqueMap<Key, T, Source>>
 	public nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, true, Source>>
 	{
 		// NEED NOT TO ITERATE
-		if (this.root_ == null)
+		if (this.root_ === null)
 			return null;
 
 		//----
@@ -51,7 +51,7 @@ export class _UniqueMapTree<Key, T, Source extends UniqueMap<Key, T, Source>>
 				return ret; // MATCHED VALUE
 
 			// FINAL BRANCH? OR KEEP GOING
-			if (my_node == null)
+			if (my_node === null)
 				break;
 			else
 				ret = my_node;
@@ -63,7 +63,7 @@ export class _UniqueMapTree<Key, T, Source extends UniqueMap<Key, T, Source>>
 	{
 		// FIND MATCHED NODE
 		let node: _XTreeNode<MapIterator<Key, T, true, Source>> = this.nearest_by_key(key);
-		if (node == null)
+		if (node === null)
 			return this.source().end() as MapIterator<Key, T, true, Source>;
 
 		// MUST BE it.first > key

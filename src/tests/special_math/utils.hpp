@@ -30,7 +30,7 @@ namespace
 	template <typename Function>
 	void repeat(Function &&func, size_t n = 100)
 	{
-		while (n-- != 0)
+		while (n-- !== 0)
 			func();
 	};
 	

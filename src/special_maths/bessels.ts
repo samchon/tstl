@@ -22,13 +22,13 @@ const INFINITY = 100; // (1 / 30!) is nearby 0.
 export function cyl_bessel_j(n: number, x: number): number
 {
 	// VALIDATION
-	if (x < 0 && Math.floor(n) != n)
+	if (x < 0 && Math.floor(n) !== n)
 		throw new DomainError("In cyl_bessel_j function, n must be integer when x is negative.");
-	else if (x == 0 && n != 0)
+	else if (x === 0 && n !== 0)
 		throw new DomainError("In cyl_bessel_j function, n must be zero when x is zero.");
 
 	// COMPUTATION
-	if (n == Math.floor(n))
+	if (n === Math.floor(n))
 		return _J_int(n, x);
 	else
 		return _J_positive(n, x);
@@ -118,13 +118,13 @@ export function sph_neumann(n: number, x: number): number
 export function cyl_bessel_i(n: number, x: number): number
 {
 	// VALIDATION
-	if (x < 0 && n != Math.floor(n))
+	if (x < 0 && n !== Math.floor(n))
 		throw new DomainError("In cyl_bessel_i function, n must integer when x < 0");
-	else if (x == 0 && n != 0)
+	else if (x === 0 && n !== 0)
 		throw new DomainError("In cyl_bessel_i function, n must be zero when x is zero.");
 	
 	// COMPUTATION
-	if (n == .5)
+	if (n === .5)
 		return Math.sqrt(2.0 / (Math.PI*x)) * Math.sinh(x);
 	else
 		return _Bessel_i(n, x);

@@ -94,7 +94,7 @@ export class ForwardList<T>
 
 		this.clear();
 
-		if (args.length == 1 && args[0] instanceof Array)
+		if (args.length === 1 && args[0] instanceof Array)
 		{
 			let array: Array<T> = args[0];
 			let it = this.before_begin();
@@ -102,11 +102,11 @@ export class ForwardList<T>
 			for (let val of array)
 				it = this.insert_after(it, val);
 		}
-		else if (args.length == 1 && args[0] instanceof ForwardList)
+		else if (args.length === 1 && args[0] instanceof ForwardList)
 		{
 			this.assign(args[0].begin(), args[0].end());
 		}
-		else if (args.length == 2)
+		else if (args.length === 2)
 			this.assign(args[0], args[1]);
 	}
 
@@ -164,7 +164,7 @@ export class ForwardList<T>
 	 */
 	public empty(): boolean
 	{
-		return this.size_ == 0;
+		return this.size_ === 0;
 	}
 	
 	/**
@@ -181,7 +181,7 @@ export class ForwardList<T>
 	{
 		let it: ForwardList.Iterator<T> = this.begin();
 
-		if (val == undefined)
+		if (val === undefined)
 			return it.value;
 		else
 			it.value = val;
@@ -271,9 +271,9 @@ export class ForwardList<T>
 		let ret: ForwardList.Iterator<T>;
 
 		// BRANCHES
-		if (args.length == 1)
+		if (args.length === 1)
 			ret = this._Insert_by_repeating_val(pos, 1, args[0]);
-		else if (typeof args[0] == "number")
+		else if (typeof args[0] === "number")
 			ret = this._Insert_by_repeating_val(pos, args[0], args[1]);
 		else
 			ret = this._Insert_by_range(pos, args[0], args[1]);
@@ -309,7 +309,7 @@ export class ForwardList<T>
 
 			++count;
 		}
-		if (count == 0)
+		if (count === 0)
 			return pos;
 
 		for (let i: number = 0; i < count - 1; ++i)
@@ -402,7 +402,7 @@ export class ForwardList<T>
 		let count: number = 0;
 		
 		for (let it = this.before_begin(); !it.next().equals(this.end()); it = it.next())
-			if (pred(it.next().value) == true)
+			if (pred(it.next().value) === true)
 			{
 				it["next_"] = it.next().next();
 				++count;
@@ -418,11 +418,11 @@ export class ForwardList<T>
 	 */
 	public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = less): void
 	{
-		if (this == <ForwardList<T>>from)
+		if (this === <ForwardList<T>>from)
 			return;
 
 		let it = this.before_begin();
-		while (from.empty() == false)
+		while (from.empty() === false)
 		{
 			let value = from.begin().value;
 			while (!it.next().equals(this.end()) && comp(it.next().value, value))
@@ -478,12 +478,12 @@ export class ForwardList<T>
 		): void
 	{
 		// DEFAULT PARAMETERS
-		if (first_before == null)
+		if (first_before === null)
 			first_before = from.before_begin();
-		else if (last == null)
+		else if (last === null)
 			last = first_before.next().next();
 
-		if (last == null)
+		if (last === null)
 			last = from.end();
 
 		// INSERT & ERASE
@@ -624,7 +624,7 @@ export namespace ForwardList
 		 */
 		public equals(obj: Iterator<T>): boolean
 		{
-			return this == obj;
+			return this === obj;
 		}
 	}
 }

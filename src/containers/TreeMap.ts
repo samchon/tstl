@@ -80,7 +80,7 @@ export class TreeMap<Key, T>
 		// // INITIALIZE MEMBERS AND POST-PROCESS
 		// //----
 		// // BRANCH - METHOD OVERLOADINGS
-		// if (args.length == 1 && args[0] instanceof TreeMap)
+		// if (args.length === 1 && args[0] instanceof TreeMap)
 		// {
 		// 	// PARAMETERS
 		// 	let container: TreeMap<Key, T> = args[0];
@@ -98,7 +98,7 @@ export class TreeMap<Key, T>
 		// else if (args.length >= 1 && args[0] instanceof Array)
 		// {
 		// 	// FUNCTION TEMPLATE
-		// 	if (args.length == 2)	comp = args[1];
+		// 	if (args.length === 2)	comp = args[1];
 
 		// 	// INITIALIZER LIST CONSTRUCTOR
 		// 	post_process = () =>
@@ -110,7 +110,7 @@ export class TreeMap<Key, T>
 		// else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
 		// {
 		// 	// FUNCTION TEMPLATE
-		// 	if (args.length == 3)	comp = args[2];
+		// 	if (args.length === 3)	comp = args[2];
 
 		// 	// RANGE CONSTRUCTOR
 		// 	post_process = () =>
@@ -121,7 +121,7 @@ export class TreeMap<Key, T>
 		// 		this.assign(first, last);
 		// 	};
 		// }
-		// else if (args.length == 1)
+		// else if (args.length === 1)
 		// {
 		// 	// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
 		// 	comp = args[0];
@@ -134,7 +134,7 @@ export class TreeMap<Key, T>
 		// this.tree_ = new _UniqueMapTree<Key, T, TreeMap<Key, T>>(this, comp);
 		
 		// // ACT POST-PROCESS
-		// if (post_process != null)
+		// if (post_process !== null)
 		// 	post_process();
 	}
 
@@ -174,7 +174,7 @@ export class TreeMap<Key, T>
 	{
 		let node = this.tree_.nearest_by_key(key);
 
-		if (node == null || this.tree_.key_eq()(node.value.first, key) == false)
+		if (node === null || this.tree_.key_eq()(node.value.first, key) === false)
 			return this.end();
 		else
 			return node.value;

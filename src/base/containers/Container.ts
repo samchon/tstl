@@ -50,7 +50,7 @@ export abstract class Container<T,
 	 */
 	public empty(): boolean
 	{
-		return this.size() == 0;
+		return this.size() === 0;
 	}
 
 	/* ---------------------------------------------------------
