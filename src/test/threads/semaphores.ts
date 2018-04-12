@@ -44,13 +44,18 @@ namespace test
 
 		// DO UNLOCK
 		await s.unlock(SIZE);
-
 		if (acquired_count !==2 * SIZE)
 			throw new std.DomainError(`Error on ${name}.unlock().`);
+
+		// RELEASE ALL REMAINED LOCKS
+		await s.unlock(SIZE);
 	}
 
 	async function _Test_timed_semaphore(ts: std.experimental.TimedSemaphore): Promise<void>
 	{
+		// COMMON FEATURES
+		await _Test_semaphore("TimedSemaphore", <any>ts);
+
 		// TRY LOCK FIRST
 		let flag: boolean = await ts.try_lock_for(0, SIZE / 2);
 		if (flag === false)
