@@ -147,7 +147,7 @@ namespace std.experimental
 			resolved_count = this._Compute_resolve_count(resolved_count);
 			this.hold_count_ -= resolved_count;
 
-			while (resolved_count !==0)
+			while (resolved_count !== 0)
 			{
 				let it/*Iterator*/ = this.resolvers_.begin();
 				let props: IProps = it.second;

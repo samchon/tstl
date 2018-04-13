@@ -60,7 +60,7 @@ namespace std.base
 
 			// let ret: _XTreeNode<T> = this.root_;
 
-			// while (ret !==null)
+			// while (ret !== null)
 			// {
 			// 	if (this.comp_(val, ret.value))
 			// 		ret = ret.left;
@@ -96,7 +96,7 @@ namespace std.base
 					return ret; // MATCHED VALUE
 
 				// FINAL BRANCH? OR KEEP GOING
-				if (my_node !==null)
+				if (my_node !== null)
 					ret = my_node;
 				else
 					break;
@@ -106,7 +106,7 @@ namespace std.base
 
 		protected _Fetch_maximum(node: _XTreeNode<T>): _XTreeNode<T>
 		{
-			while (node.right !==null)
+			while (node.right !== null)
 				node = node.right;
 
 			return node;
@@ -207,7 +207,7 @@ namespace std.base
 			if (node === null)
 				return; // UNABLE TO FIND THE MATCHED NODE
 
-			if (node.left !==null && node.right !==null)
+			if (node.left !== null && node.right !== null)
 			{
 				let pred: _XTreeNode<T> = this._Fetch_maximum(node.left);
 
@@ -268,7 +268,7 @@ namespace std.base
 		private _Erase_case4(N: _XTreeNode<T>): void
 		{
 			if (this._Fetch_color(N.parent) === _Color.RED &&
-				N.sibling !==null &&
+				N.sibling !== null &&
 				this._Fetch_color(N.sibling) === _Color.BLACK &&
 				this._Fetch_color(N.sibling.left) === _Color.BLACK &&
 				this._Fetch_color(N.sibling.right) === _Color.BLACK)
@@ -283,7 +283,7 @@ namespace std.base
 		private _Erase_case5(n: _XTreeNode<T>): void
 		{
 			if (n === n.parent.left &&
-				n.sibling !==null &&
+				n.sibling !== null &&
 				this._Fetch_color(n.sibling) === _Color.BLACK &&
 				this._Fetch_color(n.sibling.left) === _Color.RED &&
 				this._Fetch_color(n.sibling.right) === _Color.BLACK)
@@ -294,7 +294,7 @@ namespace std.base
 				this._Rotate_right(n.sibling);
 			}
 			else if (n === n.parent.right &&
-				n.sibling !==null &&
+				n.sibling !== null &&
 				this._Fetch_color(n.sibling) === _Color.BLACK &&
 				this._Fetch_color(n.sibling.left) === _Color.BLACK &&
 				this._Fetch_color(n.sibling.right) === _Color.RED)
@@ -333,7 +333,7 @@ namespace std.base
 			this._Replace_node(node, right);
 
 			node.right = right.left;
-			if (right.left !==null)
+			if (right.left !== null)
 				right.left.parent = node;
 
 			right.left = node;
@@ -346,7 +346,7 @@ namespace std.base
 			this._Replace_node(node, left);
 
 			node.left = left.right;
-			if (left.right !==null)
+			if (left.right !== null)
 				left.right.parent = node;
 
 			left.right = node;
@@ -365,7 +365,7 @@ namespace std.base
 					oldNode.parent.right = newNode;
 			}
 
-			if (newNode !==null)
+			if (newNode !== null)
 				newNode.parent = oldNode.parent;
 		}
 

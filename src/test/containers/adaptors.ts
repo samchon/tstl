@@ -55,11 +55,11 @@ namespace test
 	
 	function _Validate_adaptor_items(items: number[], answer: number[]): void
 	{
-		if (items.length !==answer.length)
+		if (items.length !== answer.length)
 			throw new std.DomainError("Number of elements are wrong.");
 
 		for (let i: number = 0; i < items.length; ++i)
-			if (items[i] !==answer[i])
+			if (items[i] !== answer[i])
 				throw new std.DomainError("Wrong element is inserted in.");
 	}
 

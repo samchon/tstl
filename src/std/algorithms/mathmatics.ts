@@ -199,7 +199,7 @@ namespace std
 			if (find_if(first1, it, lamda).equals(it))
 			{
 				let n: number = count(first2, last2, it.value);
-				if (n === 0 || count(it, last1, it.value) !==n)
+				if (n === 0 || count(it, last1, it.value) !== n)
 					return false;
 			}
 		}

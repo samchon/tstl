@@ -14,7 +14,7 @@ namespace test
 		let y = std.make_pair(1, 2);
 		let z = std.make_pair(1, 3);
 
-		if (x.hashCode() !==y.hashCode() || x.hashCode() === z.hashCode())
+		if (x.hashCode() !== y.hashCode() || x.hashCode() === z.hashCode())
 			throw new std.DomainError("Error in Pair.hashCode()");
 		else if (x.equals(y) === false || x.equals(z) === true)
 			throw new std.DomainError("Error in Pair.equals()");
@@ -25,7 +25,7 @@ namespace test
 		let x = new std.Entry<number, number>(1, 2);
 		let y = new std.Entry<number, number>(1, 3);
 
-		if (x.hashCode() !==y.hashCode())
+		if (x.hashCode() !== y.hashCode())
 			throw new std.DomainError("Error in Entry.hashCode()");
 		else if (x.equals(y) === false)
 			throw new std.DomainError("Error in Pair.equals()");

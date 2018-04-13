@@ -586,7 +586,7 @@ namespace std
 			let second_row: T[] = null;
 			let i: number = 0;
 
-			while (size !==0)
+			while (size !== 0)
 			{
 				// FIND MATCHED ROW AND COLUMN
 				let indexes: Pair<number, number> = this._Fetch_index(first.index());
@@ -598,7 +598,7 @@ namespace std
 				row.splice(col, my_delete_size);
 
 				// TO MERGE
-				if (row.length !==0)
+				if (row.length !== 0)
 					if (i === 0)
 						first_row = row;
 					else
@@ -614,7 +614,7 @@ namespace std
 			}
 
 			// MERGE FIRST AND SECOND ROW
-			if (first_row !==null && second_row !==null
+			if (first_row !== null && second_row !== null
 				&& first_row.length + second_row.length <= this._Compute_col_size())
 			{
 				first_row.push(...second_row);

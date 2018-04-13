@@ -27,7 +27,7 @@ namespace std
 		let pivot_it: RandomAccessIterator = first.advance(Math.floor(size / 2));
 		let pivot: T = pivot_it.value;
 
-		if (pivot_it.index() !==first.index())
+		if (pivot_it.index() !== first.index())
 			iter_swap(first, pivot_it);
 		
 		let i: number = 1;

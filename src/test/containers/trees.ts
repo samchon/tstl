@@ -21,7 +21,7 @@ namespace test
 			for (let i = 0; i < 100; ++i)
 				s.insert(Math.floor(Math.random() * 10000));
 
-			for (let it = s.begin(); it !==s.end(); it = it.next())
+			for (let it = s.begin(); it !== s.end(); it = it.next())
 				if (s.has(it.value) === false)
 					console.log("something wrong.");
 
@@ -60,7 +60,7 @@ namespace test
 					continue;
 				else
 					throw new std.DomainError("find() of TreeSet or TreeMultiSet is wrong; invalid out of range.");
-			else if (alg_it.value !==set_it.value)
+			else if (alg_it.value !== set_it.value)
 				throw new std.DomainError("find() of TreeSet or TreeMultiSet is wrong; different value.");
 		}
 	}
@@ -91,7 +91,7 @@ namespace test
 					continue;
 				else
 					throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; invalid out of range.");
-			else if (alg_it.first !==set_it.first)
+			else if (alg_it.first !== set_it.first)
 				throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; different value.");
 		}
 	}

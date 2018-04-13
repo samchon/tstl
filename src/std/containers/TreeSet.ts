@@ -128,7 +128,7 @@ namespace std
 			this.tree_ = new base._UniqueSetTree<Key, TreeSet<Key>>(this, comp);
 			
 			// ACT POST-PROCESS
-			if (post_process !==null)
+			if (post_process !== null)
 				post_process();
 		}
 

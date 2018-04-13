@@ -553,7 +553,7 @@ namespace std
 	export function reverse<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
 		(first: BidirectionalIterator, last: BidirectionalIterator): void
 	{
-		// first !==last && first !==--last
+		// first !== last && first !== --last
 		while (first.equals(last) === false && first.equals((last = last.prev())) === false)
 		{
 			iter_swap(first, last);

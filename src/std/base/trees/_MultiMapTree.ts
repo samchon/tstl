@@ -80,7 +80,7 @@ namespace std.base
 			}
 
 			// RETURNS -> MATCHED OR NOT
-			return (matched !==null) ? matched : ret;
+			return (matched !== null) ? matched : ret;
 		}
 
 		public nearest_by_key(key: Key): _XTreeNode<MapIterator<Key, T, Source>>

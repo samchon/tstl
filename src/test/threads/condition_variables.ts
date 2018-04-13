@@ -27,14 +27,14 @@ namespace test
 		cv.notify_one();
 		await std.sleep_for(SLEEP_TIME);
 
-		if (wait_count !==WAIT_COUNT - 1)
+		if (wait_count !== WAIT_COUNT - 1)
 			throw new std.DomainError("Error on ConditionVariable::notify_one.");
 
 		// NOTIFY ALL
 		cv.notify_all();
 		await std.sleep_for(SLEEP_TIME);
 
-		if (wait_count !==0)
+		if (wait_count !== 0)
 			throw new std.DomainError("Error on ConditionVariable::notify_all.");
 
 		//----

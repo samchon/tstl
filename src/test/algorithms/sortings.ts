@@ -47,8 +47,8 @@ namespace test
 		// DECLARE INLINE FUNCTION
 		let inline_function = function (left: Cube, right: Cube): boolean
 		{
-			if (left.x !==right.x) return left.x < right.x;
-			else if (left.y !==right.y) return left.y < right.y;
+			if (left.x !== right.x) return left.x < right.x;
+			else if (left.y !== right.y) return left.y < right.y;
 			else return left.z < right.z;
 		};
 

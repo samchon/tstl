@@ -116,9 +116,9 @@ namespace test
 			{
 				console.log("Parameters", first_index, last_index, index, size, value);
 				for (let i: number = 0; i < v.size(); ++i)
-					if (v.at(i) !==vb.at(i))
+					if (v.at(i) !== vb.at(i))
 					{
-						if (i !==0)
+						if (i !== 0)
 							console.log("Previous Index => " + (i-1), v.at(i-1), vb.at(i-1));
 						console.log("Index => " + i, v.at(i), vb.at(i));
 						
@@ -138,11 +138,11 @@ namespace test
 			vb: std.VectorBoolean
 		): void
 	{
-		if (v.size() !==d.size() || std.equal(v.begin(), v.end(), d.begin()) === false)
+		if (v.size() !== d.size() || std.equal(v.begin(), v.end(), d.begin()) === false)
 			throw new std.DomainError("Invalid deque");
-		else if (v.size() !==l.size() || std.equal(v.begin(), v.end(), l.begin()) === false)
+		else if (v.size() !== l.size() || std.equal(v.begin(), v.end(), l.begin()) === false)
 			throw new std.DomainError("Invalid list");
-		else if (v.size() !==vb.size() || std.equal(v.begin(), v.end(), vb.begin()) === false)
+		else if (v.size() !== vb.size() || std.equal(v.begin(), v.end(), vb.begin()) === false)
 			throw new std.DomainError("Invalid vector_bool");
 	}
 

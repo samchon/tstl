@@ -138,7 +138,7 @@ namespace std
 			this.buckets_ = new base._SetHashBuckets(this, hash_function, key_eq);
 
 			// ACT POST-PROCESS
-			if (post_process !==null)
+			if (post_process !== null)
 				post_process();
 		}
 

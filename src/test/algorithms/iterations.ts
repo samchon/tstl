@@ -29,7 +29,7 @@ namespace test
 		std.for_each(items.begin(), items.end(), fn);
 		std.for_each_n(items.begin(), items.size(), fn);
 
-		if (sum !==1.5 * 1000 * 2)
+		if (sum !== 1.5 * 1000 * 2)
 			throw new std.DomainError("Error on std.for_each() or std.for_each_n().");
 	}
 
@@ -48,7 +48,7 @@ namespace test
 			}),
 			std.none_of(items.begin(), items.end(), function (val: number): boolean
 			{
-				return val !==Math.floor(val);
+				return val !== Math.floor(val);
 			})
 		]);
 
@@ -100,7 +100,7 @@ namespace test
 		v2.set(MID, -90);
 
 		let pair = std.mismatch(v1.begin(), v1.end(), v2.begin());
-		if (pair.first.index() !==pair.second.index() || pair.first.index() !==MID)
+		if (pair.first.index() !== pair.second.index() || pair.first.index() !== MID)
 			throw new std.DomainError("Error on std.mismatch().");
 	}
 
@@ -120,7 +120,7 @@ namespace test
 			if (fn(val) === true)
 				++cnt;
 		
-		if (std.count_if(v.begin(), v.end(), fn) !==cnt)
+		if (std.count_if(v.begin(), v.end(), fn) !== cnt)
 			throw new std.DomainError("Error on std.count_if().");
 	}
 }

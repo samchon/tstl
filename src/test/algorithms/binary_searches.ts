@@ -44,7 +44,7 @@ namespace test
 					throw new std.DomainError("Error std.lower_bound or Set.lower_bound; someone is out bound but the other is not.");
 				else
 					continue;
-			else if (v_it.first.value !==s_it.first.value)
+			else if (v_it.first.value !== s_it.first.value)
 				throw new std.DomainError("Error std.lower_bound or Set.lower_bound; different value.");
 
 			// VALIDATE UPPER BOUND
@@ -53,7 +53,7 @@ namespace test
 					throw new std.DomainError("Error std.upper_bound or Set.upper_bound; someone is out bound but the other is not.");
 				else
 					continue;
-			else if (v_it.second.value !==s_it.second.value)
+			else if (v_it.second.value !== s_it.second.value)
 				throw new std.DomainError("Error std.upper_bound or Set.upper_bound; different value.");
 		}
 	}
@@ -94,7 +94,7 @@ namespace test
 					throw new std.DomainError("Error std.lower_bound or Set.lower_bound; someone is out bound but the other is not.");
 				else
 					continue;
-			else if (v_it.first.value.first !==m_it.first.first)
+			else if (v_it.first.value.first !== m_it.first.first)
 				throw new std.DomainError("Error std.lower_bound or Set.lower_bound; different value.");
 
 			// VALIDATE UPPER BOUND
@@ -103,7 +103,7 @@ namespace test
 					throw new std.DomainError("Error std.upper_bound or Set.upper_bound; someone is out bound but the other is not.");
 				else
 					continue;
-			else if (v_it.second.value.first !==m_it.second.first)
+			else if (v_it.second.value.first !== m_it.second.first)
 				throw new std.DomainError("Error std.upper_bound or Set.upper_bound; different value.");
 		}
 	}

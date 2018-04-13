@@ -17,7 +17,7 @@ namespace std
 	 */
 	export function terminate(): void
 	{
-		if (_Terminate_handler !==null)
+		if (_Terminate_handler !== null)
 			_Terminate_handler();
 		
 		if (is_node() === true)

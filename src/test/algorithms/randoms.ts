@@ -38,7 +38,7 @@ namespace test
 				throw new std.DomainError("Error on std.sample(); Elements are not sorted.");
 			
 			samples.erase(std.unique(samples.begin(), samples.end()), samples.end());
-			if (samples.size() !==n)
+			if (samples.size() !== n)
 				throw new std.DomainError("Error on std.sample(); Elements are not unique.");
 		}
 	}

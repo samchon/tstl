@@ -37,7 +37,7 @@ namespace test
 		let i: number = 0;
 
 		for (let elem of vec)
-			if (elem !==items[i++])
+			if (elem !== items[i++])
 				throw new std.DomainError("Wrong for of iteration.");
 	}
 

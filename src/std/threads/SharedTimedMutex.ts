@@ -69,7 +69,7 @@ namespace std
 		 */
 		public async try_lock(): Promise<boolean>
 		{
-			if (this.write_lock_count_ !==0 || this.read_lock_count_ !==0)
+			if (this.write_lock_count_ !== 0 || this.read_lock_count_ !== 0)
 				return false;
 
 			++this.write_lock_count_;
@@ -180,7 +180,7 @@ namespace std
 		 */
 		public async try_lock_shared(): Promise<boolean>
 		{
-			if (this.write_lock_count_ !==0)
+			if (this.write_lock_count_ !== 0)
 				return false;
 			
 			++this.read_lock_count_;

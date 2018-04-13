@@ -123,7 +123,7 @@ namespace std.base
 		public insert(pos: ArrayIterator<T, SourceT>, ...args: any[]): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION
-			if (pos.source() !==<any>this)
+			if (pos.source() !== <any>this)
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 			else if (pos.index() < 0)
 				throw new LengthError("Parametric iterator is directing invalid position.");
@@ -175,7 +175,7 @@ namespace std.base
 		public erase(first: ArrayIterator<T, SourceT>, last: ArrayIterator<T, SourceT> = first.next()): ArrayIterator<T, SourceT>
 		{
 			// VALIDATION
-			if (first.source() !==<any>this || last.source() !==<any>this)
+			if (first.source() !== <any>this || last.source() !== <any>this)
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 			else if (first.index() < 0)
 				throw new LengthError("Invalid parameter: first is directing negative index.");

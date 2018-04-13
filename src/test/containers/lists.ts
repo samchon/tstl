@@ -92,21 +92,21 @@ namespace test
 		let it = std.advance(fl.before_begin(), 3); // STEP TO 2
 		it = fl.erase_after(it); // AND ERASE 3 BY ERASE_AFTER()
 
-		if (it.value !==4)
+		if (it.value !== 4)
 			throw new std.DomainError("Error on std.ForwardList.erase_after(); single deletion.");
 
 		// INSERT AN ELEMENT
 		it = std.advance(fl.before_begin(), 2);
 		it = fl.insert_after(it, -1); // INSERT -1
 
-		if (it.value !==-1)
+		if (it.value !== -1)
 			throw new std.DomainError("Error on std.ForwardList.insert_after().");
 
 		// ERASE RANGE
 		it = std.advance(fl.before_begin(), 6);
 		it = fl.erase_after(it, std.advance(it, 3+1));
 
-		if (it.value !==9)
+		if (it.value !== 9)
 			throw new std.DomainError("Error on std.ForwardList.erase_after(); range deletion.");
 
 		//----

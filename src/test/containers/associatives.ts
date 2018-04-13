@@ -27,7 +27,7 @@ namespace test
 		_Construct_set(set);
 
 		// DUPLICATED ?
-		if (set.size() !==11)
+		if (set.size() !== 11)
 			throw new std.LengthError("Wrong number of elements.");
 
 		let sum: number = 0;
@@ -43,7 +43,7 @@ namespace test
 		}
 
 		// RE-VALIDATE UNIQUENESS & RIGHT INSERTION
-		if (sum !==55)
+		if (sum !== 55)
 			throw new std.LogicError("Elements are not fully inserted.");
 	}
 
@@ -54,7 +54,7 @@ namespace test
 		_Construct_set(set);
 
 		// DUPLICATED ?
-		if (set.size() !==3 * 11)
+		if (set.size() !== 3 * 11)
 			throw new std.LengthError("Wrong number of elements.");
 
 		let sum: number = 0;
@@ -69,12 +69,12 @@ namespace test
 
 			if (it.equals(set.end()) === true || it.value.equals(elem) === false)
 				throw new std.OutOfRange("Failed to find the element by find() method.");
-			else if (count !==3)
+			else if (count !== 3)
 				throw new std.LengthError("Wrong number of duplicated items.");
 		}
 
 		// RE-VALIDATE DUPLICATION & RIGHT INSERTION
-		if (sum !==3 * 55)
+		if (sum !== 3 * 55)
 			throw new std.LogicError("Elements are not fully inserted.");
 	}
 
@@ -102,7 +102,7 @@ namespace test
 		_Construct_map(map);
 
 		// DUPLICATED ?
-		if (map.size() !==11)
+		if (map.size() !== 11)
 			throw new std.LengthError("Wrong number of elements.");
 
 		let sum: number = 0;
@@ -118,7 +118,7 @@ namespace test
 		}
 
 		// RE-VALIDATE UNIQUENESS & RIGHT INSERTION
-		if (sum !==55)
+		if (sum !== 55)
 			throw new std.LogicError("Elements are not fully inserted.");
 	}
 
@@ -129,7 +129,7 @@ namespace test
 		_Construct_map(map);
 
 		// DUPLICATED ?
-		if (map.size() !==3 * 11)
+		if (map.size() !== 3 * 11)
 			throw new std.LengthError("Wrong number of elements.");
 
 		let sum: number = 0;
@@ -144,12 +144,12 @@ namespace test
 
 			if (it.equals(map.end()) === true || it.first.equals(pair.first) === false)
 				throw new std.OutOfRange("Failed to find the element by find() method.");
-			else if (count !==3)
+			else if (count !== 3)
 				throw new std.LengthError("Wrong number of duplicated items.");
 		}
 
 		// RE-VALIDATE UNIQUENESS & RIGHT INSERTION
-		if (sum !==3 * 55)
+		if (sum !== 3 * 55)
 			throw new std.LogicError("Elements are not fully inserted.");
 	}
 

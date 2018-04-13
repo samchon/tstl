@@ -64,7 +64,7 @@ namespace std
 
 		if (m === 0)
 			return _Compute_legendre(n, x, matrix[0]);
-		else if (matrix[m].length > n && matrix[m][n] !==undefined)
+		else if (matrix[m].length > n && matrix[m][n] !== undefined)
 			return matrix[m][n];
 
 		let left: number = (n - m + 1) * (n - m + 2) * _Compute_assoc_legendre(n + 1, m - 1, x, matrix);

@@ -106,7 +106,7 @@ namespace std.base
 		 */
 		public to_bool(): boolean
 		{
-			return this.value_ !==0;
+			return this.value_ !== 0;
 		}
 	}
 }

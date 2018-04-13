@@ -228,7 +228,7 @@ namespace std
 
 			// ARRANGE RIGHT SIDE
 			if (next.equals(this.data_.end()) === true 
-				|| (next.first !==index + 1 || next.second !==val))
+				|| (next.first !== index + 1 || next.second !== val))
 			{
 				// 1) IT'S THE LAST NODE
 				// 2) NEXT NODE DOES NOT POINT THE INDEX + 1 (NEAREST NEIGHBOR)
@@ -288,7 +288,7 @@ namespace std
 			val = !!val; // SIFT
 
 			// EMPLACE OR NOT
-			if (this.data_.empty() || it.second !==val)
+			if (this.data_.empty() || it.second !== val)
 				this.data_.emplace(index, val);
 		}
 
@@ -338,7 +338,7 @@ namespace std
 
 			for (let it = first; !it.equals(last); it = it.next())
 			{
-				if (elements.empty() || elements.back().second !==it.value)
+				if (elements.empty() || elements.back().second !== it.value)
 					elements.push_back(std.make_pair(1, it.value));
 				else
 					++elements.back().first;

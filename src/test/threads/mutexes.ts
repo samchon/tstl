@@ -92,7 +92,7 @@ namespace test
 			mtx.lock_shared();
 			++read_count;
 		}
-		if (read_count !==READ_COUNT) // READ LOCK CAN BE DONE SIMULTANEOUSLY
+		if (read_count !== READ_COUNT) // READ LOCK CAN BE DONE SIMULTANEOUSLY
 			throw new std.DomainError(name + "::lock_shared does not support simultaneous lock.");
 
 		//----

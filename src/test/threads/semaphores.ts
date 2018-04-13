@@ -28,7 +28,7 @@ namespace test
 			await s.lock();
 			++acquired_count;
 		}
-		if (acquired_count !==SIZE)
+		if (acquired_count !== SIZE)
 			throw new std.DomainError(`Error on ${name}.lock().`);
 		else if (await s.try_lock() === true)
 			throw new std.DomainError(`Error on ${name}.try_lock().`);
@@ -39,12 +39,12 @@ namespace test
 			{
 				++acquired_count;
 			});
-		if (acquired_count !==SIZE)
+		if (acquired_count !== SIZE)
 			throw new std.DomainError(`Error on ${name}.lock() when ${name} is full.`);
 
 		// DO UNLOCK
 		await s.unlock(SIZE);
-		if (acquired_count !==2 * SIZE)
+		if (acquired_count !== 2 * SIZE)
 			throw new std.DomainError(`Error on ${name}.unlock().`);
 
 		// RELEASE ALL REMAINED LOCKS
@@ -79,7 +79,7 @@ namespace test
 		}
 
 		await std.sleep_for(100);
-		if (cnt !==SIZE / 2)
+		if (cnt !== SIZE / 2)
 			throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to release holdings.");
 
 		// RELEASE AND LOCK

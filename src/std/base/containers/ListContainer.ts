@@ -234,7 +234,7 @@ namespace std.base
 		public insert(pos: IteratorT, ...args: any[]): IteratorT
 		{
 			// VALIDATION
-			if (pos.source() !==this.end_.source())
+			if (pos.source() !== this.end_.source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			// BRANCHES
@@ -318,7 +318,7 @@ namespace std.base
 		protected _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT
 		{
 			// VALIDATION
-			if (first.source() !==this.end_.source() || last.source() !==this.end_.source())
+			if (first.source() !== this.end_.source() || last.source() !== this.end_.source())
 				throw new InvalidArgument("Parametric iterator is not this container's own.");
 
 			// FIND PREV AND NEXT

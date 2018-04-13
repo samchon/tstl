@@ -35,7 +35,7 @@ function main()
 				return null;
 			
 			let repl = "." + content.substring(first + 2, last);
-			if (repl.indexOf(",") !==-1)
+			if (repl.indexOf(",") !== -1)
 			{
 				first = last;
 				continue;

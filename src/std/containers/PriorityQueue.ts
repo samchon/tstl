@@ -108,7 +108,7 @@ namespace std
 			this.source_ = new std.TreeMultiSet<T>(comp);
 
 			// ACT POST-PROCESS
-			if (post_process !==null)
+			if (post_process !== null)
 				post_process();
 		}
 

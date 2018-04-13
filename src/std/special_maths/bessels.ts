@@ -22,9 +22,9 @@ namespace std
 	export function cyl_bessel_j(n: number, x: number): number
 	{
 		// VALIDATION
-		if (x < 0 && Math.floor(n) !==n)
+		if (x < 0 && Math.floor(n) !== n)
 			throw new std.DomainError("In cyl_bessel_j function, n must be integer when x is negative.");
-		else if (x === 0 && n !==0)
+		else if (x === 0 && n !== 0)
 			throw new std.DomainError("In cyl_bessel_j function, n must be zero when x is zero.");
 
 		// COMPUTATION
@@ -118,9 +118,9 @@ namespace std
 	export function cyl_bessel_i(n: number, x: number): number
 	{
 		// VALIDATION
-		if (x < 0 && n !==Math.floor(n))
+		if (x < 0 && n !== Math.floor(n))
 			throw new std.DomainError("In cyl_bessel_i function, n must integer when x < 0");
-		else if (x === 0 && n !==0)
+		else if (x === 0 && n !== 0)
 			throw new std.DomainError("In cyl_bessel_i function, n must be zero when x is zero.");
 		
 		// COMPUTATION

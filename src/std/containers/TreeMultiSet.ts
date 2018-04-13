@@ -128,7 +128,7 @@ namespace std
 			this.tree_ = new base._MultiSetTree<Key, TreeMultiSet<Key>>(this, comp);
 			
 			// ACT POST-PROCESS
-			if (post_process !==null)
+			if (post_process !== null)
 				post_process();
 		}
 

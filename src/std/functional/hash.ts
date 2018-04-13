@@ -24,7 +24,7 @@ namespace std
 				ret = _Hash_string(item, ret);
 			else // CALL THE HASH_CODE FUNCTION ?
 			{
-				if ((<IComparable<Object>>item).hashCode !==undefined)
+				if ((<IComparable<Object>>item).hashCode !== undefined)
 				{
 					let hashed: number = (<IComparable<Object>>item).hashCode();
 					if (items.length === 1)

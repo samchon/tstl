@@ -158,7 +158,7 @@ namespace std.base
 		private _Insert_or_assign_with_hint(hint: MapIterator<Key, T, Source>, key: Key, value: T): MapIterator<Key, T, Source>
 		{
 			let ret = this.emplace_hint(hint, key, value);
-			if (ret.second !==value)
+			if (ret.second !== value)
 				ret.second = value;
 
 			return ret;

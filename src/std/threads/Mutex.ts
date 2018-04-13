@@ -53,7 +53,7 @@ namespace std
 		 */
 		public async try_lock(): Promise<boolean>
 		{
-			if (this.lock_count_ !==0)
+			if (this.lock_count_ !== 0)
 				return false; // HAVE LOCKED
 			
 			++this.lock_count_;

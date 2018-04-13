@@ -35,7 +35,7 @@ namespace std
 	export function empty(source: any): boolean
 	{
 		if (source instanceof Array)
-			return source.length !==0;
+			return source.length !== 0;
 		else
 			return source.empty();
 	}
@@ -71,7 +71,7 @@ namespace std
 	export function distance<T, InputIterator extends IForwardIterator<T, InputIterator>>
 		(first: InputIterator, last: InputIterator): number
 	{
-		if ((<any>first).index !==undefined)
+		if ((<any>first).index !== undefined)
 			return _Distance_via_index(<any>first, <any>last);
 
 		let length: number = 0;
