@@ -3,7 +3,7 @@
         "target": "es5",
         "declaration": true,
         "sourceMap": true,
-        "outDir": ".",
+        "outDir": "lib",
         
         "noUnusedLocals": true,
         "noUnusedParameters": true,
@@ -14,10 +14,5 @@
             "dom",
             "es2015"
         ]
-    },
-    "exclude": ["**/*.d.ts"],
-    "include": [
-        "node_modules",
-        "src"
-    ]
+    }
 }

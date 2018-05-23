@@ -54,25 +54,26 @@ function _Hash_boolean(val: boolean, ret: number): number
  */
 function _Hash_number(val: number, ret: number): number
 {
-	// ------------------------------------------
-	//	IN C++
-	//		CONSIDER A NUMBER AS A STRING
-	//		HASH<STRING>((CHAR*)&VAL, 8)
-	// ------------------------------------------
-	// CONSTRUCT BUFFER AND BYTE_ARRAY
-	let buffer: ArrayBuffer = new ArrayBuffer(8);
-	let byteArray: Int8Array = new Int8Array(buffer);
-	let valueArray: Float64Array = new Float64Array(buffer);
-	valueArray[0] = val;
+	return _Hash_string(val.toString(), ret);
+	// // ------------------------------------------
+	// //	IN C++
+	// //		CONSIDER A NUMBER AS A STRING
+	// //		HASH<STRING>((CHAR*)&VAL, 8)
+	// // ------------------------------------------
+	// // CONSTRUCT BUFFER AND BYTE_ARRAY
+	// let buffer: ArrayBuffer = new ArrayBuffer(8);
+	// let byteArray: Int8Array = new Int8Array(buffer);
+	// let valueArray: Float64Array = new Float64Array(buffer);
+	// valueArray[0] = val;
 
-	for (let i: number = 0; i < byteArray.length; i++)
-	{
-		let byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
+	// for (let i: number = 0; i < byteArray.length; i++)
+	// {
+	// 	let byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
 
-		ret ^= byte;
-		ret *= _HASH_MULTIPLIER;
-	}
-	return Math.abs(ret);
+	// 	ret ^= byte;
+	// 	ret *= _HASH_MULTIPLIER;
+	// }
+	// return Math.abs(ret);
 }
 
 /**

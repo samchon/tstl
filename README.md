@@ -121,5 +121,5 @@ console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
     - [API Documents](http://samchon.github.io/tstl/api)
     - [Release Notes](https://github.com/samchon/tstl/releases)
   - **Related Projects**
-    - [ECON](https://github.com/samchon/econ)
+    - [ECOL](https://github.com/samchon/ecol)
     - [Samchon-Framework](https://github.com/samchon/framework)

@@ -6,9 +6,3 @@ lib/
 
 package-lock.json
 *.log
-
-*.d.ts
-*.js
-*.js.map
-
-!build/*.js
