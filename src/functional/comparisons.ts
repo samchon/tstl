@@ -7,9 +7,14 @@
  */
 export function equal_to<T>(x: T, y: T): boolean
 {
+	// CONVERT TO PRIMITIVE TYPE
+	x = x.valueOf() as T;
+	y = y.valueOf() as T;
+
+	// DO COMPARE
 	if (x instanceof Object)
 	{
-		if ((x as any).equals)
+		if ((x as any).equals instanceof Function)
 			return (x as any).equals(y);
 		else
 			return x === y;
@@ -39,8 +44,13 @@ export function not_equal_to<T>(x: T, y: T): boolean
  */
 export function less<T>(x: T, y: T): boolean
 {
+	// CONVERT TO PRIMITIVE TYPE
+	x = x.valueOf() as T;
+	y = y.valueOf() as T;
+
+	// DO COMPARE
 	if (x instanceof Object)
-		if ((<any>x).less !== undefined) // has less()
+		if ((<any>x).less instanceof Function) // has less()
 			return (<any>x).less(y);
 		else
 			return (<any>x).__get_m_iUID() < (<any>y).__get_m_iUID();

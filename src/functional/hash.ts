@@ -1,3 +1,5 @@
+import { get_uid } from "./uid";
+
 /**
  * Hash function.
  * 
@@ -10,6 +12,7 @@ export function hash(...items: any[]): number
 	
 	for (let item of items)
 	{
+		item = item.valueOf();
 		let type: string = typeof item;
 
 		if (type === "boolean")
@@ -18,9 +21,10 @@ export function hash(...items: any[]): number
 			ret = _Hash_number(item, ret);
 		else if (type === "string") // STRING -> {LENGTH} BYTES
 			ret = _Hash_string(item, ret);
-		else // CALL THE HASH_CODE FUNCTION ?
+		else
 		{
-			if ((item as any).hashCode !== undefined)
+			// CALL THE HASH_CODE FUNCTION ?
+			if ((item as any).hashCode instanceof Function)
 			{
 				let hashed: number = (item as any).hashCode();
 				if (items.length === 1)
@@ -32,7 +36,7 @@ export function hash(...items: any[]): number
 				}
 			}
 			else
-				ret = _Hash_number((<any>item).__get_m_iUID(), ret);
+				ret = _Hash_number(get_uid(item), ret);
 		}
 	}
 	return ret;
@@ -101,47 +105,3 @@ const _HASH_INIT_VALUE: number = 2166136261;
  * @hidden
  */
 const _HASH_MULTIPLIER: number = 16777619;
-
-
-// Incremental sequence of unique id for objects.
-/**
- * @hidden
- */
-var __s_iUID: number = 0;
-
-if (Object.prototype.hasOwnProperty("__get_m_iUID") === false)
-	(Object.prototype as any).__get_m_iUID = function (): number
-	{
-		if (this.hasOwnProperty("__m_iUID") === false)
-		{
-			var uid: number = ++__s_iUID;
-			Object.defineProperty(this, "__m_iUID",
-			{
-				get: function (): number
-				{
-					return uid;
-				}
-			});
-		}
-		return this.__m_iUID;
-	};
-
-// if (Object.prototype.hasOwnProperty("__get_m_iUID") === false)
-// 	Object.defineProperty(Object.prototype, "__get_m_iUID",
-// 	{
-// 		value: function (): number
-// 		{
-// 			if (this.hasOwnProperty("__m_iUID") === false)
-// 			{
-// 				var uid: number = ++__s_iUID;
-// 				Object.defineProperty(this, "__m_iUID", 
-// 				{
-// 					get: function (): number
-// 					{
-// 						return uid;
-// 					}
-// 				});
-// 			}
-// 			return this.__m_iUID;
-// 		}
-// 	});
