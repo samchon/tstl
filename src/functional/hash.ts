@@ -10,6 +10,7 @@ export function hash(...items: any[]): number
 	
 	for (let item of items)
 	{
+		item = item.valueOf();
 		let type: string = typeof item;
 
 		if (type === "boolean")
@@ -18,9 +19,10 @@ export function hash(...items: any[]): number
 			ret = _Hash_number(item, ret);
 		else if (type === "string") // STRING -> {LENGTH} BYTES
 			ret = _Hash_string(item, ret);
-		else // CALL THE HASH_CODE FUNCTION ?
+		else
 		{
-			if ((item as any).hashCode !== undefined)
+			// CALL THE HASH_CODE FUNCTION ?
+			if ((item as any).hashCode instanceof Function)
 			{
 				let hashed: number = (item as any).hashCode();
 				if (items.length === 1)

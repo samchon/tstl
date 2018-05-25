@@ -6,3 +6,10 @@ lib/
 
 package-lock.json
 *.log
+
+#----
+# COMPILED FILES
+#----
+*.d.ts
+*.js
+*.js.map

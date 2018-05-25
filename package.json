@@ -7,11 +7,12 @@
     "url": "http://samchon.org"
   },
   "version": "1.8.1",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
+  "main": "./index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "build": "tsc && npm run test",
-    "test": "node lib/tests/main"
+    "clean": "node build/clean",
+    "test": "node tests/main"
   },
   "devDependencies": {
     "@types/node": "^7.0.55"
