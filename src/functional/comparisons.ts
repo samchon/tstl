@@ -1,3 +1,5 @@
+import { get_uid } from "./uid";
+
 /**
  * Test whether two arguments are equal.
  * 
@@ -53,7 +55,7 @@ export function less<T>(x: T, y: T): boolean
 		if ((<any>x).less instanceof Function) // has less()
 			return (<any>x).less(y);
 		else
-			return (<any>x).__get_m_iUID() < (<any>y).__get_m_iUID();
+			return get_uid(x) < get_uid(y);
 	else
 		return x < y;
 }

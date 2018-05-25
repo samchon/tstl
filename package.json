@@ -15,8 +15,7 @@
     "test": "node tests/main"
   },
   "devDependencies": {
-    "@types/node": "^7.0.55",
-    "sinon": "^5.0.10"
+    "@types/node": "^7.0.55"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {

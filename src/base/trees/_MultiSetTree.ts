@@ -4,6 +4,8 @@ import { _XTreeNode } from "./_XTreeNode";
 import { MultiSet } from "../containers/MultiSet";
 import { SetIterator } from "../iterators/SetIterator";
 
+import { get_uid } from "../../functional/uid";
+
 /**
  * @hidden
  */
@@ -20,7 +22,7 @@ export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 			{
 				let ret: boolean = comp(x.value, y.value);
 				if (!ret && !comp(y.value, x.value))
-					return (x as any).__get_m_iUID() < (y as any).__get_m_iUID();
+					return get_uid(x) < get_uid(y);
 				else
 					return ret;
 			}
@@ -30,8 +32,7 @@ export class _MultiSetTree<T, Source extends MultiSet<T, Source>>
 	public insert(val: SetIterator<T, false, Source>): void
 	{
 		// ISSUE UID BEFORE INSERTION
-		(val as any).__get_m_iUID();
-
+		get_uid(val);
 		super.insert(val);
 	}
 

@@ -1,19 +1,6 @@
 import { Pair } from "./Pair";
 
-/**
- * Test whether the code is running on NodeJS.
- * 
- * @return Whether NodeJS or not.
- */
-export function is_node(): boolean
-{
-	if (typeof process === "object")
-		if (typeof process.versions === "object")
-			if (typeof process.versions.node !== "undefined")
-				return true;
-	
-	return false;
-}
+export * from "./node";
 
 /**
  * Create a {@link Pair}.

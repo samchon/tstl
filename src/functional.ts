@@ -6,6 +6,7 @@
 export * from "./functional/bit_operations";
 export * from "./functional/comparisons";
 export * from "./functional/hash";
+export * from "./functional/uid";
 
 export * from "./functional/IPointer";
 export * from "./functional/IComparable";

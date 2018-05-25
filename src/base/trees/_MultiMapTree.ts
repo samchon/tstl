@@ -4,6 +4,8 @@ import { _XTreeNode } from "./_XTreeNode";
 import { MultiMap } from "../containers/MultiMap";
 import { MapIterator } from "../iterators/MapIterator";
 
+import { get_uid } from "../../functional/uid";
+
 /** 
  * @hidden
  */
@@ -19,9 +21,9 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 			function (x: MapIterator<Key, T, false, Source>, y: MapIterator<Key, T, false, Source>): boolean
 			{
 				let ret: boolean = comp(x.first, y.first);
-
+				
 				if (!ret && !comp(y.first, x.first))
-					return (x as any).__get_m_iUID() < (y as any).__get_m_iUID();
+					return get_uid(x) < get_uid(y);
 				else
 					return ret;
 			}
@@ -31,8 +33,7 @@ export class _MultiMapTree<Key, T, Source extends MultiMap<Key, T, Source>>
 	public insert(val: MapIterator<Key, T, false, Source>): void
 	{
 		// ISSUE UID BEFORE INSERTION
-		(val as any).__get_m_iUID();
-
+		get_uid(val);
 		super.insert(val);
 	}
 
