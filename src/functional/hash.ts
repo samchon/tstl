@@ -110,26 +110,38 @@ const _HASH_MULTIPLIER: number = 16777619;
 var __s_iUID: number = 0;
 
 if (Object.prototype.hasOwnProperty("__get_m_iUID") === false)
-{
-	Object.defineProperties(Object.prototype,
+	(Object.prototype as any).__get_m_iUID = function (): number
 	{
-		"__get_m_iUID":
+		if (this.hasOwnProperty("__m_iUID") === false)
 		{
-			value: function (): number
+			var uid: number = ++__s_iUID;
+			Object.defineProperty(this, "__m_iUID",
 			{
-				if (this.hasOwnProperty("__m_iUID") === false)
+				get: function (): number
 				{
-					var uid: number = ++__s_iUID;
-						Object.defineProperty(this, "__m_iUID",
-						{
-							"get": function (): number
-							{
-								return uid;
-							}
-						});
+					return uid;
 				}
-				return this.__m_iUID;
-			}
+			});
 		}
-	});
-}
+		return this.__m_iUID;
+	};
+
+// if (Object.prototype.hasOwnProperty("__get_m_iUID") === false)
+// 	Object.defineProperty(Object.prototype, "__get_m_iUID",
+// 	{
+// 		value: function (): number
+// 		{
+// 			if (this.hasOwnProperty("__m_iUID") === false)
+// 			{
+// 				var uid: number = ++__s_iUID;
+// 				Object.defineProperty(this, "__m_iUID", 
+// 				{
+// 					get: function (): number
+// 					{
+// 						return uid;
+// 					}
+// 				});
+// 			}
+// 			return this.__m_iUID;
+// 		}
+// 	});
