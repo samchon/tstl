@@ -1,5 +1,4 @@
 import { ILockable } from "./ILockable";
-import { InvalidArgument } from "../exceptions/LogicError";
 
 /**
  * Sleep for time span.
@@ -8,15 +7,9 @@ import { InvalidArgument } from "../exceptions/LogicError";
  */
 export function sleep_for(ms: number): Promise<void>
 {
-	return new Promise<void>((resolve, reject) =>
+	return new Promise<void>(resolve =>
 	{
-		if (ms < 0) // NEGATIVE VALUE
-			reject(new InvalidArgument("Unable to sleep by negative duration."));
-		else
-			setTimeout(function ()
-			{
-				resolve(); // RETURN
-			}, ms); // FOR 'ms' MILLISECONDS
+		setTimeout(resolve, ms);
 	});
 }
 
