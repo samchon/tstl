@@ -1,3 +1,4 @@
+import { IComparable } from "./IComparable";
 import { get_uid } from "./uid";
 
 /**
@@ -24,9 +25,9 @@ export function hash(...items: any[]): number
 		else
 		{
 			// CALL THE HASH_CODE FUNCTION ?
-			if ((item as any).hashCode instanceof Function)
+			if ((<any>item as IComparable<{}>).hashCode instanceof Function)
 			{
-				let hashed: number = (item as any).hashCode();
+				let hashed: number = (<any>item as IComparable<{}>).hashCode();
 				if (items.length === 1)
 					return hashed;
 				else

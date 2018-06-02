@@ -1,12 +1,13 @@
-import { is_node } from "../utilities/global";
+import { is_node } from "../utilities/node";
+import { _Get_root } from "../base/Global";
 
 /**
  * Terminate program.
  */
 export function terminate(): void
 {
-	if (_Terminate_handler !== null)
-		_Terminate_handler();
+	if (_Get_root().__s_pTerminate_handler !== null)
+		_Get_root().__s_pTerminate_handler();
 	
 	if (is_node() === true)
 		process.exit();
@@ -24,17 +25,17 @@ export function terminate(): void
  */
 export function set_terminate(func: () => void): void
 {
-	_Terminate_handler = func;
-
+	_Get_root().__s_pTerminate_handler = func;
+	
 	if (is_node() === true)
 		process.on("uncaughtException", function (): void
 		{
-			_Terminate_handler();
+			_Get_root().__s_pTerminate_handler();
 		});
 	else
 		window.onerror = function (): void
 		{
-			_Terminate_handler();
+			_Get_root().__s_pTerminate_handler();
 		};
 }
 
@@ -45,10 +46,5 @@ export function set_terminate(func: () => void): void
  */
 export function get_terminate(): () => void
 {
-	return _Terminate_handler;
+	return _Get_root().__s_pTerminate_handler;
 }
-
-/**
- * @hidden
- */
-var _Terminate_handler: () => void = null;

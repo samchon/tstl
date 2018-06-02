@@ -1,3 +1,4 @@
+import { IComparable } from "./IComparable";
 import { get_uid } from "./uid";
 
 /**
@@ -16,8 +17,8 @@ export function equal_to<T>(x: T, y: T): boolean
 	// DO COMPARE
 	if (x instanceof Object)
 	{
-		if ((x as any).equals instanceof Function)
-			return (x as any).equals(y);
+		if ((<any>x as IComparable<T>).equals instanceof Function)
+			return (<any>x as IComparable<T>).equals(y);
 		else
 			return x === y;
 	}
@@ -52,8 +53,8 @@ export function less<T>(x: T, y: T): boolean
 
 	// DO COMPARE
 	if (x instanceof Object)
-		if ((<any>x).less instanceof Function) // has less()
-			return (<any>x).less(y);
+		if ((<any>x as IComparable<T>).less instanceof Function) // has less()
+			return (<any>x as IComparable<T>).less(y);
 		else
 			return get_uid(x) < get_uid(y);
 	else
