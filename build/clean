@@ -1,7 +1,11 @@
 const fs = require("fs");
 
 const EXCLUDES = ["build", "node_modules"];
-const TARGETS = [".js", ".d.ts", ".js.map"];
+const TARGETS = 
+[
+	".js",  ".js.map",
+	".d.ts", "d.ts.map"
+];
 
 function iterate(path)
 {

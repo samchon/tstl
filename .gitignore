@@ -10,6 +10,7 @@ package-lock.json
 #----
 # COMPILED FILES
 #----
-*.d.ts
 *.js
 *.js.map
+*.d.ts
+*.d.ts.map

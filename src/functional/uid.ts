@@ -13,7 +13,7 @@ export function get_uid(obj: Object): number
 		return (obj as IObject).__get_m_iUID();
 	
 	// NO UID EXISTS, THEN ISSUE ONE.
-	if (obj.hasOwnProperty("__m_iUID") === false)
+	else if (obj.hasOwnProperty("__m_iUID") === false)
 	{
 		var uid: number = ++_Get_root().__s_iUID;
 		Object.defineProperty(obj, "__m_iUID", 

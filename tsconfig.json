@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "declaration": true,
         "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
         "outDir": ".",
         
         "noUnusedLocals": true,
