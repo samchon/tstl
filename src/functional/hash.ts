@@ -16,13 +16,13 @@ export function hash(...items: any[]): number
 		item = item.valueOf();
 		let type: string = typeof item;
 
-		if (type === "boolean")
+		if (type === "boolean") // BOOLEAN -> 1 BYTE
 			ret = _Hash_boolean(item, ret);
 		else if (type === "number") // NUMBER -> 8 BYTES
 			ret = _Hash_number(item, ret);
 		else if (type === "string") // STRING -> {LENGTH} BYTES
 			ret = _Hash_string(item, ret);
-		else
+		else if (item instanceof Object)
 		{
 			// CALL THE HASH_CODE FUNCTION ?
 			if ((<any>item as IComparable<{}>).hashCode instanceof Function)
@@ -39,6 +39,8 @@ export function hash(...items: any[]): number
 			else
 				ret = _Hash_number(get_uid(item), ret);
 		}
+		else // NULL OR UNDEFINED
+			ret *= _HASH_MULTIPLIER;
 	}
 	return ret;
 }

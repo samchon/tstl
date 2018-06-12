@@ -16,7 +16,7 @@ export function equal_to<T>(x: T, y: T): boolean
 	y = y.valueOf() as T;
 
 	// DO COMPARE
-	if ((<any>x as IComparable<T>).equals instanceof Function)
+	if (x instanceof Object && (<any>x as IComparable<T>).equals instanceof Function)
 		return (<any>x as IComparable<T>).equals(y);
 	else
 		return x === y;

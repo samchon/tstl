@@ -22,12 +22,11 @@ function _Test_for_of_iteration<
 	// CONSTRUCTIONS
 	//----
 	// CONSTRUCT ITEMS TO VALIDATE
-	let items: number[] = [];
-	for (let i: number = 0; i < 10; ++i)
-		items.push(i);
+	let items: number[] = new Array(10);
+	std.iota(std.begin(items), std.end(items), 0);
 
 	// PUSH THEM ALL TO THE CONTAINER
-	vec.push(...items);
+	vec.assign(std.begin(items), std.end(items));
 
 	//----
 	// VALIDATION

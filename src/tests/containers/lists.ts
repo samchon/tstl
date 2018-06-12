@@ -80,7 +80,7 @@ function _Test_forward_lists(): void
 	//----
 	// CONSTRUCT ELEMENTS
 	//----
-	let fl = new std.ForwardList<number>();
+	let fl: std.ForwardList<number> = new std.ForwardList();
 	for (let i: number = 9; i >= 0; --i)
 		fl.push_front(i);
 

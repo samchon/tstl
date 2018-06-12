@@ -1,11 +1,17 @@
 import { is_node } from "../utilities/node";
 
+/**
+ * @hidden
+ */
 export interface IGlobal
 {
 	__s_iUID?: number;
 	__s_pTerminate_handler?: ()=>void;
 }
 
+/**
+ * @hidden
+ */
 export function _Get_root(): IGlobal
 {
 	if (__s_pRoot === null)

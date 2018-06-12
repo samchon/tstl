@@ -18,8 +18,9 @@ function _Test_linear<
 	//----
 	// CONSTRUCT ELEMENTS
 	//----
-	for (let i: number = 0; i < 10; ++i)
-		vec.push_back(i);
+	// 0 ~ 9
+	vec.assign(10, 0);
+	std.iota(vec.begin(), vec.end(), 0);
 	
 	//----
 	// ELEMENTS I/O

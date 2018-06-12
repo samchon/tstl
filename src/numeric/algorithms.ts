@@ -33,8 +33,8 @@ export function inner_product<T,
 	(
 		first1: InputIterator1, last1: InputIterator1, first2: InputIterator2,
 		value: T,
-		op1: BinaryOperator<T> = multiplies, 
-		op2: BinaryOperator<T> = plus
+		op1: BinaryOperator<T> = plus, 
+		op2: BinaryOperator<T> = multiplies
 	): T
 {
 	for (; !first1.equals(last1); first1 = first1.next())
@@ -47,7 +47,7 @@ export function inner_product<T,
 
 export function adjacent_difference<T,
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-		OutputIterator extends General<IForwardIterator<T, OutputIterator>>>
+		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
 		op: BinaryOperator<T> = minus
@@ -56,7 +56,11 @@ export function adjacent_difference<T,
 	if (first.equals(last))
 		return output;
 
-	let before: T = _Initialize(first, output);
+	// INITIALIZE
+	let before: T;
+	[first, output, before] = _Initialize(first, output);
+
+	// COMPUTE OPERATIONS
 	for (; !first.equals(last); first = first.next())
 	{
 		output.value = op(first.value, before);
@@ -69,7 +73,7 @@ export function adjacent_difference<T,
 
 export function partial_sum<T,
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-		OutputIterator extends General<IForwardIterator<T, OutputIterator>>>
+		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
 		op: BinaryOperator<T> = plus
@@ -78,7 +82,11 @@ export function partial_sum<T,
 	if (first.equals(last))
 		return output;
 
-	let sum: T = _Initialize(first, output);
+	// INITIALIZE
+	let sum: T; 
+	[first, output, sum] = _Initialize(first, output);
+
+	// COMPUTE OPERATIONS
 	for (; !first.equals(last); first = first.next())
 	{
 		sum = op(sum, first.value);
@@ -94,7 +102,7 @@ export function partial_sum<T,
 --------------------------------------------------------- */
 export function inclusive_scan<T,
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-		OutputIterator extends General<IForwardIterator<T, OutputIterator>>>
+		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
 		op: BinaryOperator<T> = plus,
@@ -106,7 +114,7 @@ export function inclusive_scan<T,
 
 export function exclusive_scan<T,
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-		OutputIterator extends General<IForwardIterator<T, OutputIterator>>>
+		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
 		init: T,
@@ -118,10 +126,10 @@ export function exclusive_scan<T,
 
 export function transform_inclusive_scan<T, Ret,
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-		OutputIterator extends General<IForwardIterator<Ret, OutputIterator>>>
+		OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
-		binary: BinaryOperator<Ret> = plus,
+		binary: BinaryOperator<Ret>,
 		unary: (val: T) => Ret,
 		init: T = undefined
 	): OutputIterator
@@ -129,12 +137,16 @@ export function transform_inclusive_scan<T, Ret,
 	if (first.equals(last))
 		return output;
 
-	let before: Ret = _Transform_initialize(first, output, unary, init);
+	// INITIALIZE
+	let before: Ret; 
+	[first, output, before] = _Transform_initialize(first, output, unary, init);
+
+	// COMPUTE OPERATIONS
 	for (; !first.equals(last); first = first.next())
 	{
-		output.value = binary(before, unary(first.value));
+		before = binary(before, unary(first.value));
 		
-		before = output.value;
+		output.value = before;
 		output = output.next();
 	}
 	return output;
@@ -153,15 +165,18 @@ export function transform_exclusive_scan<T, Ret,
 	if (first.equals(last))
 		return output;
 
+	// INITIALIZE
 	let x: Ret = unary(first.value);
-	let y: Ret = unary(init);
+	let y: Ret; 
+	[first, output, y] = _Transform_initialize(first, output, unary, init);
 
+	// COMPUTE OPERATIONS
 	for (; !first.equals(last); first = first.next())
 	{
-		output.value = binary(x, y);
-
+		y = binary(x, y);
 		x = unary(first.value);
-		y = output.value;
+
+		output.value = y;
 		output = output.next();
 	}
 	return output;
@@ -189,9 +204,10 @@ function _Capsule<T>(x: T): T
 function _Initialize<T, 
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(it: InputIterator, output: OutputIterator, init: T = undefined): T
+	(first: InputIterator, output: OutputIterator, init: T = undefined)
+		: [InputIterator, OutputIterator, T]
 {
-	return _Transform_initialize<T, T, InputIterator, OutputIterator>(it, output, _Capsule, init);
+	return _Transform_initialize<T, T, InputIterator, OutputIterator>(first, output, _Capsule, init);
 }
 
 /**
@@ -200,9 +216,18 @@ function _Initialize<T,
 function _Transform_initialize<T, Ret,
 		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
 		OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
-	(it: InputIterator, output: OutputIterator, unary: (val: T) => Ret, init: T = undefined): Ret
+	(first: InputIterator, output: OutputIterator, unary: (val: T) => Ret, init: T = undefined)
+		: [InputIterator, OutputIterator, Ret]
 {
-	return output.value = unary(init === undefined 
-		? it.value
+	// WRITE THE FIRST OR INITIAL VALUE
+	let ret: Ret = unary(init === undefined 
+		? first.value
 		: init);
+	output.value = ret;
+
+	// ADVANCES
+	first = first.next();
+	output = output.next();
+
+	return [first, output, ret];
 }
