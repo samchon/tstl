@@ -1,5 +1,4 @@
 import { IComparable } from "./IComparable";
-import { IPlus } from "./IPlus";
 
 import { get_uid } from "./uid";
 
@@ -33,20 +32,6 @@ export function equal_to<T>(x: T, y: T): boolean
 export function not_equal_to<T>(x: T, y: T): boolean
 {
 	return !equal_to(x, y);
-}
-
-export function plus<T extends number|string|IPlus<T>>
-	(x: T, y: T): boolean
-{
-	// CONVERT TO PRIMITIVE TYPE
-	x = x.valueOf() as T;
-	y = y.valueOf() as T;
-
-	// DO OPERATE
-	if ((<any>x as IPlus<T>).plus instanceof Function)
-		return (<any>x).plus(y);
-	else
-		return <any>x + y;
 }
 
 /**

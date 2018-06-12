@@ -1,5 +1,5 @@
-import { MathUtil } from "../base/maths/MathUtil";
-import { DomainError } from "../exceptions/LogicError";
+import { MathUtil } from "../../base/maths/MathUtil";
+import { DomainError } from "../../exceptions/LogicError";
 import { tgamma } from "./gamma";
 
 /**

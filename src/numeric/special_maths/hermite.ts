@@ -1,4 +1,4 @@
-import { InvalidArgument } from "../exceptions/LogicError";
+import { InvalidArgument } from "../../exceptions/LogicError";
 
 /**
  * Hermite polynomial

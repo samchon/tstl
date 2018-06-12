@@ -1,4 +1,4 @@
-import { DomainError, InvalidArgument } from "../exceptions/LogicError";
+import { DomainError, InvalidArgument } from "../../exceptions/LogicError";
 
 /**
  * Legendre polynomials.

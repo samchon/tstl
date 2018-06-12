@@ -6,6 +6,6 @@ export * from "./algorithm";
 
 export * from "./exception";
 export * from "./functional";
-export * from "./special_math";
+export * from "./numeric";
 export * from "./thread";
 export * from "./utility";
