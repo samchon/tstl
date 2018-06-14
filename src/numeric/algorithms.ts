@@ -225,9 +225,6 @@ function _Transform_initialize<T, Ret,
 		: init);
 	output.value = ret;
 
-	// ADVANCES
-	first = first.next();
-	output = output.next();
-
-	return [first, output, ret];
+	// RETURNS WITH ADVANCES
+	return [first.next(), output.next(), ret];
 }
