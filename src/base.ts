@@ -30,6 +30,7 @@ export * from "./base/containers/IHashMap";
 // BASIC
 export * from "./base/iterators/Iterator";
 export * from "./base/iterators/ReverseIterator";
+export * from "./base/iterators/ForOfAdaptor";
 
 // DERIVED
 export * from "./base/iterators/ArrayIterator";
