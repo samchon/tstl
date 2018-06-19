@@ -27,15 +27,15 @@ export function accumuate<T,
 	return init;
 }
 
-export function inner_product<T,
-		InputIterator1 extends General<IForwardIterator<T, InputIterator1>>,
-		InputIterator2 extends General<IForwardIterator<T, InputIterator2>>>
+export function inner_product<X, Y,
+		InputIterator1 extends General<IForwardIterator<X, InputIterator1>>,
+		InputIterator2 extends General<IForwardIterator<Y, InputIterator2>>>
 	(
 		first1: InputIterator1, last1: InputIterator1, first2: InputIterator2,
-		value: T,
-		op1: BinaryOperator<T> = plus, 
-		op2: BinaryOperator<T> = multiplies
-	): T
+		value: X,
+		op1: BinaryOperator<X> = plus, 
+		op2: BinaryOperator<X, Y> = multiplies
+	): X
 {
 	for (; !first1.equals(last1); first1 = first1.next())
 	{
@@ -188,7 +188,7 @@ export function transform_exclusive_scan<T, Ret,
 /**
  * @hidden
  */
-type BinaryOperator<T> = (x: T, y: T) => T;
+type BinaryOperator<X, Y=X> = (x: X, y: Y) => X;
 
 /**
  * @hidden
