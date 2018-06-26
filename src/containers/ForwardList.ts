@@ -12,7 +12,7 @@ import { _Repeater } from "../base/iterators/_Repeater";
 import { Vector } from "./Vector";
 
 import { advance, distance } from "../iterators/global";
-import { equal_to, less } from "../functional/comparisons";
+import { equal_to, less } from "../functional/comparators";
 import { sort as sort_func } from "../algorithms/sortings";
 
 /**

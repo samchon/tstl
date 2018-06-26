@@ -13,7 +13,7 @@ export function iota<ForwardIterator extends General<IForwardIterator<number, Fo
 		first.value = value++;
 }
 
-export function accumuate<T,
+export function accumulate<T,
 		InputIterator extends General<IForwardIterator<T, InputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, 
@@ -193,9 +193,9 @@ type BinaryOperator<X, Y=X> = (x: X, y: Y) => X;
 /**
  * @hidden
  */
-function _Capsule<T>(x: T): T
+function _Capsule<Param, Ret extends Param = Param>(x: Param): Ret
 {
-	return x;
+	return x as Ret;
 }
 
 /**

@@ -39,7 +39,7 @@ function _Test_accumulate(vec: std.Vector<Point2D>): void
 	for (let elem of vec)
 		solution = std.plus(solution, elem);
 
-	let ret: Point2D = std.accumuate(vec.begin(), vec.end(), new Point2D());
+	let ret: Point2D = std.accumulate(vec.begin(), vec.end(), new Point2D());
 	if (!std.equal_to(solution, ret))
 		throw new std.DomainError("Error on std.accumulate().");
 }

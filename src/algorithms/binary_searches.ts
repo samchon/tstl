@@ -1,7 +1,7 @@
 import { IForwardIterator } from "../iterators/IForwardIterator";
 
 import { distance, advance } from "../iterators/global";
-import { less } from "../functional/comparisons";
+import { less } from "../functional/comparators";
 import { Pair } from "../utilities/Pair";
 
 /* =========================================================

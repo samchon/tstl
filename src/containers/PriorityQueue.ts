@@ -2,7 +2,7 @@
 
 import { TreeMultiSet } from "..";
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { less } from "../functional/comparisons";
+import { less } from "../functional/comparators";
 
 /**
  * Priority Queue; Higher Out First.

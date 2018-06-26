@@ -3,7 +3,7 @@ import { IBidirectionalIterator } from "../iterators/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
 import { Writeonly, General } from "../iterators/IFake";
-import { equal_to } from "../functional/comparisons";
+import { equal_to } from "../functional/comparators";
 import { randint } from "./randoms";
 
 /* =========================================================

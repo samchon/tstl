@@ -1,7 +1,7 @@
 import { _Fetch_arguments } from "./_IAssociativeContainer";
 
 import { hash } from "../../functional/hash";
-import { equal_to } from "../../functional/comparisons";
+import { equal_to } from "../../functional/comparators";
 
 /**
  * @hidden

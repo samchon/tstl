@@ -2,7 +2,7 @@ import { IBidirectionalIterator } from "../iterators/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
 import { General } from "../iterators/IFake";
-import { less } from "../functional/comparisons";
+import { less } from "../functional/comparators";
 import { distance, advance } from "../iterators/global";
 import { iter_swap } from "./modifiers";
 

@@ -7,7 +7,7 @@ import { ReverseIterator as ReverseIteratorBase } from "../base/iterators/Revers
 
 import { IPointer } from "../functional/IPointer";
 import { IForwardIterator } from "../iterators/IForwardIterator";
-import { equal_to, less } from "../functional/comparisons";
+import { equal_to, less } from "../functional/comparators";
 
 /**
  * Doubly Linked List.

@@ -1,6 +1,6 @@
 import { ErrorCode } from "./ErrorCode";
 import { ErrorCondition } from "./ErrorCondition";
-import { equal_to } from "../functional/comparisons";
+import { equal_to } from "../functional/comparators";
 
 /**
  * Error category.

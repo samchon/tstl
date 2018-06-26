@@ -3,7 +3,7 @@ import { Iterator } from "./Iterator";
 import { ReverseIterator } from "./ReverseIterator";
 
 import { IRandomAccessIterator } from "../../iterators/IRandomAccessIterator";
-import { equal_to } from "../../functional/comparisons";
+import { equal_to } from "../../functional/comparators";
 
 /**
  * Iterator of Array Containers.

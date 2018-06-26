@@ -2,7 +2,7 @@ import { _InsertIterator } from "../base/iterators/_InsertIterator";
 
 import { _IInsert } from "../base/disposable/IPartialContainers";
 import { IForwardIterator } from "./IForwardIterator";
-import { equal_to } from "../functional/comparisons";
+import { equal_to } from "../functional/comparators";
 
 /**
  * Insert iterator.

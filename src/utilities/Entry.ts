@@ -2,7 +2,7 @@ import { IPair } from "./IPair";
 import { IComparable } from "../functional/IComparable";
 
 import { hash } from "../functional/hash";
-import { less as less_fn, equal_to } from "../functional/comparisons";
+import { less as less_fn, equal_to } from "../functional/comparators";
 
 /**
  * Entry for mapping.

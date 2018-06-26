@@ -1,7 +1,7 @@
 import { _Fetch_arguments } from "./_IAssociativeContainer";
 
 import { Pair } from "../../utilities/Pair";
-import { less } from "../../functional/comparisons";
+import { less } from "../../functional/comparators";
 
 /**
  * @hidden

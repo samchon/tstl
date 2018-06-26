@@ -2,7 +2,7 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { IRandomAccessIterator } from "../iterators/IRandomAccessIterator";
 
 import { General } from "../iterators/IFake";
-import { less, equal_to } from "../functional/comparisons";
+import { less, equal_to } from "../functional/comparators";
 import { iter_swap, copy } from "./modifiers";
 import { distance } from "../iterators/global";
 

@@ -4,7 +4,7 @@ import { IBidirectionalIterator } from "../iterators/IBidirectionalIterator";
 import { General } from "../iterators/IFake";
 import { Pair } from "../utilities/Pair";
 
-import { less, equal_to } from "../functional/comparisons";
+import { less, equal_to } from "../functional/comparators";
 import { advance, distance } from "../iterators/global";
 import { mismatch, find_if, count } from "./iterations";
 import { iter_swap, reverse } from "./modifiers";

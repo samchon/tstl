@@ -1,7 +1,7 @@
 import { _InsertIterator } from "../base/iterators/_InsertIterator";
 
 import { _IPushFront } from "../base/disposable/IPartialContainers";
-import { equal_to } from "../functional/comparisons";
+import { equal_to } from "../functional/comparators";
 
 /**
  * Front insert iterator.

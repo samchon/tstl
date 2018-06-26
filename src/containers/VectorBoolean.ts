@@ -6,7 +6,7 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { _NativeArrayIterator } from "../base/iterators/_NativeArrayIterator";
 import { OutOfRange } from "../exceptions/LogicError";
 import { Pair } from "../utilities/Pair";
-import { not_equal_to } from "../functional/comparisons";
+import { not_equal_to } from "../functional/comparators";
 
 /**
  * Vector only for `boolean`.
