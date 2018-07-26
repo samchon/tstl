@@ -18,7 +18,7 @@ export function hash(...items: any[]): number
 
 		if (type === "boolean") // BOOLEAN -> 1 BYTE
 			ret = _Hash_boolean(item, ret);
-		else if (type === "number") // NUMBER -> 8 BYTES
+		else if (type === "number" || type === "bigint") // NUMBER -> 8 BYTES
 			ret = _Hash_number(item, ret);
 		else if (type === "string") // STRING -> {LENGTH} BYTES
 			ret = _Hash_string(item, ret);
