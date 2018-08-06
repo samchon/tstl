@@ -3,6 +3,19 @@ import { General, Writeonly } from "../iterators/IFake";
 
 import { plus, minus, multiplies } from "./operators";
 
+export function gcd(x: number, y: number): number
+{
+	while (y > 0)
+		[x, y] = [y, x % y];
+	
+	return x;
+}
+
+export function lcm(x: number, y: number): number
+{
+	return x * y / gcd(x, y);
+}
+
 /* ---------------------------------------------------------
 	COMMON ALGORITHMS
 --------------------------------------------------------- */

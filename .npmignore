@@ -13,4 +13,6 @@ lib/tests/
 *.log
 *.*ignore
 *.js.map
+
 tsconfig.json
+package-lock.json
