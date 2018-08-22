@@ -1,7 +1,7 @@
 import { _ITimedLockable } from "../base/threads/_ITimedLockable";
 
 import { HashMap } from "../containers/HashMap";
-import { _LockType } from "../base/threads/_LockType";
+import { LockType } from "../base/threads/enums";
 import { RangeError } from "../exceptions/RuntimeError";
 import { sleep_for } from "../thread";
 
@@ -20,7 +20,7 @@ export class TimedMutex implements _ITimedLockable
 	/**
 	 * @hidden
 	 */
-	private resolvers_: HashMap<IResolver, boolean>;
+	private resolvers_: HashMap<IResolver, LockType>;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -47,7 +47,7 @@ export class TimedMutex implements _ITimedLockable
 			if (this.lock_count_++ === 0)
 				resolve();
 			else
-				this.resolvers_.emplace(resolve, _LockType.LOCK);
+				this.resolvers_.emplace(resolve, LockType.HOLD);
 		});
 	}
 
@@ -81,7 +81,7 @@ export class TimedMutex implements _ITimedLockable
 			this.resolvers_.erase(it); // POP FIRST
 			
 			// AND CALL LATER
-			if (it.second === _LockType.LOCK)
+			if (it.second === LockType.HOLD)
 				listener();
 			else
 				listener(true);
@@ -103,7 +103,7 @@ export class TimedMutex implements _ITimedLockable
 			else
 			{
 				// DO LOCK
-				this.resolvers_.emplace(resolve, _LockType.TRY_LOCK);
+				this.resolvers_.emplace(resolve, LockType.KNOCK);
 
 				// AUTOMATIC UNLOCK
 				sleep_for(ms).then(() =>

@@ -1,6 +1,6 @@
 ﻿import { AdaptorContainer } from "../base/containers/AdaptorContainer";
 
-import { TreeMultiSet } from "..";
+import { TreeMultiSet } from "../containers/TreeMultiSet";
 import { IForwardIterator } from "../iterators/IForwardIterator";
 import { less } from "../functional/comparators";
 

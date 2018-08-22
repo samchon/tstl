@@ -3,7 +3,7 @@ import { IForwardIterator } from "../iterators/IForwardIterator";
 import { Writeonly } from "../iterators/IFake";
 import { sort } from "./sortings";
 import { distance, advance } from "../iterators/global";
-import { begin, end } from "..";
+import { begin, end } from "../iterators/factory";
 
 /**
  * Generate random integer.

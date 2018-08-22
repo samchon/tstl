@@ -2,7 +2,7 @@ import { _ISharedLockable } from "../base/threads/_ISharedLockable";
 import { _ITimedLockable } from "../base/threads/_ITimedLockable";
 
 import { HashMap } from "../containers/HashMap";
-import { _LockType } from "../base/threads/_LockType";
+import { AccessType, LockType } from "../base/threads/enums";
 import { RangeError } from "../exceptions/RuntimeError";
 import { sleep_for } from "../thread";
 
@@ -62,8 +62,8 @@ export class SharedTimedMutex
 			else
 				this.resolvers_.emplace(resolve, 
 				{
-					access: _LockType.WRITE, 
-					lock: _LockType.LOCK
+					access: AccessType.WRITE, 
+					lock: LockType.HOLD
 				});
 		});
 	}
@@ -94,8 +94,8 @@ export class SharedTimedMutex
 				// DO LOCK
 				this.resolvers_.emplace(resolve, 
 				{
-					access: _LockType.WRITE, 
-					lock: _LockType.TRY_LOCK
+					access: AccessType.WRITE, 
+					lock: LockType.KNOCK
 				});
 
 				// AUTOMATIC UNLOCK
@@ -144,13 +144,13 @@ export class SharedTimedMutex
 			this.resolvers_.erase(it); // POP FIRST
 
 			// AND CALL LATER
-			if (type.lock === _LockType.LOCK)
+			if (type.lock === LockType.HOLD)
 				listener();
 			else
 				listener(true);
 
 			// UNTIL MEET THE WRITE LOCK
-			if (type.access === _LockType.WRITE)
+			if (type.access === AccessType.WRITE)
 				break;
 		}
 		--this.write_lock_count_;
@@ -173,8 +173,8 @@ export class SharedTimedMutex
 			else
 				this.resolvers_.emplace(resolve, 
 				{
-					access: _LockType.READ, 
-					lock: _LockType.LOCK
+					access: AccessType.READ, 
+					lock: LockType.HOLD
 				});
 		});
 	}
@@ -210,8 +210,8 @@ export class SharedTimedMutex
 				// DO LOCK
 				this.resolvers_.emplace(resolve, 
 				{
-					access: _LockType.READ, 
-					lock: _LockType.TRY_LOCK
+					access: AccessType.READ, 
+					lock: LockType.KNOCK
 				});
 
 				// AUTOMATIC UNLOCK
@@ -265,7 +265,7 @@ export class SharedTimedMutex
 			this.resolvers_.erase(it); // POP FIRST
 			
 			// AND CALL LATER
-			if (type.lock === _LockType.LOCK)
+			if (type.lock === LockType.HOLD)
 				listener();
 			else
 				listener(true);
@@ -286,8 +286,8 @@ interface IResolver
  */
 interface ILockType
 {
-	access: boolean; // read or write
-	lock: boolean; // void or boolean
+	access: AccessType; // read or write
+	lock: LockType; // void or boolean
 }
 
 export type shared_timed_mutex = SharedTimedMutex;

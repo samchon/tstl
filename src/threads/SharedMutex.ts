@@ -2,7 +2,7 @@ import { _ISharedLockable } from "../base/threads/_ISharedLockable";
 
 import { Queue } from "../containers/Queue";
 import { Pair } from "../utilities/Pair";
-import { _LockType } from "../base/threads/_LockType";
+import { AccessType } from "../base/threads/enums";
 import { RangeError } from "../exceptions/RuntimeError";
 
 /**
@@ -25,7 +25,7 @@ export class SharedMutex implements _ISharedLockable
 	/**
 	 * @hidden
 	 */
-	private resolvers_: Queue<Pair<boolean, IListener>>;
+	private resolvers_: Queue<Pair<AccessType, IListener>>;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -58,7 +58,7 @@ export class SharedMutex implements _ISharedLockable
 			if (this.write_lock_count_++ === 0 && this.read_lock_count_ === 0)
 				resolve();
 			else
-				this.resolvers_.push(new Pair(_LockType.WRITE, resolve));
+				this.resolvers_.push(new Pair(AccessType.WRITE, resolve));
 		});
 	}
 
@@ -84,14 +84,14 @@ export class SharedMutex implements _ISharedLockable
 
 		while (this.resolvers_.empty() === false)
 		{
-			let access: boolean = this.resolvers_.front().first;
+			let access: AccessType = this.resolvers_.front().first;
 			let fn: IListener = this.resolvers_.front().second;
 
 			this.resolvers_.pop(); // POP FIRST
 			fn(); // AND CALL LATER
 
 			// UNTIL MEET THE WRITE LOCK
-			if (access === _LockType.WRITE)
+			if (access === AccessType.WRITE)
 				break;
 		}
 		--this.write_lock_count_;
@@ -112,7 +112,7 @@ export class SharedMutex implements _ISharedLockable
 			if (this.write_lock_count_ === 0)
 				resolve();
 			else
-				this.resolvers_.push(new Pair(_LockType.READ, resolve));
+				this.resolvers_.push(new Pair(AccessType.READ, resolve));
 		});
 	}
 

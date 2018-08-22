@@ -1,5 +1,5 @@
 import { HashMap } from "../containers/HashMap";
-import { _LockType } from "../base/threads/_LockType";
+import { LockType } from "../base/threads/enums";
 import { sleep_for } from "./global";
 
 /**
@@ -12,7 +12,7 @@ export class ConditionVariable
 	/**
 	 * @hidden
 	 */
-	private resolvers_: HashMap<IResolver, boolean>;
+	private resolvers_: HashMap<IResolver, LockType>;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -35,7 +35,7 @@ export class ConditionVariable
 	{
 		return new Promise<void>(resolve => 
 		{
-			this.resolvers_.emplace(resolve, _LockType.LOCK);
+			this.resolvers_.emplace(resolve, LockType.HOLD);
 		});
 	}
 
@@ -49,7 +49,7 @@ export class ConditionVariable
 	{
 		return new Promise<boolean>(resolve =>
 		{
-			this.resolvers_.emplace(resolve, _LockType.TRY_LOCK);
+			this.resolvers_.emplace(resolve, LockType.KNOCK);
 
 			// AUTOMATIC UNLOCK
 			sleep_for(ms).then(() =>
@@ -93,7 +93,7 @@ export class ConditionVariable
 
 		// THE 1ST RESOLVER
 		let it = this.resolvers_.begin();
-		if (it.second === _LockType.LOCK)
+		if (it.second === LockType.HOLD)
 			it.first();
 		else
 			it.first(true);
@@ -113,7 +113,7 @@ export class ConditionVariable
 
 		// ITERATE RESOLVERS
 		for (let pair of this.resolvers_)
-			if (pair.second === _LockType.LOCK)
+			if (pair.second === LockType.HOLD)
 				pair.first();
 			else
 				pair.first(true);

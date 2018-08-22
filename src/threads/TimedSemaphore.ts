@@ -2,7 +2,7 @@ import { _ISemaphore } from "../base/threads/_ISemaphore";
 
 import { HashMap } from "../containers/HashMap";
 import { OutOfRange } from "../exceptions/LogicError";
-import { _LockType } from "../base/threads/_LockType";
+import { LockType } from "../base/threads/enums";
 import { RangeError } from "../exceptions/RuntimeError";
 
 import { sleep_for } from "../thread";
@@ -103,7 +103,7 @@ export class TimedSemaphore implements _ISemaphore
 				this.resolvers_.emplace(resolve, 
 				{
 					count: exceeded_count, 
-					type: _LockType.LOCK
+					type: LockType.HOLD
 				});
 			else
 				resolve();
@@ -169,7 +169,7 @@ export class TimedSemaphore implements _ISemaphore
 				this.resolvers_.erase(it);
 
 				// INFORM UNLOCK
-				if (props.type === _LockType.LOCK)
+				if (props.type === LockType.HOLD)
 					it.first();
 				else
 					it.first(true);
@@ -211,7 +211,7 @@ export class TimedSemaphore implements _ISemaphore
 				this.resolvers_.emplace(resolve, 
 				{
 					count: exceeded_count, 
-					type: _LockType.TRY_LOCK
+					type: LockType.KNOCK
 				});
 
 				// DO SLEEP
@@ -275,7 +275,7 @@ interface IResolver
 interface IProps
 {
 	count: number;
-	type: boolean;
+	type: LockType;
 }
 
 export type timed_semaphore = TimedSemaphore;
