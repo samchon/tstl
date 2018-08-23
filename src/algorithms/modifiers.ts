@@ -103,10 +103,12 @@ export function copy_backward<T,
 {
 	last = last.prev();
 
-	for (; !last.equals(first); last = last.prev())
+	while (!last.equals(first))
 	{
-		output.value = last.value;
+		last = last.prev();
 		output = output.prev();
+		
+		output.value = last.value;
 	}
 	return output;
 }
