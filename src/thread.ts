@@ -7,5 +7,3 @@ export * from "./threads/SharedMutex"
 export * from "./threads/SharedTimedMutex";
 
 export * from "./threads/ConditionVariable"
-
-export import experimental = require("./experimental");

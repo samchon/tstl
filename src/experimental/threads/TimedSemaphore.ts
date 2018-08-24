@@ -1,11 +1,11 @@
-import { _ISemaphore } from "../base/threads/_ISemaphore";
+import { _ISemaphore } from "../../base/threads/_ISemaphore";
 
-import { HashMap } from "../containers/HashMap";
-import { OutOfRange } from "../exceptions/LogicError";
-import { LockType } from "../base/threads/enums";
-import { RangeError } from "../exceptions/RuntimeError";
+import { HashMap } from "../../containers/HashMap";
+import { OutOfRange } from "../../exceptions/LogicError";
+import { LockType } from "../../base/threads/enums";
+import { RangeError } from "../../exceptions/RuntimeError";
 
-import { sleep_for } from "../thread";
+import { sleep_for } from "../../thread";
 
 /**
  * Timed semaphore.

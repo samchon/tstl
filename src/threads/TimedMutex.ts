@@ -108,11 +108,12 @@ export class TimedMutex implements _ITimedLockable
 				// AUTOMATIC UNLOCK
 				sleep_for(ms).then(() =>
 				{
-					if (this.resolvers_.has(resolve) === false)
+					let it = this.resolvers_.find(resolve);
+					if (it.equals(this.resolvers_.end()))
 						return;
 
 					// DO UNLOCK
-					this.resolvers_.erase(resolve); // POP THE LISTENER
+					this.resolvers_.erase(it); // POP THE LISTENER
 					--this.lock_count_; // DECREASE LOCKED COUNT
 
 					resolve(false); // RETURN FAILURE

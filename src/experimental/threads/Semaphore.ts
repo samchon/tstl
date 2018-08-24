@@ -1,9 +1,9 @@
-import { _ISemaphore } from "../base/threads/_ISemaphore";
+import { _ISemaphore } from "../../base/threads/_ISemaphore";
 
-import { Queue } from "../containers/Queue";
-import { Pair } from "../utilities/Pair";
-import { OutOfRange } from "../exceptions/LogicError";
-import { RangeError } from "../exceptions/RuntimeError";
+import { Queue } from "../../containers/Queue";
+import { Pair } from "../../utilities/Pair";
+import { OutOfRange } from "../../exceptions/LogicError";
+import { RangeError } from "../../exceptions/RuntimeError";
 
 /**
  * Semaphore.

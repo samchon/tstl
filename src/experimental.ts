@@ -1,2 +1,4 @@
-export * from "./threads/Semaphore";
-export * from "./threads/TimedSemaphore";
+export * from "./experimental/threads/Semaphore";
+export * from "./experimental/threads/TimedSemaphore";
+
+export * from "./experimental/algorithm";
