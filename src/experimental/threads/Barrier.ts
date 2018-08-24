@@ -50,3 +50,6 @@ export class Barrier extends _Barrier
  * @hidden
  */
 type ICompletion = ()=>void;
+
+export type barrier = Barrier;
+export const barrier = Barrier;
