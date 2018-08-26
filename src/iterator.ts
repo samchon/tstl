@@ -3,14 +3,14 @@
 // @reference http://www.cplusplus.com/reference/iterator
 // @author Jeongho Nam <http://samchon.org>
 
-export * from "./iterators/IForwardIterator";
-export * from "./iterators/IBidirectionalIterator";
-export * from "./iterators/IRandomAccessIterator";
-export * from "./iterators/IReverseIterator";
+export * from "./iterator/IForwardIterator";
+export * from "./iterator/IBidirectionalIterator";
+export * from "./iterator/IRandomAccessIterator";
+export * from "./iterator/IReverseIterator";
 
-export * from "./iterators/InsertIterator";
-export * from "./iterators/FrontInsertIterator";
-export * from "./iterators/BackInsertIterator";
+export * from "./iterator/InsertIterator";
+export * from "./iterator/FrontInsertIterator";
+export * from "./iterator/BackInsertIterator";
 
-export * from "./iterators/factory";
-export * from "./iterators/global";
+export * from "./iterator/factory";
+export * from "./iterator/global";

@@ -1,9 +1,9 @@
-import { General } from "../iterators/IFake";
-import { IForwardIterator } from "../iterators/IForwardIterator";
-import { IBidirectionalIterator } from "../iterators/IBidirectionalIterator";
+import { General } from "../iterator/IFake";
+import { IForwardIterator } from "../iterator/IForwardIterator";
+import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 
-import { advance } from "../iterators/global";
-import { copy, copy_backward } from "../algorithms/modifiers";
+import { advance } from "../iterator/global";
+import { copy, copy_backward } from "../algorithm/modifier";
 
 export function shift_left<T, ForwardIterator extends General<IForwardIterator<T, ForwardIterator>>>
 	(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator

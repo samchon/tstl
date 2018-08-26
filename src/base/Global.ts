@@ -1,4 +1,4 @@
-import { is_node } from "../utilities/node";
+import { is_node } from "../utility/node";
 
 /**
  * @hidden

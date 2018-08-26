@@ -1,4 +1,4 @@
-﻿import { ErrorCategory } from "../exceptions/ErrorCategory";
+﻿import { ErrorCategory } from "../exception/ErrorCategory";
 
 /**
  * Base class for error instances.

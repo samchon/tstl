@@ -1,5 +1,5 @@
-import { IForwardIterator } from "../iterators/IForwardIterator";
-import { General, Writeonly } from "../iterators/IFake";
+import { IForwardIterator } from "../iterator/IForwardIterator";
+import { General, Writeonly } from "../iterator/IFake";
 
 import { plus, minus, multiplies } from "./operators";
 

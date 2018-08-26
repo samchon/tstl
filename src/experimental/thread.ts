@@ -1,5 +1,5 @@
-export * from "./threads/Semaphore";
-export * from "./threads/TimedSemaphore";
+export * from "./thread/Semaphore";
+export * from "./thread/TimedSemaphore";
 
-export * from "./threads/Latch";
-export * from "./threads/Barrier";
+export * from "./thread/Latch";
+export * from "./thread/Barrier";

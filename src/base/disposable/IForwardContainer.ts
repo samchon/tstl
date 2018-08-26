@@ -1,4 +1,4 @@
-import { IForwardIterator } from "../../iterators/IForwardIterator";
+import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 /**
  * @hidden

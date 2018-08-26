@@ -6,13 +6,13 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.1.0-dev.20180824-3",
+  "version": "2.1.0-dev.20180826",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
     "build": "tsc && npm run test",
     "clean": "node build/clean",
-    "test": "node tests/main"
+    "test": "node test/main"
   },
   "devDependencies": {
     "@types/node": "^7.0.55"

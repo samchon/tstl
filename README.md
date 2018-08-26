@@ -52,14 +52,14 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
-    - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithms/iterations.ts)
-    - [modifiers](https://github.com/samchon/tstl/tree/master/src/std/algorithms/modifiers.ts)
-    - [partition](https://github.com/samchon/tstl/tree/master/src/std/algorithms/partition.ts)
-    - [sorting](https://github.com/samchon/tstl/tree/master/src/std/algorithms/sorting.ts)
-    - [binary search](https://github.com/samchon/tstl/tree/master/src/std/algorithms/binary_search.ts)
-    - [union set](https://github.com/samchon/tstl/tree/master/src/std/algorithms/union_set.ts)
-    - [heap](https://github.com/samchon/tstl/tree/master/src/std/algorithms/heap.ts)
-    - [mathmatics](https://github.com/samchon/tstl/tree/master/src/std/algorithms/mathmatics.ts)
+    - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithm/iterations.ts)
+    - [modifiers](https://github.com/samchon/tstl/tree/master/src/std/algorithm/modifiers.ts)
+    - [partition](https://github.com/samchon/tstl/tree/master/src/std/algorithm/partition.ts)
+    - [sorting](https://github.com/samchon/tstl/tree/master/src/std/algorithm/sorting.ts)
+    - [binary search](https://github.com/samchon/tstl/tree/master/src/std/algorithm/binary_search.ts)
+    - [union set](https://github.com/samchon/tstl/tree/master/src/std/algorithm/union_set.ts)
+    - [heap](https://github.com/samchon/tstl/tree/master/src/std/algorithm/heap.ts)
+    - [mathmatics](https://github.com/samchon/tstl/tree/master/src/std/algorithm/mathmatics.ts)
 
 ### Functors
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
