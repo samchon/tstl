@@ -13,7 +13,7 @@ import { Vector } from "./Vector";
 
 import { advance, distance } from "../iterator/global";
 import { equal_to, less } from "../functional/comparators";
-import { sort as sort_func } from "../algorithm/sorting";
+import { sort as sort_func } from "../algorithm/sortings";
 
 /**
  * Singly Linked List.

@@ -3,7 +3,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 
 import { advance } from "../iterator/global";
-import { copy, copy_backward } from "../algorithm/modifier";
+import { copy, copy_backward } from "../algorithm/modifiers";
 
 export function shift_left<T, ForwardIterator extends General<IForwardIterator<T, ForwardIterator>>>
 	(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator

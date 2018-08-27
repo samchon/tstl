@@ -6,8 +6,8 @@ import { Pair } from "../utility/Pair";
 
 import { less, equal_to } from "../functional/comparators";
 import { advance, distance } from "../iterator/global";
-import { mismatch, find_if, count } from "./iteration";
-import { iter_swap, reverse } from "./modifier";
+import { mismatch, find_if, count } from "./iterations";
+import { iter_swap, reverse } from "./modifiers";
 
 /* =========================================================
 	MATHMATICS

@@ -3,7 +3,7 @@ import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 
 import { General } from "../iterator/IFake";
 import { less, equal_to } from "../functional/comparators";
-import { iter_swap, copy } from "./modifier";
+import { iter_swap, copy } from "./modifiers";
 import { distance } from "../iterator/global";
 
 import { Vector } from "../container/Vector";

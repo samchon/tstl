@@ -3,7 +3,7 @@ import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 
 import { General, Writeonly } from "../iterator/IFake";
 import { Pair } from "../utility/Pair";
-import { iter_swap } from "./modifier";
+import { iter_swap } from "./modifiers";
 import { distance, advance } from "../iterator/global";
 
 /* =========================================================

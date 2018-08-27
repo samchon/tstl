@@ -4,7 +4,7 @@ import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { General } from "../iterator/IFake";
 import { less } from "../functional/comparators";
 import { distance, advance } from "../iterator/global";
-import { iter_swap } from "./modifier";
+import { iter_swap } from "./modifiers";
 
 /* =========================================================
 	POPLAR-HEAP (https://github.com/Morwenn/poplar-heap)

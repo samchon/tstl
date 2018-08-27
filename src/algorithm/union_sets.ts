@@ -3,7 +3,7 @@ import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 
 import { Writeonly, General } from "../iterator/IFake";
 import { less } from "../functional/comparators";
-import { copy } from "./modifier";
+import { copy } from "./modifiers";
 import { back_inserter } from "../iterator/factory";
 
 import { Vector } from "../container/Vector";
