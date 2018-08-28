@@ -1,5 +1,5 @@
-import { IForwardIterator } from "../iterators/IForwardIterator";
-import { General, Writeonly } from "../iterators/IFake";
+import { IForwardIterator } from "../iterator/IForwardIterator";
+import { General, Writeonly } from "../iterator/IFake";
 
 import { plus, minus, multiplies } from "./operators";
 
@@ -37,7 +37,7 @@ export function accumulate<T,
 	(
 		first: InputIterator, last: InputIterator, 
 		init: T,
-		op: BinaryOperator<T> = plus
+		op: BinaryOperator<T> = <any>plus
 	): T
 {
 	for (; !first.equals(last); first = first.next())
@@ -52,8 +52,8 @@ export function inner_product<X, Y,
 	(
 		first1: InputIterator1, last1: InputIterator1, first2: InputIterator2,
 		value: X,
-		op1: BinaryOperator<X> = plus, 
-		op2: BinaryOperator<X, Y> = multiplies
+		op1: BinaryOperator<X> = <any>plus, 
+		op2: BinaryOperator<X, Y> = <any>multiplies
 	): X
 {
 	for (; !first1.equals(last1); first1 = first1.next())
@@ -69,7 +69,7 @@ export function adjacent_difference<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
-		op: BinaryOperator<T> = minus
+		op: BinaryOperator<T> = <any>minus
 	): OutputIterator
 {
 	if (first.equals(last))
@@ -95,7 +95,7 @@ export function partial_sum<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
-		op: BinaryOperator<T> = plus
+		op: BinaryOperator<T> = <any>plus
 	): OutputIterator
 {
 	if (first.equals(last))
@@ -124,7 +124,7 @@ export function inclusive_scan<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
-		op: BinaryOperator<T> = plus,
+		op: BinaryOperator<T> = <any>plus,
 		init: T = undefined
 	): OutputIterator
 {
@@ -137,7 +137,7 @@ export function exclusive_scan<T,
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
 		init: T,
-		op: BinaryOperator<T> = plus
+		op: BinaryOperator<T> = <any>plus
 	): OutputIterator
 {
 	return transform_exclusive_scan(first, last, output, init, op, _Capsule);
@@ -176,8 +176,8 @@ export function transform_exclusive_scan<T, Ret,
 		OutputIterator extends General<IForwardIterator<Ret, OutputIterator>>>
 	(
 		first: InputIterator, last: InputIterator, output: OutputIterator,
-		init: T = undefined,
-		binary: BinaryOperator<Ret> = plus,
+		init: T,
+		binary: BinaryOperator<Ret>,
 		unary: (val: T) => Ret
 	): OutputIterator
 {
@@ -212,7 +212,7 @@ type BinaryOperator<X, Y=X> = (x: X, y: Y) => X;
 /**
  * @hidden
  */
-function _Capsule<Param, Ret extends Param = Param>(x: Param): Ret
+function _Capsule<X, Ret extends X = X>(x: X): Ret
 {
 	return x as Ret;
 }

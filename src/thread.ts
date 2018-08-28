@@ -1,11 +1,9 @@
-export * from "./threads/global";
-export * from "./threads/ILockable";
+export * from "./thread/global";
+export * from "./thread/ILockable";
 
-export * from "./threads/Mutex";
-export * from "./threads/TimedMutex";
-export * from "./threads/SharedMutex"
-export * from "./threads/SharedTimedMutex";
+export * from "./thread/Mutex";
+export * from "./thread/TimedMutex";
+export * from "./thread/SharedMutex"
+export * from "./thread/SharedTimedMutex";
 
-export * from "./threads/ConditionVariable"
-
-export import experimental = require("./experimental");
+export * from "./thread/ConditionVariable"

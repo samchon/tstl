@@ -52,14 +52,14 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
-    - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithms/iterations.ts)
-    - [modifiers](https://github.com/samchon/tstl/tree/master/src/std/algorithms/modifiers.ts)
-    - [partition](https://github.com/samchon/tstl/tree/master/src/std/algorithms/partition.ts)
-    - [sorting](https://github.com/samchon/tstl/tree/master/src/std/algorithms/sorting.ts)
-    - [binary search](https://github.com/samchon/tstl/tree/master/src/std/algorithms/binary_search.ts)
-    - [union set](https://github.com/samchon/tstl/tree/master/src/std/algorithms/union_set.ts)
-    - [heap](https://github.com/samchon/tstl/tree/master/src/std/algorithms/heap.ts)
-    - [mathmatics](https://github.com/samchon/tstl/tree/master/src/std/algorithms/mathmatics.ts)
+    - [iterations](https://github.com/samchon/tstl/tree/master/src/std/algorithm/iterations.ts)
+    - [modifiers](https://github.com/samchon/tstl/tree/master/src/std/algorithm/modifiers.ts)
+    - [partitions](https://github.com/samchon/tstl/tree/master/src/std/algorithm/partitions.ts)
+    - [sortings](https://github.com/samchon/tstl/tree/master/src/std/algorithm/sortings.ts)
+    - [binary searches](https://github.com/samchon/tstl/tree/master/src/std/algorithm/binary_searches.ts)
+    - [union sets](https://github.com/samchon/tstl/tree/master/src/std/algorithm/union_sets.ts)
+    - [heaps](https://github.com/samchon/tstl/tree/master/src/std/algorithm/heaps.ts)
+    - [mathmatics](https://github.com/samchon/tstl/tree/master/src/std/algorithm/mathmatics.ts)
 
 ### Functors
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
@@ -79,7 +79,7 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [ConditionVariable `condition_variable`](http://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
     - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
     - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
-    - (experiments) [Semaphore `semaphore`](http://samchon.github.io/tstl/api/classes/std.experiments.semaphore.html) & [TimedSemaphore `timed_semaphore`](http://samchon.github.io/tstl/api/classes/std.experiments.timedsemaphore.html)
+    - (experimental) [Semaphore `semaphore`](http://samchon.github.io/tstl/api/classes/std.experimental.semaphore.html) & [TimedSemaphore `timed_semaphore`](http://samchon.github.io/tstl/api/classes/std.experimental.timedsemaphore.html)
 
 
 
@@ -96,7 +96,7 @@ npm install --save tstl
 ``` typescript
 import std = require("tstl");
 
-let map: std.TreeMap<number, string> = new std.TreeMap<number, string>();
+let map: std.TreeMap<number, string> = new std.TreeMap();
 
 // INSERT ITEMS
 map.insert(std.make_pair(1, "First")); // Via tuple

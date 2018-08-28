@@ -2,37 +2,37 @@
 // CONTAINERS
 //----
 // LINEAR
-export * from "./base/containers/IContainer";
-export * from "./base/containers/ILinearContainer";
-export * from "./base/containers/IDequeContainer";
+export * from "./base/container/IContainer";
+export * from "./base/container/ILinearContainer";
+export * from "./base/container/IDequeContainer";
 
-export * from "./base/containers/Container";
-export * from "./base/containers/ArrayContainer";
-export * from "./base/containers/ListContainer";
+export * from "./base/container/Container";
+export * from "./base/container/ArrayContainer";
+export * from "./base/container/ListContainer";
 
 // SETS
-export * from "./base/containers/SetContainer";
-export * from "./base/containers/UniqueSet";
-export * from "./base/containers/MultiSet";
-export * from "./base/containers/ITreeSet";
-export * from "./base/containers/IHashSet";
+export * from "./base/container/SetContainer";
+export * from "./base/container/UniqueSet";
+export * from "./base/container/MultiSet";
+export * from "./base/container/ITreeSet";
+export * from "./base/container/IHashSet";
 
 // MAPS
-export * from "./base/containers/MapContainer";
-export * from "./base/containers/UniqueMap";
-export * from "./base/containers/MultiMap";
-export * from "./base/containers/ITreeMap";
-export * from "./base/containers/IHashMap";
+export * from "./base/container/MapContainer";
+export * from "./base/container/UniqueMap";
+export * from "./base/container/MultiMap";
+export * from "./base/container/ITreeMap";
+export * from "./base/container/IHashMap";
 
 //----
 // ITERATORS
 //----
 // BASIC
-export * from "./base/iterators/Iterator";
-export * from "./base/iterators/ReverseIterator";
-export * from "./base/iterators/ForOfAdaptor";
+export * from "./base/iterator/Iterator";
+export * from "./base/iterator/ReverseIterator";
+export * from "./base/iterator/ForOfAdaptor";
 
 // DERIVED
-export * from "./base/iterators/ArrayIterator";
-export * from "./base/iterators/SetIterator";
-export * from "./base/iterators/MapIterator";
+export * from "./base/iterator/ArrayIterator";
+export * from "./base/iterator/SetIterator";
+export * from "./base/iterator/MapIterator";

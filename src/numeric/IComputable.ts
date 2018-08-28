@@ -1,8 +1,10 @@
+import { INegatable } from "./INegatable";
+
 export interface IComputable<Param, Ret = Param>
+	extends Partial<INegatable<Ret>>
 {
 	plus?(val: Param): Ret;
 	minus?(val: Param): Ret;
-	negate?(): Ret;
 
 	multiplies?(val: Param): Ret;
 	divides?(val: Param): Ret;

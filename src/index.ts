@@ -1,4 +1,5 @@
 export import base = require("./base");
+export import experimental = require("./experimental");
 
 export * from "./container";
 export * from "./iterator";
