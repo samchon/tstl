@@ -19,12 +19,12 @@ export interface IComparable<T>
 	 * @param obj The object to compare.
 	 * @return Whether less or not.
 	 */
-	less?(obj: T): boolean;
+	less(obj: T): boolean;
 
 	/**
 	 * Get hash code.
 	 * 
 	 * @return The hash code.
 	 */
-	hashCode?(): number;
+	hashCode(): number;
 }

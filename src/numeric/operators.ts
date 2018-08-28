@@ -1,8 +1,8 @@
 import { INegatable } from "./INegatable";
 import { IComputable } from "./IComputable";
 
-type PlusParam<Y, Ret> = number | string | Required<Pick<IComputable<Y, Ret>, "plus">>;
-type Param<Y, Ret, Key extends keyof IComputable<Y, Ret>> = number | Required<Pick<IComputable<Y, Ret>, Key>>;
+type PlusParam<Y, Ret> = number | string | Pick<IComputable<Y, Ret>, "plus">;
+type Param<Y, Ret, Key extends keyof IComputable<Y, Ret>> = number | Pick<IComputable<Y, Ret>, Key>;
 
 /* ---------------------------------------------------------
 	PLUS
@@ -12,8 +12,8 @@ export function plus<X extends PlusParam<Y, Ret>,
 		Ret = X>
 	(x: X, y: Y): Ret
 {
-	if ((x as IComputable<Y, Ret>).plus instanceof Function)
-		return (x as IComputable<Y, Ret>).plus(y);
+	if ((x as Partial<IComputable<Y, Ret>>).plus instanceof Function)
+		return (x as Partial<IComputable<Y, Ret>>).plus(y);
 	else
 		return <any>x + y;
 }
@@ -23,8 +23,8 @@ export function minus<X extends Param<Y, Ret, "minus">,
 		Ret = X>
 	(x: X, y: Y): Ret
 {
-	if ((x as IComputable<Y, Ret>).minus instanceof Function)
-		return (x as IComputable<Y, Ret>).minus(y);
+	if ((x as Partial<IComputable<Y, Ret>>).minus instanceof Function)
+		return (x as Partial<IComputable<Y, Ret>>).minus(y);
 	else
 		return <any>(<any>x - <any>y);
 }
@@ -46,8 +46,8 @@ export function multiplies<X extends Param<Y, Ret, "multiplies">,
 		Ret = X>
 	(x: X, y: Y): Ret
 {
-	if ((x as IComputable<Y, Ret>).multiplies instanceof Function)
-		return (x as IComputable<Y, Ret>).multiplies(y);
+	if ((x as Partial<IComputable<Y, Ret>>).multiplies instanceof Function)
+		return (x as Partial<IComputable<Y, Ret>>).multiplies(y);
 	else
 		return <any>(<any>x * <any>y);
 }
@@ -57,8 +57,8 @@ export function divides<X extends Param<Y, Ret, "divides">,
 		Ret = X>
 	(x: X, y: Y): Ret
 {
-	if ((x as IComputable<Y, Ret>).divides instanceof Function)
-		return (x as IComputable<Y, Ret>).divides(y);
+	if ((x as Partial<IComputable<Y, Ret>>).divides instanceof Function)
+		return (x as Partial<IComputable<Y, Ret>>).divides(y);
 	else
 		return <any>(<any>x / <any>y);
 }
@@ -68,8 +68,8 @@ export function modules<X extends Param<Y, Ret, "modules">,
 		Ret = X>
 	(x: X, y: Y): Ret
 {
-	if ((x as IComputable<Y, Ret>).modules instanceof Function)
-		return (x as IComputable<Y, Ret>).modules(y);
+	if ((x as Partial<IComputable<Y, Ret>>).modules instanceof Function)
+		return (x as Partial<IComputable<Y, Ret>>).modules(y);
 	else
 		return <any>(<any>x % <any>y);
 }
