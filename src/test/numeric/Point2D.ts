@@ -1,8 +1,8 @@
 import * as std from "../../index";
 
 export class Point2D 
-	implements std.IComparable<Point2D>, 
-		std.IComputable<Point2D>, std.IComputable<number, Point2D>
+	implements Pick<std.IComparable<Point2D>, "equals">, 
+		Pick<std.IComputable<number|Point2D, Point2D>, "plus"|"minus"|"multiplies">
 {
 	public x: number;
 	public y: number;

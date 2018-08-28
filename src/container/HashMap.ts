@@ -19,7 +19,9 @@ export class HashMap<Key, T>
 	extends UniqueMap<Key, T, HashMap<Key, T>>
 	implements IHashMap<Key, T, true, HashMap<Key, T>>
 {
-	/// @hidden
+	/**
+	 * @hidden
+	 */
 	private buckets_: _MapHashBuckets<Key, T, true, HashMap<Key, T>>;
 
 	/* =========================================================

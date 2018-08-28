@@ -1,4 +1,4 @@
-import { MathUtil } from "../../base/math/MathUtil";
+import { MathUtil } from "../../base/numeric/MathUtil";
 import { tgamma } from "./gamma";
 
 /**

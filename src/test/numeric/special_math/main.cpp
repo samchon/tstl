@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <algorithm>
-#include <boost/math/special_functions.hpp>
+#include <boost/numeric/special_functions.hpp>
 
 #define K 10
 #define PI (acos(-1) / 2.0)

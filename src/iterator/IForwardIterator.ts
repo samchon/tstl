@@ -1,4 +1,5 @@
 import { IPointer } from "../functional/IPointer";
+import { IComparable } from "../functional/IComparable";
 
 /**
  * Forward iterator.
@@ -6,7 +7,8 @@ import { IPointer } from "../functional/IPointer";
  * @author Jeongho Nam <http://samchon.org>
  */
 export interface IForwardIterator<T, Iterator extends IForwardIterator<T, Iterator> = IForwardIterator<T, any>>
-	extends IPointer<T>
+	extends IPointer<T>,
+		Pick<IComparable<Iterator>, "equals">
 {
 	/**
 	 * Get next iterator.
