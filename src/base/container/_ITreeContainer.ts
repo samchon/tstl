@@ -83,3 +83,23 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 	if (post_process !== null)
 		post_process();
 }
+
+export function _Emplace_hint<Iterator extends any, Element>
+	(
+		hint: Iterator, 
+		elem: Element,
+		breaker: () => Iterator
+	): Iterator
+{
+	let prev = hint.prev();
+	let meet: boolean = prev.equals(this.end()) || this.value_comp()(prev.value, elem);
+	meet = meet && (hint.equals(this.end()) || this.key_comp()(elem, hint.value));
+
+	if (!meet) // NOT VALIDATE
+		return breaker();
+	
+	hint = this.data_.insert(hint, elem);
+	this._Handle_insert(hint, hint.next());
+
+	return hint;
+}

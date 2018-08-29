@@ -1,6 +1,6 @@
 ﻿import { MultiSet } from "../base/container/MultiSet";
 import { ITreeSet } from "../base/container/ITreeSet";
-import { _Construct } from "../base/container/_ITreeContainer";
+import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";
 
 import { _MultiSetTree } from "../base/tree/_MultiSetTree";
 import { SetIterator, SetReverseIterator } from "../base/iterator/SetIterator";
@@ -68,72 +68,8 @@ export class TreeMultiSet<Key>
 	public constructor(...args: any[])
 	{
 		super();
-		_Construct.bind(this, TreeMultiSet, _MultiSetTree)(...args);
-
-		// // DECLARE MEMBERS
-		// let comp: (x: Key, y: Key) => boolean = less;
-		// let post_process: () => void = null;
-
-		// //----
-		// // INITIALIZE MEMBERS AND POST-PROCESS
-		// //----
-		// // BRANCH - METHOD OVERLOADINGS
-		// if (args.length === 1 && args[0] instanceof TreeMultiSet)
-		// {
-		// 	// PARAMETERS
-		// 	let container: TreeMultiSet<Key> = args[0];
-		// 	comp = container.key_comp();
-
-		// 	// COPY CONSTRUCTOR
-		// 	post_process = () =>
-		// 	{
-		// 		let first = container.begin();
-		// 		let last = container.end();
-
-		// 		this.assign(first, last);
-		// 	};
-		// }
-		// else if (args.length >= 1 && args[0] instanceof Array)
-		// {
-		// 	// FUNCTION TEMPLATE
-		// 	if (args.length === 2)	comp = args[1];
-
-		// 	// INITIALIZER LIST CONSTRUCTOR
-		// 	post_process = () => 
-		// 	{
-		// 		let items: Key[] = args[0];
-		// 		this.push(...items);
-		// 	};
-		// }
-		// else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-		// {
-		// 	// FUNCTION TEMPLATE
-		// 	if (args.length === 3)	comp = args[2];
-
-		// 	// RANGE CONSTRUCTOR
-		// 	post_process = () =>
-		// 	{
-		// 		let first: Readonly<IForwardIterator<Key>> = args[0];
-		// 		let last: Readonly<IForwardIterator<Key>> = args[1];
-
-		// 		this.assign(first, last);
-		// 	};
-		// }
-		// else if (args.length === 1)
-		// {
-		// 	// DEFAULT CONSTRUCTOR WITH SPECIFIED COMPARISON FUNCTION
-		// 	comp = args[0];
-		// }
-
-		// //----
-		// // DO PROCESS
-		// //----
-		// // CONSTRUCT TREE
-		// this.tree_ = new _MultiSetTree<Key, TreeMultiSet<Key>>(this, comp);
 		
-		// // ACT POST-PROCESS
-		// if (post_process !== null)
-		// 	post_process();
+		_Construct.bind(this, TreeMultiSet, _MultiSetTree)(...args);
 	}
 
 	/* ---------------------------------------------------------
@@ -267,8 +203,10 @@ export class TreeMultiSet<Key>
 	 */
 	protected _Insert_by_hint(hint: TreeMultiSet.Iterator<Key>, key: Key): TreeMultiSet.Iterator<Key>
 	{
-		hint;
-		return this._Insert_by_key(key);
+		return _Emplace_hint.bind(this)(hint, key, ()=>
+		{
+			return this._Insert_by_key(key);
+		});
 	}
 
 	/**
