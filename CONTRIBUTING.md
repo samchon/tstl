@@ -29,17 +29,16 @@ I always welcome your suggestion. When you publishing a suggestion, then please 
 Before sending a pull request, please test your new code. You type the command `npm run build`, then compiling your code and test-automation will be all processed.
 
 ```bash
-####
-# COMPILE & TEST
-####
-npm run build # COMPILE MODULE & TESTING UNIT AND RUN TEST.
-npm run test # RUN TEST ONLY
+# COMPILE & TEST AT ONCE
+npm run build
 
 ####
-# PARTIAL COMPILE
+# SPECIAL COMMANDS
 ####
-npm run build-module # COMPILE MODULE ONLY
-npm run build-test # COMPILE TESTING UNITS ONLY
+tsc # COMPILE ONLY
+npm run test # TEST ONLY
+
+npm run clean # CLEAN COMPILED RESULTS UP
 ```
 
 If you succeeded to compile, but failed to pass the test-automation, then *debug* the test-automation module. I've configured the `.vscode/launch.json`. You just run the `VSCode` and click the `Start Debugging` button or press `F5` key. By the *debugging*, find the reason why the *test* is failed and fix it.
@@ -47,36 +46,33 @@ If you succeeded to compile, but failed to pass the test-automation, then *debug
 ### Adding a Test
 If you want to add a testing-logic, then goto the `src/test` directory. It's the directory containing the test-automation module. Declare some functions starting from the prefix `test_`. Then, they will be called after the next testing.
 
-Note that, the specific functions starting from the prefix `test_` must be delcared in the namespace of `test`. They also must return one of them:
+Note that, the special functions starting from the prefix `test_` must be `export`ed. They also must return one of them:
   - `void`
   - `Promise<void>`
 
 When you detect an error, then throw exception such below:
 
 ```typescript
-namespace test
+export function test_my_specific_logic1(): void
 {
-    export function test_my_specific_logic1(): void
-    {
-        let vec = new std.Vector<number>();
-        for (let i: number = 0; i < 100; ++i)
-            vec.push_back(Math.random());
+    let vec = new std.Vector<number>();
+    for (let i: number = 0; i < 100; ++i)
+        vec.push_back(Math.random());
 
-        std.sort(vec.begin(), vec.end());
+    std.sort(vec.begin(), vec.end());
 
-        if (std.is_sorted(vec.begin(), vec.end()) === false)
-            throw new std.DomainError("std.sort doesn't work.");
-    }
-    
-    export async function test_my_specific_logic2(): Promise<void>
-    {
-        let t1: Date = new Date();
-        await std.sleep_for(1000);
+    if (std.is_sorted(vec.begin(), vec.end()) === false)
+        throw new std.DomainError("std.sort doesn't work.");
+}
 
-        let t2: Date = new Date();
-        if (t2.getTime() - t1.getTime() < 1000)
-            throw new std.DomainError("std.sleep_for doesn't work.");
-    }
+export async function test_my_specific_logic2(): Promise<void>
+{
+    let t1: Date = new Date();
+    await std.sleep_for(1000);
+
+    let t2: Date = new Date();
+    if (t2.getTime() - t1.getTime() < 1000)
+        throw new std.DomainError("std.sleep_for doesn't work.");
 }
 ```
 
@@ -100,20 +96,17 @@ If there're some specific reasons that could not pass the test-automation (not e
 The basic coding convention of STL is the [`snake_case`](https://en.wikipedia.org/wiki/Snake_case). TypeScript-STL follows the basic coding convention; `snake_case`. However, there's a difference when naming the classes. TSTL uses `snake_case` and [`PascalCase`](https://en.wikipedia.org/wiki/PascalCase) on the classes at the same time. 
 
 ```typescript
-namespace std
+export class Vector<T> // class base: PascalCase
 {
-    export class Vector<T> // class base: PascalCase
-    {
-        // methods: snake_cases
-        public push_back(val: T): void;
-        public pop_back(): void;
-    }
-    export import vector = Vector; // class alias := snake_case
-
-    // global functions: snake_case
-    export function less_equal_to<T>(x: T, y: T): boolean;
-    export function sleep_until(at: Date): Promise<void>;
+    // methods: snake_cases
+    public push_back(val: T): void;
+    public pop_back(): void;
 }
+export import vector = Vector; // class alias := snake_case
+
+// global functions: snake_case
+export function less_equal_to<T>(x: T, y: T): boolean;
+export function sleep_until(at: Date): Promise<void>;
 ```
 
 Thus, when you creating a new class, the make it to follow the [PascalCase] and make an alias following the `snake_case`. Methods in the classes or global functions, they just use the basic coding convention; `snake_case`.
