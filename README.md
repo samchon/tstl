@@ -52,14 +52,14 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
-    - [iterations](https://github.com/samchon/tstl/blob/master/src/std/algorithm/iterations.ts)
-    - [modifiers](https://github.com/samchon/tstl/blob/master/src/std/algorithm/modifiers.ts)
-    - [partitions](https://github.com/samchon/tstl/blob/master/src/std/algorithm/partitions.ts)
-    - [sortings](https://github.com/samchon/tstl/blob/master/src/std/algorithm/sortings.ts)
-    - [binary searches](https://github.com/samchon/tstl/blob/master/src/std/algorithm/binary_searches.ts)
-    - [union sets](https://github.com/samchon/tstl/blob/master/src/std/algorithm/union_sets.ts)
-    - [heaps](https://github.com/samchon/tstl/blob/master/src/std/algorithm/heaps.ts)
-    - [mathmatics](https://github.com/samchon/tstl/blob/master/src/std/algorithm/mathmatics.ts)
+    - [iterations](https://github.com/samchon/tstl/blob/master/src/algorithm/iterations.ts)
+    - [modifiers](https://github.com/samchon/tstl/blob/master/src/algorithm/modifiers.ts)
+    - [partitions](https://github.com/samchon/tstl/blob/master/src/algorithm/partitions.ts)
+    - [sortings](https://github.com/samchon/tstl/blob/master/src/algorithm/sortings.ts)
+    - [binary searches](https://github.com/samchon/tstl/blob/master/src/algorithm/binary_searches.ts)
+    - [union sets](https://github.com/samchon/tstl/blob/master/src/algorithm/union_sets.ts)
+    - [heaps](https://github.com/samchon/tstl/blob/master/src/algorithm/heaps.ts)
+    - [mathmatics](https://github.com/samchon/tstl/blob/master/src/algorithm/mathmatics.ts)
 
 ### Functors
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
@@ -75,7 +75,7 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [IComputable](https://github.com/samchon/tstl/blob/master/src/numeric/IComputable.ts)
     - [operations](https://github.com/samchon/tstl/blob/master/src/numeric/operations.ts)
     - [special math](http://en.cppreference.com/w/cpp/numeric/special_math)
-  - [`<thread>`](https://github.com/samchon/tstl/blob/master/src/std/thread.ts)
+  - [`<thread>`](https://github.com/samchon/tstl/blob/master/src/thread.ts)
     - [ConditionVariable `condition_variable`](http://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
     - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
     - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
