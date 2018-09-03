@@ -1,19 +1,14 @@
 /**
  * @hidden
  */
-export type AccessType = boolean;
-export namespace AccessType
+export const enum AccessType
 {
-	export const WRITE = false;
-	export const READ = true;
+	WRITE,
+	READ
 }
 
-/**
- * @hidden
- */
-export type LockType = boolean;
-export namespace LockType
+export const enum LockType
 {
-	export const HOLD = false;
-	export const KNOCK = true;
+	HOLD,
+	KNOCK
 }
