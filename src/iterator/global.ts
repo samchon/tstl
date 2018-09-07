@@ -28,7 +28,7 @@ export function empty<T>(source: Array<T>): boolean;
 export function empty(source: any): boolean
 {
 	if (source instanceof Array)
-		return source.length !== 0;
+		return source.length === 0;
 	else
 		return source.empty();
 }
