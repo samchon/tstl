@@ -23,26 +23,37 @@ export class Barrier extends _Barrier
 		this.completion_ = completion;
 	}
 
-	protected _Is_goal(n: number): boolean
+	public arrive_and_drop(n: number): Promise<void>
 	{
-		this.count_ += Math.max(n, 0);
-		if (this.count_ >= this.size_)
-		{
-			let quotient: number = Math.floor(this.count_ / this.size_);
-			this.count_ = this.count_ % this.size_;
+		return this.arrive(-n);
+	}
 
-			for (; quotient > 0; --quotient)
-				this.completion_();
+	/* ---------------------------------------------------------
+		HANDLERS
+	--------------------------------------------------------- */
+	/**
+	 * @hidden
+	 */
+	protected _Try_wait(): boolean
+	{
+		return this.count_ >= this.size_;
+	}
+
+	/**
+	 * @hidden
+	 */
+	protected _Arrive(n: number): boolean
+	{
+		this.count_ += n;
+		if (this._Try_wait())
+		{
+			this.count_ %= this.size_;
+			this.completion_();
 
 			return true;
 		}
 		else
 			return false;
-	}
-
-	public arrive_and_drop(n: number): Promise<void>
-	{
-		return this.arrive(-n);
 	}
 }
 

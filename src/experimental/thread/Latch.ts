@@ -7,7 +7,18 @@ export class Latch extends _Barrier
 		super(size);
 	}
 
-	protected _Is_goal(n: number): boolean
+	/**
+	 * @hidden
+	 */
+	protected _Try_wait(): boolean
+	{
+		return this.count_ <= 0;
+	}
+
+	/**
+	 * @hidden
+	 */
+	protected _Arrive(n: number): boolean
 	{
 		return this.count_ > 0 && (this.count_ -= n) <= 0;
 	}

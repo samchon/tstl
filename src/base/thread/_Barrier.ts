@@ -26,7 +26,7 @@ export abstract class _Barrier
 
 	public async arrive(n: number = 1): Promise<void>
 	{
-		if (!this._Is_goal(n))
+		if (!this._Arrive(n))
 			return;
 
 		while (!this.resolvers_.empty())
@@ -47,8 +47,6 @@ export abstract class _Barrier
 		await this.wait();
 	}
 
-	protected abstract _Is_goal(n: number): boolean;
-
 	/* ---------------------------------------------------------
 		WAIT FUNCTIONS
 	--------------------------------------------------------- */
@@ -56,22 +54,23 @@ export abstract class _Barrier
 	{
 		return new Promise(resolve =>
 		{
-			if (this.count_ <= 0)
+			if (this._Try_wait())
 				resolve();
 			else
 				this.resolvers_.emplace(resolve, LockType.HOLD);
 		});
 	}
+
 	public async try_wait(): Promise<boolean>
 	{
-		return (this.count_ <= 0);
+		return this._Try_wait();
 	}
 
 	public wait_for(ms: number): Promise<boolean>
 	{
 		return new Promise(resolve =>
 		{
-			if (this.count_ <= 0)
+			if (this._Try_wait())
 			{
 				resolve();
 				return;
@@ -89,6 +88,7 @@ export abstract class _Barrier
 			});
 		});
 	}
+
 	public wait_until(at: Date): Promise<boolean>
 	{
 		// COMPUTE MILLISECONDS TO WAIT
@@ -97,6 +97,19 @@ export abstract class _Barrier
 
 		return this.wait_for(ms);
 	}
+
+	/* ---------------------------------------------------------
+		HANDLERS
+	--------------------------------------------------------- */
+	/**
+	 * @hidden
+	 */
+	protected abstract _Try_wait(): boolean;
+
+	/**
+	 * @hidden
+	 */
+	protected abstract _Arrive(n: number): boolean;
 }
 
 /**
