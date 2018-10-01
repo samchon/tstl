@@ -120,7 +120,7 @@ export abstract class _HashBuckets<T>
 		for (let i: number = 0; i < bucket.length; ++i)
 			if (bucket[i] === val)
 			{
-				bucket.splice(i);
+				bucket.splice(i, 1);
 				--this.item_size_;
 
 				break;
