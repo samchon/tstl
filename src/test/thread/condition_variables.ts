@@ -43,7 +43,7 @@ export async function test_condition_variables(): Promise<void>
 	// THERE'RE 10 WAITERS, HOLDERS, WITH DIFFERENT TIMES
 	for (let i: number = 0; i < WAIT_COUNT; ++i)
 	{
-		cv.wait_for(i * SLEEP_TIME).then((ret: boolean) =>
+		cv.wait_for(i * SLEEP_TIME).then(ret =>
 		{
 			if (ret === true)
 				++success_count;
@@ -51,14 +51,14 @@ export async function test_condition_variables(): Promise<void>
 	}
 
 	// NOTIFY ONE
-	cv.notify_one();
+	await cv.notify_one();
 
 	// NOTIFY ALL WHEN BE HALT TIME
-	await std.sleep_for(10 * SLEEP_TIME);
+	await std.sleep_for(WAIT_COUNT * SLEEP_TIME / 2.0);
 	cv.notify_all();
 
 	// VALIDATE SUCCESS COUNT
 	await std.sleep_for(SLEEP_TIME);
 	if (success_count < 3 || success_count > 7)
-		throw new std.DomainError("ConditionVariable::wait_for does not work in exact time");
+		throw new std.DomainError("ConditionVariable::wait_for does not work in exact time; " + success_count);
 }
