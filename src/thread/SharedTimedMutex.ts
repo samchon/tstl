@@ -4,7 +4,7 @@ import { _ITimedLockable } from "../base/thread/_ITimedLockable";
 import { HashMap } from "../container/HashMap";
 import { AccessType, LockType } from "../base/thread/enums";
 import { RangeError } from "../exception/RuntimeError";
-import { sleep_for } from "../thread";
+import { sleep_for } from "./global";
 
 /**
  * Shared timed mutex.
