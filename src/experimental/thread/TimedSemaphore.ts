@@ -5,7 +5,7 @@ import { OutOfRange } from "../../exception/LogicError";
 import { LockType } from "../../base/thread/enums";
 import { RangeError } from "../../exception/RuntimeError";
 
-import { sleep_for } from "../../thread";
+import { sleep_for } from "../../thread/global";
 
 /**
  * Timed semaphore.
