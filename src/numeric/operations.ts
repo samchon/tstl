@@ -8,8 +8,7 @@ import { plus, minus, multiplies } from "./operators";
  */
 export function gcd(x: number, y: number): number
 {
-	// TYPE OF Y CAN BE NOT `number` BUT `Number`
-	y = y.valueOf();
+	y = y.valueOf(); // `Number` to `number`
 	while (y !== 0)
 		[x, y] = [y, x % y];
 	

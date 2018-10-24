@@ -8,8 +8,9 @@ var is_node_: boolean = null;
 export function is_node(): boolean
 {
 	if (is_node_ === null)
-		is_node_ = typeof process === "object" 
-			&& typeof process.versions === "object"
-			&& typeof process.versions.node !== "undefined";
+		is_node_ = typeof global === "object"
+			&& typeof global.process === "object" 
+			&& typeof global.process.versions === "object"
+			&& typeof global.process.versions.node !== "undefined";
 	return is_node_;
 }
