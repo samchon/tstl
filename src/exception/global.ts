@@ -13,8 +13,9 @@ export function terminate(): void
 		process.exit();
 	else
 	{
-		window.open("", "_self", "");
-		window.close();
+		if (typeof window !== undefined && self.open instanceof Function)
+			self.open("", "_self", "");
+		self.close();
 	}
 }
 
@@ -33,7 +34,7 @@ export function set_terminate(func: () => void): void
 			_Get_root().__s_pTerminate_handler();
 		});
 	else
-		window.onerror = function (): void
+		self.onerror = function (): void
 		{
 			_Get_root().__s_pTerminate_handler();
 		};
