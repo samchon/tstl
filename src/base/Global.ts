@@ -16,7 +16,7 @@ export function _Get_root(): IGlobal
 {
 	if (__s_pRoot === null)
 	{
-		__s_pRoot = (is_node() ? global : window) as IGlobal;
+		__s_pRoot = (is_node() ? global : self) as IGlobal;
 		if (__s_pRoot.__s_iUID === undefined)
 			__s_pRoot.__s_iUID = 0;
 	}
