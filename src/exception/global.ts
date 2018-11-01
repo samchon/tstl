@@ -13,7 +13,7 @@ export function terminate(): void
 		process.exit();
 	else
 	{
-		if (typeof window !== undefined && self.open instanceof Function)
+		if (typeof window !== "undefined" && self.open instanceof Function)
 			self.open("", "_self", "");
 		self.close();
 	}
