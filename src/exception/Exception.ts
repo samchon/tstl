@@ -23,6 +23,14 @@ export class Exception extends Error
 	}
 
 	/**
+	 * The error name.
+	 */
+	public get name(): string
+	{
+		return "exception";
+	}
+
+	/**
 	 * Get error message.
 	 * 
 	 * @return The error message.
