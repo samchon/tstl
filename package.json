@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.1.0-dev.20181102",
+  "version": "2.1.0-dev.20181107",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/samchon/tstl/issues"
   },
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "keywords": [
     "tstl",
     "typescript-stl",
