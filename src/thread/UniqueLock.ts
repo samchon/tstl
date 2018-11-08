@@ -1,4 +1,4 @@
-import { ILockable } from "../test/thread/mutexes";
+import { ILockable } from "./ILockable";
 import { _ITimedLockable } from "../base/thread/_ITimedLockable";
 
 import { _SafeLock } from "../base/thread/_SafeLock";
