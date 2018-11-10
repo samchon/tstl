@@ -10,7 +10,7 @@ export class FlexBarrier
 	/**
 	 * @hidden
 	 */
-	private reset_: ()=>number;
+	private complete_: ()=>number;
 
 	/**
 	 * @hidden
@@ -23,29 +23,33 @@ export class FlexBarrier
 	private count_: number;
 
 	/* ---------------------------------------------------------
-		CONSTRUCTORS
+		CONSTRUCTOR
 	--------------------------------------------------------- */
 	/**
 	 * Initializer Constructor.
 	 * 
 	 * @param size Size of the downward counter.
+	 * @param complete Complete function re-configuring *size* when downward count be zero. Default is a function always returning -1, which means the barrier is not reusable more.
 	 */
-	public constructor(size: number, reset: ()=>number = ()=>-1)
+	public constructor(size: number, complete: ()=>number = ()=>-1)
 	{
 		this.cv_ = new ConditionVariable();
-		this.reset_ = reset;
+		this.complete_ = complete;
 
 		this.size_ = size;
 		this.count_ = 0;
 	}
 
+	/* ---------------------------------------------------------
+		ARRIVES
+	--------------------------------------------------------- */
 	public async arrive(n: number = 1): Promise<void>
 	{
 		let complete: boolean = (this.count_ += n) >= this.size_;
 		if (complete === false)
 			return;
 
-		this.size_ = this.reset_();
+		this.size_ = this.complete_();
 		this.count_ %= this.size_;
 
 		await this.cv_.notify_all();
@@ -60,7 +64,7 @@ export class FlexBarrier
 	public async arrive_and_reset(): Promise<void>
 	{
 		--this.size_;
-		await this.arrive();
+		await this.arrive(0);
 	}
 
 	/* ---------------------------------------------------------
