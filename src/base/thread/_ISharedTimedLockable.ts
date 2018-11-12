@@ -1,10 +1,10 @@
 import { _ISharedLockable } from "./_ISharedLockable";
-import { _ITimedLockable } from "./_ITimedLockable";
+import { ITimedLockable } from "../../thread/ITimedLockable";
 
 /**
  * @hidden
  */
-export interface _ISharedTimedLockable extends _ISharedLockable, _ITimedLockable
+export interface _ISharedTimedLockable extends _ISharedLockable, ITimedLockable
 {
 	/**
 	 * Try lock shared until timeout.

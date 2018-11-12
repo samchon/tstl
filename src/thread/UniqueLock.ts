@@ -1,5 +1,5 @@
 import { ILockable } from "./ILockable";
-import { _ITimedLockable } from "../base/thread/_ITimedLockable";
+import { ITimedLockable } from "./ITimedLockable";
 
 import { _SafeLock } from "../base/thread/_SafeLock";
 
@@ -27,7 +27,7 @@ export namespace UniqueLock
 		);
 	}
 
-	export function try_lock_for<Mutex extends Pick<_ITimedLockable, "try_lock_for"|"unlock">>
+	export function try_lock_for<Mutex extends Pick<ITimedLockable, "try_lock_for"|"unlock">>
 		(mutex: Mutex, ms: number, lambda: () => void | Promise<void>): Promise<boolean>
 	{
 		return _SafeLock.try_lock
@@ -38,7 +38,7 @@ export namespace UniqueLock
 		);
 	}
 
-	export function try_lock_until<Mutex extends Pick<_ITimedLockable, "try_lock_until"|"unlock">>
+	export function try_lock_until<Mutex extends Pick<ITimedLockable, "try_lock_until"|"unlock">>
 		(mutex: Mutex, at: Date, lambda: () => void | Promise<void>): Promise<boolean>
 	{
 		return _SafeLock.try_lock

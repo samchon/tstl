@@ -8,6 +8,24 @@ export async function test_latches(): Promise<void>
 export async function test_barriers(): Promise<void>
 {
 	await _Test_barriers(size => new std.experimental.Barrier(size));
+
+	const SIZE = 3;
+	const REPEAT = 4;
+
+	let barrier = new std.experimental.Barrier(SIZE);
+	let steps: number = 0;
+
+	for (let i: number = 0; i < REPEAT; ++i)
+	{
+		barrier.wait().then(() =>
+		{
+			++steps;
+		});
+		for (let j: number = 0; j < SIZE; ++j)
+			await barrier.arrive();
+	}
+	if (steps !== REPEAT)
+		throw new std.DomainError("Error on Barrier; not reusable.");
 }
 
 async function _Test_barriers(creator: (size: number) => IBarrier): Promise<void>

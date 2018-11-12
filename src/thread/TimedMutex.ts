@@ -1,4 +1,4 @@
-import { _ITimedLockable } from "../base/thread/_ITimedLockable";
+import { ITimedLockable } from "./ITimedLockable";
 
 import { HashMap } from "../container/HashMap";
 import { LockType } from "../base/thread/enums";
@@ -10,7 +10,7 @@ import { sleep_for } from "./global";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class TimedMutex implements _ITimedLockable
+export class TimedMutex implements ITimedLockable
 {
 	/**
 	 * @hidden

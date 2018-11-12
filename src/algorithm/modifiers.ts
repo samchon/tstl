@@ -5,6 +5,7 @@ import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { Writeonly, General } from "../iterator/IFake";
 import { equal_to } from "../functional/comparators";
 import { randint } from "./randoms";
+import { advance } from "../iterator/global";
 
 /* =========================================================
 	MODIFIERS (MODIFYING SEQUENCE)
@@ -589,6 +590,20 @@ export function reverse_copy<T,
 		output = output.next();
 	}
 	return output;
+}
+
+export function shift_left<T, ForwardIterator extends General<IForwardIterator<T, ForwardIterator>>>
+	(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
+{
+	let mid = advance(first, n);
+	return copy(mid, last, first);
+}
+
+export function shift_right<T, ForwardIterator extends General<IBidirectionalIterator<T, ForwardIterator>>>
+	(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
+{
+	let mid = advance(last, -n);
+	return copy_backward(first, mid, last);
 }
 
 /**
