@@ -5,6 +5,9 @@
  */
 export class Exception extends Error
 {
+	/* ---------------------------------------------------------
+		CONSTRUCTOR
+	--------------------------------------------------------- */
 	/**
 	 * Default Constructor.
 	 */
@@ -20,6 +23,17 @@ export class Exception extends Error
 	public constructor(message: string = "")
 	{
 		super(message);
+	}
+
+	/* ---------------------------------------------------------
+		ACCESSORS
+	--------------------------------------------------------- */
+	/**
+	 * The error name.
+	 */
+	public get name(): string
+	{
+		return "exception";
 	}
 
 	/**
