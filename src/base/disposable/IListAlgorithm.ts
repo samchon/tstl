@@ -1,3 +1,6 @@
+/**
+ * @hidden
+ */
 export interface _IListAlgorithm<T, Source>
 {
 	/* ---------------------------------------------------------

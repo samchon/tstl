@@ -5,6 +5,9 @@
  */
 export class Exception extends Error
 {
+	/* ---------------------------------------------------------
+		CONSTRUCTOR
+	--------------------------------------------------------- */
 	/**
 	 * Default Constructor.
 	 */
@@ -22,6 +25,9 @@ export class Exception extends Error
 		super(message);
 	}
 
+	/* ---------------------------------------------------------
+		ACCESSORS
+	--------------------------------------------------------- */
 	/**
 	 * The error name.
 	 */

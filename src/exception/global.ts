@@ -26,18 +26,41 @@ export function terminate(): void
  */
 export function set_terminate(func: () => void): void
 {
-	_Get_root().__s_pTerminate_handler = func;
-	
+	//----
+	// PREPARE EVENT LISTENER
+	//----
+	let type: string;
+	let register: Dispatcher;
+	let eraser: Dispatcher;
+
 	if (is_node() === true)
-		process.on("uncaughtException", function (): void
-		{
-			_Get_root().__s_pTerminate_handler();
-		});
+	{
+		type = "exit";
+		register = (type, listener) => global.process.addListener(type, listener);
+		eraser = (type, listener) => global.process.removeListener(type, listener);
+	}
 	else
-		self.onerror = function (): void
-		{
-			_Get_root().__s_pTerminate_handler();
-		};
+	{
+		// IF WORKER, THEN CANNOT ASSURE ACTIVATION.
+		type = (typeof window !== "undefined") 
+			? "unload" 
+			: "close";
+		register = (type, listener) => self.addEventListener(type, <any>listener);
+		eraser = (type, listener) => self.removeEventListener(type, <any>listener);
+	}
+
+	//----
+	// ENROLL THE LISTENER
+	//----
+	// ERASE ORDINARY
+	if (_Get_root().__s_pTerminate_handler !== undefined)
+		eraser(type, _Get_root().__s_pTerminate_handler);
+	
+	// DO REGISTER
+	register("exit", func);
+
+	// ARCHIVE THE LISTENER
+	_Get_root().__s_pTerminate_handler = func;
 }
 
 /**
@@ -49,3 +72,8 @@ export function get_terminate(): () => void
 {
 	return _Get_root().__s_pTerminate_handler;
 }
+
+/**
+ * @hidden
+ */
+type Dispatcher = (type: string, listener: Function) => void;
