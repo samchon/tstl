@@ -16,6 +16,14 @@ export class LogicError extends Exception
 	{
 		super(message);
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public get name(): string
+	{
+		return "logic_error";
+	}
 }
 
 /**
@@ -34,6 +42,14 @@ export class DomainError extends LogicError
 	{
 		super(message);
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public get name(): string
+	{
+		return "domain_error";
+	}
 }
 
 /**
@@ -51,6 +67,14 @@ export class InvalidArgument extends LogicError
 	public constructor(message: string)
 	{
 		super(message);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public get name(): string
+	{
+		return "invalid_argument";
 	}
 }
 
@@ -71,6 +95,14 @@ export class LengthError
 	{
 		super(message);
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public get name(): string
+	{
+		return "length_error";
+	}
 }
 
 /**
@@ -88,6 +120,14 @@ export class OutOfRange extends LogicError
 	public constructor(message: string)
 	{
 		super(message);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public get name(): string
+	{
+		return "out_of_range";
 	}
 }
 
