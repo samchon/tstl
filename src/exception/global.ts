@@ -6,11 +6,8 @@ import { _Get_root } from "../base/Global";
  */
 export function terminate(): void
 {
-	if (_Get_root().__s_pTerminate_handler !== null)
-		_Get_root().__s_pTerminate_handler();
-	
 	if (is_node() === true)
-		process.exit();
+		global.process.exit();
 	else
 	{
 		if (typeof window !== "undefined" && self.open instanceof Function)
