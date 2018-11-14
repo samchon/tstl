@@ -72,6 +72,7 @@
     "semaphore",
     "timed_semaphore",
     "latch",
-    "barrier"
+    "barrier",
+    "flex_barrier"
   ]
 }
