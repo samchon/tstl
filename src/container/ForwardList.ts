@@ -388,10 +388,7 @@ export class ForwardList<T>
 	 */
 	public remove(val: T): void
 	{
-		this.remove_if(function (elem: T): boolean
-			{
-				return equal_to(val, elem);
-			});
+		return this.remove_if(elem => equal_to(elem, val));
 	}
 
 	/**

@@ -341,11 +341,7 @@ export function unique_copy<T,
 export function remove<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
 	(first: InputIterator, last: InputIterator, val: T): InputIterator
 {
-	let pred = function (x: T): boolean 
-	{
-		return equal_to(x, val);
-	};
-	return remove_if(first, last, pred);
+	return remove_if(first, last, elem => equal_to(elem, val));
 }
 
 /**
@@ -389,11 +385,7 @@ export function remove_copy<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(first: InputIterator, last: InputIterator, output: OutputIterator, val: T): OutputIterator
 {
-	let pred = function (x: T): boolean 
-	{
-		return equal_to(x, val);
-	};
-	return remove_copy_if(first, last, output, pred);
+	return remove_copy_if(first, last, output, elem => equal_to(elem, val));
 }
 
 /**
@@ -437,11 +429,7 @@ export function remove_copy_if<T,
 export function replace<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
 	(first: InputIterator, last: InputIterator, old_val: T, new_val: T): void
 {
-	let pred = function (x: T): boolean
-	{
-		return equal_to(x, old_val);
-	};
-	return replace_if(first, last, pred, new_val);
+	return replace_if(first, last, elem => equal_to(elem, old_val), new_val);
 }
 
 /**
@@ -476,11 +464,7 @@ export function replace_copy<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(first: InputIterator, last: InputIterator, output: OutputIterator, old_val: T, new_val: T): OutputIterator
 {
-	let pred = function (x: T): boolean
-	{
-		return equal_to(x, old_val);
-	};
-	return replace_copy_if(first, last, output, pred, new_val);
+	return replace_copy_if(first, last, output, elem => equal_to(elem, old_val), new_val);
 }
 
 /**
