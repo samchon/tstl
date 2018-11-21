@@ -17,6 +17,7 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 
 
 
+
 ## Features
 ### Containers
   - **Linear Containers**
@@ -40,15 +41,6 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [Queue `queue`](http://samchon.github.io/tstl/api/classes/std.queue.html)
     - [Stack `stack`](http://samchon.github.io/tstl/api/classes/std.stack.html)
     - [PriorityQueue `priority_queue`](http://samchon.github.io/tstl/api/classes/std.priorityqueue.html)
-
-> ### ECOL
-> Extension of TSTL Containers dispatching Events.
-> 
-> **ECOL** is an extension module of **TSTL**, providing special collections dispatching events. The special collections are almost similar with the original STL Containers, but you also can observe elements' I/O events with the special collections. 
-> 
-> Types of the event dispatched by the special collections are `"insert"`, `"erase"` and `"refresh"`.
-> 
-> - [Visit ECOL](https://github.com/samchon/ecol)
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
@@ -80,6 +72,8 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
     - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
     - (experimental) [Semaphore `semaphore`](http://samchon.github.io/tstl/api/classes/std.experimental.semaphore.html) & [TimedSemaphore `timed_semaphore`](http://samchon.github.io/tstl/api/classes/std.experimental.timedsemaphore.html)
+    - (experimental) [Latch `latch`](http://samchon.github.io/tstl/api/classes/std.experimental.latch.html) & [Barrier `barrier`](http://samchon.github.io/tstl/api/classes/std.experimental.barrier.html)
+
 
 
 
@@ -96,26 +90,31 @@ npm install --save tstl
 ``` typescript
 import std = require("tstl");
 
-let map: std.TreeMap<number, string> = new std.TreeMap();
+function main(): void
+{
+    let map: std.TreeMap<number, string> = new std.TreeMap();
 
-// INSERT ITEMS
-map.insert(std.make_pair(1, "First")); // Via tuple
-map.emplace(4, "Fourth"); // C++11 Feature
-map.insert_or_assign(5, "Fifth"); // C++17 Feature
-map.set(9, "Nineth"); // Instead of the operetor[](Key)
+    // INSERT ITEMS
+    map.insert(std.make_pair(1, "First")); // Via tuple
+    map.emplace(4, "Fourth"); // C++11 Feature
+    map.insert_or_assign(5, "Fifth"); // C++17 Feature
+    map.set(9, "Nineth"); // Instead of the operetor[](Key)
 
-// ITERATION
-for (let it = map.begin(); !it.equals(map.end()); it = it.next())
-    console.log(it.first, it.second); // (key => number, value => string)
+    // ITERATION
+    for (let it = map.begin(); !it.equals(map.end()); it = it.next())
+        console.log(it.first, it.second); // (key => number, value => string)
 
-// LOWER_BOUND
-let x = map.lower_bound(3);
-console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
+    // LOWER_BOUND
+    let x = map.lower_bound(3);
+    console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
+}
+main();
 ```
 
 
 
-## References
+
+## Appendix
   - **Repositories**
     - [GitHub Repository](https://github.com/samchon/tstl)
     - [NPM Repository](https://www.npmjs.com/package/tstl)
@@ -123,6 +122,6 @@ console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
     - [**Guide Documents**](https://github.com/samchon/tstl/wiki)
     - [API Documents](http://samchon.github.io/tstl/api)
     - [Release Notes](https://github.com/samchon/tstl/releases)
-  - **Related Projects**
-    - [ECOL](https://github.com/samchon/ecol)
-    - [Samchon-Framework](https://github.com/samchon/framework)
+  - **Extensions**
+    - [ECol](https://github.com/samchon/ecol) - Collections dispatching events
+    - [**TGrid**](https://github.com/samchon/tgrid) - Network & Thread extension
