@@ -207,10 +207,12 @@ export class Vector<T>
 		if (position.index() >= this.size())
 		{ 
 			// WHEN INSERT TO THE LAST
+			let prev_size: number = this.size();
+
 			for (; !first.equals(last); first = first.next())
 				this.data_.push(first.value);
 			
-			return this.begin();
+			return new Vector.Iterator<T, Vector<T>>(this, prev_size);
 		}
 		else
 		{
