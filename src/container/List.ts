@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { ListContainer } from "../base/container/ListContainer";
 import { IDequeContainer } from "../base/container/IDequeContainer";
 import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";

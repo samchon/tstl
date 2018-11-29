@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { HashMap } from "../container/HashMap";
 import { LockType } from "../base/thread/enums";
 import { sleep_for } from "./global";

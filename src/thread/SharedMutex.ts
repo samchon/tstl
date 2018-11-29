@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { _ISharedLockable } from "../base/thread/_ISharedLockable";
 
 import { Queue } from "../container/Queue";

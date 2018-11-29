@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 
 import { distance, advance } from "../iterator/global";

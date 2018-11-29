@@ -1,4 +1,7 @@
-﻿import { MultiSet } from "../base/container/MultiSet";
+//================================================================ 
+/** @module std */
+//================================================================
+import { MultiSet } from "../base/container/MultiSet";
 import { ITreeSet } from "../base/container/ITreeSet";
 import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";
 

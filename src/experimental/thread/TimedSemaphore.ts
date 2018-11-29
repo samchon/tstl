@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.experimental */
+//================================================================
 import { _ISemaphore } from "../../base/thread/_ISemaphore";
 
 import { HashMap } from "../../container/HashMap";

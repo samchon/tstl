@@ -1,4 +1,7 @@
-﻿import { MultiMap } from "../base/container/MultiMap";
+//================================================================ 
+/** @module std */
+//================================================================
+import { MultiMap } from "../base/container/MultiMap";
 import { ITreeMap } from "../base/container/ITreeMap";
 import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";
 

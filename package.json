@@ -11,11 +11,14 @@
   "typings": "./index.d.ts",
   "scripts": {
     "build": "tsc && npm run test",
-    "clean": "node build/clean",
-    "test": "node test/main"
+    "test": "node test/main",
+    "api": "node build/api",
+    "clean": "node build/clean"
   },
   "devDependencies": {
-    "@types/node": "^7.10.1"
+    "@types/mv": "^2.1.0",
+    "@types/node": "^7.10.1",
+    "mv": "^2.1.1"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {

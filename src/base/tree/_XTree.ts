@@ -1,4 +1,7 @@
-﻿import { _XTreeNode } from "./_XTreeNode";
+//================================================================ 
+/** @module std.base */
+//================================================================
+import { _XTreeNode } from "./_XTreeNode";
 import { _Color } from "./_Color";
 
 //--------

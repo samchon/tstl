@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 
 import { Pair } from "../utility/Pair";

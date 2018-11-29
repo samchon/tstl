@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { UniqueSet } from "../base/container/UniqueSet";
 import { IHashSet } from "../base/container/IHashSet";
 import { _Construct } from "../base/container/_IHashContainer";

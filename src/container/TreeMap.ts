@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { UniqueMap } from "../base/container/UniqueMap";
 import { ITreeMap } from "../base/container/ITreeMap";
 import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";

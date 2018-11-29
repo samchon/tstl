@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { ILockable } from "./ILockable";
 import { ITimedLockable } from "./ITimedLockable";
 

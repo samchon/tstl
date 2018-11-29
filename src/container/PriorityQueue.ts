@@ -1,4 +1,7 @@
-﻿import { AdaptorContainer } from "../base/container/AdaptorContainer";
+//================================================================ 
+/** @module std */
+//================================================================
+import { AdaptorContainer } from "../base/container/AdaptorContainer";
 
 import { TreeMultiSet } from "../container/TreeMultiSet";
 import { IForwardIterator } from "../iterator/IForwardIterator";

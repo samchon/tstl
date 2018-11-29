@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
 
 import { HashMap } from "../container/HashMap";

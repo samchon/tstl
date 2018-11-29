@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { ListContainer } from "./ListContainer";
 
 import { MapContainer } from "./MapContainer";

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.experimental */
+//================================================================
 import { FlexBarrier } from "./FlexBarrier";
 
 export class Barrier extends FlexBarrier

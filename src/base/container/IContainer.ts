@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { IBidirectionalContainer } from "../disposable/IBidirectionalContainer";
 import { Iterator } from "../iterator/Iterator";
 import { ReverseIterator } from "../iterator/ReverseIterator";

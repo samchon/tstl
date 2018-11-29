@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { _Fetch_arguments } from "./_IAssociativeContainer";
 
 import { hash } from "../../functional/hash";

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { UniqueMap } from "../base/container/UniqueMap";
 import { IHashMap } from "../base/container/IHashMap";
 import { _Construct } from "../base/container/_IHashContainer";

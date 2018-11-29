@@ -1,4 +1,7 @@
-﻿import { IForwardIterator } from "../../iterator/IForwardIterator";
+//================================================================ 
+/** @module std.base */
+//================================================================
+import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 /**
  * @hidden

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { IContainer } from "../container/IContainer";
 
 import { ReverseIterator } from "./ReverseIterator";

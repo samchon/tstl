@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { ErrorInstance } from "../base/ErrorInstance";
 
 import { ErrorCategory } from "./ErrorCategory";

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { INegatable } from "./INegatable";
 
 export interface IComputable<Param, Ret = Param>

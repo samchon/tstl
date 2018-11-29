@@ -1,4 +1,7 @@
-﻿import { SetContainer } from "./SetContainer";
+//================================================================ 
+/** @module std.base */
+//================================================================
+import { SetContainer } from "./SetContainer";
 import { _IHashContainer } from "./_IHashContainer";
 
 import { SetIterator } from "../iterator/SetIterator";

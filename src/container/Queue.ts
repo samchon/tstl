@@ -1,4 +1,7 @@
-﻿import { AdaptorContainer } from "../base/container/AdaptorContainer";
+//================================================================ 
+/** @module std */
+//================================================================
+import { AdaptorContainer } from "../base/container/AdaptorContainer";
 import { List } from "./List";
 
 /**

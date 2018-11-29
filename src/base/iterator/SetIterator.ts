@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { ListIterator } from "./ListIterator";
 import { ReverseIterator } from "./ReverseIterator";
 

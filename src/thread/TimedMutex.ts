@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { ITimedLockable } from "./ITimedLockable";
 
 import { HashMap } from "../container/HashMap";

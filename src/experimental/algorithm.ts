@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.experimental */
+//================================================================
 import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
 import { IForwardIterator } from "../iterator";
 

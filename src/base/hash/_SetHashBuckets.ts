@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { _HashBuckets } from "./_HashBuckets";
 
 import { SetContainer } from "../container/SetContainer";

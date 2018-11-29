@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 export import base = require("./base");
 export import experimental = require("./experimental");
 

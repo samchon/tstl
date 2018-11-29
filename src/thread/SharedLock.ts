@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { _ISharedLockable } from "../base/thread/_ISharedLockable";
 import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
 

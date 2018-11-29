@@ -1,4 +1,7 @@
-﻿// <algorithm>
+//================================================================ 
+/** @module std */
+//================================================================
+// <algorithm>
 //
 // @reference http://www.cplusplus.com/reference/algorithm
 // @author Jeongho Nam <http://samchon.org>
