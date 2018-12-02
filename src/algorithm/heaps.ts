@@ -7,14 +7,13 @@ import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { General } from "../iterator/IFake";
 import { less } from "../functional/comparators";
 import { distance, advance } from "../iterator/global";
-import { iter_swap } from "./modifiers";
 
 /* =========================================================
-	POPLAR-HEAP (https://github.com/Morwenn/poplar-heap)
+	EA-STL (https://github.com/electronicarts/EASTL/blob/master/include/EASTL/heap.h)
 		- PUSH
 		- POP
 		- SORT
-		- BACKGROUND
+		- INTERNAL
 ============================================================
 	PUSH
 --------------------------------------------------------- */
@@ -28,9 +27,17 @@ import { iter_swap } from "./modifiers";
 export function make_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
-	for (let it = first; !it.equals(last); it = it.next())
-		push_heap(first, it, comp);
-	push_heap(first, last, comp);
+	let heapSize: number = distance(first, last);
+	if (heapSize < 2)
+		return;
+
+	let parentPosition: number = ((heapSize - 2) >> 1) + 1;
+	do
+	{
+		let temp: T = first.advance(--parentPosition).value;
+		_Adjust_heap(first, parentPosition, heapSize, parentPosition, temp, comp);
+	}
+	while (parentPosition !== 0);
 }
 
 /**
@@ -43,18 +50,8 @@ export function make_heap<T, RandomAccessIterator extends General<IRandomAccessI
 export function push_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
-	let size: number = distance(first, last);
-
-	// COMPUTE LAST_POLOR_SIZE
-	let last_poplar_size: number = _Hyper_floor(size + 1) - 1;
-	while (size - last_poplar_size !== 0)
-	{
-		size -= last_poplar_size;
-		last_poplar_size = _Hyper_floor(size + 1) - 1;
-	}
-
-	// DO SIFT
-	_Sift(last.advance(-last_poplar_size), last_poplar_size, comp);
+	let tempBottom: T = last.prev().value;
+	_Promote_heap(first, 0, last.index() - first.index() - 1, tempBottom, comp);
 }
 
 /* ---------------------------------------------------------
@@ -70,37 +67,11 @@ export function push_heap<T, RandomAccessIterator extends General<IRandomAccessI
 export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
-	let size: number = distance(first, last);
+	let tempBottom: T = last.prev().value;
+	last.prev().value = first.value;
 
-	let poplar_size = _Hyper_floor(size + 1) - 1;
-	let last_root = last.prev();
-	let bigger = last_root;
-	let bigger_size = poplar_size;
 
-	// Look for the bigger poplar root
-	let it = first;
-	while (true) 
-	{
-		let root = it.advance(poplar_size - 1);
-		if (root.equals(last_root))
-			break;
-		else if (comp(bigger.value, root.value)) 
-		{
-			bigger = root;
-			bigger_size = poplar_size;
-		}
-		it = root.next();
-
-		size -= poplar_size;
-		poplar_size = _Hyper_floor(size + 1) - 1;
-	}
-
-	// Swap & sift if needed
-	if (bigger !== last_root) 
-	{
-		iter_swap(bigger, last_root);
-		_Sift(bigger.advance(-bigger_size + 1), bigger_size, comp);
-	}
+	_Adjust_heap(first, 0, last.index() - first.index() - 1, 0, tempBottom, comp);
 }
 
 /* ---------------------------------------------------------
@@ -134,44 +105,14 @@ export function is_heap<T, BidirectionalIterator extends Readonly<IBidirectional
 export function is_heap_until<T, BidirectionalIterator extends Readonly<IBidirectionalIterator<T, BidirectionalIterator>>>
 	(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean = less): BidirectionalIterator
 {
-	if (distance(first, last) < 2)
-		return last;
-
-	// Determines the "level" of the biggest poplar seen so far
-	let poplar_level: number = 1;
-
-	let it: BidirectionalIterator = first;
-	let next: BidirectionalIterator = it.next();
-	
-	while (true) 
+	let counter: number = 0;
+	for (let child = first.next(); !child.equals(last); child = child.next(), counter ^= 1)
 	{
-		let poplar_size: number = 1;
-
-		// The loop increment follows the binary carry sequence for some reason
-		for (let i: number = (poplar_level & -poplar_level) >> 1 ; i !== 0 ; i >>= 1) 
-		{
-			// Beginning and size of the poplar to track
-			it = advance(it, -poplar_size);
-			poplar_size = 2 * poplar_size + 1;
-
-			// Check poplar property against child roots
-			let root: BidirectionalIterator = advance(it, poplar_size - 1);
-			if (root.equals(last))
-				return next;
-			else if (comp(root.value, root.prev().value))
-				return next;
-			else if (comp(root.value, advance(it, Math.floor(poplar_size / 2) - 1).value))
-				return next;
-
-			if (next.equals(last)) return last;
-			next = next.next();
-		}
-
-		if (next.equals(last)) return last;
-		it = next;
-		next = next.next();
-		++poplar_level;
+		if (comp(first.value, child.value))
+			return child;
+		first = advance(first, counter);
 	}
+	return last;
 }
 
 /**
@@ -192,46 +133,42 @@ export function sort_heap<T, RandomAccessIterator extends General<IRandomAccessI
 }
 
 /* ---------------------------------------------------------
-	BACKGROUND
+	INTERNAL
 --------------------------------------------------------- */
 /**
  * @hidden
  */
-function _Hyper_floor(n: number)
+function _Promote_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
+	(first: RandomAccessIterator, topPosition: number, position: number, value: T, comp: (x: T, y: T) => boolean): void
 {
-	for (let i: number = 1; i > 0; i <<= 1)
-		n = n | (n >> 1);
-	
-	return n & ~(n >> 1);
+	for (let parentPosition: number = (position - 1) >> 1; 
+		(position > topPosition) && comp(first.advance(parentPosition).value, value); 
+		parentPosition = (position - 1 ) >> 1)
+	{
+		first.advance(position).value = first.advance(parentPosition).value;
+		position = parentPosition;
+	}
+	first.advance(position).value = value;
 }
 
-/**
- * @hidden
- */
-function _Sift<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, size: number, comp: (x: T, y: T) => boolean): void
+function _Adjust_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
+	(first: RandomAccessIterator, topPosition: number, heapSize: number, position: number, value: T, comp: (x: T, y: T) => boolean): void
 {
-	if (size < 2)
-		return;
-
-	let half_size: number = Math.floor(size / 2);
-
-	// PRELIMINARIES
-	let root: RandomAccessIterator = first.advance(size - 1);
-	let child_root1: RandomAccessIterator = root.prev();
-	let child_root2: RandomAccessIterator = first.advance(half_size - 1);
-
-	// DETERMINE MAX-ROOT
-	let max_root: RandomAccessIterator = root;
-	if (comp(max_root.value, child_root1.value)) 
-		max_root = child_root1;
-	if (comp(max_root.value, child_root2.value))
-		max_root = child_root2;
-
-	// NEED ADDITIONAL SIFT?
-	if (!max_root.equals(root)) 
+	let childPosition: number = (2 * position) + 2;
+	for (; childPosition < heapSize; childPosition = (2 * childPosition) + 2)
 	{
-		iter_swap(root, max_root);
-		_Sift(max_root.advance(-half_size + 1), half_size, comp);
+		if (comp(first.advance(childPosition).value, first.advance(childPosition - 1).value))
+			--childPosition;
+		
+		first.advance(position).value = first.advance(childPosition).value;
+		position = childPosition;
 	}
+
+	if (childPosition === heapSize)
+	{
+		first.advance(position).value = first.advance(childPosition - 1).value;
+		position = childPosition - 1;
+	}
+
+	_Promote_heap(first, topPosition, position, value, comp);
 }
