@@ -7,7 +7,7 @@ import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 
 import { Writeonly, General } from "../iterator/IFake";
 import { equal_to } from "../functional/comparators";
-import { randint } from "./randoms";
+import { randint } from "./random";
 import { advance } from "../iterator/global";
 
 /* =========================================================
