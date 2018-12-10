@@ -83,7 +83,10 @@ function _Distance_via_index<T, RandomAccessIterator extends IRandomAccessIterat
 	let start: number = first.index();
 	let end: number = last.index();
 
-	return Math.abs(end - start);
+	if ((first as any).base instanceof Function)
+		return start - end;
+	else
+		return end - start;	
 }
 
 /* ---------------------------------------------------------
