@@ -1,12 +1,11 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 
 import { General } from "../iterator/IFake";
 import { less } from "../functional/comparators";
-import { distance, advance } from "../iterator/global";
+import { advance, distance } from "../iterator/global";
 
 /* =========================================================
 	EA-STL (https://github.com/electronicarts/EASTL/blob/master/include/EASTL/heap.h)
@@ -51,7 +50,7 @@ export function push_heap<T, RandomAccessIterator extends General<IRandomAccessI
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
 	let tempBottom: T = last.prev().value;
-	_Promote_heap(first, 0, last.index() - first.index() - 1, tempBottom, comp);
+	_Promote_heap(first, 0, distance(first, last) - 1, tempBottom, comp);
 }
 
 /* ---------------------------------------------------------
@@ -70,8 +69,7 @@ export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIt
 	let tempBottom: T = last.prev().value;
 	last.prev().value = first.value;
 
-
-	_Adjust_heap(first, 0, last.index() - first.index() - 1, 0, tempBottom, comp);
+	_Adjust_heap(first, 0, distance(first, last) - 1, 0, tempBottom, comp);
 }
 
 /* ---------------------------------------------------------
@@ -86,8 +84,8 @@ export function pop_heap<T, RandomAccessIterator extends General<IRandomAccessIt
  * 
  * @return Whether the range is heap.
  */
-export function is_heap<T, BidirectionalIterator extends Readonly<IBidirectionalIterator<T, BidirectionalIterator>>>
-	(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean = less): boolean
+export function is_heap<T, RandomAccessIterator extends Readonly<IRandomAccessIterator<T, RandomAccessIterator>>>
+	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): boolean
 {
 	let it = is_heap_until(first, last, comp);
 	return it.equals(last);
@@ -102,11 +100,11 @@ export function is_heap<T, BidirectionalIterator extends Readonly<IBidirectional
  * 
  * @return Iterator to the first element not in heap order.
  */
-export function is_heap_until<T, BidirectionalIterator extends Readonly<IBidirectionalIterator<T, BidirectionalIterator>>>
-	(first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean = less): BidirectionalIterator
+export function is_heap_until<T, RandomAccessIterator extends Readonly<IRandomAccessIterator<T, RandomAccessIterator>>>
+	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): RandomAccessIterator
 {
 	let counter: number = 0;
-	for (let child = first.next(); !child.equals(last); child = child.next(), counter ^= 1)
+	for (let child = first.next(); _Comp_it(child, last.index()); child = child.next(), counter ^= 1)
 	{
 		if (comp(first.value, child.value))
 			return child;
@@ -125,11 +123,8 @@ export function is_heap_until<T, BidirectionalIterator extends Readonly<IBidirec
 export function sort_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
-	while (!first.equals(last))
-	{
+	for (; distance(first, last) > 1; last = last.prev())
 		pop_heap(first, last, comp);
-		last = last.prev();
-	}
 }
 
 /* ---------------------------------------------------------
@@ -141,9 +136,9 @@ export function sort_heap<T, RandomAccessIterator extends General<IRandomAccessI
 function _Promote_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, topPosition: number, position: number, value: T, comp: (x: T, y: T) => boolean): void
 {
-	for (let parentPosition: number = (position - 1) >> 1; 
+	for (let parentPosition: number = (position - 1) >> 1;
 		(position > topPosition) && comp(first.advance(parentPosition).value, value); 
-		parentPosition = (position - 1 ) >> 1)
+		parentPosition = (position - 1) >> 1)
 	{
 		first.advance(position).value = first.advance(parentPosition).value;
 		position = parentPosition;
@@ -151,6 +146,9 @@ function _Promote_heap<T, RandomAccessIterator extends General<IRandomAccessIter
 	first.advance(position).value = value;
 }
 
+/**
+ * @hidden
+ */
 function _Adjust_heap<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
 	(first: RandomAccessIterator, topPosition: number, heapSize: number, position: number, value: T, comp: (x: T, y: T) => boolean): void
 {
@@ -169,6 +167,16 @@ function _Adjust_heap<T, RandomAccessIterator extends General<IRandomAccessItera
 		first.advance(position).value = first.advance(childPosition - 1).value;
 		position = childPosition - 1;
 	}
-
 	_Promote_heap(first, topPosition, position, value, comp);
+}
+
+/**
+ * @hidden
+ */
+function _Comp_it(x: any, y: any): boolean
+{
+	if (x.base instanceof Function)
+		return y < x;
+	else
+		return x < y;
 }

@@ -123,12 +123,12 @@ export class TreeMultiSet<Key>
 	public count(key: Key): number
 	{
 		let it = this.find(key);
-		let cnt: number = 0;
+		let ret: number = 0;
 
 		for (; !it.equals(this.end()) && this.tree_.key_eq()(it.value, key); it = it.next())
-			cnt++;
+			++ret;
 
-		return cnt;
+		return ret;
 	}
 
 	/**

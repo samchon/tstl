@@ -290,7 +290,7 @@ export abstract class ListContainer<T,
 
 			// SHIFT CURRENT ITEM TO PREVIOUS
 			prev = item;
-			size++;
+			++size;
 		}
 
 		// WILL FIRST BE THE BEGIN?

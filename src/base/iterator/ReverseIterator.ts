@@ -79,7 +79,7 @@ export abstract class ReverseIterator<T,
 	public prev(): This
 	{
 		// this.base().next()
-		return this._Create_neighbor(this.base_);
+		return this._Create_neighbor(this.base().next());
 	}
 
 	/**
@@ -88,7 +88,7 @@ export abstract class ReverseIterator<T,
 	public next(): This
 	{
 		// this.base().prev()
-		return this._Create_neighbor(this.base().prev());
+		return this._Create_neighbor(this.base_);
 	}
 
 	/* ---------------------------------------------------------

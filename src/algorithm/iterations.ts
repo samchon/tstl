@@ -461,11 +461,11 @@ export function count<T, InputIterator extends Readonly<IForwardIterator<T, Inpu
 export function count_if<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 	(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): number
 {
-	let cnt: number = 0;
+	let ret: number = 0;
 
 	for (let it = first; !it.equals(last); it = it.next())
 		if (pred(it.value))
-			cnt++;
+			++ret;
 
-	return cnt;
+	return ret;
 }

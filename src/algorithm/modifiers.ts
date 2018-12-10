@@ -55,7 +55,7 @@ export function copy_n<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(first: InputIterator, n: number, output: OutputIterator): OutputIterator
 {
-	for (let i: number = 0; i < n; i++)
+	for (let i: number = 0; i < n; ++i)
 	{
 		output.value = first.value;
 
@@ -145,7 +145,7 @@ export function fill<T, ForwardIterator extends Writeonly<IForwardIterator<T, Fo
 export function fill_n<T, OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(first: OutputIterator, n: number, val: T): OutputIterator
 {
-	for (let i: number = 0; i < n; i++)
+	for (let i: number = 0; i < n; ++i)
 	{
 		first.value = val;
 		first = first.next();

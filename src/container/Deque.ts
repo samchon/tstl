@@ -175,11 +175,11 @@ export class Deque<T>
 		//--------
 		// RE-FILL
 		//--------
-		for (let r: number = 0; r < this.matrix_.length; r++)
+		for (let r: number = 0; r < this.matrix_.length; ++r)
 		{
 			let row: T[] = this.matrix_[r];
 
-			for (let c: number = 0; c < row.length; c++)
+			for (let c: number = 0; c < row.length; ++c)
 			{
 				let new_row: T[] = matrix[matrix.length - 1];
 				if (matrix.length < Deque.ROW_SIZE && new_row.length === col_size)
@@ -268,7 +268,7 @@ export class Deque<T>
 	 */
 	public at(index: number): T
 	{
-		if (index < this.size() && index >= 0)
+		if (0 <= index && index < this.size())
 		{
 			let indexPair: Pair<number, number> = this._Fetch_index(index);
 			return this.matrix_[indexPair.first][indexPair.second];
@@ -357,7 +357,7 @@ export class Deque<T>
 
 		// INSERT VALUE
 		this.matrix_[0].unshift(val);
-		this.size_++;
+		++this.size_;
 	}
 
 	/**
@@ -371,7 +371,7 @@ export class Deque<T>
 
 		// INSERT VALUE
 		this.matrix_[this.matrix_.length - 1].push(val);
-		this.size_++;
+		++this.size_;
 	}
 
 	/**
@@ -490,7 +490,7 @@ export class Deque<T>
 		}
 
 		// INSERT ITEMS IN THE BACK SIDE
-		for (let i: number = 0; i < back_items.length; i++)
+		for (let i: number = 0; i < back_items.length; ++i)
 		{
 			if (row.length === col_size && this.matrix_.length < Deque.ROW_SIZE)
 			{
@@ -617,7 +617,7 @@ export class Deque<T>
 
 			// TO THE NEXT STEP
 			size -= my_delete_size;
-			i++;
+			++i;
 		}
 
 		// MERGE FIRST AND SECOND ROW

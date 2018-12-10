@@ -29,7 +29,7 @@ export class _DequeForOfAdaptor<T> implements IterableIterator<T>
 			let val: T = this.matrix_[this.row_][this.col_];
 			if (++this.col_ === this.matrix_[this.row_].length)
 			{
-				this.row_++;
+				++this.row_;
 				this.col_ = 0;
 			}
 

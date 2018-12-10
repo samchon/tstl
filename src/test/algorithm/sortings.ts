@@ -11,8 +11,8 @@ export function test_sortings(): void
 function _Test_atomic_sorting(): void
 {
 	let array: Array<number> = new Array<number>();
-	for (let i: number = 1; i <= 15; i++)
-		for (let j: number = 0; j < 3; j++)
+	for (let i: number = 1; i <= 15; ++i)
+		for (let j: number = 0; j < 3; ++j)
 			array.push(i);
 
 	std.shuffle(std.begin(array), std.end(array));
@@ -28,7 +28,7 @@ function _Test_object_sorting(): void
 	// CONSTRUCT ITEMS
 	//----
 	let cubes: std.Deque<Cube> = new std.Deque<Cube>();
-	for (let i: number = 0; i < 20; i++)
+	for (let i: number = 0; i < 20; ++i)
 		cubes.push_back(new Cube());
 
 	//----

@@ -32,7 +32,7 @@ export function min<T>(items: T[], comp: (x: T, y: T) => boolean = less): T
 {
 	let minimum: T = items[0];
 
-	for (let i: number = 1; i < items.length; i++)
+	for (let i: number = 1; i < items.length; ++i)
 		if (comp(items[i], minimum))
 			minimum = items[i];
 
@@ -51,7 +51,7 @@ export function max<T>(items: T[], comp: (x: T, y: T) => boolean = less): T
 {
 	let maximum: T = items[0];
 
-	for (let i: number = 1; i < items.length; i++)
+	for (let i: number = 1; i < items.length; ++i)
 		if (comp(maximum, items[i]))
 			maximum = items[i];
 
@@ -71,7 +71,7 @@ export function minmax<T>(items: T[], comp: (x: T, y: T) => boolean): Pair<T, T>
 	let minimum: T = items[0];
 	let maximum: T = items[0];
 
-	for (let i: number = 1; i < items.length; i++)
+	for (let i: number = 1; i < items.length; ++i)
 	{
 		if (comp(items[i], minimum))
 			minimum = items[i];

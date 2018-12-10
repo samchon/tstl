@@ -39,12 +39,12 @@ export class _NativeArrayIterator<T>
 	--------------------------------------------------------- */
 	public prev(): _NativeArrayIterator<T>
 	{
-		this.index_--;
+		--this.index_;
 		return this;
 	}
 	public next(): _NativeArrayIterator<T>
 	{
-		this.index_++;
+		++this.index_;
 		return this;
 	}
 
