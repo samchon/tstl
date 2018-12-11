@@ -1,12 +1,10 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { ILockable } from "../../thread/ILockable";
-
 /**
  * @hidden
  */
-export interface _ISharedLockable extends ILockable
+export interface _ISharedLockable
 {
 	/**
 	 * Lock shared until be unlock shared.

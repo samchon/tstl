@@ -2,12 +2,11 @@
 /** @module std.base */
 //================================================================
 import { _ISharedLockable } from "./_ISharedLockable";
-import { ITimedLockable } from "../../thread/ITimedLockable";
 
 /**
  * @hidden
  */
-export interface _ISharedTimedLockable extends _ISharedLockable, ITimedLockable
+export interface _ISharedTimedLockable extends _ISharedLockable
 {
 	/**
 	 * Try lock shared until timeout.
