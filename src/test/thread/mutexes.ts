@@ -3,18 +3,12 @@ import * as std from "../../index";
 const SLEEP_TIME: number = 50;
 const READ_COUNT: number = 10;
 
-export type ILockable = std.ILockable;
-export interface ITimedLockable extends ILockable
-{
-	try_lock_for(ms: number): Promise<boolean>;
-}
-
-interface ISharedLockable extends ILockable
+interface ISharedLockable extends std.ILockable
 {
 	lock_shared(): Promise<void>;
 	unlock_shared(): Promise<void>;
 }
-interface ISharedTimedLockable extends ITimedLockable, ISharedLockable
+interface ISharedTimedLockable extends std.ITimedLockable, ISharedLockable
 {
 	try_lock_shared_for(ms: number): Promise<boolean>;
 }
@@ -30,7 +24,7 @@ export async function test_mutexes(): Promise<void>
 /* ---------------------------------------------------------
 	WRITE LOCK
 --------------------------------------------------------- */
-export async function _Test_lock(name: string, mtx: ILockable): Promise<void>
+export async function _Test_lock(name: string, mtx: std.ILockable): Promise<void>
 {
 	let start_time: number = new Date().getTime();
 
@@ -50,7 +44,7 @@ export async function _Test_lock(name: string, mtx: ILockable): Promise<void>
 		throw new std.DomainError(name + " does not work.");
 }
 
-export async function _Test_try_lock(name: string, mtx: ITimedLockable): Promise<void>
+export async function _Test_try_lock(name: string, mtx: std.ITimedLockable): Promise<void>
 {
 	await _Test_lock(name, mtx);
 	let start_time: number = new Date().getTime();

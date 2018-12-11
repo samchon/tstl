@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ILockable } from "../test/thread/mutexes";
+import { ILockable } from "./ILockable";
 import { _ISharedLockable } from "../base/thread/_ISharedLockable";
 
 import { Queue } from "../container/Queue";

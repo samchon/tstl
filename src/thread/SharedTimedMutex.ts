@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ITimedLockable } from "../test/thread/mutexes";
+import { ITimedLockable } from "./ITimedLockable";
 import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
 
 import { HashMap } from "../container/HashMap";
