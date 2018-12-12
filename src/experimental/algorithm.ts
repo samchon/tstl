@@ -4,9 +4,7 @@
 import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
 import { IForwardIterator } from "../iterator";
 
-import { SetContainer } from "../base/container/SetContainer";
-import { MapContainer } from "../base/container/MapContainer";
-
+import { ArrayContainer } from "../base";
 import { remove_if } from "../algorithm";
 import { equal_to } from "../functional/comparators";
 
@@ -18,7 +16,7 @@ import { equal_to } from "../functional/comparators";
  */
 export function erase<T, 
 		Container extends IContainer<T, Iterator>, 
-		Iterator extends IForwardIterator<T, Iterator>>
+		Iterator extends Readonly<IForwardIterator<T, Iterator>>>
 	(container: Container, val: T): void;
 
 export function erase<T, 
@@ -38,7 +36,7 @@ export function erase<T>(container: any, val: T): void
  */
 export function erase_if<T, 
 		Container extends IContainer<T, Iterator>, 
-		Iterator extends IForwardIterator<T, Iterator>>
+		Iterator extends Readonly<IForwardIterator<T, Iterator>>>
 	(container: Container, predicator: (val: T)=>boolean): void;
 
 export function erase_if<T, 
@@ -49,7 +47,12 @@ export function erase_if<T>(container: any, predicator: (val: T)=>boolean): void
 {
 	if (container.remove_if instanceof Function)
 		container.remove_if(predicator);
-	else if (container instanceof SetContainer || container instanceof MapContainer)
+	else if (container.at instanceof ArrayContainer)
+	{
+		let it = remove_if(container.begin(), container.end(), predicator);
+		container.erase(it, container.end());
+	}
+	else
 	{
 		for (let it = container.begin(); !(it as any).equals(container.end()); )
 			if (predicator(it.value))
@@ -57,17 +60,12 @@ export function erase_if<T>(container: any, predicator: (val: T)=>boolean): void
 			else
 				it = it.next();
 	}
-	else
-	{
-		let it = remove_if(container.begin(), container.end(), predicator);
-		container.erase(it, container.end());
-	}
 }
 
 /**
  * @hidden
  */
-interface IContainer<T, Iterator extends IForwardIterator<T, Iterator>>
+interface IContainer<T, Iterator extends Readonly<IForwardIterator<T, Iterator>>>
 {
 	begin(): Iterator;
 	end(): Iterator;
