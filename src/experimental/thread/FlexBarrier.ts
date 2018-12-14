@@ -3,6 +3,13 @@
 //================================================================
 import { ConditionVariable } from "../../thread/ConditionVariable";
 
+/**
+ * Flex Barrier for critical sections.
+ * 
+ * The FlexBarrier class blocks critical sections until the downward counter to be zero. Unlike the {@link Barrier} class, FlexBarrier can re-define downward count size by custom function.
+ * 
+ * @author Jeongho Nam <samchon@samchon.org>
+ */
 export class FlexBarrier
 {
 	/**

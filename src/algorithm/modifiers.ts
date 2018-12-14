@@ -193,9 +193,9 @@ export function transform<T, Ret,
 export function transform(...args: any[]): any
 {
 	if (args.length === 4)
-		return _Unary_transform.apply(null, args);
+		return _Unary_transform.apply(undefined, args);
 	else // args: #5
-		return _Binary_transform.apply(null, args);
+		return _Binary_transform.apply(undefined, args);
 }
 
 /**
