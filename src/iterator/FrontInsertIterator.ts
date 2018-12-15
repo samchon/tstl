@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { _InsertIterator } from "../base/iterator/_InsertIterator";
 
 import { _IPushFront } from "../base/disposable/IPartialContainers";

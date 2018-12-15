@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { IForwardContainer } from "../base/disposable/IForwardContainer";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
@@ -13,7 +16,7 @@ import { Vector } from "./Vector";
 
 import { advance, distance } from "../iterator/global";
 import { equal_to, less } from "../functional/comparators";
-import { sort as sort_func } from "../algorithm/sortings";
+import { sort as sort_func } from "../algorithm/sorting";
 
 /**
  * Singly Linked List.
@@ -388,10 +391,7 @@ export class ForwardList<T>
 	 */
 	public remove(val: T): void
 	{
-		this.remove_if(function (elem: T): boolean
-			{
-				return equal_to(val, elem);
-			});
+		return this.remove_if(elem => equal_to(elem, val));
 	}
 
 	/**

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { _Fetch_arguments } from "./_IAssociativeContainer";
 
 import { Pair } from "../../utility/Pair";
@@ -40,6 +43,9 @@ export interface _ITreeContainer<Key, Iterator>
 	equal_range(key: Key): Pair<Iterator, Iterator>;
 }
 
+/**
+ * @hidden
+ */
 export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 {
 	// DECLARE MEMBERS
@@ -84,6 +90,9 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 		post_process();
 }
 
+/**
+ * @hidden
+ */
 export function _Emplace_hint<Iterator extends any, Element>
 	(
 		hint: Iterator, 

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { IComparable } from "./IComparable";
 import { get_uid } from "./uid";
 
@@ -73,7 +76,7 @@ function _Hash_number(val: number, ret: number): number
 	// let valueArray: Float64Array = new Float64Array(buffer);
 	// valueArray[0] = val;
 
-	// for (let i: number = 0; i < byteArray.length; i++)
+	// for (let i: number = 0; i < byteArray.length; ++i)
 	// {
 	// 	let byte = (byteArray[i] < 0) ? byteArray[i] + 256 : byteArray[i];
 
@@ -88,7 +91,7 @@ function _Hash_number(val: number, ret: number): number
  */
 function _Hash_string(str: string, ret: number): number
 {
-	for (let i: number = 0; i < str.length; i++)
+	for (let i: number = 0; i < str.length; ++i)
 	{
 		ret ^= str.charCodeAt(i);
 		ret *= _HASH_MULTIPLIER;

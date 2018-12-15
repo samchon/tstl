@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { Container } from "./Container";
 import { _IAssociativeContainer } from "./_IAssociativeContainer";
 

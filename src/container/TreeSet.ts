@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { UniqueSet } from "../base/container/UniqueSet";
 import { ITreeSet } from "../base/container/ITreeSet";
 import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";

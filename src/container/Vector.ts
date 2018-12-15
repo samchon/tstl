@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { ArrayContainer } from "../base/container/ArrayContainer";
 import { ArrayIterator, ArrayReverseIterator } from "../base/iterator/ArrayIterator";
 
@@ -140,10 +143,10 @@ export class Vector<T>
 	 */
 	public at(index: number): T
 	{
-		if (index < this.size())
+		if (0 <= index && index < this.size())
 			return this.data_[index];
 		else
-			throw new OutOfRange("Target index is greater than Vector's size.");
+			throw new OutOfRange("Target index is greater than Vector's size: " + index + ", " + this.size());
 	}
 
 	/**
@@ -151,8 +154,8 @@ export class Vector<T>
 	 */
 	public set(index: number, val: T): void
 	{
-		if (index >= this.size())
-			throw new OutOfRange("Target index is greater than Vector's size.");
+		if (index < 0 || index >= this.size())
+			throw new OutOfRange("Target index is greater than Vector's size: " + index + ", " + this.size());
 
 		this.data_[index] = val;
 	}

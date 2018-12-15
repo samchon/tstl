@@ -1,4 +1,7 @@
-﻿import { IContainer } from "./IContainer";
+//================================================================ 
+/** @module std.base */
+//================================================================
+import { IContainer } from "./IContainer";
 import { IDequeContainer } from "./IDequeContainer";
 import { Container } from "./Container";
 
@@ -287,7 +290,7 @@ export abstract class ListContainer<T,
 
 			// SHIFT CURRENT ITEM TO PREVIOUS
 			prev = item;
-			size++;
+			++size;
 		}
 
 		// WILL FIRST BE THE BEGIN?

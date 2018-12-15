@@ -1,4 +1,7 @@
-﻿import { _XTree } from "./_XTree";
+//================================================================ 
+/** @module std.base */
+//================================================================
+import { _XTree } from "./_XTree";
 import { _XTreeNode } from "./_XTreeNode";
 
 import { MapContainer } from "../container/MapContainer";

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { _HashBuckets } from "./_HashBuckets";
 
 import { MapContainer } from "../container/MapContainer";

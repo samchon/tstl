@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { IForwardIterator } from "./IForwardIterator";
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
 import { IRandomAccessIterator } from "./IRandomAccessIterator";
@@ -67,11 +70,11 @@ export function distance<T, InputIterator extends IForwardIterator<T, InputItera
 	if ((<any>first).index !== undefined)
 		return _Distance_via_index(<any>first, <any>last);
 
-	let length: number = 0;
+	let ret: number = 0;
 	for (; !first.equals(last); first = first.next())
-		length++;
+		++ret;
 
-	return length;
+	return ret;
 }
 
 /**

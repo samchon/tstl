@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { ILockable } from "./ILockable";
 
 /**
@@ -31,7 +34,7 @@ export function sleep_until(at: Date): Promise<void>
  * 
  * @param items Items to lock.
  */
-export function lock(...items: ILockable[]): Promise<void>
+export function lock(...items: Pick<ILockable, "lock">[]): Promise<void>
 {
 	return new Promise<void>(resolve =>
 	{
@@ -52,7 +55,7 @@ export function lock(...items: ILockable[]): Promise<void>
  * @param items Items to try lock.
  * @return Index of mutex who failed to lock. None of them're failed, then returns `-1`.
  */
-export async function try_lock(...items: ILockable[]): Promise<number>
+export async function try_lock(...items: Pick<ILockable, "try_lock">[]): Promise<number>
 {
 	for (let i: number = 0; i < items.length; ++i)
 		if (await items[i].try_lock() === false)

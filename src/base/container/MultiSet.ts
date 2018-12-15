@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { SetContainer } from "./SetContainer";
 
 import { SetIterator } from "../iterator/SetIterator";

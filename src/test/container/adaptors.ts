@@ -2,7 +2,7 @@ import * as std from "../../index";
 
 export function test_priority_queue(): void
 {
-	let pq = new std.PriorityQueue<number>(std.less);
+	let pq = new std.PriorityQueue<number>(std.greater);
 	for (let i: number = 0; i < 1000; ++i)
 		pq.push(Math.random() * 100);
 
@@ -13,7 +13,7 @@ export function test_priority_queue(): void
 		pq.pop();
 	}
 
-	if (std.is_sorted(std.begin(items), std.end(items), std.greater) === false)
+	if (std.is_sorted(std.begin(items), std.end(items), std.less) === false)
 		throw new std.DomainError("PriorityQueue is invalid.");
 }
 

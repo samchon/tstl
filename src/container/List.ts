@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { ListContainer } from "../base/container/ListContainer";
 import { IDequeContainer } from "../base/container/IDequeContainer";
 import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
@@ -137,10 +140,7 @@ export class List<T>
 	 */
 	public remove(val: T): void
 	{
-		this.remove_if(function (x: T): boolean
-		{
-			return x === val;
-		});
+		return this.remove_if(elem => equal_to(elem, val));
 	}
 
 	/**

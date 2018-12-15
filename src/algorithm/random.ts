@@ -1,7 +1,10 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 
 import { Writeonly } from "../iterator/IFake";
-import { sort } from "./sortings";
+import { sort } from "./sorting";
 import { distance, advance } from "../iterator/global";
 import { begin, end } from "../iterator/factory";
 

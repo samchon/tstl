@@ -1,4 +1,7 @@
-import { _ITimedLockable } from "../base/thread/_ITimedLockable";
+//================================================================ 
+/** @module std */
+//================================================================
+import { ITimedLockable } from "./ITimedLockable";
 
 import { HashMap } from "../container/HashMap";
 import { LockType } from "../base/thread/enums";
@@ -10,7 +13,7 @@ import { sleep_for } from "./global";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class TimedMutex implements _ITimedLockable
+export class TimedMutex implements ITimedLockable
 {
 	/**
 	 * @hidden
@@ -108,11 +111,12 @@ export class TimedMutex implements _ITimedLockable
 				// AUTOMATIC UNLOCK
 				sleep_for(ms).then(() =>
 				{
-					if (this.resolvers_.has(resolve) === false)
+					let it = this.resolvers_.find(resolve);
+					if (it.equals(this.resolvers_.end()))
 						return;
 
 					// DO UNLOCK
-					this.resolvers_.erase(resolve); // POP THE LISTENER
+					this.resolvers_.erase(it); // POP THE LISTENER
 					--this.lock_count_; // DECREASE LOCKED COUNT
 
 					resolve(false); // RETURN FAILURE

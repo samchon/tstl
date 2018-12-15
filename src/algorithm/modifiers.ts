@@ -1,10 +1,14 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 
 import { Writeonly, General } from "../iterator/IFake";
 import { equal_to } from "../functional/comparators";
-import { randint } from "./randoms";
+import { randint } from "./random";
+import { advance } from "../iterator/global";
 
 /* =========================================================
 	MODIFIERS (MODIFYING SEQUENCE)
@@ -51,7 +55,7 @@ export function copy_n<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(first: InputIterator, n: number, output: OutputIterator): OutputIterator
 {
-	for (let i: number = 0; i < n; i++)
+	for (let i: number = 0; i < n; ++i)
 	{
 		output.value = first.value;
 
@@ -141,7 +145,7 @@ export function fill<T, ForwardIterator extends Writeonly<IForwardIterator<T, Fo
 export function fill_n<T, OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(first: OutputIterator, n: number, val: T): OutputIterator
 {
-	for (let i: number = 0; i < n; i++)
+	for (let i: number = 0; i < n; ++i)
 	{
 		first.value = val;
 		first = first.next();
@@ -189,9 +193,9 @@ export function transform<T, Ret,
 export function transform(...args: any[]): any
 {
 	if (args.length === 4)
-		return _Unary_transform.apply(null, args);
+		return _Unary_transform.apply(undefined, args);
 	else // args: #5
-		return _Binary_transform.apply(null, args);
+		return _Binary_transform.apply(undefined, args);
 }
 
 /**
@@ -340,11 +344,7 @@ export function unique_copy<T,
 export function remove<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
 	(first: InputIterator, last: InputIterator, val: T): InputIterator
 {
-	let pred = function (x: T): boolean 
-	{
-		return equal_to(x, val);
-	};
-	return remove_if(first, last, pred);
+	return remove_if(first, last, elem => equal_to(elem, val));
 }
 
 /**
@@ -388,11 +388,7 @@ export function remove_copy<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(first: InputIterator, last: InputIterator, output: OutputIterator, val: T): OutputIterator
 {
-	let pred = function (x: T): boolean 
-	{
-		return equal_to(x, val);
-	};
-	return remove_copy_if(first, last, output, pred);
+	return remove_copy_if(first, last, output, elem => equal_to(elem, val));
 }
 
 /**
@@ -436,11 +432,7 @@ export function remove_copy_if<T,
 export function replace<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
 	(first: InputIterator, last: InputIterator, old_val: T, new_val: T): void
 {
-	let pred = function (x: T): boolean
-	{
-		return equal_to(x, old_val);
-	};
-	return replace_if(first, last, pred, new_val);
+	return replace_if(first, last, elem => equal_to(elem, old_val), new_val);
 }
 
 /**
@@ -475,11 +467,7 @@ export function replace_copy<T,
 		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
 	(first: InputIterator, last: InputIterator, output: OutputIterator, old_val: T, new_val: T): OutputIterator
 {
-	let pred = function (x: T): boolean
-	{
-		return equal_to(x, old_val);
-	};
-	return replace_copy_if(first, last, output, pred, new_val);
+	return replace_copy_if(first, last, output, elem => equal_to(elem, old_val), new_val);
 }
 
 /**
@@ -589,6 +577,20 @@ export function reverse_copy<T,
 		output = output.next();
 	}
 	return output;
+}
+
+export function shift_left<T, ForwardIterator extends General<IForwardIterator<T, ForwardIterator>>>
+	(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
+{
+	let mid = advance(first, n);
+	return copy(mid, last, first);
+}
+
+export function shift_right<T, ForwardIterator extends General<IBidirectionalIterator<T, ForwardIterator>>>
+	(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
+{
+	let mid = advance(last, -n);
+	return copy_backward(first, mid, last);
 }
 
 /**

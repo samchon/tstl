@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 /**
  * @hidden
  */
@@ -7,6 +10,9 @@ export const enum AccessType
 	READ
 }
 
+/**
+ * @hidden
+ */
 export const enum LockType
 {
 	HOLD,

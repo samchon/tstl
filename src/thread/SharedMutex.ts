@@ -1,3 +1,7 @@
+//================================================================ 
+/** @module std */
+//================================================================
+import { ILockable } from "./ILockable";
 import { _ISharedLockable } from "../base/thread/_ISharedLockable";
 
 import { Queue } from "../container/Queue";
@@ -10,7 +14,7 @@ import { RangeError } from "../exception/RuntimeError";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class SharedMutex implements _ISharedLockable
+export class SharedMutex implements ILockable, _ISharedLockable
 {
 	/**
 	 * @hidden

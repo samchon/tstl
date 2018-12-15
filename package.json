@@ -6,16 +6,19 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.0.16",
+  "version": "2.1.0",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
     "build": "tsc && npm run test",
-    "clean": "node build/clean",
-    "test": "node test/main"
+    "test": "node test/main",
+    "api": "node build/api",
+    "clean": "node build/clean"
   },
   "devDependencies": {
-    "@types/node": "^7.0.55"
+    "@types/mv": "^2.1.0",
+    "@types/node": "^7.10.1",
+    "mv": "^2.1.1"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
@@ -25,17 +28,21 @@
   "bugs": {
     "url": "https://github.com/samchon/tstl/issues"
   },
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "keywords": [
     "tstl",
-    "typescript-stl",
-    "typescript",
-    "stl",
-    "standard template library",
+    "typescript stl",
+    "typescript standard template library",
     "container",
     "iterator",
     "algorithm",
     "functor",
+    "exception",
+    "functional",
+    "utility",
+    "thread",
+    "numeric",
+    "special_math",
     "vector",
     "deque",
     "list",
@@ -51,9 +58,6 @@
     "multimap",
     "unordered_map",
     "unordered_multimap",
-    "IComparable",
-    "IComputable",
-    "PriorityQueue",
     "TreeSet",
     "TreeMultiSet",
     "HashSet",
@@ -62,26 +66,16 @@
     "TreeMultiMap",
     "HashMap",
     "HashMultiMap",
-    "exception",
-    "functional",
-    "utility",
-    "thread",
-    "numeric",
-    "special_math",
-    "pair",
-    "entry",
-    "sleep",
-    "sleep_for",
-    "sleep_until",
     "mutex",
     "shared_mutex",
     "timed_mutex",
     "shared_timed_mutex",
+    "unique_lock",
+    "shared_lock",
     "semaphore",
     "timed_semaphore",
-    "TimedMutex",
-    "SharedMutex",
-    "SharedTimedMutex",
-    "TimedSemaphore"
+    "latch",
+    "barrier",
+    "flex_barrier"
   ]
 }

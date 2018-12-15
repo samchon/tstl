@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { MapContainer } from "./MapContainer";
 import { MapIterator } from "../iterator/MapIterator";
 

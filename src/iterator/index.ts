@@ -1,4 +1,7 @@
-﻿// <iterator>
+//================================================================ 
+/** @module std */
+//================================================================
+// <iterator>
 //
 // @reference http://www.cplusplus.com/reference/iterator
 // @author Jeongho Nam <http://samchon.org>

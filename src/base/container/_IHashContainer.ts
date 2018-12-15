@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { _Fetch_arguments } from "./_IAssociativeContainer";
 
 import { hash } from "../../functional/hash";
@@ -88,6 +91,9 @@ export interface _IHashContainer<Key>
 	rehash(n: number): void;
 }
 
+/**
+ * @hidden
+ */
 export function _Construct<Key>(Source: any, Bucket: any, ...args: any[])
 {
 	// DECLARE MEMBERS

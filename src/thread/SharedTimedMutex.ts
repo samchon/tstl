@@ -1,5 +1,8 @@
-import { _ISharedLockable } from "../base/thread/_ISharedLockable";
-import { _ITimedLockable } from "../base/thread/_ITimedLockable";
+//================================================================ 
+/** @module std */
+//================================================================
+import { ITimedLockable } from "./ITimedLockable";
+import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
 
 import { HashMap } from "../container/HashMap";
 import { AccessType, LockType } from "../base/thread/enums";
@@ -11,8 +14,7 @@ import { sleep_for } from "./global";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class SharedTimedMutex 
-	implements _ISharedLockable, _ITimedLockable
+export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
 {
 	/**
 	 * @hidden
@@ -192,10 +194,7 @@ export class SharedTimedMutex
 	}
 
 	/**
-	 * Try lock shared until timeout.
-	 * 
-	 * @param ms The maximum miliseconds for waiting.
-	 * @return Whether succeded to lock or not.
+	 * @inheritDoc
 	 */
 	public try_lock_shared_for(ms: number): Promise<boolean>
 	{
@@ -217,11 +216,12 @@ export class SharedTimedMutex
 				// AUTOMATIC UNLOCK
 				sleep_for(ms).then(() =>
 				{
-					if (this.resolvers_.has(resolve) === false)
+					let it = this.resolvers_.find(resolve);
+					if (it.equals(this.resolvers_.end()))
 						return;
 
 					// DO UNLOCK
-					this.resolvers_.erase(resolve); // POP THE LISTENER
+					this.resolvers_.erase(it); // POP THE LISTENER
 					--this.read_lock_count_; // DECREASE LOCKED COUNT
 
 					resolve(false); // RETURN FAILURE
@@ -231,10 +231,7 @@ export class SharedTimedMutex
 	}
 
 	/**
-	 * Try lock shared until time expiration.
-	 * 
-	 * @param at The maximum time point to wait.
-	 * @return Whether succeded to lock or not.
+	 * @inheritDoc
 	 */
 	public try_lock_shared_until(at: Date): Promise<boolean>
 	{

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { Container } from "./Container";
 import { ILinearContainer } from "./ILinearContainer";
 import { ArrayIterator, ArrayReverseIterator } from "../iterator/ArrayIterator";

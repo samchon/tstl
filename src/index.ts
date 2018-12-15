@@ -1,4 +1,14 @@
+//================================================================ 
+/** @module std */
+//================================================================
+/**
+ * Basic, internal features.
+ */
 export import base = require("./base");
+
+/**
+ * Experimental Features.
+ */
 export import experimental = require("./experimental");
 
 export * from "./container";

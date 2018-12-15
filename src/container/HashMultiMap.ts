@@ -1,4 +1,7 @@
-﻿import { MultiMap } from "../base/container/MultiMap";
+//================================================================ 
+/** @module std */
+//================================================================
+import { MultiMap } from "../base/container/MultiMap";
 import { IHashMap } from "../base/container/IHashMap";
 import { _Construct } from "../base/container/_IHashContainer";
 

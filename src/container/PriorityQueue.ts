@@ -1,33 +1,26 @@
-﻿import { AdaptorContainer } from "../base/container/AdaptorContainer";
+//================================================================ 
+/** @module std */
+//================================================================
+import { AdaptorContainer } from "../base/container/AdaptorContainer";
 
-import { TreeMultiSet } from "../container/TreeMultiSet";
+import { Vector } from "./Vector";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { less } from "../functional/comparators";
+import { pop_heap, push_heap } from "../algorithm/heap";
 
 /**
- * Priority Queue; Higher Out First.
+ * Priority Queue; Greater Out First.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class PriorityQueue<T> 
-	extends AdaptorContainer<T, TreeMultiSet<T>, PriorityQueue<T>>
+export class PriorityQueue<T>
+	extends AdaptorContainer<T, Vector<T>, PriorityQueue<T>>
 {
-	//--------
-	// The <i>underlying container</i> for implementing the <i>priority queue</i>.
-	//
-	// Following standard definition from the C++ committee, the <i>underlying container</i> should be one of
-	// {@link Vector} or {@link Deque}, however, I've adopted {@link TreeMultiSet} instead of them. Of course,
-	// there are proper reasons for adapting the {@link TreeMultiSet} even violating standard advice.
-	//
-	// <i>Underlying container</i> of {@link PriorityQueue} must keep a condition; the highest (or lowest)
-	// element must be placed on the terminal node for fast retrieval and deletion. To keep the condition with
-	// {@link Vector} or {@link Deque}, lots of times will only be spent for re-arranging elements. It calls
-	// rearrangement functions like <i>make_heap</i>, <i>push_heap</i> and <i>pop_head</i> for rearrangement.
-	//
-	// However, the {@link TreeMultiSet} container always keeps arrangment automatically without additional
-	// operations and it even meets full criteria of {@link PriorityQueue}. Those are the reason why I've adopted
-	// {@link TreeMultiSet} as the <i>underlying container</i> of {@link PriorityQueue}.
-	//--------
+	/**
+	 * @hidden
+	 */
+	private comp_: (x: T, y: T) => boolean;
+
 	/* ---------------------------------------------------------
 		CONSTURCTORS
 	--------------------------------------------------------- */
@@ -75,7 +68,7 @@ export class PriorityQueue<T>
 		{
 			let obj: PriorityQueue<T> = args[0];
 			
-			comp = obj.source_.key_comp();
+			comp = obj.comp_;
 			post_process = () => 
 			{
 				let first = obj.source_.begin();
@@ -105,7 +98,8 @@ export class PriorityQueue<T>
 		// DO PROCESS
 		//----
 		// CONSTRUCT CONTAINER
-		this.source_ = new TreeMultiSet<T>(comp);
+		this.source_ = new Vector<T>();
+		this.comp_ = comp;
 
 		// ACT POST-PROCESS
 		if (post_process !== null)
@@ -120,7 +114,7 @@ export class PriorityQueue<T>
 	 */
 	public value_comp(): (x: T, y: T) => boolean
 	{
-		return this.source_.value_comp();
+		return this.comp_;
 	}
 
 	/**
@@ -128,17 +122,40 @@ export class PriorityQueue<T>
 	 */
 	public top(): T
 	{
-		return this.source_.end().prev().value;
+		return this.source_.front();
 	}
 
+	/* ---------------------------------------------------------
+		ELEMENTS I/O
+	--------------------------------------------------------- */
+	/**
+	 * @inheritDoc
+	 */
+	public push(...elems: T[]): number
+	{
+		for (let elem of elems)
+		{
+			this.source_.push_back(elem);
+			push_heap(this.source_.begin(), this.source_.end(), this.comp_);
+		}
+		return this.size();
+	}
+	
 	/**
 	 * @inheritDoc
 	 */
 	public pop(): void
 	{
-		this.source_.erase(this.source_.end().prev());
+		pop_heap(this.source_.begin(), this.source_.end(), this.comp_);
+		this.source_.pop_back();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public swap(obj: PriorityQueue<T>): void
+	{
+		super.swap(obj);
+		[this.comp_, obj.comp_] = [obj.comp_, this.comp_];
 	}
 }
-
-export type priority_queue<T> = PriorityQueue<T>;
-export const priority_queue = PriorityQueue;

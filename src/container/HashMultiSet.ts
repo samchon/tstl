@@ -1,4 +1,7 @@
-﻿import { MultiSet } from "../base/container/MultiSet";
+//================================================================ 
+/** @module std */
+//================================================================
+import { MultiSet } from "../base/container/MultiSet";
 import { IHashSet } from "../base/container/IHashSet";
 import { _Construct } from "../base/container/_IHashContainer";
 
