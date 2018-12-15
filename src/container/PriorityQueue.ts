@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { AdaptorContainer } from "../base/container/AdaptorContainer";
 
 import { Vector } from "./Vector";

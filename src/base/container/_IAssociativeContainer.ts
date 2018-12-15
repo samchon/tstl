@@ -39,6 +39,9 @@ export interface _IAssociativeContainer<Key, Iterator>
 	erase(key: Key): number;
 }
 
+/**
+ * @hidden
+ */
 export function _Fetch_arguments(...args: any[])
 {
 	let ramda: ()=>void;

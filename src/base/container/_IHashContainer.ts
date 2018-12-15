@@ -91,6 +91,9 @@ export interface _IHashContainer<Key>
 	rehash(n: number): void;
 }
 
+/**
+ * @hidden
+ */
 export function _Construct<Key>(Source: any, Bucket: any, ...args: any[])
 {
 	// DECLARE MEMBERS
