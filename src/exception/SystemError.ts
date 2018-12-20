@@ -42,16 +42,18 @@ export class SystemError extends RuntimeError
 	{
 		super("");
 
-		if (args.length >= 2 && typeof args[0] === "number")
+		if (args.length >= 2 && typeof args[0].valueOf() === "number")
 		{
 			let val: number = args[0];
 			let category: ErrorCategory = args[1];
 
 			this.code_ = new ErrorCode(val, category);
+			this.message = args[2];
 		}
 		else
 		{
 			this.code_ = args[0];
+			this.message = args[1];
 		}
 	}
 
