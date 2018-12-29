@@ -4,7 +4,7 @@
 /**
  * @hidden
  */
-export enum _Color
+export const enum _Color
 {
 	BLACK,
 	RED
