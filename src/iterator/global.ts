@@ -9,12 +9,12 @@ import { OutOfRange } from "../exception/LogicError";
 import { _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
 
 /* =========================================================
-	GLOBAL FUNCTIONS
-		- ACCESSORS
-		- MOVERS
-		- FACTORIES
+    GLOBAL FUNCTIONS
+        - ACCESSORS
+        - MOVERS
+        - FACTORIES
 ============================================================
-	ACCESSORS
+    ACCESSORS
 --------------------------------------------------------- */
 /**
  * Test whether a container is empty.
@@ -30,10 +30,10 @@ export function empty(source: _IEmpty): boolean;
 export function empty<T>(source: Array<T>): boolean;
 export function empty(source: any): boolean
 {
-	if (source instanceof Array)
-		return source.length === 0;
-	else
-		return source.empty();
+    if (source instanceof Array)
+        return source.length === 0;
+    else
+        return source.empty();
 }
 
 /**
@@ -50,10 +50,10 @@ export function size(source: _ISize): number
 export function size<T>(source: Array<T>): number;
 export function size(source: any): number
 {
-	if (source instanceof Array)
-		return source.length;
-	else
-		return source.size();
+    if (source instanceof Array)
+        return source.length;
+    else
+        return source.size();
 }
 
 /**
@@ -65,35 +65,35 @@ export function size(source: any): number
  * @return The distance.
  */
 export function distance<T, InputIterator extends IForwardIterator<T, InputIterator>>
-	(first: InputIterator, last: InputIterator): number
+    (first: InputIterator, last: InputIterator): number
 {
-	if ((<any>first).index !== undefined)
-		return _Distance_via_index(<any>first, <any>last);
+    if ((<any>first).index !== undefined)
+        return _Distance_via_index(<any>first, <any>last);
 
-	let ret: number = 0;
-	for (; !first.equals(last); first = first.next())
-		++ret;
+    let ret: number = 0;
+    for (; !first.equals(last); first = first.next())
+        ++ret;
 
-	return ret;
+    return ret;
 }
 
 /**
  * @hidden
  */
 function _Distance_via_index<T, RandomAccessIterator extends IRandomAccessIterator<T, RandomAccessIterator>>
-	(first: RandomAccessIterator, last: RandomAccessIterator): number
+    (first: RandomAccessIterator, last: RandomAccessIterator): number
 {
-	let start: number = first.index();
-	let end: number = last.index();
+    let start: number = first.index();
+    let end: number = last.index();
 
-	if ((first as any).base instanceof Function)
-		return start - end;
-	else
-		return end - start;	
+    if ((first as any).base instanceof Function)
+        return start - end;
+    else
+        return end - start;    
 }
 
 /* ---------------------------------------------------------
-	ACCESSORS
+    ACCESSORS
 --------------------------------------------------------- */
 /**
  * Advance iterator.
@@ -104,26 +104,26 @@ function _Distance_via_index<T, RandomAccessIterator extends IRandomAccessIterat
  * @return The advanced iterator.
  */
 export function advance<T, InputIterator extends IForwardIterator<T, InputIterator>>
-	(it: InputIterator, n: number): InputIterator
+    (it: InputIterator, n: number): InputIterator
 {
-	if ((<any>it).advance instanceof Function)
-		it = (<any>it).advance(n);
-	else if (n > 0)
-		for (let i: number = 0; i < n; ++i)
-			it = it.next();
-	else
-	{
-		let p_it: IBidirectionalIterator<T, any> = <any>it;
-		if (!(p_it.next instanceof Function))
-			throw new OutOfRange("It's not bidirectional iterator. Advancing to negative value is impossible.");
+    if ((<any>it).advance instanceof Function)
+        it = (<any>it).advance(n);
+    else if (n > 0)
+        for (let i: number = 0; i < n; ++i)
+            it = it.next();
+    else
+    {
+        let p_it: IBidirectionalIterator<T, any> = <any>it;
+        if (!(p_it.next instanceof Function))
+            throw new OutOfRange("It's not bidirectional iterator. Advancing to negative value is impossible.");
 
-		n = -n;
-		for (let i: number = 0; i < n; ++i)
-			p_it = p_it.prev();
+        n = -n;
+        for (let i: number = 0; i < n; ++i)
+            p_it = p_it.prev();
 
-		it = <any>p_it;
-	}
-	return it;
+        it = <any>p_it;
+    }
+    return it;
 }
 
 /**
@@ -134,12 +134,12 @@ export function advance<T, InputIterator extends IForwardIterator<T, InputIterat
  * @return An iterator moved to prev *n* steps.
  */
 export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, BidirectionalIterator>>
-	(it: BidirectionalIterator, n: number = 1): BidirectionalIterator
+    (it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 {
-	if (n === 1)
-		return it.prev();
-	else
-		return advance(it, -n);
+    if (n === 1)
+        return it.prev();
+    else
+        return advance(it, -n);
 }
 
 /**
@@ -150,11 +150,11 @@ export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, 
  * @return Iterator moved to next *n* steps.
  */
 export function next<T, ForwardIterator extends IForwardIterator<T, ForwardIterator>>
-	(it: ForwardIterator, n: number = 1): ForwardIterator
-{	
-	if (n === 1)
-		return it.next();
-	else
-		return advance(it, n);
+    (it: ForwardIterator, n: number = 1): ForwardIterator
+{    
+    if (n === 1)
+        return it.next();
+    else
+        return advance(it, n);
 }
 

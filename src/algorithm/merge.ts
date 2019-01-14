@@ -12,11 +12,11 @@ import { back_inserter } from "../iterator/factory";
 import { Vector } from "../container/Vector";
 
 /* =========================================================
-	MERGE & SET OPERATIONS
-		- MERGE
-		- SET OPERATION
+    MERGE & SET OPERATIONS
+        - MERGE
+        - SET OPERATION
 ============================================================
-	MERGE
+    MERGE
 --------------------------------------------------------- */
 /**
  * Merge two sorted ranges.
@@ -31,34 +31,34 @@ import { Vector } from "../container/Vector";
  * @return Output Iterator of the last position by advancing.
  */
 export function merge<T, 
-		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(
-		first1: InputIterator1, last1: InputIterator1, 
-		first2: InputIterator2, last2: InputIterator2,
-		output: OutputIterator, comp: (x: T, y: T) => boolean = less
-	): OutputIterator
+        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2, last2: InputIterator2,
+        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+    ): OutputIterator
 {
-	while (true)
-	{
-		if (first1.equals(last1))
-			return copy(first2, last2, output);
-		else if (first2.equals(last2))
-			return copy(first1, last1, output);
+    while (true)
+    {
+        if (first1.equals(last1))
+            return copy(first2, last2, output);
+        else if (first2.equals(last2))
+            return copy(first1, last1, output);
 
-		if (comp(first1.value, first2.value))
-		{
-			output.value = first1.value;
-			first1 = first1.next();
-		}
-		else
-		{
-			output.value = first2.value;
-			first2 = first2.next();
-		}
-		output = output.next();
-	}
+        if (comp(first1.value, first2.value))
+        {
+            output.value = first1.value;
+            first1 = first1.next();
+        }
+        else
+        {
+            output.value = first2.value;
+            first2 = first2.next();
+        }
+        output = output.next();
+    }
 }
 
 /**
@@ -70,19 +70,19 @@ export function merge<T,
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function inplace_merge<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
-	(
-		first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
-		comp: (x: T, y: T) => boolean = less
-	): void
+    (
+        first: BidirectionalIterator, middle: BidirectionalIterator, last: BidirectionalIterator,
+        comp: (x: T, y: T) => boolean = less
+    ): void
 {
-	let vector: Vector<T> = new Vector();
-	merge(first, middle, middle, last, back_inserter<T, Vector<T>>(vector), comp);
+    let vector: Vector<T> = new Vector();
+    merge(first, middle, middle, last, back_inserter<T, Vector<T>>(vector), comp);
 
-	copy(vector.begin(), vector.end(), first);
+    copy(vector.begin(), vector.end(), first);
 }
 
 /* ---------------------------------------------------------
-	SET OPERATIONS
+    SET OPERATIONS
 --------------------------------------------------------- */
 /**
  * Test whether two sorted ranges are in inclusion relationship.
@@ -96,25 +96,25 @@ export function inplace_merge<T, BidirectionalIterator extends General<IBidirect
  * @return Whether [first, last1) includes [first2, last2).
  */
 export function includes<T, 
-		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>>
-	(
-		first1: InputIterator1, last1: InputIterator1, 
-		first2: InputIterator2, last2: InputIterator2,
-		comp: (x: T, y: T) => boolean = less
-	): boolean
+        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2, last2: InputIterator2,
+        comp: (x: T, y: T) => boolean = less
+    ): boolean
 {
-	while (!first2.equals(last2))
-	{
-		if (first1.equals(last1) || comp(first2.value, first1.value))
-			return false;
-		else if (!comp(first1.value, first2.value))
-			first2 = first2.next();
+    while (!first2.equals(last2))
+    {
+        if (first1.equals(last1) || comp(first2.value, first1.value))
+            return false;
+        else if (!comp(first1.value, first2.value))
+            first2 = first2.next();
 
-		first1 = first1.next();
-	}
+        first1 = first1.next();
+    }
 
-	return true;
+    return true;
 }
 
 /**
@@ -130,42 +130,42 @@ export function includes<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function set_union<T, 
-		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(
-		first1: InputIterator1, last1: InputIterator1, 
-		first2: InputIterator2, last2: InputIterator2,
-		output: OutputIterator, comp: (x: T, y: T) => boolean = less
-	): OutputIterator
+        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2, last2: InputIterator2,
+        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+    ): OutputIterator
 {
-	while (true)
-	{
-		if (first1.equals(last1))
-			return copy(first2, last2, output);
-		else if (first2.equals(last2))
-			return copy(first1, last1, output);
+    while (true)
+    {
+        if (first1.equals(last1))
+            return copy(first2, last2, output);
+        else if (first2.equals(last2))
+            return copy(first1, last1, output);
 
-		if (comp(first1.value, first2.value))
-		{
-			output.value = first1.value;
-			first1 = first1.next();
-		}
-		else if (comp(first2.value, first1.value))
-		{
-			output.value = first2.value;
-			first2 = first2.next();
-		}
-		else 
-		{// equals
-			output.value = first1.value;
+        if (comp(first1.value, first2.value))
+        {
+            output.value = first1.value;
+            first1 = first1.next();
+        }
+        else if (comp(first2.value, first1.value))
+        {
+            output.value = first2.value;
+            first2 = first2.next();
+        }
+        else 
+        {// equals
+            output.value = first1.value;
 
-			first1 = first1.next();
-			first2 = first2.next();
-		}
+            first1 = first1.next();
+            first2 = first2.next();
+        }
 
-		output = output.next();
-	}
+        output = output.next();
+    }
 }
 
 /**
@@ -181,35 +181,35 @@ export function set_union<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function set_intersection<T, 
-		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(
-		first1: InputIterator1, last1: InputIterator1, 
-		first2: InputIterator2, last2: InputIterator2,
-		output: OutputIterator, comp: (x: T, y: T) => boolean = less
-	): OutputIterator
+        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2, last2: InputIterator2,
+        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+    ): OutputIterator
 {
-	while (true)
-	{
-		if (first1.equals(last1))
-			return copy(first2, last2, output);
-		else if (first2.equals(last2))
-			return copy(first1, last1, output);
+    while (true)
+    {
+        if (first1.equals(last1))
+            return copy(first2, last2, output);
+        else if (first2.equals(last2))
+            return copy(first1, last1, output);
 
-		if (comp(first1.value, first2.value))
-			first1 = first1.next();
-		else if (comp(first2.value, first1.value))
-			first2 = first2.next();
-		else 
-		{// equals
-			output.value = first1.value;
+        if (comp(first1.value, first2.value))
+            first1 = first1.next();
+        else if (comp(first2.value, first1.value))
+            first2 = first2.next();
+        else 
+        {// equals
+            output.value = first1.value;
 
-			output = output.next();
-			first1 = first1.next();
-			first2 = first2.next();
-		}
-	}
+            output = output.next();
+            first1 = first1.next();
+            first2 = first2.next();
+        }
+    }
 }
 
 /**
@@ -225,32 +225,32 @@ export function set_intersection<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function set_difference<T, 
-		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(
-		first1: InputIterator1, last1: InputIterator1, 
-		first2: InputIterator2, last2: InputIterator2,
-		output: OutputIterator, comp: (x: T, y: T) => boolean = less
-	): OutputIterator
+        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2, last2: InputIterator2,
+        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+    ): OutputIterator
 {
-	while (!first1.equals(last1) && !first2.equals(last2))
-		if (comp(first1.value, first2.value))
-		{
-			output.value = first1.value;
+    while (!first1.equals(last1) && !first2.equals(last2))
+        if (comp(first1.value, first2.value))
+        {
+            output.value = first1.value;
 
-			output = output.next();
-			first1 = first1.next();
-		}
-		else if (comp(first2.value, first1.value))
-			first2 = first2.next();
-		else
-		{
-			first1 = first1.next();
-			first2 = first2.next();
-		}
+            output = output.next();
+            first1 = first1.next();
+        }
+        else if (comp(first2.value, first1.value))
+            first2 = first2.next();
+        else
+        {
+            first1 = first1.next();
+            first2 = first2.next();
+        }
 
-	return copy(first1, last1, output);
+    return copy(first1, last1, output);
 }
 
 /**
@@ -266,40 +266,40 @@ export function set_difference<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function set_symmetric_difference<T, 
-		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(
-		first1: InputIterator1, last1: InputIterator1, 
-		first2: InputIterator2, last2: InputIterator2,
-		output: OutputIterator, comp: (x: T, y: T) => boolean = less
-	): OutputIterator
+        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2, last2: InputIterator2,
+        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+    ): OutputIterator
 {
-	while (true)
-	{
-		if (first1.equals(last1))
-			return copy(first2, last2, output);
-		else if (first2.equals(last2))
-			return copy(first1, last1, output);
+    while (true)
+    {
+        if (first1.equals(last1))
+            return copy(first2, last2, output);
+        else if (first2.equals(last2))
+            return copy(first1, last1, output);
 
-		if (comp(first1.value, first2.value))
-		{
-			output.value = first1.value;
+        if (comp(first1.value, first2.value))
+        {
+            output.value = first1.value;
 
-			output = output.next();
-			first1 = first1.next();
-		}
-		else if (comp(first2.value, first1.value))
-		{
-			output.value = first2.value;
+            output = output.next();
+            first1 = first1.next();
+        }
+        else if (comp(first2.value, first1.value))
+        {
+            output.value = first2.value;
 
-			output = output.next();
-			first2 = first2.next();
-		}
-		else 
-		{// equals
-			first1 = first1.next();
-			first2 = first2.next();
-		}
-	}
+            output = output.next();
+            first2 = first2.next();
+        }
+        else 
+        {// equals
+            first1 = first1.next();
+            first2 = first2.next();
+        }
+    }
 }

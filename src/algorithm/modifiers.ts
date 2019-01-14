@@ -11,13 +11,13 @@ import { randint } from "./random";
 import { advance } from "../iterator/global";
 
 /* =========================================================
-	MODIFIERS (MODIFYING SEQUENCE)
-		- FILL
-		- REMOVE
-		- REPLACE & SWAP
-		- RE-ARRANGEMENT
+    MODIFIERS (MODIFYING SEQUENCE)
+        - FILL
+        - REMOVE
+        - REPLACE & SWAP
+        - RE-ARRANGEMENT
 ============================================================
-	FILL
+    FILL
 --------------------------------------------------------- */
 /**
  * Copy elements in range.
@@ -29,16 +29,16 @@ import { advance } from "../iterator/global";
  * @return Output Iterator of the last position by advancing.
  */
 export function copy<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, output: OutputIterator): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: InputIterator, last: InputIterator, output: OutputIterator): OutputIterator
 {
-	for (; !first.equals(last); first = first.next())
-	{
-		output.value = first.value;
-		output = output.next();
-	}
-	return output;
+    for (; !first.equals(last); first = first.next())
+    {
+        output.value = first.value;
+        output = output.next();
+    }
+    return output;
 }
 
 /**
@@ -51,18 +51,18 @@ export function copy<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function copy_n<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: InputIterator, n: number, output: OutputIterator): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: InputIterator, n: number, output: OutputIterator): OutputIterator
 {
-	for (let i: number = 0; i < n; ++i)
-	{
-		output.value = first.value;
+    for (let i: number = 0; i < n; ++i)
+    {
+        output.value = first.value;
 
-		first = first.next();
-		output = output.next();
-	}
-	return output;
+        first = first.next();
+        output = output.next();
+    }
+    return output;
 }
 
 /**
@@ -76,19 +76,19 @@ export function copy_n<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function copy_if<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, output: OutputIterator, pred: (x: T) => boolean): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: InputIterator, last: InputIterator, output: OutputIterator, pred: (x: T) => boolean): OutputIterator
 {
-	for (; !first.equals(last); first = first.next())
-	{
-		if (!pred(first.value))
-			continue;
+    for (; !first.equals(last); first = first.next())
+    {
+        if (!pred(first.value))
+            continue;
 
-		output.value = first.value;
-		output = output.next();
-	}
-	return output;
+        output.value = first.value;
+        output = output.next();
+    }
+    return output;
 }
 
 /**
@@ -101,20 +101,20 @@ export function copy_if<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function copy_backward<T, 
-		BidirectionalIterator1 extends Readonly<IBidirectionalIterator<T, BidirectionalIterator1>>, 
-		BidirectionalIterator2 extends Writeonly<IBidirectionalIterator<T, BidirectionalIterator2>>>
-	(first: BidirectionalIterator1, last: BidirectionalIterator1, output: BidirectionalIterator2): BidirectionalIterator2
+        BidirectionalIterator1 extends Readonly<IBidirectionalIterator<T, BidirectionalIterator1>>, 
+        BidirectionalIterator2 extends Writeonly<IBidirectionalIterator<T, BidirectionalIterator2>>>
+    (first: BidirectionalIterator1, last: BidirectionalIterator1, output: BidirectionalIterator2): BidirectionalIterator2
 {
-	last = last.prev();
+    last = last.prev();
 
-	while (!last.equals(first))
-	{
-		last = last.prev();
-		output = output.prev();
-		
-		output.value = last.value;
-	}
-	return output;
+    while (!last.equals(first))
+    {
+        last = last.prev();
+        output = output.prev();
+        
+        output.value = last.value;
+    }
+    return output;
 }
 
 /**
@@ -127,10 +127,10 @@ export function copy_backward<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function fill<T, ForwardIterator extends Writeonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator, val: T): void
+    (first: ForwardIterator, last: ForwardIterator, val: T): void
 {
-	for (; !first.equals(last); first = first.next())
-		first.value = val;
+    for (; !first.equals(last); first = first.next())
+        first.value = val;
 }
 
 /**
@@ -143,14 +143,14 @@ export function fill<T, ForwardIterator extends Writeonly<IForwardIterator<T, Fo
  * @return Output Iterator of the last position by advancing.
  */
 export function fill_n<T, OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: OutputIterator, n: number, val: T): OutputIterator
+    (first: OutputIterator, n: number, val: T): OutputIterator
 {
-	for (let i: number = 0; i < n; ++i)
-	{
-		first.value = val;
-		first = first.next();
-	}
-	return first;
+    for (let i: number = 0; i < n; ++i)
+    {
+        first.value = val;
+        first = first.next();
+    }
+    return first;
 }
 
 /**
@@ -164,9 +164,9 @@ export function fill_n<T, OutputIterator extends Writeonly<IForwardIterator<T, O
  * @return Output Iterator of the last position by advancing.
  */
 export function transform<T, Ret, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => Ret): OutputIterator;
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
+    (first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => Ret): OutputIterator;
 
 /**
  * Transform elements.
@@ -180,61 +180,61 @@ export function transform<T, Ret,
  * @return Output Iterator of the last position by advancing.
  */
 export function transform<T, Ret,
-		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
-		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>, 
-		OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
-	(
-		first1: InputIterator1, last1: InputIterator1, 
-		first2: InputIterator2, 
-		result: OutputIterator, 
-		binary_op: (x: T, y: T) => Ret
-	): OutputIterator;
+        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
+        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>, 
+        OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2, 
+        result: OutputIterator, 
+        binary_op: (x: T, y: T) => Ret
+    ): OutputIterator;
 
 export function transform(...args: any[]): any
 {
-	if (args.length === 4)
-		return _Unary_transform.apply(undefined, args);
-	else // args: #5
-		return _Binary_transform.apply(undefined, args);
+    if (args.length === 4)
+        return _Unary_transform.apply(undefined, args);
+    else // args: #5
+        return _Binary_transform.apply(undefined, args);
 }
 
 /**
  * @hidden
  */
 function _Unary_transform<T, Ret, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => Ret): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
+    (first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => Ret): OutputIterator
 {
-	for (; !first.equals(last); first = first.next())
-	{
-		result.value = op(first.value);
-		result = result.next();
-	}
-	return result;
+    for (; !first.equals(last); first = first.next())
+    {
+        result.value = op(first.value);
+        result = result.next();
+    }
+    return result;
 }
 
 /**
  * @hidden
  */
 function _Binary_transform<T, Ret,
-		InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
-		InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>, 
-		OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
-	(
-		first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, 
-		result: OutputIterator, binary_op: (x: T, y: T) => Ret
-	): OutputIterator
+        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
+        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>, 
+        OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, 
+        result: OutputIterator, binary_op: (x: T, y: T) => Ret
+    ): OutputIterator
 {
-	while (!first1.equals(last1))
-	{
-		result.value = binary_op(first1.value, first2.value);
+    while (!first1.equals(last1))
+    {
+        result.value = binary_op(first1.value, first2.value);
 
-		first1 = first1.next();
-		first2 = first2.next();
-		result = result.next();
-	}
-	return result;
+        first1 = first1.next();
+        first2 = first2.next();
+        result = result.next();
+    }
+    return result;
 }
 
 /**
@@ -245,10 +245,10 @@ function _Binary_transform<T, Ret,
  * @param gen The generator function.
  */
 export function generate<T, ForwardIterator extends Writeonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator, gen: () => T): void
+    (first: ForwardIterator, last: ForwardIterator, gen: () => T): void
 {
-	for (; !first.equals(last); first = first.next())
-		first.value = gen();
+    for (; !first.equals(last); first = first.next())
+        first.value = gen();
 }
 
 /**
@@ -261,18 +261,18 @@ export function generate<T, ForwardIterator extends Writeonly<IForwardIterator<T
  * @return Forward Iterator to the last position by advancing.
  */
 export function generate_n<T, ForwardIterator extends Writeonly<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, n: number, gen: () => T): ForwardIterator
+    (first: ForwardIterator, n: number, gen: () => T): ForwardIterator
 {
-	while (n-- > 0)
-	{
-		first.value = gen();
-		first = first.next();
-	}
-	return first;
+    while (n-- > 0)
+    {
+        first.value = gen();
+        first = first.next();
+    }
+    return first;
 }
 
 /* ---------------------------------------------------------
-	REMOVE
+    REMOVE
 --------------------------------------------------------- */
 /**
  * Remove duplicated elements in sorted range.
@@ -284,19 +284,19 @@ export function generate_n<T, ForwardIterator extends Writeonly<IForwardIterator
  * @return Input iterator to the last element not removed.
  */
 export function unique<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
-	(first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = equal_to): InputIterator
+    (first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = equal_to): InputIterator
 {
-	if (first.equals(last))
-		return last;
+    if (first.equals(last))
+        return last;
 
-	let ret: InputIterator = first;
-	for (first = first.next(); !first.equals(last); first = first.next())
-		if (!pred(ret.value, first.value))
-		{
-			ret = ret.next();
-			ret.value = first.value;
-		}
-	return ret.next();
+    let ret: InputIterator = first;
+    for (first = first.next(); !first.equals(last); first = first.next())
+        if (!pred(ret.value, first.value))
+        {
+            ret = ret.next();
+            ret.value = first.value;
+        }
+    return ret.next();
 }
 
 /**
@@ -310,26 +310,26 @@ export function unique<T, InputIterator extends General<IForwardIterator<T, Inpu
  * @return Output Iterator of the last position by advancing.
  */
 export function unique_copy<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(
-		first: InputIterator, last: InputIterator, output: OutputIterator, 
-		pred: (x: T, y: T) => boolean = equal_to
-	): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, output: OutputIterator, 
+        pred: (x: T, y: T) => boolean = equal_to
+    ): OutputIterator
 {
-	if (first.equals(last))
-		return output;
+    if (first.equals(last))
+        return output;
 
-	output.value = first.value;
-	first = first.next();
+    output.value = first.value;
+    first = first.next();
 
-	for (; !first.equals(last); first = first.next())
-		if (!pred(first.value, output.value))
-		{
-			output = output.next();
-			output.value = first.value;
-		}
-	return output.next();
+    for (; !first.equals(last); first = first.next())
+        if (!pred(first.value, output.value))
+        {
+            output = output.next();
+            output.value = first.value;
+        }
+    return output.next();
 }
 
 /**
@@ -342,9 +342,9 @@ export function unique_copy<T,
  * @return Iterator tho the last element not removed.
  */
 export function remove<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
-	(first: InputIterator, last: InputIterator, val: T): InputIterator
+    (first: InputIterator, last: InputIterator, val: T): InputIterator
 {
-	return remove_if(first, last, elem => equal_to(elem, val));
+    return remove_if(first, last, elem => equal_to(elem, val));
 }
 
 /**
@@ -357,20 +357,20 @@ export function remove<T, InputIterator extends General<IForwardIterator<T, Inpu
  * @return Iterator tho the last element not removed.
  */
 export function remove_if<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
-	(first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
+    (first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 {
-	let ret: InputIterator = first;
+    let ret: InputIterator = first;
 
-	while (!first.equals(last))
-	{
-		if (!pred(first.value))
-		{
-			ret.value = first.value;
-			ret = ret.next();
-		}
-		first = first.next();
-	}
-	return ret;
+    while (!first.equals(last))
+    {
+        if (!pred(first.value))
+        {
+            ret.value = first.value;
+            ret = ret.next();
+        }
+        first = first.next();
+    }
+    return ret;
 }
 
 /**
@@ -384,11 +384,11 @@ export function remove_if<T, InputIterator extends General<IForwardIterator<T, I
  * @return Output Iterator of the last position by advancing.
  */
 export function remove_copy<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, output: OutputIterator, val: T): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: InputIterator, last: InputIterator, output: OutputIterator, val: T): OutputIterator
 {
-	return remove_copy_if(first, last, output, elem => equal_to(elem, val));
+    return remove_copy_if(first, last, output, elem => equal_to(elem, val));
 }
 
 /**
@@ -402,24 +402,24 @@ export function remove_copy<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function remove_copy_if<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, output: OutputIterator, pred: (x: T) => boolean): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: InputIterator, last: InputIterator, output: OutputIterator, pred: (x: T) => boolean): OutputIterator
 {
-	for (; !first.equals(last); first = first.next())
-	{
-		if (pred(first.value))
-			continue;
+    for (; !first.equals(last); first = first.next())
+    {
+        if (pred(first.value))
+            continue;
 
-		output.value = first.value;
-		output = output.next();
-	}
+        output.value = first.value;
+        output = output.next();
+    }
 
-	return output;
+    return output;
 }
 
 /* ---------------------------------------------------------
-	REPLACE & SWAP
+    REPLACE & SWAP
 --------------------------------------------------------- */
 /**
  * Replace specific value in range.
@@ -430,9 +430,9 @@ export function remove_copy_if<T,
  * @param new_val Specific value to be changed.
  */
 export function replace<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
-	(first: InputIterator, last: InputIterator, old_val: T, new_val: T): void
+    (first: InputIterator, last: InputIterator, old_val: T, new_val: T): void
 {
-	return replace_if(first, last, elem => equal_to(elem, old_val), new_val);
+    return replace_if(first, last, elem => equal_to(elem, old_val), new_val);
 }
 
 /**
@@ -444,11 +444,11 @@ export function replace<T, InputIterator extends General<IForwardIterator<T, Inp
  * @param new_val Specific value to be changed.
  */
 export function replace_if<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
-	(first: InputIterator, last: InputIterator, pred: (val: T) => boolean, new_val: T): void
+    (first: InputIterator, last: InputIterator, pred: (val: T) => boolean, new_val: T): void
 {
-	for (let it = first; !it.equals(last); it = it.next())
-		if (pred(it.value) === true)
-			it.value = new_val;
+    for (let it = first; !it.equals(last); it = it.next())
+        if (pred(it.value) === true)
+            it.value = new_val;
 }
 
 /**
@@ -463,11 +463,11 @@ export function replace_if<T, InputIterator extends General<IForwardIterator<T, 
  * @return Output Iterator of the last position by advancing.
  */
 export function replace_copy<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, output: OutputIterator, old_val: T, new_val: T): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: InputIterator, last: InputIterator, output: OutputIterator, old_val: T, new_val: T): OutputIterator
 {
-	return replace_copy_if(first, last, output, elem => equal_to(elem, old_val), new_val);
+    return replace_copy_if(first, last, output, elem => equal_to(elem, old_val), new_val);
 }
 
 /**
@@ -482,21 +482,21 @@ export function replace_copy<T,
  * @return Output Iterator of the last position by advancing.
  */
 export function replace_copy_if<T, 
-		InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean, new_val: T): OutputIterator
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean, new_val: T): OutputIterator
 {
-	for (; !first.equals(last); first = first.next())
-	{
-		if (pred(first.value))
-			result.value = new_val;
-		else
-			result.value = first.value;
+    for (; !first.equals(last); first = first.next())
+    {
+        if (pred(first.value))
+            result.value = new_val;
+        else
+            result.value = first.value;
 
-		result = result.next();
-	}
+        result = result.next();
+    }
 
-	return result;
+    return result;
 }
 
 /**
@@ -506,11 +506,11 @@ export function replace_copy_if<T,
  * @param y Forward iterator to swap its value.
  */
 export function iter_swap<T, 
-		ForwardIterator1 extends General<IForwardIterator<T, ForwardIterator1>>, 
-		ForwardIterator2 extends General<IForwardIterator<T, ForwardIterator2>>>
-	(x: ForwardIterator1, y: ForwardIterator2): void
+        ForwardIterator1 extends General<IForwardIterator<T, ForwardIterator1>>, 
+        ForwardIterator2 extends General<IForwardIterator<T, ForwardIterator2>>>
+    (x: ForwardIterator1, y: ForwardIterator2): void
 {
-	[x.value, y.value] = [y.value, x.value];
+    [x.value, y.value] = [y.value, x.value];
 }
 
 /**
@@ -523,20 +523,20 @@ export function iter_swap<T,
  * @return Forward Iterator of the last position of the 2nd range by advancing.
  */
 export function swap_ranges<T, 
-		ForwardIterator1 extends General<IForwardIterator<T, ForwardIterator1>>, 
-		ForwardIterator2 extends General<IForwardIterator<T, ForwardIterator2>>>
-	(first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2): ForwardIterator2
+        ForwardIterator1 extends General<IForwardIterator<T, ForwardIterator1>>, 
+        ForwardIterator2 extends General<IForwardIterator<T, ForwardIterator2>>>
+    (first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2): ForwardIterator2
 {
-	for (; !first1.equals(last1); first1 = first1.next())
-	{
-		iter_swap(first1, first2);
-		first2 = first2.next();
-	}
-	return first2;
+    for (; !first1.equals(last1); first1 = first1.next())
+    {
+        iter_swap(first1, first2);
+        first2 = first2.next();
+    }
+    return first2;
 }
 
 /* ---------------------------------------------------------
-	RE-ARRANGEMENT
+    RE-ARRANGEMENT
 --------------------------------------------------------- */
 /**
  * Reverse elements in range.
@@ -545,14 +545,14 @@ export function swap_ranges<T,
  * @param last Bidirectional iterator of the last position.
  */
 export function reverse<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
-	(first: BidirectionalIterator, last: BidirectionalIterator): void
+    (first: BidirectionalIterator, last: BidirectionalIterator): void
 {
-	// first !== last && first !== --last
-	while (first.equals(last) === false && first.equals((last = last.prev())) === false)
-	{
-		iter_swap(first, last);
-		first = first.next();
-	}
+    // first !== last && first !== --last
+    while (first.equals(last) === false && first.equals((last = last.prev())) === false)
+    {
+        iter_swap(first, last);
+        first = first.next();
+    }
 }
 
 /**
@@ -565,32 +565,32 @@ export function reverse<T, BidirectionalIterator extends General<IBidirectionalI
  * @return Output Iterator of the last position by advancing.
  */
 export function reverse_copy<T, 
-		BidirectionalIterator extends Readonly<IBidirectionalIterator<T, BidirectionalIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: BidirectionalIterator, last: BidirectionalIterator, output: OutputIterator): OutputIterator
+        BidirectionalIterator extends Readonly<IBidirectionalIterator<T, BidirectionalIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: BidirectionalIterator, last: BidirectionalIterator, output: OutputIterator): OutputIterator
 {
-	while (!last.equals(first))
-	{
-		last = last.prev();
+    while (!last.equals(first))
+    {
+        last = last.prev();
 
-		output.value = last.value;
-		output = output.next();
-	}
-	return output;
+        output.value = last.value;
+        output = output.next();
+    }
+    return output;
 }
 
 export function shift_left<T, ForwardIterator extends General<IForwardIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
+    (first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
 {
-	let mid = advance(first, n);
-	return copy(mid, last, first);
+    let mid = advance(first, n);
+    return copy(mid, last, first);
 }
 
 export function shift_right<T, ForwardIterator extends General<IBidirectionalIterator<T, ForwardIterator>>>
-	(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
+    (first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
 {
-	let mid = advance(last, -n);
-	return copy_backward(first, mid, last);
+    let mid = advance(last, -n);
+    return copy_backward(first, mid, last);
 }
 
 /**
@@ -603,16 +603,16 @@ export function shift_right<T, ForwardIterator extends General<IBidirectionalIte
  * @return Input iterator of the final position in the left side; *middle*.
  */
 export function rotate<T, InputIterator extends General<IForwardIterator<T, InputIterator>>>
-	(first: InputIterator, middle: InputIterator, last: InputIterator): InputIterator
+    (first: InputIterator, middle: InputIterator, last: InputIterator): InputIterator
 {
-	while (!first.equals(middle) && !middle.equals(last))
-	{
-		iter_swap(first, middle);
+    while (!first.equals(middle) && !middle.equals(last))
+    {
+        iter_swap(first, middle);
 
-		first = first.next();
-		middle = middle.next();
-	}
-	return first;
+        first = first.next();
+        middle = middle.next();
+    }
+    return first;
 }
 
 /**
@@ -626,12 +626,12 @@ export function rotate<T, InputIterator extends General<IForwardIterator<T, Inpu
  * @return Output Iterator of the last position by advancing.
  */
 export function rotate_copy<T, 
-		ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>, 
-		OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-	(first: ForwardIterator, middle: ForwardIterator, last: ForwardIterator, output: OutputIterator): OutputIterator
+        ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+    (first: ForwardIterator, middle: ForwardIterator, last: ForwardIterator, output: OutputIterator): OutputIterator
 {
-	output = copy(middle, last, output);
-	return copy(first, middle, output);
+    output = copy(middle, last, output);
+    return copy(first, middle, output);
 }
 
 /**
@@ -641,11 +641,11 @@ export function rotate_copy<T,
  * @param last Random access iteartor of the last position.
  */
 export function shuffle<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-	(first: RandomAccessIterator, last: RandomAccessIterator): void
+    (first: RandomAccessIterator, last: RandomAccessIterator): void
 {
-	for (let it = first; !it.equals(last); it = it.next())
-	{
-		let rand_index: number = randint(first.index(), last.index() - 1);
-		iter_swap(it, first.advance(rand_index));
-	}
+    for (let it = first; !it.equals(last); it = it.next())
+    {
+        let rand_index: number = randint(first.index(), last.index() - 1);
+        iter_swap(it, first.advance(rand_index));
+    }
 }

@@ -15,372 +15,372 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class HashMultiSet<Key>
-	extends MultiSet<Key, HashMultiSet<Key>>
-	implements IHashSet<Key, false, HashMultiSet<Key>>
+    extends MultiSet<Key, HashMultiSet<Key>>
+    implements IHashSet<Key, false, HashMultiSet<Key>>
 {
-	/**
-	 * @hidden
-	 */
-	private buckets_: _SetHashBuckets<Key, false, HashMultiSet<Key>>;
+    /**
+     * @hidden
+     */
+    private buckets_: _SetHashBuckets<Key, false, HashMultiSet<Key>>;
 
-	/* =========================================================
-		CONSTRUCTORS & SEMI-CONSTRUCTORS
-			- CONSTRUCTORS
-			- ASSIGN & CLEAR
-	============================================================
-		CONSTURCTORS
-	--------------------------------------------------------- */
-	/**
-	 * Default Constructor.
-	 * 
-	 * @param hash An unary function returns hash code. Default is {hash}.
-	 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
-	 */
-	public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
-	
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param items Items to assign.
-	 * @param hash An unary function returns hash code. Default is {hash}.
-	 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
-	 */
-	public constructor(items: Key[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
-	
-	/**
-	 * Copy Constructor.
-	 * 
-	 * @param obj Object to copy. 
-	 */
-	public constructor(obj: HashMultiSet<Key>);
+    /* =========================================================
+        CONSTRUCTORS & SEMI-CONSTRUCTORS
+            - CONSTRUCTORS
+            - ASSIGN & CLEAR
+    ============================================================
+        CONSTURCTORS
+    --------------------------------------------------------- */
+    /**
+     * Default Constructor.
+     * 
+     * @param hash An unary function returns hash code. Default is {hash}.
+     * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+     */
+    public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    
+    /**
+     * Initializer Constructor.
+     * 
+     * @param items Items to assign.
+     * @param hash An unary function returns hash code. Default is {hash}.
+     * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+     */
+    public constructor(items: Key[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    
+    /**
+     * Copy Constructor.
+     * 
+     * @param obj Object to copy. 
+     */
+    public constructor(obj: HashMultiSet<Key>);
 
-	/**
-	 * Range Constructor.
-	 * 
-	 * @param first Input iterator of the first position.
-	 * @param last Input iterator of the last position.
-	 * @param hash An unary function returns hash code. Default is {hash}.
-	 * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
-	 */
-	public constructor
-	(
-		first: Readonly<IForwardIterator<Key>>, 
-		last: Readonly<IForwardIterator<Key>>, 
-		hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean
-	);
+    /**
+     * Range Constructor.
+     * 
+     * @param first Input iterator of the first position.
+     * @param last Input iterator of the last position.
+     * @param hash An unary function returns hash code. Default is {hash}.
+     * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+     */
+    public constructor
+    (
+        first: Readonly<IForwardIterator<Key>>, 
+        last: Readonly<IForwardIterator<Key>>, 
+        hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean
+    );
 
-	public constructor(...args: any[])
-	{
-		super();
+    public constructor(...args: any[])
+    {
+        super();
 
-		_Construct.bind(this, HashMultiSet, _SetHashBuckets)(...args);
-	}
+        _Construct.bind(this, HashMultiSet, _SetHashBuckets)(...args);
+    }
 
-	/* ---------------------------------------------------------
-		ASSIGN & CLEAR
-	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	public clear(): void
-	{
-		this.buckets_.clear();
+    /* ---------------------------------------------------------
+        ASSIGN & CLEAR
+    --------------------------------------------------------- */
+    /**
+     * @inheritDoc
+     */
+    public clear(): void
+    {
+        this.buckets_.clear();
 
-		super.clear();
-	}
+        super.clear();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public swap(obj: HashMultiSet<Key>): void
-	{
-		// SWAP CONTENTS
-		super.swap(obj);
+    /**
+     * @inheritDoc
+     */
+    public swap(obj: HashMultiSet<Key>): void
+    {
+        // SWAP CONTENTS
+        super.swap(obj);
 
-		// SWAP BUCKETS
-		[this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
-		[this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
-	}
+        // SWAP BUCKETS
+        [this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+        [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
+    }
 
-	/* =========================================================
-		ACCESSORS
-			- MEMBER
-			- HASH
-	============================================================
-		MEMBER
-	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	public find(key: Key): HashMultiSet.Iterator<Key>
-	{
-		return this.buckets_.find(key);
-	}
+    /* =========================================================
+        ACCESSORS
+            - MEMBER
+            - HASH
+    ============================================================
+        MEMBER
+    --------------------------------------------------------- */
+    /**
+     * @inheritDoc
+     */
+    public find(key: Key): HashMultiSet.Iterator<Key>
+    {
+        return this.buckets_.find(key);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public count(key: Key): number
-	{
-		// FIND MATCHED BUCKET
-		let index = this.bucket(key);
-		let bucket = this.buckets_.at(index);
+    /**
+     * @inheritDoc
+     */
+    public count(key: Key): number
+    {
+        // FIND MATCHED BUCKET
+        let index = this.bucket(key);
+        let bucket = this.buckets_.at(index);
 
-		// ITERATE THE BUCKET
-		let cnt: number = 0;
-		for (let it of bucket)
-			if (this.buckets_.key_eq()(it.value, key))
-				++cnt;
+        // ITERATE THE BUCKET
+        let cnt: number = 0;
+        for (let it of bucket)
+            if (this.buckets_.key_eq()(it.value, key))
+                ++cnt;
 
-		return cnt;
-	}
+        return cnt;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public begin(): HashMultiSet.Iterator<Key>;
-	/**
-	 * @inheritDoc
-	 */
-	public begin(index: number): HashMultiSet.Iterator<Key>;
-	public begin(index: number = null): HashMultiSet.Iterator<Key>
-	{
-		if (index === null)
-			return super.begin();
-		else
-			return this.buckets_.at(index)[0];
-	}
+    /**
+     * @inheritDoc
+     */
+    public begin(): HashMultiSet.Iterator<Key>;
+    /**
+     * @inheritDoc
+     */
+    public begin(index: number): HashMultiSet.Iterator<Key>;
+    public begin(index: number = null): HashMultiSet.Iterator<Key>
+    {
+        if (index === null)
+            return super.begin();
+        else
+            return this.buckets_.at(index)[0];
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public end(): HashMultiSet.Iterator<Key>;
-	/**
-	 * @inheritDoc
-	 */
-	public end(index: number): HashMultiSet.Iterator<Key>
-	public end(index: number = null): HashMultiSet.Iterator<Key>
-	{
-		if (index === null)
-			return super.end();
-		else
-		{
-			let bucket = this.buckets_.at(index);
-			return bucket[bucket.length - 1].next();
-		}
-	}
+    /**
+     * @inheritDoc
+     */
+    public end(): HashMultiSet.Iterator<Key>;
+    /**
+     * @inheritDoc
+     */
+    public end(index: number): HashMultiSet.Iterator<Key>
+    public end(index: number = null): HashMultiSet.Iterator<Key>
+    {
+        if (index === null)
+            return super.end();
+        else
+        {
+            let bucket = this.buckets_.at(index);
+            return bucket[bucket.length - 1].next();
+        }
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public rbegin(): HashMultiSet.ReverseIterator<Key>;
-	/**
-	 * @inheritDoc
-	 */
-	public rbegin(index: number): HashMultiSet.ReverseIterator<Key>;
-	public rbegin(index: number = null): HashMultiSet.ReverseIterator<Key>
-	{
-		return this.end(index).reverse();
-	}
+    /**
+     * @inheritDoc
+     */
+    public rbegin(): HashMultiSet.ReverseIterator<Key>;
+    /**
+     * @inheritDoc
+     */
+    public rbegin(index: number): HashMultiSet.ReverseIterator<Key>;
+    public rbegin(index: number = null): HashMultiSet.ReverseIterator<Key>
+    {
+        return this.end(index).reverse();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public rend(): HashMultiSet.ReverseIterator<Key>;
-	/**
-	 * @inheritDoc
-	 */
-	public rend(index: number): HashMultiSet.ReverseIterator<Key>;
-	public rend(index: number = null): HashMultiSet.ReverseIterator<Key>
-	{
-		return this.begin(index).reverse();
-	}
+    /**
+     * @inheritDoc
+     */
+    public rend(): HashMultiSet.ReverseIterator<Key>;
+    /**
+     * @inheritDoc
+     */
+    public rend(index: number): HashMultiSet.ReverseIterator<Key>;
+    public rend(index: number = null): HashMultiSet.ReverseIterator<Key>
+    {
+        return this.begin(index).reverse();
+    }
 
-	/* ---------------------------------------------------------
-		HASH
-	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	public bucket_count(): number
-	{
-		return this.buckets_.size();
-	}
+    /* ---------------------------------------------------------
+        HASH
+    --------------------------------------------------------- */
+    /**
+     * @inheritDoc
+     */
+    public bucket_count(): number
+    {
+        return this.buckets_.size();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public bucket_size(n: number): number
-	{
-		return this.buckets_.at(n).length;
-	}
+    /**
+     * @inheritDoc
+     */
+    public bucket_size(n: number): number
+    {
+        return this.buckets_.at(n).length;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public load_factor(): number
-	{
-		return this.buckets_.load_factor();
-	}
+    /**
+     * @inheritDoc
+     */
+    public load_factor(): number
+    {
+        return this.buckets_.load_factor();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public hash_function(): (key: Key) => number
-	{
-		return this.buckets_.hash_function();
-	}
+    /**
+     * @inheritDoc
+     */
+    public hash_function(): (key: Key) => number
+    {
+        return this.buckets_.hash_function();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public key_eq(): (x: Key, y: Key) => boolean
-	{
-		return this.buckets_.key_eq();
-	}
+    /**
+     * @inheritDoc
+     */
+    public key_eq(): (x: Key, y: Key) => boolean
+    {
+        return this.buckets_.key_eq();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public bucket(key: Key): number
-	{
-		return this.hash_function()(key) % this.buckets_.size();
-	}
+    /**
+     * @inheritDoc
+     */
+    public bucket(key: Key): number
+    {
+        return this.hash_function()(key) % this.buckets_.size();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public max_load_factor(): number;
-	/**
-	 * @inheritDoc
-	 */
-	public max_load_factor(z: number): void;
-	public max_load_factor(z: number = null): any
-	{
-		return this.buckets_.max_load_factor(z);
-	}
+    /**
+     * @inheritDoc
+     */
+    public max_load_factor(): number;
+    /**
+     * @inheritDoc
+     */
+    public max_load_factor(z: number): void;
+    public max_load_factor(z: number = null): any
+    {
+        return this.buckets_.max_load_factor(z);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public reserve(n: number): void
-	{
-		this.buckets_.rehash(Math.ceil(n * this.max_load_factor()));
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public rehash(n: number): void
-	{
-		if (n <= this.bucket_count())
-			return;
+    /**
+     * @inheritDoc
+     */
+    public reserve(n: number): void
+    {
+        this.buckets_.rehash(Math.ceil(n * this.max_load_factor()));
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    public rehash(n: number): void
+    {
+        if (n <= this.bucket_count())
+            return;
 
-		this.buckets_.rehash(n);
-	}
+        this.buckets_.rehash(n);
+    }
 
-	/**
-	 * @hidden
-	 */
-	protected _Key_eq(x: Key, y: Key): boolean
-	{
-		return this.key_eq()(x, y);
-	}
-	
-	/* =========================================================
-		ELEMENTS I/O
-			- INSERT
-			- POST-PROCESS
-	============================================================
-		INSERT
-	--------------------------------------------------------- */
-	/**
-	 * @hidden
-	 */
-	protected _Insert_by_key(key: Key): HashMultiSet.Iterator<Key>
-	{
-		// INSERT
-		let it = this["data_"].insert(this["data_"].end(), key);
+    /**
+     * @hidden
+     */
+    protected _Key_eq(x: Key, y: Key): boolean
+    {
+        return this.key_eq()(x, y);
+    }
+    
+    /* =========================================================
+        ELEMENTS I/O
+            - INSERT
+            - POST-PROCESS
+    ============================================================
+        INSERT
+    --------------------------------------------------------- */
+    /**
+     * @hidden
+     */
+    protected _Insert_by_key(key: Key): HashMultiSet.Iterator<Key>
+    {
+        // INSERT
+        let it = this["data_"].insert(this["data_"].end(), key);
 
-		this._Handle_insert(it, it.next()); // POST-PROCESS
-		return it;
-	}
+        this._Handle_insert(it, it.next()); // POST-PROCESS
+        return it;
+    }
 
-	/**
-	 * @hidden
-	 */
-	protected _Insert_by_hint(hint: HashMultiSet.Iterator<Key>, key: Key): HashMultiSet.Iterator<Key>
-	{
-		// INSERT
-		let it = this["data_"].insert(hint, key);
+    /**
+     * @hidden
+     */
+    protected _Insert_by_hint(hint: HashMultiSet.Iterator<Key>, key: Key): HashMultiSet.Iterator<Key>
+    {
+        // INSERT
+        let it = this["data_"].insert(hint, key);
 
-		// POST-PROCESS
-		this._Handle_insert(it, it.next());
+        // POST-PROCESS
+        this._Handle_insert(it, it.next());
 
-		return it;
-	}
+        return it;
+    }
 
-	/**
-	 * @hidden
-	 */
-	protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
-		(first: InputIterator, last: InputIterator): void
-	{
-		// INSERT ELEMENTS
-		let my_first = this["data_"].insert(this["data_"].end(), first, last);
+    /**
+     * @hidden
+     */
+    protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+        (first: InputIterator, last: InputIterator): void
+    {
+        // INSERT ELEMENTS
+        let my_first = this["data_"].insert(this["data_"].end(), first, last);
 
-		// IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-		if (this.size() > this.buckets_.capacity())
-			this.reserve(Math.max(this.size(), this.buckets_.capacity() * 2));
+        // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
+        if (this.size() > this.buckets_.capacity())
+            this.reserve(Math.max(this.size(), this.buckets_.capacity() * 2));
 
-		// POST-PROCESS
-		this._Handle_insert(my_first, this.end());
-	}
+        // POST-PROCESS
+        this._Handle_insert(my_first, this.end());
+    }
 
-	/* ---------------------------------------------------------
-		POST-PROCESS
-	--------------------------------------------------------- */
-	/**
-	 * @hidden
-	 */
-	protected _Handle_insert(first: HashMultiSet.Iterator<Key>, last: HashMultiSet.Iterator<Key>): void
-	{
-		for (; !first.equals(last); first = first.next())
-			this.buckets_.insert(first);
-	}
+    /* ---------------------------------------------------------
+        POST-PROCESS
+    --------------------------------------------------------- */
+    /**
+     * @hidden
+     */
+    protected _Handle_insert(first: HashMultiSet.Iterator<Key>, last: HashMultiSet.Iterator<Key>): void
+    {
+        for (; !first.equals(last); first = first.next())
+            this.buckets_.insert(first);
+    }
 
-	/**
-	 * @hidden
-	 */
-	protected _Handle_erase(first: HashMultiSet.Iterator<Key>, last: HashMultiSet.Iterator<Key>): void
-	{
-		for (; !first.equals(last); first = first.next())
-			this.buckets_.erase(first);
-	}
+    /**
+     * @hidden
+     */
+    protected _Handle_erase(first: HashMultiSet.Iterator<Key>, last: HashMultiSet.Iterator<Key>): void
+    {
+        for (; !first.equals(last); first = first.next())
+            this.buckets_.erase(first);
+    }
 }
 
 export namespace HashMultiSet
 {
-	//----
-	// PASCAL NOTATION
-	//----
-	// HEAD
-	export type Iterator<Key> = SetIterator<Key, false, HashMultiSet<Key>>;
-	export type ReverseIterator<Key> = SetReverseIterator<Key, false, HashMultiSet<Key>>;
+    //----
+    // PASCAL NOTATION
+    //----
+    // HEAD
+    export type Iterator<Key> = SetIterator<Key, false, HashMultiSet<Key>>;
+    export type ReverseIterator<Key> = SetReverseIterator<Key, false, HashMultiSet<Key>>;
 
-	// BODY
-	export const Iterator = SetIterator;
-	export const ReverseIterator = SetReverseIterator;
+    // BODY
+    export const Iterator = SetIterator;
+    export const ReverseIterator = SetReverseIterator;
 
-	//----
-	// SNAKE NOTATION
-	//----
-	// HEAD
-	export type iterator<Key> = Iterator<Key>;
-	export type reverse_iterator<Key> = ReverseIterator<Key>;
+    //----
+    // SNAKE NOTATION
+    //----
+    // HEAD
+    export type iterator<Key> = Iterator<Key>;
+    export type reverse_iterator<Key> = ReverseIterator<Key>;
 
-	// BODY
-	export const iterator = Iterator;
-	export const reverse_iterator = ReverseIterator;
+    // BODY
+    export const iterator = Iterator;
+    export const reverse_iterator = ReverseIterator;
 }
 export import unordered_multiset = HashMultiSet;

@@ -8,7 +8,7 @@ import { less } from "../functional/comparators";
 import { Pair } from "../utility/Pair";
 
 /* =========================================================
-	BINARY SEARCH
+    BINARY SEARCH
 ========================================================= */
 /**
  * Get iterator to lower bound.
@@ -21,28 +21,28 @@ import { Pair } from "../utility/Pair";
  * @return Iterator to the first element equal or after the val.
  */
 export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(
-		first: ForwardIterator, last: ForwardIterator, 
-		val: T, 
-		comp: (x: T, y: T) => boolean = less
-	): ForwardIterator
+    (
+        first: ForwardIterator, last: ForwardIterator, 
+        val: T, 
+        comp: (x: T, y: T) => boolean = less
+    ): ForwardIterator
 {
-	let count: number = distance(first, last);
+    let count: number = distance(first, last);
 
-	while (count > 0)
-	{
-		let step: number = Math.floor(count / 2);
-		let it: ForwardIterator = advance(first, step);
+    while (count > 0)
+    {
+        let step: number = Math.floor(count / 2);
+        let it: ForwardIterator = advance(first, step);
 
-		if (comp(it.value, val))
-		{
-			first = it.next();
-			count -= step + 1;
-		}
-		else
-			count = step;
-	}
-	return first;
+        if (comp(it.value, val))
+        {
+            first = it.next();
+            count -= step + 1;
+        }
+        else
+            count = step;
+    }
+    return first;
 }
 
 /**
@@ -56,28 +56,28 @@ export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator
  * @return Iterator to the first element after the key.
  */
 export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(
-		first: ForwardIterator, last: ForwardIterator, 
-		val: T,
-		comp: (x: T, y: T) => boolean = less
-	): ForwardIterator
+    (
+        first: ForwardIterator, last: ForwardIterator, 
+        val: T,
+        comp: (x: T, y: T) => boolean = less
+    ): ForwardIterator
 {
-	let count: number = distance(first, last);
-	
-	while (count > 0)
-	{
-		let step: number = Math.floor(count / 2);
-		let it: ForwardIterator = advance(first, step);
+    let count: number = distance(first, last);
+    
+    while (count > 0)
+    {
+        let step: number = Math.floor(count / 2);
+        let it: ForwardIterator = advance(first, step);
 
-		if (!comp(val, it.value))
-		{
-			first = it.next();
-			count -= step + 1;
-		}
-		else
-			count = step;
-	}
-	return first;
+        if (!comp(val, it.value))
+        {
+            first = it.next();
+            count -= step + 1;
+        }
+        else
+            count = step;
+    }
+    return first;
 }
 
 /**
@@ -91,15 +91,15 @@ export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator
  * @return Pair of {@link lower_bound} and {@link upper_bound}.
  */
 export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(
-		first: ForwardIterator, last: ForwardIterator, 
-		val: T,
-		comp: (x: T, y: T) => boolean = less
-	): Pair<ForwardIterator, ForwardIterator>
+    (
+        first: ForwardIterator, last: ForwardIterator, 
+        val: T,
+        comp: (x: T, y: T) => boolean = less
+    ): Pair<ForwardIterator, ForwardIterator>
 {
-	let it: ForwardIterator = lower_bound(first, last, val, comp);
+    let it: ForwardIterator = lower_bound(first, last, val, comp);
 
-	return new Pair(it, upper_bound(it, last, val, comp));
+    return new Pair(it, upper_bound(it, last, val, comp));
 }
 
 /**
@@ -113,13 +113,13 @@ export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator
  * @return Whether the value exists or not.
  */
 export function binary_search<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-	(
-		first: ForwardIterator, last: ForwardIterator, 
-		val: T,
-		comp: (x: T, y: T) => boolean = less
-	): boolean
+    (
+        first: ForwardIterator, last: ForwardIterator, 
+        val: T,
+        comp: (x: T, y: T) => boolean = less
+    ): boolean
 {
-	first = lower_bound(first, last, val, comp);
+    first = lower_bound(first, last, val, comp);
 
-	return !first.equals(last) && !comp(val, first.value);
+    return !first.equals(last) && !comp(val, first.value);
 }
