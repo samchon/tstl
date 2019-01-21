@@ -4,7 +4,7 @@
 /**
  * @hidden
  */
-var is_node_: boolean = null;
+var is_node_: boolean | null = null;
 
 /**
  * Test whether the code is running on NodeJS.

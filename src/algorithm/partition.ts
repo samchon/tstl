@@ -107,7 +107,7 @@ export function stable_partition<T, BidirectionalIterator extends General<IBidir
                 return first;
         } while (!pred(last.value));
 
-        iter_swap(first, last);
+        iter_swap<BidirectionalIterator, BidirectionalIterator, T>(first, last);
         first = first.next();
     }
     return last;

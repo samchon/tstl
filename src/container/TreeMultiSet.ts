@@ -23,7 +23,7 @@ export class TreeMultiSet<Key>
     /**
      * @hidden
      */
-    private tree_: _MultiSetTree<Key, TreeMultiSet<Key>>;
+    private tree_!: _MultiSetTree<Key, TreeMultiSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS

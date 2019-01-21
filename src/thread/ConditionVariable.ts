@@ -134,7 +134,7 @@ export class ConditionVariable
     public wait_for(ms: number, predicator?: Predicator): Promise<boolean>
     {
         let at: Date = new Date(Date.now() + ms);
-        return this.wait_until(at, predicator);
+        return this.wait_until(at, predicator!);
     }
 
     /**

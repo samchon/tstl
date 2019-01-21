@@ -94,10 +94,10 @@ export interface _IHashContainer<Key>
 /**
  * @hidden
  */
-export function _Construct<Key>(Source: any, Bucket: any, ...args: any[])
+export function _Construct<Key>(this: any, Source: any, Bucket: any, ...args: any[])
 {
 	// DECLARE MEMBERS
-	let post_process: () => void = null;
+	let post_process: (() => void) | null = null;
 	let hash_function: (key: Key) => number = hash;
 	let key_eq: (x: Key, y: Key) => boolean = equal_to;
 

@@ -58,7 +58,7 @@ export abstract class UniqueSet<Key, Source extends UniqueSet<Key, Source>>
 
 	public insert(...args: any[]): any
 	{
-		return super.insert.apply(this, args);
+		return (super.insert as Function)(...args);
 	}
 
 	/* ---------------------------------------------------------

@@ -26,7 +26,7 @@ export class TreeMultiMap<Key, T>
     /**
      * @hidden
      */
-    private tree_: _MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
+    private tree_!: _MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -112,7 +112,7 @@ export class TreeMultiMap<Key, T>
      */
     public find(key: Key): TreeMultiMap.Iterator<Key, T>
     {
-        let node: _XTreeNode<TreeMultiMap.Iterator<Key, T>> = this.tree_.nearest_by_key(key);
+        let node: _XTreeNode<TreeMultiMap.Iterator<Key, T>> | null = this.tree_.nearest_by_key(key);
         
         if (node === null || this.tree_.key_eq()(node.value.first, key) === false)
             return this.end();

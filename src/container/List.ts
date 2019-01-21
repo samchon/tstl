@@ -212,18 +212,16 @@ export class List<T>
     public splice<U extends T>
         (
             pos: List.Iterator<T>, obj: List<U>, 
-            first: List.Iterator<U> = null, last: List.Iterator<U> = null
+            first?: List.Iterator<U>, last?: List.Iterator<U>
         ): void
     {
-        if (first === null)
+        if (first === undefined)
         {
             first = obj.begin();
             last = obj.end();
         }
-        else if (last === null)
-        {
+        else if (last === undefined)
             last = first.next();
-        }
 
         this.insert(pos, first, last);
         obj.erase(first, last);

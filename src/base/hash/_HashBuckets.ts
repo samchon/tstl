@@ -16,8 +16,8 @@ const DEFAULT_MAX_FACTOR = 1.0;
  */
 export abstract class _HashBuckets<T>
 {
-	private buckets_: T[][];
-	private item_size_: number;
+	private buckets_!: T[][];
+	private item_size_!: number;
 	private max_load_factor_: number;
 
 	/* ---------------------------------------------------------
@@ -94,7 +94,7 @@ export abstract class _HashBuckets<T>
 	}
 	public max_load_factor(): number;
 	public max_load_factor(z: number): void;
-	public max_load_factor(z: number = null)
+	public max_load_factor(z: number | null = null)
 	{
 		if (z === null)
 			return this.max_load_factor_;

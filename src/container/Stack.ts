@@ -27,12 +27,12 @@ export class Stack<T>
      */
     public constructor(obj: Stack<T>);
 
-    public constructor(obj: Stack<T> = null)
+    public constructor(obj?: Stack<T>)
     {
         super();
 
         this.source_ = new Vector();
-        if (obj !== null)
+        if (obj !== undefined)
             this.source_.assign(obj.source_.begin(), obj.source_.end());
     }
 

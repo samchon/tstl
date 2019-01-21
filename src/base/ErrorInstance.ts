@@ -13,12 +13,12 @@ export abstract class ErrorInstance
 	/**
 	 * @hidden
 	 */
-	protected category_: ErrorCategory;
+	protected category_!: ErrorCategory;
 
 	/**
 	 * @hidden
 	 */
-	protected value_: number;
+	protected value_!: number;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -36,9 +36,9 @@ export abstract class ErrorInstance
 	 */
 	public constructor(val: number, category: ErrorCategory);
 
-	public constructor(val: number = 0, category: ErrorCategory = null)
+	public constructor(val: number = 0, category: ErrorCategory | null = null)
 	{
-		this.assign(val, category);
+		this.assign(val, category!);
 	}
 
 	/**
@@ -71,7 +71,7 @@ export abstract class ErrorInstance
 	 */
 	public category(): ErrorCategory
 	{
-		return this.category_;
+		return this.category_!;
 	}
 
 	/**
@@ -91,10 +91,7 @@ export abstract class ErrorInstance
 	 */
 	public message(): string
 	{
-		if (this.category_ === null || this.value_ === 0)
-			return "";
-		else
-			return this.category_.message(this.value_);
+		return this.category_!.message(this.value_);
 	}
 
 	/* ---------------------------------------------------------

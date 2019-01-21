@@ -23,7 +23,7 @@ export class TreeSet<Key>
     /**
      * @hidden
      */
-    private tree_: _UniqueSetTree<Key, TreeSet<Key>>;
+    private tree_!: _UniqueSetTree<Key, TreeSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS

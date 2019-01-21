@@ -42,9 +42,9 @@ export interface _IAssociativeContainer<Key, Iterator>
 /**
  * @hidden
  */
-export function _Fetch_arguments(...args: any[])
+export function _Fetch_arguments(this: any, ...args: any[])
 {
-	let ramda: ()=>void;
+	let ramda: (()=>void) | null;
 	let tail: any[];
 
 	if (args.length >= 1 && args[0] instanceof Array)

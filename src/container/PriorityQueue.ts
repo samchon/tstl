@@ -58,7 +58,7 @@ export class PriorityQueue<T>
 
         // DECLARE MEMBERS
         let comp: (x: T, y: T) => boolean = less;
-        let post_process: () => void = null;
+        let post_process: (() => void) | null = null;
 
         //----
         // INITIALIZE MEMBERS AND POST-PROCESS

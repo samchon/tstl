@@ -46,10 +46,10 @@ export interface _ITreeContainer<Key, Iterator>
 /**
  * @hidden
  */
-export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
+export function _Construct<Key>(this: any, Source: any, XTree: any, ...args: any[])
 {
 	// DECLARE MEMBERS
-	let post_process: () => void = null;
+	let post_process: (() => void) | null = null;
 	let comp: (x: Key, y: Key) => boolean = less;
 
 	//----
@@ -95,6 +95,7 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
  */
 export function _Emplace_hint<Iterator extends any, Element>
 	(
+		this: any,
 		hint: Iterator, 
 		elem: Element,
 		breaker: () => Iterator

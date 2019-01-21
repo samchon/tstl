@@ -50,7 +50,7 @@ export abstract class ListContainer<T,
 		super();
 
 		// INIT MEMBERS
-		this.end_ = this._Create_iterator(null, null, null);
+		this.end_ = this._Create_iterator(null!, null!);
 		this.end_["prev_"] = this.end_;
 		this.end_["next_"] = this.end_;
 
@@ -61,7 +61,7 @@ export abstract class ListContainer<T,
 	/**
 	 * @hidden
 	 */
-	protected abstract _Create_iterator(prev: IteratorT, next: IteratorT, val: T): IteratorT;
+	protected abstract _Create_iterator(prev: IteratorT, next: IteratorT, val?: T): IteratorT;
 
 	/**
 	 * @inheritDoc
@@ -100,7 +100,7 @@ export abstract class ListContainer<T,
 	{
 		let expansion: number = n - this.size();
 		if (expansion > 0)
-			this.insert(this.end(), expansion, undefined);
+			this.insert(this.end(), expansion, undefined!);
 		else if (expansion < 0)
 			this.erase(advance(this.end(), -expansion), this.end());
 	}
@@ -140,7 +140,7 @@ export abstract class ListContainer<T,
 	 * @inheritDoc
 	 */
 	public front(val: T): void;
-	public front(val: T = undefined): T | void
+	public front(val?: T): T | void
 	{
 		if (val === undefined)
 			return this.begin_.value;
@@ -156,7 +156,7 @@ export abstract class ListContainer<T,
 	 * @inheritDoc
 	 */
 	public back(val: T): void;
-	public back(val: T = undefined): T | void
+	public back(val?: T): T | void
 	{
 		let it = this.end().prev();
 		if (val === undefined)
@@ -274,14 +274,14 @@ export abstract class ListContainer<T,
 		(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT
 	{
 		let prev: IteratorT = <IteratorT>position.prev();
-		let first: IteratorT = null;
+		let first: IteratorT = null!;
 
 		let size: number = 0;
 
 		for (let it = begin; it.equals(end) === false; it = it.next()) 
 		{
 			// CONSTRUCT ITEM, THE NEW ELEMENT
-			let item: IteratorT = this._Create_iterator(prev, null, it.value);
+			let item: IteratorT = this._Create_iterator(prev, null!, it.value);
 			if (size === 0)
 				first = item;
 

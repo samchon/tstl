@@ -21,7 +21,7 @@ export class HashMultiSet<Key>
     /**
      * @hidden
      */
-    private buckets_: _SetHashBuckets<Key, false, HashMultiSet<Key>>;
+    private buckets_!: _SetHashBuckets<Key, false, HashMultiSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -143,7 +143,7 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public begin(index: number): HashMultiSet.Iterator<Key>;
-    public begin(index: number = null): HashMultiSet.Iterator<Key>
+    public begin(index: number | null = null): HashMultiSet.Iterator<Key>
     {
         if (index === null)
             return super.begin();
@@ -159,7 +159,7 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public end(index: number): HashMultiSet.Iterator<Key>
-    public end(index: number = null): HashMultiSet.Iterator<Key>
+    public end(index: number | null = null): HashMultiSet.Iterator<Key>
     {
         if (index === null)
             return super.end();
@@ -178,9 +178,9 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public rbegin(index: number): HashMultiSet.ReverseIterator<Key>;
-    public rbegin(index: number = null): HashMultiSet.ReverseIterator<Key>
+    public rbegin(index: number | null = null): HashMultiSet.ReverseIterator<Key>
     {
-        return this.end(index).reverse();
+        return this.end(index!).reverse();
     }
 
     /**
@@ -191,9 +191,9 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public rend(index: number): HashMultiSet.ReverseIterator<Key>;
-    public rend(index: number = null): HashMultiSet.ReverseIterator<Key>
+    public rend(index: number | null = null): HashMultiSet.ReverseIterator<Key>
     {
-        return this.begin(index).reverse();
+        return this.begin(index!).reverse();
     }
 
     /* ---------------------------------------------------------
@@ -255,9 +255,9 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public max_load_factor(z: number): void;
-    public max_load_factor(z: number = null): any
+    public max_load_factor(z: number | null = null): any
     {
-        return this.buckets_.max_load_factor(z);
+        return this.buckets_.max_load_factor(z!);
     }
 
     /**

@@ -8,9 +8,9 @@ import { _Color } from "./_Color";
  */
 export class _XTreeNode<T>
 {
-	public parent: _XTreeNode<T>;
-	public left: _XTreeNode<T>;
-	public right: _XTreeNode<T>;
+	public parent: _XTreeNode<T> | null;
+	public left: _XTreeNode<T> | null;
+	public right: _XTreeNode<T> | null;
 
 	public value: T;
 	public color: _Color;
@@ -28,21 +28,21 @@ export class _XTreeNode<T>
 		this.right = null;
 	}
 
-	public get grand(): _XTreeNode<T>
+	public get grand(): _XTreeNode<T> | null
 	{
-		return this.parent.parent;
+		return this.parent!.parent;
 	}
 
-	public get sibling(): _XTreeNode<T>
+	public get sibling(): _XTreeNode<T>  | null
 	{
-		if (this === this.parent.left)
-			return this.parent.right;
+		if (this === this.parent!.left)
+			return this.parent!.right;
 		else
-			return this.parent.left;
+			return this.parent!.left;
 	}
 	
-	public get uncle(): _XTreeNode<T>
+	public get uncle(): _XTreeNode<T>  | null
 	{
-		return this.parent.sibling;
+		return this.parent!.sibling;
 	}
 }

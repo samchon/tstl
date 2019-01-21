@@ -37,17 +37,17 @@ export class ForwardList<T>
     /**
      * @hidden
      */
-    private size_: number;
+    private size_!: number;
 
     /**
      * @hidden
      */
-    private before_begin_: ForwardList.Iterator<T>;
+    private before_begin_!: ForwardList.Iterator<T>;
 
     /**
      * @hidden
      */
-    private end_: ForwardList.Iterator<T>;
+    private end_!: ForwardList.Iterator<T>;
 
     /* ===============================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -145,8 +145,8 @@ export class ForwardList<T>
      */
     public clear(): void
     {
-        this.end_ = new ForwardList.Iterator<T>(this.ptr_, null, null);
-        this.before_begin_ = new ForwardList.Iterator<T>(this.ptr_, this.end_, null);
+        this.end_ = new ForwardList.Iterator<T>(this.ptr_, null!, null!);
+        this.before_begin_ = new ForwardList.Iterator<T>(this.ptr_, this.end_);
         
         this.size_ = 0;
     }
@@ -180,7 +180,7 @@ export class ForwardList<T>
      */
     public front(val: T): void;
 
-    public front(val: T = undefined)
+    public front(val?: T)
     {
         let it: ForwardList.Iterator<T> = this.begin();
 
@@ -307,7 +307,7 @@ export class ForwardList<T>
 
         for (; !first.equals(last); first = first.next())
         {
-            let node = new ForwardList.Iterator<T>(this.ptr_, null, first.value);
+            let node = new ForwardList.Iterator<T>(this.ptr_, null!, first.value);
             nodes.push(node);
 
             ++count;
@@ -474,21 +474,21 @@ export class ForwardList<T>
         (
             pos: ForwardList.Iterator<T>, 
             from: ForwardList<U>, 
-            first_before: ForwardList.Iterator<U> = null, last: ForwardList.Iterator<U> = null
+            first_before?: ForwardList.Iterator<U>, last?: ForwardList.Iterator<U>
         ): void
     {
         // DEFAULT PARAMETERS
-        if (first_before === null)
+        if (first_before === undefined)
             first_before = from.before_begin();
-        else if (last === null)
+        else if (last === undefined)
             last = first_before.next().next();
 
         if (last === null)
             last = from.end();
 
         // INSERT & ERASE
-        this.insert_after(pos, first_before.next(), last);
-        from.erase_after(first_before, last);
+        this.insert_after(pos, first_before.next(), last!);
+        from.erase_after(first_before, last!);
     }
 
     /* ---------------------------------------------------------------
@@ -569,9 +569,9 @@ export namespace ForwardList
         /**
          * @hidden
          */
-        private value_: T;
+        private value_: T | undefined;
 
-        public constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value: T)
+        public constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value?: T)
         {
             this.source_ptr_ = source;
             this.next_ = next;
@@ -597,7 +597,7 @@ export namespace ForwardList
          */
         public get value(): T
         {
-            return this.value_;
+            return this.value_!;
         }
 
         /**

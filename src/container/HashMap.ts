@@ -25,7 +25,7 @@ export class HashMap<Key, T>
     /**
      * @hidden
      */
-    private buckets_: _MapHashBuckets<Key, T, true, HashMap<Key, T>>;
+    private buckets_!: _MapHashBuckets<Key, T, true, HashMap<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -129,7 +129,7 @@ export class HashMap<Key, T>
      * @inheritDoc
      */
     public begin(index: number): HashMap.Iterator<Key, T>;
-    public begin(index: number = null): HashMap.Iterator<Key, T>
+    public begin(index: number | null = null): HashMap.Iterator<Key, T>
     {
         if (index === null)
             return super.begin();
@@ -145,7 +145,7 @@ export class HashMap<Key, T>
      * @inheritDoc
      */
     public end(index: number): HashMap.Iterator<Key, T>
-    public end(index: number = null): HashMap.Iterator<Key, T>
+    public end(index: number | null = null): HashMap.Iterator<Key, T>
     {
         if (index === null)
             return super.end();
@@ -164,9 +164,9 @@ export class HashMap<Key, T>
      * @inheritDoc
      */
     public rbegin(index: number): HashMap.ReverseIterator<Key, T>;
-    public rbegin(index: number = null): HashMap.ReverseIterator<Key, T>
+    public rbegin(index: number | null = null): HashMap.ReverseIterator<Key, T>
     {
-        return this.end(index).reverse();
+        return this.end(index!).reverse();
     }
 
     /**
@@ -177,9 +177,9 @@ export class HashMap<Key, T>
      * @inheritDoc
      */
     public rend(index: number): HashMap.ReverseIterator<Key, T>;
-    public rend(index: number = null): HashMap.ReverseIterator<Key, T>
+    public rend(index: number | null = null): HashMap.ReverseIterator<Key, T>
     {
-        return this.begin(index).reverse();
+        return this.begin(index!).reverse();
     }
 
     /* ---------------------------------------------------------
@@ -241,9 +241,9 @@ export class HashMap<Key, T>
      * @inheritDoc
      */
     public max_load_factor(z: number): void;
-    public max_load_factor(z: number = null): any
+    public max_load_factor(z: number | null = null): any
     {
-        return this.buckets_.max_load_factor(z);
+        return this.buckets_.max_load_factor(z!);
     }
 
     /**

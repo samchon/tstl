@@ -16,7 +16,7 @@ export abstract class AdaptorContainer<T,
 	/**
 	 * @hidden
 	 */
-	protected source_: Source;
+	protected source_!: Source;
 	
 	/* ---------------------------------------------------------
 		ACCESSORS

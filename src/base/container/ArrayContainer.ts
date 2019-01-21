@@ -74,7 +74,7 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	 * @inheritDoc
 	 */
 	public front(val: T): void;
-	public front(val: T = undefined): T | void
+	public front(val?: T): T | void
 	{
 		if (val === undefined)
 			return this.at(0);
@@ -90,7 +90,7 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	 * @inheritDoc
 	 */
 	public back(val: T): void;
-	public back(val: T = undefined): T | void
+	public back(val?: T): T | void
 	{
 		let index: number = this.size() - 1;
 		if (val === undefined)

@@ -9,12 +9,12 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 export class _Repeater<T> implements Readonly<IForwardIterator<T, _Repeater<T>>>
 {
 	private index_: number;
-	private value_: T;
+	private value_: T | undefined;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
 	--------------------------------------------------------- */
-	public constructor(index: number, value: T = null)
+	public constructor(index: number, value?: T)
 	{
 		this.index_ = index;
 		this.value_ = value;
@@ -30,7 +30,7 @@ export class _Repeater<T> implements Readonly<IForwardIterator<T, _Repeater<T>>>
 
 	public get value(): T
 	{
-		return this.value_;
+		return this.value_!;
 	}
 
 	/* ---------------------------------------------------------

@@ -25,7 +25,7 @@ export class HashMultiMap<Key, T>
     /**
      * @hidden
      */
-    private buckets_: _MapHashBuckets<Key, T, false, HashMultiMap<Key, T>>;
+    private buckets_!: _MapHashBuckets<Key, T, false, HashMultiMap<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -147,7 +147,7 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public begin(index: number): HashMultiMap.Iterator<Key, T>;
-    public begin(index: number = null): HashMultiMap.Iterator<Key, T>
+    public begin(index: number | null = null): HashMultiMap.Iterator<Key, T>
     {
         if (index === null)
             return super.begin();
@@ -163,7 +163,7 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public end(index: number): HashMultiMap.Iterator<Key, T>
-    public end(index: number = null): HashMultiMap.Iterator<Key, T>
+    public end(index: number | null = null): HashMultiMap.Iterator<Key, T>
     {
         if (index === null)
             return super.end();
@@ -182,9 +182,9 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public rbegin(index: number): HashMultiMap.ReverseIterator<Key, T>;
-    public rbegin(index: number = null): HashMultiMap.ReverseIterator<Key, T>
+    public rbegin(index: number | null = null): HashMultiMap.ReverseIterator<Key, T>
     {
-        return this.end(index).reverse();
+        return this.end(index!).reverse();
     }
 
     /**
@@ -195,9 +195,9 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public rend(index: number): HashMultiMap.ReverseIterator<Key, T>;
-    public rend(index: number = null): HashMultiMap.ReverseIterator<Key, T>
+    public rend(index: number | null = null): HashMultiMap.ReverseIterator<Key, T>
     {
-        return this.begin(index).reverse();
+        return this.begin(index!).reverse();
     }
 
     /* ---------------------------------------------------------
@@ -259,9 +259,9 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public max_load_factor(z: number): void;
-    public max_load_factor(z: number = null): any
+    public max_load_factor(z: number | null = null): any
     {
-        return this.buckets_.max_load_factor(z);
+        return this.buckets_.max_load_factor(z!);
     }
 
     /**

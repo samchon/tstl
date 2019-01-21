@@ -65,7 +65,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 
 	public insert(...args: any[]): any
 	{
-		return super.insert.apply(this, args);
+		return (super.insert as Function)(...args);
 	}
 
 	/* ---------------------------------------------------------

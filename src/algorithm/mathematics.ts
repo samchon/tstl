@@ -3,6 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
+import { ValueType } from "../functional/ValueType";
 
 import { General } from "../iterator/IFake";
 import { Pair } from "../utility/Pair";
@@ -90,7 +91,9 @@ export function minmax<T>(items: T[], comp: (x: T, y: T) => boolean): Pair<T, T>
  * 
  * @return Iterator to the minimum element.
  */
-export function min_element<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+export function min_element<
+        ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>,
+        T = ValueType<ForwardIterator>>
     (first: ForwardIterator, last: ForwardIterator, comp: (x: T, y: T) => boolean = less): ForwardIterator
 {
     let smallest: ForwardIterator = first;
@@ -180,9 +183,10 @@ export function clamp<T>(v: T, lo: T, hi: T, comp: (x: T, y: T) => boolean = les
  * 
  * @return Whether permutation or not.
  */
-export function is_permutation<T, 
+export function is_permutation<
         ForwardIterator1 extends Readonly<IForwardIterator<T, ForwardIterator1>>, 
-        ForwardIterator2 extends Readonly<IForwardIterator<T, ForwardIterator2>>>
+        ForwardIterator2 extends Readonly<IForwardIterator<T, ForwardIterator2>>,
+        T = ValueType<ForwardIterator1>>
     (
         first1: ForwardIterator1, last1: ForwardIterator1, 
         first2: ForwardIterator2,
@@ -190,7 +194,7 @@ export function is_permutation<T,
     ): boolean
 {
     // find the mismatched
-    let pair: Pair<ForwardIterator1, ForwardIterator2> = mismatch(first1, last1, first2);
+    let pair: Pair<ForwardIterator1, ForwardIterator2> = mismatch<ForwardIterator1, ForwardIterator2, T>(first1, last1, first2);
     first1 = pair.first;
     first2 = pair.second;
 
@@ -225,7 +229,9 @@ export function is_permutation<T,
  * 
  * @return Whether the transformation was meaningful.
  */
-export function prev_permutation<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
+export function prev_permutation<
+        BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>,
+        T = ValueType<BidirectionalIterator>>
     (first: BidirectionalIterator, last: BidirectionalIterator, comp: (x: T, y: T) => boolean = less): boolean
 {
     if (first.equals(last) === true)
@@ -247,14 +253,14 @@ export function prev_permutation<T, BidirectionalIterator extends General<IBidir
             while (comp(y.value, i.value) === false)
                 y = y.prev();
             
-            iter_swap(i, y);
-            reverse(x, last);
+            iter_swap<BidirectionalIterator, BidirectionalIterator, T>(i, y);
+            reverse<BidirectionalIterator, T>(x, last);
             return true;
         }
 
         if (i.equals(first) === true)
         {
-            reverse(first, last);
+            reverse<BidirectionalIterator, T>(first, last);
             return false;
         }
     }
@@ -269,7 +275,9 @@ export function prev_permutation<T, BidirectionalIterator extends General<IBidir
  * 
  * @return Whether the transformation was meaningful.
  */
-export function next_permutation<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
+export function next_permutation<
+        BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>,
+        T = ValueType<BidirectionalIterator>>
     (first: BidirectionalIterator, last: BidirectionalIterator, compare: (x: T, y: T) => boolean = less): boolean
 {
     if (first.equals(last) === true)
@@ -291,14 +299,14 @@ export function next_permutation<T, BidirectionalIterator extends General<IBidir
             while (compare(i.value, y.value) === false)
                 y = y.prev();
             
-            iter_swap(i, y);
-            reverse(x, last);
+            iter_swap<BidirectionalIterator, BidirectionalIterator, T>(i, y);
+            reverse<BidirectionalIterator, T>(x, last);
             return true;
         }
 
         if (i.equals(first) === true)
         {
-            reverse(first, last);
+            reverse<BidirectionalIterator, T>(first, last);
             return false;
         }
     }

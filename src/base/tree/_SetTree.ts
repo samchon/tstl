@@ -41,7 +41,7 @@ export abstract class _SetTree<T, Unique extends boolean, Source extends SetCont
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
-	public get_by_key(val: T): _XTreeNode<SetIterator<T, Unique, Source>>
+	public get_by_key(val: T): _XTreeNode<SetIterator<T, Unique, Source>> | null
 	{
 		let ret = this.nearest_by_key(val);
 		if (ret === null || !this.key_eq_(val, ret.value.value))
@@ -49,11 +49,11 @@ export abstract class _SetTree<T, Unique extends boolean, Source extends SetCont
 		else
 			return ret;
 	}
-	public abstract nearest_by_key(val: T): _XTreeNode<SetIterator<T, Unique, Source>>;
+	public abstract nearest_by_key(val: T): _XTreeNode<SetIterator<T, Unique, Source>> | null;
 
 	public lower_bound(val: T): SetIterator<T, Unique, Source>
 	{
-		let node: _XTreeNode<SetIterator<T, Unique, Source>> = this.nearest_by_key(val);
+		let node: _XTreeNode<SetIterator<T, Unique, Source>> | null = this.nearest_by_key(val);
 
 		if (node === null)
 			return this.source_.end() as SetIterator<T, Unique, Source>;

@@ -21,11 +21,11 @@ export class UniqueLock<Mutex extends IMutex>
 		this.mutex_ = mutex;
 
 		this.try_lock_for = mutex.try_lock_for instanceof Function
-			? UniqueLock.try_lock_for.bind(undefined, this.mutex_)
-			: undefined;
+			? UniqueLock.try_lock_for.bind(undefined, this.mutex_ as ITimedLockable)
+			: undefined as any;
 		this.try_lock_until = mutex.try_lock_until instanceof Function
-			? UniqueLock.try_lock_until.bind(undefined, this.mutex_)
-			: undefined;
+			? UniqueLock.try_lock_until.bind(undefined, this.mutex_ as ITimedLockable)
+			: undefined as any;
 	}
 
 	public try_lock_for: "try_lock_for" extends keyof Mutex

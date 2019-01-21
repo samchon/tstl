@@ -23,7 +23,7 @@ export class HashSet<Key>
     /**
      * @hidden
      */
-    private buckets_: _SetHashBuckets<Key, true, HashSet<Key>>;
+    private buckets_!: _SetHashBuckets<Key, true, HashSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -127,7 +127,7 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public begin(index: number): HashSet.Iterator<Key>;
-    public begin(index: number = null): HashSet.Iterator<Key>
+    public begin(index: number | null = null): HashSet.Iterator<Key>
     {
         if (index === null)
             return super.begin();
@@ -143,7 +143,7 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public end(index: number): HashSet.Iterator<Key>
-    public end(index: number = null): HashSet.Iterator<Key>
+    public end(index: number | null = null): HashSet.Iterator<Key>
     {
         if (index === null)
             return super.end();
@@ -162,9 +162,9 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public rbegin(index: number): HashSet.ReverseIterator<Key>;
-    public rbegin(index: number = null): HashSet.ReverseIterator<Key>
+    public rbegin(index: number | null = null): HashSet.ReverseIterator<Key>
     {
-        return this.end(index).reverse();
+        return this.end(index!).reverse();
     }
 
     /**
@@ -175,9 +175,9 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public rend(index: number): HashSet.ReverseIterator<Key>;
-    public rend(index: number = null): HashSet.ReverseIterator<Key>
+    public rend(index: number | null = null): HashSet.ReverseIterator<Key>
     {
-        return this.begin(index).reverse();
+        return this.begin(index!).reverse();
     }
 
     /* ---------------------------------------------------------
@@ -239,9 +239,9 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public max_load_factor(z: number): void;
-    public max_load_factor(z: number = null): any
+    public max_load_factor(z: number | null = null): any
     {
-        return this.buckets_.max_load_factor(z);
+        return this.buckets_.max_load_factor(z!);
     }
 
     /**

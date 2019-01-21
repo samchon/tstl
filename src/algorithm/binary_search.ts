@@ -2,6 +2,7 @@
 /** @module std */
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
+import { ValueType } from "../functional/ValueType";
 
 import { distance, advance } from "../iterator/global";
 import { less } from "../functional/comparators";
@@ -20,7 +21,9 @@ import { Pair } from "../utility/Pair";
  * 
  * @return Iterator to the first element equal or after the val.
  */
-export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+export function lower_bound<
+        ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>,
+        T = ValueType<ForwardIterator>>
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: T, 
@@ -55,7 +58,9 @@ export function lower_bound<T, ForwardIterator extends Readonly<IForwardIterator
  * 
  * @return Iterator to the first element after the key.
  */
-export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+export function upper_bound<
+        ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>,
+        T = ValueType<ForwardIterator>>
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: T,
@@ -90,7 +95,9 @@ export function upper_bound<T, ForwardIterator extends Readonly<IForwardIterator
  * 
  * @return Pair of {@link lower_bound} and {@link upper_bound}.
  */
-export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+export function equal_range<
+        ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>,
+        T = ValueType<ForwardIterator>>
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: T,
@@ -112,7 +119,9 @@ export function equal_range<T, ForwardIterator extends Readonly<IForwardIterator
  * 
  * @return Whether the value exists or not.
  */
-export function binary_search<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+export function binary_search<
+        ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>,
+        T = ValueType<ForwardIterator>>
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: T,

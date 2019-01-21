@@ -15,7 +15,7 @@ import { _Color } from "./_Color";
  */
 export abstract class _XTree<T>
 {
-	protected root_: _XTreeNode<T>;
+	protected root_: _XTreeNode<T> | null;
 
 	private comp_: (x: T, y: T) => boolean;
 	private equal_: (x: T, y: T) => boolean;
@@ -46,12 +46,12 @@ export abstract class _XTree<T>
 	============================================================
 		GETTERS
 	--------------------------------------------------------- */
-	public root(): _XTreeNode<T>
+	public root(): _XTreeNode<T> | null
 	{
 		return this.root_;
 	}
 
-	public get(val: T): _XTreeNode<T>
+	public get(val: T): _XTreeNode<T> | null
 	{
 		let ret = this.nearest(val);
 		if (ret === null || !this.equal_(val, ret.value))
@@ -73,7 +73,7 @@ export abstract class _XTree<T>
 		// return ret; // NULL -> UNABLE TO FIND THE MATCHED VALUE
 	}
 
-	public nearest(val: T): _XTreeNode<T>
+	public nearest(val: T): _XTreeNode<T> | null
 	{
 		// NEED NOT TO ITERATE
 		if (this.root_ === null)
@@ -82,11 +82,11 @@ export abstract class _XTree<T>
 		//----
 		// ITERATE
 		//----
-		let ret: _XTreeNode<T> = this.root_;
+		let ret: _XTreeNode<T> | null = this.root_;
 
 		while (true) // UNTIL MEET THE MATCHED VALUE OR FINAL BRANCH
 		{
-			let my_node: _XTreeNode<T> = null;
+			let my_node: _XTreeNode<T> | null = null;
 
 			// COMPARE
 			if (this.comp_(val, ret.value))
@@ -162,11 +162,11 @@ export abstract class _XTree<T>
 	{
 		if (this._Fetch_color(n.uncle) === _Color.RED)
 		{
-			n.parent.color = _Color.BLACK;
-			n.uncle.color = _Color.BLACK;
-			n.grand.color = _Color.RED;
+			n.parent!.color = _Color.BLACK;
+			n.uncle!.color = _Color.BLACK;
+			n.grand!.color = _Color.RED;
 
-			this._Insert_case1(n.grand);
+			this._Insert_case1(n.grand!);
 		}
 		else
 			this._Insert_case4(n);
@@ -174,15 +174,15 @@ export abstract class _XTree<T>
 
 	private _Insert_case4(n: _XTreeNode<T>): void
 	{
-		if (n === n.parent.right && n.parent === n.grand.left)
+		if (n === n.parent!.right && n.parent === n.grand!.left)
 		{
-			this._Rotate_left(n.parent);
-			n = n.left;
+			this._Rotate_left(n.parent!);
+			n = n.left!;
 		}
-		else if (n === n.parent.left && n.parent === n.grand.right)
+		else if (n === n.parent!.left && n.parent === n.grand!.right)
 		{
-			this._Rotate_right(n.parent);
-			n = n.right;
+			this._Rotate_right(n.parent!);
+			n = n.right!;
 		}
 
 		this._Insert_case5(n);
@@ -190,13 +190,13 @@ export abstract class _XTree<T>
 
 	private _Insert_case5(n: _XTreeNode<T>): void
 	{
-		n.parent.color = _Color.BLACK;
-		n.grand.color = _Color.RED;
+		n.parent!.color = _Color.BLACK;
+		n.grand!.color = _Color.RED;
 
-		if (n === n.parent.left && n.parent === n.grand.left)
-			this._Rotate_right(n.grand);
+		if (n === n.parent!.left && n.parent === n.grand!.left)
+			this._Rotate_right(n.grand!);
 		else
-			this._Rotate_left(n.grand);
+			this._Rotate_left(n.grand!);
 	}
 
 	/* ---------------------------------------------------------
@@ -204,7 +204,7 @@ export abstract class _XTree<T>
 	--------------------------------------------------------- */
 	public erase(val: T): void
 	{
-		let node: _XTreeNode<T> = this.get(val);
+		let node: _XTreeNode<T> | null = this.get(val);
 		if (node === null)
 			return; // UNABLE TO FIND THE MATCHED NODE
 
@@ -225,7 +225,7 @@ export abstract class _XTree<T>
 		this._Replace_node(node, child);
 
 		if (this._Fetch_color(this.root_) === _Color.RED)
-			this.root_.color = _Color.BLACK;
+			this.root_!.color = _Color.BLACK;
 	}
 
 	private _Erase_case1(n: _XTreeNode<T>): void
@@ -240,13 +240,13 @@ export abstract class _XTree<T>
 	{
 		if (this._Fetch_color(n.sibling) === _Color.RED)
 		{
-			n.parent.color = _Color.RED;
-			n.sibling.color = _Color.BLACK;
+			n.parent!.color = _Color.RED;
+			n.sibling!.color = _Color.BLACK;
 
-			if (n === n.parent.left)
-				this._Rotate_left(n.parent);
+			if (n === n.parent!.left)
+				this._Rotate_left(n.parent!);
 			else
-				this._Rotate_right(n.parent);
+				this._Rotate_right(n.parent!);
 		}
 
 		this._Erase_case3(n);
@@ -256,11 +256,11 @@ export abstract class _XTree<T>
 	{
 		if (this._Fetch_color(n.parent) === _Color.BLACK &&
 			this._Fetch_color(n.sibling) === _Color.BLACK &&
-			this._Fetch_color(n.sibling.left) === _Color.BLACK &&
-			this._Fetch_color(n.sibling.right) === _Color.BLACK)
+			this._Fetch_color(n.sibling!.left) === _Color.BLACK &&
+			this._Fetch_color(n.sibling!.right) === _Color.BLACK)
 		{
-			n.sibling.color = _Color.RED;
-			this._Erase_case1(n.parent);
+			n.sibling!.color = _Color.RED;
+			this._Erase_case1(n.parent!);
 		}
 		else
 			this._Erase_case4(n);
@@ -275,7 +275,7 @@ export abstract class _XTree<T>
 			this._Fetch_color(N.sibling.right) === _Color.BLACK)
 		{
 			N.sibling.color = _Color.RED;
-			N.parent.color = _Color.BLACK;
+			N.parent!.color = _Color.BLACK;
 		}
 		else
 			this._Erase_case5(N);
@@ -283,25 +283,25 @@ export abstract class _XTree<T>
 
 	private _Erase_case5(n: _XTreeNode<T>): void
 	{
-		if (n === n.parent.left &&
+		if (n === n.parent!.left &&
 			n.sibling !== null &&
 			this._Fetch_color(n.sibling) === _Color.BLACK &&
 			this._Fetch_color(n.sibling.left) === _Color.RED &&
 			this._Fetch_color(n.sibling.right) === _Color.BLACK)
 		{
 			n.sibling.color = _Color.RED;
-			n.sibling.left.color = _Color.BLACK;
+			n.sibling.left!.color = _Color.BLACK;
 
 			this._Rotate_right(n.sibling);
 		}
-		else if (n === n.parent.right &&
+		else if (n === n.parent!.right &&
 			n.sibling !== null &&
 			this._Fetch_color(n.sibling) === _Color.BLACK &&
 			this._Fetch_color(n.sibling.left) === _Color.BLACK &&
 			this._Fetch_color(n.sibling.right) === _Color.RED)
 		{
 			n.sibling.color = _Color.RED;
-			n.sibling.right.color = _Color.BLACK;
+			n.sibling.right!.color = _Color.BLACK;
 
 			this._Rotate_left(n.sibling);
 		}
@@ -310,18 +310,18 @@ export abstract class _XTree<T>
 	
 	private _Erase_case6(n: _XTreeNode<T>): void
 	{
-		n.sibling.color = this._Fetch_color(n.parent);
-		n.parent.color = _Color.BLACK;
+		n.sibling!.color = this._Fetch_color(n.parent);
+		n.parent!.color = _Color.BLACK;
 
-		if (n === n.parent.left)
+		if (n === n.parent!.left)
 		{
-			n.sibling.right.color = _Color.BLACK;
-			this._Rotate_left(n.parent);
+			n.sibling!.right!.color = _Color.BLACK;
+			this._Rotate_left(n.parent!);
 		}
 		else
 		{
-			n.sibling.left.color = _Color.BLACK;
-			this._Rotate_right(n.parent);
+			n.sibling!.left!.color = _Color.BLACK;
+			this._Rotate_right(n.parent!);
 		}
 	}
 
@@ -333,11 +333,11 @@ export abstract class _XTree<T>
 		let right = node.right;
 		this._Replace_node(node, right);
 
-		node.right = right.left;
-		if (right.left !== null)
-			right.left.parent = node;
+		node.right = right!.left;
+		if (right!.left !== null)
+			right!.left!.parent = node;
 
-		right.left = node;
+		right!.left = node;
 		node.parent = right;
 	}
 
@@ -346,15 +346,15 @@ export abstract class _XTree<T>
 		let left = node.left;
 		this._Replace_node(node, left);
 
-		node.left = left.right;
-		if (left.right !== null)
-			left.right.parent = node;
+		node.left = left!.right;
+		if (left!.right !== null)
+			left!.right!.parent = node;
 
-		left.right = node;
+		left!.right = node;
 		node.parent = left;
 	}
 
-	protected _Replace_node(oldNode: _XTreeNode<T>, newNode: _XTreeNode<T>): void
+	protected _Replace_node(oldNode: _XTreeNode<T>, newNode: _XTreeNode<T> | null): void
 	{
 		if (oldNode.parent === null)
 			this.root_ = newNode;
@@ -373,7 +373,7 @@ export abstract class _XTree<T>
 	/* ---------------------------------------------------------
 		COLOR
 	--------------------------------------------------------- */
-	private _Fetch_color(node: _XTreeNode<T>): _Color
+	private _Fetch_color(node: _XTreeNode<T> | null): _Color
 	{
 		if (node === null)
 			return _Color.BLACK;

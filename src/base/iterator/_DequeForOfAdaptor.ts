@@ -22,7 +22,7 @@ export class _DequeForOfAdaptor<T> implements IterableIterator<T>
 		if (this.row_ === this.matrix_.length)
 			return {
 				done: true,
-				value: undefined
+				value: undefined!
 			}
 		else
 		{

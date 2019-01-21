@@ -25,7 +25,7 @@ export class TreeMap<Key, T>
     /**
      * @hidden
      */
-    private tree_: _UniqueMapTree<Key, T, TreeMap<Key, T>>;
+    private tree_!: _UniqueMapTree<Key, T, TreeMap<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS

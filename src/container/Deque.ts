@@ -37,17 +37,17 @@ export class Deque<T>
     /**
      * @hidden
      */
-    private matrix_: Array<Array<T>>;
+    private matrix_!: Array<Array<T>>;
     
     /**
      * @hidden
      */
-    private size_: number; // Number of elements in the Deque.
+    private size_!: number; // Number of elements in the Deque.
 
     /**
      * @hidden
      */
-    private capacity_: number;
+    private capacity_!: number;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -203,7 +203,7 @@ export class Deque<T>
     {
         let expansion: number = n - this.size();
         if (expansion > 0)
-            this.insert(this.end(), expansion, undefined);
+            this.insert(this.end(), expansion, undefined!);
         else if (expansion < 0)
             this.erase(this.end().advance(-expansion), this.end());
     }
@@ -545,7 +545,7 @@ export class Deque<T>
 
         if (this.matrix_[0].length >= col_size && this.matrix_.length < Deque.ROW_SIZE)
         {
-            this.matrix_ = [[]].concat(...this.matrix_);
+            this.matrix_ = ([[]] as T[][]).concat(...this.matrix_);
             return true;
         }
         else
@@ -589,8 +589,8 @@ export class Deque<T>
         this.size_ -= size;
             
         // ERASING
-        let first_row: T[] = null;
-        let second_row: T[] = null;
+        let first_row: T[] = null!;
+        let second_row: T[] = null!;
         let i: number = 0;
 
         while (size !== 0)
