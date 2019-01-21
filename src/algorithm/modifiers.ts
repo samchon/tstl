@@ -4,7 +4,7 @@
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
-import { ValueType } from "../functional/ValueType";
+import { IPointer } from "../functional/IPointer";
 
 import { Writeonly, General } from "../iterator/IFake";
 import { equal_to } from "../functional/comparators";
@@ -32,7 +32,7 @@ import { advance } from "../iterator/global";
 export function copy<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, output: OutputIterator): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -55,7 +55,7 @@ export function copy<
 export function copy_n<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, n: number, output: OutputIterator): OutputIterator
 {
     for (let i: number = 0; i < n; ++i)
@@ -81,7 +81,7 @@ export function copy_n<
 export function copy_if<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, output: OutputIterator, pred: (x: T) => boolean): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -107,7 +107,7 @@ export function copy_if<
 export function copy_backward<
         BidirectionalIterator1 extends Readonly<IBidirectionalIterator<T, BidirectionalIterator1>>, 
         BidirectionalIterator2 extends Writeonly<IBidirectionalIterator<T, BidirectionalIterator2>>,
-        T = ValueType<BidirectionalIterator1>>
+        T = IPointer.ValueType<BidirectionalIterator1>>
     (first: BidirectionalIterator1, last: BidirectionalIterator1, output: BidirectionalIterator2): BidirectionalIterator2
 {
     last = last.prev();
@@ -133,7 +133,7 @@ export function copy_backward<
  */
 export function fill<
         ForwardIterator extends Writeonly<IForwardIterator<T, ForwardIterator>>,
-        T = ValueType<ForwardIterator>>
+        T = IPointer.ValueType<ForwardIterator>>
     (first: ForwardIterator, last: ForwardIterator, val: T): void
 {
     for (; !first.equals(last); first = first.next())
@@ -151,7 +151,7 @@ export function fill<
  */
 export function fill_n<
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<OutputIterator>>
+        T = IPointer.ValueType<OutputIterator>>
     (first: OutputIterator, n: number, val: T): OutputIterator
 {
     for (let i: number = 0; i < n; ++i)
@@ -175,8 +175,8 @@ export function fill_n<
 export function transform<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>,
-        T = ValueType<InputIterator>,
-        Ret = ValueType<OutputIterator>>
+        T = IPointer.ValueType<InputIterator>,
+        Ret = IPointer.ValueType<OutputIterator>>
     (first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => Ret): OutputIterator;
 
 /**
@@ -194,8 +194,8 @@ export function transform<
         InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
         InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>, 
         OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>,
-        T = ValueType<InputIterator1>,
-        Ret = ValueType<OutputIterator>>
+        T = IPointer.ValueType<InputIterator1>,
+        Ret = IPointer.ValueType<OutputIterator>>
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, 
@@ -217,8 +217,8 @@ export function transform(...args: any[]): any
 function _Unary_transform<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>,
-        T = ValueType<InputIterator>,
-        Ret = ValueType<OutputIterator>>
+        T = IPointer.ValueType<InputIterator>,
+        Ret = IPointer.ValueType<OutputIterator>>
     (first: InputIterator, last: InputIterator, result: OutputIterator, op: (val: T) => Ret): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -236,8 +236,8 @@ function _Binary_transform<
         InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
         InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>, 
         OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>,
-        T = ValueType<InputIterator1>,
-        Ret = ValueType<OutputIterator>>
+        T = IPointer.ValueType<InputIterator1>,
+        Ret = IPointer.ValueType<OutputIterator>>
     (
         first1: InputIterator1, last1: InputIterator1, first2: InputIterator2, 
         result: OutputIterator, binary_op: (x: T, y: T) => Ret
@@ -263,7 +263,7 @@ function _Binary_transform<
  */
 export function generate<
         ForwardIterator extends Writeonly<IForwardIterator<T, ForwardIterator>>,
-        T = ValueType<ForwardIterator>>
+        T = IPointer.ValueType<ForwardIterator>>
     (first: ForwardIterator, last: ForwardIterator, gen: () => T): void
 {
     for (; !first.equals(last); first = first.next())
@@ -281,7 +281,7 @@ export function generate<
  */
 export function generate_n<
         ForwardIterator extends Writeonly<IForwardIterator<T, ForwardIterator>>,
-        T = ValueType<ForwardIterator>>
+        T = IPointer.ValueType<ForwardIterator>>
     (first: ForwardIterator, n: number, gen: () => T): ForwardIterator
 {
     while (n-- > 0)
@@ -306,7 +306,7 @@ export function generate_n<
  */
 export function unique<
         InputIterator extends General<IForwardIterator<T, InputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = equal_to): InputIterator
 {
     if (first.equals(last))
@@ -335,7 +335,7 @@ export function unique<
 export function unique_copy<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (
         first: InputIterator, last: InputIterator, output: OutputIterator, 
         pred: (x: T, y: T) => boolean = equal_to
@@ -367,7 +367,7 @@ export function unique_copy<
  */
 export function remove<
         InputIterator extends General<IForwardIterator<T, InputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, val: T): InputIterator
 {
     return remove_if<InputIterator, T>(first, last, elem => equal_to(elem, val));
@@ -384,7 +384,7 @@ export function remove<
  */
 export function remove_if<
         InputIterator extends General<IForwardIterator<T, InputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
 {
     let ret: InputIterator = first;
@@ -414,7 +414,7 @@ export function remove_if<
 export function remove_copy<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, output: OutputIterator, val: T): OutputIterator
 {
     return remove_copy_if<InputIterator, OutputIterator, T>(first, last, output, elem => equal_to(elem, val));
@@ -433,7 +433,7 @@ export function remove_copy<
 export function remove_copy_if<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, output: OutputIterator, pred: (x: T) => boolean): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -461,7 +461,7 @@ export function remove_copy_if<
  */
 export function replace<
         InputIterator extends General<IForwardIterator<T, InputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, old_val: T, new_val: T): void
 {
     return replace_if(first, last, elem => equal_to(elem, old_val), new_val);
@@ -477,7 +477,7 @@ export function replace<
  */
 export function replace_if<
         InputIterator extends General<IForwardIterator<T, InputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, pred: (val: T) => boolean, new_val: T): void
 {
     for (let it = first; !it.equals(last); it = it.next())
@@ -499,7 +499,7 @@ export function replace_if<
 export function replace_copy<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, output: OutputIterator, old_val: T, new_val: T): OutputIterator
 {
     return replace_copy_if(first, last, output, elem => equal_to(elem, old_val), new_val);
@@ -519,7 +519,7 @@ export function replace_copy<
 export function replace_copy_if<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, last: InputIterator, result: OutputIterator, pred: (val: T) => boolean, new_val: T): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -544,7 +544,7 @@ export function replace_copy_if<
 export function iter_swap<
         ForwardIterator1 extends General<IForwardIterator<T, ForwardIterator1>>, 
         ForwardIterator2 extends General<IForwardIterator<T, ForwardIterator2>>,
-        T = ValueType<ForwardIterator1>>
+        T = IPointer.ValueType<ForwardIterator1>>
     (x: ForwardIterator1, y: ForwardIterator2): void
 {
     [x.value, y.value] = [y.value, x.value];
@@ -562,7 +562,7 @@ export function iter_swap<
 export function swap_ranges<
         ForwardIterator1 extends General<IForwardIterator<T, ForwardIterator1>>, 
         ForwardIterator2 extends General<IForwardIterator<T, ForwardIterator2>>,
-        T = ValueType<ForwardIterator1>>
+        T = IPointer.ValueType<ForwardIterator1>>
     (first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2): ForwardIterator2
 {
     for (; !first1.equals(last1); first1 = first1.next())
@@ -584,7 +584,7 @@ export function swap_ranges<
  */
 export function reverse<
         BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>,
-        T = ValueType<BidirectionalIterator>>
+        T = IPointer.ValueType<BidirectionalIterator>>
     (first: BidirectionalIterator, last: BidirectionalIterator): void
 {
     // first !== last && first !== --last
@@ -607,7 +607,7 @@ export function reverse<
 export function reverse_copy<
         BidirectionalIterator extends Readonly<IBidirectionalIterator<T, BidirectionalIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<BidirectionalIterator>>
+        T = IPointer.ValueType<BidirectionalIterator>>
     (first: BidirectionalIterator, last: BidirectionalIterator, output: OutputIterator): OutputIterator
 {
     while (!last.equals(first))
@@ -622,7 +622,7 @@ export function reverse_copy<
 
 export function shift_left<
         ForwardIterator extends General<IForwardIterator<T, ForwardIterator>>,
-        T = ValueType<ForwardIterator>>
+        T = IPointer.ValueType<ForwardIterator>>
     (first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
 {
     let mid = advance(first, n);
@@ -631,7 +631,7 @@ export function shift_left<
 
 export function shift_right<
         ForwardIterator extends General<IBidirectionalIterator<T, ForwardIterator>>,
-        T = ValueType<ForwardIterator>>
+        T = IPointer.ValueType<ForwardIterator>>
     (first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
 {
     let mid = advance(last, -n);
@@ -649,7 +649,7 @@ export function shift_right<
  */
 export function rotate<
         InputIterator extends General<IForwardIterator<T, InputIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (first: InputIterator, middle: InputIterator, last: InputIterator): InputIterator
 {
     while (!first.equals(middle) && !middle.equals(last))
@@ -675,7 +675,7 @@ export function rotate<
 export function rotate_copy<
         ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = ValueType<ForwardIterator>>
+        T = IPointer.ValueType<ForwardIterator>>
     (first: ForwardIterator, middle: ForwardIterator, last: ForwardIterator, output: OutputIterator): OutputIterator
 {
     output = copy<ForwardIterator, OutputIterator, T>(middle, last, output);
@@ -690,7 +690,7 @@ export function rotate_copy<
  */
 export function shuffle<
         RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>,
-        T = ValueType<RandomAccessIterator>>
+        T = IPointer.ValueType<RandomAccessIterator>>
     (first: RandomAccessIterator, last: RandomAccessIterator): void
 {
     for (let it = first; !it.equals(last); it = it.next())

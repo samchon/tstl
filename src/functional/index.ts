@@ -13,4 +13,3 @@ export * from "./uid";
 
 export * from "./IPointer";
 export * from "./IComparable";
-export * from "./ValueType";

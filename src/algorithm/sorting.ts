@@ -3,7 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
-import { ValueType } from "../functional";
+import { IPointer } from "../functional";
 
 import { General } from "../iterator/IFake";
 import { less, equal_to } from "../functional/comparators";
@@ -29,7 +29,7 @@ import { Vector } from "../container/Vector";
  */
 export function sort<
         RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>,
-        T = ValueType<RandomAccessIterator>>
+        T = IPointer.ValueType<RandomAccessIterator>>
     (first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
     let size: number = last.index() - first.index();
@@ -67,7 +67,7 @@ export function sort<
  */
 export function stable_sort<
         RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>,
-        T = ValueType<RandomAccessIterator>>
+        T = IPointer.ValueType<RandomAccessIterator>>
     (first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
 {
     let ramda = function (x: T, y: T): boolean
@@ -87,7 +87,7 @@ export function stable_sort<
  */
 export function partial_sort<
         RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>,
-        T = ValueType<RandomAccessIterator>>
+        T = IPointer.ValueType<RandomAccessIterator>>
     (
         first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
         comp: (x: T, y: T) => boolean = less
@@ -120,7 +120,7 @@ export function partial_sort<
 export function partial_sort_copy<
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
         RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>,
-        T = ValueType<InputIterator>>
+        T = IPointer.ValueType<InputIterator>>
     (
         first: InputIterator, last: InputIterator, 
         output_first: RandomAccessIterator, output_last: RandomAccessIterator, 
@@ -151,7 +151,7 @@ export function partial_sort_copy<
  */
 export function nth_element<
         RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>,
-        T = ValueType<RandomAccessIterator>>
+        T = IPointer.ValueType<RandomAccessIterator>>
     (first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean = less): void
 {
     let n: number = distance(first, nth);

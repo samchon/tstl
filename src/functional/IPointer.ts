@@ -13,3 +13,11 @@ export interface IPointer<T>
 	 */
 	value: T;
 }
+
+export module IPointer
+{
+	export type ValueType<Pointer extends IPointer<any>> = 
+		Pointer extends IPointer<infer T>
+			? T
+			: any;
+}
