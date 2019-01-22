@@ -10,7 +10,7 @@ import { Pair } from "../utility/Pair";
 
 import { less, equal_to } from "../functional/comparators";
 import { advance, distance } from "../iterator/global";
-import { mismatch, find_if, count } from "./iterations";
+import { mismatch, find_if, count_if } from "./iterations";
 import { iter_swap, reverse } from "./modifiers";
 
 /* =========================================================
@@ -196,11 +196,11 @@ export function is_permutation<
     (
         first1: ForwardIterator1, last1: ForwardIterator1, 
         first2: ForwardIterator2,
-        pred: (x: IPointer.ValueType<ForwardIterator1>, y: IPointer.ValueType<ForwardIterator1>) => boolean = equal_to
+        pred: (x: IPointer.ValueType<ForwardIterator1>, y: IPointer.ValueType<ForwardIterator1>) => boolean = <any>equal_to
     ): boolean
 {
     // find the mismatched
-    let pair: Pair<ForwardIterator1, ForwardIterator2> = mismatch(first1, last1, first2);
+    let pair: Pair<ForwardIterator1, ForwardIterator2> = <any>mismatch(first1, last1, <any>first2, pred);
     first1 = pair.first;
     first2 = pair.second;
 
@@ -211,12 +211,12 @@ export function is_permutation<
 
     for (let it = first1; !it.equals(last1); it = it.next())
     {
-        let lamda = (val: IPointer.ValueType<ForwardIterator1>) => !pred(val, it.value);
+        let lambda = (val: IPointer.ValueType<ForwardIterator1>) => pred(val, it.value);
 
-        if (find_if(first1, it, lamda).equals(it))
+        if (find_if(first1, it, lambda).equals(it))
         {
-            let n: number = count(<any>first2, last2, it.value);
-            if (n === 0 || count(it, last1, it.value) !== n)
+            let n: number = count_if(<any>first2, <any>last2, lambda);
+            if (n === 0 || count_if(it, last1, lambda) !== n)
                 return false;
         }
     }

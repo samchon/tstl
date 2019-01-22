@@ -17,7 +17,7 @@ export interface IContainer<T,
 		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
 		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-	extends IBidirectionalContainer<T, IteratorT, ReverseIteratorT>, 
+	extends IBidirectionalContainer<Iterator<T, SourceT, IteratorT, ReverseIteratorT>, ReverseIteratorT>, 
 		Iterable<T>, _IEmpty, _ISize, _IPush<T>
 {
 	/* ---------------------------------------------------------

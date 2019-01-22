@@ -34,9 +34,8 @@ export function randint(x: number, y: number): number
  * @return Output Iterator of the last position by advancing.
  */
 export function sample<
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = IPointer.ValueType<InputIterator>>
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
         output: OutputIterator, n: number

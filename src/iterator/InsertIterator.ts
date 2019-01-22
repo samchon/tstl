@@ -3,8 +3,10 @@
 //================================================================
 import { _InsertIterator } from "../base/iterator/_InsertIterator";
 
-import { _IInsert } from "../base/disposable/IPartialContainers";
 import { IForwardIterator } from "./IForwardIterator";
+import { IPointer } from "../functional/IPointer";
+import { _IInsert } from "../base/disposable/IPartialContainers";
+
 import { equal_to } from "../functional/comparators";
 
 /**
@@ -12,10 +14,10 @@ import { equal_to } from "../functional/comparators";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class InsertIterator<T, 
-        Container extends _IInsert<T, Iterator>, 
-        Iterator extends IForwardIterator<T, Iterator>>
-    extends _InsertIterator<T, InsertIterator<T, Container, Iterator>>
+export class InsertIterator<
+        Container extends _IInsert<Iterator>, 
+        Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
+    extends _InsertIterator<IPointer.ValueType<Iterator>, InsertIterator<Container, Iterator>>
 {
     /**
      * @hidden
@@ -47,7 +49,7 @@ export class InsertIterator<T,
     /**
      * @inheritDoc
      */
-    public set value(val: T)
+    public set value(val: IPointer.ValueType<Iterator>)
     {
         this.container_.insert(this.it_, val);
         this.it_ = this.it_.next() as Iterator;
@@ -56,7 +58,7 @@ export class InsertIterator<T,
     /**
      * @inheritDoc
      */
-    public equals(obj: InsertIterator<T, Container, Iterator>): boolean
+    public equals(obj: InsertIterator<Container, Iterator>): boolean
     {
         return equal_to(this.it_, obj.it_);
     }

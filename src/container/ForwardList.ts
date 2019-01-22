@@ -24,7 +24,7 @@ import { sort as sort_func } from "../algorithm/sorting";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class ForwardList<T> 
-    implements IForwardContainer<T, ForwardList.Iterator<T>>, 
+    implements IForwardContainer<ForwardList.Iterator<T>>, 
         _IClear, _IEmpty, _ISize,
         _IDeque<T>, _IFront<T>, Iterable<T>,
         _IListAlgorithm<T, ForwardList<T>>

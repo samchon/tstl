@@ -3,6 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
+import { IPointer } from "../functional";
 
 import { General, Writeonly } from "../iterator/IFake";
 import { Pair } from "../utility/Pair";
@@ -21,8 +22,11 @@ import { distance, advance } from "../iterator/global";
  * 
  * @return Whether the range is partition or not.
  */
-export function is_partitioned<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-    (first: ForwardIterator, last: ForwardIterator, pred: (x: T) => boolean): boolean
+export function is_partitioned<ForwardIterator extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
+    (
+        first: ForwardIterator, last: ForwardIterator, 
+        pred: (x: IPointer.ValueType<ForwardIterator>) => boolean
+    ): boolean
 {
     while (!first.equals(last) && pred(first.value))
         first = first.next();
@@ -43,8 +47,11 @@ export function is_partitioned<T, ForwardIterator extends Readonly<IForwardItera
  * 
  * @return Iterator to the first element of the second section.
  */
-export function partition_point<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
-    (first: ForwardIterator, last: ForwardIterator, pred: (x: T) => boolean): ForwardIterator
+export function partition_point<ForwardIterator extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
+    (
+        first: ForwardIterator, last: ForwardIterator, 
+        pred: (x: IPointer.ValueType<ForwardIterator>) => boolean
+    ): ForwardIterator
 {
     let n: number = distance(first, last);
 
@@ -73,8 +80,11 @@ export function partition_point<T, ForwardIterator extends Readonly<IForwardIter
  * 
  * @return Iterator to the first element of the second section.
  */
-export function partition<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
-    (first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
+export function partition<BidirectionalIterator extends General<IBidirectionalIterator<IPointer.ValueType<BidirectionalIterator>, BidirectionalIterator>>>
+    (
+        first: BidirectionalIterator, last: BidirectionalIterator, 
+        pred: (x: IPointer.ValueType<BidirectionalIterator>) => boolean
+    ): BidirectionalIterator
 {
     return stable_partition(first, last, pred);
 }
@@ -88,8 +98,11 @@ export function partition<T, BidirectionalIterator extends General<IBidirectiona
  * 
  * @return Iterator to the first element of the second section.
  */
-export function stable_partition<T, BidirectionalIterator extends General<IBidirectionalIterator<T, BidirectionalIterator>>>
-    (first: BidirectionalIterator, last: BidirectionalIterator, pred: (x: T) => boolean): BidirectionalIterator
+export function stable_partition<BidirectionalIterator extends General<IBidirectionalIterator<IPointer.ValueType<BidirectionalIterator>, BidirectionalIterator>>>
+    (
+        first: BidirectionalIterator, last: BidirectionalIterator, 
+        pred: (x: IPointer.ValueType<BidirectionalIterator>) => boolean
+    ): BidirectionalIterator
 {
     while (!first.equals(last) && pred(first.value))
     {
@@ -107,7 +120,7 @@ export function stable_partition<T, BidirectionalIterator extends General<IBidir
                 return first;
         } while (!pred(last.value));
 
-        iter_swap<BidirectionalIterator, BidirectionalIterator, T>(first, last);
+        iter_swap(first, last);
         first = first.next();
     }
     return last;
@@ -124,15 +137,15 @@ export function stable_partition<T, BidirectionalIterator extends General<IBidir
  * 
  * @return Iterator to the first element of the second section.
  */
-export function partition_copy<T, 
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-        OutputIterator1 extends Writeonly<IForwardIterator<T, OutputIterator1>>, 
-        OutputIterator2 extends Writeonly<IForwardIterator<T, OutputIterator2>>>
+export function partition_copy<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator1 extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator1>>, 
+        OutputIterator2 extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator2>>>
     (
         first: InputIterator, last: InputIterator, 
         output_true: OutputIterator1, 
         output_false: OutputIterator2, 
-        pred: (val: T) => T
+        pred: (val: IPointer.ValueType<InputIterator>) => IPointer.ValueType<InputIterator>
     ): Pair<OutputIterator1, OutputIterator2>
 {
     for (; !first.equals(last); first = first.next())

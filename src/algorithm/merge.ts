@@ -100,13 +100,12 @@ export function inplace_merge<BidirectionalIterator extends General<IBidirection
  * @return Whether [first, last1) includes [first2, last2).
  */
 export function includes<
-        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-        T = IPointer.ValueType<InputIterator1>>
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>>
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
-        comp: (x: T, y: T) => boolean = less
+        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
     ): boolean
 {
     while (!first2.equals(last2))
@@ -135,22 +134,22 @@ export function includes<
  * @return Output Iterator of the last position by advancing.
  */
 export function set_union<
-        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = IPointer.ValueType<InputIterator1>>
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+        output: OutputIterator, 
+        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
     ): OutputIterator
 {
     while (true)
     {
         if (first1.equals(last1))
-            return copy<InputIterator2, OutputIterator, T>(first2, last2, output);
+            return copy(<any>first2, last2, output);
         else if (first2.equals(last2))
-            return copy<InputIterator1, OutputIterator, T>(first1, last1, output);
+            return copy(first1, last1, output);
 
         if (comp(first1.value, first2.value))
         {
@@ -187,22 +186,22 @@ export function set_union<
  * @return Output Iterator of the last position by advancing.
  */
 export function set_intersection<
-        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = IPointer.ValueType<InputIterator1>>
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+        output: OutputIterator, 
+        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
     ): OutputIterator
 {
     while (true)
     {
         if (first1.equals(last1))
-            return copy<InputIterator2, OutputIterator, T>(first2, last2, output);
+            return copy(<any>first2, last2, output);
         else if (first2.equals(last2))
-            return copy<InputIterator1, OutputIterator, T>(first1, last1, output);
+            return copy(first1, last1, output);
 
         if (comp(first1.value, first2.value))
             first1 = first1.next();
@@ -232,14 +231,14 @@ export function set_intersection<
  * @return Output Iterator of the last position by advancing.
  */
 export function set_difference<
-        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = IPointer.ValueType<InputIterator1>>
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+        output: OutputIterator, 
+        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
     ): OutputIterator
 {
     while (!first1.equals(last1) && !first2.equals(last2))
@@ -258,7 +257,7 @@ export function set_difference<
             first2 = first2.next();
         }
 
-    return copy<InputIterator1, OutputIterator, T>(first1, last1, output);
+    return copy(first1, last1, output);
 }
 
 /**
@@ -274,22 +273,21 @@ export function set_difference<
  * @return Output Iterator of the last position by advancing.
  */
 export function set_symmetric_difference<
-        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>,
-        T = IPointer.ValueType<InputIterator1>>
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, comp: (x: T, y: T) => boolean = less
+        output: OutputIterator, comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
     ): OutputIterator
 {
     while (true)
     {
         if (first1.equals(last1))
-            return copy<InputIterator2, OutputIterator, T>(first2, last2, output);
+            return copy(<any>first2, last2, output);
         else if (first2.equals(last2))
-            return copy<InputIterator1, OutputIterator, T>(first1, last1, output);
+            return copy(first1, last1, output);
 
         if (comp(first1.value, first2.value))
         {

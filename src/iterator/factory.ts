@@ -5,6 +5,7 @@ import { IForwardIterator } from "./IForwardIterator";
 import { IBidirectionalContainer } from "../base/disposable/IBidirectionalContainer";
 import { IReversableIterator, IReverseIterator } from "./IReverseIterator";
 
+import { IPointer } from "../functional/IPointer";
 import { IForwardContainer } from "../base/disposable/IForwardContainer";
 import { _IInsert, _IPushFront, _IPushBack } from "../base/disposable/IPartialContainers";
 import { Vector } from "../container/Vector";
@@ -24,8 +25,8 @@ import { BackInsertIterator } from "./BackInsertIterator";
  * @param container Target container.
  * @return Iterator to the first element.
  */
-export function begin<T, Iterator extends IForwardIterator<T, Iterator>>
-    (container: IForwardContainer<T, Iterator>): Iterator;
+export function begin<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
+    (container: IForwardContainer<Iterator>): Iterator;
 
 /**
  * @hidden
@@ -45,8 +46,8 @@ export function begin(container: any): any
  * @param container Target container.
  * @return Iterator to the end.
  */
-export function end<T, Iterator extends IForwardIterator<T, Iterator>>
-    (container: IForwardContainer<T, Iterator>): Iterator;
+export function end<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
+    (container: IForwardContainer<Iterator>): Iterator;
 
 /**
  * @hidden
@@ -70,17 +71,17 @@ export function end(container: any): any
  * @param it Iterator to the first insertion position.
  * @return The {@link InsertIterator insert iterator} object.
  */
-export function inserter<T, Container extends _IInsert<T, Iterator>, Iterator extends IForwardIterator<T, Iterator>>
-    (container: Container, it: Iterator): InsertIterator<T, Container, Iterator>;
+export function inserter<Container extends _IInsert<Iterator>, Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
+    (container: Container, it: Iterator): InsertIterator<Container, Iterator>;
 
 /**
  * @hidden
  */
 export function inserter<T>
-    (container: Array<T>, it: Vector.Iterator<T>): InsertIterator<T, Vector<T>, Vector.Iterator<T>>;
+    (container: Array<T>, it: Vector.Iterator<T>): InsertIterator<Vector<T>, Vector.Iterator<T>>;
 
-export function inserter<T>
-    (container: Array<T> | _IInsert<T, any>, it: IForwardIterator<T, any>): InsertIterator<T, any, any>
+export function inserter
+    (container: Array<any> | _IInsert<any>, it: IForwardIterator<any, any>): InsertIterator<any, any>
 {
     if (container instanceof Array)
         container = _Capsule(container);
@@ -147,10 +148,10 @@ export function make_reverse_iterator<T,
  * @param container Target container.
  * @return The reverse iterator to the first.
  */
-export function rbegin<T, 
-    Iterator extends IReversableIterator<T, Iterator, ReverseIterator>,
-    ReverseIterator extends IReverseIterator<T, Iterator, ReverseIterator>>
-    (container: IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
+export function rbegin<
+        Iterator extends IReversableIterator<IPointer.ValueType<Iterator>, Iterator, ReverseIterator>,
+        ReverseIterator extends IReverseIterator<IPointer.ValueType<Iterator>, Iterator, ReverseIterator>>
+    (container: IBidirectionalContainer<Iterator, ReverseIterator>): ReverseIterator;
 
 /**
  * @hidden
@@ -170,10 +171,10 @@ export function rbegin(source: any): any
  * @param container Target container.
  * @return The reverse iterator to the end.
  */
-export function rend<T,
-    Iterator extends IReversableIterator<T, Iterator, ReverseIterator>,
-    ReverseIterator extends IReverseIterator<T, Iterator, ReverseIterator>>
-    (container: IBidirectionalContainer<T, Iterator, ReverseIterator>): ReverseIterator;
+export function rend<
+        Iterator extends IReversableIterator<IPointer.ValueType<Iterator>, Iterator, ReverseIterator>,
+        ReverseIterator extends IReverseIterator<IPointer.ValueType<Iterator>, Iterator, ReverseIterator>>
+    (container: IBidirectionalContainer<Iterator, ReverseIterator>): ReverseIterator;
 
 /**
  * @hidden

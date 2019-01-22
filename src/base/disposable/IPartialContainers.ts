@@ -2,6 +2,7 @@
 /** @module std.base */
 //================================================================
 import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { IPointer } from "../../functional/IPointer";
 
 /* ---------------------------------------------------------
 	CAPACITY
@@ -45,9 +46,9 @@ export interface _ISize
 /**
  * @hidden
  */
-export interface _IInsert<T, Iterator extends IForwardIterator<T, Iterator>>
+export interface _IInsert<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
 {
-	insert(it: Iterator, value: T): Iterator;
+	insert(it: Iterator, value: IPointer.ValueType<Iterator>): Iterator;
 }
 
 /**
