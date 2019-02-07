@@ -51,7 +51,7 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [binary searches](https://github.com/samchon/tstl/blob/master/src/algorithm/binary_searches.ts)
     - [union sets](https://github.com/samchon/tstl/blob/master/src/algorithm/union_sets.ts)
     - [heaps](https://github.com/samchon/tstl/blob/master/src/algorithm/heaps.ts)
-    - [mathmatics](https://github.com/samchon/tstl/blob/master/src/algorithm/mathmatics.ts)
+    - [mathematics](https://github.com/samchon/tstl/blob/master/src/algorithm/mathematics.ts)
 
 ### Functors
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
