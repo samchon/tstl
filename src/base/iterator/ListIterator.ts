@@ -27,8 +27,11 @@ export abstract class ListIterator<T,
 	/**
 	 * @hidden
 	 */
-	private value_: T;
+	protected value_: T;
 
+	/* ---------------------------------------------------------------
+		CONSTRUCTORS
+	--------------------------------------------------------------- */
 	/**
 	 * @hidden
 	 */
@@ -43,6 +46,30 @@ export abstract class ListIterator<T,
 	 * @inheritDoc
 	 */
 	public abstract reverse(): ReverseIteratorT;
+
+	/**
+	 * @internal
+	 */
+	public static _Set_prev<T, 
+			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
+			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
+			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
+		(it: IteratorT, prev: IteratorT): void
+	{
+		it.prev_ = prev;
+	}
+
+	/**
+	 * @internal
+	 */
+	public static _Set_next<T, 
+			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
+			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
+			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
+		(it: IteratorT, next: IteratorT): void
+	{
+		it.next_ = next;
+	}
 
 	/* ---------------------------------------------------------------
 		ACCESSORS

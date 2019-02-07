@@ -45,6 +45,15 @@ export abstract class _MapTree<Key, T, Unique extends boolean, Source extends Ma
 		};
 	}
 
+	/**
+	 * @internal
+	 */
+	public static _Swap_source<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
+		(x: _MapTree<Key, T, Unique, Source>, y: _MapTree<Key, T, Unique, Source>): void
+	{
+		[x.source_, y.source_] = [y.source_, x.source_];
+	}
+
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */

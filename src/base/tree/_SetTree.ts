@@ -38,6 +38,15 @@ export abstract class _SetTree<T, Unique extends boolean, Source extends SetCont
 		};
 	}
 
+	/**
+	 * @internal
+	 */
+	public static _Swap_source<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
+		(x: _SetTree<Key, Unique, Source>, y: _SetTree<Key, Unique, Source>): void
+	{
+		[x.source_, y.source_] = [y.source_, x.source_];
+	}
+
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */

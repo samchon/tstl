@@ -38,6 +38,15 @@ export class _SetElementList<Key, Unique extends boolean, Source extends SetCont
 		return new SetIterator<Key, Unique, Source>(this, prev, next, val);
 	}
 
+	/**
+	 * @internal
+	 */
+	public static _Swap_associative<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
+		(x: _SetElementList<Key, Unique, Source>, y: _SetElementList<Key, Unique, Source>): void
+	{
+		[x.associative_, y.associative_] = [y.associative_, x.associative_];
+	}
+
 	/* ---------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------- */

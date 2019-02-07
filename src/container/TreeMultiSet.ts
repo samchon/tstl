@@ -97,7 +97,7 @@ export class TreeMultiSet<Key>
         super.swap(obj);
 
         // SWAP RB-TREE
-        [this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
+        _MultiSetTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
@@ -195,7 +195,7 @@ export class TreeMultiSet<Key>
         let it: TreeMultiSet.Iterator<Key> = this.upper_bound(key);
 
         // ITERATOR TO RETURN
-        it = this["data_"].insert(it, key);
+        it = this.data_.insert(it, key);
         this._Handle_insert(it, it.next()); // POST-PROCESS
 
         return it;

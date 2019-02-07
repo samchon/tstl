@@ -19,7 +19,7 @@ export class _SetHashBuckets<T, Unique extends boolean, Source extends SetContai
 	private key_eq_: (x: T, y: T) => boolean;
 	
 	/* ---------------------------------------------------------
-		CONSTRUCTORS & ACCESSORS
+		CONSTRUCTORS
 	--------------------------------------------------------- */
 	public constructor(source: IHashSet<T, Unique, Source>, hash: (val: T) => number, pred: (x: T, y: T) => boolean)
 	{
@@ -30,6 +30,18 @@ export class _SetHashBuckets<T, Unique extends boolean, Source extends SetContai
 		this.key_eq_ = pred;
 	}
 
+	/**
+	 * @internal
+	 */
+	public static _Swap_source<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
+		(x: _SetHashBuckets<Key, Unique, Source>, y: _SetHashBuckets<Key, Unique, Source>): void
+	{
+		[x.source_, y.source_] = [y.source_, x.source_];
+	}
+
+	/* ---------------------------------------------------------
+		ACCESSORS
+	--------------------------------------------------------- */
 	public hash_function(): (val: T) => number
 	{
 		return this.hash_function_;

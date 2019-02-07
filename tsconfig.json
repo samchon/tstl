@@ -8,6 +8,7 @@
         "outDir": ".",
         
         "strict": true,
+        "stripInternal": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
 

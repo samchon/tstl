@@ -100,7 +100,7 @@ export class TreeMultiMap<Key, T>
         super.swap(obj);
 
         // SWAP RB-TREE
-        [this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
+        _MultiMapTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
@@ -198,7 +198,7 @@ export class TreeMultiMap<Key, T>
         let it: TreeMultiMap.Iterator<Key, T> = this.upper_bound(key);
 
         // ITERATOR TO RETURN
-        it = this["data_"].insert(it, new Entry(key, val));
+        it = this.data_.insert(it, new Entry(key, val));
         this._Handle_insert(it, it.next()); // POST-PROCESS
 
         return it;

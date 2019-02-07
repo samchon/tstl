@@ -99,7 +99,7 @@ export class TreeMap<Key, T>
         super.swap(obj);
 
         // SWAP RB-TREE
-        [this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
+        _UniqueMapTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
@@ -177,7 +177,7 @@ export class TreeMap<Key, T>
             return new Pair(it, false);
 
         // ITERATOR TO RETURN
-        it = this["data_"].insert(it, new Entry(key, val));
+        it = this.data_.insert(it, new Entry(key, val));
         this._Handle_insert(it, it.next()); // POST-PROCESS
 
         return new Pair(it, true);

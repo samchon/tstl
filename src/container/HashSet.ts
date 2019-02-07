@@ -100,7 +100,7 @@ export class HashSet<Key>
         super.swap(obj);
 
         // SWAP BUCKETS
-        [this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+        _SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -282,7 +282,7 @@ export class HashSet<Key>
             return new Pair(it, false);
 
         // INSERT
-        this["data_"].push(key);
+        this.data_.push(key);
         it = it.prev();
 
         // POST-PROCESS
@@ -301,7 +301,7 @@ export class HashSet<Key>
         if (it.equals(this.end()) === true)
         {
             // INSERT
-            it = this["data_"].insert(hint, key);
+            it = this.data_.insert(hint, key);
 
             // POST-PROCESS
             this._Handle_insert(it, it.next());
@@ -329,7 +329,7 @@ export class HashSet<Key>
                 continue;
             
             // INSERTS
-            this["data_"].push(first.value);
+            this.data_.push(first.value);
         }
         my_first = my_first.next();
         

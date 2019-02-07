@@ -2,7 +2,6 @@
 /** @module std.base */
 //================================================================
 import { IContainer } from "./IContainer";
-import { IDequeContainer } from "./IDequeContainer";
 import { Container } from "./Container";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
@@ -22,22 +21,21 @@ export abstract class ListContainer<T,
 		IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
 		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
 	extends Container<T, SourceT, IteratorT, ReverseIteratorT>
-	implements IDequeContainer<T, SourceT, IteratorT, ReverseIteratorT>
 {
 	/**
 	 * @hidden
 	 */
-	private begin_: IteratorT;
+	protected begin_!: IteratorT;
 	
 	/**
 	 * @hidden
 	 */
-	private end_: IteratorT;
+	protected end_: IteratorT;
 	
 	/**
 	 * @hidden
 	 */
-	private size_: number;
+	private size_!: number;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -51,11 +49,7 @@ export abstract class ListContainer<T,
 
 		// INIT MEMBERS
 		this.end_ = this._Create_iterator(null!, null!);
-		this.end_["prev_"] = this.end_;
-		this.end_["next_"] = this.end_;
-
-		this.begin_ = (this.end_);
-		this.size_ = 0;
+		this.clear();
 	}
 
 	/**
@@ -85,11 +79,11 @@ export abstract class ListContainer<T,
 	public clear(): void
 	{
 		// DISCONNECT NODES
-		this.begin_ = (this.end_);
-		this.end_["prev_"] = (this.end_);
-		this.end_["next_"] = (this.end_);
-
+		ListIterator._Set_prev(this.end_, this.end_);
+		ListIterator._Set_next(this.end_, this.end_);
+		
 		// RE-SIZE -> 0
+		this.begin_ = this.end_;
 		this.size_ = 0;
 	}
 
@@ -130,39 +124,6 @@ export abstract class ListContainer<T,
 	public size(): number
 	{
 		return this.size_;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public front(): T;
-	/**
-	 * @inheritDoc
-	 */
-	public front(val: T): void;
-	public front(val?: T): T | void
-	{
-		if (val === undefined)
-			return this.begin_.value;
-		else
-			this.begin_["value_"] = val;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public back(): T;
-	/**
-	 * @inheritDoc
-	 */
-	public back(val: T): void;
-	public back(val?: T): T | void
-	{
-		let it = this.end().prev();
-		if (val === undefined)
-			return it.value;
-		else
-			it["value_"] = val;
 	}
 
 	/* =========================================================
@@ -286,7 +247,7 @@ export abstract class ListContainer<T,
 				first = item;
 
 			// PLACE ITEM ON THE NEXT OF "PREV"
-			prev["next_"] = item;
+			ListIterator._Set_next(prev, item);
 
 			// SHIFT CURRENT ITEM TO PREVIOUS
 			prev = item;
@@ -298,11 +259,10 @@ export abstract class ListContainer<T,
 			this.begin_ = (first);
 
 		// CONNECT BETWEEN LAST AND POSITION
-		prev["next_"] = position;
-		position["prev_"] = prev;
+		ListIterator._Set_next(prev, position);
+		ListIterator._Set_prev(position, prev);
 
 		this.size_ += size;
-
 		return first;
 	}
 
@@ -336,8 +296,8 @@ export abstract class ListContainer<T,
 		let size: number = distance(first, last);
 
 		// SHRINK
-		prev["next_"] = (last);
-		last["prev_"] = (prev);
+		ListIterator._Set_next(prev, last);
+		ListIterator._Set_prev(last, prev);
 
 		this.size_ -= size;
 		if (first.equals(this.begin_))

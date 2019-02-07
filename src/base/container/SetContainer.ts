@@ -26,7 +26,7 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 	/**
 	 * @hidden
 	 */
-	private data_: _SetElementList<Key, Unique, Source>;
+	protected data_: _SetElementList<Key, Unique, Source>;
 	
 	/* ---------------------------------------------------------
 		CONSTURCTORS
@@ -228,7 +228,7 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 		[this.data_ as any, obj.data_] = [obj.data_, this.data_];
 
 		// CHANGE ITERATORS' SOURCES
-		[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+		_SetElementList._Swap_associative(this.data_, obj.data_);
 	}
 
 	/**

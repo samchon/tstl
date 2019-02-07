@@ -28,7 +28,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @hidden
 	 */
-	private data_: _MapElementList<Key, T, Unique, Source>;
+	protected data_: _MapElementList<Key, T, Unique, Source>;
 
 	/* ---------------------------------------------------------
 		CONSTURCTORS
@@ -223,7 +223,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 		[this.data_, obj.data_] = [obj.data_, this.data_];
 
 		// CHANGE ITERATORS' SOURCES
-		[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+		_MapElementList._Swap_associative(this.data_, obj.data_);
 	}
 
 	/**

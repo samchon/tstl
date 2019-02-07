@@ -76,10 +76,10 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	public front(val: T): void;
 	public front(val?: T): T | void
 	{
-		if (val === undefined)
+		if (arguments.length === 0)
 			return this.at(0);
 		else
-			this.set(0, val);
+			this.set(0, val!);
 	}
 
 	/**
@@ -93,10 +93,10 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	public back(val?: T): T | void
 	{
 		let index: number = this.size() - 1;
-		if (val === undefined)
+		if (arguments.length === 0)
 			return this.at(index);
 		else
-			this.set(index, val);
+			this.set(index, val!);
 	}
 
 	/* =========================================================

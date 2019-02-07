@@ -7,7 +7,7 @@ import { _Color } from "./_Color";
 //--------
 // The Red-Black Tree
 //
-// Referenceh: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
+// Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
 // Inventor: Rudolf Bayer
 //--------
 /**

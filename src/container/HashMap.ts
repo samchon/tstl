@@ -102,7 +102,7 @@ export class HashMap<Key, T>
         super.swap(obj);
 
         // SWAP BUCKETS
-        [this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+        _MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -283,7 +283,7 @@ export class HashMap<Key, T>
             return new Pair(it, false);
 
         // INSERT
-        this["data_"].push(new Entry(key, val));
+        this.data_.push(new Entry(key, val));
         it = it.prev();
 
         // POST-PROCESS
@@ -302,7 +302,7 @@ export class HashMap<Key, T>
         if (it.equals(this.end()) === true)
         {
             // INSERT
-            it = this["data_"].insert(hint, new Entry(key, val));
+            it = this.data_.insert(hint, new Entry(key, val));
 
             // POST-PROCESS
             this._Handle_insert(it, it.next());
@@ -330,7 +330,7 @@ export class HashMap<Key, T>
                 continue;
 
             // INSERTS
-            this["data_"].push(new Entry(it.value.first, it.value.second));
+            this.data_.push(new Entry(it.value.first, it.value.second));
         }
         my_first = my_first.next();
 

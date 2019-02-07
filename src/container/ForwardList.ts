@@ -184,10 +184,10 @@ export class ForwardList<T>
     {
         let it: ForwardList.Iterator<T> = this.begin();
 
-        if (val === undefined)
+        if (arguments.length === 0)
             return it.value;
         else
-            it.value = val;
+            it.value = val!;
     }
 
     /**
@@ -316,9 +316,9 @@ export class ForwardList<T>
             return pos;
 
         for (let i: number = 0; i < count - 1; ++i)
-            nodes[i]["next_"] = nodes[i + 1];
-        nodes[nodes.length - 1]["next_"] = pos.next();
-        pos["next_"] = nodes[0];
+            ForwardList.Iterator._Set_next(nodes[i], nodes[i + 1]);
+        ForwardList.Iterator._Set_next(nodes[nodes.length - 1], pos.next());
+        ForwardList.Iterator._Set_next(pos, nodes[0]);
 
         this.size_ += count;
         return nodes[nodes.length - 1];
@@ -358,7 +358,7 @@ export class ForwardList<T>
         this.size_ -= Math.max(0, distance(first, last) - 1);
 
         // RE-CONNECT
-        first["next_"] = last;
+        ForwardList.Iterator._Set_next(first, last);
         return last;
     }
 
@@ -404,7 +404,7 @@ export class ForwardList<T>
         for (let it = this.before_begin(); !it.next().equals(this.end()); it = it.next())
             if (pred(it.next().value) === true)
             {
-                it["next_"] = it.next().next();
+                ForwardList.Iterator._Set_next(it, it.next().next());
                 ++count;
             }
         this.size_ -= count;
@@ -474,15 +474,11 @@ export class ForwardList<T>
         (
             pos: ForwardList.Iterator<T>, 
             from: ForwardList<U>, 
-            first_before?: ForwardList.Iterator<U>, last?: ForwardList.Iterator<U>
+            first_before: ForwardList.Iterator<U> = from.before_begin(), 
+            last: ForwardList.Iterator<U> = first_before.next().next()
         ): void
     {
         // DEFAULT PARAMETERS
-        if (first_before === undefined)
-            first_before = from.before_begin();
-        else if (last === undefined)
-            last = first_before.next().next();
-
         if (last === null)
             last = from.end();
 
@@ -625,6 +621,14 @@ export namespace ForwardList
         public equals(obj: Iterator<T>): boolean
         {
             return this === obj;
+        }
+
+        /**
+         * @internal
+         */
+        public static _Set_next<T>(it: Iterator<T>, next: Iterator<T>): void
+        {
+            it.next_ = next;
         }
     }
 }

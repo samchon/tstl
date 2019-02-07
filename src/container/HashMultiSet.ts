@@ -98,7 +98,7 @@ export class HashMultiSet<Key>
         super.swap(obj);
 
         // SWAP BUCKETS
-        [this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+        _SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -300,7 +300,7 @@ export class HashMultiSet<Key>
     protected _Insert_by_key(key: Key): HashMultiSet.Iterator<Key>
     {
         // INSERT
-        let it = this["data_"].insert(this["data_"].end(), key);
+        let it = this.data_.insert(this.data_.end(), key);
 
         this._Handle_insert(it, it.next()); // POST-PROCESS
         return it;
@@ -312,7 +312,7 @@ export class HashMultiSet<Key>
     protected _Insert_by_hint(hint: HashMultiSet.Iterator<Key>, key: Key): HashMultiSet.Iterator<Key>
     {
         // INSERT
-        let it = this["data_"].insert(hint, key);
+        let it = this.data_.insert(hint, key);
 
         // POST-PROCESS
         this._Handle_insert(it, it.next());
@@ -327,7 +327,7 @@ export class HashMultiSet<Key>
         (first: InputIterator, last: InputIterator): void
     {
         // INSERT ELEMENTS
-        let my_first = this["data_"].insert(this["data_"].end(), first, last);
+        let my_first = this.data_.insert(this.data_.end(), first, last);
 
         // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
         if (this.size() > this.buckets_.capacity())

@@ -102,7 +102,7 @@ export class HashMultiMap<Key, T>
         super.swap(obj);
 
         // SWAP BUCKETS
-        [this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+        _MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -304,7 +304,7 @@ export class HashMultiMap<Key, T>
     public emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
     {
         // INSERT
-        let it = this["data_"].insert(this["data_"].end(), new Entry(key, val));
+        let it = this.data_.insert(this.data_.end(), new Entry(key, val));
 
         this._Handle_insert(it, it.next()); // POST-PROCESS
         return it;
@@ -316,7 +316,7 @@ export class HashMultiMap<Key, T>
     public emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
     {
         // INSERT
-        let it = this["data_"].insert(hint, new Entry(key, val));
+        let it = this.data_.insert(hint, new Entry(key, val));
 
         // POST-PROCESS
         this._Handle_insert(it, it.next());
@@ -339,9 +339,9 @@ export class HashMultiMap<Key, T>
             entries.push(new Entry(it.value.first, it.value.second));
         
         // INSERT ELEMENTS
-        let my_first = this["data_"].insert
+        let my_first = this.data_.insert
             (
-                this["data_"].end(), 
+                this.data_.end(), 
                 new _NativeArrayIterator(entries, 0), 
                 new _NativeArrayIterator(entries, entries.length)
             );

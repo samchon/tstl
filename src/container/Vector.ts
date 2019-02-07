@@ -92,6 +92,17 @@ export class Vector<T>
         }
     }
 
+    /**
+     * @internal
+     */
+    public static _Capsule<T>(data: Array<T>): Vector<T>
+    {
+        let ret: Vector<T> = new Vector<T>();
+        ret.data_ = data;
+
+        return ret;
+    }
+
     /* ---------------------------------------------------------
         ASSIGN & CLEAR
     --------------------------------------------------------- */
