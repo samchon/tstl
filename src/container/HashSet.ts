@@ -23,7 +23,7 @@ export class HashSet<Key>
     /**
      * @hidden
      */
-    private buckets_!: _SetHashBuckets<Key, true, HashSet<Key>>;
+    public buckets_!: _SetHashBuckets<Key, true, HashSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -74,8 +74,20 @@ export class HashSet<Key>
     public constructor(...args: any[])
     {
         super();
-        
-        _Construct.bind(this, HashSet, _SetHashBuckets)(...args);
+
+        _Construct<Key, Key, 
+                HashSet<Key>,
+                HashSet.Iterator<Key>,
+                HashSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, HashSet, 
+            (hash, pred) =>
+            {
+                this.buckets_ = new _SetHashBuckets(this, hash, pred);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------

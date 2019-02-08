@@ -77,7 +77,19 @@ export class HashMultiMap<Key, T>
     {
         super();
 
-        _Construct.bind(this, HashMultiMap, _MapHashBuckets)(...args);
+        _Construct<Key, Entry<Key, T>, 
+                HashMultiMap<Key, T>,
+                HashMultiMap.Iterator<Key, T>,
+                HashMultiMap.ReverseIterator<Key, T>,
+                IPair<Key, T>>
+        (
+            this, HashMultiMap, 
+            (hash, pred) =>
+            {
+                this.buckets_ = new _MapHashBuckets(this, hash, pred);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------

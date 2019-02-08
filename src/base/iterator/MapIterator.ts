@@ -7,6 +7,7 @@ import { ReverseIterator } from "./ReverseIterator";
 import { MapContainer } from "../container/MapContainer";
 import { _MapElementList } from "../container/_MapElementList";
 import { Entry } from "../../utility/Entry";
+import { IPair } from "../../utility";
 
 /**
  * Iterator of Map Containers.
@@ -17,7 +18,8 @@ export class MapIterator<Key, T, Unique extends boolean, Source extends MapConta
 	extends ListIterator<Entry<Key, T>, 
 		Source, 
 		MapIterator<Key, T, Unique, Source>, 
-		MapReverseIterator<Key, T, Unique, Source>>
+		MapReverseIterator<Key, T, Unique, Source>,
+		IPair<Key, T>>
 {
 	/**
 	 * @hidden
@@ -95,7 +97,8 @@ export class MapReverseIterator<Key, T, Unique extends boolean, Source extends M
 	extends ReverseIterator<Entry<Key, T>, 
 		Source, 
 		MapIterator<Key, T, Unique, Source>, 
-		MapReverseIterator<Key, T, Unique, Source>>
+		MapReverseIterator<Key, T, Unique, Source>,
+		IPair<Key, T>>
 {
 	/* ---------------------------------------------------------
 		CONSTRUCTORS

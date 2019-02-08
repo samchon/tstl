@@ -74,8 +74,20 @@ export class TreeMultiMap<Key, T>
     public constructor(...args: any[])
     {
         super();
-        
-        _Construct.bind(this, TreeMultiMap, _MultiMapTree)(...args);
+
+        _Construct<Key, Entry<Key, T>, 
+                TreeMultiMap<Key, T>,
+                TreeMultiMap.Iterator<Key, T>,
+                TreeMultiMap.ReverseIterator<Key, T>,
+                IPair<Key, T>>
+        (
+            this, TreeMultiMap, 
+            comp => 
+            {
+                this.tree_ = new _MultiMapTree(this as TreeMultiMap<Key, T>, comp);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -209,10 +221,17 @@ export class TreeMultiMap<Key, T>
      */
     public emplace_hint(hint: TreeMultiMap.Iterator<Key, T>, key: Key, val: T): TreeMultiMap.Iterator<Key, T>
     {
-        return _Emplace_hint.bind(this)(hint, new Entry(key, val), () =>
-        {
-            return this.emplace(key, val);
-        });
+        let elem = new Entry(key, val);
+        
+        return _Emplace_hint<Key, Entry<Key, T>, 
+                TreeMultiMap<Key, T>,
+                TreeMultiMap.Iterator<Key, T>,
+                TreeMultiMap.ReverseIterator<Key, T>,
+                IPair<Key, T>>
+        (
+            this, hint, elem, this.data_, this._Handle_insert.bind(this),
+            () => this.emplace(key, val)
+        );
     }
 
     /**

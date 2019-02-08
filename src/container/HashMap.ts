@@ -77,7 +77,19 @@ export class HashMap<Key, T>
     {
         super();
 
-        _Construct.bind(this, HashMap, _MapHashBuckets)(...args);
+        _Construct<Key, Entry<Key, T>, 
+                HashMap<Key, T>,
+                HashMap.Iterator<Key, T>,
+                HashMap.ReverseIterator<Key, T>,
+                IPair<Key, T>>
+        (
+            this, HashMap, 
+            (hash, pred) =>
+            {
+                this.buckets_ = new _MapHashBuckets(this, hash, pred);
+            },
+            ...args
+        );
     }
     
     /* ---------------------------------------------------------

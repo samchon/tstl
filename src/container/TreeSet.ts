@@ -71,8 +71,20 @@ export class TreeSet<Key>
     public constructor(...args: any[])
     {
         super();
-        
-        _Construct.bind(this, TreeSet, _UniqueSetTree)(...args);
+
+        _Construct<Key, Key, 
+                TreeSet<Key>,
+                TreeSet.Iterator<Key>,
+                TreeSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, TreeSet, 
+            comp => 
+            {
+                this.tree_ = new _UniqueSetTree(this as TreeSet<Key>, comp);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -186,10 +198,15 @@ export class TreeSet<Key>
      */
     protected _Insert_by_hint(hint: TreeSet.Iterator<Key>, key: Key): TreeSet.Iterator<Key>
     {
-        return _Emplace_hint.bind(this)(hint, key, ()=>
-        {
-            return this._Insert_by_key(key).first;
-        });
+        return _Emplace_hint<Key, Key, 
+                TreeSet<Key>,
+                TreeSet.Iterator<Key>,
+                TreeSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, hint, key, this.data_, this._Handle_insert.bind(this),
+            () => this._Insert_by_key(key).first
+        );
     }
 
     /**

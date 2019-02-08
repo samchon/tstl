@@ -3,14 +3,13 @@
 //================================================================
 import { _HashBuckets } from "./_HashBuckets";
 
-import { SetContainer } from "../container/SetContainer";
 import { IHashSet } from "../container/IHashSet";
 import { SetIterator } from "../iterator/SetIterator";
 
 /**
  * @hidden
  */
-export class _SetHashBuckets<T, Unique extends boolean, Source extends SetContainer<T, Unique, Source>>
+export class _SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<T, Unique, Source>>
 	extends _HashBuckets<SetIterator<T, Unique, Source>>
 {
 	private source_: IHashSet<T, Unique, Source>;
@@ -33,7 +32,7 @@ export class _SetHashBuckets<T, Unique extends boolean, Source extends SetContai
 	/**
 	 * @internal
 	 */
-	public static _Swap_source<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
+	public static _Swap_source<Key, Unique extends boolean, Source extends IHashSet<Key, Unique, Source>>
 		(x: _SetHashBuckets<Key, Unique, Source>, y: _SetHashBuckets<Key, Unique, Source>): void
 	{
 		[x.source_, y.source_] = [y.source_, x.source_];
@@ -46,6 +45,7 @@ export class _SetHashBuckets<T, Unique extends boolean, Source extends SetContai
 	{
 		return this.hash_function_;
 	}
+	
 	public key_eq(): (x: T, y: T) => boolean
 	{
 		return this.key_eq_;

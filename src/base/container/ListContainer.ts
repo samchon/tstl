@@ -17,10 +17,10 @@ import { distance, advance } from "../../iterator/global";
  * @hidden
  */
 export abstract class ListContainer<T, 
-		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
-		IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-	extends Container<T, SourceT, IteratorT, ReverseIteratorT>
+		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>,
+		IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, T>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
+	extends Container<T, SourceT, IteratorT, ReverseIteratorT, T>
 {
 	/**
 	 * @hidden
@@ -199,7 +199,7 @@ export abstract class ListContainer<T,
 	/**
 	 * @inheritDoc
 	 */
-	public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT;
 
 	public insert(pos: IteratorT, ...args: any[]): IteratorT
@@ -231,7 +231,7 @@ export abstract class ListContainer<T,
 	/**
 	 * @hidden
 	 */
-	protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT
 	{
 		let prev: IteratorT = <IteratorT>position.prev();

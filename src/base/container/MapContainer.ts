@@ -22,8 +22,13 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	extends Container<Entry<Key, T>,
 		Source,
 		MapIterator<Key, T, Unique, Source>,
-		MapReverseIterator<Key, T, Unique, Source>>
-	implements _IAssociativeContainer<Key, MapIterator<Key, T, Unique, Source>>
+		MapReverseIterator<Key, T, Unique, Source>,
+		IPair<Key, T>>
+	implements _IAssociativeContainer<Key, Entry<Key, T>,
+		Source, 
+		MapIterator<Key, T, Unique, Source>,
+		MapReverseIterator<Key, T, Unique, Source>,
+		IPair<Key, T>>
 {
 	/**
 	 * @hidden
@@ -46,7 +51,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @inheritDoc
 	 */
-	public assign<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
+	public assign<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void
 	{
 		// INSERT

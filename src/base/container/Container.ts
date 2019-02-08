@@ -13,11 +13,12 @@ import { ForOfAdaptor } from "../iterator/ForOfAdaptor";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class Container<T, 
-		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
-		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-	implements IContainer<T, SourceT, IteratorT, ReverseIteratorT>
+export abstract class Container<T extends Elem, 
+		SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem = T>
+	implements IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
 	/* ---------------------------------------------------------
 		ASSIGN & CLEAR
@@ -25,7 +26,7 @@ export abstract class Container<T,
 	/**
 	 * @inheritDoc
 	 */
-	public abstract assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public abstract assign<InputIterator extends Readonly<IForwardIterator<Elem, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	/**
@@ -99,12 +100,7 @@ export abstract class Container<T,
 	/**
 	 * @inheritDoc
 	 */
-	public abstract push(...items: T[]): number;
-
-	/**
-	 * @inheritDoc
-	 */
-	public abstract insert(pos: IteratorT, val: T): IteratorT;
+	public abstract push(...items: Elem[]): number;
 
 	/**
 	 * @inheritDoc

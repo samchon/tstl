@@ -35,10 +35,10 @@ export interface _IFront<T>
  * @author Jeongho Nam <http://samchon.org>
  */
 export interface ILinearContainer<T, 
-		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>, 
-		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>, 
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-	extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>, 
+		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, 
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, T>, 
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
+	extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, 
 		_IPushBack<T>
 {
 	/* ---------------------------------------------------------
@@ -58,7 +58,7 @@ export interface ILinearContainer<T,
 	 * @param first Input iterator of the first position.
 	 * @param last Input iterator of the last position.
 	 */
-	assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	/**
@@ -125,6 +125,6 @@ export interface ILinearContainer<T,
 	 * @param last Input iteartor of the last position.
 	 * @return An iterator to the first of the newly inserted elements.
 	 */
-	insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(pos: IteratorT, first: InputIterator, last: InputIterator): IteratorT;
 }

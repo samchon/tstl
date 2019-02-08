@@ -14,7 +14,7 @@ import { equal_to } from "../../functional/comparators";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
-	implements Iterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>,
+	implements Iterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>, T>,
 		IRandomAccessIterator<T, ArrayIterator<T, Source>>
 {
 	/**
@@ -130,7 +130,7 @@ export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
  * @author Jeongho Nam <http://samchon.org>
  */
 export class ArrayReverseIterator<T, Source extends ArrayContainer<T, Source>>
-	extends ReverseIterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>>
+	extends ReverseIterator<T, Source, ArrayIterator<T, Source>, ArrayReverseIterator<T, Source>, T>
 	implements IRandomAccessIterator<T, ArrayReverseIterator<T, Source>>
 {
 	/* ---------------------------------------------------------

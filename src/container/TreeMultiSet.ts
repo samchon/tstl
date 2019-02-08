@@ -71,8 +71,20 @@ export class TreeMultiSet<Key>
     public constructor(...args: any[])
     {
         super();
-        
-        _Construct.bind(this, TreeMultiSet, _MultiSetTree)(...args);
+
+        _Construct<Key, Key, 
+                TreeMultiSet<Key>,
+                TreeMultiSet.Iterator<Key>,
+                TreeMultiSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, TreeMultiSet, 
+            comp => 
+            {
+                this.tree_ = new _MultiSetTree(this as TreeMultiSet<Key>, comp);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -206,10 +218,15 @@ export class TreeMultiSet<Key>
      */
     protected _Insert_by_hint(hint: TreeMultiSet.Iterator<Key>, key: Key): TreeMultiSet.Iterator<Key>
     {
-        return _Emplace_hint.bind(this)(hint, key, ()=>
-        {
-            return this._Insert_by_key(key);
-        });
+        return _Emplace_hint<Key, Key, 
+                TreeMultiSet<Key>,
+                TreeMultiSet.Iterator<Key>,
+                TreeMultiSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, hint, key, this.data_, this._Handle_insert.bind(this),
+            () => this._Insert_by_key(key)
+        );
     }
 
     /**

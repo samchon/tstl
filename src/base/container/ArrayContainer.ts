@@ -16,7 +16,7 @@ import { RangeError } from "../../exception/RuntimeError";
  * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, SourceT>>
-	extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
+	extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>, T>
 	implements ILinearContainer<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 {
 	/**

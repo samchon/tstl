@@ -73,8 +73,20 @@ export class TreeMap<Key, T>
     public constructor(...args: any[])
     {
         super();
-        
-        _Construct.bind(this, TreeMap, _UniqueMapTree)(...args);
+
+        _Construct<Key, Entry<Key, T>, 
+                TreeMap<Key, T>,
+                TreeMap.Iterator<Key, T>,
+                TreeMap.ReverseIterator<Key, T>,
+                IPair<Key, T>>
+        (
+            this, TreeMap, 
+            comp => 
+            {
+                this.tree_ = new _UniqueMapTree(this as TreeMap<Key, T>, comp);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -188,10 +200,17 @@ export class TreeMap<Key, T>
      */
     public emplace_hint(hint: TreeMap.Iterator<Key, T>, key: Key, val: T): TreeMap.Iterator<Key, T>
     {
-        return _Emplace_hint.bind(this)(hint, new Entry(key, val), () =>
-        {
-            return this.emplace(key, val).first;
-        });
+        let elem = new Entry(key, val);
+        
+        return _Emplace_hint<Key, Entry<Key, T>, 
+                TreeMap<Key, T>,
+                TreeMap.Iterator<Key, T>,
+                TreeMap.ReverseIterator<Key, T>,
+                IPair<Key, T>>
+        (
+            this, hint, elem, this.data_, this._Handle_insert.bind(this),
+            () => this.emplace(key, val).first
+        );
     }
 
     /**

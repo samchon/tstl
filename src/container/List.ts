@@ -361,7 +361,7 @@ export namespace List
      * @author Jeongho Nam <http://samchon.org>
      */
     export class Iterator<T>
-        extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
+        extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>, T>
     {
         /**
          * @hidden
@@ -438,7 +438,7 @@ export namespace List
      * @author Jeongho Nam <http://samchon.org>
      */
     export class ReverseIterator<T>
-        extends ReverseIteratorBase<T, List<T>, Iterator<T>, ReverseIterator<T>>
+        extends ReverseIteratorBase<T, List<T>, Iterator<T>, ReverseIterator<T>, T>
     {
         /* ---------------------------------------------------------------
             CONSTRUCTORS

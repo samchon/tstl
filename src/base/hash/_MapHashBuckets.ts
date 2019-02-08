@@ -3,14 +3,13 @@
 //================================================================
 import { _HashBuckets } from "./_HashBuckets";
 
-import { MapContainer } from "../container/MapContainer";
 import { IHashMap } from "../container/IHashMap";
 import { MapIterator } from "../iterator/MapIterator";
 
 /**
  * @hidden
  */
-export class _MapHashBuckets<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
+export class _MapHashBuckets<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
 	extends _HashBuckets<MapIterator<Key, T, Unique, Source>>
 {
 	private source_: IHashMap<Key, T, Unique, Source>;
@@ -33,7 +32,7 @@ export class _MapHashBuckets<Key, T, Unique extends boolean, Source extends MapC
 	/**
 	 * @internal
 	 */
-	public static _Swap_source<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
+	public static _Swap_source<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
 		(x: _MapHashBuckets<Key, T, Unique, Source>, y: _MapHashBuckets<Key, T, Unique, Source>): void
 	{
 		[x.source_, y.source_] = [y.source_, x.source_];

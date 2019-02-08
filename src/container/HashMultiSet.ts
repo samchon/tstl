@@ -73,7 +73,19 @@ export class HashMultiSet<Key>
     {
         super();
 
-        _Construct.bind(this, HashMultiSet, _SetHashBuckets)(...args);
+        _Construct<Key, Key, 
+                HashMultiSet<Key>,
+                HashMultiSet.Iterator<Key>,
+                HashMultiSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, HashMultiSet, 
+            (hash, pred) =>
+            {
+                this.buckets_ = new _SetHashBuckets(this, hash, pred);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
