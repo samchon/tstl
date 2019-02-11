@@ -9,7 +9,9 @@ import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility";
 
 /**
- * @hidden
+ * Common interface for Tree Maps.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export interface ITreeMap<Key, T, Unique extends boolean, Source extends ITreeMap<Key, T, Unique, Source>>
 	extends MapContainer<Key, T, Unique, Source>, 

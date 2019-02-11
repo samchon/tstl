@@ -8,7 +8,9 @@ import { MapIterator, MapReverseIterator } from "../iterator/MapIterator";
 import { Entry, IPair } from "../../utility";
 
 /**
- * @hidden
+ * Common interface for Hash Maps.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export interface IHashMap<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
 	extends MapContainer<Key, T, Unique, Source>, 

@@ -7,7 +7,9 @@ import { _ITreeContainer } from "./_ITreeContainer";
 import { SetIterator, SetReverseIterator } from "../iterator/SetIterator";
 
 /**
- * @hidden
+ * Common interface for Tree Sets.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export interface ITreeSet<T, Unique extends boolean, Source extends ITreeSet<T, Unique, Source>>
 	extends SetContainer<T, Unique, Source>, 

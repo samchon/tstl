@@ -16,7 +16,9 @@ import { distance, advance } from "../../iterator/global";
 import { Temporary } from "../Temporary";
 
 /**
- * @hidden
+ * Basic List Container.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class ListContainer<T, 
 		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>,

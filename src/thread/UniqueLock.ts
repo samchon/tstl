@@ -101,5 +101,12 @@ export namespace UniqueLock
 }
 export import unique_lock = UniqueLock;
 
+/**
+ * @hidden
+ */
 type IMutex = ILockable & Partial<ITimedLockable>;
+
+/**
+ * @hidden
+ */
 type Closure = () => void | Promise<void>;

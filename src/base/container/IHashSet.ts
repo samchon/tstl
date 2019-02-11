@@ -7,7 +7,9 @@ import { _IHashContainer } from "./_IHashContainer";
 import { SetIterator, SetReverseIterator } from "../iterator/SetIterator";
 
 /**
- * @hidden
+ * Common interface for Hash Sets.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export interface IHashSet<Key, Unique extends boolean, Source extends IHashSet<Key, Unique, Source>>
 	extends SetContainer<Key, Unique, Source>, 

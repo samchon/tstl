@@ -101,5 +101,12 @@ export namespace SharedLock
 }
 export import shared_lock = SharedLock;
 
+/**
+ * @hidden
+ */
 type IMutex = _ISharedLockable & Partial<_ISharedTimedLockable>;
+
+/**
+ * @hidden
+ */
 type Closure = () => void | Promise<void>;

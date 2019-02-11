@@ -6,7 +6,9 @@ import { Iterator } from "./Iterator";
 import { ReverseIterator } from "./ReverseIterator";
 
 /**
- * @hidden
+ * Basic List Iterator.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class ListIterator<T extends Elem, 
 		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>,

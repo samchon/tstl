@@ -10,26 +10,6 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { _IPushBack } from "../disposable/IPartialContainers";
 
 /**
- * @hidden
- */
-export interface _IFront<T>
-{
-	/**
-	 * Get the first element.
-	 * 
-	 * @return The first element.
-	 */
-	front(): T;
-
-	/**
-	 * Change the first element.
-	 * 
-	 * @param val The value to change.
-	 */
-	front(val: T): void;
-}
-
-/**
  * Interface for linear containers.
  * 
  * @author Jeongho Nam <http://samchon.org>
@@ -127,4 +107,24 @@ export interface ILinearContainer<T,
 	 */
 	insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(pos: IteratorT, first: InputIterator, last: InputIterator): IteratorT;
+}
+
+/**
+ * @hidden
+ */
+export interface _IFront<T>
+{
+	/**
+	 * Get the first element.
+	 * 
+	 * @return The first element.
+	 */
+	front(): T;
+
+	/**
+	 * Change the first element.
+	 * 
+	 * @param val The value to change.
+	 */
+	front(val: T): void;
 }

@@ -153,6 +153,9 @@ interface _Factory<T, Arguments extends any[] = any[]>
 	prototype: T;
 }
 
+/**
+ * @hidden
+ */
 interface IData<T, Iterator>
 {
 	insert(pos: Iterator, val: T): Iterator;

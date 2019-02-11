@@ -9,7 +9,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { ForOfAdaptor } from "../iterator/ForOfAdaptor";
 
 /**
- * Base container.
+ * Basic container.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
