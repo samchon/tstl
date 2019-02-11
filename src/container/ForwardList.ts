@@ -299,7 +299,7 @@ export class ForwardList<T>
     /**
      * @hidden
      */
-    private _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    private _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
     {
         let nodes: ForwardList.Iterator<T>[] = [];
@@ -416,7 +416,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = less): void
+    public merge(from: ForwardList<T>, comp: (x: T, y: T) => boolean = less): void
     {
         if (this === <ForwardList<T>>from)
             return;
@@ -438,8 +438,8 @@ export class ForwardList<T>
      * @param pos Position to insert after.
      * @param from Target container to transfer.
      */
-    public splice_after<U extends T>
-        (pos: ForwardList.Iterator<T>, from: ForwardList<U>): void;
+    public splice_after
+        (pos: ForwardList.Iterator<T>, from: ForwardList<T>): void;
 
     /**
      * Transfer a single element.
@@ -448,11 +448,11 @@ export class ForwardList<T>
      * @param from Target container to transfer.
      * @param before Previous position of the single element to transfer.
      */
-    public splice_after<U extends T>
+    public splice_after
         (
             pos: ForwardList.Iterator<T>, 
-            from: ForwardList<U>, 
-            before: ForwardList.Iterator<U>
+            from: ForwardList<T>, 
+            before: ForwardList.Iterator<T>
         ): void;
 
     /**
@@ -463,19 +463,19 @@ export class ForwardList<T>
      * @param first Range of previous of the first position to transfer.
      * @param last Rangee of the last position to transfer.
      */
-    public splice_after<U extends T>
+    public splice_after
         (
             pos: ForwardList.Iterator<T>, 
-            from: ForwardList<U>, 
-            first_before: ForwardList.Iterator<U>, last: ForwardList.Iterator<U>
+            from: ForwardList<T>, 
+            first_before: ForwardList.Iterator<T>, last: ForwardList.Iterator<T>
         ): void;
 
-    public splice_after<U extends T>
+    public splice_after
         (
             pos: ForwardList.Iterator<T>, 
-            from: ForwardList<U>, 
-            first_before: ForwardList.Iterator<U> = from.before_begin(), 
-            last: ForwardList.Iterator<U> = first_before.next().next()
+            from: ForwardList<T>, 
+            first_before: ForwardList.Iterator<T> = from.before_begin(), 
+            last: ForwardList.Iterator<T> = first_before.next().next()
         ): void
     {
         // DEFAULT PARAMETERS

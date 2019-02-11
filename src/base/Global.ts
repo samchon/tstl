@@ -9,7 +9,7 @@ import { is_node } from "../utility/node";
 export interface IGlobal
 {
 	__s_iUID: number;
-	__s_pTerminate_handler: ()=>void;
+	__s_pTerminate_handler?: ()=>void;
 }
 
 /**

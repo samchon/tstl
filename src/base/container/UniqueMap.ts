@@ -101,7 +101,7 @@ export abstract class UniqueMap<Key, T, Source extends UniqueMap<Key, T, Source>
 	 * @param first Input iterator of the first position.
 	 * @param last Input iteartor of the last position.
 	 */
-	public insert<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void
 
 	public insert(...args: any[]): any

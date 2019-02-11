@@ -86,7 +86,7 @@ export function inserter
     if (container instanceof Array)
         container = Vector._Capsule(container);
     
-    return new InsertIterator(<any>container, it);
+    return new InsertIterator(container, it);
 }
 
 /**
@@ -122,7 +122,7 @@ export function back_inserter<T>
     if (source instanceof Array)
         source = Vector._Capsule(source);
 
-    return new BackInsertIterator(<any>source);
+    return new BackInsertIterator(source);
 }
 
 //----
@@ -134,9 +134,9 @@ export function back_inserter<T>
  * @param it Target iterator that reversable.
  * @return The reverse iterator object.
  */
-export function make_reverse_iterator<T, 
-        IteratorT extends IReversableIterator<T, IteratorT, ReverseT>, 
-        ReverseT extends IReverseIterator<T, IteratorT, ReverseT>>
+export function make_reverse_iterator<
+        IteratorT extends IReversableIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseT>, 
+        ReverseT extends IReverseIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseT>>
     (it: IteratorT): ReverseT
 {
     return it.reverse();

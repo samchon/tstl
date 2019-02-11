@@ -45,8 +45,8 @@ export function set_terminate(func: () => void): void
 		type = (typeof window !== "undefined") 
 			? "unload" 
 			: "close";
-		register = (type, listener) => self.addEventListener(type, <any>listener);
-		eraser = (type, listener) => self.removeEventListener(type, <any>listener);
+		register = (type, listener) => self.addEventListener(type, listener);
+		eraser = (type, listener) => self.removeEventListener(type, listener);
 	}
 
 	//----
@@ -54,7 +54,7 @@ export function set_terminate(func: () => void): void
 	//----
 	// ERASE ORDINARY
 	if (_Get_root().__s_pTerminate_handler !== undefined)
-		eraser(type, _Get_root().__s_pTerminate_handler);
+		eraser(type, _Get_root().__s_pTerminate_handler!);
 	
 	// DO REGISTER
 	register("exit", func);
@@ -68,12 +68,12 @@ export function set_terminate(func: () => void): void
  * 
  * @return The terminate handler.
  */
-export function get_terminate(): () => void
+export function get_terminate(): (() => void) | undefined
 {
-	return _Get_root().__s_pTerminate_handler;
+	return _Get_root().__s_pTerminate_handler!;
 }
 
 /**
  * @hidden
  */
-type Dispatcher = (type: string, listener: Function) => void;
+type Dispatcher = (type: string, listener: EventListener) => void;

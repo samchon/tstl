@@ -205,7 +205,7 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public merge<U extends T>(source: List<U>, comp: (x: T, y: T) => boolean = less): void
+    public merge(source: List<T>, comp: (x: T, y: T) => boolean = less): void
     {
         if (this === <List<T>>source)
             return;
@@ -228,7 +228,7 @@ export class List<T>
      * @param pos Position to insert.
      * @param from Target container to transfer.
      */
-    public splice<U extends T>(pos: List.Iterator<T>, from: List<U>): void;
+    public splice(pos: List.Iterator<T>, from: List<T>): void;
     
     /**
      * Transfer a single element.
@@ -237,7 +237,7 @@ export class List<T>
      * @param from Target container to transfer.
      * @param it Position of the single element to transfer.
      */
-    public splice<U extends T>(pos: List.Iterator<T>, from: List<U>, it: List.Iterator<U>): void;
+    public splice(pos: List.Iterator<T>, from: List<T>, it: List.Iterator<T>): void;
     
     /**
      * Transfer range elements.
@@ -249,10 +249,10 @@ export class List<T>
      */
     public splice(pos: List.Iterator<T>, from: List<T>, first: List.Iterator<T>, last: List.Iterator<T>): void;
 
-    public splice<U extends T>
+    public splice
         (
-            pos: List.Iterator<T>, obj: List<U>, 
-            first?: List.Iterator<U>, last?: List.Iterator<U>
+            pos: List.Iterator<T>, obj: List<T>, 
+            first?: List.Iterator<T>, last?: List.Iterator<T>
         ): void
     {
         if (first === undefined)

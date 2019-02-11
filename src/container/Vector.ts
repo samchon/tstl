@@ -113,7 +113,7 @@ export class Vector<T>
     /**
      * @inheritDoc
      */
-    public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    public assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (begin: InputIterator, end: InputIterator): void;
 
     public assign(first: any, second: any): void
@@ -215,7 +215,7 @@ export class Vector<T>
     /**
      * @hidden
      */
-    protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (position: Vector.Iterator<T>, first: InputIterator, last: InputIterator): Vector.Iterator<T>
     {
         if (position.index() >= this.size())

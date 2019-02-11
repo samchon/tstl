@@ -13,6 +13,8 @@ import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
 import { InvalidArgument } from "../../exception/LogicError";
 import { distance, advance } from "../../iterator/global";
 
+import { Temporary } from "../Temporary";
+
 /**
  * @hidden
  */
@@ -64,7 +66,7 @@ export abstract class ListContainer<T,
 	/**
 	 * @inheritDoc
 	 */
-	public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	public assign(par1: any, par2: any): void
@@ -96,7 +98,7 @@ export abstract class ListContainer<T,
 		if (expansion > 0)
 			this.insert(this.end(), expansion, undefined!);
 		else if (expansion < 0)
-			this.erase(advance(this.end(), -expansion), this.end());
+			this.erase(advance(<Temporary>this.end(), -expansion), this.end());
 	}
 
 	/* ---------------------------------------------------------
@@ -293,7 +295,7 @@ export abstract class ListContainer<T,
 
 		// FIND PREV AND NEXT
 		let prev: IteratorT = first.prev();
-		let size: number = distance(first, last);
+		let size: number = distance(<Temporary>first, last);
 
 		// SHRINK
 		ListIterator._Set_next(prev, last);

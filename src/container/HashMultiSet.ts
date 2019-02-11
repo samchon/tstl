@@ -335,7 +335,7 @@ export class HashMultiSet<Key>
     /**
      * @hidden
      */
-    protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         // INSERT ELEMENTS

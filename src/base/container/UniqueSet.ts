@@ -53,7 +53,7 @@ export abstract class UniqueSet<Key, Source extends UniqueSet<Key, Source>>
 	 * @param first Input iterator of the first position.
 	 * @param last Input iteartor of the last position.
 	 */
-	public insert<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	public insert(...args: any[]): any

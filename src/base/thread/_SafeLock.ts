@@ -13,7 +13,7 @@ export namespace _SafeLock
 			lambda: () => void | Promise<void>
 		): Promise<void>
 	{
-		await try_lock(<any>locker, unlocker, lambda);
+		await try_lock(locker as any, unlocker, lambda);
 	}
 
 	export async function try_lock

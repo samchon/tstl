@@ -76,7 +76,8 @@ export function pop_heap<RandomAccessIterator extends General<IRandomAccessItera
     (
         first: RandomAccessIterator, 
         last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less): void
+        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+    ): void
 {
     let tempBottom: IPointer.ValueType<RandomAccessIterator> = last.prev().value;
     last.prev().value = first.value;
@@ -96,8 +97,7 @@ export function pop_heap<RandomAccessIterator extends General<IRandomAccessItera
  * 
  * @return Whether the range is heap.
  */
-export function is_heap<
-        RandomAccessIterator extends Readonly<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
+export function is_heap<RandomAccessIterator extends Readonly<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
     (
         first: RandomAccessIterator, 
         last: RandomAccessIterator, 

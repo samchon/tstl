@@ -11,6 +11,7 @@ import { copy } from "./modifiers";
 import { back_inserter } from "../iterator/factory";
 
 import { Vector } from "../container/Vector";
+import { Temporary } from "../base/Temporary";
 
 /* =========================================================
     MERGE & SET OPERATIONS
@@ -45,7 +46,7 @@ export function merge<
     while (true)
     {
         if (first1.equals(last1))
-            return copy(<any>first2, last2, output);
+            return copy(<Temporary>first2, last2, output);
         else if (first2.equals(last2))
             return copy(first1, last1, output);
 
@@ -80,7 +81,7 @@ export function inplace_merge<BidirectionalIterator extends General<IBidirection
     ): void
 {
     let vector: Vector<IPointer.ValueType<BidirectionalIterator>> = new Vector();
-    merge(first, middle, middle, last, <any>back_inserter(vector), comp);
+    merge(first, middle, middle, last, <Temporary>back_inserter(vector), comp);
 
     copy(vector.begin(), vector.end(), first);
 }
@@ -147,7 +148,7 @@ export function set_union<
     while (true)
     {
         if (first1.equals(last1))
-            return copy(<any>first2, last2, output);
+            return copy(<Temporary>first2, last2, output);
         else if (first2.equals(last2))
             return copy(first1, last1, output);
 
@@ -199,7 +200,7 @@ export function set_intersection<
     while (true)
     {
         if (first1.equals(last1))
-            return copy(<any>first2, last2, output);
+            return copy(<Temporary>first2, last2, output);
         else if (first2.equals(last2))
             return copy(first1, last1, output);
 
@@ -285,7 +286,7 @@ export function set_symmetric_difference<
     while (true)
     {
         if (first1.equals(last1))
-            return copy(<any>first2, last2, output);
+            return copy(<Temporary>first2, last2, output);
         else if (first2.equals(last2))
             return copy(first1, last1, output);
 

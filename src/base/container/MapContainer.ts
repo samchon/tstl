@@ -45,7 +45,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	{
 		super();
 		
-		this.data_ = new _MapElementList(<any>this);
+		this.data_ = new _MapElementList(this as any);
 	}
 	
 	/**
@@ -149,7 +149,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 
 	public insert(pair: IPair<Key, T>): MapContainer.InsertRet<Key, T, Unique, Source>;
 	public insert(hint: MapIterator<Key, T, Unique, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Unique, Source>;
-	public insert<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	public insert(...args: any[]): any
@@ -165,7 +165,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @hidden
 	 */
-	protected abstract _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
+	protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	/* ---------------------------------------------------------

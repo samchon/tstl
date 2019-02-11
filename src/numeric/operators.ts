@@ -29,7 +29,7 @@ export function minus<X extends Param<Y, Ret, "minus">,
     if ((x as Partial<IComputable<Y, Ret>>).minus instanceof Function)
         return (x as Partial<IComputable<Y, Ret>>).minus!(y);
     else
-        return <any>(<any>x - <any>y);
+        return (<any>x - <any>y) as any;
 }
 
 export function negate<X extends number|INegatable<Ret>, Ret = X>

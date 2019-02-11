@@ -13,6 +13,8 @@ import { advance, distance } from "../iterator/global";
 import { mismatch, find_if, count_if } from "./iterations";
 import { iter_swap, reverse } from "./modifiers";
 
+import { Temporary } from "../base/Temporary";
+
 /* =========================================================
     MATHMATICS
         - MIN & MAX
@@ -200,14 +202,14 @@ export function is_permutation<
     ): boolean
 {
     // find the mismatched
-    let pair: Pair<ForwardIterator1, ForwardIterator2> = <any>mismatch(first1, last1, <any>first2, pred);
+    let pair: Pair<ForwardIterator1, ForwardIterator2> = <Temporary>mismatch(first1, last1, <Temporary>first2, pred);
     first1 = pair.first;
     first2 = pair.second;
 
     if (first1.equals(last1))
         return true;
 
-    let last2: ForwardIterator2 = advance(first2, distance(first1, last1));
+    let last2: ForwardIterator2 = advance(<Temporary>first2, distance(first1, last1)) as ForwardIterator2;
 
     for (let it = first1; !it.equals(last1); it = it.next())
     {
@@ -215,7 +217,7 @@ export function is_permutation<
 
         if (find_if(first1, it, lambda).equals(it))
         {
-            let n: number = count_if(<any>first2, <any>last2, lambda);
+            let n: number = count_if(<Temporary>first2, <Temporary>last2, lambda);
             if (n === 0 || count_if(it, last1, lambda) !== n)
                 return false;
         }

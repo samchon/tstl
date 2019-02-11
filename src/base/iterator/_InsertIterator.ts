@@ -23,7 +23,7 @@ export abstract class _InsertIterator<T, This extends _InsertIterator<T, This>>
 	 */
 	public next(): This
 	{
-		return <any>this;
+		return this as any;
 	}
 
 	/**

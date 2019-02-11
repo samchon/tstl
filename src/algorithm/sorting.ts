@@ -11,6 +11,7 @@ import { iter_swap, copy } from "./modifiers";
 import { distance } from "../iterator/global";
 
 import { Vector } from "../container/Vector";
+import { Temporary } from "../base/Temporary";
 
 /* =========================================================
     SORTINGS
@@ -127,10 +128,10 @@ export function partial_sort_copy<
     ): RandomAccessIterator
 {
     let input_size: number = distance(first, last);
-    let result_size: number = distance(output_first, output_last);
+    let result_size: number = distance(<Temporary>output_first, output_last);
 
     let vector: Vector<IPointer.ValueType<InputIterator>> = new Vector(first, last);
-    sort(vector.begin(), vector.end(), <any>comp);
+    sort(vector.begin(), vector.end(), <Temporary>comp);
 
     if (input_size > result_size)
         output_first = copy(vector.begin(), vector.begin().advance(result_size), output_first);

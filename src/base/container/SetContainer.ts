@@ -147,7 +147,7 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 	
 	public insert(key: Key): SetContainer.InsertRet<Key, Unique, Source>;
 	public insert(hint: SetIterator<Key, Unique, Source>, key: Key): SetIterator<Key, Unique, Source>;
-	public insert<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	public insert(...args: any[]): any
@@ -173,7 +173,7 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 	/**
 	 * @hidden
 	 */
-	protected abstract _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
 		(begin: InputIterator, end: InputIterator): void;
 
 	/* ---------------------------------------------------------

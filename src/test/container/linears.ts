@@ -1,4 +1,5 @@
 import * as std from "../../index";
+import { Temporary } from "../../base/Temporary";
 
 export function test_linear_containers(): void
 {
@@ -21,27 +22,27 @@ function _Test_linear<
 	// 0 ~ 9
 	vec.assign(10, 0);
 	std.iota(vec.begin(), vec.end(), 0);
-	
+
 	//----
 	// ELEMENTS I/O
 	//----
 	// ERASE AN ELEMENT
-	let it = std.advance(vec.begin(), 3); // STEP TO 3
+	let it: IteratorT = std.advance(<Temporary>vec.begin(), 3); // STEP TO 3
 	it = vec.erase(it); // AND ERASE THE 3
 	
 	if (it.value !== 4) // MUST BE 4
 		throw new std.DomainError("It's wrong");
 	
 	// INSERT AN ELEMENT
-	it = std.advance(vec.begin(), 2);
+	it = std.advance(<Temporary>vec.begin(), 2);
 	it = vec.insert(it, -1); // insert -1
 
 	if (it.value !== -1)
 		throw new std.DomainError("It's wrong");
 
 	// ERASE RANGE
-	it = std.advance(vec.begin(), 6);
-	it = vec.erase(it, std.advance(it, 3)); // erase from 6 to 9
+	it = std.advance(<Temporary>vec.begin(), 6);
+	it = vec.erase(it, std.advance(<Temporary>it, 3)); // erase from 6 to 9
 
 	if (it.value !== 9)
 		throw new std.DomainError("It's wrong");

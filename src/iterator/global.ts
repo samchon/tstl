@@ -1,6 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
+import { IPointer } from "../functional";
 import { IForwardIterator } from "./IForwardIterator";
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
 import { IRandomAccessIterator } from "./IRandomAccessIterator";
@@ -64,11 +65,11 @@ export function size(source: any): number
  * 
  * @return The distance.
  */
-export function distance<T, InputIterator extends IForwardIterator<T, InputIterator>>
+export function distance<InputIterator extends IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>
     (first: InputIterator, last: InputIterator): number
 {
-    if ((<any>first).index !== undefined)
-        return _Distance_via_index(<any>first, <any>last);
+    if ((first as any).index !== undefined)
+        return _Distance_via_index(first as any, last);
 
     let ret: number = 0;
     for (; !first.equals(last); first = first.next())
@@ -80,7 +81,7 @@ export function distance<T, InputIterator extends IForwardIterator<T, InputItera
 /**
  * @hidden
  */
-function _Distance_via_index<T, RandomAccessIterator extends IRandomAccessIterator<T, RandomAccessIterator>>
+function _Distance_via_index<RandomAccessIterator extends IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>
     (first: RandomAccessIterator, last: RandomAccessIterator): number
 {
     let start: number = first.index();
@@ -103,17 +104,17 @@ function _Distance_via_index<T, RandomAccessIterator extends IRandomAccessIterat
  * 
  * @return The advanced iterator.
  */
-export function advance<T, InputIterator extends IForwardIterator<T, InputIterator>>
+export function advance<InputIterator extends IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>
     (it: InputIterator, n: number): InputIterator
 {
-    if ((<any>it).advance instanceof Function)
-        it = (<any>it).advance(n);
+    if ((it as any).advance instanceof Function)
+        it = (it as any).advance(n);
     else if (n > 0)
         for (let i: number = 0; i < n; ++i)
             it = it.next();
     else
     {
-        let p_it: IBidirectionalIterator<T, any> = <any>it;
+        let p_it: IBidirectionalIterator<any, any> = it as any;
         if (!(p_it.next instanceof Function))
             throw new OutOfRange("It's not bidirectional iterator. Advancing to negative value is impossible.");
 
@@ -121,7 +122,7 @@ export function advance<T, InputIterator extends IForwardIterator<T, InputIterat
         for (let i: number = 0; i < n; ++i)
             p_it = p_it.prev();
 
-        it = <any>p_it;
+        it = p_it as any;
     }
     return it;
 }
@@ -133,7 +134,7 @@ export function advance<T, InputIterator extends IForwardIterator<T, InputIterat
  * @param n Step to move prev.
  * @return An iterator moved to prev *n* steps.
  */
-export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, BidirectionalIterator>>
+export function prev<BidirectionalIterator extends IBidirectionalIterator<IPointer.ValueType<BidirectionalIterator>, BidirectionalIterator>>
     (it: BidirectionalIterator, n: number = 1): BidirectionalIterator
 {
     if (n === 1)
@@ -149,7 +150,7 @@ export function prev<T, BidirectionalIterator extends IBidirectionalIterator<T, 
  * @param n Step to move next.
  * @return Iterator moved to next *n* steps.
  */
-export function next<T, ForwardIterator extends IForwardIterator<T, ForwardIterator>>
+export function next<ForwardIterator extends IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>
     (it: ForwardIterator, n: number = 1): ForwardIterator
 {    
     if (n === 1)
@@ -157,4 +158,3 @@ export function next<T, ForwardIterator extends IForwardIterator<T, ForwardItera
     else
         return advance(it, n);
 }
-

@@ -123,7 +123,7 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	/**
 	 * @inheritDoc
 	 */
-	public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(pos: ArrayIterator<T, SourceT>, first: InputIterator, last: InputIterator): ArrayIterator<T, SourceT>;
 	
 	public insert(pos: ArrayIterator<T, SourceT>, ...args: any[]): ArrayIterator<T, SourceT>
@@ -159,7 +159,7 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	/**
 	 * @hidden
 	 */
-	protected abstract _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(pos: ArrayIterator<T, SourceT>, first: InputIterator, last: InputIterator): ArrayIterator<T, SourceT>;
 
 	/* ---------------------------------------------------------
