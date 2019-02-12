@@ -25,12 +25,12 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
     /**
      * @hidden
      */
-    private data_: TreeMap<number, boolean>;
+    private data_!: TreeMap<number, boolean>;
 
     /**
      * @hidden
      */
-    private size_: number;
+    private size_!: number;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -402,7 +402,9 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
     private _Insert_to_end(elements: Pair<number, boolean>[]): VectorBoolean.Iterator
     {
         let old_size: number = this.size();
-        let last_value: boolean = this.data_.empty() ? null : this.data_.rbegin().second;
+        let last_value: boolean | null = this.data_.empty() 
+            ? null 
+            : this.data_.rbegin().second;
 
         for (let i: number = 0; i < elements.length; ++i)
         {

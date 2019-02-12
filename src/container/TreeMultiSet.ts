@@ -23,7 +23,7 @@ export class TreeMultiSet<Key>
     /**
      * @hidden
      */
-    private tree_: _MultiSetTree<Key, TreeMultiSet<Key>>;
+    private tree_!: _MultiSetTree<Key, TreeMultiSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -71,8 +71,20 @@ export class TreeMultiSet<Key>
     public constructor(...args: any[])
     {
         super();
-        
-        _Construct.bind(this, TreeMultiSet, _MultiSetTree)(...args);
+
+        _Construct<Key, Key, 
+                TreeMultiSet<Key>,
+                TreeMultiSet.Iterator<Key>,
+                TreeMultiSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, TreeMultiSet, 
+            comp => 
+            {
+                this.tree_ = new _MultiSetTree(this as TreeMultiSet<Key>, comp);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -97,7 +109,7 @@ export class TreeMultiSet<Key>
         super.swap(obj);
 
         // SWAP RB-TREE
-        [this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
+        _MultiSetTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
@@ -195,7 +207,7 @@ export class TreeMultiSet<Key>
         let it: TreeMultiSet.Iterator<Key> = this.upper_bound(key);
 
         // ITERATOR TO RETURN
-        it = this["data_"].insert(it, key);
+        it = this.data_.insert(it, key);
         this._Handle_insert(it, it.next()); // POST-PROCESS
 
         return it;
@@ -206,16 +218,21 @@ export class TreeMultiSet<Key>
      */
     protected _Insert_by_hint(hint: TreeMultiSet.Iterator<Key>, key: Key): TreeMultiSet.Iterator<Key>
     {
-        return _Emplace_hint.bind(this)(hint, key, ()=>
-        {
-            return this._Insert_by_key(key);
-        });
+        return _Emplace_hint<Key, Key, 
+                TreeMultiSet<Key>,
+                TreeMultiSet.Iterator<Key>,
+                TreeMultiSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, hint, key, this.data_, this._Handle_insert.bind(this),
+            () => this._Insert_by_key(key)
+        );
     }
 
     /**
      * @hidden
      */
-    protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         for (; !first.equals(last); first = first.next())

@@ -1,7 +1,9 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _Fetch_arguments } from "./_IAssociativeContainer";
+import { _IAssociativeContainer, _Fetch_arguments } from "./_IAssociativeContainer";
+import { Iterator } from "../iterator/Iterator";
+import { ReverseIterator } from "../iterator/ReverseIterator";
 
 import { hash } from "../../functional/hash";
 import { equal_to } from "../../functional/comparators";
@@ -9,7 +11,12 @@ import { equal_to } from "../../functional/comparators";
 /**
  * @hidden
  */
-export interface _IHashContainer<Key>
+export interface _IHashContainer<Key, T extends Elem, 
+		SourceT extends _IHashContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem>
+	extends _IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
 	/* ---------------------------------------------------------
 		PREDICATORS
@@ -94,10 +101,20 @@ export interface _IHashContainer<Key>
 /**
  * @hidden
  */
-export function _Construct<Key>(Source: any, Bucket: any, ...args: any[])
+export function _Construct<Key, T extends Elem, 
+		SourceT extends _IHashContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem>
+	(
+		source: SourceT, 
+		Source: _Factory<SourceT>, 
+		bucketFactory: (hashFunction: (key: Key) => number, predicator: (x: Key, y: Key) => boolean) => void, 
+		...args: any[]
+	)
 {
 	// DECLARE MEMBERS
-	let post_process: () => void = null;
+	let post_process: (() => void) | null = null;
 	let hash_function: (key: Key) => number = hash;
 	let key_eq: (x: Key, y: Key) => boolean = equal_to;
 
@@ -108,22 +125,22 @@ export function _Construct<Key>(Source: any, Bucket: any, ...args: any[])
 	if (args.length === 1 && args[0] instanceof Source)
 	{
 		// PARAMETERS
-		let container: _IHashContainer<Key> = args[0];
+		let container: SourceT = args[0];
 		hash_function = container.hash_function();
 		key_eq = container.key_eq();
 
 		// COPY CONSTRUCTOR
 		post_process = () =>
 		{
-			let first = (container as any).begin();
-			let last = (container as any).end();
+			let first = container.begin();
+			let last = container.end();
 
-			this.assign(first, last);
+			source.assign(first, last);
 		};
 	}
 	else
 	{
-		let tuple = _Fetch_arguments.bind(this)(...args);
+		let tuple = _Fetch_arguments(source, ...args);
 
 		post_process = tuple.ramda;
 		if (tuple.tail.length >= 1)	hash_function = tuple.tail[0];
@@ -134,9 +151,18 @@ export function _Construct<Key>(Source: any, Bucket: any, ...args: any[])
 	// DO PROCESS
 	//----
 	// CONSTRUCT BUCKET
-	this.buckets_ = new Bucket(this, hash_function, key_eq);
+	bucketFactory(hash_function, key_eq);
 
 	// ACT POST-PROCESS
 	if (post_process !== null)
 		post_process();
+}
+
+/**
+ * @hidden
+ */
+interface _Factory<T, Arguments extends any[] = any[]>
+{
+	new(...args: Arguments): T;
+	prototype: T;
 }

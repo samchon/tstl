@@ -23,7 +23,7 @@ export class TreeSet<Key>
     /**
      * @hidden
      */
-    private tree_: _UniqueSetTree<Key, TreeSet<Key>>;
+    private tree_!: _UniqueSetTree<Key, TreeSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -71,8 +71,20 @@ export class TreeSet<Key>
     public constructor(...args: any[])
     {
         super();
-        
-        _Construct.bind(this, TreeSet, _UniqueSetTree)(...args);
+
+        _Construct<Key, Key, 
+                TreeSet<Key>,
+                TreeSet.Iterator<Key>,
+                TreeSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, TreeSet, 
+            comp => 
+            {
+                this.tree_ = new _UniqueSetTree(this as TreeSet<Key>, comp);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -97,7 +109,7 @@ export class TreeSet<Key>
         super.swap(obj);
 
         // SWAP RB-TREE
-        [this.tree_["source_"], obj.tree_["source_"]] = [obj.tree_["source_"], this.tree_["source_"]];
+        _UniqueSetTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
     
@@ -175,7 +187,7 @@ export class TreeSet<Key>
             return new Pair(it, false);
 
         // ITERATOR TO RETURN
-        it = this["data_"].insert(it, key);
+        it = this.data_.insert(it, key);
         this._Handle_insert(it, it.next()); // POST-PROCESS
 
         return new Pair(it, true);
@@ -186,16 +198,21 @@ export class TreeSet<Key>
      */
     protected _Insert_by_hint(hint: TreeSet.Iterator<Key>, key: Key): TreeSet.Iterator<Key>
     {
-        return _Emplace_hint.bind(this)(hint, key, ()=>
-        {
-            return this._Insert_by_key(key).first;
-        });
+        return _Emplace_hint<Key, Key, 
+                TreeSet<Key>,
+                TreeSet.Iterator<Key>,
+                TreeSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, hint, key, this.data_, this._Handle_insert.bind(this),
+            () => this._Insert_by_key(key).first
+        );
     }
 
     /**
      * @hidden
      */
-    protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         for (; !first.equals(last); first = first.next())

@@ -21,11 +21,11 @@ export class SharedLock<Mutex extends IMutex>
 		this.mutex_ = mutex;
 
 		this.try_lock_for = mutex.try_lock_shared_for instanceof Function
-			? SharedLock.try_lock_for.bind(undefined, this.mutex_)
-			: undefined;
+			? SharedLock.try_lock_for.bind(undefined, this.mutex_ as _ISharedTimedLockable)
+			: undefined as any;
 		this.try_lock_until = mutex.try_lock_shared_until instanceof Function
-			? SharedLock.try_lock_until.bind(undefined, this.mutex_)
-			: undefined;
+			? SharedLock.try_lock_until.bind(undefined, this.mutex_ as _ISharedTimedLockable)
+			: undefined as any;
 	}
 
 	public try_lock_for: "try_lock_shared_for" extends keyof Mutex
@@ -101,5 +101,12 @@ export namespace SharedLock
 }
 export import shared_lock = SharedLock;
 
+/**
+ * @hidden
+ */
 type IMutex = _ISharedLockable & Partial<_ISharedTimedLockable>;
+
+/**
+ * @hidden
+ */
 type Closure = () => void | Promise<void>;

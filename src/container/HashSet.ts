@@ -23,7 +23,7 @@ export class HashSet<Key>
     /**
      * @hidden
      */
-    private buckets_: _SetHashBuckets<Key, true, HashSet<Key>>;
+    public buckets_!: _SetHashBuckets<Key, true, HashSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -74,8 +74,20 @@ export class HashSet<Key>
     public constructor(...args: any[])
     {
         super();
-        
-        _Construct.bind(this, HashSet, _SetHashBuckets)(...args);
+
+        _Construct<Key, Key, 
+                HashSet<Key>,
+                HashSet.Iterator<Key>,
+                HashSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, HashSet, 
+            (hash, pred) =>
+            {
+                this.buckets_ = new _SetHashBuckets(this, hash, pred);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -100,7 +112,7 @@ export class HashSet<Key>
         super.swap(obj);
 
         // SWAP BUCKETS
-        [this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+        _SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -127,7 +139,7 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public begin(index: number): HashSet.Iterator<Key>;
-    public begin(index: number = null): HashSet.Iterator<Key>
+    public begin(index: number | null = null): HashSet.Iterator<Key>
     {
         if (index === null)
             return super.begin();
@@ -143,7 +155,7 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public end(index: number): HashSet.Iterator<Key>
-    public end(index: number = null): HashSet.Iterator<Key>
+    public end(index: number | null = null): HashSet.Iterator<Key>
     {
         if (index === null)
             return super.end();
@@ -162,9 +174,9 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public rbegin(index: number): HashSet.ReverseIterator<Key>;
-    public rbegin(index: number = null): HashSet.ReverseIterator<Key>
+    public rbegin(index: number | null = null): HashSet.ReverseIterator<Key>
     {
-        return this.end(index).reverse();
+        return this.end(index!).reverse();
     }
 
     /**
@@ -175,9 +187,9 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public rend(index: number): HashSet.ReverseIterator<Key>;
-    public rend(index: number = null): HashSet.ReverseIterator<Key>
+    public rend(index: number | null = null): HashSet.ReverseIterator<Key>
     {
-        return this.begin(index).reverse();
+        return this.begin(index!).reverse();
     }
 
     /* ---------------------------------------------------------
@@ -239,9 +251,9 @@ export class HashSet<Key>
      * @inheritDoc
      */
     public max_load_factor(z: number): void;
-    public max_load_factor(z: number = null): any
+    public max_load_factor(z: number | null = null): any
     {
-        return this.buckets_.max_load_factor(z);
+        return this.buckets_.max_load_factor(z!);
     }
 
     /**
@@ -282,7 +294,7 @@ export class HashSet<Key>
             return new Pair(it, false);
 
         // INSERT
-        this["data_"].push(key);
+        this.data_.push(key);
         it = it.prev();
 
         // POST-PROCESS
@@ -301,7 +313,7 @@ export class HashSet<Key>
         if (it.equals(this.end()) === true)
         {
             // INSERT
-            it = this["data_"].insert(hint, key);
+            it = this.data_.insert(hint, key);
 
             // POST-PROCESS
             this._Handle_insert(it, it.next());
@@ -312,7 +324,7 @@ export class HashSet<Key>
     /**
      * @hidden
      */
-    protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         //--------
@@ -329,7 +341,7 @@ export class HashSet<Key>
                 continue;
             
             // INSERTS
-            this["data_"].push(first.value);
+            this.data_.push(first.value);
         }
         my_first = my_first.next();
         

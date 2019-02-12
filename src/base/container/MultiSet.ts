@@ -40,12 +40,12 @@ export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
 	 * @param first Input iterator of the first position.
 	 * @param last Input iteartor of the last position.
 	 */
-	public insert<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
 		(begin: InputIterator, end: InputIterator): void;
 
 	public insert(...args: any[]): any
 	{
-		return super.insert.apply(this, args);
+		return (super.insert as Function)(...args);
 	}
 
 	/* ---------------------------------------------------------

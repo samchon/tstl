@@ -129,10 +129,10 @@ export function inclusive_scan<T,
     (
         first: InputIterator, last: InputIterator, output: OutputIterator,
         op: BinaryOperator<T> = <any>plus,
-        init: T = undefined
+        init?: T
     ): OutputIterator
 {
-    return transform_inclusive_scan(first, last, output, op, _Capsule, init);
+    return transform_inclusive_scan<T, T, InputIterator, OutputIterator>(first, last, output, op, _Capsule, init);
 }
 
 export function exclusive_scan<T,
@@ -154,7 +154,7 @@ export function transform_inclusive_scan<T, Ret,
         first: InputIterator, last: InputIterator, output: OutputIterator,
         binary: BinaryOperator<Ret>,
         unary: (val: T) => Ret,
-        init: T = undefined
+        init?: T
     ): OutputIterator
 {
     if (first.equals(last))
@@ -227,7 +227,7 @@ function _Capsule<X, Ret extends X = X>(x: X): Ret
 function _Initialize<T, 
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
         OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-    (first: InputIterator, output: OutputIterator, init: T = undefined)
+    (first: InputIterator, output: OutputIterator, init?: T)
         : [InputIterator, OutputIterator, T]
 {
     return _Transform_initialize<T, T, InputIterator, OutputIterator>(first, output, _Capsule, init);
@@ -239,7 +239,7 @@ function _Initialize<T,
 function _Transform_initialize<T, Ret,
         InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
         OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
-    (first: InputIterator, output: OutputIterator, unary: (val: T) => Ret, init: T = undefined)
+    (first: InputIterator, output: OutputIterator, unary: (val: T) => Ret, init?: T)
         : [InputIterator, OutputIterator, Ret]
 {
     // WRITE THE FIRST OR INITIAL VALUE

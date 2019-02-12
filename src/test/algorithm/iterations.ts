@@ -19,7 +19,7 @@ function _Test_for_of_iterations(): void
 	items.assign(1000, 1.5);
 
 	let sum: number = 0;
-	let fn = function (val: number): void
+	let fn = (val: number): void =>
 	{
 		sum += val;
 	};
@@ -36,22 +36,22 @@ function _Test_union_of_iterations(): void
 	let items = new std.Vector<number>([2, 3, 4]);
 	let flags = new std.Vector<boolean>
 	([
-		std.all_of(items.begin(), items.end(), function (val: number): boolean
+		std.all_of(items.begin(), items.end(), (val: number): boolean =>
 		{
 			return val > 1.0;	
 		}),
-		std.any_of(items.begin(), items.end(), function (val: number): boolean
+		std.any_of(items.begin(), items.end(), (val: number): boolean =>
 		{
 			return val === 2.0;
 		}),
-		std.none_of(items.begin(), items.end(), function (val: number): boolean
+		std.none_of(items.begin(), items.end(), (val: number): boolean =>
 		{
 			return val !== Math.floor(val);
 		})
 	]);
 
 	let ret: boolean = 
-		std.all_of(flags.begin(), flags.end(), function (flag: boolean): boolean
+		std.all_of(flags.begin(), flags.end(), (flag: boolean) =>
 		{
 			return flag;
 		});

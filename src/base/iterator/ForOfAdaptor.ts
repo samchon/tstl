@@ -41,7 +41,7 @@ export class ForOfAdaptor<T, InputIterator extends Readonly<IForwardIterator<T, 
 		if (this.it_.equals(this.last_))
 			return {
 				done: true,
-				value: undefined
+				value: undefined!
 			};
 		else
 		{

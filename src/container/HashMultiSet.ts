@@ -21,7 +21,7 @@ export class HashMultiSet<Key>
     /**
      * @hidden
      */
-    private buckets_: _SetHashBuckets<Key, false, HashMultiSet<Key>>;
+    private buckets_!: _SetHashBuckets<Key, false, HashMultiSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -73,7 +73,19 @@ export class HashMultiSet<Key>
     {
         super();
 
-        _Construct.bind(this, HashMultiSet, _SetHashBuckets)(...args);
+        _Construct<Key, Key, 
+                HashMultiSet<Key>,
+                HashMultiSet.Iterator<Key>,
+                HashMultiSet.ReverseIterator<Key>,
+                Key>
+        (
+            this, HashMultiSet, 
+            (hash, pred) =>
+            {
+                this.buckets_ = new _SetHashBuckets(this, hash, pred);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -98,7 +110,7 @@ export class HashMultiSet<Key>
         super.swap(obj);
 
         // SWAP BUCKETS
-        [this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+        _SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -143,7 +155,7 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public begin(index: number): HashMultiSet.Iterator<Key>;
-    public begin(index: number = null): HashMultiSet.Iterator<Key>
+    public begin(index: number | null = null): HashMultiSet.Iterator<Key>
     {
         if (index === null)
             return super.begin();
@@ -159,7 +171,7 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public end(index: number): HashMultiSet.Iterator<Key>
-    public end(index: number = null): HashMultiSet.Iterator<Key>
+    public end(index: number | null = null): HashMultiSet.Iterator<Key>
     {
         if (index === null)
             return super.end();
@@ -178,9 +190,9 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public rbegin(index: number): HashMultiSet.ReverseIterator<Key>;
-    public rbegin(index: number = null): HashMultiSet.ReverseIterator<Key>
+    public rbegin(index: number | null = null): HashMultiSet.ReverseIterator<Key>
     {
-        return this.end(index).reverse();
+        return this.end(index!).reverse();
     }
 
     /**
@@ -191,9 +203,9 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public rend(index: number): HashMultiSet.ReverseIterator<Key>;
-    public rend(index: number = null): HashMultiSet.ReverseIterator<Key>
+    public rend(index: number | null = null): HashMultiSet.ReverseIterator<Key>
     {
-        return this.begin(index).reverse();
+        return this.begin(index!).reverse();
     }
 
     /* ---------------------------------------------------------
@@ -255,9 +267,9 @@ export class HashMultiSet<Key>
      * @inheritDoc
      */
     public max_load_factor(z: number): void;
-    public max_load_factor(z: number = null): any
+    public max_load_factor(z: number | null = null): any
     {
-        return this.buckets_.max_load_factor(z);
+        return this.buckets_.max_load_factor(z!);
     }
 
     /**
@@ -300,7 +312,7 @@ export class HashMultiSet<Key>
     protected _Insert_by_key(key: Key): HashMultiSet.Iterator<Key>
     {
         // INSERT
-        let it = this["data_"].insert(this["data_"].end(), key);
+        let it = this.data_.insert(this.data_.end(), key);
 
         this._Handle_insert(it, it.next()); // POST-PROCESS
         return it;
@@ -312,7 +324,7 @@ export class HashMultiSet<Key>
     protected _Insert_by_hint(hint: HashMultiSet.Iterator<Key>, key: Key): HashMultiSet.Iterator<Key>
     {
         // INSERT
-        let it = this["data_"].insert(hint, key);
+        let it = this.data_.insert(hint, key);
 
         // POST-PROCESS
         this._Handle_insert(it, it.next());
@@ -323,11 +335,11 @@ export class HashMultiSet<Key>
     /**
      * @hidden
      */
-    protected _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         // INSERT ELEMENTS
-        let my_first = this["data_"].insert(this["data_"].end(), first, last);
+        let my_first = this.data_.insert(this.data_.end(), first, last);
 
         // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
         if (this.size() > this.buckets_.capacity())

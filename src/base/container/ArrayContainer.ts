@@ -16,7 +16,7 @@ import { RangeError } from "../../exception/RuntimeError";
  * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, SourceT>>
-	extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
+	extends Container<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>, T>
 	implements ILinearContainer<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 {
 	/**
@@ -74,12 +74,12 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	 * @inheritDoc
 	 */
 	public front(val: T): void;
-	public front(val: T = undefined): T | void
+	public front(val?: T): T | void
 	{
-		if (val === undefined)
+		if (arguments.length === 0)
 			return this.at(0);
 		else
-			this.set(0, val);
+			this.set(0, val!);
 	}
 
 	/**
@@ -90,13 +90,13 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	 * @inheritDoc
 	 */
 	public back(val: T): void;
-	public back(val: T = undefined): T | void
+	public back(val?: T): T | void
 	{
 		let index: number = this.size() - 1;
-		if (val === undefined)
+		if (arguments.length === 0)
 			return this.at(index);
 		else
-			this.set(index, val);
+			this.set(index, val!);
 	}
 
 	/* =========================================================
@@ -123,7 +123,7 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	/**
 	 * @inheritDoc
 	 */
-	public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(pos: ArrayIterator<T, SourceT>, first: InputIterator, last: InputIterator): ArrayIterator<T, SourceT>;
 	
 	public insert(pos: ArrayIterator<T, SourceT>, ...args: any[]): ArrayIterator<T, SourceT>
@@ -159,7 +159,7 @@ export abstract class ArrayContainer<T, SourceT extends ArrayContainer<T, Source
 	/**
 	 * @hidden
 	 */
-	protected abstract _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(pos: ArrayIterator<T, SourceT>, first: InputIterator, last: InputIterator): ArrayIterator<T, SourceT>;
 
 	/* ---------------------------------------------------------

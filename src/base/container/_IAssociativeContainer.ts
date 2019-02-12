@@ -1,10 +1,19 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
+import { IContainer } from "./IContainer";
+import { Iterator } from "../iterator/Iterator";
+import { ReverseIterator } from "../iterator/ReverseIterator";
+
 /**
  * @hidden
  */
-export interface _IAssociativeContainer<Key, Iterator>
+export interface _IAssociativeContainer<Key, T extends Elem, 
+		SourceT extends _IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem>
+	extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
 	/**
 	 * Get iterator to element.
@@ -12,7 +21,7 @@ export interface _IAssociativeContainer<Key, Iterator>
 	 * @param key Key to search for.
 	 * @return An iterator to the element, if the specified key is found, otherwise `this.end()`.
 	 */
-	find(key: Key): Iterator;
+	find(key: Key): IteratorT;
 
 	/**
 	 * Test whether a key exists.
@@ -37,14 +46,29 @@ export interface _IAssociativeContainer<Key, Iterator>
 	 * @return Number of erased elements.
 	 */
 	erase(key: Key): number;
+
+	/**
+	 * @inheritDoc
+	 */
+	erase(pos: IteratorT): IteratorT;
+
+	/**
+	 * @inheritDoc
+	 */
+	erase(first: IteratorT, last: IteratorT): IteratorT;
 }
 
 /**
  * @hidden
  */
-export function _Fetch_arguments(...args: any[])
+export function _Fetch_arguments<Key, T extends Elem, 
+		SourceT extends _IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem>
+	(source: SourceT, ...args: any[])
 {
-	let ramda: ()=>void;
+	let ramda: (()=>void) | null;
 	let tail: any[];
 
 	if (args.length >= 1 && args[0] instanceof Array)
@@ -52,8 +76,8 @@ export function _Fetch_arguments(...args: any[])
 		// INITIALIZER LIST CONSTRUCTOR
 		ramda = () =>
 		{
-			let items: Array<any> = args[0];
-			this.push(...items);
+			let items: Elem[] = args[0];
+			source.push(...items);
 		};
 		tail = args.slice(1);
 	}
@@ -62,10 +86,10 @@ export function _Fetch_arguments(...args: any[])
 		// RANGE CONSTRUCTOR
 		ramda = () =>
 		{
-			let first: any = args[0];
-			let last: any = args[1];
+			let first: IteratorT = args[0];
+			let last: IteratorT = args[1];
 
-			this.assign(first, last);
+			source.assign(first, last);
 		};
 		tail = args.slice(2);
 	}

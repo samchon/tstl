@@ -13,3 +13,14 @@ export interface IPointer<T>
 	 */
 	value: T;
 }
+
+export namespace IPointer
+{
+	/**
+	 * Inference of Value Type.
+	 */
+	export type ValueType<Pointer extends IPointer<any>> = 
+		Pointer extends IPointer<infer T>
+			? T
+			: any;
+}

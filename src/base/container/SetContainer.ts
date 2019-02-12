@@ -20,13 +20,18 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 	extends Container<Key, 
 		Source, 
 		SetIterator<Key, Unique, Source>, 
-		SetReverseIterator<Key, Unique, Source>>
-	implements _IAssociativeContainer<Key, SetIterator<Key, Unique, Source>>
+		SetReverseIterator<Key, Unique, Source>,
+		Key>
+	implements _IAssociativeContainer<Key, Key,
+		Source,
+		SetIterator<Key, Unique, Source>,
+		SetReverseIterator<Key, Unique, Source>,
+		Key>
 {
 	/**
 	 * @hidden
 	 */
-	private data_: _SetElementList<Key, Unique, Source>;
+	protected data_: _SetElementList<Key, Unique, Source>;
 	
 	/* ---------------------------------------------------------
 		CONSTURCTORS
@@ -44,7 +49,7 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 	/**
 	 * @inheritDoc
 	 */
-	public assign<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public assign<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void
 	{
 		// INSERT
@@ -142,7 +147,7 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 	
 	public insert(key: Key): SetContainer.InsertRet<Key, Unique, Source>;
 	public insert(hint: SetIterator<Key, Unique, Source>, key: Key): SetIterator<Key, Unique, Source>;
-	public insert<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	public insert(...args: any[]): any
@@ -168,7 +173,7 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 	/**
 	 * @hidden
 	 */
-	protected abstract _Insert_by_range<U extends Key, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
 		(begin: InputIterator, end: InputIterator): void;
 
 	/* ---------------------------------------------------------
@@ -178,18 +183,20 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 	 * @inheritDoc
 	 */
 	public erase(key: Key): number;
+
 	/**
 	 * @inheritDoc
 	 */
-	public erase(it: SetIterator<Key, Unique, Source>): SetIterator<Key, Unique, Source>;
+	public erase(pos: SetIterator<Key, Unique, Source>): SetIterator<Key, Unique, Source>;
+
 	/**
 	 * @inheritDoc
 	 */
-	public erase(begin: SetIterator<Key, Unique, Source>, end: SetIterator<Key, Unique, Source>): SetIterator<Key, Unique, Source>;
+	public erase(first: SetIterator<Key, Unique, Source>, last: SetIterator<Key, Unique, Source>): SetIterator<Key, Unique, Source>;
 
 	public erase(...args: any[]): any
 	{
-		if (args.length === 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<Key, Unique, Source>).source() as any === this))
+		if (args.length === 1 && !(args[0] instanceof SetIterator && (args[0] as SetIterator<Key, Unique, Source>).source() === <any>this))
 			return this._Erase_by_val(args[0]);
 		else if (args.length === 1)
 			return this._Erase_by_range(args[0]);
@@ -228,7 +235,7 @@ export abstract class SetContainer<Key, Unique extends boolean, Source extends S
 		[this.data_ as any, obj.data_] = [obj.data_, this.data_];
 
 		// CHANGE ITERATORS' SOURCES
-		[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+		_SetElementList._Swap_associative(this.data_, obj.data_);
 	}
 
 	/**

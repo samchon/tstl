@@ -25,7 +25,7 @@ export class HashMultiMap<Key, T>
     /**
      * @hidden
      */
-    private buckets_: _MapHashBuckets<Key, T, false, HashMultiMap<Key, T>>;
+    private buckets_!: _MapHashBuckets<Key, T, false, HashMultiMap<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -77,7 +77,19 @@ export class HashMultiMap<Key, T>
     {
         super();
 
-        _Construct.bind(this, HashMultiMap, _MapHashBuckets)(...args);
+        _Construct<Key, Entry<Key, T>, 
+                HashMultiMap<Key, T>,
+                HashMultiMap.Iterator<Key, T>,
+                HashMultiMap.ReverseIterator<Key, T>,
+                IPair<Key, T>>
+        (
+            this, HashMultiMap, 
+            (hash, pred) =>
+            {
+                this.buckets_ = new _MapHashBuckets(this, hash, pred);
+            },
+            ...args
+        );
     }
 
     /* ---------------------------------------------------------
@@ -102,7 +114,7 @@ export class HashMultiMap<Key, T>
         super.swap(obj);
 
         // SWAP BUCKETS
-        [this.buckets_["source_"], obj.buckets_["source_"]] = [obj.buckets_["source_"], this.buckets_["source_"]];
+        _MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -147,7 +159,7 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public begin(index: number): HashMultiMap.Iterator<Key, T>;
-    public begin(index: number = null): HashMultiMap.Iterator<Key, T>
+    public begin(index: number | null = null): HashMultiMap.Iterator<Key, T>
     {
         if (index === null)
             return super.begin();
@@ -163,7 +175,7 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public end(index: number): HashMultiMap.Iterator<Key, T>
-    public end(index: number = null): HashMultiMap.Iterator<Key, T>
+    public end(index: number | null = null): HashMultiMap.Iterator<Key, T>
     {
         if (index === null)
             return super.end();
@@ -182,9 +194,9 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public rbegin(index: number): HashMultiMap.ReverseIterator<Key, T>;
-    public rbegin(index: number = null): HashMultiMap.ReverseIterator<Key, T>
+    public rbegin(index: number | null = null): HashMultiMap.ReverseIterator<Key, T>
     {
-        return this.end(index).reverse();
+        return this.end(index!).reverse();
     }
 
     /**
@@ -195,9 +207,9 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public rend(index: number): HashMultiMap.ReverseIterator<Key, T>;
-    public rend(index: number = null): HashMultiMap.ReverseIterator<Key, T>
+    public rend(index: number | null = null): HashMultiMap.ReverseIterator<Key, T>
     {
-        return this.begin(index).reverse();
+        return this.begin(index!).reverse();
     }
 
     /* ---------------------------------------------------------
@@ -259,9 +271,9 @@ export class HashMultiMap<Key, T>
      * @inheritDoc
      */
     public max_load_factor(z: number): void;
-    public max_load_factor(z: number = null): any
+    public max_load_factor(z: number | null = null): any
     {
-        return this.buckets_.max_load_factor(z);
+        return this.buckets_.max_load_factor(z!);
     }
 
     /**
@@ -304,7 +316,7 @@ export class HashMultiMap<Key, T>
     public emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
     {
         // INSERT
-        let it = this["data_"].insert(this["data_"].end(), new Entry(key, val));
+        let it = this.data_.insert(this.data_.end(), new Entry(key, val));
 
         this._Handle_insert(it, it.next()); // POST-PROCESS
         return it;
@@ -316,7 +328,7 @@ export class HashMultiMap<Key, T>
     public emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
     {
         // INSERT
-        let it = this["data_"].insert(hint, new Entry(key, val));
+        let it = this.data_.insert(hint, new Entry(key, val));
 
         // POST-PROCESS
         this._Handle_insert(it, it.next());
@@ -327,7 +339,7 @@ export class HashMultiMap<Key, T>
     /**
      * @hidden
      */
-    protected _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         //--------
@@ -339,9 +351,9 @@ export class HashMultiMap<Key, T>
             entries.push(new Entry(it.value.first, it.value.second));
         
         // INSERT ELEMENTS
-        let my_first = this["data_"].insert
+        let my_first = this.data_.insert
             (
-                this["data_"].end(), 
+                this.data_.end(), 
                 new _NativeArrayIterator(entries, 0), 
                 new _NativeArrayIterator(entries, entries.length)
             );

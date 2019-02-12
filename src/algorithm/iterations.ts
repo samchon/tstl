@@ -2,6 +2,7 @@
 /** @module std */
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
+import { IPointer } from "../functional/IPointer";
 
 import { Pair } from "../utility/Pair";
 import { equal_to, less } from "../functional/comparators";
@@ -25,9 +26,9 @@ import { advance, distance } from "../iterator/global";
  * 
  * @return The function *fn* itself.
  */
-export function for_each<T,
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        Func extends (val: T) => void>
+export function for_each<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
+        Func extends (val: IPointer.ValueType<InputIterator>) => any>
     (first: InputIterator, last: InputIterator, fn: Func): Func
 {
     for (let it = first; !it.equals(last); it = it.next())
@@ -45,9 +46,9 @@ export function for_each<T,
  * 
  * @return Iterator advanced from *first* for *n* steps.
  */
-export function for_each_n<T, 
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        Func extends (val: T) => void>
+export function for_each_n<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
+        Func extends (val: IPointer.ValueType<InputIterator>) => any>
     (first: InputIterator, n: number, fn: Func): InputIterator
 {
     for (let i: number = 0; i < n; ++i)
@@ -70,8 +71,12 @@ export function for_each_n<T,
  * 
  * @return Whether the *pred* returns always `true` for all elements.
  */
-export function all_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
+export function all_of<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, 
+        last: InputIterator, 
+        pred: (val: IPointer.ValueType<InputIterator>) => boolean
+    ): boolean
 {
     for (let it = first; !it.equals(last); it = it.next())
         if (pred(it.value) === false)
@@ -89,8 +94,12 @@ export function all_of<T, InputIterator extends Readonly<IForwardIterator<T, Inp
  * 
  * @return Whether the *pred* returns at least a `true` for all elements.
  */
-export function any_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
+export function any_of<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, 
+        last: InputIterator, 
+        pred: (val: IPointer.ValueType<InputIterator>) => boolean
+    ): boolean
 {
     for (let it = first; !it.equals(last); it = it.next())
         if (pred(it.value) === true)
@@ -108,8 +117,12 @@ export function any_of<T, InputIterator extends Readonly<IForwardIterator<T, Inp
  * 
  * @return Whether the *pred* doesn't return `true` for all elements.
  */
-export function none_of<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, pred: (val: T) => boolean): boolean
+export function none_of<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, 
+        last: InputIterator, 
+        pred: (val: IPointer.ValueType<InputIterator>) => boolean
+    ): boolean
 {
     return !any_of(first, last, pred);
 }
@@ -120,16 +133,43 @@ export function none_of<T, InputIterator extends Readonly<IForwardIterator<T, In
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  * 
  * @return Whether two ranges are equal.
  */
-export function equal<T, 
-        InputIterator1 extends Readonly<IForwardIterator<T, InputIterator1>>,
-        InputIterator2 extends Readonly<IForwardIterator<T, InputIterator2>>>
+export function equal<
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>,
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>>
     (
-        first1: InputIterator1, last1: InputIterator1, first2: InputIterator2,
-        pred: (x: T, y: T) => boolean = equal_to
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2
+    ): boolean;
+
+/**
+ * Test whether two ranges are equal.
+ * 
+ * @param first1 Input iteartor of the first position of the 1st range.
+ * @param last1 Input iterator of the last position of the 1st range.
+ * @param first2 Input iterator of the first position of the 2nd range.
+ * @param pred A binary function predicates two arguments are equal.
+ * 
+ * @return Whether two ranges are equal.
+ */
+export function equal<
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>,
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2,
+        pred: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator2>) => boolean
+    ): boolean;
+
+export function equal<
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>,
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>>>
+    (
+        first1: InputIterator1, last1: InputIterator1, 
+        first2: InputIterator2,
+        pred: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator2>) => boolean = <any>equal_to
     ): boolean
 {
     while (!first1.equals(last1))
@@ -154,12 +194,13 @@ export function equal<T,
  * 
  * @return Whether the 1st range precedes the 2nd.
  */
-export function lexicographical_compare<T, 
-        Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
-        Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
+export function lexicographical_compare<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>>>
     (
-        first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
-        comp: (x: T, y: T) => boolean = less
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2, last2: Iterator2,
+        comp: (x: IPointer.ValueType<Iterator1>, y: IPointer.ValueType<Iterator1>) => boolean = less
     ): boolean
 {
     while (!first1.equals(last1))
@@ -188,8 +229,11 @@ export function lexicographical_compare<T,
  * 
  * @return Iterator to the first element {@link equal to equal_to} the value.
  */
-export function find<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, val: T): InputIterator
+export function find<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        val: IPointer.ValueType<InputIterator>
+    ): InputIterator
 {
     return find_if(first, last, elem => equal_to(elem, val));
 }
@@ -203,8 +247,11 @@ export function find<T, InputIterator extends Readonly<IForwardIterator<T, Input
  * 
  * @return Iterator to the first element *pred* returns `true`.
  */
-export function find_if<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
+export function find_if<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        pred: (val: IPointer.ValueType<InputIterator>) => boolean
+    ): InputIterator
 {
     for (let it = first; !it.equals(last); it = it.next())
         if (pred(it.value))
@@ -222,10 +269,13 @@ export function find_if<T, InputIterator extends Readonly<IForwardIterator<T, In
  * 
  * @return Iterator to the first element *pred* returns `false`.
  */
-export function find_if_not<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, pred: (val: T) => boolean): InputIterator
+export function find_if_not<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        pred: (val: IPointer.ValueType<InputIterator>) => boolean
+    ): InputIterator
 {
-    return find_if(first, last, (elem: T) => !pred(elem));
+    return find_if(first, last, elem => !pred(elem));
 }
 
 /**
@@ -235,16 +285,44 @@ export function find_if_not<T, InputIterator extends Readonly<IForwardIterator<T
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  * 
  * @return Iterator to the first element of the last sub range.
  */
-export function find_end<T, 
-        Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
-        Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
+export function find_end<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>>>
     (
-        first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2, 
-        pred: (x: T, y: T) => boolean = equal_to
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2, last2: Iterator2
+    ): Iterator1;
+
+/**
+ * Find the last sub range.
+ * 
+ * @param first1 Input iteartor of the first position of the 1st range.
+ * @param last1 Input iterator of the last position of the 1st range.
+ * @param first2 Input iterator of the first position of the 2nd range.
+ * @param last2 Input iterator of the last position of the 2nd range.
+ * @param pred A binary function predicates two arguments are equal.
+ * 
+ * @return Iterator to the first element of the last sub range.
+ */
+export function find_end<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>>>
+    (
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2, last2: Iterator2, 
+        pred: (x: IPointer.ValueType<Iterator1>, y: IPointer.ValueType<Iterator2>) => boolean
+    ): Iterator1;
+
+export function find_end<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>>>
+    (
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2, last2: Iterator2, 
+        pred: (x: IPointer.ValueType<Iterator1>, y: IPointer.ValueType<Iterator2>) => boolean = <any>equal_to
     ): Iterator1
 {
     if (first2.equals(last2))
@@ -281,21 +359,49 @@ export function find_end<T,
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  * 
  * @return Iterator to the first element of the first sub range.
  */
-export function find_first_of<T, 
-        Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
-        Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
+export function find_first_of<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>>>
     (
-        first1: Iterator1, last1: Iterator1, first2: Iterator2, last2: Iterator2,
-        pred: (x: T, y: T) => boolean = equal_to
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2, last2: Iterator2
+    ): Iterator1;
+
+/**
+ * Find the first sub range.
+ * 
+ * @param first1 Input iteartor of the first position of the 1st range.
+ * @param last1 Input iterator of the last position of the 1st range.
+ * @param first2 Input iterator of the first position of the 2nd range.
+ * @param last2 Input iterator of the last position of the 2nd range.
+ * @param pred A binary function predicates two arguments are equal.
+ * 
+ * @return Iterator to the first element of the first sub range.
+ */
+export function find_first_of<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>>>
+    (
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2, last2: Iterator2,
+        pred: (x: IPointer.ValueType<Iterator1>, y: IPointer.ValueType<Iterator2>) => boolean
+    ): Iterator1;
+
+export function find_first_of<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>>>
+    (
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2, last2: Iterator2,
+        pred: (x: IPointer.ValueType<Iterator1>, y: IPointer.ValueType<Iterator2>) => boolean = <any>equal_to
     ): Iterator1
 {
     for (; !first1.equals(last1); first1 = first1.next())
         for (let it = first2; !it.equals(last2); it = it.next())
-            if (pred(it.value, first1.value))
+            if (pred(first1.value, it.value))
                 return first1;
 
     return last1;
@@ -310,8 +416,11 @@ export function find_first_of<T,
  * 
  * @return Iterator to the first element of adjacent find.
  */
-export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, pred: (x: T, y: T) => boolean = equal_to): InputIterator
+export function adjacent_find<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        pred: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = equal_to
+    ): InputIterator
 {
     if (!first.equals(last))
     {
@@ -329,6 +438,7 @@ export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator
     return last;
 }
 
+
 /**
  * Search sub range.
  * 
@@ -336,16 +446,44 @@ export function adjacent_find<T, InputIterator extends Readonly<IForwardIterator
  * @param last1 Forward iterator of the last position of the 1st range.
  * @param first2 Forward iterator of the first position of the 2nd range.
  * @param last2 Forward iterator of the last position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  * 
  * @return Iterator to the first element of the sub range.
  */
-export function search<T, 
-        ForwardIterator1 extends Readonly<IForwardIterator<T, ForwardIterator1>>, 
-        ForwardIterator2 extends Readonly<IForwardIterator<T, ForwardIterator2>>>
+export function search<
+        ForwardIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>>, 
+        ForwardIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator2>>>
     (
-        first1: ForwardIterator1, last1: ForwardIterator1, first2: ForwardIterator2, last2: ForwardIterator2,
-        pred: (x: T, y: T) => boolean = equal_to
+        first1: ForwardIterator1, last1: ForwardIterator1, 
+        first2: ForwardIterator2, last2: ForwardIterator2
+    ): ForwardIterator1;
+
+/**
+ * Search sub range.
+ * 
+ * @param first1 Forward iteartor of the first position of the 1st range.
+ * @param last1 Forward iterator of the last position of the 1st range.
+ * @param first2 Forward iterator of the first position of the 2nd range.
+ * @param last2 Forward iterator of the last position of the 2nd range.
+ * @param pred A binary function predicates two arguments are equal.
+ * 
+ * @return Iterator to the first element of the sub range.
+ */
+export function search<
+        ForwardIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>>, 
+        ForwardIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator2>, ForwardIterator2>>>
+    (
+        first1: ForwardIterator1, last1: ForwardIterator1, 
+        first2: ForwardIterator2, last2: ForwardIterator2,
+        pred: (x: IPointer.ValueType<ForwardIterator1>, y: IPointer.ValueType<ForwardIterator2>) => boolean
+    ): ForwardIterator1;
+
+export function search<
+        ForwardIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>>, 
+        ForwardIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator2>, ForwardIterator2>>>
+    (
+        first1: ForwardIterator1, last1: ForwardIterator1, 
+        first2: ForwardIterator2, last2: ForwardIterator2,
+        pred: (x: IPointer.ValueType<ForwardIterator1>, y: IPointer.ValueType<ForwardIterator2>) => boolean = <any>equal_to
     ): ForwardIterator1
 {
     if (first2.equals(last2))
@@ -381,10 +519,11 @@ export function search<T,
  * 
  * @return Iterator to the first element of the repetition.
  */
-export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T, ForwardIterator>>>
+export function search_n<ForwardIterator extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
     (
-        first: ForwardIterator, last: ForwardIterator, count: number, val: T, 
-        pred: (x: T, y: T) => boolean = equal_to
+        first: ForwardIterator, last: ForwardIterator, 
+        count: number, val: IPointer.ValueType<ForwardIterator>, 
+        pred: (x: IPointer.ValueType<ForwardIterator>, y: IPointer.ValueType<ForwardIterator>) => boolean = equal_to
     ): ForwardIterator
 {
     let limit: ForwardIterator = advance(first, distance(first, last) - count);
@@ -411,16 +550,43 @@ export function search_n<T, ForwardIterator extends Readonly<IForwardIterator<T,
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  * 
  * @return A {@link Pair} of mismatched positions.
  */
-export function mismatch<T, 
-        Iterator1 extends Readonly<IForwardIterator<T, Iterator1>>, 
-        Iterator2 extends Readonly<IForwardIterator<T, Iterator2>>>
+export function mismatch<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>>>
     (
-        first1: Iterator1, last1: Iterator1, first2: Iterator2,
-        pred: (x: T, y: T) => boolean = equal_to
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2
+    ): Pair<Iterator1, Iterator2>;
+
+/**
+ * Find the first mistmached position between two ranges.
+ * 
+ * @param first1 Input iteartor of the first position of the 1st range.
+ * @param last1 Input iterator of the last position of the 1st range.
+ * @param first2 Input iterator of the first position of the 2nd range.
+ * @param pred A binary function predicates two arguments are equal.
+ * 
+ * @return A {@link Pair} of mismatched positions.
+ */
+export function mismatch<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>>>
+    (
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2,
+        pred: (x: IPointer.ValueType<Iterator1>, y: IPointer.ValueType<Iterator2>) => boolean
+    ): Pair<Iterator1, Iterator2>;
+
+export function mismatch<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>>>
+    (
+        first1: Iterator1, last1: Iterator1, 
+        first2: Iterator2,
+        pred: (x: IPointer.ValueType<Iterator1>, y: IPointer.ValueType<Iterator2>) => boolean = <any>equal_to
     ): Pair<Iterator1, Iterator2>
 {
     while (!first1.equals(last1) && pred(first1.value, first2.value))
@@ -443,8 +609,11 @@ export function mismatch<T,
  * 
  * @return The matched count.
  */
-export function count<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, val: T): number
+export function count<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        val: IPointer.ValueType<InputIterator>
+    ): number
 {
     return count_if(first, last, elem => equal_to(elem, val));
 }
@@ -458,8 +627,11 @@ export function count<T, InputIterator extends Readonly<IForwardIterator<T, Inpu
  * 
  * @return The matched count.
  */
-export function count_if<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, pred: (val: T) => boolean): number
+export function count_if<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        pred: (val: IPointer.ValueType<InputIterator>) => boolean
+    ): number
 {
     let ret: number = 0;
 

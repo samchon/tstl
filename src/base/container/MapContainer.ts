@@ -22,13 +22,18 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	extends Container<Entry<Key, T>,
 		Source,
 		MapIterator<Key, T, Unique, Source>,
-		MapReverseIterator<Key, T, Unique, Source>>
-	implements _IAssociativeContainer<Key, MapIterator<Key, T, Unique, Source>>
+		MapReverseIterator<Key, T, Unique, Source>,
+		IPair<Key, T>>
+	implements _IAssociativeContainer<Key, Entry<Key, T>,
+		Source, 
+		MapIterator<Key, T, Unique, Source>,
+		MapReverseIterator<Key, T, Unique, Source>,
+		IPair<Key, T>>
 {
 	/**
 	 * @hidden
 	 */
-	private data_: _MapElementList<Key, T, Unique, Source>;
+	protected data_: _MapElementList<Key, T, Unique, Source>;
 
 	/* ---------------------------------------------------------
 		CONSTURCTORS
@@ -40,13 +45,13 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	{
 		super();
 		
-		this.data_ = new _MapElementList(<any>this);
+		this.data_ = new _MapElementList(this as any);
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
-	public assign<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
+	public assign<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void
 	{
 		// INSERT
@@ -144,7 +149,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 
 	public insert(pair: IPair<Key, T>): MapContainer.InsertRet<Key, T, Unique, Source>;
 	public insert(hint: MapIterator<Key, T, Unique, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Unique, Source>;
-	public insert<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	public insert(...args: any[]): any
@@ -160,7 +165,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @hidden
 	 */
-	protected abstract _Insert_by_range<L extends Key, U extends T, InputIterator extends Readonly<IForwardIterator<IPair<L, U>, InputIterator>>>
+	protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	/* ---------------------------------------------------------
@@ -223,7 +228,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 		[this.data_, obj.data_] = [obj.data_, this.data_];
 
 		// CHANGE ITERATORS' SOURCES
-		[this.data_["associative_"], obj.data_["associative_"]] = [obj.data_["associative_"], this.data_["associative_"]];
+		_MapElementList._Swap_associative(this.data_, obj.data_);
 	}
 
 	/**

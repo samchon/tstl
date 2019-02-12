@@ -16,7 +16,8 @@ export class SetIterator<Key, Unique extends boolean, Source extends SetContaine
 	extends ListIterator<Key, 
 		Source, 
 		SetIterator<Key, Unique, Source>, 
-		SetReverseIterator<Key, Unique, Source>>
+		SetReverseIterator<Key, Unique, Source>,
+		Key>
 {
 	/**
 	 * @hidden
@@ -65,7 +66,8 @@ export class SetReverseIterator<Key, Unique extends boolean, Source extends SetC
 	extends ReverseIterator<Key, 
 		Source, 
 		SetIterator<Key, Unique, Source>, 
-		SetReverseIterator<Key, Unique, Source>>
+		SetReverseIterator<Key, Unique, Source>,
+		Key>
 {
 	/* ---------------------------------------------------------
 		CONSTRUCTORS

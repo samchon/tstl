@@ -75,7 +75,7 @@ export class List<T>
 
         // DECLARE SOURCE POINTER
         this.ptr_ = {value: this};
-        this["end_"]["source_ptr_"] = this.ptr_;
+        List.Iterator._Set_source_ptr(this.end_, this.ptr_);
 
         //----
         // BRANCHES
@@ -110,6 +110,46 @@ export class List<T>
     {
         return new List.Iterator<T>(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
     }
+
+    /* ---------------------------------------------------------------
+        DEQUE ACCESSORS
+    --------------------------------------------------------------- */
+    /**
+	 * @inheritDoc
+	 */
+    public front(): T;
+    
+	/**
+	 * @inheritDoc
+	 */
+    public front(val: T): void;
+    
+	public front(val?: T): T | void
+	{
+		if (arguments.length === 0)
+			return this.begin_.value;
+		else
+			this.begin_.value = val!;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+    public back(): T;
+    
+	/**
+	 * @inheritDoc
+	 */
+    public back(val: T): void;
+    
+	public back(val?: T): T | void
+	{
+		let it = this.end().prev();
+		if (arguments.length === 0)
+			return it.value;
+		else
+			it.value = val!;
+	}
 
     /* ===============================================================
         ALGORITHMS
@@ -165,7 +205,7 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public merge<U extends T>(source: List<U>, comp: (x: T, y: T) => boolean = less): void
+    public merge(source: List<T>, comp: (x: T, y: T) => boolean = less): void
     {
         if (this === <List<T>>source)
             return;
@@ -188,7 +228,7 @@ export class List<T>
      * @param pos Position to insert.
      * @param from Target container to transfer.
      */
-    public splice<U extends T>(pos: List.Iterator<T>, from: List<U>): void;
+    public splice(pos: List.Iterator<T>, from: List<T>): void;
     
     /**
      * Transfer a single element.
@@ -197,7 +237,7 @@ export class List<T>
      * @param from Target container to transfer.
      * @param it Position of the single element to transfer.
      */
-    public splice<U extends T>(pos: List.Iterator<T>, from: List<U>, it: List.Iterator<U>): void;
+    public splice(pos: List.Iterator<T>, from: List<T>, it: List.Iterator<T>): void;
     
     /**
      * Transfer range elements.
@@ -209,21 +249,19 @@ export class List<T>
      */
     public splice(pos: List.Iterator<T>, from: List<T>, first: List.Iterator<T>, last: List.Iterator<T>): void;
 
-    public splice<U extends T>
+    public splice
         (
-            pos: List.Iterator<T>, obj: List<U>, 
-            first: List.Iterator<U> = null, last: List.Iterator<U> = null
+            pos: List.Iterator<T>, obj: List<T>, 
+            first?: List.Iterator<T>, last?: List.Iterator<T>
         ): void
     {
-        if (first === null)
+        if (first === undefined)
         {
             first = obj.begin();
             last = obj.end();
         }
-        else if (last === null)
-        {
+        else if (last === undefined)
             last = first.next();
-        }
 
         this.insert(pos, first, last);
         obj.erase(first, last);
@@ -267,11 +305,11 @@ export class List<T>
             if (comp(it.value, standard))
             {
                 prev = prev.equals(this.end()) ? first : prev.next();
-                [prev["value_"], it["value_"]] = [it["value_"], prev["value_"]];
+                [prev.value, it.value] = [it.value, prev.value];
             }
 
         prev = prev.equals(this.end()) ? first : prev.next();
-        [prev["value_"], it["value_"]] = [it["value_"], prev["value_"]];
+        [prev.value, it.value] = [it.value, prev.value];
     
         return prev;
     }
@@ -281,21 +319,24 @@ export class List<T>
      */
     public reverse(): void
     {
-        let begin: List.Iterator<T> = this.end().prev();
+        let begin: List.Iterator<T> = this.end_.prev();
         let prev_of_end: List.Iterator<T> = this.begin();
 
         for (let it = this.begin(); !it.equals(this.end()); )
         {
+            let prev = it.prev();
             let next = it.next();
-            [it["prev_"], it["next_"]] = [it["next_"], it["prev_"]];
+
+            List.Iterator._Set_prev(it, next);
+            List.Iterator._Set_next(it, prev);
 
             it = next;
         }
         
         // ADJUST THE BEGIN AND END
-        this["begin_"] = begin; // THE NEW BEGIN
-        this.end()["prev_"] = prev_of_end;
-        this.end()["next_"] = begin;
+        this.begin_ = begin; // THE NEW BEGIN
+        List.Iterator._Set_prev(this.end_, prev_of_end);
+        List.Iterator._Set_next(this.end_, begin);
     }
     
     /**
@@ -320,7 +361,7 @@ export namespace List
      * @author Jeongho Nam <http://samchon.org>
      */
     export class Iterator<T>
-        extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>>
+        extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>, T>
     {
         /**
          * @hidden
@@ -347,6 +388,14 @@ export namespace List
             return new ReverseIterator(this);
         }
 
+        /**
+         * @internal
+         */
+        public static _Set_source_ptr<T>(it: Iterator<T>, ptr: IPointer<List<T>>): void
+        {
+            it.source_ptr_ = ptr;
+        }
+
         /* ---------------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------------- */
@@ -363,7 +412,7 @@ export namespace List
          */
         public get value(): T
         {
-            return this["value_"];
+            return this.value_;
         }
 
         /**
@@ -371,7 +420,7 @@ export namespace List
          */
         public set value(val: T)
         {
-            this["value_"] = val;
+            this.value_ = val;
         }
 
         /* ---------------------------------------------------------------
@@ -389,7 +438,7 @@ export namespace List
      * @author Jeongho Nam <http://samchon.org>
      */
     export class ReverseIterator<T>
-        extends ReverseIteratorBase<T, List<T>, Iterator<T>, ReverseIterator<T>>
+        extends ReverseIteratorBase<T, List<T>, Iterator<T>, ReverseIterator<T>, T>
     {
         /* ---------------------------------------------------------------
             CONSTRUCTORS

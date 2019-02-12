@@ -25,9 +25,9 @@ export class ErrorCondition extends ErrorInstance
 	 */
 	public constructor(val: number, category: ErrorCategory);
 
-	public constructor(val: number = 0, category: ErrorCategory = null)
+	public constructor(val: number = 0, category: ErrorCategory | null = null)
 	{
-		super(val, category);
+		super(val, category!);
 	}
 }
 

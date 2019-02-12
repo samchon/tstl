@@ -4,19 +4,18 @@
 import { SetContainer } from "./SetContainer";
 import { _ITreeContainer } from "./_ITreeContainer";
 
-import { SetIterator } from "../iterator/SetIterator";
+import { SetIterator, SetReverseIterator } from "../iterator/SetIterator";
 
 /**
- * @hidden
+ * Common interface for Tree Sets.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
-export interface ITreeSet<T, Unique extends boolean, Source extends SetContainer<T, Unique, Source>>
+export interface ITreeSet<T, Unique extends boolean, Source extends ITreeSet<T, Unique, Source>>
 	extends SetContainer<T, Unique, Source>, 
-		_ITreeContainer<T, SetIterator<T, Unique, Source>>
+		_ITreeContainer<T, T, 
+			Source, 
+			SetIterator<T, Unique, Source>, 
+			SetReverseIterator<T, Unique, Source>, T>
 {
-	/**
-	 * Get value comparison function.
-	 * 
-	 * @return The value comparison function.
-	 */
-	value_comp(): (x: T, y: T) => boolean;
 }

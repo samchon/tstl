@@ -1,5 +1,6 @@
 import * as std from "../../index";
 
+import { _ISemaphore } from "../../base/thread/_ISemaphore";
 import { _Test_lock, _Test_try_lock } from "./mutexes";
 
 const SIZE = 4;
@@ -16,7 +17,7 @@ export async function test_semaphores(): Promise<void>
 	await _Test_timed_semaphore(ts);
 }
 
-async function _Test_semaphore(name: string, s: std.experimental.Semaphore): Promise<void>
+async function _Test_semaphore(name: string, s: _ISemaphore): Promise<void>
 {
 	let acquired_count: number = 0;
 	
@@ -54,7 +55,7 @@ async function _Test_semaphore(name: string, s: std.experimental.Semaphore): Pro
 async function _Test_timed_semaphore(ts: std.experimental.TimedSemaphore): Promise<void>
 {
 	// COMMON TEST
-	_Test_semaphore("timed_semaphore", <any>ts);
+	_Test_semaphore("timed_semaphore", ts);
 
 	// TRY LOCK FIRST
 	let flag: boolean = await ts.try_lock_for(0, SIZE / 2);

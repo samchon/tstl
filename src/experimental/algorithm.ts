@@ -1,8 +1,9 @@
 //================================================================ 
 /** @module std.experimental */
 //================================================================
-import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
+import { IPointer } from "../functional";
 import { IForwardIterator } from "../iterator";
+import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
 
 import { ArrayContainer } from "../base";
 import { remove_if } from "../algorithm";
@@ -14,14 +15,13 @@ import { equal_to } from "../functional/comparators";
  * @param container Container to erase matched elements.
  * @param val Value to erase.
  */
-export function erase<T, 
-        Container extends IContainer<T, Iterator>, 
-        Iterator extends Readonly<IForwardIterator<T, Iterator>>>
-    (container: Container, val: T): void;
+export function erase<
+        Container extends IContainer<Iterator>, 
+        Iterator extends Readonly<IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>>
+    (container: Container, val: IPointer.ValueType<Iterator>): void;
 
-export function erase<T, 
-        Container extends Pick<_IListAlgorithm<T, Container>, "remove_if">>
-    (contaier: Container, val: T): void;
+export function erase<Container extends Pick<_IListAlgorithm<_IListAlgorithm.ValueType<Container>, Container>, "remove_if">>
+    (contaier: Container, val: _IListAlgorithm.ValueType<Container>): void;
 
 export function erase<T>(container: any, val: T): void
 {
@@ -34,14 +34,13 @@ export function erase<T>(container: any, val: T): void
  * @param container Container to erase special elements.
  * @param predicator A predicator to detect the speicality.
  */
-export function erase_if<T, 
-        Container extends IContainer<T, Iterator>, 
-        Iterator extends Readonly<IForwardIterator<T, Iterator>>>
-    (container: Container, predicator: (val: T)=>boolean): void;
+export function erase_if<
+        Container extends IContainer<Iterator>, 
+        Iterator extends Readonly<IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>>
+    (container: Container, predicator: (val: IPointer.ValueType<Iterator>)=>boolean): void;
 
-export function erase_if<T, 
-        Container extends Pick<_IListAlgorithm<T, Container>, "remove_if">>
-    (contaier: Container, predicator: (val: T)=>boolean): void;
+export function erase_if<Container extends Pick<_IListAlgorithm<_IListAlgorithm.ValueType<Container>, Container>, "remove_if">>
+    (contaier: Container, predicator: (val: _IListAlgorithm.ValueType<Container>)=>boolean): void;
 
 export function erase_if<T>(container: any, predicator: (val: T)=>boolean): void
 {
@@ -65,7 +64,7 @@ export function erase_if<T>(container: any, predicator: (val: T)=>boolean): void
 /**
  * @hidden
  */
-interface IContainer<T, Iterator extends Readonly<IForwardIterator<T, Iterator>>>
+interface IContainer<Iterator extends Readonly<IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>>
 {
     begin(): Iterator;
     end(): Iterator;

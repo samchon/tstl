@@ -28,6 +28,9 @@ export function get_uid(obj: Object): number
 	return (obj as IObject).__get_m_iUID();
 }
 
+/**
+ * @hidden
+ */
 interface IObject
 {
 	readonly __get_m_iUID: () => number;

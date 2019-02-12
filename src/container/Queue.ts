@@ -27,12 +27,12 @@ export class Queue<T>
      */
     public constructor(obj: Queue<T>);
 
-    public constructor(obj: Queue<T> = null)
+    public constructor(obj?: Queue<T>)
     {
         super();
 
         this.source_ = new List();
-        if (obj !== null)
+        if (obj !== undefined)
             this.source_.assign(obj.source_.begin(), obj.source_.end());
     }
 

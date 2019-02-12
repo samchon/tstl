@@ -6,13 +6,16 @@ import { Iterator } from "./Iterator";
 import { ReverseIterator } from "./ReverseIterator";
 
 /**
- * @hidden
+ * Basic List Iterator.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class ListIterator<T, 
-		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
-		IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-	implements Readonly<Iterator<T, SourceT, IteratorT, ReverseIteratorT>>
+export abstract class ListIterator<T extends Elem, 
+		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem>
+	implements Readonly<Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>>
 {
 	/**
 	 * @hidden
@@ -27,8 +30,11 @@ export abstract class ListIterator<T,
 	/**
 	 * @hidden
 	 */
-	private value_: T;
+	protected value_: T;
 
+	/* ---------------------------------------------------------------
+		CONSTRUCTORS
+	--------------------------------------------------------------- */
 	/**
 	 * @hidden
 	 */
@@ -43,6 +49,32 @@ export abstract class ListIterator<T,
 	 * @inheritDoc
 	 */
 	public abstract reverse(): ReverseIteratorT;
+
+	/**
+	 * @internal
+	 */
+	public static _Set_prev<T extends Elem, 
+			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+			Elem>
+		(it: IteratorT, prev: IteratorT): void
+	{
+		it.prev_ = prev;
+	}
+
+	/**
+	 * @internal
+	 */
+	public static _Set_next<T extends Elem, 
+			SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+			IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+			ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+			Elem>
+		(it: IteratorT, next: IteratorT): void
+	{
+		it.next_ = next;
+	}
 
 	/* ---------------------------------------------------------------
 		ACCESSORS

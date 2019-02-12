@@ -4,13 +4,19 @@
 import { SetContainer } from "./SetContainer";
 import { _IHashContainer } from "./_IHashContainer";
 
-import { SetIterator } from "../iterator/SetIterator";
+import { SetIterator, SetReverseIterator } from "../iterator/SetIterator";
 
 /**
- * @hidden
+ * Common interface for Hash Sets.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
-export interface IHashSet<T, Unique extends boolean, Source extends SetContainer<T, Unique, Source>>
-	extends SetContainer<T, Unique, Source>, _IHashContainer<T>
+export interface IHashSet<Key, Unique extends boolean, Source extends IHashSet<Key, Unique, Source>>
+	extends SetContainer<Key, Unique, Source>, 
+		_IHashContainer<Key, Key, Source, 
+			SetIterator<Key, Unique, Source>, 
+			SetReverseIterator<Key, Unique, Source>,
+			Key>
 {
 	/* ---------------------------------------------------------
 		ITERATORS
@@ -18,7 +24,7 @@ export interface IHashSet<T, Unique extends boolean, Source extends SetContainer
 	/**
 	 * @inheritDoc
 	 */
-	begin(): SetIterator<T, Unique, Source>;
+	begin(): SetIterator<Key, Unique, Source>;
 
 	/**
 	 * Iterator to the first element in a specific bucket.
@@ -26,12 +32,12 @@ export interface IHashSet<T, Unique extends boolean, Source extends SetContainer
 	 * @param index Index number of the specific bucket.
 	 * @return Iterator from the specific bucket.
 	 */
-	begin(index: number): SetIterator<T, Unique, Source>;
+	begin(index: number): SetIterator<Key, Unique, Source>;
 
 	/**
 	 * @inheritDoc
 	 */
-	end(): SetIterator<T, Unique, Source>;
+	end(): SetIterator<Key, Unique, Source>;
 
 	/**
 	 * Iterator to the end in a specific bucket.
@@ -39,5 +45,5 @@ export interface IHashSet<T, Unique extends boolean, Source extends SetContainer
 	 * @param index Index number of the specific bucket.
 	 * @return Iterator from the specific bucket.
 	 */
-	end(index: number): SetIterator<T, Unique, Source>;
+	end(index: number): SetIterator<Key, Unique, Source>;
 }

@@ -10,6 +10,7 @@ import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
 
 import { Pair } from "../utility/Pair";
 import { OutOfRange } from "../exception/LogicError";
+import { Temporary } from "../base/Temporary";
 import { distance } from "../iterator/global";
 
 /**
@@ -37,17 +38,17 @@ export class Deque<T>
     /**
      * @hidden
      */
-    private matrix_: Array<Array<T>>;
+    private matrix_!: Array<Array<T>>;
     
     /**
      * @hidden
      */
-    private size_: number; // Number of elements in the Deque.
+    private size_!: number; // Number of elements in the Deque.
 
     /**
      * @hidden
      */
-    private capacity_: number;
+    private capacity_!: number;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -133,7 +134,7 @@ export class Deque<T>
     /**
      * @inheritDoc
      */
-    public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    public assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (first: InputIterator, last: InputIterator): void;
 
     public assign(first: any, second: any): void
@@ -203,7 +204,7 @@ export class Deque<T>
     {
         let expansion: number = n - this.size();
         if (expansion > 0)
-            this.insert(this.end(), expansion, undefined);
+            this.insert(this.end(), expansion, undefined!);
         else if (expansion < 0)
             this.erase(this.end().advance(-expansion), this.end());
     }
@@ -416,10 +417,10 @@ export class Deque<T>
     /**
      * @hidden
      */
-    protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): Deque.Iterator<T>
     {
-        let size: number = this.size_ + distance(first, last);
+        let size: number = this.size_ + distance(<Temporary>first, last);
         if (size === this.size_) // FIRST === LAST
             return pos;
 
@@ -462,7 +463,7 @@ export class Deque<T>
     /**
      * @hidden
      */
-    private _Insert_to_middle<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    private _Insert_to_middle<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): void
     {
         let col_size: number = this._Compute_col_size();
@@ -507,7 +508,7 @@ export class Deque<T>
     /**
      * @hidden
      */
-    private _Insert_to_end<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    private _Insert_to_end<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         // INSERT ITEMS IN THE BACK
@@ -545,7 +546,7 @@ export class Deque<T>
 
         if (this.matrix_[0].length >= col_size && this.matrix_.length < Deque.ROW_SIZE)
         {
-            this.matrix_ = [[]].concat(...this.matrix_);
+            this.matrix_ = ([[]] as T[][]).concat(...this.matrix_);
             return true;
         }
         else
@@ -589,8 +590,8 @@ export class Deque<T>
         this.size_ -= size;
             
         // ERASING
-        let first_row: T[] = null;
-        let second_row: T[] = null;
+        let first_row: T[] = null!;
+        let second_row: T[] = null!;
         let i: number = 0;
 
         while (size !== 0)

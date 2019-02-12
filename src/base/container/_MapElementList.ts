@@ -39,6 +39,15 @@ export class _MapElementList<Key, T, Unique extends boolean, Source extends MapC
 		return new MapIterator<Key, T, Unique, Source>(this, prev, next, val);
 	}
 
+	/**
+	 * @internal
+	 */
+	public static _Swap_associative<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
+		(x: _MapElementList<Key, T, Unique, Source>, y: _MapElementList<Key, T, Unique, Source>): void
+	{
+		[x.associative_, y.associative_] = [y.associative_, x.associative_];
+	}
+
 	/* ---------------------------------------------------------
 		ACCESSORS
 	--------------------------------------------------------- */

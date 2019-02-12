@@ -29,7 +29,7 @@ export class _UniqueSetTree<T, Source extends UniqueSet<T, Source>>
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
-	public nearest_by_key(val: T): _XTreeNode<SetIterator<T, true, Source>>
+	public nearest_by_key(val: T): _XTreeNode<SetIterator<T, true, Source>> | null
 	{
 		// NEED NOT TO ITERATE
 		if (this.root_ === null)
@@ -38,12 +38,12 @@ export class _UniqueSetTree<T, Source extends UniqueSet<T, Source>>
 		//----
 		// ITERATE
 		//----
-		let ret: _XTreeNode<SetIterator<T, true, Source>> = this.root_;
+		let ret: _XTreeNode<SetIterator<T, true, Source>> | null = this.root_;
 
 		while (true) // UNTIL MEET THE MATCHED VALUE OR FINAL BRANCH
 		{
 			let it: SetIterator<T, true, Source> = ret.value;
-			let my_node: _XTreeNode<SetIterator<T, true, Source>> = null;
+			let my_node: _XTreeNode<SetIterator<T, true, Source>> | null = null;
 
 			// COMPARE
 			if (this.key_comp()(val, it.value))
@@ -67,7 +67,7 @@ export class _UniqueSetTree<T, Source extends UniqueSet<T, Source>>
 		//--------
 		// FIND MATCHED NODE
 		//--------
-		let node: _XTreeNode<SetIterator<T, true, Source>> = this.nearest_by_key(val);
+		let node: _XTreeNode<SetIterator<T, true, Source>> | null = this.nearest_by_key(val);
 		if (node === null)
 			return this.source().end() as SetIterator<T, true, Source>;
 

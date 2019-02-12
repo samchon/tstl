@@ -3,6 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
+import { IPointer } from "../functional";
 
 import { General } from "../iterator/IFake";
 import { less, equal_to } from "../functional/comparators";
@@ -10,6 +11,7 @@ import { iter_swap, copy } from "./modifiers";
 import { distance } from "../iterator/global";
 
 import { Vector } from "../container/Vector";
+import { Temporary } from "../base/Temporary";
 
 /* =========================================================
     SORTINGS
@@ -26,15 +28,18 @@ import { Vector } from "../container/Vector";
  * @param last Random access iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
-export function sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-    (first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
+export function sort<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
+    (
+        first: RandomAccessIterator, last: RandomAccessIterator, 
+        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+    ): void
 {
     let size: number = last.index() - first.index();
     if (size <= 0)
         return;
 
     let pivot_it: RandomAccessIterator = first.advance(Math.floor(size / 2));
-    let pivot: T = pivot_it.value;
+    let pivot: IPointer.ValueType<RandomAccessIterator> = pivot_it.value;
 
     if (pivot_it.index() !== first.index())
         iter_swap(first, pivot_it);
@@ -62,10 +67,13 @@ export function sort<T, RandomAccessIterator extends General<IRandomAccessIterat
  * @param last Random access iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
-export function stable_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-    (first: RandomAccessIterator, last: RandomAccessIterator, comp: (x: T, y: T) => boolean = less): void
+export function stable_sort<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
+    (
+        first: RandomAccessIterator, last: RandomAccessIterator, 
+        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+    ): void
 {
-    let ramda = function (x: T, y: T): boolean
+    let ramda = function (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>): boolean
     {
         return comp(x, y) && !comp(y, x);
     };
@@ -80,10 +88,10 @@ export function stable_sort<T, RandomAccessIterator extends General<IRandomAcces
  * @param last Random access iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
-export function partial_sort<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
+export function partial_sort<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
     (
         first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
-        comp: (x: T, y: T) => boolean = less
+        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
     ): void
 {
     for (let i = first; !i.equals(middle); i = i.next())
@@ -110,20 +118,20 @@ export function partial_sort<T, RandomAccessIterator extends General<IRandomAcce
  * 
  * @return Output Iterator of the last position by advancing.
  */
-export function partial_sort_copy<T, 
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>, 
-        RandomAccessIterator extends General<IForwardIterator<T, RandomAccessIterator>>>
+export function partial_sort_copy<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        RandomAccessIterator extends General<IForwardIterator<IPointer.ValueType<InputIterator>, RandomAccessIterator>>>
     (
         first: InputIterator, last: InputIterator, 
         output_first: RandomAccessIterator, output_last: RandomAccessIterator, 
-        comp: (x: T, y: T) => boolean = less
+        comp: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = less
     ): RandomAccessIterator
 {
     let input_size: number = distance(first, last);
-    let result_size: number = distance(output_first, output_last);
+    let result_size: number = distance(<Temporary>output_first, output_last);
 
-    let vector: Vector<T> = new Vector<T>(first, last);
-    sort(vector.begin(), vector.end(), comp);
+    let vector: Vector<IPointer.ValueType<InputIterator>> = new Vector(first, last);
+    sort(vector.begin(), vector.end(), <Temporary>comp);
 
     if (input_size > result_size)
         output_first = copy(vector.begin(), vector.begin().advance(result_size), output_first);
@@ -141,8 +149,11 @@ export function partial_sort_copy<T,
  * @param last Random access iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
-export function nth_element<T, RandomAccessIterator extends General<IRandomAccessIterator<T, RandomAccessIterator>>>
-    (first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, comp: (left: T, right: T) => boolean = less): void
+export function nth_element<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
+    (
+        first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, 
+        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+    ): void
 {
     let n: number = distance(first, nth);
     for (let i = first; !i.equals(last); i = i.next())
@@ -174,8 +185,11 @@ export function nth_element<T, RandomAccessIterator extends General<IRandomAcces
  * 
  * @return Whether sorted or not.
  */
-export function is_sorted<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, comp: (x: T, y: T) => boolean = less): boolean
+export function is_sorted<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        comp: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = less
+    ): boolean
 {
     if (first.equals(last)) 
         return true;
@@ -199,8 +213,11 @@ export function is_sorted<T, InputIterator extends Readonly<IForwardIterator<T, 
  * 
  * @return Iterator to the first element who violates the order.
  */
-export function is_sorted_until<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-    (first: InputIterator, last: InputIterator, comp: (x: T, y: T) => boolean = less): InputIterator
+export function is_sorted_until<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        comp: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = less
+    ): InputIterator
 {
     if (first.equals(last))
         return first;

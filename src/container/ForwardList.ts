@@ -24,7 +24,7 @@ import { sort as sort_func } from "../algorithm/sorting";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class ForwardList<T> 
-    implements IForwardContainer<T, ForwardList.Iterator<T>>, 
+    implements IForwardContainer<ForwardList.Iterator<T>>, 
         _IClear, _IEmpty, _ISize,
         _IDeque<T>, _IFront<T>, Iterable<T>,
         _IListAlgorithm<T, ForwardList<T>>
@@ -37,17 +37,17 @@ export class ForwardList<T>
     /**
      * @hidden
      */
-    private size_: number;
+    private size_!: number;
 
     /**
      * @hidden
      */
-    private before_begin_: ForwardList.Iterator<T>;
+    private before_begin_!: ForwardList.Iterator<T>;
 
     /**
      * @hidden
      */
-    private end_: ForwardList.Iterator<T>;
+    private end_!: ForwardList.Iterator<T>;
 
     /* ===============================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -145,8 +145,8 @@ export class ForwardList<T>
      */
     public clear(): void
     {
-        this.end_ = new ForwardList.Iterator<T>(this.ptr_, null, null);
-        this.before_begin_ = new ForwardList.Iterator<T>(this.ptr_, this.end_, null);
+        this.end_ = new ForwardList.Iterator<T>(this.ptr_, null!, null!);
+        this.before_begin_ = new ForwardList.Iterator<T>(this.ptr_, this.end_);
         
         this.size_ = 0;
     }
@@ -180,14 +180,14 @@ export class ForwardList<T>
      */
     public front(val: T): void;
 
-    public front(val: T = undefined)
+    public front(val?: T)
     {
         let it: ForwardList.Iterator<T> = this.begin();
 
-        if (val === undefined)
+        if (arguments.length === 0)
             return it.value;
         else
-            it.value = val;
+            it.value = val!;
     }
 
     /**
@@ -299,7 +299,7 @@ export class ForwardList<T>
     /**
      * @hidden
      */
-    private _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+    private _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
     {
         let nodes: ForwardList.Iterator<T>[] = [];
@@ -307,7 +307,7 @@ export class ForwardList<T>
 
         for (; !first.equals(last); first = first.next())
         {
-            let node = new ForwardList.Iterator<T>(this.ptr_, null, first.value);
+            let node = new ForwardList.Iterator<T>(this.ptr_, null!, first.value);
             nodes.push(node);
 
             ++count;
@@ -316,9 +316,9 @@ export class ForwardList<T>
             return pos;
 
         for (let i: number = 0; i < count - 1; ++i)
-            nodes[i]["next_"] = nodes[i + 1];
-        nodes[nodes.length - 1]["next_"] = pos.next();
-        pos["next_"] = nodes[0];
+            ForwardList.Iterator._Set_next(nodes[i], nodes[i + 1]);
+        ForwardList.Iterator._Set_next(nodes[nodes.length - 1], pos.next());
+        ForwardList.Iterator._Set_next(pos, nodes[0]);
 
         this.size_ += count;
         return nodes[nodes.length - 1];
@@ -358,7 +358,7 @@ export class ForwardList<T>
         this.size_ -= Math.max(0, distance(first, last) - 1);
 
         // RE-CONNECT
-        first["next_"] = last;
+        ForwardList.Iterator._Set_next(first, last);
         return last;
     }
 
@@ -404,7 +404,7 @@ export class ForwardList<T>
         for (let it = this.before_begin(); !it.next().equals(this.end()); it = it.next())
             if (pred(it.next().value) === true)
             {
-                it["next_"] = it.next().next();
+                ForwardList.Iterator._Set_next(it, it.next().next());
                 ++count;
             }
         this.size_ -= count;
@@ -416,7 +416,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public merge<U extends T>(from: ForwardList<U>, comp: (x: T, y: T) => boolean = less): void
+    public merge(from: ForwardList<T>, comp: (x: T, y: T) => boolean = less): void
     {
         if (this === <ForwardList<T>>from)
             return;
@@ -438,8 +438,8 @@ export class ForwardList<T>
      * @param pos Position to insert after.
      * @param from Target container to transfer.
      */
-    public splice_after<U extends T>
-        (pos: ForwardList.Iterator<T>, from: ForwardList<U>): void;
+    public splice_after
+        (pos: ForwardList.Iterator<T>, from: ForwardList<T>): void;
 
     /**
      * Transfer a single element.
@@ -448,11 +448,11 @@ export class ForwardList<T>
      * @param from Target container to transfer.
      * @param before Previous position of the single element to transfer.
      */
-    public splice_after<U extends T>
+    public splice_after
         (
             pos: ForwardList.Iterator<T>, 
-            from: ForwardList<U>, 
-            before: ForwardList.Iterator<U>
+            from: ForwardList<T>, 
+            before: ForwardList.Iterator<T>
         ): void;
 
     /**
@@ -463,32 +463,28 @@ export class ForwardList<T>
      * @param first Range of previous of the first position to transfer.
      * @param last Rangee of the last position to transfer.
      */
-    public splice_after<U extends T>
+    public splice_after
         (
             pos: ForwardList.Iterator<T>, 
-            from: ForwardList<U>, 
-            first_before: ForwardList.Iterator<U>, last: ForwardList.Iterator<U>
+            from: ForwardList<T>, 
+            first_before: ForwardList.Iterator<T>, last: ForwardList.Iterator<T>
         ): void;
 
-    public splice_after<U extends T>
+    public splice_after
         (
             pos: ForwardList.Iterator<T>, 
-            from: ForwardList<U>, 
-            first_before: ForwardList.Iterator<U> = null, last: ForwardList.Iterator<U> = null
+            from: ForwardList<T>, 
+            first_before: ForwardList.Iterator<T> = from.before_begin(), 
+            last: ForwardList.Iterator<T> = first_before.next().next()
         ): void
     {
         // DEFAULT PARAMETERS
-        if (first_before === null)
-            first_before = from.before_begin();
-        else if (last === null)
-            last = first_before.next().next();
-
         if (last === null)
             last = from.end();
 
         // INSERT & ERASE
-        this.insert_after(pos, first_before.next(), last);
-        from.erase_after(first_before, last);
+        this.insert_after(pos, first_before.next(), last!);
+        from.erase_after(first_before, last!);
     }
 
     /* ---------------------------------------------------------------
@@ -569,9 +565,9 @@ export namespace ForwardList
         /**
          * @hidden
          */
-        private value_: T;
+        private value_: T | undefined;
 
-        public constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value: T)
+        public constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value?: T)
         {
             this.source_ptr_ = source;
             this.next_ = next;
@@ -597,7 +593,7 @@ export namespace ForwardList
          */
         public get value(): T
         {
-            return this.value_;
+            return this.value_!;
         }
 
         /**
@@ -625,6 +621,14 @@ export namespace ForwardList
         public equals(obj: Iterator<T>): boolean
         {
             return this === obj;
+        }
+
+        /**
+         * @internal
+         */
+        public static _Set_next<T>(it: Iterator<T>, next: Iterator<T>): void
+        {
+            it.next_ = next;
         }
     }
 }

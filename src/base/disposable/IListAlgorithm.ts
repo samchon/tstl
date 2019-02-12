@@ -60,3 +60,11 @@ export interface _IListAlgorithm<T, Source>
 	 */
 	swap(obj: Source): void;
 }
+
+export namespace _IListAlgorithm
+{
+	export type ValueType<Container extends Partial<_IListAlgorithm<any, Container>>> =
+		Container extends _IListAlgorithm<infer T, Container>
+			? T
+			: any;
+}

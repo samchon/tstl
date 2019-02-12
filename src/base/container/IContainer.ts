@@ -13,12 +13,13 @@ import { _IEmpty, _ISize, _IPush } from "../disposable/IPartialContainers";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export interface IContainer<T, 
-		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
-		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-	extends IBidirectionalContainer<T, IteratorT, ReverseIteratorT>, 
-		Iterable<T>, _IEmpty, _ISize, _IPush<T>
+export interface IContainer<T extends Elem, 
+		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem = T>
+	extends IBidirectionalContainer<Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>, ReverseIteratorT>, 
+		Iterable<T>, _IEmpty, _ISize, _IPush<Elem>
 {
 	/* ---------------------------------------------------------
 		ASSIGN & CLEAR
@@ -29,7 +30,7 @@ export interface IContainer<T,
 	 * @param first Input iteartor of the first position.
 	 * @param last Input iterator of the last position.
 	 */
-	assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	assign<InputIterator extends Readonly<IForwardIterator<Elem, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	/**
@@ -85,18 +86,7 @@ export interface IContainer<T,
 	/* ---------------------------------------------------------
 		ELEMENTS I/O
 	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	push(...items: T[]): number;
-
-	/**
-	 * Insert a single element.
-	 * 
-	 * @param pos Position to insert.
-	 * @param val Value to insert.
-	 */
-	insert(pos: IteratorT, val: T): IteratorT;
+	push(...items: Elem[]): number;
 
 	/**
 	 * Erase an element.

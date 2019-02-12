@@ -2,7 +2,6 @@
 /** @module std.base */
 //================================================================
 import { IContainer } from "./IContainer";
-import { IDequeContainer } from "./IDequeContainer";
 import { Container } from "./Container";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
@@ -14,30 +13,33 @@ import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
 import { InvalidArgument } from "../../exception/LogicError";
 import { distance, advance } from "../../iterator/global";
 
+import { Temporary } from "../Temporary";
+
 /**
- * @hidden
+ * Basic List Container.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class ListContainer<T, 
-		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT>,
-		IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT>>
-	extends Container<T, SourceT, IteratorT, ReverseIteratorT>
-	implements IDequeContainer<T, SourceT, IteratorT, ReverseIteratorT>
+		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>,
+		IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, T>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
+	extends Container<T, SourceT, IteratorT, ReverseIteratorT, T>
 {
 	/**
 	 * @hidden
 	 */
-	private begin_: IteratorT;
+	protected begin_!: IteratorT;
 	
 	/**
 	 * @hidden
 	 */
-	private end_: IteratorT;
+	protected end_: IteratorT;
 	
 	/**
 	 * @hidden
 	 */
-	private size_: number;
+	private size_!: number;
 
 	/* ---------------------------------------------------------
 		CONSTRUCTORS
@@ -50,18 +52,14 @@ export abstract class ListContainer<T,
 		super();
 
 		// INIT MEMBERS
-		this.end_ = this._Create_iterator(null, null, null);
-		this.end_["prev_"] = this.end_;
-		this.end_["next_"] = this.end_;
-
-		this.begin_ = (this.end_);
-		this.size_ = 0;
+		this.end_ = this._Create_iterator(null!, null!);
+		this.clear();
 	}
 
 	/**
 	 * @hidden
 	 */
-	protected abstract _Create_iterator(prev: IteratorT, next: IteratorT, val: T): IteratorT;
+	protected abstract _Create_iterator(prev: IteratorT, next: IteratorT, val?: T): IteratorT;
 
 	/**
 	 * @inheritDoc
@@ -70,7 +68,7 @@ export abstract class ListContainer<T,
 	/**
 	 * @inheritDoc
 	 */
-	public assign<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
 	public assign(par1: any, par2: any): void
@@ -85,11 +83,11 @@ export abstract class ListContainer<T,
 	public clear(): void
 	{
 		// DISCONNECT NODES
-		this.begin_ = (this.end_);
-		this.end_["prev_"] = (this.end_);
-		this.end_["next_"] = (this.end_);
-
+		ListIterator._Set_prev(this.end_, this.end_);
+		ListIterator._Set_next(this.end_, this.end_);
+		
 		// RE-SIZE -> 0
+		this.begin_ = this.end_;
 		this.size_ = 0;
 	}
 
@@ -100,9 +98,9 @@ export abstract class ListContainer<T,
 	{
 		let expansion: number = n - this.size();
 		if (expansion > 0)
-			this.insert(this.end(), expansion, undefined);
+			this.insert(this.end(), expansion, undefined!);
 		else if (expansion < 0)
-			this.erase(advance(this.end(), -expansion), this.end());
+			this.erase(advance(<Temporary>this.end(), -expansion), this.end());
 	}
 
 	/* ---------------------------------------------------------
@@ -130,39 +128,6 @@ export abstract class ListContainer<T,
 	public size(): number
 	{
 		return this.size_;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public front(): T;
-	/**
-	 * @inheritDoc
-	 */
-	public front(val: T): void;
-	public front(val: T = undefined): T | void
-	{
-		if (val === undefined)
-			return this.begin_.value;
-		else
-			this.begin_["value_"] = val;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public back(): T;
-	/**
-	 * @inheritDoc
-	 */
-	public back(val: T): void;
-	public back(val: T = undefined): T | void
-	{
-		let it = this.end().prev();
-		if (val === undefined)
-			return it.value;
-		else
-			it["value_"] = val;
 	}
 
 	/* =========================================================
@@ -238,7 +203,7 @@ export abstract class ListContainer<T,
 	/**
 	 * @inheritDoc
 	 */
-	public insert<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	public insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT;
 
 	public insert(pos: IteratorT, ...args: any[]): IteratorT
@@ -270,23 +235,23 @@ export abstract class ListContainer<T,
 	/**
 	 * @hidden
 	 */
-	protected _Insert_by_range<U extends T, InputIterator extends Readonly<IForwardIterator<U, InputIterator>>>
+	protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
 		(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT
 	{
 		let prev: IteratorT = <IteratorT>position.prev();
-		let first: IteratorT = null;
+		let first: IteratorT = null!;
 
 		let size: number = 0;
 
 		for (let it = begin; it.equals(end) === false; it = it.next()) 
 		{
 			// CONSTRUCT ITEM, THE NEW ELEMENT
-			let item: IteratorT = this._Create_iterator(prev, null, it.value);
+			let item: IteratorT = this._Create_iterator(prev, null!, it.value);
 			if (size === 0)
 				first = item;
 
 			// PLACE ITEM ON THE NEXT OF "PREV"
-			prev["next_"] = item;
+			ListIterator._Set_next(prev, item);
 
 			// SHIFT CURRENT ITEM TO PREVIOUS
 			prev = item;
@@ -298,11 +263,10 @@ export abstract class ListContainer<T,
 			this.begin_ = (first);
 
 		// CONNECT BETWEEN LAST AND POSITION
-		prev["next_"] = position;
-		position["prev_"] = prev;
+		ListIterator._Set_next(prev, position);
+		ListIterator._Set_prev(position, prev);
 
 		this.size_ += size;
-
 		return first;
 	}
 
@@ -333,11 +297,11 @@ export abstract class ListContainer<T,
 
 		// FIND PREV AND NEXT
 		let prev: IteratorT = first.prev();
-		let size: number = distance(first, last);
+		let size: number = distance(<Temporary>first, last);
 
 		// SHRINK
-		prev["next_"] = (last);
-		last["prev_"] = (prev);
+		ListIterator._Set_next(prev, last);
+		ListIterator._Set_prev(last, prev);
 
 		this.size_ -= size;
 		if (first.equals(this.begin_))

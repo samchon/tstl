@@ -11,10 +11,11 @@ import { IReverseIterator } from "../../iterator/IReverseIterator";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class ReverseIterator<T, 
-		Source extends IContainer<T, Source, Base, This>, 
-		Base extends Iterator<T, Source, Base, This>, 
-		This extends ReverseIterator<T, Source, Base, This>>
+export abstract class ReverseIterator<T extends Elem, 
+		Source extends IContainer<T, Source, Base, This, Elem>, 
+		Base extends Iterator<T, Source, Base, This, Elem>, 
+		This extends ReverseIterator<T, Source, Base, This, Elem>,
+		Elem = T>
 	implements Readonly<IReverseIterator<T, Base, This>>
 {
 	/**

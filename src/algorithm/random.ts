@@ -2,6 +2,7 @@
 /** @module std */
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
+import { IPointer } from "../functional";
 
 import { Writeonly } from "../iterator/IFake";
 import { sort } from "./sorting";
@@ -32,9 +33,9 @@ export function randint(x: number, y: number): number
  * 
  * @return Output Iterator of the last position by advancing.
  */
-export function sample<T, 
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+export function sample<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
         output: OutputIterator, n: number

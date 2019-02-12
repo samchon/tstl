@@ -1,7 +1,9 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _Fetch_arguments } from "./_IAssociativeContainer";
+import { _IAssociativeContainer, _Fetch_arguments } from "./_IAssociativeContainer";
+import { Iterator } from "../iterator/Iterator";
+import { ReverseIterator } from "../iterator/ReverseIterator";
 
 import { Pair } from "../../utility/Pair";
 import { less } from "../../functional/comparators";
@@ -9,7 +11,12 @@ import { less } from "../../functional/comparators";
 /**
  * @hidden
  */
-export interface _ITreeContainer<Key, Iterator>
+export interface _ITreeContainer<Key, T extends Elem, 
+		SourceT extends _ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem>
+	extends _IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
 	/**
 	 * Get key comparison function.
@@ -19,12 +26,19 @@ export interface _ITreeContainer<Key, Iterator>
 	key_comp(): (x: Key, y: Key) => boolean;
 
 	/**
+	 * Get value comparison function.
+	 * 
+	 * @return The value comparison function.
+	 */
+	value_comp(): (x: Elem, y: Elem) => boolean;
+
+	/**
 	 * Get iterator to lower bound.
 	 * 
 	 * @param key Key to search for.
 	 * @return Iterator to the first element equal or after to the key.
 	 */
-	lower_bound(key: Key): Iterator;
+	lower_bound(key: Key): IteratorT;
 
 	/**
 	 * Get iterator to upper bound.
@@ -32,7 +46,7 @@ export interface _ITreeContainer<Key, Iterator>
 	 * @param key Key to search for.
 	 * @return Iterator to the first element after the key.
 	 */
-	upper_bound(key: Key): Iterator;
+	upper_bound(key: Key): IteratorT;
 
 	/**
 	 * Get range of equal elements.
@@ -40,16 +54,26 @@ export interface _ITreeContainer<Key, Iterator>
 	 * @param key Key to search for.
 	 * @return Pair of {@link lower_bound} and {@link upper_bound}.
 	 */
-	equal_range(key: Key): Pair<Iterator, Iterator>;
+	equal_range(key: Key): Pair<IteratorT, IteratorT>;
 }
 
 /**
  * @hidden
  */
-export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
+export function _Construct<Key, T extends Elem, 
+		SourceT extends _ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem>
+	(
+		source: SourceT, 
+		Source: _Factory<SourceT>, 
+		treeFactory: (comp: (x: Key, y: Key) => boolean) => void, 
+		...args: any[]
+	)
 {
 	// DECLARE MEMBERS
-	let post_process: () => void = null;
+	let post_process: (() => void) | null = null;
 	let comp: (x: Key, y: Key) => boolean = less;
 
 	//----
@@ -59,21 +83,21 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 	if (args.length === 1 && args[0] instanceof Source)
 	{
 		// PARAMETERS
-		let container: _ITreeContainer<Key, any> = args[0];
+		let container: SourceT = args[0];
 		comp = container.key_comp();
 
 		// COPY CONSTRUCTOR
 		post_process = () =>
 		{
-			let first = (container as any).begin();
-			let last = (container as any).end();
+			let first = container.begin();
+			let last = container.end();
 
-			this.assign(first, last);
+			source.assign(first, last);
 		};
 	}
 	else
 	{
-		let tuple = _Fetch_arguments.bind(this)(...args);
+		let tuple = _Fetch_arguments(source, ...args);
 
 		post_process = tuple.ramda;
 		if (tuple.tail.length >= 1) comp = tuple.tail[0];
@@ -83,7 +107,7 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 	// DO PROCESS
 	//----
 	// CONSTRUCT TREE
-	this.tree_ = new XTree(this, comp);
+	treeFactory(comp);
 	
 	// ACT POST-PROCESS
 	if (post_process !== null)
@@ -93,22 +117,46 @@ export function _Construct<Key>(Source: any, XTree: any, ...args: any[])
 /**
  * @hidden
  */
-export function _Emplace_hint<Iterator extends any, Element>
+export function _Emplace_hint<Key, T extends Elem, 
+		SourceT extends _ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
+		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		Elem>
 	(
-		hint: Iterator, 
-		elem: Element,
-		breaker: () => Iterator
-	): Iterator
+		source: SourceT,
+		hint: IteratorT, 
+		elem: T,
+		data: IData<T, IteratorT>,
+		handleInsert: (first: IteratorT, last: IteratorT) => void,
+		breaker: () => IteratorT
+	): IteratorT
 {
 	let prev = hint.prev();
-	let meet: boolean = prev.equals(this.end()) || this.value_comp()(prev.value, elem);
-	meet = meet && (hint.equals(this.end()) || this.key_comp()(elem, hint.value));
+	let meet: boolean = prev.equals(source.end()) || source.value_comp()(prev.value, elem);
+	meet = meet && (hint.equals(source.end()) || source.value_comp()(elem, hint.value));
 
 	if (!meet) // NOT VALIDATE
 		return breaker();
-	
-	hint = this.data_.insert(hint, elem);
-	this._Handle_insert(hint, hint.next());
+
+	hint = data.insert(hint, elem);
+	handleInsert(hint, hint.next());
 
 	return hint;
+}
+
+/**
+ * @hidden
+ */
+interface _Factory<T, Arguments extends any[] = any[]>
+{
+	new(...args: Arguments): T;
+	prototype: T;
+}
+
+/**
+ * @hidden
+ */
+interface IData<T, Iterator>
+{
+	insert(pos: Iterator, val: T): Iterator;
 }

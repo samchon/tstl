@@ -26,9 +26,9 @@ export class ErrorCode extends ErrorInstance
 	 */
 	public constructor(val: number, category: ErrorCategory);
 
-	public constructor(val: number = 0, category: ErrorCategory = null)
+	public constructor(val: number = 0, category: ErrorCategory | null = null)
 	{
-		super(val, category);
+		super(val, category!);
 	}
 
 	/**
@@ -38,10 +38,7 @@ export class ErrorCode extends ErrorInstance
 	 */
 	public default_error_condition(): ErrorCondition
 	{
-		if (this.category_ === null || this.value_ === 0)
-			return null;
-		else
-			return this.category_.default_error_condition(this.value_);
+		return this.category_.default_error_condition(this.value_);
 	}
 }
 

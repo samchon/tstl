@@ -2,11 +2,12 @@
 /** @module std.base */
 //================================================================
 import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { IPointer } from "../../functional";
 
 /**
  * @hidden
  */
-export interface IForwardContainer<T, Iterator extends IForwardIterator<T, Iterator>>
+export interface IForwardContainer<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
 {
 	/**
 	 * Iterator to the first element.
