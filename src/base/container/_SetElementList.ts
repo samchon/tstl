@@ -35,7 +35,7 @@ export class _SetElementList<Key, Unique extends boolean, Source extends SetCont
 	 */
 	protected _Create_iterator(prev: SetIterator<Key, Unique, Source>, next: SetIterator<Key, Unique, Source>, val: Key): SetIterator<Key, Unique, Source>
 	{
-		return new SetIterator<Key, Unique, Source>(this, prev, next, val);
+		return SetIterator.create(this, prev, next, val);
 	}
 
 	/**

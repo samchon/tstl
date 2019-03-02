@@ -3,7 +3,7 @@
 //================================================================
 import { MultiSet } from "../base/container/MultiSet";
 import { ITreeSet } from "../base/container/ITreeSet";
-import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";
+import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
 
 import { _MultiSetTree } from "../base/tree/_MultiSetTree";
 import { SetIterator, SetReverseIterator } from "../base/iterator/SetIterator";
@@ -218,15 +218,22 @@ export class TreeMultiSet<Key>
      */
     protected _Insert_by_hint(hint: TreeMultiSet.Iterator<Key>, key: Key): TreeMultiSet.Iterator<Key>
     {
-        return _Emplace_hint<Key, Key, 
+        let validate: boolean = _Emplacable<Key, Key, 
                 TreeMultiSet<Key>,
                 TreeMultiSet.Iterator<Key>,
                 TreeMultiSet.ReverseIterator<Key>,
                 Key>
-        (
-            this, hint, key, this.data_, this._Handle_insert.bind(this),
-            () => this._Insert_by_key(key)
-        );
+            (this, hint, key);
+
+        if (validate)
+        {
+            this.data_.insert(hint, key);
+            this._Handle_insert(hint, hint.next());
+
+            return hint;
+        }
+        else
+            return this._Insert_by_key(key);
     }
 
     /**

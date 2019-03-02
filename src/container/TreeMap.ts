@@ -3,7 +3,7 @@
 //================================================================
 import { UniqueMap } from "../base/container/UniqueMap";
 import { ITreeMap } from "../base/container/ITreeMap";
-import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";
+import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
 
 import { _UniqueMapTree } from "../base/tree/_UniqueMapTree";
 import { MapIterator, MapReverseIterator } from "../base/iterator/MapIterator";
@@ -200,17 +200,24 @@ export class TreeMap<Key, T>
      */
     public emplace_hint(hint: TreeMap.Iterator<Key, T>, key: Key, val: T): TreeMap.Iterator<Key, T>
     {
-        let elem = new Entry(key, val);
-        
-        return _Emplace_hint<Key, Entry<Key, T>, 
-                TreeMap<Key, T>,
+        let elem: Entry<Key, T> = new Entry(key, val);
+        let validate: boolean = _Emplacable<Key, 
+                Entry<Key, T>, 
+                TreeMap<Key, T>, 
                 TreeMap.Iterator<Key, T>,
                 TreeMap.ReverseIterator<Key, T>,
                 IPair<Key, T>>
-        (
-            this, hint, elem, this.data_, this._Handle_insert.bind(this),
-            () => this.emplace(key, val).first
-        );
+            (this, hint, elem);
+        
+        if (validate)
+        {
+            this.data_.insert(hint, elem);
+            this._Handle_insert(hint, hint.next());
+
+            return hint;
+        }
+        else
+            return this.emplace(key, val).first;
     }
 
     /**

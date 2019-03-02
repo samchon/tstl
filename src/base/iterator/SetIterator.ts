@@ -30,11 +30,19 @@ export class SetIterator<Key, Unique extends boolean, Source extends SetContaine
 	/**
 	 * @hidden
 	 */
-	public constructor(list: _SetElementList<Key, Unique, Source>, prev: SetIterator<Key, Unique, Source>, next: SetIterator<Key, Unique, Source>, key: Key)
+	private constructor(list: _SetElementList<Key, Unique, Source>, prev: SetIterator<Key, Unique, Source>, next: SetIterator<Key, Unique, Source>, key: Key)
 	{
 		super(prev, next, key);
-
 		this.source_ = list;
+	}
+
+	/**
+	 * @internal
+	 */
+	public static create<Key, Unique extends boolean, Source extends SetContainer<Key, Unique, Source>>
+		(list: _SetElementList<Key, Unique, Source>, prev: SetIterator<Key, Unique, Source>, next: SetIterator<Key, Unique, Source>, key: Key)
+	{
+		return new SetIterator(list, prev, next, key);
 	}
 
 	/**

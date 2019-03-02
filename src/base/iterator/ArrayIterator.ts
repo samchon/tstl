@@ -93,7 +93,7 @@ export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
 	 */
 	public prev(): ArrayIterator<T, Source>
 	{
-		return new ArrayIterator(this.source(), this.index_ - 1);
+		return this.advance(-1);
 	}
 
 	/**
@@ -101,7 +101,7 @@ export class ArrayIterator<T, Source extends ArrayContainer<T, Source>>
 	 */
 	public next(): ArrayIterator<T, Source>
 	{
-		return new ArrayIterator(this.source(), this.index_ + 1);
+		return this.advance(1);
 	}
 
 	/**

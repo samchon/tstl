@@ -3,7 +3,7 @@
 //================================================================
 import { MultiMap } from "../base/container/MultiMap";
 import { ITreeMap } from "../base/container/ITreeMap";
-import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";
+import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
 
 import { _MultiMapTree } from "../base/tree/_MultiMapTree";
 import { _XTreeNode } from "../base/tree/_XTreeNode";
@@ -221,17 +221,24 @@ export class TreeMultiMap<Key, T>
      */
     public emplace_hint(hint: TreeMultiMap.Iterator<Key, T>, key: Key, val: T): TreeMultiMap.Iterator<Key, T>
     {
-        let elem = new Entry(key, val);
-        
-        return _Emplace_hint<Key, Entry<Key, T>, 
-                TreeMultiMap<Key, T>,
+        let elem: Entry<Key, T> = new Entry(key, val);
+        let validate: boolean = _Emplacable<Key, 
+                Entry<Key, T>, 
+                TreeMultiMap<Key, T>, 
                 TreeMultiMap.Iterator<Key, T>,
                 TreeMultiMap.ReverseIterator<Key, T>,
                 IPair<Key, T>>
-        (
-            this, hint, elem, this.data_, this._Handle_insert.bind(this),
-            () => this.emplace(key, val)
-        );
+            (this, hint, elem);
+        
+        if (validate)
+        {
+            this.data_.insert(hint, elem);
+            this._Handle_insert(hint, hint.next());
+
+            return hint;
+        }
+        else
+            return this.emplace(key, val);
     }
 
     /**

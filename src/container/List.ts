@@ -108,7 +108,7 @@ export class List<T>
      */
     protected _Create_iterator(prev: List.Iterator<T>, next: List.Iterator<T>, val: T): List.Iterator<T>
     {
-        return new List.Iterator<T>(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
+        return List.Iterator.create(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
     }
 
     /* ---------------------------------------------------------------
@@ -374,10 +374,18 @@ export namespace List
         /**
          * @hidden
          */
-        public constructor(sourcePtr: IPointer<List<T>>, prev: Iterator<T>, next: Iterator<T>, value: T)
+        private constructor(sourcePtr: IPointer<List<T>>, prev: Iterator<T>, next: Iterator<T>, value: T)
         {
             super(prev, next, value);
             this.source_ptr_ = sourcePtr;
+        }
+
+        /**
+         * @internal
+         */
+        public static create<T>(sourcePtr: IPointer<List<T>>, prev: Iterator<T>, next: Iterator<T>, value: T)
+        {
+            return new Iterator(sourcePtr, prev, next, value);
         }
 
         /**

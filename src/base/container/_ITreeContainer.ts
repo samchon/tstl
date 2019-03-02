@@ -117,7 +117,7 @@ export function _Construct<Key, T extends Elem,
 /**
  * @hidden
  */
-export function _Emplace_hint<Key, T extends Elem, 
+export function _Emplacable<Key, T extends Elem, 
 		SourceT extends _ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
@@ -125,23 +125,14 @@ export function _Emplace_hint<Key, T extends Elem,
 	(
 		source: SourceT,
 		hint: IteratorT, 
-		elem: T,
-		data: IData<T, IteratorT>,
-		handleInsert: (first: IteratorT, last: IteratorT) => void,
-		breaker: () => IteratorT
-	): IteratorT
+		elem: T
+	): boolean
 {
 	let prev = hint.prev();
 	let meet: boolean = prev.equals(source.end()) || source.value_comp()(prev.value, elem);
 	meet = meet && (hint.equals(source.end()) || source.value_comp()(elem, hint.value));
 
-	if (!meet) // NOT VALIDATE
-		return breaker();
-
-	hint = data.insert(hint, elem);
-	handleInsert(hint, hint.next());
-
-	return hint;
+	return meet;
 }
 
 /**
@@ -151,12 +142,4 @@ interface _Factory<T, Arguments extends any[] = any[]>
 {
 	new(...args: Arguments): T;
 	prototype: T;
-}
-
-/**
- * @hidden
- */
-interface IData<T, Iterator>
-{
-	insert(pos: Iterator, val: T): Iterator;
 }

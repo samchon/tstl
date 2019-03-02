@@ -145,8 +145,8 @@ export class ForwardList<T>
      */
     public clear(): void
     {
-        this.end_ = new ForwardList.Iterator<T>(this.ptr_, null!, null!);
-        this.before_begin_ = new ForwardList.Iterator<T>(this.ptr_, this.end_);
+        this.end_ = ForwardList.Iterator.create(this.ptr_, null!, null!);
+        this.before_begin_ = ForwardList.Iterator.create(this.ptr_, this.end_);
         
         this.size_ = 0;
     }
@@ -307,7 +307,7 @@ export class ForwardList<T>
 
         for (; !first.equals(last); first = first.next())
         {
-            let node = new ForwardList.Iterator<T>(this.ptr_, null!, first.value);
+            let node = ForwardList.Iterator.create(this.ptr_, null!, first.value);
             nodes.push(node);
 
             ++count;
@@ -567,12 +567,26 @@ export namespace ForwardList
          */
         private value_: T | undefined;
 
-        public constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value?: T)
+        /* ---------------------------------------------------------------
+            CONSTRUCTORS
+        --------------------------------------------------------------- */
+        /**
+         * @hidden
+         */
+        private constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value?: T)
         {
             this.source_ptr_ = source;
             this.next_ = next;
 
             this.value_ = value;
+        }
+
+        /**
+         * @internal
+         */
+        public static create<T>(source: IPointer<ForwardList<T>>, next: Iterator<T>, value?: T)
+        {
+            return new Iterator(source, next, value);
         }
 
         /* ---------------------------------------------------------------

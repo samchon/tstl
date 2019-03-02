@@ -36,7 +36,7 @@ export class _MapElementList<Key, T, Unique extends boolean, Source extends MapC
 	 */
 	protected _Create_iterator(prev: MapIterator<Key, T, Unique, Source>, next: MapIterator<Key, T, Unique, Source>, val: Entry<Key, T>): MapIterator<Key, T, Unique, Source>
 	{
-		return new MapIterator<Key, T, Unique, Source>(this, prev, next, val);
+		return MapIterator.create(this, prev, next, val);
 	}
 
 	/**

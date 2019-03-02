@@ -3,7 +3,7 @@
 //================================================================
 import { UniqueSet } from "../base/container/UniqueSet";
 import { ITreeSet } from "../base/container/ITreeSet";
-import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";
+import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
 
 import { _UniqueSetTree } from "../base/tree/_UniqueSetTree";
 import { SetIterator, SetReverseIterator } from "../base/iterator/SetIterator";
@@ -198,15 +198,22 @@ export class TreeSet<Key>
      */
     protected _Insert_by_hint(hint: TreeSet.Iterator<Key>, key: Key): TreeSet.Iterator<Key>
     {
-        return _Emplace_hint<Key, Key, 
+        let validate: boolean = _Emplacable<Key, Key, 
                 TreeSet<Key>,
                 TreeSet.Iterator<Key>,
                 TreeSet.ReverseIterator<Key>,
                 Key>
-        (
-            this, hint, key, this.data_, this._Handle_insert.bind(this),
-            () => this._Insert_by_key(key).first
-        );
+            (this, hint, key);
+
+        if (validate)
+        {
+            this.data_.insert(hint, key);
+            this._Handle_insert(hint, hint.next());
+
+            return hint;
+        }
+        else
+            return this._Insert_by_key(key).first;
     }
 
     /**

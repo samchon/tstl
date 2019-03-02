@@ -32,10 +32,24 @@ export class MapIterator<Key, T, Unique extends boolean, Source extends MapConta
 	/**
 	 * @hidden
 	 */
-	public constructor(list: _MapElementList<Key, T, Unique, Source>, prev: MapIterator<Key, T, Unique, Source>, next: MapIterator<Key, T, Unique, Source>, val: Entry<Key, T>)
+	private constructor(list: _MapElementList<Key, T, Unique, Source>, prev: MapIterator<Key, T, Unique, Source>, next: MapIterator<Key, T, Unique, Source>, val: Entry<Key, T>)
 	{
 		super(prev, next, val);
 		this.source_ = list;
+	}
+
+	/**
+	 * @internal
+	 */
+	public static create<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
+		(
+			list: _MapElementList<Key, T, Unique, Source>, 
+			prev: MapIterator<Key, T, Unique, Source>, 
+			next: MapIterator<Key, T, Unique, Source>, 
+			val: Entry<Key, T>
+		)
+	{
+		return new MapIterator(list, prev, next, val);
 	}
 
 	/**
