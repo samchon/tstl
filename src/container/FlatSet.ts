@@ -1,7 +1,4 @@
-//================================================================ 
-/** @module std */
-//================================================================
-import { Container } from "../base";
+import { Container } from "../base/container/Container";
 import { _ITreeContainer, _Construct, _Emplacable } from "../base/container/_ITreeContainer";
 
 import { Iterator as _Iterator } from "../base/iterator/Iterator";
@@ -11,33 +8,18 @@ import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
 
 import { Vector } from "./Vector";
-import { IPair } from "../utility/IPair";
 import { Pair } from "../utility/Pair";
-import { Entry } from "../utility/Entry";
-import { Temporary } from "../base/Temporary";
-import { OutOfRange } from "../exception/LogicError";
-
 import { sort } from "../algorithm/sorting";
-import { transform } from "../algorithm/modifiers";
-import { back_inserter } from "../iterator/factory";
 import { lower_bound, upper_bound, equal_range } from "../algorithm/binary_search";
 
-export class FlatMap<Key, T>
-    extends Container<Entry<Key, T>, 
-        FlatMap<Key, T>,
-        FlatMap.Iterator<Key, T>, 
-        FlatMap.ReverseIterator<Key, T>, 
-        IPair<Key, T>>
-    implements _ITreeContainer<Key, Entry<Key, T>,
-        FlatMap<Key, T>,
-        FlatMap.Iterator<Key, T>,
-        FlatMap.ReverseIterator<Key, T>,
-        IPair<Key, T>>
+export class FlatSet<Key>
+    extends Container<Key, FlatSet<Key>, FlatSet.Iterator<Key>, FlatSet.ReverseIterator<Key>, Key>
+    implements _ITreeContainer<Key, Key, FlatSet<Key>, FlatSet.Iterator<Key>, FlatSet.ReverseIterator<Key>, Key>
 {
     /**
      * @hidden
      */
-    private data_: Vector<Entry<Key, T>>;
+    private data_: Vector<Key>;
 
     /**
      * @hidden
@@ -48,11 +30,6 @@ export class FlatMap<Key, T>
      * @hidden
      */
     private key_eq_!: (x: Key, y: Key) => boolean;
-
-    /**
-     * @hidden
-     */
-    private value_comp_!: (x: IPair<Key, T>, y: IPair<Key, T>) => boolean;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -74,14 +51,14 @@ export class FlatMap<Key, T>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: Key[], comp?: (x: Key, y: Key) => boolean);
 
     /**
      * Copy Constructor.
      * 
      * @param obj Object to copy.
      */
-    public constructor(obj: FlatMap<Key, T>);
+    public constructor(obj: FlatSet<Key>);
 
     /**
      * Range Constructor.
@@ -92,8 +69,8 @@ export class FlatMap<Key, T>
      */
     public constructor
         (
-            first: Readonly<IForwardIterator<IPair<Key, T>>>, 
-            last: Readonly<IForwardIterator<IPair<Key, T>>>,
+            first: Readonly<IForwardIterator<Key>>, 
+            last: Readonly<IForwardIterator<Key>>,
             comp?: (x: Key, y: Key) => boolean
         );
 
@@ -103,18 +80,17 @@ export class FlatMap<Key, T>
         
         this.data_ = new Vector();
 
-        _Construct<Key, Entry<Key, T>,
-            FlatMap<Key, T>,
-            FlatMap.Iterator<Key, T>,
-            FlatMap.ReverseIterator<Key, T>,
-            IPair<Key, T>>
+        _Construct<Key, Key,
+            FlatSet<Key>,
+            FlatSet.Iterator<Key>,
+            FlatSet.ReverseIterator<Key>,
+            Key>
         (
-            this, FlatMap,
+            this, FlatSet,
             comp => 
             { 
                 this.key_comp_ = comp;
                 this.key_eq_ = (x, y) => !this.key_comp_(x, y) && !this.key_comp_(y, x);
-                this.value_comp_ = (x, y) => this.key_comp_(x.first, y.first);
             },
             ...args
         );
@@ -126,7 +102,7 @@ export class FlatMap<Key, T>
     /**
      * @inheritDoc
      */
-    public assign<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
+    public assign<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         this.clear();
@@ -144,17 +120,14 @@ export class FlatMap<Key, T>
     /**
      * @hidden
      */
-    private _Assign<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
+    private _Assign<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         // INSERT FIRST
-        transform(<Temporary>first, last, 
-            back_inserter(this.data_), 
-            pair => new Entry(pair.first, pair.second)
-        );
+        this.data_.insert(this.data_.end(), first, last);
 
         // SORT LATER
-        sort(this.data_.begin(), this.data_.end(), this.value_comp_);
+        sort(this.data_.begin(), this.data_.end(), this.key_comp_);
     }
 
     /* =========================================================
@@ -165,10 +138,10 @@ export class FlatMap<Key, T>
 	============================================================
 		ITERATOR
     --------------------------------------------------------- */
-    public find(key: Key): FlatMap.Iterator<Key, T>
+    public find(key: Key): FlatSet.Iterator<Key>
     {
         let it = this.lower_bound(key);
-        if (!it.equals(this.end()) && this.key_eq_(key, it.first))
+        if (!it.equals(this.end()) && this.key_eq_(key, it.value))
             return it;
         else
             return this.end();
@@ -177,7 +150,7 @@ export class FlatMap<Key, T>
     /**
 	 * @inheritDoc
 	 */
-    public begin(): FlatMap.Iterator<Key, T>
+    public begin(): FlatSet.Iterator<Key>
     {
         return this.nth(0);
     }
@@ -185,14 +158,14 @@ export class FlatMap<Key, T>
     /**
 	 * @inheritDoc
 	 */
-    public end(): FlatMap.Iterator<Key, T>
+    public end(): FlatSet.Iterator<Key>
     {
         return this.nth(this.size());
     }
 
-    public nth(index: number): FlatMap.Iterator<Key, T>
+    public nth(index: number): FlatSet.Iterator<Key>
     {
-        return new FlatMap.Iterator(this, index);
+        return new FlatSet.Iterator(this, index);
     }
     
     /* ---------------------------------------------------------
@@ -221,37 +194,11 @@ export class FlatMap<Key, T>
 	{
 		return this.has(key) ? 1 : 0;
     }
-    
-    /**
-	 * Get a value.
-	 * 
-	 * @param key Key to search for.
-	 * @return The value mapped by the key.
-	 */
-	public get(key: Key): T
-	{
-		let it = this.find(key);
-		if (it.equals(this.end()) === true)
-			throw new OutOfRange("unable to find the matched key.");
-
-		return it.second;
-	}
-
-	/**
-	 * Set a value with key.
-	 * 
-	 * @param key Key to be mapped or search for.
-	 * @param val Value to insert or assign.
-	 */
-	public set(key: Key, val: T): void
-	{
-		this.insert_or_assign(key, val);
-    }
 
     /**
      * @internal
      */
-    public _At(index: number): Entry<Key, T>
+    public _At(index: number): Key
     {
         return this.data_.at(index);
     }
@@ -262,25 +209,25 @@ export class FlatMap<Key, T>
     /**
      * @inheritDoc
      */
-    public lower_bound(key: Key): FlatMap.Iterator<Key, T>
+    public lower_bound(key: Key): FlatSet.Iterator<Key>
     {
-        return lower_bound(this.begin(), this.end(), { first: key } as Entry<Key, T>, this.value_comp_);
+        return lower_bound(this.begin(), this.end(), key, this.key_comp_);
     }
 
     /**
      * @inheritDoc
      */
-    public upper_bound(key: Key): FlatMap.Iterator<Key, T>
+    public upper_bound(key: Key): FlatSet.Iterator<Key>
     {
-        return upper_bound(this.begin(), this.end(), { first: key } as Entry<Key, T>, this.value_comp_);
+        return upper_bound(this.begin(), this.end(), key, this.key_comp_);
     }
 
     /**
      * @inheritDoc
      */
-    public equal_range(key: Key): Pair<FlatMap.Iterator<Key, T>, FlatMap.Iterator<Key, T>>
+    public equal_range(key: Key): Pair<FlatSet.Iterator<Key>, FlatSet.Iterator<Key>>
     {
-        return equal_range(this.begin(), this.end(), { first: key } as Entry<Key, T>, this.value_comp_);
+        return equal_range(this.begin(), this.end(), key, this.key_comp_);
     }
 
     /**
@@ -294,9 +241,9 @@ export class FlatMap<Key, T>
     /**
      * @inheritDoc
      */
-    public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
+    public value_comp(): (x: Key, y: Key) => boolean
     {
-        return this.value_comp_;
+        return this.key_comp_;
     }
 
     /* =========================================================
@@ -310,7 +257,7 @@ export class FlatMap<Key, T>
     /**
      * @inheritDoc
      */
-    public push(...items: IPair<Key, T>[]): number
+    public push(...items: Key[]): number
     {
         // INSERT BY RANGE
 		let first = new _NativeArrayIterator(items, 0);
@@ -322,105 +269,80 @@ export class FlatMap<Key, T>
 		return this.size();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public emplace(key: Key, value: T): Pair<FlatMap.Iterator<Key, T>, boolean>
-    {
-        // FIND DUPLICATED ITEM
-        let it: FlatMap.Iterator<Key, T> = this.lower_bound(key);
-        if (!it.equals(this.end()) && this.key_eq_(key, it.first))
-            return new Pair(it, false);
-        
-        // INSERT NEW ONdE
-        this.data_.insert(new Vector.Iterator(this.data_, it.index()), new Entry(key, value));
-        return new Pair(it, true);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public emplace_hint(hint: FlatMap.Iterator<Key, T>, key: Key, val: T): FlatMap.Iterator<Key, T>
-    {
-        let elem: Entry<Key, T> = new Entry(key, val);
-        let validate: boolean = _Emplacable<Key, 
-                Entry<Key, T>,
-                FlatMap<Key, T>,
-                FlatMap.Iterator<Key, T>,
-                FlatMap.ReverseIterator<Key, T>,
-                IPair<Key, T>>
-            (this, hint, elem);
-
-        if (validate)
-        {
-            this.data_.insert(new Vector.Iterator(this.data_, hint.index()), elem);
-            return hint;
-        }
-        else
-            return this.emplace(key, val).first;
-    }
-
-    public insert(pair: IPair<Key, T>): Pair<FlatMap.Iterator<Key, T>, boolean>;
-	public insert(hint: FlatMap.Iterator<Key, T>, pair: IPair<Key, T>): FlatMap.Iterator<Key, T>;
-	public insert<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
+    public insert(key: Key): Pair<FlatSet.Iterator<Key>, boolean>;
+	public insert(hint: FlatSet.Iterator<Key>, key: Key): FlatSet.Iterator<Key>;
+	public insert<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void;
         
     public insert(...args: any[]): any
     {
         if (args.length === 1)
-            return this.emplace(args[0].first, args[0].second);
+            return this._Insert_by_key(args[0]);
         else if (args[0].next instanceof Function && args[1].next instanceof Function)
             return this._Insert_range(args[0], args[1]);
         else
-            return this.emplace_hint(args[0], args[1].first, args[1].second);
+            return this._Insert_by_hint(args[0], args[1]);
     }
 
     /**
      * @hidden
      */
-    private _Insert_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
+    private _Insert_by_key(key: Key): Pair<FlatSet.Iterator<Key>, boolean>
+    {
+        // FIND DUPLICATED ITEM
+        let it: FlatSet.Iterator<Key> = this.lower_bound(key);
+        if (!it.equals(this.end()) && this.key_eq_(key, it.value))
+            return new Pair(it, false);
+        
+        // INSERT NEW ONdE
+        this.data_.insert(new Vector.Iterator(this.data_, it.index()), key);
+        return new Pair(it, true);
+    }
+
+    /**
+     * @hidden
+     */
+    private _Insert_by_hint(hint: FlatSet.Iterator<Key>, key: Key): FlatSet.Iterator<Key>
+    {
+        let validate: boolean = _Emplacable<Key, Key,
+                FlatSet<Key>,
+                FlatSet.Iterator<Key>,
+                FlatSet.ReverseIterator<Key>,
+                Key>
+            (this, hint, key);
+
+        if (validate)
+        {
+            this.data_.insert(new Vector.Iterator(this.data_, hint.index()), key);
+            return hint;
+        }
+        else
+            return this._Insert_by_key(key).first;
+    }
+
+    /**
+     * @hidden
+     */
+    private _Insert_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
         if (this.empty())
             this._Assign(first, last);
         else
             for (let it = first; !it.equals(last); it = it.next())
-                this.emplace(it.value.first, it.value.second);
-    }
-
-    public insert_or_assign(key: Key, val: T): Pair<FlatMap.Iterator<Key, T>, boolean>
-    public insert_or_assign(hint: FlatMap.Iterator<Key, T>, key: Key, val: T): FlatMap.Iterator<Key, T>;
-
-    public insert_or_assign(...args: any[]): any
-    {
-        if (args.length === 2)
-        {
-            let ret: Pair<FlatMap.Iterator<Key, T>, boolean> = this.emplace(args[0], args[1]);
-            if (ret.second === false)
-                ret.first.second = args[1];
-
-            return ret;
-        }
-        else
-        {
-            let ret: FlatMap.Iterator<Key, T> = this.emplace_hint(args[0], args[1], args[2]);
-            if (ret.second !== args[2])
-                ret.second = args[2];
-
-            return ret;
-        }
+                this._Insert_by_key(it.value);
     }
 
     /* ---------------------------------------------------------
 		ERASE
     --------------------------------------------------------- */
     public erase(key: Key): number;
-    public erase(it: FlatMap.Iterator<Key, T>): FlatMap.Iterator<Key, T>;
-    public erase(first: FlatMap.Iterator<Key, T>, last: FlatMap.Iterator<Key, T>): FlatMap.Iterator<Key, T>;
+    public erase(it: FlatSet.Iterator<Key>): FlatSet.Iterator<Key>;
+    public erase(first: FlatSet.Iterator<Key>, last: FlatSet.Iterator<Key>): FlatSet.Iterator<Key>;
 
     public erase(...args: any[]): any
     {
-        if (args.length === 1 && (args[0] instanceof FlatMap.Iterator === false || (args[0] as FlatMap.Iterator<Key, T>).source() as any !== this))
+        if (args.length === 1 && (args[0] instanceof FlatSet.Iterator === false || (args[0] as FlatSet.Iterator<Key>).source() as any !== this))
             return this._Erase_by_key(args[0]);
         else if (args.length === 1)
             return this._Erase_by_range(args[0], args[0].next());
@@ -444,7 +366,7 @@ export class FlatMap<Key, T>
     /**
      * @hidden
      */
-    private _Erase_by_range(first: FlatMap.Iterator<Key, T>, last: FlatMap.Iterator<Key, T>): FlatMap.Iterator<Key, T>
+    private _Erase_by_range(first: FlatSet.Iterator<Key>, last: FlatSet.Iterator<Key>): FlatSet.Iterator<Key>
     {
         this.data_.erase
         (
@@ -460,7 +382,7 @@ export class FlatMap<Key, T>
     /**
      * @inheritDoc
      */
-    public swap(obj: FlatMap<Key, T>): void
+    public swap(obj: FlatSet<Key>): void
     {
         [this.data_, obj.data_] = [obj.data_, this.data_];
         [this.key_comp_, obj.key_comp_] = [obj.key_comp_, this.key_comp_];
@@ -469,26 +391,22 @@ export class FlatMap<Key, T>
     /**
      * @inheritDoc
      */
-    public toJSON(): Array<Entry<Key, T>>
+    public toJSON(): Array<Key>
     {
         return this.data_.toJSON();
     }
 }
 
-export namespace FlatMap
+export namespace FlatSet
 {
-    export class Iterator<Key, T>
-        implements Readonly<_Iterator<Entry<Key, T>, 
-                FlatMap<Key, T>, 
-                Iterator<Key, T>,
-                ReverseIterator<Key, T>,
-                IPair<Key, T>>>,
-            Readonly<IRandomAccessIterator<Entry<Key, T>, Iterator<Key, T>>>
+    export class Iterator<Key>
+        implements Readonly<_Iterator<Key, FlatSet<Key>, FlatSet.Iterator<Key>, FlatSet.ReverseIterator<Key>, Key>>,
+            Readonly<IRandomAccessIterator<Key, Iterator<Key>>>
     {
         /**
          * @hidden
          */
-        private source_: FlatMap<Key, T>;
+        private source_: FlatSet<Key>;
 
         /**
          * @hidden
@@ -504,7 +422,7 @@ export namespace FlatMap
          * @param source Source container.
          * @param index Index number.
          */
-        public constructor(source: FlatMap<Key, T>, index: number)
+        public constructor(source: FlatSet<Key>, index: number)
         {
             this.source_ = source;
             this.index_ = index;
@@ -513,7 +431,7 @@ export namespace FlatMap
         /**
          * @inheritDoc
          */
-        public reverse(): ReverseIterator<Key, T>
+        public reverse(): ReverseIterator<Key>
         {
             return new ReverseIterator(this);
         }
@@ -524,7 +442,7 @@ export namespace FlatMap
         /**
          * @inheritDoc
          */
-        public source(): FlatMap<Key, T>
+        public source(): FlatSet<Key>
         {
             return this.source_;
         }
@@ -540,45 +458,15 @@ export namespace FlatMap
         /**
          * @inheritDoc
          */
-        public get value(): Entry<Key, T>
+        public get value(): Key
         {
             return this.source_._At(this.index_);
         }
 
         /**
-         * Get the first, key element.
-         * 
-         * @return The first element.
-         */
-        public get first(): Key
-        {
-            return this.value.first;
-        }
-
-        /**
-         * Get the second, stored element.
-         * 
-         * @return The second element.
-         */
-        public get second(): T
-        {
-            return this.value.second;
-        }
-
-        /**
-         * Set the second, stored element.
-         * 
-         * @param val The value to set.
-         */
-        public set second(val: T)
-        {
-            this.value.second = val;
-        }
-
-        /**
          * @inheritDoc
          */
-        public equals(obj: Iterator<Key, T>): boolean
+        public equals(obj: Iterator<Key>): boolean
         {
             return this.source_ === obj.source_ && this.index_ === obj.index_;
         }
@@ -589,7 +477,7 @@ export namespace FlatMap
         /**
          * @inheritDoc
          */
-        public prev(): Iterator<Key, T>
+        public prev(): Iterator<Key>
         {
             return this.advance(-1);
         }
@@ -597,7 +485,7 @@ export namespace FlatMap
         /**
          * @inheritDoc
          */
-        public next(): Iterator<Key, T>
+        public next(): Iterator<Key>
         {
             return this.advance(1);
         }
@@ -605,19 +493,15 @@ export namespace FlatMap
         /**
          * @inheritDoc
          */
-        public advance(n: number): Iterator<Key, T>
+        public advance(n: number): Iterator<Key>
         {
             return new Iterator(this.source_, this.index_ + n);
         }
     }
 
-    export class ReverseIterator<Key, T>
-        extends _ReverseIterator<Entry<Key, T>, 
-            FlatMap<Key, T>, 
-            Iterator<Key, T>,
-            ReverseIterator<Key, T>,
-            IPair<Key, T>>
-        implements Readonly<IRandomAccessIterator<Entry<Key, T>, ReverseIterator<Key, T>>>
+    export class ReverseIterator<Key>
+        extends _ReverseIterator<Key, FlatSet<Key>, FlatSet.Iterator<Key>, FlatSet.ReverseIterator<Key>, Key>
+        implements Readonly<IRandomAccessIterator<Key, ReverseIterator<Key>>>
     {
         /* ---------------------------------------------------------
             CONSTRUCTORS
@@ -627,7 +511,7 @@ export namespace FlatMap
          * 
          * @param base The base iterator.
          */
-        public constructor(base: Iterator<Key, T>)
+        public constructor(base: Iterator<Key>)
         {
             super(base);
         }
@@ -635,7 +519,7 @@ export namespace FlatMap
         /**
          * @hidden
          */
-        protected _Create_neighbor(base: Iterator<Key, T>): ReverseIterator<Key, T>
+        protected _Create_neighbor(base: Iterator<Key>): ReverseIterator<Key>
         {
             return new ReverseIterator(base);
         }
@@ -643,7 +527,7 @@ export namespace FlatMap
         /**
          * @inheritDoc
          */
-        public advance(n: number): ReverseIterator<Key, T>
+        public advance(n: number): ReverseIterator<Key>
         {
             return this._Create_neighbor(this.base().advance(-n));
         }
@@ -657,36 +541,6 @@ export namespace FlatMap
         public index(): number
         {
             return this.base_.index();
-        }
-
-        /**
-         * Get the first, key element.
-         * 
-         * @return The first element.
-         */
-        public get first(): Key
-        {
-            return this.base_.first;
-        }
-
-        /**
-         * Get the second, stored element.
-         * 
-         * @return The second element.
-         */
-        public get second(): T
-        {
-            return this.base_.second;
-        }
-
-        /**
-         * Set the second, stored element.
-         * 
-         * @param val The value to set.
-         */
-        public set second(val: T)
-        {
-            this.base_.second = val;
         }
     }
 }
