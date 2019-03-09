@@ -4,7 +4,7 @@
 import { IContainer } from "./IContainer";
 
 import { Iterator } from "../iterator/Iterator";
-import { ReverseIterator } from "../iterator/ReverseIterator";
+import { IReverseIterator } from "../iterator/ReverseIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 import { _IPushBack } from "../disposable/IPartialContainers";
@@ -17,7 +17,7 @@ import { _IPushBack } from "../disposable/IPartialContainers";
 export interface ILinearContainer<T, 
 		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, T>, 
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
 	extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, 
 		_IPushBack<T>
 {

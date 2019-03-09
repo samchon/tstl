@@ -3,7 +3,7 @@
 //================================================================
 import { IBidirectionalContainer } from "../disposable/IBidirectionalContainer";
 import { Iterator } from "../iterator/Iterator";
-import { ReverseIterator } from "../iterator/ReverseIterator";
+import { IReverseIterator } from "../iterator/ReverseIterator";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { _IEmpty, _ISize, _IPush } from "../disposable/IPartialContainers";
@@ -16,7 +16,7 @@ import { _IEmpty, _ISize, _IPush } from "../disposable/IPartialContainers";
 export interface IContainer<T extends Elem, 
 		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		Elem = T>
 	extends IBidirectionalContainer<Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>, ReverseIteratorT>, 
 		Iterable<T>, _IEmpty, _ISize, _IPush<Elem>

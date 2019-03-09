@@ -5,13 +5,14 @@ import { MultiMap } from "../base/container/MultiMap";
 import { IHashMap } from "../base/container/IHashMap";
 import { _Construct } from "../base/container/_IHashContainer";
 
+import { MapElementList } from "../base/container/_MapElementList";
 import { _MapHashBuckets } from "../base/hash/_MapHashBuckets";
-import { MapIterator, MapReverseIterator } from "../base/iterator/MapIterator";
-import { Entry } from "../utility/Entry";
 
-import { IForwardIterator } from "../iterator/IForwardIterator";
 import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
+import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
+import { Entry } from "../utility/Entry";
+import { Temporary } from "../base/Temporary";
 
 /**
  * Multiple-key Map based on Hash buckets.
@@ -19,7 +20,10 @@ import { IPair } from "../utility/IPair";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class HashMultiMap<Key, T>
-    extends MultiMap<Key, T, HashMultiMap<Key, T>>
+    extends MultiMap<Key, T, 
+        HashMultiMap<Key, T>,
+        HashMultiMap.Iterator<Key, T>,
+        HashMultiMap.ReverseIterator<Key, T>>
     implements IHashMap<Key, T, false, HashMultiMap<Key, T>>
 {
     /**
@@ -76,6 +80,7 @@ export class HashMultiMap<Key, T>
     public constructor(...args: any[])
     {
         super();
+        this.data_ = new MapElementList<Key, T, false, HashMultiMap<Key, T>>(this) as Temporary;
 
         _Construct<Key, Entry<Key, T>, 
                 HashMultiMap<Key, T>,
@@ -112,10 +117,19 @@ export class HashMultiMap<Key, T>
     {
         // SWAP CONTENTS
         super.swap(obj);
+        MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS
         _MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
+    }
+
+    /**
+     * @hidden
+     */
+    protected _Get_iterator_type(): typeof MapElementList.Iterator
+    {
+        return MapElementList.Iterator;
     }
 
     /* =========================================================
@@ -397,12 +411,12 @@ export namespace HashMultiMap
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key, T> = MapIterator<Key, T, false, HashMultiMap<Key, T>>;
-    export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, false, HashMultiMap<Key, T>>;
+    export type Iterator<Key, T> = MapElementList.Iterator<Key, T, false, HashMultiMap<Key, T>>;
+    export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, false, HashMultiMap<Key, T>>;
 
     // BODY
-    export const Iterator = MapIterator;
-    export const ReverseIterator = MapReverseIterator;
+    export const Iterator = MapElementList.Iterator;
+    export const ReverseIterator = MapElementList.ReverseIterator;
 
     //----
     // SNAKE NOTATION

@@ -690,3 +690,4 @@ export namespace FlatMap
         }
     }
 }
+export import flat_map = FlatMap;

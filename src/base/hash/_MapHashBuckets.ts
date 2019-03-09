@@ -4,13 +4,13 @@
 import { _HashBuckets } from "./_HashBuckets";
 
 import { IHashMap } from "../container/IHashMap";
-import { MapIterator } from "../iterator/MapIterator";
+import { MapElementList } from "../container/_MapElementList";
 
 /**
  * @hidden
  */
 export class _MapHashBuckets<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
-	extends _HashBuckets<MapIterator<Key, T, Unique, Source>>
+	extends _HashBuckets<MapElementList.Iterator<Key, T, Unique, Source>>
 {
 	private source_: IHashMap<Key, T, Unique, Source>;
 
@@ -54,7 +54,7 @@ export class _MapHashBuckets<Key, T, Unique extends boolean, Source extends IHas
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
-	public find(key: Key): MapIterator<Key, T, Unique, Source>
+	public find(key: Key): MapElementList.Iterator<Key, T, Unique, Source>
 	{
 		let index = this.hash_function_(key) % this.size();
 		let bucket = this.at(index);
@@ -66,7 +66,7 @@ export class _MapHashBuckets<Key, T, Unique extends boolean, Source extends IHas
 		return this.source_.end();
 	}
 
-	public hash_index(it: MapIterator<Key, T, Unique, Source>): number
+	public hash_index(it: MapElementList.Iterator<Key, T, Unique, Source>): number
 	{
 		return this.hash_function_(it.first) % this.size();
 	}

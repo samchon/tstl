@@ -3,7 +3,7 @@
 //================================================================
 import { IContainer } from "./IContainer";
 import { Iterator } from "../iterator/Iterator";
-import { ReverseIterator } from "../iterator/ReverseIterator";
+import { IReverseIterator } from "../iterator/ReverseIterator";
 
 /**
  * @hidden
@@ -11,7 +11,7 @@ import { ReverseIterator } from "../iterator/ReverseIterator";
 export interface _IAssociativeContainer<Key, T extends Elem, 
 		SourceT extends _IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		Elem>
 	extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
@@ -64,7 +64,7 @@ export interface _IAssociativeContainer<Key, T extends Elem,
 export function _Fetch_arguments<Key, T extends Elem, 
 		SourceT extends _IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		Elem>
 	(source: SourceT, ...args: any[])
 {

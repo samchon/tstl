@@ -95,7 +95,10 @@ function _Construct_set<Unique extends boolean, Source extends std.base.SetConta
 /* ---------------------------------------------------------
 	MAP CONTAINERS
 --------------------------------------------------------- */
-function _Test_unique_map<Source extends std.base.UniqueMap<Atomic<string>, number, Source>>
+function _Test_unique_map<
+		Source extends std.base.UniqueMap<Atomic<string>, number, Source, IteratorT, ReverseT>,
+		IteratorT extends std.base.IMapIterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>,
+		ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>>
 	(map: Source): void
 {
 	// CONSTRUCT ELEMENTS
@@ -122,7 +125,10 @@ function _Test_unique_map<Source extends std.base.UniqueMap<Atomic<string>, numb
 		throw new std.LogicError("Elements are not fully inserted.");
 }
 
-function _Test_multi_map<Source extends std.base.MultiMap<Atomic<string>, number, Source>>
+function _Test_multi_map<
+		Source extends std.base.MultiMap<Atomic<string>, number, Source, IteratorT, ReverseT>,
+		IteratorT extends std.base.IMapIterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>,
+		ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>>
 	(map: Source): void
 {
 	// CONSTRUCT ELEMENTS
@@ -153,7 +159,10 @@ function _Test_multi_map<Source extends std.base.MultiMap<Atomic<string>, number
 		throw new std.LogicError("Elements are not fully inserted.");
 }
 
-function _Construct_map<Unique extends boolean, Source extends std.base.MapContainer<Atomic<string>, number, Unique, Source>>
+function _Construct_map<Unique extends boolean, 
+		Source extends std.base.MapContainer<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>,
+		IteratorT extends std.base.IMapIterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>,
+		ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>>
 	(map: Source): void
 {
 	for (let i: number = 0; i <= 10; ++i)

@@ -4,36 +4,32 @@
 import { Container } from "./Container";
 import { _IAssociativeContainer } from "./_IAssociativeContainer";
 
-import { _MapElementList } from "./_MapElementList";
-import { MapIterator, MapReverseIterator } from "../iterator/MapIterator";
-import { Entry } from "../../utility/Entry";
-
+import { ILinearContainer } from "./ILinearContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
+
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";
+import { Entry } from "../../utility/Entry";
+import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
 /**
  * Base class for Map Containers.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class MapContainer<Key, T, Unique extends boolean, Source extends MapContainer<Key, T, Unique, Source>>
-	extends Container<Entry<Key, T>,
-		Source,
-		MapIterator<Key, T, Unique, Source>,
-		MapReverseIterator<Key, T, Unique, Source>,
-		IPair<Key, T>>
-	implements _IAssociativeContainer<Key, Entry<Key, T>,
-		Source, 
-		MapIterator<Key, T, Unique, Source>,
-		MapReverseIterator<Key, T, Unique, Source>,
-		IPair<Key, T>>
+export abstract class MapContainer<Key, T, 
+		Unique extends boolean, 
+		Source extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>,
+		IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>,
+		ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
+	extends Container<Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+	implements _IAssociativeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
 	/**
 	 * @hidden
 	 */
-	protected data_: _MapElementList<Key, T, Unique, Source>;
+	protected data_!: ILinearContainer<Entry<Key, T>, Source, IteratorT, ReverseT>;
 
 	/* ---------------------------------------------------------
 		CONSTURCTORS
@@ -44,8 +40,6 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	protected constructor()
 	{
 		super();
-		
-		this.data_ = new _MapElementList(this as any);
 	}
 	
 	/**
@@ -78,12 +72,12 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @inheritDoc
 	 */
-	public abstract find(key: Key): MapIterator<Key, T, Unique, Source>;
+	public abstract find(key: Key): IteratorT;
 
 	/**
 	 * @inheritDoc
 	 */
-	public begin(): MapIterator<Key, T, Unique, Source>
+	public begin(): IteratorT
 	{
 		return this.data_.begin();
 	}
@@ -91,7 +85,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @inheritDoc
 	 */
-	public end(): MapIterator<Key, T, Unique, Source>
+	public end(): IteratorT
 	{
 		return this.data_.end();
 	}
@@ -144,11 +138,11 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 		return this.size();
 	}
 	
-	public abstract emplace(key: Key, val: T): MapContainer.InsertRet<Key, T, Unique, Source>;
-	public abstract emplace_hint(hint: MapIterator<Key, T, Unique, Source>, key: Key, val: T): MapIterator<Key, T, Unique, Source>;
+	public abstract emplace(key: Key, val: T): MapContainer.InsertRet<Key, T, Unique, Source, IteratorT, ReverseT>;
+	public abstract emplace_hint(hint: IteratorT, key: Key, val: T): IteratorT;
 
-	public insert(pair: IPair<Key, T>): MapContainer.InsertRet<Key, T, Unique, Source>;
-	public insert(hint: MapIterator<Key, T, Unique, Source>, pair: IPair<Key, T>): MapIterator<Key, T, Unique, Source>;
+	public insert(pair: IPair<Key, T>): MapContainer.InsertRet<Key, T, Unique, Source, IteratorT, ReverseT>;
+	public insert(hint: IteratorT, pair: IPair<Key, T>): IteratorT;
 	public insert<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
 		(first: InputIterator, last: InputIterator): void;
 
@@ -179,16 +173,16 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @inheritDoc
 	 */
-	public erase(it: MapIterator<Key, T, Unique, Source>): MapIterator<Key, T, Unique, Source>;
+	public erase(it: IteratorT): IteratorT;
 
 	/**
 	 * @inheritDoc
 	 */
-	public erase(begin: MapIterator<Key, T, Unique, Source>, end: MapIterator<Key, T, Unique, Source>): MapIterator<Key, T, Unique, Source>;
+	public erase(begin: IteratorT, end: IteratorT): IteratorT;
 
 	public erase(...args: any[]): any 
 	{
-		if (args.length === 1 && (args[0] instanceof MapIterator === false || (args[0] as MapIterator<Key, T, Unique, Source>).source() as any !== this))
+		if (args.length === 1 && (args[0] instanceof this._Get_iterator_type() === false || (args[0] as IteratorT).source() as any !== this))
 			return this._Erase_by_key(args[0]);
 		else
 			if (args.length === 1)
@@ -205,7 +199,7 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @hidden
 	 */
-	protected _Erase_by_range(first: MapIterator<Key, T, Unique, Source>, last: MapIterator<Key, T, Unique, Source> = first.next()): MapIterator<Key, T, Unique, Source>
+	protected _Erase_by_range(first: IteratorT, last: IteratorT = first.next()): IteratorT
 	{
 		// ERASE
 		let it = this.data_.erase(first, last);
@@ -226,9 +220,6 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	{
 		// CHANGE CONTENTS
 		[this.data_, obj.data_] = [obj.data_, this.data_];
-
-		// CHANGE ITERATORS' SOURCES
-		_MapElementList._Swap_associative(this.data_, obj.data_);
 	}
 
 	/**
@@ -244,20 +235,27 @@ export abstract class MapContainer<Key, T, Unique extends boolean, Source extend
 	/**
 	 * @hidden
 	 */
-	protected abstract _Handle_insert(first: MapIterator<Key, T, Unique, Source>, last: MapIterator<Key, T, Unique, Source>): void;
+	protected abstract _Handle_insert(first: IteratorT, last: IteratorT): void;
 
 	/**
 	 * @hidden
 	 */
-	protected abstract _Handle_erase(first: MapIterator<Key, T, Unique, Source>, last: MapIterator<Key, T, Unique, Source>): void;
+	protected abstract _Handle_erase(first: IteratorT, last: IteratorT): void;
+
+	/**
+	 * @hidden
+	 */
+	protected abstract _Get_iterator_type(): any;
 }
 
 export namespace MapContainer
 {
 	export type InsertRet<Key, T, 
 			Unique extends boolean, 
-			Source extends MapContainer<Key, T, Unique, Source>>
+			Source extends MapContainer<Key, T, Unique, Source, Iterator, Reverse>,
+			Iterator extends IMapIterator<Key, T, Unique, Source, Iterator, Reverse>,
+			Reverse extends IMapReverseIterator<Key, T, Unique, Source, Iterator, Reverse>>
 		= Unique extends true 
-			? Pair<MapIterator<Key, T, Unique, Source>, boolean> 
-			: MapIterator<Key, T, Unique, Source>;
+			? Pair<Iterator, boolean> 
+			: Iterator;
 }

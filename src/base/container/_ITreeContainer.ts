@@ -3,7 +3,7 @@
 //================================================================
 import { _IAssociativeContainer, _Fetch_arguments } from "./_IAssociativeContainer";
 import { Iterator } from "../iterator/Iterator";
-import { ReverseIterator } from "../iterator/ReverseIterator";
+import { IReverseIterator } from "../iterator/ReverseIterator";
 
 import { Pair } from "../../utility/Pair";
 import { less } from "../../functional/comparators";
@@ -14,7 +14,7 @@ import { less } from "../../functional/comparators";
 export interface _ITreeContainer<Key, T extends Elem, 
 		SourceT extends _ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		Elem>
 	extends _IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
@@ -63,7 +63,7 @@ export interface _ITreeContainer<Key, T extends Elem,
 export function _Construct<Key, T extends Elem, 
 		SourceT extends _ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		Elem>
 	(
 		source: SourceT, 
@@ -120,7 +120,7 @@ export function _Construct<Key, T extends Elem,
 export function _Emplacable<Key, T extends Elem, 
 		SourceT extends _ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		Elem>
 	(
 		source: SourceT,

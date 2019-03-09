@@ -3,7 +3,7 @@
 //================================================================
 import { _IAssociativeContainer, _Fetch_arguments } from "./_IAssociativeContainer";
 import { Iterator } from "../iterator/Iterator";
-import { ReverseIterator } from "../iterator/ReverseIterator";
+import { IReverseIterator } from "../iterator/ReverseIterator";
 
 import { hash } from "../../functional/hash";
 import { equal_to } from "../../functional/comparators";
@@ -14,7 +14,7 @@ import { equal_to } from "../../functional/comparators";
 export interface _IHashContainer<Key, T extends Elem, 
 		SourceT extends _IHashContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		Elem>
 	extends _IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
@@ -104,7 +104,7 @@ export interface _IHashContainer<Key, T extends Elem,
 export function _Construct<Key, T extends Elem, 
 		SourceT extends _IHashContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
 		Elem>
 	(
 		source: SourceT, 

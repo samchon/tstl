@@ -1,6 +1,9 @@
 import * as std from "../../index";
 
 import { test_binary_searches } from "../algorithm/binary_searches";
+import { IMapIterator, IMapReverseIterator } from "../../base/iterator/IMapIterator";
+import { ITreeMap } from "../../base";
+import { Temporary } from "../../base/Temporary";
 
 export function test_trees(): void
 {
@@ -37,7 +40,8 @@ function _Test_tree_set_inserts_and_erases(): void
 	}
 }
 
-function _Test_tree_set<Unique extends boolean, Source extends std.base.SetContainer<number, Unique, Source>>
+function _Test_tree_set<Unique extends boolean, 
+		Source extends std.base.SetContainer<number, Unique, Source>>
 	(set: Source): void
 {
 	for (let i: number = 0; i < 1000; ++i)
@@ -65,14 +69,17 @@ function _Test_tree_set<Unique extends boolean, Source extends std.base.SetConta
 	}
 }
 
-function _Test_tree_map<Unique extends boolean, Source extends std.base.ITreeMap<number, number, Unique, Source>>
+function _Test_tree_map<Unique extends boolean, 
+		Source extends ITreeMap<number, number, Unique, Source, IteratorT, ReverseT>,
+		IteratorT extends IMapIterator<number, number, Unique, Source, IteratorT, ReverseT>,
+		ReverseT extends IMapReverseIterator<number, number, Unique, Source, IteratorT, ReverseT>>
 	(map: Source): void
 {
 	for (let i: number = 0; i < 1000; ++i)
 		map.push(std.make_pair(Math.floor(Math.random() * 100), 0));
 
 	// VALIDATE SORTING
-	if (std.is_sorted(map.begin(), map.end()) === false)
+	if (std.is_sorted(map.begin() as Temporary, map.end()) === false)
 		throw new std.DomainError("Order of TreeMap or TreeMultiMap is wrong.");
 
 	// VALIDATE FIND
@@ -80,7 +87,7 @@ function _Test_tree_map<Unique extends boolean, Source extends std.base.ITreeMap
 	{
 		let val: number = Math.floor(Math.random() * 100);
 
-		let alg_it = std.find_if(map.begin(), map.end(), (entry: std.Entry<number, number>) =>
+		let alg_it = std.find_if(map.begin() as Temporary, map.end(), (entry: std.Entry<number, number>) =>
 			{
 				return val === entry.first;
 			});

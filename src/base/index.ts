@@ -38,4 +38,4 @@ export * from "./iterator/ForOfAdaptor";
 // DERIVED
 export * from "./iterator/ArrayIterator";
 export * from "./iterator/SetIterator";
-export * from "./iterator/MapIterator";
+export * from "./iterator/IMapIterator";

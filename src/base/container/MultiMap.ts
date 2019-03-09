@@ -2,9 +2,10 @@
 /** @module std.base */
 //================================================================
 import { MapContainer } from "./MapContainer";
-import { MapIterator } from "../iterator/MapIterator";
 
+import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
+
 import { IPair } from "../../utility/IPair";
 
 /**
@@ -12,8 +13,11 @@ import { IPair } from "../../utility/IPair";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
-	extends MapContainer<Key, T, false, Source>
+export abstract class MultiMap<Key, T, 
+		Source extends MultiMap<Key, T, Source, Iterator, Reverse>, 
+		Iterator extends IMapIterator<Key, T, false, Source, Iterator, Reverse>, 
+		Reverse extends IMapReverseIterator<Key, T, false, Source, Iterator, Reverse>>
+	extends MapContainer<Key, T, false, Source, Iterator, Reverse>
 {
 	/* ---------------------------------------------------------
 		INSERT
@@ -25,7 +29,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	 * @param value Value to emplace.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public abstract emplace(key: Key, value: T): MapIterator<Key, T, false, Source>;
+	public abstract emplace(key: Key, value: T): Iterator;
 
 	/**
 	 * Construct and insert element with hint.
@@ -35,7 +39,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	 * @param val Value of the new element.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public abstract emplace_hint(hint: MapIterator<Key, T, false, Source>, key: Key, val: T): MapIterator<Key, T, false, Source>;
+	public abstract emplace_hint(hint: Iterator, key: Key, val: T): Iterator;
 
 	/**
 	 * Insert an element.
@@ -43,7 +47,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public insert(pair: IPair<Key, T>): MapIterator<Key, T, false, Source>;
+	public insert(pair: IPair<Key, T>): Iterator;
 
 	/**
 	 * Insert an element with hint.
@@ -52,7 +56,7 @@ export abstract class MultiMap<Key, T, Source extends MultiMap<Key, T, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public insert(hint: MapIterator<Key, T, false, Source>, pair: IPair<Key, T>): MapIterator<Key, T, false, Source>;
+	public insert(hint: Iterator, pair: IPair<Key, T>): Iterator;
 
 	/**
 	 * Insert range elements.
