@@ -12,7 +12,6 @@ import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
 import { Temporary } from "../base/Temporary";
 
-
 /**
  * Multiple-key Map based on Tree.
  * 
@@ -70,8 +69,7 @@ export class TreeMultiMap<Key, T>
 
     public constructor(...args: any[])
     {
-        super();
-        this.data_ = new MapElementList<Key, T, false, TreeMultiMap<Key, T>>(this) as Temporary;
+        super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
 
         _Construct<Key, Entry<Key, T>, 
                 TreeMultiMap<Key, T>,
@@ -104,7 +102,7 @@ export class TreeMultiMap<Key, T>
     public swap(obj: TreeMultiMap<Key, T>): void
     {
         // SWAP CONTENTS
-        super.swap(obj);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE

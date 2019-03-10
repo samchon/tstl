@@ -2,9 +2,10 @@
 /** @module std.base */
 //================================================================
 import { SetContainer } from "./SetContainer";
-import { SetIterator } from "../iterator/SetIterator";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
+
 import { Pair } from "../../utility/Pair";
 import { OutOfRange } from "../../exception/LogicError";
 
@@ -13,8 +14,11 @@ import { OutOfRange } from "../../exception/LogicError";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class UniqueSet<Key, Source extends UniqueSet<Key, Source>>
-	extends SetContainer<Key, true, Source>
+export abstract class UniqueSet<Key, 
+		Source extends UniqueSet<Key, Source, IteratorT, ReverseT>,
+		IteratorT extends ISetIterator<Key, true, Source, IteratorT, ReverseT>,
+		ReverseT extends ISetReverseIterator<Key, true, Source, IteratorT, ReverseT>>
+	extends SetContainer<Key, true, Source, IteratorT, ReverseT>
 {
 	/* ---------------------------------------------------------
 		ACCESSOR
@@ -36,7 +40,7 @@ export abstract class UniqueSet<Key, Source extends UniqueSet<Key, Source>>
 	 * @param key Key to insert.
 	 * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to ordinary element and `false`.
 	 */
-	public insert(key: Key): Pair<SetIterator<Key, true, Source>, boolean>;
+	public insert(key: Key): Pair<IteratorT, boolean>;
 	
 	/**
 	 * Insert an element with hint.
@@ -45,7 +49,7 @@ export abstract class UniqueSet<Key, Source extends UniqueSet<Key, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
 	 */
-	public insert(hint: SetIterator<Key, true, Source>, key: Key): SetIterator<Key, true, Source>;
+	public insert(hint: IteratorT, key: Key): IteratorT;
 	
 	/**
 	 * Insert range elements.
@@ -78,14 +82,14 @@ export abstract class UniqueSet<Key, Source extends UniqueSet<Key, Source>>
 	 * @param pos The iterator to the element for extraction.
 	 * @return Iterator following the *pos*, strained by the extraction.
 	 */
-	public extract(it: SetIterator<Key, true, Source>): SetIterator<Key, true, Source>;
+	public extract(it: IteratorT): IteratorT;
 
-	public extract(param: Key | SetIterator<Key, true, Source>): any
+	public extract(param: Key | IteratorT): any
 	{
-		if (param instanceof SetIterator)
-			return this._Extract_by_iterator(param);
+		if (param instanceof this._Get_iterator_type())
+			return this._Extract_by_iterator(param as IteratorT);
 		else
-			return this._Extract_by_val(param);
+			return this._Extract_by_val(param as Key);
 	}
 
 	/**
@@ -104,7 +108,7 @@ export abstract class UniqueSet<Key, Source extends UniqueSet<Key, Source>>
 	/**
 	 * @hidden
 	 */
-	private _Extract_by_iterator(it: SetIterator<Key, true, Source>): SetIterator<Key, true, Source>
+	private _Extract_by_iterator(it: IteratorT): IteratorT
 	{
 		if (it.equals(this.end()) === true || this.has(it.value) === false)
 			return this.end();

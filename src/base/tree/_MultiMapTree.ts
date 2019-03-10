@@ -108,7 +108,7 @@ export class _MultiMapTree<Key, T,
                 return node.right;
             });
         if (node === null) // NOTHING
-            return this.source().end() as MapElementList.Iterator<Key, T, false, Source>;
+            return this.source().end();
 
         // MUST BE it.first > key
         let it: MapElementList.Iterator<Key, T, false, Source> = node.value;

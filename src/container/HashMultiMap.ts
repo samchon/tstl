@@ -79,8 +79,7 @@ export class HashMultiMap<Key, T>
 
     public constructor(...args: any[])
     {
-        super();
-        this.data_ = new MapElementList<Key, T, false, HashMultiMap<Key, T>>(this) as Temporary;
+        super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
 
         _Construct<Key, Entry<Key, T>, 
                 HashMultiMap<Key, T>,
@@ -116,7 +115,7 @@ export class HashMultiMap<Key, T>
     public swap(obj: HashMultiMap<Key, T>): void
     {
         // SWAP CONTENTS
-        super.swap(obj);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS

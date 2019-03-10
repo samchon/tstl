@@ -82,13 +82,21 @@ export namespace MapElementList
 {
 	export class Iterator<Key, T, 
 			Unique extends boolean, 
-			Source extends MapContainer<Key, T, Unique, Source, Iterator<Key, T, Unique, Source>, ReverseIterator<Key, T, Unique, Source>>>
+			Source extends MapContainer<Key, T, 
+				Unique, 
+				Source, 
+				Iterator<Key, T, Unique, Source>, 
+				ReverseIterator<Key, T, Unique, Source>>>
 		extends ListIterator<Entry<Key, T>, 
 			Source, 
 			Iterator<Key, T, Unique, Source>, 
 			ReverseIterator<Key, T, Unique, Source>,
 			IPair<Key, T>>
-		implements IMapIterator<Key, T, Unique, Source, Iterator<Key, T, Unique, Source>, ReverseIterator<Key, T, Unique, Source>>
+		implements IMapIterator<Key, T, 
+			Unique, 
+			Source, 
+			Iterator<Key, T, Unique, Source>, 
+			ReverseIterator<Key, T, Unique, Source>>
 	{
 		/**
 		 * @hidden
@@ -101,7 +109,13 @@ export namespace MapElementList
 		/**
 		 * @hidden
 		 */
-		private constructor(list: MapElementList<Key, T, Unique, Source>, prev: Iterator<Key, T, Unique, Source>, next: Iterator<Key, T, Unique, Source>, val: Entry<Key, T>)
+		private constructor
+			(
+				list: MapElementList<Key, T, Unique, Source>, 
+				prev: Iterator<Key, T, Unique, Source>, 
+				next: Iterator<Key, T, Unique, Source>, 
+				val: Entry<Key, T>
+			)
 		{
 			super(prev, next, val);
 			this.source_ = list;
@@ -179,16 +193,6 @@ export namespace MapElementList
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
 		--------------------------------------------------------- */
-		/**
-		 * Initializer Constructor.
-		 * 
-		 * @param base The base iterator.
-		 */
-		public constructor(base: Iterator<Key, T, Unique, Source>)
-		{
-			super(base);
-		}
-
 		/**
 		 * @hidden
 		 */

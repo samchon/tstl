@@ -1,15 +1,14 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { UniqueSet } from "../base/container/UniqueSet";
-import { ITreeSet } from "../base/container/ITreeSet";
+import { UniqueTreeSet } from "../base/container/UniqueTreeSet";
 import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
 
-import { _UniqueSetTree } from "../base/tree/_UniqueSetTree";
-import { SetIterator, SetReverseIterator } from "../base/iterator/SetIterator";
-
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { Pair } from "../utility/Pair";
+import { SetElementList } from "../base/container/_SetElementList";
+import { _UniqueSetTree } from "../base/tree/_UniqueSetTree";
+
+import { Temporary } from "../base/Temporary";
 
 /**
  * Unique-key Set based on Tree.
@@ -17,19 +16,17 @@ import { Pair } from "../utility/Pair";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class TreeSet<Key>
-    extends UniqueSet<Key, TreeSet<Key>>
-    implements ITreeSet<Key, true, TreeSet<Key>>
+    extends UniqueTreeSet<Key, 
+        TreeSet<Key>,
+        TreeSet.Iterator<Key>,
+        TreeSet.ReverseIterator<Key>>
 {
     /**
      * @hidden
      */
     private tree_!: _UniqueSetTree<Key, TreeSet<Key>>;
 
-    /* =========================================================
-        CONSTRUCTORS & SEMI-CONSTRUCTORS
-            - CONSTRUCTORS
-            - ASSIGN & CLEAR
-    ============================================================
+    /* ---------------------------------------------------------
         CONSTURCTORS
     --------------------------------------------------------- */
     /**
@@ -70,7 +67,7 @@ export class TreeSet<Key>
 
     public constructor(...args: any[])
     {
-        super();
+        super(thisArg => new SetElementList(<Temporary>thisArg) as Temporary);
 
         _Construct<Key, Key, 
                 TreeSet<Key>,
@@ -87,9 +84,6 @@ export class TreeSet<Key>
         );
     }
 
-    /* ---------------------------------------------------------
-        ASSIGN & CLEAR
-    --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
@@ -106,41 +100,29 @@ export class TreeSet<Key>
     public swap(obj: TreeSet<Key>): void
     {
         // SWAP CONTENTS
-        super.swap(obj);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
+        SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
         _UniqueSetTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
-    
-    /* =========================================================
-        ACCESSORS
-    ========================================================= */
-    /**
-     * @inheritDoc
-     */
-    public find(key: Key): TreeSet.Iterator<Key>
-    {
-        let node = this.tree_.nearest_by_key(key);
 
-        if (node === null || this.tree_.key_eq()(node.value.value, key) === false)
-            return this.end();
-        else
-            return node.value;
+    /**
+     * @hidden
+     */
+    protected _Get_iterator_type(): typeof SetElementList.Iterator
+    {
+        return SetElementList.Iterator;
     }
     
+    /* ---------------------------------------------------------
+        ACCESSORS
+    --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
     public key_comp(): (x: Key, y: Key) => boolean
-    {
-        return this.tree_.key_comp();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public value_comp(): (x: Key, y: Key) => boolean
     {
         return this.tree_.key_comp();
     }
@@ -159,71 +141,6 @@ export class TreeSet<Key>
     public upper_bound(key: Key): TreeSet.Iterator<Key>
     {
         return this.tree_.upper_bound(key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public equal_range(key: Key): Pair<TreeSet.Iterator<Key>, TreeSet.Iterator<Key>>
-    {
-        return this.tree_.equal_range(key);
-    }
-
-    /* =========================================================
-        ELEMENTS I/O
-            - INSERT
-            - POST-PROCESS
-    ============================================================
-        INSERT
-    --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
-    protected _Insert_by_key(key: Key): Pair<TreeSet.Iterator<Key>, boolean>
-    {
-        // FIND POSITION TO INSERT
-        let it: TreeSet.Iterator<Key> = this.lower_bound(key);
-        if (!it.equals(this.end()) && this.tree_.key_eq()(it.value, key))
-            return new Pair(it, false);
-
-        // ITERATOR TO RETURN
-        it = this.data_.insert(it, key);
-        this._Handle_insert(it, it.next()); // POST-PROCESS
-
-        return new Pair(it, true);
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_hint(hint: TreeSet.Iterator<Key>, key: Key): TreeSet.Iterator<Key>
-    {
-        let validate: boolean = _Emplacable<Key, Key, 
-                TreeSet<Key>,
-                TreeSet.Iterator<Key>,
-                TreeSet.ReverseIterator<Key>,
-                Key>
-            (this, hint, key);
-
-        if (validate)
-        {
-            this.data_.insert(hint, key);
-            this._Handle_insert(hint, hint.next());
-
-            return hint;
-        }
-        else
-            return this._Insert_by_key(key).first;
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        for (; !first.equals(last); first = first.next())
-            this._Insert_by_key(first.value);
     }
 
     /* ---------------------------------------------------------
@@ -254,12 +171,12 @@ export namespace TreeSet
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key> = SetIterator<Key, true, TreeSet<Key>>;
-    export type ReverseIterator<Key> = SetReverseIterator<Key, true, TreeSet<Key>>;
+    export type Iterator<Key> = SetElementList.Iterator<Key, true, TreeSet<Key>>;
+    export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, true, TreeSet<Key>>;
 
     // BODY
-    export const Iterator = SetIterator;
-    export const ReverseIterator = SetReverseIterator;
+    export const Iterator = SetElementList.Iterator;
+    export const ReverseIterator = SetElementList.ReverseIterator;
 
     //----
     // SNAKE NOTATION

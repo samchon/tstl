@@ -137,16 +137,6 @@ export class ArrayReverseIterator<T, Source extends ArrayContainer<T, Source>>
 		CONSTRUCTORS
 	--------------------------------------------------------- */
 	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param base The base iterator.
-	 */
-	public constructor(base: ArrayIterator<T, Source>)
-	{
-		super(base);
-	}
-
-	/**
 	 * @hidden
 	 */
 	protected _Create_neighbor(base: ArrayIterator<T, Source>): ArrayReverseIterator<T, Source>

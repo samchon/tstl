@@ -46,7 +46,7 @@ export abstract class ReverseIterator<T extends Elem,
 	 * 
 	 * @param base The base iterator.
 	 */
-	protected constructor(base: Base)
+	public constructor(base: Base)
 	{
 		this.base_ = base.prev();
 	}

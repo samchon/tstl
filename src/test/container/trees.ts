@@ -1,9 +1,7 @@
 import * as std from "../../index";
 
-import { test_binary_searches } from "../algorithm/binary_searches";
-import { IMapIterator, IMapReverseIterator } from "../../base/iterator/IMapIterator";
-import { ITreeMap } from "../../base";
 import { Temporary } from "../../base/Temporary";
+import { test_binary_searches } from "../algorithm/binary_searches";
 
 export function test_trees(): void
 {
@@ -41,14 +39,16 @@ function _Test_tree_set_inserts_and_erases(): void
 }
 
 function _Test_tree_set<Unique extends boolean, 
-		Source extends std.base.SetContainer<number, Unique, Source>>
+		Source extends std.base.ITreeSet<number, Unique, Source, IteratorT, ReverseT>,
+		IteratorT extends std.base.ISetIterator<number, Unique, Source, IteratorT, ReverseT>,
+		ReverseT extends std.base.ISetReverseIterator<number, Unique, Source, IteratorT, ReverseT>>
 	(set: Source): void
 {
 	for (let i: number = 0; i < 1000; ++i)
 		set.push(Math.floor(Math.random() * 100));
 
 	// VALIDATE SORTING
-	if (std.is_sorted(set.begin(), set.end()) === false)
+	if (std.is_sorted(set.begin() as Temporary, set.end()) === false)
 		throw new std.DomainError("Order of TreeSet or TreeMultiSet is wrong.");
 
 	// VALIDATE FIND
@@ -56,7 +56,7 @@ function _Test_tree_set<Unique extends boolean,
 	{
 		let val: number = Math.floor(Math.random() * 100);
 
-		let alg_it = std.find(set.begin(), set.end(), val);
+		let alg_it = std.find(set.begin() as Temporary, set.end(), val);
 		let set_it = set.find(val);
 
 		if (alg_it === set.end())
@@ -70,9 +70,9 @@ function _Test_tree_set<Unique extends boolean,
 }
 
 function _Test_tree_map<Unique extends boolean, 
-		Source extends ITreeMap<number, number, Unique, Source, IteratorT, ReverseT>,
-		IteratorT extends IMapIterator<number, number, Unique, Source, IteratorT, ReverseT>,
-		ReverseT extends IMapReverseIterator<number, number, Unique, Source, IteratorT, ReverseT>>
+		Source extends std.base.ITreeMap<number, number, Unique, Source, IteratorT, ReverseT>,
+		IteratorT extends std.base.IMapIterator<number, number, Unique, Source, IteratorT, ReverseT>,
+		ReverseT extends std.base.IMapReverseIterator<number, number, Unique, Source, IteratorT, ReverseT>>
 	(map: Source): void
 {
 	for (let i: number = 0; i < 1000; ++i)

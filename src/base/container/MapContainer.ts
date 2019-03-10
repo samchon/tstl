@@ -4,6 +4,7 @@
 import { Container } from "./Container";
 import { _IAssociativeContainer } from "./_IAssociativeContainer";
 
+import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 import { ILinearContainer } from "./ILinearContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
@@ -11,7 +12,7 @@ import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";
 import { Entry } from "../../utility/Entry";
-import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
+import { Temporary } from "../Temporary";
 
 /**
  * Base class for Map Containers.
@@ -29,7 +30,7 @@ export abstract class MapContainer<Key, T,
 	/**
 	 * @hidden
 	 */
-	protected data_!: ILinearContainer<Entry<Key, T>, Source, IteratorT, ReverseT>;
+	protected data_: ILinearContainer<Entry<Key, T>, Source, IteratorT, ReverseT>;
 
 	/* ---------------------------------------------------------
 		CONSTURCTORS
@@ -37,9 +38,10 @@ export abstract class MapContainer<Key, T,
 	/**
 	 * Default Constructor.
 	 */
-	protected constructor()
+	protected constructor(factory: (thisArg: Source) => ILinearContainer<Entry<Key, T>, Source, IteratorT, ReverseT>)
 	{
 		super();
+		this.data_ = factory(this as Temporary);
 	}
 	
 	/**
@@ -216,11 +218,7 @@ export abstract class MapContainer<Key, T,
 	/**
 	 * @inheritDoc
 	 */
-	public swap(obj: Source): void
-	{
-		// CHANGE CONTENTS
-		[this.data_, obj.data_] = [obj.data_, this.data_];
-	}
+	public abstract swap(obj: Source): void;
 
 	/**
 	 * Merge two containers.

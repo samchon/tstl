@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { UniqueTreeMap } from "../base/container/UniqueTreeMap";
-import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
+import { _Construct } from "../base/container/_ITreeContainer";
 
 import { MapElementList } from "../base/container/_MapElementList";
 import { _UniqueMapTree } from "../base/tree/_UniqueMapTree";
@@ -70,8 +70,7 @@ export class TreeMap<Key, T>
     public constructor(...args: any[])
     {
         // INITIALIZATION
-        super();
-        this.data_ = new MapElementList<Key, T, true, TreeMap<Key, T>>(this) as Temporary;
+        super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
         
         // OVERLOADINGS
         _Construct<Key, Entry<Key, T>, 
@@ -105,7 +104,7 @@ export class TreeMap<Key, T>
     public swap(obj: TreeMap<Key, T>): void
     {
         // SWAP CONTENTS
-        super.swap(obj);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE

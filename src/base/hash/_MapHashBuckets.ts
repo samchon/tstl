@@ -9,7 +9,9 @@ import { MapElementList } from "../container/_MapElementList";
 /**
  * @hidden
  */
-export class _MapHashBuckets<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
+export class _MapHashBuckets<Key, T, 
+		Unique extends boolean, 
+		Source extends IHashMap<Key, T, Unique, Source>>
 	extends _HashBuckets<MapElementList.Iterator<Key, T, Unique, Source>>
 {
 	private source_: IHashMap<Key, T, Unique, Source>;

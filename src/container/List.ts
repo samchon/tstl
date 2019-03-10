@@ -451,11 +451,6 @@ export namespace List
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
-        public constructor(base: Iterator<T>)
-        {
-            super(base);
-        }
-
         /**
          * @hidden
          */

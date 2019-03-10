@@ -3,16 +3,19 @@
 //================================================================
 import { SetContainer } from "./SetContainer";
 
-import { SetIterator } from "../iterator/SetIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 
 /**
  * Base class for Multiple-key Set Containers.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
-	extends SetContainer<Key, false, Source>
+export abstract class MultiSet<Key, 
+		Source extends MultiSet<Key, Source, IteratorT, ReverseT>,
+		IteratorT extends ISetIterator<Key, false, Source, IteratorT, ReverseT>,
+		ReverseT extends ISetReverseIterator<Key, false, Source, IteratorT, ReverseT>>
+	extends SetContainer<Key, false, Source, IteratorT, ReverseT>
 {
 	/* ---------------------------------------------------------
 		INSERT
@@ -23,7 +26,7 @@ export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public insert(key: Key): SetIterator<Key, false, Source>;
+	public insert(key: Key): IteratorT;
 
 	/**
 	 * Insert an element with hint.
@@ -32,7 +35,7 @@ export abstract class MultiSet<Key, Source extends MultiSet<Key, Source>>
 	 * @param pair A tuple to be referenced for the insert.
 	 * @return An iterator to the newly inserted element.
 	 */
-	public insert(hint: SetIterator<Key, false, Source>, key: Key): SetIterator<Key, false, Source>;
+	public insert(hint: IteratorT, key: Key): IteratorT;
 
 	/**
 	 * Insert range elements.

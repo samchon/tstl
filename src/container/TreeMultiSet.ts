@@ -1,15 +1,14 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { MultiSet } from "../base/container/MultiSet";
-import { ITreeSet } from "../base/container/ITreeSet";
+import { MultiTreeSet } from "../base/container/MultiTreeSet";
 import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
 
-import { _MultiSetTree } from "../base/tree/_MultiSetTree";
-import { SetIterator, SetReverseIterator } from "../base/iterator/SetIterator";
-
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { Pair } from "../utility/Pair";
+import { SetElementList } from "../base/container/_SetElementList";
+import { _MultiSetTree } from "../base/tree/_MultiSetTree";
+
+import { Temporary } from "../base/Temporary";
 
 /**
  * Multiple-key Set based on Tree.
@@ -17,19 +16,17 @@ import { Pair } from "../utility/Pair";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class TreeMultiSet<Key>
-    extends MultiSet<Key, TreeMultiSet<Key>>
-    implements ITreeSet<Key, false, TreeMultiSet<Key>>
+    extends MultiTreeSet<Key, 
+        TreeMultiSet<Key>,
+        TreeMultiSet.Iterator<Key>,
+        TreeMultiSet.ReverseIterator<Key>>
 {
     /**
      * @hidden
      */
     private tree_!: _MultiSetTree<Key, TreeMultiSet<Key>>;
 
-    /* =========================================================
-        CONSTRUCTORS & SEMI-CONSTRUCTORS
-            - CONSTRUCTORS
-            - ASSIGN & CLEAR
-    ============================================================
+    /* ---------------------------------------------------------
         CONSTURCTORS
     --------------------------------------------------------- */
     /**
@@ -70,7 +67,7 @@ export class TreeMultiSet<Key>
 
     public constructor(...args: any[])
     {
-        super();
+        super(thisArg => new SetElementList(<Temporary>thisArg) as Temporary);
 
         _Construct<Key, Key, 
                 TreeMultiSet<Key>,
@@ -87,9 +84,6 @@ export class TreeMultiSet<Key>
         );
     }
 
-    /* ---------------------------------------------------------
-        ASSIGN & CLEAR
-    --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
@@ -106,55 +100,29 @@ export class TreeMultiSet<Key>
     public swap(obj: TreeMultiSet<Key>): void
     {
         // SWAP CONTENTS
-        super.swap(obj);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
+        SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
         _MultiSetTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
-    /* =========================================================
+    /**
+     * @hidden
+     */
+    protected _Get_iterator_type(): typeof SetElementList.Iterator
+    {
+        return SetElementList.Iterator;
+    }
+
+    /* ---------------------------------------------------------
         ACCESSORS
-    ========================================================= */
-    /**
-     * @inheritDoc
-     */
-    public find(key: Key): TreeMultiSet.Iterator<Key>
-    {
-        let node = this.tree_.nearest_by_key(key);
-
-        if (node === null || this.tree_.key_eq()(node.value.value, key) === false)
-            return this.end();
-        else
-            return node.value;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public count(key: Key): number
-    {
-        let it = this.find(key);
-        let ret: number = 0;
-
-        for (; !it.equals(this.end()) && this.tree_.key_eq()(it.value, key); it = it.next())
-            ++ret;
-
-        return ret;
-    }
-
+    --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
     public key_comp(): (x: Key, y: Key) => boolean
-    {
-        return this.tree_.key_comp();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public value_comp(): (x: Key, y: Key) => boolean
     {
         return this.tree_.key_comp();
     }
@@ -173,77 +141,6 @@ export class TreeMultiSet<Key>
     public upper_bound(key: Key): TreeMultiSet.Iterator<Key>
     {
         return this.tree_.upper_bound(key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public equal_range(key: Key): Pair<TreeMultiSet.Iterator<Key>, TreeMultiSet.Iterator<Key>>
-    {
-        return this.tree_.equal_range(key);
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Key_eq(x: Key, y: Key): boolean
-    {
-        return this.tree_.key_eq()(x, y);
-    }
-
-    /* =========================================================
-        ELEMENTS I/O
-            - INSERT
-            - POST-PROCESS
-    ============================================================
-        INSERT
-    --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
-    protected _Insert_by_key(key: Key): TreeMultiSet.Iterator<Key>
-    {
-        // FIND POSITION TO INSERT
-        let it: TreeMultiSet.Iterator<Key> = this.upper_bound(key);
-
-        // ITERATOR TO RETURN
-        it = this.data_.insert(it, key);
-        this._Handle_insert(it, it.next()); // POST-PROCESS
-
-        return it;
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_hint(hint: TreeMultiSet.Iterator<Key>, key: Key): TreeMultiSet.Iterator<Key>
-    {
-        let validate: boolean = _Emplacable<Key, Key, 
-                TreeMultiSet<Key>,
-                TreeMultiSet.Iterator<Key>,
-                TreeMultiSet.ReverseIterator<Key>,
-                Key>
-            (this, hint, key);
-
-        if (validate)
-        {
-            this.data_.insert(hint, key);
-            this._Handle_insert(hint, hint.next());
-
-            return hint;
-        }
-        else
-            return this._Insert_by_key(key);
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        for (; !first.equals(last); first = first.next())
-            this._Insert_by_key(first.value);
     }
 
     /* ---------------------------------------------------------
@@ -274,12 +171,12 @@ export namespace TreeMultiSet
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key> = SetIterator<Key, false, TreeMultiSet<Key>>;
-    export type ReverseIterator<Key> = SetReverseIterator<Key, false, TreeMultiSet<Key>>;
+    export type Iterator<Key> = SetElementList.Iterator<Key, false, TreeMultiSet<Key>>;
+    export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, false, TreeMultiSet<Key>>;
 
     // BODY
-    export const Iterator = SetIterator;
-    export const ReverseIterator = SetReverseIterator;
+    export const Iterator = SetElementList.Iterator;
+    export const ReverseIterator = SetElementList.ReverseIterator;
 
     //----
     // SNAKE NOTATION

@@ -20,7 +20,11 @@ export function test_associatives(): void
 /* ---------------------------------------------------------
 	SET CONTAINERS
 --------------------------------------------------------- */
-function _Test_unique_set<Source extends std.base.UniqueSet<Atomic<number>, Source>>
+function _Test_unique_set<
+		Unique extends boolean, 
+		Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+		IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+		ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
 	(set: Source): void
 {
 	// CONSTRUCT ELEMENTS
@@ -47,7 +51,11 @@ function _Test_unique_set<Source extends std.base.UniqueSet<Atomic<number>, Sour
 		throw new std.LogicError("Elements are not fully inserted.");
 }
 
-function _Test_multi_set<Source extends std.base.MultiSet<Atomic<number>, Source>>
+function _Test_multi_set<
+		Unique extends boolean, 
+		Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+		IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+		ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
 	(set: Source): void
 {
 	// CONSTRUCT ELEMENTS
@@ -78,7 +86,11 @@ function _Test_multi_set<Source extends std.base.MultiSet<Atomic<number>, Source
 		throw new std.LogicError("Elements are not fully inserted.");
 }
 
-function _Construct_set<Unique extends boolean, Source extends std.base.SetContainer<Atomic<number>, Unique, Source>>
+function _Construct_set<
+		Unique extends boolean, 
+		Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+		IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+		ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
 	(set: Source): void
 {
 	// INSERT ELEMENTS

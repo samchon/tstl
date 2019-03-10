@@ -16,7 +16,8 @@ import { MapElementList } from "./_MapElementList";
 export interface IHashMap<Key, T, 
 		Unique extends boolean, 
 		Source extends IHashMap<Key, T, Unique, Source>>
-	extends MapContainer<Key, T, 
+	extends 
+		MapContainer<Key, T, 
 			Unique, 
 			Source,
 			MapElementList.Iterator<Key, T, Unique, Source>,

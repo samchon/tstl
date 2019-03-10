@@ -4,13 +4,13 @@
 import { _HashBuckets } from "./_HashBuckets";
 
 import { IHashSet } from "../container/IHashSet";
-import { SetIterator } from "../iterator/SetIterator";
+import { SetElementList } from "../container/_SetElementList";
 
 /**
  * @hidden
  */
 export class _SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<T, Unique, Source>>
-	extends _HashBuckets<SetIterator<T, Unique, Source>>
+	extends _HashBuckets<SetElementList.Iterator<T, Unique, Source>>
 {
 	private source_: IHashSet<T, Unique, Source>;
 
@@ -54,7 +54,7 @@ export class _SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<
 	/* ---------------------------------------------------------
 		FINDERS
 	--------------------------------------------------------- */
-	public find(val: T): SetIterator<T, Unique, Source>
+	public find(val: T): SetElementList.Iterator<T, Unique, Source>
 	{
 		let index = this.hash_function_(val) % this.size();
 		let bucket = this.at(index);
@@ -66,7 +66,7 @@ export class _SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<
 		return this.source_.end();
 	}
 
-	public hash_index(it: SetIterator<T, Unique, Source>): number
+	public hash_index(it: SetElementList.Iterator<T, Unique, Source>): number
 	{
 		return this.hash_function_(it.value) % this.size();
 	}
