@@ -5,7 +5,7 @@ import { UniqueMap } from "../base/container/UniqueMap";
 import { IHashMap } from "../base/container/IHashMap";
 import { _Construct } from "../base/container/_IHashContainer";
 
-import { MapElementList } from "../base/container/_MapElementList";
+import { MapElementList } from "../base/container/MapElementList";
 import { _MapHashBuckets } from "../base/hash/_MapHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";

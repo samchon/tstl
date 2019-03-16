@@ -3,7 +3,7 @@
 //================================================================
 import { SetContainer } from "./SetContainer";
 import { _IHashContainer } from "./_IHashContainer";
-import { SetElementList } from "./_SetElementList";
+import { SetElementList } from "./SetElementList";
 
 /**
  * Common interface for Hash Sets.

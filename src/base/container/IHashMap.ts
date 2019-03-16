@@ -6,7 +6,7 @@ import { _IHashContainer } from "./_IHashContainer";
 
 import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
-import { MapElementList } from "./_MapElementList";
+import { MapElementList } from "./MapElementList";
 
 /**
  * Common interface for Hash Maps.

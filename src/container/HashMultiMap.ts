@@ -5,7 +5,7 @@ import { MultiMap } from "../base/container/MultiMap";
 import { IHashMap } from "../base/container/IHashMap";
 import { _Construct } from "../base/container/_IHashContainer";
 
-import { MapElementList } from "../base/container/_MapElementList";
+import { MapElementList } from "../base/container/MapElementList";
 import { _MapHashBuckets } from "../base/hash/_MapHashBuckets";
 
 import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";

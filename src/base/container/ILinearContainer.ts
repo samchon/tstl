@@ -14,11 +14,12 @@ import { _IPushBack } from "../disposable/IPartialContainers";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export interface ILinearContainer<T, 
+export interface ILinearContainer<T extends ElemT, 
 		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, 
 		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, T>, 
-		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
-	extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, 
+		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>,
+		ElemT = T>
+	extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
 		_IPushBack<T>
 {
 	/* ---------------------------------------------------------

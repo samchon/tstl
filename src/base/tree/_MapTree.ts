@@ -5,7 +5,7 @@ import { _XTree } from "./_XTree";
 import { _XTreeNode } from "./_XTreeNode";
 
 import { MapContainer } from "../container/MapContainer";
-import { MapElementList } from "../container/_MapElementList";
+import { MapElementList } from "../container/MapElementList";
 
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";

@@ -5,7 +5,7 @@ import { MultiTreeSet } from "../base/container/MultiTreeSet";
 import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { SetElementList } from "../base/container/_SetElementList";
+import { SetElementList } from "../base/container/SetElementList";
 import { _MultiSetTree } from "../base/tree/_MultiSetTree";
 
 import { Temporary } from "../base/Temporary";

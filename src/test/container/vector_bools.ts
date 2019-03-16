@@ -150,7 +150,7 @@ function _Modify_bool_containers
 		d: std.Deque<boolean>, 
 		l: std.List<boolean>, 
 		vb: std.VectorBoolean, 
-		func: (container: std.base.ILinearContainer<boolean, any, any, any>) => void
+		func: (container: std.base.ILinearContainer<boolean, any, any, any, boolean>) => void
 	): void
 {
 	func(v);

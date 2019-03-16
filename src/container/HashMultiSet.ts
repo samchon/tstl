@@ -5,7 +5,7 @@ import { MultiSet } from "../base/container/MultiSet";
 import { IHashSet } from "../base/container/IHashSet";
 import { _Construct } from "../base/container/_IHashContainer";
 
-import { SetElementList } from "../base/container/_SetElementList";
+import { SetElementList } from "../base/container/SetElementList";
 import { _SetHashBuckets } from "../base/hash/_SetHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";

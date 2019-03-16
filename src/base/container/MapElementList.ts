@@ -101,7 +101,7 @@ export namespace MapElementList
 		/**
 		 * @hidden
 		 */
-		private source_: MapElementList<Key, T, Unique, Source>;
+		private list_: MapElementList<Key, T, Unique, Source>;
 
 		/* ---------------------------------------------------------
 			CONSTRUCTORS
@@ -118,7 +118,7 @@ export namespace MapElementList
 			)
 		{
 			super(prev, next, val);
-			this.source_ = list;
+			this.list_ = list;
 		}
 
 		/**
@@ -153,7 +153,7 @@ export namespace MapElementList
 		 */
 		public source(): Source
 		{
-			return this.source_.associative();
+			return this.list_.associative();
 		}
 
 		/**

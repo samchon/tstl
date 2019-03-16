@@ -6,9 +6,14 @@ import { test_binary_searches } from "../algorithm/binary_searches";
 export function test_trees(): void
 {
 	_Test_tree_set(new std.TreeSet<number>());
+	_Test_tree_set(new std.FlatSet<number>());
 	_Test_tree_set(new std.TreeMultiSet<number>());
+	_Test_tree_set(new std.FlatMultiSet<number>());
+
 	_Test_tree_map(new std.TreeMap<number, number>());
+	_Test_tree_map(new std.FlatMap<number, number>());
 	_Test_tree_map(new std.TreeMultiMap<number, number>());
+	_Test_tree_map(new std.FlatMultiMap<number, number>());
 
 	_Test_tree_set_inserts_and_erases();
 	_Test_bounds();

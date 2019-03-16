@@ -5,7 +5,7 @@ import { _SetTree } from "./_SetTree";
 import { _XTreeNode } from "./_XTreeNode";
 
 import { MultiSet } from "../container/MultiSet";
-import { SetElementList } from "../container/_SetElementList";
+import { SetElementList } from "../container/SetElementList";
 
 import { get_uid } from "../../functional/uid";
 

@@ -4,7 +4,7 @@
 import { UniqueTreeMap } from "../base/container/UniqueTreeMap";
 import { _Construct } from "../base/container/_ITreeContainer";
 
-import { MapElementList } from "../base/container/_MapElementList";
+import { MapElementList } from "../base/container/MapElementList";
 import { _UniqueMapTree } from "../base/tree/_UniqueMapTree";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";

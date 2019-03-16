@@ -16,7 +16,8 @@ import { not_equal_to } from "../functional/comparators";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
+export class VectorBoolean 
+    extends ArrayContainer<boolean, VectorBoolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator, boolean>
 {
     //----
     // first => (index: number)
@@ -250,6 +251,14 @@ export class VectorBoolean extends ArrayContainer<boolean, VectorBoolean>
             // ERASE THE NEXT NODE
             this.data_.erase(next);
         }
+    }
+
+    /**
+     * @internal
+     */
+    public nth(index: number): VectorBoolean.Iterator
+    {
+        return new VectorBoolean.Iterator(this as VectorBoolean, index);
     }
 
     /**

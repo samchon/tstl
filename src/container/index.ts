@@ -37,4 +37,7 @@ export * from "./Queue";
 export * from "./PriorityQueue";
 
 // ASSOCIATIVE
+export * from "./FlatSet";
 export * from "./FlatMap";
+export * from "./FlatMultiSet";
+export * from "./FlatMultiMap";

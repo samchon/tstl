@@ -2,31 +2,26 @@
 /** @module std */
 //================================================================
 import { MultiTreeMap } from "../base/container/MultiTreeMap";
-import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
+import { _Construct } from "../base/container/_ITreeContainer";
 
-import { MapElementList } from "../base/container/MapElementList";
-import { _MultiMapTree } from "../base/tree/_MultiMapTree";
+import { MapElementVector } from "../base/container/MapElementVector";
+import { Entry } from "../utility/Entry";
+import { IPair } from "../utility/IPair";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { IPair } from "../utility/IPair";
-import { Entry } from "../utility/Entry";
 import { Temporary } from "../base/Temporary";
+import { lower_bound, upper_bound } from "../algorithm/binary_search";
 
-/**
- * Multiple-key Map based on Tree.
- * 
- * @author Jeongho Nam <http://samchon.org>
- */
-export class TreeMultiMap<Key, T>
-    extends MultiTreeMap<Key, T,
-        TreeMultiMap<Key, T>,
-        TreeMultiMap.Iterator<Key, T>,
-        TreeMultiMap.ReverseIterator<Key, T>>
+export class FlatMultiMap<Key, T>
+    extends MultiTreeMap<Key, T, 
+        FlatMultiMap<Key, T>, 
+        FlatMultiMap.Iterator<Key, T>, 
+        FlatMultiMap.ReverseIterator<Key, T>>
 {
     /**
      * @hidden
      */
-    private tree_!: _MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
+    private key_comp_!: (x: Key, y: Key) => boolean;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -51,7 +46,7 @@ export class TreeMultiMap<Key, T>
      * 
      * @param obj Object to copy.
      */
-    public constructor(obj: TreeMultiMap<Key, T>);
+    public constructor(obj: FlatMultiMap<Key, T>);
 
     /**
      * Range Constructor.
@@ -61,26 +56,28 @@ export class TreeMultiMap<Key, T>
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
     public constructor
-    (
-        first: Readonly<IForwardIterator<IPair<Key, T>>>, 
-        last: Readonly<IForwardIterator<IPair<Key, T>>>, 
-        comp?: (x: Key, y: Key) => boolean
-    );
-
+        (
+            first: Readonly<IForwardIterator<IPair<Key, T>>>, 
+            last: Readonly<IForwardIterator<IPair<Key, T>>>,
+            comp?: (x: Key, y: Key) => boolean
+        );
+    
     public constructor(...args: any[])
     {
-        super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
-
+        // INITIALIZATION
+        super(thisArg => new MapElementVector(<Temporary>thisArg) as Temporary);
+        
+        // OVERLOADINGS
         _Construct<Key, Entry<Key, T>, 
-                TreeMultiMap<Key, T>,
-                TreeMultiMap.Iterator<Key, T>,
-                TreeMultiMap.ReverseIterator<Key, T>,
+                FlatMultiMap<Key, T>,
+                FlatMultiMap.Iterator<Key, T>,
+                FlatMultiMap.ReverseIterator<Key, T>,
                 IPair<Key, T>>
         (
-            this, TreeMultiMap, 
+            this, FlatMultiMap, 
             comp => 
             {
-                this.tree_ = new _MultiMapTree(this as TreeMultiMap<Key, T>, comp);
+                this.key_comp_ = comp;
             },
             ...args
         );
@@ -89,33 +86,22 @@ export class TreeMultiMap<Key, T>
     /**
      * @inheritDoc
      */
-    public clear(): void
-    {
-        super.clear();
-
-        this.tree_.clear();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public swap(obj: TreeMultiMap<Key, T>): void
+    public swap(obj: FlatMultiMap<Key, T>): void
     {
         // SWAP CONTENTS
         [this.data_, obj.data_] = [obj.data_, this.data_];
-        MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
+        MapElementVector._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
-        // SWAP RB-TREE
-        _MultiMapTree._Swap_source(this.tree_, obj.tree_);
-        [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
+        // SWAP COMPARATORS
+        [this.key_comp_, obj.key_comp_] = [obj.key_comp_, this.key_comp_];
     }
 
     /**
      * @hidden
      */
-    protected _Get_iterator_type(): typeof MapElementList.Iterator
+    protected _Get_iterator_type(): typeof MapElementVector.Iterator
     {
-        return MapElementList.Iterator;
+        return MapElementVector.Iterator;
     }
 
     /* ---------------------------------------------------------
@@ -124,25 +110,41 @@ export class TreeMultiMap<Key, T>
     /**
      * @inheritDoc
      */
+    public nth(index: number): FlatMultiMap.Iterator<Key, T>
+    {
+        return (this.data_ as MapElementVector<Key, T, false, FlatMultiMap<Key, T>>).nth(index);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public key_comp(): (x: Key, y: Key) => boolean
     {
-        return this.tree_.key_comp();
+        return this.key_comp_;
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    public lower_bound(key: Key): FlatMultiMap.Iterator<Key, T>
+    {
+        return lower_bound(this.begin(), this.end(), this._Capsule_key(key), this.value_comp());
     }
 
     /**
      * @inheritDoc
      */
-    public lower_bound(key: Key): TreeMultiMap.Iterator<Key, T>
+    public upper_bound(key: Key): FlatMultiMap.Iterator<Key, T>
     {
-        return this.tree_.lower_bound(key);
+        return upper_bound(this.begin(), this.end(), this._Capsule_key(key), this.value_comp());
     }
 
     /**
-     * @inheritDoc
+     * @hidden
      */
-    public upper_bound(key: Key): TreeMultiMap.Iterator<Key, T>
+    private _Capsule_key(key: Key): Entry<Key, T>
     {
-        return this.tree_.upper_bound(key);
+        return { first: key } as Entry<Key, T>;
     }
 
     /* ---------------------------------------------------------
@@ -151,34 +153,26 @@ export class TreeMultiMap<Key, T>
     /**
      * @hidden
      */
-    protected _Handle_insert(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
-    {
-        for (; !first.equals(last); first = first.next())
-            this.tree_.insert(first);
-    }
+    protected _Handle_insert({}, {}): void {}
 
     /**
      * @hidden
      */
-    protected _Handle_erase(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
-    {
-        for (; !first.equals(last); first = first.next())
-            this.tree_.erase(first);
-    }
+    protected _Handle_erase({}, {}): void {}
 }
 
-export namespace TreeMultiMap
+export namespace FlatMultiMap
 {
     //----
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key, T> = MapElementList.Iterator<Key, T, false, TreeMultiMap<Key, T>>;
-    export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, false, TreeMultiMap<Key, T>>;
+    export type Iterator<Key, T> = MapElementVector.Iterator<Key, T, false, FlatMultiMap<Key, T>>;
+    export type ReverseIterator<Key, T> = MapElementVector.ReverseIterator<Key, T, false, FlatMultiMap<Key, T>>;
 
     // BODY
-    export const Iterator = MapElementList.Iterator;
-    export const ReverseIterator = MapElementList.ReverseIterator;
+    export const Iterator = MapElementVector.Iterator;
+    export const ReverseIterator = MapElementVector.ReverseIterator;
 
     //----
     // SNAKE NOTATION
@@ -191,4 +185,4 @@ export namespace TreeMultiMap
     export const iterator = Iterator;
     export const reverse_iterator = ReverseIterator;
 }
-export import multimap = TreeMultiMap;
+export import flat_multimap = FlatMultiMap;

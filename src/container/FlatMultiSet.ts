@@ -1,30 +1,25 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { UniqueTreeSet } from "../base/container/UniqueTreeSet";
-import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
+import { MultiTreeSet } from "../base/container/MultiTreeSet";
+import { _Construct } from "../base/container/_ITreeContainer";
+
+import { SetElementVector } from "../base/container/SetElementVector";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { SetElementList } from "../base/container/SetElementList";
-import { _UniqueSetTree } from "../base/tree/_UniqueSetTree";
-
 import { Temporary } from "../base/Temporary";
+import { lower_bound, upper_bound } from "../algorithm/binary_search";
 
-/**
- * Unique-key Set based on Tree.
- * 
- * @author Jeongho Nam <http://samchon.org>
- */
-export class TreeSet<Key>
-    extends UniqueTreeSet<Key, 
-        TreeSet<Key>,
-        TreeSet.Iterator<Key>,
-        TreeSet.ReverseIterator<Key>>
+export class FlatMultiSet<Key>
+    extends MultiTreeSet<Key, 
+        FlatMultiSet<Key>, 
+        FlatMultiSet.Iterator<Key>, 
+        FlatMultiSet.ReverseIterator<Key>>
 {
     /**
      * @hidden
      */
-    private tree_!: _UniqueSetTree<Key, TreeSet<Key>>;
+    private key_comp_!: (x: Key, y: Key) => boolean;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -49,7 +44,7 @@ export class TreeSet<Key>
      * 
      * @param obj Object to copy.
      */
-    public constructor(container: TreeSet<Key>);
+    public constructor(obj: FlatMultiSet<Key>);
 
     /**
      * Range Constructor.
@@ -59,26 +54,28 @@ export class TreeSet<Key>
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
     public constructor
-    (
-        first: Readonly<IForwardIterator<Key>>, 
-        last: Readonly<IForwardIterator<Key>>, 
-        comp?: (x: Key, y: Key) => boolean
-    );
-
+        (
+            first: Readonly<IForwardIterator<Key>>, 
+            last: Readonly<IForwardIterator<Key>>,
+            comp?: (x: Key, y: Key) => boolean
+        );
+    
     public constructor(...args: any[])
     {
-        super(thisArg => new SetElementList(<Temporary>thisArg) as Temporary);
-
+        // INITIALIZATION
+        super(thisArg => new SetElementVector(<Temporary>thisArg) as Temporary);
+        
+        // OVERLOADINGS
         _Construct<Key, Key, 
-                TreeSet<Key>,
-                TreeSet.Iterator<Key>,
-                TreeSet.ReverseIterator<Key>,
+                FlatMultiSet<Key>,
+                FlatMultiSet.Iterator<Key>,
+                FlatMultiSet.ReverseIterator<Key>,
                 Key>
         (
-            this, TreeSet, 
+            this, FlatMultiSet, 
             comp => 
             {
-                this.tree_ = new _UniqueSetTree(this as TreeSet<Key>, comp);
+                this.key_comp_ = comp;
             },
             ...args
         );
@@ -87,60 +84,57 @@ export class TreeSet<Key>
     /**
      * @inheritDoc
      */
-    public clear(): void
-    {
-        super.clear();
-
-        this.tree_.clear();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public swap(obj: TreeSet<Key>): void
+    public swap(obj: FlatMultiSet<Key>): void
     {
         // SWAP CONTENTS
         [this.data_, obj.data_] = [obj.data_, this.data_];
-        SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
+        SetElementVector._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
-        // SWAP RB-TREE
-        _UniqueSetTree._Swap_source(this.tree_, obj.tree_);
-        [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
+        // SWAP COMPARATORS
+        [this.key_comp_, obj.key_comp_] = [obj.key_comp_, this.key_comp_];
     }
 
     /**
      * @hidden
      */
-    protected _Get_iterator_type(): typeof SetElementList.Iterator
+    protected _Get_iterator_type(): typeof SetElementVector.Iterator
     {
-        return SetElementList.Iterator;
+        return SetElementVector.Iterator;
     }
-    
+
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
+    public nth(index: number): FlatMultiSet.Iterator<Key>
+    {
+        return (this.data_ as SetElementVector<Key, false, FlatMultiSet<Key>>).nth(index);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public key_comp(): (x: Key, y: Key) => boolean
     {
-        return this.tree_.key_comp();
+        return this.key_comp_;
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    public lower_bound(key: Key): FlatMultiSet.Iterator<Key>
+    {
+        return lower_bound(this.begin(), this.end(), key, this.value_comp());
     }
 
     /**
      * @inheritDoc
      */
-    public lower_bound(key: Key): TreeSet.Iterator<Key>
+    public upper_bound(key: Key): FlatMultiSet.Iterator<Key>
     {
-        return this.tree_.lower_bound(key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public upper_bound(key: Key): TreeSet.Iterator<Key>
-    {
-        return this.tree_.upper_bound(key);
+        return upper_bound(this.begin(), this.end(), key, this.value_comp());
     }
 
     /* ---------------------------------------------------------
@@ -149,34 +143,26 @@ export class TreeSet<Key>
     /**
      * @hidden
      */
-    protected _Handle_insert(first: TreeSet.Iterator<Key>, last: TreeSet.Iterator<Key>): void
-    {
-        for (; !first.equals(last); first = first.next())
-            this.tree_.insert(first);
-    }
+    protected _Handle_insert({}, {}): void {}
 
     /**
      * @hidden
      */
-    protected _Handle_erase(first: TreeSet.Iterator<Key>, last: TreeSet.Iterator<Key>): void
-    {
-        for (; !first.equals(last); first = first.next())
-            this.tree_.erase(first);
-    }
+    protected _Handle_erase({}, {}): void {}
 }
 
-export namespace TreeSet
+export namespace FlatMultiSet
 {
     //----
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key> = SetElementList.Iterator<Key, true, TreeSet<Key>>;
-    export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, true, TreeSet<Key>>;
+    export type Iterator<Key> = SetElementVector.Iterator<Key, false, FlatMultiSet<Key>>;
+    export type ReverseIterator<Key> = SetElementVector.ReverseIterator<Key, false, FlatMultiSet<Key>>;
 
     // BODY
-    export const Iterator = SetElementList.Iterator;
-    export const ReverseIterator = SetElementList.ReverseIterator;
+    export const Iterator = SetElementVector.Iterator;
+    export const ReverseIterator = SetElementVector.ReverseIterator;
 
     //----
     // SNAKE NOTATION
@@ -189,4 +175,4 @@ export namespace TreeSet
     export const iterator = Iterator;
     export const reverse_iterator = ReverseIterator;
 }
-export import set = TreeSet;
+export import flat_multiset = FlatMultiSet;

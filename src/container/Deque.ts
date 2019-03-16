@@ -19,7 +19,7 @@ import { distance } from "../iterator/global";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class Deque<T>
-    extends ArrayContainer<T, Deque<T>>
+    extends ArrayContainer<T, Deque<T>, Deque<T>, Deque.Iterator<T>, Deque.ReverseIterator<T>, T>
 {
     ///
     // A matrix containing elements.
@@ -254,6 +254,14 @@ export class Deque<T>
     }
 
     /**
+     * @internal
+     */
+    public nth(index: number): Deque.Iterator<T>
+    {
+        return new Deque.Iterator(this as Deque<T>, index);
+    }
+
+    /**
      * @inheritDoc
      */
     public [Symbol.iterator](): IterableIterator<T>
@@ -283,7 +291,7 @@ export class Deque<T>
      */
     public set(index: number, val: T): void
     {
-        if (index >= this.size() || index < 0)
+        if (index < 0 || index >= this.size())
             throw new OutOfRange("Target index is greater than Deque's size.");
 
         let indexPair: Pair<number, number> = this._Fetch_index(index);
@@ -433,7 +441,7 @@ export class Deque<T>
             this._Insert_to_end(first, last);
 
             // CHANGE POS TO RETURN
-            pos = new ArrayIterator<T, Deque<T>>(this, this.size_);
+            pos = this.nth(this.size_);
         }
         else
         {

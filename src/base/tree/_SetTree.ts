@@ -5,7 +5,7 @@ import { _XTree } from "./_XTree";
 import { _XTreeNode } from "./_XTreeNode";
 
 import { SetContainer } from "../container/SetContainer";
-import { SetElementList } from "../container/_SetElementList";
+import { SetElementList } from "../container/SetElementList";
 import { Pair } from "../../utility/Pair";
 
 /**
