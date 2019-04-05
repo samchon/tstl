@@ -10,23 +10,23 @@ import { Exception } from "./Exception";
  */
 export class RuntimeError extends Exception
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "runtime_error";
-	}
+    /**
+     * @inheritDoc
+     */
+    public get name(): string
+    {
+        return "runtime_error";
+    }
 }
 
 /**
@@ -36,23 +36,23 @@ export class RuntimeError extends Exception
  */
 export class OverflowError extends RuntimeError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "overflow_error";
-	}
+    /**
+     * @inheritDoc
+     */
+    public get name(): string
+    {
+        return "overflow_error";
+    }
 }
 
 /**
@@ -62,23 +62,23 @@ export class OverflowError extends RuntimeError
  */
 export class UnderflowError extends RuntimeError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "underflow_error";
-	}
+    /**
+     * @inheritDoc
+     */
+    public get name(): string
+    {
+        return "underflow_error";
+    }
 }
 
 /**
@@ -88,23 +88,23 @@ export class UnderflowError extends RuntimeError
  */
 export class RangeError extends RuntimeError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "range_error";
-	}
+    /**
+     * @inheritDoc
+     */
+    public get name(): string
+    {
+        return "range_error";
+    }
 }
 
 export type runtime_error = RuntimeError;

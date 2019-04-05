@@ -17,11 +17,11 @@ export abstract class UniqueTreeMap<Key, T,
     implements _ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
     /* ---------------------------------------------------------
-		ACCESSORS
+        ACCESSORS
     --------------------------------------------------------- */
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     public find(key: Key): IteratorT
     {
         let it: IteratorT = this.lower_bound(key);
@@ -74,7 +74,7 @@ export abstract class UniqueTreeMap<Key, T,
     }
 
     /* ---------------------------------------------------------
-		INSERT
+        INSERT
     --------------------------------------------------------- */
     /**
      * @inheritDoc

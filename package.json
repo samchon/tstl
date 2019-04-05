@@ -6,18 +6,18 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.2.0-dev.20190316",
+  "version": "2.2.0-dev.20190405",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
     "build": "tsc && npm run test",
-    "test": "node test/main",
+    "test": "node test",
     "api": "node build/api",
     "clean": "node build/clean"
   },
   "devDependencies": {
     "@types/mv": "^2.1.0",
-    "@types/node": "^7.10.1",
+    "@types/node": "^11.13.0",
     "mv": "^2.1.1"
   },
   "homepage": "https://github.com/samchon/tstl",

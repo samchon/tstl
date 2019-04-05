@@ -9,25 +9,25 @@ import { Writeonly } from "../../iterator/IFake";
  * @hidden
  */
 export abstract class _InsertIterator<T, This extends _InsertIterator<T, This>>
-	implements Writeonly<IForwardIterator<T, This>>
+    implements Writeonly<IForwardIterator<T, This>>
 {
-	/**
-	 * Set value.
-	 * 
-	 * @param val The value to set.
-	 */
-	public abstract set value(val: T);
+    /**
+     * Set value.
+     * 
+     * @param val The value to set.
+     */
+    public abstract set value(val: T);
 
-	/**
-	 * @inheritDoc
-	 */
-	public next(): This
-	{
-		return this as any;
-	}
+    /**
+     * @inheritDoc
+     */
+    public next(): This
+    {
+        return this as any;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public abstract equals(obj: This): boolean;
+    /**
+     * @inheritDoc
+     */
+    public abstract equals(obj: This): boolean;
 }

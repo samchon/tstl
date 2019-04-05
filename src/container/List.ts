@@ -115,41 +115,41 @@ export class List<T>
         DEQUE ACCESSORS
     --------------------------------------------------------------- */
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     public front(): T;
     
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public front(val: T): void;
     
-	public front(val?: T): T | void
-	{
-		if (arguments.length === 0)
-			return this.begin_.value;
-		else
-			this.begin_.value = val!;
-	}
+    public front(val?: T): T | void
+    {
+        if (arguments.length === 0)
+            return this.begin_.value;
+        else
+            this.begin_.value = val!;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public back(): T;
     
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public back(val: T): void;
     
-	public back(val?: T): T | void
-	{
-		let it = this.end().prev();
-		if (arguments.length === 0)
-			return it.value;
-		else
-			it.value = val!;
-	}
+    public back(val?: T): T | void
+    {
+        let it = this.end().prev();
+        if (arguments.length === 0)
+            return it.value;
+        else
+            it.value = val!;
+    }
 
     /* ===============================================================
         ALGORITHMS

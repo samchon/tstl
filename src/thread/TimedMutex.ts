@@ -15,127 +15,127 @@ import { sleep_for } from "./global";
  */
 export class TimedMutex implements ITimedLockable
 {
-	/**
-	 * @hidden
-	 */
-	private lock_count_: number;
+    /**
+     * @hidden
+     */
+    private lock_count_: number;
 
-	/**
-	 * @hidden
-	 */
-	private resolvers_: HashMap<IResolver, LockType>;
+    /**
+     * @hidden
+     */
+    private resolvers_: HashMap<IResolver, LockType>;
 
-	/* ---------------------------------------------------------
-		CONSTRUCTORS
-	--------------------------------------------------------- */
-	/**
-	 * Default Constructor.
-	 */
-	public constructor()
-	{
-		this.lock_count_ = 0;
-		this.resolvers_ = new HashMap();
-	}
+    /* ---------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------- */
+    /**
+     * Default Constructor.
+     */
+    public constructor()
+    {
+        this.lock_count_ = 0;
+        this.resolvers_ = new HashMap();
+    }
 
-	/* ---------------------------------------------------------
-		LOCK & UNLOCK
-	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	public lock(): Promise<void>
-	{
-		return new Promise<void>(resolve =>
-		{
-			if (this.lock_count_++ === 0)
-				resolve();
-			else
-				this.resolvers_.emplace(resolve, LockType.HOLD);
-		});
-	}
+    /* ---------------------------------------------------------
+        LOCK & UNLOCK
+    --------------------------------------------------------- */
+    /**
+     * @inheritDoc
+     */
+    public lock(): Promise<void>
+    {
+        return new Promise<void>(resolve =>
+        {
+            if (this.lock_count_++ === 0)
+                resolve();
+            else
+                this.resolvers_.emplace(resolve, LockType.HOLD);
+        });
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public async try_lock(): Promise<boolean>
-	{
-		if (this.lock_count_ !== 0)
-			return false; // HAVE LOCKED
-		
-		++this.lock_count_;
-		return true;			
-	}
+    /**
+     * @inheritDoc
+     */
+    public async try_lock(): Promise<boolean>
+    {
+        if (this.lock_count_ !== 0)
+            return false; // HAVE LOCKED
+        
+        ++this.lock_count_;
+        return true;            
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public async unlock(): Promise<void>
-	{
-		if (this.lock_count_ === 0)
-			throw new RangeError("This mutex is free.");
+    /**
+     * @inheritDoc
+     */
+    public async unlock(): Promise<void>
+    {
+        if (this.lock_count_ === 0)
+            throw new RangeError("This mutex is free.");
 
-		--this.lock_count_; // DECREASE LOCKED COUNT
-		if (this.resolvers_.empty() === false)
-		{
-			// PICK A LISTENER
-			let it = this.resolvers_.begin();
-			let listener: IResolver = it.first;
-			
-			this.resolvers_.erase(it); // POP FIRST
-			
-			// AND CALL LATER
-			if (it.second === LockType.HOLD)
-				listener();
-			else
-				listener(true);
-		}
-	}
+        --this.lock_count_; // DECREASE LOCKED COUNT
+        if (this.resolvers_.empty() === false)
+        {
+            // PICK A LISTENER
+            let it = this.resolvers_.begin();
+            let listener: IResolver = it.first;
+            
+            this.resolvers_.erase(it); // POP FIRST
+            
+            // AND CALL LATER
+            if (it.second === LockType.HOLD)
+                listener();
+            else
+                listener(true);
+        }
+    }
 
-	/* ---------------------------------------------------------
-		TIMED LOCK
-	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	public try_lock_for(ms: number): Promise<boolean>
-	{
-		return new Promise<boolean>(resolve =>
-		{
-			if (this.lock_count_++ === 0)
-				resolve(true);
-			else
-			{
-				// DO LOCK
-				this.resolvers_.emplace(resolve, LockType.KNOCK);
+    /* ---------------------------------------------------------
+        TIMED LOCK
+    --------------------------------------------------------- */
+    /**
+     * @inheritDoc
+     */
+    public try_lock_for(ms: number): Promise<boolean>
+    {
+        return new Promise<boolean>(resolve =>
+        {
+            if (this.lock_count_++ === 0)
+                resolve(true);
+            else
+            {
+                // DO LOCK
+                this.resolvers_.emplace(resolve, LockType.KNOCK);
 
-				// AUTOMATIC UNLOCK
-				sleep_for(ms).then(() =>
-				{
-					let it = this.resolvers_.find(resolve);
-					if (it.equals(this.resolvers_.end()))
-						return;
+                // AUTOMATIC UNLOCK
+                sleep_for(ms).then(() =>
+                {
+                    let it = this.resolvers_.find(resolve);
+                    if (it.equals(this.resolvers_.end()))
+                        return;
 
-					// DO UNLOCK
-					this.resolvers_.erase(it); // POP THE LISTENER
-					--this.lock_count_; // DECREASE LOCKED COUNT
+                    // DO UNLOCK
+                    this.resolvers_.erase(it); // POP THE LISTENER
+                    --this.lock_count_; // DECREASE LOCKED COUNT
 
-					resolve(false); // RETURN FAILURE
-				});
-			}
-		});
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public try_lock_until(at: Date): Promise<boolean>
-	{
-		// COMPUTE MILLISECONDS TO WAIT
-		let now: Date = new Date();
-		let ms: number = at.getTime() - now.getTime();
+                    resolve(false); // RETURN FAILURE
+                });
+            }
+        });
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    public try_lock_until(at: Date): Promise<boolean>
+    {
+        // COMPUTE MILLISECONDS TO WAIT
+        let now: Date = new Date();
+        let ms: number = at.getTime() - now.getTime();
 
-		return this.try_lock_for(ms);
-	}
+        return this.try_lock_for(ms);
+    }
 }
 
 /**
@@ -143,7 +143,7 @@ export class TimedMutex implements ITimedLockable
  */
 interface IResolver
 {
-	(value?: any): void;
+    (value?: any): void;
 }
 
 export type timed_mutex = TimedMutex;

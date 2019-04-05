@@ -15,11 +15,11 @@ import { Entry } from "../../utility";
  * @author Jeongho Nam <http://samchon.org>
  */
 export interface ITreeMap<Key, T, 
-		Unique extends boolean, 
-		Source extends ITreeMap<Key, T, Unique, Source, IteratorT, ReverseT>,
-		IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>,
-		ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
-	extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>, 
-		_ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+        Unique extends boolean, 
+        Source extends ITreeMap<Key, T, Unique, Source, IteratorT, ReverseT>,
+        IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
+    extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>, 
+        _ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
 }

@@ -42,10 +42,10 @@ export class ArrayReverseIterator<T,
         T>
 {
     /**
-	 * @hidden
-	 */
-	protected _Create_neighbor(base: ArrayIterator<T, SourceT>): ArrayReverseIterator<T, SourceT>
-	{
-		return new ArrayReverseIterator(base);
-	}
+     * @hidden
+     */
+    protected _Create_neighbor(base: ArrayIterator<T, SourceT>): ArrayReverseIterator<T, SourceT>
+    {
+        return new ArrayReverseIterator(base);
+    }
 }

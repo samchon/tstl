@@ -14,11 +14,11 @@ import { _IPushFront } from "../disposable/IPartialContainers";
  * @author Jeongho Nam <http://samchon.org>
  */
 export interface IDequeContainer<T extends ElemT,
-		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
-		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
-		ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, ElemT>,
-		ElemT = T>
-	extends ILinearContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, _IDeque<T>
+        SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
+        IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
+        ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, ElemT>,
+        ElemT = T>
+    extends ILinearContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, _IDeque<T>
 {
 }
 
@@ -27,13 +27,13 @@ export interface IDequeContainer<T extends ElemT,
  */
 export interface _IDeque<T> extends _IPushFront<T>
 {
-	/**
-	 * @inheritDoc
-	 */
-	push_front(val: T): void;
+    /**
+     * @inheritDoc
+     */
+    push_front(val: T): void;
 
-	/**
-	 * Erase the first element.
-	 */
-	pop_front(): void;
+    /**
+     * Erase the first element.
+     */
+    pop_front(): void;
 }

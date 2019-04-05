@@ -14,11 +14,11 @@ export abstract class MultiTreeSet<Key,
     implements _ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
 {
     /* ---------------------------------------------------------
-		ACCESSORS
+        ACCESSORS
     --------------------------------------------------------- */
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     public find(key: Key): IteratorT
     {
         let it: IteratorT = this.lower_bound(key);
@@ -82,7 +82,7 @@ export abstract class MultiTreeSet<Key,
     }
 
     /* ---------------------------------------------------------
-		INSERT
+        INSERT
     --------------------------------------------------------- */
     /**
      * @hidden
@@ -100,8 +100,8 @@ export abstract class MultiTreeSet<Key,
     }
 
     /**
-	 * @hidden
-	 */
+     * @hidden
+     */
     protected _Insert_by_hint(hint: IteratorT, key: Key): IteratorT
     {
         let validate: boolean = _Emplacable<Key, Key, 

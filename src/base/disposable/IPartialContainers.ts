@@ -5,17 +5,17 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional/IPointer";
 
 /* ---------------------------------------------------------
-	CAPACITY
+    CAPACITY
 --------------------------------------------------------- */
 /**
  * @hidden
  */
 export interface _IClear
 {
-	/**
-	 * Clear elements.
-	 */
-	clear(): void;
+    /**
+     * Clear elements.
+     */
+    clear(): void;
 }
 
 /**
@@ -23,10 +23,10 @@ export interface _IClear
  */
 export interface _IEmpty
 {
-	/**
-	 * Test whether container is empty.
-	 */
-	empty(): boolean;
+    /**
+     * Test whether container is empty.
+     */
+    empty(): boolean;
 }
 
 /**
@@ -34,21 +34,21 @@ export interface _IEmpty
  */
 export interface _ISize
 {
-	/**
-	 * Number of elements in the container.
-	 */
-	size(): number;
+    /**
+     * Number of elements in the container.
+     */
+    size(): number;
 }
 
 /* ---------------------------------------------------------
-	INSERTER
+    INSERTER
 --------------------------------------------------------- */
 /**
  * @hidden
  */
 export interface _IInsert<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
 {
-	insert(it: Iterator, value: IPointer.ValueType<Iterator>): Iterator;
+    insert(it: Iterator, value: IPointer.ValueType<Iterator>): Iterator;
 }
 
 /**
@@ -56,13 +56,13 @@ export interface _IInsert<Iterator extends IForwardIterator<IPointer.ValueType<I
  */
 export interface _IPush<T>
 {
-	/**
-	 * Insert items at the end.
-	 * 
-	 * @param items Items to insert.
-	 * @return Number of elements in the container after insertion.
-	 */
-	push(...items: T[]): number;
+    /**
+     * Insert items at the end.
+     * 
+     * @param items Items to insert.
+     * @return Number of elements in the container after insertion.
+     */
+    push(...items: T[]): number;
 }
 
 /**
@@ -70,12 +70,12 @@ export interface _IPush<T>
  */
 export interface _IPushFront<T>
 {
-	/**
-	 * Insert an element at the first.
-	 * 
-	 * @param val Value to insert.
-	 */
-	push_front(val: T): void;
+    /**
+     * Insert an element at the first.
+     * 
+     * @param val Value to insert.
+     */
+    push_front(val: T): void;
 }
 
 /**
@@ -83,10 +83,10 @@ export interface _IPushFront<T>
  */
 export interface _IPushBack<T>
 {
-	/**
-	 * Insert an element at the end.
-	 * 
-	 * @param val Value to insert.
-	 */
-	push_back(val: T): void;
+    /**
+     * Insert an element at the end.
+     * 
+     * @param val Value to insert.
+     */
+    push_back(val: T): void;
 }

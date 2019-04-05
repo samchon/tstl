@@ -14,15 +14,15 @@ import { get_uid } from "./uid";
  */
 export function equal_to<T>(x: T, y: T): boolean
 {
-	// CONVERT TO PRIMITIVE TYPE
-	x = x.valueOf() as T;
-	y = y.valueOf() as T;
+    // CONVERT TO PRIMITIVE TYPE
+    x = x.valueOf() as T;
+    y = y.valueOf() as T;
 
-	// DO COMPARE
-	if (x instanceof Object && (<any>x as IComparable<T>).equals instanceof Function)
-		return (<any>x as IComparable<T>).equals(y);
-	else
-		return x === y;
+    // DO COMPARE
+    if (x instanceof Object && (<any>x as IComparable<T>).equals instanceof Function)
+        return (<any>x as IComparable<T>).equals(y);
+    else
+        return x === y;
 }
 
 /**
@@ -34,7 +34,7 @@ export function equal_to<T>(x: T, y: T): boolean
  */
 export function not_equal_to<T>(x: T, y: T): boolean
 {
-	return !equal_to(x, y);
+    return !equal_to(x, y);
 }
 
 /**
@@ -46,18 +46,18 @@ export function not_equal_to<T>(x: T, y: T): boolean
  */
 export function less<T>(x: T, y: T): boolean
 {
-	// CONVERT TO PRIMITIVE TYPE
-	x = x.valueOf() as T;
-	y = y.valueOf() as T;
+    // CONVERT TO PRIMITIVE TYPE
+    x = x.valueOf() as T;
+    y = y.valueOf() as T;
 
-	// DO COMPARE
-	if (x instanceof Object)
-		if ((<any>x as IComparable<T>).less instanceof Function) // has less()
-			return (<any>x as IComparable<T>).less(y);
-		else
-			return get_uid(x) < get_uid(y);
-	else
-		return x < y;
+    // DO COMPARE
+    if (x instanceof Object)
+        if ((<any>x as IComparable<T>).less instanceof Function) // has less()
+            return (<any>x as IComparable<T>).less(y);
+        else
+            return get_uid(x) < get_uid(y);
+    else
+        return x < y;
 }
 
 /**
@@ -69,7 +69,7 @@ export function less<T>(x: T, y: T): boolean
  */
 export function less_equal<T>(x: T, y: T): boolean
 {
-	return less(x, y) || equal_to(x, y);
+    return less(x, y) || equal_to(x, y);
 }
 
 /**
@@ -81,7 +81,7 @@ export function less_equal<T>(x: T, y: T): boolean
  */
 export function greater<T>(x: T, y: T): boolean
 {
-	return !less_equal(x, y);
+    return !less_equal(x, y);
 }
 
 /**
@@ -93,5 +93,5 @@ export function greater<T>(x: T, y: T): boolean
  */
 export function greater_equal<T>(x: T, y: T): boolean
 {
-	return !less(x, y);
+    return !less(x, y);
 }

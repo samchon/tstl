@@ -13,11 +13,11 @@ import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
  * @author Jeongho Nam <http://samchon.org>
  */
 export interface ITreeSet<Key, 
-		Unique extends boolean, 
-		Source extends ITreeSet<Key, Unique, Source, IteratorT, ReverseT>,
-		IteratorT extends ISetIterator<Key, Unique, Source, IteratorT, ReverseT>,
-		ReverseT extends ISetReverseIterator<Key, Unique, Source, IteratorT, ReverseT>>
-	extends SetContainer<Key, Unique, Source, IteratorT, ReverseT>, 
-		_ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
+        Unique extends boolean, 
+        Source extends ITreeSet<Key, Unique, Source, IteratorT, ReverseT>,
+        IteratorT extends ISetIterator<Key, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends ISetReverseIterator<Key, Unique, Source, IteratorT, ReverseT>>
+    extends SetContainer<Key, Unique, Source, IteratorT, ReverseT>, 
+        _ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
 {
 }

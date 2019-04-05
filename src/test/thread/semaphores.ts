@@ -1,94 +1,110 @@
 import * as std from "../../index";
 
-import { _ISemaphore } from "../../base/thread/_ISemaphore";
+import { ITimedLockable } from "../../thread/ITimedLockable";
 import { _Test_lock, _Test_try_lock } from "./mutexes";
 
 const SIZE = 4;
 
 export async function test_semaphores(): Promise<void>
 {
-	await _Test_lock("Semaphore", new std.experimental.Semaphore(1));
-	await _Test_try_lock("TimedSemaphore", new std.experimental.TimedSemaphore(1));
+    //----
+    // TEST MUTEX FEATURES
+    //----
+    let mtx = new std.experimental.Semaphore(1);
+    let wrapper: ITimedLockable = 
+    {
+        lock: () => mtx.acquire(),
+        unlock: () => mtx.release(),
 
-	let s = new std.experimental.Semaphore(SIZE);
-	let ts = new std.experimental.TimedSemaphore(SIZE);
+        try_lock: () => mtx.try_acquire(),
+        try_lock_for: (ms: number) => mtx.try_acquire_for(ms),
+        try_lock_until: (at: Date) => mtx.try_acquire_until(at)
+    };
 
-	await _Test_semaphore("Semaphore", s);
-	await _Test_timed_semaphore(ts);
+    await _Test_lock("Semaphore", wrapper);
+    await _Test_try_lock("Semaphore", wrapper);
+
+    //----
+    // TEST SPECIAL FEATURES OF SEMAPHORE
+    //----
+    let semaphore = new std.experimental.Semaphore(SIZE);
+
+    await _Test_semaphore(semaphore);
+    await _Test_timed_semaphore(semaphore);
 }
 
-async function _Test_semaphore(name: string, s: _ISemaphore): Promise<void>
+async function _Test_semaphore(s: std.experimental.Semaphore): Promise<void>
 {
-	let acquired_count: number = 0;
-	
-	// LOCK 4 TIMES
-	for (let i: number = 0; i < SIZE; ++i)
-	{
-		await s.lock();
-		++acquired_count;
-	}
-	if (acquired_count !== SIZE)
-		throw new std.DomainError(`Error on ${name}.lock().`);
-	else if (await s.try_lock() === true)
-		throw new std.DomainError(`Error on ${name}.try_lock().`);
+    let acquired_count: number = 0;
+    
+    // LOCK 4 TIMES
+    for (let i: number = 0; i < SIZE; ++i)
+    {
+        await s.acquire();
+        ++acquired_count;
+    }
+    if (acquired_count !== SIZE)
+        throw new std.DomainError(`Error on Semaphore.lock().`);
+    else if (await s.try_acquire() === true)
+        throw new std.DomainError(`Error on Semaphore.try_lock().`);
 
-	// LOCK 4 TIMES AGAIN -> THEY SHOULD BE HOLD
-	for (let i: number = 0; i < SIZE; ++i)
-		s.lock().then(() =>
-		{
-			++acquired_count;
-		});
-	if (acquired_count !== SIZE)
-		throw new std.DomainError(`Error on ${name}.lock() when ${name} is full.`);
+    // LOCK 4 TIMES AGAIN -> THEY SHOULD BE HOLD
+    for (let i: number = 0; i < SIZE; ++i)
+        s.acquire().then(() =>
+        {
+            ++acquired_count;
+        });
+    if (acquired_count !== SIZE)
+        throw new std.DomainError(`Error on Semaphore.lock() when Semaphore is full.`);
 
-	// DO UNLOCK
-	await s.unlock(SIZE);
+    // DO UNLOCK
+    await s.release(SIZE);
 
-	if (acquired_count !== 2 * SIZE)
-		throw new std.DomainError(`Error on ${name}.unlock().`);
+    if (acquired_count !== 2 * SIZE)
+        throw new std.DomainError(`Error on Semaphore.unlock().`);
 
-	// RELEASE UNRESOLVED LOCKS
-	await std.sleep_for(0);
-	await s.unlock(SIZE);
+    // RELEASE UNRESOLVED LOCKS
+    await std.sleep_for(0);
+    await s.release(SIZE);
 }
 
-async function _Test_timed_semaphore(ts: std.experimental.TimedSemaphore): Promise<void>
+async function _Test_timed_semaphore(ts: std.experimental.Semaphore): Promise<void>
 {
-	// COMMON TEST
-	_Test_semaphore("timed_semaphore", ts);
+    // COMMON TEST
+    _Test_semaphore(ts);
 
-	// TRY LOCK FIRST
-	let flag: boolean = await ts.try_lock_for(0, SIZE / 2);
-	if (flag === false)
-		throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when clear.");
+    // TRY LOCK FIRST
+    let flag: boolean = await ts.try_acquire_for(0, SIZE / 2);
+    if (flag === false)
+        throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when clear.");
 
-	// TRY LOCK FOR -> MUST BE FAILED
-	ts.try_lock_for(50, SIZE).then((ret: boolean) =>
-	{
-		if (ret === true)
-			throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); succeeded to lock when must be failed.");
-	});
+    // TRY LOCK FOR -> MUST BE FAILED
+    ts.try_acquire_for(50, SIZE).then((ret: boolean) =>
+    {
+        if (ret === true)
+            throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); succeeded to lock when must be failed.");
+    });
 
-	// LOCK WOULD BE HOLD
-	let cnt: number = 0;
-	for (let i: number = 0; i < SIZE / 2; ++i)
-	{
-		ts.lock().then(() =>
-		{
-			++cnt;
-		});
-	}
+    // LOCK WOULD BE HOLD
+    let cnt: number = 0;
+    for (let i: number = 0; i < SIZE / 2; ++i)
+    {
+        ts.acquire().then(() =>
+        {
+            ++cnt;
+        });
+    }
 
-	await std.sleep_for(100);
-	if (cnt !== SIZE / 2)
-		throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to release holdings.");
+    await std.sleep_for(100);
+    if (cnt !== SIZE / 2)
+        throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to release holdings.");
 
-	// RELEASE AND LOCK
-	await ts.unlock(SIZE);
+    // RELEASE AND LOCK
+    await ts.release(SIZE);
 
-	flag = await ts.try_lock_for(100, 4);
-	if (flag === false)
-		throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when released.");
+    flag = await ts.try_acquire_for(100, 4);
+    if (flag === false)
+        throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when released.");
 
-	await ts.unlock(SIZE);
+    await ts.release(SIZE);
 }

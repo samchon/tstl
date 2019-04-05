@@ -9,29 +9,29 @@ import { SetContainer } from "./SetContainer";
  * @hidden
  */
 export class SetElementVector<Key, 
-    	Unique extends boolean, 
-		Source extends SetContainer<Key, 
-			Unique, 
-			Source,
-			SetElementVector.Iterator<Key, Unique, Source>,
-			SetElementVector.ReverseIterator<Key, Unique, Source>>>
-	extends VectorContainer<Key, 
+        Unique extends boolean, 
+        Source extends SetContainer<Key, 
+            Unique, 
+            Source,
+            SetElementVector.Iterator<Key, Unique, Source>,
+            SetElementVector.ReverseIterator<Key, Unique, Source>>>
+    extends VectorContainer<Key, 
         Source,
         SetElementVector<Key, Unique, Source>,
-		SetElementVector.Iterator<Key, Unique, Source>,
+        SetElementVector.Iterator<Key, Unique, Source>,
         SetElementVector.ReverseIterator<Key, Unique, Source>,
         Key>
 {
     private associative_: Source;
 
     /* ---------------------------------------------------------
-		CONSTRUCTORS
-	--------------------------------------------------------- */
-	public constructor(associative: Source)
-	{
-		super();
+        CONSTRUCTORS
+    --------------------------------------------------------- */
+    public constructor(associative: Source)
+    {
+        super();
 
-		this.associative_ = associative;
+        this.associative_ = associative;
     }
     
     public nth(index: number): SetElementVector.Iterator<Key, Unique, Source>
@@ -40,9 +40,9 @@ export class SetElementVector<Key,
     }
 
     /**
-	 * @internal
-	 */
-	public static _Swap_associative<Key,
+     * @internal
+     */
+    public static _Swap_associative<Key,
             Unique extends boolean, 
             Source extends SetContainer<Key,
                 Unique, 
@@ -55,12 +55,12 @@ export class SetElementVector<Key,
     }
 
     /* ---------------------------------------------------------
-		ACCESSORS
-	--------------------------------------------------------- */
-	public associative(): Source
-	{
-		return this.associative_;
-	}
+        ACCESSORS
+    --------------------------------------------------------- */
+    public associative(): Source
+    {
+        return this.associative_;
+    }
 }
 
 export namespace SetElementVector
@@ -121,11 +121,11 @@ export namespace SetElementVector
             SetElementVector.ReverseIterator<Key, Unique, Source>>
     {
         /**
-		 * @hidden
-		 */
-		protected _Create_neighbor(base: Iterator<Key, Unique, Source>): ReverseIterator<Key, Unique, Source>
-		{
-			return new ReverseIterator(base);
+         * @hidden
+         */
+        protected _Create_neighbor(base: Iterator<Key, Unique, Source>): ReverseIterator<Key, Unique, Source>
+        {
+            return new ReverseIterator(base);
         }
     }
 }

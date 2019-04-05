@@ -12,21 +12,21 @@ import { IReversableIterator as IReversable } from "../../iterator/IReverseItera
  * @author Jeongho Nam <http://samchon.org>
  */
 export interface Iterator<T extends Elem, 
-		SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
-		IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-		Elem = T>
-	extends Readonly<IReversable<T, IteratorT, ReverseIteratorT>>
+        SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
+        IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        Elem = T>
+    extends Readonly<IReversable<T, IteratorT, ReverseIteratorT>>
 {
-	/**
-	 * Get source container.
-	 * 
-	 * @return The source container.
-	 */
-	source(): SourceT;
+    /**
+     * Get source container.
+     * 
+     * @return The source container.
+     */
+    source(): SourceT;
 
-	/**
-	 * @inheritDoc
-	 */
-	reverse(): ReverseIteratorT;
+    /**
+     * @inheritDoc
+     */
+    reverse(): ReverseIteratorT;
 }

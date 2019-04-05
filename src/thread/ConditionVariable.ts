@@ -199,15 +199,15 @@ export class ConditionVariable
             // AUTOMATIC UNLOCK
             sleep_until(at).then(() =>
             {
-            	if (this.resolvers_.has(resolve) === false)
-					return;
+                if (this.resolvers_.has(resolve) === false)
+                    return;
 
-				// DO UNLOCK
-				this.resolvers_.erase(resolve); // POP THE LISTENER
-				resolve(false); // RETURN FAILURE
-			});
-		});
-	}
+                // DO UNLOCK
+                this.resolvers_.erase(resolve); // POP THE LISTENER
+                resolve(false); // RETURN FAILURE
+            });
+        });
+    }
 }
 
 /**
@@ -215,7 +215,7 @@ export class ConditionVariable
  */
 interface IResolver
 {
-	(value?: any): void;
+    (value?: any): void;
 }
 
 /**

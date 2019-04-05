@@ -6,8 +6,8 @@
  */
 export const enum AccessType
 {
-	WRITE,
-	READ
+    WRITE,
+    READ
 }
 
 /**
@@ -15,6 +15,6 @@ export const enum AccessType
  */
 export const enum LockType
 {
-	HOLD,
-	KNOCK
+    HOLD,
+    KNOCK
 }
