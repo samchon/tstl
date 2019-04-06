@@ -1,22 +1,20 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { MultiTreeMap } from "../base/container/MultiTreeMap";
-import { _Construct } from "../base/container/_ITreeContainer";
+import { UniqueTreeSet } from "../../base/container/UniqueTreeSet";
+import { _Construct } from "../../base/container/_ITreeContainer";
 
-import { MapElementVector } from "../base/container/MapElementVector";
-import { Entry } from "../utility/Entry";
-import { IPair } from "../utility/IPair";
+import { SetElementVector } from "../../base/container/SetElementVector";
 
-import { IForwardIterator } from "../iterator/IForwardIterator";
-import { Temporary } from "../base/Temporary";
-import { lower_bound, upper_bound } from "../algorithm/binary_search";
+import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { Temporary } from "../../base/Temporary";
+import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 
-export class FlatMultiMap<Key, T>
-    extends MultiTreeMap<Key, T, 
-        FlatMultiMap<Key, T>, 
-        FlatMultiMap.Iterator<Key, T>, 
-        FlatMultiMap.ReverseIterator<Key, T>>
+export class FlatSet<Key>
+    extends UniqueTreeSet<Key, 
+        FlatSet<Key>, 
+        FlatSet.Iterator<Key>, 
+        FlatSet.ReverseIterator<Key>>
 {
     /**
      * @hidden
@@ -39,14 +37,14 @@ export class FlatMultiMap<Key, T>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: Key[], comp?: (x: Key, y: Key) => boolean);
 
     /**
      * Copy Constructor.
      * 
      * @param obj Object to copy.
      */
-    public constructor(obj: FlatMultiMap<Key, T>);
+    public constructor(obj: FlatSet<Key>);
 
     /**
      * Range Constructor.
@@ -57,24 +55,24 @@ export class FlatMultiMap<Key, T>
      */
     public constructor
         (
-            first: Readonly<IForwardIterator<IPair<Key, T>>>, 
-            last: Readonly<IForwardIterator<IPair<Key, T>>>,
+            first: Readonly<IForwardIterator<Key>>, 
+            last: Readonly<IForwardIterator<Key>>,
             comp?: (x: Key, y: Key) => boolean
         );
     
     public constructor(...args: any[])
     {
         // INITIALIZATION
-        super(thisArg => new MapElementVector(<Temporary>thisArg) as Temporary);
+        super(thisArg => new SetElementVector(<Temporary>thisArg) as Temporary);
         
         // OVERLOADINGS
-        _Construct<Key, Entry<Key, T>, 
-                FlatMultiMap<Key, T>,
-                FlatMultiMap.Iterator<Key, T>,
-                FlatMultiMap.ReverseIterator<Key, T>,
-                IPair<Key, T>>
+        _Construct<Key, Key, 
+                FlatSet<Key>,
+                FlatSet.Iterator<Key>,
+                FlatSet.ReverseIterator<Key>,
+                Key>
         (
-            this, FlatMultiMap, 
+            this, FlatSet, 
             comp => 
             {
                 this.key_comp_ = comp;
@@ -86,11 +84,11 @@ export class FlatMultiMap<Key, T>
     /**
      * @inheritDoc
      */
-    public swap(obj: FlatMultiMap<Key, T>): void
+    public swap(obj: FlatSet<Key>): void
     {
         // SWAP CONTENTS
         [this.data_, obj.data_] = [obj.data_, this.data_];
-        MapElementVector._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
+        SetElementVector._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP COMPARATORS
         [this.key_comp_, obj.key_comp_] = [obj.key_comp_, this.key_comp_];
@@ -99,9 +97,9 @@ export class FlatMultiMap<Key, T>
     /**
      * @hidden
      */
-    protected _Get_iterator_type(): typeof MapElementVector.Iterator
+    protected _Get_iterator_type(): typeof SetElementVector.Iterator
     {
-        return MapElementVector.Iterator;
+        return SetElementVector.Iterator;
     }
 
     /* ---------------------------------------------------------
@@ -110,9 +108,9 @@ export class FlatMultiMap<Key, T>
     /**
      * @inheritDoc
      */
-    public nth(index: number): FlatMultiMap.Iterator<Key, T>
+    public nth(index: number): FlatSet.Iterator<Key>
     {
-        return (this.data_ as MapElementVector<Key, T, false, FlatMultiMap<Key, T>>).nth(index);
+        return (this.data_ as SetElementVector<Key, true, FlatSet<Key>>).nth(index);
     }
 
     /**
@@ -126,25 +124,17 @@ export class FlatMultiMap<Key, T>
     /**
      * @inheritDoc
      */
-    public lower_bound(key: Key): FlatMultiMap.Iterator<Key, T>
+    public lower_bound(key: Key): FlatSet.Iterator<Key>
     {
-        return lower_bound(this.begin(), this.end(), this._Capsule_key(key), this.value_comp());
+        return lower_bound(this.begin(), this.end(), key, this.value_comp());
     }
 
     /**
      * @inheritDoc
      */
-    public upper_bound(key: Key): FlatMultiMap.Iterator<Key, T>
+    public upper_bound(key: Key): FlatSet.Iterator<Key>
     {
-        return upper_bound(this.begin(), this.end(), this._Capsule_key(key), this.value_comp());
-    }
-
-    /**
-     * @hidden
-     */
-    private _Capsule_key(key: Key): Entry<Key, T>
-    {
-        return { first: key } as Entry<Key, T>;
+        return upper_bound(this.begin(), this.end(), key, this.value_comp());
     }
 
     /* ---------------------------------------------------------
@@ -161,28 +151,28 @@ export class FlatMultiMap<Key, T>
     protected _Handle_erase({}, {}): void {}
 }
 
-export namespace FlatMultiMap
+export namespace FlatSet
 {
     //----
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key, T> = MapElementVector.Iterator<Key, T, false, FlatMultiMap<Key, T>>;
-    export type ReverseIterator<Key, T> = MapElementVector.ReverseIterator<Key, T, false, FlatMultiMap<Key, T>>;
+    export type Iterator<Key> = SetElementVector.Iterator<Key, true, FlatSet<Key>>;
+    export type ReverseIterator<Key> = SetElementVector.ReverseIterator<Key, true, FlatSet<Key>>;
 
     // BODY
-    export const Iterator = MapElementVector.Iterator;
-    export const ReverseIterator = MapElementVector.ReverseIterator;
+    export const Iterator = SetElementVector.Iterator;
+    export const ReverseIterator = SetElementVector.ReverseIterator;
 
     //----
     // SNAKE NOTATION
     //----
     // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
+    export type iterator<Key> = Iterator<Key>;
+    export type reverse_iterator<Key> = ReverseIterator<Key>;
 
     // BODY
     export const iterator = Iterator;
     export const reverse_iterator = ReverseIterator;
 }
-export import flat_multimap = FlatMultiMap;
+export import flat_set = FlatSet;

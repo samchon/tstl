@@ -10,12 +10,12 @@ export function test_associatives(): void
     // UNIQUE-SETS
     _Test_unique_set(new std.HashSet<Atomic<number>>());
     _Test_unique_set(new std.TreeSet<Atomic<number>>());
-    _Test_unique_set(new std.FlatSet<Atomic<number>>());
+    _Test_unique_set(new std.experimental.FlatSet<Atomic<number>>());
 
     // MULTI-SETS
     _Test_multi_set(new std.HashMultiSet<Atomic<number>>());
     _Test_multi_set(new std.TreeMultiSet<Atomic<number>>());
-    _Test_multi_set(new std.FlatMultiSet<Atomic<number>>());
+    _Test_multi_set(new std.experimental.FlatMultiSet<Atomic<number>>());
 
     //----
     // MAP-CONTAINERS
@@ -23,12 +23,12 @@ export function test_associatives(): void
     // UNIQUE-MAPS
     _Test_unique_map(new std.HashMap<Atomic<string>, number>());
     _Test_unique_map(new std.TreeMap<Atomic<string>, number>());
-    _Test_unique_map(new std.FlatMap<Atomic<string>, number>());
+    _Test_unique_map(new std.experimental.FlatMap<Atomic<string>, number>());
 
     // MULTI0-MAPS
     _Test_multi_map(new std.HashMultiMap<Atomic<string>, number>());
     _Test_multi_map(new std.TreeMultiMap<Atomic<string>, number>());
-    _Test_multi_map(new std.FlatMultiMap<Atomic<string>, number>());
+    _Test_multi_map(new std.experimental.FlatMultiMap<Atomic<string>, number>());
 }
 
 /* ---------------------------------------------------------
@@ -202,8 +202,8 @@ function _Construct_map<Unique extends boolean,
 }
 
 const NUMBER_NAMES: string[] = 
-    [
-        "Zero", 
-        "First", "Second", "Third", "Fourth", 
-        "Fifth", "Sixth", "Seventh", "Eighth", "Nineth", "Tenth"
-    ];
+[
+    "Zero", 
+    "First", "Second", "Third", "Fourth", 
+    "Fifth", "Sixth", "Seventh", "Eighth", "Nineth", "Tenth"
+];
