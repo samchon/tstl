@@ -14,7 +14,7 @@ import { sleep_for } from "../../thread/global";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class Semaphore
+export class Semaphore<Max extends number = number>
 {
     /**
      * @hidden
@@ -29,7 +29,7 @@ export class Semaphore
     /**
      * @hidden
      */
-    private max_: number;
+    private max_: Max;
 
     /**
      * @hidden
@@ -44,7 +44,7 @@ export class Semaphore
      * 
      * @param max Number of maximum sections lockable.
      */
-    public constructor(max: number)
+    public constructor(max: Max)
     {
         this.locked_count_ = 0;
         this.hold_count_ = 0;
@@ -56,7 +56,7 @@ export class Semaphore
     /**
 	 * Number of maximum sections lockable.
 	 */
-    public max(): number
+    public max(): Max
     {
         return this.max_;
     }
@@ -280,5 +280,5 @@ interface IProps
     type: LockType;
 }
 
-// export type timed_semaphore = Semaphore;
-// export const timed_semaphore = Semaphore;
+export type couting_semaphore = Semaphore;
+export const couting_semaphore = Semaphore;
