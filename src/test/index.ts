@@ -28,6 +28,11 @@ async function iterate(path: string): Promise<void>
         for (let key in external)
             if (key.substr(0, 5) === "test_")
             {
+                // WHEN SPECIALIZED
+                if (process.argv[2] && key.replace("test_", "") !== process.argv[2])
+                    continue;
+
+                // DO TEST
                 console.log(key);
                 await external[key]();
             }

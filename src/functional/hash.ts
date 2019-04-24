@@ -25,25 +25,19 @@ export function hash(...items: any[]): number
             ret = _Hash_number(item, ret);
         else if (type === "string") // STRING -> {LENGTH} BYTES
             ret = _Hash_string(item, ret);
-        else if (item instanceof Object)
+        else if (item instanceof Object && (<any>item as IComparable<{}>).hashCode instanceof Function)
         {
-            // CALL THE HASH_CODE FUNCTION ?
-            if ((<any>item as IComparable<{}>).hashCode instanceof Function)
-            {
-                let hashed: number = (<any>item as IComparable<{}>).hashCode();
-                if (items.length === 1)
-                    return hashed;
-                else
-                {
-                    ret = ret ^ hashed;
-                    ret *= _HASH_MULTIPLIER;
-                }
-            }
+            let hashed: number = (<any>item as IComparable<{}>).hashCode();
+            if (items.length === 1)
+                return hashed;
             else
-                ret = _Hash_number(get_uid(item), ret);
+            {
+                ret = ret ^ hashed;
+                ret *= _HASH_MULTIPLIER;
+            }
         }
-        else // NULL OR UNDEFINED
-            ret *= _HASH_MULTIPLIER;
+        else // object | null | undefined
+            ret = _Hash_number(get_uid(item), ret);
     }
     return ret;
 }

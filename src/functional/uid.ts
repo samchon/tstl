@@ -9,23 +9,30 @@ import { _Get_root } from "../base/Global";
  * @param obj Target object.
  * @return The identifier number.
  */
-export function get_uid(obj: Object): number
+export function get_uid(obj: object | null | undefined): number
 {
     // NO UID EXISTS, THEN ISSUE ONE.
-    if (obj.hasOwnProperty("__get_m_iUID") === false)
+    if (obj instanceof Object)
     {
-        var uid: number = ++_Get_root().__s_iUID;
-        Object.defineProperty(obj, "__get_m_iUID", 
+        if (obj.hasOwnProperty("__get_m_iUID") === false)
         {
-            value: function (): number
+            let uid: number = ++_Get_root().__s_iUID;
+            Object.defineProperty(obj, "__get_m_iUID", 
             {
-                return uid;
-            }
-        });
-    }
+                value: function (): number
+                {
+                    return uid;
+                }
+            });
+        }
 
-    // RETURNS
-    return (obj as IObject).__get_m_iUID();
+        // RETURNS
+        return (obj as IObject).__get_m_iUID();
+    }
+    else if (obj === undefined)
+        return -1;
+    else // is null
+        return 0;
 }
 
 /**
