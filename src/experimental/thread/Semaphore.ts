@@ -54,8 +54,8 @@ export class Semaphore<Max extends number = number>
     }
 
     /**
-	 * Number of maximum sections lockable.
-	 */
+     * Number of maximum sections lockable.
+     */
     public max(): Max
     {
         return this.max_;

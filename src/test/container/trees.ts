@@ -93,23 +93,23 @@ function _Test_tree_map<Unique extends boolean,
         let val: number = Math.floor(Math.random() * 100);
 
         let alg_it = std.find_if(map.begin() as Temporary, map.end(), (entry: std.Entry<number, number>) =>
-    		{
-				return val === entry.first;
-			});
-		let set_it = map.find(val);
+            {
+                return val === entry.first;
+            });
+        let set_it = map.find(val);
 
-		if (alg_it === map.end())
-			if (set_it === map.end())
-				continue;
-			else
-				throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; invalid out of range.");
-		else if (alg_it.first !== set_it.first)
-			throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; different value.");
-	}
+        if (alg_it === map.end())
+            if (set_it === map.end())
+                continue;
+            else
+                throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; invalid out of range.");
+        else if (alg_it.first !== set_it.first)
+            throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; different value.");
+    }
 }
 
 function _Test_bounds(): void
 {
-	// test tree container and algorithms' binary search at the same time
-	test_binary_searches();
+    // test tree container and algorithms' binary search at the same time
+    test_binary_searches();
 }
