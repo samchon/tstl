@@ -1,3 +1,5 @@
+import { randint } from "../../algorithm/random";
+
 export class Cube
 {
 	// LENGTHS ON EACH DIMENSION
@@ -20,12 +22,12 @@ export class Cube
 
 	public constructor
 		(
-			width: number = Math.random() * 10, 
-			height: number = Math.random() * 10, 
-			length: number = Math.random() * 10,
-			x: number = Math.random() * 100, 
-			y: number = Math.random() * 100, 
-			z: number = Math.random() * 100
+			width: number = randint(0, 10), 
+			height: number = randint(0, 10),
+			length: number = randint(0, 10),
+			x: number = randint(0, 100),
+			y: number = randint(0, 100), 
+			z: number = randint(0, 100)
 		)
 	{
 		this.width = width;
@@ -40,6 +42,11 @@ export class Cube
 	public get volume(): number
 	{
 		return this.width * this.height * this.length;
+	}
+
+	public less(obj: Cube): boolean
+	{
+		return Cube.compare_volume(this, obj);
 	}
 }
 

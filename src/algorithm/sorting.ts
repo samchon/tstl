@@ -6,7 +6,7 @@ import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { IPointer } from "../functional";
 
 import { General } from "../iterator/IFake";
-import { less, equal_to } from "../functional/comparators";
+import { less } from "../functional/comparators";
 import { iter_swap, copy } from "./modifiers";
 import { distance } from "../iterator/global";
 
@@ -191,17 +191,7 @@ export function is_sorted<InputIterator extends Readonly<IForwardIterator<IPoint
         comp: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = less
     ): boolean
 {
-    if (first.equals(last)) 
-        return true;
-    
-    for (let next = first.next(); !next.equals(last); next = next.next())
-    {
-        if (!(equal_to(next.value, first.value) || comp(first.value, next.value)))
-            return false;
-        
-        first = first.next();
-    }
-    return true;
+    return is_sorted_until(first, last, comp).equals(last);
 }
 
 /**
@@ -220,14 +210,13 @@ export function is_sorted_until<InputIterator extends Readonly<IForwardIterator<
     ): InputIterator
 {
     if (first.equals(last))
-        return first;
+        return last;
     
     for (let next = first.next(); !next.equals(last); next = next.next())
-    {
-        if (!(equal_to(next.value, first.value) || comp(first.value, next.value)))
+        if (comp(next.value, first.value))
             return next;
-        
-        first = first.next();
-    }
+        else
+            first = first.next();
+    
     return last;
 }

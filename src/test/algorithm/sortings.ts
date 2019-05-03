@@ -28,11 +28,11 @@ function _Test_object_sorting(): void
 	// CONSTRUCT ITEMS
 	//----
 	let cubes: std.Deque<Cube> = new std.Deque<Cube>();
-	for (let i: number = 0; i < 20; ++i)
+	for (let i: number = 0; i < 1000; ++i)
 		cubes.push_back(new Cube());
 
 	//----
-	// SORT BY Cube.less()
+	// SORT BY Cube.less
 	//----
 	// DO SORT
 	std.sort(cubes.begin(), cubes.end());
@@ -45,11 +45,11 @@ function _Test_object_sorting(): void
 	// SORT BY inline function
 	//----
 	// DECLARE INLINE FUNCTION
-	let inline_function = function (left: Cube, right: Cube): boolean
+	let inline_function = (cx: Cube, cy: Cube) =>
 	{
-		if (left.x !== right.x) return left.x < right.x;
-		else if (left.y !== right.y) return left.y < right.y;
-		else return left.z < right.z;
+		if (cx.x !== cy.x) return cx.x < cy.x;
+		else if (cx.y !== cy.y) return cx.y < cy.y;
+		else return cx.z < cy.z;
 	};
 
 	// DO SORT
