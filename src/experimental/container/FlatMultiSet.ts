@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std */
+/** @module std.experimental */
 //================================================================
 import { MultiTreeSet } from "../../base/container/MultiTreeSet";
 import { _Construct } from "../../base/container/_ITreeContainer";

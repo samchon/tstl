@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std */
+/** @module std.experimental */
 //================================================================
 import { UniqueTreeSet } from "../../base/container/UniqueTreeSet";
 import { _Construct } from "../../base/container/_ITreeContainer";

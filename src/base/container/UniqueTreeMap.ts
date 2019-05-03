@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { UniqueMap } from "./UniqueMap";
 import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
 

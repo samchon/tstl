@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std */
+/** @module std.experimental */
 //================================================================
 import { UniqueTreeMap } from "../../base/container/UniqueTreeMap";
 import { _Construct } from "../../base/container/_ITreeContainer";

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { MultiMap } from "./MultiMap";
 import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
 

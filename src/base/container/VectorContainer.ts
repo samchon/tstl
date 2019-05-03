@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { ArrayContainer } from "./ArrayContainer";
 
 import { IContainer } from "./IContainer";

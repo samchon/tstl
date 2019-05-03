@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { MultiSet } from "./MultiSet";
 import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
 

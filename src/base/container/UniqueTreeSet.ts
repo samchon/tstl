@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.base */
+//================================================================
 import { UniqueSet } from "./UniqueSet";
 import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
 

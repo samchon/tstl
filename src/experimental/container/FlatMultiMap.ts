@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std */
+/** @module std.experimental */
 //================================================================
 import { MultiTreeMap } from "../../base/container/MultiTreeMap";
 import { _Construct } from "../../base/container/_ITreeContainer";
