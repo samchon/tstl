@@ -19,14 +19,6 @@ export class RuntimeError extends Exception
     {
         super(message);
     }
-
-    /**
-     * @inheritDoc
-     */
-    public get name(): string
-    {
-        return "runtime_error";
-    }
 }
 
 /**
@@ -44,14 +36,6 @@ export class OverflowError extends RuntimeError
     public constructor(message: string)
     {
         super(message);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public get name(): string
-    {
-        return "overflow_error";
     }
 }
 
@@ -71,14 +55,6 @@ export class UnderflowError extends RuntimeError
     {
         super(message);
     }
-
-    /**
-     * @inheritDoc
-     */
-    public get name(): string
-    {
-        return "underflow_error";
-    }
 }
 
 /**
@@ -96,14 +72,6 @@ export class RangeError extends RuntimeError
     public constructor(message: string)
     {
         super(message);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public get name(): string
-    {
-        return "range_error";
     }
 }
 

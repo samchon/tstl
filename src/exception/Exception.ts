@@ -43,7 +43,7 @@ export class Exception extends Error
      */
     public get name(): string
     {
-        return "exception";
+        return this.constructor.name;
     }
 
     /**

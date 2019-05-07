@@ -61,14 +61,6 @@ export class SystemError extends RuntimeError
         ACCESSORS
     --------------------------------------------------------- */
     /**
-     * @inheritDoc
-     */
-    public get name(): string
-    {
-        return "system_error";
-    }
-
-    /**
      * Get error code.
      * 
      * @return The error code.
