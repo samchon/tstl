@@ -77,6 +77,17 @@ export class SystemError extends RuntimeError
     {
         return this.code_;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public toJSON(): object
+    {
+        return {
+            ...super.toJSON(),
+            code: this.code_.toJSON()
+        };
+    }
 }
 
 export type system_error = SystemError;

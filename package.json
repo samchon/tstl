@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.2.0-dev.20190503",
+  "version": "2.2.0-dev.20190507",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {

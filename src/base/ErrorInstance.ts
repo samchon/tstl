@@ -106,4 +106,16 @@ export abstract class ErrorInstance
     {
         return this.value_ !== 0;
     }
+
+    public toJSON(): object
+    {
+        if (this.category_ === null)
+            return {};
+        else
+            return {
+                cateogory: this.category_.name(),
+                value: this.value(),
+                message: this.message()
+            };
+    }
 }
