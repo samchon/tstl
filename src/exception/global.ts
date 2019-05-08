@@ -4,6 +4,8 @@
 import { is_node } from "../utility/node";
 import { _Get_root } from "../base/Global";
 
+import { Temporary } from "../base/Temporary";
+
 /**
  * Terminate program.
  */
@@ -36,7 +38,7 @@ export function set_terminate(func: () => void): void
 	if (is_node() === true)
 	{
 		type = "exit";
-		register = (type, listener) => global.process.addListener(type, listener);
+		register = (type, listener) => global.process.addListener(<Temporary>type, listener);
 		eraser = (type, listener) => global.process.removeListener(type, listener);
 	}
 	else

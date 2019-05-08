@@ -4,10 +4,7 @@
 import { ILockable } from "./ILockable";
 import { _ISharedLockable } from "../base/thread/_ISharedLockable";
 
-import { Queue } from "../container/Queue";
-import { Pair } from "../utility/Pair";
-import { AccessType } from "../base/thread/enums";
-import { RangeError } from "../exception/RuntimeError";
+import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
  * Shared mutex.
@@ -17,89 +14,47 @@ import { RangeError } from "../exception/RuntimeError";
 export class SharedMutex implements ILockable, _ISharedLockable
 {
 	/**
-	 * @hidden
-	 */
-	private read_lock_count_: number;
+     * @hidden
+     */
+    private mutex_: SharedTimedMutex;
 
-	/**
-	 * @hidden
-	 */
-	private write_lock_count_: number;
-
-	/**
-	 * @hidden
-	 */
-	private resolvers_: Queue<Pair<AccessType, IListener>>;
+    /* ---------------------------------------------------------
+        CONSTRUCTOR
+    --------------------------------------------------------- */
+    /**
+     * Default Constructor.
+     */
+    public constructor()
+    {
+        this.mutex_ = new SharedTimedMutex();
+    }
 
 	/* ---------------------------------------------------------
-		CONSTRUCTORS
-	--------------------------------------------------------- */
-	/**
-	 * Default Constructor.
-	 */
-	public constructor()
-	{
-		this.read_lock_count_ = 0;
-		this.write_lock_count_ = 0;
-
-		this.resolvers_ = new Queue();
-	}
-
-	/* =========================================================
-		LOCK & UNLOCK
-			- WRITE LOCK
-			- READ LOCK
-	============================================================
 		WRITE LOCK
 	--------------------------------------------------------- */
 	/**
-	 * @inheritDoc
-	 */
-	public lock(): Promise<void>
-	{
-		return new Promise<void>(resolve =>
-		{
-			if (this.write_lock_count_++ === 0 && this.read_lock_count_ === 0)
-				resolve();
-			else
-				this.resolvers_.push(new Pair(AccessType.WRITE, resolve));
-		});
-	}
+     * @inheritDoc
+     */
+    public lock(): Promise<void>
+    {
+        return this.mutex_.lock();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public async try_lock(): Promise<boolean>
-	{
-		if (this.write_lock_count_ !== 0 || this.read_lock_count_ !== 0)
-			return false;
+    /**
+     * @inheritDoc
+     */
+    public try_lock(): Promise<boolean>
+    {
+        return this.mutex_.try_lock();
+    }
 
-		this.write_lock_count_++;
-		return true;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public async unlock(): Promise<void>
-	{
-		if (this.write_lock_count_ === 0)
-			throw new RangeError("This mutex is free on the unique lock.");
-
-		while (this.resolvers_.empty() === false)
-		{
-			let access: AccessType = this.resolvers_.front().first;
-			let fn: IListener = this.resolvers_.front().second;
-
-			this.resolvers_.pop(); // POP FIRST
-			fn(); // AND CALL LATER
-
-			// UNTIL MEET THE WRITE LOCK
-			if (access === AccessType.WRITE)
-				break;
-		}
-		--this.write_lock_count_;
-	}
+    /**
+     * @inheritDoc
+     */
+    public unlock(): Promise<void>
+    {
+        return this.mutex_.unlock();
+    }
 
 	/* ---------------------------------------------------------
 		READ LOCK
@@ -109,56 +64,24 @@ export class SharedMutex implements ILockable, _ISharedLockable
 	 */
 	public lock_shared(): Promise<void>
 	{
-		return new Promise<void>(resolve =>
-		{
-			++this.read_lock_count_;
-			
-			if (this.write_lock_count_ === 0)
-				resolve();
-			else
-				this.resolvers_.push(new Pair(AccessType.READ, resolve));
-		});
+		return this.mutex_.lock_shared();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public async try_lock_shared(): Promise<boolean>
+	public try_lock_shared(): Promise<boolean>
 	{
-		if (this.write_lock_count_ !== 0)
-			return false;
-		
-		++this.read_lock_count_;
-		return true;
+		return this.mutex_.try_lock_shared();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public async unlock_shared(): Promise<void>
+	public unlock_shared(): Promise<void>
 	{
-		if (this.read_lock_count_ === 0)
-			throw new RangeError("This mutex is free on the shared lock.");
-
-		--this.read_lock_count_;
-
-		if (this.resolvers_.empty() === false)
-		{ 
-			// MUST BE WRITE LOCK
-			let fn: IListener = this.resolvers_.front().second;
-
-			this.resolvers_.pop(); // POP FIRST
-			fn(); // AND CALL LATER
-		}
+		return this.mutex_.unlock_shared();
 	}
-}
-
-/**
- * @hidden
- */
-interface IListener
-{
-	(): void;
 }
 
 export type shared_mutex = SharedMutex;

@@ -2,9 +2,7 @@
 /** @module std */
 //================================================================
 import { ILockable } from "./ILockable";
-
-import { Queue } from "../container/Queue";
-import { RangeError } from "../exception/RuntimeError";
+import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
  * Mutex.
@@ -16,23 +14,17 @@ export class Mutex implements ILockable
     /**
      * @hidden
      */
-    private lock_count_: number;
-
-    /**
-     * @hidden
-     */
-    private resolvers_: Queue<IResolver>;
+    private mutex_: SharedTimedMutex;
 
     /* ---------------------------------------------------------
-        CONSTRUCTORS
+        CONSTRUCTOR
     --------------------------------------------------------- */
     /**
      * Default Constructor.
      */
     public constructor()
     {
-        this.lock_count_ = 0;
-        this.resolvers_ = new Queue();
+        this.mutex_ = new SharedTimedMutex();
     }
 
     /* ---------------------------------------------------------
@@ -43,52 +35,24 @@ export class Mutex implements ILockable
      */
     public lock(): Promise<void>
     {
-        return new Promise<void>(resolve =>
-        {
-            if (this.lock_count_++ === 0)
-                resolve();
-            else
-                this.resolvers_.push(resolve);
-        });
+        return this.mutex_.lock();
     }
 
     /**
      * @inheritDoc
      */
-    public async try_lock(): Promise<boolean>
+    public try_lock(): Promise<boolean>
     {
-        if (this.lock_count_ !== 0)
-            return false; // HAVE LOCKED
-        
-        ++this.lock_count_;
-        return true;
+        return this.mutex_.try_lock();
     }
 
     /**
      * @inheritDoc
      */
-    public async unlock(): Promise<void>
+    public unlock(): Promise<void>
     {
-        if (this.lock_count_ === 0)
-            throw new RangeError("This mutex is free.");
-
-        --this.lock_count_; // DECREASE LOCKED COUNT
-        if (this.resolvers_.empty() === false)
-        {
-            let fn: IResolver = this.resolvers_.front();
-            
-            this.resolvers_.pop(); // POP FIRST
-            fn(); // AND CALL LATER
-        }
+        return this.mutex_.unlock();
     }
-}
-
-/**
- * @hidden
- */
-interface IResolver
-{
-    (): void;
 }
 
 export type mutex = Mutex;

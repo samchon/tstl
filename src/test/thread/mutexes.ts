@@ -21,9 +21,6 @@ export async function test_mutexes(): Promise<void>
 	await _Test_try_lock_shared("SharedTimedMutex", new std.SharedTimedMutex());
 }
 
-/* ---------------------------------------------------------
-	WRITE LOCK
---------------------------------------------------------- */
 export async function _Test_lock(name: string, mtx: std.ILockable): Promise<void>
 {
 	let start_time: number = new Date().getTime();
