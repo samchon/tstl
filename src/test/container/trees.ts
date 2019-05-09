@@ -23,21 +23,21 @@ function _Test_tree_set_inserts_and_erases(): void
 {
     for (let k = 0; k < 1000; ++k)
     {
-        let s = new std.TreeSet();
+        let set: std.TreeSet<number> = new std.TreeSet();
         for (let i = 0; i < 100; ++i)
-            s.insert(Math.floor(Math.random() * 10000));
+            set.insert(std.randint(0, 10000));
 
-        for (let it = s.begin(); it !== s.end(); it = it.next())
-            if (s.has(it.value) === false)
+        for (let val of set)
+            if (set.has(val) === false)
                 console.log("something wrong.");
 
-        while (!s.empty())
+        while (!set.empty())
         {
-            let advance = Math.floor(Math.random() * s.size());
-            let it = std.advance(s.begin(), advance);
+            let advance: number = std.randint(0, set.size() - 1);
+            let it: std.TreeSet.Iterator<number> = std.advance(set.begin(), advance);
 
-            s.erase(it);
-            if (s.has(it.value))
+            set.erase(it);
+            if (set.has(it.value))
                 console.log("something wrong.");
         }
     }

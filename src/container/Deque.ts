@@ -254,7 +254,7 @@ export class Deque<T>
     }
 
     /**
-     * @internal
+     * @hidden
      */
     public nth(index: number): Deque.Iterator<T>
     {

@@ -94,7 +94,7 @@ export class Vector<T>
     }
 
     /**
-     * @internal
+     * @hidden
      */
     public nth(index: number): Vector.Iterator<T>
     {
