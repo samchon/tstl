@@ -11,12 +11,15 @@ interface ISharedLockable extends std.ILockable
 async function write(mutex: ISharedLockable, scripts: string[]): Promise<void>
 {
     for (let i: number = 0; i < 10; ++i)
+    {
         await std.UniqueLock.lock(mutex, async () =>
         {
             scripts.push("start writing");
             await std.sleep_for(std.randint(100, 200));
             scripts.push("end writing");
         });
+        await std.sleep_for(std.randint(50, 100));
+    }
 }
 
 async function read(mutex: ISharedLockable, scripts: string[]): Promise<void>
@@ -63,11 +66,10 @@ async function random(mutex: ISharedLockable): Promise<void>
             throw exp;
         }
     }
-    console.log(scripts.length, scripts);
 }
 
 export async function test_shared_mutexes(): Promise<void>
 {
-    await random(new std.SharedMutex());
+    //await random(new std.SharedMutex());
     await random(new std.SharedTimedMutex());
 }
