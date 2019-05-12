@@ -25,6 +25,11 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     /**
      * @hidden
      */
+    private it_: List.Iterator<IResolver>;
+
+    /**
+     * @hidden
+     */
     private writing_: number;
 
     /**
@@ -41,6 +46,7 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     public constructor()
     {
         this.queue_ = new List();
+        this.it_ = this.queue_.end();
 
         this.writing_ = 0;
         this.reading_ = 0;
@@ -63,8 +69,10 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     {
         // STEP TO THE NEXT LOCKS
         let last: IResolver | null = null;
-        for (let resolver of this.queue_)
+        for (this.it_ = this.it_.next(); !this.it_.equals(this.queue_.end()); this.it_ = this.it_.next())
         {
+            let resolver: IResolver = this.it_.value;
+
             // DIFFERENT ACCESS TYPE COMES?
             if (last !== null && last.accessType !== resolver.accessType)
                 break;
@@ -87,6 +95,26 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
             if (resolver.accessType === AccessType.WRITE)
                 break;
         }
+    }
+
+    /**
+     * @hidden
+     */
+    private _Cancel(it: List.Iterator<IResolver>): void
+    {
+        // POP THE LISTENER
+        this.queue_.erase(it);
+
+        // RELEASE IF LASTEST RESOLVER
+        let prev: List.Iterator<IResolver> = it.prev();
+        if (prev.equals(this.queue_.end()) || prev.value.handler === null)
+        {
+            this.it_ = prev;
+            this._Release();
+        }
+
+        // RETURN FAILURE
+        it.value.handler!(false);
     }
 
     /* =========================================================
@@ -164,6 +192,8 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
 
                     // NOT YET, THEN DO UNLOCK
                     --this.writing_;
+                    this._Cancel(it);
+
                     if (it.prev().next().equals(it))
                         this.queue_.erase(it); // POP THE LISTENER
 
@@ -278,6 +308,8 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
 
                     // DO UNLOCK
                     --this.reading_;
+                    this._Cancel(it);
+
                     if (it.prev().next().equals(it))
                         this.queue_.erase(it); // POP THE LISTENER
 
