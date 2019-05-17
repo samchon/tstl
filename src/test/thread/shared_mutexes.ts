@@ -1,75 +1,91 @@
-import * as std from "../../index";
+import std = require("../..");
 
-import { _ISharedLockable } from "../../base/thread/_ISharedLockable";
-
-interface ISharedLockable extends std.ILockable
+const enum Status
 {
-    lock_shared(): Promise<void>;
-    unlock_shared(): Promise<void>;
+    START_READING = "Start Reading",
+    END_READING = "End Reading",
+    START_WRITING = "Start Writing",
+    END_WRITING = "End Writing"
 }
 
-async function write(mutex: ISharedLockable, scripts: string[]): Promise<void>
+async function write(mutex: std.SharedTimedMutex, statusList: std.Pair<Status, number>[]): Promise<void>
 {
     for (let i: number = 0; i < 10; ++i)
     {
-        await std.UniqueLock.lock(mutex, async () =>
+        // JUST DELAY FOR SAFETY
+        await std.sleep_for(100);
+        let time: number = Date.now();
+
+        // DO WRITE
+        await mutex.lock();
         {
-            scripts.push("start writing");
-            await std.sleep_for(std.randint(100, 200));
-            scripts.push("end writing");
-        });
-        await std.sleep_for(std.randint(50, 100));
+            let now: number = Date.now();
+            statusList.push(new std.Pair(Status.START_WRITING, now - time));
+            
+            await std.sleep_for(50);
+            statusList.push(new std.Pair(Status.END_WRITING, Date.now() - now));
+        }
+        await mutex.unlock();
     }
 }
 
-async function read(mutex: ISharedLockable, scripts: string[]): Promise<void>
+async function read(mutex: std.SharedTimedMutex, statusList: std.Pair<Status, number>[]): Promise<void>
 {
     for (let i: number = 0; i < 100; ++i)
-        await std.SharedLock.lock(mutex, async () =>
-        {
-            scripts.push("start reading");
-            await std.sleep_for(std.randint(10, 20));
-            scripts.push("end reading");
-        });
-}
-
-async function random(mutex: ISharedLockable): Promise<void>
-{
-    let scripts: string[] = [];
-    let latch: std.experimental.Latch = new std.experimental.Latch(2);
-
-    write(mutex, scripts).then(() => latch.arrive());
-    read(mutex, scripts).then(() => latch.arrive());
-
-    await latch.wait();
-    
-    let writing: number = 0;
-    let reading: number = 0;
-
-    for (let str of scripts)
     {
-        if (str === "start writing")        ++writing;
-        else if (str === "start reading")   ++reading;
-        else if (str === "end writing")     --writing;
-        else                                --reading;
+        let time: number = Date.now();
 
-        try
+        // DO READ
+        await mutex.lock_shared();
         {
-            if (writing && reading)
-                throw new std.DomainError(`Error on ${mutex.constructor.name}: writing and reading at the same time?`);
-            else if (writing > 1)
-                throw new std.DomainError(`Error on ${mutex.constructor.name}: writing lock is not unique.`);
+            let now: number = Date.now();
+            statusList.push(new std.Pair(Status.START_READING, now - time));
+
+            await std.sleep_for(10);
+            statusList.push(new std.Pair(Status.END_READING, Date.now() - now));
         }
-        catch (exp)
-        {
-            console.log(scripts);
-            throw exp;
-        }
+        await mutex.unlock_shared();
     }
 }
 
 export async function test_shared_mutexes(): Promise<void>
 {
-    //await random(new std.SharedMutex());
-    await random(new std.SharedTimedMutex());
+    let mutex: std.SharedTimedMutex = new std.SharedTimedMutex();
+    let statusList: std.Pair<Status, number>[] = [];
+
+    try
+    {
+        let promises: Promise<void>[] = [];
+        for (let i: number = 0; i < 10; ++i)
+            promises.push(read(mutex, statusList));
+        promises.push(write(mutex, statusList));
+
+        await Promise.all(promises);
+
+        let reading: number = 0;
+        let writing: number = 0;
+        
+        for (let i: number = 0; i < statusList.length; ++i)
+        {
+            let status: Status = statusList[i].first;
+
+            if (status === Status.START_READING)
+                ++reading;
+            else if (status === Status.START_WRITING)
+                ++writing;
+            else if (status === Status.END_READING)
+                --reading;
+            else
+                --writing;
+            
+            if (writing > 0 && reading > 0)
+                throw new Error(`Error on SharedTimeMutex; reading and writing at the same time at ${i}`);
+        }
+    }
+    catch (exp)
+    {
+        for (let pair of statusList)
+            console.log(pair.first, pair.second);
+        throw exp;
+    }
 }

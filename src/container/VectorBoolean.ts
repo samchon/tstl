@@ -254,7 +254,7 @@ export class VectorBoolean
     }
 
     /**
-     * @internal
+     * @hidden
      */
     public nth(index: number): VectorBoolean.Iterator
     {
