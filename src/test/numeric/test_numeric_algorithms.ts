@@ -1,6 +1,6 @@
 import * as std from "../../index";
 
-import { Point2D } from "./Point2D";
+import { Point2D } from "../internal/Point2D";
 
 export function test_numeric_algorithms(): void
 {

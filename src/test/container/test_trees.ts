@@ -1,7 +1,7 @@
 import * as std from "../../index";
 
 import { Temporary } from "../../base/Temporary";
-import { test_binary_searches } from "../algorithm/binary_searches";
+import { test_binary_searches } from "../algorithm/test_binary_searches";
 
 export function test_trees(): void
 {

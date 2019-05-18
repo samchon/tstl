@@ -1,6 +1,6 @@
 import * as std from "../../index";
 
-import { Atomic } from "../structures/Atomic";
+import { Atomic } from "../internal/Atomic";
 
 export function test_comparisons(): void
 {

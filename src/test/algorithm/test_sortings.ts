@@ -1,6 +1,6 @@
 import * as std from "../../index";
 
-import { Cube } from "../structures/Cube";
+import { Cube } from "../internal/Cube";
 
 export function test_sortings(): void
 {
