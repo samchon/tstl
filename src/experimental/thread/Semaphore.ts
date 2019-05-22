@@ -1,12 +1,11 @@
 //================================================================ 
 /** @module std.experimental */
 //================================================================
-import { LockType } from "../../base/thread/enums";
-
-import { HashMap } from "../../container/HashMap";
+import { List } from "../../container/List";
 import { OutOfRange } from "../../exception/LogicError";
 import { RangeError } from "../../exception/RuntimeError";
 
+import { LockType } from "../../base/thread/enums";
 import { sleep_for } from "../../thread/global";
 
 /**
@@ -19,22 +18,17 @@ export class Semaphore<Max extends number = number>
     /**
      * @hidden
      */
-    private hold_count_: number;
-
-    /**
-     * @hidden
-     */
-    private locked_count_: number;
-
-    /**
-     * @hidden
-     */
     private max_: Max;
 
     /**
      * @hidden
      */
-    private resolvers_: HashMap<IResolver, IProps>;
+    private locking_: number;
+
+    /**
+     * @hidden
+     */
+    private queue_: List<IResolver>;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
@@ -46,11 +40,9 @@ export class Semaphore<Max extends number = number>
      */
     public constructor(max: Max)
     {
-        this.locked_count_ = 0;
-        this.hold_count_ = 0;
         this.max_ = max;
-
-        this.resolvers_ = new HashMap();
+        this.locking_ = 0;
+        this.queue_ = new List();
     }
 
     /**
@@ -61,72 +53,44 @@ export class Semaphore<Max extends number = number>
         return this.max_;
     }
 
-    /**
-     * @hidden
-     */
-    private _Compute_excess_count(count: number): number
-    {
-        return Math.max(0, Math.min(this.locked_count_, this.max_) + count - this.max_);
-    }
-
-    /**
-     * @hidden
-     */
-    private _Compute_resolve_count(count: number): number
-    {
-        return Math.min(count, this.hold_count_);
-    }
-
     /* ---------------------------------------------------------
         ACQURE & RELEASE
     --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
-    public acquire(count: number = 1): Promise<void>
+    public acquire(): Promise<void>
     {
-        return new Promise<void>((resolve, reject) =>
+        return new Promise<void>(resolve =>
         {
-            // VALIDATE PARAMETER
-            if (count < 1 || count > this.max_)
+            if (this.locking_ < this.max_)
             {
-                reject(new OutOfRange("Lock count to semaphore is out of its range."));
-                return;
+                ++this.locking_;
+                resolve();
             }
-
-            // INCREASE COUNT PROPERTIES
-            let exceeded_count: number = this._Compute_excess_count(count);
-
-            this.hold_count_ += exceeded_count;
-            this.locked_count_ += count;
-
-            // BRANCH; KEEP OR GO?
-            if (exceeded_count > 0)
-                this.resolvers_.emplace(resolve, 
-                {
-                    count: exceeded_count, 
+            else
+            {
+                this.queue_.push_back({
+                    handler: resolve,
                     type: LockType.HOLD
                 });
-            else
-                resolve();
+            }
         });
     }
 
     /**
      * @inheritDoc
      */
-    public async try_acquire(count: number = 1): Promise<boolean>
+    public async try_acquire(): Promise<boolean>
     {
-        // VALIDATE PARAMETER
-        if (count < 1 || count > this.max_)
-            throw new OutOfRange("Lock count to semaphore is out of its range.");
-
         // ALL OR NOTHING
-        if (this.locked_count_ + count > this.max_)
+        if (this.locking_ < this.max_)
+        {
+            ++this.locking_;
+            return true;
+        }
+        else
             return false;
-        
-        this.locked_count_ += count;
-        return true;
     }
 
     /**
@@ -137,45 +101,34 @@ export class Semaphore<Max extends number = number>
         // VALIDATE PARAMETER
         if (count < 1 || count > this.max_)
             throw new OutOfRange("Unlock count to semaphore is out of its range.");
-        else if (count > this.locked_count_)
-            throw new RangeError("Number of unlocks to semaphore is greater than its locks.");
+        else if (count > this.locking_)
+            throw new RangeError("Number of releases to semaphore is greater than its acquring count.");
 
         // DO RELEASE
-        this.locked_count_ -= count;
+        this.locking_ -= count;
         await this._Release(count);
     }
 
     /**
      * @hidden
      */
-    private async _Release(resolved_count: number): Promise<void>
+    private async _Release(count: number): Promise<void>
     {
-        // COMPUTE PROPERTY
-        resolved_count = this._Compute_resolve_count(resolved_count);
-        this.hold_count_ -= resolved_count;
-
-        while (resolved_count !== 0)
+        for (let it = this.queue_.begin(); !it.equals(this.queue_.end()); it = it.next())
         {
-            let it/*Iterator*/ = this.resolvers_.begin();
-            let props: IProps = it.second;
-
-            if (props.count > resolved_count)
-            {
-                props.count -= resolved_count;
-                resolved_count = 0;
-            }
+            // DO RESOLVE
+            this.queue_.erase(it);
+            if (it.value.type === LockType.HOLD)
+                it.value.handler!();
             else
             {
-                // POP AND DECREAE COUNT FIRST
-                resolved_count -= props.count;
-                this.resolvers_.erase(it);
-
-                // INFORM UNLOCK
-                if (props.type === LockType.HOLD)
-                    it.first();
-                else
-                    it.first(true);
+                it.value.handler!(true);
+                it.value.handler = null;
             }
+
+            // BREAK CONDITION
+            if (++this.locking_ >= this.max_ || --count === 0)
+                break;
         }
     }
 
@@ -189,60 +142,39 @@ export class Semaphore<Max extends number = number>
      * @param count Count to lock.
      * @return Whether succeded to lock or not.
      */
-    public async try_acquire_for(ms: number, count: number = 1): Promise<boolean>
+    public async try_acquire_for(ms: number): Promise<boolean>
     {
-        return new Promise<boolean>((resolve, reject) =>
+        return new Promise<boolean>(resolve =>
         {
-            // VALIDATE PARAMETER
-            if (count < 1 || count > this.max_)
+            if (this.locking_ < this.max_)
             {
-                reject(new OutOfRange("Lock count to semaphore is out of its range."));
-                return;
+                ++this.locking_;
+                resolve(true);
             }
-
-            // INCRESE COUNT PROPERTIES
-            let exceeded_count: number = this._Compute_excess_count(count);
-
-            this.hold_count_ += exceeded_count;
-            this.locked_count_ += count;
-
-            // BRANCH; KEEP OR GO?
-            if (exceeded_count > 0)
+            else
             {
-                // RESERVATE LOCK
-                this.resolvers_.emplace(resolve, 
+                // RESERVE ACQUIRE
+                let it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(), 
                 {
-                    count: exceeded_count, 
+                    handler: resolve,
                     type: LockType.KNOCK
                 });
 
-                // DO SLEEP
+                // DO SLEEP - TIMED-ACQUIRE
                 sleep_for(ms).then(() =>
                 {
-                    let it/*Iterator*/ = this.resolvers_.find(resolve);
-                    if (it.equals(this.resolvers_.end()) === true)
-                        return; // ALREADY BE RETURNED
+                    // SUCCEDED: RETURNS TRUE
+                    if (it.value.handler === null)
+                        return;
 
-                    //----
-                    // ADJUSTMENTS
-                    //----
-                    // ALL OR NOTHING
-                    this.locked_count_ -= count - (exceeded_count - it.second.count);
+                    // FAILURE: ERASE THE RESERVED ITEM
+                    this.queue_.erase(it);
+                    this._Release(1);
 
-                    // ERASE RESOLVER
-                    this.hold_count_ -= it.second.count;
-                    this.resolvers_.erase(it);
-
-                    // RELEASE FOR THE NEXT HOLDERS
-                    this._Release(it.second.count).then(() =>
-                    {
-                        // RETURNS
-                        resolve(false);
-                    });
+                    // RETURS FALSE
+                    resolve(false);
                 });
             }
-            else // SUCCEEDED AT ONCE
-                resolve(true);
         });
     }
 
@@ -253,13 +185,13 @@ export class Semaphore<Max extends number = number>
      * @param count Count to lock.
      * @return Whether succeded to lock or not.
      */
-    public try_acquire_until(at: Date, count: number = 1): Promise<boolean>
+    public try_acquire_until(at: Date): Promise<boolean>
     {
         // COMPUTE MILLISECONDS TO WAIT
         let now: Date = new Date();
         let ms: number = at.getTime() - now.getTime();
 
-        return this.try_acquire_for(ms, count);
+        return this.try_acquire_for(ms);
     }
 }
 
@@ -268,15 +200,7 @@ export class Semaphore<Max extends number = number>
  */
 interface IResolver
 {
-    (value?: any): void;
-}
-
-/**
- * @hidden
- */
-interface IProps
-{
-    count: number;
+    handler: Function | null;
     type: LockType;
 }
 

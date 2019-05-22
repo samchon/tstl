@@ -74,12 +74,12 @@ async function _Test_timed_semaphore(ts: std.experimental.Semaphore): Promise<vo
     _Test_semaphore(ts);
 
     // TRY LOCK FIRST
-    let flag: boolean = await ts.try_acquire_for(0, SIZE / 2);
+    let flag: boolean = await ts.try_acquire_for(0);
     if (flag === false)
         throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when clear.");
 
     // TRY LOCK FOR -> MUST BE FAILED
-    ts.try_acquire_for(50, SIZE).then((ret: boolean) =>
+    ts.try_acquire_for(50).then((ret: boolean) =>
     {
         if (ret === true)
             throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); succeeded to lock when must be failed.");
@@ -102,7 +102,7 @@ async function _Test_timed_semaphore(ts: std.experimental.Semaphore): Promise<vo
     // RELEASE AND LOCK
     await ts.release(SIZE);
 
-    flag = await ts.try_acquire_for(100, 4);
+    flag = await ts.try_acquire_for(100);
     if (flag === false)
         throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when released.");
 
