@@ -78,22 +78,17 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     private _Release(): void
     {
         // STEP TO THE NEXT LOCKS
-        let last: IResolver | null = null;
+        let current: AccessType = this._Current_access_type()!;
         let it: List.Iterator<IResolver> = this.it_;
 
         for (; !it.equals(this.queue_.end()); it = it.next())
         {
+            // DIFFERENT ACCESS TYPE COMES?
             let resolver: IResolver = it.value;
-
-            // DIFFERENT ACCESS TYPE COMES ?
-            if (last !== null && last.accessType !== resolver.accessType)
+            if (resolver.accessType !== current)
                 break;
-            last = resolver;
 
-            //----
-            // DO RESOLVE
-            //-----
-            // NOT RESOLVED YET
+            // NOT RESOLVED YET?
             if (resolver.handler !== null)
             {
                 // CALL RESOLVER
@@ -103,12 +98,15 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
                     resolver.handler(true);
                 
                 // CLEAR RESOLVER
-                resolver.handler = null;                
+                resolver.handler = null;
             }
-
+            
             // STOP AFTER WRITE LOCK
             if (resolver.accessType === AccessType.WRITE)
+            {
+                it = it.next();
                 break;
+            }
         }
         this.it_ = it;
     }
