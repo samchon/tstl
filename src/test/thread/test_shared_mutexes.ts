@@ -7,10 +7,11 @@ const enum Status
     START_WRITING = "Start Writing",
     END_WRITING = "End Writing"
 }
+const MAGNIFIER: number = 3;
 
 async function write(mutex: std.SharedTimedMutex, statusList: std.Pair<Status, number>[]): Promise<void>
 {
-    for (let i: number = 0; i < 10; ++i)
+    for (let i: number = 0; i < MAGNIFIER * 10; ++i)
     {
         // JUST DELAY FOR SAFETY
         await std.sleep_for(100);
@@ -31,7 +32,7 @@ async function write(mutex: std.SharedTimedMutex, statusList: std.Pair<Status, n
 
 async function read(mutex: std.SharedTimedMutex, statusList: std.Pair<Status, number>[]): Promise<void>
 {
-    for (let i: number = 0; i < 100; ++i)
+    for (let i: number = 0; i < MAGNIFIER * 100; ++i)
     {
         let time: number = Date.now();
 
@@ -56,7 +57,7 @@ export async function test_shared_mutexes(): Promise<void>
     try
     {
         let promises: Promise<void>[] = [];
-        for (let i: number = 0; i < 10; ++i)
+        for (let i: number = 0; i < 25; ++i)
             promises.push(read(mutex, statusList));
         promises.push(write(mutex, statusList));
 

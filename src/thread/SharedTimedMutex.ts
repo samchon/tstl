@@ -25,11 +25,6 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     /**
      * @hidden
      */
-    private it_: List.Iterator<IResolver>;
-
-    /**
-     * @hidden
-     */
     private writing_: number;
 
     /**
@@ -46,7 +41,6 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     public constructor()
     {
         this.queue_ = new List();
-        this.it_ = this.queue_.end();
 
         this.writing_ = 0;
         this.reading_ = 0;
@@ -68,8 +62,6 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     private _Emplace(resolver: IResolver): void
     {
         this.queue_.push_back(resolver);
-        if (this.it_.equals(this.queue_.end()) === true)
-            this.it_ = this.queue_.end().prev();
     }
 
     /**
@@ -79,36 +71,31 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     {
         // STEP TO THE NEXT LOCKS
         let current: AccessType = this._Current_access_type()!;
-        let it: List.Iterator<IResolver> = this.it_;
 
-        for (; !it.equals(this.queue_.end()); it = it.next())
+        for (let resolver of this.queue_)
         {
             // DIFFERENT ACCESS TYPE COMES?
-            let resolver: IResolver = it.value;
             if (resolver.accessType !== current)
                 break;
 
             // NOT RESOLVED YET?
             if (resolver.handler !== null)
             {
-                // CALL RESOLVER
-                if (resolver.lockType === LockType.HOLD)
-                    resolver.handler();
-                else
-                    resolver.handler(true);
-                
-                // CLEAR RESOLVER
+                // CLEAR FIRST
+                let handler: Function | null = resolver.handler;
                 resolver.handler = null;
+
+                // CALL LATER
+                if (resolver.lockType === LockType.HOLD)
+                    handler();
+                else
+                    handler(true);
             }
             
             // STOP AFTER WRITE LOCK
             if (resolver.accessType === AccessType.WRITE)
-            {
-                it = it.next();
                 break;
-            }
         }
-        this.it_ = it;
     }
 
     /**
@@ -119,16 +106,16 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
         // POP THE LISTENER
         this.queue_.erase(it);
 
+        let handler: Function = it.value.handler!;
+        it.value.handler = null;
+
         // RELEASE IF LASTEST RESOLVER
         let prev: List.Iterator<IResolver> = it.prev();
-        if (prev.equals(this.queue_.end()) || prev.value.handler === null)
-        {
-            this.it_ = prev;
+        if (prev.equals(this.queue_.end()) === false && prev.value.handler === null)
             this._Release();
-        }
-
-        // RETURN FAILURE
-        it.value.handler!(false);
+        
+        // RETURNS FAILURE
+        handler(false);
     }
 
     /* =========================================================
@@ -200,16 +187,12 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
                 let it: List.Iterator<IResolver> = this.queue_.end().prev();
                 sleep_for(ms).then(() =>
                 {
-                    // HAVE UNLOCKED YET
-                    if (it.value.handler === null)
-                        return;
-
                     // NOT YET, THEN DO UNLOCK
-                    --this.writing_;
-                    this._Cancel(it);
-
-                    // RETURN FAILURE
-                    resolve(false);
+                    if (it.value.handler !== null)
+                    {
+                        --this.writing_;
+                        this._Cancel(it);
+                    }
                 });
             }
         });
@@ -309,15 +292,12 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
                 let it: List.Iterator<IResolver> = this.queue_.end().prev();
                 sleep_for(ms).then(() =>
                 {
-                    if (it.value.accessType === null)
-                        return;
-
-                    // DO UNLOCK
-                    --this.reading_;
-                    this._Cancel(it);
-
-                    // RETURN FAILURE
-                    resolve(false);
+                    // NOT YET, THEN DO UNLOCK
+                    if (it.value.handler !== null)
+                    {
+                        --this.reading_;
+                        this._Cancel(it);
+                    }
                 });
             }
         });

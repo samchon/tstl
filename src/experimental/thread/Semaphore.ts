@@ -2,7 +2,7 @@
 /** @module std.experimental */
 //================================================================
 import { List } from "../../container/List";
-import { OutOfRange } from "../../exception/LogicError";
+import { OutOfRange, LengthError } from "../../exception/LogicError";
 import { RangeError } from "../../exception/RuntimeError";
 
 import { LockType } from "../../base/thread/enums";
@@ -23,7 +23,7 @@ export class Semaphore<Max extends number = number>
     /**
      * @hidden
      */
-    private locking_: number;
+    private acquiring_: number;
 
     /**
      * @hidden
@@ -41,7 +41,7 @@ export class Semaphore<Max extends number = number>
     public constructor(max: Max)
     {
         this.max_ = max;
-        this.locking_ = 0;
+        this.acquiring_ = 0;
         this.queue_ = new List();
     }
 
@@ -63,9 +63,9 @@ export class Semaphore<Max extends number = number>
     {
         return new Promise<void>(resolve =>
         {
-            if (this.locking_ < this.max_)
+            if (this.acquiring_ < this.max_)
             {
-                ++this.locking_;
+                ++this.acquiring_;
                 resolve();
             }
             else
@@ -84,9 +84,9 @@ export class Semaphore<Max extends number = number>
     public async try_acquire(): Promise<boolean>
     {
         // ALL OR NOTHING
-        if (this.locking_ < this.max_)
+        if (this.acquiring_ < this.max_)
         {
-            ++this.locking_;
+            ++this.acquiring_;
             return true;
         }
         else
@@ -101,18 +101,20 @@ export class Semaphore<Max extends number = number>
         // VALIDATE PARAMETER
         if (count < 1 || count > this.max_)
             throw new OutOfRange("Unlock count to semaphore is out of its range.");
-        else if (count > this.locking_)
+        else if (count > this.max_)
+            throw new LengthError("Number of releases to semaphore is greater than its maximum capacity.");
+        else if (count > this.acquiring_)
             throw new RangeError("Number of releases to semaphore is greater than its acquring count.");
 
         // DO RELEASE
-        this.locking_ -= count;
-        await this._Release(count);
+        this.acquiring_ -= count;
+        this._Release(count);
     }
 
     /**
      * @hidden
      */
-    private async _Release(count: number): Promise<void>
+    private _Release(count: number): void
     {
         for (let it = this.queue_.begin(); !it.equals(this.queue_.end()); it = it.next())
         {
@@ -127,9 +129,27 @@ export class Semaphore<Max extends number = number>
             }
 
             // BREAK CONDITION
-            if (++this.locking_ >= this.max_ || --count === 0)
+            if (++this.acquiring_ >= this.max_ || --count === 0)
                 break;
         }
+    }
+
+    private _Cancel(it: List.Iterator<IResolver>): void
+    {
+        // POP THE LISTENER
+        --this.acquiring_;
+        this.queue_.erase(it);
+
+        let handler: Function = it.value.handler!;
+        it.value.handler = null;
+
+        // RELEASE IF LASTEST RESOLVER
+        let prev: List.Iterator<IResolver> = it.prev();
+        if (prev.equals(this.queue_.end()) === false && prev.value.handler === null)
+            this._Release(1);
+        
+        // RETURNS FAILURE
+        handler(false);
     }
 
     /* ---------------------------------------------------------
@@ -146,11 +166,8 @@ export class Semaphore<Max extends number = number>
     {
         return new Promise<boolean>(resolve =>
         {
-            if (this.locking_ < this.max_)
-            {
-                ++this.locking_;
+            if (this.acquiring_++ < this.max_)
                 resolve(true);
-            }
             else
             {
                 // RESERVE ACQUIRE
@@ -160,19 +177,12 @@ export class Semaphore<Max extends number = number>
                     type: LockType.KNOCK
                 });
 
-                // DO SLEEP - TIMED-ACQUIRE
+                // AUTOMATIC RELEASE AFTER TIMEOUT
                 sleep_for(ms).then(() =>
                 {
-                    // SUCCEDED: RETURNS TRUE
-                    if (it.value.handler === null)
-                        return;
-
-                    // FAILURE: ERASE THE RESERVED ITEM
-                    this.queue_.erase(it);
-                    this._Release(1);
-
-                    // RETURS FALSE
-                    resolve(false);
+                    // NOT YET, THEN DO RELEASE
+                    if (it.value.handler !== null)
+                        this._Cancel(it);
                 });
             }
         });

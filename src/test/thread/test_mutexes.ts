@@ -62,7 +62,7 @@ export async function _Test_try_lock(name: string, mtx: std.ITimedLockable): Pro
         throw new std.DomainError(name + "::try_lock_for does not return exact value.");
     else if (elapsed_time < SLEEP_TIME * .95)
         throw new std.DomainError(name + " does not work in exact time.");
-
+    
     await mtx.unlock();
 }
 
