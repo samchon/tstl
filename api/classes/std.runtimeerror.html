@@ -125,15 +125,16 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="std.runtimeerror.html#stack" class="tsd-kind-icon">stack</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite"><a href="std.runtimeerror.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="std.runtimeerror.html#name" class="tsd-kind-icon">name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.runtimeerror.html#tojson" class="tsd-kind-icon">toJSON</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.runtimeerror.html#what" class="tsd-kind-icon">what</a></li>
 							</ul>
 						</section>
@@ -153,7 +154,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.exception.html">Exception</a>.<a href="std.exception.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/29b5255/src/exception/RuntimeError.ts#L12">exception/RuntimeError.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/68e1ee7/src/exception/RuntimeError.ts#L12">exception/RuntimeError.ts:12</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -186,44 +187,44 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Error.message</p>
 						<ul>
-							<li>Defined in C:/Users/samch/AppData/Roaming/npm/node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:904</li>
+							<li>Defined in C:/Users/samch/AppData/Roaming/npm/node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:964</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="stack" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stack</h3>
-					<div class="tsd-signature tsd-kind-icon">stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Error.stack</p>
 						<p>Overrides Error.stack</p>
 						<ul>
-							<li>Defined in C:/Users/samch/AppData/Roaming/npm/node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:905</li>
+							<li>Defined in C:/Users/samch/AppData/Roaming/npm/node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:965</li>
 						</ul>
 					</aside>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="name" class="tsd-anchor"></a>
 					<h3>name</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="std.exception.html">Exception</a>.<a href="std.exception.html#name">name</a></p>
+								<p>Inherited from <a href="std.exception.html">Exception</a>.<a href="std.exception.html#name">name</a></p>
+								<p>Overrides Error.name</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/29b5255/src/exception/RuntimeError.ts#L26">exception/RuntimeError.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/68e1ee7/src/exception/Exception.ts#L44">exception/Exception.ts:44</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>The error name.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
@@ -232,6 +233,31 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="tojson" class="tsd-anchor"></a>
+					<h3>toJSON</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="std.exception.html">Exception</a>.<a href="std.exception.html#tojson">toJSON</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/68e1ee7/src/exception/Exception.ts#L66">exception/Exception.ts:66</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Native function for <code>JSON.stringify()</code>.</p>
+								</div>
+								<p>The <a href="std.exception.html#tojson">Exception.toJSON</a> function returns only three properties; (<a href="std.runtimeerror.html#name">name</a>, <a href="std.runtimeerror.html#message">message</a> and <a href="std.runtimeerror.html#stack">stack</a>). If you want to define a new sub-class extending the <a href="std.exception.html">Exception</a> and let the class to export additional props (or remove some props), override this <a href="std.exception.html#tojson">Exception.toJSON</a> method.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<p>An object for <code>JSON.stringify()</code>.</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="what" class="tsd-anchor"></a>
 					<h3>what</h3>
@@ -243,7 +269,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.exception.html">Exception</a>.<a href="std.exception.html#what">what</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/29b5255/src/exception/Exception.ts#L47">exception/Exception.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/68e1ee7/src/exception/Exception.ts#L54">exception/Exception.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -267,12 +293,6 @@
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/std.html">std</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/std_base.html">std.base</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/std_experimental.html">std.experimental</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
@@ -291,8 +311,11 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="std.runtimeerror.html#stack" class="tsd-kind-icon">stack</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="std.runtimeerror.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="std.runtimeerror.html#tojson" class="tsd-kind-icon">toJSON</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="std.runtimeerror.html#what" class="tsd-kind-icon">what</a>
