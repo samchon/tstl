@@ -1,14 +1,15 @@
 //================================================================ 
 /** @module std */
 //================================================================
+import { ILockable } from "./ILockable";
 import { ITimedLockable } from "./ITimedLockable";
 import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
 
 import { List } from "../container/List";
 
 import { AccessType, LockType } from "../base/thread/enums";
-import { RangeError } from "../exception/RuntimeError";
-import { sleep_for } from "../thread/global";
+import { InvalidArgument } from "../exception/LogicError";
+import { sleep_for } from "./global";
 
 /**
  * Shared timed mutex.
@@ -17,6 +18,11 @@ import { sleep_for } from "../thread/global";
  */
 export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
 {
+    /**
+     * @hidden
+     */
+    private source_: ILockable;
+
     /**
      * @hidden
      */
@@ -38,8 +44,16 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     /**
      * Default Constructor.
      */
-    public constructor()
+    public constructor();
+
+    /**
+     * @internal
+     */
+    public constructor(source: ILockable);
+
+    public constructor(source: ILockable | null = null)
     {
+        this.source_ = (source !== null) ? source : this;
         this.queue_ = new List();
 
         this.writing_ = 0;
@@ -56,44 +70,7 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
             : this.queue_.front().accessType;
     }
 
-    /**
-     * @hidden
-     */
-    private _Release(): void
-    {
-        // STEP TO THE NEXT LOCKS
-        let last: IResolver | null = null;
-        for (let resolver of this.queue_)
-        {
-            // DIFFERENT ACCESS TYPE COMES?
-            if (last !== null && last.accessType !== resolver.accessType)
-                break;
-            last = resolver;
-
-            // NOT RESOLVED YET
-            if (resolver.handler !== null)
-            {
-                // CALL RESOLVER
-                if (resolver.lockType === LockType.HOLD)
-                    resolver.handler();
-                else
-                    resolver.handler(true);
-                
-                // CLEAR RESOLVER
-                resolver.handler = null;                
-            }
-
-            // STOP AFTER WRITE LOCK
-            if (resolver.accessType === AccessType.WRITE)
-                break;
-        }
-    }
-
-    /* =========================================================
-        LOCK & UNLOCK
-            - WRITE LOCK
-            - READ LOCK
-    ============================================================
+    /* ---------------------------------------------------------
         WRITE LOCK
     --------------------------------------------------------- */
     /**
@@ -103,16 +80,16 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     {
         return new Promise<void>(resolve =>
         {
-			let resolver: IResolver = {
-				handler: (this.writing_++ === 0 && this.reading_ === 0)
-					? null
-					: resolve,
-				accessType: AccessType.WRITE,
-				lockType: LockType.HOLD
-			};
-			this.queue_.push_back(resolver);
+            let resolver: IResolver = {
+                handler: (this.writing_++ === 0 && this.reading_ === 0)
+                    ? null
+                    : resolve,
+                accessType: AccessType.WRITE,
+                lockType: LockType.HOLD
+            };
+            this.queue_.push_back(resolver);
 
-			if (resolver.handler === null)
+            if (resolver.handler === null)
                 resolve();
         });
     }
@@ -126,11 +103,11 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
             return false;
 
         ++this.writing_;
-		this.queue_.push({
-			handler: null,
-			accessType: AccessType.WRITE,
-			lockType: LockType.KNOCK
-		});
+        this.queue_.push_back({
+            handler: null,
+            accessType: AccessType.WRITE,
+            lockType: LockType.KNOCK
+        });
         return true;
     }
 
@@ -141,41 +118,31 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     {
         return new Promise<boolean>(resolve =>
         {
-			let resolver: IResolver = {
-				handler: (this.writing_++ === 0 && this.reading_ === 0)
-					? null
-					: resolve,
-				accessType: AccessType.WRITE,
-				lockType: LockType.KNOCK
-			};
-			this.queue_.push_back(resolver);
+            // CONSTRUCT RESOLVER WITH PREDICATION
+            let resolver: IResolver = {
+                handler: (this.writing_++ === 0 && this.reading_ === 0)
+                    ? null
+                    : resolve,
+                accessType: AccessType.WRITE,
+                lockType: LockType.KNOCK
+            };
+            let it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(), resolver);
 
-			if (resolver.handler === null)
-				resolve(true);
-			else
-			{
-				// AUTOMATIC UNLOCK AFTER TIMEOUT
-				let it: List.Iterator<IResolver> = this.queue_.end().prev();
-				sleep_for(ms).then(() =>
-				{
-					// HAVE UNLOCKED YET
-					if (it.value.handler === null)
-						return;
-
+            if (resolver.handler === null)
+                resolve(true); // SUCCESS
+            else 
+            {
+                // AUTOMATIC UNLOCK AFTER TIMEOUT
+                sleep_for(ms).then(() =>
+                {
                     // NOT YET, THEN DO UNLOCK
-                    --this.writing_;
-                    if (it.prev().next().equals(it))
-                        this.queue_.erase(it); // POP THE LISTENER
-
-                    // RELEASE IF LASTEST RESOLVER
-                    let prev: List.Iterator<IResolver> = it.prev();
-                    if (prev.equals(this.queue_.end()) || prev.value.handler === null)
-                        this._Release();
-
-                    // RETURN FAILURE
-                    resolve(false);
-				});
-			}
+                    if (it.value.handler !== null)
+                    {
+                        --this.writing_;
+                        this._Cancel(it);
+                    }
+                });
+            }
         });
     }
 
@@ -197,7 +164,7 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     public async unlock(): Promise<void>
     {
         if (this._Current_access_type() !== AccessType.WRITE)
-            throw new RangeError("This mutex is free on the unique lock.");
+            throw new InvalidArgument(`Error on std.${this.source_.constructor.name}.unlock(): this mutex is free on the unique lock.`);
 
         --this.writing_;
         this.queue_.pop_front();
@@ -219,13 +186,13 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
                 handler: (this.writing_ === 0)
                     ? null
                     : resolve,
-				accessType: AccessType.READ,
-				lockType: LockType.HOLD
-			}
-			this.queue_.push_back(resolver);
+                accessType: AccessType.READ,
+                lockType: LockType.HOLD
+            }
+            this.queue_.push_back(resolver);
             
             ++this.reading_;
-			if (resolver.handler === null)
+            if (resolver.handler === null)
                 resolve();
         });
     }
@@ -239,11 +206,11 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
             return false;
         
         ++this.reading_;
-		this.queue_.push_back({
-			handler: null,
-			accessType: AccessType.READ,
-			lockType: LockType.KNOCK
-		});
+        this.queue_.push_back({
+            handler: null,
+            accessType: AccessType.READ,
+            lockType: LockType.KNOCK
+        });
         return true;
     }
 
@@ -254,42 +221,33 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     {
         return new Promise<boolean>(resolve =>
         {
-			let resolver: IResolver = {
-				handler: (this.writing_ === 0)
-					? null
-					: resolve,
-				accessType: AccessType.READ,
-				lockType: LockType.KNOCK
+            // CONSTRUCT RESOLVER WITH PREDICATION
+            let resolver: IResolver = {
+                handler: (this.writing_ === 0)
+                    ? null
+                    : resolve,
+                accessType: AccessType.READ,
+                lockType: LockType.KNOCK
             };
             
             ++this.reading_;
-			this.queue_.push_back(resolver);
+            let it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(), resolver);
 
-			if (resolver.handler === null)
-				resolve(true);
-			else
-			{
-				// AUTOMATIC UNLOCK AFTER TIMEOUT
-				let it: List.Iterator<IResolver> = this.queue_.end().prev();
-				sleep_for(ms).then(() =>
-				{
-					if (it.value.accessType === null)
-                        return;
-
-                    // DO UNLOCK
-                    --this.reading_;
-                    if (it.prev().next().equals(it))
-                        this.queue_.erase(it); // POP THE LISTENER
-
-                    // RELEASE IF LASTEST RESOLVER
-                    let prev: List.Iterator<IResolver> = it.prev();
-                    if (prev.equals(this.queue_.end()) || prev.value.handler === null)
-                        this._Release();
-
-                    // RETURN FAILURE
-                    resolve(false);
-				});
-			}
+            if (resolver.handler === null)
+                resolve(true);
+            else
+            {
+                // AUTOMATIC UNLOCK AFTER TIMEOUT
+                sleep_for(ms).then(() =>
+                {
+                    // NOT YET, THEN DO UNLOCK
+                    if (it.value.handler !== null)
+                    {
+                        --this.reading_;
+                        this._Cancel(it);
+                    }
+                });
+            }
         });
     }
 
@@ -311,12 +269,78 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     public async unlock_shared(): Promise<void>
     {
         if (this._Current_access_type() !== AccessType.READ)
-            throw new RangeError("This mutex is free on the shared lock.");
+            throw new InvalidArgument(`Error on std.${this.source_.constructor.name}.unlock_shared(): this mutex is free on the shared lock.`);
 
         --this.reading_;
         this.queue_.pop_front();
 
         this._Release();
+    }
+
+    /* ---------------------------------------------------------
+        RELEASE
+    --------------------------------------------------------- */
+    /**
+     * @hidden
+     */
+    private _Release(): void
+    {
+        // STEP TO THE NEXT LOCKS
+        let current: AccessType = this._Current_access_type()!;
+
+        for (let resolver of this.queue_)
+        {
+            // DIFFERENT ACCESS TYPE COMES?
+            if (resolver.accessType !== current)
+                break;
+
+            // NOT RESOLVED YET?
+            if (resolver.handler !== null)
+            {
+                // CLEAR FIRST
+                let handler: Function | null = resolver.handler;
+                resolver.handler = null;
+
+                // CALL LATER
+                if (resolver.lockType === LockType.HOLD)
+                    handler();
+                else
+                    handler(true);
+            }
+            
+            // STOP AFTER WRITE LOCK
+            if (resolver.accessType === AccessType.WRITE)
+                break;
+        }
+    }
+
+    /**
+     * @hidden
+     */
+    private _Cancel(it: List.Iterator<IResolver>): void
+    {
+        //----
+        // POP THE RELEASE
+        //----
+        // DO RASE
+        this.queue_.erase(it);
+
+        // EXTRACT HANDLER TO AVOID THE `this._Release()`
+        let handler: Function = it.value.handler!;
+        it.value.handler = null;
+
+        //----
+        // POST-PROCESS
+        //----
+        // CHECK THE PREVIOUS RESOLVER
+        let prev: List.Iterator<IResolver> = it.prev();
+
+        // RELEASE IF IT IS THE LASTEST RESOLVER
+        if (prev.equals(this.queue_.end()) === false && prev.value.handler === null)
+            this._Release();
+        
+        // (LAZY) RETURNS FAILURE
+        handler(false);
     }
 }
 export type shared_timed_mutex = SharedTimedMutex;

@@ -24,7 +24,7 @@ export class Mutex implements ILockable
      */
     public constructor()
     {
-        this.mutex_ = new SharedTimedMutex();
+        this.mutex_ = new SharedTimedMutex(this);
     }
 
     /* ---------------------------------------------------------
