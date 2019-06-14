@@ -46,10 +46,10 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
       - [Stack `stack`](http://samchon.github.io/tstl/api/classes/std.stack.html)
       - [PriorityQueue `priority_queue`](http://samchon.github.io/tstl/api/classes/std.priorityqueue.html)
     - Associative Adaptors
-      - (experimental) [FlatSet `flat_set`](http://samchon.github.io/tstl/api/classes/std.experimental.flatset.html)
-      - (experimental) [FlatMultiSet `flat_multiset`](http://samchon.github.io/tstl/api/classes/std.experimental.flatmultiset.html)
-      - (experimental) [FlatMap `flat_map`](http://samchon.github.io/tstl/api/classes/std.experimental.flatmap.html)
-      - (experimental) [FlatMultiMap `flat_multimap`](http://samchon.github.io/tstl/api/classes/std.experimental.flatmultimap.html)
+      - (experimental) [FlatSet `flat_set`](http://samchon.github.io/tstl/api/classes/std_experimental.flatset.html)
+      - (experimental) [FlatMultiSet `flat_multiset`](http://samchon.github.io/tstl/api/classes/std_experimental.flatmultiset.html)
+      - (experimental) [FlatMap `flat_map`](http://samchon.github.io/tstl/api/classes/std_experimental.flatmap.html)
+      - (experimental) [FlatMultiMap `flat_multimap`](http://samchon.github.io/tstl/api/classes/std_experimental.flatmultimap.html)
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
