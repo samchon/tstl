@@ -5,9 +5,11 @@
 .github/
 .vscode/
 
+assets/
 node_modules/
 build/
 src/
+benchmark/
 test/
 
 *.log

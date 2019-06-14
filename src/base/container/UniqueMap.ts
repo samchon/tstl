@@ -43,7 +43,7 @@ export abstract class UniqueMap<Key, T,
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
-            throw new OutOfRange("unable to find the matched key.");
+            throw new OutOfRange(`Error on std.${this.constructor.name}.get(): unable to find the matched key -> ${key}.`);
 
         return it.second;
     }
@@ -205,7 +205,7 @@ export abstract class UniqueMap<Key, T,
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
-            throw new OutOfRange("No such key exists.");
+            throw new OutOfRange(`Error on std.${this.constructor.name}.extract(): unable to find the matched key -> ${key}.`);
 
         let ret: Entry<Key, T> = it.value;
         this._Erase_by_range(it);

@@ -6,7 +6,7 @@ import { IForwardIterator } from "./IForwardIterator";
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
 import { IRandomAccessIterator } from "./IRandomAccessIterator";
 
-import { OutOfRange } from "../exception/LogicError";
+import { InvalidArgument } from "../exception/LogicError";
 import { _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
 
 /* =========================================================
@@ -115,8 +115,8 @@ export function advance<InputIterator extends IForwardIterator<IPointer.ValueTyp
     else
     {
         let p_it: IBidirectionalIterator<any, any> = it as any;
-        if (!(p_it.next instanceof Function))
-            throw new OutOfRange("It's not bidirectional iterator. Advancing to negative value is impossible.");
+        if (!(p_it.prev instanceof Function))
+            throw new InvalidArgument("Error on std.advance(): parametric iterator is not a bi-directional iterator, thus advancing to negative direction is not possible.");
 
         n = -n;
         for (let i: number = 0; i < n; ++i)

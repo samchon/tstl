@@ -1,13 +1,14 @@
 //================================================================ 
 /** @module std */
 //================================================================
+import { ILockable } from "./ILockable";
 import { ITimedLockable } from "./ITimedLockable";
 import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
 
 import { List } from "../container/List";
 
 import { AccessType, LockType } from "../base/thread/enums";
-import { RangeError } from "../exception/RuntimeError";
+import { InvalidArgument } from "../exception/LogicError";
 import { sleep_for } from "./global";
 
 /**
@@ -17,6 +18,11 @@ import { sleep_for } from "./global";
  */
 export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
 {
+    /**
+     * @hidden
+     */
+    private source_: ILockable;
+
     /**
      * @hidden
      */
@@ -38,8 +44,16 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     /**
      * Default Constructor.
      */
-    public constructor()
+    public constructor();
+
+    /**
+     * @internal
+     */
+    public constructor(source: ILockable);
+
+    public constructor(source: ILockable | null = null)
     {
+        this.source_ = (source !== null) ? source : this;
         this.queue_ = new List();
 
         this.writing_ = 0;
@@ -150,7 +164,7 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     public async unlock(): Promise<void>
     {
         if (this._Current_access_type() !== AccessType.WRITE)
-            throw new RangeError("This mutex is free on the unique lock.");
+            throw new InvalidArgument(`Error on std.${this.source_.constructor.name}.unlock(): this mutex is free on the unique lock.`);
 
         --this.writing_;
         this.queue_.pop_front();
@@ -255,7 +269,7 @@ export class SharedTimedMutex implements ITimedLockable, _ISharedTimedLockable
     public async unlock_shared(): Promise<void>
     {
         if (this._Current_access_type() !== AccessType.READ)
-            throw new RangeError("This mutex is free on the shared lock.");
+            throw new InvalidArgument(`Error on std.${this.source_.constructor.name}.unlock_shared(): this mutex is free on the shared lock.`);
 
         --this.reading_;
         this.queue_.pop_front();

@@ -1,4 +1,6 @@
 # **T**ypeScript **S**tandard **T**emplate **L**ibrary
+![Make STL Great Again](assets/images/logo.png)
+
 [![Build Status](https://travis-ci.org/samchon/tstl.svg?branch=master)](https://travis-ci.org/samchon/tstl)
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![Downloads](https://img.shields.io/npm/dm/tstl.svg)](https://www.npmjs.com/package/tstl)

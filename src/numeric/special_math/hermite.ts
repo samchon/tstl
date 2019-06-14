@@ -12,7 +12,7 @@ export function hermite(n: number, x: number): number
 {
     // VALIDATE PARAMETER
     if ((n = Math.floor(n)) < 0)
-        throw new InvalidArgument("In hermite function, n must be unsigned integer.");
+        throw new InvalidArgument(`Error on std.hermite(): n must be unsigned integer -> (n = ${n}).`);
 
     // MEMORIZATION
     let solutions: number[] = [1, 2*x];

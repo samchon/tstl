@@ -99,7 +99,7 @@ export abstract class UniqueSet<Key,
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
-            throw new OutOfRange("No such key exists.");
+            throw new OutOfRange(`Error on std.${this.constructor.name}.extract(): unable to find the matched key -> ${key}.`);
 
         this._Erase_by_range(it);
         return key;

@@ -177,8 +177,10 @@ export class VectorBoolean
     public at(index: number): boolean
     {
         // IS OUT OF RANGE?
-        if (index < 0 || index > this.size())
-            throw new OutOfRange("Target index is greater than Vector's size.");
+        if (index < 0)
+            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is negative -> (index = ${index}).`);
+        else if (index >= this.size())
+            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
 
         // FIND THE NEAREST NODE OF LEFT
         let it = this._Find_node(index);
@@ -196,8 +198,10 @@ export class VectorBoolean
         // PRELIMINARIES
         //----
         // IS OUT OF RANGE?
-        if (index < 0 || index > this.size())
-            throw new OutOfRange("Target index is greater than Vector's size.");
+        if (index < 0)
+            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is negative -> (index = ${index}).`);
+        else if (index >= this.size())
+            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
 
         // FIND THE NEAREAST NODE OF LEFT
         let it = this._Find_node(index);

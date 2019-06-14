@@ -6,11 +6,12 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.2.0-dev.20190614",
+  "version": "2.2.0-dev.20190615",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
     "build": "tsc && npm run test",
+    "benchmark": "node benchmark",
     "test": "node test",
     "api": "node build/api",
     "clean": "node build/clean"

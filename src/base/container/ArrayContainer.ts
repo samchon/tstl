@@ -10,7 +10,7 @@ import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIt
 
 import { _Repeater } from "../iterator/_Repeater";
 import { RangeError } from "../../exception/RuntimeError";
-import { InvalidArgument, LengthError } from "../../exception/LogicError";
+import { InvalidArgument, OutOfRange } from "../../exception/LogicError";
 
 /**
  * Base array container.
@@ -139,9 +139,9 @@ export abstract class ArrayContainer<T extends ElemT,
     {
         // VALIDATION
         if (pos._Get_array() !== <any>this)
-            throw new InvalidArgument("Parametric iterator is not this container's own.");
+            throw new InvalidArgument(`Error on std.${this.constructor.name}.insert(): parametric iterator is not this container's own.`);
         else if (pos.index() < 0)
-            throw new LengthError("Parametric iterator is directing invalid position.");
+            throw new OutOfRange(`Error on std.${this.constructor.name}.insert(): parametric iterator is directing negative position -> (index = ${pos.index()}).`);
         else if (pos.index() > this.size())
             pos = this.end();
 
@@ -191,15 +191,15 @@ export abstract class ArrayContainer<T extends ElemT,
     {
         // VALIDATION
         if (first._Get_array() !== <any>this || last._Get_array() !== <any>this)
-            throw new InvalidArgument("Parametric iterator is not this container's own.");
+            throw new InvalidArgument(`Error on std.${this.constructor.name}.erase(): parametric iterator is not this container's own.`);
         else if (first.index() < 0)
-            throw new LengthError("Invalid parameter: first is directing negative index.");
+            throw new OutOfRange(`Error on std.${this.constructor.name}.erase(): first is directing negative position -> (first = ${first.index()}).`);
+        else if (first.index() > last.index())
+            throw new RangeError(`Error on std.${this.constructor.name}.erase(): first iterator has greater index than last -> (first = ${first.index()}, last = ${last.index()}).`);
 
-        // ADJUSTMENTS
+        // ADJUSTMENT
         if (first.index() >= this.size())
             return this.end();
-        else if (first.index() > last.index())
-            throw new RangeError("Invalid range. Paramter first is greater than last.");
 
         // ERASE ELEMENTS
         return this._Erase_by_range(first, last);

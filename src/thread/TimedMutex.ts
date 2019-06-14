@@ -24,7 +24,7 @@ export class TimedMutex implements ITimedLockable
      */
     public constructor()
     {
-        this.mutex_ = new SharedTimedMutex();
+        this.mutex_ = new SharedTimedMutex(this);
     }
 
     /* ---------------------------------------------------------

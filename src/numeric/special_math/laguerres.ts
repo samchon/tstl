@@ -22,7 +22,7 @@ export function assoc_laguerre(n: number, m: number, x: number): number
 {
     // VALIDATE PARAMETERS
     if ((n = Math.floor(n)) < 0 || (m = Math.floor(m)) < 0)
-        throw new InvalidArgument("In assoc_laguerre function, both n and m must be unsigned integer.");
+        throw new InvalidArgument(`Error on std.assoc_laguerre(): both n and m must be unsigned integer -> (n = ${n}, m = ${m}).`);
 
     // MEMORIZATION
     let solutions: number[] = [1, -x+m+1];

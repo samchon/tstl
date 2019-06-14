@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { MathUtil } from "../../base/numeric/MathUtil";
-import { DomainError } from "../../exception/LogicError";
+import { InvalidArgument } from "../../exception/LogicError";
 import { tgamma } from "./gamma";
 
 /**
@@ -26,9 +26,9 @@ export function cyl_bessel_j(n: number, x: number): number
 {
     // VALIDATION
     if (x < 0 && Math.floor(n) !== n)
-        throw new DomainError("In cyl_bessel_j function, n must be integer when x is negative.");
+        throw new InvalidArgument(`Error on std.cyl_bessel_j(): n must be integer when x is negative -> (n = ${n}, x = ${x}).`);
     else if (x === 0 && n !== 0)
-        throw new DomainError("In cyl_bessel_j function, n must be zero when x is zero.");
+        throw new InvalidArgument(`Error on std.cyl_bessel_j(): n must be zero when x is zero -> (n = ${n}, x = ${x}).`);
 
     // COMPUTATION
     if (n === Math.floor(n))
@@ -45,7 +45,7 @@ export function cyl_bessel_j(n: number, x: number): number
 export function cyl_neumann(v: number, x: number): number
 {
     if (x <= 0)
-        throw new DomainError("cyl_neumann function requires x > 0");
+        throw new InvalidArgument(`Error on std.cyl_neumann(): x must be greater than zero -> (x = ${x}).`);
 
     let numerator: number = cyl_bessel_j(v, x) * Math.cos(v*Math.PI) - cyl_bessel_j(-v, x)
     let denominator: number = Math.sin(v * Math.PI);
@@ -121,10 +121,10 @@ export function sph_neumann(n: number, x: number): number
 export function cyl_bessel_i(n: number, x: number): number
 {
     // VALIDATION
-    if (x < 0 && n !== Math.floor(n))
-        throw new DomainError("In cyl_bessel_i function, n must integer when x < 0");
+    if (x < 0 && Math.floor(n) !== n)
+        throw new InvalidArgument(`Error on std.cyl_bessel_i(): n must be integer when x is negative -> (n = ${n}, x = ${x}).`);
     else if (x === 0 && n !== 0)
-        throw new DomainError("In cyl_bessel_i function, n must be zero when x is zero.");
+        throw new InvalidArgument(`Error on std.cyl_bessel_i(): n must be zero when x is zero -> (n = ${n}, x = ${x}).`);
     
     // COMPUTATION
     if (n === .5)
@@ -158,7 +158,7 @@ function _Bessel_i(v: number, x: number): number
 export function cyl_bessel_k(n: number, x: number): number
 {
     if (x <= 0)
-        throw new DomainError("cyl_bessel_k function requires x <= 0");
+        throw new InvalidArgument(`Error on std.cyl_bessel_k(): requires x > 0 -> (x = ${x}).`);
 
     return _Bessel_k(n, x);
 }

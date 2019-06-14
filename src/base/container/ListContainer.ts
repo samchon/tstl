@@ -210,7 +210,7 @@ export abstract class ListContainer<T,
     {
         // VALIDATION
         if (pos.source() !== this.end_.source())
-            throw new InvalidArgument("Parametric iterator is not this container's own.");
+            throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.insert(): parametric iterator is not this container's own.`);
 
         // BRANCHES
         if (args.length === 1)
@@ -293,7 +293,7 @@ export abstract class ListContainer<T,
     {
         // VALIDATION
         if (first.source() !== this.end_.source() || last.source() !== this.end_.source())
-            throw new InvalidArgument("Parametric iterator is not this container's own.");
+            throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.erase(): parametric iterator is not this container's own.`);
 
         // FIND PREV AND NEXT
         let prev: IteratorT = first.prev();

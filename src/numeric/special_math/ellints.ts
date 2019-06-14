@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { MathUtil } from "../../base/numeric/MathUtil";
-import { DomainError } from "../../exception/LogicError";
+import { InvalidArgument } from "../../exception/LogicError";
 
 /* ---------------------------------------------------------------
     FIRST
@@ -19,7 +19,7 @@ export function ellint_1(k: number, phi: number): number
     {
         return 1.0 / _Common_formula(k, x);
     };
-    return _Post_process(k, phi, formula);
+    return _Post_process("ellint_1", k, phi, formula);
 }
 
 /**
@@ -46,7 +46,7 @@ export function ellint_2(k: number, phi: number): number
     {
         return _Common_formula(k, x);
     };
-    return _Post_process(k, phi, formula);
+    return _Post_process("ellint_2", k, phi, formula);
 }
 
 /**
@@ -69,9 +69,11 @@ export function comp_ellint_2(k: number): number
  */
 export function ellint_3(k: number, v: number, phi: number): number
 {
+    
     // SPECIAL VALIDATIONS ONLY FOR SERIES-3
-    if (v > 1 / Math.pow(Math.sin(phi), 2))
-        throw new DomainError("ellint_3 function requires n < (1 / sin^2(phi))");
+    let predicator: number = 1 / Math.pow(Math.sin(phi), 2);
+    if (v > predicator)
+        throw new InvalidArgument(`Error on std.ellint_3(): must be v < (1 / sin^2(phi)) -> (v = ${v}, 1 / sin^2(phi) = ${predicator}).`);
     
     return _Ellint_3(k, v, phi);
 }
@@ -98,7 +100,7 @@ function _Ellint_3(k: number, v: number, phi: number): number
 
         return 1.0 / denominator;
     };
-    return _Post_process(k, phi, formula);
+    return _Post_process("ellint_3", k, phi, formula);
 }
 
 /* ---------------------------------------------------------------
@@ -115,10 +117,10 @@ function _Common_formula(k: number, x: number): number
 /**
  * @hidden
  */
-function _Post_process(k: number, phi: number, formula: (x: number) => number): number
+function _Post_process(func: string, k: number, phi: number, formula: (x: number) => number): number
 {
     if (Math.abs(k) > 1)
-        throw new DomainError("ellint functions require |k| <= 1");
+        throw new InvalidArgument(`Error on std.${func}(): must be |k| <= 1 -> (k = ${k}).`);
 
     let area: number = MathUtil.integral(formula, 0, phi);
     return (phi < 0) ? -area : area;

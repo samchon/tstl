@@ -277,13 +277,13 @@ export class Deque<T>
      */
     public at(index: number): T
     {
-        if (0 <= index && index < this.size())
-        {
-            let indexPair: Pair<number, number> = this._Fetch_index(index);
-            return this.matrix_[indexPair.first][indexPair.second];
-        }
-        else
-            throw new OutOfRange("Target index is greater than Deque's size.");
+        if (index < 0)
+            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is negative -> (index = ${index}).`);
+        else if (index >= this.size())
+            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
+        
+        let indexPair: Pair<number, number> = this._Fetch_index(index);
+        return this.matrix_[indexPair.first][indexPair.second];
     }
 
     /**
@@ -291,8 +291,10 @@ export class Deque<T>
      */
     public set(index: number, val: T): void
     {
-        if (index < 0 || index >= this.size())
-            throw new OutOfRange("Target index is greater than Deque's size.");
+        if (index < 0)
+            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is negative -> (index = ${index}).`);
+        else if (index >= this.size())
+            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
 
         let indexPair: Pair<number, number> = this._Fetch_index(index);
         this.matrix_[indexPair.first][indexPair.second] = val;

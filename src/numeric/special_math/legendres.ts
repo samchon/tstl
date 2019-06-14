@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { DomainError, InvalidArgument } from "../../exception/LogicError";
+import { InvalidArgument } from "../../exception/LogicError";
 
 /**
  * Legendre polynomials.
@@ -22,9 +22,9 @@ export function assoc_legendre(n: number, m: number, x: number): number
 {
     // VALIDATE PARAMETERS
     if ((n = Math.floor(n)) < 0 || (m = Math.floor(m)) < 0)
-        throw new InvalidArgument("In assoc_legendre function, both n and m must be unsigned integer");
+        throw new InvalidArgument(`Error on std.assoc_legendre(): both n and m must be unsigned integer -> (n = ${n}, m = ${m}).`);
     else if (Math.abs(x) > 1)
-        throw new DomainError("assoc_legendre function requires -1 <= x <= 1");
+        throw new InvalidArgument(`Error on std.assoc_legendre(): must be |x| <= 1 -> (x = ${x}).`);
 
     // MEMORIZATION
     let matrix: number[][] = [[1, x]];

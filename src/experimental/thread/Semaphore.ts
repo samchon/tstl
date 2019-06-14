@@ -2,8 +2,7 @@
 /** @module std.experimental */
 //================================================================
 import { List } from "../../container/List";
-import { OutOfRange, LengthError } from "../../exception/LogicError";
-import { RangeError } from "../../exception/RuntimeError";
+import { OutOfRange } from "../../exception/LogicError";
 
 import { LockType } from "../../base/thread/enums";
 import { sleep_for } from "../../thread/global";
@@ -98,13 +97,13 @@ export class Semaphore<Max extends number = number>
      */
     public async release(count: number = 1): Promise<void>
     {
-        // VALIDATE PARAMETER
-        if (count < 1 || count > this.max_)
-            throw new OutOfRange("Unlock count to semaphore is out of its range.");
+        // VALIDATE COUNT
+        if (count < 1)
+            throw new OutOfRange(`Error on std.experimental.Semaphore.release(): parametric count is less than 1 -> (count = ${count}).`);
         else if (count > this.max_)
-            throw new LengthError("Number of releases to semaphore is greater than its maximum capacity.");
+            throw new OutOfRange(`Error on std.experimental.Semaphore.release(): parametric count is greater than max -> (count = ${count}, max = ${this.max_}).`);
         else if (count > this.acquiring_)
-            throw new RangeError("Number of releases to semaphore is greater than its acquring count.");
+            throw new OutOfRange(`Error on std.experimental.Semaphore.release(): parametric count is greater than acquiring -> (count = ${count}, acquiring = ${this.acquiring_}).`);
 
         // DO RELEASE
         this.acquiring_ -= count;
