@@ -36,7 +36,7 @@ function scanf(question)
     });
 }
 
-async function main(path = null)
+async function main(path)
 {
     //----
     // PRE-PROCESSES
@@ -51,6 +51,7 @@ async function main(path = null)
 
     // HIDE TEST DIRECTORY FOR A WHILE
     await move(__dirname + "/../src/test", __dirname + "/../build/test");
+    await move(__dirname + "/../src/benchmark", __dirname + "/../build/benchmark");
 
     // UPDATE TSCONFIG FOR A WHILE
     let config = fs.readFileSync(__dirname + "/../tsconfig.json", "utf8");
@@ -86,6 +87,7 @@ async function main(path = null)
     //----
     // RESTORE TEST MODULES
     await move(__dirname + "/../build/test", __dirname + "/../src/test");
+    await move(__dirname + "/../build/benchmark", __dirname + "/../src/benchmark");
 
     // RESTORE TSCONFIG
     fs.writeFileSync(__dirname + "/../tsconfig.json", config, "utf8");

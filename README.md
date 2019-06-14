@@ -1,5 +1,5 @@
-# **T**ypeScript **S**tandard **T**emplate **L**ibrary
-![Make STL Great Again](assets/images/logo.png)
+# TypeScript Standard Template Library
+![Make STL Great Again](https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png)
 
 [![Build Status](https://travis-ci.org/samchon/tstl.svg?branch=master)](https://travis-ci.org/samchon/tstl)
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
