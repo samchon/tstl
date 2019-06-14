@@ -115,7 +115,7 @@ export function advance<InputIterator extends IForwardIterator<IPointer.ValueTyp
     else
     {
         let p_it: IBidirectionalIterator<any, any> = it as any;
-        if (!(p_it.next instanceof Function))
+        if (!(p_it.prev instanceof Function))
             throw new OutOfRange("It's not bidirectional iterator. Advancing to negative value is impossible.");
 
         n = -n;
