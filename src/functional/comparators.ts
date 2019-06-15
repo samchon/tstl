@@ -15,8 +15,8 @@ import { get_uid } from "./uid";
 export function equal_to<T>(x: T, y: T): boolean
 {
     // CONVERT TO PRIMITIVE TYPE
-    x = x ? x.valueOf() as T : x;
-    y = y ? y.valueOf() as T : y;
+    x = x ? (x as any).valueOf() as T : x;
+    y = y ? (y as any).valueOf() as T : y;
 
     // DO COMPARE
     if (x instanceof Object && (<any>x as IComparable<T>).equals instanceof Function)
@@ -47,8 +47,8 @@ export function not_equal_to<T>(x: T, y: T): boolean
 export function less<T>(x: T, y: T): boolean
 {
     // CONVERT TO PRIMITIVE TYPE
-    x = x.valueOf() as T;
-    y = y.valueOf() as T;
+    x = (x as any).valueOf() as T;
+    y = (y as any).valueOf() as T;
 
     // DO COMPARE
     if (x instanceof Object)
