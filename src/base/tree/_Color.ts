@@ -6,6 +6,6 @@
  */
 export const enum _Color
 {
-	BLACK,
-	RED
+    BLACK,
+    RED
 }

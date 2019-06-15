@@ -9,21 +9,21 @@ import { IPointer } from "../../functional/IPointer";
  * @hidden
  */
 export interface IBidirectionalContainer< 
-		IteratorT extends IReversableIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseIteratorT>,
-		ReverseIteratorT extends IReverseIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseIteratorT>>
-	extends IForwardContainer<IteratorT>
+        IteratorT extends IReversableIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseIteratorT>,
+        ReverseIteratorT extends IReverseIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseIteratorT>>
+    extends IForwardContainer<IteratorT>
 {
-	/**
-	 * Reverse iterator to the first element in reverse.
-	 * 
-	 * @return Reverse iterator to the first.
-	 */
-	rbegin(): ReverseIteratorT;
+    /**
+     * Reverse iterator to the first element in reverse.
+     * 
+     * @return Reverse iterator to the first.
+     */
+    rbegin(): ReverseIteratorT;
 
-	/**
-	 * Reverse iterator to the reverse end.
-	 * 
-	 * @return Reverse iterator to the end.
-	 */
-	rend(): ReverseIteratorT;
+    /**
+     * Reverse iterator to the reverse end.
+     * 
+     * @return Reverse iterator to the end.
+     */
+    rend(): ReverseIteratorT;
 }

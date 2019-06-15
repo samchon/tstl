@@ -10,23 +10,15 @@ import { Exception } from "./Exception";
  */
 export class LogicError extends Exception
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "logic_error";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 /**
@@ -36,23 +28,15 @@ export class LogicError extends Exception
  */
 export class DomainError extends LogicError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "domain_error";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 /**
@@ -62,23 +46,15 @@ export class DomainError extends LogicError
  */
 export class InvalidArgument extends LogicError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "invalid_argument";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 /**
@@ -87,25 +63,17 @@ export class InvalidArgument extends LogicError
  * @author Jeongho Nam <http://samchon.org>
  */
 export class LengthError
-	extends LogicError
+    extends LogicError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "length_error";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 /**
@@ -115,23 +83,15 @@ export class LengthError
  */
 export class OutOfRange extends LogicError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "out_of_range";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 export type logic_error = LogicError;

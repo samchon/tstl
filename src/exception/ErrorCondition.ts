@@ -12,23 +12,23 @@ import { ErrorCategory } from "./ErrorCategory";
  */
 export class ErrorCondition extends ErrorInstance
 {
-	/**
-	 * Default Constructor.
-	 */
-	public constructor();
+    /**
+     * Default Constructor.
+     */
+    public constructor();
 
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param val Identifier of an error condition.
-	 * @param category An error category instance.
-	 */
-	public constructor(val: number, category: ErrorCategory);
+    /**
+     * Initializer Constructor.
+     * 
+     * @param val Identifier of an error condition.
+     * @param category An error category instance.
+     */
+    public constructor(val: number, category: ErrorCategory);
 
-	public constructor(val: number = 0, category: ErrorCategory | null = null)
-	{
-		super(val, category!);
-	}
+    public constructor(val: number = 0, category: ErrorCategory | null = null)
+    {
+        super(val, category!);
+    }
 }
 
 export type error_condition = ErrorCondition;

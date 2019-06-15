@@ -10,15 +10,15 @@ import { InvalidArgument } from "../../exception/LogicError";
  */
 export function hermite(n: number, x: number): number
 {
-	// VALIDATE PARAMETER
-	if ((n = Math.floor(n)) < 0)
-		throw new InvalidArgument("In hermite function, n must be unsigned integer.");
+    // VALIDATE PARAMETER
+    if ((n = Math.floor(n)) < 0)
+        throw new InvalidArgument(`Error on std.hermite(): n must be unsigned integer -> (n = ${n}).`);
 
-	// MEMORIZATION
-	let solutions: number[] = [1, 2*x];
+    // MEMORIZATION
+    let solutions: number[] = [1, 2*x];
 
-	// COMPUTE RETURN VALUE
-	return _Hermite(n, x, solutions);
+    // COMPUTE RETURN VALUE
+    return _Hermite(n, x, solutions);
 }
 
 /**
@@ -26,15 +26,15 @@ export function hermite(n: number, x: number): number
  */
 function _Hermite(n: number, x: number, solutions: number[]): number
 {
-	if (solutions.length > n)
-		return solutions[n];
+    if (solutions.length > n)
+        return solutions[n];
 
-	let hn_1: number = _Hermite(n - 1, x, solutions);
-	let hn_2: number = _Hermite(n - 2, x, solutions);
+    let hn_1: number = _Hermite(n - 1, x, solutions);
+    let hn_2: number = _Hermite(n - 2, x, solutions);
 
-	let ret: number = x*hn_1 - (n-1)*hn_2;
-	ret *= 2;
+    let ret: number = x*hn_1 - (n-1)*hn_2;
+    ret *= 2;
 
-	solutions[n] = ret;
-	return ret;
+    solutions[n] = ret;
+    return ret;
 }

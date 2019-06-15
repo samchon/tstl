@@ -11,7 +11,7 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
  */
 export class TimedMutex implements ITimedLockable
 {
-	/**
+    /**
      * @hidden
      */
     private mutex_: SharedTimedMutex;
@@ -54,24 +54,24 @@ export class TimedMutex implements ITimedLockable
         return this.mutex_.unlock();
     }
 
-	/* ---------------------------------------------------------
-		TIMED LOCK
-	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	public try_lock_for(ms: number): Promise<boolean>
-	{
-		return this.mutex_.try_lock_for(ms);
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public try_lock_until(at: Date): Promise<boolean>
-	{
-		return this.mutex_.try_lock_until(at);
-	}
+    /* ---------------------------------------------------------
+        TIMED LOCK
+    --------------------------------------------------------- */
+    /**
+     * @inheritDoc
+     */
+    public try_lock_for(ms: number): Promise<boolean>
+    {
+        return this.mutex_.try_lock_for(ms);
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    public try_lock_until(at: Date): Promise<boolean>
+    {
+        return this.mutex_.try_lock_until(at);
+    }
 }
 
 export type timed_mutex = TimedMutex;

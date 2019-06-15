@@ -5,13 +5,14 @@ import { UniqueMap } from "../base/container/UniqueMap";
 import { IHashMap } from "../base/container/IHashMap";
 import { _Construct } from "../base/container/_IHashContainer";
 
+import { MapElementList } from "../base/container/MapElementList";
 import { _MapHashBuckets } from "../base/hash/_MapHashBuckets";
-import { MapIterator, MapReverseIterator } from "../base/iterator/MapIterator";
-import { Entry } from "../utility/Entry";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Pair } from "../utility/Pair";
+import { Entry } from "../utility/Entry";
+import { Temporary } from "../base/Temporary";
 
 /**
  * Unique-key Map based on Hash buckets.
@@ -19,7 +20,10 @@ import { Pair } from "../utility/Pair";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class HashMap<Key, T>
-    extends UniqueMap<Key, T, HashMap<Key, T>>
+    extends UniqueMap<Key, T, 
+        HashMap<Key, T>, 
+        HashMap.Iterator<Key, T>, 
+        HashMap.ReverseIterator<Key, T>>
     implements IHashMap<Key, T, true, HashMap<Key, T>>
 {
     /**
@@ -75,7 +79,7 @@ export class HashMap<Key, T>
 
     public constructor(...args: any[])
     {
-        super();
+        super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
 
         _Construct<Key, Entry<Key, T>, 
                 HashMap<Key, T>,
@@ -111,11 +115,20 @@ export class HashMap<Key, T>
     public swap(obj: HashMap<Key, T>): void
     {
         // SWAP CONTENTS
-        super.swap(obj);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
+        MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS
         _MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
+    }
+
+    /**
+     * @hidden
+     */
+    protected _Get_iterator_type(): typeof MapElementList.Iterator
+    {
+        return MapElementList.Iterator;
     }
 
     /* =========================================================
@@ -385,12 +398,12 @@ export namespace HashMap
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key, T> = MapIterator<Key, T, true, HashMap<Key, T>>;
-    export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, true, HashMap<Key, T>>;
+    export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, HashMap<Key, T>>;
+    export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, HashMap<Key, T>>;
 
     // BODY
-    export const Iterator = MapIterator;
-    export const ReverseIterator = MapReverseIterator;
+    export const Iterator = MapElementList.Iterator;
+    export const ReverseIterator = MapElementList.ReverseIterator;
 
     //----
     // SNAKE NOTATION
@@ -404,4 +417,3 @@ export namespace HashMap
     export const reverse_iterator = ReverseIterator;
 }
 export import unordered_map = HashMap;
-

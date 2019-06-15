@@ -4,18 +4,20 @@
 import { SetContainer } from "./SetContainer";
 import { _ITreeContainer } from "./_ITreeContainer";
 
-import { SetIterator, SetReverseIterator } from "../iterator/SetIterator";
+import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
+
 
 /**
  * Common interface for Tree Sets.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export interface ITreeSet<T, Unique extends boolean, Source extends ITreeSet<T, Unique, Source>>
-	extends SetContainer<T, Unique, Source>, 
-		_ITreeContainer<T, T, 
-			Source, 
-			SetIterator<T, Unique, Source>, 
-			SetReverseIterator<T, Unique, Source>, T>
+export interface ITreeSet<Key, 
+        Unique extends boolean, 
+        Source extends ITreeSet<Key, Unique, Source, IteratorT, ReverseT>,
+        IteratorT extends ISetIterator<Key, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends ISetReverseIterator<Key, Unique, Source, IteratorT, ReverseT>>
+    extends SetContainer<Key, Unique, Source, IteratorT, ReverseT>, 
+        _ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
 {
 }

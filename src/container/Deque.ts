@@ -19,7 +19,7 @@ import { distance } from "../iterator/global";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class Deque<T>
-    extends ArrayContainer<T, Deque<T>>
+    extends ArrayContainer<T, Deque<T>, Deque<T>, Deque.Iterator<T>, Deque.ReverseIterator<T>, T>
 {
     ///
     // A matrix containing elements.
@@ -254,6 +254,14 @@ export class Deque<T>
     }
 
     /**
+     * @hidden
+     */
+    public nth(index: number): Deque.Iterator<T>
+    {
+        return new Deque.Iterator(this as Deque<T>, index);
+    }
+
+    /**
      * @inheritDoc
      */
     public [Symbol.iterator](): IterableIterator<T>
@@ -269,13 +277,13 @@ export class Deque<T>
      */
     public at(index: number): T
     {
-        if (0 <= index && index < this.size())
-        {
-            let indexPair: Pair<number, number> = this._Fetch_index(index);
-            return this.matrix_[indexPair.first][indexPair.second];
-        }
-        else
-            throw new OutOfRange("Target index is greater than Deque's size.");
+        if (index < 0)
+            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is negative -> (index = ${index}).`);
+        else if (index >= this.size())
+            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
+        
+        let indexPair: Pair<number, number> = this._Fetch_index(index);
+        return this.matrix_[indexPair.first][indexPair.second];
     }
 
     /**
@@ -283,8 +291,10 @@ export class Deque<T>
      */
     public set(index: number, val: T): void
     {
-        if (index >= this.size() || index < 0)
-            throw new OutOfRange("Target index is greater than Deque's size.");
+        if (index < 0)
+            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is negative -> (index = ${index}).`);
+        else if (index >= this.size())
+            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
 
         let indexPair: Pair<number, number> = this._Fetch_index(index);
         this.matrix_[indexPair.first][indexPair.second] = val;
@@ -433,7 +443,7 @@ export class Deque<T>
             this._Insert_to_end(first, last);
 
             // CHANGE POS TO RETURN
-            pos = new ArrayIterator<T, Deque<T>>(this, this.size_);
+            pos = this.nth(this.size_);
         }
         else
         {

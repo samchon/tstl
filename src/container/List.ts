@@ -108,48 +108,48 @@ export class List<T>
      */
     protected _Create_iterator(prev: List.Iterator<T>, next: List.Iterator<T>, val: T): List.Iterator<T>
     {
-        return new List.Iterator<T>(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
+        return List.Iterator.create(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
     }
 
     /* ---------------------------------------------------------------
         DEQUE ACCESSORS
     --------------------------------------------------------------- */
     /**
-	 * @inheritDoc
-	 */
+     * @inheritDoc
+     */
     public front(): T;
     
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public front(val: T): void;
     
-	public front(val?: T): T | void
-	{
-		if (arguments.length === 0)
-			return this.begin_.value;
-		else
-			this.begin_.value = val!;
-	}
+    public front(val?: T): T | void
+    {
+        if (arguments.length === 0)
+            return this.begin_.value;
+        else
+            this.begin_.value = val!;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public back(): T;
     
-	/**
-	 * @inheritDoc
-	 */
+    /**
+     * @inheritDoc
+     */
     public back(val: T): void;
     
-	public back(val?: T): T | void
-	{
-		let it = this.end().prev();
-		if (arguments.length === 0)
-			return it.value;
-		else
-			it.value = val!;
-	}
+    public back(val?: T): T | void
+    {
+        let it = this.end().prev();
+        if (arguments.length === 0)
+            return it.value;
+        else
+            it.value = val!;
+    }
 
     /* ===============================================================
         ALGORITHMS
@@ -374,10 +374,18 @@ export namespace List
         /**
          * @hidden
          */
-        public constructor(sourcePtr: IPointer<List<T>>, prev: Iterator<T>, next: Iterator<T>, value: T)
+        private constructor(sourcePtr: IPointer<List<T>>, prev: Iterator<T>, next: Iterator<T>, value: T)
         {
             super(prev, next, value);
             this.source_ptr_ = sourcePtr;
+        }
+
+        /**
+         * @internal
+         */
+        public static create<T>(sourcePtr: IPointer<List<T>>, prev: Iterator<T>, next: Iterator<T>, value: T)
+        {
+            return new Iterator(sourcePtr, prev, next, value);
         }
 
         /**
@@ -443,11 +451,6 @@ export namespace List
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
-        public constructor(base: Iterator<T>)
-        {
-            super(base);
-        }
-
         /**
          * @hidden
          */

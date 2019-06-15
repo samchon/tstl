@@ -13,33 +13,33 @@ import { ErrorCondition } from "./ErrorCondition";
  */
 export class ErrorCode extends ErrorInstance
 {
-	/**
-	 * Default Constructor.
-	 */
-	public constructor();
+    /**
+     * Default Constructor.
+     */
+    public constructor();
 
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param val Identifier of an error instance.
-	 * @param category An error category instance.
-	 */
-	public constructor(val: number, category: ErrorCategory);
+    /**
+     * Initializer Constructor.
+     * 
+     * @param val Identifier of an error instance.
+     * @param category An error category instance.
+     */
+    public constructor(val: number, category: ErrorCategory);
 
-	public constructor(val: number = 0, category: ErrorCategory | null = null)
-	{
-		super(val, category!);
-	}
+    public constructor(val: number = 0, category: ErrorCategory | null = null)
+    {
+        super(val, category!);
+    }
 
-	/**
-	 * Get default error condition.
-	 * 
-	 * @return The default error condition object.
-	 */
-	public default_error_condition(): ErrorCondition
-	{
-		return this.category_.default_error_condition(this.value_);
-	}
+    /**
+     * Get default error condition.
+     * 
+     * @return The default error condition object.
+     */
+    public default_error_condition(): ErrorCondition
+    {
+        return this.category_.default_error_condition(this.value_);
+    }
 }
 
 export type error_code = ErrorCode;

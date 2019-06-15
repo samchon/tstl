@@ -1,17 +1,16 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { UniqueMap } from "../base/container/UniqueMap";
-import { ITreeMap } from "../base/container/ITreeMap";
-import { _Construct, _Emplace_hint } from "../base/container/_ITreeContainer";
+import { UniqueTreeMap } from "../base/container/UniqueTreeMap";
+import { _Construct } from "../base/container/_ITreeContainer";
 
+import { MapElementList } from "../base/container/MapElementList";
 import { _UniqueMapTree } from "../base/tree/_UniqueMapTree";
-import { MapIterator, MapReverseIterator } from "../base/iterator/MapIterator";
-import { Entry } from "../utility/Entry";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
-import { Pair } from "../utility/Pair";
+import { Entry } from "../utility/Entry";
+import { Temporary } from "../base/Temporary";
 
 /**
  * Unique-key Map based on Tree.
@@ -19,19 +18,17 @@ import { Pair } from "../utility/Pair";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class TreeMap<Key, T>
-    extends UniqueMap<Key, T, TreeMap<Key, T>>
-    implements ITreeMap<Key, T, true, TreeMap<Key, T>>
+    extends UniqueTreeMap<Key, T, 
+        TreeMap<Key, T>, 
+        TreeMap.Iterator<Key, T>, 
+        TreeMap.ReverseIterator<Key, T>>
 {
     /**
      * @hidden
      */
     private tree_!: _UniqueMapTree<Key, T, TreeMap<Key, T>>;
 
-    /* =========================================================
-        CONSTRUCTORS & SEMI-CONSTRUCTORS
-            - CONSTRUCTORS
-            - ASSIGN & CLEAR
-    ============================================================
+    /* ---------------------------------------------------------
         CONSTURCTORS
     --------------------------------------------------------- */
     /**
@@ -72,8 +69,10 @@ export class TreeMap<Key, T>
     
     public constructor(...args: any[])
     {
-        super();
-
+        // INITIALIZATION
+        super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
+        
+        // OVERLOADINGS
         _Construct<Key, Entry<Key, T>, 
                 TreeMap<Key, T>,
                 TreeMap.Iterator<Key, T>,
@@ -89,9 +88,6 @@ export class TreeMap<Key, T>
         );
     }
 
-    /* ---------------------------------------------------------
-        ASSIGN & CLEAR
-    --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
@@ -108,29 +104,25 @@ export class TreeMap<Key, T>
     public swap(obj: TreeMap<Key, T>): void
     {
         // SWAP CONTENTS
-        super.swap(obj);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
+        MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
         _UniqueMapTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
-    /* =========================================================
-        ACCESSORS
-    ========================================================= */
     /**
-     * @inheritDoc
+     * @hidden
      */
-    public find(key: Key): TreeMap.Iterator<Key, T>
+    protected _Get_iterator_type(): typeof MapElementList.Iterator
     {
-        let node = this.tree_.nearest_by_key(key);
-
-        if (node === null || this.tree_.key_eq()(node.value.first, key) === false)
-            return this.end();
-        else
-            return node.value;
+        return MapElementList.Iterator;
     }
 
+    /* ---------------------------------------------------------
+        ACCESSORS
+    --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
@@ -138,15 +130,7 @@ export class TreeMap<Key, T>
     {
         return this.tree_.key_comp();
     }
-
-    /**
-     * @inheritDoc
-     */
-    public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
-    {
-        return this.tree_.value_comp();
-    }
-
+    
     /**
      * @inheritDoc
      */
@@ -161,66 +145,6 @@ export class TreeMap<Key, T>
     public upper_bound(key: Key): TreeMap.Iterator<Key, T>
     {
         return this.tree_.upper_bound(key);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public equal_range(key: Key): Pair<TreeMap.Iterator<Key, T>, TreeMap.Iterator<Key, T>>
-    {
-        return this.tree_.equal_range(key);
-    }
-
-    /* =========================================================
-        ELEMENTS I/O
-            - INSERT
-            - POST-PROCESS
-    ============================================================
-        INSERT
-    --------------------------------------------------------- */
-    /**
-     * @inheritDoc
-     */
-    public emplace(key: Key, val: T): Pair<TreeMap.Iterator<Key, T>, boolean>
-    {
-        // FIND POSITION TO INSERT
-        let it: TreeMap.Iterator<Key, T> = this.lower_bound(key);
-        if (!it.equals(this.end()) && this.tree_.key_eq()(it.first, key))
-            return new Pair(it, false);
-
-        // ITERATOR TO RETURN
-        it = this.data_.insert(it, new Entry(key, val));
-        this._Handle_insert(it, it.next()); // POST-PROCESS
-
-        return new Pair(it, true);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public emplace_hint(hint: TreeMap.Iterator<Key, T>, key: Key, val: T): TreeMap.Iterator<Key, T>
-    {
-        let elem = new Entry(key, val);
-        
-        return _Emplace_hint<Key, Entry<Key, T>, 
-                TreeMap<Key, T>,
-                TreeMap.Iterator<Key, T>,
-                TreeMap.ReverseIterator<Key, T>,
-                IPair<Key, T>>
-        (
-            this, hint, elem, this.data_, this._Handle_insert.bind(this),
-            () => this.emplace(key, val).first
-        );
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        for (let it = first; !it.equals(last); it = it.next())
-            this.emplace(it.value.first, it.value.second);
     }
 
     /* ---------------------------------------------------------
@@ -251,12 +175,12 @@ export namespace TreeMap
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key, T> = MapIterator<Key, T, true, TreeMap<Key, T>>;
-    export type ReverseIterator<Key, T> = MapReverseIterator<Key, T, true, TreeMap<Key, T>>;
+    export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, TreeMap<Key, T>>;
+    export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, TreeMap<Key, T>>;
 
     // BODY
-    export const Iterator = MapIterator;
-    export const ReverseIterator = MapReverseIterator;
+    export const Iterator = MapElementList.Iterator;
+    export const ReverseIterator = MapElementList.ReverseIterator;
 
     //----
     // SNAKE NOTATION

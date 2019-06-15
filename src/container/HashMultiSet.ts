@@ -5,9 +5,11 @@ import { MultiSet } from "../base/container/MultiSet";
 import { IHashSet } from "../base/container/IHashSet";
 import { _Construct } from "../base/container/_IHashContainer";
 
+import { SetElementList } from "../base/container/SetElementList";
 import { _SetHashBuckets } from "../base/hash/_SetHashBuckets";
-import { SetIterator, SetReverseIterator } from "../base/iterator/SetIterator";
+
 import { IForwardIterator } from "../iterator/IForwardIterator";
+import { Temporary } from "../base/Temporary";
 
 /**
  * Multiple-key Set based on Hash buckets.
@@ -15,7 +17,10 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class HashMultiSet<Key>
-    extends MultiSet<Key, HashMultiSet<Key>>
+    extends MultiSet<Key, 
+        HashMultiSet<Key>,
+        HashMultiSet.Iterator<Key>,
+        HashMultiSet.ReverseIterator<Key>>
     implements IHashSet<Key, false, HashMultiSet<Key>>
 {
     /**
@@ -71,7 +76,7 @@ export class HashMultiSet<Key>
 
     public constructor(...args: any[])
     {
-        super();
+        super(thisArg => new SetElementList(<Temporary>thisArg) as Temporary);
 
         _Construct<Key, Key, 
                 HashMultiSet<Key>,
@@ -107,11 +112,20 @@ export class HashMultiSet<Key>
     public swap(obj: HashMultiSet<Key>): void
     {
         // SWAP CONTENTS
-        super.swap(obj);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
+        SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS
         _SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
+    }
+
+    /**
+     * @hidden
+     */
+    protected _Get_iterator_type(): typeof SetElementList.Iterator
+    {
+        return SetElementList.Iterator;
     }
 
     /* =========================================================
@@ -377,12 +391,12 @@ export namespace HashMultiSet
     // PASCAL NOTATION
     //----
     // HEAD
-    export type Iterator<Key> = SetIterator<Key, false, HashMultiSet<Key>>;
-    export type ReverseIterator<Key> = SetReverseIterator<Key, false, HashMultiSet<Key>>;
+    export type Iterator<Key> = SetElementList.Iterator<Key, false, HashMultiSet<Key>>;
+    export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, false, HashMultiSet<Key>>;
 
     // BODY
-    export const Iterator = SetIterator;
-    export const ReverseIterator = SetReverseIterator;
+    export const Iterator = SetElementList.Iterator;
+    export const ReverseIterator = SetElementList.ReverseIterator;
 
     //----
     // SNAKE NOTATION

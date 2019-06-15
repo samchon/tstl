@@ -31,6 +31,7 @@ export * from "./HashMultiMap";
 //--------
 // ADAPTOR CONTAINERS
 //--------
+// LINEAR
 export * from "./Stack";
 export * from "./Queue";
 export * from "./PriorityQueue";

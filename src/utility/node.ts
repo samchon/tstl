@@ -13,10 +13,10 @@ var is_node_: boolean | null = null;
  */
 export function is_node(): boolean
 {
-	if (is_node_ === null)
-		is_node_ = typeof global === "object"
-			&& typeof global.process === "object" 
-			&& typeof global.process.versions === "object"
-			&& typeof global.process.versions.node !== "undefined";
-	return is_node_;
+    if (is_node_ === null)
+        is_node_ = typeof global === "object"
+            && typeof global.process === "object" 
+            && typeof global.process.versions === "object"
+            && typeof global.process.versions.node !== "undefined";
+    return is_node_;
 }

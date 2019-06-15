@@ -10,23 +10,15 @@ import { Exception } from "./Exception";
  */
 export class RuntimeError extends Exception
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "runtime_error";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 /**
@@ -36,23 +28,15 @@ export class RuntimeError extends Exception
  */
 export class OverflowError extends RuntimeError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "overflow_error";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 /**
@@ -62,23 +46,15 @@ export class OverflowError extends RuntimeError
  */
 export class UnderflowError extends RuntimeError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "underflow_error";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 /**
@@ -88,23 +64,15 @@ export class UnderflowError extends RuntimeError
  */
 export class RangeError extends RuntimeError
 {
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param message The error messgae.
-	 */
-	public constructor(message: string)
-	{
-		super(message);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "range_error";
-	}
+    /**
+     * Initializer Constructor.
+     * 
+     * @param message The error messgae.
+     */
+    public constructor(message: string)
+    {
+        super(message);
+    }
 }
 
 export type runtime_error = RuntimeError;

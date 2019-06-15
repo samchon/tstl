@@ -13,7 +13,7 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
  */
 export class SharedMutex implements ILockable, _ISharedLockable
 {
-	/**
+    /**
      * @hidden
      */
     private mutex_: SharedTimedMutex;
@@ -29,10 +29,10 @@ export class SharedMutex implements ILockable, _ISharedLockable
         this.mutex_ = new SharedTimedMutex(this);
     }
 
-	/* ---------------------------------------------------------
-		WRITE LOCK
-	--------------------------------------------------------- */
-	/**
+    /* ---------------------------------------------------------
+        WRITE LOCK
+    --------------------------------------------------------- */
+    /**
      * @inheritDoc
      */
     public lock(): Promise<void>
@@ -56,32 +56,32 @@ export class SharedMutex implements ILockable, _ISharedLockable
         return this.mutex_.unlock();
     }
 
-	/* ---------------------------------------------------------
-		READ LOCK
-	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	public lock_shared(): Promise<void>
-	{
-		return this.mutex_.lock_shared();
-	}
+    /* ---------------------------------------------------------
+        READ LOCK
+    --------------------------------------------------------- */
+    /**
+     * @inheritDoc
+     */
+    public lock_shared(): Promise<void>
+    {
+        return this.mutex_.lock_shared();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public try_lock_shared(): Promise<boolean>
-	{
-		return this.mutex_.try_lock_shared();
-	}
+    /**
+     * @inheritDoc
+     */
+    public try_lock_shared(): Promise<boolean>
+    {
+        return this.mutex_.try_lock_shared();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public unlock_shared(): Promise<void>
-	{
-		return this.mutex_.unlock_shared();
-	}
+    /**
+     * @inheritDoc
+     */
+    public unlock_shared(): Promise<void>
+    {
+        return this.mutex_.unlock_shared();
+    }
 }
 
 export type shared_mutex = SharedMutex;

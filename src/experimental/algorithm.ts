@@ -16,7 +16,7 @@ import { equal_to } from "../functional/comparators";
  * @param val Value to erase.
  */
 export function erase<
-        Container extends IContainer<Iterator>, 
+        Container extends IErasableContainer<Iterator>, 
         Iterator extends Readonly<IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>>
     (container: Container, val: IPointer.ValueType<Iterator>): void;
 
@@ -35,7 +35,7 @@ export function erase<T>(container: any, val: T): void
  * @param predicator A predicator to detect the speicality.
  */
 export function erase_if<
-        Container extends IContainer<Iterator>, 
+        Container extends IErasableContainer<Iterator>, 
         Iterator extends Readonly<IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>>
     (container: Container, predicator: (val: IPointer.ValueType<Iterator>)=>boolean): void;
 
@@ -64,7 +64,7 @@ export function erase_if<T>(container: any, predicator: (val: T)=>boolean): void
 /**
  * @hidden
  */
-interface IContainer<Iterator extends Readonly<IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>>
+interface IErasableContainer<Iterator extends Readonly<IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>>
 {
     begin(): Iterator;
     end(): Iterator;

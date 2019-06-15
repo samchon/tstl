@@ -13,70 +13,73 @@ import { ErrorCategory } from "./ErrorCategory";
  */
 export class SystemError extends RuntimeError
 {
-	/**
-	 * @hidden
-	 */
-	protected code_: ErrorCode;
-	
-	/* ---------------------------------------------------------
-		CONSTRUCTORS
-	--------------------------------------------------------- */
-	/**
-	 * Initializer Constructor.
-	 * 
-	 * @param code An error code.
-	 * @param message A detailed error message.
-	 */
-	public constructor(code: ErrorCode, message?: string);
+    /**
+     * @hidden
+     */
+    protected code_: ErrorCode;
+    
+    /* ---------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------- */
+    /**
+     * Initializer Constructor.
+     * 
+     * @param code An error code.
+     * @param message A detailed error message.
+     */
+    public constructor(code: ErrorCode, message?: string);
 
-	/**
-	 * Construct from references.
-	 * 
-	 * @param val Identnfier of an error code in *category*.
-	 * @param category An error category.
-	 * @param message A detailed error message.
-	 */
-	public constructor(val: number, category: ErrorCategory, message?: string);
+    /**
+     * Construct from references.
+     * 
+     * @param val Identnfier of an error code in *category*.
+     * @param category An error category.
+     * @param message A detailed error message.
+     */
+    public constructor(val: number, category: ErrorCategory, message?: string);
 
-	public constructor(...args: any[])
-	{
-		super("");
+    public constructor(...args: any[])
+    {
+        super("");
 
-		if (args.length >= 2 && typeof args[0].valueOf() === "number")
-		{
-			let val: number = args[0];
-			let category: ErrorCategory = args[1];
+        if (args.length >= 2 && typeof args[0].valueOf() === "number")
+        {
+            let val: number = args[0];
+            let category: ErrorCategory = args[1];
 
-			this.code_ = new ErrorCode(val, category);
-			this.message = args[2];
-		}
-		else
-		{
-			this.code_ = args[0];
-			this.message = args[1];
-		}
-	}
+            this.code_ = new ErrorCode(val, category);
+            this.message = args[2];
+        }
+        else
+        {
+            this.code_ = args[0];
+            this.message = args[1];
+        }
+    }
 
-	/* ---------------------------------------------------------
-		ACCESSORS
-	--------------------------------------------------------- */
-	/**
-	 * @inheritDoc
-	 */
-	public get name(): string
-	{
-		return "system_error";
-	}
+    /* ---------------------------------------------------------
+        ACCESSORS
+    --------------------------------------------------------- */
+    /**
+     * Get error code.
+     * 
+     * @return The error code.
+     */
+    public code(): ErrorCode
+    {
+        return this.code_;
+    }
 
-	/**
-	 * Get error code.
-	 * 
-	 * @return The error code.
-	 */
-	public code(): ErrorCode
-	{
-		return this.code_;
-	}
+    /**
+     * @inheritDoc
+     */
+    public toJSON(): object
+    {
+        return {
+            ...super.toJSON(),
+            code: this.code_.toJSON()
+        };
+    }
 }
 
 export type system_error = SystemError;

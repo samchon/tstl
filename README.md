@@ -1,4 +1,6 @@
-# **T**ypeScript **S**tandard **T**emplate **L**ibrary
+# TypeScript Standard Template Library
+![Make STL Great Again](https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png)
+
 [![Build Status](https://travis-ci.org/samchon/tstl.svg?branch=master)](https://travis-ci.org/samchon/tstl)
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![Downloads](https://img.shields.io/npm/dm/tstl.svg)](https://www.npmjs.com/package/tstl)
@@ -39,9 +41,15 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
       - [HashMap `unordered_map`](http://samchon.github.io/tstl/api/classes/std.hashmap.html)
       - [HashMultiMap `unordered_multimap`](http://samchon.github.io/tstl/api/classes/std.hashmultimap.html)
   - **Adaptor Containers**
-    - [Queue `queue`](http://samchon.github.io/tstl/api/classes/std.queue.html)
-    - [Stack `stack`](http://samchon.github.io/tstl/api/classes/std.stack.html)
-    - [PriorityQueue `priority_queue`](http://samchon.github.io/tstl/api/classes/std.priorityqueue.html)
+    - *Linear Adaptors*
+      - [Queue `queue`](http://samchon.github.io/tstl/api/classes/std.queue.html)
+      - [Stack `stack`](http://samchon.github.io/tstl/api/classes/std.stack.html)
+      - [PriorityQueue `priority_queue`](http://samchon.github.io/tstl/api/classes/std.priorityqueue.html)
+    - Associative Adaptors
+      - (experimental) [FlatSet `flat_set`](http://samchon.github.io/tstl/api/classes/std_experimental.flatset.html)
+      - (experimental) [FlatMultiSet `flat_multiset`](http://samchon.github.io/tstl/api/classes/std_experimental.flatmultiset.html)
+      - (experimental) [FlatMap `flat_map`](http://samchon.github.io/tstl/api/classes/std_experimental.flatmap.html)
+      - (experimental) [FlatMultiMap `flat_multimap`](http://samchon.github.io/tstl/api/classes/std_experimental.flatmultimap.html)
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
@@ -72,8 +80,9 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [ConditionVariable `condition_variable`](http://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
     - [Mutex `mutex`](http://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex `timed_mutex`](http://samchon.github.io/tstl/api/classes/std.timedmutex.html)
     - [SharedMutex `shared_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex `shared_timed_mutex`](http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
-    - (experimental) [Semaphore `semaphore`](http://samchon.github.io/tstl/api/classes/std_experimental.semaphore.html) & [TimedSemaphore `timed_semaphore`](http://samchon.github.io/tstl/api/classes/std_experimental.timedsemaphore.html)
-    - (experimental) [Latch `latch`](http://samchon.github.io/tstl/api/classes/std_experimental.latch.html) & [Barrier `barrier`](http://samchon.github.io/tstl/api/classes/std_experimental.barrier.html)
+    - (experimental) [Semaphore `counting_semaphore`](http://samchon.github.io/tstl/api/classes/std_experimental.semaphore.html)
+    - (experimental) [Latch `latch`](http://samchon.github.io/tstl/api/classes/std_experimental.latch.html)
+    - (experimental) [Barrier `barrier`](http://samchon.github.io/tstl/api/classes/std_experimental.barrier.html)
 
 
 

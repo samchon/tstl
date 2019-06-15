@@ -10,10 +10,10 @@ import { ILockable } from "./ILockable";
  */
 export function sleep_for(ms: number): Promise<void>
 {
-	return new Promise<void>(resolve =>
-	{
-		setTimeout(resolve, ms);
-	});
+    return new Promise<void>(resolve =>
+    {
+        setTimeout(resolve, ms);
+    });
 }
 
 /**
@@ -23,10 +23,10 @@ export function sleep_for(ms: number): Promise<void>
  */
 export function sleep_until(at: Date): Promise<void>
 {
-	let now: Date = new Date();
-	let ms: number = at.getTime() - now.getTime(); // MILLISECONDS TO WAIT
+    let now: Date = new Date();
+    let ms: number = at.getTime() - now.getTime(); // MILLISECONDS TO WAIT
 
-	return sleep_for(ms); // CONVERT TO THE SLEEP_FOR
+    return sleep_for(ms); // CONVERT TO THE SLEEP_FOR
 }
 
 /**
@@ -36,17 +36,17 @@ export function sleep_until(at: Date): Promise<void>
  */
 export function lock(...items: Pick<ILockable, "lock">[]): Promise<void>
 {
-	return new Promise<void>(resolve =>
-	{
-		let count: number = 0;
+    return new Promise<void>(resolve =>
+    {
+        let count: number = 0;
 
-		for (let mtx of items)
-			mtx.lock().then(function (): void 
-			{
-				if (++count === items.length)
-					resolve();
-			});
-	});
+        for (let mtx of items)
+            mtx.lock().then(function (): void 
+            {
+                if (++count === items.length)
+                    resolve();
+            });
+    });
 }
 
 /**
@@ -57,9 +57,9 @@ export function lock(...items: Pick<ILockable, "lock">[]): Promise<void>
  */
 export async function try_lock(...items: Pick<ILockable, "try_lock">[]): Promise<number>
 {
-	for (let i: number = 0; i < items.length; ++i)
-		if (await items[i].try_lock() === false)
-			return i;
+    for (let i: number = 0; i < items.length; ++i)
+        if (await items[i].try_lock() === false)
+            return i;
 
-	return -1;
+    return -1;
 }
