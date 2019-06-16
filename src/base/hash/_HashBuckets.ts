@@ -94,7 +94,7 @@ export abstract class _HashBuckets<T>
     }
     public max_load_factor(): number;
     public max_load_factor(z: number): void;
-    public max_load_factor(z: number | null = null)
+    public max_load_factor(z: number | null = null): number | void
     {
         if (z === null)
             return this.max_load_factor_;

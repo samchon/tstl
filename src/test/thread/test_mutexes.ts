@@ -128,7 +128,7 @@ async function _Test_lock_shared(name: string, mtx: ISharedLockable): Promise<vo
         await mtx.unlock_shared();
 }
 
-async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
+async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable): Promise<void>
 {
     // TEST WRITING LOCK & UNLOCK
     await _Test_try_lock(name, mtx);
@@ -198,7 +198,7 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable)
     elapsed_time = new Date().getTime() - start_time;
 
     if (elapsed_time < SLEEP_TIME * READ_COUNT * .95)
-        return new std.DomainError(name + "::try_lock_shared_for does not work in exact time.");
+        throw new std.DomainError(name + "::try_lock_shared_for does not work in exact time.");
     
     // READ LOCK AFTER WRITING
     start_time = new Date().getTime();

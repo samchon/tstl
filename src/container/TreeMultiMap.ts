@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { MultiTreeMap } from "../base/container/MultiTreeMap";
-import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
+import { _Construct } from "../base/container/_ITreeContainer";
 
 import { MapElementList } from "../base/container/MapElementList";
 import { _MultiMapTree } from "../base/tree/_MultiMapTree";

@@ -180,7 +180,7 @@ export class ForwardList<T>
      */
     public front(val: T): void;
 
-    public front(val?: T)
+    public front(val?: T): T | void
     {
         let it: ForwardList.Iterator<T> = this.begin();
 

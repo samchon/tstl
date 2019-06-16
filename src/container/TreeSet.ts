@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { UniqueTreeSet } from "../base/container/UniqueTreeSet";
-import { _Construct, _Emplacable } from "../base/container/_ITreeContainer";
+import { _Construct } from "../base/container/_ITreeContainer";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { SetElementList } from "../base/container/SetElementList";
