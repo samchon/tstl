@@ -17,7 +17,7 @@ async function benchmark(feature: string): Promise<void>
 
     // CONTENT FROM THE SPEICAL MODULE
     let content: string = await instance.main();
-    time = Date.now();
+    time = Date.now() - time;
 
     //----
     // REPORT MEMORY USAGE

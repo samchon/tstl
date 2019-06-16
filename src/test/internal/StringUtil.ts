@@ -97,13 +97,8 @@ export class StringUtil
             let n: number = 0;
 
             while ((endIndex = str.indexOf(start, prevIndex + 1)) !== -1)
-            {
                 if (++n % 2 === 0)
-                {
                     substrings.push(str.substring(prevIndex, endIndex));
-                }
-                endIndex = prevIndex;
-            }
         }
         else
         {
