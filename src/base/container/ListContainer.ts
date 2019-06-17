@@ -11,7 +11,7 @@ import { ListIterator } from "../iterator/ListIterator";
 import { _Repeater } from "../iterator/_Repeater";
 import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
 import { InvalidArgument } from "../../exception/LogicError";
-import { distance, advance } from "../../iterator/global";
+import { advance } from "../../iterator/global";
 
 import { Temporary } from "../Temporary";
 
@@ -211,6 +211,8 @@ export abstract class ListContainer<T,
         // VALIDATION
         if (pos.source() !== this.end_.source())
             throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.insert(): parametric iterator is not this container's own.`);
+        else if (pos.erased_ === true)
+            throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.insert(): parametric iterator, it already has been erased.`);
 
         // BRANCHES
         if (args.length === 1)
@@ -243,7 +245,7 @@ export abstract class ListContainer<T,
 
         let size: number = 0;
 
-        for (let it = begin; it.equals(end) === false; it = it.next()) 
+        for (let it = begin; it.equals(end) === false; it = it.next())
         {
             // CONSTRUCT ITEM, THE NEW ELEMENT
             let item: IteratorT = this._Create_iterator(prev, null!, it.value);
@@ -294,16 +296,21 @@ export abstract class ListContainer<T,
         // VALIDATION
         if (first.source() !== this.end_.source() || last.source() !== this.end_.source())
             throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.erase(): parametric iterator is not this container's own.`);
+        else if (first.erased_ === true)
+            throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.erase(): parametric iterator, it already has been erased.`);
 
         // FIND PREV AND NEXT
         let prev: IteratorT = first.prev();
-        let size: number = distance(<Temporary>first, last);
 
         // SHRINK
         ListIterator._Set_next(prev, last);
         ListIterator._Set_prev(last, prev);
 
-        this.size_ -= size;
+        for (let it = first; !it.equals(last); it = it.next())
+        {
+            it.erased_ = true;
+            --this.size_;
+        }
         if (first.equals(this.begin_))
             this.begin_ = (last);
 

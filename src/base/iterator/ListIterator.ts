@@ -32,6 +32,11 @@ export abstract class ListIterator<T extends Elem,
      */
     protected value_: T;
 
+    /**
+     * @internal
+     */
+    public erased_?: boolean;
+
     /* ---------------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------------- */
