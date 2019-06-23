@@ -298,6 +298,8 @@ export abstract class ListContainer<T,
             throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.erase(): parametric iterator is not this container's own.`);
         else if (first.erased_ === true)
             throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.erase(): parametric iterator, it already has been erased.`);
+        else if (first.equals(this.end_))
+            return this.end_;
 
         // FIND PREV AND NEXT
         let prev: IteratorT = first.prev();

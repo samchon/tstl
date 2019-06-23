@@ -6,15 +6,16 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.2.1-dev.20190617",
+  "version": "2.2.1-dev.20190623",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "build": "tsc && npm run test",
-    "benchmark": "node benchmark",
-    "test": "node test",
     "api": "node build/api",
-    "clean": "node build/clean"
+    "benchmark": "node benchmark",
+    "build": "tsc && npm run test",
+    "clean": "node build/clean",
+    "dev": "tsc --watch",
+    "test": "node test"
   },
   "devDependencies": {
     "@types/mv": "^2.1.0",
