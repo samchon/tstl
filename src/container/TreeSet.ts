@@ -107,14 +107,6 @@ export class TreeSet<Key>
         _UniqueSetTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
-
-    /**
-     * @hidden
-     */
-    protected _Get_iterator_type(): typeof SetElementList.Iterator
-    {
-        return SetElementList.Iterator;
-    }
     
     /* ---------------------------------------------------------
         ACCESSORS

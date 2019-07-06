@@ -192,7 +192,7 @@ export abstract class UniqueMap<Key, T,
 
     public extract(param: Key | Iterator): any
     {
-        if (param instanceof this._Get_iterator_type())
+        if (param instanceof this.end().constructor)
             return this._Extract_by_iterator(param as Iterator);
         else
             return this._Extract_by_key(param as Key);

@@ -123,14 +123,6 @@ export class HashMultiMap<Key, T>
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
-    /**
-     * @hidden
-     */
-    protected _Get_iterator_type(): typeof MapElementList.Iterator
-    {
-        return MapElementList.Iterator;
-    }
-
     /* =========================================================
         ACCESSORS
             - MEMBER

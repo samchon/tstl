@@ -110,14 +110,6 @@ export class TreeMultiMap<Key, T>
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
-    /**
-     * @hidden
-     */
-    protected _Get_iterator_type(): typeof MapElementList.Iterator
-    {
-        return MapElementList.Iterator;
-    }
-
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */

@@ -96,14 +96,6 @@ export class FlatMap<Key, T>
         [this.key_comp_, obj.key_comp_] = [obj.key_comp_, this.key_comp_];
     }
 
-    /**
-     * @hidden
-     */
-    protected _Get_iterator_type(): typeof MapElementVector.Iterator
-    {
-        return MapElementVector.Iterator;
-    }
-
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */

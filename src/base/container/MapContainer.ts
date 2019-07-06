@@ -184,7 +184,7 @@ export abstract class MapContainer<Key, T,
 
     public erase(...args: any[]): any 
     {
-        if (args.length === 1 && (args[0] instanceof this._Get_iterator_type() === false || (args[0] as IteratorT).source() as any !== this))
+        if (args.length === 1 && (args[0] instanceof this.end().constructor === false || (args[0] as IteratorT).source() as any !== this))
             return this._Erase_by_key(args[0]);
         else
             if (args.length === 1)
@@ -239,11 +239,6 @@ export abstract class MapContainer<Key, T,
      * @hidden
      */
     protected abstract _Handle_erase(first: IteratorT, last: IteratorT): void;
-
-    /**
-     * @hidden
-     */
-    protected abstract _Get_iterator_type(): any;
 }
 
 export namespace MapContainer

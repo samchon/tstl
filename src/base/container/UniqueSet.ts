@@ -86,7 +86,7 @@ export abstract class UniqueSet<Key,
 
     public extract(param: Key | IteratorT): any
     {
-        if (param instanceof this._Get_iterator_type())
+        if (param instanceof this.end().constructor)
             return this._Extract_by_iterator(param as IteratorT);
         else
             return this._Extract_by_val(param as Key);

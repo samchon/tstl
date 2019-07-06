@@ -121,14 +121,6 @@ export class HashSet<Key>
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
-    /**
-     * @hidden
-     */
-    protected _Get_iterator_type(): typeof SetElementList.Iterator
-    {
-        return SetElementList.Iterator;
-    }
-
     /* =========================================================
         ACCESSORS
             - MEMBER

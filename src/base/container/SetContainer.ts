@@ -192,7 +192,7 @@ export abstract class SetContainer<Key,
 
     public erase(...args: any[]): any
     {
-        if (args.length === 1 && !(args[0] instanceof this._Get_iterator_type() && (args[0] as IteratorT).source() === <any>this))
+        if (args.length === 1 && !(args[0] instanceof this.end().constructor && (args[0] as IteratorT).source() === <any>this))
             return this._Erase_by_val(args[0]);
         else if (args.length === 1)
             return this._Erase_by_range(args[0]);
@@ -244,11 +244,6 @@ export abstract class SetContainer<Key,
      * @hidden
      */
     protected abstract _Handle_erase(first: IteratorT, last: IteratorT): void;
-
-    /**
-     * @hidden
-     */
-    protected abstract _Get_iterator_type(): any;
 }
 
 export namespace SetContainer
