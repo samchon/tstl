@@ -108,10 +108,10 @@ export abstract class UniqueTreeSet<Key,
 
         if (validate)
         {
-            this.data_.insert(hint, key);
-            this._Handle_insert(hint, hint.next());
+            let it: IteratorT = this.data_.insert(hint, key);
+            this._Handle_insert(it, it.next());
 
-            return hint;
+            return it;
         }
         else
             return this._Insert_by_key(key).first;

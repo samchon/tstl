@@ -112,10 +112,10 @@ export abstract class UniqueTreeMap<Key, T,
 
         if (validate)
         {
-            this.data_.insert(hint, elem);
-            this._Handle_insert(hint, hint.next());
+            let it: IteratorT = this.data_.insert(hint, elem);
+            this._Handle_insert(it, it.next());
 
-            return hint;
+            return it;
         }
         else
             return this.emplace(key, val).first;

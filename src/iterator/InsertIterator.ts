@@ -51,7 +51,7 @@ export class InsertIterator<
      */
     public set value(val: IPointer.ValueType<Iterator>)
     {
-        this.container_.insert(this.it_, val);
+        this.it_ = this.container_.insert(this.it_, val);
         this.it_ = this.it_.next() as Iterator;
     }
 
