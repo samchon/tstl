@@ -326,41 +326,6 @@ export class HashSet<Key>
         return it;
     }
 
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        //--------
-        // INSERTIONS
-        //--------
-        // PRELIMINARY
-        let my_first: HashSet.Iterator<Key> = this.end().prev();
-
-        // INSERT ELEMENTS
-        for (; !first.equals(last); first = first.next())
-        {
-            // TEST WHETER EXIST
-            if (this.has(first.value))
-                continue;
-            
-            // INSERTS
-            this.data_.push(first.value);
-        }
-        my_first = my_first.next();
-        
-        //--------
-        // HASHING INSERTED ITEMS
-        //--------
-        // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-        if (this.size() > this.buckets_.capacity())
-            this.reserve(Math.max(this.size(), this.buckets_.capacity() * 2));
-
-        // POST-PROCESS
-        this._Handle_insert(my_first, this.end());
-    }
-
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */

@@ -327,41 +327,6 @@ export class HashMap<Key, T>
         return it;
     }
 
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        //--------
-        // INSERTIONS
-        //--------
-        // PRELIMINY
-        let my_first: HashMap.Iterator<Key, T> = this.end().prev();
-
-        // INSERT ELEMENTS
-        for (let it = first; !it.equals(last); it = it.next())
-        {
-            // TEST WHETER EXIST
-            if (this.has(it.value.first))
-                continue;
-
-            // INSERTS
-            this.data_.push(new Entry(it.value.first, it.value.second));
-        }
-        my_first = my_first.next();
-
-        //--------
-        // HASHING INSERTED ITEMS
-        //--------
-        // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
-        if (this.size() > this.buckets_.capacity())
-            this.reserve(Math.max(this.size(), this.buckets_.capacity() * 2));
-
-        // POST-PROCESS
-        this._Handle_insert(my_first, this.end());
-    }
-
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */

@@ -4,7 +4,6 @@
 import { UniqueMap } from "./UniqueMap";
 import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
 
-import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
 import { IPair } from "../../utility/IPair";
@@ -119,15 +118,5 @@ export abstract class UniqueTreeMap<Key, T,
         }
         else
             return this.emplace(key, val).first;
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        for (let it = first; !it.equals(last); it = it.next())
-            this.emplace(it.value.first, it.value.second);
     }
 }

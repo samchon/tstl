@@ -8,7 +8,6 @@ import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 
 import { Pair } from "../../utility/Pair";
 import { Temporary } from "../Temporary";
-import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 export abstract class UniqueTreeSet<Key,
         Source extends UniqueTreeSet<Key, Source, IteratorT, ReverseT>,
@@ -115,15 +114,5 @@ export abstract class UniqueTreeSet<Key,
         }
         else
             return this._Insert_by_key(key).first;
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        for (; !first.equals(last); first = first.next())
-            this._Insert_by_key(first.value);
     }
 }

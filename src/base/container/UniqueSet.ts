@@ -65,6 +65,16 @@ export abstract class UniqueSet<Key,
         return (super.insert as Function)(...args);
     }
 
+    /**
+     * @hidden
+     */
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
+        (first: InputIterator, last: InputIterator): void
+    {
+        for (; !first.equals(last); first = first.next())
+            this._Insert_by_key(first.value);
+    }
+
     /* ---------------------------------------------------------
         ERASE
     --------------------------------------------------------- */

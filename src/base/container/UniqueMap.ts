@@ -112,6 +112,16 @@ export abstract class UniqueMap<Key, T,
         return (super.insert as Function)(...args);
     }
 
+    /**
+     * @hidden
+     */
+    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
+        (first: InputIterator, last: InputIterator): void
+    {
+        for (let it = first; !it.equals(last); it = it.next())
+            this.emplace(it.value.first, it.value.second);
+    }
+
     /* ---------------------------------------------------------
         ASSIGNS
     --------------------------------------------------------- */
