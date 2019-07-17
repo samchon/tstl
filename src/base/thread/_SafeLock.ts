@@ -13,7 +13,8 @@ export namespace _SafeLock
             lambda: () => void | Promise<void>
         ): Promise<void>
     {
-        await try_lock(locker as any, unlocker, lambda);
+        await locker();
+        await _Process(unlocker, lambda);
     }
 
     export async function try_lock
@@ -23,11 +24,22 @@ export namespace _SafeLock
             lambda: () => void | Promise<void>
         ): Promise<boolean>
     {
-        // TRY LOCK
-        let ret: boolean = await locker();
-        if (ret === false)
+        if (await locker() === false)
             return false;
 
+        await _Process(unlocker, lambda);
+        return true;
+    }
+
+    /**
+     * @hidden
+     */
+    async function _Process
+        (
+            unlocker: () => Promise<void>, 
+            lambda: () => void | Promise<void>
+        ): Promise<void>
+    {
         // PROCESS THE CRITICAL SECTION
         try
         {
@@ -41,6 +53,5 @@ export namespace _SafeLock
 
         // TERMINATE THE CRITICAL SECTION
         await unlocker();
-        return ret;
     }
 }
