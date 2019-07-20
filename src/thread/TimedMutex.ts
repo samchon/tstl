@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ITimedLockable } from "./ITimedLockable";
+import { _ITimedLockable } from "../base/thread/_ITimedLockable";
 import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
@@ -9,7 +9,7 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class TimedMutex implements ITimedLockable
+export class TimedMutex implements _ITimedLockable
 {
     /**
      * @hidden

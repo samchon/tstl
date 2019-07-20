@@ -1,5 +1,7 @@
 import * as std from "../../index";
 
+import { _ITimedLockable } from "../../base/thread/_ITimedLockable";
+
 const SLEEP_TIME: number = 50;
 const READ_COUNT: number = 10;
 
@@ -8,7 +10,7 @@ interface ISharedLockable extends std.ILockable
     lock_shared(): Promise<void>;
     unlock_shared(): Promise<void>;
 }
-interface ISharedTimedLockable extends std.ITimedLockable, ISharedLockable
+interface ISharedTimedLockable extends _ITimedLockable, ISharedLockable
 {
     try_lock_shared_for(ms: number): Promise<boolean>;
 }
@@ -44,7 +46,7 @@ export async function _Test_lock(name: string, mtx: std.ILockable): Promise<void
         throw new std.DomainError(name + " does not work.");
 }
 
-export async function _Test_try_lock(name: string, mtx: std.ITimedLockable): Promise<void>
+export async function _Test_try_lock(name: string, mtx: _ITimedLockable): Promise<void>
 {
     await _Test_lock(name, mtx);
     let start_time: number = new Date().getTime();

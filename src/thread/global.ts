@@ -34,19 +34,13 @@ export function sleep_until(at: Date): Promise<void>
  * 
  * @param items Items to lock.
  */
-export function lock(...items: Pick<ILockable, "lock">[]): Promise<void>
+export async function lock(...items: Pick<ILockable, "lock">[]): Promise<void>
 {
-    return new Promise<void>(resolve =>
-    {
-        let count: number = 0;
+    let promises: Promise<void>[] = [];
+    for (let mtx of items)
+        promises.push(mtx.lock());
 
-        for (let mtx of items)
-            mtx.lock().then(function (): void 
-            {
-                if (++count === items.length)
-                    resolve();
-            });
-    });
+    await Promise.all(promises);
 }
 
 /**

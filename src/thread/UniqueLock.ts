@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { ILockable } from "./ILockable";
-import { ITimedLockable } from "./ITimedLockable";
+import { _ITimedLockable } from "../base/thread/_ITimedLockable";
 
 import { _SafeLock } from "../base/thread/_SafeLock";
 
@@ -21,10 +21,10 @@ export class UniqueLock<Mutex extends IMutex>
         this.mutex_ = mutex;
 
         this.try_lock_for = mutex.try_lock_for instanceof Function
-            ? UniqueLock.try_lock_for.bind(undefined, this.mutex_ as ITimedLockable)
+            ? UniqueLock.try_lock_for.bind(undefined, this.mutex_ as _ITimedLockable)
             : undefined as any;
         this.try_lock_until = mutex.try_lock_until instanceof Function
-            ? UniqueLock.try_lock_until.bind(undefined, this.mutex_ as ITimedLockable)
+            ? UniqueLock.try_lock_until.bind(undefined, this.mutex_ as _ITimedLockable)
             : undefined as any;
     }
 
@@ -77,7 +77,7 @@ export namespace UniqueLock
         );
     }
 
-    export function try_lock_for<Mutex extends Pick<ITimedLockable, "try_lock_for"|"unlock">>
+    export function try_lock_for<Mutex extends Pick<_ITimedLockable, "try_lock_for"|"unlock">>
         (mutex: Mutex, ms: number, closure: Closure): Promise<boolean>
     {
         return _SafeLock.try_lock
@@ -88,7 +88,7 @@ export namespace UniqueLock
         );
     }
 
-    export function try_lock_until<Mutex extends Pick<ITimedLockable, "try_lock_until"|"unlock">>
+    export function try_lock_until<Mutex extends Pick<_ITimedLockable, "try_lock_until"|"unlock">>
         (mutex: Mutex, at: Date, closure: Closure): Promise<boolean>
     {
         return _SafeLock.try_lock
@@ -104,7 +104,7 @@ export import unique_lock = UniqueLock;
 /**
  * @hidden
  */
-type IMutex = ILockable & Partial<ITimedLockable>;
+type IMutex = ILockable & Partial<_ITimedLockable>;
 
 /**
  * @hidden

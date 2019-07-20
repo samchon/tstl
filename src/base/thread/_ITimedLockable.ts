@@ -1,12 +1,12 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ILockable } from "./ILockable";
+import { ILockable } from "../../thread/ILockable";
 
 /**
  * @hidden
  */
-export interface ITimedLockable extends ILockable
+export interface _ITimedLockable extends ILockable
 {
     /**
      * Try lock until timeout.

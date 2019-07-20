@@ -1,6 +1,6 @@
 import * as std from "../../index";
 
-import { ITimedLockable } from "../../thread/ITimedLockable";
+import { _ITimedLockable } from "../../base/thread/_ITimedLockable";
 import { _Test_lock, _Test_try_lock } from "./test_mutexes";
 
 const SIZE = 8;
@@ -11,7 +11,7 @@ export async function test_semaphores(): Promise<void>
     // TEST MUTEX FEATURES
     //----
     let mtx = new std.experimental.Semaphore(1);
-    let wrapper: ITimedLockable = 
+    let wrapper: _ITimedLockable = 
     {
         lock: () => mtx.acquire(),
         unlock: () => mtx.release(),
