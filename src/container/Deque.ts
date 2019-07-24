@@ -222,6 +222,14 @@ export class Deque<T>
      */
     public swap(obj: Deque<T>): void
     {
+        this._Swap(obj);
+    }
+
+    /**
+     * @hidden
+     */
+    private _Swap(obj: Deque<T>): void
+    {
         // SWAP CONTENTS
         [this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
         [this.size_, obj.size_] = [obj.size_, this.size_];
@@ -460,7 +468,7 @@ export class Deque<T>
                 deque._Insert_to_end(pos, this.end());
 
                 // AND SWAP THIS WITH THE TEMP
-                this.swap(deque);
+                this._Swap(deque);
             }
             else
                 this._Insert_to_middle(pos, first, last);
