@@ -34,6 +34,7 @@ export class SetElementVector<Key,
     {
         super();
 
+        this.data_ = [];
         this.associative_ = associative;
     }
     

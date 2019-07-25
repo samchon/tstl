@@ -20,7 +20,7 @@ export abstract class VectorContainer<T extends ElemT,
     /**
      * @hidden
      */
-    protected data_: T[];
+    protected data_!: T[];
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
@@ -31,7 +31,6 @@ export abstract class VectorContainer<T extends ElemT,
     protected constructor()
     {
         super();
-        this.data_ = [];
     }
 
     /**
