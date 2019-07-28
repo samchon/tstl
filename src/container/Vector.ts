@@ -30,6 +30,11 @@ export class Vector<T>
     public constructor(items: Array<T>);
 
     /**
+     * @internal
+     */
+    public constructor(items: Array<T>, move: true);
+
+    /**
      * Copy Constructor
      * 
      * @param obj Object to copy.
@@ -60,21 +65,26 @@ export class Vector<T>
         if (args.length === 0)
         {
             // DEFAULT CONSTRUCTOR
+            this.data_ = [];
         }
-        else if (args.length === 1 && args[0] instanceof Array)
+        else if (args[0] instanceof Array)
         {
             // INITIALIZER CONSTRUCTOR
             let array: Array<T> = args[0];
-            this.data_ = array.slice();
+            this.data_ = (args[1] === true)
+                ? array
+                : array.slice();
         }
         else if (args.length === 1 && args[0] instanceof Vector)
         {
             // COPY CONSTRUCTOR
-            this.data_ = (args[0] as Vector<T>).data_.slice();
+            let v: Vector<T> = args[0];
+            this.data_ = v.data_.slice();
         }
         else if (args.length === 2)
         {
             // ASSIGN CONSTRUCTOR
+            this.data_ = [];
             this.assign(args[0], args[1]);
         }
     }
@@ -83,14 +93,14 @@ export class Vector<T>
         ACCESSORS
     --------------------------------------------------------- */
     /**
-     * @internal
+     * Wrap an array into a vector.
+     * 
+     * @param data Target array to be wrapped
+     * @return A vector wrapping the parametric array.
      */
-    public static _Capsule<T>(data: Array<T>): Vector<T>
+    public static wrap<T>(data: Array<T>): Vector<T>
     {
-        let ret: Vector<T> = new Vector<T>();
-        ret.data_ = data;
-
-        return ret;
+        return new Vector(data, true);
     }
 
     /**

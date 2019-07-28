@@ -35,7 +35,7 @@ export function begin<T>(container: Array<T>): Vector.Iterator<T>;
 export function begin(container: any): any
 {
     if (container instanceof Array)
-        container = Vector._Capsule(container);
+        container = Vector.wrap(container);
     
     return container.begin();
 }
@@ -56,7 +56,7 @@ export function end<T>(container: Array<T>): Vector.Iterator<T>;
 export function end(container: any): any
 {
     if (container instanceof Array)
-        container = Vector._Capsule(container);
+        container = Vector.wrap(container);
     
     return container.end();
 }
@@ -84,7 +84,7 @@ export function inserter
     (container: Array<any> | _IInsert<any>, it: IForwardIterator<any, any>): InsertIterator<any, any>
 {
     if (container instanceof Array)
-        container = Vector._Capsule(container);
+        container = Vector.wrap(container);
     
     return new InsertIterator(container, it);
 }
@@ -120,7 +120,7 @@ export function back_inserter<T>
     (source: Array<T> | _IPushBack<T>): BackInsertIterator<T, any>
 {
     if (source instanceof Array)
-        source = Vector._Capsule(source);
+        source = Vector.wrap(source);
 
     return new BackInsertIterator(source);
 }
@@ -160,7 +160,7 @@ export function rbegin<T>(container: Array<T>): Vector.ReverseIterator<T>;
 export function rbegin(source: any): any
 {
     if (source instanceof Array)
-        source = Vector._Capsule(source);
+        source = Vector.wrap(source);
 
     source.rbegin();
 }
@@ -183,7 +183,7 @@ export function rend<T>(container: Array<T>): Vector.ReverseIterator<T>;
 export function rend(source: any): any
 {
     if (source instanceof Array)
-        source = Vector._Capsule(source);
+        source = Vector.wrap(source);
 
     source.rend();
 }

@@ -36,6 +36,7 @@ export class MapElementVector<Key, T,
     {
         super();
 
+        this.data_ = [];
         this.associative_ = associative;
     }
     
