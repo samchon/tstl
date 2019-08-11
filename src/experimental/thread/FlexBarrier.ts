@@ -55,8 +55,8 @@ export class FlexBarrier
     --------------------------------------------------------- */
     public async arrive(n: number = 1): Promise<void>
     {
-        let complete: boolean = (this.count_ += n) >= this.size_;
-        if (complete === false)
+        let completed: boolean = (this.count_ += n) >= this.size_;
+        if (completed === false)
             return;
 
         this.size_ = this.complete_();

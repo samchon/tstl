@@ -37,7 +37,7 @@ export class Latch
     public async arrive(n: number = 1): Promise<void>
     {
         this.count_ -= n;
-        if (this._Is_ready() === true)
+        if (this._Try_wait() === true)
             await this.cv_.notify_all();
     }
 
@@ -50,20 +50,20 @@ export class Latch
     /* ---------------------------------------------------------
         WAIT FUNCTIONS
     --------------------------------------------------------- */
-    public async is_ready(): Promise<boolean>
+    public async try_wait(): Promise<boolean>
     {
-        return this._Is_ready();
+        return this._Try_wait();
     }
 
     public async wait(): Promise<void>
     {
-        if (this._Is_ready() === false)
+        if (this._Try_wait() === false)
             await this.cv_.wait();
     }
 
     public async wait_for(ms: number): Promise<boolean>
     {
-        if (this._Is_ready() === true)
+        if (this._Try_wait() === true)
             return true;
         else
             return await this.cv_.wait_for(ms);
@@ -71,7 +71,7 @@ export class Latch
 
     public async wait_until(at: Date): Promise<boolean>
     {
-        if (this._Is_ready() === true)
+        if (this._Try_wait() === true)
             return true;
         else
             return await this.cv_.wait_until(at);
@@ -80,7 +80,7 @@ export class Latch
     /**
      * @hidden
      */
-    private _Is_ready(): boolean
+    private _Try_wait(): boolean
     {
         return this.count_ <= 0;
     }
