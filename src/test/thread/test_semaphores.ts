@@ -10,7 +10,7 @@ export async function test_semaphores(): Promise<void>
     //----
     // TEST MUTEX FEATURES
     //----
-    let mtx = new std.experimental.Semaphore(1);
+    let mtx = new std.Semaphore(1);
     let wrapper: _ITimedLockable = 
     {
         lock: () => mtx.acquire(),
@@ -27,13 +27,13 @@ export async function test_semaphores(): Promise<void>
     //----
     // TEST SPECIAL FEATURES OF SEMAPHORE
     //----
-    let semaphore = new std.experimental.Semaphore(SIZE);
+    let semaphore = new std.Semaphore(SIZE);
 
     await _Test_semaphore(semaphore);
     await _Test_timed_semaphore(semaphore);
 }
 
-async function _Test_semaphore(s: std.experimental.Semaphore): Promise<void>
+async function _Test_semaphore(s: std.Semaphore): Promise<void>
 {
     let acquired_count: number = 0;
     
@@ -68,7 +68,7 @@ async function _Test_semaphore(s: std.experimental.Semaphore): Promise<void>
     await s.release(s.max());
 }
 
-async function _Test_timed_semaphore(ts: std.experimental.Semaphore): Promise<void>
+async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void>
 {
     // COMMON TEST
     // await _Test_semaphore(ts);

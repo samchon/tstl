@@ -1,6 +1,6 @@
 import { Vector, List, HashMap, ForwardList } from "../container";
 import { SharedMutex } from "../thread/SharedMutex";
-import { Semaphore } from "../experimental/thread/Semaphore";
+import { Semaphore } from "../thread/Semaphore";
 
 import { Exception } from "../exception/Exception";
 import { advance } from "../iterator";

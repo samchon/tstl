@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.experimental */
 //================================================================
-import { ConditionVariable } from "../../thread/ConditionVariable";
+import { ConditionVariable } from "./ConditionVariable";
 
 /**
  * Flex Barrier for critical sections.

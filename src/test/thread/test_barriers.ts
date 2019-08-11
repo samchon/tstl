@@ -2,17 +2,17 @@ import * as std from "../../index";
 
 export async function test_latches(): Promise<void>
 {
-    return _Test_barriers(size => new std.experimental.Latch(size));
+    return _Test_barriers(size => new std.Latch(size));
 }
 
 export async function test_barriers(): Promise<void>
 {
-    await _Test_barriers(size => new std.experimental.Barrier(size));
+    await _Test_barriers(size => new std.Barrier(size));
 
     const SIZE = 3;
     const REPEAT = 4;
 
-    let barrier = new std.experimental.Barrier(SIZE);
+    let barrier = new std.Barrier(SIZE);
     let steps: number = 0;
 
     for (let i: number = 0; i < REPEAT; ++i)
