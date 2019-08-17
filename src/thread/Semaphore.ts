@@ -56,8 +56,8 @@ export class Semaphore<Max extends number = number>
         ACQURE & RELEASE
     --------------------------------------------------------- */
     /**
-     * @inheritDoc
-     */
+	 * Acquire a section until be released.
+	 */
     public acquire(): Promise<void>
     {
         return new Promise<void>(resolve =>
@@ -78,8 +78,10 @@ export class Semaphore<Max extends number = number>
     }
 
     /**
-     * @inheritDoc
-     */
+	 * Try acquire a section.
+	 * 
+	 * @return Whether succeeded to acquire or not.
+	 */
     public async try_acquire(): Promise<boolean>
     {
         // ALL OR NOTHING
@@ -133,6 +135,9 @@ export class Semaphore<Max extends number = number>
         }
     }
 
+    /**
+     * @hidden
+     */
     private _Cancel(it: List.Iterator<IResolver>): void
     {
         // POP THE LISTENER
@@ -155,11 +160,10 @@ export class Semaphore<Max extends number = number>
         TIMED ACQUIRE
     --------------------------------------------------------- */
     /**
-     * Try lock sections until timeout.
+     * Try acquire a section until timeout.
      * 
      * @param ms The maximum miliseconds for waiting.
-     * @param count Count to lock.
-     * @return Whether succeded to lock or not.
+     * @return Whether succeded to acquire or not.
      */
     public async try_acquire_for(ms: number): Promise<boolean>
     {
@@ -188,11 +192,10 @@ export class Semaphore<Max extends number = number>
     }
 
     /**
-     * Try lock sections until time expiration.
+     * Try acquire a section until time expiration.
      * 
      * @param at The maximum time point to wait.
-     * @param count Count to lock.
-     * @return Whether succeded to lock or not.
+     * @return Whether succeded to acquire or not.
      */
     public try_acquire_until(at: Date): Promise<boolean>
     {

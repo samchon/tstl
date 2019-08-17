@@ -34,7 +34,7 @@ export class Latch
         this.count_ = size;
     }
 
-    public async arrive(n: number = 1): Promise<void>
+    public async count_down(n: number = 1): Promise<void>
     {
         this.count_ -= n;
         if (this._Try_wait() === true)
@@ -43,7 +43,7 @@ export class Latch
 
     public async arrive_and_wait(): Promise<void>
     {
-        await this.arrive();
+        await this.count_down();
         await this.wait();
     }
 

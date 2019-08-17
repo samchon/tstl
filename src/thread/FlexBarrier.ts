@@ -71,7 +71,7 @@ export class FlexBarrier
         await this.wait();
     }
 
-    public async arrive_and_reset(): Promise<void>
+    public async arrive_and_drop(): Promise<void>
     {
         --this.size_;
         await this.arrive(0);
@@ -85,15 +85,15 @@ export class FlexBarrier
         return this.cv_.wait();
     }
 
-    public wait_for(ms: number): Promise<boolean>
-    {
-        return this.cv_.wait_for(ms);
-    }
+    // public wait_for(ms: number): Promise<boolean>
+    // {
+    //     return this.cv_.wait_for(ms);
+    // }
 
-    public wait_until(at: Date): Promise<boolean>
-    {
-        return this.cv_.wait_until(at);
-    }
+    // public wait_until(at: Date): Promise<boolean>
+    // {
+    //     return this.cv_.wait_until(at);
+    // }
 }
 
 export type flex_barrier = FlexBarrier;
