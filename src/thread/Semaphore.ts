@@ -52,6 +52,11 @@ export class Semaphore<Max extends number = number>
         return this.max_;
     }
 
+    public get_lockable(): ILockable
+    {
+        return new Semaphore.Lockable(this);
+    }
+
     /* ---------------------------------------------------------
         ACQURE & RELEASE
     --------------------------------------------------------- */
@@ -207,6 +212,37 @@ export class Semaphore<Max extends number = number>
     }
 }
 
+export namespace Semaphore
+{
+    /**
+     * @internal
+     */
+    export class Lockable implements ILockable
+    {
+        private semahpore_: Semaphore;
+
+        public constructor(semaphore: Semaphore)
+        {
+            this.semahpore_ = semaphore;
+        }
+
+        public lock(): Promise<void>
+        {
+            return this.semahpore_.acquire();
+        }
+
+        public try_lock(): Promise<boolean>
+        {
+            return this.semahpore_.try_acquire();
+        }
+
+        public unlock(): Promise<void>
+        {
+            return this.semahpore_.release();
+        }
+    }
+}
+
 /**
  * @hidden
  */
@@ -216,5 +252,5 @@ interface IResolver
     type: LockType;
 }
 
-export type couting_semaphore = Semaphore;
-export const couting_semaphore = Semaphore;
+export import couting_semaphore = Semaphore;
+import { ILockable } from "./ILockable";
