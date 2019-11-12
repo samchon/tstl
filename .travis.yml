@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - 'stable'
-before_install:
-  - npm install -g typescript
-install:
-  - npm install
-script:
-  - npm run build
