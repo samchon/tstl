@@ -1,7 +1,7 @@
 # TypeScript Standard Template Library
 ![Make STL Great Again](https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png)
 
-[![Build Status](https://travis-ci.org/samchon/tstl.svg?branch=master)](https://travis-ci.org/samchon/tstl)
+[![Build Status](https://github.com/samchon/tstl/workflows/build/badge.svg)](https://github.com/samchon/tstl/actions?query=workflow%3Abuild)
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![Downloads](https://img.shields.io/npm/dm/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsamchon%2Ftstl.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsamchon%2Ftstl?ref=badge_shield)
