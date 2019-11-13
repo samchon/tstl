@@ -1,11 +1,11 @@
 # TypeScript Standard Template Library
 ![Make STL Great Again](https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png)
 
-[![Build Status](https://github.com/samchon/tstl/workflows/build/badge.svg)](https://github.com/samchon/tstl/actions?query=workflow%3Abuild)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samchon/tstl/blob/master/LICENSE)
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![Downloads](https://img.shields.io/npm/dm/tstl.svg)](https://www.npmjs.com/package/tstl)
+[![Build Status](https://github.com/samchon/tstl/workflows/build/badge.svg)](https://github.com/samchon/tstl/actions?query=workflow%3Abuild)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsamchon%2Ftstl.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsamchon%2Ftstl?ref=badge_shield)
-[![DeepScan grade](https://deepscan.io/api/teams/1932/projects/1798/branches/7792/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=1932&pid=1798&bid=7792)
 [![Chat on Gitter](https://badges.gitter.im/samchon/tstl.svg)](https://gitter.im/samchon/tstl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Implementation of STL (Standard Template Library) in TypeScript.
