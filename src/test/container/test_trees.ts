@@ -92,10 +92,7 @@ function _Test_tree_map<Unique extends boolean,
     {
         let val: number = Math.floor(Math.random() * 100);
 
-        let alg_it = std.find_if(map.begin() as Temporary, map.end(), (entry: std.Entry<number, number>) =>
-            {
-                return val === entry.first;
-            });
+        let alg_it = std.find_if(map.begin() as Temporary, map.end(), entry => val === (entry as any).first);
         let set_it = map.find(val);
 
         if (alg_it === map.end())

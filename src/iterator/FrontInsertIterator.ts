@@ -11,8 +11,8 @@ import { equal_to } from "../functional/comparators";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class FrontInsertIterator<T, Source extends _IPushFront<T>>
-    extends _InsertIterator<T, FrontInsertIterator<T, Source>>
+export class FrontInsertIterator<Source extends _IPushFront<FrontInsertIterator.ValueType<Source>>>
+    extends _InsertIterator<FrontInsertIterator.ValueType<Source>, FrontInsertIterator<Source>>
 {
     /**
      * @hidden
@@ -36,7 +36,7 @@ export class FrontInsertIterator<T, Source extends _IPushFront<T>>
     /**
      * @inheritDoc
      */
-    public set value(val: T)
+    public set value(val: FrontInsertIterator.ValueType<Source>)
     {
         this.source_.push_front(val);
     }
@@ -44,8 +44,15 @@ export class FrontInsertIterator<T, Source extends _IPushFront<T>>
     /**
      * @inheritDoc
      */
-    public equals(obj: FrontInsertIterator<T, Source>): boolean
+    public equals(obj: FrontInsertIterator<Source>): boolean
     {
         return equal_to(this.source_, obj.source_);
     }
+}
+export namespace FrontInsertIterator
+{
+    export type ValueType<Source extends _IPushFront<any>> = 
+        Source extends _IPushFront<infer T>
+            ? T
+            : unknown;
 }

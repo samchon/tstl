@@ -48,7 +48,7 @@ export function erase_if<T>(container: any, predicator: (val: T)=>boolean): void
         container.remove_if(predicator);
     else if (container.at instanceof ArrayContainer)
     {
-        let it = remove_if(container.begin(), container.end(), predicator);
+        let it = remove_if(container.begin(), container.end(), <any>predicator);
         container.erase(it, container.end());
     }
     else

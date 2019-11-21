@@ -8,14 +8,22 @@ import { General } from "../iterator/IFake";
 import { less } from "../functional/comparators";
 import { advance, distance } from "../iterator/global";
 
+/**
+ * @hidden
+ */
+type Comparator<RandomAccessIterator extends IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>> =
+    (
+        x: IPointer.ValueType<RandomAccessIterator>, 
+        y: IPointer.ValueType<RandomAccessIterator>
+    ) => boolean;
+
 /* =========================================================
     EA-STL (https://github.com/electronicarts/EASTL/blob/master/include/EASTL/heap.h)
-        - PUSH
-        - POP
+        - PUSH & POP
         - SORT
         - INTERNAL
 ============================================================
-    PUSH
+    PUSH & POP
 --------------------------------------------------------- */
 /**
  * Make a heap.
@@ -28,7 +36,7 @@ export function make_heap<RandomAccessIterator extends General<IRandomAccessIter
     (
         first: RandomAccessIterator, 
         last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): void
 {
     let heapSize: number = distance(first, last);
@@ -55,16 +63,13 @@ export function push_heap<RandomAccessIterator extends General<IRandomAccessIter
     (
         first: RandomAccessIterator, 
         last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): void
 {
     let tempBottom: IPointer.ValueType<RandomAccessIterator> = last.prev().value;
     _Promote_heap(first, 0, distance(first, last) - 1, tempBottom, comp);
 }
 
-/* ---------------------------------------------------------
-    POP
---------------------------------------------------------- */
 /**
  * Pop an element from heap.
  * 
@@ -76,7 +81,7 @@ export function pop_heap<RandomAccessIterator extends General<IRandomAccessItera
     (
         first: RandomAccessIterator, 
         last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): void
 {
     let tempBottom: IPointer.ValueType<RandomAccessIterator> = last.prev().value;
@@ -101,7 +106,7 @@ export function is_heap<RandomAccessIterator extends Readonly<IRandomAccessItera
     (
         first: RandomAccessIterator, 
         last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): boolean
 {
     let it = is_heap_until(first, last, comp);
@@ -121,7 +126,7 @@ export function is_heap_until<RandomAccessIterator extends Readonly<IRandomAcces
     (
         first: RandomAccessIterator, 
         last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): RandomAccessIterator
 {
     let counter: number = 0;
@@ -145,7 +150,7 @@ export function sort_heap<RandomAccessIterator extends General<IRandomAccessIter
     (
         first: RandomAccessIterator, 
         last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): void
 {
     for (; distance(first, last) > 1; last = last.prev())
@@ -164,7 +169,7 @@ function _Promote_heap<RandomAccessIterator extends General<IRandomAccessIterato
         topPosition: number, 
         position: number, 
         value: IPointer.ValueType<RandomAccessIterator>, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean
+        comp: Comparator<RandomAccessIterator>
     ): void
 {
     for (let parentPosition: number = (position - 1) >> 1;
@@ -187,7 +192,7 @@ function _Adjust_heap<RandomAccessIterator extends General<IRandomAccessIterator
         heapSize: number, 
         position: number, 
         value: IPointer.ValueType<RandomAccessIterator>, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean
+        comp: Comparator<RandomAccessIterator>
     ): void
 {
     let childPosition: number = (2 * position) + 2;

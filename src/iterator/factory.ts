@@ -15,7 +15,7 @@ import { FrontInsertIterator } from "./FrontInsertIterator";
 import { BackInsertIterator } from "./BackInsertIterator";
 
 /* ---------------------------------------------------------
-    FACTORIES
+    ITERATORS
 --------------------------------------------------------- */
 // BEGIN & END
 //----
@@ -25,19 +25,13 @@ import { BackInsertIterator } from "./BackInsertIterator";
  * @param container Target container.
  * @return Iterator to the first element.
  */
-export function begin<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
-    (container: IForwardContainer<Iterator>): Iterator;
-
-/**
- * @hidden
- */
-export function begin<T>(container: Array<T>): Vector.Iterator<T>;
-export function begin(container: any): any
+export function begin<Source extends Array<any> | IForwardContainer<any>>
+    (container: Source): IForwardContainer.IteratorType<Source>
 {
     if (container instanceof Array)
-        container = Vector.wrap(container);
+        container = Vector.wrap(container) as any;
     
-    return container.begin();
+    return (container as IForwardContainer<any>).begin();
 }
 
 /**
@@ -46,24 +40,62 @@ export function begin(container: any): any
  * @param container Target container.
  * @return Iterator to the end.
  */
-export function end<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
-    (container: IForwardContainer<Iterator>): Iterator;
-
-/**
- * @hidden
- */
-export function end<T>(container: Array<T>): Vector.Iterator<T>;
-export function end(container: any): any
+export function end<Source extends Array<any> | IForwardContainer<any>>
+    (container: Source): IForwardContainer.IteratorType<Source>
 {
     if (container instanceof Array)
-        container = Vector.wrap(container);
+        container = Vector.wrap(container) as any;
     
-    return container.end();
+    return (container as IForwardContainer<any>).end();
 }
 
-//----
-// INSERTERS
-//----
+/**
+ * Get reverse iterator to the first element in reverse.
+ * 
+ * @param container Target container.
+ * @return The reverse iterator to the first.
+ */
+export function rbegin<Source extends Array<any> | IBidirectionalContainer<any, any>>
+    (container: Source): IBidirectionalContainer.ReverseIteratorType<Source>
+{
+    if (container instanceof Array)
+        container = Vector.wrap(container) as any;
+    
+    return (container as IBidirectionalContainer<any, any>).rbegin();
+}
+
+/**
+ * Get reverse iterator to the reverse end.
+ * 
+ * @param container Target container.
+ * @return The reverse iterator to the end.
+ */
+export function rend<Source extends Array<any> | IBidirectionalContainer<any, any>>
+    (container: Source): IBidirectionalContainer.ReverseIteratorType<Source>
+{
+    if (container instanceof Array)
+        container = Vector.wrap(container) as any;
+    
+    return (container as IBidirectionalContainer<any, any>).rend();
+}
+
+/**
+ * Construct reverse iterator.
+ * 
+ * @param it Target iterator that reversable.
+ * @return The reverse iterator object.
+ */
+export function make_reverse_iterator<
+        IteratorT extends IReversableIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseT>, 
+        ReverseT extends IReverseIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseT>>
+    (it: IteratorT): ReverseT
+{
+    return it.reverse();
+}
+
+/* ---------------------------------------------------------
+    INSERTERS
+--------------------------------------------------------- */
 /**
  * Construct insert iterator.
  * 
@@ -75,7 +107,11 @@ export function inserter<Container extends _IInsert<Iterator>, Iterator extends 
     (container: Container, it: Iterator): InsertIterator<Container, Iterator>;
 
 /**
- * @hidden
+ * Construct insert iterator.
+ * 
+ * @param container Target array.
+ * @param it Iterator to the first insertion position.
+ * @return The {@link InsertIterator insert iterator} object.
  */
 export function inserter<T>
     (container: Array<T>, it: Vector.Iterator<T>): InsertIterator<Vector<T>, Vector.Iterator<T>>;
@@ -95,8 +131,8 @@ export function inserter
  * @param source Target container.
  * @return The {@link FrontInsertIterator front insert iterator} object.
  */
-export function front_inserter<T, Source extends _IPushFront<T>>
-    (source: Source): FrontInsertIterator<T, Source>
+export function front_inserter<Source extends _IPushFront<FrontInsertIterator.ValueType<Source>>>
+    (source: Source): FrontInsertIterator<Source>
 {
     return new FrontInsertIterator(source);
 }
@@ -108,82 +144,19 @@ export function front_inserter<T, Source extends _IPushFront<T>>
  * @return The {@link back insert iterator} object.
  */
 export function back_inserter<T, Source extends _IPushBack<T>>
-    (source: Source): BackInsertIterator<T, Source>
+    (source: Source): BackInsertIterator<Source>
 
 /**
  * @hidden
  */
 export function back_inserter<T>
-    (source: Array<T>): BackInsertIterator<T, Vector<T>>;
+    (source: Array<T>): BackInsertIterator<Vector<T>>;
 
 export function back_inserter<T>
-    (source: Array<T> | _IPushBack<T>): BackInsertIterator<T, any>
+    (source: Array<T> | _IPushBack<T>): BackInsertIterator<any>
 {
     if (source instanceof Array)
         source = Vector.wrap(source);
 
     return new BackInsertIterator(source);
-}
-
-//----
-// REVERSE ITERATORS
-//----
-/**
- * Construct reverse iterator.
- * 
- * @param it Target iterator that reversable.
- * @return The reverse iterator object.
- */
-export function make_reverse_iterator<
-        IteratorT extends IReversableIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseT>, 
-        ReverseT extends IReverseIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseT>>
-    (it: IteratorT): ReverseT
-{
-    return it.reverse();
-}
-
-/**
- * Get reverse iterator to the first element in reverse.
- * 
- * @param container Target container.
- * @return The reverse iterator to the first.
- */
-export function rbegin<
-        Iterator extends IReversableIterator<IPointer.ValueType<Iterator>, Iterator, ReverseIterator>,
-        ReverseIterator extends IReverseIterator<IPointer.ValueType<Iterator>, Iterator, ReverseIterator>>
-    (container: IBidirectionalContainer<Iterator, ReverseIterator>): ReverseIterator;
-
-/**
- * @hidden
- */
-export function rbegin<T>(container: Array<T>): Vector.ReverseIterator<T>;
-export function rbegin(source: any): any
-{
-    if (source instanceof Array)
-        source = Vector.wrap(source);
-
-    source.rbegin();
-}
-
-/**
- * Get reverse iterator to the reverse end.
- * 
- * @param container Target container.
- * @return The reverse iterator to the end.
- */
-export function rend<
-        Iterator extends IReversableIterator<IPointer.ValueType<Iterator>, Iterator, ReverseIterator>,
-        ReverseIterator extends IReverseIterator<IPointer.ValueType<Iterator>, Iterator, ReverseIterator>>
-    (container: IBidirectionalContainer<Iterator, ReverseIterator>): ReverseIterator;
-
-/**
- * @hidden
- */
-export function rend<T>(container: Array<T>): Vector.ReverseIterator<T>;
-export function rend(source: any): any
-{
-    if (source instanceof Array)
-        source = Vector.wrap(source);
-
-    source.rend();
 }

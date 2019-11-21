@@ -3,6 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional/IPointer";
+import { Vector } from "../../container/Vector";
 
 /* ---------------------------------------------------------
     CAPACITY
@@ -89,4 +90,20 @@ export interface _IPushBack<T>
      * @param val Value to insert.
      */
     push_back(val: T): void;
+}
+export namespace _IPushBack
+{
+    export type ContainerType<Range extends Array<any> | _IPushBack<any>>
+         = Range extends Array<infer T>
+            ? Vector<T>
+            : Range extends _IPushBack<any>
+                ? Range
+                : unknown;
+
+    export type IteratorType<Range extends Array<any> | _IPushBack<any>>
+        = Range extends Array<infer T>
+            ? Vector.Iterator<T>
+            : Range extends _IPushBack<infer Iterator>
+                ? Iterator
+                : unknown;
 }

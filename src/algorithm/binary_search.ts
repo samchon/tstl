@@ -8,6 +8,15 @@ import { distance, advance } from "../iterator/global";
 import { less } from "../functional/comparators";
 import { Pair } from "../utility/Pair";
 
+/**
+ * @hidden
+ */
+type Comparator<ForwardIterator extends IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>> =
+    (
+        x: IPointer.ValueType<ForwardIterator>, 
+        y: IPointer.ValueType<ForwardIterator>
+    ) => boolean;
+
 /* =========================================================
     BINARY SEARCH
 ========================================================= */
@@ -25,7 +34,7 @@ export function lower_bound<ForwardIterator extends Readonly<IForwardIterator<IP
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: IPointer.ValueType<ForwardIterator>, 
-        comp: (x: IPointer.ValueType<ForwardIterator>, y: IPointer.ValueType<ForwardIterator>) => boolean = less
+        comp: Comparator<ForwardIterator> = less
     ): ForwardIterator
 {
     let count: number = distance(first, last);
@@ -60,7 +69,7 @@ export function upper_bound<ForwardIterator extends Readonly<IForwardIterator<IP
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: IPointer.ValueType<ForwardIterator>,
-        comp: (x: IPointer.ValueType<ForwardIterator>, y: IPointer.ValueType<ForwardIterator>) => boolean = less
+        comp: Comparator<ForwardIterator> = less
     ): ForwardIterator
 {
     let count: number = distance(first, last);
@@ -95,7 +104,7 @@ export function equal_range<ForwardIterator extends Readonly<IForwardIterator<IP
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: IPointer.ValueType<ForwardIterator>,
-        comp: (x: IPointer.ValueType<ForwardIterator>, y: IPointer.ValueType<ForwardIterator>) => boolean = less
+        comp: Comparator<ForwardIterator> = less
     ): Pair<ForwardIterator, ForwardIterator>
 {
     let it: ForwardIterator = lower_bound(first, last, val, comp);
@@ -117,7 +126,7 @@ export function binary_search<ForwardIterator extends Readonly<IForwardIterator<
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: IPointer.ValueType<ForwardIterator>,
-        comp: (x: IPointer.ValueType<ForwardIterator>, y: IPointer.ValueType<ForwardIterator>) => boolean = less
+        comp: Comparator<ForwardIterator> = less
     ): boolean
 {
     first = lower_bound(first, last, val, comp);

@@ -110,7 +110,7 @@ function _Test_exclusive_scan(vec: std.Vector<Point2D>): void
 
     let ret: std.Vector<Point2D> = new std.Vector();
     std.exclusive_scan
-        <Point2D, std.Vector.Iterator<Point2D>, std.BackInsertIterator<Point2D, std.Vector<Point2D>>>
+        <Point2D, std.Vector.Iterator<Point2D>, std.BackInsertIterator<std.Vector<Point2D>>>
         (vec.begin(), vec.end(), std.back_inserter(ret), new Point2D());
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)
