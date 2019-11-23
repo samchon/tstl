@@ -10,6 +10,12 @@ import { Pair } from "../utility/Pair";
 import { iter_swap } from "./modifiers";
 import { distance, advance } from "../iterator/global";
 
+/**
+ * @hidden
+ */
+type Predicator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
+    (val: IPointer.ValueType<Iterator>) => boolean;
+
 /* =========================================================
     PARTITION
 ========================================================= */
@@ -25,7 +31,7 @@ import { distance, advance } from "../iterator/global";
 export function is_partitioned<ForwardIterator extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
     (
         first: ForwardIterator, last: ForwardIterator, 
-        pred: (x: IPointer.ValueType<ForwardIterator>) => boolean
+        pred: Predicator<ForwardIterator>
     ): boolean
 {
     while (!first.equals(last) && pred(first.value))
@@ -50,7 +56,7 @@ export function is_partitioned<ForwardIterator extends Readonly<IForwardIterator
 export function partition_point<ForwardIterator extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
     (
         first: ForwardIterator, last: ForwardIterator, 
-        pred: (x: IPointer.ValueType<ForwardIterator>) => boolean
+        pred: Predicator<ForwardIterator>
     ): ForwardIterator
 {
     let n: number = distance(first, last);
@@ -83,7 +89,7 @@ export function partition_point<ForwardIterator extends Readonly<IForwardIterato
 export function partition<BidirectionalIterator extends General<IBidirectionalIterator<IPointer.ValueType<BidirectionalIterator>, BidirectionalIterator>>>
     (
         first: BidirectionalIterator, last: BidirectionalIterator, 
-        pred: (x: IPointer.ValueType<BidirectionalIterator>) => boolean
+        pred: Predicator<BidirectionalIterator>
     ): BidirectionalIterator
 {
     return stable_partition(first, last, pred);
@@ -101,7 +107,7 @@ export function partition<BidirectionalIterator extends General<IBidirectionalIt
 export function stable_partition<BidirectionalIterator extends General<IBidirectionalIterator<IPointer.ValueType<BidirectionalIterator>, BidirectionalIterator>>>
     (
         first: BidirectionalIterator, last: BidirectionalIterator, 
-        pred: (x: IPointer.ValueType<BidirectionalIterator>) => boolean
+        pred: Predicator<BidirectionalIterator>
     ): BidirectionalIterator
 {
     while (!first.equals(last) && pred(first.value))
@@ -145,7 +151,7 @@ export function partition_copy<
         first: InputIterator, last: InputIterator, 
         output_true: OutputIterator1, 
         output_false: OutputIterator2, 
-        pred: (val: IPointer.ValueType<InputIterator>) => IPointer.ValueType<InputIterator>
+        pred: Predicator<InputIterator>
     ): Pair<OutputIterator1, OutputIterator2>
 {
     for (; !first.equals(last); first = first.next())

@@ -6,15 +6,16 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.4.0-dev.20191122",
+  "version": "2.4.0-dev.20191124",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
     "api": "typedoc src --plugin typedoc-plugin-external-module-name --exclude \"**/+(test|benchmark)/**\" --out ",
     "benchmark": "node benchmark",
-    "build": "npm run compile && npm run test",
+    "build": "npm run module && npm run compile && npm run test",
     "clean": "node build/clean",
     "compile": "tsc",
+    "module": "tsc -p module.json",
     "dev": "tsc --watch",
     "test": "node test"
   },

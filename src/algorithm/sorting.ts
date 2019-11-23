@@ -13,6 +13,15 @@ import { distance } from "../iterator/global";
 import { Vector } from "../container/Vector";
 import { Temporary } from "../base/Temporary";
 
+/**
+ * @hidden
+ */
+type Comparator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
+    (
+        x: IPointer.ValueType<Iterator>,
+        y: IPointer.ValueType<Iterator>
+    ) => boolean;
+
 /* =========================================================
     SORTINGS
         - SORT
@@ -31,7 +40,7 @@ import { Temporary } from "../base/Temporary";
 export function sort<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
     (
         first: RandomAccessIterator, last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): void
 {
     let size: number = last.index() - first.index();
@@ -70,7 +79,7 @@ export function sort<RandomAccessIterator extends General<IRandomAccessIterator<
 export function stable_sort<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
     (
         first: RandomAccessIterator, last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): void
 {
     let ramda = function (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>): boolean
@@ -91,7 +100,7 @@ export function stable_sort<RandomAccessIterator extends General<IRandomAccessIt
 export function partial_sort<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
     (
         first: RandomAccessIterator, middle: RandomAccessIterator, last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): void
 {
     for (let i = first; !i.equals(middle); i = i.next())
@@ -124,7 +133,7 @@ export function partial_sort_copy<
     (
         first: InputIterator, last: InputIterator, 
         output_first: RandomAccessIterator, output_last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = less
+        comp: Comparator<InputIterator> = less
     ): RandomAccessIterator
 {
     let input_size: number = distance(first, last);
@@ -152,7 +161,7 @@ export function partial_sort_copy<
 export function nth_element<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
     (
         first: RandomAccessIterator, nth: RandomAccessIterator, last: RandomAccessIterator, 
-        comp: (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>) => boolean = less
+        comp: Comparator<RandomAccessIterator> = less
     ): void
 {
     let n: number = distance(first, nth);
@@ -188,7 +197,7 @@ export function nth_element<RandomAccessIterator extends General<IRandomAccessIt
 export function is_sorted<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        comp: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = less
+        comp: Comparator<InputIterator> = less
     ): boolean
 {
     return is_sorted_until(first, last, comp).equals(last);
@@ -206,7 +215,7 @@ export function is_sorted<InputIterator extends Readonly<IForwardIterator<IPoint
 export function is_sorted_until<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        comp: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = less
+        comp: Comparator<InputIterator> = less
     ): InputIterator
 {
     if (first.equals(last))

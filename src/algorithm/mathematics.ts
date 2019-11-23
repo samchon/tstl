@@ -15,6 +15,15 @@ import { iter_swap, reverse } from "./modifiers";
 
 import { Temporary } from "../base/Temporary";
 
+/**
+ * @hidden
+ */
+type Comparator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
+    (
+        x: IPointer.ValueType<Iterator>,
+        y: IPointer.ValueType<Iterator>
+    ) => boolean;
+
 /* =========================================================
     MATHMATICS
         - MIN & MAX
@@ -96,7 +105,7 @@ export function minmax<T>(items: T[], comp: (x: T, y: T) => boolean): Pair<T, T>
 export function min_element<ForwardIterator extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
     (
         first: ForwardIterator, last: ForwardIterator, 
-        comp: (x: IPointer.ValueType<ForwardIterator>, y: IPointer.ValueType<ForwardIterator>) => boolean = less
+        comp: Comparator<ForwardIterator> = less
     ): ForwardIterator
 {
     let smallest: ForwardIterator = first;
@@ -121,7 +130,7 @@ export function min_element<ForwardIterator extends Readonly<IForwardIterator<IP
 export function max_element<ForwardIterator extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
     (
         first: ForwardIterator, last: ForwardIterator, 
-        comp: (x: IPointer.ValueType<ForwardIterator>, y: IPointer.ValueType<ForwardIterator>) => boolean = less
+        comp: Comparator<ForwardIterator> = less
     ): ForwardIterator
 {
     let largest: ForwardIterator = first;
@@ -146,7 +155,7 @@ export function max_element<ForwardIterator extends Readonly<IForwardIterator<IP
 export function minmax_element<ForwardIterator extends Readonly<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
     (
         first: ForwardIterator, last: ForwardIterator, 
-        comp: (x: IPointer.ValueType<ForwardIterator>, y: IPointer.ValueType<ForwardIterator>) => boolean = less
+        comp: Comparator<ForwardIterator> = less
     ): Pair<ForwardIterator, ForwardIterator>
 {
     let smallest: ForwardIterator = first;
@@ -198,7 +207,7 @@ export function is_permutation<
     (
         first1: ForwardIterator1, last1: ForwardIterator1, 
         first2: ForwardIterator2,
-        pred: (x: IPointer.ValueType<ForwardIterator1>, y: IPointer.ValueType<ForwardIterator1>) => boolean = <any>equal_to
+        pred: Comparator<ForwardIterator1> = <any>equal_to
     ): boolean
 {
     // find the mismatched
@@ -237,7 +246,7 @@ export function is_permutation<
 export function prev_permutation<BidirectionalIterator extends General<IBidirectionalIterator<IPointer.ValueType<BidirectionalIterator>, BidirectionalIterator>>>
     (
         first: BidirectionalIterator, last: BidirectionalIterator, 
-        comp: (x: IPointer.ValueType<BidirectionalIterator>, y: IPointer.ValueType<BidirectionalIterator>) => boolean = less
+        comp: Comparator<BidirectionalIterator> = less
     ): boolean
 {
     if (first.equals(last) === true)
@@ -284,7 +293,7 @@ export function prev_permutation<BidirectionalIterator extends General<IBidirect
 export function next_permutation<BidirectionalIterator extends General<IBidirectionalIterator<IPointer.ValueType<BidirectionalIterator>, BidirectionalIterator>>>
     (
         first: BidirectionalIterator, last: BidirectionalIterator, 
-        comp: (x: IPointer.ValueType<BidirectionalIterator>, y: IPointer.ValueType<BidirectionalIterator>) => boolean = less
+        comp: Comparator<BidirectionalIterator> = less
     ): boolean
 {
     if (first.equals(last) === true)
