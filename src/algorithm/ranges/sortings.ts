@@ -1,9 +1,12 @@
+//================================================================ 
+/** @module std.ranges */
+//================================================================
 import base = require("../sorting");
 
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";
 import { IRandomAccessContainer } from "../../base/disposable/IRandomAccessContainer";
-import { less } from "../../functional/comparators";
 import { begin, end } from "../../iterator/factory";
+import { less } from "../../functional/comparators";
 
 /**
  * @hidden

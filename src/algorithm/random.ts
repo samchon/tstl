@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { IPointer } from "../functional";
+import { IPointer } from "../functional/IPointer";
 
 import { Writeonly } from "../iterator/IFake";
 import { sort } from "./sorting";

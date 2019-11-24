@@ -9,7 +9,7 @@ import { _MultiMapTree } from "../base/tree/_MultiMapTree";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
-import { Entry } from "../utility/Entry";
+import { Pair } from "../utility/Pair";
 import { Temporary } from "../base/Temporary";
 
 /**
@@ -71,7 +71,7 @@ export class TreeMultiMap<Key, T>
     {
         super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
 
-        _Construct<Key, Entry<Key, T>, 
+        _Construct<Key, Pair<Key, T>, 
                 TreeMultiMap<Key, T>,
                 TreeMultiMap.Iterator<Key, T>,
                 TreeMultiMap.ReverseIterator<Key, T>,

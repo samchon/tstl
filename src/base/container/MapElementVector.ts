@@ -7,8 +7,8 @@ import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIt
 import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
 import { MapContainer } from "./MapContainer";
-import { Entry } from "../../utility/Entry";
 import { IPair } from "../../utility/IPair";
+import { Pair } from "../../utility/Pair";
 
 /**
  * @hidden
@@ -20,7 +20,7 @@ export class MapElementVector<Key, T,
             Source,
             MapElementVector.Iterator<Key, T, Unique, Source>,
             MapElementVector.ReverseIterator<Key, T, Unique, Source>>>
-    extends VectorContainer<Entry<Key, T>,
+    extends VectorContainer<Pair<Key, T>,
         Source,
         MapElementVector<Key, T, Unique, Source>,
         MapElementVector.Iterator<Key, T, Unique, Source>,
@@ -78,7 +78,7 @@ export namespace MapElementVector
                 Source, 
                 Iterator<Key, T, Unique, Source>, 
                 ReverseIterator<Key, T, Unique, Source>>>
-        extends ArrayIteratorBase<Entry<Key, T>, 
+        extends ArrayIteratorBase<Pair<Key, T>, 
             Source, 
             MapElementVector<Key, T, Unique, Source>,
             Iterator<Key, T, Unique, Source>, 
@@ -144,7 +144,7 @@ export namespace MapElementVector
                 Source, 
                 Iterator<Key, T, Unique, Source>, 
                 ReverseIterator<Key, T, Unique, Source>>>
-        extends ArrayReverseIteratorBase<Entry<Key, T>, 
+        extends ArrayReverseIteratorBase<Pair<Key, T>, 
             Source, 
             MapElementVector<Key, T, Unique, Source>,
             Iterator<Key, T, Unique, Source>, 

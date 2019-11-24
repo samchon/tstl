@@ -71,7 +71,6 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
     - [IComparable](http://samchon.github.io/tstl/api/interfaces/std.icomparable.html)
   - [`<utility>`](http://www.cplusplus.com/reference/utility/)
     - [Pair `pair`](http://samchon.github.io/tstl/api/classes/std.pair.html)
-    - [Entry `entry`](http://samchon.github.io/tstl/api/classes/std.entry.html)
   - [`<numeric>`](http://en.cppreference.com/w/cpp/numeric)
     - [IComputable](https://github.com/samchon/tstl/blob/master/src/numeric/IComputable.ts)
     - [operations](https://github.com/samchon/tstl/blob/master/src/numeric/operations.ts)

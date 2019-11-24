@@ -5,8 +5,8 @@ import { Iterator } from "./Iterator";
 import { IReverseIterator } from "./ReverseIterator";
 
 import { MapContainer } from "../container/MapContainer";
-import { Entry } from "../../utility/Entry";
-import { IPair } from "../../utility";
+import { IPair } from "../../utility/IPair";
+import { Pair } from "../../utility/Pair";
 
 /**
  * @hidden
@@ -29,7 +29,7 @@ export interface IMapIterator<Key, T,
         Source extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>, 
         IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>, 
         ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
-    extends Readonly<Iterator<Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>>,
+    extends Readonly<Iterator<Pair<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>>,
         IMapIteratorBase<Key, T>
 {
 }
@@ -39,7 +39,7 @@ export interface IMapReverseIterator<Key, T,
         Source extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>, 
         IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>, 
         ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
-    extends Readonly<IReverseIterator<Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>>,
+    extends Readonly<IReverseIterator<Pair<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>>,
     IMapIteratorBase<Key, T>
 {
 }

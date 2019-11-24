@@ -206,7 +206,7 @@ export function transform<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, 
         result: OutputIterator, 
-        binary_op: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator2>) => IPointer.ValueType<OutputIterator>
+        op: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator2>) => IPointer.ValueType<OutputIterator>
     ): OutputIterator;
 
 export function transform(...args: any[]): any

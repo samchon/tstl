@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.ranges */
+//================================================================
 import base = require("../heap");
 
 import { IRandomAccessContainer } from "../../base/disposable/IRandomAccessContainer";

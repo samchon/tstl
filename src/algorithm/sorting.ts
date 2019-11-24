@@ -3,7 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
-import { IPointer } from "../functional";
+import { IPointer } from "../functional/IPointer";
 
 import { General } from "../iterator/IFake";
 import { less } from "../functional/comparators";

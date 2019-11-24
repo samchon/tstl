@@ -11,7 +11,6 @@ import { _MapHashBuckets } from "../base/hash/_MapHashBuckets";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Pair } from "../utility/Pair";
-import { Entry } from "../utility/Entry";
 import { Temporary } from "../base/Temporary";
 
 /**
@@ -81,7 +80,7 @@ export class HashMap<Key, T>
     {
         super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
 
-        _Construct<Key, Entry<Key, T>, 
+        _Construct<Key, Pair<Key, T>, 
                 HashMap<Key, T>,
                 HashMap.Iterator<Key, T>,
                 HashMap.ReverseIterator<Key, T>,
@@ -300,7 +299,7 @@ export class HashMap<Key, T>
             return new Pair(it, false);
 
         // INSERT
-        this.data_.push(new Entry(key, val));
+        this.data_.push(new Pair(key, val));
         it = it.prev();
 
         // POST-PROCESS
@@ -319,7 +318,7 @@ export class HashMap<Key, T>
         if (it.equals(this.end()) === true)
         {
             // INSERT
-            it = this.data_.insert(hint, new Entry(key, val));
+            it = this.data_.insert(hint, new Pair(key, val));
 
             // POST-PROCESS
             this._Handle_insert(it, it.next());

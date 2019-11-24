@@ -1,8 +1,12 @@
+//================================================================ 
+/** @module std.ranges */
+//================================================================
 import base = require("../random");
 
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { IPointer } from "../../functional";
+import { IPointer } from "../../functional/IPointer";
+
 import { Writeonly } from "../../iterator/IFake";
 import { begin, end } from "../../iterator/factory";
 

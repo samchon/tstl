@@ -9,7 +9,7 @@ import { _UniqueMapTree } from "../base/tree/_UniqueMapTree";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
-import { Entry } from "../utility/Entry";
+import { Pair } from "../utility/Pair";
 import { Temporary } from "../base/Temporary";
 
 /**
@@ -73,7 +73,7 @@ export class TreeMap<Key, T>
         super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
         
         // OVERLOADINGS
-        _Construct<Key, Entry<Key, T>, 
+        _Construct<Key, Pair<Key, T>, 
                 TreeMap<Key, T>,
                 TreeMap.Iterator<Key, T>,
                 TreeMap.ReverseIterator<Key, T>,

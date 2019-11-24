@@ -5,8 +5,8 @@ import { UniqueTreeMap } from "../../base/container/UniqueTreeMap";
 import { _Construct } from "../../base/container/_ITreeContainer";
 
 import { MapElementVector } from "../../base/container/MapElementVector";
-import { Entry } from "../../utility/Entry";
 import { IPair } from "../../utility/IPair";
+import { Pair } from "../../utility/Pair";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { Temporary } from "../../base/Temporary";
@@ -68,7 +68,7 @@ export class FlatMap<Key, T>
         super(thisArg => new MapElementVector(<Temporary>thisArg) as Temporary);
         
         // OVERLOADINGS
-        _Construct<Key, Entry<Key, T>, 
+        _Construct<Key, Pair<Key, T>, 
                 FlatMap<Key, T>,
                 FlatMap.Iterator<Key, T>,
                 FlatMap.ReverseIterator<Key, T>,
@@ -134,9 +134,9 @@ export class FlatMap<Key, T>
     /**
      * @hidden
      */
-    private _Capsule_key(key: Key): Entry<Key, T>
+    private _Capsule_key(key: Key): Pair<Key, T>
     {
-        return { first: key } as Entry<Key, T>;
+        return { first: key } as Pair<Key, T>;
     }
 
     /* ---------------------------------------------------------

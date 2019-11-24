@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.ranges */
+//================================================================
 import base = require("../mathematics");
 
 import { IBidirectionalContainer } from "../../base/disposable/IBidirectionalContainer";

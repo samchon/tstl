@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std.ranges */
+//================================================================
 import base = require("../iterations");
 
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";

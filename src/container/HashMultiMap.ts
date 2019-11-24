@@ -11,7 +11,7 @@ import { _MapHashBuckets } from "../base/hash/_MapHashBuckets";
 import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
-import { Entry } from "../utility/Entry";
+import { Pair } from "../utility/Pair";
 import { Temporary } from "../base/Temporary";
 
 /**
@@ -81,7 +81,7 @@ export class HashMultiMap<Key, T>
     {
         super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
 
-        _Construct<Key, Entry<Key, T>, 
+        _Construct<Key, Pair<Key, T>, 
                 HashMultiMap<Key, T>,
                 HashMultiMap.Iterator<Key, T>,
                 HashMultiMap.ReverseIterator<Key, T>,
@@ -321,7 +321,7 @@ export class HashMultiMap<Key, T>
     public emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
     {
         // INSERT
-        let it = this.data_.insert(this.data_.end(), new Entry(key, val));
+        let it = this.data_.insert(this.data_.end(), new Pair(key, val));
 
         this._Handle_insert(it, it.next()); // POST-PROCESS
         return it;
@@ -333,7 +333,7 @@ export class HashMultiMap<Key, T>
     public emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
     {
         // INSERT
-        let it = this.data_.insert(hint, new Entry(key, val));
+        let it = this.data_.insert(hint, new Pair(key, val));
 
         // POST-PROCESS
         this._Handle_insert(it, it.next());
@@ -351,9 +351,9 @@ export class HashMultiMap<Key, T>
         // INSERTIONS
         //--------
         // PRELIMINARIES
-        let entries: Array<Entry<Key, T>> = [];
+        let entries: Array<Pair<Key, T>> = [];
         for (let it = first; !it.equals(last); it = it.next())
-            entries.push(new Entry(it.value.first, it.value.second));
+            entries.push(new Pair(it.value.first, it.value.second));
         
         // INSERT ELEMENTS
         let my_first = this.data_.insert

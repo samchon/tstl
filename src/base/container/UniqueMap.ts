@@ -8,7 +8,6 @@ import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";
-import { Entry } from "../../utility/Entry";
 import { OutOfRange } from "../../exception/LogicError";
 
 /**
@@ -190,7 +189,7 @@ export abstract class UniqueMap<Key, T,
      * @param key Key to search for.
      * @return The extracted element.
      */
-    public extract(key: Key): Entry<Key, T>;
+    public extract(key: Key): Pair<Key, T>;
     
     /**
      * Extract an element by iterator.
@@ -211,13 +210,13 @@ export abstract class UniqueMap<Key, T,
     /**
      * @hidden
      */
-    private _Extract_by_key(key: Key): Entry<Key, T>
+    private _Extract_by_key(key: Key): Pair<Key, T>
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
             throw new OutOfRange(`Error on std.${this.constructor.name}.extract(): unable to find the matched key -> ${key}.`);
 
-        let ret: Entry<Key, T> = it.value;
+        let ret: Pair<Key, T> = it.value;
         this._Erase_by_range(it);
 
         return ret;
