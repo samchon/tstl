@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { InvalidArgument } from "../../exception/LogicError";
+import { InvalidArgument } from "../../exception/InvalidArgument";
 
 /**
  * Hermite polynomial

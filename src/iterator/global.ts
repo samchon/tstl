@@ -6,7 +6,7 @@ import { IForwardIterator } from "./IForwardIterator";
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
 import { IRandomAccessIterator } from "./IRandomAccessIterator";
 
-import { InvalidArgument } from "../exception/LogicError";
+import { InvalidArgument } from "../exception/InvalidArgument";
 import { _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
 
 /* =========================================================

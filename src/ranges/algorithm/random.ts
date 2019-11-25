@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../random");
+import base = require("../../algorithm/random");
 
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
@@ -12,8 +12,8 @@ import { begin, end } from "../../iterator/factory";
 
 export function sample<
         Range extends Array<any> | IForwardContainer<any>,
-        Iterator extends Writeonly<IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>>
-    (range: Range, first: Iterator, n: number): Iterator
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
+    (range: Range, first: OutputIterator, n: number): OutputIterator
 {
     return base.sample(begin(range), end(range), first, n);
 }

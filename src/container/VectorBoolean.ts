@@ -7,7 +7,7 @@ import { TreeMap } from "./TreeMap";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
-import { OutOfRange } from "../exception/LogicError";
+import { OutOfRange } from "../exception/OutOfRange";
 import { Pair } from "../utility/Pair";
 import { not_equal_to } from "../functional/comparators";
 

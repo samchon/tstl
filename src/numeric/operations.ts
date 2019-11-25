@@ -5,6 +5,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { General, Writeonly } from "../iterator/IFake";
 
 import { plus, minus, multiplies } from "./operators";
+import { IPointer } from "../functional";
 
 /**
  * Greatest Common Divider.
@@ -36,13 +37,13 @@ export function iota<ForwardIterator extends General<IForwardIterator<number, Fo
         first.value = value++;
 }
 
-export function accumulate<T,
-        InputIterator extends General<IForwardIterator<T, InputIterator>>>
+export function accumulate<InputIterator extends General<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
-        first: InputIterator, last: InputIterator, 
-        init: T,
-        op: BinaryOperator<T> = <any>plus
-    ): T
+        first: InputIterator, 
+        last: InputIterator, 
+        init: IPointer.ValueType<InputIterator>,
+        op: Operator<InputIterator> = <any>plus
+    ): IPointer.ValueType<InputIterator>
 {
     for (; !first.equals(last); first = first.next())
         init = op(init, first.value);
@@ -50,43 +51,45 @@ export function accumulate<T,
     return init;
 }
 
-export function inner_product<X, Y,
-        InputIterator1 extends General<IForwardIterator<X, InputIterator1>>,
-        InputIterator2 extends General<IForwardIterator<Y, InputIterator2>>>
+export function inner_product<
+        InputIterator1 extends General<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>,
+        InputIterator2 extends General<IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>>>
     (
         first1: InputIterator1, last1: InputIterator1, first2: InputIterator2,
-        value: X,
-        op1: BinaryOperator<X> = <any>plus, 
-        op2: BinaryOperator<X, Y> = <any>multiplies
-    ): X
+        value: IPointer.ValueType<InputIterator1>,
+        adder: Operator<InputIterator1> = <any>plus, 
+        multiplier: Operator<InputIterator1, InputIterator2> = <any>multiplies
+    ): IPointer.ValueType<InputIterator1>
 {
     for (; !first1.equals(last1); first1 = first1.next())
     {
-        value = op1(value, op2(first1.value, first2.value));
+        value = adder(value, multiplier(first1.value, first2.value));
         first2 = first2.next();
     }
     return value;
 }
 
-export function adjacent_difference<T,
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+export function adjacent_difference<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
-        first: InputIterator, last: InputIterator, output: OutputIterator,
-        op: BinaryOperator<T> = <any>minus
+        first: InputIterator, 
+        last: InputIterator, 
+        output: OutputIterator,
+        subtracter: Operator<InputIterator> = <any>minus
     ): OutputIterator
 {
     if (first.equals(last))
         return output;
 
     // INITIALIZE
-    let before: T;
-    [first, output, before] = _Initialize(first, output);
+    let before: IPointer.ValueType<InputIterator>;
+    [first, <any>output, before] = _Initialize<InputIterator, InputIterator>(first, <any>output);
 
     // COMPUTE OPERATIONS
     for (; !first.equals(last); first = first.next())
     {
-        output.value = op(first.value, before);
+        output.value = subtracter(first.value, before);
 
         before = first.value;
         output = output.next();
@@ -94,25 +97,26 @@ export function adjacent_difference<T,
     return output;
 }
 
-export function partial_sum<T,
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+export function partial_sum<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
-        first: InputIterator, last: InputIterator, output: OutputIterator,
-        op: BinaryOperator<T> = <any>plus
+        first: InputIterator, last: InputIterator, 
+        output: OutputIterator,
+        adder: Operator<InputIterator> = <any>plus
     ): OutputIterator
 {
     if (first.equals(last))
         return output;
 
     // INITIALIZE
-    let sum: T; 
-    [first, output, sum] = _Initialize(first, output);
+    let sum: IPointer.ValueType<InputIterator>;
+    [first, <any>output, sum] = _Initialize<InputIterator, InputIterator>(first, <any>output);
 
     // COMPUTE OPERATIONS
     for (; !first.equals(last); first = first.next())
     {
-        sum = op(sum, first.value);
+        sum = adder(sum, first.value);
 
         output.value = sum;
         output = output.next();
@@ -123,45 +127,46 @@ export function partial_sum<T,
 /* ---------------------------------------------------------
     PREFIX SUMS
 --------------------------------------------------------- */
-export function inclusive_scan<T,
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+export function inclusive_scan<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
         first: InputIterator, last: InputIterator, output: OutputIterator,
-        op: BinaryOperator<T> = <any>plus,
-        init?: T
+        adder: Operator<InputIterator> = plus,
+        init?: IPointer.ValueType<InputIterator>
     ): OutputIterator
 {
-    return transform_inclusive_scan<T, T, InputIterator, OutputIterator>(first, last, output, op, _Capsule, init);
+    return transform_inclusive_scan(first, last, <any>output, adder, val => val, init);
 }
 
-export function exclusive_scan<T,
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
+export function exclusive_scan<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
-        first: InputIterator, last: InputIterator, output: OutputIterator,
-        init: T,
-        op: BinaryOperator<T> = <any>plus
+        first: InputIterator, last: InputIterator, 
+        output: OutputIterator,
+        init: IPointer.ValueType<InputIterator>,
+        op: Operator<InputIterator> = plus
     ): OutputIterator
 {
-    return transform_exclusive_scan(first, last, output, init, op, _Capsule);
+    return transform_exclusive_scan(first, last, <any>output, init, op, val => val);
 }
 
-export function transform_inclusive_scan<T, Ret,
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
+export function transform_inclusive_scan<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
     (
         first: InputIterator, last: InputIterator, output: OutputIterator,
-        binary: BinaryOperator<Ret>,
-        unary: (val: T) => Ret,
-        init?: T
+        binary: Operator<OutputIterator>,
+        unary: Transformer<InputIterator, OutputIterator>,
+        init?: IPointer.ValueType<InputIterator>
     ): OutputIterator
 {
     if (first.equals(last))
         return output;
 
     // INITIALIZE
-    let before: Ret; 
+    let before: IPointer.ValueType<OutputIterator>;
     [first, output, before] = _Transform_initialize(first, output, unary, init);
 
     // COMPUTE OPERATIONS
@@ -175,22 +180,23 @@ export function transform_inclusive_scan<T, Ret,
     return output;
 }
 
-export function transform_exclusive_scan<T, Ret,
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends General<IForwardIterator<Ret, OutputIterator>>>
+export function transform_exclusive_scan<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
     (
-        first: InputIterator, last: InputIterator, output: OutputIterator,
-        init: T,
-        binary: BinaryOperator<Ret>,
-        unary: (val: T) => Ret
+        first: InputIterator, last: InputIterator, 
+        output: OutputIterator,
+        init: IPointer.ValueType<InputIterator>,
+        binary: Operator<OutputIterator>,
+        unary: Transformer<InputIterator, OutputIterator>
     ): OutputIterator
 {
     if (first.equals(last))
         return output;
 
     // INITIALIZE
-    let x: Ret = unary(first.value);
-    let y: Ret; 
+    let x: IPointer.ValueType<OutputIterator> = unary(first.value);
+    let y: IPointer.ValueType<OutputIterator>; 
     [first, output, y] = _Transform_initialize(first, output, unary, init);
 
     // COMPUTE OPERATIONS
@@ -211,39 +217,52 @@ export function transform_exclusive_scan<T, Ret,
 /**
  * @hidden
  */
-type BinaryOperator<X, Y=X> = (x: X, y: Y) => X;
+type Operator<
+        Iterator1 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>>, 
+        Iterator2 extends Readonly<IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>> = Iterator1> = 
+    (
+        x: IPointer.ValueType<Iterator1>, 
+        y: IPointer.ValueType<Iterator2>
+    ) => IPointer.ValueType<Iterator1>;
 
 /**
  * @hidden
  */
-function _Capsule<X, Ret extends X = X>(x: X): Ret
+type Transformer<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> = 
+    (val: IPointer.ValueType<InputIterator>) => IPointer.ValueType<OutputIterator>;
+
+/**
+ * @hidden
+ */
+function _Initialize<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
+    (
+        first: InputIterator, 
+        output: OutputIterator, 
+        init?: IPointer.ValueType<InputIterator>
+    ): [InputIterator, OutputIterator, IPointer.ValueType<OutputIterator>]
 {
-    return x as Ret;
+    return _Transform_initialize(first, output, val => <any>val , init);
 }
 
 /**
  * @hidden
  */
-function _Initialize<T, 
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<T, OutputIterator>>>
-    (first: InputIterator, output: OutputIterator, init?: T)
-        : [InputIterator, OutputIterator, T]
-{
-    return _Transform_initialize<T, T, InputIterator, OutputIterator>(first, output, _Capsule, init);
-}
-
-/**
- * @hidden
- */
-function _Transform_initialize<T, Ret,
-        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
-        OutputIterator extends Writeonly<IForwardIterator<Ret, OutputIterator>>>
-    (first: InputIterator, output: OutputIterator, unary: (val: T) => Ret, init?: T)
-        : [InputIterator, OutputIterator, Ret]
+function _Transform_initialize<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
+    (
+        first: InputIterator, 
+        output: OutputIterator, 
+        unary: Transformer<InputIterator, OutputIterator>,
+        init?: IPointer.ValueType<InputIterator>
+    ): [InputIterator, OutputIterator, IPointer.ValueType<OutputIterator>]
 {
     // WRITE THE FIRST OR INITIAL VALUE
-    let ret: Ret = unary(init === undefined 
+    let ret: IPointer.ValueType<OutputIterator> = unary(init === undefined 
         ? first.value
         : init);
     output.value = ret;

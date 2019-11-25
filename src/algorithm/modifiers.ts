@@ -11,6 +11,29 @@ import { equal_to } from "../functional/comparators";
 import { randint } from "./random";
 import { advance } from "../iterator/global";
 
+/**
+ * @hidden
+ */
+type UnaryPredicator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
+    (val: IPointer.ValueType<Iterator>) => boolean;
+
+/**
+ * @hidden
+ */
+type UnaryOperator<
+        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> =
+    (val: IPointer.ValueType<InputIterator>) => IPointer.ValueType<OutputIterator>;
+
+/**
+ * @hidden
+ */
+type BinaryOperator<
+        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>,
+        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>>,
+        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> =
+    (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator2>) => IPointer.ValueType<OutputIterator>;
+
 /* =========================================================
     MODIFIERS (MODIFYING SEQUENCE)
         - FILL
@@ -82,7 +105,7 @@ export function copy_if<
     (
         first: InputIterator, last: InputIterator, 
         output: OutputIterator, 
-        pred: (x: IPointer.ValueType<InputIterator>) => boolean
+        pred: UnaryPredicator<InputIterator>
     ): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -184,7 +207,7 @@ export function transform<
     (
         first: InputIterator, last: InputIterator, 
         result: OutputIterator, 
-        op: (val: IPointer.ValueType<InputIterator>) => IPointer.ValueType<OutputIterator>
+        op: UnaryOperator<InputIterator, OutputIterator>
     ): OutputIterator;
 
 /**
@@ -206,7 +229,7 @@ export function transform<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, 
         result: OutputIterator, 
-        op: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator2>) => IPointer.ValueType<OutputIterator>
+        op: BinaryOperator<InputIterator1, InputIterator2, OutputIterator>
     ): OutputIterator;
 
 export function transform(...args: any[]): any
@@ -226,7 +249,7 @@ function _Unary_transform<
     (
         first: InputIterator, last: InputIterator, 
         result: OutputIterator, 
-        op: (val: IPointer.ValueType<InputIterator>) => IPointer.ValueType<OutputIterator>
+        op: UnaryOperator<InputIterator, OutputIterator>
     ): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -248,7 +271,7 @@ function _Binary_transform<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, 
         result: OutputIterator, 
-        binary_op: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator2>) => IPointer.ValueType<OutputIterator>
+        binary_op: BinaryOperator<InputIterator1, InputIterator2, OutputIterator>
     ): OutputIterator
 {
     while (!first1.equals(last1))
@@ -452,7 +475,7 @@ export function remove_copy_if<
     (
         first: InputIterator, last: InputIterator, 
         output: OutputIterator, 
-        pred: (x: IPointer.ValueType<InputIterator>) => boolean
+        pred: UnaryPredicator<InputIterator>
     ): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -719,6 +742,7 @@ export function shuffle<RandomAccessIterator extends General<IRandomAccessIterat
     for (let it = first; !it.equals(last); it = it.next())
     {
         let rand_index: number = randint(first.index(), last.index() - 1);
-        iter_swap(it, first.advance(rand_index));
+        if (it.index() !== rand_index)
+            iter_swap(it, first.advance(rand_index));
     }
 }

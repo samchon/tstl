@@ -1,13 +1,10 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../mathematics");
+import base = require("../../algorithm/mathematics");
 
 import { IBidirectionalContainer } from "../../base/disposable/IBidirectionalContainer";
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";
-import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { IPointer } from "../../functional/IPointer";
-
 import { Pair } from "../../utility/Pair";
 import { less, equal_to } from "../../functional/comparators";
 import { begin, end } from "../../iterator/factory";
@@ -19,17 +16,6 @@ type Comparator<Range extends Array<any> | IForwardContainer<any>> =
     (
         x: IForwardContainer.ValueType<Range>,
         y: IForwardContainer.ValueType<Range>
-    ) => boolean;
-
-/**
- * @hiddn
- */
-type Predicator<
-        Range extends Array<any> | IForwardContainer<any>,
-        Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
-    (
-        x: IForwardContainer.ValueType<Range>,
-        y: IPointer.ValueType<Iterator>
     ) => boolean;
 
 /* ---------------------------------------------------------
@@ -60,15 +46,15 @@ export function minmax_element<Range extends Array<any> | IForwardContainer<any>
     PERMUATATIONS
 --------------------------------------------------------- */
 export function is_permutation<
-        Range extends Array<any> | IForwardContainer<any>,
-        Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<IForwardContainer.ValueType<Range1>> | IForwardContainer<IForwardContainer.IteratorType<Range1>>>
     (
-        range: Range, 
-        first: Iterator, 
-        pred: Predicator<Range, Iterator> = <any>equal_to
+        range1: Range1, 
+        range2: Range2, 
+        pred: Comparator<Range1> = <any>equal_to
     ): boolean
 {
-    return base.is_permutation(begin(range), end(range), first, pred);
+    return base.is_permutation(begin(range1), end(range1), <any>begin(range2), pred);
 }
 
 export function prev_permutation<Range extends Array<any> | IBidirectionalContainer<any, any>>

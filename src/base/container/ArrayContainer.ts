@@ -9,8 +9,9 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIteratorBase";
 
 import { _Repeater } from "../iterator/_Repeater";
-import { RangeError } from "../../exception/RuntimeError";
-import { InvalidArgument, OutOfRange } from "../../exception/LogicError";
+import { RangeError } from "../../exception/RangeError";
+import { InvalidArgument } from "../../exception/InvalidArgument";
+import { OutOfRange } from "../../exception/OutOfRange";
 
 /**
  * Base array container.

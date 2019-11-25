@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { MathUtil } from "../../base/numeric/MathUtil";
-import { InvalidArgument } from "../../exception/LogicError";
+import { InvalidArgument } from "../../exception/InvalidArgument";
 import { tgamma } from "./gamma";
 
 /**

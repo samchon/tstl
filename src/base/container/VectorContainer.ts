@@ -7,7 +7,7 @@ import { IContainer } from "./IContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIteratorBase";
 
-import { OutOfRange } from "../../exception/LogicError";
+import { OutOfRange } from "../../exception/OutOfRange";
 
 export abstract class VectorContainer<T extends ElemT, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, ElemT>,

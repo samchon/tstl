@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../heap");
+import base = require("../../algorithm/heap");
 
 import { IRandomAccessContainer } from "../../base/disposable/IRandomAccessContainer";
 import { begin, end } from "../../iterator/factory";

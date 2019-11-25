@@ -2,7 +2,7 @@
 /** @module std.experimental */
 //================================================================
 import { List } from "../container/List";
-import { OutOfRange } from "../exception/LogicError";
+import { OutOfRange } from "../exception/OutOfRange";
 
 import { LockType } from "../base/thread/enums";
 import { sleep_for } from "./global";

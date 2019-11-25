@@ -1,13 +1,14 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../partition");
+import base = require("../../algorithm/partition");
 
 import { IBidirectionalContainer } from "../../base/disposable/IBidirectionalContainer";
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Pair } from "../../utility/Pair";
 import { Writeonly } from "../../iterator/IFake";
+
+import { Pair } from "../../utility/Pair";
 import { begin, end } from "../../iterator/factory";
 
 /**

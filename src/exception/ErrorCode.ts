@@ -43,4 +43,4 @@ export class ErrorCode extends ErrorInstance
 }
 
 export type error_code = ErrorCode;
-export var error_code = ErrorCode;
+export const error_code = ErrorCode;

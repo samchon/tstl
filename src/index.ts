@@ -11,6 +11,8 @@ export import base = require("./base");
  */
 export import experimental = require("./experimental");
 
+export import ranges = require("./ranges");
+
 export * from "./container";
 export * from "./iterator";
 export * from "./algorithm";

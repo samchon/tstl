@@ -8,7 +8,7 @@ import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";
-import { OutOfRange } from "../../exception/LogicError";
+import { OutOfRange } from "../../exception/OutOfRange";
 
 /**
  * Base class for Unique-key Map Containers.

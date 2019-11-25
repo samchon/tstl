@@ -150,6 +150,7 @@ export function none_of<InputIterator extends Readonly<IForwardIterator<IPointer
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
+ * @param pred A binary function predicates two arguments are equal.
  * 
  * @return Whether two ranges are equal.
  */

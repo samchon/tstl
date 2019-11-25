@@ -90,4 +90,4 @@ export abstract class ErrorCategory
 }
 
 export type error_category = ErrorCategory;
-export var error_category = ErrorCategory;
+export const error_category = ErrorCategory;

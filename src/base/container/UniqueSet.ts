@@ -7,7 +7,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 
 import { Pair } from "../../utility/Pair";
-import { OutOfRange } from "../../exception/LogicError";
+import { OutOfRange } from "../../exception/OutOfRange";
 
 /**
  * Base class for Unique-key Set Containers.

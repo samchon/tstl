@@ -83,4 +83,4 @@ export class SystemError extends RuntimeError
 }
 
 export type system_error = SystemError;
-export var system_error = SystemError;
+export const system_error = SystemError;

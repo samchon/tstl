@@ -9,7 +9,7 @@ import { _DequeForOfAdaptor } from "../base/iterator/_DequeForOfAdaptor";
 import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
 
 import { Pair } from "../utility/Pair";
-import { OutOfRange } from "../exception/LogicError";
+import { OutOfRange } from "../exception/OutOfRange";
 import { Temporary } from "../base/Temporary";
 import { distance } from "../iterator/global";
 

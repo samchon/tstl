@@ -32,4 +32,4 @@ export class ErrorCondition extends ErrorInstance
 }
 
 export type error_condition = ErrorCondition;
-export var error_condition = ErrorCondition;
+export const error_condition = ErrorCondition;

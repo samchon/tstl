@@ -8,7 +8,7 @@ import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
 import { List } from "../container/List";
 
 import { AccessType, LockType } from "../base/thread/enums";
-import { InvalidArgument } from "../exception/LogicError";
+import { InvalidArgument } from "../exception/InvalidArgument";
 import { sleep_for } from "./global";
 
 /**

@@ -15,5 +15,3 @@ export * from "./partition";
 export * from "./random";
 export * from "./sorting";
 export * from "./merge";
-
-export import ranges = require("./ranges");

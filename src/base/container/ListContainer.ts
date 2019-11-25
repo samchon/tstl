@@ -10,7 +10,7 @@ import { ListIterator } from "../iterator/ListIterator";
 
 import { _Repeater } from "../iterator/_Repeater";
 import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
-import { InvalidArgument } from "../../exception/LogicError";
+import { InvalidArgument } from "../../exception/InvalidArgument";
 import { advance } from "../../iterator/global";
 
 import { Temporary } from "../Temporary";

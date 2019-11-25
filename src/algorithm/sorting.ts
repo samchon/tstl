@@ -129,12 +129,12 @@ export function partial_sort<RandomAccessIterator extends General<IRandomAccessI
  */
 export function partial_sort_copy<
         InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
-        RandomAccessIterator extends General<IForwardIterator<IPointer.ValueType<InputIterator>, RandomAccessIterator>>>
+        OutputIterator extends General<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        output_first: RandomAccessIterator, output_last: RandomAccessIterator, 
+        output_first: OutputIterator, output_last: OutputIterator, 
         comp: Comparator<InputIterator> = less
-    ): RandomAccessIterator
+    ): OutputIterator
 {
     let input_size: number = distance(first, last);
     let result_size: number = distance(<Temporary>output_first, output_last);

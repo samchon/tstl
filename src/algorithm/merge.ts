@@ -13,6 +13,12 @@ import { back_inserter } from "../iterator/factory";
 import { Vector } from "../container/Vector";
 import { Temporary } from "../base/Temporary";
 
+/**
+ * @hidden
+ */
+type Comparator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
+    (x: IPointer.ValueType<Iterator>, y: IPointer.ValueType<Iterator>) => boolean;
+
 /* =========================================================
     MERGE & SET OPERATIONS
         - MERGE
@@ -40,7 +46,7 @@ export function merge<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
+        comp: Comparator<InputIterator1> = less
     ): OutputIterator
 {
     while (true)
@@ -77,7 +83,7 @@ export function inplace_merge<BidirectionalIterator extends General<IBidirection
         first: BidirectionalIterator, 
         middle: BidirectionalIterator, 
         last: BidirectionalIterator,
-        comp: (x: IPointer.ValueType<BidirectionalIterator>, y: IPointer.ValueType<BidirectionalIterator>) => boolean = less
+        comp: Comparator<BidirectionalIterator> = less
     ): void
 {
     let vector: Vector<IPointer.ValueType<BidirectionalIterator>> = new Vector();
@@ -106,7 +112,7 @@ export function includes<
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
-        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
+        comp: Comparator<InputIterator1> = less
     ): boolean
 {
     while (!first2.equals(last2))
@@ -142,7 +148,7 @@ export function set_union<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
+        comp: Comparator<InputIterator1> = less
     ): OutputIterator
 {
     while (true)
@@ -194,7 +200,7 @@ export function set_intersection<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
+        comp: Comparator<InputIterator1> = less
     ): OutputIterator
 {
     while (true)
@@ -239,7 +245,7 @@ export function set_difference<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
+        comp: Comparator<InputIterator1> = less
     ): OutputIterator
 {
     while (!first1.equals(last1) && !first2.equals(last2))
@@ -280,7 +286,8 @@ export function set_symmetric_difference<
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, comp: (x: IPointer.ValueType<InputIterator1>, y: IPointer.ValueType<InputIterator1>) => boolean = less
+        output: OutputIterator, 
+        comp: Comparator<InputIterator1> = less
     ): OutputIterator
 {
     while (true)
