@@ -10,10 +10,10 @@ export function test_sortings(): void
 
 function _Test_atomic_sorting(): void
 {
-    let array: Array<number> = new Array<number>();
+    let array: std.Vector<number> = new std.Vector<number>();
     for (let i: number = 1; i <= 15; ++i)
         for (let j: number = 0; j < 3; ++j)
-            array.push(i);
+            array.push_back(i);
 
     std.shuffle(std.begin(array), std.end(array));
     std.stable_sort(std.begin(array), std.end(array));

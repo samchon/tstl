@@ -11,7 +11,7 @@ import { Writeonly } from "../../iterator/IFake";
 import { begin, end } from "../../iterator/factory";
 
 export function sample<
-        Range extends Array<any> | IForwardContainer<any>,
+        Range extends IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
     (range: Range, first: OutputIterator, n: number): OutputIterator
 {

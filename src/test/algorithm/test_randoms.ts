@@ -31,7 +31,7 @@ function _Test_samples(): void
         let n: number = Math.min(size, std.randint(5, 20));
         let samples: std.Vector<number> = new std.Vector();
 
-        std.sample(populations.begin(), populations.end(), std.back_inserter<number, std.Vector<number>>(samples), n);
+        std.sample(populations.begin(), populations.end(), std.back_inserter(samples), n);
         if (std.is_sorted(samples.begin(), samples.end()) === false)
             throw new std.DomainError("Error on std.sample(); Elements are not sorted.");
         

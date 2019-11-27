@@ -12,7 +12,7 @@ import { begin, end } from "../../iterator/factory";
 /**
  * @hiddn
  */
-type Comparator<Range extends Array<any> | IForwardContainer<any>> =
+type Comparator<Range extends IForwardContainer<any>> =
     (
         x: IForwardContainer.ValueType<Range>,
         y: IForwardContainer.ValueType<Range>
@@ -21,19 +21,19 @@ type Comparator<Range extends Array<any> | IForwardContainer<any>> =
 /* ---------------------------------------------------------
     MIN & MAX
 --------------------------------------------------------- */
-export function min_element<Range extends Array<any> | IForwardContainer<any>>
+export function min_element<Range extends IForwardContainer<any>>
     (range: Range, comp: Comparator<Range> = less): IForwardContainer.IteratorType<Range>
 {
     return base.min_element(begin(range), end(range), comp);
 }
 
-export function max_element<Range extends Array<any> | IForwardContainer<any>>
+export function max_element<Range extends IForwardContainer<any>>
     (range: Range, comp: Comparator<Range> = less): IForwardContainer.IteratorType<Range>
 {
     return base.max_element(begin(range), end(range), comp);
 }
 
-export function minmax_element<Range extends Array<any> | IForwardContainer<any>>
+export function minmax_element<Range extends IForwardContainer<any>>
     (
         range: Range, 
         comp: Comparator<Range> = less
@@ -46,24 +46,24 @@ export function minmax_element<Range extends Array<any> | IForwardContainer<any>
     PERMUATATIONS
 --------------------------------------------------------- */
 export function is_permutation<
-        Range1 extends Array<any> | IForwardContainer<any>,
-        Range2 extends Array<IForwardContainer.ValueType<Range1>> | IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range1 extends IForwardContainer<any>,
+        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
     (
         range1: Range1, 
         range2: Range2, 
         pred: Comparator<Range1> = <any>equal_to
     ): boolean
 {
-    return base.is_permutation(begin(range1), end(range1), <any>begin(range2), pred);
+    return base.is_permutation(begin(range1), end(range1), begin(range2), pred);
 }
 
-export function prev_permutation<Range extends Array<any> | IBidirectionalContainer<any, any>>
+export function prev_permutation<Range extends IBidirectionalContainer<any, any>>
     (range: Range, comp: Comparator<Range> = less): boolean
 {
     return base.prev_permutation(begin(range), end(range), comp);
 }
 
-export function next_permutation<Range extends Array<any> | IBidirectionalContainer<any, any>>
+export function next_permutation<Range extends IBidirectionalContainer<any, any>>
     (range: Range, comp: Comparator<Range> = less): boolean
 {
     return base.next_permutation(begin(range), end(range), comp);

@@ -6,10 +6,10 @@ export function test_priority_queue(): void
     for (let i: number = 0; i < 1000; ++i)
         pq.push(Math.random() * 100);
 
-    let items: Array<number> = [];
+    let items: std.Vector<number> = new std.Vector();
     while (pq.empty() === false)
     {
-        items.push(pq.top());
+        items.push_back(pq.top());
         pq.pop();
     }
 

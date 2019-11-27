@@ -14,7 +14,7 @@ import { less } from "../../functional/comparators";
 /**
  * @hidden
  */
-type Comparator<Range extends Array<any> | IForwardContainer<any>> =
+type Comparator<Range extends IForwardContainer<any>> =
     (
         x: IForwardContainer.ValueType<Range>,
         y: IForwardContainer.ValueType<Range>
@@ -23,19 +23,19 @@ type Comparator<Range extends Array<any> | IForwardContainer<any>> =
 /* ---------------------------------------------------------
     SORT
 --------------------------------------------------------- */
-export function sort<Range extends Array<any> | IRandomAccessContainer<any>>
+export function sort<Range extends IRandomAccessContainer<any>>
     (range: Range, comp: Comparator<Range> = less): void
 {
     return base.sort(begin(range), end(range), comp);
 }
 
-export function stable_sort<Range extends Array<any> | IRandomAccessContainer<any>>
+export function stable_sort<Range extends IRandomAccessContainer<any>>
     (range: Range, comp: Comparator<Range> = less): void
 {
     return base.stable_sort(begin(range), end(range), comp);
 }
 
-export function partial_sort<Range extends Array<any> | IRandomAccessContainer<any>>
+export function partial_sort<Range extends IRandomAccessContainer<any>>
     (
         range: Range, 
         middle: IRandomAccessContainer.IteratorType<Range>, 
@@ -46,7 +46,7 @@ export function partial_sort<Range extends Array<any> | IRandomAccessContainer<a
 }
 
 export function partial_sort_copy<
-        Range extends Array<any> | IRandomAccessContainer<any>,
+        Range extends IRandomAccessContainer<any>,
         OutputIterator extends General<IForwardIterator<IRandomAccessContainer.ValueType<Range>, OutputIterator>>>
     (
         range: Range, 
@@ -58,7 +58,7 @@ export function partial_sort_copy<
     return base.partial_sort_copy(begin(range), end(range), output_first, output_last, comp);
 }
 
-export function nth_element<Range extends Array<any> | IRandomAccessContainer<any>>
+export function nth_element<Range extends IRandomAccessContainer<any>>
     (
         range: Range,
         nth: IRandomAccessContainer.IteratorType<Range>,
@@ -71,13 +71,13 @@ export function nth_element<Range extends Array<any> | IRandomAccessContainer<an
 /* ---------------------------------------------------------
     INSPECTOR
 --------------------------------------------------------- */
-export function is_sorted<Range extends Array<any> | IForwardContainer<any>>
+export function is_sorted<Range extends IForwardContainer<any>>
     (range: Range, comp: Comparator<Range> = less): boolean
 {
     return base.is_sorted(begin(range), end(range), comp);
 }
 
-export function is_sorted_until<Range extends Array<any> | IForwardContainer<any>>
+export function is_sorted_until<Range extends IForwardContainer<any>>
     (range: Range, comp: Comparator<Range> = less): IForwardContainer.IteratorType<Range>
 {
     return base.is_sorted_until(begin(range), end(range), comp);

@@ -59,7 +59,7 @@ function _Test_cpp_reference(): void
     v.push(3, 1, 4, 1, 5, 9);
 
     std.make_heap(v.begin(), v.end());
-    if (std.equal(v.begin(), v.end(), std.begin([9, 5, 4, 1, 1, 3])) === false)
+    if (std.equal(v.begin(), v.end(), std.begin(std.Vector.wrap([9, 5, 4, 1, 1, 3]))) === false)
         throw new std.DomainError("Error on std.make_heap()");
 
     std.pop_heap(v.begin(), v.end());
@@ -67,6 +67,6 @@ function _Test_cpp_reference(): void
         throw new std.DomainError("Error on std.pop_heap()");
 
     v.pop_back();
-    if (std.equal(v.begin(), v.end(), std.begin([5, 3, 4, 1, 1])) === false)
+    if (std.equal(v.begin(), v.end(), std.begin(std.Vector.wrap([5, 3, 4, 1, 1]))) === false)
         throw new std.DomainError("Error on std.pop_heap() & Vector.pop()");
 }

@@ -11,7 +11,7 @@ import { less } from "../../functional/comparators";
 /**
  * @hidden
  */
-type Comparator<Range extends Array<any> | IForwardContainer<any>> = 
+type Comparator<Range extends IForwardContainer<any>> = 
     (
         x: IForwardContainer.ValueType<Range>, 
         y: IForwardContainer.ValueType<Range>
@@ -20,7 +20,7 @@ type Comparator<Range extends Array<any> | IForwardContainer<any>> =
 /* =========================================================
     BINARY SEARCH
 ========================================================= */
-export function lower_bound<Range extends Array<any> | IForwardContainer<any>>
+export function lower_bound<Range extends IForwardContainer<any>>
     (
         range: Range,
         val: IForwardContainer.ValueType<Range>,
@@ -30,7 +30,7 @@ export function lower_bound<Range extends Array<any> | IForwardContainer<any>>
     return base.lower_bound(begin(range), end(range), val, comp);
 }
 
-export function upper_bound<Range extends Array<any> | IForwardContainer<any>>
+export function upper_bound<Range extends IForwardContainer<any>>
     (
         range: Range,
         val: IForwardContainer.ValueType<Range>,
@@ -40,7 +40,7 @@ export function upper_bound<Range extends Array<any> | IForwardContainer<any>>
     return base.upper_bound(begin(range), end(range), val, comp);
 }
 
-export function equal_range<Range extends Array<any> | IForwardContainer<any>>
+export function equal_range<Range extends IForwardContainer<any>>
     (
         range: Range,
         val: IForwardContainer.ValueType<Range>,
@@ -50,7 +50,7 @@ export function equal_range<Range extends Array<any> | IForwardContainer<any>>
     return base.equal_range(begin(range), end(range), val, comp);
 }
 
-export function binary_search<Range extends Array<any> | IForwardContainer<any>>
+export function binary_search<Range extends IForwardContainer<any>>
     (
         range: Range,
         val: IForwardContainer.ValueType<Range>,

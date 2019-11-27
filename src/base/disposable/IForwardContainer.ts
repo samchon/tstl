@@ -3,7 +3,6 @@
 //================================================================
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional";
-import { Vector } from "../../container/Vector";
 
 /**
  * @hidden
@@ -27,13 +26,11 @@ export interface IForwardContainer<Iterator extends IForwardIterator<IPointer.Va
 
 export namespace IForwardContainer
 {
-    export type IteratorType<Container extends Array<any> | IForwardContainer<any>>
-        = Container extends Array<infer T>
-            ? Vector.Iterator<T>
-            : Container extends IForwardContainer<infer Iterator>
-                ? Iterator
-                : unknown;
+    export type IteratorType<Container extends IForwardContainer<any>>
+        = Container extends IForwardContainer<infer Iterator>
+            ? Iterator
+            : unknown;
 
-    export type ValueType<Container extends Array<any> | IForwardContainer<any>>
+    export type ValueType<Container extends IForwardContainer<any>>
         = IPointer.ValueType<IteratorType<Container>>;
 }

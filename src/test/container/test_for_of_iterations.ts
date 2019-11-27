@@ -22,7 +22,7 @@ function _Test_for_of_iteration<
     // CONSTRUCTIONS
     //----
     // CONSTRUCT ITEMS TO VALIDATE
-    let items: number[] = new Array(10);
+    let items: std.Vector<number> = new std.Vector(10, 0);
     std.iota(std.begin(items), std.end(items), 0);
 
     // PUSH THEM ALL TO THE CONTAINER
@@ -34,7 +34,7 @@ function _Test_for_of_iteration<
     let i: number = 0;
 
     for (let elem of vec)
-        if (elem !== items[i++])
+        if (elem !== items.at(i++))
             throw new std.DomainError("Wrong for of iteration.");
 }
 
