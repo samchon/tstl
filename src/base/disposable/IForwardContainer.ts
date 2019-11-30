@@ -33,4 +33,10 @@ export namespace IForwardContainer
 
     export type ValueType<Container extends IForwardContainer<any>>
         = IPointer.ValueType<IteratorType<Container>>;
+
+    export interface IErasable<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
+        extends IForwardContainer<Iterator>
+    {
+        erase(first: Iterator, last: Iterator): Iterator;
+    }
 }

@@ -7,6 +7,7 @@ import { IBidirectionalContainer } from "../../base/disposable/IBidirectionalCon
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";
 import { IRandomAccessContainer } from "../../base/disposable/IRandomAccessContainer";
 
+import { IRandomAccessIterator } from "../../iterator";
 import { IBidirectionalIterator } from "../../iterator/IBidirectionalIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional/IPointer";
@@ -40,10 +41,10 @@ type UnaryOperator<
  * @hidden
  */
 type BinaryOperator<
-        Range extends IForwardContainer<any>,
-        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
+        Range1 extends IForwardContainer<any>,
+        Range2 extends IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> = 
-    (x: IForwardContainer.ValueType<Range>, y: IPointer.ValueType<InputIterator>) => IPointer.ValueType<OutputIterator>;
+    (x: IForwardContainer.ValueType<Range1>, y: IForwardContainer.ValueType<Range2>) => IPointer.ValueType<OutputIterator>;
 
 /* ---------------------------------------------------------
     FILL
@@ -98,14 +99,19 @@ export function transform<
     (range: Range, result: OutputIterator, op: UnaryOperator<Range, OutputIterator>): OutputIterator;
 
 export function transform<
-        Range extends IForwardContainer<any>,
-        InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
+        Range1 extends IForwardContainer<any>,
+        Range2 extends IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
-    (range: Range, first: InputIterator, op: BinaryOperator<Range, InputIterator, OutputIterator>): OutputIterator;
+    (range: Range1, first: Range2, result: OutputIterator, op: BinaryOperator<Range1, Range2, OutputIterator>): OutputIterator;
 
-export function transform(...args: any[]): any
+export function transform<Range1 extends IForwardContainer<any>>
+    (range1: Range1, ...args: any[]): any
 {
-    return (base.transform as Function)(...args);
+    let fn: Function = base.transform.bind(undefined, begin(range1), end(range1));
+    if (args.length === 3)
+        return fn(...args);
+    else // args: #4
+        return fn(end(args[1]), args[2], args[3]);
 }
 
 export function generate<Range extends IForwardContainer<any>>
@@ -179,6 +185,32 @@ export function remove_copy_if<
     ): OutputIterator
 {
     return base.remove_copy_if(begin(range), end(range), output, pred);
+}
+
+export function erase<Range extends IForwardContainer.IErasable<any>>
+    (range: Range, val: IForwardContainer.ValueType<Range>): void
+{
+    return erase_if(range, elem => equal_to(val, elem));
+}
+
+export function erase_if<Range extends IForwardContainer.IErasable<any>>
+    (range: Range, pred: UnaryPredicator<Range>): void
+{
+    // START FROM BEGINNING POSITION
+    let it: IForwardContainer.IteratorType<Range> = range.begin();
+
+    // ARRAY-CONTAINER, THEN UTILIZE THE REMOVE_IF
+    if ((it as IRandomAccessIterator<any>).index instanceof Function)
+        return range.erase(remove_if(range, pred), range.end());
+
+    // ERASE ITERATION
+    while (!it.equals(range.end()))
+    {
+        if (pred(it.value))
+            it = range.erase(it, it.next());
+        else
+            it = it.next();
+    }
 }
 
 /* ---------------------------------------------------------
