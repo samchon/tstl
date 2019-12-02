@@ -65,7 +65,7 @@ export class FlatMultiMap<Key, T>
     public constructor(...args: any[])
     {
         // INITIALIZATION
-        super(thisArg => new MapElementVector(<Temporary>thisArg) as Temporary);
+        super(thisArg => new MapElementVector(thisArg));
         
         // OVERLOADINGS
         _Construct<Key, Pair<Key, T>, 

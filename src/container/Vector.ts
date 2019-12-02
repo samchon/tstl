@@ -12,7 +12,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class Vector<T>
-    extends VectorContainer<T, Vector<T>, Vector<T>, Vector.Iterator<T>, Vector.ReverseIterator<T>, T>
+    extends VectorContainer<T, Vector<T>, Vector<T>, Vector.Iterator<T>, Vector.ReverseIterator<T>>
 {
     /* ---------------------------------------------------------
         CONSTURCTORS

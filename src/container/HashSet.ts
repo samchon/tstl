@@ -77,7 +77,7 @@ export class HashSet<Key>
 
     public constructor(...args: any[])
     {
-        super(thisArg => new SetElementList(<Temporary>thisArg) as Temporary);
+        super(thisArg => new SetElementList(thisArg));
 
         _Construct<Key, Key, 
                 HashSet<Key>,

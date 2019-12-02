@@ -24,8 +24,7 @@ export class MapElementVector<Key, T,
         Source,
         MapElementVector<Key, T, Unique, Source>,
         MapElementVector.Iterator<Key, T, Unique, Source>,
-        MapElementVector.ReverseIterator<Key, T, Unique, Source>,
-        IPair<Key, T>>
+        MapElementVector.ReverseIterator<Key, T, Unique, Source>>
 {
     private associative_: Source;
 

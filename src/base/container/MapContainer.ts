@@ -29,7 +29,7 @@ export abstract class MapContainer<Key, T,
     /**
      * @hidden
      */
-    protected data_: ILinearContainer<Pair<Key, T>, Source, IteratorT, ReverseT>;
+    protected data_: Omit<ILinearContainer<Pair<Key, T>, Source, IteratorT, ReverseT>, "front"|"back">;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -37,7 +37,7 @@ export abstract class MapContainer<Key, T,
     /**
      * Default Constructor.
      */
-    protected constructor(factory: (thisArg: Source) => ILinearContainer<Pair<Key, T>, Source, IteratorT, ReverseT>)
+    protected constructor(factory: (thisArg: Source) => Omit<ILinearContainer<Pair<Key, T>, Source, IteratorT, ReverseT>, "front"|"back">)
     {
         super();
         this.data_ = factory(this as Temporary);

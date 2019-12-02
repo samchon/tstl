@@ -63,7 +63,7 @@ export class FlatMultiSet<Key>
     public constructor(...args: any[])
     {
         // INITIALIZATION
-        super(thisArg => new SetElementVector(<Temporary>thisArg) as Temporary);
+        super(thisArg => new SetElementVector(thisArg));
         
         // OVERLOADINGS
         _Construct<Key, Key, 

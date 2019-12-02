@@ -9,13 +9,12 @@ import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIt
 
 import { OutOfRange } from "../../exception/OutOfRange";
 
-export abstract class VectorContainer<T extends ElemT, 
-        SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, ElemT>,
-        ArrayT extends VectorContainer<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>,
-        IteratorT extends ArrayIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>, 
-        ReverseT extends ArrayReverseIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>, 
-        ElemT>
-    extends ArrayContainer<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>
+export abstract class VectorContainer<T, 
+        SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, T>,
+        ArrayT extends VectorContainer<T, SourceT, ArrayT, IteratorT, ReverseT>,
+        IteratorT extends ArrayIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, T>, 
+        ReverseT extends ArrayReverseIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, T>>
+    extends ArrayContainer<T, SourceT, ArrayT, IteratorT, ReverseT, T>
 {
     /**
      * @hidden

@@ -14,6 +14,7 @@ import { InvalidArgument } from "../../exception/InvalidArgument";
 import { advance } from "../../iterator/global";
 
 import { Temporary } from "../Temporary";
+import { ILinearContainer } from "./ILinearContainer";
 
 /**
  * Basic List Container.
@@ -25,6 +26,7 @@ export abstract class ListContainer<T,
         IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, T>,
         ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
     extends Container<T, SourceT, IteratorT, ReverseIteratorT, T>
+    implements Omit<ILinearContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, "front"|"back">
 {
     /**
      * @hidden

@@ -78,7 +78,7 @@ export class HashMap<Key, T>
 
     public constructor(...args: any[])
     {
-        super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
+        super(thisArg => new MapElementList(thisArg));
 
         _Construct<Key, Pair<Key, T>, 
                 HashMap<Key, T>,

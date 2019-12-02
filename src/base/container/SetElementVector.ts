@@ -22,8 +22,7 @@ export class SetElementVector<Key,
         Source,
         SetElementVector<Key, Unique, Source>,
         SetElementVector.Iterator<Key, Unique, Source>,
-        SetElementVector.ReverseIterator<Key, Unique, Source>,
-        Key>
+        SetElementVector.ReverseIterator<Key, Unique, Source>>
 {
     private associative_: Source;
 

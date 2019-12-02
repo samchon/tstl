@@ -28,7 +28,7 @@ export abstract class SetContainer<Key,
     /**
      * @hidden
      */
-    protected data_: ILinearContainer<Key, Source, IteratorT, ReverseT>;
+    protected data_: Omit<ILinearContainer<Key, Source, IteratorT, ReverseT>, "front"|"back">;
     
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -36,7 +36,7 @@ export abstract class SetContainer<Key,
     /**
      * Default Constructor.
      */
-    protected constructor(factory: (thisArg: Source) => ILinearContainer<Key, Source, IteratorT, ReverseT>)
+    protected constructor(factory: (thisArg: Source) => Omit<ILinearContainer<Key, Source, IteratorT, ReverseT>, "front"|"back">)
     {
         super();
         this.data_ = factory(this as Temporary);
