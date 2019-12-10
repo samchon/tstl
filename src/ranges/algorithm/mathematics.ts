@@ -47,7 +47,7 @@ export function minmax_element<Range extends IForwardContainer<any>>
 --------------------------------------------------------- */
 export function is_permutation<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (
         range1: Range1, 
         range2: Range2, 

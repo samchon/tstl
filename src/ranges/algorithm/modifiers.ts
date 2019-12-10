@@ -264,8 +264,8 @@ export function replace_copy_if<
 
 export function swap_ranges<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
-    (range1: Range1, range2: Range2): void
+        Range2 extends IForwardContainer.SimilarType<Range1>>
+    (range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range2>
 {
     return base.swap_ranges(begin(range1), end(range1), begin(range2));
 }

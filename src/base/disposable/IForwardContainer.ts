@@ -34,6 +34,9 @@ export namespace IForwardContainer
     export type ValueType<Container extends IForwardContainer<any>>
         = IPointer.ValueType<IteratorType<Container>>;
 
+    export type SimilarType<Container extends IForwardContainer<any>>
+         = IForwardContainer<IForwardIterator<ValueType<Container>, any>>;
+
     export interface IErasable<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
         extends IForwardContainer<Iterator>
     {

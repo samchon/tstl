@@ -76,7 +76,7 @@ export function none_of<Range extends IForwardContainer<any>>
 
 export function equal<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): boolean;
 
 export function equal<
@@ -94,7 +94,7 @@ export function equal<
 
 export function lexicographical_compare<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2, comp: BinaryPredicator<Range1, Range1> = less): boolean
 {
     return base.lexicographical_compare(begin(range1), end(range1), begin(range2), end(range2), comp);
@@ -123,7 +123,7 @@ export function find_if_not<Range extends IForwardContainer<any>>
 
 export function find_end<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 export function find_end<
@@ -149,7 +149,7 @@ export function find_end<
 
 export function find_first_of<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 export function find_first_of<
@@ -184,7 +184,7 @@ export function adjacent_find<Range extends IForwardContainer<any>>
 
 export function search<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 export function search<
@@ -220,7 +220,7 @@ export function search_n<Range extends IForwardContainer<any>>
 
 export function mismatch<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): Pair<IForwardContainer.IteratorType<Range1>, IForwardContainer.IteratorType<Range2>>;
 
 export function mismatch<

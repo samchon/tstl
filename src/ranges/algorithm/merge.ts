@@ -25,7 +25,7 @@ type Comparator<Range extends IForwardContainer<any>> =
 --------------------------------------------------------- */
 export function merge<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>,
+        Range2 extends IForwardContainer.SimilarType<Range1>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range1>, OutputIterator>>>
     (
         range1: Range1, 
@@ -51,7 +51,7 @@ export function inplace_merge<Range extends IBidirectionalContainer<any, any>>
 --------------------------------------------------------- */
 export function includes<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>>
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2, comp: Comparator<Range1> = less): boolean
 {
     return base.includes(begin(range1), end(range1), begin(range2), end(range2), comp);
@@ -59,7 +59,7 @@ export function includes<
 
 export function set_union<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>,
+        Range2 extends IForwardContainer.SimilarType<Range1>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range1>, OutputIterator>>>
     (
         range1: Range1, 
@@ -73,7 +73,7 @@ export function set_union<
 
 export function set_intersection<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>,
+        Range2 extends IForwardContainer.SimilarType<Range1>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range1>, OutputIterator>>>
     (
         range1: Range1, 
@@ -87,7 +87,7 @@ export function set_intersection<
 
 export function set_difference<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>,
+        Range2 extends IForwardContainer.SimilarType<Range1>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range1>, OutputIterator>>>
     (
         range1: Range1, 
@@ -101,7 +101,7 @@ export function set_difference<
 
 export function set_symmetric_difference<
         Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<IForwardContainer.IteratorType<Range1>>,
+        Range2 extends IForwardContainer.SimilarType<Range1>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range1>, OutputIterator>>>
     (
         range1: Range1, 
