@@ -82,7 +82,7 @@ export function set_intersection<
         comp: Comparator<Range1> = less
     ): OutputIterator
 {
-    return base.set_union(begin(range1), end(range1), begin(range2), end(range2), output, comp);
+    return base.set_intersection(begin(range1), end(range1), begin(range2), end(range2), output, comp);
 }
 
 export function set_difference<
