@@ -1,4 +1,4 @@
-import * as std from "../../index";
+import std = require("../..");
 
 export class Atomic<T> implements std.IPointer<T>, std.IComparable<Atomic<T>>
 {

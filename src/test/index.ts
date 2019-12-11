@@ -8,6 +8,14 @@ interface IModule
     [key: string]: ()=>Promise<void>;
 }
 
+async function measure(job: ()=>Promise<void>): Promise<number>
+{
+    let time: number = Date.now();
+    await job();
+
+    return Date.now() - time;
+}
+
 async function iterate(path: string): Promise<void>
 {
     let file_list: string[] = fs.readdirSync(path);
@@ -26,16 +34,19 @@ async function iterate(path: string): Promise<void>
 
         let external: IModule = await import(current_path.substr(0, current_path.length - 3));
         for (let key in external)
-            if (key.substr(0, 5) === "test_")
-            {
-                // WHEN SPECIALIZED
-                if (process.argv[2] && key.replace("test_", "") !== process.argv[2])
-                    continue;
+        {
+            // WHETHER TESTING TARGET OR NOT
+            if (key.substr(0, 5) !== "test_")
+                continue;
+            else if (process.argv[2] && key.replace("test_", "") !== process.argv[2])
+                continue;
 
-                // DO TEST
-                console.log(key);
-                await external[key]();
-            }
+            // PRINT TITLE & ELAPSED TIME
+            process.stdout.write("  - " + key);
+            
+            let time: number = await measure(() => external[key]());
+            console.log(`: ${StringUtil.numberFormat(time)} ms`);
+        }
     }
 }
 
@@ -44,8 +55,11 @@ async function main(): Promise<void>
     //----
     // DO TEST
     //----
-    let time: number = Date.now();
-    await iterate(PATH);
+    console.log("==========================================================");
+    console.log(" TSTL Test Automation Program");
+    console.log("==========================================================");
+
+    let time: number = await measure(() => iterate(PATH));
     
     //----
     // TRACE BENCHMARK
@@ -53,7 +67,7 @@ async function main(): Promise<void>
     // ELAPSED TIME
     console.log("----------------------------------------------------------");
     console.log("Success");
-    console.log(`  - elapsed time: ${StringUtil.numberFormat(Date.now() - time)} ms`);
+    console.log(`  - elapsed time: ${StringUtil.numberFormat(time)} ms`);
 
     // MEMORY USAGE
     let memory: NodeJS.MemoryUsage = process.memoryUsage();
@@ -62,6 +76,7 @@ async function main(): Promise<void>
         let amount: number = memory[property as keyof NodeJS.MemoryUsage] / 10**6;
         console.log(`  - ${property}: ${StringUtil.numberFormat(amount)} MB`);
     }
+    console.log("----------------------------------------------------------\n");
 }
 main().catch(e =>
 {

@@ -21,7 +21,7 @@ export function test_trees(): void
 
 function _Test_tree_set_inserts_and_erases(): void
 {
-    for (let k = 0; k < 1000; ++k)
+    for (let k = 0; k < 100; ++k)
     {
         let set: std.TreeSet<number> = new std.TreeSet();
         for (let i = 0; i < 100; ++i)
