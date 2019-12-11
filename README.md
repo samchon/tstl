@@ -1,7 +1,7 @@
 # TypeScript Standard Template Library
 ![Make STL Great Again](https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png)
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samchon/tstl/blob/master/LICENSE)
+[![Financial Contributors on Open Collective](https://opencollective.com/tstl/all/badge.svg?label=financial+contributors)](https://opencollective.com/tstl) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samchon/tstl/blob/master/LICENSE)
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![Downloads](https://img.shields.io/npm/dm/tstl.svg)](https://www.npmjs.com/package/tstl)
 [![Build Status](https://github.com/samchon/tstl/workflows/build/badge.svg)](https://github.com/samchon/tstl/actions?query=workflow%3Abuild)
@@ -135,3 +135,33 @@ main();
   - **Extensions**
     - [ECol](https://github.com/samchon/ecol) - Collections dispatching events
     - [**TGrid**](https://github.com/samchon/tgrid) - Network & Thread extension
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/samchon/tstl/graphs/contributors"><img src="https://opencollective.com/tstl/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/tstl/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/tstl"><img src="https://opencollective.com/tstl/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/tstl/contribute)]
+
+<a href="https://opencollective.com/tstl/organization/0/website"><img src="https://opencollective.com/tstl/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/1/website"><img src="https://opencollective.com/tstl/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/2/website"><img src="https://opencollective.com/tstl/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/3/website"><img src="https://opencollective.com/tstl/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/4/website"><img src="https://opencollective.com/tstl/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/5/website"><img src="https://opencollective.com/tstl/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/6/website"><img src="https://opencollective.com/tstl/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/7/website"><img src="https://opencollective.com/tstl/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/8/website"><img src="https://opencollective.com/tstl/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/tstl/organization/9/website"><img src="https://opencollective.com/tstl/organization/9/avatar.svg"></a>
