@@ -1,15 +1,11 @@
 import { FileSystem } from "./internal/FileSystem";
+import { TreeSet } from "../container/TreeSet";
+import { Pair } from "../utility/Pair";
 
-export async function main(): Promise<string>
+async function load(path: string): Promise<TreeSet<Pair<string, string>>>
 {
-    const STD_PATH: string = __dirname + "/../algorithm";
-    const RANGES_PATH: string = __dirname + "/../ranges/algorithm";
-
-    let ret: string = "## `<algorithm>` \n"
-        + " module | function | `std` | `std.ranges` \n"
-        + "--------|------|-------|--------------\n";
-
-    let directory: string[] = await FileSystem.dir(STD_PATH);
+    let ret: TreeSet<Pair<string, string>> = new TreeSet();
+    let directory: string[] = await FileSystem.dir(path);
 
     for (let file of directory)
     {
@@ -17,12 +13,28 @@ export async function main(): Promise<string>
             continue;
 
         let name: string = file.substr(0, file.length - 3);
-        let std: IModule = await import(`${STD_PATH}/${file}`);
-        let ranges: IModule = await import(`${RANGES_PATH}/${file}`);
-        
-        for (let key in std)
-            ret += ` ${name} | ${key} | O | ${ranges[key] !== undefined ? "O" : "X"} \n`;
+        let functions: IModule = await import(`${path}/${file}`);
+
+        for (let func in functions)
+            ret.insert(new Pair(name, func));
     }
+    return ret;
+}
+
+export async function main(): Promise<string>
+{
+    let std: TreeSet<Pair<string, string>> = await load(__dirname + "/../algorithm");
+    let ranges: TreeSet<Pair<string, string>> = await load(__dirname + "/../ranges/algorithm");
+
+    let both: TreeSet<Pair<string, string>> = new TreeSet();
+    both.push(...std);
+    both.push(...ranges);
+
+    let ret: string = "## `<algorithm>` \n"
+        + " module | function | `std` | `std.ranges` \n"
+        + "--------|----------|-------|--------------\n";
+    for (let pair of both)
+        ret += ` ${pair.first} | ${pair.second} | ${std.has(pair) ? "O" : "X"} | ${ranges.has(pair) ? "O" : "X"} \n`;
     return ret;
 }
 
