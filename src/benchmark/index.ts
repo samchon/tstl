@@ -23,7 +23,7 @@ async function benchmark(feature: string): Promise<void>
     // REPORT MEMORY USAGE
     //----
     let memory: NodeJS.MemoryUsage = global.process.memoryUsage();
-    let performance: string = "> ## Performancn"
+    let performance: string = "> ## Performance \n"
         + `>  - Elapsed time: ${time} ms\n`;
     
     for (let key in memory)

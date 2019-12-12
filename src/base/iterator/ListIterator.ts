@@ -1,9 +1,11 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { IContainer } from "../container/IContainer";
 import { Iterator } from "./Iterator";
 import { ReverseIterator } from "./ReverseIterator";
+
+import { IContainer } from "../container/IContainer";
+import { OutOfRange } from "../../exception/LogicError";
 
 /**
  * Basic List Iterator.
@@ -110,7 +112,20 @@ export abstract class ListIterator<T extends Elem,
      */
     public get value(): T
     {
+        this._Try_value();
         return this.value_;
+    }
+
+    /**
+     * @hidden
+     */
+    protected _Try_value(): void
+    {
+        if (this.value_ === undefined && this.equals(this.source().end()) === true)
+        {
+            let name: string = this.source().constructor.name;
+            throw new OutOfRange(`Error on std.${name}.Iterator.value: cannot access to the std.${name}.end().value.`);
+        }
     }
 
     /* ---------------------------------------------------------------

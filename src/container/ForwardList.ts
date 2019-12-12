@@ -10,9 +10,10 @@ import { _IDeque } from "../base/container/IDequeContainer";
 import { _IFront } from "../base/container/ILinearContainer";
 import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
 
-import { ForOfAdaptor } from "../base/iterator/ForOfAdaptor";
 import { _Repeater } from "../base/iterator/_Repeater";
+import { ForOfAdaptor } from "../base/iterator/ForOfAdaptor";
 import { Vector } from "./Vector";
+import { OutOfRange } from "../exception/LogicError";
 
 import { advance, distance } from "../iterator/global";
 import { equal_to, less } from "../functional/comparators";
@@ -37,17 +38,17 @@ export class ForwardList<T>
     /**
      * @hidden
      */
-    private size_!: number;
+    private size_: number;
 
     /**
      * @hidden
      */
-    private before_begin_!: ForwardList.Iterator<T>;
+    private before_begin_: ForwardList.Iterator<T>;
 
     /**
      * @hidden
      */
-    private end_!: ForwardList.Iterator<T>;
+    private end_: ForwardList.Iterator<T>;
 
     /* ===============================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -95,7 +96,9 @@ export class ForwardList<T>
     {
         this.ptr_ = {value: this};
 
-        this.clear();
+        this.end_ = ForwardList.Iterator.create(this.ptr_, null!);
+        this.before_begin_ = ForwardList.Iterator.create(this.ptr_, this.end_);
+        this.size_ = 0;
 
         if (args.length === 1 && args[0] instanceof Array)
         {
@@ -136,7 +139,6 @@ export class ForwardList<T>
     public assign(first: any, last: any): void
     {
         this.clear();
-
         this.insert_after(this.before_begin_, first, last);
     }
 
@@ -145,9 +147,7 @@ export class ForwardList<T>
      */
     public clear(): void
     {
-        this.end_ = ForwardList.Iterator.create(this.ptr_, null!, null!);
-        this.before_begin_ = ForwardList.Iterator.create(this.ptr_, this.end_);
-        
+        ForwardList.Iterator._Set_next(this.before_begin_, this.end_);
         this.size_ = 0;
     }
 
@@ -607,6 +607,7 @@ export namespace ForwardList
          */
         public get value(): T
         {
+            this._Try_value();
             return this.value_!;
         }
 
@@ -615,7 +616,24 @@ export namespace ForwardList
          */
         public set value(val: T)
         {
+            this._Try_value();
             this.value_ = val;
+        }
+
+        /**
+         * @hidden
+         */
+        private _Try_value(): void
+        {
+            if (this.value_ === undefined)
+            {
+                let source: ForwardList<T> = this.source();
+
+                if (this.equals(source.end()) === true)
+                    throw new OutOfRange("Error on std.ForwardList.Iterator.value: cannot access to the std.ForwardList.end().value.");
+                else if (this.equals(source.before_begin()) === true)
+                    throw new OutOfRange("Error on std.ForwardList.Iterator.value: cannot access to the std.ForwardList.before_begin().value.");
+            }
         }
 
         /* ---------------------------------------------------------

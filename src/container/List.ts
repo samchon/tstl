@@ -420,6 +420,7 @@ export namespace List
          */
         public get value(): T
         {
+            this._Try_value();
             return this.value_;
         }
 
@@ -428,6 +429,7 @@ export namespace List
          */
         public set value(val: T)
         {
+            this._Try_value();
             this.value_ = val;
         }
 

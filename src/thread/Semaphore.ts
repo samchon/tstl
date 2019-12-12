@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std.experimental */
+/** @module std */
 //================================================================
 import { List } from "../container/List";
 import { OutOfRange } from "../exception/LogicError";
@@ -106,11 +106,11 @@ export class Semaphore<Max extends number = number>
     {
         // VALIDATE COUNT
         if (count < 1)
-            throw new OutOfRange(`Error on std.experimental.Semaphore.release(): parametric count is less than 1 -> (count = ${count}).`);
+            throw new OutOfRange(`Error on std.Semaphore.release(): parametric count is less than 1 -> (count = ${count}).`);
         else if (count > this.max_)
-            throw new OutOfRange(`Error on std.experimental.Semaphore.release(): parametric count is greater than max -> (count = ${count}, max = ${this.max_}).`);
+            throw new OutOfRange(`Error on std.Semaphore.release(): parametric count is greater than max -> (count = ${count}, max = ${this.max_}).`);
         else if (count > this.acquiring_)
-            throw new OutOfRange(`Error on std.experimental.Semaphore.release(): parametric count is greater than acquiring -> (count = ${count}, acquiring = ${this.acquiring_}).`);
+            throw new OutOfRange(`Error on std.Semaphore.release(): parametric count is greater than acquiring -> (count = ${count}, acquiring = ${this.acquiring_}).`);
 
         // DO RELEASE
         this.acquiring_ -= count;

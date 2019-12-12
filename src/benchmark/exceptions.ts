@@ -2,7 +2,6 @@ import { Vector, List, HashMap, ForwardList } from "../container";
 import { SharedMutex } from "../thread/SharedMutex";
 import { Semaphore } from "../thread/Semaphore";
 
-import { Exception } from "../exception/Exception";
 import { advance } from "../iterator";
 import { 
     cyl_bessel_j, cyl_neumann, 
@@ -20,7 +19,7 @@ async function except(proc: Procedure): Promise<string>
     } 
     catch (exp) 
     {  
-        if (exp instanceof Exception)
+        if (exp instanceof Error)
             return ` ${exp.name} | ${exp.message} `;
     }
     return " NULL | NULL ";
@@ -41,7 +40,7 @@ export async function main(): Promise<string>
 
     let exceptions: string[] = [
         // VECTOR
-        await except(() => { v.at(-1); }),
+        await except(() => { v.end().value; }),
         await except(() => { v.at(1); }),
         await except(() => { v.set(-1, 4); }),
         await except(() => { v.set(1, 4); }),
@@ -54,10 +53,18 @@ export async function main(): Promise<string>
         // LIST
         await except(() => { l.insert(new List<number>().begin(), 4 ); }),
         await except(() => { l.erase(new List<number>().begin()); }),
+        await except(() => { l.end().value; }),
+        await except(() => { l.end().value = 3 }),
+        await except(() => { fl.end().value; }),
+        await except(() => { fl.end().value = 3 }),
+        await except(() => { fl.before_begin().value; }),
+        await except(() => { fl.before_begin().value = 3 }),
 
         // ASSOCIATIVE
         await except(() => { m.get(3); }),
         await except(() => { m.extract(3); }),
+        await except(() => { m.end().value.second = 5; }),
+        await except(() => { m.find(3).second = 5; }),
 
         // GLOBAL
         await except(() => { advance(fl.begin(), -4); }),
