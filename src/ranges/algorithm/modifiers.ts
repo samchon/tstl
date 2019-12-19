@@ -7,7 +7,6 @@ import { IBidirectionalContainer } from "../../base/disposable/IBidirectionalCon
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";
 import { IRandomAccessContainer } from "../../base/disposable/IRandomAccessContainer";
 
-import { IRandomAccessIterator } from "../../iterator";
 import { IBidirectionalIterator } from "../../iterator/IBidirectionalIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional/IPointer";
@@ -185,32 +184,6 @@ export function remove_copy_if<
     ): OutputIterator
 {
     return base.remove_copy_if(begin(range), end(range), output, pred);
-}
-
-export function erase<Range extends IForwardContainer.IErasable<any>>
-    (range: Range, val: IForwardContainer.ValueType<Range>): void
-{
-    return erase_if(range, elem => equal_to(val, elem));
-}
-
-export function erase_if<Range extends IForwardContainer.IErasable<any>>
-    (range: Range, pred: UnaryPredicator<Range>): void
-{
-    // START FROM BEGINNING POSITION
-    let it: IForwardContainer.IteratorType<Range> = range.begin();
-
-    // ARRAY-CONTAINER, THEN UTILIZE THE REMOVE_IF
-    if ((it as IRandomAccessIterator<any>).index instanceof Function)
-        return range.erase(remove_if(range, pred), range.end());
-
-    // ERASE ITERATION
-    while (!it.equals(range.end()))
-    {
-        if (pred(it.value))
-            it = range.erase(it, it.next());
-        else
-            it = it.next();
-    }
 }
 
 /* ---------------------------------------------------------
