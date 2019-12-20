@@ -9,7 +9,7 @@ import { ReverseIterator as _ReverseIterator } from "../iterator/ReverseIterator
 
 import { MapContainer } from "./MapContainer";
 import { IPair } from "../../utility/IPair";
-import { Pair } from "../../utility/Pair";
+import { Entry } from "../../utility/Entry";
 
 /**
  * @hidden
@@ -21,7 +21,7 @@ export class MapElementList<Key, T,
             Source, 
             MapElementList.Iterator<Key, T, Unique, Source>, 
             MapElementList.ReverseIterator<Key, T, Unique, Source>>> 
-    extends ListContainer<Pair<Key, T>, 
+    extends ListContainer<Entry<Key, T>, 
         Source, 
         MapElementList.Iterator<Key, T, Unique, Source>,
         MapElementList.ReverseIterator<Key, T, Unique, Source>>
@@ -48,7 +48,7 @@ export class MapElementList<Key, T,
         (
             prev: MapElementList.Iterator<Key, T, Unique, Source>, 
             next: MapElementList.Iterator<Key, T, Unique, Source>, 
-            val: Pair<Key, T>
+            val: Entry<Key, T>
         ): MapElementList.Iterator<Key, T, Unique, Source>
     {
         return MapElementList.Iterator.create(this, prev, next, val);
@@ -87,7 +87,7 @@ export namespace MapElementList
                 Source, 
                 Iterator<Key, T, Unique, Source>, 
                 ReverseIterator<Key, T, Unique, Source>>>
-        extends ListIterator<Pair<Key, T>, 
+        extends ListIterator<Entry<Key, T>, 
             Source, 
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>,
@@ -114,7 +114,7 @@ export namespace MapElementList
                 list: MapElementList<Key, T, Unique, Source>, 
                 prev: Iterator<Key, T, Unique, Source>, 
                 next: Iterator<Key, T, Unique, Source>, 
-                val: Pair<Key, T>
+                val: Entry<Key, T>
             )
         {
             super(prev, next, val);
@@ -131,7 +131,7 @@ export namespace MapElementList
                 list: MapElementList<Key, T, Unique, Source>, 
                 prev: Iterator<Key, T, Unique, Source>, 
                 next: Iterator<Key, T, Unique, Source>, 
-                val: Pair<Key, T>
+                val: Entry<Key, T>
             )
         {
             return new Iterator(list, prev, next, val);
@@ -184,7 +184,7 @@ export namespace MapElementList
     export class ReverseIterator<Key, T, 
             Unique extends boolean, 
             Source extends MapContainer<Key, T, Unique, Source, Iterator<Key, T, Unique, Source>, ReverseIterator<Key, T, Unique, Source>>>
-        extends _ReverseIterator<Pair<Key, T>, 
+        extends _ReverseIterator<Entry<Key, T>, 
             Source, 
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>,

@@ -7,6 +7,7 @@ import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
 import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
 import { IPair } from "../../utility/IPair";
+import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
 import { Temporary } from "../Temporary";
 
@@ -15,7 +16,7 @@ export abstract class UniqueTreeMap<Key, T,
         IteratorT extends IMapIterator<Key, T, true, Source, IteratorT, ReverseT>,
         ReverseT extends IMapReverseIterator<Key, T, true, Source, IteratorT, ReverseT>>
     extends UniqueMap<Key, T, Source, IteratorT, ReverseT>
-    implements _ITreeContainer<Key, Pair<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+    implements _ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
     /* ---------------------------------------------------------
         ACCESSORS
@@ -88,7 +89,7 @@ export abstract class UniqueTreeMap<Key, T,
             return new Pair(it, false);
 
         // ITERATOR TO RETURN
-        it = this.data_.insert(it, new Pair(key, val));
+        it = this.data_.insert(it, new Entry(key, val));
         this._Handle_insert(it, it.next());
 
         return new Pair(it, true);
@@ -99,9 +100,9 @@ export abstract class UniqueTreeMap<Key, T,
      */
     public emplace_hint(hint: IteratorT, key: Key, val: T): IteratorT
     {
-        let elem: Pair<Key, T> = new Pair(key, val);
+        let elem: Entry<Key, T> = new Entry(key, val);
         let validate: boolean = _Emplacable<Key, 
-                Pair<Key, T>, 
+                Entry<Key, T>, 
                 Source, 
                 IteratorT,
                 ReverseT,

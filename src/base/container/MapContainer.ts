@@ -10,6 +10,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
 
 import { IPair } from "../../utility/IPair";
+import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
 import { Temporary } from "../Temporary";
 
@@ -23,13 +24,13 @@ export abstract class MapContainer<Key, T,
         Source extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>,
         IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>,
         ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
-    extends Container<Pair<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
-    implements _IAssociativeContainer<Key, Pair<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+    extends Container<Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+    implements _IAssociativeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
     /**
      * @hidden
      */
-    protected data_: Omit<ILinearContainer<Pair<Key, T>, Source, IteratorT, ReverseT>, "front"|"back">;
+    protected data_: Omit<ILinearContainer<Entry<Key, T>, Source, IteratorT, ReverseT>, "front"|"back">;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -37,7 +38,7 @@ export abstract class MapContainer<Key, T,
     /**
      * Default Constructor.
      */
-    protected constructor(factory: (thisArg: Source) => Omit<ILinearContainer<Pair<Key, T>, Source, IteratorT, ReverseT>, "front"|"back">)
+    protected constructor(factory: (thisArg: Source) => Omit<ILinearContainer<Entry<Key, T>, Source, IteratorT, ReverseT>, "front"|"back">)
     {
         super();
         this.data_ = factory(this as Temporary);

@@ -7,6 +7,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
 import { IPair } from "../../utility/IPair";
+import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
 import { OutOfRange } from "../../exception/OutOfRange";
 
@@ -139,7 +140,7 @@ export abstract class UniqueMap<Key, T,
      * @param hint Hint for the position where the element can be inserted.
      * @param key Key to be mapped or search for.
      * @param value Value to insert or assign.
-     * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
+     * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
      */
     public insert_or_assign(hint: Iterator, key: Key, value: T): Iterator;
 
@@ -189,7 +190,7 @@ export abstract class UniqueMap<Key, T,
      * @param key Key to search for.
      * @return The extracted element.
      */
-    public extract(key: Key): Pair<Key, T>;
+    public extract(key: Key): Entry<Key, T>;
     
     /**
      * Extract an element by iterator.
@@ -210,13 +211,13 @@ export abstract class UniqueMap<Key, T,
     /**
      * @hidden
      */
-    private _Extract_by_key(key: Key): Pair<Key, T>
+    private _Extract_by_key(key: Key): Entry<Key, T>
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
             throw new OutOfRange(`Error on std.${this.constructor.name}.extract(): unable to find the matched key -> ${key}.`);
 
-        let ret: Pair<Key, T> = it.value;
+        let ret: Entry<Key, T> = it.value;
         this._Erase_by_range(it);
 
         return ret;

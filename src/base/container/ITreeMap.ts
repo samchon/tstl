@@ -7,7 +7,7 @@ import { _ITreeContainer } from "./_ITreeContainer";
 import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
 import { IPair } from "../../utility/IPair";
-import { Pair } from "../../utility/Pair";
+import { Entry } from "../../utility/Entry";
 
 /**
  * Common interface for Tree Maps.
@@ -20,6 +20,6 @@ export interface ITreeMap<Key, T,
         IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>,
         ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
     extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>, 
-        _ITreeContainer<Key, Pair<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+        _ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
 }

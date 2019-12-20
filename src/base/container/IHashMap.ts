@@ -5,7 +5,7 @@ import { MapContainer } from "./MapContainer";
 import { _IHashContainer } from "./_IHashContainer";
 
 import { IPair } from "../../utility/IPair";
-import { Pair } from "../../utility/Pair";
+import { Entry } from "../../utility/Entry";
 import { MapElementList } from "./MapElementList";
 
 /**
@@ -22,7 +22,7 @@ export interface IHashMap<Key, T,
             Source,
             MapElementList.Iterator<Key, T, Unique, Source>,
             MapElementList.ReverseIterator<Key, T, Unique, Source>>, 
-        _IHashContainer<Key, Pair<Key, T>, Source, 
+        _IHashContainer<Key, Entry<Key, T>, Source, 
             MapElementList.Iterator<Key, T, Unique, Source>, 
             MapElementList.ReverseIterator<Key, T, Unique, Source>,
             IPair<Key, T>>
