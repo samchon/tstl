@@ -4,6 +4,7 @@
 import { IForwardContainer } from "./IForwardContainer";
 import { IRandomAccessIterator } from "../../iterator";
 import { IPointer } from "../../functional/IPointer";
+import { Vector } from "../../container/Vector";
 
 /**
  * @hidden
@@ -15,11 +16,13 @@ export interface IRandomAccessContainer<IteratorT extends IRandomAccessIterator<
 
 export namespace IRandomAccessContainer
 {
-    export type IteratorType<Container extends IRandomAccessContainer<any>>
-        = Container extends IRandomAccessContainer<infer Iterator>
-            ? Iterator
-            : unknown;
+    export type IteratorType<Container extends Array<any> | IRandomAccessContainer<any>>
+        = Container extends Array<infer T>
+            ? Vector.Iterator<T>
+            : Container extends IRandomAccessContainer<infer Iterator>
+                ? Iterator
+                : unknown;
 
-    export type ValueType<Container extends IRandomAccessContainer<any>>
+    export type ValueType<Container extends Array<any> | IRandomAccessContainer<any>>
         = IForwardContainer.ValueType<IteratorType<Container>>;
 }

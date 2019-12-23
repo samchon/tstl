@@ -8,18 +8,20 @@ import { Pair } from "../../utility/Pair";
 import { begin, end } from "../../iterator/factory";
 import { equal_to, less } from "../../functional/comparators";
 
+import { Temporary } from "../../base/Temporary";
+
 /**
  * @hidden
  */
-type UnaryPredicator<Range extends IForwardContainer<any>> =
+type UnaryPredicator<Range extends Array<any> | IForwardContainer<any>> =
     (val: IForwardContainer.ValueType<Range>) => boolean;
 
 /**
  * @hidden
  */
 type BinaryPredicator<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>> =
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>> =
     (
         x: IForwardContainer.ValueType<Range1>,
         y: IForwardContainer.ValueType<Range2>
@@ -28,7 +30,7 @@ type BinaryPredicator<
 /**
  * @hidden
  */
-type Comparator<Range extends IForwardContainer<any>> =
+type Comparator<Range extends Array<any> | IForwardContainer<any>> =
     (
         x: IForwardContainer.ValueType<Range>,
         y: IForwardContainer.ValueType<Range>
@@ -38,7 +40,7 @@ type Comparator<Range extends IForwardContainer<any>> =
     FOR_EACH
 --------------------------------------------------------- */
 export function for_each<
-        Range extends IForwardContainer<any>,
+        Range extends Array<any> | IForwardContainer<any>,
         Func extends (val: IForwardContainer.ValueType<Range>) => any>
     (range: Range, fn: Func) :Func
 {
@@ -46,7 +48,7 @@ export function for_each<
 }
 
 export function for_each_n<
-        Range extends IForwardContainer<any>,
+        Range extends Array<any> | IForwardContainer<any>,
         Func extends (val: IForwardContainer.ValueType<Range>) => any>
     (range: Range, n: number, fn: Func): IForwardContainer.IteratorType<Range>
 {
@@ -56,79 +58,79 @@ export function for_each_n<
 /* ---------------------------------------------------------
     AGGREGATE CONDITIONS
 --------------------------------------------------------- */
-export function all_of<Range extends IForwardContainer<any>>
+export function all_of<Range extends Array<any> | IForwardContainer<any>>
     (range: Range, pred: UnaryPredicator<Range>): boolean
 {
     return base.all_of(begin(range), end(range), pred);
 }
 
-export function any_of<Range extends IForwardContainer<any>>
+export function any_of<Range extends Array<any> | IForwardContainer<any>>
     (range: Range, pred: UnaryPredicator<Range>): boolean
 {
     return base.any_of(begin(range), end(range), pred);
 }
 
-export function none_of<Range extends IForwardContainer<any>>
+export function none_of<Range extends Array<any> | IForwardContainer<any>>
     (range: Range, pred: UnaryPredicator<Range>): boolean
 {
     return base.none_of(begin(range), end(range), pred);
 }
 
 export function equal<
-        Range1 extends IForwardContainer<any>,
+        Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): boolean;
 
 export function equal<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (range1: Range1, range2: Range2, pred: BinaryPredicator<Range1, Range2>): boolean;
 
 export function equal<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (range1: Range1, range2: Range2, pred: BinaryPredicator<Range1, Range2> = <any>equal_to): boolean
 {
     return base.equal(begin(range1), end(range1), begin(range2), pred);
 }
 
 export function lexicographical_compare<
-        Range1 extends IForwardContainer<any>,
+        Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2, comp: BinaryPredicator<Range1, Range1> = less): boolean
 {
-    return base.lexicographical_compare(begin(range1), end(range1), begin(range2), end(range2), comp);
+    return base.lexicographical_compare(begin(range1), end(range1), <Temporary>begin(range2), end(range2), comp);
 }
 
 /* ---------------------------------------------------------
     FINDERS
 --------------------------------------------------------- */
-export function find<Range extends IForwardContainer<any>>
+export function find<Range extends Array<any> | IForwardContainer<any>>
     (range: Range, val: IForwardContainer.ValueType<Range>): IForwardContainer.IteratorType<Range>
 {
     return base.find(begin(range), end(range), val);
 }
 
-export function find_if<Range extends IForwardContainer<any>>
+export function find_if<Range extends Array<any> | IForwardContainer<any>>
     (range: Range, pred: UnaryPredicator<Range>): IForwardContainer.IteratorType<Range>
 {
     return base.find_if(begin(range), end(range), pred);
 }
 
-export function find_if_not<Range extends IForwardContainer<any>>
+export function find_if_not<Range extends Array<any> | IForwardContainer<any>>
     (range: Range, pred: UnaryPredicator<Range>): IForwardContainer.IteratorType<Range>
 {
     return base.find_if_not(begin(range), end(range), pred);
 }
 
 export function find_end<
-        Range1 extends IForwardContainer<any>,
+        Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 export function find_end<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -136,8 +138,8 @@ export function find_end<
     ): IForwardContainer.IteratorType<Range1>;
 
 export function find_end<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -148,13 +150,13 @@ export function find_end<
 }
 
 export function find_first_of<
-        Range1 extends IForwardContainer<any>,
+        Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 export function find_first_of<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -162,8 +164,8 @@ export function find_first_of<
     ): IForwardContainer.IteratorType<Range1>;
 
 export function find_first_of<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -173,7 +175,7 @@ export function find_first_of<
     return base.find_first_of(begin(range1), end(range1), begin(range2), end(range2), pred);
 }
 
-export function adjacent_find<Range extends IForwardContainer<any>>
+export function adjacent_find<Range extends Array<any> | IForwardContainer<any>>
     (
         range: Range, 
         pred: Comparator<Range> = equal_to
@@ -183,13 +185,13 @@ export function adjacent_find<Range extends IForwardContainer<any>>
 }
 
 export function search<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer.SimilarType<Range1>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 export function search<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -197,8 +199,8 @@ export function search<
     ): IForwardContainer.IteratorType<Range1>;
 
 export function search<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -208,7 +210,7 @@ export function search<
     return base.search(begin(range1), end(range1), begin(range2), end(range2), pred);
 }
 
-export function search_n<Range extends IForwardContainer<any>>
+export function search_n<Range extends Array<any> | IForwardContainer<any>>
     (
         range: Range,
         count: number, val: IForwardContainer.ValueType<Range>,
@@ -219,13 +221,13 @@ export function search_n<Range extends IForwardContainer<any>>
 }
 
 export function mismatch<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer.SimilarType<Range1>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): Pair<IForwardContainer.IteratorType<Range1>, IForwardContainer.IteratorType<Range2>>;
 
 export function mismatch<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -233,8 +235,8 @@ export function mismatch<
     ): Pair<IForwardContainer.IteratorType<Range1>, IForwardContainer.IteratorType<Range2>>;
 
 export function mismatch<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -247,13 +249,13 @@ export function mismatch<
 /* ---------------------------------------------------------
     COUNTERS
 --------------------------------------------------------- */
-export function count<Range extends IForwardContainer<any>>
+export function count<Range extends Array<any> | IForwardContainer<any>>
     (range: Range, val: IForwardContainer.ValueType<Range>): number
 {
     return base.count(begin(range), end(range), val);
 }
 
-export function count_if<Range extends IForwardContainer<any>>
+export function count_if<Range extends Array<any> | IForwardContainer<any>>
     (range: Range, pred: UnaryPredicator<Range>): number
 {
     return base.count_if(begin(range), end(range), pred);

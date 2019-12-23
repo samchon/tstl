@@ -15,7 +15,7 @@ import { IPointer } from "../../functional";
  * @hidden
  */
 type UnaryTransformer<
-        Range extends IForwardContainer<any>,
+        Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>> =
     (val: IForwardContainer.ValueType<Range>) => IPointer.ValueType<OutputIterator>;
 
@@ -29,8 +29,8 @@ type BinaryTransformer<OutputIterator extends IForwardIterator<IPointer.ValueTyp
  * @hidden
  */
 type Operator<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any> = Range1> = 
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any> = Range1> = 
     (
         x: IForwardContainer.ValueType<Range1>, 
         y: IForwardContainer.ValueType<Range2>
@@ -39,13 +39,13 @@ type Operator<
 /* ---------------------------------------------------------
     COMMON ALGORITHMS
 --------------------------------------------------------- */
-export function iota<Range extends IForwardContainer<IForwardIterator<number, any>>>
+export function iota<Range extends Array<any> | IForwardContainer<IForwardIterator<number, any>>>
     (range: Range, value: number): void
 {
     return base.iota(<any>begin(range), end(range), value);
 }
 
-export function accumulate<Range extends IForwardContainer<any>>
+export function accumulate<Range extends Array<any> | IForwardContainer<any>>
     (
         range: Range, 
         init: IForwardContainer.ValueType<Range>, 
@@ -56,8 +56,8 @@ export function accumulate<Range extends IForwardContainer<any>>
 }
 
 export function inner_product<
-        Range1 extends IForwardContainer<any>,
-        Range2 extends IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (
         range1: Range1, 
         range2: Range2, 
@@ -70,7 +70,7 @@ export function inner_product<
 }
 
 export function adjacent_difference<
-        Range extends IForwardContainer<any>,
+        Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>
     (
         range: Range, 
@@ -81,7 +81,7 @@ export function adjacent_difference<
     return base.adjacent_difference(begin(range), end(range), output, subtracter);
 }
 
-export function partial_sum<Range extends IForwardContainer<any>,
+export function partial_sum<Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>
     (
         range: Range, 
@@ -95,7 +95,7 @@ export function partial_sum<Range extends IForwardContainer<any>,
 /* ---------------------------------------------------------
     PREFIX SUMS
 --------------------------------------------------------- */
-export function inclusive_scan<Range extends IForwardContainer<any>,
+export function inclusive_scan<Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>
     (
         range: Range, 
@@ -107,7 +107,7 @@ export function inclusive_scan<Range extends IForwardContainer<any>,
     return base.inclusive_scan(begin(range), end(range), output, adder, init);
 }
 
-export function exclusive_scan<Range extends IForwardContainer<any>,
+export function exclusive_scan<Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>
     (
         range: Range, 
@@ -120,7 +120,7 @@ export function exclusive_scan<Range extends IForwardContainer<any>,
 }
 
 export function transform_inclusive_scan<
-        Range extends IForwardContainer<any>,
+        Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>
     (
         range: Range, 
@@ -134,7 +134,7 @@ export function transform_inclusive_scan<
 }
 
 export function transform_exclusive_scan<
-        Range extends IForwardContainer<any>,
+        Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>
     (
         range: Range, 
@@ -146,4 +146,3 @@ export function transform_exclusive_scan<
 {
     return base.transform_exclusive_scan(begin(range), end(range), output, init, binary, unary);
 }
-

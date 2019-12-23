@@ -4,6 +4,8 @@
 import { _InsertIterator } from "../base/iterator/_InsertIterator";
 
 import { _IPushBack } from "../base/disposable/IPartialContainers";
+import { Vector } from "../container/Vector";
+
 import { equal_to } from "../functional/comparators";
 
 /**
@@ -11,8 +13,8 @@ import { equal_to } from "../functional/comparators";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class BackInsertIterator<Source extends _IPushBack<BackInasertIterator.ValueType<Source>>>
-    extends _InsertIterator<BackInasertIterator.ValueType<Source>, BackInsertIterator<Source>>
+export class BackInsertIterator<Source extends _IPushBack<BackInsertIterator.ValueType<Source>>>
+    extends _InsertIterator<BackInsertIterator.ValueType<Source>, BackInsertIterator<Source>>
 {
     /**
      * @hidden
@@ -36,7 +38,7 @@ export class BackInsertIterator<Source extends _IPushBack<BackInasertIterator.Va
     /**
      * @inheritDoc
      */
-    public set value(val: BackInasertIterator.ValueType<Source>)
+    public set value(val: BackInsertIterator.ValueType<Source>)
     {
         this.source_.push_back(val);
     }
@@ -49,10 +51,15 @@ export class BackInsertIterator<Source extends _IPushBack<BackInasertIterator.Va
         return equal_to(this.source_, obj.source_);
     }
 }
-export namespace BackInasertIterator
+export namespace BackInsertIterator
 {
     export type ValueType<Source extends _IPushBack<any>> = 
         Source extends _IPushBack<infer T>
             ? T
             : unknown;
+
+    export type SourceType<Source extends Array<any> | _IPushBack<any>> =
+        Source extends Array<infer T>
+            ? Vector<T>
+            : Source;
 }

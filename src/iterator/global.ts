@@ -23,9 +23,12 @@ import { _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
  * @param source Target container.
  * @return Whether empty or not.
  */
-export function empty(source: _IEmpty): boolean
+export function empty(source: Array<any> | _IEmpty): boolean
 {
-    return source.empty();
+    if (source instanceof Array)
+        return source.length !== 0;
+    else
+        return source.empty();
 }
 
 /**
@@ -34,9 +37,12 @@ export function empty(source: _IEmpty): boolean
  * @param source Target container.
  * @return The number of elements in the container.
  */
-export function size(source: _ISize): number
+export function size(source: Array<any> | _ISize): number
 {
-    return source.size();
+    if (source instanceof Array)
+        return source.length;
+    else
+        return source.size();
 }
 
 /**
