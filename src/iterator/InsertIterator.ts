@@ -5,7 +5,7 @@ import { _InsertIterator } from "../base/iterator/_InsertIterator";
 
 import { IForwardIterator } from "./IForwardIterator";
 import { IPointer } from "../functional/IPointer";
-import { _IInsert } from "../base/disposable/IPartialContainers";
+import { _IInsert } from "../internal/container/IPartialContainers";
 
 import { equal_to } from "../functional/comparators";
 

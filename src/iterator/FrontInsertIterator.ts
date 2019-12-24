@@ -3,7 +3,7 @@
 //================================================================
 import { _InsertIterator } from "../base/iterator/_InsertIterator";
 
-import { _IPushFront } from "../base/disposable/IPartialContainers";
+import { _IPushFront } from "../internal/container/IPartialContainers";
 import { equal_to } from "../functional/comparators";
 
 /**

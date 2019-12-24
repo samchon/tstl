@@ -5,12 +5,12 @@ import { UniqueTreeMap } from "../base/container/UniqueTreeMap";
 import { _Construct } from "../base/container/_ITreeContainer";
 
 import { MapElementList } from "../base/container/MapElementList";
-import { _UniqueMapTree } from "../base/tree/_UniqueMapTree";
+import { UniqueMapTree } from "../internal/tree/UniqueMapTree";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * Unique-key Map based on Tree.
@@ -26,7 +26,7 @@ export class TreeMap<Key, T>
     /**
      * @hidden
      */
-    private tree_!: _UniqueMapTree<Key, T, TreeMap<Key, T>>;
+    private tree_!: UniqueMapTree<Key, T, TreeMap<Key, T>>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -82,7 +82,7 @@ export class TreeMap<Key, T>
             this, TreeMap, 
             comp => 
             {
-                this.tree_ = new _UniqueMapTree(this as TreeMap<Key, T>, comp);
+                this.tree_ = new UniqueMapTree(this as TreeMap<Key, T>, comp);
             },
             ...args
         );
@@ -108,7 +108,7 @@ export class TreeMap<Key, T>
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
-        _UniqueMapTree._Swap_source(this.tree_, obj.tree_);
+        UniqueMapTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 

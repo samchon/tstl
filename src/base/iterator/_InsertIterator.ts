@@ -3,7 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
-import { Writeonly } from "../../iterator/IFake";
+import { Writeonly } from "../../internal/types/Writeonly";
 
 /**
  * @hidden

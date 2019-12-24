@@ -6,7 +6,8 @@ import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { Writeonly, General } from "../iterator/IFake";
+import { General } from "../internal/types/General";
+import { Writeonly } from "../internal/types/Writeonly";
 import { equal_to } from "../functional/comparators";
 import { randint } from "./random";
 import { advance } from "../iterator/global";

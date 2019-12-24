@@ -1,18 +1,18 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _HashBuckets } from "./_HashBuckets";
+import { HashBuckets } from "./HashBuckets";
 
-import { IHashMap } from "../container/IHashMap";
-import { MapElementList } from "../container/MapElementList";
+import { IHashMap } from "../../base/container/IHashMap";
+import { MapElementList } from "../../base/container/MapElementList";
 
 /**
  * @hidden
  */
-export class _MapHashBuckets<Key, T, 
+export class MapHashBuckets<Key, T, 
         Unique extends boolean, 
         Source extends IHashMap<Key, T, Unique, Source>>
-    extends _HashBuckets<MapElementList.Iterator<Key, T, Unique, Source>>
+    extends HashBuckets<MapElementList.Iterator<Key, T, Unique, Source>>
 {
     private source_: IHashMap<Key, T, Unique, Source>;
 
@@ -35,7 +35,7 @@ export class _MapHashBuckets<Key, T,
      * @internal
      */
     public static _Swap_source<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
-        (x: _MapHashBuckets<Key, T, Unique, Source>, y: _MapHashBuckets<Key, T, Unique, Source>): void
+        (x: MapHashBuckets<Key, T, Unique, Source>, y: MapHashBuckets<Key, T, Unique, Source>): void
     {
         [x.source_, y.source_] = [y.source_, x.source_];
     }

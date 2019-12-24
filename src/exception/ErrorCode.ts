@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ErrorInstance } from "../base/ErrorInstance";
+import { ErrorInstance } from "../base/exception/ErrorInstance";
 
 import { ErrorCategory } from "./ErrorCategory";
 import { ErrorCondition } from "./ErrorCondition";

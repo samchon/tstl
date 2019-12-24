@@ -2,7 +2,8 @@
 /** @module std */
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { General, Writeonly } from "../iterator/IFake";
+import { General } from "../internal/types/General";
+import { Writeonly } from "../internal/types/Writeonly";
 
 import { plus, minus, multiplies } from "./operators";
 import { IPointer } from "../functional";

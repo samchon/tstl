@@ -3,10 +3,10 @@
 //================================================================
 import base = require("../../algorithm/sorting");
 
-import { IForwardContainer } from "../../base/disposable/IForwardContainer";
+import { IForwardContainer } from "../../internal/container/IForwardContainer";
 import { IForwardIterator } from "../../iterator";
-import { IRandomAccessContainer } from "../../base/disposable/IRandomAccessContainer";
-import { General } from "../../iterator/IFake";
+import { IRandomAccessContainer } from "../../internal/container/IRandomAccessContainer";
+import { General } from "../../internal/types/General";
 
 import { begin, end } from "../../iterator/factory";
 import { less } from "../../functional/comparators";

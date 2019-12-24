@@ -5,7 +5,8 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IPointer } from "../functional";
 
-import { General, Writeonly } from "../iterator/IFake";
+import { General } from "../internal/types/General";
+import { Writeonly } from "../internal/types/Writeonly";
 import { Pair } from "../utility/Pair";
 import { iter_swap } from "./modifiers";
 import { distance, advance } from "../iterator/global";

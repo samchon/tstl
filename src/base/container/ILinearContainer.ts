@@ -7,7 +7,7 @@ import { Iterator } from "../iterator/Iterator";
 import { IReverseIterator } from "../iterator/ReverseIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
-import { _IPushBack } from "../disposable/IPartialContainers";
+import { _IPushBack } from "../../internal/container/IPartialContainers";
 
 /**
  * Interface for linear containers.

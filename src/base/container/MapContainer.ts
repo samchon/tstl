@@ -12,7 +12,8 @@ import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
 import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
-import { Temporary } from "../Temporary";
+import { Omit } from "../../internal/types/Omit";
+import { Temporary } from "../../internal/types/Temporary";
 
 /**
  * Base class for Map Containers.

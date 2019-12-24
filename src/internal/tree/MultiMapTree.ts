@@ -1,23 +1,23 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _MapTree } from "./_MapTree";
-import { _XTreeNode } from "./_XTreeNode";
+import { MapTree } from "./MapTree";
+import { XTreeNode } from "./XTreeNode";
 
-import { MultiMap } from "../container/MultiMap";
-import { MapElementList } from "../container/MapElementList";
+import { MultiMap } from "../../base/container/MultiMap";
+import { MapElementList } from "../../base/container/MapElementList";
 
 import { get_uid } from "../../functional/uid";
 
 /** 
  * @hidden
  */
-export class _MultiMapTree<Key, T, 
+export class MultiMapTree<Key, T, 
         Source extends MultiMap<Key, T, 
             Source,
             MapElementList.Iterator<Key, T, false, Source>,
             MapElementList.ReverseIterator<Key, T, false, Source>>>
-    extends _MapTree<Key, T, false, Source>
+    extends MapTree<Key, T, false, Source>
 {
     /* ---------------------------------------------------------
         CONSTRUCTOR
@@ -50,8 +50,8 @@ export class _MultiMapTree<Key, T,
     private _Nearest_by_key
         (
             key: Key, 
-            equal_mover: (node: _XTreeNode<MapElementList.Iterator<Key, T, false, Source>>) => _XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null
-        ): _XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null
+            equal_mover: (node: XTreeNode<MapElementList.Iterator<Key, T, false, Source>>) => XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null
+        ): XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null
     {
         // NEED NOT TO ITERATE
         if (this.root_ === null)
@@ -60,13 +60,13 @@ export class _MultiMapTree<Key, T,
         //----
         // ITERATE
         //----
-        let ret: _XTreeNode<MapElementList.Iterator<Key, T, false, Source>> = this.root_;
-        let matched: _XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = null;
+        let ret: XTreeNode<MapElementList.Iterator<Key, T, false, Source>> = this.root_;
+        let matched: XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = null;
 
         while (true)
         {
             let it: MapElementList.Iterator<Key, T, false, Source> = ret.value;
-            let my_node: _XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = null;
+            let my_node: XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = null;
 
             // COMPARE
             if (this.key_comp()(key, it.first))
@@ -91,7 +91,7 @@ export class _MultiMapTree<Key, T,
         return (matched !== null) ? matched : ret;
     }
 
-    public nearest_by_key(key: Key): _XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null
+    public nearest_by_key(key: Key): XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null
     {
         return this._Nearest_by_key(key, function (node)
         {
@@ -102,7 +102,7 @@ export class _MultiMapTree<Key, T,
     public upper_bound(key: Key): MapElementList.Iterator<Key, T, false, Source>
     {
         // FIND MATCHED NODE
-        let node: _XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = this._Nearest_by_key(key, 
+        let node: XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = this._Nearest_by_key(key, 
             function (node)
             {
                 return node.right;

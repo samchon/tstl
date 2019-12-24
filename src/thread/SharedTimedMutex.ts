@@ -2,12 +2,13 @@
 /** @module std */
 //================================================================
 import { ILockable } from "./ILockable";
-import { _ITimedLockable } from "../base/thread/_ITimedLockable";
-import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
+import { ITimedLockable } from "../base/thread/ITimedLockable";
+import { ISharedTimedLockable } from "../base/thread/ISharedTimedLockable";
 
 import { List } from "../container/List";
 
-import { AccessType, LockType } from "../base/thread/enums";
+import { AccessType } from "../internal/thread/AccessType";
+import { LockType } from "../internal/thread/LockType";
 import { InvalidArgument } from "../exception/InvalidArgument";
 import { sleep_for } from "./global";
 
@@ -16,7 +17,7 @@ import { sleep_for } from "./global";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class SharedTimedMutex implements _ITimedLockable, _ISharedTimedLockable
+export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
 {
     /**
      * @hidden

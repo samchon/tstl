@@ -5,12 +5,11 @@ import { ArrayContainer } from "../base/container/ArrayContainer";
 import { ArrayIterator, ArrayReverseIterator } from "../base/iterator/ArrayIterator";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { _DequeForOfAdaptor } from "../base/iterator/_DequeForOfAdaptor";
 import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
 
 import { Pair } from "../utility/Pair";
 import { OutOfRange } from "../exception/OutOfRange";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 import { distance } from "../iterator/global";
 
 /**
@@ -274,7 +273,7 @@ export class Deque<T>
      */
     public [Symbol.iterator](): IterableIterator<T>
     {
-        return new _DequeForOfAdaptor<T>(this.matrix_);
+        return new Deque.ForOfAdaptor<T>(this.matrix_);
     }
     
     /* ---------------------------------------------------------
@@ -707,5 +706,50 @@ export namespace Deque
     // BODY
     export const iterator = Iterator;
     export const reverse_iterator = ReverseIterator;
+
+    /**
+     * @internal
+     */
+    export class ForOfAdaptor<T> implements IterableIterator<T>
+    {
+        private matrix_: T[][];
+        private row_: number;
+        private col_: number;
+
+        public constructor(matrix: T[][])
+        {
+            this.matrix_ = matrix;
+            this.row_ = 0;
+            this.col_ = 0;
+        }
+
+        public next(): IteratorResult<T>
+        {
+            if (this.row_ === this.matrix_.length)
+                return {
+                    done: true,
+                    value: undefined!
+                }
+            else
+            {
+                let val: T = this.matrix_[this.row_][this.col_];
+                if (++this.col_ === this.matrix_[this.row_].length)
+                {
+                    ++this.row_;
+                    this.col_ = 0;
+                }
+
+                return {
+                    done: false,
+                    value: val
+                }
+            }
+        }
+
+        public [Symbol.iterator](): IterableIterator<T>
+        {
+            return this;
+        }
+    }
 }
 export import deque = Deque;

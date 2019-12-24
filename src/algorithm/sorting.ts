@@ -4,14 +4,14 @@
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { IPointer } from "../functional/IPointer";
+import { General } from "../internal/types/General";
 
-import { General } from "../iterator/IFake";
 import { less } from "../functional/comparators";
 import { iter_swap, copy } from "./modifiers";
 import { distance } from "../iterator/global";
 
 import { Vector } from "../container/Vector";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * @hidden

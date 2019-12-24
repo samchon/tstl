@@ -1,24 +1,24 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _XTree } from "./_XTree";
-import { _XTreeNode } from "./_XTreeNode";
+import { XTree } from "./XTree";
+import { XTreeNode } from "./XTreeNode";
 
-import { SetContainer } from "../container/SetContainer";
-import { SetElementList } from "../container/SetElementList";
+import { SetContainer } from "../../base/container/SetContainer";
+import { SetElementList } from "../../base/container/SetElementList";
 import { Pair } from "../../utility/Pair";
 
 /**
  * @hidden
  */
-export abstract class _SetTree<Key, 
+export abstract class SetTree<Key, 
         Unique extends boolean, 
         Source extends SetContainer<Key, 
             Unique, 
             Source,
             SetElementList.Iterator<Key, Unique, Source>,
             SetElementList.ReverseIterator<Key, Unique, Source>>>
-    extends _XTree<SetElementList.Iterator<Key, Unique, Source>>
+    extends XTree<SetElementList.Iterator<Key, Unique, Source>>
 {
     private source_: Source;
 
@@ -55,7 +55,7 @@ export abstract class _SetTree<Key,
                 Source,
                 SetElementList.Iterator<Key, Unique, Source>,
                 SetElementList.ReverseIterator<Key, Unique, Source>>>
-        (x: _SetTree<Key, Unique, Source>, y: _SetTree<Key, Unique, Source>): void
+        (x: SetTree<Key, Unique, Source>, y: SetTree<Key, Unique, Source>): void
     {
         [x.source_, y.source_] = [y.source_, x.source_];
     }
@@ -63,7 +63,7 @@ export abstract class _SetTree<Key,
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
-    public get_by_key(val: Key): _XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null
+    public get_by_key(val: Key): XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null
     {
         let ret = this.nearest_by_key(val);
         if (ret === null || !this.key_eq_(val, ret.value.value))
@@ -71,11 +71,11 @@ export abstract class _SetTree<Key,
         else
             return ret;
     }
-    public abstract nearest_by_key(val: Key): _XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null;
+    public abstract nearest_by_key(val: Key): XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null;
 
     public lower_bound(val: Key): SetElementList.Iterator<Key, Unique, Source>
     {
-        let node: _XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null = this.nearest_by_key(val);
+        let node: XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null = this.nearest_by_key(val);
 
         if (node === null)
             return this.source_.end();

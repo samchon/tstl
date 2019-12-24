@@ -7,7 +7,7 @@ import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
 import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 
 import { Pair } from "../../utility/Pair";
-import { Temporary } from "../Temporary";
+import { Temporary } from "../../internal/types/Temporary";
 
 export abstract class UniqueTreeSet<Key,
         Source extends UniqueTreeSet<Key, Source, IteratorT, ReverseT>,

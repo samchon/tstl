@@ -1,21 +1,21 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _MapTree } from "./_MapTree";
-import { _XTreeNode } from "./_XTreeNode";
+import { MapTree } from "./MapTree";
+import { XTreeNode } from "./XTreeNode";
 
-import { UniqueMap } from "../container/UniqueMap";
-import { MapElementList } from "../container/MapElementList";
+import { UniqueMap } from "../../base/container/UniqueMap";
+import { MapElementList } from "../../base/container/MapElementList";
 
 /**
  * @hidden
  */
-export class _UniqueMapTree<Key, T, 
+export class UniqueMapTree<Key, T, 
         Source extends UniqueMap<Key, T, 
             Source,
             MapElementList.Iterator<Key, T, true, Source>,
             MapElementList.ReverseIterator<Key, T, true, Source>>>
-    extends _MapTree<Key, T, true, Source>
+    extends MapTree<Key, T, true, Source>
 {
     /* ---------------------------------------------------------
         CONSTRUCTOR
@@ -33,7 +33,7 @@ export class _UniqueMapTree<Key, T,
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
-    public nearest_by_key(key: Key): _XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null
+    public nearest_by_key(key: Key): XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null
     {
         // NEED NOT TO ITERATE
         if (this.root_ === null)
@@ -42,12 +42,12 @@ export class _UniqueMapTree<Key, T,
         //----
         // ITERATE
         //----
-        let ret: _XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = this.root_;
+        let ret: XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = this.root_;
         
         while (true) // UNTIL MEET THE MATCHED VALUE OR FINAL BRANCH
         {
             let it: MapElementList.Iterator<Key, T, true, Source> = ret.value;
-            let my_node: _XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = null;
+            let my_node: XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = null;
             
             // COMPARE
             if (this.key_comp()(key, it.first))
@@ -69,7 +69,7 @@ export class _UniqueMapTree<Key, T,
     public upper_bound(key: Key): MapElementList.Iterator<Key, T, true, Source>
     {
         // FIND MATCHED NODE
-        let node: _XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = this.nearest_by_key(key);
+        let node: XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = this.nearest_by_key(key);
         if (node === null)
             return this.source().end();
 

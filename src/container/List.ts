@@ -3,7 +3,7 @@
 //================================================================
 import { ListContainer } from "../base/container/ListContainer";
 import { IDequeContainer } from "../base/container/IDequeContainer";
-import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
+import { _IListAlgorithm } from "../internal/container/IListAlgorithm";
 
 import { ListIterator } from "../base/iterator/ListIterator";
 import { ReverseIterator as ReverseIteratorBase } from "../base/iterator/ReverseIterator";

@@ -1,26 +1,26 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _ISharedLockable } from "./_ISharedLockable";
+import { ILockable } from "../../thread/ILockable";
 
 /**
  * @hidden
  */
-export interface _ISharedTimedLockable extends _ISharedLockable
+export interface ITimedLockable extends ILockable
 {
     /**
-     * Try lock shared until timeout.
+     * Try lock until timeout.
      * 
      * @param ms The maximum miliseconds for waiting.
      * @return Whether succeded to lock or not.
      */
-    try_lock_shared_for(ms: number): Promise<boolean>;
+    try_lock_for(ms: number): Promise<boolean>;
 
     /**
-     * Try lock shared until time expiration.
+     * Try lock until time expiration.
      * 
      * @param at The maximum time point to wait.
      * @return Whether succeded to lock or not.
      */
-    try_lock_shared_until(at: Date): Promise<boolean>;
+    try_lock_until(at: Date): Promise<boolean>;
 }

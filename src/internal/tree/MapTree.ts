@@ -1,11 +1,11 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _XTree } from "./_XTree";
-import { _XTreeNode } from "./_XTreeNode";
+import { XTree } from "./XTree";
+import { XTreeNode } from "./XTreeNode";
 
-import { MapContainer } from "../container/MapContainer";
-import { MapElementList } from "../container/MapElementList";
+import { MapContainer } from "../../base/container/MapContainer";
+import { MapElementList } from "../../base/container/MapElementList";
 
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";
@@ -13,14 +13,14 @@ import { Pair } from "../../utility/Pair";
 /**
  * @hidden
  */
-export abstract class _MapTree<Key, T, 
+export abstract class MapTree<Key, T, 
         Unique extends boolean, 
         Source extends MapContainer<Key, T, 
             Unique, 
             Source, 
             MapElementList.Iterator<Key, T, Unique, Source>,
             MapElementList.ReverseIterator<Key, T, Unique, Source>>>
-    extends _XTree<MapElementList.Iterator<Key, T, Unique, Source>>
+    extends XTree<MapElementList.Iterator<Key, T, Unique, Source>>
 {
     private source_: Source;
 
@@ -62,7 +62,7 @@ export abstract class _MapTree<Key, T,
                 Source, 
                 MapElementList.Iterator<Key, T, Unique, Source>,
                 MapElementList.ReverseIterator<Key, T, Unique, Source>>>
-        (x: _MapTree<Key, T, Unique, Source>, y: _MapTree<Key, T, Unique, Source>): void
+        (x: MapTree<Key, T, Unique, Source>, y: MapTree<Key, T, Unique, Source>): void
     {
         [x.source_, y.source_] = [y.source_, x.source_];
     }
@@ -70,7 +70,7 @@ export abstract class _MapTree<Key, T,
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
-    public get_by_key(key: Key): _XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null
+    public get_by_key(key: Key): XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null
     {
         let ret = this.nearest_by_key(key);
         if (ret === null || !this.key_eq_(key, ret.value.first))
@@ -78,11 +78,11 @@ export abstract class _MapTree<Key, T,
         else
             return ret;
     }
-    public abstract nearest_by_key(key: Key): _XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null;
+    public abstract nearest_by_key(key: Key): XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null;
 
     public lower_bound(key: Key): MapElementList.Iterator<Key, T, Unique, Source>
     {
-        let node: _XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null = this.nearest_by_key(key);
+        let node: XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null = this.nearest_by_key(key);
 
         if (node === null)
             return this.source().end();

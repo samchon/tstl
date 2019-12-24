@@ -6,9 +6,9 @@ import { _Construct } from "../base/container/_ITreeContainer";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { SetElementList } from "../base/container/SetElementList";
-import { _UniqueSetTree } from "../base/tree/_UniqueSetTree";
+import { UniqueSetTree } from "../internal/tree/UniqueSetTree";
 
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * Unique-key Set based on Tree.
@@ -24,7 +24,7 @@ export class TreeSet<Key>
     /**
      * @hidden
      */
-    private tree_!: _UniqueSetTree<Key, TreeSet<Key>>;
+    private tree_!: UniqueSetTree<Key, TreeSet<Key>>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -78,7 +78,7 @@ export class TreeSet<Key>
             this, TreeSet, 
             comp => 
             {
-                this.tree_ = new _UniqueSetTree(this as TreeSet<Key>, comp);
+                this.tree_ = new UniqueSetTree(this as TreeSet<Key>, comp);
             },
             ...args
         );
@@ -104,7 +104,7 @@ export class TreeSet<Key>
         SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
-        _UniqueSetTree._Swap_source(this.tree_, obj.tree_);
+        UniqueSetTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
     

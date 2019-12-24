@@ -4,7 +4,7 @@
 /**
  * @hidden
  */
-export namespace _SafeLock
+export namespace SafeLock
 {
     export async function lock
         (

@@ -1,12 +1,12 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { IBidirectionalContainer } from "../base/disposable/IBidirectionalContainer";
+import { IBidirectionalContainer } from "../internal/container/IBidirectionalContainer";
 import { IReversableIterator, IReverseIterator } from "./IReverseIterator";
 
 import { IPointer } from "../functional/IPointer";
-import { IForwardContainer } from "../base/disposable/IForwardContainer";
-import { _IInsert, _IPushFront, _IPushBack } from "../base/disposable/IPartialContainers";
+import { IForwardContainer } from "../internal/container/IForwardContainer";
+import { _IInsert, _IPushFront, _IPushBack } from "../internal/container/IPartialContainers";
 
 import { InsertIterator } from "./InsertIterator";
 import { FrontInsertIterator } from "./FrontInsertIterator";

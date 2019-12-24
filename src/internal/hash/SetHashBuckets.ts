@@ -1,16 +1,16 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _HashBuckets } from "./_HashBuckets";
+import { HashBuckets } from "./HashBuckets";
 
-import { IHashSet } from "../container/IHashSet";
-import { SetElementList } from "../container/SetElementList";
+import { IHashSet } from "../../base/container/IHashSet";
+import { SetElementList } from "../../base/container/SetElementList";
 
 /**
  * @hidden
  */
-export class _SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<T, Unique, Source>>
-    extends _HashBuckets<SetElementList.Iterator<T, Unique, Source>>
+export class SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<T, Unique, Source>>
+    extends HashBuckets<SetElementList.Iterator<T, Unique, Source>>
 {
     private source_: IHashSet<T, Unique, Source>;
 
@@ -33,7 +33,7 @@ export class _SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<
      * @internal
      */
     public static _Swap_source<Key, Unique extends boolean, Source extends IHashSet<Key, Unique, Source>>
-        (x: _SetHashBuckets<Key, Unique, Source>, y: _SetHashBuckets<Key, Unique, Source>): void
+        (x: SetHashBuckets<Key, Unique, Source>, y: SetHashBuckets<Key, Unique, Source>): void
     {
         [x.source_, y.source_] = [y.source_, x.source_];
     }

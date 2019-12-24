@@ -1,14 +1,14 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { IForwardContainer } from "../base/disposable/IForwardContainer";
+import { IForwardContainer } from "../internal/container/IForwardContainer";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { _IClear, _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
+import { _IClear, _IEmpty, _ISize } from "../internal/container/IPartialContainers";
 import { _IDeque } from "../base/container/IDequeContainer";
 import { _IFront } from "../base/container/ILinearContainer";
-import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
+import { _IListAlgorithm } from "../internal/container/IListAlgorithm";
 
 import { _Repeater } from "../base/iterator/_Repeater";
 import { ForOfAdaptor } from "../base/iterator/ForOfAdaptor";

@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _IEmpty, _ISize, _IPush } from "../disposable/IPartialContainers";
+import { _IEmpty, _ISize, _IPush } from "../../internal/container/IPartialContainers";
 
 /**
  * Base class for Adaptor Containers.

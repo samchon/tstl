@@ -6,10 +6,10 @@ import { IHashSet } from "../base/container/IHashSet";
 import { _Construct } from "../base/container/_IHashContainer";
 
 import { SetElementList } from "../base/container/SetElementList";
-import { _SetHashBuckets } from "../base/hash/_SetHashBuckets";
+import { SetHashBuckets } from "../internal/hash/SetHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * Multiple-key Set based on Hash buckets.
@@ -26,7 +26,7 @@ export class HashMultiSet<Key>
     /**
      * @hidden
      */
-    private buckets_!: _SetHashBuckets<Key, false, HashMultiSet<Key>>;
+    private buckets_!: SetHashBuckets<Key, false, HashMultiSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -87,7 +87,7 @@ export class HashMultiSet<Key>
             this, HashMultiSet, 
             (hash, pred) =>
             {
-                this.buckets_ = new _SetHashBuckets(this, hash, pred);
+                this.buckets_ = new SetHashBuckets(this, hash, pred);
             },
             ...args
         );
@@ -116,7 +116,7 @@ export class HashMultiSet<Key>
         SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS
-        _SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
+        SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 

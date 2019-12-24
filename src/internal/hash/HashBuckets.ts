@@ -14,7 +14,7 @@ const DEFAULT_MAX_FACTOR = 1.0;
 /**
  * @hidden
  */
-export abstract class _HashBuckets<T>
+export abstract class HashBuckets<T>
 {
     private buckets_!: T[][];
     private item_size_!: number;

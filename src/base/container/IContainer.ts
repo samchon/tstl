@@ -1,12 +1,12 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { IBidirectionalContainer } from "../disposable/IBidirectionalContainer";
+import { IBidirectionalContainer } from "../../internal/container/IBidirectionalContainer";
 import { Iterator } from "../iterator/Iterator";
 import { IReverseIterator } from "../iterator/ReverseIterator";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { _IEmpty, _ISize, _IPush } from "../disposable/IPartialContainers";
+import { _IEmpty, _ISize, _IPush } from "../../internal/container/IPartialContainers";
 
 /**
  * Interface for Containers.

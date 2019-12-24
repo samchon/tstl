@@ -1,11 +1,11 @@
-import { _IPush } from "../../base/disposable/IPartialContainers";
+import { _IPush } from "../../internal/container/IPartialContainers";
 import { Vector } from "../../container/Vector";
 import { Deque } from "../../container/Deque";
 import { randint } from "../../algorithm/random";
 import { sort } from "../../algorithm/sorting";
 
-import { IForwardContainer } from "../../base/disposable/IForwardContainer";
-import { Temporary } from "../../base/Temporary";
+import { IForwardContainer } from "../../internal/container/IForwardContainer";
+import { Temporary } from "../../internal/types/Temporary";
 
 export namespace Generator
 {

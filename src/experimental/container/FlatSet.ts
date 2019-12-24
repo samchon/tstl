@@ -7,7 +7,7 @@ import { _Construct } from "../../base/container/_ITreeContainer";
 import { SetElementVector } from "../../base/container/SetElementVector";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Temporary } from "../../base/Temporary";
+import { Temporary } from "../../internal/types/Temporary";
 import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 
 export class FlatSet<Key>

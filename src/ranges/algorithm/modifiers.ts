@@ -3,16 +3,16 @@
 //================================================================
 import base = require("../../algorithm/modifiers");
 
-import { IBidirectionalContainer } from "../../base/disposable/IBidirectionalContainer";
-import { IForwardContainer } from "../../base/disposable/IForwardContainer";
-import { IRandomAccessContainer } from "../../base/disposable/IRandomAccessContainer";
+import { IBidirectionalContainer } from "../../internal/container/IBidirectionalContainer";
+import { IForwardContainer } from "../../internal/container/IForwardContainer";
+import { IRandomAccessContainer } from "../../internal/container/IRandomAccessContainer";
 
 import { IBidirectionalIterator } from "../../iterator/IBidirectionalIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional/IPointer";
 
-import { Temporary } from "../../base/Temporary";
-import { Writeonly } from "../../iterator/IFake";
+import { Writeonly } from "../../internal/types/Writeonly";
+import { Temporary } from "../../internal/types/Temporary";
 import { begin, end } from "../../iterator/factory";
 import { equal_to } from "../../functional/comparators";
 

@@ -5,12 +5,12 @@ import { MultiTreeMap } from "../base/container/MultiTreeMap";
 import { _Construct } from "../base/container/_ITreeContainer";
 
 import { MapElementList } from "../base/container/MapElementList";
-import { _MultiMapTree } from "../base/tree/_MultiMapTree";
+import { MultiMapTree } from "../internal/tree/MultiMapTree";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * Multiple-key Map based on Tree.
@@ -26,7 +26,7 @@ export class TreeMultiMap<Key, T>
     /**
      * @hidden
      */
-    private tree_!: _MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
+    private tree_!: MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -80,7 +80,7 @@ export class TreeMultiMap<Key, T>
             this, TreeMultiMap, 
             comp => 
             {
-                this.tree_ = new _MultiMapTree(this as TreeMultiMap<Key, T>, comp);
+                this.tree_ = new MultiMapTree(this as TreeMultiMap<Key, T>, comp);
             },
             ...args
         );
@@ -106,7 +106,7 @@ export class TreeMultiMap<Key, T>
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
-        _MultiMapTree._Swap_source(this.tree_, obj.tree_);
+        MultiMapTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 

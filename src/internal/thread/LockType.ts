@@ -4,8 +4,8 @@
 /**
  * @hidden
  */
-export const enum _Color
+export const enum LockType
 {
-    BLACK,
-    RED
+    HOLD,
+    KNOCK
 }

@@ -3,13 +3,13 @@
 //================================================================
 import base = require("../../algorithm/iterations");
 
-import { IForwardContainer } from "../../base/disposable/IForwardContainer";
+import { IForwardContainer } from "../../internal/container/IForwardContainer";
 import { Pair } from "../../utility/Pair";
 import { begin, end } from "../../iterator/factory";
 import { size } from "../../iterator/global";
 import { equal_to, less } from "../../functional/comparators";
 
-import { Temporary } from "../../base/Temporary";
+import { Temporary } from "../../internal/types/Temporary";
 
 /**
  * @hidden

@@ -5,7 +5,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { General } from "../iterator/IFake";
+import { General } from "../internal/types/General";
 import { Pair } from "../utility/Pair";
 
 import { less, equal_to } from "../functional/comparators";
@@ -13,7 +13,7 @@ import { advance, distance } from "../iterator/global";
 import { mismatch, find_if, count_if } from "./iterations";
 import { iter_swap, reverse } from "./modifiers";
 
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * @hidden

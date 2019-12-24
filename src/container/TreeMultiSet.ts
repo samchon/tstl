@@ -6,9 +6,9 @@ import { _Construct } from "../base/container/_ITreeContainer";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { SetElementList } from "../base/container/SetElementList";
-import { _MultiSetTree } from "../base/tree/_MultiSetTree";
+import { MultiSetTree } from "../internal/tree/MultiSetTree";
 
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * Multiple-key Set based on Tree.
@@ -24,7 +24,7 @@ export class TreeMultiSet<Key>
     /**
      * @hidden
      */
-    private tree_!: _MultiSetTree<Key, TreeMultiSet<Key>>;
+    private tree_!: MultiSetTree<Key, TreeMultiSet<Key>>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -78,7 +78,7 @@ export class TreeMultiSet<Key>
             this, TreeMultiSet, 
             comp => 
             {
-                this.tree_ = new _MultiSetTree(this as TreeMultiSet<Key>, comp);
+                this.tree_ = new MultiSetTree(this as TreeMultiSet<Key>, comp);
             },
             ...args
         );
@@ -104,7 +104,7 @@ export class TreeMultiSet<Key>
         SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
-        _MultiSetTree._Swap_source(this.tree_, obj.tree_);
+        MultiSetTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 

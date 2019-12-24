@@ -3,13 +3,13 @@
 //================================================================
 import base = require("../../algorithm/mathematics");
 
-import { IBidirectionalContainer } from "../../base/disposable/IBidirectionalContainer";
-import { IForwardContainer } from "../../base/disposable/IForwardContainer";
+import { IBidirectionalContainer } from "../../internal/container/IBidirectionalContainer";
+import { IForwardContainer } from "../../internal/container/IForwardContainer";
 import { Pair } from "../../utility/Pair";
 import { less, equal_to } from "../../functional/comparators";
 import { begin, end } from "../../iterator/factory";
 
-import { Temporary } from "../../base/Temporary";
+import { Temporary } from "../../internal/types/Temporary";
 
 /**
  * @hiddn

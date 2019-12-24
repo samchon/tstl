@@ -3,13 +3,13 @@
 //================================================================
 import base = require("../../numeric/operations");
 
-import { IForwardContainer } from "../../base/disposable/IForwardContainer";
+import { IForwardContainer } from "../../internal/container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
+import { IPointer } from "../../functional";
+import { Writeonly } from "../../internal/types/Writeonly";
 import { begin, end } from "../../iterator/factory";
 import { plus, multiplies, minus } from "../../numeric/operators";
-import { Writeonly } from "../../iterator/IFake";
-import { IPointer } from "../../functional";
 
 /**
  * @hidden

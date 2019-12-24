@@ -1,24 +1,24 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _Color } from "./_Color";
+import { Color } from "./Color";
 
 /**
  * @hidden
  */
-export class _XTreeNode<T>
+export class XTreeNode<T>
 {
-    public parent: _XTreeNode<T> | null;
-    public left: _XTreeNode<T> | null;
-    public right: _XTreeNode<T> | null;
+    public parent: XTreeNode<T> | null;
+    public left: XTreeNode<T> | null;
+    public right: XTreeNode<T> | null;
 
     public value: T;
-    public color: _Color;
+    public color: Color;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
-    public constructor(value: T, color: _Color)
+    public constructor(value: T, color: Color)
     {
         this.value = value;
         this.color = color;
@@ -28,12 +28,12 @@ export class _XTreeNode<T>
         this.right = null;
     }
 
-    public get grand(): _XTreeNode<T> | null
+    public get grand(): XTreeNode<T> | null
     {
         return this.parent!.parent;
     }
 
-    public get sibling(): _XTreeNode<T>  | null
+    public get sibling(): XTreeNode<T>  | null
     {
         if (this === this.parent!.left)
             return this.parent!.right;
@@ -41,7 +41,7 @@ export class _XTreeNode<T>
             return this.parent!.left;
     }
     
-    public get uncle(): _XTreeNode<T>  | null
+    public get uncle(): XTreeNode<T>  | null
     {
         return this.parent!.sibling;
     }

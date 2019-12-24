@@ -7,7 +7,7 @@ import { IBidirectionalIterator } from "./IBidirectionalIterator";
 import { IRandomAccessIterator } from "./IRandomAccessIterator";
 
 import { InvalidArgument } from "../exception/InvalidArgument";
-import { _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
+import { _IEmpty, _ISize } from "../internal/container/IPartialContainers";
 
 /* =========================================================
     GLOBAL FUNCTIONS

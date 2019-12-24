@@ -5,13 +5,14 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { Writeonly, General } from "../iterator/IFake";
+import { General } from "../internal/types/General";
+import { Writeonly } from "../internal/types/Writeonly";
 import { less } from "../functional/comparators";
 import { copy } from "./modifiers";
 import { back_inserter } from "../iterator/factory";
 
 import { Vector } from "../container/Vector";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * @hidden

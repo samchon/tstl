@@ -3,11 +3,11 @@
 //================================================================
 import base = require("../../algorithm/random");
 
-import { IForwardContainer } from "../../base/disposable/IForwardContainer";
+import { IForwardContainer } from "../../internal/container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional/IPointer";
 
-import { Writeonly } from "../../iterator/IFake";
+import { Writeonly } from "../../internal/types/Writeonly";
 import { begin, end } from "../../iterator/factory";
 
 export function sample<

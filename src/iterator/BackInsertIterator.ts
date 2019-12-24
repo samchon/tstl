@@ -3,7 +3,7 @@
 //================================================================
 import { _InsertIterator } from "../base/iterator/_InsertIterator";
 
-import { _IPushBack } from "../base/disposable/IPartialContainers";
+import { _IPushBack } from "../internal/container/IPartialContainers";
 import { Vector } from "../container/Vector";
 
 import { equal_to } from "../functional/comparators";

@@ -10,7 +10,7 @@ import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
-import { Temporary } from "../Temporary";
+import { Temporary } from "../../internal/types/Temporary";
 
 export abstract class MultiTreeMap<Key, T,
         Source extends MultiTreeMap<Key, T, Source, IteratorT, ReverseT>,

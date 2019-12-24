@@ -6,11 +6,11 @@ import { IHashSet } from "../base/container/IHashSet";
 import { _Construct } from "../base/container/_IHashContainer";
 
 import { SetElementList } from "../base/container/SetElementList";
-import { _SetHashBuckets } from "../base/hash/_SetHashBuckets";
+import { SetHashBuckets } from "../internal/hash/SetHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { Pair } from "../utility/Pair";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * Unique-key Set based on Hash buckets.
@@ -27,7 +27,7 @@ export class HashSet<Key>
     /**
      * @hidden
      */
-    public buckets_!: _SetHashBuckets<Key, true, HashSet<Key>>;
+    public buckets_!: SetHashBuckets<Key, true, HashSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -88,7 +88,7 @@ export class HashSet<Key>
             this, HashSet, 
             (hash, pred) =>
             {
-                this.buckets_ = new _SetHashBuckets(this, hash, pred);
+                this.buckets_ = new SetHashBuckets(this, hash, pred);
             },
             ...args
         );
@@ -117,7 +117,7 @@ export class HashSet<Key>
         SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS
-        _SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
+        SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 

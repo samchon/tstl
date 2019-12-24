@@ -6,13 +6,13 @@ import { IHashMap } from "../base/container/IHashMap";
 import { _Construct } from "../base/container/_IHashContainer";
 
 import { MapElementList } from "../base/container/MapElementList";
-import { _MapHashBuckets } from "../base/hash/_MapHashBuckets";
+import { MapHashBuckets } from "../internal/hash/MapHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
 import { Pair } from "../utility/Pair";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/types/Temporary";
 
 /**
  * Unique-key Map based on Hash buckets.
@@ -29,7 +29,7 @@ export class HashMap<Key, T>
     /**
      * @hidden
      */
-    private buckets_!: _MapHashBuckets<Key, T, true, HashMap<Key, T>>;
+    private buckets_!: MapHashBuckets<Key, T, true, HashMap<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -90,7 +90,7 @@ export class HashMap<Key, T>
             this, HashMap, 
             (hash, pred) =>
             {
-                this.buckets_ = new _MapHashBuckets(this, hash, pred);
+                this.buckets_ = new MapHashBuckets(this, hash, pred);
             },
             ...args
         );
@@ -119,7 +119,7 @@ export class HashMap<Key, T>
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS
-        _MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
+        MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 

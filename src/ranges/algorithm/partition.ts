@@ -3,10 +3,10 @@
 //================================================================
 import base = require("../../algorithm/partition");
 
-import { IBidirectionalContainer } from "../../base/disposable/IBidirectionalContainer";
-import { IForwardContainer } from "../../base/disposable/IForwardContainer";
+import { IBidirectionalContainer } from "../../internal/container/IBidirectionalContainer";
+import { IForwardContainer } from "../../internal/container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Writeonly } from "../../iterator/IFake";
+import { Writeonly } from "../../internal/types/Writeonly";
 
 import { Pair } from "../../utility/Pair";
 import { begin, end } from "../../iterator/factory";

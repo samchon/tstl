@@ -4,7 +4,7 @@
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { General } from "../iterator/IFake";
+import { General } from "../internal/types/General";
 import { less } from "../functional/comparators";
 import { advance, distance } from "../iterator/global";
 

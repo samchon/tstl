@@ -13,8 +13,9 @@ import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
 import { InvalidArgument } from "../../exception/InvalidArgument";
 import { advance } from "../../iterator/global";
 
-import { Temporary } from "../Temporary";
+import { Temporary } from "../../internal/types/Temporary";
 import { ILinearContainer } from "./ILinearContainer";
+import { Omit } from "../../internal/types/Omit";
 
 /**
  * Basic List Container.

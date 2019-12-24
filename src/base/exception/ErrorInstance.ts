@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { ErrorCategory } from "../exception/ErrorCategory";
+import { ErrorCategory } from "../../exception/ErrorCategory";
 
 /**
  * Base class for error instances.

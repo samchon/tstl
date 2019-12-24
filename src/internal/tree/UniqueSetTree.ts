@@ -1,21 +1,21 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _SetTree } from "./_SetTree";
-import { _XTreeNode } from "./_XTreeNode";
+import { SetTree } from "./SetTree";
+import { XTreeNode } from "./XTreeNode";
 
-import { UniqueSet } from "../container/UniqueSet";
-import { SetElementList } from "../container/SetElementList";
+import { UniqueSet } from "../../base/container/UniqueSet";
+import { SetElementList } from "../../base/container/SetElementList";
 
 /**
  * @hidden
  */
-export class _UniqueSetTree<Key, 
+export class UniqueSetTree<Key, 
         Source extends UniqueSet<Key, 
             Source,
             SetElementList.Iterator<Key, true, Source>,
             SetElementList.ReverseIterator<Key, true, Source>>>
-    extends _SetTree<Key, true, Source>
+    extends SetTree<Key, true, Source>
 {
     /* ---------------------------------------------------------
         CONSTRUCTOR
@@ -33,7 +33,7 @@ export class _UniqueSetTree<Key,
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
-    public nearest_by_key(val: Key): _XTreeNode<SetElementList.Iterator<Key, true, Source>> | null
+    public nearest_by_key(val: Key): XTreeNode<SetElementList.Iterator<Key, true, Source>> | null
     {
         // NEED NOT TO ITERATE
         if (this.root_ === null)
@@ -42,12 +42,12 @@ export class _UniqueSetTree<Key,
         //----
         // ITERATE
         //----
-        let ret: _XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = this.root_;
+        let ret: XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = this.root_;
 
         while (true) // UNTIL MEET THE MATCHED VALUE OR FINAL BRANCH
         {
             let it: SetElementList.Iterator<Key, true, Source> = ret.value;
-            let my_node: _XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = null;
+            let my_node: XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = null;
 
             // COMPARE
             if (this.key_comp()(val, it.value))
@@ -71,7 +71,7 @@ export class _UniqueSetTree<Key,
         //--------
         // FIND MATCHED NODE
         //--------
-        let node: _XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = this.nearest_by_key(val);
+        let node: XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = this.nearest_by_key(val);
         if (node === null)
             return this.source().end();
 

@@ -4,7 +4,7 @@
 import { List } from "../container/List";
 import { OutOfRange } from "../exception/OutOfRange";
 
-import { LockType } from "../base/thread/enums";
+import { LockType } from "../internal/thread/LockType";
 import { sleep_for } from "./global";
 
 /**

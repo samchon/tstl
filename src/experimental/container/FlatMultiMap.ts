@@ -9,7 +9,7 @@ import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Temporary } from "../../base/Temporary";
+import { Temporary } from "../../internal/types/Temporary";
 import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 
 export class FlatMultiMap<Key, T>

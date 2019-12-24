@@ -6,7 +6,7 @@ import { ILinearContainer } from "./ILinearContainer";
 
 import { Iterator } from "../iterator/Iterator";
 import { ReverseIterator } from "../iterator/ReverseIterator";
-import { _IPushFront } from "../disposable/IPartialContainers";
+import { _IPushFront } from "../../internal/container/IPartialContainers";
 
 /**
  * Interface for deque containers.

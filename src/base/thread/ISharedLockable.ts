@@ -4,7 +4,7 @@
 /**
  * @hidden
  */
-export interface _ISharedLockable
+export interface ISharedLockable
 {
     /**
      * Lock shared until be unlock shared.

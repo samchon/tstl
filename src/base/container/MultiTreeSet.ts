@@ -6,7 +6,7 @@ import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
 
 import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 import { Pair } from "../../utility/Pair";
-import { Temporary } from "../Temporary";
+import { Temporary } from "../../internal/types/Temporary";
 import { IForwardIterator } from "../../iterator";
 
 export abstract class MultiTreeSet<Key,
