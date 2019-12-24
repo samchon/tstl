@@ -87,7 +87,7 @@ export function inplace_merge<BidirectionalIterator extends General<IBidirection
     ): void
 {
     let vector: Vector<IPointer.ValueType<BidirectionalIterator>> = new Vector();
-    merge(first, middle, middle, last, <Temporary>back_inserter(vector), comp);
+    merge(first, middle, middle, last, back_inserter(vector), comp);
 
     copy(vector.begin(), vector.end(), first);
 }
@@ -203,26 +203,20 @@ export function set_intersection<
         comp: Comparator<InputIterator1> = less
     ): OutputIterator
 {
-    while (true)
-    {
-        if (first1.equals(last1))
-            return copy(<Temporary>first2, last2, output);
-        else if (first2.equals(last2))
-            return copy(first1, last1, output);
-
+    while (!first1.equals(last1) && !first2.equals(last2))
         if (comp(first1.value, first2.value))
             first1 = first1.next();
         else if (comp(first2.value, first1.value))
             first2 = first2.next();
-        else 
-        {// equals
+        else
+        {
             output.value = first1.value;
 
             output = output.next();
             first1 = first1.next();
             first2 = first2.next();
         }
-    }
+    return output;
 }
 
 /**
@@ -263,7 +257,7 @@ export function set_difference<
             first1 = first1.next();
             first2 = first2.next();
         }
-
+    // return output;
     return copy(first1, last1, output);
 }
 

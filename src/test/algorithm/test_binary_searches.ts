@@ -8,8 +8,8 @@ export function test_binary_searches(): void
 
 function _Test_binary_search_of_atom(): void
 {
-    let vec = new std.Vector<number>();
-    let set = new std.TreeMultiSet<number>();
+    let v: std.Vector<number> = new std.Vector();
+    let s: std.TreeMultiSet<number> = new std.TreeMultiSet();
 
     //----
     // FILL VALUES
@@ -19,12 +19,12 @@ function _Test_binary_search_of_atom(): void
     {
         let val: number = Math.random();
 
-        vec.push_back(val);
-        set.insert(val);
+        v.push_back(val);
+        s.insert(val);
     }
 
     // SORT VECTOR
-    std.sort(vec.begin(), vec.end());
+    std.ranges.sort(v);
 
     //----
     // VALIDATE
@@ -33,33 +33,33 @@ function _Test_binary_search_of_atom(): void
     {
         let val: number = Math.random();
 
-        let v_it = std.equal_range(vec.begin(), vec.end(), val);
-        let s_it = set.equal_range(val);
+        let v_it = std.ranges.equal_range(v, val);
+        let s_it = s.equal_range(val);
 
         // VALIDATE LOWER BOUND
-        if (v_it.first.equals(vec.end()) === true)
-            if (s_it.first.equals(set.end()) === false)
-                throw new std.DomainError("Error std.lower_bound or Set.lower_bound; someone is out bound but the other is not.");
+        if (v_it.first.equals(v.end()) === true)
+            if (s_it.first.equals(s.end()) === false)
+                throw new Error("Bug on std.lower_bound() or Set.lower_bound(); someone is out bound but the other is not.");
             else
                 continue;
         else if (v_it.first.value !== s_it.first.value)
-            throw new std.DomainError("Error std.lower_bound or Set.lower_bound; different value.");
+            throw new Error("Bug on std.lower_bound() or Set.lower_bound(); different value.");
 
         // VALIDATE UPPER BOUND
-        if (v_it.second.equals(vec.end()) === true)
-            if (s_it.second.equals(set.end()) === false)
-                throw new std.DomainError("Error std.upper_bound or Set.upper_bound; someone is out bound but the other is not.");
+        if (v_it.second.equals(v.end()) === true)
+            if (s_it.second.equals(s.end()) === false)
+                throw new Error("Bug on std.upper_bound() or Set.upper_bound(); someone is out bound but the other is not.");
             else
                 continue;
         else if (v_it.second.value !== s_it.second.value)
-            throw new std.DomainError("Error std.upper_bound or Set.upper_bound; different value.");
+            throw new Error("Bug on std.upper_bound() or Set.upper_bound(); different value.");
     }
 }
 
 function _Test_binary_search_of_pair(): void
 {
-    let vec = new std.Vector<std.Pair<number, number>>();
-    let map = new std.TreeMultiMap<number, number>();
+    let v: std.Vector<std.Pair<number, number>> = new std.Vector();
+    let m: std.TreeMultiMap<number, number> = new std.TreeMultiMap();
 
     //----
     // FILL VALUES
@@ -69,12 +69,12 @@ function _Test_binary_search_of_pair(): void
     {
         let pair = std.make_pair(Math.random(), 0);
 
-        vec.push_back(pair);
-        map.insert(pair);
+        v.push_back(pair);
+        m.insert(pair);
     }
     
     // SORT VECTOR
-    std.sort(vec.begin(), vec.end(), _Compare_numbers_pair);
+    std.ranges.sort(v, _Compare_numbers_pair);
 
     //----
     // VALIDATE
@@ -83,26 +83,26 @@ function _Test_binary_search_of_pair(): void
     {
         let pair = std.make_pair(Math.random(), 0);
 
-        let v_it = std.equal_range(vec.begin(), vec.end(), pair, _Compare_numbers_pair);
-        let m_it = map.equal_range(pair.first);
+        let v_it = std.ranges.equal_range(v, pair, _Compare_numbers_pair);
+        let m_it = m.equal_range(pair.first);
 
         // VALIDATE LOWER BOUND
-        if (v_it.first.equals(vec.end()) === true)
-            if (m_it.first.equals(map.end()) === false)
-                throw new std.DomainError("Error std.lower_bound or Set.lower_bound; someone is out bound but the other is not.");
+        if (v_it.first.equals(v.end()) === true)
+            if (m_it.first.equals(m.end()) === false)
+                throw new Error("Bug on std.lower_bound or Set.lower_bound; someone is out bound but the other is not.");
             else
                 continue;
         else if (v_it.first.value.first !== m_it.first.first)
-            throw new std.DomainError("Error std.lower_bound or Set.lower_bound; different value.");
+            throw new Error("Bug on std.lower_bound or Set.lower_bound; different value.");
 
         // VALIDATE UPPER BOUND
-        if (v_it.second.equals(vec.end()) === true)
-            if (m_it.second.equals(map.end()) === false)
-                throw new std.DomainError("Error std.upper_bound or Set.upper_bound; someone is out bound but the other is not.");
+        if (v_it.second.equals(v.end()) === true)
+            if (m_it.second.equals(m.end()) === false)
+                throw new Error("Bug on std.upper_bound or Set.upper_bound; someone is out bound but the other is not.");
             else
                 continue;
         else if (v_it.second.value.first !== m_it.second.first)
-            throw new std.DomainError("Error std.upper_bound or Set.upper_bound; different value.");
+            throw new Error("Bug on std.upper_bound or Set.upper_bound; different value.");
     }
 }
 

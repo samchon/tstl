@@ -3,10 +3,10 @@
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
+import { Pair } from "../utility/Pair";
 
 import { distance, advance } from "../iterator/global";
 import { less } from "../functional/comparators";
-import { Pair } from "../utility/Pair";
 
 /**
  * @hidden
@@ -107,9 +107,10 @@ export function equal_range<ForwardIterator extends Readonly<IForwardIterator<IP
         comp: Comparator<ForwardIterator> = less
     ): Pair<ForwardIterator, ForwardIterator>
 {
-    let it: ForwardIterator = lower_bound(first, last, val, comp);
+    first = lower_bound(first, last, val, comp);
+    let second: ForwardIterator = upper_bound(first, last, val, comp);
 
-    return new Pair(it, upper_bound(it, last, val, comp));
+    return new Pair(first, second);
 }
 
 /**

@@ -44,9 +44,9 @@ async function _Test_semaphore(s: std.Semaphore): Promise<void>
         ++acquired_count;
     }
     if (acquired_count !== s.max())
-        throw new std.DomainError(`Error on Semaphore.lock().`);
+        throw new Error(`Bug on Semaphore.lock()`);
     else if (await s.try_acquire() === true)
-        throw new std.DomainError(`Error on Semaphore.try_lock().`);
+        throw new Error(`Bug on Semaphore.try_lock()`);
 
     // LOCK 4 TIMES AGAIN -> THEY SHOULD BE HOLD
     for (let i: number = 0; i < s.max(); ++i)
@@ -55,13 +55,13 @@ async function _Test_semaphore(s: std.Semaphore): Promise<void>
             ++acquired_count;
         });
     if (acquired_count !== s.max())
-        throw new std.DomainError(`Error on Semaphore.lock() when Semaphore is full.`);
+        throw new Error(`Bug on Semaphore.lock() when Semaphore is full`);
 
     // DO UNLOCK
     await s.release(s.max());
 
     if (acquired_count !== 2 * s.max())
-        throw new std.DomainError(`Error on Semaphore.unlock().`);
+        throw new Error(`Bug on Semaphore.unlock()`);
 
     // RELEASE UNRESOLVED LOCKS
     await std.sleep_for(0);
@@ -78,12 +78,12 @@ async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void>
     {
         let flag: boolean = await ts.try_acquire_for(0);
         if (flag === false)
-            throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when clear.");
+            throw new Error("Bug on TimedSemaphore.try_lock_for(); failed to lock when clear");
     }
 
     // TRY LOCK FOR -> MUST BE FAILED
     if (await ts.try_acquire_for(50) === true)
-        throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); succeeded to lock when must be failed.");
+        throw new Error("Bug on TimedSemaphore.try_lock_for(); succeeded to lock when must be failed.");
 
     // LOCK WOULD BE HOLD
     let cnt: number = 0;
@@ -95,7 +95,7 @@ async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void>
 
     await std.sleep_for(100);
     if (cnt === ts.max() / 2)
-        throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to release holdings.");
+        throw new Error("Error on TimedSemaphore.try_lock_for(); failed to release holdings.");
 
     // RELEASE AND LOCK
     await ts.release(ts.max());
@@ -104,7 +104,7 @@ async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void>
     {
         let flag: boolean = await ts.try_acquire_for(100);
         if (flag === false)
-            throw new std.DomainError("Error on TimedSemaphore.try_lock_for(); failed to lock when released.");
+            throw new Error("Error on TimedSemaphore.try_lock_for(); failed to lock when released.");
     }
     await ts.release(ts.max());
 }

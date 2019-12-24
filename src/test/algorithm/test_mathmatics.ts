@@ -17,7 +17,7 @@ function _Test_min_max(): void
     let max = Math.max(...v.data());
 
     if (min !== pair.first.value || max !== pair.second.value)
-        throw new std.DomainError("Error on std.minmax_element().");
+        throw new Error("Error on std.minmax_element().");
 }
 
 function _Test_permutations(): void
@@ -25,20 +25,20 @@ function _Test_permutations(): void
     let x = new std.Vector<number>([0, 1, 2, 3]);
     let y = new std.Vector<number>([3, 2, 1, 0]);
 
-    if (std.is_permutation(x.begin(), x.end(), y.begin()) === false)
-        throw new std.DomainError("Error on std.is_permutation().");
+    if (std.ranges.is_permutation(x, y) === false)
+        throw new Error("Error on std.is_permutation().");
     
     // NEXT_PERMUTATION
     let cnt: number = 1;
-    while (std.next_permutation(x.begin(), x.end()) === true)
+    while (std.ranges.next_permutation(x) === true)
         ++cnt;
     if (cnt !== 4*3*2)
-        throw new std.DomainError("Error on std.next_permutation().");
+        throw new Error("Error on std.next_permutation().");
 
     // PREV_PERMUTATION
     cnt = 1;
-    while (std.prev_permutation(y.begin(), y.end()) === true)
+    while (std.ranges.prev_permutation(y) === true)
         ++cnt;
     if (cnt !== 4*3*2)
-        throw new std.DomainError("Error on std.prev_permutation().");
+        throw new Error("Error on std.prev_permutation().");
 }

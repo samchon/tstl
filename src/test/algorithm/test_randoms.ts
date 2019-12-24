@@ -8,12 +8,13 @@ export function test_randoms(): void
 
 function _Test_rand_ints(): void
 {
-    for (let i: number = 0; i < 100 * 100; ++i)
+    for (let i: number = 0; i < 100; ++i)
     {
         let x: number = Math.floor(Math.random() * 100);
         let y: number = Math.floor(Math.random() * 100);
 
-        if (x > y)    [x, y] = [y, x];
+        if (x > y)
+            [x, y] = [y, x];
 
         let rand: number = std.randint(x, y);
         if (rand < x || rand > y)
@@ -23,7 +24,7 @@ function _Test_rand_ints(): void
 
 function _Test_samples(): void
 {
-    for (let i: number = 0; i < 100 * 100; ++i)
+    for (let i: number = 0; i < 100; ++i)
     {
         let size: number = std.randint(10, 100);
         let populations: std.Vector<number> = _Generate_populations(size);
@@ -31,11 +32,11 @@ function _Test_samples(): void
         let n: number = Math.min(size, std.randint(5, 20));
         let samples: std.Vector<number> = new std.Vector();
 
-        std.sample(populations.begin(), populations.end(), std.back_inserter(samples), n);
-        if (std.is_sorted(samples.begin(), samples.end()) === false)
+        std.ranges.sample(populations, std.back_inserter(samples), n);
+        if (std.ranges.is_sorted(samples) === false)
             throw new std.DomainError("Error on std.sample(); Elements are not sorted.");
         
-        samples.erase(std.unique(samples.begin(), samples.end()), samples.end());
+        samples.erase(std.ranges.unique(samples), samples.end());
         if (samples.size() !== n)
             throw new std.DomainError("Error on std.sample(); Elements are not unique.");
     }

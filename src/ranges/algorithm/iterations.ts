@@ -6,6 +6,7 @@ import base = require("../../algorithm/iterations");
 import { IForwardContainer } from "../../base/disposable/IForwardContainer";
 import { Pair } from "../../utility/Pair";
 import { begin, end } from "../../iterator/factory";
+import { size } from "../../iterator/global";
 import { equal_to, less } from "../../functional/comparators";
 
 import { Temporary } from "../../base/Temporary";
@@ -77,21 +78,24 @@ export function none_of<Range extends Array<any> | IForwardContainer<any>>
 }
 
 export function equal<
-        Range1 extends Array<any> | IForwardContainer<any>,
-        Range2 extends IForwardContainer.SimilarType<Range1>>
+        Range1 extends Array<any> | (IForwardContainer.ISizable<any>),
+        Range2 extends IForwardContainer.ISizable.SimilarType<Range1>>
     (range1: Range1, range2: Range2): boolean;
 
 export function equal<
-        Range1 extends Array<any> | IForwardContainer<any>,
-        Range2 extends Array<any> | IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer.ISizable<any>,
+        Range2 extends Array<any> | IForwardContainer.ISizable<any>>
     (range1: Range1, range2: Range2, pred: BinaryPredicator<Range1, Range2>): boolean;
 
 export function equal<
-        Range1 extends Array<any> | IForwardContainer<any>,
-        Range2 extends Array<any> | IForwardContainer<any>>
+        Range1 extends Array<any> | IForwardContainer.ISizable<any>,
+        Range2 extends Array<any> | IForwardContainer.ISizable<any>>
     (range1: Range1, range2: Range2, pred: BinaryPredicator<Range1, Range2> = <any>equal_to): boolean
 {
-    return base.equal(begin(range1), end(range1), begin(range2), pred);
+    if (size(range1) !== size(range2))
+        return false;
+    else
+        return base.equal(begin(range1), end(range1), begin(range2), pred);
 }
 
 export function lexicographical_compare<

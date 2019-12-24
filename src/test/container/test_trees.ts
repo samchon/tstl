@@ -1,7 +1,5 @@
 import * as std from "../../index";
-
 import { Temporary } from "../../base/Temporary";
-import { test_binary_searches } from "../algorithm/test_binary_searches";
 
 export function test_trees(): void
 {
@@ -16,7 +14,6 @@ export function test_trees(): void
     _Test_tree_map(new std.experimental.FlatMultiMap<number, number>());
 
     _Test_tree_set_inserts_and_erases();
-    _Test_bounds();
 }
 
 function _Test_tree_set_inserts_and_erases(): void
@@ -53,16 +50,16 @@ function _Test_tree_set<Unique extends boolean,
         set.push(Math.floor(Math.random() * 100));
 
     // VALIDATE SORTING
-    if (std.is_sorted(set.begin() as Temporary, set.end()) === false)
+    if (std.ranges.is_sorted(set) === false)
         throw new std.DomainError("Order of TreeSet or TreeMultiSet is wrong.");
 
     // VALIDATE FIND
-    for (let i: number = 0; i < 10000; ++i)
+    for (let i: number = 0; i < 100; ++i)
     {
         let val: number = Math.floor(Math.random() * 100);
 
-        let alg_it = std.find(set.begin() as Temporary, set.end(), val);
-        let set_it = set.find(val);
+        let alg_it: IteratorT = std.ranges.find(set, <Temporary>val) as Temporary;
+        let set_it: IteratorT = set.find(val);
 
         if (alg_it === set.end())
             if (set_it === set.end())
@@ -84,15 +81,15 @@ function _Test_tree_map<Unique extends boolean,
         map.push(std.make_pair(Math.floor(Math.random() * 100), 0));
 
     // VALIDATE SORTING
-    if (std.is_sorted(map.begin() as Temporary, map.end()) === false)
+    if (std.ranges.is_sorted(map) === false)
         throw new std.DomainError("Order of TreeMap or TreeMultiMap is wrong.");
 
     // VALIDATE FIND
-    for (let i: number = 0; i < 10000; ++i)
+    for (let i: number = 0; i < 100; ++i)
     {
         let val: number = Math.floor(Math.random() * 100);
 
-        let alg_it = std.find_if(map.begin() as Temporary, map.end(), entry => val === (entry as any).first);
+        let alg_it: IteratorT = std.ranges.find_if(map, entry => val === (entry as Temporary).first) as Temporary;
         let set_it = map.find(val);
 
         if (alg_it === map.end())
@@ -103,10 +100,4 @@ function _Test_tree_map<Unique extends boolean,
         else if (alg_it.first !== set_it.first)
             throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; different value.");
     }
-}
-
-function _Test_bounds(): void
-{
-    // test tree container and algorithms' binary search at the same time
-    test_binary_searches();
 }

@@ -10,16 +10,16 @@ export function test_sortings(): void
 
 function _Test_atomic_sorting(): void
 {
-    let array: std.Vector<number> = new std.Vector<number>();
+    let array: number[] = [];
     for (let i: number = 1; i <= 15; ++i)
         for (let j: number = 0; j < 3; ++j)
-            array.push_back(i);
+            array.push(i);
 
-    std.shuffle(std.begin(array), std.end(array));
-    std.stable_sort(std.begin(array), std.end(array));
+    std.ranges.shuffle(array);
+    std.ranges.stable_sort(array);
     
-    if (std.is_sorted(std.begin(array), std.end(array)) === false)
-        throw new std.DomainError("Wrong sorting in atoms.");
+    if (std.ranges.is_sorted(array) === false)
+        throw new Error("Bug on std.stable_sort()");
 }
 
 function _Test_object_sorting(): void
@@ -35,11 +35,11 @@ function _Test_object_sorting(): void
     // SORT BY Cube.less
     //----
     // DO SORT
-    std.sort(cubes.begin(), cubes.end());
+    std.ranges.sort(cubes);
     
     // VALIDATION
-    if (std.is_sorted(cubes.begin(), cubes.end()) === false)
-        throw new std.DomainError("Wrong sorting in objects.");
+    if (std.ranges.is_sorted(cubes) === false)
+        throw new Error("Bug on std.sort() with IComparable.less()");
 
     //----
     // SORT BY inline function
@@ -53,9 +53,9 @@ function _Test_object_sorting(): void
     };
 
     // DO SORT
-    std.sort(cubes.begin(), cubes.end(), inline_function);
+    std.ranges.sort(cubes, inline_function);
 
     // VALIDATION
-    if (std.is_sorted(cubes.begin(), cubes.end(), inline_function) === false)
-        throw new std.DomainError("Wrong sorting in objects.");
+    if (std.ranges.is_sorted(cubes, inline_function) === false)
+        throw new Error("Bug on std.sort() with parametric comparator");
 }

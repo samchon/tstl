@@ -46,7 +46,7 @@ export async function _Test_lock(name: string, mtx: std.ILockable): Promise<void
         throw new std.DomainError(name + " does not work.");
 }
 
-export async function _Test_try_lock(name: string, mtx: _ITimedLockable): Promise<void>
+ export async function _Test_try_lock(name: string, mtx: _ITimedLockable): Promise<void>
 {
     await _Test_lock(name, mtx);
     let start_time: number = new Date().getTime();
@@ -54,16 +54,16 @@ export async function _Test_try_lock(name: string, mtx: _ITimedLockable): Promis
     // DO LOCK
     let ret: boolean = await mtx.try_lock_for(SLEEP_TIME);
     if (ret === false)
-        throw new std.DomainError(name + "::try_lock_for does not return exact value.");
+        throw new Error(`Bug on ${name}.try_lock_for(): it does not return exact value`);
 
     // TRY LOCK AGAIN
     ret = await mtx.try_lock_for(SLEEP_TIME);
     let elapsed_time: number = new Date().getTime() - start_time;
 
     if (ret === true)
-        throw new std.DomainError(name + "::try_lock_for does not return exact value.");
+        throw new std.DomainError(`Bug on ${name}.try_lock_for(): it does not return exact value`);
     else if (elapsed_time < SLEEP_TIME * .95)
-        throw new std.DomainError(name + " does not work in exact time.");
+        throw new std.DomainError(`Bug on ${name}.try_lock_for(): it does not work in exact time`);
     
     await mtx.unlock();
 }
