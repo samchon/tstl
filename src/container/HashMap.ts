@@ -3,9 +3,9 @@
 //================================================================
 import { UniqueMap } from "../base/container/UniqueMap";
 import { IHashMap } from "../base/container/IHashMap";
-import { _Construct } from "../base/container/_IHashContainer";
+import { IHashContainer } from "../internal/container/associative/IHashContainer";
 
-import { MapElementList } from "../base/container/MapElementList";
+import { MapElementList } from "../internal/container/associative/MapElementList";
 import { MapHashBuckets } from "../internal/hash/MapHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -81,7 +81,7 @@ export class HashMap<Key, T>
     {
         super(thisArg => new MapElementList(thisArg));
 
-        _Construct<Key, Entry<Key, T>, 
+        IHashContainer.construct<Key, Entry<Key, T>, 
                 HashMap<Key, T>,
                 HashMap.Iterator<Key, T>,
                 HashMap.ReverseIterator<Key, T>,

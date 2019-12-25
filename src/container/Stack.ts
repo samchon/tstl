@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { AdaptorContainer } from "../base/container/AdaptorContainer";
+import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer";
 import { Vector } from "./Vector";
 
 /**

@@ -4,7 +4,7 @@
 /**
  * @hidden
  */
-export interface _IListAlgorithm<T, Source>
+export interface IListAlgorithm<T, Source>
 {
     /* ---------------------------------------------------------
         UNIQUE & REMOVE
@@ -63,8 +63,8 @@ export interface _IListAlgorithm<T, Source>
 
 export namespace _IListAlgorithm
 {
-    export type ValueType<Container extends Partial<_IListAlgorithm<any, Container>>> =
-        Container extends _IListAlgorithm<infer T, Container>
+    export type ValueType<Container extends Partial<IListAlgorithm<any, Container>>> =
+        Container extends IListAlgorithm<infer T, Container>
             ? T
             : any;
 }

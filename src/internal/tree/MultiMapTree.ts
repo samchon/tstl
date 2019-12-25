@@ -5,7 +5,7 @@ import { MapTree } from "./MapTree";
 import { XTreeNode } from "./XTreeNode";
 
 import { MultiMap } from "../../base/container/MultiMap";
-import { MapElementList } from "../../base/container/MapElementList";
+import { MapElementList } from "../container/associative/MapElementList";
 
 import { get_uid } from "../../functional/uid";
 

@@ -3,10 +3,10 @@
 //================================================================
 import { IContainer } from "./IContainer";
 import { ILinearContainer } from "./ILinearContainer";
+import { IPushFront } from "../../internal/container/partial/IPushFront";
 
 import { Iterator } from "../iterator/Iterator";
 import { ReverseIterator } from "../iterator/ReverseIterator";
-import { _IPushFront } from "../../internal/container/IPartialContainers";
 
 /**
  * Interface for deque containers.
@@ -25,7 +25,7 @@ export interface IDequeContainer<T extends ElemT,
 /**
  * @hidden
  */
-export interface _IDeque<T> extends _IPushFront<T>
+export interface _IDeque<T> extends IPushFront<T>
 {
     /**
      * @inheritDoc

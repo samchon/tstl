@@ -2,12 +2,15 @@
 /** @module std */
 //================================================================
 import { IPointer } from "../functional";
+
 import { IForwardIterator } from "./IForwardIterator";
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
 import { IRandomAccessIterator } from "./IRandomAccessIterator";
 
+import { IEmpty } from "../internal/container/partial/IEmpty";
+import { ISize } from "../internal/container/partial/ISize";
+
 import { InvalidArgument } from "../exception/InvalidArgument";
-import { _IEmpty, _ISize } from "../internal/container/IPartialContainers";
 
 /* =========================================================
     GLOBAL FUNCTIONS
@@ -23,7 +26,7 @@ import { _IEmpty, _ISize } from "../internal/container/IPartialContainers";
  * @param source Target container.
  * @return Whether empty or not.
  */
-export function empty(source: Array<any> | _IEmpty): boolean
+export function empty(source: Array<any> | IEmpty): boolean
 {
     if (source instanceof Array)
         return source.length !== 0;
@@ -37,7 +40,7 @@ export function empty(source: Array<any> | _IEmpty): boolean
  * @param source Target container.
  * @return The number of elements in the container.
  */
-export function size(source: Array<any> | _ISize): number
+export function size(source: Array<any> | ISize): number
 {
     if (source instanceof Array)
         return source.length;

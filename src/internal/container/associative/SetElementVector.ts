@@ -1,12 +1,12 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { VectorContainer } from "./VectorContainer";
+import { VectorContainer } from "../../../base/container/VectorContainer";
 
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIteratorBase";
-import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
+import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../../iterator/ArrayIteratorBase";
+import { ISetIterator, ISetReverseIterator } from "../../../base/iterator/ISetIterator";
 
-import { SetContainer } from "./SetContainer";
+import { SetContainer } from "../../../base/container/SetContainer";
 
 /**
  * @hidden

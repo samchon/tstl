@@ -5,7 +5,7 @@ import { XTree } from "./XTree";
 import { XTreeNode } from "./XTreeNode";
 
 import { MapContainer } from "../../base/container/MapContainer";
-import { MapElementList } from "../../base/container/MapElementList";
+import { MapElementList } from "../container/associative/MapElementList";
 
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";

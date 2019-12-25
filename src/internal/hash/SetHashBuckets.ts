@@ -4,7 +4,7 @@
 import { HashBuckets } from "./HashBuckets";
 
 import { IHashSet } from "../../base/container/IHashSet";
-import { SetElementList } from "../../base/container/SetElementList";
+import { SetElementList } from "../container/associative/SetElementList";
 
 /**
  * @hidden

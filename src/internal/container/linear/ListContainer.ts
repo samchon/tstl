@@ -1,21 +1,21 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { IContainer } from "./IContainer";
-import { Container } from "./Container";
+import { IContainer } from "../../../base/container/IContainer";
+import { Container } from "../../../base/container/Container";
 
-import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { ReverseIterator } from "../iterator/ReverseIterator";
-import { ListIterator } from "../iterator/ListIterator";
+import { IForwardIterator } from "../../../iterator/IForwardIterator";
+import { ReverseIterator } from "../../../base/iterator/ReverseIterator";
+import { ListIterator } from "../../iterator/ListIterator";
 
-import { _Repeater } from "../iterator/_Repeater";
-import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
-import { InvalidArgument } from "../../exception/InvalidArgument";
-import { advance } from "../../iterator/global";
+import { Repeater } from "../../iterator/disposable/Repeater";
+import { NativeArrayIterator } from "../../iterator/disposable/NativeArrayIterator";
+import { InvalidArgument } from "../../../exception/InvalidArgument";
+import { advance } from "../../../iterator/global";
 
-import { Temporary } from "../../internal/types/Temporary";
-import { ILinearContainer } from "./ILinearContainer";
-import { Omit } from "../../internal/types/Omit";
+import { Temporary } from "../../types/Temporary";
+import { ILinearContainer } from "../../../base/container/ILinearContainer";
+import { Omit } from "../../types/Omit";
 
 /**
  * Basic List Container.
@@ -186,8 +186,8 @@ export abstract class ListContainer<T,
             return this.size();
 
         // INSERT BY RANGE
-        let first: _NativeArrayIterator<T> = new _NativeArrayIterator(items, 0);
-        let last: _NativeArrayIterator<T> = new _NativeArrayIterator(items, items.length);
+        let first: NativeArrayIterator<T> = new NativeArrayIterator(items, 0);
+        let last: NativeArrayIterator<T> = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(this.end(), first, last);
 
@@ -231,8 +231,8 @@ export abstract class ListContainer<T,
      */
     private _Insert_by_repeating_val(position: IteratorT, n: number, val: T): IteratorT
     {
-        let first: _Repeater<T> = new _Repeater(0, val);
-        let last: _Repeater<T> = new _Repeater(n);
+        let first: Repeater<T> = new Repeater(0, val);
+        let last: Repeater<T> = new Repeater(n);
 
         return this._Insert_by_range(position, first, last);
     }

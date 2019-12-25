@@ -1,10 +1,10 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { Iterator } from "./Iterator";
-import { ReverseIterator } from "./ReverseIterator";
+import { Iterator } from "../../base/iterator/Iterator";
+import { ReverseIterator } from "../../base/iterator/ReverseIterator";
 
-import { IContainer } from "../container/IContainer";
+import { IContainer } from "../../base/container/IContainer";
 import { OutOfRange } from "../../exception/OutOfRange";
 
 /**

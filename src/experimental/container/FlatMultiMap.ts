@@ -2,9 +2,9 @@
 /** @module std.experimental */
 //================================================================
 import { MultiTreeMap } from "../../base/container/MultiTreeMap";
-import { _Construct } from "../../base/container/_ITreeContainer";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
-import { MapElementVector } from "../../base/container/MapElementVector";
+import { MapElementVector } from "../../internal/container/associative/MapElementVector";
 import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
 
@@ -68,7 +68,7 @@ export class FlatMultiMap<Key, T>
         super(thisArg => new MapElementVector(thisArg));
         
         // OVERLOADINGS
-        _Construct<Key, Entry<Key, T>, 
+        ITreeContainer.construct<Key, Entry<Key, T>, 
                 FlatMultiMap<Key, T>,
                 FlatMultiMap.Iterator<Key, T>,
                 FlatMultiMap.ReverseIterator<Key, T>,

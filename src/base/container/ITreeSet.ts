@@ -2,7 +2,7 @@
 /** @module std.base */
 //================================================================
 import { SetContainer } from "./SetContainer";
-import { _ITreeContainer } from "./_ITreeContainer";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
 import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 
@@ -18,6 +18,6 @@ export interface ITreeSet<Key,
         IteratorT extends ISetIterator<Key, Unique, Source, IteratorT, ReverseT>,
         ReverseT extends ISetReverseIterator<Key, Unique, Source, IteratorT, ReverseT>>
     extends SetContainer<Key, Unique, Source, IteratorT, ReverseT>, 
-        _ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
+        ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
 {
 }

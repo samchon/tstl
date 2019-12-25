@@ -3,7 +3,7 @@
 //================================================================
 import base = require("../../algorithm/binary_search");
 
-import { IForwardContainer } from "../../internal/container/IForwardContainer";
+import { IForwardContainer } from "../container/IForwardContainer";
 import { Pair } from "../../utility/Pair";
 import { begin, end } from "../../iterator/factory";
 import { less } from "../../functional/comparators";

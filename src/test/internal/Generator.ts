@@ -1,10 +1,10 @@
-import { _IPush } from "../../internal/container/IPartialContainers";
 import { Vector } from "../../container/Vector";
 import { Deque } from "../../container/Deque";
 import { randint } from "../../algorithm/random";
 import { sort } from "../../algorithm/sorting";
 
-import { IForwardContainer } from "../../internal/container/IForwardContainer";
+import { IForwardContainer } from "../../ranges/container/IForwardContainer";
+import { IPush } from "../../internal/container/partial/IPush";
 import { Temporary } from "../../internal/types/Temporary";
 
 export namespace Generator
@@ -24,13 +24,13 @@ export namespace Generator
         return container;
     }
 
-    export function fill<Container extends _IPush<number>>
+    export function fill<Container extends IPush<number>>
         (container: Container, count: number): Container;
 
-    export function fill<Container extends _IPush<any>>
-        (container: Container, count: number, gen: () => Container extends _IPush<infer T> ? T : unknown): Container;
+    export function fill<Container extends IPush<any>>
+        (container: Container, count: number, gen: () => Container extends IPush<infer T> ? T : unknown): Container;
 
-    export function fill<Container extends _IPush<any>>
+    export function fill<Container extends IPush<any>>
         (container: Container, count: number, gen?: () => any): Container
     {
         if (gen === undefined)

@@ -1,11 +1,11 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ArrayContainer } from "../base/container/ArrayContainer";
-import { ArrayIterator, ArrayReverseIterator } from "../base/iterator/ArrayIterator";
+import { ArrayContainer } from "../internal/container/linear/ArrayContainer";
+import { ArrayIterator, ArrayReverseIterator } from "../internal/iterator/ArrayIterator";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
+import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
 
 import { Pair } from "../utility/Pair";
 import { OutOfRange } from "../exception/OutOfRange";
@@ -105,8 +105,8 @@ export class Deque<T>
         {
             // INITIALIZER CONSTRUCTOR
             let array: Array<T> = args[0];
-            let first = new _NativeArrayIterator(array, 0);
-            let last = new _NativeArrayIterator(array, array.length);
+            let first = new NativeArrayIterator(array, 0);
+            let last = new NativeArrayIterator(array, array.length);
 
             this.assign(first, last);
         }
@@ -355,8 +355,8 @@ export class Deque<T>
             return this.size();
 
         // INSERT BY RANGE
-        let first: _NativeArrayIterator<T> = new _NativeArrayIterator(items, 0);
-        let last: _NativeArrayIterator<T> = new _NativeArrayIterator(items, items.length);
+        let first: NativeArrayIterator<T> = new NativeArrayIterator(items, 0);
+        let last: NativeArrayIterator<T> = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(this.end(), first, last);
 

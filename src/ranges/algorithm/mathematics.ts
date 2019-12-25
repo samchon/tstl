@@ -3,8 +3,8 @@
 //================================================================
 import base = require("../../algorithm/mathematics");
 
-import { IBidirectionalContainer } from "../../internal/container/IBidirectionalContainer";
-import { IForwardContainer } from "../../internal/container/IForwardContainer";
+import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
+import { IForwardContainer } from "../container/IForwardContainer";
 import { Pair } from "../../utility/Pair";
 import { less, equal_to } from "../../functional/comparators";
 import { begin, end } from "../../iterator/factory";

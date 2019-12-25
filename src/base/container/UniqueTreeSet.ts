@@ -2,7 +2,7 @@
 /** @module std.base */
 //================================================================
 import { UniqueSet } from "./UniqueSet";
-import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
 import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 
@@ -14,7 +14,7 @@ export abstract class UniqueTreeSet<Key,
         IteratorT extends ISetIterator<Key, true, Source, IteratorT, ReverseT>,
         ReverseT extends ISetReverseIterator<Key, true, Source, IteratorT, ReverseT>>
     extends UniqueSet<Key, Source, IteratorT, ReverseT>
-    implements _ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
+    implements ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
 {
     /* ---------------------------------------------------------
         ACCESSORS
@@ -98,7 +98,7 @@ export abstract class UniqueTreeSet<Key,
      */
     protected _Insert_by_hint(hint: IteratorT, key: Key): IteratorT
     {
-        let validate: boolean = _Emplacable<Key, Key, 
+        let validate: boolean = ITreeContainer.emplacable<Key, Key, 
                 Source, 
                 IteratorT, 
                 ReverseT, 

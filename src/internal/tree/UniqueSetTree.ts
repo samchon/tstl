@@ -5,7 +5,7 @@ import { SetTree } from "./SetTree";
 import { XTreeNode } from "./XTreeNode";
 
 import { UniqueSet } from "../../base/container/UniqueSet";
-import { SetElementList } from "../../base/container/SetElementList";
+import { SetElementList } from "../container/associative/SetElementList";
 
 /**
  * @hidden

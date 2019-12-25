@@ -2,8 +2,8 @@
 /** @module std.base */
 //================================================================
 import { SetContainer } from "./SetContainer";
-import { _IHashContainer } from "./_IHashContainer";
-import { SetElementList } from "./SetElementList";
+import { IHashContainer } from "../../internal/container/associative/IHashContainer";
+import { SetElementList } from "../../internal/container/associative/SetElementList";
 
 /**
  * Common interface for Hash Sets.
@@ -19,7 +19,7 @@ export interface IHashSet<Key,
             Source,
             SetElementList.Iterator<Key, Unique, Source>,
             SetElementList.ReverseIterator<Key, Unique, Source>>,
-        _IHashContainer<Key, Key, Source, 
+        IHashContainer<Key, Key, Source, 
             SetElementList.Iterator<Key, Unique, Source>, 
             SetElementList.ReverseIterator<Key, Unique, Source>,
             Key>

@@ -2,7 +2,7 @@
 /** @module std.base */
 //================================================================
 import { MultiSet } from "./MultiSet";
-import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
 import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 import { Pair } from "../../utility/Pair";
@@ -14,7 +14,7 @@ export abstract class MultiTreeSet<Key,
         IteratorT extends ISetIterator<Key, false, Source, IteratorT, ReverseT>,
         ReverseT extends ISetReverseIterator<Key, false, Source, IteratorT, ReverseT>>
     extends MultiSet<Key, Source, IteratorT, ReverseT>
-    implements _ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
+    implements ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
 {
     /* ---------------------------------------------------------
         ACCESSORS
@@ -107,7 +107,7 @@ export abstract class MultiTreeSet<Key,
      */
     protected _Insert_by_hint(hint: IteratorT, key: Key): IteratorT
     {
-        let validate: boolean = _Emplacable<Key, Key, 
+        let validate: boolean = ITreeContainer.emplacable<Key, Key, 
                 Source, 
                 IteratorT, 
                 ReverseT, 

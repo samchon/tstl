@@ -5,7 +5,7 @@ import { MapTree } from "./MapTree";
 import { XTreeNode } from "./XTreeNode";
 
 import { UniqueMap } from "../../base/container/UniqueMap";
-import { MapElementList } from "../../base/container/MapElementList";
+import { MapElementList } from "../container/associative/MapElementList";
 
 /**
  * @hidden

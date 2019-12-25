@@ -1,12 +1,14 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { IBidirectionalContainer } from "../../internal/container/IBidirectionalContainer";
+import { IBidirectionalContainer } from "../../ranges/container/IBidirectionalContainer";
+import { IEmpty } from "../../internal/container/partial/IEmpty";
+import { ISize } from "../../internal/container/partial/ISize";
+import { IPush } from "../../internal/container/partial/IPush";
+
 import { Iterator } from "../iterator/Iterator";
 import { IReverseIterator } from "../iterator/ReverseIterator";
-
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { _IEmpty, _ISize, _IPush } from "../../internal/container/IPartialContainers";
 
 /**
  * Interface for Containers.
@@ -19,7 +21,7 @@ export interface IContainer<T extends Elem,
         ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
         Elem = T>
     extends IBidirectionalContainer<Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>, ReverseIteratorT>, 
-        Iterable<T>, _IEmpty, _ISize, _IPush<Elem>
+        Iterable<T>, IEmpty, ISize, IPush<Elem>
 {
     /* ---------------------------------------------------------
         ASSIGN & CLEAR

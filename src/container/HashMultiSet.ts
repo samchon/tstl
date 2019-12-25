@@ -3,9 +3,9 @@
 //================================================================
 import { MultiSet } from "../base/container/MultiSet";
 import { IHashSet } from "../base/container/IHashSet";
-import { _Construct } from "../base/container/_IHashContainer";
+import { IHashContainer } from "../internal/container/associative/IHashContainer";
 
-import { SetElementList } from "../base/container/SetElementList";
+import { SetElementList } from "../internal/container/associative/SetElementList";
 import { SetHashBuckets } from "../internal/hash/SetHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -78,7 +78,7 @@ export class HashMultiSet<Key>
     {
         super(thisArg => new SetElementList(thisArg));
 
-        _Construct<Key, Key, 
+        IHashContainer.construct<Key, Key, 
                 HashMultiSet<Key>,
                 HashMultiSet.Iterator<Key>,
                 HashMultiSet.ReverseIterator<Key>,

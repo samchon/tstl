@@ -6,9 +6,6 @@ import { IReversableIterator, IReverseIterator } from "../../iterator/IReverseIt
 import { IPointer } from "../../functional/IPointer";
 import { Vector } from "../../container/Vector";
 
-/**
- * @hidden
- */
 export interface IBidirectionalContainer< 
         IteratorT extends IReversableIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseIteratorT>,
         ReverseIteratorT extends IReverseIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseIteratorT>>

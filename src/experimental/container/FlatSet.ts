@@ -2,9 +2,9 @@
 /** @module std.experimental */
 //================================================================
 import { UniqueTreeSet } from "../../base/container/UniqueTreeSet";
-import { _Construct } from "../../base/container/_ITreeContainer";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
-import { SetElementVector } from "../../base/container/SetElementVector";
+import { SetElementVector } from "../../internal/container/associative/SetElementVector";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { Temporary } from "../../internal/types/Temporary";
@@ -66,7 +66,7 @@ export class FlatSet<Key>
         super(thisArg => new SetElementVector(thisArg));
         
         // OVERLOADINGS
-        _Construct<Key, Key, 
+        ITreeContainer.construct<Key, Key, 
                 FlatSet<Key>,
                 FlatSet.Iterator<Key>,
                 FlatSet.ReverseIterator<Key>,

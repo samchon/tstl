@@ -3,7 +3,7 @@
 //================================================================
 import { ArrayIteratorBase, ArrayReverseIteratorBase } from "./ArrayIteratorBase";
 
-import { ArrayContainer } from "../container/ArrayContainer";
+import { ArrayContainer } from "../container/linear/ArrayContainer";
 
 export class ArrayIterator<T, 
         SourceT extends ArrayContainer<T, 

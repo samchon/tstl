@@ -3,7 +3,7 @@
 //================================================================
 import base = require("../../algorithm/heap");
 
-import { IRandomAccessContainer } from "../../internal/container/IRandomAccessContainer";
+import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
 import { begin, end } from "../../iterator/factory";
 import { less } from "../../functional/comparators";
 

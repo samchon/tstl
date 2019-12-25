@@ -1,13 +1,13 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { ListContainer } from "./ListContainer";
+import { ListContainer } from "../linear/ListContainer";
 
-import { ISetIterator } from "../iterator/ISetIterator";
-import { ListIterator } from "../iterator/ListIterator";
-import { ReverseIterator as _ReverseIterator } from "../iterator/ReverseIterator";
+import { ISetIterator } from "../../../base/iterator/ISetIterator";
+import { ListIterator } from "../../iterator/ListIterator";
+import { ReverseIterator as _ReverseIterator } from "../../../base/iterator/ReverseIterator";
 
-import { SetContainer } from "./SetContainer";
+import { SetContainer } from "../../../base/container/SetContainer";
 
 /**
  * @hidden

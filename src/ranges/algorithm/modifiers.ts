@@ -3,9 +3,9 @@
 //================================================================
 import base = require("../../algorithm/modifiers");
 
-import { IBidirectionalContainer } from "../../internal/container/IBidirectionalContainer";
-import { IForwardContainer } from "../../internal/container/IForwardContainer";
-import { IRandomAccessContainer } from "../../internal/container/IRandomAccessContainer";
+import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
+import { IForwardContainer } from "../container/IForwardContainer";
+import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
 
 import { IBidirectionalIterator } from "../../iterator/IBidirectionalIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";

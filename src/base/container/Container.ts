@@ -6,7 +6,7 @@ import { Iterator } from "../iterator/Iterator";
 import { IReverseIterator } from "../iterator/ReverseIterator";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { ForOfAdaptor } from "../iterator/ForOfAdaptor";
+import { ForOfAdaptor } from "../../internal/iterator/disposable/ForOfAdaptor";
 
 /**
  * Basic container.

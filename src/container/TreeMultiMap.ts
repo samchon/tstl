@@ -2,9 +2,9 @@
 /** @module std */
 //================================================================
 import { MultiTreeMap } from "../base/container/MultiTreeMap";
-import { _Construct } from "../base/container/_ITreeContainer";
+import { ITreeContainer } from "../internal/container/associative/ITreeContainer";
 
-import { MapElementList } from "../base/container/MapElementList";
+import { MapElementList } from "../internal/container/associative/MapElementList";
 import { MultiMapTree } from "../internal/tree/MultiMapTree";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -71,7 +71,7 @@ export class TreeMultiMap<Key, T>
     {
         super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
 
-        _Construct<Key, Entry<Key, T>, 
+        ITreeContainer.construct<Key, Entry<Key, T>, 
                 TreeMultiMap<Key, T>,
                 TreeMultiMap.Iterator<Key, T>,
                 TreeMultiMap.ReverseIterator<Key, T>,

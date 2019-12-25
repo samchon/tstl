@@ -2,9 +2,9 @@
 /** @module std */
 //================================================================
 import { UniqueTreeMap } from "../base/container/UniqueTreeMap";
-import { _Construct } from "../base/container/_ITreeContainer";
+import { ITreeContainer } from "../internal/container/associative/ITreeContainer";
 
-import { MapElementList } from "../base/container/MapElementList";
+import { MapElementList } from "../internal/container/associative/MapElementList";
 import { UniqueMapTree } from "../internal/tree/UniqueMapTree";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -73,7 +73,7 @@ export class TreeMap<Key, T>
         super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
         
         // OVERLOADINGS
-        _Construct<Key, Entry<Key, T>, 
+        ITreeContainer.construct<Key, Entry<Key, T>, 
                 TreeMap<Key, T>,
                 TreeMap.Iterator<Key, T>,
                 TreeMap.ReverseIterator<Key, T>,

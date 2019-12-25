@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { VectorContainer } from "../base/container/VectorContainer";
-import { ArrayIterator, ArrayReverseIterator } from "../base/iterator/ArrayIterator";
+import { ArrayIterator, ArrayReverseIterator } from "../internal/iterator/ArrayIterator";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 

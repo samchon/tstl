@@ -4,7 +4,7 @@
 import { HashBuckets } from "./HashBuckets";
 
 import { IHashMap } from "../../base/container/IHashMap";
-import { MapElementList } from "../../base/container/MapElementList";
+import { MapElementList } from "../container/associative/MapElementList";
 
 /**
  * @hidden

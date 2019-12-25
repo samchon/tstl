@@ -2,11 +2,11 @@
 /** @module std.base */
 //================================================================
 import { MapContainer } from "./MapContainer";
-import { _IHashContainer } from "./_IHashContainer";
+import { IHashContainer } from "../../internal/container/associative/IHashContainer";
 
 import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
-import { MapElementList } from "./MapElementList";
+import { MapElementList } from "../../internal/container/associative/MapElementList";
 
 /**
  * Common interface for Hash Maps.
@@ -22,7 +22,7 @@ export interface IHashMap<Key, T,
             Source,
             MapElementList.Iterator<Key, T, Unique, Source>,
             MapElementList.ReverseIterator<Key, T, Unique, Source>>, 
-        _IHashContainer<Key, Entry<Key, T>, Source, 
+        IHashContainer<Key, Entry<Key, T>, Source, 
             MapElementList.Iterator<Key, T, Unique, Source>, 
             MapElementList.ReverseIterator<Key, T, Unique, Source>,
             IPair<Key, T>>

@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
 /**
  * Adaptor for `for ... of` iteration.

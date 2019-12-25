@@ -1,13 +1,13 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
 /**
  * @hidden
  */
-export class _NativeArrayIterator<T> 
-    implements Readonly<IForwardIterator<T, _NativeArrayIterator<T>>>
+export class NativeArrayIterator<T> 
+    implements Readonly<IForwardIterator<T, NativeArrayIterator<T>>>
 {
     private data_: Array<T>;
     private index_: number;
@@ -37,18 +37,19 @@ export class _NativeArrayIterator<T>
     /* ---------------------------------------------------------
         MOVERS
     --------------------------------------------------------- */
-    public prev(): _NativeArrayIterator<T>
+    public prev(): NativeArrayIterator<T>
     {
         --this.index_;
         return this;
     }
-    public next(): _NativeArrayIterator<T>
+
+    public next(): NativeArrayIterator<T>
     {
         ++this.index_;
         return this;
     }
 
-    public advance(n: number): _NativeArrayIterator<T>
+    public advance(n: number): NativeArrayIterator<T>
     {
         this.index_ += n;
         return this;
@@ -57,12 +58,12 @@ export class _NativeArrayIterator<T>
     /* ---------------------------------------------------------
         COMPARES
     --------------------------------------------------------- */
-    public equals(obj: _NativeArrayIterator<T>): boolean
+    public equals(obj: NativeArrayIterator<T>): boolean
     {
         return this.data_ === obj.data_ && this.index_ === obj.index_;
     }
 
-    public swap(obj: _NativeArrayIterator<T>): void
+    public swap(obj: NativeArrayIterator<T>): void
     {
         [this.data_, obj.data_] = [obj.data_, this.data_];
         [this.index_, obj.index_] = [obj.index_, this.index_];

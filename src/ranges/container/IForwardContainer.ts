@@ -1,14 +1,12 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { _ISize } from "./IPartialContainers";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { IPointer } from "../../functional";
+import { IPointer } from "../../functional/IPointer";
+import { ISize } from "../../internal/container/partial/ISize";
+
 import { Vector } from "../../container/Vector";
 
-/**
- * @hidden
- */
 export interface IForwardContainer<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
 {
     /**
@@ -41,7 +39,7 @@ export namespace IForwardContainer
     export type SimilarType<Container extends Array<any> | IForwardContainer<any>>
          = Array<ValueType<Container>> | IForwardContainer<IForwardIterator<ValueType<Container>, any>>;
 
-    export type ISizable<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> = IForwardContainer<Iterator> & _ISize;
+    export type ISizable<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> = IForwardContainer<Iterator> & ISize;
     export namespace ISizable
     {
         export type SimilarType<Container extends Array<any> | ISizable<any>>

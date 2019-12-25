@@ -3,7 +3,7 @@
 //================================================================
 import base = require("../../algorithm/random");
 
-import { IForwardContainer } from "../../internal/container/IForwardContainer";
+import { IForwardContainer } from "../container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional/IPointer";
 

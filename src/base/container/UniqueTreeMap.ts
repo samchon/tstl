@@ -2,7 +2,7 @@
 /** @module std.base */
 //================================================================
 import { UniqueMap } from "./UniqueMap";
-import { _ITreeContainer, _Emplacable } from "./_ITreeContainer";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
 import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
@@ -16,7 +16,7 @@ export abstract class UniqueTreeMap<Key, T,
         IteratorT extends IMapIterator<Key, T, true, Source, IteratorT, ReverseT>,
         ReverseT extends IMapReverseIterator<Key, T, true, Source, IteratorT, ReverseT>>
     extends UniqueMap<Key, T, Source, IteratorT, ReverseT>
-    implements _ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+    implements ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
     /* ---------------------------------------------------------
         ACCESSORS
@@ -101,7 +101,7 @@ export abstract class UniqueTreeMap<Key, T,
     public emplace_hint(hint: IteratorT, key: Key, val: T): IteratorT
     {
         let elem: Entry<Key, T> = new Entry(key, val);
-        let validate: boolean = _Emplacable<Key, 
+        let validate: boolean = ITreeContainer.emplacable<Key, 
                 Entry<Key, T>, 
                 Source, 
                 IteratorT,

@@ -2,7 +2,7 @@
 /** @module std.base */
 //================================================================
 import { MapContainer } from "./MapContainer";
-import { _ITreeContainer } from "./_ITreeContainer";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
 import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 
@@ -20,6 +20,6 @@ export interface ITreeMap<Key, T,
         IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>,
         ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
     extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>, 
-        _ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+        ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
 }

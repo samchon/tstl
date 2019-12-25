@@ -3,7 +3,7 @@
 //================================================================
 import { _InsertIterator } from "../base/iterator/_InsertIterator";
 
-import { _IPushFront } from "../internal/container/IPartialContainers";
+import { IPushFront } from "../internal/container/partial/IPushFront";
 import { equal_to } from "../functional/comparators";
 
 /**
@@ -11,7 +11,7 @@ import { equal_to } from "../functional/comparators";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class FrontInsertIterator<Source extends _IPushFront<FrontInsertIterator.ValueType<Source>>>
+export class FrontInsertIterator<Source extends IPushFront<FrontInsertIterator.ValueType<Source>>>
     extends _InsertIterator<FrontInsertIterator.ValueType<Source>, FrontInsertIterator<Source>>
 {
     /**
@@ -51,8 +51,8 @@ export class FrontInsertIterator<Source extends _IPushFront<FrontInsertIterator.
 }
 export namespace FrontInsertIterator
 {
-    export type ValueType<Source extends _IPushFront<any>> = 
-        Source extends _IPushFront<infer T>
+    export type ValueType<Source extends IPushFront<any>> = 
+        Source extends IPushFront<infer T>
             ? T
             : unknown;
 }

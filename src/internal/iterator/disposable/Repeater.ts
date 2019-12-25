@@ -1,12 +1,12 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
 /**
  * @hidden
  */
-export class _Repeater<T> implements Readonly<IForwardIterator<T, _Repeater<T>>>
+export class Repeater<T> implements Readonly<IForwardIterator<T, Repeater<T>>>
 {
     private index_: number;
     private value_: T | undefined;
@@ -36,13 +36,13 @@ export class _Repeater<T> implements Readonly<IForwardIterator<T, _Repeater<T>>>
     /* ---------------------------------------------------------
         MOVERS & COMPARE
     --------------------------------------------------------- */
-    public next(): _Repeater<T>
+    public next(): Repeater<T>
     {
         ++this.index_;
         return this;
     }
     
-    public equals(obj: _Repeater<T>): boolean
+    public equals(obj: Repeater<T>): boolean
     {
         return this.index_ === obj.index_;
     }

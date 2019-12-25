@@ -2,12 +2,12 @@
 /** @module std.base */
 //================================================================
 import { Container } from "./Container";
-import { _IAssociativeContainer } from "./_IAssociativeContainer";
+import { IAssociativeContainer } from "../../internal/container/associative/IAssociativeContainer";
 
 import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 import { ILinearContainer } from "./ILinearContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
+import { NativeArrayIterator } from "../../internal/iterator/disposable/NativeArrayIterator";
 
 import { Pair } from "../../utility/Pair";
 import { Omit } from "../../internal/types/Omit";
@@ -24,7 +24,7 @@ export abstract class SetContainer<Key,
         IteratorT extends ISetIterator<Key, Unique, Source, IteratorT, ReverseT>,
         ReverseT extends ISetReverseIterator<Key, Unique, Source, IteratorT, ReverseT>>
     extends Container<Key, Source, IteratorT, ReverseT, Key>
-    implements _IAssociativeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
+    implements IAssociativeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
 {
     /**
      * @hidden
@@ -133,8 +133,8 @@ export abstract class SetContainer<Key,
             return this.size();
 
         // INSERT BY RANGE
-        let first: _NativeArrayIterator<Key> = new _NativeArrayIterator(items, 0);
-        let last: _NativeArrayIterator<Key> = new _NativeArrayIterator(items, items.length);
+        let first: NativeArrayIterator<Key> = new NativeArrayIterator(items, 0);
+        let last: NativeArrayIterator<Key> = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(first, last);
 

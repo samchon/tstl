@@ -2,12 +2,11 @@
 /** @module std.base */
 //================================================================
 import { IContainer } from "./IContainer";
+import { IPushBack } from "../../internal/container/partial/IPushBack";
 
 import { Iterator } from "../iterator/Iterator";
 import { IReverseIterator } from "../iterator/ReverseIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-
-import { _IPushBack } from "../../internal/container/IPartialContainers";
 
 /**
  * Interface for linear containers.
@@ -20,7 +19,7 @@ export interface ILinearContainer<T extends ElemT,
         ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>,
         ElemT = T>
     extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
-        _IPushBack<T>
+        IPushBack<T>
 {
     /* ---------------------------------------------------------
         CONSTRUCTORS

@@ -6,9 +6,6 @@ import { IRandomAccessIterator } from "../../iterator";
 import { IPointer } from "../../functional/IPointer";
 import { Vector } from "../../container/Vector";
 
-/**
- * @hidden
- */
 export interface IRandomAccessContainer<IteratorT extends IRandomAccessIterator<IPointer.ValueType<IteratorT>, IteratorT>>
     extends IForwardContainer<IteratorT>
 {

@@ -1,5 +1,4 @@
 import * as std from "../../index";
-import { _IPush } from "../../internal/container/IPartialContainers";
 
 import { Generator } from "../internal/Generator";
 

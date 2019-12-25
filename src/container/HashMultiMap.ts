@@ -3,12 +3,12 @@
 //================================================================
 import { MultiMap } from "../base/container/MultiMap";
 import { IHashMap } from "../base/container/IHashMap";
-import { _Construct } from "../base/container/_IHashContainer";
+import { IHashContainer } from "../internal/container/associative/IHashContainer";
 
-import { MapElementList } from "../base/container/MapElementList";
+import { MapElementList } from "../internal/container/associative/MapElementList";
 import { MapHashBuckets } from "../internal/hash/MapHashBuckets";
 
-import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
+import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
@@ -81,7 +81,7 @@ export class HashMultiMap<Key, T>
     {
         super(thisArg => new MapElementList(thisArg));
 
-        _Construct<Key, Entry<Key, T>, 
+        IHashContainer.construct<Key, Entry<Key, T>, 
                 HashMultiMap<Key, T>,
                 HashMultiMap.Iterator<Key, T>,
                 HashMultiMap.ReverseIterator<Key, T>,
@@ -359,8 +359,8 @@ export class HashMultiMap<Key, T>
         let my_first = this.data_.insert
             (
                 this.data_.end(), 
-                new _NativeArrayIterator(entries, 0), 
-                new _NativeArrayIterator(entries, entries.length)
+                new NativeArrayIterator(entries, 0), 
+                new NativeArrayIterator(entries, entries.length)
             );
 
         //--------

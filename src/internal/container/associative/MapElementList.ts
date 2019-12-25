@@ -1,31 +1,34 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { VectorContainer } from "./VectorContainer";
+import { ListContainer } from "../linear/ListContainer";
 
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIteratorBase";
-import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
+import { IMapIterator } from "../../../base/iterator/IMapIterator";
+import { ListIterator } from "../../iterator/ListIterator";
+import { ReverseIterator as _ReverseIterator } from "../../../base/iterator/ReverseIterator";
 
-import { MapContainer } from "./MapContainer";
-import { IPair } from "../../utility/IPair";
-import { Entry } from "../../utility/Entry";
+import { MapContainer } from "../../../base/container/MapContainer";
+import { IPair } from "../../../utility/IPair";
+import { Entry } from "../../../utility/Entry";
 
 /**
  * @hidden
  */
-export class MapElementVector<Key, T,
-        Unique extends boolean,
-        Source extends MapContainer<Key, T,
+export class MapElementList<Key, T, 
+        Unique extends boolean, 
+        Source extends MapContainer<Key, T, 
             Unique, 
-            Source,
-            MapElementVector.Iterator<Key, T, Unique, Source>,
-            MapElementVector.ReverseIterator<Key, T, Unique, Source>>>
-    extends VectorContainer<Entry<Key, T>,
-        Source,
-        MapElementVector<Key, T, Unique, Source>,
-        MapElementVector.Iterator<Key, T, Unique, Source>,
-        MapElementVector.ReverseIterator<Key, T, Unique, Source>>
+            Source, 
+            MapElementList.Iterator<Key, T, Unique, Source>, 
+            MapElementList.ReverseIterator<Key, T, Unique, Source>>> 
+    extends ListContainer<Entry<Key, T>, 
+        Source, 
+        MapElementList.Iterator<Key, T, Unique, Source>,
+        MapElementList.ReverseIterator<Key, T, Unique, Source>>
 {
+    /**
+     * @hidden
+     */
     private associative_: Source;
 
     /* ---------------------------------------------------------
@@ -35,13 +38,20 @@ export class MapElementVector<Key, T,
     {
         super();
 
-        this.data_ = [];
         this.associative_ = associative;
     }
-    
-    public nth(index: number): MapElementVector.Iterator<Key, T, Unique, Source>
+
+    /**
+     * @hidden
+     */
+    protected _Create_iterator
+        (
+            prev: MapElementList.Iterator<Key, T, Unique, Source>, 
+            next: MapElementList.Iterator<Key, T, Unique, Source>, 
+            val: Entry<Key, T>
+        ): MapElementList.Iterator<Key, T, Unique, Source>
     {
-        return new MapElementVector.Iterator(this, index);
+        return MapElementList.Iterator.create(this, prev, next, val);
     }
 
     /**
@@ -52,9 +62,9 @@ export class MapElementVector<Key, T,
             Source extends MapContainer<Key, T, 
                 Unique, 
                 Source, 
-                MapElementVector.Iterator<Key, T, Unique, Source>, 
-                MapElementVector.ReverseIterator<Key, T, Unique, Source>>>
-        (x: MapElementVector<Key, T, Unique, Source>, y: MapElementVector<Key, T, Unique, Source>): void
+                MapElementList.Iterator<Key, T, Unique, Source>, 
+                MapElementList.ReverseIterator<Key, T, Unique, Source>>>
+        (x: MapElementList<Key, T, Unique, Source>, y: MapElementList<Key, T, Unique, Source>): void
     {
         [x.associative_, y.associative_] = [y.associative_, x.associative_];
     }
@@ -68,7 +78,7 @@ export class MapElementVector<Key, T,
     }
 }
 
-export namespace MapElementVector
+export namespace MapElementList
 {
     export class Iterator<Key, T, 
             Unique extends boolean, 
@@ -77,9 +87,8 @@ export namespace MapElementVector
                 Source, 
                 Iterator<Key, T, Unique, Source>, 
                 ReverseIterator<Key, T, Unique, Source>>>
-        extends ArrayIteratorBase<Entry<Key, T>, 
+        extends ListIterator<Entry<Key, T>, 
             Source, 
-            MapElementVector<Key, T, Unique, Source>,
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>,
             IPair<Key, T>>
@@ -89,15 +98,43 @@ export namespace MapElementVector
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>>
     {
+        /**
+         * @hidden
+         */
+        private list_: MapElementList<Key, T, Unique, Source>;
+
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
         /**
-         * @inheritDoc
+         * @hidden
          */
-        public source(): Source
+        private constructor
+            (
+                list: MapElementList<Key, T, Unique, Source>, 
+                prev: Iterator<Key, T, Unique, Source>, 
+                next: Iterator<Key, T, Unique, Source>, 
+                val: Entry<Key, T>
+            )
         {
-            return this._Get_array().associative();
+            super(prev, next, val);
+            this.list_ = list;
+        }
+
+        /**
+         * @internal
+         */
+        public static create<Key, T, 
+                Unique extends boolean, 
+                Source extends MapContainer<Key, T, Unique, Source, Iterator<Key, T, Unique, Source>, ReverseIterator<Key, T, Unique, Source>>>
+            (
+                list: MapElementList<Key, T, Unique, Source>, 
+                prev: Iterator<Key, T, Unique, Source>, 
+                next: Iterator<Key, T, Unique, Source>, 
+                val: Entry<Key, T>
+            )
+        {
+            return new Iterator(list, prev, next, val);
         }
 
         /**
@@ -111,6 +148,14 @@ export namespace MapElementVector
         /* ---------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------- */
+        /**
+         * @inheritDoc
+         */
+        public source(): Source
+        {
+            return this.list_.associative();
+        }
+
         /**
          * @inheritDoc
          */
@@ -138,22 +183,12 @@ export namespace MapElementVector
 
     export class ReverseIterator<Key, T, 
             Unique extends boolean, 
-            Source extends MapContainer<Key, T, 
-                Unique, 
-                Source, 
-                Iterator<Key, T, Unique, Source>, 
-                ReverseIterator<Key, T, Unique, Source>>>
-        extends ArrayReverseIteratorBase<Entry<Key, T>, 
+            Source extends MapContainer<Key, T, Unique, Source, Iterator<Key, T, Unique, Source>, ReverseIterator<Key, T, Unique, Source>>>
+        extends _ReverseIterator<Entry<Key, T>, 
             Source, 
-            MapElementVector<Key, T, Unique, Source>,
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>,
             IPair<Key, T>>
-        implements IMapReverseIterator<Key, T, 
-            Unique, 
-            Source, 
-            Iterator<Key, T, Unique, Source>, 
-            ReverseIterator<Key, T, Unique, Source>>
     {
         /* ---------------------------------------------------------
             CONSTRUCTORS
@@ -165,32 +200,38 @@ export namespace MapElementVector
         {
             return new ReverseIterator(base);
         }
-        
+
         /* ---------------------------------------------------------
             ACCESSORS
         --------------------------------------------------------- */
         /**
-         * @inheritDoc
+         * Get the first, key element.
+         * 
+         * @return The first element.
          */
         public get first(): Key
         {
-            return this.value.first;
+            return this.base_.first;
         }
 
         /**
-         * @inheritDoc
+         * Get the second, stored element.
+         * 
+         * @return The second element.
          */
         public get second(): T
         {
-            return this.value.second;
+            return this.base_.second;
         }
 
         /**
-         * @inheritDoc
+         * Set the second, stored element.
+         * 
+         * @param val The value to set.
          */
         public set second(val: T)
         {
-            this.value.second = val;
+            this.base_.second = val;
         }
     }
 }

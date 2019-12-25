@@ -1,12 +1,12 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ArrayContainer } from "../base/container/ArrayContainer";
-import { ArrayIterator, ArrayReverseIterator } from "../base/iterator/ArrayIterator";
+import { ArrayContainer } from "../internal/container/linear/ArrayContainer";
+import { ArrayIterator, ArrayReverseIterator } from "../internal/iterator/ArrayIterator";
 import { TreeMap } from "./TreeMap";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
+import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
 import { OutOfRange } from "../exception/OutOfRange";
 import { Pair } from "../utility/Pair";
 import { not_equal_to } from "../functional/comparators";
@@ -289,8 +289,8 @@ export class VectorBoolean
         if (items.length === 0)
             return this.size();
 
-        let first = new _NativeArrayIterator(items, 0);
-        let last = new _NativeArrayIterator(items, items.length);
+        let first = new NativeArrayIterator(items, 0);
+        let last = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(this.end(), first, last);
         return this.size();

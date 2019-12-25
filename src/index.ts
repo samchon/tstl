@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 /**
- * Basic, internal features.
+ * Basic features.
  */
 export import base = require("./base");
 

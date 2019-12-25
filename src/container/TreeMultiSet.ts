@@ -2,10 +2,10 @@
 /** @module std */
 //================================================================
 import { MultiTreeSet } from "../base/container/MultiTreeSet";
-import { _Construct } from "../base/container/_ITreeContainer";
+import { ITreeContainer } from "../internal/container/associative/ITreeContainer";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { SetElementList } from "../base/container/SetElementList";
+import { SetElementList } from "../internal/container/associative/SetElementList";
 import { MultiSetTree } from "../internal/tree/MultiSetTree";
 
 import { Temporary } from "../internal/types/Temporary";
@@ -69,7 +69,7 @@ export class TreeMultiSet<Key>
     {
         super(thisArg => new SetElementList(<Temporary>thisArg) as Temporary);
 
-        _Construct<Key, Key, 
+        ITreeContainer.construct<Key, Key, 
                 TreeMultiSet<Key>,
                 TreeMultiSet.Iterator<Key>,
                 TreeMultiSet.ReverseIterator<Key>,

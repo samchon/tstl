@@ -1,17 +1,17 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { Container } from "./Container";
-import { ILinearContainer } from "./ILinearContainer";
+import { Container } from "../../../base/container/Container";
+import { ILinearContainer } from "../../../base/container/ILinearContainer";
 
-import { IContainer } from "./IContainer";
-import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIteratorBase";
+import { IContainer } from "../../../base/container/IContainer";
+import { IForwardIterator } from "../../../iterator/IForwardIterator";
+import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../../iterator/ArrayIteratorBase";
 
-import { _Repeater } from "../iterator/_Repeater";
-import { RangeError } from "../../exception/RangeError";
-import { InvalidArgument } from "../../exception/InvalidArgument";
-import { OutOfRange } from "../../exception/OutOfRange";
+import { Repeater } from "../../iterator/disposable/Repeater";
+import { RangeError } from "../../../exception/RangeError";
+import { InvalidArgument } from "../../../exception/InvalidArgument";
+import { OutOfRange } from "../../../exception/OutOfRange";
 
 /**
  * Base array container.
@@ -80,10 +80,12 @@ export abstract class ArrayContainer<T extends ElemT,
      * @inheritDoc
      */
     public front(): T;
+    
     /**
      * @inheritDoc
      */
     public front(val: T): void;
+    
     public front(val?: T): T | void
     {
         if (arguments.length === 0)
@@ -96,10 +98,12 @@ export abstract class ArrayContainer<T extends ElemT,
      * @inheritDoc
      */
     public back(): T;
+    
     /**
      * @inheritDoc
      */
     public back(val: T): void;
+    
     public back(val?: T): T | void
     {
         let index: number = this.size() - 1;
@@ -126,10 +130,12 @@ export abstract class ArrayContainer<T extends ElemT,
      * @inheritDoc
      */
     public insert(pos: IteratorT, val: T): IteratorT;
+
     /**
      * @inheritDoc
      */
     public insert(pos: IteratorT, n: number, val: T): IteratorT;
+
     /**
      * @inheritDoc
      */
@@ -160,8 +166,8 @@ export abstract class ArrayContainer<T extends ElemT,
      */
     protected _Insert_by_repeating_val(position: IteratorT, n: number, val: T): IteratorT
     {
-        let first: _Repeater<T> = new _Repeater(0, val);
-        let last: _Repeater<T> = new _Repeater(n);
+        let first: Repeater<T> = new Repeater(0, val);
+        let last: Repeater<T> = new Repeater(n);
 
         return this._Insert_by_range(position, first, last);
     }
@@ -184,10 +190,12 @@ export abstract class ArrayContainer<T extends ElemT,
      * @inheritDoc
      */
     public erase(it: IteratorT): IteratorT;
+    
     /**
      * @inheritDoc
      */
     public erase(first: IteratorT, last: IteratorT): IteratorT;
+    
     public erase(first: IteratorT, last: IteratorT = first.next()): IteratorT
     {
         // VALIDATION

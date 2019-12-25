@@ -1,17 +1,19 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { IForwardContainer } from "../internal/container/IForwardContainer";
+import { IForwardContainer } from "../ranges/container/IForwardContainer";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { _IClear, _IEmpty, _ISize } from "../internal/container/IPartialContainers";
+import { IClear } from "../internal/container/partial/IClear";
+import { IEmpty } from "../internal/container/partial/IEmpty";
+import { ISize } from "../internal/container/partial/ISize";
 import { _IDeque } from "../base/container/IDequeContainer";
 import { _IFront } from "../base/container/ILinearContainer";
-import { _IListAlgorithm } from "../internal/container/IListAlgorithm";
+import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 
-import { _Repeater } from "../base/iterator/_Repeater";
-import { ForOfAdaptor } from "../base/iterator/ForOfAdaptor";
+import { Repeater } from "../internal/iterator/disposable/Repeater";
+import { ForOfAdaptor } from "../internal/iterator/disposable/ForOfAdaptor";
 import { Vector } from "./Vector";
 import { OutOfRange } from "../exception/OutOfRange";
 
@@ -26,9 +28,9 @@ import { sort as sort_func } from "../algorithm/sorting";
  */
 export class ForwardList<T> 
     implements IForwardContainer<ForwardList.Iterator<T>>, 
-        _IClear, _IEmpty, _ISize,
+        IClear, IEmpty, ISize,
         _IDeque<T>, _IFront<T>, Iterable<T>,
-        _IListAlgorithm<T, ForwardList<T>>
+        IListAlgorithm<T, ForwardList<T>>
 {
     /**
      * @hidden
@@ -290,8 +292,8 @@ export class ForwardList<T>
      */
     private _Insert_by_repeating_val(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>
     {
-        let first: _Repeater<T> = new _Repeater(0, val);
-        let last: _Repeater<T> = new _Repeater(n);
+        let first: Repeater<T> = new Repeater(0, val);
+        let last: Repeater<T> = new Repeater(n);
 
         return this._Insert_by_range(pos, first, last);
     }

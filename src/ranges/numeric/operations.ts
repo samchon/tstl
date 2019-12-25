@@ -3,7 +3,7 @@
 //================================================================
 import base = require("../../numeric/operations");
 
-import { IForwardContainer } from "../../internal/container/IForwardContainer";
+import { IForwardContainer } from "../container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 import { IPointer } from "../../functional";

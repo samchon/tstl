@@ -5,7 +5,7 @@ import { XTree } from "./XTree";
 import { XTreeNode } from "./XTreeNode";
 
 import { SetContainer } from "../../base/container/SetContainer";
-import { SetElementList } from "../../base/container/SetElementList";
+import { SetElementList } from "../container/associative/SetElementList";
 import { Pair } from "../../utility/Pair";
 
 /**

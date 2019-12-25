@@ -1,11 +1,11 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { ArrayContainer } from "./ArrayContainer";
+import { ArrayContainer } from "../../internal/container/linear/ArrayContainer";
 
 import { IContainer } from "./IContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../iterator/ArrayIteratorBase";
+import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../../internal/iterator/ArrayIteratorBase";
 
 import { OutOfRange } from "../../exception/OutOfRange";
 

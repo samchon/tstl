@@ -1,11 +1,11 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ListContainer } from "../base/container/ListContainer";
+import { ListContainer } from "../internal/container/linear/ListContainer";
 import { IDequeContainer } from "../base/container/IDequeContainer";
-import { _IListAlgorithm } from "../internal/container/IListAlgorithm";
+import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 
-import { ListIterator } from "../base/iterator/ListIterator";
+import { ListIterator } from "../internal/iterator/ListIterator";
 import { ReverseIterator as ReverseIteratorBase } from "../base/iterator/ReverseIterator";
 
 import { IPointer } from "../functional/IPointer";
@@ -20,7 +20,7 @@ import { equal_to, less } from "../functional/comparators";
 export class List<T>
     extends ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
     implements IDequeContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>,
-        _IListAlgorithm<T, List<T>>
+        IListAlgorithm<T, List<T>>
 {
     /**
      * @hidden

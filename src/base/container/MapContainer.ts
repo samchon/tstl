@@ -2,12 +2,12 @@
 /** @module std.base */
 //================================================================
 import { Container } from "./Container";
-import { _IAssociativeContainer } from "./_IAssociativeContainer";
+import { IAssociativeContainer } from "../../internal/container/associative/IAssociativeContainer";
 
 import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 import { ILinearContainer } from "./ILinearContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
+import { NativeArrayIterator } from "../../internal/iterator/disposable/NativeArrayIterator";
 
 import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
@@ -26,7 +26,7 @@ export abstract class MapContainer<Key, T,
         IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>,
         ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
     extends Container<Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
-    implements _IAssociativeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
+    implements IAssociativeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
     /**
      * @hidden
@@ -132,8 +132,8 @@ export abstract class MapContainer<Key, T,
     public push(...items: IPair<Key, T>[]): number
     {
         // INSERT BY RANGE
-        let first = new _NativeArrayIterator(items, 0);
-        let last = new _NativeArrayIterator(items, items.length);
+        let first = new NativeArrayIterator(items, 0);
+        let last = new NativeArrayIterator(items, items.length);
 
         this.insert(first, last);
 

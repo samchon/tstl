@@ -2,10 +2,9 @@
 /** @module std */
 //================================================================
 import { _InsertIterator } from "../base/iterator/_InsertIterator";
-
-import { _IPushBack } from "../internal/container/IPartialContainers";
+;
+import { IPushBack } from "../internal/container/partial/IPushBack";
 import { Vector } from "../container/Vector";
-
 import { equal_to } from "../functional/comparators";
 
 /**
@@ -13,7 +12,7 @@ import { equal_to } from "../functional/comparators";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class BackInsertIterator<Source extends _IPushBack<BackInsertIterator.ValueType<Source>>>
+export class BackInsertIterator<Source extends IPushBack<BackInsertIterator.ValueType<Source>>>
     extends _InsertIterator<BackInsertIterator.ValueType<Source>, BackInsertIterator<Source>>
 {
     /**
@@ -53,12 +52,12 @@ export class BackInsertIterator<Source extends _IPushBack<BackInsertIterator.Val
 }
 export namespace BackInsertIterator
 {
-    export type ValueType<Source extends _IPushBack<any>> = 
-        Source extends _IPushBack<infer T>
+    export type ValueType<Source extends IPushBack<any>> = 
+        Source extends IPushBack<infer T>
             ? T
             : unknown;
 
-    export type SourceType<Source extends Array<any> | _IPushBack<any>> =
+    export type SourceType<Source extends Array<any> | IPushBack<any>> =
         Source extends Array<infer T>
             ? Vector<T>
             : Source;

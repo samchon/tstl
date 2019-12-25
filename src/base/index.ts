@@ -10,8 +10,6 @@ export * from "./container/ILinearContainer";
 export * from "./container/IDequeContainer";
 
 export * from "./container/Container";
-export * from "./container/ArrayContainer";
-export * from "./container/ListContainer";
 
 // SETS
 export * from "./container/SetContainer";
@@ -33,9 +31,8 @@ export * from "./container/IHashMap";
 // BASIC
 export * from "./iterator/Iterator";
 export * from "./iterator/ReverseIterator";
-export * from "./iterator/ForOfAdaptor";
 
 // DERIVED
-export * from "./iterator/ArrayIterator";
+export * from "../internal/iterator/ArrayIterator";
 export * from "./iterator/ISetIterator";
 export * from "./iterator/IMapIterator";

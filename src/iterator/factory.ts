@@ -1,12 +1,14 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { IBidirectionalContainer } from "../internal/container/IBidirectionalContainer";
+import { IBidirectionalContainer } from "../ranges/container/IBidirectionalContainer";
 import { IReversableIterator, IReverseIterator } from "./IReverseIterator";
 
 import { IPointer } from "../functional/IPointer";
-import { IForwardContainer } from "../internal/container/IForwardContainer";
-import { _IInsert, _IPushFront, _IPushBack } from "../internal/container/IPartialContainers";
+import { IForwardContainer } from "../ranges/container/IForwardContainer";
+import { IInsert } from "../internal/container/partial/IInsert";
+import { IPushFront } from "../internal/container/partial/IPushFront";
+import { IPushBack } from "../internal/container/partial/IPushBack";
 
 import { InsertIterator } from "./InsertIterator";
 import { FrontInsertIterator } from "./FrontInsertIterator";
@@ -108,7 +110,7 @@ export function make_reverse_iterator<
  * @return The {@link InsertIterator insert iterator} object.
  */
 export function inserter<
-        Container extends _IInsert<Iterator>,
+        Container extends IInsert<Iterator>,
         Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
     (container: Container, it: Iterator): InsertIterator<Container, Iterator>
 {    
@@ -121,7 +123,7 @@ export function inserter<
  * @param source Target container.
  * @return The {@link FrontInsertIterator front insert iterator} object.
  */
-export function front_inserter<Source extends _IPushFront<FrontInsertIterator.ValueType<Source>>>
+export function front_inserter<Source extends IPushFront<FrontInsertIterator.ValueType<Source>>>
     (source: Source): FrontInsertIterator<Source>
 {
     return new FrontInsertIterator(source);
@@ -133,7 +135,7 @@ export function front_inserter<Source extends _IPushFront<FrontInsertIterator.Va
  * @param source Target container.
  * @return The {@link back insert iterator} object.
  */
-export function back_inserter<Source extends Array<any> | _IPushBack<any>>
+export function back_inserter<Source extends Array<any> | IPushBack<any>>
     (source: Source): BackInsertIterator<BackInsertIterator.SourceType<Source>>;
 
 export function back_inserter<T>(source: Array<T> | Vector<T>): BackInsertIterator<Vector<T>>
