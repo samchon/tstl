@@ -1,11 +1,8 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
-/**
- * @hidden
- */
 export class Repeater<T> implements Readonly<IForwardIterator<T, Repeater<T>>>
 {
     private index_: number;

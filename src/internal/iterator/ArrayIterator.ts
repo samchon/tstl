@@ -1,9 +1,11 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "./ArrayIteratorBase";
+import { IArrayContainer } from "../../base";
+import { ArrayIteratorBase } from "./ArrayIteratorBase";
 
 import { ArrayContainer } from "../container/linear/ArrayContainer";
+import { ArrayReverseIterator } from "./ArrayReverseIterator";
 
 export class ArrayIterator<T, 
         SourceT extends ArrayContainer<T, 
@@ -15,6 +17,7 @@ export class ArrayIterator<T,
         ArrayIterator<T, SourceT>,
         ArrayReverseIterator<T, SourceT>, 
         T>
+    implements IArrayContainer.Iterator<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
 {
     /**
      * @inheritDoc
@@ -30,25 +33,5 @@ export class ArrayIterator<T,
     public source(): SourceT
     {
         return this._Get_array();
-    }
-}
-
-export class ArrayReverseIterator<T, 
-        SourceT extends ArrayContainer<T, 
-            SourceT, SourceT, 
-            ArrayIterator<T, SourceT>, 
-            ArrayReverseIterator<T, SourceT>, 
-            T>>
-    extends ArrayReverseIteratorBase<T, SourceT, SourceT, 
-        ArrayIterator<T, SourceT>,
-        ArrayReverseIterator<T, SourceT>, 
-        T>
-{
-    /**
-     * @hidden
-     */
-    protected _Create_neighbor(base: ArrayIterator<T, SourceT>): ArrayReverseIterator<T, SourceT>
-    {
-        return new ArrayReverseIterator(base);
     }
 }

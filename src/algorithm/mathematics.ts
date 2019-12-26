@@ -15,9 +15,6 @@ import { iter_swap, reverse } from "./modifiers";
 
 import { Temporary } from "../internal/types/Temporary";
 
-/**
- * @hidden
- */
 type Comparator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
     (
         x: IPointer.ValueType<Iterator>,

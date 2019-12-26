@@ -4,8 +4,6 @@
 import { SetContainer } from "./SetContainer";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
-
 import { Pair } from "../../utility/Pair";
 import { OutOfRange } from "../../exception/OutOfRange";
 
@@ -16,8 +14,8 @@ import { OutOfRange } from "../../exception/OutOfRange";
  */
 export abstract class UniqueSet<Key, 
         Source extends UniqueSet<Key, Source, IteratorT, ReverseT>,
-        IteratorT extends ISetIterator<Key, true, Source, IteratorT, ReverseT>,
-        ReverseT extends ISetReverseIterator<Key, true, Source, IteratorT, ReverseT>>
+        IteratorT extends UniqueSet.Iterator<Key, Source, IteratorT, ReverseT>,
+        ReverseT extends UniqueSet.ReverseIterator<Key, Source, IteratorT, ReverseT>>
     extends SetContainer<Key, true, Source, IteratorT, ReverseT>
 {
     /* ---------------------------------------------------------
@@ -65,9 +63,6 @@ export abstract class UniqueSet<Key,
         return (super.insert as Function)(...args);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
@@ -102,9 +97,6 @@ export abstract class UniqueSet<Key,
             return this._Extract_by_val(param as Key);
     }
 
-    /**
-     * @hidden
-     */
     private _Extract_by_val(key: Key): Key
     {
         let it = this.find(key);
@@ -115,9 +107,6 @@ export abstract class UniqueSet<Key,
         return key;
     }
 
-    /**
-     * @hidden
-     */
     private _Extract_by_iterator(it: IteratorT): IteratorT
     {
         if (it.equals(this.end()) === true || this.has(it.value) === false)
@@ -127,9 +116,6 @@ export abstract class UniqueSet<Key,
         return it;
     }
 
-    /**
-     * @hidden
-     */
     protected _Erase_by_val(key: Key): number
     {
         let it = this.find(key);
@@ -159,4 +145,19 @@ export abstract class UniqueSet<Key,
                 it = it.next();
         }
     }
+}
+
+export namespace UniqueSet
+{
+    export type Iterator<Key,
+            SourceT extends UniqueSet<Key, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, SourceT, IteratorT, ReverseT>>
+        = SetContainer.Iterator<Key, true, SourceT, IteratorT, ReverseT>;
+
+    export type ReverseIterator<Key, 
+            SourceT extends UniqueSet<Key, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, SourceT, IteratorT, ReverseT>>
+        = SetContainer.ReverseIterator<Key, true, SourceT, IteratorT, ReverseT>;
 }

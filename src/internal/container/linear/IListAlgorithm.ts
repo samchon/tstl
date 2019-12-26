@@ -1,9 +1,6 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-/**
- * @hidden
- */
 export interface IListAlgorithm<T, Source>
 {
     /* ---------------------------------------------------------
@@ -59,12 +56,4 @@ export interface IListAlgorithm<T, Source>
      * @param obj Target container to swap.
      */
     swap(obj: Source): void;
-}
-
-export namespace _IListAlgorithm
-{
-    export type ValueType<Container extends Partial<IListAlgorithm<any, Container>>> =
-        Container extends IListAlgorithm<infer T, Container>
-            ? T
-            : any;
 }

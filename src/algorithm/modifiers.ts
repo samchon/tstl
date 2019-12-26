@@ -12,23 +12,14 @@ import { equal_to } from "../functional/comparators";
 import { randint } from "./random";
 import { advance } from "../iterator/global";
 
-/**
- * @hidden
- */
 type UnaryPredicator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
     (val: IPointer.ValueType<Iterator>) => boolean;
 
-/**
- * @hidden
- */
 type UnaryOperator<
         InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> =
     (val: IPointer.ValueType<InputIterator>) => IPointer.ValueType<OutputIterator>;
 
-/**
- * @hidden
- */
 type BinaryOperator<
         InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>,
         InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>>,
@@ -241,9 +232,6 @@ export function transform(...args: any[]): any
         return (_Binary_transform as Function)(...args);
 }
 
-/**
- * @hidden
- */
 function _Unary_transform<
         InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>, 
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
@@ -261,9 +249,6 @@ function _Unary_transform<
     return result;
 }
 
-/**
- * @hidden
- */
 function _Binary_transform<
         InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>,
         InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>>, 

@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { LogicError } from "./LogicError";
 
 /**
@@ -17,6 +20,3 @@ export class InvalidArgument extends LogicError
         super(message);
     }
 }
-
-export type invalid_argument = InvalidArgument;
-export const invalid_argument = InvalidArgument;

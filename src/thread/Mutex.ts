@@ -11,9 +11,6 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
  */
 export class Mutex implements ILockable
 {
-    /**
-     * @hidden
-     */
     private mutex_: SharedTimedMutex;
 
     /* ---------------------------------------------------------
@@ -54,6 +51,3 @@ export class Mutex implements ILockable
         return this.mutex_.unlock();
     }
 }
-
-export type mutex = Mutex;
-export const mutex = Mutex;

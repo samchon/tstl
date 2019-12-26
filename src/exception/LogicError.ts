@@ -20,6 +20,3 @@ export class LogicError extends Exception
         super(message);
     }
 }
-
-export type logic_error = LogicError;
-export const logic_error = LogicError;

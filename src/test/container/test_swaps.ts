@@ -35,7 +35,7 @@ export function test_swaps(): void
     REGULAR CONTAINERS
 --------------------------------------------------------- */
 function _Test_container_swap<SourceT extends std.base.IContainer<P, SourceT, IteratorT, ReverseT>, 
-        IteratorT extends std.base.Iterator<P, SourceT, IteratorT, ReverseT>, 
+        IteratorT extends std.base.IContainer.Iterator<P, SourceT, IteratorT, ReverseT>, 
         ReverseT extends std.base.ReverseIterator<P, SourceT, IteratorT, ReverseT>>
     (name: string, v1: SourceT, v2: SourceT): void
 {
@@ -83,7 +83,7 @@ function _Test_container_swap<SourceT extends std.base.IContainer<P, SourceT, It
 
 function _Validate_iterators_source<T,
         SourceT extends std.base.IContainer<T, SourceT, IteratorT, ReverseT>, 
-        IteratorT extends std.base.Iterator<T, SourceT, IteratorT, ReverseT>, 
+        IteratorT extends std.base.IContainer.Iterator<T, SourceT, IteratorT, ReverseT>, 
         ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
     (name: string, container: SourceT): void
 {

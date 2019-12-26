@@ -1,9 +1,6 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-/**
- * @hidden
- */
 export namespace SafeLock
 {
     export async function lock
@@ -30,10 +27,7 @@ export namespace SafeLock
         await _Process(unlocker, lambda);
         return true;
     }
-
-    /**
-     * @hidden
-     */
+    
     async function _Process
         (
             unlocker: () => Promise<void>, 

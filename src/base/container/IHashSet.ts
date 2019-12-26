@@ -17,11 +17,11 @@ export interface IHashSet<Key,
         SetContainer<Key, 
             Unique, 
             Source,
-            SetElementList.Iterator<Key, Unique, Source>,
-            SetElementList.ReverseIterator<Key, Unique, Source>>,
+            IHashSet.Iterator<Key, Unique, Source>,
+            IHashSet.ReverseIterator<Key, Unique, Source>>,
         IHashContainer<Key, Key, Source, 
-            SetElementList.Iterator<Key, Unique, Source>, 
-            SetElementList.ReverseIterator<Key, Unique, Source>,
+            IHashSet.Iterator<Key, Unique, Source>, 
+            IHashSet.ReverseIterator<Key, Unique, Source>,
             Key>
 {
     /* ---------------------------------------------------------
@@ -30,7 +30,7 @@ export interface IHashSet<Key,
     /**
      * @inheritDoc
      */
-    begin(): SetElementList.Iterator<Key, Unique, Source>;
+    begin(): IHashSet.Iterator<Key, Unique, Source>;
 
     /**
      * Iterator to the first element in a specific bucket.
@@ -38,12 +38,12 @@ export interface IHashSet<Key,
      * @param index Index number of the specific bucket.
      * @return Iterator from the specific bucket.
      */
-    begin(index: number): SetElementList.Iterator<Key, Unique, Source>;
+    begin(index: number): IHashSet.Iterator<Key, Unique, Source>;
 
     /**
      * @inheritDoc
      */
-    end(): SetElementList.Iterator<Key, Unique, Source>;
+    end(): IHashSet.Iterator<Key, Unique, Source>;
 
     /**
      * Iterator to the end in a specific bucket.
@@ -51,5 +51,18 @@ export interface IHashSet<Key,
      * @param index Index number of the specific bucket.
      * @return Iterator from the specific bucket.
      */
-    end(index: number): SetElementList.Iterator<Key, Unique, Source>;
+    end(index: number): IHashSet.Iterator<Key, Unique, Source>;
+}
+
+export namespace IHashSet
+{
+    export type Iterator<Key, 
+            Unique extends boolean, 
+            Source extends IHashSet<Key, Unique, Source>>
+        = SetElementList.Iterator<Key, Unique, Source>;
+
+    export type ReverseIterator<Key, 
+            Unique extends boolean, 
+            Source extends IHashSet<Key, Unique, Source>>
+        = SetElementList.ReverseIterator<Key, Unique, Source>;
 }

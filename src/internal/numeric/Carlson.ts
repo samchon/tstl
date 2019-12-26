@@ -1,11 +1,8 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { MathUtil } from "./MathUtil";
 
-/** 
- * @hidden
- */
 export namespace Carlson
 {
     const INFINITY = 100 * 1000;

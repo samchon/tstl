@@ -11,9 +11,6 @@ import { Pair } from "../utility/Pair";
 import { iter_swap } from "./modifiers";
 import { distance, advance } from "../iterator/global";
 
-/**
- * @hidden
- */
 type Predicator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
     (val: IPointer.ValueType<Iterator>) => boolean;
 

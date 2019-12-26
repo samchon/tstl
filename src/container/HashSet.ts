@@ -24,10 +24,7 @@ export class HashSet<Key>
         HashSet.ReverseIterator<Key>>
     implements IHashSet<Key, true, HashSet<Key>>
 {
-    /**
-     * @hidden
-     */
-    public buckets_!: SetHashBuckets<Key, true, HashSet<Key>>;
+    private buckets_!: SetHashBuckets<Key, true, HashSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -288,9 +285,6 @@ export class HashSet<Key>
     ============================================================
         INSERT
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Insert_by_key(key: Key): Pair<HashSet.Iterator<Key>, boolean>
     {
         // TEST WHETHER EXIST
@@ -308,9 +302,6 @@ export class HashSet<Key>
         return new Pair(it, true);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_hint(hint: HashSet.Iterator<Key>, key: Key): HashSet.Iterator<Key>
     {
         // FIND DUPLICATED KEY
@@ -329,18 +320,12 @@ export class HashSet<Key>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: HashSet.Iterator<Key>, last: HashSet.Iterator<Key>): void
     {
         for (; !first.equals(last); first = first.next())
             this.buckets_.insert(first);
     }
 
-    /**
-     * @hidden
-     */
     protected _Handle_erase(first: HashSet.Iterator<Key>, last: HashSet.Iterator<Key>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -350,9 +335,6 @@ export class HashSet<Key>
 
 export namespace HashSet
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key> = SetElementList.Iterator<Key, true, HashSet<Key>>;
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, true, HashSet<Key>>;
@@ -360,16 +342,4 @@ export namespace HashSet
     // BODY
     export const Iterator = SetElementList.Iterator;
     export const ReverseIterator = SetElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key> = Iterator<Key>;
-    export type reverse_iterator<Key> = ReverseIterator<Key>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import unordered_set = HashSet;

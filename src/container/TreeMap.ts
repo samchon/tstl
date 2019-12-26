@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { UniqueTreeMap } from "../base/container/UniqueTreeMap";
+import { UniqueTreeMap } from "../internal/container/associative/UniqueTreeMap";
 import { ITreeContainer } from "../internal/container/associative/ITreeContainer";
 
 import { MapElementList } from "../internal/container/associative/MapElementList";
@@ -23,9 +23,6 @@ export class TreeMap<Key, T>
         TreeMap.Iterator<Key, T>, 
         TreeMap.ReverseIterator<Key, T>>
 {
-    /**
-     * @hidden
-     */
     private tree_!: UniqueMapTree<Key, T, TreeMap<Key, T>>;
 
     /* ---------------------------------------------------------
@@ -142,18 +139,12 @@ export class TreeMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: TreeMap.Iterator<Key, T>, last: TreeMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
             this.tree_.insert(first);
     }
 
-    /**
-     * @hidden
-     */
     protected _Handle_erase(first: TreeMap.Iterator<Key, T>, last: TreeMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -163,9 +154,6 @@ export class TreeMap<Key, T>
 
 export namespace TreeMap
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, TreeMap<Key, T>>;
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, TreeMap<Key, T>>;
@@ -173,16 +161,4 @@ export namespace TreeMap
     // BODY
     export const Iterator = MapElementList.Iterator;
     export const ReverseIterator = MapElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import map = TreeMap;

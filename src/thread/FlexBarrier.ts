@@ -12,24 +12,12 @@ import { ConditionVariable } from "./ConditionVariable";
  */
 export class FlexBarrier
 {
-    /**
-     * @hidden
-     */
     private cv_: ConditionVariable;
 
-    /**
-     * @hidden
-     */
     private complete_: ()=>number;
 
-    /**
-     * @hidden
-     */
     protected size_: number;
 
-    /**
-     * @hidden
-     */
     private count_: number;
 
     /* ---------------------------------------------------------
@@ -95,6 +83,3 @@ export class FlexBarrier
     //     return this.cv_.wait_until(at);
     // }
 }
-
-export type flex_barrier = FlexBarrier;
-export const flex_barrier = FlexBarrier;

@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { ILockable } from "./ILockable";
-import { ISharedLockable } from "../base/thread/ISharedLockable";
+import { ISharedLockable } from "../internal/thread/ISharedLockable";
 
 import { SharedTimedMutex } from "./SharedTimedMutex";
 
@@ -13,9 +13,6 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
  */
 export class SharedMutex implements ILockable, ISharedLockable
 {
-    /**
-     * @hidden
-     */
     private mutex_: SharedTimedMutex;
 
     /* ---------------------------------------------------------
@@ -83,6 +80,3 @@ export class SharedMutex implements ILockable, ISharedLockable
         return this.mutex_.unlock_shared();
     }
 }
-
-export type shared_mutex = SharedMutex;
-export const shared_mutex = SharedMutex;

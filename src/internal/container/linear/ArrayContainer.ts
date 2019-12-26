@@ -1,12 +1,13 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
+import { ILinearContainerBase } from "./ILinearContainerBase";
 import { Container } from "../../../base/container/Container";
-import { ILinearContainer } from "../../../base/container/ILinearContainer";
 
 import { IContainer } from "../../../base/container/IContainer";
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../../iterator/ArrayIteratorBase";
+import { ArrayIteratorBase } from "../../iterator/ArrayIteratorBase";
+import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBase";
 
 import { Repeater } from "../../iterator/disposable/Repeater";
 import { RangeError } from "../../../exception/RangeError";
@@ -25,7 +26,7 @@ export abstract class ArrayContainer<T extends ElemT,
         ReverseT extends ArrayReverseIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>,
         ElemT>
     extends Container<T, SourceT, IteratorT, ReverseT, ElemT>
-    implements ILinearContainer<T, SourceT, IteratorT, ReverseT, ElemT>
+    implements ILinearContainerBase<T, SourceT, IteratorT, ReverseT, ElemT>
 {
     /**
      * @inheritDoc
@@ -161,9 +162,6 @@ export abstract class ArrayContainer<T extends ElemT,
             return this._Insert_by_range(pos, args[0], args[1]);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_repeating_val(position: IteratorT, n: number, val: T): IteratorT
     {
         let first: Repeater<T> = new Repeater(0, val);
@@ -172,9 +170,6 @@ export abstract class ArrayContainer<T extends ElemT,
         return this._Insert_by_range(position, first, last);
     }
 
-    /**
-     * @hidden
-     */
     protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: IteratorT, first: InputIterator, last: InputIterator): IteratorT;
 
@@ -213,9 +208,6 @@ export abstract class ArrayContainer<T extends ElemT,
         // ERASE ELEMENTS
         return this._Erase_by_range(first, last);
     }
-
-    /**
-     * @hidden
-     */
+    
     protected abstract _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT;
 }

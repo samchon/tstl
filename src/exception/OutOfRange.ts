@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { LogicError } from "./LogicError";
 
 /**
@@ -17,6 +20,3 @@ export class OutOfRange extends LogicError
         super(message);
     }
 }
-
-export type out_of_range = OutOfRange;
-export const out_of_range = OutOfRange;

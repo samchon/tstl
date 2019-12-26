@@ -26,9 +26,6 @@ export class HashMap<Key, T>
         HashMap.ReverseIterator<Key, T>>
     implements IHashMap<Key, T, true, HashMap<Key, T>>
 {
-    /**
-     * @hidden
-     */
     private buckets_!: MapHashBuckets<Key, T, true, HashMap<Key, T>>;
 
     /* =========================================================
@@ -330,18 +327,12 @@ export class HashMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: HashMap.Iterator<Key, T>, last: HashMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
             this.buckets_.insert(first);
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Handle_erase(first: HashMap.Iterator<Key, T>, last: HashMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -351,9 +342,6 @@ export class HashMap<Key, T>
 
 export namespace HashMap
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, HashMap<Key, T>>;
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, HashMap<Key, T>>;
@@ -361,16 +349,4 @@ export namespace HashMap
     // BODY
     export const Iterator = MapElementList.Iterator;
     export const ReverseIterator = MapElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import unordered_map = HashMap;

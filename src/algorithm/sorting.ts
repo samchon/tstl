@@ -13,9 +13,6 @@ import { distance } from "../iterator/global";
 import { Vector } from "../container/Vector";
 import { Temporary } from "../internal/types/Temporary";
 
-/**
- * @hidden
- */
 type Comparator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
     (
         x: IPointer.ValueType<Iterator>,

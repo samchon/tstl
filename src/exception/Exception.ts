@@ -72,6 +72,3 @@ export class Exception extends Error
         };
     }
 }
-
-export type exception = Exception;
-export const exception = Exception;

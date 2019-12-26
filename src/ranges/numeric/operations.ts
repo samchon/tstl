@@ -11,23 +11,14 @@ import { Writeonly } from "../../internal/types/Writeonly";
 import { begin, end } from "../../iterator/factory";
 import { plus, multiplies, minus } from "../../numeric/operators";
 
-/**
- * @hidden
- */
 type UnaryTransformer<
         Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>> =
     (val: IForwardContainer.ValueType<Range>) => IPointer.ValueType<OutputIterator>;
 
-/**
- * @hidden
- */
 type BinaryTransformer<OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>> =
     (x: IPointer.ValueType<OutputIterator>, y: IPointer.ValueType<OutputIterator>) => IPointer.ValueType<OutputIterator>;
 
-/**
- * @hidden
- */
 type Operator<
         Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends Array<any> | IForwardContainer<any> = Range1> = 

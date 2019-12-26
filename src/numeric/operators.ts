@@ -4,14 +4,7 @@
 import { INegatable } from "./INegatable";
 import { IComputable } from "./IComputable";
 
-/**
- * @hidden
- */
 type PlusParam<Y, Ret> = number | string | Pick<IComputable<Y, Ret>, "plus">;
-
-/**
- * @hidden
- */
 type Param<Y, Ret, Key extends keyof IComputable<Y, Ret>> = number | Pick<IComputable<Y, Ret>, Key>;
 
 /* ---------------------------------------------------------

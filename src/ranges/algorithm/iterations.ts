@@ -11,15 +11,9 @@ import { equal_to, less } from "../../functional/comparators";
 
 import { Temporary } from "../../internal/types/Temporary";
 
-/**
- * @hidden
- */
 type UnaryPredicator<Range extends Array<any> | IForwardContainer<any>> =
     (val: IForwardContainer.ValueType<Range>) => boolean;
 
-/**
- * @hidden
- */
 type BinaryPredicator<
         Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends Array<any> | IForwardContainer<any>> =
@@ -28,9 +22,6 @@ type BinaryPredicator<
         y: IForwardContainer.ValueType<Range2>
     ) => boolean;
 
-/**
- * @hidden
- */
 type Comparator<Range extends Array<any> | IForwardContainer<any>> =
     (
         x: IForwardContainer.ValueType<Range>,
@@ -78,18 +69,18 @@ export function none_of<Range extends Array<any> | IForwardContainer<any>>
 }
 
 export function equal<
-        Range1 extends Array<any> | (IForwardContainer.ISizable<any>),
-        Range2 extends IForwardContainer.ISizable.SimilarType<Range1>>
+        Range1 extends Array<any> | (IForwardContainer<any>),
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2): boolean;
 
 export function equal<
-        Range1 extends Array<any> | IForwardContainer.ISizable<any>,
-        Range2 extends Array<any> | IForwardContainer.ISizable<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (range1: Range1, range2: Range2, pred: BinaryPredicator<Range1, Range2>): boolean;
 
 export function equal<
-        Range1 extends Array<any> | IForwardContainer.ISizable<any>,
-        Range2 extends Array<any> | IForwardContainer.ISizable<any>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends Array<any> | IForwardContainer<any>>
     (range1: Range1, range2: Range2, pred: BinaryPredicator<Range1, Range2> = <any>equal_to): boolean
 {
     if (size(range1) !== size(range2))

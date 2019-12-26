@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.experimental */
 //================================================================
-import { UniqueTreeMap } from "../../base/container/UniqueTreeMap";
+import { UniqueTreeMap } from "../../internal/container/associative/UniqueTreeMap";
 import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
 import { MapElementVector } from "../../internal/container/associative/MapElementVector";
@@ -18,9 +18,6 @@ export class FlatMap<Key, T>
         FlatMap.Iterator<Key, T>, 
         FlatMap.ReverseIterator<Key, T>>
 {
-    /**
-     * @hidden
-     */
     private key_comp_!: (x: Key, y: Key) => boolean;
 
     /* ---------------------------------------------------------
@@ -131,9 +128,6 @@ export class FlatMap<Key, T>
         return upper_bound(this.begin(), this.end(), this._Capsule_key(key), this.value_comp());
     }
 
-    /**
-     * @hidden
-     */
     private _Capsule_key(key: Key): Entry<Key, T>
     {
         return { first: key } as Entry<Key, T>;
@@ -142,22 +136,13 @@ export class FlatMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert({}, {}): void {}
-
-    /**
-     * @hidden
-     */
+    
     protected _Handle_erase({}, {}): void {}
 }
 
 export namespace FlatMap
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key, T> = MapElementVector.Iterator<Key, T, true, FlatMap<Key, T>>;
     export type ReverseIterator<Key, T> = MapElementVector.ReverseIterator<Key, T, true, FlatMap<Key, T>>;
@@ -165,16 +150,4 @@ export namespace FlatMap
     // BODY
     export const Iterator = MapElementVector.Iterator;
     export const ReverseIterator = MapElementVector.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import flat_map = FlatMap;

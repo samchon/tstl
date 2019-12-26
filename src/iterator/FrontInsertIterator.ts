@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { _InsertIterator } from "../base/iterator/_InsertIterator";
+import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 
 import { IPushFront } from "../internal/container/partial/IPushFront";
 import { equal_to } from "../functional/comparators";
@@ -12,11 +12,8 @@ import { equal_to } from "../functional/comparators";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class FrontInsertIterator<Source extends IPushFront<FrontInsertIterator.ValueType<Source>>>
-    extends _InsertIterator<FrontInsertIterator.ValueType<Source>, FrontInsertIterator<Source>>
+    extends InsertIteratorBase<FrontInsertIterator.ValueType<Source>, FrontInsertIterator<Source>>
 {
-    /**
-     * @hidden
-     */
     private source_: Source;
 
     /* ---------------------------------------------------------

@@ -1,19 +1,16 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { XTree } from "./XTree";
 import { XTreeNode } from "./XTreeNode";
 
-import { SetContainer } from "../../base/container/SetContainer";
+import { ITreeSet } from "../../base/container/ITreeSet";
 import { SetElementList } from "../container/associative/SetElementList";
 import { Pair } from "../../utility/Pair";
 
-/**
- * @hidden
- */
 export abstract class SetTree<Key, 
         Unique extends boolean, 
-        Source extends SetContainer<Key, 
+        Source extends ITreeSet<Key, 
             Unique, 
             Source,
             SetElementList.Iterator<Key, Unique, Source>,
@@ -50,7 +47,7 @@ export abstract class SetTree<Key,
      */
     public static _Swap_source<Key, 
             Unique extends boolean, 
-            Source extends SetContainer<Key, 
+            Source extends ITreeSet<Key, 
                 Unique, 
                 Source,
                 SetElementList.Iterator<Key, Unique, Source>,

@@ -14,9 +14,6 @@ import { back_inserter } from "../iterator/factory";
 import { Vector } from "../container/Vector";
 import { Temporary } from "../internal/types/Temporary";
 
-/**
- * @hidden
- */
 type Comparator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
     (x: IPointer.ValueType<Iterator>, y: IPointer.ValueType<Iterator>) => boolean;
 

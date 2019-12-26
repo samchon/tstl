@@ -16,29 +16,17 @@ import { Temporary } from "../../internal/types/Temporary";
 import { begin, end } from "../../iterator/factory";
 import { equal_to } from "../../functional/comparators";
 
-/**
- * @hidden
- */
 type UnaryPredicator<Range extends Array<any> | IForwardContainer<any>> = 
     (val: IForwardContainer.ValueType<Range>) => boolean;
 
-/**
- * @hidden
- */
 type BinaryPredicator<Range extends Array<any> | IForwardContainer<any>> = 
     (x: IForwardContainer.ValueType<Range>, y: IForwardContainer.ValueType<Range>) => boolean;
 
-/**
- * @hidden
- */
 type UnaryOperator<
         Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> = 
     (val: IForwardContainer.ValueType<Range>) => IPointer.ValueType<OutputIterator>;
 
-/**
- * @hidden
- */
 type BinaryOperator<
         Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends Array<any> | IForwardContainer<any>,

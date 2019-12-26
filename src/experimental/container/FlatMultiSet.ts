@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.experimental */
 //================================================================
-import { MultiTreeSet } from "../../base/container/MultiTreeSet";
+import { MultiTreeSet } from "../../internal/container/associative/MultiTreeSet";
 import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
 import { SetElementVector } from "../../internal/container/associative/SetElementVector";
@@ -16,9 +16,6 @@ export class FlatMultiSet<Key>
         FlatMultiSet.Iterator<Key>, 
         FlatMultiSet.ReverseIterator<Key>>
 {
-    /**
-     * @hidden
-     */
     private key_comp_!: (x: Key, y: Key) => boolean;
 
     /* ---------------------------------------------------------
@@ -132,22 +129,13 @@ export class FlatMultiSet<Key>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert({}, {}): void {}
 
-    /**
-     * @hidden
-     */
     protected _Handle_erase({}, {}): void {}
 }
 
 export namespace FlatMultiSet
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key> = SetElementVector.Iterator<Key, false, FlatMultiSet<Key>>;
     export type ReverseIterator<Key> = SetElementVector.ReverseIterator<Key, false, FlatMultiSet<Key>>;
@@ -155,16 +143,4 @@ export namespace FlatMultiSet
     // BODY
     export const Iterator = SetElementVector.Iterator;
     export const ReverseIterator = SetElementVector.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key> = Iterator<Key>;
-    export type reverse_iterator<Key> = ReverseIterator<Key>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import flat_multiset = FlatMultiSet;

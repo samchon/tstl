@@ -1,19 +1,17 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-import { MultiSet } from "./MultiSet";
-import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
+import { UniqueSet } from "../../../base/container/UniqueSet";
+import { ITreeContainer } from "./ITreeContainer";
 
-import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
-import { Pair } from "../../utility/Pair";
-import { Temporary } from "../../internal/types/Temporary";
-import { IForwardIterator } from "../../iterator";
+import { Pair } from "../../../utility/Pair";
+import { Temporary } from "../../types/Temporary";
 
-export abstract class MultiTreeSet<Key,
-        Source extends MultiTreeSet<Key, Source, IteratorT, ReverseT>,
-        IteratorT extends ISetIterator<Key, false, Source, IteratorT, ReverseT>,
-        ReverseT extends ISetReverseIterator<Key, false, Source, IteratorT, ReverseT>>
-    extends MultiSet<Key, Source, IteratorT, ReverseT>
+export abstract class UniqueTreeSet<Key,
+        Source extends UniqueTreeSet<Key, Source, IteratorT, ReverseT>,
+        IteratorT extends UniqueSet.Iterator<Key, Source, IteratorT, ReverseT>,
+        ReverseT extends UniqueSet.ReverseIterator<Key, Source, IteratorT, ReverseT>>
+    extends UniqueSet<Key, Source, IteratorT, ReverseT>
     implements ITreeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
 {
     /* ---------------------------------------------------------
@@ -34,20 +32,6 @@ export abstract class MultiTreeSet<Key,
     /**
      * @inheritDoc
      */
-    public count(key: Key): number
-    {
-        let it: IteratorT = this.find(key);
-        let ret: number = 0;
-
-        for (; !it.equals(this.end()) && this._Key_eq(it.value, key); it = it.next())
-            ++ret;
-
-        return ret;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public abstract lower_bound(key: Key): IteratorT;
 
     /**
@@ -60,7 +44,10 @@ export abstract class MultiTreeSet<Key,
      */
     public equal_range(key: Key): Pair<IteratorT, IteratorT>
     {
-        return new Pair(this.lower_bound(key), this.upper_bound(key));
+        let it: IteratorT = this.lower_bound(key);
+        return new Pair(it, !it.equals(this.end()) && this._Key_eq(key, it.value) 
+            ? it.next() 
+            : it);
     }
 
     /**
@@ -76,9 +63,6 @@ export abstract class MultiTreeSet<Key,
         return this.key_comp();
     }
 
-    /**
-     * @hidden
-     */
     protected _Key_eq(x: Key, y: Key): boolean
     {
         return !this.key_comp()(x, y) && !this.key_comp()(y, x);
@@ -87,24 +71,20 @@ export abstract class MultiTreeSet<Key,
     /* ---------------------------------------------------------
         INSERT
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
-    protected _Insert_by_key(key: Key): IteratorT
+    protected _Insert_by_key(key: Key): Pair<IteratorT, boolean>
     {
         // FIND POSITION TO INSERT
-        let it: IteratorT = this.upper_bound(key);
+        let it: IteratorT = this.lower_bound(key);
+        if (!it.equals(this.end()) && this._Key_eq(it.value, key))
+            return new Pair(it, false);
 
         // ITERATOR TO RETURN
         it = this.data_.insert(it, key);
         this._Handle_insert(it, it.next());
 
-        return it;
+        return new Pair(it, true);
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Insert_by_hint(hint: IteratorT, key: Key): IteratorT
     {
         let validate: boolean = ITreeContainer.emplacable<Key, Key, 
@@ -122,16 +102,6 @@ export abstract class MultiTreeSet<Key,
             return it;
         }
         else
-            return this._Insert_by_key(key);
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        for (let it = first; !it.equals(last); it = it.next())
-            this._Insert_by_key(it.value);
+            return this._Insert_by_key(key).first;
     }
 }

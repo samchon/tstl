@@ -1,10 +1,9 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-import { Iterator } from "../../base/iterator/Iterator";
+import { IContainer } from "../../base/container/IContainer";
 import { ReverseIterator } from "../../base/iterator/ReverseIterator";
 
-import { IContainer } from "../../base/container/IContainer";
 import { OutOfRange } from "../../exception/OutOfRange";
 
 /**
@@ -17,21 +16,10 @@ export abstract class ListIterator<T extends Elem,
         IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
         ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
         Elem>
-    implements Readonly<Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>>
+    implements Readonly<IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>>
 {
-    /**
-     * @hidden
-     */
     private prev_: IteratorT;
-
-    /**
-     * @hidden
-     */
     private next_: IteratorT;
-
-    /**
-     * @hidden
-     */
     protected value_: T;
 
     /**
@@ -42,9 +30,6 @@ export abstract class ListIterator<T extends Elem,
     /* ---------------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected constructor(prev: IteratorT, next: IteratorT, value: T)
     {
         this.prev_ = prev;
@@ -115,10 +100,7 @@ export abstract class ListIterator<T extends Elem,
         this._Try_value();
         return this.value_;
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Try_value(): void
     {
         if (this.value_ === undefined && this.equals(this.source().end()) === true)

@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { MultiTreeSet } from "../base/container/MultiTreeSet";
+import { MultiTreeSet } from "../internal/container/associative/MultiTreeSet";
 import { ITreeContainer } from "../internal/container/associative/ITreeContainer";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -21,9 +21,6 @@ export class TreeMultiSet<Key>
         TreeMultiSet.Iterator<Key>,
         TreeMultiSet.ReverseIterator<Key>>
 {
-    /**
-     * @hidden
-     */
     private tree_!: MultiSetTree<Key, TreeMultiSet<Key>>;
 
     /* ---------------------------------------------------------
@@ -138,18 +135,12 @@ export class TreeMultiSet<Key>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: TreeMultiSet.Iterator<Key>, last: TreeMultiSet.Iterator<Key>): void
     {
         for (; !first.equals(last); first = first.next())
             this.tree_.insert(first);
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Handle_erase(first: TreeMultiSet.Iterator<Key>, last: TreeMultiSet.Iterator<Key>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -159,9 +150,6 @@ export class TreeMultiSet<Key>
 
 export namespace TreeMultiSet
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key> = SetElementList.Iterator<Key, false, TreeMultiSet<Key>>;
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, false, TreeMultiSet<Key>>;
@@ -169,16 +157,4 @@ export namespace TreeMultiSet
     // BODY
     export const Iterator = SetElementList.Iterator;
     export const ReverseIterator = SetElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key> = Iterator<Key>;
-    export type reverse_iterator<Key> = ReverseIterator<Key>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import multiset = TreeMultiSet;

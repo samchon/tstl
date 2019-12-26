@@ -1,6 +1,6 @@
 import * as std from "../../index";
 
-import { ITimedLockable } from "../../base/thread/ITimedLockable";
+import { ITimedLockable } from "../../internal/thread/ITimedLockable";
 
 const SLEEP_TIME: number = 50;
 const READ_COUNT: number = 10;

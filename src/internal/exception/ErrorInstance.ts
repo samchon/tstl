@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { ErrorCategory } from "../../exception/ErrorCategory";
 
@@ -10,14 +10,7 @@ import { ErrorCategory } from "../../exception/ErrorCategory";
  */
 export abstract class ErrorInstance
 {
-    /**
-     * @hidden
-     */
     protected category_!: ErrorCategory;
-
-    /**
-     * @hidden
-     */
     protected value_!: number;
 
     /* ---------------------------------------------------------

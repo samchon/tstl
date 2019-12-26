@@ -2,11 +2,8 @@
 /** @module std.base */
 //================================================================
 import { IContainer } from "./IContainer";
+import { IDeque } from "../../internal/container/partial/IDeque";
 import { ILinearContainer } from "./ILinearContainer";
-import { IPushFront } from "../../internal/container/partial/IPushFront";
-
-import { Iterator } from "../iterator/Iterator";
-import { ReverseIterator } from "../iterator/ReverseIterator";
 
 /**
  * Interface for deque containers.
@@ -14,26 +11,27 @@ import { ReverseIterator } from "../iterator/ReverseIterator";
  * @author Jeongho Nam <http://samchon.org>
  */
 export interface IDequeContainer<T extends ElemT,
-        SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
-        IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
-        ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, ElemT>,
+        SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, ElemT>, 
+        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>, 
+        ReverseT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, ElemT>,
         ElemT = T>
-    extends ILinearContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, _IDeque<T>
+    extends ILinearContainer<T, SourceT, IteratorT, ReverseT, ElemT>, IDeque<T>
 {
 }
 
-/**
- * @hidden
- */
-export interface _IDeque<T> extends IPushFront<T>
+export namespace IDequeContainer
 {
-    /**
-     * @inheritDoc
-     */
-    push_front(val: T): void;
-
-    /**
-     * Erase the first element.
-     */
-    pop_front(): void;
+    export type Iterator<T extends ElemT, 
+            SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, T>, 
+            IteratorT extends IDequeContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
+            ReverseT extends IDequeContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
+            ElemT = T> 
+        = ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>;
+    
+    export type ReverseIterator<T extends ElemT, 
+            SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, T>, 
+            IteratorT extends IDequeContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
+            ReverseT extends IDequeContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
+            ElemT = T> 
+        = ILinearContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, ElemT>;
 }

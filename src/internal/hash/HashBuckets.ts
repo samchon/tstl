@@ -1,18 +1,10 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 /**
- * @hidden
- */
-const MIN_BUCKET_COUNT = 10;
-
-/**
- * @hidden
- */
-const DEFAULT_MAX_FACTOR = 1.0;
-
-/**
- * @hidden
+ * Hash buckets
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export abstract class HashBuckets<T>
 {
@@ -72,10 +64,13 @@ export abstract class HashBuckets<T>
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */
+    public abstract hash_index(val: T): number;
+
     public size(): number
     {
         return this.buckets_.length;
     }
+
     public capacity(): number
     {
         return this.buckets_.length * this.max_load_factor_;
@@ -86,12 +81,12 @@ export abstract class HashBuckets<T>
     {
         return this.buckets_[index];
     }
-    public abstract hash_index(val: T): number;
 
     public load_factor(): number
     {
         return this.item_size_ / this.size();
     }
+
     public max_load_factor(): number;
     public max_load_factor(z: number): void;
     public max_load_factor(z: number | null = null): number | void
@@ -130,3 +125,6 @@ export abstract class HashBuckets<T>
             }
     }
 }
+
+const MIN_BUCKET_COUNT = 10;
+const DEFAULT_MAX_FACTOR = 1.0;

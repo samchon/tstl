@@ -37,8 +37,8 @@ export function test_associatives(): void
 function _Test_unique_set<
         Unique extends boolean, 
         Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.SetContainer.Iterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.SetContainer.ReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
     (set: Source): void
 {
     // CONSTRUCT ELEMENTS
@@ -68,8 +68,8 @@ function _Test_unique_set<
 function _Test_multi_set<
         Unique extends boolean, 
         Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.SetContainer.Iterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.SetContainer.ReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
     (set: Source): void
 {
     // CONSTRUCT ELEMENTS
@@ -103,8 +103,8 @@ function _Test_multi_set<
 function _Construct_set<
         Unique extends boolean, 
         Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.SetContainer.Iterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.SetContainer.ReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
     (set: Source): void
 {
     // INSERT ELEMENTS
@@ -123,8 +123,8 @@ function _Construct_set<
 --------------------------------------------------------- */
 function _Test_unique_map<
         Source extends std.base.UniqueMap<Atomic<string>, number, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.IMapIterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.MapContainer.Iterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.MapContainer.ReverseIterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>>
     (map: Source): void
 {
     // CONSTRUCT ELEMENTS
@@ -153,8 +153,8 @@ function _Test_unique_map<
 
 function _Test_multi_map<
         Source extends std.base.MultiMap<Atomic<string>, number, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.IMapIterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.MapContainer.Iterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.MapContainer.ReverseIterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>>
     (map: Source): void
 {
     // CONSTRUCT ELEMENTS
@@ -187,8 +187,8 @@ function _Test_multi_map<
 
 function _Construct_map<Unique extends boolean, 
         Source extends std.base.MapContainer<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.IMapIterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.MapContainer.Iterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.MapContainer.ReverseIterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>>
     (map: Source): void
 {
     for (let i: number = 0; i <= 10; ++i)

@@ -20,6 +20,3 @@ export class RuntimeError extends Exception
         super(message);
     }
 }
-
-export type runtime_error = RuntimeError;
-export const runtime_error = RuntimeError;

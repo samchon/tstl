@@ -1,11 +1,8 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { Color } from "./Color";
 
-/**
- * @hidden
- */
 export class XTreeNode<T>
 {
     public parent: XTreeNode<T> | null;

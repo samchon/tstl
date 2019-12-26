@@ -8,9 +8,6 @@ import { Pair } from "../../utility/Pair";
 import { begin, end } from "../../iterator/factory";
 import { less } from "../../functional/comparators";
 
-/**
- * @hidden
- */
 type Comparator<Range extends Array<any> | IForwardContainer<any>> = 
     (
         x: IForwardContainer.ValueType<Range>, 

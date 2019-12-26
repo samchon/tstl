@@ -1,21 +1,18 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { XTree } from "./XTree";
 import { XTreeNode } from "./XTreeNode";
 
-import { MapContainer } from "../../base/container/MapContainer";
+import { ITreeMap } from "../../base/container/ITreeMap";
 import { MapElementList } from "../container/associative/MapElementList";
 
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";
 
-/**
- * @hidden
- */
 export abstract class MapTree<Key, T, 
         Unique extends boolean, 
-        Source extends MapContainer<Key, T, 
+        Source extends ITreeMap<Key, T, 
             Unique, 
             Source, 
             MapElementList.Iterator<Key, T, Unique, Source>,
@@ -24,9 +21,9 @@ export abstract class MapTree<Key, T,
 {
     private source_: Source;
 
-    private key_compare_: (x: Key, y: Key) => boolean;
-    private key_eq_: (x: Key, y: Key) => boolean;
-    private value_compare_: (x: IPair<Key, T>, y: IPair<Key, T>) => boolean;
+    private key_compare_: Comparator<Key>;
+    private key_eq_: Comparator<Key>;
+    private value_compare_: Comparator<IPair<Key, T>>;
     
     /* ---------------------------------------------------------
         CONSTRUCTOR
@@ -34,8 +31,8 @@ export abstract class MapTree<Key, T,
     public constructor
         (
             source: Source, 
-            comp: (x: Key, y: Key) => boolean,
-            it_comp: (x: MapElementList.Iterator<Key, T, Unique, Source>, y: MapElementList.Iterator<Key, T, Unique, Source>) => boolean
+            comp: Comparator<Key>,
+            it_comp: Comparator<MapElementList.Iterator<Key, T, Unique, Source>>
         )
     {
         super(it_comp);
@@ -57,7 +54,7 @@ export abstract class MapTree<Key, T,
      */
     public static _Swap_source<Key, T, 
             Unique extends boolean, 
-            Source extends MapContainer<Key, T, 
+            Source extends ITreeMap<Key, T, 
                 Unique, 
                 Source, 
                 MapElementList.Iterator<Key, T, Unique, Source>,
@@ -107,17 +104,19 @@ export abstract class MapTree<Key, T,
         return this.source_;
     }
 
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.key_compare_;
     }
-    public key_eq(): (x: Key, y: Key) => boolean
+    public key_eq(): Comparator<Key>
     {
         return this.key_eq_;    
     }
     
-    public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
+    public value_comp(): Comparator<IPair<Key, T>>
     {
         return this.value_compare_;
     }
 }
+
+type Comparator<Key> = (x: Key, y: Key) => boolean;

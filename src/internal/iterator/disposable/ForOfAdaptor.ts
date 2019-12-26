@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
@@ -11,14 +11,7 @@ import { IForwardIterator } from "../../../iterator/IForwardIterator";
 export class ForOfAdaptor<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>> 
     implements IterableIterator<T>
 {
-    /**
-     * @hidden
-     */
     private it_: InputIterator;
-
-    /**
-     * @hidden
-     */
     private last_: InputIterator;
 
     /**

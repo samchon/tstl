@@ -8,8 +8,8 @@ import { IPointer } from "../functional/IPointer";
 import { IClear } from "../internal/container/partial/IClear";
 import { IEmpty } from "../internal/container/partial/IEmpty";
 import { ISize } from "../internal/container/partial/ISize";
-import { _IDeque } from "../base/container/IDequeContainer";
-import { _IFront } from "../base/container/ILinearContainer";
+import { IDeque } from "../internal/container/partial/IDeque";
+import { IFront } from "../internal/container/partial/IFront";
 import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 
 import { Repeater } from "../internal/iterator/disposable/Repeater";
@@ -29,27 +29,13 @@ import { sort as sort_func } from "../algorithm/sorting";
 export class ForwardList<T> 
     implements IForwardContainer<ForwardList.Iterator<T>>, 
         IClear, IEmpty, ISize,
-        _IDeque<T>, _IFront<T>, Iterable<T>,
+        IDeque<T>, IFront<T>, Iterable<T>,
         IListAlgorithm<T, ForwardList<T>>
 {
-    /**
-     * @hidden
-     */
     private ptr_: IPointer<ForwardList<T>>;
-
-    /**
-     * @hidden
-     */
     private size_: number;
 
-    /**
-     * @hidden
-     */
     private before_begin_: ForwardList.Iterator<T>;
-
-    /**
-     * @hidden
-     */
     private end_: ForwardList.Iterator<T>;
 
     /* ===============================================================
@@ -287,9 +273,6 @@ export class ForwardList<T>
         return ret;
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_by_repeating_val(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>
     {
         let first: Repeater<T> = new Repeater(0, val);
@@ -298,9 +281,6 @@ export class ForwardList<T>
         return this._Insert_by_range(pos, first, last);
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
     {
@@ -554,27 +534,13 @@ export namespace ForwardList
      */
     export class Iterator<T> implements IForwardIterator<T, Iterator<T>>
     {
-        /**
-         * @hidden
-         */
         private source_ptr_: IPointer<ForwardList<T>>;
-
-        /**
-         * @hidden
-         */
         private next_: Iterator<T>;
-
-        /**
-         * @hidden
-         */
         private value_: T | undefined;
 
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         private constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value?: T)
         {
             this.source_ptr_ = source;
@@ -621,10 +587,7 @@ export namespace ForwardList
             this._Try_value();
             this.value_ = val;
         }
-
-        /**
-         * @hidden
-         */
+        
         private _Try_value(): void
         {
             if (this.value_ === undefined)
@@ -666,4 +629,3 @@ export namespace ForwardList
         }
     }
 }
-export import forward_list = ForwardList;

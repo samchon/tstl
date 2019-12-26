@@ -1,27 +1,35 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { HashBuckets } from "./HashBuckets";
 
 import { IHashMap } from "../../base/container/IHashMap";
-import { MapElementList } from "../container/associative/MapElementList";
 
 /**
- * @hidden
+ * Hash buckets for map containers.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export class MapHashBuckets<Key, T, 
         Unique extends boolean, 
         Source extends IHashMap<Key, T, Unique, Source>>
-    extends HashBuckets<MapElementList.Iterator<Key, T, Unique, Source>>
+    extends HashBuckets<IHashMap.Iterator<Key, T, Unique, Source>>
 {
     private source_: IHashMap<Key, T, Unique, Source>;
-
+    
     private hash_function_: (key: Key) => number;
     private key_eq_: (x: Key, y: Key) => boolean;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
+    /**
+     * Initializer Constructor
+     * 
+     * @param source Source map container
+     * @param hash Hash function
+     * @param pred Equality function
+     */
     public constructor(source: IHashMap<Key, T, Unique, Source>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean)
     {
         super();
@@ -56,7 +64,7 @@ export class MapHashBuckets<Key, T,
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
-    public find(key: Key): MapElementList.Iterator<Key, T, Unique, Source>
+    public find(key: Key): IHashMap.Iterator<Key, T, Unique, Source>
     {
         let index = this.hash_function_(key) % this.size();
         let bucket = this.at(index);
@@ -68,7 +76,7 @@ export class MapHashBuckets<Key, T,
         return this.source_.end();
     }
 
-    public hash_index(it: MapElementList.Iterator<Key, T, Unique, Source>): number
+    public hash_index(it: IHashMap.Iterator<Key, T, Unique, Source>): number
     {
         return this.hash_function_(it.first) % this.size();
     }

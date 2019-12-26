@@ -22,9 +22,6 @@ export class List<T>
     implements IDequeContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>,
         IListAlgorithm<T, List<T>>
 {
-    /**
-     * @hidden
-     */
     private ptr_: IPointer<List<T>>;
 
     /* ---------------------------------------------------------
@@ -103,9 +100,6 @@ export class List<T>
         }
     }
 
-    /**
-     * @hidden
-     */
     protected _Create_iterator(prev: List.Iterator<T>, next: List.Iterator<T>, val: T): List.Iterator<T>
     {
         return List.Iterator.create(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
@@ -278,9 +272,6 @@ export class List<T>
         this._Quick_sort(this.begin(), this.end().prev(), comp);
     }
 
-    /**
-     * @hidden
-     */
     private _Quick_sort(first: List.Iterator<T>, last: List.Iterator<T>, comp: (x: T, y: T) => boolean): void
     {
         if (!first.equals(last) && !last.equals(this.end()) && !first.equals(last.next()))
@@ -292,9 +283,6 @@ export class List<T>
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Quick_sort_partition(first: List.Iterator<T>, last: List.Iterator<T>, comp: (x: T, y: T) => boolean): List.Iterator<T>
     {
         let standard: T = last.value; // TO BE COMPARED
@@ -363,17 +351,11 @@ export namespace List
     export class Iterator<T>
         extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>, T>
     {
-        /**
-         * @hidden
-         */
         private source_ptr_: IPointer<List<T>>;
 
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         private constructor(sourcePtr: IPointer<List<T>>, prev: Iterator<T>, next: Iterator<T>, value: T)
         {
             super(prev, next, value);
@@ -453,9 +435,6 @@ export namespace List
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         protected _Create_neighbor(base: Iterator<T>): ReverseIterator<T>
         {
             return new ReverseIterator<T>(base);
@@ -481,4 +460,3 @@ export namespace List
         }
     }
 }
-export import list = List;

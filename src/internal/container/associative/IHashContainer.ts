@@ -1,20 +1,21 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { IAssociativeContainer } from "./IAssociativeContainer";
-import { Iterator } from "../../../base/iterator/Iterator";
-import { IReverseIterator } from "../../../base/iterator/ReverseIterator";
 
+import { IContainer } from "../../../base/container/IContainer";
 import { hash } from "../../../functional/hash";
 import { equal_to } from "../../../functional/comparators";
 
 /**
- * @hidden
+ * Common interface for hash containers
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export interface IHashContainer<Key, T extends Elem, 
         SourceT extends IHashContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
-        IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
         Elem>
     extends IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
@@ -101,12 +102,12 @@ export interface IHashContainer<Key, T extends Elem,
 export namespace IHashContainer
 {
     /**
-     * @hidden
+     * @internal
      */
     export function construct<Key, T extends Elem, 
             SourceT extends IHashContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
-            IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-            ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+            IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+            ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
             Elem>
         (
             source: SourceT, 
@@ -161,7 +162,7 @@ export namespace IHashContainer
     }
 
     /**
-     * @hidden
+     * @internal
      */
     interface Factory<T, Arguments extends any[] = any[]>
     {

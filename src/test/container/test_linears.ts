@@ -10,8 +10,8 @@ export function test_linear_containers(): void
 
 function _Test_linear<
         SourceT extends std.base.ILinearContainer<number, SourceT, IteratorT, ReverseT>,
-        IteratorT extends std.base.Iterator<number, SourceT, IteratorT, ReverseT>,
-        ReverseT extends std.base.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
+        IteratorT extends std.base.IContainer.Iterator<number, SourceT, IteratorT, ReverseT>,
+        ReverseT extends std.base.IContainer.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
     (vec: SourceT): void
 {
     //----
@@ -53,8 +53,8 @@ function _Test_linear<
 
 function _Validate_linear_elements<
         SourceT extends std.base.ILinearContainer<number, SourceT, IteratorT, ReverseT>,
-        IteratorT extends std.base.Iterator<number, SourceT, IteratorT, ReverseT>,
-        ReverseT extends std.base.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
+        IteratorT extends std.base.IContainer.Iterator<number, SourceT, IteratorT, ReverseT>,
+        ReverseT extends std.base.IContainer.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
     (vec: SourceT, answer: number[]): void
 {
     if (vec.size() !== answer.length)

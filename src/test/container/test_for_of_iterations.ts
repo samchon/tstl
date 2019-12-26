@@ -14,7 +14,7 @@ export function test_for_of_iterations(): void
 
 function _Test_for_of_iteration<
         SourceT extends std.base.IContainer<number, SourceT, IteratorT, ReverseT>,
-        IteratorT extends std.base.Iterator<number, SourceT, IteratorT, ReverseT>, 
+        IteratorT extends std.base.IContainer.Iterator<number, SourceT, IteratorT, ReverseT>, 
         ReverseT extends std.base.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
     (vec: SourceT): void
 {

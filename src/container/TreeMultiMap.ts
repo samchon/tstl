@@ -1,13 +1,13 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { MultiTreeMap } from "../base/container/MultiTreeMap";
+import { MultiTreeMap } from "../internal/container/associative/MultiTreeMap";
 import { ITreeContainer } from "../internal/container/associative/ITreeContainer";
 
+import { IForwardIterator } from "../iterator/IForwardIterator";
 import { MapElementList } from "../internal/container/associative/MapElementList";
 import { MultiMapTree } from "../internal/tree/MultiMapTree";
 
-import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
 import { Temporary } from "../internal/types/Temporary";
@@ -23,9 +23,6 @@ export class TreeMultiMap<Key, T>
         TreeMultiMap.Iterator<Key, T>,
         TreeMultiMap.ReverseIterator<Key, T>>
 {
-    /**
-     * @hidden
-     */
     private tree_!: MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
 
     /* ---------------------------------------------------------
@@ -140,18 +137,12 @@ export class TreeMultiMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
             this.tree_.insert(first);
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Handle_erase(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -161,9 +152,6 @@ export class TreeMultiMap<Key, T>
 
 export namespace TreeMultiMap
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, false, TreeMultiMap<Key, T>>;
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, false, TreeMultiMap<Key, T>>;
@@ -171,16 +159,4 @@ export namespace TreeMultiMap
     // BODY
     export const Iterator = MapElementList.Iterator;
     export const ReverseIterator = MapElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import multimap = TreeMultiMap;

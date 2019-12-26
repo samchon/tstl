@@ -16,9 +16,6 @@ import { pop_heap, push_heap } from "../algorithm/heap";
 export class PriorityQueue<T>
     extends AdaptorContainer<T, Vector<T>, PriorityQueue<T>>
 {
-    /**
-     * @hidden
-     */
     private comp_: (x: T, y: T) => boolean;
 
     /* ---------------------------------------------------------

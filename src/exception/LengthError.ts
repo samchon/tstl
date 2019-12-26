@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { LogicError } from "./LogicError";
 
 /**
@@ -17,6 +20,3 @@ export class LengthError extends LogicError
         super(message);
     }
 }
-
-export type length_error = LengthError;
-export const length_error = LengthError;

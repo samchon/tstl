@@ -67,6 +67,3 @@ export class Queue<T>
         this.source_.pop_front();
     }
 }
-
-export type queue<T> = Queue<T>;
-export const queue = Queue;

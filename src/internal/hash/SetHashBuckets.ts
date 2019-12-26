@@ -1,16 +1,17 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { HashBuckets } from "./HashBuckets";
 
 import { IHashSet } from "../../base/container/IHashSet";
-import { SetElementList } from "../container/associative/SetElementList";
 
 /**
- * @hidden
+ * Hash buckets for set containers
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export class SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<T, Unique, Source>>
-    extends HashBuckets<SetElementList.Iterator<T, Unique, Source>>
+    extends HashBuckets<IHashSet.Iterator<T, Unique, Source>>
 {
     private source_: IHashSet<T, Unique, Source>;
 
@@ -54,7 +55,7 @@ export class SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<T
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
-    public find(val: T): SetElementList.Iterator<T, Unique, Source>
+    public find(val: T): IHashSet.Iterator<T, Unique, Source>
     {
         let index = this.hash_function_(val) % this.size();
         let bucket = this.at(index);
@@ -66,7 +67,7 @@ export class SetHashBuckets<T, Unique extends boolean, Source extends IHashSet<T
         return this.source_.end();
     }
 
-    public hash_index(it: SetElementList.Iterator<T, Unique, Source>): number
+    public hash_index(it: IHashSet.Iterator<T, Unique, Source>): number
     {
         return this.hash_function_(it.value) % this.size();
     }

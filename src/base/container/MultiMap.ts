@@ -3,9 +3,7 @@
 //================================================================
 import { MapContainer } from "./MapContainer";
 
-import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-
 import { IPair } from "../../utility/IPair";
 
 /**
@@ -15,8 +13,8 @@ import { IPair } from "../../utility/IPair";
  */
 export abstract class MultiMap<Key, T, 
         Source extends MultiMap<Key, T, Source, Iterator, Reverse>, 
-        Iterator extends IMapIterator<Key, T, false, Source, Iterator, Reverse>, 
-        Reverse extends IMapReverseIterator<Key, T, false, Source, Iterator, Reverse>>
+        Iterator extends MultiMap.Iterator<Key, T, Source, Iterator, Reverse>, 
+        Reverse extends MultiMap.ReverseIterator<Key, T, Source, Iterator, Reverse>>
     extends MapContainer<Key, T, false, Source, Iterator, Reverse>
 {
     /* ---------------------------------------------------------
@@ -75,14 +73,8 @@ export abstract class MultiMap<Key, T,
     /* ---------------------------------------------------------
         ERASE
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected abstract _Key_eq(x: Key, y: Key): boolean;
-
-    /**
-     * @hidden
-     */
+    
     protected _Erase_by_key(key: Key): number
     {
         let first = this.find(key);
@@ -112,4 +104,19 @@ export abstract class MultiMap<Key, T,
         this.insert(source.begin(), source.end());
         source.clear();
     }
+}
+
+export namespace MultiMap
+{
+    export type Iterator<Key, T, 
+            SourceT extends MultiMap<Key, T, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, T, SourceT, IteratorT, ReverseT>>
+        = MapContainer.Iterator<Key, T, false, SourceT, IteratorT, ReverseT>;
+
+    export type ReverseIterator<Key, T, 
+            SourceT extends MultiMap<Key, T, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, T, SourceT, IteratorT, ReverseT>>
+        = MapContainer.ReverseIterator<Key, T, false, SourceT, IteratorT, ReverseT>;
 }

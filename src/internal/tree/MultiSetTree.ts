@@ -1,19 +1,16 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { SetTree } from "./SetTree";
 import { XTreeNode } from "./XTreeNode";
 
-import { MultiSet } from "../../base/container/MultiSet";
+import { MultiTreeSet } from "../container/associative/MultiTreeSet";
 import { SetElementList } from "../container/associative/SetElementList";
 
 import { get_uid } from "../../functional/uid";
 
-/**
- * @hidden
- */
 export class MultiSetTree<Key, 
-        Source extends MultiSet<Key, 
+        Source extends MultiTreeSet<Key, 
             Source,
             SetElementList.Iterator<Key, false, Source>,
             SetElementList.ReverseIterator<Key, false, Source>>>

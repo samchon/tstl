@@ -26,9 +26,6 @@ export class HashMultiMap<Key, T>
         HashMultiMap.ReverseIterator<Key, T>>
     implements IHashMap<Key, T, false, HashMultiMap<Key, T>>
 {
-    /**
-     * @hidden
-     */
     private buckets_!: MapHashBuckets<Key, T, false, HashMultiMap<Key, T>>;
 
     /* =========================================================
@@ -300,9 +297,6 @@ export class HashMultiMap<Key, T>
         this.buckets_.rehash(n);
     }
 
-    /**
-     * @hidden
-     */
     protected _Key_eq(x: Key, y: Key): boolean
     {
         return this.key_eq()(x, y);
@@ -340,10 +334,7 @@ export class HashMultiMap<Key, T>
 
         return it;
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
@@ -377,18 +368,12 @@ export class HashMultiMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: HashMultiMap.Iterator<Key, T>, last: HashMultiMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
             this.buckets_.insert(first);
     }
 
-    /**
-     * @hidden
-     */
     protected _Handle_erase(first: HashMultiMap.Iterator<Key, T>, last: HashMultiMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -408,16 +393,4 @@ export namespace HashMultiMap
     // BODY
     export const Iterator = MapElementList.Iterator;
     export const ReverseIterator = MapElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import unordered_multimap = HashMultiMap;

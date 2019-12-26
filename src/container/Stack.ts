@@ -57,6 +57,3 @@ export class Stack<T>
         this.source_.pop_back();
     }
 }
-
-export type stack<T> = Stack<T>;
-export const stack = Stack;

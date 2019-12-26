@@ -72,9 +72,6 @@ export function distance<InputIterator extends Readonly<IRandomAccessIterator<IP
     return ret;
 }
 
-/**
- * @hidden
- */
 function _Distance_via_index<RandomAccessIterator extends IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>
     (first: RandomAccessIterator, last: RandomAccessIterator): number
 {

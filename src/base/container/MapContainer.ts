@@ -1,18 +1,17 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { Container } from "./Container";
 import { IAssociativeContainer } from "../../internal/container/associative/IAssociativeContainer";
+import { IContainer } from "./IContainer";
+import { Container } from "./Container";
 
-import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
-import { ILinearContainer } from "./ILinearContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { NativeArrayIterator } from "../../internal/iterator/disposable/NativeArrayIterator";
-
+import { ILinearContainerBase } from "../../internal/container/linear/ILinearContainerBase";
 import { IPair } from "../../utility/IPair";
+import { NativeArrayIterator } from "../../internal/iterator/disposable/NativeArrayIterator";
 import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
-import { Omit } from "../../internal/types/Omit";
+
 import { Temporary } from "../../internal/types/Temporary";
 
 /**
@@ -23,15 +22,12 @@ import { Temporary } from "../../internal/types/Temporary";
 export abstract class MapContainer<Key, T, 
         Unique extends boolean, 
         Source extends MapContainer<Key, T, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends IMapIterator<Key, T, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends IMapReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends MapContainer.Iterator<Key, T, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends MapContainer.ReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
     extends Container<Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
     implements IAssociativeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
-    /**
-     * @hidden
-     */
-    protected data_: Omit<ILinearContainer<Entry<Key, T>, Source, IteratorT, ReverseT>, "front"|"back">;
+    protected data_: ILinearContainerBase<Entry<Key, T>, Source, IteratorT, ReverseT>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -39,7 +35,7 @@ export abstract class MapContainer<Key, T,
     /**
      * Default Constructor.
      */
-    protected constructor(factory: (thisArg: Source) => Omit<ILinearContainer<Entry<Key, T>, Source, IteratorT, ReverseT>, "front"|"back">)
+    protected constructor(factory: (thisArg: Source) => ILinearContainerBase<Entry<Key, T>, Source, IteratorT, ReverseT>)
     {
         super();
         this.data_ = factory(this as Temporary);
@@ -159,9 +155,6 @@ export abstract class MapContainer<Key, T,
             return this.emplace_hint(args[0], args[1].first, args[1].second);
     }
 
-    /**
-     * @hidden
-     */
     protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
         (first: InputIterator, last: InputIterator): void;
 
@@ -194,14 +187,8 @@ export abstract class MapContainer<Key, T,
                 return this._Erase_by_range(args[0], args[1]);
     }
 
-    /**
-     * @hidden
-     */
     protected abstract _Erase_by_key(key: Key): number;
 
-    /**
-     * @hidden
-     */
     protected _Erase_by_range(first: IteratorT, last: IteratorT = first.next()): IteratorT
     {
         // ERASE
@@ -231,14 +218,8 @@ export abstract class MapContainer<Key, T,
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected abstract _Handle_insert(first: IteratorT, last: IteratorT): void;
-
-    /**
-     * @hidden
-     */
+    
     protected abstract _Handle_erase(first: IteratorT, last: IteratorT): void;
 }
 
@@ -246,10 +227,37 @@ export namespace MapContainer
 {
     export type InsertRet<Key, T, 
             Unique extends boolean, 
-            Source extends MapContainer<Key, T, Unique, Source, Iterator, Reverse>,
-            Iterator extends IMapIterator<Key, T, Unique, Source, Iterator, Reverse>,
-            Reverse extends IMapReverseIterator<Key, T, Unique, Source, Iterator, Reverse>>
+            SourceT extends MapContainer<Key, T, Unique, SourceT, IteratorT, Reverse>,
+            IteratorT extends Iterator<Key, T, Unique, SourceT, IteratorT, Reverse>,
+            Reverse extends ReverseIterator<Key, T, Unique, SourceT, IteratorT, Reverse>>
         = Unique extends true 
-            ? Pair<Iterator, boolean> 
-            : Iterator;
+            ? Pair<IteratorT, boolean> 
+            : IteratorT;
+
+    export type Iterator<Key, T, 
+            Unique extends boolean, 
+            SourceT extends MapContainer<Key, T, Unique, SourceT, IteratorT, ReverseT>, 
+            IteratorT extends Iterator<Key, T, Unique, SourceT, IteratorT, ReverseT>, 
+            ReverseT extends ReverseIterator<Key, T, Unique, SourceT, IteratorT, ReverseT>>
+        = IteratorBase<Key, T> & Readonly<IContainer.Iterator<Entry<Key, T>, SourceT, IteratorT, ReverseT, IPair<Key, T>>>;
+
+    export type ReverseIterator<Key, T, 
+            Unique extends boolean, 
+            SourceT extends MapContainer<Key, T, Unique, SourceT, IteratorT, ReverseT>, 
+            IteratorT extends Iterator<Key, T, Unique, SourceT, IteratorT, ReverseT>, 
+            ReverseT extends ReverseIterator<Key, T, Unique, SourceT, IteratorT, ReverseT>>
+        = IteratorBase<Key, T> & Readonly<IContainer.ReverseIterator<Entry<Key, T>, SourceT, IteratorT, ReverseT, IPair<Key, T>>>;
+    
+    interface IteratorBase<Key, T>
+    {
+        /**
+         * The first, key element.
+         */
+        readonly first: Key;
+
+        /**
+         * The second, stored element.
+         */
+        second: T;
+    }
 }

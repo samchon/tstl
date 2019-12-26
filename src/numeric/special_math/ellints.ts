@@ -88,9 +88,6 @@ export function comp_ellint_3(k: number, n: number): number
     return ellint_3(k, n, Math.PI / 2);
 }
 
-/**
- * @hidden
- */
 function _Ellint_3(k: number, v: number, phi: number): number
 {
     let formula = function (x: number): number
@@ -106,17 +103,11 @@ function _Ellint_3(k: number, v: number, phi: number): number
 /* ---------------------------------------------------------------
     BACKGROUNDS
 --------------------------------------------------------------- */
-/**
- * @hidden
- */
 function _Common_formula(k: number, x: number): number
 {
     return Math.sqrt(1 - Math.pow(k * Math.sin(x), 2));
 }
 
-/**
- * @hidden
- */
 function _Post_process(func: string, k: number, phi: number, formula: (x: number) => number): number
 {
     if (Math.abs(k) > 1)

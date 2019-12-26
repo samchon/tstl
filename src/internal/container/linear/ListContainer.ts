@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { IContainer } from "../../../base/container/IContainer";
 import { Container } from "../../../base/container/Container";
@@ -13,9 +13,9 @@ import { NativeArrayIterator } from "../../iterator/disposable/NativeArrayIterat
 import { InvalidArgument } from "../../../exception/InvalidArgument";
 import { advance } from "../../../iterator/global";
 
+import { ILinearContainerBase } from "./ILinearContainerBase";
+
 import { Temporary } from "../../types/Temporary";
-import { ILinearContainer } from "../../../base/container/ILinearContainer";
-import { Omit } from "../../types/Omit";
 
 /**
  * Basic List Container.
@@ -27,21 +27,11 @@ export abstract class ListContainer<T,
         IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, T>,
         ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
     extends Container<T, SourceT, IteratorT, ReverseIteratorT, T>
-    implements Omit<ILinearContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, "front"|"back">
+    implements ILinearContainerBase<T, SourceT, IteratorT, ReverseIteratorT, T>
 {
-    /**
-     * @hidden
-     */
     protected begin_!: IteratorT;
-    
-    /**
-     * @hidden
-     */
     protected end_: IteratorT;
     
-    /**
-     * @hidden
-     */
     private size_!: number;
 
     /* ---------------------------------------------------------
@@ -59,15 +49,13 @@ export abstract class ListContainer<T,
         this.clear();
     }
 
-    /**
-     * @hidden
-     */
     protected abstract _Create_iterator(prev: IteratorT, next: IteratorT, val?: T): IteratorT;
 
     /**
      * @inheritDoc
      */
     public assign(n: number, val: T): void;
+
     /**
      * @inheritDoc
      */
@@ -226,9 +214,6 @@ export abstract class ListContainer<T,
             return this._Insert_by_range(pos, args[0], args[1]);
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_by_repeating_val(position: IteratorT, n: number, val: T): IteratorT
     {
         let first: Repeater<T> = new Repeater(0, val);
@@ -237,9 +222,6 @@ export abstract class ListContainer<T,
         return this._Insert_by_range(position, first, last);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT
     {
@@ -291,9 +273,6 @@ export abstract class ListContainer<T,
         return this._Erase_by_range(first, last);
     }
 
-    /**
-     * @hidden
-     */
     protected _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT
     {
         // VALIDATION

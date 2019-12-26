@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { XTreeNode } from "./XTreeNode";
 import { Color } from "./Color";
@@ -10,9 +10,6 @@ import { Color } from "./Color";
 // Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
 // Inventor: Rudolf Bayer
 //--------
-/**
- * @hidden
- */
 export abstract class XTree<T>
 {
     protected root_: XTreeNode<T> | null;

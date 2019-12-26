@@ -7,9 +7,6 @@ import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
 import { begin, end } from "../../iterator/factory";
 import { less } from "../../functional/comparators";
 
-/**
- * @hidden
- */
 type Comparator<Range extends Array<any> | IRandomAccessContainer<any>> =
     (
         x: IRandomAccessContainer.ValueType<Range>, 

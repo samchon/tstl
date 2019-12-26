@@ -6,11 +6,11 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.4.0-dev.20191225",
+  "version": "2.4.0-dev.20191226",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "api": "typedoc src --plugin typedoc-plugin-external-module-name --exclude \"**/+(test|benchmark)/**\" --out ",
+    "api": "typedoc src --plugin typedoc-plugin-external-module-name --exclude \"**/+(test|benchmark)/**\" --excludePrivate --excludeProtected --excludeNotExported --out ",
     "benchmark": "node benchmark",
     "build": "npm run module && npm run compile && npm run test",
     "clean": "node build/clean",
@@ -23,7 +23,7 @@
     "@types/node": "^11.13.14",
     "typedoc": "^0.14.2",
     "typedoc-plugin-external-module-name": "^2.0.0",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.4"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {

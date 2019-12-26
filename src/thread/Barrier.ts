@@ -17,6 +17,3 @@ export class Barrier extends FlexBarrier
         super(size, ()=>this.size_);
     }
 }
-
-export type barrier = Barrier;
-export const barrier = Barrier;

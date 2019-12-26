@@ -11,9 +11,6 @@ import { Writeonly } from "../../internal/types/Writeonly";
 import { Pair } from "../../utility/Pair";
 import { begin, end } from "../../iterator/factory";
 
-/**
- * @hidden
- */
 type Predicator<Range extends Array<any> | IForwardContainer<any>> =
     (val: IForwardContainer.ValueType<Range>) => boolean;
 

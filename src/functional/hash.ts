@@ -12,7 +12,7 @@ import { get_uid } from "./uid";
  */
 export function hash(...items: any[]): number
 {
-    let ret: number = _HASH_INIT_VALUE;
+    let ret: number = INIT_VALUE;
     
     for (let item of items)
     {
@@ -33,7 +33,7 @@ export function hash(...items: any[]): number
             else
             {
                 ret = ret ^ hashed;
-                ret *= _HASH_MULTIPLIER;
+                ret *= MULTIPLIER;
             }
         }
         else // object | null | undefined
@@ -42,20 +42,14 @@ export function hash(...items: any[]): number
     return ret;
 }
 
-/**
- * @hidden
- */
 function _Hash_boolean(val: boolean, ret: number): number
 {
     ret ^= val ? 1 : 0;
-    ret *= _HASH_MULTIPLIER;
+    ret *= MULTIPLIER;
 
     return ret;
 }
 
-/**
- * @hidden
- */
 function _Hash_number(val: number, ret: number): number
 {
     return _Hash_string(val.toString(), ret);
@@ -80,15 +74,12 @@ function _Hash_number(val: number, ret: number): number
     // return Math.abs(ret);
 }
 
-/**
- * @hidden
- */
 function _Hash_string(str: string, ret: number): number
 {
     for (let i: number = 0; i < str.length; ++i)
     {
         ret ^= str.charCodeAt(i);
-        ret *= _HASH_MULTIPLIER;
+        ret *= MULTIPLIER;
     }
     return Math.abs(ret);
 }
@@ -96,12 +87,5 @@ function _Hash_string(str: string, ret: number): number
 /* ---------------------------------------------------------
     RESERVED ITEMS
 --------------------------------------------------------- */
-/**
- * @hidden
- */
-const _HASH_INIT_VALUE: number = 2166136261;
-
-/**
- * @hidden
- */
-const _HASH_MULTIPLIER: number = 16777619;
+const INIT_VALUE: number = 2166136261;
+const MULTIPLIER: number = 16777619;

@@ -1,9 +1,11 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { VectorContainer } from "../base/container/VectorContainer";
-import { ArrayIterator, ArrayReverseIterator } from "../internal/iterator/ArrayIterator";
+import { IArrayContainer } from "../base/container/IArrayContainer";
+import { VectorContainer } from "../internal/container/linear/VectorContainer";
 
+import { ArrayIterator } from "../internal/iterator/ArrayIterator";
+import { ArrayReverseIterator } from "../internal/iterator/ArrayReverseIterator";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 
 /**
@@ -13,6 +15,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
  */
 export class Vector<T>
     extends VectorContainer<T, Vector<T>, Vector<T>, Vector.Iterator<T>, Vector.ReverseIterator<T>>
+    implements IArrayContainer<T, Vector<T>, Vector.Iterator<T>, Vector.ReverseIterator<T>>
 {
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -104,7 +107,7 @@ export class Vector<T>
     }
 
     /**
-     * @hidden
+     * @inheritDoc
      */
     public nth(index: number): Vector.Iterator<T>
     {
@@ -114,9 +117,6 @@ export class Vector<T>
 
 export namespace Vector
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<T> = ArrayIterator<T, Vector<T>>;
     export type ReverseIterator<T> = ArrayReverseIterator<T, Vector<T>>;
@@ -124,16 +124,4 @@ export namespace Vector
     // BODY
     export const Iterator = ArrayIterator;
     export const ReverseIterator = ArrayReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<T> = Iterator<T>;
-    export type reverse_iterator<T> = ReverseIterator<T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import vector = Vector;

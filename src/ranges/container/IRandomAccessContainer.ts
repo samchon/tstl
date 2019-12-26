@@ -1,5 +1,5 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.ranges */
 //================================================================
 import { IForwardContainer } from "./IForwardContainer";
 import { IRandomAccessIterator } from "../../iterator";

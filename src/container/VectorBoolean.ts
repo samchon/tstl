@@ -1,8 +1,11 @@
 //================================================================ 
 /** @module std */
 //================================================================
+import { IArrayContainer } from "../base/container/IArrayContainer";
 import { ArrayContainer } from "../internal/container/linear/ArrayContainer";
-import { ArrayIterator, ArrayReverseIterator } from "../internal/iterator/ArrayIterator";
+import { ArrayIterator } from "../internal/iterator/ArrayIterator";
+import { ArrayReverseIterator } from "../internal/iterator/ArrayReverseIterator";
+
 import { TreeMap } from "./TreeMap";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -18,19 +21,13 @@ import { not_equal_to } from "../functional/comparators";
  */
 export class VectorBoolean 
     extends ArrayContainer<boolean, VectorBoolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator, boolean>
+    implements IArrayContainer<boolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator>
 {
     //----
     // first => (index: number)
     // second => (value: boolean)
     //---
-    /**
-     * @hidden
-     */
     private data_!: TreeMap<number, boolean>;
-
-    /**
-     * @hidden
-     */
     private size_!: number;
 
     /* =========================================================
@@ -258,16 +255,13 @@ export class VectorBoolean
     }
 
     /**
-     * @hidden
+     * @inheritDoc
      */
     public nth(index: number): VectorBoolean.Iterator
     {
         return new VectorBoolean.Iterator(this as VectorBoolean, index);
     }
 
-    /**
-     * @hidden
-     */
     private _Find_node(index: number): TreeMap.Iterator<number, boolean>
     {
         return this.data_.upper_bound(index).prev();
@@ -330,9 +324,6 @@ export class VectorBoolean
     /* ---------------------------------------------------------
         INSERT
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Insert_by_repeating_val(pos: VectorBoolean.Iterator, n: number, val: boolean): VectorBoolean.Iterator
     {
         // RESERVE ELEMENTS -> THE REPEATED COUNT AND VALUE
@@ -346,9 +337,6 @@ export class VectorBoolean
             return this._Insert_to_middle(pos, elements);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<boolean, InputIterator>>>
         (pos: VectorBoolean.Iterator, first: InputIterator, last: InputIterator): VectorBoolean.Iterator
     {
@@ -369,9 +357,6 @@ export class VectorBoolean
             return this._Insert_to_middle(pos, elements);
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_to_middle(pos: VectorBoolean.Iterator, elements: Pair<number, boolean>[]): VectorBoolean.Iterator
     {
         let first = this._Find_node(pos.index());
@@ -408,10 +393,7 @@ export class VectorBoolean
         // DO POST-INSERTION
         return this._Insert_to_end(elements);
     }
-    
-    /**
-     * @hidden
-     */
+
     private _Insert_to_end(elements: Pair<number, boolean>[]): VectorBoolean.Iterator
     {
         let old_size: number = this.size();
@@ -442,9 +424,6 @@ export class VectorBoolean
     /* ---------------------------------------------------------
         ERASE
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Erase_by_range(first: VectorBoolean.Iterator, last: VectorBoolean.Iterator): VectorBoolean.Iterator
     {
         let elements: Pair<number, boolean>[] = [];
@@ -479,9 +458,6 @@ export class VectorBoolean
 
 export namespace VectorBoolean
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator = ArrayIterator<boolean, VectorBoolean>;
     export type ReverseIterator = ArrayReverseIterator<boolean, VectorBoolean>;
@@ -489,16 +465,4 @@ export namespace VectorBoolean
     // BODY
     export const Iterator = ArrayIterator;
     export const ReverseIterator = ArrayReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator = Iterator;
-    export type reverse_iterator = ReverseIterator;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import vetor_bool = VectorBoolean;

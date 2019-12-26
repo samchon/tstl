@@ -1,13 +1,11 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-import { Iterator } from "../../base/iterator/Iterator";
-import { ReverseIterator } from "../../base/iterator/ReverseIterator";
-
 import { IContainer } from "../../base/container/IContainer";
 import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
-import { ArrayContainer } from "../container/linear/ArrayContainer";
 
+import { ArrayContainer } from "../container/linear/ArrayContainer";
+import { ArrayReverseIteratorBase } from "./ArrayReverseIteratorBase";
 import { equal_to } from "../../functional/comparators";
 
 /**
@@ -21,17 +19,10 @@ export abstract class ArrayIteratorBase<T extends ElemT,
         IteratorT extends ArrayIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>,
         ReverseT extends ArrayReverseIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>,
         ElemT>
-    implements Iterator<T, SourceT, IteratorT, ReverseT, ElemT>,
+    implements IContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>,
         IRandomAccessIterator<T, IteratorT>
 {
-    /**
-     * @hidden
-     */
     private array_: ArrayT;
-
-    /**
-     * @hidden
-     */
     private index_: number;
     
     /* ---------------------------------------------------------
@@ -130,58 +121,5 @@ export abstract class ArrayIteratorBase<T extends ElemT,
     public equals(obj: IteratorT): boolean
     {
         return equal_to(this.array_, obj.array_) && this.index_ === obj.index_;
-    }
-}
-
-/**
- * Reverse iterator of Array Containers.
- * 
- * @author Jeongho Nam <http://samchon.org>
- */
-export abstract class ArrayReverseIteratorBase<T extends ElemT, 
-        SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, ElemT>,
-        ArrayT extends ArrayContainer<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>,
-        IteratorT extends ArrayIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>,
-        ReverseT extends ArrayReverseIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, ElemT>,
-        ElemT>
-    extends ReverseIterator<T, SourceT, IteratorT, ReverseT, ElemT>
-    implements IRandomAccessIterator<T, ReverseT>
-{
-    /* ---------------------------------------------------------
-        CONSTRUCTORS
-    --------------------------------------------------------- */
-    /**
-     * @inheritDoc
-     */
-    public advance(n: number): ReverseT
-    {
-        return this._Create_neighbor(this.base().advance(-n));
-    }
-
-    /* ---------------------------------------------------------
-        ACCESSORS
-    --------------------------------------------------------- */
-    /**
-     * @inheritDoc
-     */
-    public index(): number
-    {
-        return this.base_.index();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public get value(): T
-    {
-        return this.base_.value;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public set value(val: T)
-    {
-        this.base_.value = val;
     }
 }

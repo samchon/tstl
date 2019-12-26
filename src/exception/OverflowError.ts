@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { RuntimeError } from "./RuntimeError";
 
 /**
@@ -17,6 +20,3 @@ export class OverflowError extends RuntimeError
         super(message);
     }
 }
-
-export type overflow_error = OverflowError;
-export const overflow_error = OverflowError;

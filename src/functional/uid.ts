@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { _Get_root } from "../base/Global";
+import { _Get_root } from "../internal/Global";
 
 /**
  * Get unique identifier.
@@ -35,9 +35,6 @@ export function get_uid(obj: object | null | undefined): number
         return 0;
 }
 
-/**
- * @hidden
- */
 interface IObject
 {
     readonly __get_m_iUID: () => number;

@@ -2,8 +2,8 @@
 /** @module std */
 //================================================================
 import { ILockable } from "./ILockable";
-import { ITimedLockable } from "../base/thread/ITimedLockable";
-import { ISharedTimedLockable } from "../base/thread/ISharedTimedLockable";
+import { ITimedLockable } from "../internal/thread/ITimedLockable";
+import { ISharedTimedLockable } from "../internal/thread/ISharedTimedLockable";
 
 import { List } from "../container/List";
 
@@ -19,24 +19,10 @@ import { sleep_for } from "./global";
  */
 export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
 {
-    /**
-     * @hidden
-     */
     private source_: ILockable;
-
-    /**
-     * @hidden
-     */
     private queue_: List<IResolver>;
 
-    /**
-     * @hidden
-     */
     private writing_: number;
-
-    /**
-     * @hidden
-     */
     private reading_: number;
 
     /* ---------------------------------------------------------
@@ -61,9 +47,6 @@ export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
         this.reading_ = 0;
     }
 
-    /**
-     * @hidden
-     */
     private _Current_access_type(): AccessType | null
     {
         return this.queue_.empty()
@@ -281,9 +264,6 @@ export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
     /* ---------------------------------------------------------
         RELEASE
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     private _Release(): void
     {
         // STEP TO THE NEXT LOCKS
@@ -315,9 +295,6 @@ export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Cancel(it: List.Iterator<IResolver>): void
     {
         //----
@@ -344,12 +321,7 @@ export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
         handler(false);
     }
 }
-export type shared_timed_mutex = SharedTimedMutex;
-export const shared_timed_mutex = SharedTimedMutex;
 
-/**
- * @hidden
- */
 interface IResolver
 {
     handler: Function | null;

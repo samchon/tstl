@@ -23,9 +23,6 @@ export class HashMultiSet<Key>
         HashMultiSet.ReverseIterator<Key>>
     implements IHashSet<Key, false, HashMultiSet<Key>>
 {
-    /**
-     * @hidden
-     */
     private buckets_!: SetHashBuckets<Key, false, HashMultiSet<Key>>;
 
     /* =========================================================
@@ -297,9 +294,6 @@ export class HashMultiSet<Key>
         this.buckets_.rehash(n);
     }
 
-    /**
-     * @hidden
-     */
     protected _Key_eq(x: Key, y: Key): boolean
     {
         return this.key_eq()(x, y);
@@ -312,9 +306,6 @@ export class HashMultiSet<Key>
     ============================================================
         INSERT
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Insert_by_key(key: Key): HashMultiSet.Iterator<Key>
     {
         // INSERT
@@ -324,9 +315,6 @@ export class HashMultiSet<Key>
         return it;
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_hint(hint: HashMultiSet.Iterator<Key>, key: Key): HashMultiSet.Iterator<Key>
     {
         // INSERT
@@ -338,9 +326,6 @@ export class HashMultiSet<Key>
         return it;
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
@@ -358,18 +343,12 @@ export class HashMultiSet<Key>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: HashMultiSet.Iterator<Key>, last: HashMultiSet.Iterator<Key>): void
     {
         for (; !first.equals(last); first = first.next())
             this.buckets_.insert(first);
     }
 
-    /**
-     * @hidden
-     */
     protected _Handle_erase(first: HashMultiSet.Iterator<Key>, last: HashMultiSet.Iterator<Key>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -379,9 +358,6 @@ export class HashMultiSet<Key>
 
 export namespace HashMultiSet
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key> = SetElementList.Iterator<Key, false, HashMultiSet<Key>>;
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, false, HashMultiSet<Key>>;
@@ -389,16 +365,4 @@ export namespace HashMultiSet
     // BODY
     export const Iterator = SetElementList.Iterator;
     export const ReverseIterator = SetElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key> = Iterator<Key>;
-    export type reverse_iterator<Key> = ReverseIterator<Key>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import unordered_multiset = HashMultiSet;

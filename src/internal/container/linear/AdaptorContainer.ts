@@ -1,10 +1,10 @@
+//================================================================ 
+/** @module std.internal */
+//================================================================
 import { IEmpty } from "../partial/IEmpty";
 import { IPush } from "../partial/IPush";
 import { ISize } from "../partial/ISize";
 
-//================================================================ 
-/** @module std.base */
-//================================================================
 /**
  * Base class for Adaptor Containers.
  * 
@@ -15,9 +15,6 @@ export abstract class AdaptorContainer<T,
         This extends AdaptorContainer<T, Source, This>>
     implements IEmpty, ISize, IPush<T>
 {
-    /**
-     * @hidden
-     */
     protected source_!: Source;
     
     /* ---------------------------------------------------------

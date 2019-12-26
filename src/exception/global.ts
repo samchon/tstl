@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { is_node } from "../utility/node";
-import { _Get_root } from "../base/Global";
+import { _Get_root } from "../internal/Global";
 
 /**
  * Terminate program.
@@ -73,7 +73,4 @@ export function get_terminate(): (() => void) | undefined
     return _Get_root().__s_pTerminate_handler!;
 }
 
-/**
- * @hidden
- */
 type Dispatcher = (type: any, listener: any) => void;

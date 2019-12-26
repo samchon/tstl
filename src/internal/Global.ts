@@ -1,10 +1,10 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { is_node } from "../utility/node";
 
 /**
- * @hidden
+ * @internal
  */
 export interface IGlobal
 {
@@ -13,7 +13,7 @@ export interface IGlobal
 }
 
 /**
- * @hidden
+ * @internal
  */
 export function _Get_root(): IGlobal
 {
@@ -26,7 +26,4 @@ export function _Get_root(): IGlobal
     return __s_pRoot!;
 }
 
-/**
- * @hidden
- */
 var __s_pRoot: IGlobal | null = null;

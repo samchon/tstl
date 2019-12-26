@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ErrorInstance } from "../base/exception/ErrorInstance";
+import { ErrorInstance } from "../internal/exception/ErrorInstance";
 
 import { ErrorCategory } from "./ErrorCategory";
 import { ErrorCondition } from "./ErrorCondition";
@@ -41,6 +41,3 @@ export class ErrorCode extends ErrorInstance
         return this.category_.default_error_condition(this.value_);
     }
 }
-
-export type error_code = ErrorCode;
-export const error_code = ErrorCode;

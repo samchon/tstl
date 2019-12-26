@@ -1,14 +1,11 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
-import { Writeonly } from "../../internal/types/Writeonly";
+import { Writeonly } from "../types/Writeonly";
 
-/**
- * @hidden
- */
-export abstract class _InsertIterator<T, This extends _InsertIterator<T, This>>
+export abstract class InsertIteratorBase<T, This extends InsertIteratorBase<T, This>>
     implements Writeonly<IForwardIterator<T, This>>
 {
     /**

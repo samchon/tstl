@@ -1,6 +1,6 @@
 import * as std from "../../index";
 
-import { ITimedLockable } from "../../base/thread/ITimedLockable";
+import { ITimedLockable } from "../../internal/thread/ITimedLockable";
 import { _Test_lock, _Test_try_lock } from "./test_mutexes";
 
 const SIZE = 8;

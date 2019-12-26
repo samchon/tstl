@@ -1,13 +1,14 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-import { ArrayContainer } from "../../internal/container/linear/ArrayContainer";
+import { ArrayContainer } from "./ArrayContainer";
 
-import { IContainer } from "./IContainer";
-import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../../internal/iterator/ArrayIteratorBase";
+import { IContainer } from "../../../base/container/IContainer";
+import { IForwardIterator } from "../../../iterator/IForwardIterator";
+import { ArrayIteratorBase } from "../../iterator/ArrayIteratorBase";
+import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBase";
 
-import { OutOfRange } from "../../exception/OutOfRange";
+import { OutOfRange } from "../../../exception/OutOfRange";
 
 export abstract class VectorContainer<T, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, T>,
@@ -16,9 +17,6 @@ export abstract class VectorContainer<T,
         ReverseT extends ArrayReverseIteratorBase<T, SourceT, ArrayT, IteratorT, ReverseT, T>>
     extends ArrayContainer<T, SourceT, ArrayT, IteratorT, ReverseT, T>
 {
-    /**
-     * @hidden
-     */
     protected data_!: T[];
 
     /* ---------------------------------------------------------
@@ -142,9 +140,6 @@ export abstract class VectorContainer<T,
         this.data_.push(val);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (position: IteratorT, first: InputIterator, last: InputIterator): IteratorT
     {
@@ -187,9 +182,6 @@ export abstract class VectorContainer<T,
         this.data_.pop();
     }
 
-    /**
-     * @hidden
-     */
     protected _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT
     {
         if (first.index() >= this.size())
@@ -211,7 +203,7 @@ export abstract class VectorContainer<T,
         UTILITIES
     --------------------------------------------------------------- */
     /**
-     * @hidden
+     * @inheritDoc
      */
     public equals(obj: SourceT): boolean
     {

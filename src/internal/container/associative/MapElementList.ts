@@ -1,9 +1,7 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { ListContainer } from "../linear/ListContainer";
-
-import { IMapIterator } from "../../../base/iterator/IMapIterator";
 import { ListIterator } from "../../iterator/ListIterator";
 import { ReverseIterator as _ReverseIterator } from "../../../base/iterator/ReverseIterator";
 
@@ -11,9 +9,6 @@ import { MapContainer } from "../../../base/container/MapContainer";
 import { IPair } from "../../../utility/IPair";
 import { Entry } from "../../../utility/Entry";
 
-/**
- * @hidden
- */
 export class MapElementList<Key, T, 
         Unique extends boolean, 
         Source extends MapContainer<Key, T, 
@@ -26,9 +21,6 @@ export class MapElementList<Key, T,
         MapElementList.Iterator<Key, T, Unique, Source>,
         MapElementList.ReverseIterator<Key, T, Unique, Source>>
 {
-    /**
-     * @hidden
-     */
     private associative_: Source;
 
     /* ---------------------------------------------------------
@@ -41,9 +33,6 @@ export class MapElementList<Key, T,
         this.associative_ = associative;
     }
 
-    /**
-     * @hidden
-     */
     protected _Create_iterator
         (
             prev: MapElementList.Iterator<Key, T, Unique, Source>, 
@@ -92,23 +81,17 @@ export namespace MapElementList
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>,
             IPair<Key, T>>
-        implements IMapIterator<Key, T, 
+        implements MapContainer.Iterator<Key, T, 
             Unique, 
             Source, 
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>>
     {
-        /**
-         * @hidden
-         */
         private list_: MapElementList<Key, T, Unique, Source>;
 
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         private constructor
             (
                 list: MapElementList<Key, T, Unique, Source>, 
@@ -189,13 +172,15 @@ export namespace MapElementList
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>,
             IPair<Key, T>>
+        implements MapContainer.ReverseIterator<Key, T,
+            Unique,
+            Source, 
+            Iterator<Key, T, Unique, Source>, 
+            ReverseIterator<Key, T, Unique, Source>>
     {
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         protected _Create_neighbor(base: Iterator<Key, T, Unique, Source>): ReverseIterator<Key, T, Unique, Source>
         {
             return new ReverseIterator(base);

@@ -2,15 +2,12 @@
 /** @module std */
 //================================================================
 import { ILockable } from "./ILockable";
-import { ITimedLockable } from "../base/thread/ITimedLockable";
+import { ITimedLockable } from "../internal/thread/ITimedLockable";
 
 import { SafeLock } from "../internal/thread/SafeLock";
 
 export class UniqueLock<Mutex extends IMutex>
 {
-    /**
-     * @hidden
-     */
     private mutex_: Mutex;
 
     /* ---------------------------------------------------------
@@ -99,14 +96,6 @@ export namespace UniqueLock
         );
     }
 }
-export import unique_lock = UniqueLock;
 
-/**
- * @hidden
- */
 type IMutex = ILockable & Partial<ITimedLockable>;
-
-/**
- * @hidden
- */
 type Closure = () => void | Promise<void>;

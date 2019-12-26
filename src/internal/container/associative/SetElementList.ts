@@ -1,17 +1,12 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { ListContainer } from "../linear/ListContainer";
-
-import { ISetIterator } from "../../../base/iterator/ISetIterator";
 import { ListIterator } from "../../iterator/ListIterator";
 import { ReverseIterator as _ReverseIterator } from "../../../base/iterator/ReverseIterator";
 
 import { SetContainer } from "../../../base/container/SetContainer";
 
-/**
- * @hidden
- */
 export class SetElementList<Key, 
         Unique extends boolean, 
         Source extends SetContainer<Key, 
@@ -24,9 +19,6 @@ export class SetElementList<Key,
         SetElementList.Iterator<Key, Unique, Source>,
         SetElementList.ReverseIterator<Key, Unique, Source>>
 {
-    /**
-     * @hidden
-     */
     private associative_: Source;
 
     /* ---------------------------------------------------------
@@ -39,9 +31,6 @@ export class SetElementList<Key,
         this.associative_ = associative;
     }
 
-    /**
-     * @hidden
-     */
     protected _Create_iterator
         (
             prev: SetElementList.Iterator<Key, Unique, Source>, 
@@ -90,23 +79,17 @@ export namespace SetElementList
             Iterator<Key, Unique, Source>,
             ReverseIterator<Key, Unique, Source>,
             Key>
-        implements ISetIterator<Key, 
+        implements SetContainer.Iterator<Key, 
             Unique, 
             Source,
             Iterator<Key, Unique, Source>,
             ReverseIterator<Key, Unique, Source>>
     {
-        /**
-         * @hidden
-         */
         private source_: SetElementList<Key, Unique, Source>;
 
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         private constructor
             (
                 list: SetElementList<Key, Unique, Source>, 
@@ -172,10 +155,12 @@ export namespace SetElementList
             Iterator<Key, Unique, Source>,
             ReverseIterator<Key, Unique, Source>,
             Key>
+        implements SetContainer.ReverseIterator<Key,
+            Unique,
+            Source,
+            Iterator<Key, Unique, Source>,
+            ReverseIterator<Key, Unique, Source>>
     {
-        /**
-         * @hidden
-         */
         protected _Create_neighbor(base: Iterator<Key, Unique, Source>): ReverseIterator<Key, Unique, Source>
         {
             return new ReverseIterator(base);

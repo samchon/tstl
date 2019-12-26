@@ -1,17 +1,14 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { SetTree } from "./SetTree";
 import { XTreeNode } from "./XTreeNode";
 
-import { UniqueSet } from "../../base/container/UniqueSet";
+import { UniqueTreeSet } from "../container/associative/UniqueTreeSet";
 import { SetElementList } from "../container/associative/SetElementList";
 
-/**
- * @hidden
- */
 export class UniqueSetTree<Key, 
-        Source extends UniqueSet<Key, 
+        Source extends UniqueTreeSet<Key, 
             Source,
             SetElementList.Iterator<Key, true, Source>,
             SetElementList.ReverseIterator<Key, true, Source>>>

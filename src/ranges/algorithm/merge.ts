@@ -14,9 +14,6 @@ import { less } from "../../functional/comparators";
 
 import { Temporary } from "../../internal/types/Temporary";
 
-/**
- * @hidden
- */
 type Comparator<Range extends Array<any> | IForwardContainer<any>> =
     (
         x: IForwardContainer.ValueType<Range>, 
@@ -53,8 +50,8 @@ export function inplace_merge<Range extends Array<any> | IBidirectionalContainer
     SET OPERATIONS
 --------------------------------------------------------- */
 export function includes<
-        Range1 extends Array<any> | IForwardContainer.ISizable<any>,
-        Range2 extends IForwardContainer.ISizable.SimilarType<Range1>>
+        Range1 extends Array<any> | IForwardContainer<any>,
+        Range2 extends IForwardContainer.SimilarType<Range1>>
     (range1: Range1, range2: Range2, comp: Comparator<Range1> = less): boolean
 {
     if (size(range1) < size(range2))

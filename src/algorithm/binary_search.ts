@@ -8,9 +8,6 @@ import { Pair } from "../utility/Pair";
 import { distance, advance } from "../iterator/global";
 import { less } from "../functional/comparators";
 
-/**
- * @hidden
- */
 type Comparator<ForwardIterator extends IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>> =
     (
         x: IPointer.ValueType<ForwardIterator>, 

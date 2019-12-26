@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { LogicError } from "./LogicError";
 
 /**
@@ -17,6 +20,3 @@ export class DomainError extends LogicError
         super(message);
     }
 }
-
-export type domain_error = DomainError;
-export const domain_error = DomainError;

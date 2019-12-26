@@ -8,12 +8,10 @@ import { IForwardContainer } from "../container/IForwardContainer";
 import { Pair } from "../../utility/Pair";
 import { less, equal_to } from "../../functional/comparators";
 import { begin, end } from "../../iterator/factory";
+import { size } from "../../iterator/global";
 
 import { Temporary } from "../../internal/types/Temporary";
 
-/**
- * @hiddn
- */
 type Comparator<Range extends Array<any> | IForwardContainer<any>> =
     (
         x: IForwardContainer.ValueType<Range>,
@@ -56,7 +54,10 @@ export function is_permutation<
         pred: Comparator<Range1> = <any>equal_to
     ): boolean
 {
-    return base.is_permutation(begin(range1), end(range1), <Temporary>begin(range2), pred);
+    if (size(range1) !== size(range2))
+        return false;
+    else
+        return base.is_permutation(begin(range1), end(range1), <Temporary>begin(range2), pred);
 }
 
 export function prev_permutation<Range extends Array<any> | IBidirectionalContainer<any, any>>

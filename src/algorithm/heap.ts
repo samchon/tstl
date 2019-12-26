@@ -8,9 +8,6 @@ import { General } from "../internal/types/General";
 import { less } from "../functional/comparators";
 import { advance, distance } from "../iterator/global";
 
-/**
- * @hidden
- */
 type Comparator<RandomAccessIterator extends IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>> =
     (
         x: IPointer.ValueType<RandomAccessIterator>, 
@@ -160,9 +157,6 @@ export function sort_heap<RandomAccessIterator extends General<IRandomAccessIter
 /* ---------------------------------------------------------
     INTERNAL
 --------------------------------------------------------- */
-/**
- * @hidden
- */
 function _Promote_heap<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
     (
         first: RandomAccessIterator, 
@@ -182,9 +176,6 @@ function _Promote_heap<RandomAccessIterator extends General<IRandomAccessIterato
     first.advance(position).value = value;
 }
 
-/**
- * @hidden
- */
 function _Adjust_heap<RandomAccessIterator extends General<IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>>
     (
         first: RandomAccessIterator, 
@@ -213,9 +204,6 @@ function _Adjust_heap<RandomAccessIterator extends General<IRandomAccessIterator
     _Promote_heap(first, topPosition, position, value, comp);
 }
 
-/**
- * @hidden
- */
 function _Comp_it(x: any, y: any): boolean
 {
     if (x.base instanceof Function)

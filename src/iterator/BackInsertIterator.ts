@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { _InsertIterator } from "../base/iterator/_InsertIterator";
+import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 ;
 import { IPushBack } from "../internal/container/partial/IPushBack";
 import { Vector } from "../container/Vector";
@@ -13,11 +13,8 @@ import { equal_to } from "../functional/comparators";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class BackInsertIterator<Source extends IPushBack<BackInsertIterator.ValueType<Source>>>
-    extends _InsertIterator<BackInsertIterator.ValueType<Source>, BackInsertIterator<Source>>
+    extends InsertIteratorBase<BackInsertIterator.ValueType<Source>, BackInsertIterator<Source>>
 {
-    /**
-     * @hidden
-     */
     private source_: Source;
 
     /* ---------------------------------------------------------

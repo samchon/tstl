@@ -8,15 +8,9 @@ import { Pair } from "../utility/Pair";
 import { equal_to, less } from "../functional/comparators";
 import { advance, distance } from "../iterator/global";
 
-/**
- * @hidden
- */
 type UnaryPredicator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
     (val: IPointer.ValueType<Iterator>) => boolean;
 
-/**
- * @hidden
- */
 type BinaryPredicator<
         Iterator1 extends IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>,
         Iterator2 extends IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>> =

@@ -42,8 +42,8 @@ function _Test_tree_set_inserts_and_erases(): void
 
 function _Test_tree_set<Unique extends boolean, 
         Source extends std.base.ITreeSet<number, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.ISetIterator<number, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.ISetReverseIterator<number, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.SetContainer.Iterator<number, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.SetContainer.ReverseIterator<number, Unique, Source, IteratorT, ReverseT>>
     (set: Source): void
 {
     for (let i: number = 0; i < 1000; ++i)
@@ -73,8 +73,8 @@ function _Test_tree_set<Unique extends boolean,
 
 function _Test_tree_map<Unique extends boolean, 
         Source extends std.base.ITreeMap<number, number, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.IMapIterator<number, number, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.IMapReverseIterator<number, number, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.MapContainer.Iterator<number, number, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.MapContainer.ReverseIterator<number, number, Unique, Source, IteratorT, ReverseT>>
     (map: Source): void
 {
     for (let i: number = 0; i < 1000; ++i)

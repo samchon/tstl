@@ -1,16 +1,13 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ISharedLockable } from "../base/thread/ISharedLockable";
-import { ISharedTimedLockable } from "../base/thread/ISharedTimedLockable";
+import { ISharedLockable } from "../internal/thread/ISharedLockable";
+import { ISharedTimedLockable } from "../internal/thread/ISharedTimedLockable";
 
 import { SafeLock } from "../internal/thread/SafeLock";
 
 export class SharedLock<Mutex extends IMutex>
 {
-    /**
-     * @hidden
-     */
     private mutex_: Mutex;
 
     /* ---------------------------------------------------------
@@ -99,14 +96,6 @@ export namespace SharedLock
         );
     }
 }
-export import shared_lock = SharedLock;
 
-/**
- * @hidden
- */
 type IMutex = ISharedLockable & Partial<ISharedTimedLockable>;
-
-/**
- * @hidden
- */
 type Closure = () => void | Promise<void>;

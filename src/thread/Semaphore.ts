@@ -4,6 +4,7 @@
 import { List } from "../container/List";
 import { OutOfRange } from "../exception/OutOfRange";
 
+import { ILockable } from "./ILockable";
 import { LockType } from "../internal/thread/LockType";
 import { sleep_for } from "./global";
 
@@ -14,19 +15,9 @@ import { sleep_for } from "./global";
  */
 export class Semaphore<Max extends number = number>
 {
-    /**
-     * @hidden
-     */
     private max_: Max;
-
-    /**
-     * @hidden
-     */
     private acquiring_: number;
 
-    /**
-     * @hidden
-     */
     private queue_: List<IResolver>;
 
     /* ---------------------------------------------------------
@@ -117,9 +108,6 @@ export class Semaphore<Max extends number = number>
         this._Release(count);
     }
 
-    /**
-     * @hidden
-     */
     private _Release(count: number): void
     {
         for (let it = this.queue_.begin(); !it.equals(this.queue_.end()); it = it.next())
@@ -140,9 +128,6 @@ export class Semaphore<Max extends number = number>
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Cancel(it: List.Iterator<IResolver>): void
     {
         // POP THE LISTENER
@@ -243,14 +228,8 @@ export namespace Semaphore
     }
 }
 
-/**
- * @hidden
- */
 interface IResolver
 {
     handler: Function | null;
     type: LockType;
 }
-
-export import couting_semaphore = Semaphore;
-import { ILockable } from "./ILockable";

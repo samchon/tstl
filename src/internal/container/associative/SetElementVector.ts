@@ -1,19 +1,15 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-import { VectorContainer } from "../../../base/container/VectorContainer";
+import { VectorContainer } from "../linear/VectorContainer";
+import { ArrayIteratorBase } from "../../iterator/ArrayIteratorBase";
+import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBase";
 
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../../iterator/ArrayIteratorBase";
-import { ISetIterator, ISetReverseIterator } from "../../../base/iterator/ISetIterator";
+import { ITreeSet } from "../../../base/container/ITreeSet";
 
-import { SetContainer } from "../../../base/container/SetContainer";
-
-/**
- * @hidden
- */
 export class SetElementVector<Key, 
         Unique extends boolean, 
-        Source extends SetContainer<Key, 
+        Source extends ITreeSet<Key, 
             Unique, 
             Source,
             SetElementVector.Iterator<Key, Unique, Source>,
@@ -47,7 +43,7 @@ export class SetElementVector<Key,
      */
     public static _Swap_associative<Key,
             Unique extends boolean, 
-            Source extends SetContainer<Key,
+            Source extends ITreeSet<Key,
                 Unique, 
                 Source, 
                 SetElementVector.Iterator<Key, Unique, Source>, 
@@ -70,7 +66,7 @@ export namespace SetElementVector
 {
     export class Iterator<Key,
             Unique extends boolean, 
-            Source extends SetContainer<Key, 
+            Source extends ITreeSet<Key, 
                 Unique, 
                 Source,
                 SetElementVector.Iterator<Key, Unique, Source>,
@@ -81,7 +77,7 @@ export namespace SetElementVector
             SetElementVector.Iterator<Key, Unique, Source>,
             SetElementVector.ReverseIterator<Key, Unique, Source>,
             Key>
-        implements ISetIterator<Key, 
+        implements ITreeSet.Iterator<Key, 
             Unique, 
             Source,
             SetElementVector.Iterator<Key, Unique, Source>,
@@ -106,7 +102,7 @@ export namespace SetElementVector
 
     export class ReverseIterator<Key,
             Unique extends boolean, 
-            Source extends SetContainer<Key, 
+            Source extends ITreeSet<Key, 
                 Unique, 
                 Source,
                 SetElementVector.Iterator<Key, Unique, Source>,
@@ -117,15 +113,12 @@ export namespace SetElementVector
             SetElementVector.Iterator<Key, Unique, Source>,
             SetElementVector.ReverseIterator<Key, Unique, Source>,
             Key>
-        implements ISetReverseIterator<Key, 
+        implements ITreeSet.ReverseIterator<Key, 
             Unique, 
             Source,
             SetElementVector.Iterator<Key, Unique, Source>,
             SetElementVector.ReverseIterator<Key, Unique, Source>>
     {
-        /**
-         * @hidden
-         */
         protected _Create_neighbor(base: Iterator<Key, Unique, Source>): ReverseIterator<Key, Unique, Source>
         {
             return new ReverseIterator(base);

@@ -1,22 +1,20 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-import { MultiMap } from "./MultiMap";
-import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
+import { UniqueMap } from "../../../base/container/UniqueMap";
+import { ITreeContainer } from "./ITreeContainer";
 
-import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
+import { IPair } from "../../../utility/IPair";
+import { Entry } from "../../../utility/Entry";
+import { Pair } from "../../../utility/Pair";
 
-import { IPair } from "../../utility/IPair";
-import { Entry } from "../../utility/Entry";
-import { Pair } from "../../utility/Pair";
-import { Temporary } from "../../internal/types/Temporary";
+import { Temporary } from "../../types/Temporary";
 
-export abstract class MultiTreeMap<Key, T,
-        Source extends MultiTreeMap<Key, T, Source, IteratorT, ReverseT>,
-        IteratorT extends IMapIterator<Key, T, false, Source, IteratorT, ReverseT>,
-        ReverseT extends IMapReverseIterator<Key, T, false, Source, IteratorT, ReverseT>>
-    extends MultiMap<Key, T, Source, IteratorT, ReverseT>
+export abstract class UniqueTreeMap<Key, T,
+        Source extends UniqueTreeMap<Key, T, Source, IteratorT, ReverseT>,
+        IteratorT extends UniqueMap.Iterator<Key, T, Source, IteratorT, ReverseT>,
+        ReverseT extends UniqueMap.ReverseIterator<Key, T, Source, IteratorT, ReverseT>>
+    extends UniqueMap<Key, T, Source, IteratorT, ReverseT>
     implements ITreeContainer<Key, Entry<Key, T>, Source, IteratorT, ReverseT, IPair<Key, T>>
 {
     /* ---------------------------------------------------------
@@ -33,21 +31,7 @@ export abstract class MultiTreeMap<Key, T,
         else
             return this.end();
     }
-
-    /**
-     * @inheritDoc
-     */
-    public count(key: Key): number
-    {
-        let it: IteratorT = this.find(key);
-        let ret: number = 0;
-
-        for (; !it.equals(this.end()) && this._Key_eq(it.first, key); it = it.next())
-            ++ret;
-
-        return ret;
-    }
-
+    
     /**
      * @inheritDoc
      */
@@ -63,7 +47,10 @@ export abstract class MultiTreeMap<Key, T,
      */
     public equal_range(key: Key): Pair<IteratorT, IteratorT>
     {
-        return new Pair(this.lower_bound(key), this.upper_bound(key));
+        let it: IteratorT = this.lower_bound(key);
+        return new Pair(it, !it.equals(this.end()) && this._Key_eq(key, it.first) 
+            ? it.next() 
+            : it);
     }
 
     /**
@@ -78,10 +65,7 @@ export abstract class MultiTreeMap<Key, T,
     {
         return (x, y) => this.key_comp()(x.first, y.first);
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Key_eq(x: Key, y: Key): boolean
     {
         return !this.key_comp()(x, y) && !this.key_comp()(y, x);
@@ -93,16 +77,18 @@ export abstract class MultiTreeMap<Key, T,
     /**
      * @inheritDoc
      */
-    public emplace(key: Key, val: T): IteratorT
+    public emplace(key: Key, val: T): Pair<IteratorT, boolean>
     {
         // FIND POSITION TO INSERT
-        let it: IteratorT = this.upper_bound(key);
+        let it: IteratorT = this.lower_bound(key);
+        if (!it.equals(this.end()) && this._Key_eq(it.first, key))
+            return new Pair(it, false);
 
         // ITERATOR TO RETURN
         it = this.data_.insert(it, new Entry(key, val));
         this._Handle_insert(it, it.next());
 
-        return it;
+        return new Pair(it, true);
     }
 
     /**
@@ -127,16 +113,6 @@ export abstract class MultiTreeMap<Key, T,
             return it;
         }
         else
-            return this.emplace(key, val);
-    }
-
-    /**
-     * @hidden
-     */
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void
-    {
-        for (let it = first; !it.equals(last); it = it.next())
-            this.emplace(it.value.first, it.value.second);
+            return this.emplace(key, val).first;
     }
 }

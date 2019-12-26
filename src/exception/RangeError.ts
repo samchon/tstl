@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { RuntimeError } from "./RuntimeError";
 
 /**
@@ -17,6 +20,3 @@ export class RangeError extends RuntimeError
         super(message);
     }
 }
-
-export type range_error = RangeError;
-export const range_error = RangeError;

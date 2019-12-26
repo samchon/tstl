@@ -4,8 +4,6 @@
 import { MapContainer } from "./MapContainer";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
-
 import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
@@ -18,8 +16,8 @@ import { OutOfRange } from "../../exception/OutOfRange";
  */
 export abstract class UniqueMap<Key, T, 
         Source extends UniqueMap<Key, T, Source, Iterator, Reverse>, 
-        Iterator extends IMapIterator<Key, T, true, Source, Iterator, Reverse>, 
-        Reverse extends IMapReverseIterator<Key, T, true, Source, Iterator, Reverse>>
+        Iterator extends UniqueMap.Iterator<Key, T, Source, Iterator, Reverse>, 
+        Reverse extends UniqueMap.ReverseIterator<Key, T, Source, Iterator, Reverse>>
     extends MapContainer<Key, T, true, Source, Iterator, Reverse>
 {
     /* ---------------------------------------------------------
@@ -112,9 +110,6 @@ export abstract class UniqueMap<Key, T,
         return (super.insert as Function)(...args);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
@@ -157,9 +152,6 @@ export abstract class UniqueMap<Key, T,
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<Iterator, boolean>
     {
         let ret = this.emplace(key, value);
@@ -169,9 +161,6 @@ export abstract class UniqueMap<Key, T,
         return ret;
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_or_assign_with_hint(hint: Iterator, key: Key, value: T): Iterator
     {
         let ret = this.emplace_hint(hint, key, value);
@@ -208,9 +197,6 @@ export abstract class UniqueMap<Key, T,
             return this._Extract_by_key(param as Key);
     }
 
-    /**
-     * @hidden
-     */
     private _Extract_by_key(key: Key): Entry<Key, T>
     {
         let it = this.find(key);
@@ -223,9 +209,6 @@ export abstract class UniqueMap<Key, T,
         return ret;
     }
 
-    /**
-     * @hidden
-     */
     private _Extract_by_iterator(it: Iterator): Iterator
     {
         if (it.equals(this.end()) === true)
@@ -235,9 +218,6 @@ export abstract class UniqueMap<Key, T,
         return it;
     }
 
-    /**
-     * @hidden
-     */
     protected _Erase_by_key(key: Key): number
     {
         let it = this.find(key);
@@ -265,4 +245,19 @@ export abstract class UniqueMap<Key, T,
             else
                 it = it.next();
     }
+}
+
+export namespace UniqueMap
+{
+    export type Iterator<Key, T, 
+            SourceT extends UniqueMap<Key, T, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, T, SourceT, IteratorT, ReverseT>>
+        = MapContainer.Iterator<Key, T, true, SourceT, IteratorT, ReverseT>;
+
+    export type ReverseIterator<Key, T, 
+            SourceT extends UniqueMap<Key, T, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, T, SourceT, IteratorT, ReverseT>>
+        = MapContainer.ReverseIterator<Key, T, true, SourceT, IteratorT, ReverseT>;
 }

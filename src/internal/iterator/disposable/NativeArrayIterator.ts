@@ -1,11 +1,8 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
-/**
- * @hidden
- */
 export class NativeArrayIterator<T> 
     implements Readonly<IForwardIterator<T, NativeArrayIterator<T>>>
 {

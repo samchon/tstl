@@ -1,17 +1,14 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { MapTree } from "./MapTree";
 import { XTreeNode } from "./XTreeNode";
 
-import { UniqueMap } from "../../base/container/UniqueMap";
+import { UniqueTreeMap } from "../container/associative/UniqueTreeMap";
 import { MapElementList } from "../container/associative/MapElementList";
 
-/**
- * @hidden
- */
 export class UniqueMapTree<Key, T, 
-        Source extends UniqueMap<Key, T, 
+        Source extends UniqueTreeMap<Key, T, 
             Source,
             MapElementList.Iterator<Key, T, true, Source>,
             MapElementList.ReverseIterator<Key, T, true, Source>>>

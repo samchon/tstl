@@ -1,19 +1,16 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { MapTree } from "./MapTree";
 import { XTreeNode } from "./XTreeNode";
 
-import { MultiMap } from "../../base/container/MultiMap";
+import { MultiTreeMap } from "../container/associative/MultiTreeMap";
 import { MapElementList } from "../container/associative/MapElementList";
 
 import { get_uid } from "../../functional/uid";
 
-/** 
- * @hidden
- */
 export class MultiMapTree<Key, T, 
-        Source extends MultiMap<Key, T, 
+        Source extends MultiTreeMap<Key, T, 
             Source,
             MapElementList.Iterator<Key, T, false, Source>,
             MapElementList.ReverseIterator<Key, T, false, Source>>>

@@ -1,17 +1,17 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { IContainer } from "../../../base/container/IContainer";
-import { Iterator } from "../../../base/iterator/Iterator";
-import { IReverseIterator } from "../../../base/iterator/ReverseIterator";
 
 /**
- * @hidden
+ * Common interface for associative containers
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export interface IAssociativeContainer<Key, T extends Elem, 
         SourceT extends IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
-        IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
         Elem>
     extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
@@ -61,12 +61,12 @@ export interface IAssociativeContainer<Key, T extends Elem,
 export namespace IAssociativeContainer
 {
     /**
-     * @hidden
+     * @internal
      */
     export function construct<Key, T extends Elem, 
             SourceT extends IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
-            IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-            ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+            IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+            ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
             Elem>
         (source: SourceT, ...args: any[])
     {

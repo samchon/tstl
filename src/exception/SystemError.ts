@@ -13,9 +13,6 @@ import { ErrorCategory } from "./ErrorCategory";
  */
 export class SystemError extends RuntimeError
 {
-    /**
-     * @hidden
-     */
     protected code_: ErrorCode;
     
     /* ---------------------------------------------------------
@@ -81,6 +78,3 @@ export class SystemError extends RuntimeError
         };
     }
 }
-
-export type system_error = SystemError;
-export const system_error = SystemError;

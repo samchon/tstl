@@ -1,3 +1,6 @@
+//================================================================ 
+/** @module std */
+//================================================================
 import { RuntimeError } from "./RuntimeError";
 
 /**
@@ -17,6 +20,3 @@ export class UnderflowError extends RuntimeError
         super(message);
     }
 }
-
-export type underflow_error = UnderflowError;
-export const underflow_error = UnderflowError;

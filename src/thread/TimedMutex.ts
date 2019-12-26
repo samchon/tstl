@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ITimedLockable } from "../base/thread/ITimedLockable";
+import { ITimedLockable } from "../internal/thread/ITimedLockable";
 import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
@@ -11,9 +11,6 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
  */
 export class TimedMutex implements ITimedLockable
 {
-    /**
-     * @hidden
-     */
     private mutex_: SharedTimedMutex;
 
     /* ---------------------------------------------------------
@@ -73,6 +70,3 @@ export class TimedMutex implements ITimedLockable
         return this.mutex_.try_lock_until(at);
     }
 }
-
-export type timed_mutex = TimedMutex;
-export const timed_mutex = TimedMutex;

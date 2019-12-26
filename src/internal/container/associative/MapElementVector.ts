@@ -1,21 +1,17 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
-import { VectorContainer } from "../../../base/container/VectorContainer";
+import { VectorContainer } from "../linear/VectorContainer";
+import { ArrayIteratorBase } from "../../iterator/ArrayIteratorBase";
+import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBase";
 
-import { ArrayIteratorBase, ArrayReverseIteratorBase } from "../../iterator/ArrayIteratorBase";
-import { IMapIterator, IMapReverseIterator } from "../../../base/iterator/IMapIterator";
-
-import { MapContainer } from "../../../base/container/MapContainer";
+import { ITreeMap } from "../../../base/container/ITreeMap";
 import { IPair } from "../../../utility/IPair";
 import { Entry } from "../../../utility/Entry";
 
-/**
- * @hidden
- */
 export class MapElementVector<Key, T,
         Unique extends boolean,
-        Source extends MapContainer<Key, T,
+        Source extends ITreeMap<Key, T,
             Unique, 
             Source,
             MapElementVector.Iterator<Key, T, Unique, Source>,
@@ -49,7 +45,7 @@ export class MapElementVector<Key, T,
      */
     public static _Swap_associative<Key, T, 
             Unique extends boolean, 
-            Source extends MapContainer<Key, T, 
+            Source extends ITreeMap<Key, T, 
                 Unique, 
                 Source, 
                 MapElementVector.Iterator<Key, T, Unique, Source>, 
@@ -72,7 +68,7 @@ export namespace MapElementVector
 {
     export class Iterator<Key, T, 
             Unique extends boolean, 
-            Source extends MapContainer<Key, T, 
+            Source extends ITreeMap<Key, T, 
                 Unique, 
                 Source, 
                 Iterator<Key, T, Unique, Source>, 
@@ -83,7 +79,7 @@ export namespace MapElementVector
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>,
             IPair<Key, T>>
-        implements IMapIterator<Key, T, 
+        implements ITreeMap.Iterator<Key, T, 
             Unique, 
             Source, 
             Iterator<Key, T, Unique, Source>, 
@@ -138,7 +134,7 @@ export namespace MapElementVector
 
     export class ReverseIterator<Key, T, 
             Unique extends boolean, 
-            Source extends MapContainer<Key, T, 
+            Source extends ITreeMap<Key, T, 
                 Unique, 
                 Source, 
                 Iterator<Key, T, Unique, Source>, 
@@ -149,7 +145,7 @@ export namespace MapElementVector
             Iterator<Key, T, Unique, Source>, 
             ReverseIterator<Key, T, Unique, Source>,
             IPair<Key, T>>
-        implements IMapReverseIterator<Key, T, 
+        implements ITreeMap.ReverseIterator<Key, T, 
             Unique, 
             Source, 
             Iterator<Key, T, Unique, Source>, 
@@ -158,9 +154,6 @@ export namespace MapElementVector
         /* ---------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         protected _Create_neighbor(base: Iterator<Key, T, Unique, Source>): ReverseIterator<Key, T, Unique, Source>
         {
             return new ReverseIterator(base);

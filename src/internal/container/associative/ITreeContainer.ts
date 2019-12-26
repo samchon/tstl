@@ -1,20 +1,21 @@
 //================================================================ 
-/** @module std.base */
+/** @module std.internal */
 //================================================================
 import { IAssociativeContainer } from "./IAssociativeContainer";
-import { Iterator } from "../../../base/iterator/Iterator";
-import { IReverseIterator } from "../../../base/iterator/ReverseIterator";
 
+import { IContainer } from "../../../base/container/IContainer";
 import { Pair } from "../../../utility/Pair";
 import { less } from "../../../functional/comparators";
 
 /**
- * @hidden
+ * Common interface for tree containers.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
  */
 export interface ITreeContainer<Key, T extends Elem, 
         SourceT extends ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
-        IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
         Elem>
     extends IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
@@ -60,12 +61,12 @@ export interface ITreeContainer<Key, T extends Elem,
 export namespace ITreeContainer
 {
     /**
-     * @hidden
+     * @internal
      */
     export function construct<Key, T extends Elem, 
             SourceT extends ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
-            IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-            ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+            IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+            ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
             Elem>
         (
             source: SourceT, 
@@ -117,12 +118,12 @@ export namespace ITreeContainer
     }
 
     /**
-     * @hidden
+     * @internal
      */
     export function emplacable<Key, T extends Elem, 
             SourceT extends ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
-            IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-            ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+            IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+            ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
             Elem>
         (
             source: SourceT,
@@ -138,7 +139,7 @@ export namespace ITreeContainer
     }
 
     /**
-     * @hidden
+     * @internal
      */
     interface Factory<T, Arguments extends any[] = any[]>
     {

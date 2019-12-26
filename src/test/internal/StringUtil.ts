@@ -290,9 +290,6 @@ export class StringUtil
         return format;
     }
 
-    /**
-     * @hidden
-     */
     private static _Substitute_sql_string(str: string): string
     {
         str = StringUtil.replaceAll(str, "\\", "\\\\");
@@ -301,9 +298,6 @@ export class StringUtil
         return "'" + str + "'";
     }
 
-    /**
-     * @hidden
-     */
     private static _Fetch_substitute_index(format: string): number
     {
         let parenthesis_array: Array<string> = StringUtil.betweens(format, "{", "}");
