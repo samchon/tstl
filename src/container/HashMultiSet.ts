@@ -9,7 +9,9 @@ import { SetElementList } from "../internal/container/associative/SetElementList
 import { SetHashBuckets } from "../internal/hash/SetHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { Temporary } from "../internal/types/Temporary";
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { Hasher } from "../internal/functional/Hasher";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Multiple-key Set based on Hash buckets.
@@ -38,7 +40,7 @@ export class HashMultiSet<Key>
      * @param hash An unary function returns hash code. Default is {hash}.
      * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
     
     /**
      * Initializer Constructor.
@@ -47,7 +49,7 @@ export class HashMultiSet<Key>
      * @param hash An unary function returns hash code. Default is {hash}.
      * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    public constructor(items: Key[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    public constructor(items: Key[], hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
     
     /**
      * Copy Constructor.
@@ -68,7 +70,7 @@ export class HashMultiSet<Key>
     (
         first: Readonly<IForwardIterator<Key>>, 
         last: Readonly<IForwardIterator<Key>>, 
-        hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean
+        hash?: Hasher<Key>, equal?: BinaryPredicator<Key>
     );
 
     public constructor(...args: any[])
@@ -241,7 +243,7 @@ export class HashMultiSet<Key>
     /**
      * @inheritDoc
      */
-    public hash_function(): (key: Key) => number
+    public hash_function(): Hasher<Key>
     {
         return this.buckets_.hash_function();
     }
@@ -249,7 +251,7 @@ export class HashMultiSet<Key>
     /**
      * @inheritDoc
      */
-    public key_eq(): (x: Key, y: Key) => boolean
+    public key_eq(): BinaryPredicator<Key>
     {
         return this.buckets_.key_eq();
     }

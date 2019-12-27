@@ -4,6 +4,7 @@
 import { IAssociativeContainer } from "./IAssociativeContainer";
 
 import { IContainer } from "../../../base/container/IContainer";
+import { Comparator } from "../../functional/Comparator";
 import { Pair } from "../../../utility/Pair";
 import { less } from "../../../functional/comparators";
 
@@ -24,14 +25,14 @@ export interface ITreeContainer<Key, T extends Elem,
      * 
      * @return The key comparison function.
      */
-    key_comp(): (x: Key, y: Key) => boolean;
+    key_comp(): Comparator<Key>;
 
     /**
      * Get value comparison function.
      * 
      * @return The value comparison function.
      */
-    value_comp(): (x: Elem, y: Elem) => boolean;
+    value_comp(): Comparator<Elem>;
 
     /**
      * Get iterator to lower bound.
@@ -71,13 +72,13 @@ export namespace ITreeContainer
         (
             source: SourceT, 
             Source: Factory<SourceT>, 
-            treeFactory: (comp: (x: Key, y: Key) => boolean) => void, 
+            treeFactory: (comp: Comparator<Key>) => void, 
             ...args: any[]
         )
     {
         // DECLARE MEMBERS
         let post_process: (() => void) | null = null;
-        let comp: (x: Key, y: Key) => boolean = less;
+        let comp: Comparator<Key> = less;
 
         //----
         // INITIALIZE MEMBERS AND POST-PROCESS

@@ -8,7 +8,8 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { SetElementList } from "../internal/container/associative/SetElementList";
 import { UniqueSetTree } from "../internal/tree/UniqueSetTree";
 
-import { Temporary } from "../internal/types/Temporary";
+import { Comparator } from "../internal/functional/Comparator";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Unique-key Set based on Tree.
@@ -31,7 +32,7 @@ export class TreeSet<Key>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: Key, y: Key) => boolean);
+    public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
@@ -39,7 +40,7 @@ export class TreeSet<Key>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: Key[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: Key[], comp?: Comparator<Key>);
 
     /**
      * Copy Constructor.
@@ -59,7 +60,7 @@ export class TreeSet<Key>
     (
         first: Readonly<IForwardIterator<Key>>, 
         last: Readonly<IForwardIterator<Key>>, 
-        comp?: (x: Key, y: Key) => boolean
+        comp?: Comparator<Key>
     );
 
     public constructor(...args: any[])
@@ -111,7 +112,7 @@ export class TreeSet<Key>
     /**
      * @inheritDoc
      */
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.tree_.key_comp();
     }

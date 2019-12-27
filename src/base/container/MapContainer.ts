@@ -12,7 +12,7 @@ import { NativeArrayIterator } from "../../internal/iterator/disposable/NativeAr
 import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
 
-import { Temporary } from "../../internal/types/Temporary";
+import { Temporary } from "../../internal/functional/Temporary";
 
 /**
  * Base class for Map Containers.

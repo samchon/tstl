@@ -1,6 +1,10 @@
 //================================================================ 
 /** @module std.internal */
 //================================================================
+import { BinaryPredicator } from "../../functional/BinaryPredicator";
+import { Comparator } from "../../functional/Comparator";
+import { UnaryPredicator } from "../../functional/UnaryPredicator";
+
 export interface IListAlgorithm<T, Source>
 {
     /* ---------------------------------------------------------
@@ -11,7 +15,7 @@ export interface IListAlgorithm<T, Source>
      * 
      * @param binary_pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    unique(binary_pred?: (x: T, y: T) => boolean): void;
+    unique(binary_pred?: BinaryPredicator<T>): void;
 
     /**
      * Remove elements with specific value.
@@ -25,7 +29,7 @@ export interface IListAlgorithm<T, Source>
      * 
      * @param pred A unary function determines whether remove or not.
      */
-    remove_if(pred: (val: T) => boolean): void;
+    remove_if(pred: UnaryPredicator<T>): void;
 
     /* ---------------------------------------------------------
         SEQUENCE
@@ -36,14 +40,14 @@ export interface IListAlgorithm<T, Source>
      * @param source Source container to transfer.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
      */
-    merge(from: Source, comp?: (x: T, y: T) => boolean): void;
+    merge(from: Source, comp?: Comparator<T>): void;
 
     /**
      * Sort elements.
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
      */
-    sort(comp?: (x: T, y: T) => boolean): void;
+    sort(comp?: Comparator<T>): void;
 
     /**
      * Reverse elements.

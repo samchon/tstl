@@ -9,6 +9,7 @@ import { MapElementList } from "../container/associative/MapElementList";
 
 import { IPair } from "../../utility/IPair";
 import { Pair } from "../../utility/Pair";
+import { Comparator } from "../functional/Comparator";
 
 export abstract class MapTree<Key, T, 
         Unique extends boolean, 
@@ -118,5 +119,3 @@ export abstract class MapTree<Key, T,
         return this.value_compare_;
     }
 }
-
-type Comparator<Key> = (x: Key, y: Key) => boolean;

@@ -2,11 +2,13 @@
 /** @module std.internal */
 //================================================================
 import { XTree } from "./XTree";
-import { XTreeNode } from "./XTreeNode";
 
 import { ITreeSet } from "../../base/container/ITreeSet";
 import { SetElementList } from "../container/associative/SetElementList";
+import { XTreeNode } from "./XTreeNode";
+
 import { Pair } from "../../utility/Pair";
+import { Comparator } from "../functional/Comparator";
 
 export abstract class SetTree<Key, 
         Unique extends boolean, 
@@ -19,8 +21,8 @@ export abstract class SetTree<Key,
 {
     private source_: Source;
 
-    private key_comp_: (x: Key, y: Key) => boolean;
-    private key_eq_: (x: Key, y: Key) => boolean;
+    private key_comp_: Comparator<Key>;
+    private key_eq_: Comparator<Key>;
 
     /* ---------------------------------------------------------
         CONSTRUCTOR
@@ -28,18 +30,15 @@ export abstract class SetTree<Key,
     public constructor
         (
             set: Source, 
-            comp: (x: Key, y: Key) => boolean,
-            it_comp: (x: SetElementList.Iterator<Key, Unique, Source>, y: SetElementList.Iterator<Key, Unique, Source>) => boolean
+            comp: Comparator<Key>,
+            it_comp: Comparator<SetElementList.Iterator<Key, Unique, Source>>
         )
     {
         super(it_comp);
         this.source_ = set;
 
         this.key_comp_ = comp;
-        this.key_eq_ = function (x: Key, y: Key): boolean
-        {
-            return !comp(x, y) && !comp(y, x);
-        };
+        this.key_eq_ = ((x, y) => !comp(x, y) && !comp(y, x));
     }
 
     /**
@@ -96,16 +95,16 @@ export abstract class SetTree<Key,
         return this.source_;
     }
 
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.key_comp_;
     }
-    public key_eq(): (x: Key, y: Key) => boolean
+    public key_eq(): Comparator<Key>
     {
         return this.key_eq_;
     }
 
-    public value_comp(): (x: Key, y: Key) => boolean
+    public value_comp(): Comparator<Key>
     {
         return this.key_comp_;
     }

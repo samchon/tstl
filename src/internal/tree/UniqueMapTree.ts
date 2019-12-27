@@ -6,6 +6,7 @@ import { XTreeNode } from "./XTreeNode";
 
 import { UniqueTreeMap } from "../container/associative/UniqueTreeMap";
 import { MapElementList } from "../container/associative/MapElementList";
+import { Comparator } from "../functional/Comparator";
 
 export class UniqueMapTree<Key, T, 
         Source extends UniqueTreeMap<Key, T, 
@@ -17,14 +18,9 @@ export class UniqueMapTree<Key, T,
     /* ---------------------------------------------------------
         CONSTRUCTOR
     --------------------------------------------------------- */
-    public constructor(source: Source, comp: (x: Key, y: Key) => boolean)
+    public constructor(source: Source, comp: Comparator<Key>)
     {
-        super(source, comp,
-            function (x: MapElementList.Iterator<Key, T, true, Source>, y: MapElementList.Iterator<Key, T, true, Source>): boolean
-            {
-                return comp(x.first, y.first);
-            }
-        );
+        super(source, comp, (x, y) => comp(x.first, y.first));
     }
 
     /* ---------------------------------------------------------

@@ -7,10 +7,11 @@ import { ITreeContainer } from "../internal/container/associative/ITreeContainer
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { MapElementList } from "../internal/container/associative/MapElementList";
 import { MultiMapTree } from "../internal/tree/MultiMapTree";
+import { Comparator } from "../internal/functional/Comparator";
 
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
-import { Temporary } from "../internal/types/Temporary";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Multiple-key Map based on Tree.
@@ -33,7 +34,7 @@ export class TreeMultiMap<Key, T>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: Key, y: Key) => boolean);
+    public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
@@ -41,7 +42,7 @@ export class TreeMultiMap<Key, T>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
     /**
      * Copy Constructor.
@@ -61,7 +62,7 @@ export class TreeMultiMap<Key, T>
     (
         first: Readonly<IForwardIterator<IPair<Key, T>>>, 
         last: Readonly<IForwardIterator<IPair<Key, T>>>, 
-        comp?: (x: Key, y: Key) => boolean
+        comp?: Comparator<Key>
     );
 
     public constructor(...args: any[])
@@ -113,7 +114,7 @@ export class TreeMultiMap<Key, T>
     /**
      * @inheritDoc
      */
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.tree_.key_comp();
     }

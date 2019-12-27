@@ -5,7 +5,7 @@ import { sort } from "../../algorithm/sorting";
 
 import { IForwardContainer } from "../../ranges/container/IForwardContainer";
 import { IPush } from "../../internal/container/partial/IPush";
-import { Temporary } from "../../internal/types/Temporary";
+import { Temporary } from "../../internal/functional/Temporary";
 
 export namespace Generator
 {

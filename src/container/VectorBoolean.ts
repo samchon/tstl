@@ -23,11 +23,15 @@ export class VectorBoolean
     extends ArrayContainer<boolean, VectorBoolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator, boolean>
     implements IArrayContainer<boolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator>
 {
-    //----
-    // first => (index: number)
-    // second => (value: boolean)
-    //---
+    /**
+     * first: index
+     * second: value
+     */
     private data_!: TreeMap<number, boolean>;
+
+    /**
+     * Number of elements
+     */
     private size_!: number;
 
     /* =========================================================

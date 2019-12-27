@@ -6,6 +6,7 @@ import { XTreeNode } from "./XTreeNode";
 
 import { MultiTreeSet } from "../container/associative/MultiTreeSet";
 import { SetElementList } from "../container/associative/SetElementList";
+import { Comparator } from "../functional/Comparator";
 
 import { get_uid } from "../../functional/uid";
 
@@ -19,7 +20,7 @@ export class MultiSetTree<Key,
     /* ---------------------------------------------------------
         CONSTRUCTOR
     --------------------------------------------------------- */
-    public constructor(source: Source, comp: (x: Key, y: Key) => boolean)
+    public constructor(source: Source, comp: Comparator<Key>)
     {
         super(source, comp, 
             function (x: SetElementList.Iterator<Key, false, Source>, y: SetElementList.Iterator<Key, false, Source>): boolean

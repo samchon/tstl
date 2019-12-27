@@ -3,21 +3,14 @@
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
-
 import { Pair } from "../utility/Pair";
+
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
 import { equal_to, less } from "../functional/comparators";
 import { advance, distance } from "../iterator/global";
 
-type UnaryPredicator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
-    (val: IPointer.ValueType<Iterator>) => boolean;
 
-type BinaryPredicator<
-        Iterator1 extends IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>,
-        Iterator2 extends IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>> =
-    (
-        x: IPointer.ValueType<Iterator1>,
-        y: IPointer.ValueType<Iterator2>
-    ) => boolean;
 
 /* =========================================================
     ITERATIONS (NON-MODIFYING SEQUENCE)
@@ -86,7 +79,7 @@ export function all_of<InputIterator extends Readonly<IForwardIterator<IPointer.
     (
         first: InputIterator, 
         last: InputIterator, 
-        pred: UnaryPredicator<InputIterator>
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): boolean
 {
     for (let it = first; !it.equals(last); it = it.next())
@@ -109,7 +102,7 @@ export function any_of<InputIterator extends Readonly<IForwardIterator<IPointer.
     (
         first: InputIterator, 
         last: InputIterator, 
-        pred: UnaryPredicator<InputIterator>
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): boolean
 {
     for (let it = first; !it.equals(last); it = it.next())
@@ -132,7 +125,7 @@ export function none_of<InputIterator extends Readonly<IForwardIterator<IPointer
     (
         first: InputIterator, 
         last: InputIterator, 
-        pred: UnaryPredicator<InputIterator>
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): boolean
 {
     return !any_of(first, last, pred);
@@ -172,7 +165,7 @@ export function equal<
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2,
-        pred: BinaryPredicator<InputIterator1, InputIterator2>
+        pred: BinaryPredicator<IPointer.ValueType<InputIterator1>, IPointer.ValueType<InputIterator2>>
     ): boolean;
 
 export function equal<
@@ -181,7 +174,7 @@ export function equal<
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2,
-        pred: BinaryPredicator<InputIterator1, InputIterator2> = <any>equal_to
+        pred: BinaryPredicator<IPointer.ValueType<InputIterator1>, IPointer.ValueType<InputIterator2>> = equal_to as any
     ): boolean
 {
     while (!first1.equals(last1))
@@ -212,7 +205,7 @@ export function lexicographical_compare<
     (
         first1: Iterator1, last1: Iterator1, 
         first2: Iterator2, last2: Iterator2,
-        comp: BinaryPredicator<Iterator1, Iterator1> = less
+        comp: BinaryPredicator<IPointer.ValueType<Iterator1>> = less
     ): boolean
 {
     while (!first1.equals(last1))
@@ -262,7 +255,7 @@ export function find<InputIterator extends Readonly<IForwardIterator<IPointer.Va
 export function find_if<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        pred: UnaryPredicator<InputIterator>
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): InputIterator
 {
     for (let it = first; !it.equals(last); it = it.next())
@@ -284,7 +277,7 @@ export function find_if<InputIterator extends Readonly<IForwardIterator<IPointer
 export function find_if_not<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        pred: UnaryPredicator<InputIterator>
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): InputIterator
 {
     return find_if(first, last, elem => !pred(elem));
@@ -325,7 +318,7 @@ export function find_end<
     (
         first1: Iterator1, last1: Iterator1, 
         first2: Iterator2, last2: Iterator2, 
-        pred: BinaryPredicator<Iterator1, Iterator2>
+        pred: BinaryPredicator<IPointer.ValueType<Iterator1>, IPointer.ValueType<Iterator2>>
     ): Iterator1;
 
 export function find_end<
@@ -334,7 +327,7 @@ export function find_end<
     (
         first1: Iterator1, last1: Iterator1, 
         first2: Iterator2, last2: Iterator2, 
-        pred: BinaryPredicator<Iterator1, Iterator2> = <any>equal_to
+        pred: BinaryPredicator<IPointer.ValueType<Iterator1>, IPointer.ValueType<Iterator2>> = <any>equal_to
     ): Iterator1
 {
     if (first2.equals(last2))
@@ -399,7 +392,7 @@ export function find_first_of<
     (
         first1: Iterator1, last1: Iterator1, 
         first2: Iterator2, last2: Iterator2,
-        pred: BinaryPredicator<Iterator1, Iterator2>
+        pred: BinaryPredicator<IPointer.ValueType<Iterator1>, IPointer.ValueType<Iterator2>>
     ): Iterator1;
 
 export function find_first_of<
@@ -408,7 +401,7 @@ export function find_first_of<
     (
         first1: Iterator1, last1: Iterator1, 
         first2: Iterator2, last2: Iterator2,
-        pred: BinaryPredicator<Iterator1, Iterator2> = <any>equal_to
+        pred: BinaryPredicator<IPointer.ValueType<Iterator1>, IPointer.ValueType<Iterator2>> = <any>equal_to
     ): Iterator1
 {
     for (; !first1.equals(last1); first1 = first1.next())
@@ -431,7 +424,7 @@ export function find_first_of<
 export function adjacent_find<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        pred: BinaryPredicator<InputIterator, InputIterator> = equal_to
+        pred: BinaryPredicator<IPointer.ValueType<InputIterator>> = equal_to
     ): InputIterator
 {
     if (!first.equals(last))
@@ -486,7 +479,7 @@ export function search<
     (
         first1: ForwardIterator1, last1: ForwardIterator1, 
         first2: ForwardIterator2, last2: ForwardIterator2,
-        pred: BinaryPredicator<ForwardIterator1, ForwardIterator2>
+        pred: BinaryPredicator<IPointer.ValueType<ForwardIterator1>, IPointer.ValueType<ForwardIterator2>>
     ): ForwardIterator1;
 
 export function search<
@@ -495,7 +488,7 @@ export function search<
     (
         first1: ForwardIterator1, last1: ForwardIterator1, 
         first2: ForwardIterator2, last2: ForwardIterator2,
-        pred: BinaryPredicator<ForwardIterator1, ForwardIterator2> = <any>equal_to
+        pred: BinaryPredicator<IPointer.ValueType<ForwardIterator1>, IPointer.ValueType<ForwardIterator2>> = <any>equal_to
     ): ForwardIterator1
 {
     if (first2.equals(last2))
@@ -535,7 +528,7 @@ export function search_n<ForwardIterator extends Readonly<IForwardIterator<IPoin
     (
         first: ForwardIterator, last: ForwardIterator, 
         count: number, val: IPointer.ValueType<ForwardIterator>, 
-        pred: BinaryPredicator<ForwardIterator, ForwardIterator> = equal_to
+        pred: BinaryPredicator<IPointer.ValueType<ForwardIterator>> = equal_to
     ): ForwardIterator
 {
     let limit: ForwardIterator = advance(first, distance(first, last) - count);
@@ -589,7 +582,7 @@ export function mismatch<
     (
         first1: Iterator1, last1: Iterator1, 
         first2: Iterator2,
-        pred: BinaryPredicator<Iterator1, Iterator2>
+        pred: BinaryPredicator<IPointer.ValueType<Iterator1>, IPointer.ValueType<Iterator2>>
     ): Pair<Iterator1, Iterator2>;
 
 export function mismatch<
@@ -598,7 +591,7 @@ export function mismatch<
     (
         first1: Iterator1, last1: Iterator1, 
         first2: Iterator2,
-        pred: BinaryPredicator<Iterator1, Iterator2> = <any>equal_to
+        pred: BinaryPredicator<IPointer.ValueType<Iterator1>, IPointer.ValueType<Iterator2>> = <any>equal_to
     ): Pair<Iterator1, Iterator2>
 {
     while (!first1.equals(last1) && pred(first1.value, first2.value))
@@ -642,7 +635,7 @@ export function count<InputIterator extends Readonly<IForwardIterator<IPointer.V
 export function count_if<InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        pred: UnaryPredicator<InputIterator>
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): number
 {
     let ret: number = 0;

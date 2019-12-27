@@ -11,23 +11,19 @@ import { IBidirectionalIterator } from "../../iterator/IBidirectionalIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPointer } from "../../functional/IPointer";
 
-import { Writeonly } from "../../internal/types/Writeonly";
-import { Temporary } from "../../internal/types/Temporary";
+import { BinaryPredicator } from "../../internal/functional/BinaryPredicator";
+import { UnaryPredicator } from "../../internal/functional/UnaryPredicator";
+import { Writeonly } from "../../internal/functional/Writeonly";
+import { Temporary } from "../../internal/functional/Temporary";
 import { begin, end } from "../../iterator/factory";
 import { equal_to } from "../../functional/comparators";
 
-type UnaryPredicator<Range extends Array<any> | IForwardContainer<any>> = 
-    (val: IForwardContainer.ValueType<Range>) => boolean;
-
-type BinaryPredicator<Range extends Array<any> | IForwardContainer<any>> = 
-    (x: IForwardContainer.ValueType<Range>, y: IForwardContainer.ValueType<Range>) => boolean;
-
-type UnaryOperator<
+type UnaryOperatorInferrer<
         Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> = 
     (val: IForwardContainer.ValueType<Range>) => IPointer.ValueType<OutputIterator>;
 
-type BinaryOperator<
+type BinaryOperatorInferrer<
         Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> = 
@@ -55,7 +51,7 @@ export function copy_n<
 export function copy_if<
         Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>
-    (range: Range, output: OutputIterator, pred: UnaryPredicator<Range>): OutputIterator
+    (range: Range, output: OutputIterator, pred: UnaryPredicator<IForwardContainer.ValueType<Range>>): OutputIterator
 {
     return base.copy_if(begin(range), end(range), output, pred);
 }
@@ -83,13 +79,13 @@ export function fill_n<Range extends Array<any> | IForwardContainer<any>>
 export function transform<
         Range extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
-    (range: Range, result: OutputIterator, op: UnaryOperator<Range, OutputIterator>): OutputIterator;
+    (range: Range, result: OutputIterator, op: UnaryOperatorInferrer<Range, OutputIterator>): OutputIterator;
 
 export function transform<
         Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends Array<any> | IForwardContainer<any>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>>
-    (range: Range1, first: Range2, result: OutputIterator, op: BinaryOperator<Range1, Range2, OutputIterator>): OutputIterator;
+    (range: Range1, first: Range2, result: OutputIterator, op: BinaryOperatorInferrer<Range1, Range2, OutputIterator>): OutputIterator;
 
 export function transform<Range1 extends Array<any> | IForwardContainer<any>>
     (range1: Range1, ...args: any[]): any
@@ -121,7 +117,7 @@ export function generate_n<Range extends Array<any> | IForwardContainer<any>>
     REMOVE
 --------------------------------------------------------- */
 export function unique<Range extends Array<any> | IForwardContainer<any>>
-    (range: Range, pred: BinaryPredicator<Range> = equal_to): IForwardContainer.IteratorType<Range>
+    (range: Range, pred: BinaryPredicator<IForwardContainer.ValueType<Range>> = equal_to): IForwardContainer.IteratorType<Range>
 {
     return base.unique(begin(range), end(range), pred);
 }
@@ -132,7 +128,7 @@ export function unique_copy<
     (
         range: Range, 
         output: OutputIterator, 
-        pred: BinaryPredicator<Range> = equal_to
+        pred: BinaryPredicator<IForwardContainer.ValueType<Range>> = equal_to
     ): OutputIterator
 {
     return base.unique_copy(begin(range), end(range), output, pred);
@@ -145,7 +141,7 @@ export function remove<Range extends Array<any> | IForwardContainer<any>>
 }
 
 export function remove_if<Range extends Array<any> | IForwardContainer<any>>
-    (range: Range, pred: UnaryPredicator<Range>): IForwardContainer.IteratorType<Range>
+    (range: Range, pred: UnaryPredicator<IForwardContainer.ValueType<Range>>): IForwardContainer.IteratorType<Range>
 {
     return base.remove_if(begin(range), end(range), pred);
 }
@@ -168,7 +164,7 @@ export function remove_copy_if<
     (
         range: Range, 
         output: OutputIterator, 
-        pred: UnaryPredicator<Range>
+        pred: UnaryPredicator<IForwardContainer.ValueType<Range>>
     ): OutputIterator
 {
     return base.remove_copy_if(begin(range), end(range), output, pred);
@@ -190,7 +186,7 @@ export function replace<Range extends Array<any> | IForwardContainer<any>>
 export function replace_if<Range extends Array<any> | IForwardContainer<any>>
     (
         range: Range,
-        pred: UnaryPredicator<Range>,
+        pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
         new_val: IForwardContainer.ValueType<Range>
     ): void
 {
@@ -216,7 +212,7 @@ export function replace_copy_if<
     (
         range: Range, 
         output: OutputIterator,
-        pred: UnaryPredicator<Range>,
+        pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
         new_val: IForwardContainer.ValueType<Range>
     ): OutputIterator
 {

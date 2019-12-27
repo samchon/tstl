@@ -7,7 +7,7 @@ import { IForwardContainer } from "../container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 import { IPointer } from "../../functional";
-import { Writeonly } from "../../internal/types/Writeonly";
+import { Writeonly } from "../../internal/functional/Writeonly";
 import { begin, end } from "../../iterator/factory";
 import { plus, multiplies, minus } from "../../numeric/operators";
 

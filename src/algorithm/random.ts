@@ -5,7 +5,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
 import { Vector } from "../container/Vector";
 
-import { Writeonly } from "../internal/types/Writeonly";
+import { Writeonly } from "../internal/functional/Writeonly";
 import { advance, distance } from "../iterator/global";
 import { sort } from "./sorting";
 

@@ -4,6 +4,8 @@
 import { HashBuckets } from "./HashBuckets";
 
 import { IHashMap } from "../../base/container/IHashMap";
+import { Comparator } from "../functional/Comparator";
+import { Hasher } from "../functional/Hasher";
 
 /**
  * Hash buckets for map containers.
@@ -17,8 +19,8 @@ export class MapHashBuckets<Key, T,
 {
     private source_: IHashMap<Key, T, Unique, Source>;
     
-    private hash_function_: (key: Key) => number;
-    private key_eq_: (x: Key, y: Key) => boolean;
+    private hash_function_: Hasher<Key>;
+    private key_eq_: Comparator<Key>;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
@@ -30,7 +32,7 @@ export class MapHashBuckets<Key, T,
      * @param hash Hash function
      * @param pred Equality function
      */
-    public constructor(source: IHashMap<Key, T, Unique, Source>, hash: (key: Key) => number, pred: (x: Key, y: Key) => boolean)
+    public constructor(source: IHashMap<Key, T, Unique, Source>, hash: Hasher<Key>, pred: Comparator<Key>)
     {
         super();
 
@@ -51,12 +53,12 @@ export class MapHashBuckets<Key, T,
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */
-    public hash_function(): (key: Key) => number
+    public hash_function(): Hasher<Key>
     {
         return this.hash_function_;
     }
 
-    public key_eq(): (x: Key, y: Key) => boolean
+    public key_eq(): Comparator<Key>
     {
         return this.key_eq_;
     }

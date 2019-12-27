@@ -6,21 +6,20 @@ import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { General } from "../internal/types/General";
-import { Writeonly } from "../internal/types/Writeonly";
+import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { General } from "../internal/functional/General";
+import { Writeonly } from "../internal/functional/Writeonly";
 import { equal_to } from "../functional/comparators";
 import { randint } from "./random";
 import { advance } from "../iterator/global";
 
-type UnaryPredicator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
-    (val: IPointer.ValueType<Iterator>) => boolean;
-
-type UnaryOperator<
+type UnaryOperatorInferrer<
         InputIterator extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> =
     (val: IPointer.ValueType<InputIterator>) => IPointer.ValueType<OutputIterator>;
 
-type BinaryOperator<
+type BinaryOperatorInferrer<
         InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>,
         InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>>,
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>> =
@@ -97,7 +96,7 @@ export function copy_if<
     (
         first: InputIterator, last: InputIterator, 
         output: OutputIterator, 
-        pred: UnaryPredicator<InputIterator>
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -199,7 +198,7 @@ export function transform<
     (
         first: InputIterator, last: InputIterator, 
         result: OutputIterator, 
-        op: UnaryOperator<InputIterator, OutputIterator>
+        op: UnaryOperatorInferrer<InputIterator, OutputIterator>
     ): OutputIterator;
 
 /**
@@ -221,7 +220,7 @@ export function transform<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, 
         result: OutputIterator, 
-        op: BinaryOperator<InputIterator1, InputIterator2, OutputIterator>
+        op: BinaryOperatorInferrer<InputIterator1, InputIterator2, OutputIterator>
     ): OutputIterator;
 
 export function transform(...args: any[]): any
@@ -238,7 +237,7 @@ function _Unary_transform<
     (
         first: InputIterator, last: InputIterator, 
         result: OutputIterator, 
-        op: UnaryOperator<InputIterator, OutputIterator>
+        op: UnaryOperatorInferrer<InputIterator, OutputIterator>
     ): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -257,7 +256,7 @@ function _Binary_transform<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, 
         result: OutputIterator, 
-        binary_op: BinaryOperator<InputIterator1, InputIterator2, OutputIterator>
+        binary_op: BinaryOperatorInferrer<InputIterator1, InputIterator2, OutputIterator>
     ): OutputIterator
 {
     while (!first1.equals(last1))
@@ -327,7 +326,7 @@ export function generate_n<ForwardIterator extends Writeonly<IForwardIterator<IP
 export function unique<InputIterator extends General<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        pred: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = equal_to
+        pred: BinaryPredicator<IPointer.ValueType<InputIterator>> = equal_to
     ): InputIterator
 {
     if (first.equals(last))
@@ -358,7 +357,7 @@ export function unique_copy<
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
         first: InputIterator, last: InputIterator, output: OutputIterator, 
-        pred: (x: IPointer.ValueType<InputIterator>, y: IPointer.ValueType<InputIterator>) => boolean = equal_to
+        pred: BinaryPredicator<IPointer.ValueType<InputIterator>> = equal_to
     ): OutputIterator
 {
     if (first.equals(last))
@@ -406,7 +405,7 @@ export function remove<InputIterator extends General<IForwardIterator<IPointer.V
 export function remove_if<InputIterator extends General<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        pred: (val: IPointer.ValueType<InputIterator>) => boolean
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): InputIterator
 {
     let ret: InputIterator = first;
@@ -461,7 +460,7 @@ export function remove_copy_if<
     (
         first: InputIterator, last: InputIterator, 
         output: OutputIterator, 
-        pred: UnaryPredicator<InputIterator>
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>
     ): OutputIterator
 {
     for (; !first.equals(last); first = first.next())
@@ -508,7 +507,7 @@ export function replace<InputIterator extends General<IForwardIterator<IPointer.
 export function replace_if<InputIterator extends General<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
     (
         first: InputIterator, last: InputIterator, 
-        pred: (val: IPointer.ValueType<InputIterator>) => boolean, 
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>, 
         new_val: IPointer.ValueType<InputIterator>
     ): void
 {
@@ -558,7 +557,7 @@ export function replace_copy_if<
     (
         first: InputIterator, last: InputIterator, 
         result: OutputIterator, 
-        pred: (val: IPointer.ValueType<InputIterator>) => boolean, 
+        pred: UnaryPredicator<IPointer.ValueType<InputIterator>>, 
         new_val: IPointer.ValueType<InputIterator>
     ): OutputIterator
 {

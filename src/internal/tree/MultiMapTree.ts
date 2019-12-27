@@ -6,6 +6,7 @@ import { XTreeNode } from "./XTreeNode";
 
 import { MultiTreeMap } from "../container/associative/MultiTreeMap";
 import { MapElementList } from "../container/associative/MapElementList";
+import { Comparator } from "../functional/Comparator";
 
 import { get_uid } from "../../functional/uid";
 
@@ -19,7 +20,7 @@ export class MultiMapTree<Key, T,
     /* ---------------------------------------------------------
         CONSTRUCTOR
     --------------------------------------------------------- */
-    public constructor(source: Source, comp: (x: Key, y: Key) => boolean)
+    public constructor(source: Source, comp: Comparator<Key>)
     {
         super(source, comp,
             function (x: MapElementList.Iterator<Key, T, false, Source>, y: MapElementList.Iterator<Key, T, false, Source>): boolean

@@ -5,8 +5,10 @@ import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer"
 
 import { Vector } from "./Vector";
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { less } from "../functional/comparators";
 import { pop_heap, push_heap } from "../algorithm/heap";
+
+import { Comparator } from "../internal/functional/Comparator";
+import { less } from "../functional/comparators";
 
 /**
  * Priority Queue; Greater Out First.
@@ -16,7 +18,7 @@ import { pop_heap, push_heap } from "../algorithm/heap";
 export class PriorityQueue<T>
     extends AdaptorContainer<T, Vector<T>, PriorityQueue<T>>
 {
-    private comp_: (x: T, y: T) => boolean;
+    private comp_: Comparator<T>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -26,7 +28,7 @@ export class PriorityQueue<T>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: T, y: T) => boolean);
+    public constructor(comp?: Comparator<T>);
 
     /**
      * Copy Constructor.
@@ -46,15 +48,15 @@ export class PriorityQueue<T>
     (
         first: Readonly<IForwardIterator<T>>, 
         last: Readonly<IForwardIterator<T>>, 
-        comp?: (x: T, y: T) => boolean
+        comp?: Comparator<T>
     );
 
     public constructor(...args: any[])
     {
-        super();
+        super(new Vector());
 
         // DECLARE MEMBERS
-        let comp: (x: T, y: T) => boolean = less;
+        let comp: Comparator<T> = less;
         let post_process: (() => void) | null = null;
 
         //----
@@ -94,11 +96,7 @@ export class PriorityQueue<T>
         //----
         // DO PROCESS
         //----
-        // CONSTRUCT CONTAINER
-        this.source_ = new Vector<T>();
         this.comp_ = comp;
-
-        // ACT POST-PROCESS
         if (post_process !== null)
             post_process();
     }
@@ -109,7 +107,7 @@ export class PriorityQueue<T>
     /**
      * Get value comparison function.
      */
-    public value_comp(): (x: T, y: T) => boolean
+    public value_comp(): Comparator<T>
     {
         return this.comp_;
     }

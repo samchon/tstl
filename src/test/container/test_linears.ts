@@ -1,5 +1,5 @@
 import * as std from "../../index";
-import { Temporary } from "../../internal/types/Temporary";
+import { Temporary } from "../../internal/functional/Temporary";
 
 export function test_linear_containers(): void
 {

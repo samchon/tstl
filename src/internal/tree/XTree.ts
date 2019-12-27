@@ -4,23 +4,26 @@
 import { XTreeNode } from "./XTreeNode";
 import { Color } from "./Color";
 
-//--------
-// The Red-Black Tree
-//
-// Reference: https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
-// Inventor: Rudolf Bayer
-//--------
+import { Comparator } from "../functional/Comparator";
+
+/**
+ * Red-Black Tree
+ * 
+ * @reference https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
+ * @inventor Rudolf Bayer
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export abstract class XTree<T>
 {
     protected root_: XTreeNode<T> | null;
 
-    private comp_: (x: T, y: T) => boolean;
-    private equal_: (x: T, y: T) => boolean;
+    private comp_: Comparator<T>;
+    private equal_: Comparator<T>;
 
     /* ---------------------------------------------------------
         CONSTRUCTOR
     --------------------------------------------------------- */
-    protected constructor(comp: (x: T, y: T) => boolean)
+    protected constructor(comp: Comparator<T>)
     {
         this.root_ = null;
 
@@ -55,19 +58,6 @@ export abstract class XTree<T>
             return null;
         else
             return ret;
-
-        // let ret: _XTreeNode<T> = this.root_;
-
-        // while (ret !== null)
-        // {
-        //     if (this.comp_(val, ret.value))
-        //         ret = ret.left;
-        //     else if (this.comp_(ret.value, val))
-        //         ret = ret.right;
-        //     else
-        //         return ret; // MATCHED VALUE
-        // }
-        // return ret; // NULL -> UNABLE TO FIND THE MATCHED VALUE
     }
 
     public nearest(val: T): XTreeNode<T> | null
@@ -102,7 +92,7 @@ export abstract class XTree<T>
         return ret; // DIFFERENT NODE
     }
 
-    protected _Fetch_maximum(node: XTreeNode<T>): XTreeNode<T>
+    private _Fetch_maximum(node: XTreeNode<T>): XTreeNode<T>
     {
         while (node.right !== null)
             node = node.right;
@@ -325,7 +315,7 @@ export abstract class XTree<T>
     /* ---------------------------------------------------------
         ROTATION
     --------------------------------------------------------- */
-    protected _Rotate_left(node: XTreeNode<T>): void
+    private _Rotate_left(node: XTreeNode<T>): void
     {
         let right = node.right;
         this._Replace_node(node, right);
@@ -338,7 +328,7 @@ export abstract class XTree<T>
         node.parent = right;
     }
 
-    protected _Rotate_right(node: XTreeNode<T>): void
+    private _Rotate_right(node: XTreeNode<T>): void
     {
         let left = node.left;
         this._Replace_node(node, left);
@@ -351,7 +341,7 @@ export abstract class XTree<T>
         node.parent = left;
     }
 
-    protected _Replace_node(oldNode: XTreeNode<T>, newNode: XTreeNode<T> | null): void
+    private _Replace_node(oldNode: XTreeNode<T>, newNode: XTreeNode<T> | null): void
     {
         if (oldNode.parent === null)
             this.root_ = newNode;

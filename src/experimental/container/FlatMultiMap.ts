@@ -9,16 +9,22 @@ import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Temporary } from "../../internal/types/Temporary";
+import { Comparator } from "../../internal/functional/Comparator";
+import { Temporary } from "../../internal/functional/Temporary";
 import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 
+/**
+ * Multiple-key Map based on sorted array.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class FlatMultiMap<Key, T>
     extends MultiTreeMap<Key, T, 
         FlatMultiMap<Key, T>, 
         FlatMultiMap.Iterator<Key, T>, 
         FlatMultiMap.ReverseIterator<Key, T>>
 {
-    private key_comp_!: (x: Key, y: Key) => boolean;
+    private key_comp_!: Comparator<Key>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -28,7 +34,7 @@ export class FlatMultiMap<Key, T>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: Key, y: Key) => boolean);
+    public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
@@ -36,7 +42,7 @@ export class FlatMultiMap<Key, T>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
     /**
      * Copy Constructor.
@@ -56,7 +62,7 @@ export class FlatMultiMap<Key, T>
         (
             first: Readonly<IForwardIterator<IPair<Key, T>>>, 
             last: Readonly<IForwardIterator<IPair<Key, T>>>,
-            comp?: (x: Key, y: Key) => boolean
+            comp?: Comparator<Key>
         );
     
     public constructor(...args: any[])
@@ -107,7 +113,7 @@ export class FlatMultiMap<Key, T>
     /**
      * @inheritDoc
      */
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.key_comp_;
     }

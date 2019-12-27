@@ -1,6 +1,7 @@
 import * as std from "../../index";
 
 import { Atomic } from "../internal/Atomic";
+import { Comparator } from "../../internal/functional/Comparator";
 
 export function test_comparisons(): void
 {
@@ -22,7 +23,7 @@ export function test_comparisons(): void
 }
 
 function _Test_comparison_results<T>
-    (x: T, y: T, bit: boolean, func: (x: T, y: T) => boolean): void
+    (x: T, y: T, bit: boolean, func: Comparator<T>): void
 {
     if (bit !== func(x, y))
         throw new std.DomainError("Invalid comparison.");

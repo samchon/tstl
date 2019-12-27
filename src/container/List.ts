@@ -12,6 +12,10 @@ import { IPointer } from "../functional/IPointer";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { equal_to, less } from "../functional/comparators";
 
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { Comparator } from "../internal/functional/Comparator";
+import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
+
 /**
  * Doubly Linked List.
  * 
@@ -156,7 +160,7 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
+    public unique(binary_pred: BinaryPredicator<T> = equal_to): void
     {
         let it = this.begin().next();
 
@@ -180,7 +184,7 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public remove_if(pred: (val: T) => boolean): void
+    public remove_if(pred: UnaryPredicator<T>): void
     {
         let it = this.begin();
 
@@ -199,7 +203,7 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public merge(source: List<T>, comp: (x: T, y: T) => boolean = less): void
+    public merge(source: List<T>, comp: Comparator<T> = less): void
     {
         if (this === <List<T>>source)
             return;
@@ -267,12 +271,12 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public sort(comp: (x: T, y: T) => boolean = less): void
+    public sort(comp: Comparator<T> = less): void
     {
         this._Quick_sort(this.begin(), this.end().prev(), comp);
     }
 
-    private _Quick_sort(first: List.Iterator<T>, last: List.Iterator<T>, comp: (x: T, y: T) => boolean): void
+    private _Quick_sort(first: List.Iterator<T>, last: List.Iterator<T>, comp: Comparator<T>): void
     {
         if (!first.equals(last) && !last.equals(this.end()) && !first.equals(last.next()))
         {
@@ -283,7 +287,7 @@ export class List<T>
         }
     }
 
-    private _Quick_sort_partition(first: List.Iterator<T>, last: List.Iterator<T>, comp: (x: T, y: T) => boolean): List.Iterator<T>
+    private _Quick_sort_partition(first: List.Iterator<T>, last: List.Iterator<T>, comp: Comparator<T>): List.Iterator<T>
     {
         let standard: T = last.value; // TO BE COMPARED
         let prev: List.Iterator<T> = first.prev(); // TO BE SMALLEST

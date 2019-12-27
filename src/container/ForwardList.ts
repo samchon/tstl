@@ -17,6 +17,10 @@ import { ForOfAdaptor } from "../internal/iterator/disposable/ForOfAdaptor";
 import { Vector } from "./Vector";
 import { OutOfRange } from "../exception/OutOfRange";
 
+import { Comparator } from "../internal/functional/Comparator";
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
+
 import { advance, distance } from "../iterator/global";
 import { equal_to, less } from "../functional/comparators";
 import { sort as sort_func } from "../algorithm/sorting";
@@ -355,7 +359,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
+    public unique(binary_pred: BinaryPredicator<T> = equal_to): void
     {
         for (let it = this.begin().next(); !it.equals(this.end()); it = it.next())
         {
@@ -379,7 +383,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public remove_if(pred: (val: T) => boolean): void
+    public remove_if(pred: UnaryPredicator<T>): void
     {
         let count: number = 0;
         
@@ -398,7 +402,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public merge(from: ForwardList<T>, comp: (x: T, y: T) => boolean = less): void
+    public merge(from: ForwardList<T>, comp: Comparator<T> = less): void
     {
         if (this === <ForwardList<T>>from)
             return;
@@ -475,7 +479,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public sort(comp: (x: T, y: T) => boolean = less): void
+    public sort(comp: Comparator<T> = less): void
     {
         let vec = new Vector<T>(this.begin(), this.end());
         sort_func(vec.begin(), vec.end(), comp);

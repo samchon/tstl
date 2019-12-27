@@ -9,7 +9,8 @@ import { IPair } from "../../../utility/IPair";
 import { Entry } from "../../../utility/Entry";
 import { Pair } from "../../../utility/Pair";
 
-import { Temporary } from "../../types/Temporary";
+import { Comparator } from "../../functional/Comparator";
+import { Temporary } from "../../functional/Temporary";
 
 export abstract class MultiTreeMap<Key, T,
         Source extends MultiTreeMap<Key, T, Source, IteratorT, ReverseT>,
@@ -68,12 +69,12 @@ export abstract class MultiTreeMap<Key, T,
     /**
      * @inheritDoc
      */
-    public abstract key_comp(): (x: Key, y: Key) => boolean;
+    public abstract key_comp(): Comparator<Key>;
 
     /**
      * @inheritDoc
      */
-    public value_comp(): (x: IPair<Key, T>, y: IPair<Key, T>) => boolean
+    public value_comp(): Comparator<IPair<Key, T>>
     {
         return (x, y) => this.key_comp()(x.first, y.first);
     }

@@ -5,17 +5,15 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { General } from "../internal/types/General";
-import { Writeonly } from "../internal/types/Writeonly";
+import { General } from "../internal/functional/General";
+import { Writeonly } from "../internal/functional/Writeonly";
 import { less } from "../functional/comparators";
 import { copy } from "./modifiers";
 import { back_inserter } from "../iterator/factory";
 
 import { Vector } from "../container/Vector";
-import { Temporary } from "../internal/types/Temporary";
-
-type Comparator<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>> =
-    (x: IPointer.ValueType<Iterator>, y: IPointer.ValueType<Iterator>) => boolean;
+import { Temporary } from "../internal/functional/Temporary";
+import { Comparator } from "../internal/functional/Comparator";
 
 /* =========================================================
     MERGE & SET OPERATIONS
@@ -44,7 +42,7 @@ export function merge<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: Comparator<InputIterator1> = less
+        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
     ): OutputIterator
 {
     while (true)
@@ -81,7 +79,7 @@ export function inplace_merge<BidirectionalIterator extends General<IBidirection
         first: BidirectionalIterator, 
         middle: BidirectionalIterator, 
         last: BidirectionalIterator,
-        comp: Comparator<BidirectionalIterator> = less
+        comp: Comparator<IPointer.ValueType<BidirectionalIterator>> = less
     ): void
 {
     let vector: Vector<IPointer.ValueType<BidirectionalIterator>> = new Vector();
@@ -110,7 +108,7 @@ export function includes<
     (
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
-        comp: Comparator<InputIterator1> = less
+        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
     ): boolean
 {
     while (!first2.equals(last2))
@@ -146,7 +144,7 @@ export function set_union<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: Comparator<InputIterator1> = less
+        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
     ): OutputIterator
 {
     while (true)
@@ -198,7 +196,7 @@ export function set_intersection<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: Comparator<InputIterator1> = less
+        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
     ): OutputIterator
 {
     while (!first1.equals(last1) && !first2.equals(last2))
@@ -237,7 +235,7 @@ export function set_difference<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: Comparator<InputIterator1> = less
+        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
     ): OutputIterator
 {
     while (!first1.equals(last1) && !first2.equals(last2))
@@ -279,7 +277,7 @@ export function set_symmetric_difference<
         first1: InputIterator1, last1: InputIterator1, 
         first2: InputIterator2, last2: InputIterator2,
         output: OutputIterator, 
-        comp: Comparator<InputIterator1> = less
+        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
     ): OutputIterator
 {
     while (true)

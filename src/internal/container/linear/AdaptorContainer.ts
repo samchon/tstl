@@ -15,7 +15,12 @@ export abstract class AdaptorContainer<T,
         This extends AdaptorContainer<T, Source, This>>
     implements IEmpty, ISize, IPush<T>
 {
-    protected source_!: Source;
+    protected source_: Source;
+
+    protected constructor(source: Source)
+    {
+        this.source_ = source;
+    }
     
     /* ---------------------------------------------------------
         ACCESSORS

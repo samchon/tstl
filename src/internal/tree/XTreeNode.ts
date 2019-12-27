@@ -3,6 +3,11 @@
 //================================================================
 import { Color } from "./Color";
 
+/**
+ * Node of {@link XTree}
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class XTreeNode<T>
 {
     public parent: XTreeNode<T> | null;

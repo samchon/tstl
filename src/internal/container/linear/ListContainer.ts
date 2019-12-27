@@ -2,6 +2,7 @@
 /** @module std.internal */
 //================================================================
 import { IContainer } from "../../../base/container/IContainer";
+import { ILinearContainerBase } from "./ILinearContainerBase";
 import { Container } from "../../../base/container/Container";
 
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
@@ -13,9 +14,7 @@ import { NativeArrayIterator } from "../../iterator/disposable/NativeArrayIterat
 import { InvalidArgument } from "../../../exception/InvalidArgument";
 import { advance } from "../../../iterator/global";
 
-import { ILinearContainerBase } from "./ILinearContainerBase";
-
-import { Temporary } from "../../types/Temporary";
+import { Temporary } from "../../functional/Temporary";
 
 /**
  * Basic List Container.

@@ -12,7 +12,10 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
 import { Pair } from "../utility/Pair";
-import { Temporary } from "../internal/types/Temporary";
+
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { Hasher } from "../internal/functional/Hasher";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Unique-key Map based on Hash buckets.
@@ -41,7 +44,7 @@ export class HashMap<Key, T>
      * @param hash An unary function returns hash code. Default is {hash}.
      * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
     /**
      * Initializer Constructor.
@@ -50,7 +53,7 @@ export class HashMap<Key, T>
      * @param hash An unary function returns hash code. Default is {hash}.
      * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    public constructor(items: IPair<Key, T>[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    public constructor(items: IPair<Key, T>[], hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
     /**
      * Copy Constructor.
@@ -71,7 +74,7 @@ export class HashMap<Key, T>
     (
         first: Readonly<IForwardIterator<IPair<Key, T>>>, 
         last: Readonly<IForwardIterator<IPair<Key, T>>>, 
-        hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean
+        hash?: Hasher<Key>, equal?: BinaryPredicator<Key>
     );
 
     public constructor(...args: any[])
@@ -226,7 +229,7 @@ export class HashMap<Key, T>
     /**
      * @inheritDoc
      */
-    public hash_function(): (key: Key) => number
+    public hash_function(): Hasher<Key>
     {
         return this.buckets_.hash_function();
     }
@@ -234,7 +237,7 @@ export class HashMap<Key, T>
     /**
      * @inheritDoc
      */
-    public key_eq(): (x: Key, y: Key) => boolean
+    public key_eq(): BinaryPredicator<Key>
     {
         return this.buckets_.key_eq();
     }

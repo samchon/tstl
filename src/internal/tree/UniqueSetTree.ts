@@ -2,10 +2,12 @@
 /** @module std.internal */
 //================================================================
 import { SetTree } from "./SetTree";
-import { XTreeNode } from "./XTreeNode";
 
+import { XTreeNode } from "./XTreeNode";
 import { UniqueTreeSet } from "../container/associative/UniqueTreeSet";
 import { SetElementList } from "../container/associative/SetElementList";
+
+import { Comparator } from "../functional/Comparator";
 
 export class UniqueSetTree<Key, 
         Source extends UniqueTreeSet<Key, 
@@ -17,14 +19,9 @@ export class UniqueSetTree<Key,
     /* ---------------------------------------------------------
         CONSTRUCTOR
     --------------------------------------------------------- */
-    public constructor(source: Source, comp: (x: Key, y: Key) => boolean)
+    public constructor(source: Source, comp: Comparator<Key>)
     {
-        super(source, comp, 
-            function (x: SetElementList.Iterator<Key, true, Source>, y: SetElementList.Iterator<Key, true, Source>): boolean
-            {
-                return comp(x.value, y.value);
-            }
-        );
+        super(source, comp, (x, y) => comp(x.value, y.value));
     }
 
     /* ---------------------------------------------------------
@@ -79,7 +76,7 @@ export class UniqueSetTree<Key,
 
         // MUST BE it.value > key
         if (this.key_comp()(val, it.value))
-            return it; 
+            return it;
         else
             return it.next();
     }

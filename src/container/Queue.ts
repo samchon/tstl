@@ -29,9 +29,8 @@ export class Queue<T>
 
     public constructor(obj?: Queue<T>)
     {
-        super();
-
-        this.source_ = new List();
+        super(new List());
+        
         if (obj !== undefined)
             this.source_.assign(obj.source_.begin(), obj.source_.end());
     }

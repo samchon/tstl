@@ -7,7 +7,8 @@ import { ITreeContainer } from "./ITreeContainer";
 import { IForwardIterator } from "../../../iterator";
 import { Pair } from "../../../utility/Pair";
 
-import { Temporary } from "../../types/Temporary";
+import { Comparator } from "../../functional/Comparator";
+import { Temporary } from "../../functional/Temporary";
 
 export abstract class MultiTreeSet<Key,
         Source extends MultiTreeSet<Key, Source, IteratorT, ReverseT>,
@@ -66,12 +67,12 @@ export abstract class MultiTreeSet<Key,
     /**
      * @inheritDoc
      */
-    public abstract key_comp(): (x: Key, y: Key) => boolean;
+    public abstract key_comp(): Comparator<Key>
 
     /**
      * @inheritDoc
      */
-    public value_comp(): (x: Key, y: Key) => boolean
+    public value_comp(): Comparator<Key>
     {
         return this.key_comp();
     }

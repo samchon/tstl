@@ -4,6 +4,9 @@
 import { IAssociativeContainer } from "./IAssociativeContainer";
 
 import { IContainer } from "../../../base/container/IContainer";
+import { Hasher } from "../../functional/Hasher";
+import { BinaryPredicator } from "../../functional/BinaryPredicator";
+
 import { hash } from "../../../functional/hash";
 import { equal_to } from "../../../functional/comparators";
 
@@ -27,14 +30,14 @@ export interface IHashContainer<Key, T extends Elem,
      * 
      * @return The hash function.
      */
-    hash_function(): (key: Key) => number;
+    hash_function(): Hasher<Key>;
 
     /**
      * Get key equality predicator.
      * 
      * @return The key equality predicator.
      */
-    key_eq(): (x: Key, y: Key) => boolean;
+    key_eq(): BinaryPredicator<Key>;
 
     /* ---------------------------------------------------------
         GETTERS
@@ -112,14 +115,14 @@ export namespace IHashContainer
         (
             source: SourceT, 
             Source: Factory<SourceT>, 
-            bucketFactory: (hashFunction: (key: Key) => number, predicator: (x: Key, y: Key) => boolean) => void, 
+            bucketFactory: (hasher: Hasher<Key>, predicator: BinaryPredicator<Key>) => void, 
             ...args: any[]
         )
     {
         // DECLARE MEMBERS
         let post_process: (() => void) | null = null;
-        let hash_function: (key: Key) => number = hash;
-        let key_eq: (x: Key, y: Key) => boolean = equal_to;
+        let hash_function: Hasher<Key> = hash;
+        let key_eq: BinaryPredicator<Key> = equal_to;
 
         //----
         // INITIALIZE MEMBERS AND POST-PROCESS

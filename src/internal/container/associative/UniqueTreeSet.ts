@@ -5,7 +5,9 @@ import { UniqueSet } from "../../../base/container/UniqueSet";
 import { ITreeContainer } from "./ITreeContainer";
 
 import { Pair } from "../../../utility/Pair";
-import { Temporary } from "../../types/Temporary";
+
+import { Comparator } from "../../functional/Comparator";
+import { Temporary } from "../../functional/Temporary";
 
 export abstract class UniqueTreeSet<Key,
         Source extends UniqueTreeSet<Key, Source, IteratorT, ReverseT>,
@@ -53,12 +55,12 @@ export abstract class UniqueTreeSet<Key,
     /**
      * @inheritDoc
      */
-    public abstract key_comp(): (x: Key, y: Key) => boolean;
+    public abstract key_comp(): Comparator<Key>;
 
     /**
      * @inheritDoc
      */
-    public value_comp(): (x: Key, y: Key) => boolean
+    public value_comp(): Comparator<Key>
     {
         return this.key_comp();
     }

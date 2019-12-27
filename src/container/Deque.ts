@@ -11,7 +11,7 @@ import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArray
 
 import { Pair } from "../utility/Pair";
 import { OutOfRange } from "../exception/OutOfRange";
-import { Temporary } from "../internal/types/Temporary";
+import { Temporary } from "../internal/functional/Temporary";
 import { distance } from "../iterator/global";
 
 /**

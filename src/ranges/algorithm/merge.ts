@@ -7,18 +7,13 @@ import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
 import { IForwardContainer } from "../container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
-import { Writeonly } from "../../internal/types/Writeonly";
+import { Writeonly } from "../../internal/functional/Writeonly";
 import { begin, end } from "../../iterator/factory";
 import { size } from "../../iterator/global";
 import { less } from "../../functional/comparators";
 
-import { Temporary } from "../../internal/types/Temporary";
-
-type Comparator<Range extends Array<any> | IForwardContainer<any>> =
-    (
-        x: IForwardContainer.ValueType<Range>, 
-        y: IForwardContainer.ValueType<Range>
-    ) => boolean;
+import { Comparator } from "../../internal/functional/Comparator";
+import { Temporary } from "../../internal/functional/Temporary";
 
 /* ---------------------------------------------------------
     MERGE
@@ -31,7 +26,7 @@ export function merge<
         range1: Range1, 
         range2: Range2, 
         output: OutputIterator, 
-        comp: Comparator<Range1> = less
+        comp: Comparator<IForwardContainer.ValueType<Range1>> = less
     ): OutputIterator
 {
     return base.merge(begin(range1), end(range1), <Temporary>begin(range2), end(range2), output, comp);
@@ -41,7 +36,7 @@ export function inplace_merge<Range extends Array<any> | IBidirectionalContainer
     (
         range: Range, 
         middle: IBidirectionalContainer.IteratorType<Range>, 
-        comp: Comparator<Range> = less): void
+        comp: Comparator<IForwardContainer.ValueType<Range>> = less): void
 {
     return base.inplace_merge(begin(range), <any>middle, end(range), comp);
 }
@@ -52,7 +47,7 @@ export function inplace_merge<Range extends Array<any> | IBidirectionalContainer
 export function includes<
         Range1 extends Array<any> | IForwardContainer<any>,
         Range2 extends IForwardContainer.SimilarType<Range1>>
-    (range1: Range1, range2: Range2, comp: Comparator<Range1> = less): boolean
+    (range1: Range1, range2: Range2, comp: Comparator<IForwardContainer.ValueType<Range1>> = less): boolean
 {
     if (size(range1) < size(range2))
         return false;
@@ -68,7 +63,7 @@ export function set_union<
         range1: Range1, 
         range2: Range2, 
         output: OutputIterator, 
-        comp: Comparator<Range1> = less
+        comp: Comparator<IForwardContainer.ValueType<Range1>> = less
     ): OutputIterator
 {
     return base.set_union(begin(range1), end(range1), <Temporary>begin(range2), end(range2), output, comp);
@@ -82,7 +77,7 @@ export function set_intersection<
         range1: Range1, 
         range2: Range2, 
         output: OutputIterator, 
-        comp: Comparator<Range1> = less
+        comp: Comparator<IForwardContainer.ValueType<Range1>> = less
     ): OutputIterator
 {
     return base.set_intersection(begin(range1), end(range1), <Temporary>begin(range2), end(range2), output, comp);
@@ -96,7 +91,7 @@ export function set_difference<
         range1: Range1, 
         range2: Range2, 
         output: OutputIterator, 
-        comp: Comparator<Range1> = less
+        comp: Comparator<IForwardContainer.ValueType<Range1>> = less
     ): OutputIterator
 {
     return base.set_difference(begin(range1), end(range1), <Temporary>begin(range2), end(range2), output, comp);
@@ -110,7 +105,7 @@ export function set_symmetric_difference<
         range1: Range1, 
         range2: Range2, 
         output: OutputIterator, 
-        comp: Comparator<Range1> = less
+        comp: Comparator<IForwardContainer.ValueType<Range1>> = less
     ): OutputIterator
 {
     return base.set_symmetric_difference(begin(range1), end(range1), <Temporary>begin(range2), end(range2), output, comp);

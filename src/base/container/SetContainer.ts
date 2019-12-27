@@ -10,7 +10,7 @@ import { ILinearContainerBase } from "../../internal/container/linear/ILinearCon
 import { NativeArrayIterator } from "../../internal/iterator/disposable/NativeArrayIterator";
 import { Pair } from "../../utility/Pair";
 
-import { Temporary } from "../../internal/types/Temporary";
+import { Temporary } from "../../internal/functional/Temporary";
 
 /**
  * Base class for Set Containers.

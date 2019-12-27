@@ -26,4 +26,7 @@ export function _Get_root(): IGlobal
     return __s_pRoot!;
 }
 
+/**
+ * @internal
+ */
 var __s_pRoot: IGlobal | null = null;

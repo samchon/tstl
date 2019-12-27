@@ -29,9 +29,8 @@ export class Stack<T>
 
     public constructor(obj?: Stack<T>)
     {
-        super();
-
-        this.source_ = new Vector();
+        super(new Vector());
+        
         if (obj !== undefined)
             this.source_.assign(obj.source_.begin(), obj.source_.end());
     }

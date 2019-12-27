@@ -3,7 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
-import { Writeonly } from "../types/Writeonly";
+import { Writeonly } from "../functional/Writeonly";
 
 export abstract class InsertIteratorBase<T, This extends InsertIteratorBase<T, This>>
     implements Writeonly<IForwardIterator<T, This>>

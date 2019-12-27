@@ -7,16 +7,22 @@ import { ITreeContainer } from "../../internal/container/associative/ITreeContai
 import { SetElementVector } from "../../internal/container/associative/SetElementVector";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Temporary } from "../../internal/types/Temporary";
+import { Comparator } from "../../internal/functional/Comparator";
+import { Temporary } from "../../internal/functional/Temporary";
 import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 
+/**
+ * Multiple-key Set based on sorted array.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class FlatMultiSet<Key>
     extends MultiTreeSet<Key, 
         FlatMultiSet<Key>, 
         FlatMultiSet.Iterator<Key>, 
         FlatMultiSet.ReverseIterator<Key>>
 {
-    private key_comp_!: (x: Key, y: Key) => boolean;
+    private key_comp_!: Comparator<Key>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -26,7 +32,7 @@ export class FlatMultiSet<Key>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: Key, y: Key) => boolean);
+    public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
@@ -34,7 +40,7 @@ export class FlatMultiSet<Key>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: Key[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: Key[], comp?: Comparator<Key>);
 
     /**
      * Copy Constructor.
@@ -54,7 +60,7 @@ export class FlatMultiSet<Key>
         (
             first: Readonly<IForwardIterator<Key>>, 
             last: Readonly<IForwardIterator<Key>>,
-            comp?: (x: Key, y: Key) => boolean
+            comp?: Comparator<Key>
         );
     
     public constructor(...args: any[])
@@ -105,7 +111,7 @@ export class FlatMultiSet<Key>
     /**
      * @inheritDoc
      */
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.key_comp_;
     }

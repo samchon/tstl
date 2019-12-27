@@ -5,14 +5,9 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
 import { Pair } from "../utility/Pair";
 
+import { Comparator } from "../internal/functional/Comparator";
 import { distance, advance } from "../iterator/global";
 import { less } from "../functional/comparators";
-
-type Comparator<ForwardIterator extends IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>> =
-    (
-        x: IPointer.ValueType<ForwardIterator>, 
-        y: IPointer.ValueType<ForwardIterator>
-    ) => boolean;
 
 /* =========================================================
     BINARY SEARCH
@@ -31,7 +26,7 @@ export function lower_bound<ForwardIterator extends Readonly<IForwardIterator<IP
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: IPointer.ValueType<ForwardIterator>, 
-        comp: Comparator<ForwardIterator> = less
+        comp: Comparator<IPointer.ValueType<ForwardIterator>> = less
     ): ForwardIterator
 {
     let count: number = distance(first, last);
@@ -66,7 +61,7 @@ export function upper_bound<ForwardIterator extends Readonly<IForwardIterator<IP
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: IPointer.ValueType<ForwardIterator>,
-        comp: Comparator<ForwardIterator> = less
+        comp: Comparator<IPointer.ValueType<ForwardIterator>> = less
     ): ForwardIterator
 {
     let count: number = distance(first, last);
@@ -101,7 +96,7 @@ export function equal_range<ForwardIterator extends Readonly<IForwardIterator<IP
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: IPointer.ValueType<ForwardIterator>,
-        comp: Comparator<ForwardIterator> = less
+        comp: Comparator<IPointer.ValueType<ForwardIterator>> = less
     ): Pair<ForwardIterator, ForwardIterator>
 {
     first = lower_bound(first, last, val, comp);
@@ -124,7 +119,7 @@ export function binary_search<ForwardIterator extends Readonly<IForwardIterator<
     (
         first: ForwardIterator, last: ForwardIterator, 
         val: IPointer.ValueType<ForwardIterator>,
-        comp: Comparator<ForwardIterator> = less
+        comp: Comparator<IPointer.ValueType<ForwardIterator>> = less
     ): boolean
 {
     first = lower_bound(first, last, val, comp);
