@@ -40,8 +40,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -85,7 +83,7 @@
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
-						<h4>Container<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">_IInsert</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4>Container<span class="tsd-signature-symbol">: </span><a href="../interfaces/std.internal.iinsert.html" class="tsd-signature-type">IInsert</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&gt;</span></h4>
 					</li>
 					<li>
 						<h4>Iterator<span class="tsd-signature-symbol">: </span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/std.ipointer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -96,7 +94,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">_InsertIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/std.ipointer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.insertiterator.html" class="tsd-signature-type">InsertIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Container</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+						<a href="std.internal.insertiteratorbase.html" class="tsd-signature-type">InsertIteratorBase</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/std.ipointer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.insertiterator.html" class="tsd-signature-type">InsertIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Container</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Iterator</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">InsertIterator</span>
@@ -149,7 +147,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/iterator/InsertIterator.ts#L30">iterator/InsertIterator.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/iterator/InsertIterator.ts#L23">iterator/InsertIterator.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,9 +190,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides _InsertIterator.value</p>
+								<p>Overrides <a href="std.internal.insertiteratorbase.html">InsertIteratorBase</a>.<a href="std.internal.insertiteratorbase.html#value">value</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/iterator/InsertIterator.ts#L52">iterator/InsertIterator.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/iterator/InsertIterator.ts#L45">iterator/InsertIterator.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,9 +226,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides _InsertIterator.equals</p>
+								<p>Overrides <a href="std.internal.insertiteratorbase.html">InsertIteratorBase</a>.<a href="std.internal.insertiteratorbase.html#equals">equals</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/iterator/InsertIterator.ts#L61">iterator/InsertIterator.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/iterator/InsertIterator.ts#L54">iterator/InsertIterator.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -259,9 +257,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/std.iforwarditerator.html">IForwardIterator</a>.<a href="../interfaces/std.iforwarditerator.html#next">next</a></p>
-								<p>Inherited from _InsertIterator.next</p>
+								<p>Inherited from <a href="std.internal.insertiteratorbase.html">InsertIteratorBase</a>.<a href="std.internal.insertiteratorbase.html#next">next</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/base/iterator/_InsertIterator.ts#L24">base/iterator/_InsertIterator.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/internal/iterator/InsertIteratorBase.ts#L21">internal/iterator/InsertIteratorBase.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -284,12 +282,6 @@
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/std.html">std</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/std_base.html">std.base</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/std_experimental.html">std.experimental</a>
 					</li>
 				</ul>
 			</nav>

@@ -40,8 +40,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -66,11 +64,11 @@
 			<div class="tsd-panel tsd-typography">
 				<h1 id="typescript-standard-template-library">TypeScript Standard Template Library</h1>
 				<p><img src="https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png" alt="Make STL Great Again"></p>
-				<p><a href="https://travis-ci.org/samchon/tstl"><img src="https://travis-ci.org/samchon/tstl.svg?branch=master" alt="Build Status"></a>
+				<p><a href="https://github.com/samchon/tstl/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a>
 					<a href="https://www.npmjs.com/package/tstl"><img src="https://badge.fury.io/js/tstl.svg" alt="npm version"></a>
 					<a href="https://www.npmjs.com/package/tstl"><img src="https://img.shields.io/npm/dm/tstl.svg" alt="Downloads"></a>
+					<a href="https://github.com/samchon/tstl/actions?query=workflow%3Abuild"><img src="https://github.com/samchon/tstl/workflows/build/badge.svg" alt="Build Status"></a>
 					<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fsamchon%2Ftstl?ref=badge_shield"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsamchon%2Ftstl.svg?type=shield" alt="FOSSA Status"></a>
-					<a href="https://deepscan.io/dashboard#view=project&amp;tid=1932&amp;pid=1798&amp;bid=7792"><img src="https://deepscan.io/api/teams/1932/projects/1798/branches/7792/badge/grade.svg" alt="DeepScan grade"></a>
 				<a href="https://gitter.im/samchon/tstl?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/samchon/tstl.svg" alt="Chat on Gitter"></a></p>
 				<p>Implementation of STL (Standard Template Library) in TypeScript.</p>
 				<ul>
@@ -85,42 +83,42 @@
 				<h3 id="containers">Containers</h3>
 				<ul>
 					<li><strong>Linear Containers</strong><ul>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.vector.html">Vector <code>vector</code></a></li>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.deque.html">Deque <code>deque</code></a></li>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.list.html">List <code>list</code></a></li>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.forwardlist.html">ForwardList <code>forward_list</code></a></li>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.vectorboolean.html">VectorBoolean <code>vector_bool</code></a></li>
+							<li><a href="http://tstl.dev/api/classes/std.vector.html">Vector</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.deque.html">Deque</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.list.html">List</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.forwardlist.html">ForwardList</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.vectorboolean.html">VectorBoolean</a></li>
 						</ul>
 					</li>
 					<li><strong>Associative Containers</strong><ul>
 							<li><em>Tree-structured Containers</em><ul>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.treeset.html">TreeSet <code>set</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.treemultiset.html">TreeMultiSet <code>multiset</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.treemap.html">TreeMap <code>map</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.treemultimap.html">TreeMultiMap <code>multimap</code></a></li>
+									<li><a href="http://tstl.dev/api/classes/std.treeset.html">TreeSet</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.treemultiset.html">TreeMultiSet</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.treemap.html">TreeMap</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.treemultimap.html">TreeMultiMap</a></li>
 								</ul>
 							</li>
 							<li><em>Hash-buckets based Container</em><ul>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.hashset.html">HashSet <code>unordered_set</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.hashmultiset.html">HashMultiSet <code>unordered_multiset</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.hashmap.html">HashMap <code>unordered_map</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.hashmultimap.html">HashMultiMap <code>unordered_multimap</code></a></li>
+									<li><a href="http://tstl.dev/api/classes/std.hashset.html">HashSet</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.hashmultiset.html">HashMultiSet</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.hashmap.html">HashMap</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.hashmultimap.html">HashMultiMap</a></li>
 								</ul>
 							</li>
 						</ul>
 					</li>
 					<li><strong>Adaptor Containers</strong><ul>
 							<li><em>Linear Adaptors</em><ul>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.queue.html">Queue <code>queue</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.stack.html">Stack <code>stack</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.priorityqueue.html">PriorityQueue <code>priority_queue</code></a></li>
+									<li><a href="http://tstl.dev/api/classes/std.queue.html">Queue</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.stack.html">Stack</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.priorityqueue.html">PriorityQueue</a></li>
 								</ul>
 							</li>
 							<li>Associative Adaptors<ul>
-									<li>(experimental) <a href="http://samchon.github.io/tstl/api/classes/std_experimental.flatset.html">FlatSet <code>flat_set</code></a></li>
-									<li>(experimental) <a href="http://samchon.github.io/tstl/api/classes/std_experimental.flatmultiset.html">FlatMultiSet <code>flat_multiset</code></a></li>
-									<li>(experimental) <a href="http://samchon.github.io/tstl/api/classes/std_experimental.flatmap.html">FlatMap <code>flat_map</code></a></li>
-									<li>(experimental) <a href="http://samchon.github.io/tstl/api/classes/std_experimental.flatmultimap.html">FlatMultiMap <code>flat_multimap</code></a></li>
+									<li>(experimental) <a href="http://tstl.dev/api/classes/std_experimental.flatset.html">FlatSet</a></li>
+									<li>(experimental) <a href="http://tstl.dev/api/classes/std_experimental.flatmultiset.html">FlatMultiSet</a></li>
+									<li>(experimental) <a href="http://tstl.dev/api/classes/std_experimental.flatmap.html">FlatMap</a></li>
+									<li>(experimental) <a href="http://tstl.dev/api/classes/std_experimental.flatmultimap.html">FlatMultiMap</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -143,20 +141,20 @@
 				<h3 id="functors">Functors</h3>
 				<ul>
 					<li><a href="http://www.cplusplus.com/reference/exception/"><code>&lt;exception&gt;</code></a><ul>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.exception.html">Exception <code>exception</code></a><ul>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.logicerror.html">LogicError <code>logic_error</code></a></li>
-									<li><a href="http://samchon.github.io/tstl/api/classes/std.runtimeerror.html">RuntimeError <code>runtime_error</code></a></li>
+							<li><a href="http://tstl.dev/api/classes/std.exception.html">Exception</a><ul>
+									<li><a href="http://tstl.dev/api/classes/std.logicerror.html">LogicError</a></li>
+									<li><a href="http://tstl.dev/api/classes/std.runtimeerror.html">RuntimeError</a></li>
 								</ul>
 							</li>
 						</ul>
 					</li>
 					<li><a href="http://www.cplusplus.com/reference/functional/"><code>&lt;functional&gt;</code></a><ul>
-							<li><a href="http://samchon.github.io/tstl/api/interfaces/std.icomparable.html">IComparable</a></li>
+							<li><a href="http://tstl.dev/api/interfaces/std.icomparable.html">IComparable</a></li>
+							<li><a href="https://tstl.dev/api/modules/std.ipointer.html">IPointer</a></li>
 						</ul>
 					</li>
 					<li><a href="http://www.cplusplus.com/reference/utility/"><code>&lt;utility&gt;</code></a><ul>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.pair.html">Pair <code>pair</code></a></li>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.entry.html">Entry <code>entry</code></a></li>
+							<li><a href="http://tstl.dev/api/classes/std.pair.html">Pair</a></li>
 						</ul>
 					</li>
 					<li><a href="http://en.cppreference.com/w/cpp/numeric"><code>&lt;numeric&gt;</code></a><ul>
@@ -166,12 +164,12 @@
 						</ul>
 					</li>
 					<li><a href="https://github.com/samchon/tstl/blob/master/src/thread.ts"><code>&lt;thread&gt;</code></a><ul>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.conditionvariable.html">ConditionVariable <code>condition_variable</code></a></li>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.mutex.html">Mutex <code>mutex</code></a> &amp; <a href="http://samchon.github.io/tstl/api/classes/std.timedmutex.html">TimedMutex <code>timed_mutex</code></a></li>
-							<li><a href="http://samchon.github.io/tstl/api/classes/std.sharedmutex.html">SharedMutex <code>shared_mutex</code></a> &amp; <a href="http://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html">SharedTimeMutex <code>shared_timed_mutex</code></a></li>
-							<li>(experimental) <a href="http://samchon.github.io/tstl/api/classes/std_experimental.semaphore.html">Semaphore <code>counting_semaphore</code></a></li>
-							<li>(experimental) <a href="http://samchon.github.io/tstl/api/classes/std_experimental.latch.html">Latch <code>latch</code></a></li>
-							<li>(experimental) <a href="http://samchon.github.io/tstl/api/classes/std_experimental.barrier.html">Barrier <code>barrier</code></a></li>
+							<li><a href="http://tstl.dev/api/classes/std.conditionvariable.html">ConditionVariable</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.mutex.html">Mutex</a> &amp; <a href="http://tstl.dev/api/classes/std.timedmutex.html">TimedMutex</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.sharedmutex.html">SharedMutex</a> &amp; <a href="http://tstl.dev/api/classes/std.sharedtimedmutex.html">SharedTimeMutex</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.semaphore.html">Semaphore</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.latch.html">Latch</a></li>
+							<li><a href="http://tstl.dev/api/classes/std.barrier.html">Barrier</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -211,7 +209,7 @@ main();</code></pre>
 					</li>
 					<li><strong>Documents</strong><ul>
 							<li><a href="https://github.com/samchon/tstl/wiki"><strong>Guide Documents</strong></a></li>
-							<li><a href="http://samchon.github.io/tstl/api">API Documents</a></li>
+							<li><a href="http://tstl.dev/api">API Documents</a></li>
 							<li><a href="https://github.com/samchon/tstl/releases">Release Notes</a></li>
 						</ul>
 					</li>
@@ -231,12 +229,6 @@ main();</code></pre>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/std.html">std</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/std_base.html">std.base</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/std_experimental.html">std.experimental</a>
 					</li>
 				</ul>
 			</nav>

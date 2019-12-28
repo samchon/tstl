@@ -40,8 +40,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -93,7 +91,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="std_base.adaptorcontainer.html" class="tsd-signature-type">AdaptorContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.priorityqueue.html" class="tsd-signature-type">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
+						<a href="std.internal.adaptorcontainer.html" class="tsd-signature-type">AdaptorContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.priorityqueue.html" class="tsd-signature-type">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">PriorityQueue</span>
@@ -105,9 +103,9 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">_IEmpty</span></li>
-					<li><span class="tsd-signature-type">_ISize</span></li>
-					<li><span class="tsd-signature-type">_IPush</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/std.internal.iempty.html" class="tsd-signature-type">IEmpty</a></li>
+					<li><a href="../interfaces/std.internal.isize.html" class="tsd-signature-type">ISize</a></li>
+					<li><a href="../interfaces/std.internal.ipush.html" class="tsd-signature-type">IPush</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -141,15 +139,15 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Priority<wbr>Queue<span class="tsd-signature-symbol">(</span>comp<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.priorityqueue.html" class="tsd-signature-type">PriorityQueue</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Priority<wbr>Queue<span class="tsd-signature-symbol">(</span>comp<span class="tsd-signature-symbol">?: </span><a href="../modules/std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.priorityqueue.html" class="tsd-signature-type">PriorityQueue</a></li>
 						<li class="tsd-signature tsd-kind-icon">new <wbr>Priority<wbr>Queue<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="std.priorityqueue.html" class="tsd-signature-type">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.priorityqueue.html" class="tsd-signature-type">PriorityQueue</a></li>
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Priority<wbr>Queue<span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, comp<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.priorityqueue.html" class="tsd-signature-type">PriorityQueue</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Priority<wbr>Queue<span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, comp<span class="tsd-signature-symbol">?: </span><a href="../modules/std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.priorityqueue.html" class="tsd-signature-type">PriorityQueue</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/container/PriorityQueue.ts#L22">container/PriorityQueue.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/container/PriorityQueue.ts#L21">container/PriorityQueue.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -160,7 +158,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> comp: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> comp: <a href="../modules/std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Note that, because <em>equality</em> is predicated by <code>!comp(x, y) &amp;&amp; !comp(y, x)</code>, the function must not cover the <em>equality</em> like <code>&lt;=</code> or <code>&gt;=</code>. It must exclude the <em>equality</em> like <code>&lt;</code> or <code>&gt;</code>. Default is <a href="../modules/std.html#less">less</a>.</p>
@@ -173,7 +171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/container/PriorityQueue.ts#L32">container/PriorityQueue.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/container/PriorityQueue.ts#L31">container/PriorityQueue.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -197,7 +195,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/container/PriorityQueue.ts#L39">container/PriorityQueue.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/container/PriorityQueue.ts#L38">container/PriorityQueue.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -224,7 +222,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> comp: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> comp: <a href="../modules/std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Note that, because <em>equality</em> is predicated by <code>!comp(x, y) &amp;&amp; !comp(y, x)</code>, the function must not cover the <em>equality</em> like <code>&lt;=</code> or <code>&gt;=</code>. It must exclude the <em>equality</em> like <code>&lt;</code> or <code>&gt;</code>. Default is <a href="../modules/std.html#less">less</a>.</p>
@@ -248,16 +246,16 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="std_base.adaptorcontainer.html">AdaptorContainer</a>.<a href="std_base.adaptorcontainer.html#empty">empty</a></p>
+								<p>Implementation of <a href="../interfaces/std.internal.iempty.html">IEmpty</a>.<a href="../interfaces/std.internal.iempty.html#empty">empty</a></p>
+								<p>Inherited from <a href="std.internal.adaptorcontainer.html">AdaptorContainer</a>.<a href="std.internal.adaptorcontainer.html#empty">empty</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/base/container/AdaptorContainer.ts#L35">base/container/AdaptorContainer.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/internal/container/linear/AdaptorContainer.ts#L39">internal/container/linear/AdaptorContainer.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Test whether container is empty.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
@@ -272,9 +270,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="std_base.adaptorcontainer.html">AdaptorContainer</a>.<a href="std_base.adaptorcontainer.html#pop">pop</a></p>
+								<p>Overrides <a href="std.internal.adaptorcontainer.html">AdaptorContainer</a>.<a href="std.internal.adaptorcontainer.html#pop">pop</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/container/PriorityQueue.ts#L147">container/PriorityQueue.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/container/PriorityQueue.ts#L142">container/PriorityQueue.ts:142</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -296,16 +294,16 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="std_base.adaptorcontainer.html">AdaptorContainer</a>.<a href="std_base.adaptorcontainer.html#push">push</a></p>
+								<p>Implementation of <a href="../interfaces/std.internal.ipush.html">IPush</a>.<a href="../interfaces/std.internal.ipush.html#push">push</a></p>
+								<p>Overrides <a href="std.internal.adaptorcontainer.html">AdaptorContainer</a>.<a href="std.internal.adaptorcontainer.html#push">push</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/container/PriorityQueue.ts#L134">container/PriorityQueue.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/container/PriorityQueue.ts#L129">container/PriorityQueue.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Insert items at the end.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -314,6 +312,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Number of elements in the container after insertion.</p>
 						</li>
 					</ul>
 				</section>
@@ -326,16 +325,16 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="std_base.adaptorcontainer.html">AdaptorContainer</a>.<a href="std_base.adaptorcontainer.html#size">size</a></p>
+								<p>Implementation of <a href="../interfaces/std.internal.isize.html">ISize</a>.<a href="../interfaces/std.internal.isize.html#size">size</a></p>
+								<p>Inherited from <a href="std.internal.adaptorcontainer.html">AdaptorContainer</a>.<a href="std.internal.adaptorcontainer.html#size">size</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/base/container/AdaptorContainer.ts#L27">base/container/AdaptorContainer.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/internal/container/linear/AdaptorContainer.ts#L31">internal/container/linear/AdaptorContainer.ts:31</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Number of elements in the container.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
@@ -350,9 +349,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="std_base.adaptorcontainer.html">AdaptorContainer</a>.<a href="std_base.adaptorcontainer.html#swap">swap</a></p>
+								<p>Overrides <a href="std.internal.adaptorcontainer.html">AdaptorContainer</a>.<a href="std.internal.adaptorcontainer.html#swap">swap</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/container/PriorityQueue.ts#L156">container/PriorityQueue.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/container/PriorityQueue.ts#L151">container/PriorityQueue.ts:151</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -381,7 +380,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/container/PriorityQueue.ts#L123">container/PriorityQueue.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/container/PriorityQueue.ts#L118">container/PriorityQueue.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -397,13 +396,13 @@
 					<a name="value_comp" class="tsd-anchor"></a>
 					<h3>value_<wbr>comp</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">value_<wbr>comp<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+						<li class="tsd-signature tsd-kind-icon">value_<wbr>comp<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/container/PriorityQueue.ts#L115">container/PriorityQueue.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/container/PriorityQueue.ts#L110">container/PriorityQueue.ts:110</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -411,28 +410,7 @@
 									<p>Get value comparison function.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter-siganture">
-									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<h4 class="tsd-parameters-title">Parameters</h4>
-											<ul class="tsd-parameters">
-												<li>
-													<h5>x: <span class="tsd-signature-type">T</span></h5>
-												</li>
-												<li>
-													<h5>y: <span class="tsd-signature-type">T</span></h5>
-												</li>
-											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-										</li>
-									</ul>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../modules/std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -446,12 +424,6 @@
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/std.html">std</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/std_base.html">std.base</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/std_experimental.html">std.experimental</a>
 					</li>
 				</ul>
 			</nav>

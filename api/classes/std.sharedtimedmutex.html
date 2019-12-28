@@ -40,8 +40,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -92,8 +90,8 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">ITimedLockable</span></li>
-					<li><span class="tsd-signature-type">_ISharedTimedLockable</span></li>
+					<li><a href="../interfaces/std.internal.itimedlockable.html" class="tsd-signature-type">ITimedLockable</a></li>
+					<li><a href="../interfaces/std.internal.isharedtimedlockable.html" class="tsd-signature-type">ISharedTimedLockable</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -137,7 +135,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L39">thread/SharedTimedMutex.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L26">thread/SharedTimedMutex.ts:26</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -150,7 +148,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L47">thread/SharedTimedMutex.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L34">thread/SharedTimedMutex.ts:34</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -184,15 +182,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#lock">lock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L79">thread/SharedTimedMutex.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L63">thread/SharedTimedMutex.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Lock until be unlocked.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -207,15 +205,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.internal.isharedtimedlockable.html#lock_shared">lock_shared</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L181">thread/SharedTimedMutex.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L165">thread/SharedTimedMutex.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Lock shared until be unlock shared.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -230,17 +228,18 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#try_lock">try_lock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L100">thread/SharedTimedMutex.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L84">thread/SharedTimedMutex.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Try <a href="std.sharedtimedmutex.html#lock">lock</a>.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to lock or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -253,15 +252,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#try_lock_for">try_lock_for</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L117">thread/SharedTimedMutex.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L101">thread/SharedTimedMutex.ts:101</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Try lock until timeout.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -270,6 +269,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeded to lock or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -282,15 +282,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.internal.isharedtimedlockable.html#try_lock_shared">try_lock_shared</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L203">thread/SharedTimedMutex.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L187">thread/SharedTimedMutex.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Try lock shared.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -305,15 +305,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.internal.isharedtimedlockable.html#try_lock_shared_for">try_lock_shared_for</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L220">thread/SharedTimedMutex.ts:220</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L204">thread/SharedTimedMutex.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Try lock shared until timeout.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -322,6 +322,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeded to lock or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -334,15 +335,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.internal.isharedtimedlockable.html#try_lock_shared_until">try_lock_shared_until</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L257">thread/SharedTimedMutex.ts:257</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L241">thread/SharedTimedMutex.ts:241</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Try lock shared until time expiration.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -351,6 +352,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeded to lock or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -363,15 +365,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#try_lock_until">try_lock_until</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L152">thread/SharedTimedMutex.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L136">thread/SharedTimedMutex.ts:136</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Try lock until time expiration.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -380,6 +382,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeded to lock or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -392,15 +395,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#unlock">unlock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L164">thread/SharedTimedMutex.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L148">thread/SharedTimedMutex.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Unlock.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -415,15 +418,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.internal.isharedtimedlockable.html#unlock_shared">unlock_shared</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/83bcd57/src/thread/SharedTimedMutex.ts#L269">thread/SharedTimedMutex.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/SharedTimedMutex.ts#L253">thread/SharedTimedMutex.ts:253</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Unlock shared.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -439,12 +442,6 @@
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/std.html">std</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/std_base.html">std.base</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/std_experimental.html">std.experimental</a>
 					</li>
 				</ul>
 			</nav>
