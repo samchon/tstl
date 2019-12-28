@@ -4,11 +4,9 @@
 import base = require("../../algorithm/sorting");
 
 import { IForwardContainer } from "../container/IForwardContainer";
-import { IForwardIterator } from "../../iterator";
 import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
 
 import { Comparator } from "../../internal/functional/Comparator";
-import { General } from "../../internal/functional/General";
 import { begin, end } from "../../iterator/factory";
 import { less } from "../../functional/comparators";
 
