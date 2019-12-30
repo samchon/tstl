@@ -41,7 +41,7 @@ function _Test_accumulate(vec: std.Vector<Point2D>): void
 
     let ret: Point2D = std.accumulate(vec.begin(), vec.end(), new Point2D());
     if (!std.equal_to(solution, ret))
-        throw new std.DomainError("Error on std.accumulate().");
+        throw new std.DomainError("Bug on std.accumulate().");
 }
 
 function _Test_inner_product(x: std.Vector<Point2D>, y: std.Vector<Point2D>): void
@@ -52,7 +52,7 @@ function _Test_inner_product(x: std.Vector<Point2D>, y: std.Vector<Point2D>): vo
     
     let ret: Point2D = std.inner_product(x.begin(), x.end(), y.begin(), new Point2D());
     if (!std.equal_to(solution, ret))
-        throw new std.DomainError("Error on std.inner_product().");
+        throw new std.DomainError("Bug on std.inner_product().");
 }
 
 function _Test_adjacent_difference(vec: std.Vector<Point2D>): void
@@ -65,7 +65,7 @@ function _Test_adjacent_difference(vec: std.Vector<Point2D>): void
     std.adjacent_difference(vec.begin(), vec.end(), std.back_inserter(ret));
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)
-        throw new std.DomainError("Error on std.adjacent_difference().");
+        throw new std.DomainError("Bug on std.adjacent_difference().");
 }
 
 function _Test_partial_sum(vec: std.Vector<Point2D>): void
@@ -83,7 +83,7 @@ function _Test_partial_sum(vec: std.Vector<Point2D>): void
     std.partial_sum(vec.begin(), vec.end(), std.back_inserter(ret));
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)
-        throw new std.DomainError("Error on std.partial_sum().");
+        throw new std.DomainError("Bug on std.partial_sum().");
 }
 
 /* ---------------------------------------------------------
@@ -99,7 +99,7 @@ function _Test_inclusive_scan(vec: std.Vector<Point2D>): void
     std.inclusive_scan(vec.begin(), vec.end(), std.back_inserter(ret));
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)
-        throw new std.DomainError("Error on std.transform_inclusive_scan().");
+        throw new std.DomainError("Bug on std.transform_inclusive_scan().");
 }
 
 function _Test_exclusive_scan(vec: std.Vector<Point2D>): void
@@ -112,5 +112,5 @@ function _Test_exclusive_scan(vec: std.Vector<Point2D>): void
     std.exclusive_scan(vec.begin(), vec.end(), std.back_inserter(ret), new Point2D());
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)
-        throw new std.DomainError("Error on std.exclusive_scan().");
+        throw new std.DomainError("Bug on std.exclusive_scan().");
 }

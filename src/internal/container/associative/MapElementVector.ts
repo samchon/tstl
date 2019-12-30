@@ -58,7 +58,7 @@ export class MapElementVector<Key, T,
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */
-    public associative(): Source
+    public source(): Source
     {
         return this.associative_;
     }
@@ -93,7 +93,7 @@ export namespace MapElementVector
          */
         public source(): Source
         {
-            return this._Get_array().associative();
+            return this._Get_array().source();
         }
 
         /**

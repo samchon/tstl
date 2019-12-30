@@ -16,7 +16,7 @@ function _Test_removes(): void
 
     let it = std.find(v.begin(), v.end(), 2);
     if (it.equals(v.end()) === false)
-        throw new std.DomainError("Error on std.remove().");
+        throw new Error("Bug on std.remove().");
 }
 function _Test_replaces(): void
 {
@@ -25,7 +25,7 @@ function _Test_replaces(): void
 
     let it = std.find(v.begin(), v.end(), 2);
     if (it.equals(v.end()) === false)
-        throw new std.DomainError("Error on std.replace().");
+        throw new Error("Bug on std.replace().");
 }
 
 function _Test_uniques(): void
@@ -41,7 +41,7 @@ function _Test_uniques(): void
     v.erase(std.unique(v.begin(), v.end()), v.end());
 
     if (std.equal(v.begin(), v.end(), l.begin()) === false)
-        throw new std.DomainError("Error on std.unique().");
+        throw new Error("Bug on std.unique().");
 }
 
 function _Test_rotate(): void
@@ -52,7 +52,7 @@ function _Test_rotate(): void
     std.ranges.rotate(x, x.nth(3));
 
     if (std.ranges.equal(x, y) === false)
-        throw new std.DomainError("Error on std.rotate().");
+        throw new Error("Bug on std.rotate().");
 }
 
 function _Create_sample(): std.Vector<number>

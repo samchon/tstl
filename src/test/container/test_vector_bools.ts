@@ -25,7 +25,7 @@ function _Test_vector_bool_elements_io()
     // PARTIAL TESTS
     //----
     // INITIALIZE WITH 10 FALSES
-    _Modify_bool_containers(v, d, l, vb, function (obj)
+    _Modify_bool_containers(vb, v, d, l, function (obj)
     {
         obj.assign(10, false);
     });
@@ -37,11 +37,11 @@ function _Test_vector_bool_elements_io()
         let size: number = std.randint(1, 10);
         let value: boolean = rand_bool();
 
-        _Modify_bool_containers(v, d, l, vb, function (obj)
+        _Modify_bool_containers(vb, v, d, l, function (obj)
         {
             obj.insert(std.advance(obj.begin(), pos), size, value);
         });
-        _Validate_bool_containers(v, d, l, vb);
+        _Validate_bool_containers(vb, v, d, l);
     }
 
     // REPEAT DELETIONS
@@ -50,11 +50,11 @@ function _Test_vector_bool_elements_io()
         let first: number = std.randint(0, v.size() - 1);
         let last: number = std.randint(first + 1, v.size());
 
-        _Modify_bool_containers(v, d, l, vb, function (obj)
+        _Modify_bool_containers(vb, v, d, l, function (obj)
         {
             obj.erase(std.advance(obj.begin(), first), std.advance(obj.begin(), last));
         });
-        _Validate_bool_containers(v, d, l, vb);
+        _Validate_bool_containers(vb, v, d, l);
     }
 
     //----
@@ -63,7 +63,7 @@ function _Test_vector_bool_elements_io()
     // ASSIGN 10 FLAGS
     let initial_value: boolean = rand_bool();
 
-    _Modify_bool_containers(v, d, l, vb, function (obj)
+    _Modify_bool_containers(vb, v, d, l, function (obj)
     {
         obj.assign(100, initial_value);
     });
@@ -74,11 +74,11 @@ function _Test_vector_bool_elements_io()
         let index: number = std.randint(0, 99);
         let value: boolean = rand_bool();
 
-        _Modify_bool_containers(v, d, l, vb, function (obj)
+        _Modify_bool_containers(vb, v, d, l, function (obj)
         {
             std.advance(obj.begin(), index).value = value;
         });
-        _Validate_bool_containers(v, d, l, vb);
+        _Validate_bool_containers(vb, v, d, l);
     }
 
     // MASS DELETIONS AND INSERTIONS KEEPING SIZE
@@ -91,7 +91,7 @@ function _Test_vector_bool_elements_io()
         if (v.empty() || first_index >= last_index)
             continue;
 
-        _Modify_bool_containers(v, d, l, vb, function (obj)
+        _Modify_bool_containers(vb, v, d, l, function (obj)
         {
             obj.erase(std.advance(obj.begin(), first_index), std.advance(obj.begin(), last_index));
         });
@@ -101,55 +101,33 @@ function _Test_vector_bool_elements_io()
         let size: number = last_index - first_index;
         let value: boolean = rand_bool();
 
-        _Modify_bool_containers(v, d, l, vb, function (obj)
+        _Modify_bool_containers(vb, v, d, l, function (obj)
         {
             obj.insert(std.advance(obj.begin(), index), size, value);
         });
-
-        try
-        {
-            _Validate_bool_containers(v, d, l, vb);
-        } 
-        catch (exp)
-        {
-            console.log("Parameters", first_index, last_index, index, size, value);
-            for (let i: number = 0; i < v.size(); ++i)
-                if (v.at(i) !== vb.at(i))
-                {
-                    if (i !== 0)
-                        console.log("Previous Index => " + (i-1), v.at(i-1), vb.at(i-1));
-                    console.log("Index => " + i, v.at(i), vb.at(i));
-                    
-                    break;
-                }
-
-            throw exp;
-        }
+        _Validate_bool_containers(vb, v, d, l);
     }
 }
 
 function _Validate_bool_containers
     (
+        vb: std.VectorBoolean,
         v: std.Vector<boolean>, 
         d: std.Deque<boolean>, 
-        l: std.List<boolean>, 
-        vb: std.VectorBoolean
+        l: std.List<boolean>
     ): void
 {
-    if (v.size() !== d.size() || std.equal(v.begin(), v.end(), d.begin()) === false)
-        throw new std.DomainError("Invalid deque");
-    else if (v.size() !== l.size() || std.equal(v.begin(), v.end(), l.begin()) === false)
-        throw new std.DomainError("Invalid list");
-    else if (v.size() !== vb.size() || std.equal(v.begin(), v.end(), vb.begin()) === false)
-        throw new std.DomainError("Invalid vector_bool");
+    for (let container of [v, d, l])
+        if (vb.size() !== container.size() || std.equal(vb.begin(), vb.end(), container.begin()) === false)
+            throw new Error(`Bug on ${vb.constructor.name}: different elements are stored with ${container.constructor.name}`);
 }
 
 function _Modify_bool_containers
     (
+        vb: std.VectorBoolean, 
         v: std.Vector<boolean>, 
         d: std.Deque<boolean>, 
         l: std.List<boolean>, 
-        vb: std.VectorBoolean, 
         func: (container: std.base.ILinearContainer<boolean, any, any, any, boolean>) => void
     ): void
 {
@@ -173,5 +151,5 @@ function _Test_vector_bool_flip()
 
     let valid = std.equal(vb.begin(), vb.end(), cpy.begin(), std.not_equal_to);
     if (valid === false)
-        throw new std.DomainError("Error on std.vector_bool.flip().");
+        throw new std.DomainError(`Bug on std.${vb.constructor.name}.flip().`);
 }

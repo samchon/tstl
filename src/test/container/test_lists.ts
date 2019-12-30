@@ -26,7 +26,7 @@ function _Test_remove(creator: typeof std.List, v: std.Vector<number>): void
 
     v.erase(std.remove_if(v.begin(), v.end(), _Remove_if), v.end());
     if (std.equal(l.begin(), l.end(), v.rbegin()) === false)
-        throw new std.DomainError("Error on std." + creator.name + ".remove_if() or its dependency.");
+        throw new Error(`Bug on ${creator.name}.remove_if()`);
 }
 function _Remove_if(val: number): boolean
 {
@@ -72,7 +72,7 @@ function _Test_merge(creator: typeof std.List, v1: std.Vector<number>, v2: std.V
 
     // VALIDATE
     if ((std.equal as Function)(l1.begin(), l1.end(), set.begin()) === false)
-        throw new std.DomainError("Error on std." + creator.name + ".merge() or its dependency.");
+        throw new Error(`Bug on ${creator.name}.merge().`);
 }
 
 function _Test_forward_lists(): void
@@ -91,26 +91,26 @@ function _Test_forward_lists(): void
     it = fl.erase_after(it); // AND ERASE 3 BY ERASE_AFTER()
 
     if (it.value !== 4)
-        throw new std.DomainError("Error on std.ForwardList.erase_after(); single deletion.");
+        throw new Error("Bug on std.ForwardList.erase_after(); single deletion.");
 
     // INSERT AN ELEMENT
     it = std.advance(fl.before_begin(), 2);
     it = fl.insert_after(it, -1); // INSERT -1
 
     if (it.value !== -1)
-        throw new std.DomainError("Error on std.ForwardList.insert_after().");
+        throw new Error("Bug on std.ForwardList.insert_after().");
 
     // ERASE RANGE
     it = std.advance(fl.before_begin(), 6);
     it = fl.erase_after(it, std.advance(it, 3+1));
 
     if (it.value !== 9)
-        throw new std.DomainError("Error on std.ForwardList.erase_after(); range deletion.");
+        throw new Error("Bug on std.ForwardList.erase_after(); range deletion.");
 
     //----
     // FINAL VALIDATION
     //----
     let answer = new std.Vector<number>([0, 1, -1, 2, 4, 5, 9]);
     if (std.equal(fl.begin(), fl.end(), answer.begin()) === false)
-        throw new std.DomainError("Error on std.ForwardList; elements I/O.");
+        throw new Error("Bug on std.ForwardList; store elements are wrong.");
 }

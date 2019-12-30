@@ -5,7 +5,7 @@ import { SetContainer } from "./SetContainer";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { Pair } from "../../utility/Pair";
-import { OutOfRange } from "../../exception/OutOfRange";
+import { ErrorGenerator } from "../../internal/exception/ErrorGenerator";
 
 /**
  * Base class for Unique-key Set Containers.
@@ -101,7 +101,7 @@ export abstract class UniqueSet<Key,
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.extract(): unable to find the matched key -> ${key}.`);
+            throw ErrorGenerator.key_nout_found(this, "extract", key);
 
         this._Erase_by_range(it);
         return key;

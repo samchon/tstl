@@ -149,4 +149,6 @@ export namespace FlatMultiSet
     // BODY
     export const Iterator = SetElementVector.Iterator;
     export const ReverseIterator = SetElementVector.ReverseIterator;
+
+    export const __MODULE = "experimental";
 }

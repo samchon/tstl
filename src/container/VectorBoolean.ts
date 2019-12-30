@@ -10,7 +10,6 @@ import { TreeMap } from "./TreeMap";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
-import { OutOfRange } from "../exception/OutOfRange";
 import { Pair } from "../utility/Pair";
 import { not_equal_to } from "../functional/comparators";
 
@@ -24,8 +23,10 @@ export class VectorBoolean
     implements IArrayContainer<boolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator>
 {
     /**
-     * first: index
-     * second: value
+     * Store not full elements, but their sequence.
+     * 
+     *   - first: index
+     *   - second: value
      */
     private data_!: TreeMap<number, boolean>;
 
@@ -164,6 +165,11 @@ export class VectorBoolean
     /* =========================================================
         ACCESSORS
     ========================================================= */
+    protected source(): VectorBoolean
+    {
+        return this;
+    }
+
     /**
      * @inheritDoc
      */
@@ -172,37 +178,16 @@ export class VectorBoolean
         return this.size_;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public at(index: number): boolean
+    protected _At(index: number): boolean
     {
-        // IS OUT OF RANGE?
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
-
         // FIND THE NEAREST NODE OF LEFT
         let it = this._Find_node(index);
         return it.second; // RETURNS
     }
 
-    /**
-     * @inheritDoc
-     */
-    public set(index: number, val: boolean): void
+    protected _Set(index: number, val: boolean): void
     {
         val = !!val; // SIFT
-
-        //----
-        // PRELIMINARIES
-        //----
-        // IS OUT OF RANGE?
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
 
         // FIND THE NEAREAST NODE OF LEFT
         let it = this._Find_node(index);
@@ -309,15 +294,9 @@ export class VectorBoolean
             this.data_.emplace(index, val);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public pop_back(): void
+    protected _Pop_back(): void
     {
-        if (this.empty())
-            return; // TODO: THROW EXCEPTION
-
-        let it = this.data_.rbegin();
+        let it: TreeMap.ReverseIterator<number, boolean> = this.data_.rbegin();
         let index: number = --this.size_;
 
         // ERASE OR NOT

@@ -89,20 +89,20 @@ function _Test_binary_search_of_pair(): void
         // VALIDATE LOWER BOUND
         if (v_it.first.equals(v.end()) === true)
             if (m_it.first.equals(m.end()) === false)
-                throw new Error("Bug on std.lower_bound or Set.lower_bound; someone is out bound but the other is not.");
+                throw new Error("Bug on std.lower_bound() or Set.lower_bound(); someone is out bound but the other is not.");
             else
                 continue;
         else if (v_it.first.value.first !== m_it.first.first)
-            throw new Error("Bug on std.lower_bound or Set.lower_bound; different value.");
+            throw new Error("Bug on std.lower_bound() or Set.lower_bound(); different value.");
 
         // VALIDATE UPPER BOUND
         if (v_it.second.equals(v.end()) === true)
             if (m_it.second.equals(m.end()) === false)
-                throw new Error("Bug on std.upper_bound or Set.upper_bound; someone is out bound but the other is not.");
+                throw new Error("Bug on std.upper_bound() or Set.upper_bound(); someone is out bound but the other is not.");
             else
                 continue;
         else if (v_it.second.value.first !== m_it.second.first)
-            throw new Error("Bug on std.upper_bound or Set.upper_bound; different value.");
+            throw new Error("Bug on std.upper_bound() or Set.upper_bound(); different value.");
     }
 }
 

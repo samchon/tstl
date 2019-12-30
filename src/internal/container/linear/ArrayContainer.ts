@@ -9,10 +9,9 @@ import { IForwardIterator } from "../../../iterator/IForwardIterator";
 import { ArrayIteratorBase } from "../../iterator/ArrayIteratorBase";
 import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBase";
 
-import { Repeater } from "../../iterator/disposable/Repeater";
+import { ErrorGenerator } from "../../exception/ErrorGenerator";
 import { RangeError } from "../../../exception/RangeError";
-import { InvalidArgument } from "../../../exception/InvalidArgument";
-import { OutOfRange } from "../../../exception/OutOfRange";
+import { Repeater } from "../../iterator/disposable/Repeater";
 
 /**
  * Base array container.
@@ -28,10 +27,15 @@ export abstract class ArrayContainer<T extends ElemT,
     extends Container<T, SourceT, IteratorT, ReverseT, ElemT>
     implements ILinearContainerBase<T, SourceT, IteratorT, ReverseT, ElemT>
 {
+    /* ---------------------------------------------------------
+        CONSTRUCTORS
+    --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
     public abstract resize(n: number): void;
+
+    protected abstract source(): SourceT;
 
     /* =========================================================
         ACCESSORS
@@ -67,7 +71,11 @@ export abstract class ArrayContainer<T extends ElemT,
      * @param index Specific position.
      * @return The element at the *index*.
      */
-    public abstract at(index: number): T;
+    public at(index: number): T
+    {
+        return this._At(index);
+    }
+    protected abstract _At(index: number): T;
 
     /**
      * Change element at specific position.
@@ -75,7 +83,16 @@ export abstract class ArrayContainer<T extends ElemT,
      * @param index Specific position.
      * @param val The new value to change.
      */
-    public abstract set(index: number, val: T): void;
+    public set(index: number, val: T): void
+    {
+        if (index < 0)
+            throw ErrorGenerator.negative_index(this.source(), "at", index);
+        else if (index >= this.size())
+            throw ErrorGenerator.excessive_index(this.source(), "at", index, this.size());
+
+        this._Set(index, val)
+    }
+    protected abstract _Set(index: number, val: T): void;
 
     /**
      * @inheritDoc
@@ -147,9 +164,9 @@ export abstract class ArrayContainer<T extends ElemT,
     {
         // VALIDATION
         if (pos._Get_array() !== <any>this)
-            throw new InvalidArgument(`Error on std.${this.constructor.name}.insert(): parametric iterator is not this container's own.`);
+            throw ErrorGenerator.not_my_iterator(this.source(), "insert");
         else if (pos.index() < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.insert(): parametric iterator is directing negative position -> (index = ${pos.index()}).`);
+            throw ErrorGenerator.negative_iterator(this.source(), "insert", pos.index());
         else if (pos.index() > this.size())
             pos = this.end();
 
@@ -179,7 +196,14 @@ export abstract class ArrayContainer<T extends ElemT,
     /**
      * @inheritDoc
      */
-    public abstract pop_back(): void;
+    public pop_back(): void
+    {
+        if (this.empty() === true)
+            throw ErrorGenerator.empty(this.source(), "pop_back");
+
+        this._Pop_back();
+    }
+    protected abstract _Pop_back(): void;
 
     /**
      * @inheritDoc
@@ -195,11 +219,11 @@ export abstract class ArrayContainer<T extends ElemT,
     {
         // VALIDATION
         if (first._Get_array() !== <any>this || last._Get_array() !== <any>this)
-            throw new InvalidArgument(`Error on std.${this.constructor.name}.erase(): parametric iterator is not this container's own.`);
+            throw ErrorGenerator.not_my_iterator(this.source(), "erase");
         else if (first.index() < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.erase(): first is directing negative position -> (first = ${first.index()}).`);
+            throw ErrorGenerator.negative_iterator(this.source(), "erase", first.index());
         else if (first.index() > last.index())
-            throw new RangeError(`Error on std.${this.constructor.name}.erase(): first iterator has greater index than last -> (first = ${first.index()}, last = ${last.index()}).`);
+            throw new RangeError(`Error on ${ErrorGenerator.get_class_name(this.source())}.erase(): first iterator has greater index than last -> (first = ${first.index()}, last = ${last.index()}).`);
 
         // ADJUSTMENT
         if (first.index() >= this.size())

@@ -4,7 +4,7 @@
 import { IContainer } from "../../base/container/IContainer";
 import { ReverseIterator } from "../../base/iterator/ReverseIterator";
 
-import { OutOfRange } from "../../exception/OutOfRange";
+import { ErrorGenerator } from "../exception/ErrorGenerator";
 
 /**
  * Basic List Iterator.
@@ -104,10 +104,7 @@ export abstract class ListIterator<T extends Elem,
     protected _Try_value(): void
     {
         if (this.value_ === undefined && this.equals(this.source().end()) === true)
-        {
-            let name: string = this.source().constructor.name;
-            throw new OutOfRange(`Error on std.${name}.Iterator.value: cannot access to the std.${name}.end().value.`);
-        }
+            throw ErrorGenerator.iterator_end_value(this.source());
     }
 
     /* ---------------------------------------------------------------

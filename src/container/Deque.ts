@@ -10,9 +10,11 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
 
 import { Pair } from "../utility/Pair";
-import { OutOfRange } from "../exception/OutOfRange";
-import { Temporary } from "../internal/functional/Temporary";
+import { InvalidArgument } from "../exception";
 import { distance } from "../iterator/global";
+
+import { ErrorGenerator } from "../internal/exception/ErrorGenerator";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Double ended queue.
@@ -160,15 +162,31 @@ export class Deque<T>
     }
 
     /**
+     * @inheritDoc
+     */
+    public resize(n: number): void
+    {
+        n = Deque._Emend(n, "resize");
+
+        let expansion: number = n - this.size();
+        if (expansion > 0)
+            this.insert(this.end(), expansion, undefined!);
+        else if (expansion < 0)
+            this.erase(this.end().advance(-expansion), this.end());
+    }
+
+    /**
      * Reserve {@link capacity} enable to store *n* elements.
      * 
      * @param n The capacity to reserve.
      */
     public reserve(n: number): void
     {
-        if (n < this.capacity_)
-            return;
+        this._Reserve(Deque._Emend(n, "reserve"));
+    }
 
+    private _Reserve(n: number): void
+    {
         // NEW MEMBERS TO BE ASSSIGNED
         let matrix: T[][] = [[]];
         let col_size: number = this._Compute_col_size(n);
@@ -198,23 +216,11 @@ export class Deque<T>
     }
 
     /**
-     * @inheritDoc
-     */
-    public resize(n: number): void
-    {
-        let expansion: number = n - this.size();
-        if (expansion > 0)
-            this.insert(this.end(), expansion, undefined!);
-        else if (expansion < 0)
-            this.erase(this.end().advance(-expansion), this.end());
-    }
-
-    /**
      * Shrink {@link capacity} to actual {@link size}.
      */
     public shrink_to_fit(): void
     {
-        this.reserve(this.size());
+        this._Reserve(this.size());
     }
 
     /**
@@ -231,6 +237,15 @@ export class Deque<T>
         [this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
         [this.size_, obj.size_] = [obj.size_, this.size_];
         [this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
+    }
+
+    private static _Emend(n: number, method: string): number
+    {
+        n = Math.floor(n);
+        if (n <= 0)
+            throw new InvalidArgument(`Error on Deque.${method}(): n must be positive integer -> (n = ${n})`);
+        
+        return n;
     }
 
     /* =========================================================
@@ -273,34 +288,23 @@ export class Deque<T>
     {
         return new Deque.ForOfAdaptor<T>(this.matrix_);
     }
+
+    protected source(): Deque<T>
+    {
+        return this;
+    }
     
     /* ---------------------------------------------------------
         INDEX ACCESSORS
     --------------------------------------------------------- */
-    /**
-     * @inheritDoc
-     */
-    public at(index: number): T
+    protected _At(index: number): T
     {
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
-        
         let indexPair: Pair<number, number> = this._Fetch_index(index);
         return this.matrix_[indexPair.first][indexPair.second];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public set(index: number, val: T): void
+    protected _Set(index: number, val: T): void
     {
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
-
         let indexPair: Pair<number, number> = this._Fetch_index(index);
         this.matrix_[indexPair.first][indexPair.second] = val;
     }
@@ -390,7 +394,7 @@ export class Deque<T>
     public pop_front(): void
     {
         if (this.empty() === true)
-            return; // TODO: THROW EXCEPTION
+            throw ErrorGenerator.empty(this.constructor, "pop_front");
 
         // EREASE FIRST ELEMENT
         this.matrix_[0].shift();
@@ -404,11 +408,8 @@ export class Deque<T>
     /**
      * @inheritDoc
      */
-    public pop_back(): void
+    protected _Pop_back(): void
     {
-        if (this.empty() === true)
-            return; // TODO: THROW EXCEPTION
-
         // ERASE LAST ELEMENT
         let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
         lastArray.pop();
@@ -448,7 +449,7 @@ export class Deque<T>
             {
                 // A TEMPORARY DEQUE
                 let deque: Deque<T> = new Deque<T>();
-                deque.reserve(Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER)));
+                deque._Reserve(Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER)));
 
                 // INSERT ITEM SEQUENTIALLY
                 deque._Insert_to_end(this.begin(), pos);
@@ -529,7 +530,7 @@ export class Deque<T>
 
         // MAX (CAPACITY * 1.5, TARGET SIZE)
         size = Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER));
-        this.reserve(size);
+        this._Reserve(size);
 
         return true;
     }

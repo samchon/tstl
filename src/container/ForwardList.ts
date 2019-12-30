@@ -15,7 +15,7 @@ import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 import { Repeater } from "../internal/iterator/disposable/Repeater";
 import { ForOfAdaptor } from "../internal/iterator/disposable/ForOfAdaptor";
 import { Vector } from "./Vector";
-import { OutOfRange } from "../exception/OutOfRange";
+import { ErrorGenerator } from "../internal/exception/ErrorGenerator";
 
 import { Comparator } from "../internal/functional/Comparator";
 import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
@@ -599,9 +599,9 @@ export namespace ForwardList
                 let source: ForwardList<T> = this.source();
 
                 if (this.equals(source.end()) === true)
-                    throw new OutOfRange("Error on std.ForwardList.Iterator.value: cannot access to the std.ForwardList.end().value.");
+                    throw ErrorGenerator.iterator_end_value(source);
                 else if (this.equals(source.before_begin()) === true)
-                    throw new OutOfRange("Error on std.ForwardList.Iterator.value: cannot access to the std.ForwardList.before_begin().value.");
+                    throw ErrorGenerator.iterator_end_value(source, "before_begin");
             }
         }
 

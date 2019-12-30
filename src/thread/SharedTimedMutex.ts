@@ -148,7 +148,7 @@ export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
     public async unlock(): Promise<void>
     {
         if (this._Current_access_type() !== AccessType.WRITE)
-            throw new InvalidArgument(`Error on std.${this.source_.constructor.name}.unlock(): this mutex is free on the unique lock.`);
+            throw new InvalidArgument(`Bug on std.${this.source_.constructor.name}.unlock(): this mutex is free on the unique lock.`);
 
         --this.writing_;
         this.queue_.pop_front();
@@ -253,7 +253,7 @@ export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
     public async unlock_shared(): Promise<void>
     {
         if (this._Current_access_type() !== AccessType.READ)
-            throw new InvalidArgument(`Error on std.${this.source_.constructor.name}.unlock_shared(): this mutex is free on the shared lock.`);
+            throw new InvalidArgument(`Bug on std.${this.source_.constructor.name}.unlock_shared(): this mutex is free on the shared lock.`);
 
         --this.reading_;
         this.queue_.pop_front();

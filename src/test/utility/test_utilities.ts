@@ -13,13 +13,13 @@ function _Test_pairs(): void
     let z = std.make_pair(1, 3);
 
     if (x.hashCode() !== y.hashCode() || x.hashCode() === z.hashCode())
-        throw new std.DomainError("Error in Pair.hashCode()");
+        throw new std.DomainError("Bug in Pair.hashCode()");
     else if (x.equals(y) === false || x.equals(z) === true)
-        throw new std.DomainError("Error in Pair.equals()");
+        throw new std.DomainError("Bug in Pair.equals()");
 }
 
 function _Test_node(): void
 {
     if (std.is_node() === false)
-        throw new std.DomainError("Error on is_node()");
+        throw new std.DomainError("Bug on is_node()");
 }

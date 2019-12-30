@@ -26,14 +26,14 @@ export async function test_condition_variables(): Promise<void>
     await std.sleep_for(SLEEP_TIME);
 
     if (wait_count !== WAIT_COUNT - 1)
-        throw new std.DomainError("Error on ConditionVariable::notify_one.");
+        throw new std.DomainError("Bug on ConditionVariable::notify_one.");
 
     // NOTIFY ALL
     cv.notify_all();
     await std.sleep_for(SLEEP_TIME);
 
     if (wait_count !== 0)
-        throw new std.DomainError("Error on ConditionVariable::notify_all.");
+        throw new std.DomainError("Bug on ConditionVariable::notify_all.");
 
     //----
     // WAIT FOR & NOTIFY

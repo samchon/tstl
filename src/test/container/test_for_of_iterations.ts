@@ -35,7 +35,7 @@ function _Test_for_of_iteration<
 
     for (let elem of vec)
         if (elem !== items.at(i++))
-            throw new std.DomainError("Wrong for of iteration.");
+            throw new Error(`Bug on ${vec.constructor.name}[Symbol.iterator]().`);
 }
 
 function _Test_for_of_map_iteration(): void
@@ -60,5 +60,5 @@ function _Test_for_of_map_iteration(): void
 
     for (let pair of map)
         if (std.equal_to(pair, items[i++]) === false)
-            throw new std.DomainError("Wrong for of iteration.");
+            throw new Error("Bug on TreeMap[Symbol.iterator]().");
 }

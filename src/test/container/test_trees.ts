@@ -26,7 +26,7 @@ function _Test_tree_set_inserts_and_erases(): void
 
         for (let val of set)
             if (set.has(val) === false)
-                console.log("something wrong.");
+                throw new Error(`Bug on ${set.constructor.name}.has(): failed to detect stored element.`);
 
         while (!set.empty())
         {
@@ -35,7 +35,7 @@ function _Test_tree_set_inserts_and_erases(): void
 
             set.erase(it);
             if (set.has(it.value))
-                console.log("something wrong.");
+                throw new Error(`Bug on ${set.constructor.name}.has(): detected deleted element.`);
         }
     }
 }
@@ -51,7 +51,7 @@ function _Test_tree_set<Unique extends boolean,
 
     // VALIDATE SORTING
     if (std.ranges.is_sorted(set) === false)
-        throw new std.DomainError("Order of TreeSet or TreeMultiSet is wrong.");
+        throw new Error(`Bug on ${set.constructor.name}: stored elements are not sorted.`);
 
     // VALIDATE FIND
     for (let i: number = 0; i < 100; ++i)
@@ -65,9 +65,9 @@ function _Test_tree_set<Unique extends boolean,
             if (set_it === set.end())
                 continue;
             else
-                throw new std.DomainError("find() of TreeSet or TreeMultiSet is wrong; invalid out of range.");
+                throw new Error(`Bug on ${set.constructor.name}.find(): failed find anything.`);
         else if (alg_it.value !== set_it.value)
-            throw new std.DomainError("find() of TreeSet or TreeMultiSet is wrong; different value.");
+            throw new Error(`Bug on ${set.constructor.name}.find(): found wrong element.`);
     }
 }
 
@@ -82,7 +82,7 @@ function _Test_tree_map<Unique extends boolean,
 
     // VALIDATE SORTING
     if (std.ranges.is_sorted(map) === false)
-        throw new std.DomainError("Order of TreeMap or TreeMultiMap is wrong.");
+        throw new Error(`Bug on ${map.constructor.name}: stored elements are not sorted.`);
 
     // VALIDATE FIND
     for (let i: number = 0; i < 100; ++i)
@@ -96,8 +96,8 @@ function _Test_tree_map<Unique extends boolean,
             if (set_it === map.end())
                 continue;
             else
-                throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; invalid out of range.");
+                throw new Error(`Bug on ${map.constructor.name}.find(): failed find anything.`);
         else if (alg_it.first !== set_it.first)
-            throw new std.DomainError("find() of TreeMap or TreeMultiMap is wrong; different value.");
+            throw new Error(`Bug on ${map.constructor.name}.find(): found wrong element.`);
     }
 }

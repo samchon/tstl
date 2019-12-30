@@ -8,8 +8,6 @@ import { IForwardIterator } from "../../../iterator/IForwardIterator";
 import { ArrayIteratorBase } from "../../iterator/ArrayIteratorBase";
 import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBase";
 
-import { OutOfRange } from "../../../exception/OutOfRange";
-
 export abstract class VectorContainer<T, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, T>,
         ArrayT extends VectorContainer<T, SourceT, ArrayT, IteratorT, ReverseT>,
@@ -73,29 +71,13 @@ export abstract class VectorContainer<T,
         return this.data_.length;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public at(index: number): T
+    protected _At(index: number): T
     {
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is equal or greater than size -> (index = ${index}, size: ${this.size()}).`);
-        
         return this.data_[index];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public set(index: number, val: T): void
+    protected _Set(index: number, val: T): void
     {
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is equal or greater than size -> (index = ${index}, size: ${this.size()}).`);
-        
         this.data_[index] = val;
     }
 
@@ -174,10 +156,7 @@ export abstract class VectorContainer<T,
     /* ---------------------------------------------------------
         ERASE
     --------------------------------------------------------- */
-    /**
-     * @inheritDoc
-     */
-    public pop_back(): void
+    protected _Pop_back(): void
     {
         this.data_.pop();
     }

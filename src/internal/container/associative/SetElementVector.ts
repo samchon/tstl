@@ -56,7 +56,7 @@ export class SetElementVector<Key,
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */
-    public associative(): Source
+    public source(): Source
     {
         return this.associative_;
     }
@@ -88,7 +88,7 @@ export namespace SetElementVector
          */
         public source(): Source
         {
-            return this._Get_array().associative();
+            return this._Get_array().source();
         }
 
         /**

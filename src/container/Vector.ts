@@ -113,6 +113,11 @@ export class Vector<T>
     {
         return new Vector.Iterator(this as Vector<T>, index);
     }
+
+    protected source(): Vector<T>
+    {
+        return this;
+    }
 }
 
 export namespace Vector

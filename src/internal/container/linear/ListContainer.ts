@@ -11,9 +11,9 @@ import { ListIterator } from "../../iterator/ListIterator";
 
 import { Repeater } from "../../iterator/disposable/Repeater";
 import { NativeArrayIterator } from "../../iterator/disposable/NativeArrayIterator";
-import { InvalidArgument } from "../../../exception/InvalidArgument";
 import { advance } from "../../../iterator/global";
 
+import { ErrorGenerator } from "../../exception/ErrorGenerator";
 import { Temporary } from "../../functional/Temporary";
 
 /**
@@ -28,10 +28,10 @@ export abstract class ListContainer<T,
     extends Container<T, SourceT, IteratorT, ReverseIteratorT, T>
     implements ILinearContainerBase<T, SourceT, IteratorT, ReverseIteratorT, T>
 {
+    private size_!: number;
+    
     protected begin_!: IteratorT;
     protected end_: IteratorT;
-    
-    private size_!: number;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
@@ -127,7 +127,7 @@ export abstract class ListContainer<T,
             - ERASE
             - POST-PROCESS
     ============================================================
-                PUSH & POP
+        PUSH & POP
     --------------------------------------------------------- */
     /**
      * @inheritDoc
@@ -150,6 +150,9 @@ export abstract class ListContainer<T,
      */
     public pop_front(): void
     {
+        if (this.empty() === true)
+            throw ErrorGenerator.empty(this.end_.source().constructor.name, "pop_front");
+
         this.erase(this.begin_);
     }
 
@@ -158,6 +161,9 @@ export abstract class ListContainer<T,
      */
     public pop_back(): void
     {
+        if (this.empty() === true)
+            throw ErrorGenerator.empty(this.end_.source().constructor.name, "pop_back");
+
         this.erase(this.end_.prev());
     }
 
@@ -200,9 +206,9 @@ export abstract class ListContainer<T,
     {
         // VALIDATION
         if (pos.source() !== this.end_.source())
-            throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.insert(): parametric iterator is not this container's own.`);
+            throw ErrorGenerator.not_my_iterator(this.end_.source(), "insert");
         else if (pos.erased_ === true)
-            throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.insert(): parametric iterator, it already has been erased.`);
+            throw ErrorGenerator.erased_iterator(this.end_.source(), "insert");
 
         // BRANCHES
         if (args.length === 1)
@@ -275,10 +281,10 @@ export abstract class ListContainer<T,
     protected _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT
     {
         // VALIDATION
-        if (first.source() !== this.end_.source() || last.source() !== this.end_.source())
-            throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.erase(): parametric iterator is not this container's own.`);
+        if (first.source() !== this.end_.source())
+            throw ErrorGenerator.not_my_iterator(this.end_.source(), "insert");
         else if (first.erased_ === true)
-            throw new InvalidArgument(`Error on std.${this.end_.source().constructor.name}.erase(): parametric iterator, it already has been erased.`);
+            throw ErrorGenerator.erased_iterator(this.end_.source(), "insert");
         else if (first.equals(this.end_))
             return this.end_;
 

@@ -9,9 +9,9 @@ export function test_partitions(): void
     std.ranges.partition(v, _Pred);
 
     if (std.all_of(v.begin(), v.begin().advance(500), _Pred) === false)
-        throw new std.DomainError("Error on std.partition().");
+        throw new Error("Bug on std.partition().");
     else if (std.ranges.is_partitioned(v, _Pred) === false)
-        throw new std.DomainError("Error on std.is_partitioned().");
+        throw new Error("Bug on std.is_partitioned().");
 }
 
 function _Pred(val: number): boolean

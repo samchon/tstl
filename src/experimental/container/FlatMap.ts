@@ -156,4 +156,6 @@ export namespace FlatMap
     // BODY
     export const Iterator = MapElementVector.Iterator;
     export const ReverseIterator = MapElementVector.ReverseIterator;
+
+    export const __MODULE = "experimental";
 }

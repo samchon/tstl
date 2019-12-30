@@ -18,7 +18,7 @@ function _Test_rand_ints(): void
 
         let rand: number = std.randint(x, y);
         if (rand < x || rand > y)
-            throw new std.DomainError("Error on std.experimantal.randint().");
+            throw new Error("Bug on std.experimantal.randint().");
     }
 }
 
@@ -34,11 +34,11 @@ function _Test_samples(): void
 
         std.ranges.sample(populations, std.back_inserter(samples), n);
         if (std.ranges.is_sorted(samples) === false)
-            throw new std.DomainError("Error on std.sample(); Elements are not sorted.");
+            throw new Error("Bug on std.sample(); Elements are not sorted.");
         
         samples.erase(std.ranges.unique(samples), samples.end());
         if (samples.size() !== n)
-            throw new std.DomainError("Error on std.sample(); Elements are not unique.");
+            throw new Error("Bug on std.sample(); Elements are not unique.");
     }
 }
 

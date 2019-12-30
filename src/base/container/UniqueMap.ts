@@ -7,7 +7,8 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
 import { Pair } from "../../utility/Pair";
-import { OutOfRange } from "../../exception/OutOfRange";
+
+import { ErrorGenerator } from "../../internal/exception/ErrorGenerator";
 
 /**
  * Base class for Unique-key Map Containers.
@@ -41,7 +42,7 @@ export abstract class UniqueMap<Key, T,
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.get(): unable to find the matched key -> ${key}.`);
+            throw ErrorGenerator.key_nout_found(this, "get", key);
 
         return it.second;
     }
@@ -201,7 +202,7 @@ export abstract class UniqueMap<Key, T,
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.extract(): unable to find the matched key -> ${key}.`);
+            throw ErrorGenerator.key_nout_found(this, "extract", key);
 
         let ret: Entry<Key, T> = it.value;
         this._Erase_by_range(it);

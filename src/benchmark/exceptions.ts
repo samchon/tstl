@@ -1,4 +1,5 @@
-import { Vector, List, HashMap, ForwardList } from "../container";
+import { Vector, List, ForwardList } from "../container";
+import { FlatMap } from "../experimental/container/FlatMap";
 import { SharedMutex } from "../thread/SharedMutex";
 import { Semaphore } from "../thread/Semaphore";
 
@@ -34,7 +35,7 @@ export async function main(): Promise<string>
     let v: Vector<number> = new Vector();
     let fl: ForwardList<number> = new ForwardList();
     let l: List<number> = new List();
-    let m: HashMap<number, number> = new HashMap();
+    let m: FlatMap<number, number> = new FlatMap();
     let mtx: SharedMutex = new SharedMutex();
     let sph: Semaphore<4> = new Semaphore(4);
 

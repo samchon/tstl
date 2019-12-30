@@ -48,12 +48,14 @@ export namespace IArrayContainer
             IteratorT extends IArrayContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
             ReverseT extends IArrayContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
             ElemT = T> 
-        = ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT> & IRandomAccessIterator<T, IteratorT>;
+        = ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT> 
+        & IRandomAccessIterator<T, IteratorT>;
     
     export type ReverseIterator<T extends ElemT, 
             SourceT extends IArrayContainer<T, SourceT, IteratorT, ReverseT, T>, 
             IteratorT extends IArrayContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
             ReverseT extends IArrayContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
             ElemT = T> 
-        = ILinearContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, ElemT> & IRandomAccessIterator<T, ReverseT>;
+        = ILinearContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, ElemT> 
+        & IRandomAccessIterator<T, ReverseT>;
 }

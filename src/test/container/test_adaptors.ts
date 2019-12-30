@@ -14,7 +14,7 @@ export function test_priority_queue(): void
     }
 
     if (std.is_sorted(std.begin(items), std.end(items), std.less) === false)
-        throw new std.DomainError("PriorityQueue is invalid.");
+        throw new Error("Bug on PriorityQueue: stored elements are not sorted");
 }
 
 export function test_adaptors(): void
