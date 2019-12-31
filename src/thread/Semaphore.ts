@@ -4,7 +4,7 @@
 import { List } from "../container/List";
 import { OutOfRange } from "../exception/OutOfRange";
 
-import { ILockable } from "./ILockable";
+import { ITimedLockable } from "../internal/thread/ITimedLockable";
 import { LockType } from "../internal/thread/LockType";
 import { sleep_for } from "./global";
 
@@ -43,7 +43,7 @@ export class Semaphore<Max extends number = number>
         return this.max_;
     }
 
-    public get_lockable(): ILockable
+    public get_lockable(): ITimedLockable
     {
         return new Semaphore.Lockable(this);
     }
@@ -202,7 +202,7 @@ export namespace Semaphore
     /**
      * @internal
      */
-    export class Lockable implements ILockable
+    export class Lockable implements ITimedLockable
     {
         private semahpore_: Semaphore;
 
@@ -210,20 +210,26 @@ export namespace Semaphore
         {
             this.semahpore_ = semaphore;
         }
-
         public lock(): Promise<void>
         {
             return this.semahpore_.acquire();
+        }
+        public unlock(): Promise<void>
+        {
+            return this.semahpore_.release();
         }
 
         public try_lock(): Promise<boolean>
         {
             return this.semahpore_.try_acquire();
         }
-
-        public unlock(): Promise<void>
+        public try_lock_for(ms: number): Promise<boolean>
         {
-            return this.semahpore_.release();
+            return this.semahpore_.try_acquire_for(ms);
+        }
+        public try_lock_until(at: Date): Promise<boolean>
+        {
+            return this.semahpore_.try_acquire_until(at);
         }
     }
 }

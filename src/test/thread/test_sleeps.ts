@@ -32,5 +32,5 @@ function _Validate_sleep(t1: Date, t2: Date): void
 {
     let ms: number = t2.getTime() - t1.getTime();
     if (ms < 50 - 10 || ms >= 50 + 10)
-        throw new std.DomainError("sleep is wrong: " + ms);
+        throw new Error(`Bug on sleep_for(): ${ms}`);
 }

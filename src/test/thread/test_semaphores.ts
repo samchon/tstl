@@ -11,18 +11,10 @@ export async function test_semaphores(): Promise<void>
     // TEST MUTEX FEATURES
     //----
     let mtx = new std.Semaphore(1);
-    let wrapper: ITimedLockable = 
-    {
-        lock: () => mtx.acquire(),
-        unlock: () => mtx.release(),
+    let wrapper: ITimedLockable = mtx.get_lockable();
 
-        try_lock: () => mtx.try_acquire(),
-        try_lock_for: (ms: number) => mtx.try_acquire_for(ms),
-        try_lock_until: (at: Date) => mtx.try_acquire_until(at)
-    };
-
-    await _Test_lock("Semaphore", wrapper);
-    await _Test_try_lock("Semaphore", wrapper);
+    await _Test_lock(wrapper, "Semaphore.Lockable");
+    await _Test_try_lock(wrapper, "Semaphore.Lockable");
 
     //----
     // TEST SPECIAL FEATURES OF SEMAPHORE
@@ -70,9 +62,6 @@ async function _Test_semaphore(s: std.Semaphore): Promise<void>
 
 async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void>
 {
-    // COMMON TEST
-    // await _Test_semaphore(ts);
-
     // TRY LOCK FIRST
     for (let i: number = 0; i < ts.max(); ++i)
     {

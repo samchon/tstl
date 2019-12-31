@@ -1,32 +1,24 @@
 import * as std from "../../index";
 
 import { ITimedLockable } from "../../internal/thread/ITimedLockable";
+import { ISharedLockable } from "../../internal/thread/ISharedLockable";
+import { ISharedTimedLockable } from "../../internal/thread/ISharedTimedLockable";
 
 const SLEEP_TIME: number = 50;
 const READ_COUNT: number = 10;
 
-interface ISharedLockable extends std.ILockable
-{
-    lock_shared(): Promise<void>;
-    unlock_shared(): Promise<void>;
-}
-interface ISharedTimedLockable extends ITimedLockable, ISharedLockable
-{
-    try_lock_shared_for(ms: number): Promise<boolean>;
-}
-
 export async function test_mutexes(): Promise<void>
 {
-    await _Test_lock("Mutex", new std.Mutex());
-    await _Test_try_lock("TimedMutex", new std.TimedMutex());
-    await _Test_lock_shared("SharedMutex", new std.SharedMutex());
-    await _Test_try_lock_shared("SharedTimedMutex", new std.SharedTimedMutex());
+    await _Test_lock(new std.Mutex());
+    await _Test_try_lock(new std.TimedMutex());
+    await _Test_lock_shared(new std.SharedMutex());
+    await _Test_try_lock_shared(new std.SharedTimedMutex());
 }
 
 /* ---------------------------------------------------------
     WRITE LOCK
 --------------------------------------------------------- */
-export async function _Test_lock(name: string, mtx: std.ILockable): Promise<void>
+export async function _Test_lock(mtx: std.ILockable, name: string = mtx.constructor.name): Promise<void>
 {
     let start_time: number = new Date().getTime();
 
@@ -43,12 +35,12 @@ export async function _Test_lock(name: string, mtx: std.ILockable): Promise<void
     await mtx.unlock();
 
     if (elapsed_time < SLEEP_TIME * .95)
-        throw new std.DomainError(name + " does not work.");
+        throw new Error(`Bug on ${name}.lock() & unlock(): it does not work in exact time.`);
 }
 
- export async function _Test_try_lock(name: string, mtx: ITimedLockable): Promise<void>
+ export async function _Test_try_lock(mtx: ITimedLockable, name: string = mtx.constructor.name): Promise<void>
 {
-    await _Test_lock(name, mtx);
+    await _Test_lock(mtx, name);
     let start_time: number = new Date().getTime();
 
     // DO LOCK
@@ -61,9 +53,9 @@ export async function _Test_lock(name: string, mtx: std.ILockable): Promise<void
     let elapsed_time: number = new Date().getTime() - start_time;
 
     if (ret === true)
-        throw new std.DomainError(`Bug on ${name}.try_lock_for(): it does not return exact value`);
+        throw new Error(`Bug on ${name}.try_lock_for(): it does not return exact value`);
     else if (elapsed_time < SLEEP_TIME * .95)
-        throw new std.DomainError(`Bug on ${name}.try_lock_for(): it does not work in exact time`);
+        throw new Error(`Bug on ${name}.try_lock_for(): it does not work in exact time`);
     
     await mtx.unlock();
 }
@@ -71,10 +63,10 @@ export async function _Test_lock(name: string, mtx: std.ILockable): Promise<void
 /* ---------------------------------------------------------
     READ LOCK
 --------------------------------------------------------- */
-async function _Test_lock_shared(name: string, mtx: ISharedLockable): Promise<void>
+async function _Test_lock_shared(mtx: std.ILockable & ISharedLockable): Promise<void>
 {
     // TEST WRITING LOCK & UNLOCK
-    await _Test_lock(name, mtx);
+    await _Test_lock(mtx);
 
     //----
     // READ SIMULTANEOUSLY
@@ -87,7 +79,7 @@ async function _Test_lock_shared(name: string, mtx: ISharedLockable): Promise<vo
         ++read_count;
     }
     if (read_count !== READ_COUNT) // READ LOCK CAN BE DONE SIMULTANEOUSLY
-        throw new std.DomainError(name + "::lock_shared does not support simultaneous lock.");
+        throw new Error(`Bug on ${mtx.constructor.name}.lock_shared(): it doesn't support the simultaneous lock.`);
 
     //----
     // READ FIRST, WRITE LATER
@@ -106,7 +98,7 @@ async function _Test_lock_shared(name: string, mtx: ISharedLockable): Promise<vo
     // VALIDATE ELAPSED TIME
     let elapsed_time: number = new Date().getTime() - start_time;
     if (elapsed_time < SLEEP_TIME * .95)
-        throw new std.DomainError(name + " does not block writing until reading.");
+        throw new Error(`Bug on ${mtx.constructor.name}.lock(): it does not block writing while reading.`);
 
     //----
     // WRITE FIRST, READ LATER
@@ -123,18 +115,18 @@ async function _Test_lock_shared(name: string, mtx: ISharedLockable): Promise<vo
     // VALIDATE ELAPSED TIME
     elapsed_time = new Date().getTime() - start_time;
     if (elapsed_time < SLEEP_TIME * .95)
-        throw new std.DomainError(name + " does not block reading until writing.");
+        throw new Error(`Bug on ${mtx.constructor.name}.lock_shared(): it does not block reading while writing.`);
 
     // RELEASE READING LOCK FOR THE NEXT STEP
     for (let i: number = 0; i < READ_COUNT; ++i)
         await mtx.unlock_shared();
 }
 
-async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable): Promise<void>
+async function _Test_try_lock_shared(mtx: ITimedLockable & ISharedTimedLockable): Promise<void>
 {
     // TEST WRITING LOCK & UNLOCK
-    await _Test_try_lock(name, mtx);
-    await _Test_lock_shared(name, mtx);
+    await _Test_try_lock(mtx);
+    await _Test_lock_shared(mtx);
 
     let start_time: number;
     let elapsed_time: number;
@@ -150,13 +142,13 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable): P
     {
         flag = await mtx.try_lock_shared_for(SLEEP_TIME);
         if (flag === false)
-            throw new std.DomainError(name + "::try_lock_shared_for does not return exact value.");
+            throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not return exact value.`);
     }
 
     // VALIDATE ELAPSED TIME
     elapsed_time = new Date().getTime() - start_time;
     if (elapsed_time >= SLEEP_TIME)
-        throw new std.DomainError(name + "::try_lock_shared_for does not support simultaneous lock.");
+        throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not support simultaneous lock.`);
 
     //----
     // WRITE LOCK
@@ -167,9 +159,9 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable): P
     elapsed_time = new Date().getTime() - start_time;
 
     if (flag === true)
-        throw new std.DomainError(name + "::try_lock_for does not return exact value on reading.");
+        throw new Error(`Bug on ${mtx.constructor.name}.try_lock_for(): it does not return exact value while reading.`);
     else if (elapsed_time < SLEEP_TIME * .95)
-        throw new std.DomainError(name + "::try_lock_for does not block on reading.");
+        throw new Error(`Bug on ${mtx.constructor.name}.try_lock_for(): it does not block while reading.`);
 
     // TRY WRITE LOCK AFTER READING
     std.sleep_for(SLEEP_TIME).then(() => 
@@ -182,9 +174,9 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable): P
     elapsed_time = new Date().getTime() - start_time;
 
     if (flag === false)
-        throw new std.DomainError(name + "::try_lock_for does not return exact value on reading.");
+        throw new Error(`Bug on ${mtx.constructor.name}.try_lock_for(): it does not return exact value while reading.`);
     else if (elapsed_time < SLEEP_TIME * .95)
-        throw new std.DomainError(name + "::try_lock_for does not work in exact time.");
+        throw new Error(`Bug on ${mtx.constructor.name}.try_lock_for(): it does not work in exact time.`);
 
     //----
     // READ LOCK
@@ -195,12 +187,12 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable): P
     {
         flag = await mtx.try_lock_shared_for(SLEEP_TIME);
         if (flag === true)
-            throw new std.DomainError(name + "::try_lock_shared_for does not return exact value on writing.");
+            throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not return exact value while writing.`);
     }
     elapsed_time = new Date().getTime() - start_time;
 
     if (elapsed_time < SLEEP_TIME * READ_COUNT * .95)
-        throw new std.DomainError(name + "::try_lock_shared_for does not work in exact time.");
+        throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not work in exact time.`);
     
     // READ LOCK AFTER WRITING
     start_time = new Date().getTime();
@@ -213,12 +205,12 @@ async function _Test_try_lock_shared(name: string, mtx: ISharedTimedLockable): P
     {
         flag = await mtx.try_lock_shared_for(SLEEP_TIME);
         if (flag === false)
-            throw new std.DomainError(name + "::try_lock_shared_for does not return exact value after writing.");
+            throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not return exact value after writing.`);
     }
     elapsed_time = new Date().getTime() - start_time;
 
     if (elapsed_time < SLEEP_TIME * .95 || elapsed_time >= SLEEP_TIME * 5.0)
-        throw new std.DomainError("::try_lock_shared_for does not work in exact time.");
+        throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not work in exact time.`);
 
     // RELEASE READING LOCK FOR THE NEXT STEP
     for (let i: number = 0; i < READ_COUNT; ++i)
