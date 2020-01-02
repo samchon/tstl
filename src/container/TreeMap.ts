@@ -1,16 +1,17 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { UniqueTreeMap } from "../base/container/UniqueTreeMap";
-import { _Construct } from "../base/container/_ITreeContainer";
+import { UniqueTreeMap } from "../internal/container/associative/UniqueTreeMap";
+import { ITreeContainer } from "../internal/container/associative/ITreeContainer";
 
-import { MapElementList } from "../base/container/MapElementList";
-import { _UniqueMapTree } from "../base/tree/_UniqueMapTree";
+import { MapElementList } from "../internal/container/associative/MapElementList";
+import { UniqueMapTree } from "../internal/tree/UniqueMapTree";
+import { Comparator } from "../internal/functional/Comparator";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Unique-key Map based on Tree.
@@ -23,10 +24,7 @@ export class TreeMap<Key, T>
         TreeMap.Iterator<Key, T>, 
         TreeMap.ReverseIterator<Key, T>>
 {
-    /**
-     * @hidden
-     */
-    private tree_!: _UniqueMapTree<Key, T, TreeMap<Key, T>>;
+    private tree_!: UniqueMapTree<Key, T, TreeMap<Key, T>>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -36,7 +34,7 @@ export class TreeMap<Key, T>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: Key, y: Key) => boolean);
+    public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
@@ -44,7 +42,7 @@ export class TreeMap<Key, T>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
     /**
      * Copy Constructor.
@@ -64,7 +62,7 @@ export class TreeMap<Key, T>
         (
             first: Readonly<IForwardIterator<IPair<Key, T>>>, 
             last: Readonly<IForwardIterator<IPair<Key, T>>>,
-            comp?: (x: Key, y: Key) => boolean
+            comp?: Comparator<Key>
         );
     
     public constructor(...args: any[])
@@ -73,7 +71,7 @@ export class TreeMap<Key, T>
         super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
         
         // OVERLOADINGS
-        _Construct<Key, Entry<Key, T>, 
+        ITreeContainer.construct<Key, Entry<Key, T>, 
                 TreeMap<Key, T>,
                 TreeMap.Iterator<Key, T>,
                 TreeMap.ReverseIterator<Key, T>,
@@ -82,7 +80,7 @@ export class TreeMap<Key, T>
             this, TreeMap, 
             comp => 
             {
-                this.tree_ = new _UniqueMapTree(this as TreeMap<Key, T>, comp);
+                this.tree_ = new UniqueMapTree(this as TreeMap<Key, T>, comp);
             },
             ...args
         );
@@ -108,7 +106,7 @@ export class TreeMap<Key, T>
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
-        _UniqueMapTree._Swap_source(this.tree_, obj.tree_);
+        UniqueMapTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
@@ -118,7 +116,7 @@ export class TreeMap<Key, T>
     /**
      * @inheritDoc
      */
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.tree_.key_comp();
     }
@@ -142,18 +140,12 @@ export class TreeMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: TreeMap.Iterator<Key, T>, last: TreeMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
             this.tree_.insert(first);
     }
 
-    /**
-     * @hidden
-     */
     protected _Handle_erase(first: TreeMap.Iterator<Key, T>, last: TreeMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -163,9 +155,6 @@ export class TreeMap<Key, T>
 
 export namespace TreeMap
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, TreeMap<Key, T>>;
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, TreeMap<Key, T>>;
@@ -173,16 +162,4 @@ export namespace TreeMap
     // BODY
     export const Iterator = MapElementList.Iterator;
     export const ReverseIterator = MapElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import map = TreeMap;

@@ -1,13 +1,15 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ArrayContainer } from "../base/container/ArrayContainer";
-import { ArrayIterator, ArrayReverseIterator } from "../base/iterator/ArrayIterator";
+import { IArrayContainer } from "../base/container/IArrayContainer";
+import { ArrayContainer } from "../internal/container/linear/ArrayContainer";
+import { ArrayIterator } from "../internal/iterator/ArrayIterator";
+import { ArrayReverseIterator } from "../internal/iterator/ArrayReverseIterator";
+
 import { TreeMap } from "./TreeMap";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
-import { OutOfRange } from "../exception/LogicError";
+import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
 import { Pair } from "../utility/Pair";
 import { not_equal_to } from "../functional/comparators";
 
@@ -18,18 +20,18 @@ import { not_equal_to } from "../functional/comparators";
  */
 export class VectorBoolean 
     extends ArrayContainer<boolean, VectorBoolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator, boolean>
+    implements IArrayContainer<boolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator>
 {
-    //----
-    // first => (index: number)
-    // second => (value: boolean)
-    //---
     /**
-     * @hidden
+     * Store not full elements, but their sequence.
+     * 
+     *   - first: index
+     *   - second: value
      */
     private data_!: TreeMap<number, boolean>;
 
     /**
-     * @hidden
+     * Number of elements
      */
     private size_!: number;
 
@@ -163,6 +165,11 @@ export class VectorBoolean
     /* =========================================================
         ACCESSORS
     ========================================================= */
+    protected source(): VectorBoolean
+    {
+        return this;
+    }
+
     /**
      * @inheritDoc
      */
@@ -171,37 +178,16 @@ export class VectorBoolean
         return this.size_;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public at(index: number): boolean
+    protected _At(index: number): boolean
     {
-        // IS OUT OF RANGE?
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
-
         // FIND THE NEAREST NODE OF LEFT
         let it = this._Find_node(index);
         return it.second; // RETURNS
     }
 
-    /**
-     * @inheritDoc
-     */
-    public set(index: number, val: boolean): void
+    protected _Set(index: number, val: boolean): void
     {
         val = !!val; // SIFT
-
-        //----
-        // PRELIMINARIES
-        //----
-        // IS OUT OF RANGE?
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
 
         // FIND THE NEAREAST NODE OF LEFT
         let it = this._Find_node(index);
@@ -258,16 +244,13 @@ export class VectorBoolean
     }
 
     /**
-     * @hidden
+     * @inheritDoc
      */
     public nth(index: number): VectorBoolean.Iterator
     {
         return new VectorBoolean.Iterator(this as VectorBoolean, index);
     }
 
-    /**
-     * @hidden
-     */
     private _Find_node(index: number): TreeMap.Iterator<number, boolean>
     {
         return this.data_.upper_bound(index).prev();
@@ -289,8 +272,8 @@ export class VectorBoolean
         if (items.length === 0)
             return this.size();
 
-        let first = new _NativeArrayIterator(items, 0);
-        let last = new _NativeArrayIterator(items, items.length);
+        let first = new NativeArrayIterator(items, 0);
+        let last = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(this.end(), first, last);
         return this.size();
@@ -311,15 +294,9 @@ export class VectorBoolean
             this.data_.emplace(index, val);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public pop_back(): void
+    protected _Pop_back(): void
     {
-        if (this.empty())
-            return; // TODO: THROW EXCEPTION
-
-        let it = this.data_.rbegin();
+        let it: TreeMap.ReverseIterator<number, boolean> = this.data_.rbegin();
         let index: number = --this.size_;
 
         // ERASE OR NOT
@@ -330,9 +307,6 @@ export class VectorBoolean
     /* ---------------------------------------------------------
         INSERT
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Insert_by_repeating_val(pos: VectorBoolean.Iterator, n: number, val: boolean): VectorBoolean.Iterator
     {
         // RESERVE ELEMENTS -> THE REPEATED COUNT AND VALUE
@@ -346,9 +320,6 @@ export class VectorBoolean
             return this._Insert_to_middle(pos, elements);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<boolean, InputIterator>>>
         (pos: VectorBoolean.Iterator, first: InputIterator, last: InputIterator): VectorBoolean.Iterator
     {
@@ -369,9 +340,6 @@ export class VectorBoolean
             return this._Insert_to_middle(pos, elements);
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_to_middle(pos: VectorBoolean.Iterator, elements: Pair<number, boolean>[]): VectorBoolean.Iterator
     {
         let first = this._Find_node(pos.index());
@@ -408,10 +376,7 @@ export class VectorBoolean
         // DO POST-INSERTION
         return this._Insert_to_end(elements);
     }
-    
-    /**
-     * @hidden
-     */
+
     private _Insert_to_end(elements: Pair<number, boolean>[]): VectorBoolean.Iterator
     {
         let old_size: number = this.size();
@@ -442,9 +407,6 @@ export class VectorBoolean
     /* ---------------------------------------------------------
         ERASE
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Erase_by_range(first: VectorBoolean.Iterator, last: VectorBoolean.Iterator): VectorBoolean.Iterator
     {
         let elements: Pair<number, boolean>[] = [];
@@ -479,9 +441,6 @@ export class VectorBoolean
 
 export namespace VectorBoolean
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator = ArrayIterator<boolean, VectorBoolean>;
     export type ReverseIterator = ArrayReverseIterator<boolean, VectorBoolean>;
@@ -489,16 +448,4 @@ export namespace VectorBoolean
     // BODY
     export const Iterator = ArrayIterator;
     export const ReverseIterator = ArrayReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator = Iterator;
-    export type reverse_iterator = ReverseIterator;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import vetor_bool = VectorBoolean;

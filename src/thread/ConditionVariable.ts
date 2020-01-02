@@ -2,7 +2,7 @@
 /** @module std */
 //================================================================
 import { HashMap } from "../container/HashMap";
-import { LockType } from "../base/thread/enums";
+import { LockType } from "../internal/thread/LockType";
 import { sleep_until } from "./global";
 
 /**
@@ -12,9 +12,6 @@ import { sleep_until } from "./global";
  */
 export class ConditionVariable
 {
-    /**
-     * @hidden
-     */
     private resolvers_: HashMap<IResolver, LockType>;
 
     /* ---------------------------------------------------------
@@ -176,9 +173,6 @@ export class ConditionVariable
         return true;
     }
 
-    /**
-     * @hidden
-     */
     private _Wait(): Promise<void>
     {
         return new Promise<void>(resolve => 
@@ -187,9 +181,6 @@ export class ConditionVariable
         });
     }
 
-    /**
-     * @hidden
-     */
     private _Wait_until(at: Date): Promise<boolean>
     {
         return new Promise<boolean>(resolve =>
@@ -210,18 +201,8 @@ export class ConditionVariable
     }
 }
 
-/**
- * @hidden
- */
 interface IResolver
 {
     (value?: any): void;
 }
-
-/**
- * @hidden
- */
 type Predicator = () => boolean | Promise<boolean>;
-
-export type condition_variable = ConditionVariable;
-export const condition_variable = ConditionVariable;

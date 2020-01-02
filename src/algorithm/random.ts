@@ -2,12 +2,12 @@
 /** @module std */
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { IPointer } from "../functional";
+import { IPointer } from "../functional/IPointer";
+import { Vector } from "../container/Vector";
 
-import { Writeonly } from "../iterator/IFake";
+import { Writeonly } from "../internal/functional/Writeonly";
+import { advance, distance } from "../iterator/global";
 import { sort } from "./sorting";
-import { distance, advance } from "../iterator/global";
-import { begin, end } from "../iterator/factory";
 
 /**
  * Generate random integer.
@@ -51,7 +51,7 @@ export function sample<
     //----
     // CONSTRUCT INDEXES
     //----
-    let advances: number[] = [];
+    let advances: Vector<number> = new Vector();
     n = Math.min(n, step);
 
     // PICK SAMPLE INDEXES
@@ -60,11 +60,11 @@ export function sample<
         let idx: number = randint(0, remainders.length - 1);
         advances.push(remainders.splice(idx, 1)[0]);
     }
-    sort(begin(advances), end(advances));
+    sort(advances.begin(), advances.end());
 
     // CHANGE INDEXES TO ADVANCES
     for (let i: number = n - 1; i >= 1; --i)
-        advances[i] -= advances[i - 1];
+        advances.set(i, advances.at(i) - advances.at(i - 1));
 
     //----
     // FILL SAMPLES

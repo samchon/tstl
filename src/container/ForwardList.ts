@@ -1,19 +1,25 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { IForwardContainer } from "../base/disposable/IForwardContainer";
+import { IForwardContainer } from "../ranges/container/IForwardContainer";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
 
-import { _IClear, _IEmpty, _ISize } from "../base/disposable/IPartialContainers";
-import { _IDeque } from "../base/container/IDequeContainer";
-import { _IFront } from "../base/container/ILinearContainer";
-import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
+import { IClear } from "../internal/container/partial/IClear";
+import { IEmpty } from "../internal/container/partial/IEmpty";
+import { ISize } from "../internal/container/partial/ISize";
+import { IDeque } from "../internal/container/partial/IDeque";
+import { IFront } from "../internal/container/partial/IFront";
+import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 
-import { _Repeater } from "../base/iterator/_Repeater";
-import { ForOfAdaptor } from "../base/iterator/ForOfAdaptor";
+import { Repeater } from "../internal/iterator/disposable/Repeater";
+import { ForOfAdaptor } from "../internal/iterator/disposable/ForOfAdaptor";
 import { Vector } from "./Vector";
-import { OutOfRange } from "../exception/LogicError";
+import { ErrorGenerator } from "../internal/exception/ErrorGenerator";
+
+import { Comparator } from "../internal/functional/Comparator";
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
 
 import { advance, distance } from "../iterator/global";
 import { equal_to, less } from "../functional/comparators";
@@ -26,28 +32,14 @@ import { sort as sort_func } from "../algorithm/sorting";
  */
 export class ForwardList<T> 
     implements IForwardContainer<ForwardList.Iterator<T>>, 
-        _IClear, _IEmpty, _ISize,
-        _IDeque<T>, _IFront<T>, Iterable<T>,
-        _IListAlgorithm<T, ForwardList<T>>
+        IClear, IEmpty, ISize,
+        IDeque<T>, IFront<T>, Iterable<T>,
+        IListAlgorithm<T, ForwardList<T>>
 {
-    /**
-     * @hidden
-     */
     private ptr_: IPointer<ForwardList<T>>;
-
-    /**
-     * @hidden
-     */
     private size_: number;
 
-    /**
-     * @hidden
-     */
     private before_begin_: ForwardList.Iterator<T>;
-
-    /**
-     * @hidden
-     */
     private end_: ForwardList.Iterator<T>;
 
     /* ===============================================================
@@ -285,20 +277,14 @@ export class ForwardList<T>
         return ret;
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_by_repeating_val(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>
     {
-        let first: _Repeater<T> = new _Repeater(0, val);
-        let last: _Repeater<T> = new _Repeater(n);
+        let first: Repeater<T> = new Repeater(0, val);
+        let last: Repeater<T> = new Repeater(n);
 
         return this._Insert_by_range(pos, first, last);
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
     {
@@ -373,7 +359,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
+    public unique(binary_pred: BinaryPredicator<T> = equal_to): void
     {
         for (let it = this.begin().next(); !it.equals(this.end()); it = it.next())
         {
@@ -397,7 +383,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public remove_if(pred: (val: T) => boolean): void
+    public remove_if(pred: UnaryPredicator<T>): void
     {
         let count: number = 0;
         
@@ -416,7 +402,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public merge(from: ForwardList<T>, comp: (x: T, y: T) => boolean = less): void
+    public merge(from: ForwardList<T>, comp: Comparator<T> = less): void
     {
         if (this === <ForwardList<T>>from)
             return;
@@ -493,7 +479,7 @@ export class ForwardList<T>
     /**
      * @inheritDoc
      */
-    public sort(comp: (x: T, y: T) => boolean = less): void
+    public sort(comp: Comparator<T> = less): void
     {
         let vec = new Vector<T>(this.begin(), this.end());
         sort_func(vec.begin(), vec.end(), comp);
@@ -552,27 +538,13 @@ export namespace ForwardList
      */
     export class Iterator<T> implements IForwardIterator<T, Iterator<T>>
     {
-        /**
-         * @hidden
-         */
         private source_ptr_: IPointer<ForwardList<T>>;
-
-        /**
-         * @hidden
-         */
         private next_: Iterator<T>;
-
-        /**
-         * @hidden
-         */
         private value_: T | undefined;
 
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         private constructor(source: IPointer<ForwardList<T>>, next: Iterator<T>, value?: T)
         {
             this.source_ptr_ = source;
@@ -619,10 +591,7 @@ export namespace ForwardList
             this._Try_value();
             this.value_ = val;
         }
-
-        /**
-         * @hidden
-         */
+        
         private _Try_value(): void
         {
             if (this.value_ === undefined)
@@ -630,9 +599,9 @@ export namespace ForwardList
                 let source: ForwardList<T> = this.source();
 
                 if (this.equals(source.end()) === true)
-                    throw new OutOfRange("Error on std.ForwardList.Iterator.value: cannot access to the std.ForwardList.end().value.");
+                    throw ErrorGenerator.iterator_end_value(source);
                 else if (this.equals(source.before_begin()) === true)
-                    throw new OutOfRange("Error on std.ForwardList.Iterator.value: cannot access to the std.ForwardList.before_begin().value.");
+                    throw ErrorGenerator.iterator_end_value(source, "before_begin");
             }
         }
 
@@ -664,4 +633,3 @@ export namespace ForwardList
         }
     }
 }
-export import forward_list = ForwardList;

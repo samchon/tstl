@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ErrorInstance } from "../base/ErrorInstance";
+import { ErrorInstance } from "../internal/exception/ErrorInstance";
 
 import { ErrorCategory } from "./ErrorCategory";
 
@@ -30,6 +30,3 @@ export class ErrorCondition extends ErrorInstance
         super(val, category!);
     }
 }
-
-export type error_condition = ErrorCondition;
-export var error_condition = ErrorCondition;

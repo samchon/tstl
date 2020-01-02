@@ -1,16 +1,16 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
+import { IAssociativeContainer } from "../../internal/container/associative/IAssociativeContainer";
+import { IContainer } from "./IContainer";
 import { Container } from "./Container";
-import { _IAssociativeContainer } from "./_IAssociativeContainer";
 
-import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
-import { ILinearContainer } from "./ILinearContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { _NativeArrayIterator } from "../iterator/_NativeArrayIterator";
-
+import { ILinearContainerBase } from "../../internal/container/linear/ILinearContainerBase";
+import { NativeArrayIterator } from "../../internal/iterator/disposable/NativeArrayIterator";
 import { Pair } from "../../utility/Pair";
-import { Temporary } from "../Temporary";
+
+import { Temporary } from "../../internal/functional/Temporary";
 
 /**
  * Base class for Set Containers.
@@ -19,16 +19,13 @@ import { Temporary } from "../Temporary";
  */
 export abstract class SetContainer<Key, 
         Unique extends boolean, 
-        Source extends SetContainer<Key, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends ISetIterator<Key, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends ISetReverseIterator<Key, Unique, Source, IteratorT, ReverseT>>
-    extends Container<Key, Source, IteratorT, ReverseT, Key>
-    implements _IAssociativeContainer<Key, Key, Source, IteratorT, ReverseT, Key>
+        SourceT extends SetContainer<Key, Unique, SourceT, IteratorT, ReverseT>,
+        IteratorT extends SetContainer.Iterator<Key, Unique, SourceT, IteratorT, ReverseT>,
+        ReverseT extends SetContainer.ReverseIterator<Key, Unique, SourceT, IteratorT, ReverseT>>
+    extends Container<Key, SourceT, IteratorT, ReverseT, Key>
+    implements IAssociativeContainer<Key, Key, SourceT, IteratorT, ReverseT, Key>
 {
-    /**
-     * @hidden
-     */
-    protected data_: ILinearContainer<Key, Source, IteratorT, ReverseT>;
+    protected data_: ILinearContainerBase<Key, SourceT, IteratorT, ReverseT>;
     
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -36,10 +33,10 @@ export abstract class SetContainer<Key,
     /**
      * Default Constructor.
      */
-    protected constructor(factory: (thisArg: Source) => ILinearContainer<Key, Source, IteratorT, ReverseT>)
+    protected constructor(factory: (thisArg: SourceT) => ILinearContainerBase<Key, SourceT, IteratorT, ReverseT>)
     {
         super();
-        this.data_ = factory(this as Temporary);
+        this.data_ = factory(<Temporary>this);
     }
 
     /**
@@ -132,8 +129,8 @@ export abstract class SetContainer<Key,
             return this.size();
 
         // INSERT BY RANGE
-        let first: _NativeArrayIterator<Key> = new _NativeArrayIterator(items, 0);
-        let last: _NativeArrayIterator<Key> = new _NativeArrayIterator(items, items.length);
+        let first: NativeArrayIterator<Key> = new NativeArrayIterator(items, 0);
+        let last: NativeArrayIterator<Key> = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(first, last);
 
@@ -141,7 +138,7 @@ export abstract class SetContainer<Key,
         return this.size();
     }
     
-    public insert(key: Key): SetContainer.InsertRet<Key, Unique, Source, IteratorT, ReverseT>;
+    public insert(key: Key): SetContainer.InsertRet<Key, Unique, SourceT, IteratorT, ReverseT>;
     public insert(hint: IteratorT, key: Key): IteratorT;
     public insert<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (first: InputIterator, last: InputIterator): void;
@@ -156,19 +153,8 @@ export abstract class SetContainer<Key,
             return this._Insert_by_hint(args[0], args[1]);
     }
 
-    /**
-     * @hidden
-     */
-    protected abstract _Insert_by_key(key: Key): SetContainer.InsertRet<Key, Unique, Source, IteratorT, ReverseT>;
-    
-    /**
-     * @hidden
-     */
+    protected abstract _Insert_by_key(key: Key): SetContainer.InsertRet<Key, Unique, SourceT, IteratorT, ReverseT>;
     protected abstract _Insert_by_hint(hint: IteratorT, key: Key): IteratorT;
-    
-    /**
-     * @hidden
-     */
     protected abstract _Insert_by_range<InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>>
         (begin: InputIterator, end: InputIterator): void;
 
@@ -200,14 +186,8 @@ export abstract class SetContainer<Key,
             return this._Erase_by_range(args[0], args[1]);
     }
 
-    /**
-     * @hidden
-     */
     protected abstract _Erase_by_val(key: Key): number;
 
-    /**
-     * @hidden
-     */
     protected _Erase_by_range(first: IteratorT, last: IteratorT = first.next()): IteratorT
     {
         // ERASE
@@ -223,26 +203,20 @@ export abstract class SetContainer<Key,
         UTILITY
     --------------------------------------------------------- */
     /**
-     * @hidden
+     * @inheritDoc
      */
-    public abstract swap(obj: Source): void;
+    public abstract swap(obj: SourceT): void;
 
     /**
      * @inheritDoc
      */
-    public abstract merge(source: Source): void;
+    public abstract merge(source: SourceT): void;
 
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected abstract _Handle_insert(first: IteratorT, last: IteratorT): void;
 
-    /**
-     * @hidden
-     */
     protected abstract _Handle_erase(first: IteratorT, last: IteratorT): void;
 }
 
@@ -251,9 +225,23 @@ export namespace SetContainer
     export type InsertRet<Key, 
             Unique extends boolean, 
             Source extends SetContainer<Key, Unique, Source, IteratorT, ReverseT>,
-            IteratorT extends ISetIterator<Key, Unique, Source, IteratorT, ReverseT>,
-            ReverseT extends ISetReverseIterator<Key, Unique, Source, IteratorT, ReverseT>>
+            IteratorT extends Iterator<Key, Unique, Source, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, Unique, Source, IteratorT, ReverseT>>
         = Unique extends true
             ? Pair<IteratorT, boolean>
             : IteratorT;
+
+    export type Iterator<Key,
+            Unique extends boolean,
+            SourceT extends SetContainer<Key, Unique, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, Unique, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, Unique, SourceT, IteratorT, ReverseT>>
+        = Readonly<IContainer.Iterator<Key, SourceT, IteratorT, ReverseT, Key>>;
+
+    export type ReverseIterator<Key,
+            Unique extends boolean,
+            SourceT extends SetContainer<Key, Unique, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, Unique, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, Unique, SourceT, IteratorT, ReverseT>>
+        = Readonly<IContainer.ReverseIterator<Key, SourceT, IteratorT, ReverseT, Key>>;
 }

@@ -1,9 +1,10 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { _InsertIterator } from "../base/iterator/_InsertIterator";
-
-import { _IPushBack } from "../base/disposable/IPartialContainers";
+import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
+;
+import { IPushBack } from "../internal/container/partial/IPushBack";
+import { Vector } from "../container/Vector";
 import { equal_to } from "../functional/comparators";
 
 /**
@@ -11,12 +12,9 @@ import { equal_to } from "../functional/comparators";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class BackInsertIterator<T, Source extends _IPushBack<T>>
-    extends _InsertIterator<T, BackInsertIterator<T, Source>>
+export class BackInsertIterator<Source extends IPushBack<BackInsertIterator.ValueType<Source>>>
+    extends InsertIteratorBase<BackInsertIterator.ValueType<Source>, BackInsertIterator<Source>>
 {
-    /**
-     * @hidden
-     */
     private source_: Source;
 
     /* ---------------------------------------------------------
@@ -36,7 +34,7 @@ export class BackInsertIterator<T, Source extends _IPushBack<T>>
     /**
      * @inheritDoc
      */
-    public set value(val: T)
+    public set value(val: BackInsertIterator.ValueType<Source>)
     {
         this.source_.push_back(val);
     }
@@ -44,8 +42,20 @@ export class BackInsertIterator<T, Source extends _IPushBack<T>>
     /**
      * @inheritDoc
      */
-    public equals(obj: BackInsertIterator<T, Source>): boolean
+    public equals(obj: BackInsertIterator<Source>): boolean
     {
         return equal_to(this.source_, obj.source_);
     }
+}
+export namespace BackInsertIterator
+{
+    export type ValueType<Source extends IPushBack<any>> = 
+        Source extends IPushBack<infer T>
+            ? T
+            : unknown;
+
+    export type SourceType<Source extends Array<any> | IPushBack<any>> =
+        Source extends Array<infer T>
+            ? Vector<T>
+            : Source;
 }

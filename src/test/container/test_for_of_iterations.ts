@@ -14,7 +14,7 @@ export function test_for_of_iterations(): void
 
 function _Test_for_of_iteration<
         SourceT extends std.base.IContainer<number, SourceT, IteratorT, ReverseT>,
-        IteratorT extends std.base.Iterator<number, SourceT, IteratorT, ReverseT>, 
+        IteratorT extends std.base.IContainer.Iterator<number, SourceT, IteratorT, ReverseT>, 
         ReverseT extends std.base.ReverseIterator<number, SourceT, IteratorT, ReverseT>>
     (vec: SourceT): void
 {
@@ -22,7 +22,7 @@ function _Test_for_of_iteration<
     // CONSTRUCTIONS
     //----
     // CONSTRUCT ITEMS TO VALIDATE
-    let items: number[] = new Array(10);
+    let items: std.Vector<number> = new std.Vector(10, 0);
     std.iota(std.begin(items), std.end(items), 0);
 
     // PUSH THEM ALL TO THE CONTAINER
@@ -34,8 +34,8 @@ function _Test_for_of_iteration<
     let i: number = 0;
 
     for (let elem of vec)
-        if (elem !== items[i++])
-            throw new std.DomainError("Wrong for of iteration.");
+        if (elem !== items.at(i++))
+            throw new Error(`Bug on ${vec.constructor.name}[Symbol.iterator]().`);
 }
 
 function _Test_for_of_map_iteration(): void
@@ -60,5 +60,5 @@ function _Test_for_of_map_iteration(): void
 
     for (let pair of map)
         if (std.equal_to(pair, items[i++]) === false)
-            throw new std.DomainError("Wrong for of iteration.");
+            throw new Error("Bug on TreeMap[Symbol.iterator]().");
 }

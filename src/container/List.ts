@@ -1,16 +1,20 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ListContainer } from "../base/container/ListContainer";
+import { ListContainer } from "../internal/container/linear/ListContainer";
 import { IDequeContainer } from "../base/container/IDequeContainer";
-import { _IListAlgorithm } from "../base/disposable/IListAlgorithm";
+import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 
-import { ListIterator } from "../base/iterator/ListIterator";
+import { ListIterator } from "../internal/iterator/ListIterator";
 import { ReverseIterator as ReverseIteratorBase } from "../base/iterator/ReverseIterator";
 
 import { IPointer } from "../functional/IPointer";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { equal_to, less } from "../functional/comparators";
+
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { Comparator } from "../internal/functional/Comparator";
+import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
 
 /**
  * Doubly Linked List.
@@ -20,11 +24,8 @@ import { equal_to, less } from "../functional/comparators";
 export class List<T>
     extends ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
     implements IDequeContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>,
-        _IListAlgorithm<T, List<T>>
+        IListAlgorithm<T, List<T>>
 {
-    /**
-     * @hidden
-     */
     private ptr_: IPointer<List<T>>;
 
     /* ---------------------------------------------------------
@@ -103,9 +104,6 @@ export class List<T>
         }
     }
 
-    /**
-     * @hidden
-     */
     protected _Create_iterator(prev: List.Iterator<T>, next: List.Iterator<T>, val: T): List.Iterator<T>
     {
         return List.Iterator.create(this.ptr_, prev as List.Iterator<T>, next as List.Iterator<T>, val);
@@ -162,7 +160,7 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public unique(binary_pred: (x: T, y: T) => boolean = equal_to): void
+    public unique(binary_pred: BinaryPredicator<T> = equal_to): void
     {
         let it = this.begin().next();
 
@@ -186,7 +184,7 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public remove_if(pred: (val: T) => boolean): void
+    public remove_if(pred: UnaryPredicator<T>): void
     {
         let it = this.begin();
 
@@ -205,7 +203,7 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public merge(source: List<T>, comp: (x: T, y: T) => boolean = less): void
+    public merge(source: List<T>, comp: Comparator<T> = less): void
     {
         if (this === <List<T>>source)
             return;
@@ -273,15 +271,12 @@ export class List<T>
     /**
      * @inheritDoc
      */
-    public sort(comp: (x: T, y: T) => boolean = less): void
+    public sort(comp: Comparator<T> = less): void
     {
         this._Quick_sort(this.begin(), this.end().prev(), comp);
     }
 
-    /**
-     * @hidden
-     */
-    private _Quick_sort(first: List.Iterator<T>, last: List.Iterator<T>, comp: (x: T, y: T) => boolean): void
+    private _Quick_sort(first: List.Iterator<T>, last: List.Iterator<T>, comp: Comparator<T>): void
     {
         if (!first.equals(last) && !last.equals(this.end()) && !first.equals(last.next()))
         {
@@ -292,10 +287,7 @@ export class List<T>
         }
     }
 
-    /**
-     * @hidden
-     */
-    private _Quick_sort_partition(first: List.Iterator<T>, last: List.Iterator<T>, comp: (x: T, y: T) => boolean): List.Iterator<T>
+    private _Quick_sort_partition(first: List.Iterator<T>, last: List.Iterator<T>, comp: Comparator<T>): List.Iterator<T>
     {
         let standard: T = last.value; // TO BE COMPARED
         let prev: List.Iterator<T> = first.prev(); // TO BE SMALLEST
@@ -363,17 +355,11 @@ export namespace List
     export class Iterator<T>
         extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>, T>
     {
-        /**
-         * @hidden
-         */
         private source_ptr_: IPointer<List<T>>;
 
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         private constructor(sourcePtr: IPointer<List<T>>, prev: Iterator<T>, next: Iterator<T>, value: T)
         {
             super(prev, next, value);
@@ -453,9 +439,6 @@ export namespace List
         /* ---------------------------------------------------------------
             CONSTRUCTORS
         --------------------------------------------------------------- */
-        /**
-         * @hidden
-         */
         protected _Create_neighbor(base: Iterator<T>): ReverseIterator<T>
         {
             return new ReverseIterator<T>(base);
@@ -481,4 +464,3 @@ export namespace List
         }
     }
 }
-export import list = List;

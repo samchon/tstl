@@ -71,9 +71,6 @@ export class Pair<First, Second>
     }
 }
 
-export type pair<First, Second> = Pair<First, Second>;
-export const pair = Pair;
-
 /**
  * Create a {@link Pair}.
  * 

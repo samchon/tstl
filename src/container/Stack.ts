@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { AdaptorContainer } from "../base/container/AdaptorContainer";
+import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer";
 import { Vector } from "./Vector";
 
 /**
@@ -29,9 +29,8 @@ export class Stack<T>
 
     public constructor(obj?: Stack<T>)
     {
-        super();
-
-        this.source_ = new Vector();
+        super(new Vector());
+        
         if (obj !== undefined)
             this.source_.assign(obj.source_.begin(), obj.source_.end());
     }
@@ -57,6 +56,3 @@ export class Stack<T>
         this.source_.pop_back();
     }
 }
-
-export type stack<T> = Stack<T>;
-export const stack = Stack;

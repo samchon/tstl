@@ -2,11 +2,9 @@
 /** @module std.base */
 //================================================================
 import { IContainer } from "./IContainer";
-import { Iterator } from "../iterator/Iterator";
-import { IReverseIterator } from "../iterator/ReverseIterator";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { ForOfAdaptor } from "../iterator/ForOfAdaptor";
+import { ForOfAdaptor } from "../../internal/iterator/disposable/ForOfAdaptor";
 
 /**
  * Basic container.
@@ -15,8 +13,8 @@ import { ForOfAdaptor } from "../iterator/ForOfAdaptor";
  */
 export abstract class Container<T extends Elem, 
         SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
+        ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
         Elem = T>
     implements IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>
 {
@@ -32,10 +30,7 @@ export abstract class Container<T extends Elem,
     /**
      * @inheritDoc
      */
-    public clear(): void
-    {
-        this.erase(this.begin(), this.end());
-    }
+    public abstract clear(): void;
     
     /* =========================================================
         ACCESSORS

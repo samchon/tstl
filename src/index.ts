@@ -2,14 +2,19 @@
 /** @module std */
 //================================================================
 /**
- * Basic, internal features.
+ * Basic features.
  */
 export import base = require("./base");
 
 /**
- * Experimental Features.
+ * Experimental features.
  */
 export import experimental = require("./experimental");
+
+/**
+ * Ranged modules.
+ */
+export import ranges = require("./ranges");
 
 export * from "./container";
 export * from "./iterator";

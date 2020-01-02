@@ -1,9 +1,9 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { _InsertIterator } from "../base/iterator/_InsertIterator";
+import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 
-import { _IPushFront } from "../base/disposable/IPartialContainers";
+import { IPushFront } from "../internal/container/partial/IPushFront";
 import { equal_to } from "../functional/comparators";
 
 /**
@@ -11,12 +11,9 @@ import { equal_to } from "../functional/comparators";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class FrontInsertIterator<T, Source extends _IPushFront<T>>
-    extends _InsertIterator<T, FrontInsertIterator<T, Source>>
+export class FrontInsertIterator<Source extends IPushFront<FrontInsertIterator.ValueType<Source>>>
+    extends InsertIteratorBase<FrontInsertIterator.ValueType<Source>, FrontInsertIterator<Source>>
 {
-    /**
-     * @hidden
-     */
     private source_: Source;
 
     /* ---------------------------------------------------------
@@ -36,7 +33,7 @@ export class FrontInsertIterator<T, Source extends _IPushFront<T>>
     /**
      * @inheritDoc
      */
-    public set value(val: T)
+    public set value(val: FrontInsertIterator.ValueType<Source>)
     {
         this.source_.push_front(val);
     }
@@ -44,8 +41,15 @@ export class FrontInsertIterator<T, Source extends _IPushFront<T>>
     /**
      * @inheritDoc
      */
-    public equals(obj: FrontInsertIterator<T, Source>): boolean
+    public equals(obj: FrontInsertIterator<Source>): boolean
     {
         return equal_to(this.source_, obj.source_);
     }
+}
+export namespace FrontInsertIterator
+{
+    export type ValueType<Source extends IPushFront<any>> = 
+        Source extends IPushFront<infer T>
+            ? T
+            : unknown;
 }

@@ -4,12 +4,11 @@
 import { MapContainer } from "./MapContainer";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { IMapIterator, IMapReverseIterator } from "../iterator/IMapIterator";
-
 import { IPair } from "../../utility/IPair";
-import { Pair } from "../../utility/Pair";
 import { Entry } from "../../utility/Entry";
-import { OutOfRange } from "../../exception/LogicError";
+import { Pair } from "../../utility/Pair";
+
+import { ErrorGenerator } from "../../internal/exception/ErrorGenerator";
 
 /**
  * Base class for Unique-key Map Containers.
@@ -18,8 +17,8 @@ import { OutOfRange } from "../../exception/LogicError";
  */
 export abstract class UniqueMap<Key, T, 
         Source extends UniqueMap<Key, T, Source, Iterator, Reverse>, 
-        Iterator extends IMapIterator<Key, T, true, Source, Iterator, Reverse>, 
-        Reverse extends IMapReverseIterator<Key, T, true, Source, Iterator, Reverse>>
+        Iterator extends UniqueMap.Iterator<Key, T, Source, Iterator, Reverse>, 
+        Reverse extends UniqueMap.ReverseIterator<Key, T, Source, Iterator, Reverse>>
     extends MapContainer<Key, T, true, Source, Iterator, Reverse>
 {
     /* ---------------------------------------------------------
@@ -43,7 +42,7 @@ export abstract class UniqueMap<Key, T,
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.get(): unable to find the matched key -> ${key}.`);
+            throw ErrorGenerator.key_nout_found(this, "get", key);
 
         return it.second;
     }
@@ -112,9 +111,6 @@ export abstract class UniqueMap<Key, T,
         return (super.insert as Function)(...args);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<IPair<Key, T>, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
@@ -140,7 +136,7 @@ export abstract class UniqueMap<Key, T,
      * @param hint Hint for the position where the element can be inserted.
      * @param key Key to be mapped or search for.
      * @param value Value to insert or assign.
-     * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
+     * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
      */
     public insert_or_assign(hint: Iterator, key: Key, value: T): Iterator;
 
@@ -157,9 +153,6 @@ export abstract class UniqueMap<Key, T,
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<Iterator, boolean>
     {
         let ret = this.emplace(key, value);
@@ -169,9 +162,6 @@ export abstract class UniqueMap<Key, T,
         return ret;
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_or_assign_with_hint(hint: Iterator, key: Key, value: T): Iterator
     {
         let ret = this.emplace_hint(hint, key, value);
@@ -208,14 +198,11 @@ export abstract class UniqueMap<Key, T,
             return this._Extract_by_key(param as Key);
     }
 
-    /**
-     * @hidden
-     */
     private _Extract_by_key(key: Key): Entry<Key, T>
     {
         let it = this.find(key);
         if (it.equals(this.end()) === true)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.extract(): unable to find the matched key -> ${key}.`);
+            throw ErrorGenerator.key_nout_found(this, "extract", key);
 
         let ret: Entry<Key, T> = it.value;
         this._Erase_by_range(it);
@@ -223,9 +210,6 @@ export abstract class UniqueMap<Key, T,
         return ret;
     }
 
-    /**
-     * @hidden
-     */
     private _Extract_by_iterator(it: Iterator): Iterator
     {
         if (it.equals(this.end()) === true)
@@ -235,9 +219,6 @@ export abstract class UniqueMap<Key, T,
         return it;
     }
 
-    /**
-     * @hidden
-     */
     protected _Erase_by_key(key: Key): number
     {
         let it = this.find(key);
@@ -265,4 +246,19 @@ export abstract class UniqueMap<Key, T,
             else
                 it = it.next();
     }
+}
+
+export namespace UniqueMap
+{
+    export type Iterator<Key, T, 
+            SourceT extends UniqueMap<Key, T, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, T, SourceT, IteratorT, ReverseT>>
+        = MapContainer.Iterator<Key, T, true, SourceT, IteratorT, ReverseT>;
+
+    export type ReverseIterator<Key, T, 
+            SourceT extends UniqueMap<Key, T, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, T, SourceT, IteratorT, ReverseT>>
+        = MapContainer.ReverseIterator<Key, T, true, SourceT, IteratorT, ReverseT>;
 }

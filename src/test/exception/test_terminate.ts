@@ -8,5 +8,5 @@ export function test_terminate(): void
 function _Terminate_handler(): void
 {
     if (std.get_terminate() !== _Terminate_handler)
-        throw new std.DomainError("Error on set_terminate().");
+        throw new std.DomainError("Bug on set_terminate().");
 }

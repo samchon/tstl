@@ -12,24 +12,10 @@ import { ConditionVariable } from "./ConditionVariable";
  */
 export class FlexBarrier
 {
-    /**
-     * @hidden
-     */
     private cv_: ConditionVariable;
+    private complete_: () => number;
 
-    /**
-     * @hidden
-     */
-    private complete_: ()=>number;
-
-    /**
-     * @hidden
-     */
     protected size_: number;
-
-    /**
-     * @hidden
-     */
     private count_: number;
 
     /* ---------------------------------------------------------
@@ -41,7 +27,7 @@ export class FlexBarrier
      * @param size Size of the downward counter.
      * @param complete Complete function re-configuring *size* when downward count be zero. Default is a function always returning -1, which means the barrier is not reusable more.
      */
-    public constructor(size: number, complete: ()=>number = ()=>-1)
+    public constructor(size: number, complete: () => number = () => -1)
     {
         this.cv_ = new ConditionVariable();
         this.complete_ = complete;
@@ -95,6 +81,3 @@ export class FlexBarrier
     //     return this.cv_.wait_until(at);
     // }
 }
-
-export type flex_barrier = FlexBarrier;
-export const flex_barrier = FlexBarrier;

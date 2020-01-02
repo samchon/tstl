@@ -2,9 +2,10 @@
 /** @module std */
 //================================================================
 import { List } from "../container/List";
-import { OutOfRange } from "../exception/LogicError";
+import { OutOfRange } from "../exception/OutOfRange";
 
-import { LockType } from "../base/thread/enums";
+import { ITimedLockable } from "../internal/thread/ITimedLockable";
+import { LockType } from "../internal/thread/LockType";
 import { sleep_for } from "./global";
 
 /**
@@ -14,19 +15,9 @@ import { sleep_for } from "./global";
  */
 export class Semaphore<Max extends number = number>
 {
-    /**
-     * @hidden
-     */
     private max_: Max;
-
-    /**
-     * @hidden
-     */
     private acquiring_: number;
 
-    /**
-     * @hidden
-     */
     private queue_: List<IResolver>;
 
     /* ---------------------------------------------------------
@@ -52,7 +43,7 @@ export class Semaphore<Max extends number = number>
         return this.max_;
     }
 
-    public get_lockable(): ILockable
+    public get_lockable(): ITimedLockable
     {
         return new Semaphore.Lockable(this);
     }
@@ -106,20 +97,17 @@ export class Semaphore<Max extends number = number>
     {
         // VALIDATE COUNT
         if (count < 1)
-            throw new OutOfRange(`Error on std.Semaphore.release(): parametric count is less than 1 -> (count = ${count}).`);
+            throw new OutOfRange(`Bug on std.Semaphore.release(): parametric count is less than 1 -> (count = ${count}).`);
         else if (count > this.max_)
-            throw new OutOfRange(`Error on std.Semaphore.release(): parametric count is greater than max -> (count = ${count}, max = ${this.max_}).`);
+            throw new OutOfRange(`Bug on std.Semaphore.release(): parametric count is greater than max -> (count = ${count}, max = ${this.max_}).`);
         else if (count > this.acquiring_)
-            throw new OutOfRange(`Error on std.Semaphore.release(): parametric count is greater than acquiring -> (count = ${count}, acquiring = ${this.acquiring_}).`);
+            throw new OutOfRange(`Bug on std.Semaphore.release(): parametric count is greater than acquiring -> (count = ${count}, acquiring = ${this.acquiring_}).`);
 
         // DO RELEASE
         this.acquiring_ -= count;
         this._Release(count);
     }
 
-    /**
-     * @hidden
-     */
     private _Release(count: number): void
     {
         for (let it = this.queue_.begin(); !it.equals(this.queue_.end()); it = it.next())
@@ -140,9 +128,6 @@ export class Semaphore<Max extends number = number>
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Cancel(it: List.Iterator<IResolver>): void
     {
         // POP THE LISTENER
@@ -217,7 +202,7 @@ export namespace Semaphore
     /**
      * @internal
      */
-    export class Lockable implements ILockable
+    export class Lockable implements ITimedLockable
     {
         private semahpore_: Semaphore;
 
@@ -225,32 +210,32 @@ export namespace Semaphore
         {
             this.semahpore_ = semaphore;
         }
-
         public lock(): Promise<void>
         {
             return this.semahpore_.acquire();
+        }
+        public unlock(): Promise<void>
+        {
+            return this.semahpore_.release();
         }
 
         public try_lock(): Promise<boolean>
         {
             return this.semahpore_.try_acquire();
         }
-
-        public unlock(): Promise<void>
+        public try_lock_for(ms: number): Promise<boolean>
         {
-            return this.semahpore_.release();
+            return this.semahpore_.try_acquire_for(ms);
+        }
+        public try_lock_until(at: Date): Promise<boolean>
+        {
+            return this.semahpore_.try_acquire_until(at);
         }
     }
 }
 
-/**
- * @hidden
- */
 interface IResolver
 {
     handler: Function | null;
     type: LockType;
 }
-
-export import couting_semaphore = Semaphore;
-import { ILockable } from "./ILockable";

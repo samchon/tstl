@@ -6,15 +6,15 @@ export function test_priority_queue(): void
     for (let i: number = 0; i < 1000; ++i)
         pq.push(Math.random() * 100);
 
-    let items: Array<number> = [];
+    let items: std.Vector<number> = new std.Vector();
     while (pq.empty() === false)
     {
-        items.push(pq.top());
+        items.push_back(pq.top());
         pq.pop();
     }
 
     if (std.is_sorted(std.begin(items), std.end(items), std.less) === false)
-        throw new std.DomainError("PriorityQueue is invalid.");
+        throw new Error("Bug on PriorityQueue: stored elements are not sorted");
 }
 
 export function test_adaptors(): void

@@ -3,24 +3,6 @@
 //================================================================
 import { IContainer } from "../container/IContainer";
 
-import { Iterator } from "./Iterator";
-import { IReverseIterator as _IReverse } from "../../iterator/IReverseIterator";
-
-export interface IReverseIterator<T extends Elem, 
-        Source extends IContainer<T, Source, Base, This, Elem>, 
-        Base extends Iterator<T, Source, Base, This, Elem>, 
-        This extends IReverseIterator<T, Source, Base, This, Elem>,
-        Elem = T>
-    extends Readonly<_IReverse<T, Base, This>>
-{
-    /**
-     * Get source container.
-     * 
-     * @return The source container.
-     */
-    source(): Source;
-}
-
 /**
  * Base reverse iterator for {@link IContainer}
  * 
@@ -28,14 +10,11 @@ export interface IReverseIterator<T extends Elem,
  */
 export abstract class ReverseIterator<T extends Elem, 
         Source extends IContainer<T, Source, Base, This, Elem>, 
-        Base extends Iterator<T, Source, Base, This, Elem>, 
+        Base extends IContainer.Iterator<T, Source, Base, This, Elem>, 
         This extends ReverseIterator<T, Source, Base, This, Elem>,
         Elem = T>
-    implements IReverseIterator<T, Source, Base, This, Elem>
+    implements IContainer.ReverseIterator<T, Source, Base, This, Elem>
 {
-    /**
-     * @hidden
-     */
     protected base_: Base;
 
     /* ---------------------------------------------------------
@@ -52,9 +31,6 @@ export abstract class ReverseIterator<T extends Elem,
     }
 
     // CREATE A NEW OBJECT WITH SAME (DERIVED) TYPE
-    /**
-     * @hidden
-     */
     protected abstract _Create_neighbor(base: Base): This;
 
     /* ---------------------------------------------------------

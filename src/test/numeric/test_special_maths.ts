@@ -52,7 +52,7 @@ export function test_special_maths(): void
             validate = false;
 
     if (!validate)
-        throw new std.DomainError("Error on special math function(s).");
+        throw new std.DomainError("Bug on special math function(s).");
 }
 
 function _Difference(x: number, y: number): number

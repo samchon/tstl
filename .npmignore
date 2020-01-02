@@ -17,4 +17,5 @@ test/
 *.js.map
 
 tsconfig.json
+module.json
 package-lock.json

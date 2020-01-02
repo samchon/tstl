@@ -3,7 +3,6 @@ import * as std from "../../index";
 export function test_utilities()
 {
     _Test_pairs();
-    _Test_entries();
     _Test_node();
 }
 
@@ -14,24 +13,13 @@ function _Test_pairs(): void
     let z = std.make_pair(1, 3);
 
     if (x.hashCode() !== y.hashCode() || x.hashCode() === z.hashCode())
-        throw new std.DomainError("Error in Pair.hashCode()");
+        throw new Error("Bug on Pair.hashCode()");
     else if (x.equals(y) === false || x.equals(z) === true)
-        throw new std.DomainError("Error in Pair.equals()");
-}
-
-function _Test_entries(): void
-{
-    let x = new std.Entry<number, number>(1, 2);
-    let y = new std.Entry<number, number>(1, 3);
-
-    if (x.hashCode() !== y.hashCode())
-        throw new std.DomainError("Error in Entry.hashCode()");
-    else if (x.equals(y) === false)
-        throw new std.DomainError("Error in Pair.equals()");
+        throw new Error("Bug on Pair.equals()");
 }
 
 function _Test_node(): void
 {
     if (std.is_node() === false)
-        throw new std.DomainError("Error on is_node()");
+        throw new Error("Bug on is_node(): wrong result");
 }

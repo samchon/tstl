@@ -1,25 +1,28 @@
 //================================================================ 
 /** @module std.experimental */
 //================================================================
-import { UniqueTreeSet } from "../../base/container/UniqueTreeSet";
-import { _Construct } from "../../base/container/_ITreeContainer";
+import { UniqueTreeSet } from "../../internal/container/associative/UniqueTreeSet";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
-import { SetElementVector } from "../../base/container/SetElementVector";
+import { SetElementVector } from "../../internal/container/associative/SetElementVector";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Temporary } from "../../base/Temporary";
+import { Comparator } from "../../internal/functional/Comparator";
+import { Temporary } from "../../internal/functional/Temporary";
 import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 
+/**
+ * Unique-key Set based on sorted array.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class FlatSet<Key>
     extends UniqueTreeSet<Key, 
         FlatSet<Key>, 
         FlatSet.Iterator<Key>, 
         FlatSet.ReverseIterator<Key>>
 {
-    /**
-     * @hidden
-     */
-    private key_comp_!: (x: Key, y: Key) => boolean;
+    private key_comp_!: Comparator<Key>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -29,7 +32,7 @@ export class FlatSet<Key>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: Key, y: Key) => boolean);
+    public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
@@ -37,7 +40,7 @@ export class FlatSet<Key>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: Key[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: Key[], comp?: Comparator<Key>);
 
     /**
      * Copy Constructor.
@@ -57,16 +60,16 @@ export class FlatSet<Key>
         (
             first: Readonly<IForwardIterator<Key>>, 
             last: Readonly<IForwardIterator<Key>>,
-            comp?: (x: Key, y: Key) => boolean
+            comp?: Comparator<Key>
         );
     
     public constructor(...args: any[])
     {
         // INITIALIZATION
-        super(thisArg => new SetElementVector(<Temporary>thisArg) as Temporary);
+        super(thisArg => new SetElementVector(thisArg));
         
         // OVERLOADINGS
-        _Construct<Key, Key, 
+        ITreeContainer.construct<Key, Key, 
                 FlatSet<Key>,
                 FlatSet.Iterator<Key>,
                 FlatSet.ReverseIterator<Key>,
@@ -108,7 +111,7 @@ export class FlatSet<Key>
     /**
      * @inheritDoc
      */
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.key_comp_;
     }
@@ -132,22 +135,13 @@ export class FlatSet<Key>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert({}, {}): void {}
 
-    /**
-     * @hidden
-     */
     protected _Handle_erase({}, {}): void {}
 }
 
 export namespace FlatSet
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key> = SetElementVector.Iterator<Key, true, FlatSet<Key>>;
     export type ReverseIterator<Key> = SetElementVector.ReverseIterator<Key, true, FlatSet<Key>>;
@@ -155,16 +149,6 @@ export namespace FlatSet
     // BODY
     export const Iterator = SetElementVector.Iterator;
     export const ReverseIterator = SetElementVector.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key> = Iterator<Key>;
-    export type reverse_iterator<Key> = ReverseIterator<Key>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
+    
+    export const __MODULE = "experimental";
 }
-export import flat_set = FlatSet;

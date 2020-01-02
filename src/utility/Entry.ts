@@ -13,7 +13,8 @@ import { less as less_fn, equal_to } from "../functional/comparators";
  * @author Jeongho Nam <http://samchon.org>
  */
 export class Entry<Key, T> 
-    implements IPair<Key, T>, IComparable<Entry<Key, T>>
+    implements Readonly<IPair<Key, T>>, 
+        IComparable<Entry<Key, T>>
 {
     /**
      * The first, key element.

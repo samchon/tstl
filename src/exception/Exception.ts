@@ -12,18 +12,11 @@ export class Exception extends Error
         CONSTRUCTOR
     --------------------------------------------------------- */
     /**
-     * Default Constructor.
-     */
-    public constructor();
-
-    /**
      * Initializer Constructor.
      * 
      * @param message The error messgae.
      */
-    public constructor(message: string);
-
-    public constructor(message: string = "")
+    public constructor(message: string)
     {
         super(message);
 
@@ -72,6 +65,3 @@ export class Exception extends Error
         };
     }
 }
-
-export type exception = Exception;
-export const exception = Exception;

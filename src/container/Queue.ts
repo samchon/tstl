@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { AdaptorContainer } from "../base/container/AdaptorContainer";
+import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer";
 import { List } from "./List";
 
 /**
@@ -29,9 +29,8 @@ export class Queue<T>
 
     public constructor(obj?: Queue<T>)
     {
-        super();
-
-        this.source_ = new List();
+        super(new List());
+        
         if (obj !== undefined)
             this.source_.assign(obj.source_.begin(), obj.source_.end());
     }
@@ -67,6 +66,3 @@ export class Queue<T>
         this.source_.pop_front();
     }
 }
-
-export type queue<T> = Queue<T>;
-export const queue = Queue;

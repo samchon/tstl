@@ -3,14 +3,17 @@
 //================================================================
 import { UniqueSet } from "../base/container/UniqueSet";
 import { IHashSet } from "../base/container/IHashSet";
-import { _Construct } from "../base/container/_IHashContainer";
+import { IHashContainer } from "../internal/container/associative/IHashContainer";
 
-import { SetElementList } from "../base/container/SetElementList";
-import { _SetHashBuckets } from "../base/hash/_SetHashBuckets";
+import { SetElementList } from "../internal/container/associative/SetElementList";
+import { SetHashBuckets } from "../internal/hash/SetHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { Pair } from "../utility/Pair";
-import { Temporary } from "../base/Temporary";
+
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { Hasher } from "../internal/functional/Hasher";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Unique-key Set based on Hash buckets.
@@ -24,10 +27,7 @@ export class HashSet<Key>
         HashSet.ReverseIterator<Key>>
     implements IHashSet<Key, true, HashSet<Key>>
 {
-    /**
-     * @hidden
-     */
-    public buckets_!: _SetHashBuckets<Key, true, HashSet<Key>>;
+    private buckets_!: SetHashBuckets<Key, true, HashSet<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -42,7 +42,7 @@ export class HashSet<Key>
      * @param hash An unary function returns hash code. Default is {hash}.
      * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
     /**
      * Initializer Constructor.
@@ -51,7 +51,7 @@ export class HashSet<Key>
      * @param hash An unary function returns hash code. Default is {hash}.
      * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    public constructor(items: Key[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    public constructor(items: Key[], hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
     /**
      * Copy Constructor.
@@ -72,14 +72,14 @@ export class HashSet<Key>
     (
         first: Readonly<IForwardIterator<Key>>, 
         last: Readonly<IForwardIterator<Key>>, 
-        hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean
+        hash?: Hasher<Key>, equal?: BinaryPredicator<Key>
     );
 
     public constructor(...args: any[])
     {
-        super(thisArg => new SetElementList(<Temporary>thisArg) as Temporary);
+        super(thisArg => new SetElementList(thisArg));
 
-        _Construct<Key, Key, 
+        IHashContainer.construct<Key, Key, 
                 HashSet<Key>,
                 HashSet.Iterator<Key>,
                 HashSet.ReverseIterator<Key>,
@@ -88,7 +88,7 @@ export class HashSet<Key>
             this, HashSet, 
             (hash, pred) =>
             {
-                this.buckets_ = new _SetHashBuckets(this, hash, pred);
+                this.buckets_ = new SetHashBuckets(this, hash, pred);
             },
             ...args
         );
@@ -117,7 +117,7 @@ export class HashSet<Key>
         SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS
-        _SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
+        SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -227,7 +227,7 @@ export class HashSet<Key>
     /**
      * @inheritDoc
      */
-    public hash_function(): (key: Key) => number
+    public hash_function(): Hasher<Key>
     {
         return this.buckets_.hash_function();
     }
@@ -235,7 +235,7 @@ export class HashSet<Key>
     /**
      * @inheritDoc
      */
-    public key_eq(): (x: Key, y: Key) => boolean
+    public key_eq(): BinaryPredicator<Key>
     {
         return this.buckets_.key_eq();
     }
@@ -288,9 +288,6 @@ export class HashSet<Key>
     ============================================================
         INSERT
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Insert_by_key(key: Key): Pair<HashSet.Iterator<Key>, boolean>
     {
         // TEST WHETHER EXIST
@@ -308,9 +305,6 @@ export class HashSet<Key>
         return new Pair(it, true);
     }
 
-    /**
-     * @hidden
-     */
     protected _Insert_by_hint(hint: HashSet.Iterator<Key>, key: Key): HashSet.Iterator<Key>
     {
         // FIND DUPLICATED KEY
@@ -329,18 +323,12 @@ export class HashSet<Key>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: HashSet.Iterator<Key>, last: HashSet.Iterator<Key>): void
     {
         for (; !first.equals(last); first = first.next())
             this.buckets_.insert(first);
     }
 
-    /**
-     * @hidden
-     */
     protected _Handle_erase(first: HashSet.Iterator<Key>, last: HashSet.Iterator<Key>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -350,9 +338,6 @@ export class HashSet<Key>
 
 export namespace HashSet
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key> = SetElementList.Iterator<Key, true, HashSet<Key>>;
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, true, HashSet<Key>>;
@@ -360,16 +345,4 @@ export namespace HashSet
     // BODY
     export const Iterator = SetElementList.Iterator;
     export const ReverseIterator = SetElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key> = Iterator<Key>;
-    export type reverse_iterator<Key> = ReverseIterator<Key>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import unordered_set = HashSet;

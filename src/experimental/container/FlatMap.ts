@@ -1,27 +1,30 @@
 //================================================================ 
 /** @module std.experimental */
 //================================================================
-import { UniqueTreeMap } from "../../base/container/UniqueTreeMap";
-import { _Construct } from "../../base/container/_ITreeContainer";
+import { UniqueTreeMap } from "../../internal/container/associative/UniqueTreeMap";
+import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
-import { MapElementVector } from "../../base/container/MapElementVector";
-import { Entry } from "../../utility/Entry";
+import { MapElementVector } from "../../internal/container/associative/MapElementVector";
 import { IPair } from "../../utility/IPair";
+import { Entry } from "../../utility/Entry";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Temporary } from "../../base/Temporary";
+import { Comparator } from "../../internal/functional/Comparator";
+import { Temporary } from "../../internal/functional/Temporary";
 import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 
+/**
+ * Unique-key Map based on sorted array.
+ * 
+ * @author Jeongho Nam <http://samchon.org>
+ */
 export class FlatMap<Key, T>
     extends UniqueTreeMap<Key, T, 
         FlatMap<Key, T>, 
         FlatMap.Iterator<Key, T>, 
         FlatMap.ReverseIterator<Key, T>>
 {
-    /**
-     * @hidden
-     */
-    private key_comp_!: (x: Key, y: Key) => boolean;
+    private key_comp_!: Comparator<Key>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -31,7 +34,7 @@ export class FlatMap<Key, T>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: Key, y: Key) => boolean);
+    public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
@@ -39,7 +42,7 @@ export class FlatMap<Key, T>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
     /**
      * Copy Constructor.
@@ -59,16 +62,16 @@ export class FlatMap<Key, T>
         (
             first: Readonly<IForwardIterator<IPair<Key, T>>>, 
             last: Readonly<IForwardIterator<IPair<Key, T>>>,
-            comp?: (x: Key, y: Key) => boolean
+            comp?: Comparator<Key>
         );
     
     public constructor(...args: any[])
     {
         // INITIALIZATION
-        super(thisArg => new MapElementVector(<Temporary>thisArg) as Temporary);
+        super(thisArg => new MapElementVector(thisArg));
         
         // OVERLOADINGS
-        _Construct<Key, Entry<Key, T>, 
+        ITreeContainer.construct<Key, Entry<Key, T>, 
                 FlatMap<Key, T>,
                 FlatMap.Iterator<Key, T>,
                 FlatMap.ReverseIterator<Key, T>,
@@ -110,7 +113,7 @@ export class FlatMap<Key, T>
     /**
      * @inheritDoc
      */
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.key_comp_;
     }
@@ -131,9 +134,6 @@ export class FlatMap<Key, T>
         return upper_bound(this.begin(), this.end(), this._Capsule_key(key), this.value_comp());
     }
 
-    /**
-     * @hidden
-     */
     private _Capsule_key(key: Key): Entry<Key, T>
     {
         return { first: key } as Entry<Key, T>;
@@ -142,22 +142,13 @@ export class FlatMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert({}, {}): void {}
-
-    /**
-     * @hidden
-     */
+    
     protected _Handle_erase({}, {}): void {}
 }
 
 export namespace FlatMap
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key, T> = MapElementVector.Iterator<Key, T, true, FlatMap<Key, T>>;
     export type ReverseIterator<Key, T> = MapElementVector.ReverseIterator<Key, T, true, FlatMap<Key, T>>;
@@ -166,15 +157,5 @@ export namespace FlatMap
     export const Iterator = MapElementVector.Iterator;
     export const ReverseIterator = MapElementVector.ReverseIterator;
 
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
+    export const __MODULE = "experimental";
 }
-export import flat_map = FlatMap;

@@ -3,16 +3,19 @@
 //================================================================
 import { UniqueMap } from "../base/container/UniqueMap";
 import { IHashMap } from "../base/container/IHashMap";
-import { _Construct } from "../base/container/_IHashContainer";
+import { IHashContainer } from "../internal/container/associative/IHashContainer";
 
-import { MapElementList } from "../base/container/MapElementList";
-import { _MapHashBuckets } from "../base/hash/_MapHashBuckets";
+import { MapElementList } from "../internal/container/associative/MapElementList";
+import { MapHashBuckets } from "../internal/hash/MapHashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
-import { Pair } from "../utility/Pair";
 import { Entry } from "../utility/Entry";
-import { Temporary } from "../base/Temporary";
+import { Pair } from "../utility/Pair";
+
+import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
+import { Hasher } from "../internal/functional/Hasher";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Unique-key Map based on Hash buckets.
@@ -26,10 +29,7 @@ export class HashMap<Key, T>
         HashMap.ReverseIterator<Key, T>>
     implements IHashMap<Key, T, true, HashMap<Key, T>>
 {
-    /**
-     * @hidden
-     */
-    private buckets_!: _MapHashBuckets<Key, T, true, HashMap<Key, T>>;
+    private buckets_!: MapHashBuckets<Key, T, true, HashMap<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -44,7 +44,7 @@ export class HashMap<Key, T>
      * @param hash An unary function returns hash code. Default is {hash}.
      * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    public constructor(hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
     /**
      * Initializer Constructor.
@@ -53,7 +53,7 @@ export class HashMap<Key, T>
      * @param hash An unary function returns hash code. Default is {hash}.
      * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
      */
-    public constructor(items: IPair<Key, T>[], hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean);
+    public constructor(items: IPair<Key, T>[], hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
     /**
      * Copy Constructor.
@@ -74,14 +74,14 @@ export class HashMap<Key, T>
     (
         first: Readonly<IForwardIterator<IPair<Key, T>>>, 
         last: Readonly<IForwardIterator<IPair<Key, T>>>, 
-        hash?: (key: Key) => number, equal?: (x: Key, y: Key) => boolean
+        hash?: Hasher<Key>, equal?: BinaryPredicator<Key>
     );
 
     public constructor(...args: any[])
     {
-        super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
+        super(thisArg => new MapElementList(thisArg));
 
-        _Construct<Key, Entry<Key, T>, 
+        IHashContainer.construct<Key, Entry<Key, T>, 
                 HashMap<Key, T>,
                 HashMap.Iterator<Key, T>,
                 HashMap.ReverseIterator<Key, T>,
@@ -90,7 +90,7 @@ export class HashMap<Key, T>
             this, HashMap, 
             (hash, pred) =>
             {
-                this.buckets_ = new _MapHashBuckets(this, hash, pred);
+                this.buckets_ = new MapHashBuckets(this, hash, pred);
             },
             ...args
         );
@@ -119,7 +119,7 @@ export class HashMap<Key, T>
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP BUCKETS
-        _MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
+        MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -229,7 +229,7 @@ export class HashMap<Key, T>
     /**
      * @inheritDoc
      */
-    public hash_function(): (key: Key) => number
+    public hash_function(): Hasher<Key>
     {
         return this.buckets_.hash_function();
     }
@@ -237,7 +237,7 @@ export class HashMap<Key, T>
     /**
      * @inheritDoc
      */
-    public key_eq(): (x: Key, y: Key) => boolean
+    public key_eq(): BinaryPredicator<Key>
     {
         return this.buckets_.key_eq();
     }
@@ -330,18 +330,12 @@ export class HashMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: HashMap.Iterator<Key, T>, last: HashMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
             this.buckets_.insert(first);
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Handle_erase(first: HashMap.Iterator<Key, T>, last: HashMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -351,9 +345,6 @@ export class HashMap<Key, T>
 
 export namespace HashMap
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, HashMap<Key, T>>;
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, HashMap<Key, T>>;
@@ -361,16 +352,4 @@ export namespace HashMap
     // BODY
     export const Iterator = MapElementList.Iterator;
     export const ReverseIterator = MapElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import unordered_map = HashMap;

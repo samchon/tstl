@@ -65,7 +65,7 @@ async function _Test_lock(name: string, locker: ()=>Promise<void|boolean>, trier
     catch {}
 
     if (await trier() === false)
-        throw new std.DomainError(`Invalid implement on ${name}.`);
+        throw new Error(`Bug on ${name}: invalid implementation.`);
 
     await unlocker();
 }

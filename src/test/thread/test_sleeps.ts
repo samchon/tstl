@@ -10,7 +10,7 @@ async function _Test_sleep_for(): Promise<void>
 {
     // RECORD TIMEPOINTS DURING SLEEP_FOR
     let t1 = new Date();
-    await std.sleep_for(500);
+    await std.sleep_for(50);
     let t2 = new Date();
 
     // VALIDATE THE SLEEP_FOR
@@ -21,7 +21,7 @@ async function _Test_sleep_until(): Promise<void>
 {
     // RECORD TIMEPOINTS DURING SLEEP_FOR
     let t1 = new Date();
-    await std.sleep_until(new Date(t1.getTime() + 500));
+    await std.sleep_until(new Date(t1.getTime() + 50));
     let t2 = new Date();
 
     // VAIDATE THE SLEEP_UNTIL
@@ -31,6 +31,6 @@ async function _Test_sleep_until(): Promise<void>
 function _Validate_sleep(t1: Date, t2: Date): void
 {
     let ms: number = t2.getTime() - t1.getTime();
-    if (ms < 500 - 100 || ms >= 500 + 100)
-        throw new std.DomainError("sleep is wrong: " + ms);
+    if (ms < 50 - 10 || ms >= 50 + 10)
+        throw new Error(`Bug on sleep_for(): ${ms}`);
 }

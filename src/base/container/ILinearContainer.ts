@@ -2,12 +2,11 @@
 /** @module std.base */
 //================================================================
 import { IContainer } from "./IContainer";
+import { ILinearContainerBase } from "../../internal/container/linear/ILinearContainerBase";
+import { IFront } from "../../internal/container/partial/IFront";
+import { IPushBack } from "../../internal/container/partial/IPushBack";
 
-import { Iterator } from "../iterator/Iterator";
-import { IReverseIterator } from "../iterator/ReverseIterator";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-
-import { _IPushBack } from "../disposable/IPartialContainers";
 
 /**
  * Interface for linear containers.
@@ -15,12 +14,12 @@ import { _IPushBack } from "../disposable/IPartialContainers";
  * @author Jeongho Nam <http://samchon.org>
  */
 export interface ILinearContainer<T extends ElemT, 
-        SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>, 
-        IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, T>, 
-        ReverseIteratorT extends IReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>,
+        SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseT, T>, 
+        IteratorT extends ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
+        ReverseT extends ILinearContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
         ElemT = T>
-    extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, ElemT>, 
-        _IPushBack<T>
+    extends ILinearContainerBase<T, SourceT, IteratorT, ReverseT, ElemT>, 
+        IFront<T>, IPushBack<T>
 {
     /* ---------------------------------------------------------
         CONSTRUCTORS
@@ -110,22 +109,19 @@ export interface ILinearContainer<T extends ElemT,
         (pos: IteratorT, first: InputIterator, last: InputIterator): IteratorT;
 }
 
-/**
- * @hidden
- */
-export interface _IFront<T>
+export namespace ILinearContainer
 {
-    /**
-     * Get the first element.
-     * 
-     * @return The first element.
-     */
-    front(): T;
-
-    /**
-     * Change the first element.
-     * 
-     * @param val The value to change.
-     */
-    front(val: T): void;
+    export type Iterator<T extends ElemT, 
+            SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseT, T>, 
+            IteratorT extends ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
+            ReverseT extends ILinearContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
+            ElemT = T> 
+        = IContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>;
+    
+    export type ReverseIterator<T extends ElemT, 
+            SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseT, T>, 
+            IteratorT extends ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
+            ReverseT extends ILinearContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
+            ElemT = T> 
+        = IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, ElemT>;
 }

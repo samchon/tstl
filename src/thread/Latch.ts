@@ -10,14 +10,7 @@ import { ConditionVariable } from "./ConditionVariable";
  */
 export class Latch
 {
-    /**
-     * @hidden
-     */
     private cv_: ConditionVariable;
-
-    /**
-     * @hidden
-     */
     private count_: number;
 
     /* ---------------------------------------------------------
@@ -77,14 +70,8 @@ export class Latch
             return await this.cv_.wait_until(at);
     }
 
-    /**
-     * @hidden
-     */
     private _Try_wait(): boolean
     {
         return this.count_ <= 0;
     }
 }
-
-export type latch = Latch;
-export const latch = Latch;

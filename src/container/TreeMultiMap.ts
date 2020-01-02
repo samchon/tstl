@@ -1,16 +1,17 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { MultiTreeMap } from "../base/container/MultiTreeMap";
-import { _Construct } from "../base/container/_ITreeContainer";
-
-import { MapElementList } from "../base/container/MapElementList";
-import { _MultiMapTree } from "../base/tree/_MultiMapTree";
+import { MultiTreeMap } from "../internal/container/associative/MultiTreeMap";
+import { ITreeContainer } from "../internal/container/associative/ITreeContainer";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
+import { MapElementList } from "../internal/container/associative/MapElementList";
+import { MultiMapTree } from "../internal/tree/MultiMapTree";
+import { Comparator } from "../internal/functional/Comparator";
+
 import { IPair } from "../utility/IPair";
 import { Entry } from "../utility/Entry";
-import { Temporary } from "../base/Temporary";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Multiple-key Map based on Tree.
@@ -23,10 +24,7 @@ export class TreeMultiMap<Key, T>
         TreeMultiMap.Iterator<Key, T>,
         TreeMultiMap.ReverseIterator<Key, T>>
 {
-    /**
-     * @hidden
-     */
-    private tree_!: _MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
+    private tree_!: MultiMapTree<Key, T, TreeMultiMap<Key, T>>;
 
     /* ---------------------------------------------------------
         CONSTURCTORS
@@ -36,7 +34,7 @@ export class TreeMultiMap<Key, T>
      * 
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(comp?: (x: Key, y: Key) => boolean);
+    public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
@@ -44,7 +42,7 @@ export class TreeMultiMap<Key, T>
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor(items: IPair<Key, T>[], comp?: (x: Key, y: Key) => boolean);
+    public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
     /**
      * Copy Constructor.
@@ -64,14 +62,14 @@ export class TreeMultiMap<Key, T>
     (
         first: Readonly<IForwardIterator<IPair<Key, T>>>, 
         last: Readonly<IForwardIterator<IPair<Key, T>>>, 
-        comp?: (x: Key, y: Key) => boolean
+        comp?: Comparator<Key>
     );
 
     public constructor(...args: any[])
     {
         super(thisArg => new MapElementList(<Temporary>thisArg) as Temporary);
 
-        _Construct<Key, Entry<Key, T>, 
+        ITreeContainer.construct<Key, Entry<Key, T>, 
                 TreeMultiMap<Key, T>,
                 TreeMultiMap.Iterator<Key, T>,
                 TreeMultiMap.ReverseIterator<Key, T>,
@@ -80,7 +78,7 @@ export class TreeMultiMap<Key, T>
             this, TreeMultiMap, 
             comp => 
             {
-                this.tree_ = new _MultiMapTree(this as TreeMultiMap<Key, T>, comp);
+                this.tree_ = new MultiMapTree(this as TreeMultiMap<Key, T>, comp);
             },
             ...args
         );
@@ -106,7 +104,7 @@ export class TreeMultiMap<Key, T>
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
 
         // SWAP RB-TREE
-        _MultiMapTree._Swap_source(this.tree_, obj.tree_);
+        MultiMapTree._Swap_source(this.tree_, obj.tree_);
         [this.tree_, obj.tree_] = [obj.tree_, this.tree_];
     }
 
@@ -116,7 +114,7 @@ export class TreeMultiMap<Key, T>
     /**
      * @inheritDoc
      */
-    public key_comp(): (x: Key, y: Key) => boolean
+    public key_comp(): Comparator<Key>
     {
         return this.tree_.key_comp();
     }
@@ -140,18 +138,12 @@ export class TreeMultiMap<Key, T>
     /* ---------------------------------------------------------
         POST-PROCESS
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Handle_insert(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
             this.tree_.insert(first);
     }
-
-    /**
-     * @hidden
-     */
+    
     protected _Handle_erase(first: TreeMultiMap.Iterator<Key, T>, last: TreeMultiMap.Iterator<Key, T>): void
     {
         for (; !first.equals(last); first = first.next())
@@ -161,9 +153,6 @@ export class TreeMultiMap<Key, T>
 
 export namespace TreeMultiMap
 {
-    //----
-    // PASCAL NOTATION
-    //----
     // HEAD
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, false, TreeMultiMap<Key, T>>;
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, false, TreeMultiMap<Key, T>>;
@@ -171,16 +160,4 @@ export namespace TreeMultiMap
     // BODY
     export const Iterator = MapElementList.Iterator;
     export const ReverseIterator = MapElementList.ReverseIterator;
-
-    //----
-    // SNAKE NOTATION
-    //----
-    // HEAD
-    export type iterator<Key, T> = Iterator<Key, T>;
-    export type reverse_iterator<Key, T> = ReverseIterator<Key, T>;
-
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
 }
-export import multimap = TreeMultiMap;

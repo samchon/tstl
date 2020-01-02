@@ -24,11 +24,11 @@ function _Test_for_of_iterations(): void
         sum += val;
     };
     
-    std.for_each(items.begin(), items.end(), fn);
+    std.ranges.for_each(items, fn);
     std.for_each_n(items.begin(), items.size(), fn);
 
     if (sum !== 1.5 * 1000 * 2)
-        throw new std.DomainError("Error on std.for_each() or std.for_each_n().");
+        throw new Error("Bug on std.for_each() or std.for_each_n()");
 }
 
 function _Test_union_of_iterations(): void
@@ -36,27 +36,14 @@ function _Test_union_of_iterations(): void
     let items = new std.Vector<number>([2, 3, 4]);
     let flags = new std.Vector<boolean>
     ([
-        std.all_of(items.begin(), items.end(), (val: number): boolean =>
-        {
-            return val > 1.0;    
-        }),
-        std.any_of(items.begin(), items.end(), (val: number): boolean =>
-        {
-            return val === 2.0;
-        }),
-        std.none_of(items.begin(), items.end(), (val: number): boolean =>
-        {
-            return val !== Math.floor(val);
-        })
+        std.ranges.all_of(items, val => val > 1.0),
+        std.ranges.any_of(items, val => val === 2.0),
+        std.ranges.none_of(items, val => val !== Math.floor(val))
     ]);
 
-    let ret: boolean = 
-        std.all_of(flags.begin(), flags.end(), (flag: boolean) =>
-        {
-            return flag;
-        });
+    let ret: boolean = std.ranges.all_of(flags, val => val);
     if (ret === false)
-        throw new std.DomainError("Error on one of them: all_of | any_of | none_of.");
+        throw new Error("Bug on one of them: all_of(), any_of() or none_of()");
 }
 
 function _Test_equals(): void
@@ -72,9 +59,9 @@ function _Test_equals(): void
         v2.set(i, v2.at(i) * 100.0);
     
     if (std.equal(v1.begin(), v1.begin().advance(MID), v2.begin()) === false)
-        throw new std.DomainError("Error on std.equal(); true -> false");
-    else if (std.equal(v1.begin(), v1.end(), v2.begin()) === true)
-        throw new std.DomainError("Error on std.equal(); false -> true");
+        throw new Error("Bug on std.equal(); true -> false");
+    else if (std.ranges.equal(v1, v2) === true)
+        throw new Error("Bug on std.equal(); false -> true");
 }
 
 function _Test_lexicographical_compare(): void
@@ -83,7 +70,7 @@ function _Test_lexicographical_compare(): void
     let v2 = new std.Vector<number>([1, 1, 3, 3]);
 
     if (std.lexicographical_compare(v1.begin(), v1.end(), v2.begin(), v2.end()) === false)
-        throw new std.DomainError("Error on lexicographical_compare().");
+        throw new Error("Bug on std.lexicographical_compare()");
 }
 
 function _Test_mismatch(): void
@@ -99,7 +86,7 @@ function _Test_mismatch(): void
 
     let pair = std.mismatch(v1.begin(), v1.end(), v2.begin());
     if (pair.first.index() !== pair.second.index() || pair.first.index() !== MID)
-        throw new std.DomainError("Error on std.mismatch().");
+        throw new Error("Bug on std.mismatch()");
 }
 
 function _Test_count(): void
@@ -119,5 +106,5 @@ function _Test_count(): void
             ++cnt;
     
     if (std.count_if(v.begin(), v.end(), fn) !== cnt)
-        throw new std.DomainError("Error on std.count_if().");
+        throw new Error("Bug on std.count_if()");
 }

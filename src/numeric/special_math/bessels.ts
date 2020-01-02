@@ -1,13 +1,10 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { MathUtil } from "../../base/numeric/MathUtil";
-import { InvalidArgument } from "../../exception/LogicError";
+import { MathUtil } from "../../internal/numeric/MathUtil";
+import { InvalidArgument } from "../../exception/InvalidArgument";
 import { tgamma } from "./gamma";
 
-/**
- * @hidden
- */
 const INFINITY = 100; // (1 / 30!) is nearby 0.
 
 /*================================================================
@@ -53,9 +50,6 @@ export function cyl_neumann(v: number, x: number): number
     return numerator / denominator;
 }
 
-/**
- * @hidden
- */
 function _J_int(n: number, x: number): number
 {
     if (n < 0)
@@ -64,9 +58,6 @@ function _J_int(n: number, x: number): number
         return _J_positive(n, x);
 }
 
-/**
- * @hidden
- */
 function _J_positive(v: number, x: number): number
 {
     let sigma: number = MathUtil.sigma(function (k: number): number
@@ -133,9 +124,6 @@ export function cyl_bessel_i(n: number, x: number): number
         return _Bessel_i(n, x);
 }
 
-/**
- * @hidden
- */
 function _Bessel_i(v: number, x: number): number
 {
     return MathUtil.sigma(function (k: number): number
@@ -163,9 +151,6 @@ export function cyl_bessel_k(n: number, x: number): number
     return _Bessel_k(n, x);
 }
 
-/**
- * @hidden
- */
 function _Bessel_k(v: number, z: number): number
 {
     let ret: number = Math.PI / 2;

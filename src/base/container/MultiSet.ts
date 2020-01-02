@@ -4,7 +4,6 @@
 import { SetContainer } from "./SetContainer";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
 
 /**
  * Base class for Multiple-key Set Containers.
@@ -13,8 +12,8 @@ import { ISetIterator, ISetReverseIterator } from "../iterator/ISetIterator";
  */
 export abstract class MultiSet<Key, 
         Source extends MultiSet<Key, Source, IteratorT, ReverseT>,
-        IteratorT extends ISetIterator<Key, false, Source, IteratorT, ReverseT>,
-        ReverseT extends ISetReverseIterator<Key, false, Source, IteratorT, ReverseT>>
+        IteratorT extends MultiSet.Iterator<Key, Source, IteratorT, ReverseT>,
+        ReverseT extends MultiSet.ReverseIterator<Key, Source, IteratorT, ReverseT>>
     extends SetContainer<Key, false, Source, IteratorT, ReverseT>
 {
     /* ---------------------------------------------------------
@@ -54,14 +53,8 @@ export abstract class MultiSet<Key,
     /* ---------------------------------------------------------
         ERASE
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected abstract _Key_eq(x: Key, y: Key): boolean;
 
-    /**
-     * @hidden
-     */
     protected _Erase_by_val(key: Key): number
     {
         let first = this.find(key);
@@ -91,4 +84,19 @@ export abstract class MultiSet<Key,
         this.insert(source.begin(), source.end());
         source.clear();
     }
+}
+
+export namespace MultiSet
+{
+    export type Iterator<Key,
+            SourceT extends MultiSet<Key, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, SourceT, IteratorT, ReverseT>>
+        = SetContainer.Iterator<Key, false, SourceT, IteratorT, ReverseT>;
+
+    export type ReverseIterator<Key, 
+            SourceT extends MultiSet<Key, SourceT, IteratorT, ReverseT>,
+            IteratorT extends Iterator<Key, SourceT, IteratorT, ReverseT>,
+            ReverseT extends ReverseIterator<Key, SourceT, IteratorT, ReverseT>>
+        = SetContainer.ReverseIterator<Key, false, SourceT, IteratorT, ReverseT>;
 }

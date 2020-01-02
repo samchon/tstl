@@ -37,8 +37,8 @@ export function test_associatives(): void
 function _Test_unique_set<
         Unique extends boolean, 
         Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.SetContainer.Iterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.SetContainer.ReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
     (set: Source): void
 {
     // CONSTRUCT ELEMENTS
@@ -46,7 +46,7 @@ function _Test_unique_set<
 
     // DUPLICATED ?
     if (set.size() !== 11)
-        throw new std.LengthError("Wrong number of elements.");
+        throw new Error(`Bug on ${set.constructor.name}: wrong number of elements are stored.`);
 
     let sum: number = 0;
     for (let elem of set)
@@ -56,20 +56,22 @@ function _Test_unique_set<
 
         // RE-FIND THE ELEMENT BY ITS KEY WITH FIND() FUNCTION.
         let it = set.find(elem);
-        if (it.equals(set.end()) === true || it.value.equals(elem) === false)
-            throw new std.OutOfRange("Failed to find the element by find() method.");
+        if (it.equals(set.end()) === true)
+            throw new Error(`Bug on ${set.constructor.name}.find(): failed to find anything.`);
+        else if (it.value.equals(elem) === false)
+            throw new Error(`Bug on ${set.constructor.name}.find(): found wrong item.`);
     }
 
     // RE-VALIDATE UNIQUENESS & RIGHT INSERTION
     if (sum !== 55)
-        throw new std.LogicError("Elements are not fully inserted.");
+        throw new Error(`Bug on ${set.constructor.name}: elements are not fully inserted.`);
 }
 
 function _Test_multi_set<
         Unique extends boolean, 
         Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.SetContainer.Iterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.SetContainer.ReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
     (set: Source): void
 {
     // CONSTRUCT ELEMENTS
@@ -77,7 +79,7 @@ function _Test_multi_set<
 
     // DUPLICATED ?
     if (set.size() !== 3 * 11)
-        throw new std.LengthError("Wrong number of elements.");
+        throw new Error(`Bug on ${set.constructor.name}: wrong number of elements are stored.`);
 
     let sum: number = 0;
     for (let elem of set)
@@ -89,22 +91,24 @@ function _Test_multi_set<
         let it = set.find(elem);
         let count = set.count(elem);
 
-        if (it.equals(set.end()) === true || it.value.equals(elem) === false)
-            throw new std.OutOfRange("Failed to find the element by find() method.");
+        if (it.equals(set.end()) === true)
+            throw new Error(`Bug on ${set.constructor.name}: failed to find anything.`);
+        else if (it.value.equals(elem) === false)
+            throw new Error(`Bug on ${set.constructor.name}.find(): found wrong item.`);
         else if (count !== 3)
-            throw new std.LengthError("Wrong number of duplicated items.");
+            throw new Error(`Bug on ${set.constructor.name}.count(): wrong number of duplicated items.`);
     }
 
     // RE-VALIDATE DUPLICATION & RIGHT INSERTION
     if (sum !== 3 * 55)
-        throw new std.LogicError("Elements are not fully inserted.");
+        throw new Error(`Bug on ${set.constructor.name}: elements are not fully inserted.`);
 }
 
 function _Construct_set<
         Unique extends boolean, 
         Source extends std.base.SetContainer<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.ISetIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.ISetReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.SetContainer.Iterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.SetContainer.ReverseIterator<Atomic<number>, Unique, Source, IteratorT, ReverseT>>
     (set: Source): void
 {
     // INSERT ELEMENTS
@@ -115,7 +119,7 @@ function _Construct_set<
     // TEST SEQUENCE
     let vec = new std.Vector<Atomic<number>>(set.begin(), set.end());
     if (std.is_sorted(vec.begin(), vec.end()) === false)
-        throw new std.LogicError("Elements are not correctly inserted.");
+        throw new Error(`Bug on ${set.constructor.name}: stored elements are not sorted.`);
 }
 
 /* ---------------------------------------------------------
@@ -123,8 +127,8 @@ function _Construct_set<
 --------------------------------------------------------- */
 function _Test_unique_map<
         Source extends std.base.UniqueMap<Atomic<string>, number, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.IMapIterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.MapContainer.Iterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.MapContainer.ReverseIterator<Atomic<string>, number, true, Source, IteratorT, ReverseT>>
     (map: Source): void
 {
     // CONSTRUCT ELEMENTS
@@ -132,7 +136,7 @@ function _Test_unique_map<
 
     // DUPLICATED ?
     if (map.size() !== 11)
-        throw new std.LengthError("Wrong number of elements.");
+        throw new Error(`Bug on ${map.constructor.name}: wrong number of elements are stored.`);
 
     let sum: number = 0;
     for (let pair of map)
@@ -142,19 +146,21 @@ function _Test_unique_map<
 
         // RE-FIND THE ELEMENT BY ITS KEY WITH FIND() FUNCTION.
         let it = map.find(pair.first);
-        if (it.equals(map.end()) === true || it.first.equals(pair.first) === false)
-            throw new std.OutOfRange("Failed to find the element by find() method.");
+        if (it.equals(map.end()) === true)
+            throw new Error(`Bug on ${map.constructor.name}.find(): failed to find anything.`);
+        else if (it.first.equals(pair.first) === false)
+            throw new Error(`Bug on ${map.constructor.name}.find(): found wrong item.`);
     }
 
     // RE-VALIDATE UNIQUENESS & RIGHT INSERTION
     if (sum !== 55)
-        throw new std.LogicError("Elements are not fully inserted.");
+        throw new Error(`Bug on ${map.constructor.name}: elements are not fully inserted.`);
 }
 
 function _Test_multi_map<
         Source extends std.base.MultiMap<Atomic<string>, number, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.IMapIterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.MapContainer.Iterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.MapContainer.ReverseIterator<Atomic<string>, number, false, Source, IteratorT, ReverseT>>
     (map: Source): void
 {
     // CONSTRUCT ELEMENTS
@@ -162,7 +168,7 @@ function _Test_multi_map<
 
     // DUPLICATED ?
     if (map.size() !== 3 * 11)
-        throw new std.LengthError("Wrong number of elements.");
+        throw new Error(`Bug on ${map.constructor.name}: wrong number of elements are stored.`);
 
     let sum: number = 0;
     for (let pair of map)
@@ -174,21 +180,23 @@ function _Test_multi_map<
         let it = map.find(pair.first);
         let count = map.count(pair.first);
 
-        if (it.equals(map.end()) === true || it.first.equals(pair.first) === false)
-            throw new std.OutOfRange("Failed to find the element by find() method.");
+        if (it.equals(map.end()) === true)
+            throw new Error(`Bug on ${map.constructor.name}.find(): failed to find anything.`);
+        else if (it.first.equals(pair.first) === false)
+            throw new Error(`Bug on ${map.constructor.name}.find(): found wrong item.`);
         else if (count !== 3)
-            throw new std.LengthError("Wrong number of duplicated items.");
+            throw new Error(`Bug on ${map.constructor.name}.count(): wrong number of duplicated items.`);
     }
 
     // RE-VALIDATE UNIQUENESS & RIGHT INSERTION
     if (sum !== 3 * 55)
-        throw new std.LogicError("Elements are not fully inserted.");
+        throw new Error(`Bug on ${map.constructor.name}: elements are not fully inserted.`);
 }
 
 function _Construct_map<Unique extends boolean, 
         Source extends std.base.MapContainer<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>,
-        IteratorT extends std.base.IMapIterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>,
-        ReverseT extends std.base.IMapReverseIterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>>
+        IteratorT extends std.base.MapContainer.Iterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>,
+        ReverseT extends std.base.MapContainer.ReverseIterator<Atomic<string>, number, Unique, Source, IteratorT, ReverseT>>
     (map: Source): void
 {
     for (let i: number = 0; i <= 10; ++i)

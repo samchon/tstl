@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { InvalidArgument } from "../../exception/LogicError";
+import { InvalidArgument } from "../../exception/InvalidArgument";
 
 /**
  * Hermite polynomial
@@ -21,9 +21,6 @@ export function hermite(n: number, x: number): number
     return _Hermite(n, x, solutions);
 }
 
-/**
- * @hidden
- */
 function _Hermite(n: number, x: number, solutions: number[]): number
 {
     if (solutions.length > n)

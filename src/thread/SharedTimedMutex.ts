@@ -2,13 +2,14 @@
 /** @module std */
 //================================================================
 import { ILockable } from "./ILockable";
-import { _ITimedLockable } from "../base/thread/_ITimedLockable";
-import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
+import { ITimedLockable } from "../internal/thread/ITimedLockable";
+import { ISharedTimedLockable } from "../internal/thread/ISharedTimedLockable";
 
 import { List } from "../container/List";
 
-import { AccessType, LockType } from "../base/thread/enums";
-import { InvalidArgument } from "../exception/LogicError";
+import { AccessType } from "../internal/thread/AccessType";
+import { LockType } from "../internal/thread/LockType";
+import { InvalidArgument } from "../exception/InvalidArgument";
 import { sleep_for } from "./global";
 
 /**
@@ -16,26 +17,12 @@ import { sleep_for } from "./global";
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export class SharedTimedMutex implements _ITimedLockable, _ISharedTimedLockable
+export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
 {
-    /**
-     * @hidden
-     */
     private source_: ILockable;
-
-    /**
-     * @hidden
-     */
     private queue_: List<IResolver>;
 
-    /**
-     * @hidden
-     */
     private writing_: number;
-
-    /**
-     * @hidden
-     */
     private reading_: number;
 
     /* ---------------------------------------------------------
@@ -60,9 +47,6 @@ export class SharedTimedMutex implements _ITimedLockable, _ISharedTimedLockable
         this.reading_ = 0;
     }
 
-    /**
-     * @hidden
-     */
     private _Current_access_type(): AccessType | null
     {
         return this.queue_.empty()
@@ -164,7 +148,7 @@ export class SharedTimedMutex implements _ITimedLockable, _ISharedTimedLockable
     public async unlock(): Promise<void>
     {
         if (this._Current_access_type() !== AccessType.WRITE)
-            throw new InvalidArgument(`Error on std.${this.source_.constructor.name}.unlock(): this mutex is free on the unique lock.`);
+            throw new InvalidArgument(`Bug on std.${this.source_.constructor.name}.unlock(): this mutex is free on the unique lock.`);
 
         --this.writing_;
         this.queue_.pop_front();
@@ -269,7 +253,7 @@ export class SharedTimedMutex implements _ITimedLockable, _ISharedTimedLockable
     public async unlock_shared(): Promise<void>
     {
         if (this._Current_access_type() !== AccessType.READ)
-            throw new InvalidArgument(`Error on std.${this.source_.constructor.name}.unlock_shared(): this mutex is free on the shared lock.`);
+            throw new InvalidArgument(`Bug on std.${this.source_.constructor.name}.unlock_shared(): this mutex is free on the shared lock.`);
 
         --this.reading_;
         this.queue_.pop_front();
@@ -280,9 +264,6 @@ export class SharedTimedMutex implements _ITimedLockable, _ISharedTimedLockable
     /* ---------------------------------------------------------
         RELEASE
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     private _Release(): void
     {
         // STEP TO THE NEXT LOCKS
@@ -314,9 +295,6 @@ export class SharedTimedMutex implements _ITimedLockable, _ISharedTimedLockable
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Cancel(it: List.Iterator<IResolver>): void
     {
         //----
@@ -343,12 +321,7 @@ export class SharedTimedMutex implements _ITimedLockable, _ISharedTimedLockable
         handler(false);
     }
 }
-export type shared_timed_mutex = SharedTimedMutex;
-export const shared_timed_mutex = SharedTimedMutex;
 
-/**
- * @hidden
- */
 interface IResolver
 {
     handler: Function | null;

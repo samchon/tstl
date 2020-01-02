@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { InvalidArgument } from "../../exception/LogicError";
+import { InvalidArgument } from "../../exception/InvalidArgument";
 
 /**
  * Laguerre polynomials.
@@ -31,9 +31,6 @@ export function assoc_laguerre(n: number, m: number, x: number): number
     return _Compute_assoc_laguerre(n, m, x, solutions);
 }
 
-/**
- * @hidden
- */
 function _Compute_assoc_laguerre(n: number, m: number, x: number, solutions: number[]): number
 {
     if (solutions.length > n)

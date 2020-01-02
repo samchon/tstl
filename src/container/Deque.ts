@@ -1,17 +1,20 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { ArrayContainer } from "../base/container/ArrayContainer";
-import { ArrayIterator, ArrayReverseIterator } from "../base/iterator/ArrayIterator";
+import { IArrayContainer } from "../base/container/IArrayContainer";
+import { ArrayContainer } from "../internal/container/linear/ArrayContainer";
+import { ArrayIterator } from "../internal/iterator/ArrayIterator";
+import { ArrayReverseIterator } from "../internal/iterator/ArrayReverseIterator";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { _DequeForOfAdaptor } from "../base/iterator/_DequeForOfAdaptor";
-import { _NativeArrayIterator } from "../base/iterator/_NativeArrayIterator";
+import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
 
 import { Pair } from "../utility/Pair";
-import { OutOfRange } from "../exception/LogicError";
-import { Temporary } from "../base/Temporary";
+import { InvalidArgument } from "../exception";
 import { distance } from "../iterator/global";
+
+import { ErrorGenerator } from "../internal/exception/ErrorGenerator";
+import { Temporary } from "../internal/functional/Temporary";
 
 /**
  * Double ended queue.
@@ -20,33 +23,32 @@ import { distance } from "../iterator/global";
  */
 export class Deque<T>
     extends ArrayContainer<T, Deque<T>, Deque<T>, Deque.Iterator<T>, Deque.ReverseIterator<T>, T>
+    implements IArrayContainer<T, Deque<T>, Deque.Iterator<T>, Deque.ReverseIterator<T>>
 {
-    ///
-    // A matrix containing elements.
-    // 
-    // This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
-    // Its number of rows follows {@link ROW_SIZE} and number of columns follows {@link get_col_size} which 
-    // returns divide of {@link capacity} and {@link ROW_SIZE}.
-    //  
-    // By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
-    // advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW_SIZE}
-    // times faster than {@link Vector} when inserting elements in middle position.
-    // 
-    // However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
-    // time complexity on accessing element. {@link Deque} is {@link ROW_SIZE} times slower than {@link Vector}
-    // when accessing element.
     /**
-     * @hidden
+     * A matrix containing elements.
+     * 
+     * This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
+     * Its number of rows follows {@link ROW_SIZE} and number of columns follows {@link get_col_size} which 
+     * returns divide of {@link capacity} and {@link ROW_SIZE}.
+     *  
+     * By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
+     * advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW_SIZE}
+     * times faster than {@link Vector} when inserting elements in middle position.
+     * 
+     * However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
+     * time complexity on accessing element. {@link Deque} is {@link ROW_SIZE} times slower than {@link Vector}
+     * when accessing element.
      */
     private matrix_!: Array<Array<T>>;
     
     /**
-     * @hidden
+     * Number of elements stored in the {@link Deque}
      */
-    private size_!: number; // Number of elements in the Deque.
+    private size_!: number;
 
     /**
-     * @hidden
+     * Maximum capacity that current {@link matrix_} can store in.
      */
     private capacity_!: number;
 
@@ -106,8 +108,8 @@ export class Deque<T>
         {
             // INITIALIZER CONSTRUCTOR
             let array: Array<T> = args[0];
-            let first = new _NativeArrayIterator(array, 0);
-            let last = new _NativeArrayIterator(array, array.length);
+            let first = new NativeArrayIterator(array, 0);
+            let last = new NativeArrayIterator(array, array.length);
 
             this.assign(first, last);
         }
@@ -160,15 +162,31 @@ export class Deque<T>
     }
 
     /**
+     * @inheritDoc
+     */
+    public resize(n: number): void
+    {
+        n = Deque._Emend(n, "resize");
+
+        let expansion: number = n - this.size();
+        if (expansion > 0)
+            this.insert(this.end(), expansion, undefined!);
+        else if (expansion < 0)
+            this.erase(this.end().advance(-expansion), this.end());
+    }
+
+    /**
      * Reserve {@link capacity} enable to store *n* elements.
      * 
      * @param n The capacity to reserve.
      */
     public reserve(n: number): void
     {
-        if (n < this.capacity_)
-            return;
+        this._Reserve(Deque._Emend(n, "reserve"));
+    }
 
+    private _Reserve(n: number): void
+    {
         // NEW MEMBERS TO BE ASSSIGNED
         let matrix: T[][] = [[]];
         let col_size: number = this._Compute_col_size(n);
@@ -198,23 +216,11 @@ export class Deque<T>
     }
 
     /**
-     * @inheritDoc
-     */
-    public resize(n: number): void
-    {
-        let expansion: number = n - this.size();
-        if (expansion > 0)
-            this.insert(this.end(), expansion, undefined!);
-        else if (expansion < 0)
-            this.erase(this.end().advance(-expansion), this.end());
-    }
-
-    /**
      * Shrink {@link capacity} to actual {@link size}.
      */
     public shrink_to_fit(): void
     {
-        this.reserve(this.size());
+        this._Reserve(this.size());
     }
 
     /**
@@ -225,15 +231,21 @@ export class Deque<T>
         this._Swap(obj);
     }
 
-    /**
-     * @hidden
-     */
     private _Swap(obj: Deque<T>): void
     {
         // SWAP CONTENTS
         [this.matrix_, obj.matrix_] = [obj.matrix_, this.matrix_];
         [this.size_, obj.size_] = [obj.size_, this.size_];
         [this.capacity_, obj.capacity_] = [obj.capacity_, this.capacity_];
+    }
+
+    private static _Emend(n: number, method: string): number
+    {
+        n = Math.floor(n);
+        if (n <= 0)
+            throw new InvalidArgument(`Error on Deque.${method}(): n must be positive integer -> (n = ${n})`);
+        
+        return n;
     }
 
     /* =========================================================
@@ -262,7 +274,7 @@ export class Deque<T>
     }
 
     /**
-     * @hidden
+     * @inheritDoc
      */
     public nth(index: number): Deque.Iterator<T>
     {
@@ -274,43 +286,29 @@ export class Deque<T>
      */
     public [Symbol.iterator](): IterableIterator<T>
     {
-        return new _DequeForOfAdaptor<T>(this.matrix_);
+        return new Deque.ForOfAdaptor<T>(this.matrix_);
+    }
+
+    protected source(): Deque<T>
+    {
+        return this;
     }
     
     /* ---------------------------------------------------------
         INDEX ACCESSORS
     --------------------------------------------------------- */
-    /**
-     * @inheritDoc
-     */
-    public at(index: number): T
+    protected _At(index: number): T
     {
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.at(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
-        
         let indexPair: Pair<number, number> = this._Fetch_index(index);
         return this.matrix_[indexPair.first][indexPair.second];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public set(index: number, val: T): void
+    protected _Set(index: number, val: T): void
     {
-        if (index < 0)
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is negative -> (index = ${index}).`);
-        else if (index >= this.size())
-            throw new OutOfRange(`Error on std.${this.constructor.name}.set(): parametric index is equal or greater than size -> (index = ${index}, size = ${this.size()}).`);
-
         let indexPair: Pair<number, number> = this._Fetch_index(index);
         this.matrix_[indexPair.first][indexPair.second] = val;
     }
 
-    /**
-     * @hidden
-     */
     private _Fetch_index(index: number): Pair<number, number>
     {
         // Fetch row and column's index.
@@ -330,9 +328,6 @@ export class Deque<T>
         return new Pair(row, index);
     }
 
-    /**
-     * @hidden
-     */
     private _Compute_col_size(capacity = this.capacity_): number
     {
         // Get column size; {@link capacity_ capacity} / {@link ROW_SIZE row}.
@@ -356,8 +351,8 @@ export class Deque<T>
             return this.size();
 
         // INSERT BY RANGE
-        let first: _NativeArrayIterator<T> = new _NativeArrayIterator(items, 0);
-        let last: _NativeArrayIterator<T> = new _NativeArrayIterator(items, items.length);
+        let first: NativeArrayIterator<T> = new NativeArrayIterator(items, 0);
+        let last: NativeArrayIterator<T> = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(this.end(), first, last);
 
@@ -399,7 +394,7 @@ export class Deque<T>
     public pop_front(): void
     {
         if (this.empty() === true)
-            return; // TODO: THROW EXCEPTION
+            throw ErrorGenerator.empty(this.constructor, "pop_front");
 
         // EREASE FIRST ELEMENT
         this.matrix_[0].shift();
@@ -413,11 +408,8 @@ export class Deque<T>
     /**
      * @inheritDoc
      */
-    public pop_back(): void
+    protected _Pop_back(): void
     {
-        if (this.empty() === true)
-            return; // TODO: THROW EXCEPTION
-
         // ERASE LAST ELEMENT
         let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
         lastArray.pop();
@@ -432,9 +424,6 @@ export class Deque<T>
     /* ---------------------------------------------------------
         INSERT
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): Deque.Iterator<T>
     {
@@ -460,7 +449,7 @@ export class Deque<T>
             {
                 // A TEMPORARY DEQUE
                 let deque: Deque<T> = new Deque<T>();
-                deque.reserve(Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER)));
+                deque._Reserve(Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER)));
 
                 // INSERT ITEM SEQUENTIALLY
                 deque._Insert_to_end(this.begin(), pos);
@@ -478,9 +467,6 @@ export class Deque<T>
         return pos;
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_to_middle<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): void
     {
@@ -523,9 +509,6 @@ export class Deque<T>
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Insert_to_end<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (first: InputIterator, last: InputIterator): void
     {
@@ -540,9 +523,6 @@ export class Deque<T>
         }
     }
 
-    /**
-     * @hidden
-     */
     private _Try_expand_capacity(size: number): boolean
     {
         if (size <= this.capacity_)
@@ -550,14 +530,11 @@ export class Deque<T>
 
         // MAX (CAPACITY * 1.5, TARGET SIZE)
         size = Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER));
-        this.reserve(size);
+        this._Reserve(size);
 
         return true;
     }
 
-    /**
-     * @hidden
-     */
     private _Try_add_row_at_front(): boolean
     {
         let col_size: number = this._Compute_col_size();
@@ -571,9 +548,6 @@ export class Deque<T>
             return false;
     }
 
-    /**
-     * @hidden
-     */
     private _Try_add_row_at_back(): boolean
     {
         let col_size: number = this._Compute_col_size();
@@ -590,9 +564,6 @@ export class Deque<T>
     /* ---------------------------------------------------------
         ERASE
     --------------------------------------------------------- */
-    /**
-     * @hidden
-     */
     protected _Erase_by_range(first: Deque.Iterator<T>, last: Deque.Iterator<T>): Deque.Iterator<T>
     {
         if (first.index() >= this.size())
@@ -649,45 +620,12 @@ export class Deque<T>
         
         return first;
     }
-
-    /* ---------------------------------------------------------
-        STATIC MEMBERS
-    --------------------------------------------------------- */
-    ///
-    // Row size of the {@link matrix_ matrix} which contains elements.
-    // 
-    // Note that the {@link ROW_SIZE} affects on time complexity of accessing and inserting element. 
-    // Accessing element is {@link ROW_SIZE} times slower than ordinary {@link Vector} and inserting element 
-    // in middle position is {@link ROW_SIZE} times faster than ordinary {@link Vector}.
-    // 
-    // When the {@link ROW_SIZE} returns 8, time complexity of accessing element is O(8) and inserting 
-    // element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
-    // and inserting element is O(N)).
-    /**
-     * @hidden
-     */
-    private static get ROW_SIZE(): number { return 8; }
-
-    ///
-    // Minimum {@link capacity}.
-    // 
-    // Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque} 
-    // keeps the minimum {@link capacity} at least.
-    /**
-     * @hidden
-     */
-    private static get MIN_CAPACITY(): number { return 36; }
-
-    /**
-     * @hidden
-     */
-    private static get MAGNIFIER(): number { return 1.5; }
 }
 
 export namespace Deque
 {
     //----
-    // PASCAL NOTATION
+    // ITERATORS
     //----
     // HEAD
     export type Iterator<T> = ArrayIterator<T, Deque<T>>;
@@ -698,14 +636,76 @@ export namespace Deque
     export const ReverseIterator = ArrayReverseIterator;
 
     //----
-    // SNAKE NOTATION
+    // CONSTANTS
     //----
-    // HEAD
-    export type iterator<T> = Iterator<T>;
-    export type reverse_iterator<T> = ReverseIterator<T>;
+    /**
+     * Row size of the {@link Deque.matrix_ matrix} which contains elements.
+     * 
+     * Note that the {@link ROW_SIZE} affects on time complexity of accessing and inserting element. 
+     * Accessing element is {@link ROW_SIZE} times slower than ordinary {@link Vector} and inserting element 
+     * in middle position is {@link ROW_SIZE} times faster than ordinary {@link Vector}.
+     * 
+     * When the {@link ROW_SIZE} returns 8, time complexity of accessing element is O(8) and inserting 
+     * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
+     * and inserting element is O(N)).
+     */
+    export const ROW_SIZE = 8;
 
-    // BODY
-    export const iterator = Iterator;
-    export const reverse_iterator = ReverseIterator;
+    /** 
+     * Minimum {@link Deque.capacity}.
+     * 
+     * Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque} 
+     * keeps the minimum {@link Deque.capacity} at least.
+     */
+    export const MIN_CAPACITY = 36;
+
+    /**
+     * Expansion ratio.
+     */
+    export const MAGNIFIER = 1.5;
+
+    /**
+     * @internal
+     */
+    export class ForOfAdaptor<T> implements IterableIterator<T>
+    {
+        private matrix_: T[][];
+        private row_: number;
+        private col_: number;
+
+        public constructor(matrix: T[][])
+        {
+            this.matrix_ = matrix;
+            this.row_ = 0;
+            this.col_ = 0;
+        }
+
+        public next(): IteratorResult<T>
+        {
+            if (this.row_ === this.matrix_.length)
+                return {
+                    done: true,
+                    value: undefined!
+                }
+            else
+            {
+                let val: T = this.matrix_[this.row_][this.col_];
+                if (++this.col_ === this.matrix_[this.row_].length)
+                {
+                    ++this.row_;
+                    this.col_ = 0;
+                }
+
+                return {
+                    done: false,
+                    value: val
+                }
+            }
+        }
+
+        public [Symbol.iterator](): IterableIterator<T>
+        {
+            return this;
+        }
+    }
 }
-export import deque = Deque;

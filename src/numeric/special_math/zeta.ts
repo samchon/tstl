@@ -1,13 +1,8 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { MathUtil } from "../../base/numeric/MathUtil";
+import { MathUtil } from "../../internal/numeric/MathUtil";
 import { tgamma } from "./gamma";
-
-/**
- * @hidden
- */
-const INFINITY = 100 * 1000;
 
 /**
  * Riemann zeta function.
@@ -28,9 +23,6 @@ export function riemann_zeta(arg: number): number
         return _Positive(arg);
 }
 
-/**
- * @hidden
- */
 function _Negative(arg: number): number
 {
     return Math.pow(2, arg)
@@ -40,9 +32,6 @@ function _Negative(arg: number): number
         * riemann_zeta(1 - arg);
 }
 
-/**
- * @hidden
- */
 function _Fractional(arg: number): number
 {
     let divider: number = 1 - Math.pow(2, 1 - arg);
@@ -54,9 +43,6 @@ function _Fractional(arg: number): number
     return sigma / divider;
 }
 
-/**
- * @hidden
- */
 function _Positive(arg: number): number
 {
     return MathUtil.sigma(function (n: number): number
@@ -64,3 +50,5 @@ function _Positive(arg: number): number
         return Math.pow(n, -arg);
     }, 1, INFINITY);
 }
+
+const INFINITY = 100 * 1000;

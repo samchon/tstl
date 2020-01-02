@@ -1,16 +1,13 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { _ISharedLockable } from "../base/thread/_ISharedLockable";
-import { _ISharedTimedLockable } from "../base/thread/_ISharedTimedLockable";
+import { ISharedLockable } from "../internal/thread/ISharedLockable";
+import { ISharedTimedLockable } from "../internal/thread/ISharedTimedLockable";
 
-import { _SafeLock } from "../base/thread/_SafeLock";
+import { SafeLock } from "../internal/thread/SafeLock";
 
 export class SharedLock<Mutex extends IMutex>
 {
-    /**
-     * @hidden
-     */
     private mutex_: Mutex;
 
     /* ---------------------------------------------------------
@@ -21,10 +18,10 @@ export class SharedLock<Mutex extends IMutex>
         this.mutex_ = mutex;
 
         this.try_lock_for = mutex.try_lock_shared_for instanceof Function
-            ? SharedLock.try_lock_for.bind(undefined, this.mutex_ as _ISharedTimedLockable)
+            ? SharedLock.try_lock_for.bind(undefined, this.mutex_ as ISharedTimedLockable)
             : undefined as any;
         this.try_lock_until = mutex.try_lock_shared_until instanceof Function
-            ? SharedLock.try_lock_until.bind(undefined, this.mutex_ as _ISharedTimedLockable)
+            ? SharedLock.try_lock_until.bind(undefined, this.mutex_ as ISharedTimedLockable)
             : undefined as any;
     }
 
@@ -55,10 +52,10 @@ export namespace SharedLock
     /* ---------------------------------------------------------
         STATIC FUNCTIONS
     --------------------------------------------------------- */
-    export function lock<Mutex extends Pick<_ISharedLockable, "lock_shared"|"unlock_shared">>
+    export function lock<Mutex extends Pick<ISharedLockable, "lock_shared"|"unlock_shared">>
         (mutex: Mutex, closure: Closure): Promise<void>
     {
-        return _SafeLock.lock
+        return SafeLock.lock
         (
             () => mutex.lock_shared(),
             () => mutex.unlock_shared(),
@@ -66,10 +63,10 @@ export namespace SharedLock
         );
     }
 
-    export function try_lock<Mutex extends Pick<_ISharedLockable, "try_lock_shared"|"unlock_shared">>
+    export function try_lock<Mutex extends Pick<ISharedLockable, "try_lock_shared"|"unlock_shared">>
         (mutex: Mutex, closure: Closure): Promise<boolean>
     {
-        return _SafeLock.try_lock
+        return SafeLock.try_lock
         (
             () => mutex.try_lock_shared(),
             () => mutex.unlock_shared(),
@@ -77,10 +74,10 @@ export namespace SharedLock
         );
     }
 
-    export function try_lock_for<Mutex extends Pick<_ISharedTimedLockable, "try_lock_shared_for"|"unlock_shared">>
+    export function try_lock_for<Mutex extends Pick<ISharedTimedLockable, "try_lock_shared_for"|"unlock_shared">>
         (mutex: Mutex, ms: number, closure: Closure): Promise<boolean>
     {
-        return _SafeLock.try_lock
+        return SafeLock.try_lock
         (
             () => mutex.try_lock_shared_for(ms),
             () => mutex.unlock_shared(),
@@ -88,10 +85,10 @@ export namespace SharedLock
         );
     }
 
-    export function try_lock_until<Mutex extends Pick<_ISharedTimedLockable, "try_lock_shared_until"|"unlock_shared">>
+    export function try_lock_until<Mutex extends Pick<ISharedTimedLockable, "try_lock_shared_until"|"unlock_shared">>
         (mutex: Mutex, at: Date, closure: Closure): Promise<boolean>
     {
-        return _SafeLock.try_lock
+        return SafeLock.try_lock
         (
             () => mutex.try_lock_shared_until(at),
             () => mutex.unlock_shared(),
@@ -99,14 +96,6 @@ export namespace SharedLock
         );
     }
 }
-export import shared_lock = SharedLock;
 
-/**
- * @hidden
- */
-type IMutex = _ISharedLockable & Partial<_ISharedTimedLockable>;
-
-/**
- * @hidden
- */
+type IMutex = ISharedLockable & Partial<ISharedTimedLockable>;
 type Closure = () => void | Promise<void>;

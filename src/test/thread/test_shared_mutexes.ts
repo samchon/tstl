@@ -80,7 +80,7 @@ export async function test_shared_mutexes(): Promise<void>
                 --writing;
             
             if (writing > 0 && reading > 0)
-                throw new Error(`Error on SharedTimeMutex; reading and writing at the same time at ${i}`);
+                throw new Error(`Bug on SharedTimeMutex; reading and writing at the same time at ${i}`);
         }
     }
     catch (exp)
