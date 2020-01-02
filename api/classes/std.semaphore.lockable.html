@@ -89,7 +89,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/std.ilockable.html" class="tsd-signature-type">ILockable</a></li>
+					<li><a href="../interfaces/std.internal.itimedlockable.html" class="tsd-signature-type">ITimedLockable</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -107,6 +107,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.semaphore.lockable.html#lock" class="tsd-kind-icon">lock</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.semaphore.lockable.html#try_lock" class="tsd-kind-icon">try_<wbr>lock</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.semaphore.lockable.html#try_lock_for" class="tsd-kind-icon">try_<wbr>lock_<wbr>for</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.semaphore.lockable.html#try_lock_until" class="tsd-kind-icon">try_<wbr>lock_<wbr>until</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.semaphore.lockable.html#unlock" class="tsd-kind-icon">unlock</a></li>
 							</ul>
 						</section>
@@ -125,7 +127,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/Semaphore.ts#L207">thread/Semaphore.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/thread/Semaphore.ts#L207">thread/Semaphore.ts:207</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -150,9 +152,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.ilockable.html">ILockable</a>.<a href="../interfaces/std.ilockable.html#lock">lock</a></p>
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#lock">lock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/Semaphore.ts#L214">thread/Semaphore.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/thread/Semaphore.ts#L213">thread/Semaphore.ts:213</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -168,11 +170,59 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.ilockable.html">ILockable</a>.<a href="../interfaces/std.ilockable.html#try_lock">try_lock</a></p>
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#try_lock">try_lock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/Semaphore.ts#L219">thread/Semaphore.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/thread/Semaphore.ts#L222">thread/Semaphore.ts:222</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="try_lock_for" class="tsd-anchor"></a>
+					<h3>try_<wbr>lock_<wbr>for</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">try_<wbr>lock_<wbr>for<span class="tsd-signature-symbol">(</span>ms<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#try_lock_for">try_lock_for</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/thread/Semaphore.ts#L226">thread/Semaphore.ts:226</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ms: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="try_lock_until" class="tsd-anchor"></a>
+					<h3>try_<wbr>lock_<wbr>until</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">try_<wbr>lock_<wbr>until<span class="tsd-signature-symbol">(</span>at<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#try_lock_until">try_lock_until</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/thread/Semaphore.ts#L230">thread/Semaphore.ts:230</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>at: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -186,9 +236,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.ilockable.html">ILockable</a>.<a href="../interfaces/std.ilockable.html#unlock">unlock</a></p>
+								<p>Implementation of <a href="../interfaces/std.internal.itimedlockable.html">ITimedLockable</a>.<a href="../interfaces/std.internal.itimedlockable.html#unlock">unlock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/thread/Semaphore.ts#L224">thread/Semaphore.ts:224</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/thread/Semaphore.ts#L217">thread/Semaphore.ts:217</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -202,6 +252,9 @@
 				<ul>
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_internal_exception_errorgenerator_.html">"internal/exception/<wbr>Error<wbr>Generator"</a>
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/std.html">std</a>
@@ -226,6 +279,12 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="std.semaphore.lockable.html#try_lock" class="tsd-kind-icon">try_<wbr>lock</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="std.semaphore.lockable.html#try_lock_for" class="tsd-kind-icon">try_<wbr>lock_<wbr>for</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="std.semaphore.lockable.html#try_lock_until" class="tsd-kind-icon">try_<wbr>lock_<wbr>until</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="std.semaphore.lockable.html#unlock" class="tsd-kind-icon">unlock</a>

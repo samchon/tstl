@@ -189,7 +189,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L39">ranges/numeric/operations.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L39">ranges/numeric/operations.ts:39</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -224,7 +224,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L63">ranges/numeric/operations.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L63">ranges/numeric/operations.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -262,9 +262,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L164">ranges/algorithm/iterations.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L298">ranges/algorithm/iterations.ts:298</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the first adjacent element.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -275,12 +280,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> pred: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;equal_to</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal. Default is <a href="std.html#equal_to">equal_to</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of adjacent find.</p>
 						</li>
 					</ul>
 				</section>
@@ -294,9 +306,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L44">ranges/algorithm/iterations.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L69">ranges/algorithm/iterations.ts:69</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether all elements meet a specific condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -307,12 +324,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function predicates the specific condition.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the <em>pred</em> returns always <code>true</code> for all elements.</p>
 						</li>
 					</ul>
 				</section>
@@ -326,9 +350,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L50">ranges/algorithm/iterations.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L83">ranges/algorithm/iterations.ts:83</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether any element meets a specific condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -339,12 +368,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function predicates the specific condition.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the <em>pred</em> returns at least a <code>true</code> for all elements.</p>
 						</li>
 					</ul>
 				</section>
@@ -358,9 +394,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/binary_search.ts#L46">ranges/algorithm/binary_search.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/binary_search.ts#L82">ranges/algorithm/binary_search.ts:82</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether a value exists in sorted range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -371,15 +412,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Value to search for.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the value exists or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -393,9 +444,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L35">ranges/algorithm/modifiers.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L43">ranges/algorithm/modifiers.ts:43</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -409,12 +465,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -428,9 +491,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L59">ranges/algorithm/modifiers.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L93">ranges/algorithm/modifiers.ts:93</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy elements reversely.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -444,12 +512,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -463,9 +538,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L51">ranges/algorithm/modifiers.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L77">ranges/algorithm/modifiers.ts:77</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy specific elements by a condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -479,15 +559,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function predicates the specific condition.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -501,9 +591,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L43">ranges/algorithm/modifiers.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L60">ranges/algorithm/modifiers.ts:60</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy <em>n</em> elements.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -517,15 +612,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>n: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Number of elements to copy.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -539,9 +644,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L238">ranges/algorithm/iterations.ts:238</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L439">ranges/algorithm/iterations.ts:439</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Count matched value in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -552,12 +662,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The value to count.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The matched count.</p>
 						</li>
 					</ul>
 				</section>
@@ -571,9 +688,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L244">ranges/algorithm/iterations.ts:244</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L453">ranges/algorithm/iterations.ts:453</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Count matched condition in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -584,12 +706,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function predicates the specific condition.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The matched count.</p>
 						</li>
 					</ul>
 				</section>
@@ -604,9 +733,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L62">ranges/algorithm/iterations.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L112">ranges/algorithm/iterations.ts:112</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether two ranges are equal.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -620,19 +754,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether two ranges are equal.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L67">ranges/algorithm/iterations.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L126">ranges/algorithm/iterations.ts:126</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether two ranges are equal.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -646,15 +792,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <span class="tsd-signature-type">BinaryPredicatorInferrer</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether two ranges are equal.</p>
 						</li>
 					</ul>
 				</section>
@@ -668,9 +824,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/binary_search.ts#L36">ranges/algorithm/binary_search.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/binary_search.ts#L63">ranges/algorithm/binary_search.ts:63</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get range of equal elements.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -681,15 +842,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Value to search for.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/std.pair.html" class="tsd-signature-type">Pair</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Pair of <a href="std.ranges.html#lower_bound">lower_bound</a> and <a href="std.ranges.html#upper_bound">upper_bound</a>.</p>
 						</li>
 					</ul>
 				</section>
@@ -703,7 +874,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L101">ranges/numeric/operations.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L101">ranges/numeric/operations.ts:101</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -744,9 +915,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L67">ranges/algorithm/modifiers.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L109">ranges/algorithm/modifiers.ts:109</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fill range elements</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -757,12 +933,16 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>value: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -776,9 +956,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L73">ranges/algorithm/modifiers.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L124">ranges/algorithm/modifiers.ts:124</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fill <em>n</em> elements.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -789,15 +974,22 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>n: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Number of elements to fill.</p>
+									</div>
 								</li>
 								<li>
 									<h5>value: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -811,9 +1003,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L94">ranges/algorithm/iterations.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L170">ranges/algorithm/iterations.ts:170</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find a value in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -824,12 +1021,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The value to find.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element <a href="std.ranges.html#equal">to equal_to</a> the value.</p>
 						</li>
 					</ul>
 				</section>
@@ -844,9 +1048,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L112">ranges/algorithm/iterations.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L212">ranges/algorithm/iterations.ts:212</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the last sub range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -860,19 +1069,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the last sub range.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L117">ranges/algorithm/iterations.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L226">ranges/algorithm/iterations.ts:226</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the last sub range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -886,15 +1107,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <span class="tsd-signature-type">BinaryPredicatorInferrer</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the last sub range.</p>
 						</li>
 					</ul>
 				</section>
@@ -909,9 +1140,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L138">ranges/algorithm/iterations.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L255">ranges/algorithm/iterations.ts:255</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the first sub range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -925,19 +1161,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the first sub range.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L143">ranges/algorithm/iterations.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L269">ranges/algorithm/iterations.ts:269</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the first sub range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -951,15 +1199,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <span class="tsd-signature-type">BinaryPredicatorInferrer</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the first sub range.</p>
 						</li>
 					</ul>
 				</section>
@@ -973,9 +1231,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L100">ranges/algorithm/iterations.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L184">ranges/algorithm/iterations.ts:184</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find a matched condition in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -986,12 +1249,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function predicates the specific condition.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element <em>pred</em> returns <code>true</code>.</p>
 						</li>
 					</ul>
 				</section>
@@ -1005,9 +1275,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L106">ranges/algorithm/iterations.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L198">ranges/algorithm/iterations.ts:198</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find a mismatched condition in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1018,12 +1293,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function predicates the specific condition.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element <em>pred</em> returns <code>false</code>.</p>
 						</li>
 					</ul>
 				</section>
@@ -1037,9 +1319,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L25">ranges/algorithm/iterations.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L33">ranges/algorithm/iterations.ts:33</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Apply a function to elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1053,12 +1340,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>fn: <span class="tsd-signature-type">Func</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to apply.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Func</span></h4>
+							<p>The function <em>fn</em> itself.</p>
 						</li>
 					</ul>
 				</section>
@@ -1072,9 +1366,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L33">ranges/algorithm/iterations.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L50">ranges/algorithm/iterations.ts:50</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Apply a function to elements in steps.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1088,15 +1387,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>n: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Steps to maximum advance.</p>
+									</div>
 								</li>
 								<li>
 									<h5>fn: <span class="tsd-signature-type">Func</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The function to apply.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator advanced from <em>first</em> for <em>n</em> steps.</p>
 						</li>
 					</ul>
 				</section>
@@ -1110,9 +1419,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L100">ranges/algorithm/modifiers.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L176">ranges/algorithm/modifiers.ts:176</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generate range elements.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1123,9 +1437,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>gen: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The generator function.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -1154,9 +1474,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L106">ranges/algorithm/modifiers.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L191">ranges/algorithm/modifiers.ts:191</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generate <em>n</em> elements.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1167,12 +1492,21 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>n: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Number of elements to generate.</p>
+									</div>
 								</li>
 								<li>
 									<h5>gen: <span class="tsd-signature-type">function</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The generator function.</p>
+									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
 											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -1188,6 +1522,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Forward Iterator to the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -1201,9 +1536,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/merge.ts#L47">ranges/algorithm/merge.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/merge.ts#L73">ranges/algorithm/merge.ts:73</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether two sorted ranges are in inclusion relationship.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1217,15 +1557,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether [first, last1) includes [first2, last2).</p>
 						</li>
 					</ul>
 				</section>
@@ -1239,7 +1589,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L89">ranges/numeric/operations.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L89">ranges/numeric/operations.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1280,7 +1630,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L49">ranges/numeric/operations.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L49">ranges/numeric/operations.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1324,9 +1674,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/merge.ts#L35">ranges/algorithm/merge.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/merge.ts#L52">ranges/algorithm/merge.ts:52</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Merge two sorted &amp; consecutive ranges.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1337,12 +1692,21 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>middle: <a href="std.ranges.ibidirectionalcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Bidirectional iterator of the initial position of the 2nd range.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1359,7 +1723,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L33">ranges/numeric/operations.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L33">ranges/numeric/operations.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1391,9 +1755,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/heap.ts#L35">ranges/algorithm/heap.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/heap.ts#L61">ranges/algorithm/heap.ts:61</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether a range is heap.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1404,12 +1773,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.irandomaccesscontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the range is heap.</p>
 						</li>
 					</ul>
 				</section>
@@ -1423,9 +1799,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/heap.ts#L41">ranges/algorithm/heap.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/heap.ts#L75">ranges/algorithm/heap.ts:75</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the first element not in heap order.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1436,12 +1817,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.irandomaccesscontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.irandomaccesscontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element not in heap order.</p>
 						</li>
 					</ul>
 				</section>
@@ -1455,9 +1843,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/partition.ts#L15">ranges/algorithm/partition.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/partition.ts#L23">ranges/algorithm/partition.ts:23</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether a range is partitioned.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1468,12 +1861,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates partition. Returns <code>true</code>, if an element belongs to the first section, otherwise <code>false</code> which means the element belongs to the second section.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the range is partition or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -1487,9 +1887,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/mathematics.ts#L43">ranges/algorithm/mathematics.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/mathematics.ts#L76">ranges/algorithm/mathematics.ts:76</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether two ranges are in permutation relationship.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1503,15 +1908,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> pred: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;&lt;any&gt;equal_to</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal. Default is <a href="std.html#equal_to">equal_to</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether permutation or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -1525,9 +1940,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/sorting.ts#L66">ranges/algorithm/sorting.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/sorting.ts#L106">ranges/algorithm/sorting.ts:106</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether a range is sorted.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1538,12 +1958,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether sorted or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -1557,9 +1984,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/sorting.ts#L72">ranges/algorithm/sorting.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/sorting.ts#L120">ranges/algorithm/sorting.ts:120</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the first unsorted element in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1570,12 +2002,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element who violates the order.</p>
 						</li>
 					</ul>
 				</section>
@@ -1589,9 +2028,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L83">ranges/algorithm/iterations.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L151">ranges/algorithm/iterations.ts:151</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Compare lexicographically.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1605,15 +2049,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <span class="tsd-signature-type">BinaryPredicatorInferrer</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the 1st range precedes the 2nd.</p>
 						</li>
 					</ul>
 				</section>
@@ -1627,9 +2081,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/binary_search.ts#L16">ranges/algorithm/binary_search.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/binary_search.ts#L25">ranges/algorithm/binary_search.ts:25</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get iterator to lower bound.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1640,15 +2099,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Value to search for.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element equal or after the val.</p>
 						</li>
 					</ul>
 				</section>
@@ -1662,9 +2131,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/heap.ts#L14">ranges/algorithm/heap.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/heap.ts#L20">ranges/algorithm/heap.ts:20</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Make a heap.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1675,9 +2149,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.irandomaccesscontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1694,9 +2174,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/mathematics.ts#L25">ranges/algorithm/mathematics.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/mathematics.ts#L41">ranges/algorithm/mathematics.ts:41</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the maximum element in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1707,12 +2192,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the maximum element.</p>
 						</li>
 					</ul>
 				</section>
@@ -1726,9 +2218,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/merge.ts#L21">ranges/algorithm/merge.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/merge.ts#L31">ranges/algorithm/merge.ts:31</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Merge two sorted ranges.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1745,18 +2242,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -1770,9 +2280,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/mathematics.ts#L19">ranges/algorithm/mathematics.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/mathematics.ts#L27">ranges/algorithm/mathematics.ts:27</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the minimum element in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1783,12 +2298,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the minimum element.</p>
 						</li>
 					</ul>
 				</section>
@@ -1802,9 +2324,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/mathematics.ts#L31">ranges/algorithm/mathematics.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/mathematics.ts#L55">ranges/algorithm/mathematics.ts:55</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the minimum &amp; maximum elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1815,12 +2342,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/std.pair.html" class="tsd-signature-type">Pair</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A <a href="../classes/std.pair.html">Pair</a> of iterators to the minimum &amp; maximum elements.</p>
 						</li>
 					</ul>
 				</section>
@@ -1835,9 +2369,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L209">ranges/algorithm/iterations.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L378">ranges/algorithm/iterations.ts:378</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the first mistmached position between two ranges.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1851,19 +2390,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/std.pair.html" class="tsd-signature-type">Pair</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A <a href="../classes/std.pair.html">Pair</a> of mismatched positions.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L214">ranges/algorithm/iterations.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L392">ranges/algorithm/iterations.ts:392</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the first mistmached position between two ranges.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1877,15 +2428,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <span class="tsd-signature-type">BinaryPredicatorInferrer</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/std.pair.html" class="tsd-signature-type">Pair</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A <a href="../classes/std.pair.html">Pair</a> of mismatched positions.</p>
 						</li>
 					</ul>
 				</section>
@@ -1899,9 +2460,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/mathematics.ts#L64">ranges/algorithm/mathematics.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/mathematics.ts#L113">ranges/algorithm/mathematics.ts:113</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transform to the next permutation.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1912,12 +2478,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the transformation was meaningful.</p>
 						</li>
 					</ul>
 				</section>
@@ -1931,9 +2504,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L56">ranges/algorithm/iterations.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L97">ranges/algorithm/iterations.ts:97</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether any element doesn&#39;t meet a specific condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1944,12 +2522,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function predicates the specific condition.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the <em>pred</em> doesn&#39;t return <code>true</code> for all elements.</p>
 						</li>
 					</ul>
 				</section>
@@ -1963,9 +2548,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/sorting.ts#L53">ranges/algorithm/sorting.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/sorting.ts#L85">ranges/algorithm/sorting.ts:85</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rearrange for the n&#39;th element.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -1976,12 +2566,21 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>nth: <a href="std.ranges.irandomaccesscontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Random access iterator the n&#39;th position.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1998,9 +2597,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/sorting.ts#L30">ranges/algorithm/sorting.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/sorting.ts#L47">ranges/algorithm/sorting.ts:47</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sort elements in range partially.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2011,12 +2615,21 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>middle: <a href="std.ranges.irandomaccesscontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Random access iterator of the middle position between [first, last). Elements only in [first, middle) are fully sorted.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2027,40 +2640,49 @@
 					<a name="partial_sort_copy" class="tsd-anchor"></a>
 					<h3>partial_<wbr>sort_<wbr>copy</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">partial_<wbr>sort_<wbr>copy&lt;Range, OutputIterator&gt;<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Range</span>, output_first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">OutputIterator</span>, output_last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">OutputIterator</span>, comp<span class="tsd-signature-symbol">?: </span><a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">OutputIterator</span></li>
+						<li class="tsd-signature tsd-kind-icon">partial_<wbr>sort_<wbr>copy&lt;Range, Output&gt;<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Range</span>, output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Output</span>, comp<span class="tsd-signature-symbol">?: </span><a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/sorting.ts#L40">ranges/algorithm/sorting.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/sorting.ts#L65">ranges/algorithm/sorting.ts:65</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy elements in range with partial sort.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Range<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="std.ranges.irandomaccesscontainer.html" class="tsd-signature-type">IRandomAccessContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									<h4>Range<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="std.ranges.iforwardcontainer.html" class="tsd-signature-type">IForwardContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 								</li>
 								<li>
-									<h4>OutputIterator<span class="tsd-signature-symbol">: </span><a href="std.internal.html#general" class="tsd-signature-type">General</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.irandomaccesscontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">OutputIterator</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									<h4>Output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="std.ranges.iforwardcontainer.html" class="tsd-signature-type">IForwardContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container of input.</p>
+									</div>
 								</li>
 								<li>
-									<h5>output_first: <span class="tsd-signature-type">OutputIterator</span></h5>
-								</li>
-								<li>
-									<h5>output_last: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<h5>output: <span class="tsd-signature-type">Output</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container of output.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Output</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2074,7 +2696,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L75">ranges/numeric/operations.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L75">ranges/numeric/operations.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -2112,9 +2734,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/partition.ts#L27">ranges/algorithm/partition.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/partition.ts#L51">ranges/algorithm/partition.ts:51</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Partition a range into two sections.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2125,12 +2752,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates partition. Returns <code>true</code>, if an element belongs to the first section, otherwise <code>false</code> which means the element belongs to the second section.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.ibidirectionalcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the second section.</p>
 						</li>
 					</ul>
 				</section>
@@ -2144,9 +2778,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/partition.ts#L39">ranges/algorithm/partition.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/partition.ts#L81">ranges/algorithm/partition.ts:81</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Partition a range into two outputs.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2163,18 +2802,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output_true: <span class="tsd-signature-type">OutputIterator1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator to the first position for the first section.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output_false: <span class="tsd-signature-type">OutputIterator2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator to the first position for the second section.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates partition. Returns <code>true</code>, if an element belongs to the first section, otherwise <code>false</code> which means the element belongs to the second section.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/std.pair.html" class="tsd-signature-type">Pair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">OutputIterator1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">OutputIterator2</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the second section.</p>
 						</li>
 					</ul>
 				</section>
@@ -2188,9 +2840,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/partition.ts#L21">ranges/algorithm/partition.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/partition.ts#L37">ranges/algorithm/partition.ts:37</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get partition point.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2201,12 +2858,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates partition. Returns <code>true</code>, if an element belongs to the first section, otherwise <code>false</code> which means the element belongs to the second section.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the second section.</p>
 						</li>
 					</ul>
 				</section>
@@ -2220,9 +2884,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/heap.ts#L26">ranges/algorithm/heap.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/heap.ts#L44">ranges/algorithm/heap.ts:44</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Pop an element from heap.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2233,9 +2902,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.irandomaccesscontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2252,9 +2927,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/mathematics.ts#L58">ranges/algorithm/mathematics.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/mathematics.ts#L99">ranges/algorithm/mathematics.ts:99</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transform to the previous permutation.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2265,12 +2945,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the transformation was meaningful.</p>
 						</li>
 					</ul>
 				</section>
@@ -2284,9 +2971,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/heap.ts#L20">ranges/algorithm/heap.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/heap.ts#L32">ranges/algorithm/heap.ts:32</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Push an element into heap.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2297,9 +2989,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.irandomaccesscontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2316,9 +3014,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L137">ranges/algorithm/modifiers.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L247">ranges/algorithm/modifiers.ts:247</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove specific value in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2329,12 +3032,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The specific value to remove.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator tho the last element not removed.</p>
 						</li>
 					</ul>
 				</section>
@@ -2348,9 +3058,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L149">ranges/algorithm/modifiers.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L276">ranges/algorithm/modifiers.ts:276</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy range removing specific value.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2364,15 +3079,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the last position.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The condition predicates remove.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2386,9 +3111,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L161">ranges/algorithm/modifiers.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L297">ranges/algorithm/modifiers.ts:297</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy range removing elements by a condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2402,15 +3132,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the last position.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates remove.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2424,9 +3164,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L143">ranges/algorithm/modifiers.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L261">ranges/algorithm/modifiers.ts:261</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove elements in range by a condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2437,12 +3182,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates remove.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator tho the last element not removed.</p>
 						</li>
 					</ul>
 				</section>
@@ -2456,9 +3208,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L176">ranges/algorithm/modifiers.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L319">ranges/algorithm/modifiers.ts:319</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Replace specific value in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2469,12 +3226,21 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>old_val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specific value to change</p>
+									</div>
 								</li>
 								<li>
 									<h5>new_val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specific value to be changed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2491,9 +3257,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L196">ranges/algorithm/modifiers.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L356">ranges/algorithm/modifiers.ts:356</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy range replacing specific value.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2507,18 +3278,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 								<li>
 									<h5>old_val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specific value to change</p>
+									</div>
 								</li>
 								<li>
 									<h5>new_val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specific value to be changed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2532,9 +3316,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L209">ranges/algorithm/modifiers.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L379">ranges/algorithm/modifiers.ts:379</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy range replacing specfic condition.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2548,18 +3337,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates the change.</p>
+									</div>
 								</li>
 								<li>
 									<h5>new_val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specific value to be changed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2573,9 +3375,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L186">ranges/algorithm/modifiers.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L336">ranges/algorithm/modifiers.ts:336</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Replace specific condition in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2586,12 +3393,21 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates the change.</p>
+									</div>
 								</li>
 								<li>
 									<h5>new_val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Specific value to be changed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2608,9 +3424,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L233">ranges/algorithm/modifiers.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L416">ranges/algorithm/modifiers.ts:416</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Reverse elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2621,6 +3442,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2637,9 +3461,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L239">ranges/algorithm/modifiers.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L430">ranges/algorithm/modifiers.ts:430</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy reversed elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2653,12 +3482,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2672,9 +3508,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L259">ranges/algorithm/modifiers.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L458">ranges/algorithm/modifiers.ts:458</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotate elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2685,12 +3526,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>middle: <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Input iteartor of the initial position of the right side.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Input iterator of the final position in the left side; <em>middle</em>.</p>
 						</li>
 					</ul>
 				</section>
@@ -2704,9 +3552,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L265">ranges/algorithm/modifiers.ts:265</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L473">ranges/algorithm/modifiers.ts:473</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy rotated elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2720,15 +3573,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>middle: <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Input iteartor of the initial position of the right side.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the last position.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2742,9 +3605,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/random.ts#L13">ranges/algorithm/random.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/random.ts#L22">ranges/algorithm/random.ts:22</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Pick sample elements up.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2758,15 +3626,22 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>first: <span class="tsd-signature-type">OutputIterator</span></h5>
 								</li>
 								<li>
 									<h5>n: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Number of elements to pick up.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2781,9 +3656,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L173">ranges/algorithm/iterations.ts:173</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L315">ranges/algorithm/iterations.ts:315</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Search sub range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2797,19 +3677,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the sub range.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L178">ranges/algorithm/iterations.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L329">ranges/algorithm/iterations.ts:329</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Search sub range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2823,15 +3715,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <span class="tsd-signature-type">BinaryPredicatorInferrer</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the sub range.</p>
 						</li>
 					</ul>
 				</section>
@@ -2845,9 +3747,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/iterations.ts#L199">ranges/algorithm/iterations.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/iterations.ts#L360">ranges/algorithm/iterations.ts:360</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Search specific and repeated elements.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2858,18 +3765,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>count: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Count to be repeated.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Value to search.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> pred: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;equal_to</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal. Default is <a href="std.html#equal_to">equal_to</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the repetition.</p>
 						</li>
 					</ul>
 				</section>
@@ -2883,9 +3803,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/merge.ts#L86">ranges/algorithm/merge.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/merge.ts#L142">ranges/algorithm/merge.ts:142</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Combine two sorted ranges to difference relationship.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2902,18 +3827,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2927,9 +3865,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/merge.ts#L72">ranges/algorithm/merge.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/merge.ts#L118">ranges/algorithm/merge.ts:118</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Combine two sorted ranges to intersection relationship.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2946,18 +3889,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -2971,9 +3927,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/merge.ts#L100">ranges/algorithm/merge.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/merge.ts#L166">ranges/algorithm/merge.ts:166</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Combine two sorted ranges to symmetric difference relationship.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -2990,18 +3951,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -3015,9 +3989,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/merge.ts#L58">ranges/algorithm/merge.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/merge.ts#L94">ranges/algorithm/merge.ts:94</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Combine two sorted ranges to union relationship.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3034,18 +4013,31 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the first position.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -3059,7 +4051,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L247">ranges/algorithm/modifiers.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L438">ranges/algorithm/modifiers.ts:438</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -3091,7 +4083,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L253">ranges/algorithm/modifiers.ts:253</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L444">ranges/algorithm/modifiers.ts:444</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -3123,9 +4115,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L277">ranges/algorithm/modifiers.ts:277</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L490">ranges/algorithm/modifiers.ts:490</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Shuffle elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3136,6 +4133,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3152,9 +4152,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/sorting.ts#L18">ranges/algorithm/sorting.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/sorting.ts#L22">ranges/algorithm/sorting.ts:22</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sort elements in range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3165,9 +4170,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3184,9 +4195,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/heap.ts#L47">ranges/algorithm/heap.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/heap.ts#L87">ranges/algorithm/heap.ts:87</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sort elements of a heap.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3197,9 +4213,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.irandomaccesscontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3216,9 +4238,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/partition.ts#L33">ranges/algorithm/partition.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/partition.ts#L65">ranges/algorithm/partition.ts:65</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Partition a range into two sections with stable ordering.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3229,12 +4256,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pred: <a href="std.internal.html#unarypredicator" class="tsd-signature-type">UnaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An unary function predicates partition. Returns <code>true</code>, if an element belongs to the first section, otherwise <code>false</code> which means the element belongs to the second section.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.ibidirectionalcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element of the second section.</p>
 						</li>
 					</ul>
 				</section>
@@ -3248,9 +4282,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/sorting.ts#L24">ranges/algorithm/sorting.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/sorting.ts#L34">ranges/algorithm/sorting.ts:34</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sort elements in range stably.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3261,9 +4300,15 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3280,9 +4325,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L222">ranges/algorithm/modifiers.ts:222</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L400">ranges/algorithm/modifiers.ts:400</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Swap values of two ranges.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3296,12 +4346,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range1: <span class="tsd-signature-type">Range1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 1st iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>range2: <span class="tsd-signature-type">Range2</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The 2nd iterable ranged container.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Forward Iterator of the last position of the 2nd range by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -3316,9 +4373,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L79">ranges/algorithm/modifiers.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L139">ranges/algorithm/modifiers.ts:139</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transform elements.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3332,22 +4394,34 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>result: <span class="tsd-signature-type">OutputIterator</span></h5>
 								</li>
 								<li>
 									<h5>op: <span class="tsd-signature-type">UnaryOperatorInferrer</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">OutputIterator</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Unary function determines the transform.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L84">ranges/algorithm/modifiers.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L154">ranges/algorithm/modifiers.ts:154</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transform elements.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3373,9 +4447,13 @@
 								</li>
 								<li>
 									<h5>op: <span class="tsd-signature-type">BinaryOperatorInferrer</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Range2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">OutputIterator</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Binary function determines the transform.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -3389,7 +4467,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L127">ranges/numeric/operations.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L127">ranges/numeric/operations.ts:127</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -3433,7 +4511,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/numeric/operations.ts#L113">ranges/numeric/operations.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/numeric/operations.ts#L113">ranges/numeric/operations.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -3477,9 +4555,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L119">ranges/algorithm/modifiers.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L212">ranges/algorithm/modifiers.ts:212</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove duplicated elements in sorted range.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3490,12 +4573,19 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> pred: <a href="std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;equal_to</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal. Default is <a href="std.html#equal_to">equal_to</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Input iterator to the last element not removed.</p>
 						</li>
 					</ul>
 				</section>
@@ -3509,9 +4599,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/modifiers.ts#L125">ranges/algorithm/modifiers.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/modifiers.ts#L227">ranges/algorithm/modifiers.ts:227</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copy elements in range without duplicates.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3525,15 +4620,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>output: <span class="tsd-signature-type">OutputIterator</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Output iterator of the last position.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> pred: <a href="std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;equal_to</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates two arguments are equal. Default is <a href="std.html#equal_to">equal_to</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">OutputIterator</span></h4>
+							<p>Output Iterator of the last position by advancing.</p>
 						</li>
 					</ul>
 				</section>
@@ -3547,9 +4652,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/619b8d9/src/ranges/algorithm/binary_search.ts#L26">ranges/algorithm/binary_search.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/ranges/algorithm/binary_search.ts#L44">ranges/algorithm/binary_search.ts:44</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get iterator to upper bound.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3560,15 +4670,25 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>range: <span class="tsd-signature-type">Range</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An iterable ranged container.</p>
+									</div>
 								</li>
 								<li>
 									<h5>val: <a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Value to search for.</p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> comp: <a href="std.internal.html#comparator" class="tsd-signature-type">Comparator</a><span class="tsd-signature-symbol">&lt;</span><a href="std.ranges.iforwardcontainer.html#valuetype" class="tsd-signature-type">ValueType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;less</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A binary function predicates <em>x* element would be placed before *y</em>. When returns <code>true</code>, then <em>x* precedes *y</em>. Default is <a href="std.html#less">less</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.ranges.iforwardcontainer.html#iteratortype" class="tsd-signature-type">IteratorType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Range</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator to the first element after the key.</p>
 						</li>
 					</ul>
 				</section>
