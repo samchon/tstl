@@ -361,7 +361,14 @@ export class HashMultiSet<Key>
 export namespace HashMultiSet
 {
     // HEAD
+    /**
+     * Iterator of {@link HashMultiSet}
+     */
     export type Iterator<Key> = SetElementList.Iterator<Key, false, HashMultiSet<Key>>;
+
+    /**
+     * Reverse iterator of {@link HashMultiSet}
+     */
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, false, HashMultiSet<Key>>;
 
     // BODY

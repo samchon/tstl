@@ -6,7 +6,11 @@ import { IHashContainer } from "../../internal/container/associative/IHashContai
 import { SetElementList } from "../../internal/container/associative/SetElementList";
 
 /**
- * Common interface for Hash Sets.
+ * Common interface for hash sets.
+ * 
+ * @typeParam Key Key type
+ * @typeParam Unique Whether duplicated key is blocked or not.
+ * @typeParam Source Derived type extending this {@link IHashSet}
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
@@ -56,11 +60,21 @@ export interface IHashSet<Key,
 
 export namespace IHashSet
 {
+    /**
+     * Iterator of {@link IHashSet}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key, 
             Unique extends boolean, 
             Source extends IHashSet<Key, Unique, Source>>
         = SetElementList.Iterator<Key, Unique, Source>;
 
+    /**
+     * Reverse iterator of {@link IHashSet}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, 
             Unique extends boolean, 
             Source extends IHashSet<Key, Unique, Source>>

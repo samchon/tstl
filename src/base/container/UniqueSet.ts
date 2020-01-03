@@ -8,7 +8,12 @@ import { Pair } from "../../utility/Pair";
 import { ErrorGenerator } from "../../internal/exception/ErrorGenerator";
 
 /**
- * Base class for Unique-key Set Containers.
+ * Basic set container blocking duplicated key.
+ * 
+ * @typeParam Key Key type
+ * @typeParam Source Derived type extending this {@link UniqueSet}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
@@ -149,12 +154,22 @@ export abstract class UniqueSet<Key,
 
 export namespace UniqueSet
 {
+    /**
+     * Iterator of {@link UniqueSet}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key,
             SourceT extends UniqueSet<Key, SourceT, IteratorT, ReverseT>,
             IteratorT extends Iterator<Key, SourceT, IteratorT, ReverseT>,
             ReverseT extends ReverseIterator<Key, SourceT, IteratorT, ReverseT>>
         = SetContainer.Iterator<Key, true, SourceT, IteratorT, ReverseT>;
 
+    /**
+     * Reverse iterator of {@link UniqueSet}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, 
             SourceT extends UniqueSet<Key, SourceT, IteratorT, ReverseT>,
             IteratorT extends Iterator<Key, SourceT, IteratorT, ReverseT>,

@@ -348,7 +348,7 @@ export class List<T>
 export namespace List
 {
     /**
-     * Iterator of the List.
+     * Iterator of {@link List}
      * 
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -429,7 +429,7 @@ export namespace List
     }
 
     /**
-     * Reverse iterator of the List.
+     * Reverse iterator of {@link List}
      * 
      * @author Jeongho Nam <http://samchon.org>
      */

@@ -152,7 +152,14 @@ export class TreeSet<Key>
 export namespace TreeSet
 {
     // HEAD
+    /**
+     * Iterator of {@link TreeSet}
+     */
     export type Iterator<Key> = SetElementList.Iterator<Key, true, TreeSet<Key>>;
+
+    /**
+     * Reverse iterator of {@link TreeSet}
+     */
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, true, TreeSet<Key>>;
 
     // BODY

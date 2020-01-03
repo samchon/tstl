@@ -5,16 +5,22 @@ import { ILinearContainer } from "./ILinearContainer";
 import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
 
 /**
- * Interface for array containers.
+ * Common interface for array containers.
+ * 
+ * @typeParam T Stored elements' type
+ * @typeParam SourceT Derived type extending this {@link IArrayContainer}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export interface IArrayContainer<T extends ElemT, 
+export interface IArrayContainer<T extends PElem, 
         SourceT extends IArrayContainer<T, SourceT, IteratorT, ReverseT, T>, 
         IteratorT extends IArrayContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
         ReverseT extends IArrayContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
-        ElemT = T>
-    extends ILinearContainer<T, SourceT, IteratorT, ReverseT, ElemT>
+        PElem = T>
+    extends ILinearContainer<T, SourceT, IteratorT, ReverseT, PElem>
 {
     /**
      * Get iterator at specific position.
@@ -43,6 +49,11 @@ export interface IArrayContainer<T extends ElemT,
 
 export namespace IArrayContainer
 {
+    /**
+     * Iterator of {@link IArrayContainer}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<T extends ElemT, 
             SourceT extends IArrayContainer<T, SourceT, IteratorT, ReverseT, T>, 
             IteratorT extends IArrayContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
@@ -51,6 +62,11 @@ export namespace IArrayContainer
         = ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT> 
         & IRandomAccessIterator<T, IteratorT>;
     
+    /**
+     * Reverse iterator of {@link IArrayContainer}
+     * 
+     * @author Jeongho Nam <http://samchon.org>
+     */
     export type ReverseIterator<T extends ElemT, 
             SourceT extends IArrayContainer<T, SourceT, IteratorT, ReverseT, T>, 
             IteratorT extends IArrayContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 

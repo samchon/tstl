@@ -5,7 +5,13 @@ import { SetContainer } from "./SetContainer";
 import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 
 /**
- * Common interface for Tree Sets.
+ * Common interface for tree sets.
+ * 
+ * @typeParam Key Key type
+ * @typeParam Unique Whether duplicated key is blocked or not.
+ * @typeParam Source Derived type extending this {@link ITreeSet}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
@@ -21,6 +27,11 @@ export interface ITreeSet<Key,
 
 export namespace ITreeSet
 {
+    /**
+     * Iterator of {@link ITreeSet}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key,
             Unique extends boolean,
             SourceT extends ITreeSet<Key, Unique, SourceT, IteratorT, ReverseT>,
@@ -28,6 +39,11 @@ export namespace ITreeSet
             ReverseT extends ReverseIterator<Key, Unique, SourceT, IteratorT, ReverseT>>
         = SetContainer.Iterator<Key, Unique, SourceT, IteratorT, ReverseT>;
 
+    /**
+     * Reverse iterator of {@link ITreeSet}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, 
             Unique extends boolean,
             SourceT extends ITreeSet<Key, Unique, SourceT, IteratorT, ReverseT>,

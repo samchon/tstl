@@ -4,16 +4,16 @@
 import { IContainer } from "../container/IContainer";
 
 /**
- * Base reverse iterator for {@link IContainer}
+ * Base reverse iterator of {@link IContainer}
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export abstract class ReverseIterator<T extends Elem, 
-        Source extends IContainer<T, Source, Base, This, Elem>, 
-        Base extends IContainer.Iterator<T, Source, Base, This, Elem>, 
-        This extends ReverseIterator<T, Source, Base, This, Elem>,
-        Elem = T>
-    implements IContainer.ReverseIterator<T, Source, Base, This, Elem>
+export abstract class ReverseIterator<T extends PElem, 
+        Source extends IContainer<T, Source, Base, This, PElem>, 
+        Base extends IContainer.Iterator<T, Source, Base, This, PElem>, 
+        This extends ReverseIterator<T, Source, Base, This, PElem>,
+        PElem = T>
+    implements IContainer.ReverseIterator<T, Source, Base, This, PElem>
 {
     protected base_: Base;
 

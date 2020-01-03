@@ -7,21 +7,27 @@ import { ISize } from "../../internal/container/partial/ISize";
 import { IPush } from "../../internal/container/partial/IPush";
 
 import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { IReversableIterator as IReversable } from "../../iterator/IReverseIterator";
-import { IReverseIterator as IReverse } from "../../iterator/IReverseIterator";
+import { IReverseIterator } from "../../iterator/IReverseIterator";
+import { IReversableIterator } from "../../iterator/IReversableIterator";
 
 /**
- * Interface for Containers.
+ * Common interface for containers.
+ * 
+ * @typeParam T Stored elements' type
+ * @typeParam SourceT Derived type extending this {@link IContainer}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export interface IContainer<T extends Elem, 
-        SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        Elem = T>
-    extends IBidirectionalContainer<IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>, ReverseIteratorT>, 
-        Iterable<T>, IEmpty, ISize, IPush<Elem>
+export interface IContainer<T extends PElem, 
+        SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, PElem>,
+        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseT, PElem>,
+        ReverseT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, PElem>,
+        PElem = T>
+    extends IBidirectionalContainer<IContainer.Iterator<T, SourceT, IteratorT, ReverseT, PElem>, ReverseT>, 
+        Iterable<T>, IEmpty, ISize, IPush<PElem>
 {
     /* ---------------------------------------------------------
         ASSIGN & CLEAR
@@ -32,7 +38,7 @@ export interface IContainer<T extends Elem,
      * @param first Input iteartor of the first position.
      * @param last Input iterator of the last position.
      */
-    assign<InputIterator extends Readonly<IForwardIterator<Elem, InputIterator>>>
+    assign<InputIterator extends Readonly<IForwardIterator<PElem, InputIterator>>>
         (first: InputIterator, last: InputIterator): void;
 
     /**
@@ -73,12 +79,12 @@ export interface IContainer<T extends Elem,
     /**
      * @inheritDoc
      */
-    rbegin(): ReverseIteratorT;
+    rbegin(): ReverseT;
 
     /**
      * @inheritDoc
      */
-    rend(): ReverseIteratorT;
+    rend(): ReverseT;
 
     /**
      * @inheritDoc
@@ -88,7 +94,7 @@ export interface IContainer<T extends Elem,
     /* ---------------------------------------------------------
         ELEMENTS I/O
     --------------------------------------------------------- */
-    push(...items: Elem[]): number;
+    push(...items: PElem[]): number;
 
     /**
      * Erase an element.
@@ -128,7 +134,7 @@ export interface IContainer<T extends Elem,
 export namespace IContainer
 {
     /**
-     * Base iterator for {@link IContainer}.
+     * Iterator of {@link IContainer}.
      * 
      * @author Jeongho Nam <http://samchon.org>
      */
@@ -137,7 +143,7 @@ export namespace IContainer
             IteratorT extends Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
             ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
             Elem = T>
-        extends Readonly<IReversable<T, IteratorT, ReverseIteratorT>>
+        extends Readonly<IReversableIterator<T, IteratorT, ReverseIteratorT>>
     {
         /**
          * Get source container.
@@ -152,12 +158,17 @@ export namespace IContainer
         reverse(): ReverseIteratorT;
     }
 
+    /**
+     * Reverse iterator of {@link IContainer}
+     * 
+     * @author Jeongho Nam <http://samchon.org>
+     */
     export interface ReverseIterator<T extends Elem, 
-            Source extends IContainer<T, Source, Base, This, Elem>, 
-            Base extends Iterator<T, Source, Base, This, Elem>, 
-            This extends ReverseIterator<T, Source, Base, This, Elem>,
+            Source extends IContainer<T, Source, IteratorT, ReverseT, Elem>, 
+            IteratorT extends Iterator<T, Source, IteratorT, ReverseT, Elem>, 
+            ReverseT extends ReverseIterator<T, Source, IteratorT, ReverseT, Elem>,
             Elem = T>
-        extends Readonly<IReverse<T, Base, This>>
+        extends Readonly<IReverseIterator<T, IteratorT, ReverseT>>
     {
         /**
          * Get source container.

@@ -123,7 +123,14 @@ export class Vector<T>
 export namespace Vector
 {
     // HEAD
+    /**
+     * Iterator of {@link Vector}
+     */
     export type Iterator<T> = ArrayIterator<T, Vector<T>>;
+
+    /**
+     * Reverse iterator of {@link Vector}
+     */
     export type ReverseIterator<T> = ArrayReverseIterator<T, Vector<T>>;
 
     // BODY

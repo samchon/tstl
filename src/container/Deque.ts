@@ -628,7 +628,14 @@ export namespace Deque
     // ITERATORS
     //----
     // HEAD
+    /**
+     * Iterator of {@link Deque}
+     */
     export type Iterator<T> = ArrayIterator<T, Deque<T>>;
+
+    /**
+     * Reverse iterator of {@link Deque}
+     */
     export type ReverseIterator<T> = ArrayReverseIterator<T, Deque<T>>;
 
     // BODY

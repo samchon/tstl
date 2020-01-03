@@ -339,7 +339,14 @@ export class HashSet<Key>
 export namespace HashSet
 {
     // HEAD
+    /**
+     * Iterator of {@link HashSet}
+     */
     export type Iterator<Key> = SetElementList.Iterator<Key, true, HashSet<Key>>;
+
+    /**
+     * Reverse iterator of {@link HashSet}
+     */
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, true, HashSet<Key>>;
 
     // BODY

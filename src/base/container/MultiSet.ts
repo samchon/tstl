@@ -6,7 +6,13 @@ import { SetContainer } from "./SetContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 /**
- * Base class for Multiple-key Set Containers.
+ * Basic set container allowing multiple keys.
+ * 
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Source Derived type extending this {@link MultiSet}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
@@ -88,12 +94,22 @@ export abstract class MultiSet<Key,
 
 export namespace MultiSet
 {
+    /**
+     * Iterator of {@link MultiSet}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key,
             SourceT extends MultiSet<Key, SourceT, IteratorT, ReverseT>,
             IteratorT extends Iterator<Key, SourceT, IteratorT, ReverseT>,
             ReverseT extends ReverseIterator<Key, SourceT, IteratorT, ReverseT>>
         = SetContainer.Iterator<Key, false, SourceT, IteratorT, ReverseT>;
 
+    /**
+     * Reverse iterator of {@link MultiSet}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, 
             SourceT extends MultiSet<Key, SourceT, IteratorT, ReverseT>,
             IteratorT extends Iterator<Key, SourceT, IteratorT, ReverseT>,

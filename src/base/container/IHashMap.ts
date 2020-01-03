@@ -9,7 +9,12 @@ import { Entry } from "../../utility/Entry";
 import { MapElementList } from "../../internal/container/associative/MapElementList";
 
 /**
- * Common interface for Hash Maps.
+ * Common interface for hash maps.
+ * 
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Unique Whether duplicated key is blocked or not.
+ * @typeParam Source Derived type extending this {@link IHashMap}
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
@@ -59,11 +64,21 @@ export interface IHashMap<Key, T,
 
 export namespace IHashMap
 {
+    /**
+     * Iterator of {@link IHashMap}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key, T, 
             Unique extends boolean, 
             Source extends IHashMap<Key, T, Unique, Source>>
         = MapElementList.Iterator<Key, T, Unique, Source>;
 
+    /**
+     * Reverse iterator of {@link IHashMap}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, T, 
             Unique extends boolean, 
             Source extends IHashMap<Key, T, Unique, Source>>

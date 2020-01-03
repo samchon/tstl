@@ -9,16 +9,22 @@ import { IPushBack } from "../../internal/container/partial/IPushBack";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 /**
- * Interface for linear containers.
+ * Common interface for linear containers.
+ * 
+ * @typeParam T Stored elements' type
+ * @typeParam SourceT Derived type extending this {@link ILinearContainer}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
-export interface ILinearContainer<T extends ElemT, 
+export interface ILinearContainer<T extends PElem, 
         SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseT, T>, 
         IteratorT extends ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
         ReverseT extends ILinearContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
-        ElemT = T>
-    extends ILinearContainerBase<T, SourceT, IteratorT, ReverseT, ElemT>, 
+        PElem = T>
+    extends ILinearContainerBase<T, SourceT, IteratorT, ReverseT, PElem>, 
         IFront<T>, IPushBack<T>
 {
     /* ---------------------------------------------------------
@@ -111,6 +117,11 @@ export interface ILinearContainer<T extends ElemT,
 
 export namespace ILinearContainer
 {
+    /**
+     * Iterator of {@link ILinearContainer}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<T extends ElemT, 
             SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseT, T>, 
             IteratorT extends ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
@@ -118,6 +129,11 @@ export namespace ILinearContainer
             ElemT = T> 
         = IContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>;
     
+    /**
+     * Reverse iterator of {@link ILinearContainer}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<T extends ElemT, 
             SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseT, T>, 
             IteratorT extends ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 

@@ -156,7 +156,14 @@ export class TreeMap<Key, T>
 export namespace TreeMap
 {
     // HEAD
+    /**
+     * Iterator of {@link TreeMap}
+     */
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, TreeMap<Key, T>>;
+
+    /**
+     * Reverse iterator of {@link TreeMap}
+     */
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, TreeMap<Key, T>>;
 
     // BODY

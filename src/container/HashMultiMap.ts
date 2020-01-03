@@ -390,7 +390,14 @@ export namespace HashMultiMap
     // PASCAL NOTATION
     //----
     // HEAD
+    /**
+     * Iterator of {@link HashMultiMap}
+     */
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, false, HashMultiMap<Key, T>>;
+
+    /**
+     * Reverse iterator of {@link HashMultiMap}
+     */
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, false, HashMultiMap<Key, T>>;
 
     // BODY

@@ -346,7 +346,14 @@ export class HashMap<Key, T>
 export namespace HashMap
 {
     // HEAD
+    /**
+     * Iterator of {@link HashMap}
+     */
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, HashMap<Key, T>>;
+
+    /**
+     * Reverse iterator of {@link HashMap}
+     */
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, HashMap<Key, T>>;
 
     // BODY

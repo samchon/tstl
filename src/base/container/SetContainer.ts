@@ -13,7 +13,13 @@ import { Pair } from "../../utility/Pair";
 import { Temporary } from "../../internal/functional/Temporary";
 
 /**
- * Base class for Set Containers.
+ * Basic set container.
+ * 
+ * @typeParam Key Key type
+ * @typeParam Unique Whether duplicated key is blocked or not.
+ * @typeParam Source Derived type extending this {@link SetContainer}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam <http://samchon.org>
  */
@@ -222,6 +228,9 @@ export abstract class SetContainer<Key,
 
 export namespace SetContainer
 {
+    /**
+     * Return type of {@link SetContainer.insert}
+     */
     export type InsertRet<Key, 
             Unique extends boolean, 
             Source extends SetContainer<Key, Unique, Source, IteratorT, ReverseT>,
@@ -231,6 +240,11 @@ export namespace SetContainer
             ? Pair<IteratorT, boolean>
             : IteratorT;
 
+    /**
+     * Iterator of {@link SetContainer}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key,
             Unique extends boolean,
             SourceT extends SetContainer<Key, Unique, SourceT, IteratorT, ReverseT>,
@@ -238,6 +252,11 @@ export namespace SetContainer
             ReverseT extends ReverseIterator<Key, Unique, SourceT, IteratorT, ReverseT>>
         = Readonly<IContainer.Iterator<Key, SourceT, IteratorT, ReverseT, Key>>;
 
+    /**
+     * Reverse iterator of {@link SetContainer}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key,
             Unique extends boolean,
             SourceT extends SetContainer<Key, Unique, SourceT, IteratorT, ReverseT>,

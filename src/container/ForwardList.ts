@@ -532,7 +532,7 @@ export class ForwardList<T>
 export namespace ForwardList
 {
     /**
-     * Iterator of the ForwardList.
+     * Iterator of {@link ForwardList}
      * 
      * @author Jeongho Nam <http://samchon.org>
      */
