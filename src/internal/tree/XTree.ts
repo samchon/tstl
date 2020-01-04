@@ -11,7 +11,7 @@ import { Comparator } from "../functional/Comparator";
  * 
  * @reference https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
  * @inventor Rudolf Bayer
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class XTree<T>
 {

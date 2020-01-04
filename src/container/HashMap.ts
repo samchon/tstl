@@ -20,7 +20,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Unique-key Map based on Hash buckets.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class HashMap<Key, T>
     extends UniqueMap<Key, T, 

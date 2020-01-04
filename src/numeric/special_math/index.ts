@@ -4,7 +4,7 @@
 // <special_math>
 //
 // @reference http://en.cppreference.com/w/cpp/numeric/special_math
-// @author Jeongho Nam <http://samchon.org>
+// @author Jeongho Nam - https://github.com/samchon
 
 export * from "./beta";
 export * from "./gamma";

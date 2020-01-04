@@ -19,7 +19,7 @@ import { IReversableIterator } from "../../iterator/IReversableIterator";
  * @typeParam ReverseT Reverse iterator type
  * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IContainer<T extends PElem, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, PElem>,
@@ -136,7 +136,7 @@ export namespace IContainer
     /**
      * Iterator of {@link IContainer}.
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export interface Iterator<T extends Elem, 
             SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>, 
@@ -161,7 +161,7 @@ export namespace IContainer
     /**
      * Reverse iterator of {@link IContainer}
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export interface ReverseIterator<T extends Elem, 
             Source extends IContainer<T, Source, IteratorT, ReverseT, Elem>, 

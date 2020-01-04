@@ -6,7 +6,7 @@ import { RuntimeError } from "./RuntimeError";
 /**
  * Overflow Error.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class OverflowError extends RuntimeError
 {

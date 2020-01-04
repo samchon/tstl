@@ -15,7 +15,7 @@ import { ForOfAdaptor } from "../../internal/iterator/disposable/ForOfAdaptor";
  * @typeParam ReverseT Reverse iterator type
  * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class Container<T extends PElem, 
         SourceT extends Container<T, SourceT, IteratorT, ReverseT, PElem>,

@@ -19,7 +19,7 @@ import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
 /**
  * Doubly Linked List.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class List<T>
     extends ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
@@ -350,7 +350,7 @@ export namespace List
     /**
      * Iterator of {@link List}
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export class Iterator<T>
         extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>, T>
@@ -431,7 +431,7 @@ export namespace List
     /**
      * Reverse iterator of {@link List}
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export class ReverseIterator<T>
         extends ReverseIteratorBase<T, List<T>, Iterator<T>, ReverseIterator<T>, T>

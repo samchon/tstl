@@ -10,7 +10,7 @@ import { less as less_fn, equal_to } from "../functional/comparators";
 /**
  * Entry for mapping.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Entry<Key, T> 
     implements Readonly<IPair<Key, T>>, 

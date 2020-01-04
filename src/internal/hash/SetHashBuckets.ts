@@ -10,7 +10,7 @@ import { Hasher } from "../functional/Hasher";
 /**
  * Hash buckets for set containers
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class SetHashBuckets<Key, Unique extends boolean, Source extends IHashSet<Key, Unique, Source>>
     extends HashBuckets<IHashSet.Iterator<Key, Unique, Source>>

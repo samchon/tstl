@@ -16,7 +16,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Multiple-key Set based on Hash buckets.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class HashMultiSet<Key>
     extends MultiSet<Key, 

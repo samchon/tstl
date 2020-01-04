@@ -7,6 +7,15 @@ import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBas
 
 import { ITreeSet } from "../../../base/container/ITreeSet";
 
+/**
+ * Vector storing set elements.
+ * 
+ * @typeParam Key Key type
+ * @typeParam Unique Whether duplicated key is blocked or not
+ * @typeParam Source Source type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
+ */
 export class SetElementVector<Key, 
         Unique extends boolean, 
         Source extends ITreeSet<Key, 
@@ -64,6 +73,15 @@ export class SetElementVector<Key,
 
 export namespace SetElementVector
 {
+    /**
+     * Iterator of set container storing elements in a vector.
+     * 
+     * @typeParam Key Key type
+     * @typeParam Unique Whether duplicated key is blocked or not
+     * @typeParam Source Source container type
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export class Iterator<Key,
             Unique extends boolean, 
             Source extends ITreeSet<Key, 
@@ -100,6 +118,15 @@ export namespace SetElementVector
         }
     }
 
+    /**
+     * Reverse iterator of set container storing elements in a vector.
+     * 
+     * @typeParam Key Key type
+     * @typeParam Unique Whether duplicated key is blocked or not
+     * @typeParam Source Source container type
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export class ReverseIterator<Key,
             Unique extends boolean, 
             Source extends ITreeSet<Key, 

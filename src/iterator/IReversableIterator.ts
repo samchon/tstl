@@ -5,7 +5,7 @@ import { IReverseIterator } from "./IReverseIterator";
 /**
  * Reversable iterator
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IReversableIterator<T,
         IteratorT extends IReversableIterator<T, IteratorT, ReverseT>,

@@ -14,7 +14,7 @@ import { ILinearContainer } from "./ILinearContainer";
  * @typeParam ReverseT Reverse iterator type
  * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IDequeContainer<T extends PElem,
         SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, PElem>, 
@@ -31,7 +31,7 @@ export namespace IDequeContainer
     /**
      * Iterator of {@link IDequeContainer}.
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export type Iterator<T extends ElemT, 
             SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, T>, 
@@ -43,7 +43,7 @@ export namespace IDequeContainer
     /**
      * Reverse iterator of {@link IDequeContainer}.
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export type ReverseIterator<T extends ElemT, 
             SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, T>, 

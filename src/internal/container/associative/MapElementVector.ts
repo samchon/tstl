@@ -9,6 +9,16 @@ import { ITreeMap } from "../../../base/container/ITreeMap";
 import { IPair } from "../../../utility/IPair";
 import { Entry } from "../../../utility/Entry";
 
+/**
+ * Vector storing map elements.
+ * 
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Unique Whether duplicated key is blocked or not
+ * @typeParam Source Source type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
+ */
 export class MapElementVector<Key, T,
         Unique extends boolean,
         Source extends ITreeMap<Key, T,
@@ -66,6 +76,16 @@ export class MapElementVector<Key, T,
 
 export namespace MapElementVector
 {
+    /**
+     * Iterator of map container storing elements in a vector.
+     * 
+     * @typeParam Key Key type
+     * @typeParam T Mapped type
+     * @typeParam Unique Whether duplicated key is blocked or not
+     * @typeParam Source Source container type
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export class Iterator<Key, T, 
             Unique extends boolean, 
             Source extends ITreeMap<Key, T, 
@@ -132,6 +152,16 @@ export namespace MapElementVector
         }
     }
 
+    /**
+     * Reverse iterator of map container storing elements in a vector.
+     * 
+     * @typeParam Key Key type
+     * @typeParam T Mapped type
+     * @typeParam Unique Whether duplicated key is blocked or not
+     * @typeParam Source Source container type
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export class ReverseIterator<Key, T, 
             Unique extends boolean, 
             Source extends ITreeMap<Key, T, 

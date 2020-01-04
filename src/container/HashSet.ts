@@ -18,7 +18,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Unique-key Set based on Hash buckets.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class HashSet<Key>
     extends UniqueSet<Key, 

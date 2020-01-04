@@ -13,10 +13,10 @@ import { MapElementList } from "../../internal/container/associative/MapElementL
  * 
  * @typeParam Key Key type
  * @typeParam T Mapped type
- * @typeParam Unique Whether duplicated key is blocked or not.
+ * @typeParam Unique Whether duplicated key is blocked or not
  * @typeParam Source Derived type extending this {@link IHashMap}
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IHashMap<Key, T, 
         Unique extends boolean, 

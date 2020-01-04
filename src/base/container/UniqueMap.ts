@@ -19,7 +19,7 @@ import { ErrorGenerator } from "../../internal/exception/ErrorGenerator";
  * @typeParam IteratorT Iterator type
  * @typeParam ReverseT Reverse iterator type
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class UniqueMap<Key, T, 
         Source extends UniqueMap<Key, T, Source, Iterator, Reverse>, 

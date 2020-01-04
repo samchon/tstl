@@ -4,7 +4,7 @@
 // <functional>
 //
 // @reference http://www.cplusplus.com/reference/functional/
-// @author Jeongho Nam <http://samchon.org>
+// @author Jeongho Nam - https://github.com/samchon
 
 export * from "./bit_operations";
 export * from "./comparators";

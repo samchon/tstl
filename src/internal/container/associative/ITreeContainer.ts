@@ -11,7 +11,7 @@ import { less } from "../../../functional/comparators";
 /**
  * Common interface for tree containers.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface ITreeContainer<Key, T extends Elem, 
         SourceT extends ITreeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 

@@ -8,7 +8,7 @@ import { ErrorCategory } from "./ErrorCategory";
 /**
  * Error condition.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class ErrorCondition extends ErrorInstance
 {

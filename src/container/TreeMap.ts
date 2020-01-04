@@ -16,7 +16,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Unique-key Map based on Tree.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class TreeMap<Key, T>
     extends UniqueTreeMap<Key, T, 

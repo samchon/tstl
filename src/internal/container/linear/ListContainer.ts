@@ -19,7 +19,7 @@ import { Temporary } from "../../functional/Temporary";
 /**
  * Basic List Container.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class ListContainer<T, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>,

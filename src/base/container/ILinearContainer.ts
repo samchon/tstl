@@ -17,7 +17,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
  * @typeParam ReverseT Reverse iterator type
  * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface ILinearContainer<T extends PElem, 
         SourceT extends ILinearContainer<T, SourceT, IteratorT, ReverseT, T>, 

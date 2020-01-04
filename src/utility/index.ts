@@ -4,7 +4,7 @@
 // <utility>
 //
 // @reference http://www.cplusplus.com/reference/utility/
-// @author Jeongho Nam <http://samchon.org>
+// @author Jeongho Nam - https://github.com/samchon
 
 export * from "./IPair";
 export * from "./Pair";

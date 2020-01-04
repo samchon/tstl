@@ -16,7 +16,7 @@ import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 /**
  * Multiple-key Map based on sorted array.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class FlatMultiMap<Key, T>
     extends MultiTreeMap<Key, T, 

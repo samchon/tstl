@@ -9,10 +9,10 @@ import { SetElementList } from "../../internal/container/associative/SetElementL
  * Common interface for hash sets.
  * 
  * @typeParam Key Key type
- * @typeParam Unique Whether duplicated key is blocked or not.
+ * @typeParam Unique Whether duplicated key is blocked or not
  * @typeParam Source Derived type extending this {@link IHashSet}
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IHashSet<Key, 
         Unique extends boolean, 

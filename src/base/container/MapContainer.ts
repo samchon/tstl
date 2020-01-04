@@ -19,12 +19,12 @@ import { Temporary } from "../../internal/functional/Temporary";
  * 
  * @typeParam Key Key type
  * @typeParam T Mapped type
- * @typeParam Unique Whether duplicated key is blocked or not.
+ * @typeParam Unique Whether duplicated key is blocked or not
  * @typeParam Source Derived type extending this {@link MapContainer}
  * @typeParam IteratorT Iterator type
  * @typeParam ReverseT Reverse iterator type
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class MapContainer<Key, T, 
         Unique extends boolean, 

@@ -4,7 +4,7 @@
 /**
  * Hash buckets
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class HashBuckets<T>
 {

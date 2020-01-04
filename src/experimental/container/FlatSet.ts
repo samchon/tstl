@@ -14,7 +14,7 @@ import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 /**
  * Unique-key Set based on sorted array.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class FlatSet<Key>
     extends UniqueTreeSet<Key, 

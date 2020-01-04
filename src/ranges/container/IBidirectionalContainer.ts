@@ -8,6 +8,12 @@ import { IPointer } from "../../functional/IPointer";
 
 import { Vector } from "../../container/Vector";
 
+/**
+ * Bidirection iterable container.
+ * 
+ * @typeParam Iterator Iterator type
+ * @author Jeongho Nam - https://github.com/samchon
+ */
 export interface IBidirectionalContainer< 
         IteratorT extends IReversableIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseIteratorT>,
         ReverseIteratorT extends IReverseIterator<IPointer.ValueType<IteratorT>, IteratorT, ReverseIteratorT>>

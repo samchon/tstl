@@ -13,7 +13,7 @@ import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
  * @typeParam ReverseT Reverse iterator type
  * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IArrayContainer<T extends PElem, 
         SourceT extends IArrayContainer<T, SourceT, IteratorT, ReverseT, T>, 
@@ -65,7 +65,7 @@ export namespace IArrayContainer
     /**
      * Reverse iterator of {@link IArrayContainer}
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export type ReverseIterator<T extends ElemT, 
             SourceT extends IArrayContainer<T, SourceT, IteratorT, ReverseT, T>, 

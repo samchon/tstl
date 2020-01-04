@@ -8,7 +8,7 @@ import { sleep_until } from "./global";
 /**
  * Condition variable.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class ConditionVariable
 {

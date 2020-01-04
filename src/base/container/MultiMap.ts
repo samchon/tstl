@@ -15,7 +15,7 @@ import { IPair } from "../../utility/IPair";
  * @typeParam IteratorT Iterator type
  * @typeParam ReverseT Reverse iterator type
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class MultiMap<Key, T, 
         Source extends MultiMap<Key, T, Source, Iterator, Reverse>, 

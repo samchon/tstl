@@ -7,7 +7,7 @@ import { IComparable } from "../functional/IComparable";
 /**
  * Forward iterator.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IForwardIterator<T, Iterator extends IForwardIterator<T, Iterator> = IForwardIterator<T, any>>
     extends IPointer<T>, Pick<IComparable<Iterator>, "equals">

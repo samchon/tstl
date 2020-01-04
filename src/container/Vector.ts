@@ -11,7 +11,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 /**
  * Vector, an array with variable capacity.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Vector<T>
     extends VectorContainer<T, Vector<T>, Vector<T>, Vector.Iterator<T>, Vector.ReverseIterator<T>>

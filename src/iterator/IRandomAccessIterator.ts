@@ -6,7 +6,7 @@ import { IBidirectionalIterator } from "./IBidirectionalIterator";
 /**
  * Random access iterator.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IRandomAccessIterator<T, Iterator extends IRandomAccessIterator<T, Iterator> = IRandomAccessIterator<T, any>>
     extends IBidirectionalIterator<T, Iterator>

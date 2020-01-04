@@ -9,6 +9,16 @@ import { Pair } from "../../../utility/Pair";
 import { Comparator } from "../../functional/Comparator";
 import { Temporary } from "../../functional/Temporary";
 
+/**
+ * Basic tree set blocking duplicated key.
+ * 
+ * @typeParam Key Key type
+ * @typeParam Source Derived type extending this {@link UniqueTreeSet}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
+ */
 export abstract class UniqueTreeSet<Key,
         Source extends UniqueTreeSet<Key, Source, IteratorT, ReverseT>,
         IteratorT extends UniqueSet.Iterator<Key, Source, IteratorT, ReverseT>,

@@ -11,7 +11,7 @@ import { equal_to } from "../../functional/comparators";
 /**
  * Iterator of Array Containers.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class ArrayIteratorBase<T extends ElemT, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, ElemT>,

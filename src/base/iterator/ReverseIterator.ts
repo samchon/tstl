@@ -4,9 +4,9 @@
 import { IContainer } from "../container/IContainer";
 
 /**
- * Base reverse iterator of {@link IContainer}
+ * Basic reverse iterator.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class ReverseIterator<T extends PElem, 
         Source extends IContainer<T, Source, Base, This, PElem>, 

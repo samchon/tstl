@@ -9,7 +9,7 @@ import { ErrorGenerator } from "../exception/ErrorGenerator";
 /**
  * Basic List Iterator.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class ListIterator<T extends Elem, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>,

@@ -14,7 +14,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
  * @typeParam IteratorT Iterator type
  * @typeParam ReverseT Reverse iterator type
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class MultiSet<Key, 
         Source extends MultiSet<Key, Source, IteratorT, ReverseT>,

@@ -7,7 +7,7 @@ import { Vector } from "./Vector";
 /**
  * Stack; LIFO (Last In First Out).
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Stack<T> 
     extends AdaptorContainer<T, Vector<T>, Stack<T>>

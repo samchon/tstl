@@ -14,7 +14,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Multiple-key Set based on Tree.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class TreeMultiSet<Key>
     extends MultiTreeSet<Key, 

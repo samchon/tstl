@@ -8,7 +8,7 @@ import { ISize } from "../partial/ISize";
 /**
  * Base class for Adaptor Containers.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class AdaptorContainer<T, 
         Source extends IEmpty & ISize & IPush<T>,
