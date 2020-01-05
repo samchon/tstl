@@ -2,7 +2,7 @@
 /** @module std.internal */
 //================================================================
 import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
-import { ReverseIterator } from "../../base/iterator/ReverseIterator";
+import { ReverseIterator } from "./ReverseIterator";
 
 import { IContainer } from "../../base/container/IContainer";
 import { ArrayContainer } from "../container/linear/ArrayContainer";

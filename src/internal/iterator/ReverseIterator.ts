@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.base */
 //================================================================
-import { IContainer } from "../container/IContainer";
+import { IContainer } from "../../base/container/IContainer";
 
 /**
  * Basic reverse iterator.

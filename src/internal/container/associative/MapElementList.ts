@@ -3,7 +3,7 @@
 //================================================================
 import { ListContainer } from "../linear/ListContainer";
 import { ListIterator } from "../../iterator/ListIterator";
-import { ReverseIterator as _ReverseIterator } from "../../../base/iterator/ReverseIterator";
+import { ReverseIterator as _ReverseIterator } from "../../iterator/ReverseIterator";
 
 import { MapContainer } from "../../../base/container/MapContainer";
 import { IPair } from "../../../utility/IPair";

@@ -6,7 +6,7 @@ import { IDequeContainer } from "../base/container/IDequeContainer";
 import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 
 import { ListIterator } from "../internal/iterator/ListIterator";
-import { ReverseIterator as ReverseIteratorBase } from "../base/iterator/ReverseIterator";
+import { ReverseIterator as ReverseIteratorBase } from "../internal/iterator/ReverseIterator";
 
 import { IPointer } from "../functional/IPointer";
 import { IForwardIterator } from "../iterator/IForwardIterator";

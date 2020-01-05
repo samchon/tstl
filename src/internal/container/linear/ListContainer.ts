@@ -6,7 +6,7 @@ import { ILinearContainerBase } from "./ILinearContainerBase";
 import { Container } from "../../../base/container/Container";
 
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
-import { ReverseIterator } from "../../../base/iterator/ReverseIterator";
+import { ReverseIterator } from "../../iterator/ReverseIterator";
 import { ListIterator } from "../../iterator/ListIterator";
 
 import { Repeater } from "../../iterator/disposable/Repeater";
