@@ -10,7 +10,7 @@ import { less, equal_to } from "../functional/comparators";
 /**
  * Pair of two elements.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Pair<First, Second> 
     implements IPair<First, Second>, IComparable<Pair<First, Second>>

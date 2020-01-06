@@ -10,7 +10,7 @@ import { Hasher } from "../functional/Hasher";
 /**
  * Hash buckets for map containers.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class MapHashBuckets<Key, T, 
         Unique extends boolean, 

@@ -16,7 +16,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Unique-key Map based on Tree.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class TreeMap<Key, T>
     extends UniqueTreeMap<Key, T, 
@@ -156,7 +156,14 @@ export class TreeMap<Key, T>
 export namespace TreeMap
 {
     // HEAD
+    /**
+     * Iterator of {@link TreeMap}
+     */
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, true, TreeMap<Key, T>>;
+
+    /**
+     * Reverse iterator of {@link TreeMap}
+     */
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, true, TreeMap<Key, T>>;
 
     // BODY

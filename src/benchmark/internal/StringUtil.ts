@@ -6,7 +6,7 @@
  * ```StringUtil.substitute()``` method.
  *
  * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/utils/StringUtil.html
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class StringUtil
 {
@@ -68,17 +68,17 @@ export class StringUtil
      *
      * <ul>
      *    <li> If startStr is omitted, it's same with the split by endStr not having last item. </li>
-        *    <li> If endStr is omitted, it's same with the split by startStr not having first item. </li>
-        *    <li> If startStr and endStar are all omitted, returns *str*. </li>
-        * </ul>
-        *
-        * @param str Target string to split by between.
-        * @param start A string for separating substring at the front.
-        *                If omitted, it's same with split(end) not having last item.
-        * @param end A string for separating substring at the end.
-        *              If omitted, it's same with split(start) not having first item.
-        * @return An array of substrings.
-        */
+     *    <li> If endStr is omitted, it's same with the split by startStr not having first item. </li>
+     *    <li> If startStr and endStar are all omitted, returns *str*. </li>
+     * </ul>
+     *
+     * @param str Target string to split by between.
+     * @param start A string for separating substring at the front.
+     *              If omitted, it's same with split(end) not having last item.
+     * @param end A string for separating substring at the end.
+     *            If omitted, it's same with split(start) not having first item.
+     * @return An array of substrings.
+     */
     public static betweens(str: string, start: string = "", end: string = ""): Array<string>
     {
         let substrings: Array<string> = [];

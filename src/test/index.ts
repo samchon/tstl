@@ -1,5 +1,5 @@
 ﻿import * as fs from "fs";
-import { StringUtil } from "./internal/StringUtil";
+import { StringUtil } from "../benchmark/internal/StringUtil";
 
 const PATH = __dirname;
 

@@ -15,9 +15,16 @@ import { Pair } from "../../utility/Pair";
 import { Temporary } from "../../internal/functional/Temporary";
 
 /**
- * Base class for Map Containers.
+ * Basic map container.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Unique Whether duplicated key is blocked or not
+ * @typeParam Source Derived type extending this {@link MapContainer}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class MapContainer<Key, T, 
         Unique extends boolean, 
@@ -225,6 +232,9 @@ export abstract class MapContainer<Key, T,
 
 export namespace MapContainer
 {
+    /**
+     * Return type of {@link MapContainer.insert}
+     */
     export type InsertRet<Key, T, 
             Unique extends boolean, 
             SourceT extends MapContainer<Key, T, Unique, SourceT, IteratorT, Reverse>,
@@ -234,6 +244,11 @@ export namespace MapContainer
             ? Pair<IteratorT, boolean> 
             : IteratorT;
 
+    /**
+     * Iterator of {@link MapContainer}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key, T, 
             Unique extends boolean, 
             SourceT extends MapContainer<Key, T, Unique, SourceT, IteratorT, ReverseT>, 
@@ -241,6 +256,11 @@ export namespace MapContainer
             ReverseT extends ReverseIterator<Key, T, Unique, SourceT, IteratorT, ReverseT>>
         = IteratorBase<Key, T> & Readonly<IContainer.Iterator<Entry<Key, T>, SourceT, IteratorT, ReverseT, IPair<Key, T>>>;
 
+    /**
+     * Reverse iterator of {@link MapContainer}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, T, 
             Unique extends boolean, 
             SourceT extends MapContainer<Key, T, Unique, SourceT, IteratorT, ReverseT>, 

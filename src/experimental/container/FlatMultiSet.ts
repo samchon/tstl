@@ -14,7 +14,7 @@ import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 /**
  * Multiple-key Set based on sorted array.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class FlatMultiSet<Key>
     extends MultiTreeSet<Key, 

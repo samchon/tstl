@@ -36,7 +36,7 @@ export function test_swaps(): void
 --------------------------------------------------------- */
 function _Test_container_swap<SourceT extends std.base.IContainer<P, SourceT, IteratorT, ReverseT>, 
         IteratorT extends std.base.IContainer.Iterator<P, SourceT, IteratorT, ReverseT>, 
-        ReverseT extends std.base.ReverseIterator<P, SourceT, IteratorT, ReverseT>>
+        ReverseT extends std.base.IContainer.ReverseIterator<P, SourceT, IteratorT, ReverseT>>
     (v1: SourceT, v2: SourceT): void
 {
     // INSERT ITEMS ON EACH CONTAINERS
@@ -84,7 +84,7 @@ function _Test_container_swap<SourceT extends std.base.IContainer<P, SourceT, It
 function _Validate_iterators_source<T,
         SourceT extends std.base.IContainer<T, SourceT, IteratorT, ReverseT>, 
         IteratorT extends std.base.IContainer.Iterator<T, SourceT, IteratorT, ReverseT>, 
-        ReverseT extends std.base.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
+        ReverseT extends std.base.IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT>>
     (container: SourceT): void
 {
     for (let it = container.begin(); !it.equals(container.end()); it = it.next())

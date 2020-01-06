@@ -11,7 +11,7 @@ import { sleep_for } from "./global";
 /**
  * Counting semaphore.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Semaphore<Max extends number = number>
 {

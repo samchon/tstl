@@ -6,7 +6,7 @@ import { IContainer } from "../../../base/container/IContainer";
 /**
  * Common interface for associative containers
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IAssociativeContainer<Key, T extends Elem, 
         SourceT extends IAssociativeContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 

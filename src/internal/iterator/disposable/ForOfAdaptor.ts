@@ -6,7 +6,7 @@ import { IForwardIterator } from "../../../iterator/IForwardIterator";
 /**
  * Adaptor for `for ... of` iteration.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class ForOfAdaptor<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>> 
     implements IterableIterator<T>

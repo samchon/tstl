@@ -16,7 +16,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Multiple-key Set based on Hash buckets.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class HashMultiSet<Key>
     extends MultiSet<Key, 
@@ -361,7 +361,14 @@ export class HashMultiSet<Key>
 export namespace HashMultiSet
 {
     // HEAD
+    /**
+     * Iterator of {@link HashMultiSet}
+     */
     export type Iterator<Key> = SetElementList.Iterator<Key, false, HashMultiSet<Key>>;
+
+    /**
+     * Reverse iterator of {@link HashMultiSet}
+     */
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, false, HashMultiSet<Key>>;
 
     // BODY

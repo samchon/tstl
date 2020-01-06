@@ -4,7 +4,7 @@
 // <algorithm>
 //
 // @reference http://www.cplusplus.com/reference/algorithm
-// @author Jeongho Nam <http://samchon.org>
+// @author Jeongho Nam - https://github.com/samchon
 
 export * from "./binary_search";
 export * from "./heap";

@@ -6,7 +6,7 @@ import { Color } from "./Color";
 /**
  * Node of {@link XTree}
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class XTreeNode<T>
 {

@@ -4,7 +4,7 @@
 /**
  * Pair of two elements.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IPair<First, Second>
 {

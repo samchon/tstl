@@ -6,21 +6,33 @@ import { IDeque } from "../../internal/container/partial/IDeque";
 import { ILinearContainer } from "./ILinearContainer";
 
 /**
- * Interface for deque containers.
+ * Common interface for deque containers.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @typeParam T Stored elements' type
+ * @typeParam SourceT Derived type extending this {@link IDequeContainer}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
  */
-export interface IDequeContainer<T extends ElemT,
-        SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, ElemT>, 
-        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>, 
-        ReverseT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, ElemT>,
-        ElemT = T>
-    extends ILinearContainer<T, SourceT, IteratorT, ReverseT, ElemT>, IDeque<T>
+export interface IDequeContainer<T extends PElem,
+        SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, PElem>, 
+        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseT, PElem>, 
+        ReverseT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, PElem>,
+        PElem = T>
+    extends IDeque<T>,
+        ILinearContainer<T, SourceT, IteratorT, ReverseT, PElem>
 {
 }
 
 export namespace IDequeContainer
 {
+    /**
+     * Iterator of {@link IDequeContainer}.
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export type Iterator<T extends ElemT, 
             SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, T>, 
             IteratorT extends IDequeContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
@@ -28,6 +40,11 @@ export namespace IDequeContainer
             ElemT = T> 
         = ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>;
     
+    /**
+     * Reverse iterator of {@link IDequeContainer}.
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export type ReverseIterator<T extends ElemT, 
             SourceT extends IDequeContainer<T, SourceT, IteratorT, ReverseT, T>, 
             IteratorT extends IDequeContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 

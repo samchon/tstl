@@ -6,7 +6,7 @@ import { ILinearContainerBase } from "./ILinearContainerBase";
 import { Container } from "../../../base/container/Container";
 
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
-import { ReverseIterator } from "../../../base/iterator/ReverseIterator";
+import { ReverseIterator } from "../../iterator/ReverseIterator";
 import { ListIterator } from "../../iterator/ListIterator";
 
 import { Repeater } from "../../iterator/disposable/Repeater";
@@ -19,7 +19,7 @@ import { Temporary } from "../../functional/Temporary";
 /**
  * Basic List Container.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class ListContainer<T, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>,

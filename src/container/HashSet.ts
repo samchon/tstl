@@ -18,7 +18,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Unique-key Set based on Hash buckets.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class HashSet<Key>
     extends UniqueSet<Key, 
@@ -339,7 +339,14 @@ export class HashSet<Key>
 export namespace HashSet
 {
     // HEAD
+    /**
+     * Iterator of {@link HashSet}
+     */
     export type Iterator<Key> = SetElementList.Iterator<Key, true, HashSet<Key>>;
+
+    /**
+     * Reverse iterator of {@link HashSet}
+     */
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, true, HashSet<Key>>;
 
     // BODY

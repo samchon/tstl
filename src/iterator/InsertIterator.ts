@@ -12,7 +12,7 @@ import { equal_to } from "../functional/comparators";
 /**
  * Insert iterator.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class InsertIterator<
         Container extends IInsert<Iterator>, 

@@ -13,7 +13,7 @@ import { less } from "../functional/comparators";
 /**
  * Priority Queue; Greater Out First.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class PriorityQueue<T>
     extends AdaptorContainer<T, Vector<T>, PriorityQueue<T>>

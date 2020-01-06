@@ -4,12 +4,13 @@
 // <iterator>
 //
 // @reference http://www.cplusplus.com/reference/iterator
-// @author Jeongho Nam <http://samchon.org>
+// @author Jeongho Nam - https://github.com/samchon
 
 export * from "./IForwardIterator";
 export * from "./IBidirectionalIterator";
 export * from "./IRandomAccessIterator";
 export * from "./IReverseIterator";
+export * from "./IReversableIterator";
 
 export * from "./InsertIterator";
 export * from "./FrontInsertIterator";

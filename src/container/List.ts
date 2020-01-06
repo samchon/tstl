@@ -6,7 +6,7 @@ import { IDequeContainer } from "../base/container/IDequeContainer";
 import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 
 import { ListIterator } from "../internal/iterator/ListIterator";
-import { ReverseIterator as ReverseIteratorBase } from "../base/iterator/ReverseIterator";
+import { ReverseIterator as ReverseIteratorBase } from "../internal/iterator/ReverseIterator";
 
 import { IPointer } from "../functional/IPointer";
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -19,7 +19,7 @@ import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
 /**
  * Doubly Linked List.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class List<T>
     extends ListContainer<T, List<T>, List.Iterator<T>, List.ReverseIterator<T>>
@@ -348,9 +348,9 @@ export class List<T>
 export namespace List
 {
     /**
-     * Iterator of the List.
+     * Iterator of {@link List}
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export class Iterator<T>
         extends ListIterator<T, List<T>, Iterator<T>, ReverseIterator<T>, T>
@@ -429,9 +429,9 @@ export namespace List
     }
 
     /**
-     * Reverse iterator of the List.
+     * Reverse iterator of {@link List}
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export class ReverseIterator<T>
         extends ReverseIteratorBase<T, List<T>, Iterator<T>, ReverseIterator<T>, T>

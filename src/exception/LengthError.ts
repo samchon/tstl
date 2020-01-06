@@ -6,7 +6,7 @@ import { LogicError } from "./LogicError";
 /**
  * Length Error.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class LengthError extends LogicError
 {

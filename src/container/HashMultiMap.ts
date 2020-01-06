@@ -20,7 +20,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Multiple-key Map based on Hash buckets.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class HashMultiMap<Key, T>
     extends MultiMap<Key, T, 
@@ -390,7 +390,14 @@ export namespace HashMultiMap
     // PASCAL NOTATION
     //----
     // HEAD
+    /**
+     * Iterator of {@link HashMultiMap}
+     */
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, false, HashMultiMap<Key, T>>;
+
+    /**
+     * Reverse iterator of {@link HashMultiMap}
+     */
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, false, HashMultiMap<Key, T>>;
 
     // BODY

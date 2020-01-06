@@ -3,10 +3,19 @@
 //================================================================
 import { ListContainer } from "../linear/ListContainer";
 import { ListIterator } from "../../iterator/ListIterator";
-import { ReverseIterator as _ReverseIterator } from "../../../base/iterator/ReverseIterator";
+import { ReverseIterator as _ReverseIterator } from "../../iterator/ReverseIterator";
 
 import { SetContainer } from "../../../base/container/SetContainer";
 
+/**
+ * Doubly Linked List storing set elements.
+ * 
+ * @typeParam Key Key type
+ * @typeParam Unique Whether duplicated key is blocked or not
+ * @typeParam Source Source container type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
+ */
 export class SetElementList<Key, 
         Unique extends boolean, 
         Source extends SetContainer<Key, 
@@ -67,6 +76,15 @@ export class SetElementList<Key,
 
 export namespace SetElementList
 {
+    /**
+     * Iterator of set container storing elements in a list.
+     * 
+     * @typeParam Key Key type
+     * @typeParam Unique Whether duplicated key is blocked or not
+     * @typeParam Source Source container type
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export class Iterator<Key,
             Unique extends boolean,
             Source extends SetContainer<Key, 
@@ -143,6 +161,15 @@ export namespace SetElementList
         }
     }
 
+    /**
+     * Reverser iterator of set container storing elements in a list.
+     * 
+     * @typeParam Key Key type
+     * @typeParam Unique Whether duplicated key is blocked or not
+     * @typeParam Source Source container type
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export class ReverseIterator<Key,
             Unique extends boolean,
             Source extends SetContainer<Key,

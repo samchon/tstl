@@ -3,12 +3,22 @@
 //================================================================
 import { ListContainer } from "../linear/ListContainer";
 import { ListIterator } from "../../iterator/ListIterator";
-import { ReverseIterator as _ReverseIterator } from "../../../base/iterator/ReverseIterator";
+import { ReverseIterator as _ReverseIterator } from "../../iterator/ReverseIterator";
 
 import { MapContainer } from "../../../base/container/MapContainer";
 import { IPair } from "../../../utility/IPair";
 import { Entry } from "../../../utility/Entry";
 
+/**
+ * Doubly Linked List storing map elements.
+ * 
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Unique Whether duplicated key is blocked or not
+ * @typeParam Source Source type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
+ */
 export class MapElementList<Key, T, 
         Unique extends boolean, 
         Source extends MapContainer<Key, T, 
@@ -69,6 +79,16 @@ export class MapElementList<Key, T,
 
 export namespace MapElementList
 {
+    /**
+     * Iterator of map container storing elements in a list.
+     * 
+     * @typeParam Key Key type
+     * @typeParam T Mapped type
+     * @typeParam Unique Whether duplicated key is blocked or not
+     * @typeParam Source Source container type
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export class Iterator<Key, T, 
             Unique extends boolean, 
             Source extends MapContainer<Key, T, 
@@ -164,6 +184,16 @@ export namespace MapElementList
         }
     }
 
+    /**
+     * Reverse iterator of map container storing elements a list.
+     * 
+     * @typeParam Key Key type
+     * @typeParam T Mapped type
+     * @typeParam Unique Whether duplicated key is blocked or not
+     * @typeParam Source Source container type
+     * 
+     * @author Jeongho Nam - https://github.com/samchon
+     */
     export class ReverseIterator<Key, T, 
             Unique extends boolean, 
             Source extends MapContainer<Key, T, Unique, Source, Iterator<Key, T, Unique, Source>, ReverseIterator<Key, T, Unique, Source>>>

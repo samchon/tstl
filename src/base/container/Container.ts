@@ -9,14 +9,20 @@ import { ForOfAdaptor } from "../../internal/iterator/disposable/ForOfAdaptor";
 /**
  * Basic container.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @typeParam T Stored elements' type
+ * @typeParam SourceT Derived type extending this {@link Container}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
  */
-export abstract class Container<T extends Elem, 
-        SourceT extends Container<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        ReverseIteratorT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, Elem>,
-        Elem = T>
-    implements IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem>
+export abstract class Container<T extends PElem, 
+        SourceT extends Container<T, SourceT, IteratorT, ReverseT, PElem>,
+        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseT, PElem>,
+        ReverseT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, PElem>,
+        PElem = T>
+    implements IContainer<T, SourceT, IteratorT, ReverseT, PElem>
 {
     /* ---------------------------------------------------------
         ASSIGN & CLEAR
@@ -24,7 +30,7 @@ export abstract class Container<T extends Elem,
     /**
      * @inheritDoc
      */
-    public abstract assign<InputIterator extends Readonly<IForwardIterator<Elem, InputIterator>>>
+    public abstract assign<InputIterator extends Readonly<IForwardIterator<PElem, InputIterator>>>
         (first: InputIterator, last: InputIterator): void;
 
     /**
@@ -68,7 +74,7 @@ export abstract class Container<T extends Elem,
     /**
      * @inheritDoc
      */
-    public rbegin(): ReverseIteratorT
+    public rbegin(): ReverseT
     {
         return this.end().reverse();
     }
@@ -76,7 +82,7 @@ export abstract class Container<T extends Elem,
     /**
      * @inheritDoc
      */
-    public rend(): ReverseIteratorT
+    public rend(): ReverseT
     {
         return this.begin().reverse();
     }
@@ -95,7 +101,7 @@ export abstract class Container<T extends Elem,
     /**
      * @inheritDoc
      */
-    public abstract push(...items: Elem[]): number;
+    public abstract push(...items: PElem[]): number;
 
     /**
      * @inheritDoc

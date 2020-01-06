@@ -6,6 +6,12 @@ import { IRandomAccessIterator } from "../../iterator";
 import { IPointer } from "../../functional/IPointer";
 import { Vector } from "../../container/Vector";
 
+/**
+ * Random-access iterable container.
+ * 
+ * @typeParam Iterator Iterator type
+ * @author Jeongho Nam - https://github.com/samchon
+ */
 export interface IRandomAccessContainer<IteratorT extends IRandomAccessIterator<IPointer.ValueType<IteratorT>, IteratorT>>
     extends IForwardContainer<IteratorT>
 {

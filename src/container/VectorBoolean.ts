@@ -16,7 +16,7 @@ import { not_equal_to } from "../functional/comparators";
 /**
  * Vector only for `boolean`.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class VectorBoolean 
     extends ArrayContainer<boolean, VectorBoolean, VectorBoolean, VectorBoolean.Iterator, VectorBoolean.ReverseIterator, boolean>
@@ -442,7 +442,14 @@ export class VectorBoolean
 export namespace VectorBoolean
 {
     // HEAD
+    /**
+     * Iterator of {@link VectorBoolean}
+     */
     export type Iterator = ArrayIterator<boolean, VectorBoolean>;
+
+    /**
+     * Reverse iterator of {@link VectorBoolean}
+     */
     export type ReverseIterator = ArrayReverseIterator<boolean, VectorBoolean>;
 
     // BODY

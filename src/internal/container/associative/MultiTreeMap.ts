@@ -12,6 +12,17 @@ import { Pair } from "../../../utility/Pair";
 import { Comparator } from "../../functional/Comparator";
 import { Temporary } from "../../functional/Temporary";
 
+/**
+ * Basic tree map allowing duplicated keys.
+ * 
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Source Derived type extending this {@link MultiTreeMap}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
+ */
 export abstract class MultiTreeMap<Key, T,
         Source extends MultiTreeMap<Key, T, Source, IteratorT, ReverseT>,
         IteratorT extends MultiMap.Iterator<Key, T, Source, IteratorT, ReverseT>,

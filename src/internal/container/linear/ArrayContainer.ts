@@ -16,7 +16,7 @@ import { Repeater } from "../../iterator/disposable/Repeater";
 /**
  * Base array container.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class ArrayContainer<T extends ElemT, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, ElemT>,

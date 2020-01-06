@@ -19,7 +19,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Double ended queue.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Deque<T>
     extends ArrayContainer<T, Deque<T>, Deque<T>, Deque.Iterator<T>, Deque.ReverseIterator<T>, T>
@@ -628,7 +628,14 @@ export namespace Deque
     // ITERATORS
     //----
     // HEAD
+    /**
+     * Iterator of {@link Deque}
+     */
     export type Iterator<T> = ArrayIterator<T, Deque<T>>;
+
+    /**
+     * Reverse iterator of {@link Deque}
+     */
     export type ReverseIterator<T> = ArrayReverseIterator<T, Deque<T>>;
 
     // BODY

@@ -6,7 +6,7 @@ import { LogicError } from "./LogicError";
 /**
  * Invalid Argument Exception.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class InvalidArgument extends LogicError
 {

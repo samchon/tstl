@@ -6,7 +6,7 @@ import { Exception } from "./Exception";
 /**
  * Runtime Error.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class RuntimeError extends Exception
 {

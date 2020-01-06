@@ -14,7 +14,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Multiple-key Set based on Tree.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class TreeMultiSet<Key>
     extends MultiTreeSet<Key, 
@@ -152,7 +152,14 @@ export class TreeMultiSet<Key>
 export namespace TreeMultiSet
 {
     // HEAD
+    /**
+     * Iterator of {@link TreeMultiSet}
+     */
     export type Iterator<Key> = SetElementList.Iterator<Key, false, TreeMultiSet<Key>>;
+
+    /**
+     * Reverse iterator of {@link TreeMultiSet}
+     */
     export type ReverseIterator<Key> = SetElementList.ReverseIterator<Key, false, TreeMultiSet<Key>>;
 
     // BODY

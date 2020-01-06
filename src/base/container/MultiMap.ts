@@ -7,9 +7,15 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IPair } from "../../utility/IPair";
 
 /**
- * Base class for Multiple-key Map Containers.
+ * Basic map container allowing duplicated keys.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Source Derived type extending this {@link MultiMap}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class MultiMap<Key, T, 
         Source extends MultiMap<Key, T, Source, Iterator, Reverse>, 
@@ -108,12 +114,22 @@ export abstract class MultiMap<Key, T,
 
 export namespace MultiMap
 {
+    /**
+     * Iterator of {@link MultiMap}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key, T, 
             SourceT extends MultiMap<Key, T, SourceT, IteratorT, ReverseT>,
             IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,
             ReverseT extends ReverseIterator<Key, T, SourceT, IteratorT, ReverseT>>
         = MapContainer.Iterator<Key, T, false, SourceT, IteratorT, ReverseT>;
 
+    /**
+     * Reverse iterator of {@link MultiMap}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, T, 
             SourceT extends MultiMap<Key, T, SourceT, IteratorT, ReverseT>,
             IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,

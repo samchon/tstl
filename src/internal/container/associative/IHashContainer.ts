@@ -13,7 +13,7 @@ import { equal_to } from "../../../functional/comparators";
 /**
  * Common interface for hash containers
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IHashContainer<Key, T extends Elem, 
         SourceT extends IHashContainer<Key, T, SourceT, IteratorT, ReverseIteratorT, Elem>, 

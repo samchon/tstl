@@ -2,7 +2,7 @@
 /** @module std.internal */
 //================================================================
 import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
-import { ReverseIterator } from "../../base/iterator/ReverseIterator";
+import { ReverseIterator } from "./ReverseIterator";
 
 import { IContainer } from "../../base/container/IContainer";
 import { ArrayContainer } from "../container/linear/ArrayContainer";
@@ -11,7 +11,7 @@ import { ArrayIteratorBase } from "./ArrayIteratorBase";
 /**
  * Reverse iterator of Array Containers.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class ArrayReverseIteratorBase<T extends ElemT, 
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, ElemT>,

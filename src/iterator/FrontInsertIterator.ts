@@ -9,7 +9,7 @@ import { equal_to } from "../functional/comparators";
 /**
  * Front insert iterator.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class FrontInsertIterator<Source extends IPushFront<FrontInsertIterator.ValueType<Source>>>
     extends InsertIteratorBase<FrontInsertIterator.ValueType<Source>, FrontInsertIterator<Source>>

@@ -10,7 +10,7 @@ import { equal_to } from "../functional/comparators";
 /**
  * Back insert iterator.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class BackInsertIterator<Source extends IPushBack<BackInsertIterator.ValueType<Source>>>
     extends InsertIteratorBase<BackInsertIterator.ValueType<Source>, BackInsertIterator<Source>>

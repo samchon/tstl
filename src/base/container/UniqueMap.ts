@@ -11,9 +11,15 @@ import { Pair } from "../../utility/Pair";
 import { ErrorGenerator } from "../../internal/exception/ErrorGenerator";
 
 /**
- * Base class for Unique-key Map Containers.
+ * Basic map container blocking duplicated key.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Source Derived type extending this {@link UniqueMap}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export abstract class UniqueMap<Key, T, 
         Source extends UniqueMap<Key, T, Source, Iterator, Reverse>, 
@@ -250,12 +256,22 @@ export abstract class UniqueMap<Key, T,
 
 export namespace UniqueMap
 {
+    /**
+     * Iterator of {@link UniqueMap}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key, T, 
             SourceT extends UniqueMap<Key, T, SourceT, IteratorT, ReverseT>,
             IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,
             ReverseT extends ReverseIterator<Key, T, SourceT, IteratorT, ReverseT>>
         = MapContainer.Iterator<Key, T, true, SourceT, IteratorT, ReverseT>;
 
+    /**
+     * Reverse iterator of {@link UniqueMap}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, T, 
             SourceT extends UniqueMap<Key, T, SourceT, IteratorT, ReverseT>,
             IteratorT extends Iterator<Key, T, SourceT, IteratorT, ReverseT>,

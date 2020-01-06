@@ -16,7 +16,7 @@ import { Temporary } from "../internal/functional/Temporary";
 /**
  * Multiple-key Map based on Tree.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class TreeMultiMap<Key, T>
     extends MultiTreeMap<Key, T,
@@ -154,7 +154,14 @@ export class TreeMultiMap<Key, T>
 export namespace TreeMultiMap
 {
     // HEAD
+    /**
+     * Iterator of {@link TreeMultiMap}
+     */
     export type Iterator<Key, T> = MapElementList.Iterator<Key, T, false, TreeMultiMap<Key, T>>;
+
+    /**
+     * Iterator of {@link TreeMultiMap}
+     */
     export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<Key, T, false, TreeMultiMap<Key, T>>;
 
     // BODY

@@ -2,7 +2,8 @@
 /** @module std */
 //================================================================
 import { IBidirectionalContainer } from "../ranges/container/IBidirectionalContainer";
-import { IReversableIterator, IReverseIterator } from "./IReverseIterator";
+import { IReversableIterator } from "./IReversableIterator";
+import { IReverseIterator } from "./IReverseIterator";
 
 import { IPointer } from "../functional/IPointer";
 import { IForwardContainer } from "../ranges/container/IForwardContainer";

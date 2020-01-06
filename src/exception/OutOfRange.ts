@@ -6,7 +6,7 @@ import { LogicError } from "./LogicError";
 /**
  * Out-of-range Exception.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class OutOfRange extends LogicError
 {

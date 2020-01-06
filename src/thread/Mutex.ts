@@ -7,7 +7,7 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
 /**
  * Mutex.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Mutex implements ILockable
 {

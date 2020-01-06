@@ -4,7 +4,7 @@
 /**
  * Interface for comparison.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IComparable<T>
 {

@@ -9,7 +9,7 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
 /**
  * Shared mutex.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class SharedMutex implements ILockable, ISharedLockable
 {

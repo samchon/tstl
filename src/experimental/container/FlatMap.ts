@@ -16,7 +16,7 @@ import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 /**
  * Unique-key Map based on sorted array.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class FlatMap<Key, T>
     extends UniqueTreeMap<Key, T, 

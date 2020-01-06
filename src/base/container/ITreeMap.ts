@@ -8,9 +8,16 @@ import { IPair } from "../../utility/IPair";
 import { Entry } from "../../utility/Entry";
 
 /**
- * Common interface for Tree Maps.
+ * Common interface for tree maps.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @typeParam Key Key type
+ * @typeParam T Mapped type
+ * @typeParam Unique Whether duplicated key is blocked or not
+ * @typeParam Source Derived type extending this {@link ITreeMap}
+ * @typeParam IteratorT Iterator type
+ * @typeParam ReverseT Reverse iterator type
+ * 
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export interface ITreeMap<Key, T, 
         Unique extends boolean, 
@@ -24,6 +31,11 @@ export interface ITreeMap<Key, T,
 
 export namespace ITreeMap
 {
+    /**
+     * Iterator of {@link ITreeMap}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type Iterator<Key, T, 
             Unique extends boolean, 
             Source extends ITreeMap<Key, T, Unique, Source, IteratorT, ReverseT>,
@@ -31,6 +43,11 @@ export namespace ITreeMap
             ReverseT extends ReverseIterator<Key, T, Unique, Source, IteratorT, ReverseT>>
         = MapContainer.Iterator<Key, T, Unique, Source, IteratorT, ReverseT>;
 
+    /**
+     * Reverse iterator of {@link ITreeMap}
+     * 
+     * @author Jenogho Nam <http://samchon.org>
+     */
     export type ReverseIterator<Key, T, 
             Unique extends boolean, 
             Source extends ITreeMap<Key, T, Unique, Source, IteratorT, ReverseT>,

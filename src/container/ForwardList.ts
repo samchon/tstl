@@ -28,7 +28,7 @@ import { sort as sort_func } from "../algorithm/sorting";
 /**
  * Singly Linked List.
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class ForwardList<T> 
     implements IForwardContainer<ForwardList.Iterator<T>>, 
@@ -532,9 +532,9 @@ export class ForwardList<T>
 export namespace ForwardList
 {
     /**
-     * Iterator of the ForwardList.
+     * Iterator of {@link ForwardList}
      * 
-     * @author Jeongho Nam <http://samchon.org>
+     * @author Jeongho Nam - https://github.com/samchon
      */
     export class Iterator<T> implements IForwardIterator<T, Iterator<T>>
     {

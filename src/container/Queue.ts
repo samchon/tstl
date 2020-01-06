@@ -7,7 +7,7 @@ import { List } from "./List";
 /**
  * Queue; FIFO (First In First Out).
  * 
- * @author Jeongho Nam <http://samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Queue<T> 
     extends AdaptorContainer<T, List<T>, Queue<T>>
