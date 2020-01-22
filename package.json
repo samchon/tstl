@@ -17,13 +17,14 @@
     "compile": "tsc",
     "module": "tsc -p module.json",
     "dev": "tsc --watch",
-    "test": "node test"
+    "test": "ts-node src/test"
   },
   "devDependencies": {
     "@types/node": "^11.13.14",
+    "ts-node": "^8.6.2",
     "typedoc": "^0.14.2",
     "typedoc-plugin-external-module-name": "^2.0.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {

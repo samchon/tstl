@@ -10,7 +10,6 @@ node_modules/
 build/
 src/
 benchmark/
-test/
 
 *.log
 *.*ignore

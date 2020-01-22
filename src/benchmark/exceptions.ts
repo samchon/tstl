@@ -3,7 +3,7 @@ import { FlatMap } from "../experimental/container/FlatMap";
 import { SharedMutex } from "../thread/SharedMutex";
 import { Semaphore } from "../thread/Semaphore";
 
-import { advance } from "../iterator";
+import { advance } from "../iterator/global";
 import { 
     cyl_bessel_j, cyl_neumann, 
     cyl_bessel_i, cyl_bessel_k, 

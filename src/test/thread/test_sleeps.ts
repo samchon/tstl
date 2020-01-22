@@ -31,6 +31,6 @@ async function _Test_sleep_until(): Promise<void>
 function _Validate_sleep(t1: Date, t2: Date): void
 {
     let ms: number = t2.getTime() - t1.getTime();
-    if (ms < 50 - 10 || ms >= 50 + 10)
+    if (ms < 50 * 0.5 || ms >= 50 * 1.5)
         throw new Error(`Bug on sleep_for(): ${ms}`);
 }

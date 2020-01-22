@@ -29,7 +29,7 @@ async function iterate(path: string): Promise<void>
             await iterate(current_path);
             continue;
         }
-        else if (file.substr(-3) !== ".js" || current_path === PATH + "/index.js")
+        else if (file.substr(-3) !== ".ts" || current_path === `${PATH}/index.ts`)
             continue;
 
         let external: IModule = await import(current_path.substr(0, current_path.length - 3));
