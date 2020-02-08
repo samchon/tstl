@@ -1,4 +1,7 @@
-import "source-map-support/register";
+const EXTENSION = __filename.substr(-2);
+if (EXTENSION === "js")
+    require("source-map-support").install();
+
 import { FileSystem } from "./internal/FileSystem";
 
 interface IModule

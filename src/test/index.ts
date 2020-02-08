@@ -1,4 +1,7 @@
-﻿import "source-map-support/register";
+﻿const EXTENSION = __filename.substr(-2);
+if (EXTENSION === "js")
+    require("source-map-support").install();
+
 import cli from "cli";
 import fs from "fs";
 
@@ -35,30 +38,28 @@ async function iterate(command: ICommand, path: string): Promise<void>
             await iterate(command, currentPath);
             continue;
         }
-        else if (file.substr(-3) !== ".js" || currentPath === `${__dirname}/index.js`)
+        else if (file.substr(-3) !== `.${EXTENSION}` || currentPath === `${__dirname}/index.${EXTENSION}`)
             continue;
         else if (file.substr(0, 5) !== "test_")
             continue;
 
-        let moduleName: string = file.substring(5, file.length - 3);
-        if (command.exclude && command.exclude === moduleName)
-            continue;
-        if (command.target && command.target !== moduleName)
-            continue;
-
-        let time: number = Date.now();
         let external: IModule = await import(currentPath.substr(0, currentPath.length - 3));
         for (let key in external)
         {
             // WHETHER TESTING TARGET OR NOT
             if (key.substr(0, 5) !== "test_")
                 continue;
+
+            if (command.exclude && command.exclude === key.substr(5))
+                continue;
+            if (command.target && command.target !== key.substr(5))
+                continue;
             
             // PRINT TITLE & ELAPSED TIME
             process.stdout.write("  - " + key);
-            
-            await external[key]();
-            console.log(`: ${StringUtil.numberFormat(Date.now() - time)} ms`);
+            let time: number = await measure(() => external[key]());
+
+            console.log(`: ${StringUtil.numberFormat(time)} ms`);
         }
     }
 }

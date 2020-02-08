@@ -17,13 +17,15 @@
     "compile": "tsc",
     "dev": "tsc --watch",
     "module": "tsc -p module.json",
-    "test": "node test"
+    "test": "node test",
+    "ts-test": "ts-node src/test"
   },
   "devDependencies": {
     "@types/cli": "^0.11.19",
     "@types/node": "^13.7.0",
     "cli": "^1.0.1",
     "source-map-support": "^0.5.16",
+    "ts-node": "^8.6.2",
     "typedoc": "^0.14.2",
     "typedoc-plugin-external-module-name": "^2.0.0",
     "typescript": "^3.7.5"
