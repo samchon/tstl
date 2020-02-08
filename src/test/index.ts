@@ -1,8 +1,14 @@
-﻿import * as fs from "fs";
+﻿import "source-map-support/register";
+import cli from "cli";
+import fs from "fs";
+
 import { StringUtil } from "../benchmark/internal/StringUtil";
 
-const PATH = __dirname;
-
+interface ICommand
+{
+    target?: string;
+    exclude?: string;
+}
 interface IModule
 {
     [key: string]: ()=>Promise<void>;
@@ -16,36 +22,43 @@ async function measure(job: ()=>Promise<void>): Promise<number>
     return Date.now() - time;
 }
 
-async function iterate(path: string): Promise<void>
+async function iterate(command: ICommand, path: string): Promise<void>
 {
-    let file_list: string[] = fs.readdirSync(path);
-    for (let file of file_list)
+    let fileList: string[] = fs.readdirSync(path);
+    for (let file of fileList)
     {
-        let current_path: string = path + "/" + file;
-        let stat: fs.Stats = fs.lstatSync(current_path);
+        let currentPath: string = path + "/" + file;
+        let stat: fs.Stats = fs.lstatSync(currentPath);
         
         if (stat.isDirectory() === true && file !== "internal")
         {
-            await iterate(current_path);
+            await iterate(command, currentPath);
             continue;
         }
-        else if (file.substr(-3) !== ".ts" || current_path === `${PATH}/index.ts`)
+        else if (file.substr(-3) !== ".js" || currentPath === `${__dirname}/index.js`)
+            continue;
+        else if (file.substr(0, 5) !== "test_")
             continue;
 
-        let external: IModule = await import(current_path.substr(0, current_path.length - 3));
+        let moduleName: string = file.substring(5, file.length - 3);
+        if (command.exclude && command.exclude === moduleName)
+            continue;
+        if (command.target && command.target !== moduleName)
+            continue;
+
+        let time: number = Date.now();
+        let external: IModule = await import(currentPath.substr(0, currentPath.length - 3));
         for (let key in external)
         {
             // WHETHER TESTING TARGET OR NOT
             if (key.substr(0, 5) !== "test_")
                 continue;
-            else if (process.argv[2] && key.replace("test_", "") !== process.argv[2])
-                continue;
-
+            
             // PRINT TITLE & ELAPSED TIME
             process.stdout.write("  - " + key);
             
-            let time: number = await measure(() => external[key]());
-            console.log(`: ${StringUtil.numberFormat(time)} ms`);
+            await external[key]();
+            console.log(`: ${StringUtil.numberFormat(Date.now() - time)} ms`);
         }
     }
 }
@@ -59,7 +72,11 @@ async function main(): Promise<void>
     console.log(" TSTL Test Automation Program");
     console.log("==========================================================");
 
-    let time: number = await measure(() => iterate(PATH));
+    let command: ICommand = cli.parse();
+    if (process.argv[2] && process.argv[2][0] !== '-')
+        command.target = process.argv[2];
+
+    let time: number = await measure(() => iterate(command, __dirname));
     
     //----
     // TRACE BENCHMARK

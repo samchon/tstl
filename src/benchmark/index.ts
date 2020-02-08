@@ -1,3 +1,4 @@
+import "source-map-support/register";
 import { FileSystem } from "./internal/FileSystem";
 
 interface IModule

@@ -8,13 +8,19 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "runtimeArgs": [
-                "-r",
-                "ts-node/register"
-            ],
-            "args": [
-                "${workspaceRoot}/src/test/index.ts"
-            ]
+            "program": "${workspaceRoot}/test/index.js",
+            "cwd": "${workspaceRoot}",
+
+            // TypeScript
+            "sourceMaps": true,
+            "outFiles": ["${workspaceRot}/**.js"]
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Process",
+            "port": 5858,
+            "outFiles": []
         }
     ]
 }

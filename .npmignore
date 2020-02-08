@@ -9,6 +9,7 @@ assets/
 node_modules/
 build/
 src/
+test/
 benchmark/
 
 *.log

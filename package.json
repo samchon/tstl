@@ -15,13 +15,15 @@
     "build": "npm run module && npm run compile && npm run test",
     "clean": "node build/clean",
     "compile": "tsc",
-    "module": "tsc -p module.json",
     "dev": "tsc --watch",
-    "test": "ts-node src/test"
+    "module": "tsc -p module.json",
+    "test": "node test"
   },
   "devDependencies": {
-    "@types/node": "^11.13.14",
-    "ts-node": "^8.6.2",
+    "@types/cli": "^0.11.19",
+    "@types/node": "^13.7.0",
+    "cli": "^1.0.1",
+    "source-map-support": "^0.5.16",
     "typedoc": "^0.14.2",
     "typedoc-plugin-external-module-name": "^2.0.0",
     "typescript": "^3.7.5"
