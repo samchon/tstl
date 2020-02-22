@@ -1,6 +1,6 @@
-import std = require("../../exception");
+import * as std from "../../index";
 
-const NAMES = [
+const EXP_NAMES = [
     "Exception",
     "LogicError",
         "DomainError",
@@ -13,7 +13,7 @@ const NAMES = [
 
 export function test_exception_names(): void
 {
-    for (let name of NAMES)
+    for (let name of EXP_NAMES)
     {
         let exp: std.Exception = new std[name]("Error Message");
         if (exp.name !== name)

@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../algorithm/modifiers");
+import * as base from "../../algorithm/modifiers";
 
 import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
 import { IForwardContainer } from "../container/IForwardContainer";

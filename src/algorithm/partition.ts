@@ -3,7 +3,7 @@
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
-import { IPointer } from "../functional";
+import { IPointer } from "../functional/IPointer";
 
 import { General } from "../internal/functional/General";
 import { Pair } from "../utility/Pair";

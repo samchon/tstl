@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../algorithm/random");
+import * as base from "../../algorithm/random";
 
 import { IForwardContainer } from "../container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";

@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../algorithm/heap");
+import * as base from "../../algorithm/heap";
 
 import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
 import { Comparator } from "../../internal/functional/Comparator";

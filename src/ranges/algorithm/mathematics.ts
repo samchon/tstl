@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../algorithm/mathematics");
+import * as base from "../../algorithm/mathematics";
 
 import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
 import { IForwardContainer } from "../container/IForwardContainer";

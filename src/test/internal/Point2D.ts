@@ -1,4 +1,4 @@
-import std = require("../..");
+import * as std from "../../index";
 
 export class Point2D 
     implements Pick<std.IComparable<Point2D>, "equals">, 

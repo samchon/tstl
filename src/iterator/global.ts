@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std */
 //================================================================
-import { IPointer } from "../functional";
+import { IPointer } from "../functional/IPointer";
 
 import { IForwardIterator } from "./IForwardIterator";
 import { IBidirectionalIterator } from "./IBidirectionalIterator";

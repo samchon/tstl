@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../algorithm/partition");
+import * as base from "../../algorithm/partition";
 
 import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
 import { IForwardContainer } from "../container/IForwardContainer";

@@ -1,4 +1,4 @@
-import std = require("../../index");
+import * as std from "../../index";
 
 export function test_inserters(): void
 {

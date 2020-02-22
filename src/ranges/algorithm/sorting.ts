@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../algorithm/sorting");
+import * as base from "../../algorithm/sorting";
 
 import { IForwardContainer } from "../container/IForwardContainer";
 import { IRandomAccessContainer } from "../container/IRandomAccessContainer";

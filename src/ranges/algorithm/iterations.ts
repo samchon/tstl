@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../algorithm/iterations");
+import * as base from "../../algorithm/iterations";
 
 import { IForwardContainer } from "../container/IForwardContainer";
 import { Pair } from "../../utility/Pair";

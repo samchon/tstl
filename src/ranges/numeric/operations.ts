@@ -1,12 +1,12 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../numeric/operations");
+import * as base from "../../numeric/operations";
 
 import { IForwardContainer } from "../container/IForwardContainer";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
-import { IPointer } from "../../functional";
+import { IPointer } from "../../functional/IPointer";
 import { Writeonly } from "../../internal/functional/Writeonly";
 import { begin, end } from "../../iterator/factory";
 import { plus, multiplies, minus } from "../../numeric/operators";

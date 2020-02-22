@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.4.0",
+  "version": "2.4.1",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
@@ -16,7 +16,8 @@
     "clean": "node build/clean",
     "compile": "tsc",
     "dev": "tsc --watch",
-    "module": "tsc -p module.json",
+    "module": "tsc --noEmit --module amd && tsc --noEmit --module system && tsc --noEmit --module umd && tsc --noEmit --module esnext",
+    "module-dev": "tsc --watch --noEmit --module esnext",
     "test": "node test",
     "ts-test": "ts-node src/test"
   },
@@ -28,12 +29,12 @@
     "ts-node": "^8.6.2",
     "typedoc": "^0.14.2",
     "typedoc-plugin-external-module-name": "^2.0.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.2"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
     "type": "git",
-    "url": "https://github.com/samchon/tstl.git"
+    "url": "https://github.com/samchon/tstl"
   },
   "bugs": {
     "url": "https://github.com/samchon/tstl/issues"

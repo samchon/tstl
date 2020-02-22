@@ -1,4 +1,4 @@
-import { Vector, List, ForwardList } from "../container";
+import { Vector, List, ForwardList } from "../container/index";
 import { FlatMap } from "../experimental/container/FlatMap";
 import { SharedMutex } from "../thread/SharedMutex";
 import { Semaphore } from "../thread/Semaphore";
@@ -10,7 +10,7 @@ import {
     ellint_3, 
     hermite, 
     assoc_laguerre, assoc_legendre 
-} from "../numeric";
+} from "../numeric/special_math/index";
 
 async function except(proc: Procedure): Promise<string>
 {

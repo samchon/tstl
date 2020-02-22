@@ -2,7 +2,7 @@
 /** @module std.ranges */
 //================================================================
 import { IForwardContainer } from "./IForwardContainer";
-import { IRandomAccessIterator } from "../../iterator";
+import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
 import { IPointer } from "../../functional/IPointer";
 import { Vector } from "../../container/Vector";
 

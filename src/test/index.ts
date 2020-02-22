@@ -2,8 +2,8 @@
 if (EXTENSION === "js")
     require("source-map-support").install();
 
-import cli from "cli";
-import fs from "fs";
+import * as cli from "cli";
+import * as fs from "fs";
 
 import { StringUtil } from "../benchmark/internal/StringUtil";
 

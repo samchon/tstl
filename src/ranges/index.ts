@@ -1,6 +1,6 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-export * from "./algorithm";
-export * from "./numeric";
-export * from "./container";
+export * from "./algorithm/index";
+export * from "./numeric/index";
+export * from "./container/index";

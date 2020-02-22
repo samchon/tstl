@@ -1,4 +1,4 @@
-import std = require("../..");
+import * as std from "../../index";
 
 const enum Status
 {

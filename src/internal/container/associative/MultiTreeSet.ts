@@ -4,7 +4,7 @@
 import { MultiSet } from "../../../base/container/MultiSet";
 import { ITreeContainer } from "./ITreeContainer";
 
-import { IForwardIterator } from "../../../iterator";
+import { IForwardIterator } from "../../../iterator/IForwardIterator";
 import { Pair } from "../../../utility/Pair";
 
 import { Comparator } from "../../functional/Comparator";

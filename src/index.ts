@@ -4,24 +4,26 @@
 /**
  * Basic features.
  */
-export import base = require("./base");
+import * as base from "./base/index";
 
 /**
  * Experimental features.
  */
-export import experimental = require("./experimental");
+import * as experimental from "./experimental/index";
 
 /**
  * Ranged modules.
  */
-export import ranges = require("./ranges");
+import * as ranges from "./ranges/index";
 
-export * from "./container";
-export * from "./iterator";
-export * from "./algorithm";
+export { base, experimental, ranges };
 
-export * from "./exception";
-export * from "./functional";
-export * from "./numeric";
-export * from "./thread";
-export * from "./utility";
+export * from "./container/index";
+export * from "./iterator/index";
+export * from "./algorithm/index";
+
+export * from "./exception/index";
+export * from "./functional/index";
+export * from "./numeric/index";
+export * from "./thread/index";
+export * from "./utility/index";

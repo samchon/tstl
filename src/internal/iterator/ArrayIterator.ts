@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.internal */
 //================================================================
-import { IArrayContainer } from "../../base";
+import { IArrayContainer } from "../../base/container/IArrayContainer";
 import { ArrayIteratorBase } from "./ArrayIteratorBase";
 
 import { ArrayContainer } from "../container/linear/ArrayContainer";

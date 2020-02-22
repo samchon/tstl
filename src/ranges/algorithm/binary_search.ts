@@ -1,7 +1,7 @@
 //================================================================ 
 /** @module std.ranges */
 //================================================================
-import base = require("../../algorithm/binary_search");
+import * as base from "../../algorithm/binary_search";
 
 import { IForwardContainer } from "../container/IForwardContainer";
 import { Pair } from "../../utility/Pair";

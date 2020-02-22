@@ -6,7 +6,7 @@ import { General } from "../internal/functional/General";
 import { Writeonly } from "../internal/functional/Writeonly";
 
 import { plus, minus, multiplies } from "./operators";
-import { IPointer } from "../functional";
+import { IPointer } from "../functional/IPointer";
 
 /**
  * Greatest Common Divider.

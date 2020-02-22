@@ -10,7 +10,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
 
 import { Pair } from "../utility/Pair";
-import { InvalidArgument } from "../exception";
+import { InvalidArgument } from "../exception/InvalidArgument";
 import { distance } from "../iterator/global";
 
 import { ErrorGenerator } from "../internal/exception/ErrorGenerator";
