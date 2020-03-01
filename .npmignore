@@ -1,21 +1,4 @@
-# ======================================================
-#  TYPESCRIPT
-# ======================================================
-.git/
-.github/
-.vscode/
-
-assets/
-node_modules/
-build/
-src/
 test/
 benchmark/
 
-*.log
-*.*ignore
 *.js.map
-
-tsconfig.json
-module.json
-package-lock.json

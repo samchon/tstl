@@ -12,14 +12,15 @@
   "scripts": {
     "api": "typedoc src --ignoreCompilerErrors --plugin typedoc-plugin-external-module-name --exclude \"**/+(test|benchmark)/**\" --excludePrivate --excludeProtected --excludeNotExported --out ",
     "benchmark": "node benchmark",
-    "build": "npm run module && npm run compile && npm run test",
-    "clean": "node build/clean",
+    "build": "npm install && npm run clean && npm run module && npm run compile && npm run dist && npm run test",
+    "clean": "ts-node build/clean",
     "compile": "tsc",
     "dev": "tsc --watch",
+    "dist": "ts-node build/dist",
     "module": "tsc --noEmit --module amd && tsc --noEmit --module system && tsc --noEmit --module umd && tsc --noEmit --module esnext",
-    "module-dev": "tsc --watch --noEmit --module esnext",
-    "test": "node test",
-    "ts-test": "ts-node src/test"
+    "module:dev": "tsc --watch --noEmit --module esnext",
+    "test": "node dist/test",
+    "test:ts": "ts-node src/test"
   },
   "devDependencies": {
     "@types/cli": "^0.11.19",
@@ -29,7 +30,7 @@
     "ts-node": "^8.6.2",
     "typedoc": "^0.14.2",
     "typedoc-plugin-external-module-name": "^2.0.0",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.3"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {

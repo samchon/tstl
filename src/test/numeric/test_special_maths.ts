@@ -2,8 +2,8 @@ import * as fs from "fs";
 import * as std from "../../index";
 
 const PATH = (__filename.substr(-2) === "ts")
-    ? __dirname + "/../../../assets/samples/special_math"
-    : __dirname + "/../../assets/samples/special_math";
+    ? `${__dirname}/special_math`
+    : `${__dirname}/special_math`.replace("dist", "src");
 
 export function similar(x: number, y: number, precision = .05): boolean
 {

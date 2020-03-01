@@ -4,6 +4,7 @@
 assets/benchmarks/
 node_modules/
 lib/
+dist/
 
 package-lock.json
 *.log
