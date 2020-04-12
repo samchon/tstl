@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-function main(): void
+async function main(): Promise<void>
 {
     const FILES = [
         ".npmignore",
@@ -15,6 +15,6 @@ function main(): void
 
     for (let file of FILES)
         if (fs.existsSync(`${DIST}/${file}`) === false)
-            fs.linkSync(`${ROOT}/${file}`, `${DIST}/${file}`);
+            await fs.promises.link(`${ROOT}/${file}`, `${DIST}/${file}`);
 }
 main();

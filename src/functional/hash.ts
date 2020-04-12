@@ -16,7 +16,7 @@ export function hash(...items: any[]): number
     
     for (let item of items)
     {
-        item = item.valueOf();
+        item = item ? item.valueOf() : item;
         let type: string = typeof item;
 
         if (type === "boolean") // BOOLEAN -> 1 BYTE
