@@ -39,7 +39,7 @@ export function hash(...items: any[]): number
         else // object | null | undefined
             ret = _Hash_number(get_uid(item), ret);
     }
-    return ret;
+    return Math.abs(ret);
 }
 
 function _Hash_boolean(val: boolean, ret: number): number

@@ -14,7 +14,10 @@ async function main(): Promise<void>
     const DIST = `${ROOT}/dist`;
 
     for (let file of FILES)
-        if (fs.existsSync(`${DIST}/${file}`) === false)
-            await fs.promises.link(`${ROOT}/${file}`, `${DIST}/${file}`);
+    {
+        if (fs.existsSync(`${DIST}/${file}`) === true)
+            await fs.promises.unlink(`${DIST}/${file}`);
+        await fs.promises.link(`${ROOT}/${file}`, `${DIST}/${file}`);
+    }
 }
 main();
