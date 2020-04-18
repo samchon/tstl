@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 

@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { MultiSet } from "../base/container/MultiSet";
 import { IHashSet } from "../base/container/IHashSet";

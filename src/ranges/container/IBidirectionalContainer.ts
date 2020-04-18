@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.ranges */
+/**
+ * @packageDocumentation
+ * @module std.ranges  
+ */
 //================================================================
 import { IForwardContainer } from "./IForwardContainer";
 import { IReverseIterator } from "../../iterator/IReverseIterator";

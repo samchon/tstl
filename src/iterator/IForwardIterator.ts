@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { IPointer } from "../functional/IPointer";
 import { IComparable } from "../functional/IComparable";

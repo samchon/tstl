@@ -10,7 +10,8 @@
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "api": "typedoc src --ignoreCompilerErrors --plugin typedoc-plugin-external-module-name --exclude \"**/+(test|benchmark)/**\" --excludePrivate --excludeProtected --excludeNotExported --out ",
+    "api": "typedoc src --exclude \"**/+(test|benchmark)/**\" --excludeNotDocumented --plugin typedoc-plugin-external-module-name --out ../tstl.pages/api",
+    "migration": "ts-node build/migration",
     "benchmark": "node benchmark",
     "build": "npm run clean && npm run module && npm run compile && npm run dist && npm run test",
     "clean": "ts-node build/clean",
@@ -28,8 +29,8 @@
     "cli": "^1.0.1",
     "source-map-support": "^0.5.16",
     "ts-node": "^8.6.2",
-    "typedoc": "^0.14.2",
-    "typedoc-plugin-external-module-name": "^2.0.0",
+    "typedoc": "^0.17.4",
+    "typedoc-plugin-external-module-name": "^3.0.0",
     "typescript": "^3.8.3"
   },
   "homepage": "https://github.com/samchon/tstl",

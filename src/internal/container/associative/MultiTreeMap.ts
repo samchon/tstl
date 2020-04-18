@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.internal */
+/**
+ * @packageDocumentation
+ * @module std.internal  
+ */
 //================================================================
 import { MultiMap } from "../../../base/container/MultiMap";
 import { ITreeContainer } from "./ITreeContainer";

@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.internal */
+/**
+ * @packageDocumentation
+ * @module std.internal  
+ */
 //================================================================
 import { BinaryPredicator } from "../../functional/BinaryPredicator";
 import { Comparator } from "../../functional/Comparator";

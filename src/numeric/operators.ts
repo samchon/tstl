@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { INegatable } from "./INegatable";
 import { IComputable } from "./IComputable";

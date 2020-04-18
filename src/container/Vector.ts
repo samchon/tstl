@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { IArrayContainer } from "../base/container/IArrayContainer";
 import { VectorContainer } from "../internal/container/linear/VectorContainer";

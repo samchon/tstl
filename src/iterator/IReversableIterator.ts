@@ -1,3 +1,9 @@
+//================================================================ 
+/**
+ * @packageDocumentation
+ * @module std
+ */
+//================================================================
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
 
 import { IReverseIterator } from "./IReverseIterator";

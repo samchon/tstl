@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.internal */
+/**
+ * @packageDocumentation
+ * @module std.internal  
+ */
 //================================================================
 import { IContainer } from "../../base/container/IContainer";
 import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";

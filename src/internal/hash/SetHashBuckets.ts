@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.internal */
+/**
+ * @packageDocumentation
+ * @module std.internal  
+ */
 //================================================================
 import { HashBuckets } from "./HashBuckets";
 

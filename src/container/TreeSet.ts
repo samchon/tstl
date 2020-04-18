@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { UniqueTreeSet } from "../internal/container/associative/UniqueTreeSet";
 import { ITreeContainer } from "../internal/container/associative/ITreeContainer";

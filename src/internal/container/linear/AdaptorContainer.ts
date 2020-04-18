@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.internal */
+/**
+ * @packageDocumentation
+ * @module std.internal  
+ */
 //================================================================
 import { IEmpty } from "../partial/IEmpty";
 import { IPush } from "../partial/IPush";

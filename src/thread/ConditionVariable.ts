@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { HashMap } from "../container/HashMap";
 import { LockType } from "../internal/thread/LockType";

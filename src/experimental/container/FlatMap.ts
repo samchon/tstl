@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.experimental */
+/**
+ * @packageDocumentation
+ * @module std.experimental  
+ */
 //================================================================
 import { UniqueTreeMap } from "../../internal/container/associative/UniqueTreeMap";
 import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";

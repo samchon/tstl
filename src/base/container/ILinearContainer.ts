@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.base */
+/**
+ * @packageDocumentation
+ * @module std.base  
+ */
 //================================================================
 import { IContainer } from "./IContainer";
 import { ILinearContainerBase } from "../../internal/container/linear/ILinearContainerBase";

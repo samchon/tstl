@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.internal */
+/**
+ * @packageDocumentation
+ * @module std.internal  
+ */
 //================================================================
 import { ListContainer } from "../linear/ListContainer";
 import { ListIterator } from "../../iterator/ListIterator";

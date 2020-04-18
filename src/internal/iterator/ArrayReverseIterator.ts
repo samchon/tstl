@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.internal */
+/**
+ * @packageDocumentation
+ * @module std.internal  
+ */
 //================================================================
 import { IArrayContainer } from "../../base/container/IArrayContainer";
 import { ArrayReverseIteratorBase } from "./ArrayReverseIteratorBase";

@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { ListContainer } from "../internal/container/linear/ListContainer";
 import { IDequeContainer } from "../base/container/IDequeContainer";

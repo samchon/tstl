@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.experimental */
+/**
+ * @packageDocumentation
+ * @module std.experimental  
+ */
 //================================================================
 import { MultiTreeSet } from "../../internal/container/associative/MultiTreeSet";
 import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";

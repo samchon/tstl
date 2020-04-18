@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.ranges */
+/**
+ * @packageDocumentation
+ * @module std.ranges  
+ */
 //================================================================
 export * from "./IForwardContainer";
 export * from "./IBidirectionalContainer";

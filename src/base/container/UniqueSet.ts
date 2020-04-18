@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.base */
+/**
+ * @packageDocumentation
+ * @module std.base  
+ */
 //================================================================
 import { SetContainer } from "./SetContainer";
 

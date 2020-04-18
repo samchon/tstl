@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.ranges */
+/**
+ * @packageDocumentation
+ * @module std.ranges  
+ */
 //================================================================
 import * as base from "../../algorithm/random";
 

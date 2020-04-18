@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.base */
+/**
+ * @packageDocumentation
+ * @module std.base  
+ */
 //================================================================
 import { IBidirectionalContainer } from "../../ranges/container/IBidirectionalContainer";
 import { IEmpty } from "../../internal/container/partial/IEmpty";

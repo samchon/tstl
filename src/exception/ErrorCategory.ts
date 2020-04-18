@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { ErrorCode } from "./ErrorCode";
 import { ErrorCondition } from "./ErrorCondition";

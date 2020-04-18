@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { ILockable } from "./ILockable";
 import { ITimedLockable } from "../internal/thread/ITimedLockable";

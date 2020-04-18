@@ -1,12 +1,5 @@
 /**
- * A utility class supporting static methods of string.
- * 
- * The {@link StringUtil} utility class is an all-static class with methods for working with string objects. 
- * You do not create instances of {@link StringUtil}; instead you call methods such as the 
- * ```StringUtil.substitute()``` method.
- *
- * @reference http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/utils/StringUtil.html
- * @author Jeongho Nam - https://github.com/samchon
+ * @hidden
  */
 export class StringUtil
 {

@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std.internal */
+/**
+ * @packageDocumentation
+ * @module std.internal  
+ */
 //================================================================
 import { UniqueMap } from "../../../base/container/UniqueMap";
 import { ITreeContainer } from "./ITreeContainer";

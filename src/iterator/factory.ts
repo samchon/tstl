@@ -1,5 +1,8 @@
 //================================================================ 
-/** @module std */
+/**
+ * @packageDocumentation
+ * @module std  
+ */
 //================================================================
 import { IBidirectionalContainer } from "../ranges/container/IBidirectionalContainer";
 import { IReversableIterator } from "./IReversableIterator";
