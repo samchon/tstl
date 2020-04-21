@@ -11,7 +11,7 @@ import { FlexBarrier } from "./FlexBarrier";
  * 
  * The Barrier class blocks critical sections until the downward counter to be zero. Unlike the {@link Latch} class, Barrier can re-use the downward counter repeatedly.
  * 
- * @author Jeongho Nam <samchon@samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class Barrier extends FlexBarrier
 {

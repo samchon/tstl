@@ -11,7 +11,7 @@ import { ConditionVariable } from "./ConditionVariable";
  * 
  * The FlexBarrier class blocks critical sections until the downward counter to be zero. Unlike the {@link Barrier} class, FlexBarrier can re-define downward count size by custom function.
  * 
- * @author Jeongho Nam <samchon@samchon.org>
+ * @author Jeongho Nam - https://github.com/samchon
  */
 export class FlexBarrier
 {
