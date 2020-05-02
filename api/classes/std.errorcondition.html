@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>ErrorCondition | tstl</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for tstl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -40,6 +40,8 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -74,7 +76,7 @@
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>author</dt>
-						<dd><p>Jeongho Nam <a href="http://samchon.org">http://samchon.org</a></p>
+						<dd><p>Jeongho Nam - <a href="https://github.com/samchon">https://github.com/samchon</a></p>
 						</dd>
 					</dl>
 				</div>
@@ -109,7 +111,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.errorcondition.html#category" class="tsd-kind-icon">category</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.errorcondition.html#clear" class="tsd-kind-icon">clear</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.errorcondition.html#message" class="tsd-kind-icon">message</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.errorcondition.html#tojson" class="tsd-kind-icon">toJSON</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.errorcondition.html#to_bool" class="tsd-kind-icon">to_<wbr>bool</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.errorcondition.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
@@ -131,7 +132,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/exception/ErrorCondition.ts#L14">exception/ErrorCondition.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/exception/ErrorCondition.ts#L17">exception/ErrorCondition.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -145,7 +146,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/exception/ErrorCondition.ts#L18">exception/ErrorCondition.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/exception/ErrorCondition.ts#L21">exception/ErrorCondition.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -158,17 +159,13 @@
 								<li>
 									<h5>val: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Identifier of an error condition.</p>
-										</div>
+										<p>Identifier of an error condition.</p>
 									</div>
 								</li>
 								<li>
 									<h5>category: <a href="std.errorcategory.html" class="tsd-signature-type">ErrorCategory</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>An error category instance.</p>
-										</div>
+										<p>An error category instance.</p>
 									</div>
 								</li>
 							</ul>
@@ -190,7 +187,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#assign">assign</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/exception/ErrorInstance.ts#L43">internal/exception/ErrorInstance.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/exception/ErrorInstance.ts#L46">internal/exception/ErrorInstance.ts:46</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +225,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#category">category</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/exception/ErrorInstance.ts#L65">internal/exception/ErrorInstance.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/exception/ErrorInstance.ts#L68">internal/exception/ErrorInstance.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -252,7 +249,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/exception/ErrorInstance.ts#L52">internal/exception/ErrorInstance.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/exception/ErrorInstance.ts#L55">internal/exception/ErrorInstance.ts:55</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -275,7 +272,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#message">message</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/exception/ErrorInstance.ts#L85">internal/exception/ErrorInstance.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/exception/ErrorInstance.ts#L88">internal/exception/ErrorInstance.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -285,24 +282,6 @@
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 							<p>The message.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="tojson" class="tsd-anchor"></a>
-					<h3>toJSON</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#tojson">toJSON</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/exception/ErrorInstance.ts#L103">internal/exception/ErrorInstance.ts:103</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -317,7 +296,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#to_bool">to_bool</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/exception/ErrorInstance.ts#L98">internal/exception/ErrorInstance.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/exception/ErrorInstance.ts#L101">internal/exception/ErrorInstance.ts:101</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -341,7 +320,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.errorinstance.html">ErrorInstance</a>.<a href="std.internal.errorinstance.html#value">value</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/exception/ErrorInstance.ts#L75">internal/exception/ErrorInstance.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/exception/ErrorInstance.ts#L78">internal/exception/ErrorInstance.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -362,10 +341,7 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_internal_exception_errorgenerator_.html">"internal/exception/<wbr>Error<wbr>Generator"</a>
-					</li>
-					<li class="current tsd-kind-external-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/std.html">std</a>
 					</li>
 				</ul>
@@ -374,7 +350,7 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="std.errorcondition.html" class="tsd-kind-icon">Error<wbr>Condition</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
@@ -391,9 +367,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="std.errorcondition.html#message" class="tsd-kind-icon">message</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="std.errorcondition.html#tojson" class="tsd-kind-icon">toJSON</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="std.errorcondition.html#to_bool" class="tsd-kind-icon">to_<wbr>bool</a>
@@ -415,62 +388,26 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

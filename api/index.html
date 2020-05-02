@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>tstl</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for tstl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -40,6 +40,8 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -54,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> tstl</h1>
+			<h1>tstl</h1>
 		</div>
 	</div>
 </header>
@@ -62,7 +64,9 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="typescript-standard-template-library">TypeScript Standard Template Library</h1>
+				<a href="#typescript-standard-template-library" id="typescript-standard-template-library" style="color: inherit; text-decoration: none;">
+					<h1>TypeScript Standard Template Library</h1>
+				</a>
 				<p><img src="https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png" alt="Make STL Great Again"></p>
 				<p><a href="https://github.com/samchon/tstl/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a>
 					<a href="https://www.npmjs.com/package/tstl"><img src="https://badge.fury.io/js/tstl.svg" alt="npm version"></a>
@@ -79,8 +83,12 @@
 				</ul>
 				<p><strong>TSTL</strong> is an open-source project providing features of STL, migrated from <em>C++</em> to <em>TypeScript</em>. You can enjoy the STL&#39;s own specific <em>containers</em>, <em>algorithms</em> and <em>functors</em> in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.</p>
 				<p>Below components are list of provided objects in the <strong>TSTL</strong>. If you want to know more about the <strong>TSTL</strong>, then please read the <a href="https://github.com/samchon/tstl/wiki"><strong>Guide Documents</strong></a>.</p>
-				<h2 id="features">Features</h2>
-				<h3 id="containers">Containers</h3>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h2>Features</h2>
+				</a>
+				<a href="#containers" id="containers" style="color: inherit; text-decoration: none;">
+					<h3>Containers</h3>
+				</a>
 				<ul>
 					<li><strong>Linear Containers</strong><ul>
 							<li><a href="http://tstl.dev/api/classes/std.vector.html">Vector</a></li>
@@ -124,7 +132,9 @@
 						</ul>
 					</li>
 				</ul>
-				<h3 id="algorithms">Algorithms</h3>
+				<a href="#algorithms" id="algorithms" style="color: inherit; text-decoration: none;">
+					<h3>Algorithms</h3>
+				</a>
 				<ul>
 					<li><a href="http://www.cplusplus.com/reference/algorithm/"><code>&lt;algorithm&gt;</code></a><ul>
 							<li><a href="https://github.com/samchon/tstl/blob/master/src/algorithm/iterations.ts">iterations</a></li>
@@ -138,7 +148,9 @@
 						</ul>
 					</li>
 				</ul>
-				<h3 id="functors">Functors</h3>
+				<a href="#functors" id="functors" style="color: inherit; text-decoration: none;">
+					<h3>Functors</h3>
+				</a>
 				<ul>
 					<li><a href="http://www.cplusplus.com/reference/exception/"><code>&lt;exception&gt;</code></a><ul>
 							<li><a href="http://tstl.dev/api/classes/std.exception.html">Exception</a><ul>
@@ -173,12 +185,18 @@
 						</ul>
 					</li>
 				</ul>
-				<h2 id="installation">Installation</h2>
-				<h3 id="npm-module">NPM Module</h3>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<a href="#npm-module" id="npm-module" style="color: inherit; text-decoration: none;">
+					<h3>NPM Module</h3>
+				</a>
 				<p>Installing <strong>TSTL</strong> in <em>NodeJS</em> is very easy. Just install with the <code>npm</code></p>
 				<pre><code class="language-bash"><span class="hljs-comment"># Install TSTL from the NPM module</span>
 npm install --save tstl</code></pre>
-				<h3 id="usage">Usage</h3>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h3>Usage</h3>
+				</a>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> std = <span class="hljs-built_in">require</span>(<span class="hljs-string">"tstl"</span>);
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
@@ -200,7 +218,9 @@ npm install --save tstl</code></pre>
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`lower bound of 3 is: <span class="hljs-subst">${x.first}</span>, <span class="hljs-subst">${x.second}</span>`</span>);
 }
 main();</code></pre>
-				<h2 id="appendix">Appendix</h2>
+				<a href="#appendix" id="appendix" style="color: inherit; text-decoration: none;">
+					<h2>Appendix</h2>
+				</a>
 				<ul>
 					<li><strong>Repositories</strong><ul>
 							<li><a href="https://github.com/samchon/tstl">GitHub Repository</a></li>
@@ -227,10 +247,7 @@ main();</code></pre>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_internal_exception_errorgenerator_.html">"internal/exception/<wbr>Error<wbr>Generator"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
+					<li class=" tsd-kind-module">
 						<a href="modules/std.html">std</a>
 					</li>
 				</ul>
@@ -247,62 +264,22 @@ main();</code></pre>
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>

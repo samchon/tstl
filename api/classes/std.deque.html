@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Deque | tstl</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for tstl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -40,6 +40,8 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -74,7 +76,7 @@
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>author</dt>
-						<dd><p>Jeongho Nam <a href="http://samchon.org">http://samchon.org</a></p>
+						<dd><p>Jeongho Nam - <a href="https://github.com/samchon">https://github.com/samchon</a></p>
 						</dd>
 					</dl>
 				</div>
@@ -91,7 +93,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="std.internal.arraycontainer.html" class="tsd-signature-type">ArrayContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>
+						<a href="std.internal.arraycontainer.html" class="tsd-signature-type">ArrayContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Deque.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">Deque</span>
@@ -103,9 +105,9 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../modules/std.base.icontainer.html" class="tsd-signature-type">IContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-					<li><a href="../interfaces/std.internal.ilinearcontainerbase.html" class="tsd-signature-type">ILinearContainerBase</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-					<li><a href="../modules/std.base.iarraycontainer.html" class="tsd-signature-type">IArrayContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/std.base.icontainer.html" class="tsd-signature-type">IContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Deque.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><span class="tsd-signature-type">ILinearContainerBase</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Deque.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/std.base.iarraycontainer.html" class="tsd-signature-type">IArrayContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Deque.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -113,36 +115,24 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-class tsd-has-type-parameter"><a href="std.deque.forofadaptor.html" class="tsd-kind-icon">For<wbr>OfAdaptor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="std.deque.html#iterator" class="tsd-kind-icon">Iterator</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="std.deque.html#reverseiterator" class="tsd-kind-icon">Reverse<wbr>Iterator</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="std.deque.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="std.deque.html#magnifier" class="tsd-kind-icon">MAGNIFIER</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="std.deque.html#min_capacity" class="tsd-kind-icon">MIN_<wbr>CAPACITY</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="std.deque.html#row_size" class="tsd-kind-icon">ROW_<wbr>SIZE</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="std.deque.html#capacity_" class="tsd-kind-icon">capacity_</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="std.deque.html#matrix_" class="tsd-kind-icon">matrix_</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="std.deque.html#size_" class="tsd-kind-icon">size_</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="std.deque.html#___iterator" class="tsd-kind-icon">__@iterator</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="std.deque.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="std.deque.html#_pop_back" class="tsd-kind-icon">_<wbr>Pop_<wbr>back</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite"><a href="std.deque.html#assign" class="tsd-kind-icon">assign</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.deque.html#at" class="tsd-kind-icon">at</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.deque.html#back" class="tsd-kind-icon">back</a></li>
@@ -154,7 +144,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="std.deque.html#erase" class="tsd-kind-icon">erase</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.deque.html#front" class="tsd-kind-icon">front</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="std.deque.html#insert" class="tsd-kind-icon">insert</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="std.deque.html#nth" class="tsd-kind-icon">nth</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.deque.html#nth" class="tsd-kind-icon">nth</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.deque.html#pop_back" class="tsd-kind-icon">pop_<wbr>back</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.deque.html#pop_front" class="tsd-kind-icon">pop_<wbr>front</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="std.deque.html#push" class="tsd-kind-icon">push</a></li>
@@ -175,31 +165,6 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-					<a name="iterator" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Iterator</h3>
-					<div class="tsd-signature tsd-kind-icon">Iterator<span class="tsd-signature-symbol">:</span> <a href="std.internal.arrayiterator.html" class="tsd-signature-type">ArrayIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;ArrayIterator</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L631">container/Deque.ts:631</a></li>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L635">container/Deque.ts:635</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-					<a name="reverseiterator" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Reverse<wbr>Iterator</h3>
-					<div class="tsd-signature tsd-kind-icon">Reverse<wbr>Iterator<span class="tsd-signature-symbol">:</span> <a href="std.internal.arrayreverseiterator.html" class="tsd-signature-type">ArrayReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;ArrayReverseIterator</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L632">container/Deque.ts:632</a></li>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L636">container/Deque.ts:636</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
 					<a name="constructor" class="tsd-anchor"></a>
@@ -215,7 +180,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L53">container/Deque.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L56">container/Deque.ts:56</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -228,7 +193,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L66">container/Deque.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L69">container/Deque.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -241,9 +206,7 @@
 								<li>
 									<h5>items: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Items to assign.</p>
-										</div>
+										<p>Items to assign.</p>
 									</div>
 								</li>
 							</ul>
@@ -252,7 +215,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L73">container/Deque.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L76">container/Deque.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -265,9 +228,7 @@
 								<li>
 									<h5>obj: <a href="std.deque.html" class="tsd-signature-type">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Object to copy.</p>
-										</div>
+										<p>Object to copy.</p>
 									</div>
 								</li>
 							</ul>
@@ -276,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L80">container/Deque.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L83">container/Deque.ts:83</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -289,17 +250,13 @@
 								<li>
 									<h5>size: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Initial size.</p>
-										</div>
+										<p>Initial size.</p>
 									</div>
 								</li>
 								<li>
 									<h5>val: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Value to fill.</p>
-										</div>
+										<p>Value to fill.</p>
 									</div>
 								</li>
 							</ul>
@@ -308,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L88">container/Deque.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L91">container/Deque.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -321,17 +278,13 @@
 								<li>
 									<h5>first: <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Input iterator of the first position.</p>
-										</div>
+										<p>Input iterator of the first position.</p>
 									</div>
 								</li>
 								<li>
 									<h5>last: <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Input iterator of the last position.</p>
-										</div>
+										<p>Input iterator of the last position.</p>
 									</div>
 								</li>
 							</ul>
@@ -340,77 +293,78 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
-					<a name="magnifier" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> MAGNIFIER</h3>
-					<div class="tsd-signature tsd-kind-icon">MAGNIFIER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">1.5</span><span class="tsd-signature-symbol"> =&nbsp;1.5</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="capacity_" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> capacity_</h3>
+					<div class="tsd-signature tsd-kind-icon">capacity_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L665">container/Deque.ts:665</a></li>
+							<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L56">container/Deque.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Expansion ratio.</p>
+							<p>Maximum capacity that current <a href="std.deque.html#matrix_">matrix_</a> can store in.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
-					<a name="min_capacity" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> MIN_<wbr>CAPACITY</h3>
-					<div class="tsd-signature tsd-kind-icon">MIN_<wbr>CAPACITY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">36</span><span class="tsd-signature-symbol"> =&nbsp;36</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="matrix_" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> matrix_</h3>
+					<div class="tsd-signature tsd-kind-icon">matrix_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L660">container/Deque.ts:660</a></li>
+							<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L46">container/Deque.ts:46</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Minimum <a href="std.deque.html#capacity">Deque.capacity</a>.</p>
+							<p>A matrix containing elements.</p>
 						</div>
-						<p>Although a <a href="std.deque.html">Deque</a> has few elements, even no element is belonged to, the <a href="std.deque.html">Deque</a>
-						keeps the minimum <a href="std.deque.html#capacity">Deque.capacity</a> at least.</p>
+						<p>This <a href="std.deque.html#matrix_">matrix_</a> is the biggest difference one between <a href="std.vector.html">Vector</a> and <a href="std.deque.html">Deque</a>.
+							Its number of rows follows {@link ROW_SIZE} and number of columns follows {@link get_col_size} which
+						returns divide of <a href="std.deque.html#capacity">capacity</a> and {@link ROW_SIZE}.</p>
+						<p>By separating segment of elements (segment: row, elements in a segment: col), <a href="std.deque.html">Deque</a> takes
+							advantage of time complexity on inserting element in middle position. <a href="std.deque.html">Deque</a> is {@link ROW_SIZE}
+						times faster than <a href="std.vector.html">Vector</a> when inserting elements in middle position.</p>
+						<p>However, separating segment of elements from matrix, <a href="std.deque.html">Deque</a> also takes disadvantage of
+							time complexity on accessing element. <a href="std.deque.html">Deque</a> is {@link ROW_SIZE} times slower than <a href="std.vector.html">Vector</a>
+						when accessing element.</p>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
-					<a name="row_size" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> ROW_<wbr>SIZE</h3>
-					<div class="tsd-signature tsd-kind-icon">ROW_<wbr>SIZE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">8</span><span class="tsd-signature-symbol"> =&nbsp;8</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="size_" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> size_</h3>
+					<div class="tsd-signature tsd-kind-icon">size_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L652">container/Deque.ts:652</a></li>
+							<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L51">container/Deque.ts:51</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Row size of the {@link Deque.matrix_ matrix} which contains elements.</p>
+							<p>Number of elements stored in the <a href="std.deque.html">Deque</a></p>
 						</div>
-						<p>Note that the <a href="std.deque.html#row_size">ROW_SIZE</a> affects on time complexity of accessing and inserting element.
-							Accessing element is <a href="std.deque.html#row_size">ROW_SIZE</a> times slower than ordinary <a href="std.vector.html">Vector</a> and inserting element
-						in middle position is <a href="std.deque.html#row_size">ROW_SIZE</a> times faster than ordinary <a href="std.vector.html">Vector</a>.</p>
-						<p>When the <a href="std.deque.html#row_size">ROW_SIZE</a> returns 8, time complexity of accessing element is O(8) and inserting
-							element in middle position is O(N/8). (<a href="std.vector.html">Vector</a>&#39;s time complexity of accessement is O(1)
-						and inserting element is O(N)).</p>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-					<a name="___iterator" class="tsd-anchor"></a>
-					<h3>__@iterator</h3>
+					<a name="_symbol_iterator_" class="tsd-anchor"></a>
+					<h3>[<wbr>Symbol.iterator]</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">__@iterator<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">[<wbr>Symbol.iterator]<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#___iterator">__@iterator</a></p>
-								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#___iterator">__@iterator</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#_symbol_iterator_">[Symbol.iterator]</a></p>
+								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#_symbol_iterator_">[Symbol.iterator]</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L287">container/Deque.ts:287</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L290">container/Deque.ts:290</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -420,6 +374,29 @@
 								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_pop_back" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _<wbr>Pop_<wbr>back</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_<wbr>Pop_<wbr>back<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L414">container/Deque.ts:414</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>inheritdoc</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -435,7 +412,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#assign">assign</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L135">container/Deque.ts:135</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L138">container/Deque.ts:138</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -457,10 +434,10 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#assign">assign</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#assign">assign</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#assign">assign</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L139">container/Deque.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L142">container/Deque.ts:142</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -496,9 +473,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#at">at</a></p>
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#at">at</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L74">internal/container/linear/ArrayContainer.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L77">internal/container/linear/ArrayContainer.ts:77</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -530,24 +508,25 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#back">back</a></p>
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#back">back</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L118">internal/container/linear/ArrayContainer.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L121">internal/container/linear/ArrayContainer.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get the last element.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+							<p>The last element.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#back">back</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L123">internal/container/linear/ArrayContainer.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L126">internal/container/linear/ArrayContainer.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -570,16 +549,16 @@
 					<a name="begin" class="tsd-anchor"></a>
 					<h3>begin</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">begin<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">begin<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#begin">begin</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#begin">begin</a></p>
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#begin">begin</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#begin">begin</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L50">internal/container/linear/ArrayContainer.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L53">internal/container/linear/ArrayContainer.ts:53</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -588,7 +567,7 @@
 									<dd></dd>
 								</dl>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -602,7 +581,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L271">container/Deque.ts:271</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L274">container/Deque.ts:274</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -624,10 +603,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#clear">clear</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#clear">clear</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L154">container/Deque.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L157">container/Deque.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -649,10 +628,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#empty">empty</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#empty">empty</a></p>
 								<p>Inherited from <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#empty">empty</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/Container.ts#L50">base/container/Container.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/Container.ts#L59">base/container/Container.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -669,16 +648,16 @@
 					<a name="end" class="tsd-anchor"></a>
 					<h3>end</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#end">end</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#end">end</a></p>
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#end">end</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#end">end</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L58">internal/container/linear/ArrayContainer.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L61">internal/container/linear/ArrayContainer.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -687,7 +666,7 @@
 									<dd></dd>
 								</dl>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -695,8 +674,8 @@
 					<a name="erase" class="tsd-anchor"></a>
 					<h3>erase</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">erase<span class="tsd-signature-symbol">(</span>it<span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">erase<span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, last<span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">erase<span class="tsd-signature-symbol">(</span>it<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">erase<span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -704,7 +683,7 @@
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#erase">erase</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#erase">erase</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L211">internal/container/linear/ArrayContainer.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L214">internal/container/linear/ArrayContainer.ts:214</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -716,17 +695,17 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>it: <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>it: <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#erase">erase</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#erase">erase</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L216">internal/container/linear/ArrayContainer.ts:216</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L219">internal/container/linear/ArrayContainer.ts:219</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -738,13 +717,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>first: <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>first: <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
-									<h5>last: <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>last: <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -758,24 +737,25 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#front">front</a></p>
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#front">front</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L100">internal/container/linear/ArrayContainer.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L103">internal/container/linear/ArrayContainer.ts:103</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get the first element.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+							<p>The first element.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#front">front</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L105">internal/container/linear/ArrayContainer.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L108">internal/container/linear/ArrayContainer.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -798,16 +778,16 @@
 					<a name="insert" class="tsd-anchor"></a>
 					<h3>insert</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">insert<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">insert<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, n<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">insert&lt;InputIterator&gt;<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">InputIterator</span>, last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">InputIterator</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">insert<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">insert<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, n<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">insert&lt;InputIterator&gt;<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">InputIterator</span>, last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">InputIterator</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#insert">insert</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L150">internal/container/linear/ArrayContainer.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L153">internal/container/linear/ArrayContainer.ts:153</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -819,19 +799,19 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>pos: <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>pos: <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>val: <span class="tsd-signature-type">T</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#insert">insert</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L155">internal/container/linear/ArrayContainer.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L158">internal/container/linear/ArrayContainer.ts:158</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -843,7 +823,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>pos: <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>pos: <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>n: <span class="tsd-signature-type">number</span></h5>
@@ -852,13 +832,13 @@
 									<h5>val: <span class="tsd-signature-type">T</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#insert">insert</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L160">internal/container/linear/ArrayContainer.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L163">internal/container/linear/ArrayContainer.ts:163</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -876,7 +856,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>pos: <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>pos: <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>first: <span class="tsd-signature-type">InputIterator</span></h5>
@@ -885,29 +865,28 @@
 									<h5>last: <span class="tsd-signature-type">InputIterator</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="nth" class="tsd-anchor"></a>
 					<h3>nth</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">nth<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">nth<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#nth">nth</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#nth">nth</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L279">container/Deque.ts:279</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L282">container/Deque.ts:282</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get iterator at specific position.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -915,7 +894,8 @@
 									<h5>index: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The iterator at the <em>index</em>.</p>
 						</li>
 					</ul>
 				</section>
@@ -928,10 +908,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#pop_back">pop_back</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#pop_back">pop_back</a></p>
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#pop_back">pop_back</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L199">internal/container/linear/ArrayContainer.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L202">internal/container/linear/ArrayContainer.ts:202</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -953,7 +933,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L394">container/Deque.ts:394</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L397">container/Deque.ts:397</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -975,17 +955,16 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#push">push</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#push">push</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#push">push</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L348">container/Deque.ts:348</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L351">container/Deque.ts:351</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Insert items at the end.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -994,6 +973,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Number of elements in the container after insertion.</p>
 						</li>
 					</ul>
 				</section>
@@ -1008,7 +988,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#push_back">push_back</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L380">container/Deque.ts:380</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L383">container/Deque.ts:383</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1037,7 +1017,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L366">container/Deque.ts:366</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L369">container/Deque.ts:369</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1060,15 +1040,15 @@
 					<a name="rbegin" class="tsd-anchor"></a>
 					<h3>rbegin</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">rbegin<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">rbegin<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#rbegin">rbegin</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#rbegin">rbegin</a></p>
 								<p>Inherited from <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#rbegin">rbegin</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/Container.ts#L71">base/container/Container.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/Container.ts#L80">base/container/Container.ts:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1077,7 +1057,7 @@
 									<dd></dd>
 								</dl>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1085,15 +1065,15 @@
 					<a name="rend" class="tsd-anchor"></a>
 					<h3>rend</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">rend<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.deque.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">rend<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Deque.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#rend">rend</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#rend">rend</a></p>
 								<p>Inherited from <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#rend">rend</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/Container.ts#L79">base/container/Container.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/Container.ts#L88">base/container/Container.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1102,7 +1082,7 @@
 									<dd></dd>
 								</dl>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="std.deque.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Deque.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1116,7 +1096,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L183">container/Deque.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L186">container/Deque.ts:186</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1146,10 +1126,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#resize">resize</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#resize">resize</a></p>
 								<p>Overrides <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#resize">resize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L167">container/Deque.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L170">container/Deque.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1178,7 +1158,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.internal.arraycontainer.html">ArrayContainer</a>.<a href="std.internal.arraycontainer.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/internal/container/linear/ArrayContainer.ts#L86">internal/container/linear/ArrayContainer.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/internal/container/linear/ArrayContainer.ts#L89">internal/container/linear/ArrayContainer.ts:89</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1215,7 +1195,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L221">container/Deque.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L224">container/Deque.ts:224</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1236,10 +1216,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#size">size</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#size">size</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#size">size</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L261">container/Deque.ts:261</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L264">container/Deque.ts:264</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1263,7 +1243,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#swap">swap</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/Deque.ts#L229">container/Deque.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/Deque.ts#L232">container/Deque.ts:232</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1291,10 +1271,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.internal.ilinearcontainerbase.html">ILinearContainerBase</a>.<a href="../interfaces/std.internal.ilinearcontainerbase.html#tojson">toJSON</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.iarraycontainer.html">IArrayContainer</a>.<a href="../interfaces/std.base.iarraycontainer.html#tojson">toJSON</a></p>
 								<p>Inherited from <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/Container.ts#L121">base/container/Container.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/Container.ts#L130">base/container/Container.ts:130</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1315,10 +1295,7 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_internal_exception_errorgenerator_.html">"internal/exception/<wbr>Error<wbr>Generator"</a>
-					</li>
-					<li class="current tsd-kind-external-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/std.html">std</a>
 					</li>
 				</ul>
@@ -1327,32 +1304,26 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="std.deque.html" class="tsd-kind-icon">Deque</a>
 						<ul>
-							<li class=" tsd-kind-class tsd-parent-kind-class tsd-has-type-parameter">
-								<a href="std.deque.forofadaptor.html" class="tsd-kind-icon">For<wbr>OfAdaptor</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-								<a href="std.deque.html#iterator" class="tsd-kind-icon">Iterator</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-								<a href="std.deque.html#reverseiterator" class="tsd-kind-icon">Reverse<wbr>Iterator</a>
-							</li>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="std.deque.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="std.deque.html#magnifier" class="tsd-kind-icon">MAGNIFIER</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="std.deque.html#capacity_" class="tsd-kind-icon">capacity_</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="std.deque.html#min_capacity" class="tsd-kind-icon">MIN_<wbr>CAPACITY</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="std.deque.html#matrix_" class="tsd-kind-icon">matrix_</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="std.deque.html#row_size" class="tsd-kind-icon">ROW_<wbr>SIZE</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="std.deque.html#size_" class="tsd-kind-icon">size_</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="std.deque.html#___iterator" class="tsd-kind-icon">__@iterator</a>
+								<a href="std.deque.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="std.deque.html#_pop_back" class="tsd-kind-icon">_<wbr>Pop_<wbr>back</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
 								<a href="std.deque.html#assign" class="tsd-kind-icon">assign</a>
@@ -1387,7 +1358,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 								<a href="std.deque.html#insert" class="tsd-kind-icon">insert</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="std.deque.html#nth" class="tsd-kind-icon">nth</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1446,62 +1417,33 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

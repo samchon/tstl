@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>HashMap | tstl</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for tstl">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -40,6 +40,8 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -74,7 +76,7 @@
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>author</dt>
-						<dd><p>Jeongho Nam <a href="http://samchon.org">http://samchon.org</a></p>
+						<dd><p>Jeongho Nam - <a href="https://github.com/samchon">https://github.com/samchon</a></p>
 						</dd>
 					</dl>
 				</div>
@@ -106,9 +108,9 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../modules/std.base.icontainer.html" class="tsd-signature-type">IContainer</a><span class="tsd-signature-symbol">&lt;</span><a href="std.entry.html" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
-					<li><a href="../modules/std.internal.iassociativecontainer.html" class="tsd-signature-type">IAssociativeContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><a href="std.entry.html" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
-					<li><a href="../modules/std.base.ihashmap.html" class="tsd-signature-type">IHashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/std.base.icontainer.html" class="tsd-signature-type">IContainer</a><span class="tsd-signature-symbol">&lt;</span><a href="std.entry.html" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/std.internal.iassociativecontainer.html" class="tsd-signature-type">IAssociativeContainer</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><a href="std.entry.html" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/std.base.ihashmap.html" class="tsd-signature-type">IHashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -125,13 +127,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="std.hashmap.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="std.hashmap.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.hashmap.html#___iterator" class="tsd-kind-icon">__@iterator</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.hashmap.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited"><a href="std.hashmap.html#assign" class="tsd-kind-icon">assign</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="std.hashmap.html#begin" class="tsd-kind-icon">begin</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.hashmap.html#bucket" class="tsd-kind-icon">bucket</a></li>
@@ -149,7 +151,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.hashmap.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.hashmap.html#has" class="tsd-kind-icon">has</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.hashmap.html#hash_function" class="tsd-kind-icon">hash_<wbr>function</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited"><a href="std.hashmap.html#insert" class="tsd-kind-icon">insert</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="std.hashmap.html#insert" class="tsd-kind-icon">insert</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="std.hashmap.html#insert_or_assign" class="tsd-kind-icon">insert_<wbr>or_<wbr>assign</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.hashmap.html#key_eq" class="tsd-kind-icon">key_<wbr>eq</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.hashmap.html#load_factor" class="tsd-kind-icon">load_<wbr>factor</a></li>
@@ -174,44 +176,97 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
 					<a name="iterator" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> Iterator</h3>
-					<div class="tsd-signature tsd-kind-icon">Iterator<span class="tsd-signature-symbol">:</span> <a href="std.internal.mapelementlist.iterator.html" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;MapElementList.Iterator</span></div>
+					<div class="tsd-signature tsd-kind-icon">Iterator&lt;Key, T, SourceT, IteratorT, ReverseT&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MapContainer.Iterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">SourceT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IteratorT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ReverseT</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L253">base/container/UniqueMap.ts:253</a></li>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L349">container/HashMap.ts:349</a></li>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L353">container/HashMap.ts:353</a></li>
+							<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L267">base/container/UniqueMap.ts:267</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Iterator of <a href="std.base.uniquemap.html">UniqueMap</a></p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>author</dt>
+							<dd><p>Jenogho Nam <a href="http://samchon.org">http://samchon.org</a></p>
+							</dd>
+						</dl>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Key</h4>
+						</li>
+						<li>
+							<h4>T</h4>
+						</li>
+						<li>
+							<h4>SourceT<span class="tsd-signature-symbol">: </span><a href="std.base.uniquemap.html" class="tsd-signature-type">UniqueMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">SourceT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IteratorT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ReverseT</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li>
+							<h4>IteratorT<span class="tsd-signature-symbol">: </span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">SourceT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IteratorT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ReverseT</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li>
+							<h4>ReverseT<span class="tsd-signature-symbol">: </span><a href="std.hashmap.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">SourceT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IteratorT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ReverseT</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
 					<a name="reverseiterator" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> Reverse<wbr>Iterator</h3>
-					<div class="tsd-signature tsd-kind-icon">Reverse<wbr>Iterator<span class="tsd-signature-symbol">:</span> <a href="std.internal.mapelementlist.reverseiterator.html" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">, </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;MapElementList.ReverseIterator</span></div>
+					<div class="tsd-signature tsd-kind-icon">Reverse<wbr>Iterator&lt;Key, T, SourceT, IteratorT, ReverseT&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MapContainer.ReverseIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">SourceT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IteratorT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ReverseT</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L259">base/container/UniqueMap.ts:259</a></li>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L350">container/HashMap.ts:350</a></li>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L354">container/HashMap.ts:354</a></li>
+							<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L278">base/container/UniqueMap.ts:278</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Reverse iterator of <a href="std.base.uniquemap.html">UniqueMap</a></p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>author</dt>
+							<dd><p>Jenogho Nam <a href="http://samchon.org">http://samchon.org</a></p>
+							</dd>
+						</dl>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Key</h4>
+						</li>
+						<li>
+							<h4>T</h4>
+						</li>
+						<li>
+							<h4>SourceT<span class="tsd-signature-symbol">: </span><a href="std.base.uniquemap.html" class="tsd-signature-type">UniqueMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">SourceT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IteratorT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ReverseT</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li>
+							<h4>IteratorT<span class="tsd-signature-symbol">: </span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">SourceT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IteratorT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ReverseT</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li>
+							<h4>ReverseT<span class="tsd-signature-symbol">: </span><a href="std.hashmap.html#reverseiterator" class="tsd-signature-type">ReverseIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">SourceT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">IteratorT</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ReverseT</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Hash<wbr>Map<span class="tsd-signature-symbol">(</span>hash<span class="tsd-signature-symbol">?: </span><a href="../modules/std.internal.html#hasher" class="tsd-signature-type">Hasher</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span>, equal<span class="tsd-signature-symbol">?: </span><a href="../modules/std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a></li>
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Hash<wbr>Map<span class="tsd-signature-symbol">(</span>items<span class="tsd-signature-symbol">: </span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, hash<span class="tsd-signature-symbol">?: </span><a href="../modules/std.internal.html#hasher" class="tsd-signature-type">Hasher</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span>, equal<span class="tsd-signature-symbol">?: </span><a href="../modules/std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Hash<wbr>Map<span class="tsd-signature-symbol">(</span>hash<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Hasher</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span>, equal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">BinaryPredicator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Hash<wbr>Map<span class="tsd-signature-symbol">(</span>items<span class="tsd-signature-symbol">: </span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, hash<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Hasher</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span>, equal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">BinaryPredicator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a></li>
 						<li class="tsd-signature tsd-kind-icon">new <wbr>Hash<wbr>Map<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a></li>
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Hash<wbr>Map<span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, hash<span class="tsd-signature-symbol">?: </span><a href="../modules/std.internal.html#hasher" class="tsd-signature-type">Hasher</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span>, equal<span class="tsd-signature-symbol">?: </span><a href="../modules/std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Hash<wbr>Map<span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.iforwarditerator.html" class="tsd-signature-type">IForwardIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, hash<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Hasher</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span>, equal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">BinaryPredicator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.hashmap.html" class="tsd-signature-type">HashMap</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L32">container/HashMap.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L35">container/HashMap.ts:35</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -222,7 +277,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> hash: <a href="../modules/std.internal.html#hasher" class="tsd-signature-type">Hasher</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> hash: <span class="tsd-signature-type">Hasher</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>An unary function returns hash code. Default is {hash}.</p>
@@ -230,7 +285,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> equal: <a href="../modules/std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> equal: <span class="tsd-signature-type">BinaryPredicator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>A binary function predicates two arguments are equal. Default is <a href="../modules/std.html#equal_to">equal_to</a>.</p>
@@ -242,8 +297,9 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L47">container/HashMap.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L50">container/HashMap.ts:50</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -262,7 +318,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> hash: <a href="../modules/std.internal.html#hasher" class="tsd-signature-type">Hasher</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> hash: <span class="tsd-signature-type">Hasher</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>An unary function returns hash code. Default is {hash}.</p>
@@ -270,7 +326,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> equal: <a href="../modules/std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> equal: <span class="tsd-signature-type">BinaryPredicator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>A binary function predicates two arguments are equal. Default is <a href="../modules/std.html#equal_to">equal_to</a>.</p>
@@ -282,8 +338,9 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L56">container/HashMap.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L59">container/HashMap.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -306,8 +363,9 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L63">container/HashMap.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L66">container/HashMap.ts:66</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -334,7 +392,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> hash: <a href="../modules/std.internal.html#hasher" class="tsd-signature-type">Hasher</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> hash: <span class="tsd-signature-type">Hasher</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>An unary function returns hash code. Default is {hash}.</p>
@@ -342,7 +400,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> equal: <a href="../modules/std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> equal: <span class="tsd-signature-type">BinaryPredicator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>A binary function predicates two arguments are equal. Default is <a href="../modules/std.html#equal_to">equal_to</a>.</p>
@@ -358,17 +416,18 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="___iterator" class="tsd-anchor"></a>
-					<h3>__@iterator</h3>
+					<a name="_symbol_iterator_" class="tsd-anchor"></a>
+					<h3>[<wbr>Symbol.iterator]</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">__@iterator<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="std.entry.html" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">[<wbr>Symbol.iterator]<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="std.entry.html" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#___iterator">__@iterator</a></p>
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#_symbol_iterator_">[Symbol.iterator]</a></p>
+								<p>Inherited from <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#_symbol_iterator_">[Symbol.iterator]</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/Container.ts#L87">base/container/Container.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/Container.ts#L96">base/container/Container.ts:96</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -390,17 +449,17 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#assign">assign</a></p>
 								<p>Inherited from <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#assign">assign</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#assign">assign</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/MapContainer.ts#L47">base/container/MapContainer.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/MapContainer.ts#L57">base/container/MapContainer.ts:57</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Range Assigner.</p>
+								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
@@ -431,9 +490,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#begin">begin</a></p>
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#begin">begin</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L144">container/HashMap.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L147">container/HashMap.ts:147</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -446,16 +506,16 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#begin">begin</a></p>
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#begin">begin</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L148">container/HashMap.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L151">container/HashMap.ts:151</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Iterator to the first element in a specific bucket.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -464,6 +524,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator from the specific bucket.</p>
 						</li>
 					</ul>
 				</section>
@@ -476,15 +537,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#bucket">bucket</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L248">container/HashMap.ts:248</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L251">container/HashMap.ts:251</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Compute bucket index for the <em>key</em>.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -493,6 +554,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Index number.</p>
 						</li>
 					</ul>
 				</section>
@@ -505,15 +567,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#bucket_count">bucket_count</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L208">container/HashMap.ts:208</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L211">container/HashMap.ts:211</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get number of buckets.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
@@ -528,15 +590,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#bucket_size">bucket_size</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L216">container/HashMap.ts:216</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L219">container/HashMap.ts:219</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get size of a specific bucket.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -545,6 +607,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Size of the specific bucket.</p>
 						</li>
 					</ul>
 				</section>
@@ -557,9 +620,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#clear">clear</a></p>
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L105">container/HashMap.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L108">container/HashMap.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -581,17 +645,17 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#count">count</a></p>
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#count">count</a></p>
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#count">count</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L30">base/container/UniqueMap.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L39">base/container/UniqueMap.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Count elements with a specified key.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -600,6 +664,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Number of elements with the specified key.</p>
 						</li>
 					</ul>
 				</section>
@@ -614,7 +679,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#emplace">emplace</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L295">container/HashMap.ts:295</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L298">container/HashMap.ts:298</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -647,7 +712,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#emplace_hint">emplace_hint</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L315">container/HashMap.ts:315</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L318">container/HashMap.ts:318</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -681,9 +746,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#empty">empty</a></p>
 								<p>Inherited from <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#empty">empty</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/Container.ts#L50">base/container/Container.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/Container.ts#L59">base/container/Container.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -706,9 +772,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#end">end</a></p>
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#end">end</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L160">container/HashMap.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L163">container/HashMap.ts:163</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -721,16 +788,16 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#end">end</a></p>
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#end">end</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L164">container/HashMap.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L167">container/HashMap.ts:167</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Iterator to the end in a specific bucket.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -739,6 +806,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Iterator from the specific bucket.</p>
 						</li>
 					</ul>
 				</section>
@@ -753,17 +821,17 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#erase">erase</a></p>
 								<p>Inherited from <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#erase">erase</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#erase">erase</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/MapContainer.ts#L167">base/container/MapContainer.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/MapContainer.ts#L177">base/container/MapContainer.ts:177</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Erase elements with a specified key.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -772,13 +840,15 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Number of erased elements.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#erase">erase</a></p>
 								<p>Inherited from <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#erase">erase</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#erase">erase</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/MapContainer.ts#L172">base/container/MapContainer.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/MapContainer.ts#L182">base/container/MapContainer.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -797,10 +867,11 @@
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#erase">erase</a></p>
 								<p>Inherited from <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#erase">erase</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#erase">erase</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/MapContainer.ts#L177">base/container/MapContainer.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/MapContainer.ts#L187">base/container/MapContainer.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -834,7 +905,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#extract">extract</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L183">base/container/UniqueMap.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L192">base/container/UniqueMap.ts:192</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -858,7 +929,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#extract">extract</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L191">base/container/UniqueMap.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L200">base/container/UniqueMap.ts:200</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -889,16 +960,16 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#find">find</a></p>
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#find">find</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L136">container/HashMap.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L139">container/HashMap.ts:139</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get iterator to element.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -907,6 +978,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An iterator to the element, if the specified key is found, otherwise <code>this.end()</code>.</p>
 						</li>
 					</ul>
 				</section>
@@ -921,7 +993,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L41">base/container/UniqueMap.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L50">base/container/UniqueMap.ts:50</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -952,16 +1024,16 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#has">has</a></p>
 								<p>Inherited from <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#has">has</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/MapContainer.ts#L98">base/container/MapContainer.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/MapContainer.ts#L108">base/container/MapContainer.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Test whether a key exists.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -970,6 +1042,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Whether the specified key exists.</p>
 						</li>
 					</ul>
 				</section>
@@ -977,29 +1050,30 @@
 					<a name="hash_function" class="tsd-anchor"></a>
 					<h3>hash_<wbr>function</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">hash_<wbr>function<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/std.internal.html#hasher" class="tsd-signature-type">Hasher</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">hash_<wbr>function<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hasher</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#hash_function">hash_function</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L232">container/HashMap.ts:232</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L235">container/HashMap.ts:235</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get hash function.</p>
+								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../modules/std.internal.html#hasher" class="tsd-signature-type">Hasher</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Hasher</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The hash function.</p>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 					<a name="insert" class="tsd-anchor"></a>
 					<h3>insert</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">insert<span class="tsd-signature-symbol">(</span>pair<span class="tsd-signature-symbol">: </span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.pair.html" class="tsd-signature-type">Pair</a><span class="tsd-signature-symbol">&lt;</span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 						<li class="tsd-signature tsd-kind-icon">insert<span class="tsd-signature-symbol">(</span>hint<span class="tsd-signature-symbol">: </span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, pair<span class="tsd-signature-symbol">: </span><a href="../interfaces/std.ipair.html" class="tsd-signature-type">IPair</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 						<li class="tsd-signature tsd-kind-icon">insert&lt;InputIterator&gt;<span class="tsd-signature-symbol">(</span>first<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">InputIterator</span>, last<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">InputIterator</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
@@ -1008,9 +1082,8 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#insert">insert</a></p>
-								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#insert">insert</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L89">base/container/UniqueMap.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L98">base/container/UniqueMap.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1028,14 +1101,13 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.pair.html" class="tsd-signature-type">Pair</a><span class="tsd-signature-symbol">&lt;</span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>of an iterator to the newly inserted element and <code>true</code>, if the specified <em>key</em> doesn&#39;t exist, otherwise <a href="std.pair.html">Pair</a> of iterator to the ordinary element and <code>false</code>.</p>
+							<p><a href="std.pair.html">Pair</a> of an iterator to the newly inserted element and <code>true</code>, if the specified <em>key</em> doesn&#39;t exist, otherwise <a href="std.pair.html">Pair</a> of iterator to the ordinary element and <code>false</code>.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#insert">insert</a></p>
-								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#insert">insert</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L98">base/container/UniqueMap.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L107">base/container/UniqueMap.ts:107</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1064,9 +1136,8 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#insert">insert</a></p>
-								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#insert">insert</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L106">base/container/UniqueMap.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L115">base/container/UniqueMap.ts:115</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1111,7 +1182,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#insert_or_assign">insert_or_assign</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L131">base/container/UniqueMap.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L140">base/container/UniqueMap.ts:140</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1135,13 +1206,13 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.pair.html" class="tsd-signature-type">Pair</a><span class="tsd-signature-symbol">&lt;</span><a href="std.hashmap.html#iterator" class="tsd-signature-type">Iterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>of an iterator to the newly inserted element and <code>true</code>, if the specified <em>key</em> doesn&#39;t exist, otherwise <a href="std.pair.html">Pair</a> of iterator to the ordinary element and <code>false</code>.</p>
+							<p><a href="std.pair.html">Pair</a> of an iterator to the newly inserted element and <code>true</code>, if the specified <em>key</em> doesn&#39;t exist, otherwise <a href="std.pair.html">Pair</a> of iterator to the ordinary element and <code>false</code>.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#insert_or_assign">insert_or_assign</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L141">base/container/UniqueMap.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L150">base/container/UniqueMap.ts:150</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1179,22 +1250,23 @@
 					<a name="key_eq" class="tsd-anchor"></a>
 					<h3>key_<wbr>eq</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">key_<wbr>eq<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../modules/std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">key_<wbr>eq<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BinaryPredicator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#key_eq">key_eq</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L240">container/HashMap.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L243">container/HashMap.ts:243</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get key equality predicator.</p>
+								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../modules/std.internal.html#binarypredicator" class="tsd-signature-type">BinaryPredicator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">BinaryPredicator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The key equality predicator.</p>
 						</li>
 					</ul>
 				</section>
@@ -1207,17 +1279,18 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#load_factor">load_factor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L224">container/HashMap.ts:224</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L227">container/HashMap.ts:227</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Compute load factor.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p><code>this.size() / this.bucket_count()</code></p>
 						</li>
 					</ul>
 				</section>
@@ -1231,29 +1304,30 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#max_load_factor">max_load_factor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L256">container/HashMap.ts:256</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L259">container/HashMap.ts:259</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Get maximum load factor that allowable.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The maximum load factor.</p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#max_load_factor">max_load_factor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L260">container/HashMap.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L263">container/HashMap.ts:263</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Set maximum load factor.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1277,7 +1351,7 @@
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#merge">merge</a></p>
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#merge">merge</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L238">base/container/UniqueMap.ts:238</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L247">base/container/UniqueMap.ts:247</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1305,10 +1379,11 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#push">push</a></p>
 								<p>Inherited from <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#push">push</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#push">push</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/MapContainer.ts#L128">base/container/MapContainer.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/MapContainer.ts#L138">base/container/MapContainer.ts:138</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1337,9 +1412,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#rbegin">rbegin</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#rbegin">rbegin</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L179">container/HashMap.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L182">container/HashMap.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1354,7 +1430,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#rbegin">rbegin</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L183">container/HashMap.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L186">container/HashMap.ts:186</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1382,15 +1458,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#rehash">rehash</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L277">container/HashMap.ts:277</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L280">container/HashMap.ts:280</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Change of bucktes.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1412,9 +1488,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#rend">rend</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#rend">rend</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L192">container/HashMap.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L195">container/HashMap.ts:195</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1429,7 +1506,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#rend">rend</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L196">container/HashMap.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L199">container/HashMap.ts:199</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1457,15 +1534,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#reserve">reserve</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L269">container/HashMap.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L272">container/HashMap.ts:272</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Reserve buckets enable to store <em>n</em> elements.</p>
+								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1488,7 +1565,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="std.base.uniquemap.html">UniqueMap</a>.<a href="std.base.uniquemap.html#set">set</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/UniqueMap.ts#L56">base/container/UniqueMap.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/UniqueMap.ts#L65">base/container/UniqueMap.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1524,10 +1601,11 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#size">size</a></p>
 								<p>Inherited from <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#size">size</a></p>
 								<p>Overrides <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#size">size</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/MapContainer.ts#L111">base/container/MapContainer.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/MapContainer.ts#L121">base/container/MapContainer.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1551,7 +1629,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="std.base.mapcontainer.html">MapContainer</a>.<a href="std.base.mapcontainer.html#swap">swap</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/container/HashMap.ts#L115">container/HashMap.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/container/HashMap.ts#L118">container/HashMap.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1579,18 +1657,19 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base.ihashmap.html">IHashMap</a>.<a href="../interfaces/std.base.ihashmap.html#tojson">toJSON</a></p>
 								<p>Inherited from <a href="std.base.container.html">Container</a>.<a href="std.base.container.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/98b51e4/src/base/container/Container.ts#L121">base/container/Container.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/base/container/Container.ts#L130">base/container/Container.ts:130</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Native function for <code>JSON.stringify()</code>.</p>
+								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="std.entry.html" class="tsd-signature-type">Entry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Key</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An array containing children elements.</p>
 						</li>
 					</ul>
 				</section>
@@ -1602,10 +1681,7 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_internal_exception_errorgenerator_.html">"internal/exception/<wbr>Error<wbr>Generator"</a>
-					</li>
-					<li class="current tsd-kind-external-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/std.html">std</a>
 					</li>
 				</ul>
@@ -1614,7 +1690,7 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
+					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="std.hashmap.html" class="tsd-kind-icon">Hash<wbr>Map</a>
 						<ul>
 							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
@@ -1623,11 +1699,11 @@
 							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
 								<a href="std.hashmap.html#reverseiterator" class="tsd-kind-icon">Reverse<wbr>Iterator</a>
 							</li>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="std.hashmap.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="std.hashmap.html#___iterator" class="tsd-kind-icon">__@iterator</a>
+								<a href="std.hashmap.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
 								<a href="std.hashmap.html#assign" class="tsd-kind-icon">assign</a>
@@ -1680,7 +1756,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="std.hashmap.html#hash_function" class="tsd-kind-icon">hash_<wbr>function</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 								<a href="std.hashmap.html#insert" class="tsd-kind-icon">insert</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1739,62 +1815,27 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
