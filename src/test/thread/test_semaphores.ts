@@ -11,7 +11,7 @@ export async function test_semaphores(): Promise<void>
     // TEST MUTEX FEATURES
     //----
     let mtx = new std.Semaphore(1);
-    let wrapper: ITimedLockable = mtx.get_lockable();
+    let wrapper: ITimedLockable = std.Semaphore.get_lockable(mtx);
 
     await _Test_lock(wrapper, "Semaphore.Lockable");
     await _Test_try_lock(wrapper, "Semaphore.Lockable");

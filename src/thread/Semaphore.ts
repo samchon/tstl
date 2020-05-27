@@ -46,11 +46,6 @@ export class Semaphore<Max extends number = number>
         return this.max_;
     }
 
-    public get_lockable(): ITimedLockable
-    {
-        return new Semaphore.Lockable(this);
-    }
-
     /* ---------------------------------------------------------
         ACQURE & RELEASE
     --------------------------------------------------------- */
@@ -202,14 +197,21 @@ export class Semaphore<Max extends number = number>
 
 export namespace Semaphore
 {
+    export function get_lockable<SemaphoreT extends Pick<Semaphore, "acquire"|"try_acquire"|"try_acquire_for"|"try_acquire_until"|"release">>
+        (semaphore: SemaphoreT): ITimedLockable
+    {
+        return new Lockable(semaphore);
+    }
+
     /**
      * @internal
      */
-    export class Lockable implements ITimedLockable
+    export class Lockable <SemaphoreT extends Pick<Semaphore, "acquire"|"try_acquire"|"try_acquire_for"|"try_acquire_until"|"release">>
+        implements ITimedLockable
     {
-        private semahpore_: Semaphore;
+        private semahpore_: SemaphoreT;
 
-        public constructor(semaphore: Semaphore)
+        public constructor(semaphore: SemaphoreT)
         {
             this.semahpore_ = semaphore;
         }

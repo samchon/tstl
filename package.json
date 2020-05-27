@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.4.6",
+  "version": "2.4.7",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
@@ -32,7 +32,7 @@
     "typedoc": "^0.17.4",
     "typedoc-plugin-exclude-references": "0.0.0",
     "typedoc-plugin-external-module-name": "^3.0.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.2"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
