@@ -137,7 +137,7 @@ export class Semaphore<Max extends number = number>
 
         // RELEASE IF LASTEST RESOLVER
         let prev: List.Iterator<IResolver> = it.prev();
-        if (prev.equals(this.queue_.end()) === false && prev.value.handler === null)
+        if (prev.equals(this.queue_.end()) === false && prev.value.handler !== null)
             this._Release(1);
         
         // RETURNS FAILURE

@@ -30,7 +30,7 @@ async function iterate(command: ICommand, path: string): Promise<void>
         let currentPath: string = `${path}/${file}`;
         let stats: fs.Stats = await fs.promises.lstat(currentPath);
 
-        if (stats.isDirectory() === true && file !== "internal")
+        if (stats.isDirectory() === true && file !== "internal" && file !== "manual")
         {
             await iterate(command, currentPath);
             continue;
