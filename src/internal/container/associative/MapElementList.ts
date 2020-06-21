@@ -15,10 +15,10 @@ import { Entry } from "../../../utility/Entry";
 /**
  * Doubly Linked List storing map elements.
  * 
- * @typeParam Key Key type
- * @typeParam T Mapped type
- * @typeParam Unique Whether duplicated key is blocked or not
- * @typeParam Source Source type
+ * @type Key Key type
+ * @type T Mapped type
+ * @type Unique Whether duplicated key is blocked or not
+ * @type Source Source type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -85,10 +85,10 @@ export namespace MapElementList
     /**
      * Iterator of map container storing elements in a list.
      * 
-     * @typeParam Key Key type
-     * @typeParam T Mapped type
-     * @typeParam Unique Whether duplicated key is blocked or not
-     * @typeParam Source Source container type
+     * @type Key Key type
+     * @type T Mapped type
+     * @type Unique Whether duplicated key is blocked or not
+     * @type Source Source container type
      * 
      * @author Jeongho Nam - https://github.com/samchon
      */
@@ -190,10 +190,10 @@ export namespace MapElementList
     /**
      * Reverse iterator of map container storing elements a list.
      * 
-     * @typeParam Key Key type
-     * @typeParam T Mapped type
-     * @typeParam Unique Whether duplicated key is blocked or not
-     * @typeParam Source Source container type
+     * @type Key Key type
+     * @type T Mapped type
+     * @type Unique Whether duplicated key is blocked or not
+     * @type Source Source container type
      * 
      * @author Jeongho Nam - https://github.com/samchon
      */

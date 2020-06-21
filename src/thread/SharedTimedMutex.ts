@@ -4,14 +4,13 @@
  * @module std  
  */
 //================================================================
-import { ILockable } from "./ILockable";
-import { ITimedLockable } from "../internal/thread/ITimedLockable";
-import { ISharedTimedLockable } from "../internal/thread/ISharedTimedLockable";
-
-import { List } from "../container/List";
+import { ILockable } from "../base/thread/ILockable";
+import { ISharedTimedLockable } from "../base/thread/ISharedTimedLockable";
 
 import { AccessType } from "../internal/thread/AccessType";
 import { LockType } from "../internal/thread/LockType";
+
+import { List } from "../container/List";
 import { InvalidArgument } from "../exception/InvalidArgument";
 import { sleep_for } from "./global";
 
@@ -20,7 +19,7 @@ import { sleep_for } from "./global";
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class SharedTimedMutex implements ITimedLockable, ISharedTimedLockable
+export class SharedTimedMutex implements ISharedTimedLockable
 {
     private source_: ILockable;
     private queue_: List<IResolver>;

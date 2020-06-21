@@ -4,9 +4,7 @@
  * @module std  
  */
 //================================================================
-import { ILockable } from "./ILockable";
-import { ISharedLockable } from "../internal/thread/ISharedLockable";
-
+import { ISharedLockable } from "../base/thread/ISharedLockable";
 import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
@@ -14,7 +12,7 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class SharedMutex implements ILockable, ISharedLockable
+export class SharedMutex implements ISharedLockable
 {
     private mutex_: SharedTimedMutex;
 

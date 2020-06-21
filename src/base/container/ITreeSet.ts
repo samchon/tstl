@@ -10,11 +10,11 @@ import { ITreeContainer } from "../../internal/container/associative/ITreeContai
 /**
  * Common interface for tree sets.
  * 
- * @typeParam Key Key type
- * @typeParam Unique Whether duplicated key is blocked or not
- * @typeParam Source Derived type extending this {@link ITreeSet}
- * @typeParam IteratorT Iterator type
- * @typeParam ReverseT Reverse iterator type
+ * @type Key Key type
+ * @type Unique Whether duplicated key is blocked or not
+ * @type Source Derived type extending this {@link ITreeSet}
+ * @type IteratorT Iterator type
+ * @type ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

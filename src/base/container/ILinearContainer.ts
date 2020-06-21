@@ -14,11 +14,11 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 /**
  * Common interface for linear containers.
  * 
- * @typeParam T Stored elements' type
- * @typeParam SourceT Derived type extending this {@link ILinearContainer}
- * @typeParam IteratorT Iterator type
- * @typeParam ReverseT Reverse iterator type
- * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
+ * @type T Stored elements' type
+ * @type SourceT Derived type extending this {@link ILinearContainer}
+ * @type IteratorT Iterator type
+ * @type ReverseT Reverse iterator type
+ * @type PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

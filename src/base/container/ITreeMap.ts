@@ -13,12 +13,12 @@ import { Entry } from "../../utility/Entry";
 /**
  * Common interface for tree maps.
  * 
- * @typeParam Key Key type
- * @typeParam T Mapped type
- * @typeParam Unique Whether duplicated key is blocked or not
- * @typeParam Source Derived type extending this {@link ITreeMap}
- * @typeParam IteratorT Iterator type
- * @typeParam ReverseT Reverse iterator type
+ * @type Key Key type
+ * @type T Mapped type
+ * @type Unique Whether duplicated key is blocked or not
+ * @type Source Derived type extending this {@link ITreeMap}
+ * @type IteratorT Iterator type
+ * @type ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

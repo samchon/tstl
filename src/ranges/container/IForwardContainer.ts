@@ -13,7 +13,7 @@ import { Vector } from "../../container/Vector";
 /**
  * Forward iterable container.
  * 
- * @typeParam Iterator Iterator type
+ * @type Iterator Iterator type
  * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IForwardContainer<Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>

@@ -14,7 +14,7 @@ import { Vector } from "../../container/Vector";
 /**
  * Bidirection iterable container.
  * 
- * @typeParam Iterator Iterator type
+ * @type Iterator Iterator type
  * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IBidirectionalContainer< 

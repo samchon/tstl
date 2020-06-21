@@ -1,8 +1,8 @@
 import * as std from "../../index";
 
-import { ITimedLockable } from "../../internal/thread/ITimedLockable";
-import { ISharedLockable } from "../../internal/thread/ISharedLockable";
-import { ISharedTimedLockable } from "../../internal/thread/ISharedTimedLockable";
+import { ITimedLockable } from "../../base/thread/ITimedLockable";
+import { ISharedLockable } from "../../base/thread/ISharedLockable";
+import { ISharedTimedLockable } from "../../base/thread/ISharedTimedLockable";
 
 const SLEEP_TIME: number = 50;
 const READ_COUNT: number = 10;
@@ -18,7 +18,7 @@ export async function test_mutexes(): Promise<void>
 /* ---------------------------------------------------------
     WRITE LOCK
 --------------------------------------------------------- */
-export async function _Test_lock(mtx: std.ILockable, name: string = mtx.constructor.name): Promise<void>
+export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.constructor.name): Promise<void>
 {
     let start_time: number = new Date().getTime();
 
@@ -63,7 +63,7 @@ export async function _Test_lock(mtx: std.ILockable, name: string = mtx.construc
 /* ---------------------------------------------------------
     READ LOCK
 --------------------------------------------------------- */
-async function _Test_lock_shared(mtx: std.ILockable & ISharedLockable): Promise<void>
+async function _Test_lock_shared(mtx: std.base.ILockable & ISharedLockable): Promise<void>
 {
     // TEST WRITING LOCK & UNLOCK
     await _Test_lock(mtx);

@@ -16,12 +16,6 @@ export async function test_unique_locks(): Promise<void>
     //----
     // DO TEST
     //----
-    // IN CLASS LEVEL
-    let safer: std.UniqueLock<std.TimedMutex> = new std.UniqueLock(mtx);
-    await safer.lock(lambda);
-    await safer.try_lock(lambda);
-    await safer.try_lock_for(30, lambda);
-
     // STATIC METHOHD
     await _Test_lock("UniqueLock.lock()", () => std.UniqueLock.lock(mtx, lambda), trier, unlocker);
     await _Test_lock("UniqueLock.try_lock()", () => std.UniqueLock.try_lock(mtx, lambda), trier, unlocker);
@@ -44,12 +38,6 @@ export async function test_shared_locks(): Promise<void>
     //----
     // DO TEST
     //----
-    // IN CLASS LEVEL
-    let safer: std.SharedLock<std.SharedTimedMutex> = new std.SharedLock(mtx);
-    await safer.lock(lambda);
-    await safer.try_lock(lambda);
-    await safer.try_lock_for(30, lambda);
-
     // STATIC METHOHD
     await _Test_lock("SharedLock.lock()", () => std.SharedLock.lock(mtx, lambda), trier, unlocker);
     await _Test_lock("SharedLock.try_lock()", () => std.SharedLock.try_lock(mtx, lambda), trier, unlocker);

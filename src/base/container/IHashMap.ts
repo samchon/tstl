@@ -14,10 +14,10 @@ import { MapElementList } from "../../internal/container/associative/MapElementL
 /**
  * Common interface for hash maps.
  * 
- * @typeParam Key Key type
- * @typeParam T Mapped type
- * @typeParam Unique Whether duplicated key is blocked or not
- * @typeParam Source Derived type extending this {@link IHashMap}
+ * @type Key Key type
+ * @type T Mapped type
+ * @type Unique Whether duplicated key is blocked or not
+ * @type Source Derived type extending this {@link IHashMap}
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

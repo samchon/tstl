@@ -10,11 +10,11 @@ import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
 /**
  * Common interface for array containers.
  * 
- * @typeParam T Stored elements' type
- * @typeParam SourceT Derived type extending this {@link IArrayContainer}
- * @typeParam IteratorT Iterator type
- * @typeParam ReverseT Reverse iterator type
- * @typeParam PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
+ * @type T Stored elements' type
+ * @type SourceT Derived type extending this {@link IArrayContainer}
+ * @type IteratorT Iterator type
+ * @type ReverseT Reverse iterator type
+ * @type PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

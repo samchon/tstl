@@ -32,7 +32,7 @@ export class ConditionVariable
         NOTIFIERS
     --------------------------------------------------------- */
     /**
-     * Notify, wake one.
+     * Notify, wake only one.
      */
     public async notify_one(): Promise<void>
     {

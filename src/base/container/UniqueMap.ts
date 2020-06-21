@@ -16,11 +16,11 @@ import { ErrorGenerator } from "../../internal/exception/ErrorGenerator";
 /**
  * Basic map container blocking duplicated key.
  * 
- * @typeParam Key Key type
- * @typeParam T Mapped type
- * @typeParam Source Derived type extending this {@link UniqueMap}
- * @typeParam IteratorT Iterator type
- * @typeParam ReverseT Reverse iterator type
+ * @type Key Key type
+ * @type T Mapped type
+ * @type Source Derived type extending this {@link UniqueMap}
+ * @type IteratorT Iterator type
+ * @type ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

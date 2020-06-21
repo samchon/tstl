@@ -11,11 +11,11 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 /**
  * Basic set container allowing multiple keys.
  * 
- * @typeParam Key Key type
- * @typeParam T Mapped type
- * @typeParam Source Derived type extending this {@link MultiSet}
- * @typeParam IteratorT Iterator type
- * @typeParam ReverseT Reverse iterator type
+ * @type Key Key type
+ * @type T Mapped type
+ * @type Source Derived type extending this {@link MultiSet}
+ * @type IteratorT Iterator type
+ * @type ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

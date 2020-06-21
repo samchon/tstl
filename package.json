@@ -6,11 +6,11 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.4.8",
+  "version": "2.4.9",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
-    "api": "typedoc src --exclude \"**/+(test|benchmark)/**\" --excludeNotDocumented --plugin typedoc-plugin-external-module-name --plugin typedoc-plugin-exclude-references --out ../tstl.pages/api",
+    "api": "typedoc src --exclude \"**/+(test|benchmark)/**\" --excludeNotDocumented --plugin typedoc-plugin-external-module-name --plugin typedoc-plugin-exclude-references --out ../tstl@gh-pages/api",
     "migration": "ts-node build/migration",
     "benchmark": "node benchmark",
     "build": "npm run clean && npm run module && npm run compile && npm run dist && npm run test",

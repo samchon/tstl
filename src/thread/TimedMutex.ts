@@ -4,7 +4,7 @@
  * @module std  
  */
 //================================================================
-import { ITimedLockable } from "../internal/thread/ITimedLockable";
+import { ITimedLockable } from "../base/thread/ITimedLockable";
 import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**

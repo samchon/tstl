@@ -18,11 +18,11 @@ import { Temporary } from "../../functional/Temporary";
 /**
  * Basic tree map allowing duplicated keys.
  * 
- * @typeParam Key Key type
- * @typeParam T Mapped type
- * @typeParam Source Derived type extending this {@link MultiTreeMap}
- * @typeParam IteratorT Iterator type
- * @typeParam ReverseT Reverse iterator type
+ * @type Key Key type
+ * @type T Mapped type
+ * @type Source Derived type extending this {@link MultiTreeMap}
+ * @type IteratorT Iterator type
+ * @type ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
