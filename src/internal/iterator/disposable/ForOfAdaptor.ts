@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
 /**

@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { ISharedLockable } from "../base/thread/ISharedLockable";
 import { SharedTimedMutex } from "./SharedTimedMutex";
 

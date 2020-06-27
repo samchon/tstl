@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.base  
- */
-//================================================================
 // LINEAR
 export * from "./IContainer";
 export * from "./ILinearContainer";

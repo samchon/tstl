@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 export namespace SafeLock
 {
     export async function lock

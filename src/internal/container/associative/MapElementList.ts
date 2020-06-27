@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { ListContainer } from "../linear/ListContainer";
 import { ListIterator } from "../../iterator/ListIterator";
 import { ReverseIterator as _ReverseIterator } from "../../iterator/ReverseIterator";

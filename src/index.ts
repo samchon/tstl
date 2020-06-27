@@ -1,12 +1,3 @@
-//================================================================ 
-/**
- * TSTL - TypeScript Standard Template Library
- * 
- * @packageDocumentation
- * @module std  
- * @preferred
- */
-//================================================================
 /**
  * Basic features.
  */

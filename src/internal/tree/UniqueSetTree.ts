@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { SetTree } from "./SetTree";
 
 import { XTreeNode } from "./XTreeNode";

@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { HashMap } from "../container/HashMap";
 import { LockType } from "../internal/thread/LockType";
 import { sleep_until } from "./global";

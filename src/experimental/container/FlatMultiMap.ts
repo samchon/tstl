@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.experimental  
- */
-//================================================================
 import { MultiTreeMap } from "../../internal/container/associative/MultiTreeMap";
 import { ITreeContainer } from "../../internal/container/associative/ITreeContainer";
 

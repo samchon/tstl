@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 export * from "./Mutex";
 export * from "./TimedMutex";
 export * from "./SharedMutex"

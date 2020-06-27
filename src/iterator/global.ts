@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { IPointer } from "../functional/IPointer";
 
 import { IForwardIterator } from "./IForwardIterator";

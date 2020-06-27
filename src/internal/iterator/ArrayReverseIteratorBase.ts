@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
 import { ReverseIterator } from "./ReverseIterator";
 

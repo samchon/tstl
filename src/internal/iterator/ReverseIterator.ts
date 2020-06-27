@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.base  
- */
-//================================================================
 import { IContainer } from "../../base/container/IContainer";
 
 /**

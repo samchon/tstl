@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { MathUtil } from "./MathUtil";
 
 export namespace Carlson

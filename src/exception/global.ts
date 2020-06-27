@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { is_node } from "../utility/node";
 import { _Get_root } from "../internal/Global";
 

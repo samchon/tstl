@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { InvalidArgument } from "../../exception/InvalidArgument";
 import { OutOfRange } from "../../exception/OutOfRange";
 

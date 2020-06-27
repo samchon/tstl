@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { IContainer } from "../../../base/container/IContainer";
 import { IPushBack } from "../partial/IPushBack";
 

@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { ConditionVariable } from "./ConditionVariable";
 
 /**

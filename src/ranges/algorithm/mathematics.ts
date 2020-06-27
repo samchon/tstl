@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.ranges  
- */
-//================================================================
 import * as base from "../../algorithm/mathematics";
 
 import { IBidirectionalContainer } from "../container/IBidirectionalContainer";

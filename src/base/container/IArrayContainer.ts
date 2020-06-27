@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.base  
- */
-//================================================================
 import { ILinearContainer } from "./ILinearContainer";
 import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
 

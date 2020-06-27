@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 // <exception>
 //
 // @reference http://www.cplusplus.com/reference/exception/

@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { MapTree } from "./MapTree";
 import { XTreeNode } from "./XTreeNode";
 

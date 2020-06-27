@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { ListContainer } from "../internal/container/linear/ListContainer";
 import { IDequeContainer } from "../base/container/IDequeContainer";
 import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";

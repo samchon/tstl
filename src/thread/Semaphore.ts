@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { List } from "../container/List";
 import { OutOfRange } from "../exception/OutOfRange";
 

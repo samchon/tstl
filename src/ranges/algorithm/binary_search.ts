@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.ranges  
- */
-//================================================================
 import * as base from "../../algorithm/binary_search";
 
 import { IForwardContainer } from "../container/IForwardContainer";

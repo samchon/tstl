@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 
 import { IForwardIterator } from "./IForwardIterator";

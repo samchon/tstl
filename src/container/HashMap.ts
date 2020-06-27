@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { UniqueMap } from "../base/container/UniqueMap";
 import { IHashMap } from "../base/container/IHashMap";
 import { IHashContainer } from "../internal/container/associative/IHashContainer";

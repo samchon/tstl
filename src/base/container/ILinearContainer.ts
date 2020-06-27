@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.base  
- */
-//================================================================
 import { IContainer } from "./IContainer";
 import { ILinearContainerBase } from "../../internal/container/linear/ILinearContainerBase";
 import { IFront } from "../../internal/container/partial/IFront";

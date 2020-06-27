@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { RuntimeError } from "./RuntimeError";
 
 import { ErrorCode } from "./ErrorCode";

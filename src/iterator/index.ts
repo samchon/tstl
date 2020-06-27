@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 // <iterator>
 //
 // @reference http://www.cplusplus.com/reference/iterator

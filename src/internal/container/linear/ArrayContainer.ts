@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { ILinearContainerBase } from "./ILinearContainerBase";
 import { Container } from "../../../base/container/Container";
 

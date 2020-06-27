@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { UniqueSet } from "../base/container/UniqueSet";
 import { IHashSet } from "../base/container/IHashSet";
 import { IHashContainer } from "../internal/container/associative/IHashContainer";

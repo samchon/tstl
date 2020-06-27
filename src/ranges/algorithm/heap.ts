@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.ranges  
- */
-//================================================================
 import * as base from "../../algorithm/heap";
 
 import { IRandomAccessContainer } from "../container/IRandomAccessContainer";

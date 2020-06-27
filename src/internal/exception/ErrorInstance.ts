@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { ErrorCategory } from "../../exception/ErrorCategory";
 
 /**

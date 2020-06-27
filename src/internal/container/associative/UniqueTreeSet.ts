@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { UniqueSet } from "../../../base/container/UniqueSet";
 import { ITreeContainer } from "./ITreeContainer";
 

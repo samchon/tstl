@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 // <utility>
 //
 // @reference http://www.cplusplus.com/reference/utility/

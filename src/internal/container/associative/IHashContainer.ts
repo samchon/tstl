@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { IAssociativeContainer } from "./IAssociativeContainer";
 
 import { IContainer } from "../../../base/container/IContainer";

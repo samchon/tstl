@@ -29,9 +29,9 @@
     "cli": "^1.0.1",
     "source-map-support": "^0.5.16",
     "ts-node": "^8.6.2",
-    "typedoc": "^0.17.4",
-    "typedoc-plugin-exclude-references": "0.0.0",
-    "typedoc-plugin-external-module-name": "^3.0.0",
+    "typedoc": "^0.17.7",
+    "typedoc-plugin-exclude-references": "^1.0.0",
+    "typedoc-plugin-external-module-name": "^4.0.3",
     "typescript": "^3.9.2"
   },
   "homepage": "https://github.com/samchon/tstl",

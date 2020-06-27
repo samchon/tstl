@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 // <special_math>
 //
 // @reference http://en.cppreference.com/w/cpp/numeric/special_math

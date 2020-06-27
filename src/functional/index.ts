@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 // <functional>
 //
 // @reference http://www.cplusplus.com/reference/functional/

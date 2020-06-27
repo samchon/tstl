@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { BinaryPredicator } from "../../functional/BinaryPredicator";
 import { Comparator } from "../../functional/Comparator";
 import { UnaryPredicator } from "../../functional/UnaryPredicator";

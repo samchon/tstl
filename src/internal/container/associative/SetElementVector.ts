@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { VectorContainer } from "../linear/VectorContainer";
 import { ArrayIteratorBase } from "../../iterator/ArrayIteratorBase";
 import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBase";

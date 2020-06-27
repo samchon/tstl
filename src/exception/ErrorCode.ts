@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { ErrorInstance } from "../internal/exception/ErrorInstance";
 
 import { ErrorCategory } from "./ErrorCategory";

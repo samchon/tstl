@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { MultiMap } from "../base/container/MultiMap";
 import { IHashMap } from "../base/container/IHashMap";
 import { IHashContainer } from "../internal/container/associative/IHashContainer";

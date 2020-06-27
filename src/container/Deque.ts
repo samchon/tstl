@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { IArrayContainer } from "../base/container/IArrayContainer";
 import { ArrayContainer } from "../internal/container/linear/ArrayContainer";
 import { ArrayIterator } from "../internal/iterator/ArrayIterator";

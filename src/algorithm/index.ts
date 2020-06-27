@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 // <algorithm>
 //
 // @reference http://www.cplusplus.com/reference/algorithm

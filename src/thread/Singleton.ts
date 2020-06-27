@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { Mutex } from "./Mutex";
 import { UniqueLock } from "./UniqueLock";
 

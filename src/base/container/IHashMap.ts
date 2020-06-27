@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.base  
- */
-//================================================================
 import { MapContainer } from "./MapContainer";
 import { IHashContainer } from "../../internal/container/associative/IHashContainer";
 

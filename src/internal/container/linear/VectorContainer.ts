@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { ArrayContainer } from "./ArrayContainer";
 
 import { IContainer } from "../../../base/container/IContainer";

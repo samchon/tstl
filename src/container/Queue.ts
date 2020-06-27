@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer";
 import { List } from "./List";
 

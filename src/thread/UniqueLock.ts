@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { ILockable } from "../base/thread/ILockable";
 import { ITimedLockable } from "../base/thread/ITimedLockable";
 

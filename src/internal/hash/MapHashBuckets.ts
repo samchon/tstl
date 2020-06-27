@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { HashBuckets } from "./HashBuckets";
 
 import { IHashMap } from "../../base/container/IHashMap";

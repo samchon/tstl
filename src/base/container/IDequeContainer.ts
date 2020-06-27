@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.base  
- */
-//================================================================
 import { IContainer } from "./IContainer";
 import { IDeque } from "../../internal/container/partial/IDeque";
 import { ILinearContainer } from "./ILinearContainer";

@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.internal  
- */
-//================================================================
 import { IPushFront } from "./IPushFront";
 
 export interface IDeque<T> extends IPushFront<T>

@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std.base  
- */
-//================================================================
 import { SetContainer } from "./SetContainer";
 import { IHashContainer } from "../../internal/container/associative/IHashContainer";
 import { SetElementList } from "../../internal/container/associative/SetElementList";

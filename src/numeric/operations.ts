@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { General } from "../internal/functional/General";
 import { Writeonly } from "../internal/functional/Writeonly";

@@ -1,9 +1,3 @@
-//================================================================ 
-/**
- * @packageDocumentation
- * @module std  
- */
-//================================================================
 import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 
 import { IPushFront } from "../internal/container/partial/IPushFront";
