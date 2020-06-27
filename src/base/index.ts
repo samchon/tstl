@@ -7,5 +7,7 @@
  * @preferred
  */
 //================================================================
-export * from "./container/index";
-export * from "./thread/index";
+import * as base from "./module";
+
+export default base;
+export * from "./module";

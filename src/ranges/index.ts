@@ -1,12 +1,13 @@
 //================================================================ 
 /**
- * Ranged Modules
+ * Ranged Features
  * 
  * @packageDocumentation
  * @module std.ranges  
  * @preferred
  */
 //================================================================
-export * from "./algorithm/index";
-export * from "./numeric/index";
-export * from "./container/index";
+import * as ranges from "./module";
+
+export default ranges;
+export * from "./module";

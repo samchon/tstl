@@ -1,7 +1,13 @@
 //================================================================ 
 /**
+ * Experimental Features
+ * 
  * @packageDocumentation
  * @module std.experimental  
+ * @preferred
  */
 //================================================================
-export * from "./container/index";
+import * as experimental from "./module";
+
+export default experimental;
+export * from "./module";
