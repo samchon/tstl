@@ -348,6 +348,9 @@ export class List<T>
     }
 }
 
+/**
+ * 
+ */
 export namespace List
 {
     /**

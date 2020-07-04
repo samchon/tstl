@@ -51,6 +51,9 @@ export class FrontInsertIterator<Source extends IPushFront<FrontInsertIterator.V
 }
 export namespace FrontInsertIterator
 {
+    /**
+     * Deduct value type.
+     */
     export type ValueType<Source extends IPushFront<any>> = 
         Source extends IPushFront<infer T>
             ? T

@@ -442,6 +442,9 @@ export class VectorBoolean
     }
 }
 
+/**
+ * 
+ */
 export namespace VectorBoolean
 {
     // HEAD

@@ -143,6 +143,9 @@ export class FlatMultiSet<Key>
     protected _Handle_erase({}, {}): void {}
 }
 
+/**
+ * 
+ */
 export namespace FlatMultiSet
 {
     // HEAD

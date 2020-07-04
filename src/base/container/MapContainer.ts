@@ -20,12 +20,12 @@ import { Temporary } from "../../internal/functional/Temporary";
 /**
  * Basic map container.
  * 
- * @type Key Key type
- * @type T Mapped type
- * @type Unique Whether duplicated key is blocked or not
- * @type Source Derived type extending this {@link MapContainer}
- * @type IteratorT Iterator type
- * @type ReverseT Reverse iterator type
+ * @template Key Key type
+ * @template T Mapped type
+ * @template Unique Whether duplicated key is blocked or not
+ * @template Source Derived type extending this {@link MapContainer}
+ * @template IteratorT Iterator type
+ * @template ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -233,6 +233,9 @@ export abstract class MapContainer<Key, T,
     protected abstract _Handle_erase(first: IteratorT, last: IteratorT): void;
 }
 
+/**
+ * 
+ */
 export namespace MapContainer
 {
     /**

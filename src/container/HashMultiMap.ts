@@ -387,6 +387,9 @@ export class HashMultiMap<Key, T>
     }
 }
 
+/**
+ * 
+ */
 export namespace HashMultiMap
 {
     //----

@@ -1,7 +1,7 @@
 //================================================================ 
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 export function logical_and<T>(x: T, y: T): boolean

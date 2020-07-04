@@ -11,9 +11,9 @@ import { SetElementList } from "../../internal/container/associative/SetElementL
 /**
  * Common interface for hash sets.
  * 
- * @type Key Key type
- * @type Unique Whether duplicated key is blocked or not
- * @type Source Derived type extending this {@link IHashSet}
+ * @template Key Key type
+ * @template Unique Whether duplicated key is blocked or not
+ * @template Source Derived type extending this {@link IHashSet}
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

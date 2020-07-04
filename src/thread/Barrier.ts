@@ -36,60 +36,6 @@ export class Barrier
     }
 
     /* ---------------------------------------------------------
-        ARRIVES
-    --------------------------------------------------------- */
-    /**
-     * Derecements the counter.
-     * 
-     * Decrements the counter by *n* without blocking. 
-     * 
-     * If the parametric value *n* is equal to or greater than internal counter, so that the 
-     * internal counter be equal to or less than zero, everyone who are {@link wait waiting} for
-     * the {@link Latch} would continue their executions.
-     * 
-     * @param n Value of the decrement. Default is 1.
-     */
-    public async arrive(n: number = 1): Promise<void>
-    {
-        let completed: boolean = (this.count_ += n) <= this.size_;
-        if (completed === false)
-            return;
-
-        this.count_ %= this.size_;
-        await this.cv_.notify_all();
-    }
-
-    /**
-     * Decrements the counter and waits until the counter to be zero.
-     * 
-     * Decrements the counter by one and blocks the section until internal counter to be zero. 
-     * 
-     * If the the remained counter be zero by this decrement, everyone who are 
-     * {@link wait waiting} for the {@link Barrier} would continue their executions including 
-     * this one.
-     * 
-     * @param n Value of the decrement. Default is 1.
-     */
-    public async arrive_and_wait(): Promise<void>
-    {
-        await this.arrive();
-        await this.wait();
-    }
-
-    /**
-     * Decrements the counter and initial size at the same time.
-     * 
-     * Decrements not only internal counter, but also initialize size of the counter at the same
-     * time. If the remained counter be zero by the decrement, everyone who are 
-     * {@link wait waiting} for the {@link Barrier} would continue their executions.
-     */
-    public async arrive_and_drop(): Promise<void>
-    {
-        --this.size_;
-        await this.arrive(0);
-    }
-
-    /* ---------------------------------------------------------
         WAIT FUNCTIONS
     --------------------------------------------------------- */
     /**
@@ -132,5 +78,57 @@ export class Barrier
     public wait_until(at: Date): Promise<boolean>
     {
         return this.cv_.wait_until(at);
+    }
+
+    /* ---------------------------------------------------------
+        ARRIVAL FUNCTIONS
+    --------------------------------------------------------- */
+    /**
+     * Derecements the counter.
+     * 
+     * Decrements the counter by *n* without blocking. 
+     * 
+     * If the parametric value *n* is equal to or greater than internal counter, so that the 
+     * internal counter be equal to or less than zero, everyone who are {@link wait waiting} for
+     * the {@link Latch} would continue their executions.
+     * 
+     * @param n Value of the decrement. Default is 1.
+     */
+    public async arrive(n: number = 1): Promise<void>
+    {
+        let completed: boolean = (this.count_ += n) <= this.size_;
+        if (completed === false)
+            return;
+
+        this.count_ %= this.size_;
+        await this.cv_.notify_all();
+    }
+
+    /**
+     * Decrements the counter and waits until the counter to be zero.
+     * 
+     * Decrements the counter by one and blocks the section until internal counter to be zero. 
+     * 
+     * If the the remained counter be zero by this decrement, everyone who are 
+     * {@link wait waiting} for the {@link Barrier} would continue their executions including 
+     * this one.
+     */
+    public async arrive_and_wait(): Promise<void>
+    {
+        await this.arrive();
+        await this.wait();
+    }
+
+    /**
+     * Decrements the counter and initial size at the same time.
+     * 
+     * Decrements not only internal counter, but also initialize size of the counter at the same
+     * time. If the remained counter be zero by the decrement, everyone who are 
+     * {@link wait waiting} for the {@link Barrier} would continue their executions.
+     */
+    public async arrive_and_drop(): Promise<void>
+    {
+        --this.size_;
+        await this.arrive(0);
     }
 }

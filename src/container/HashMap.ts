@@ -346,6 +346,9 @@ export class HashMap<Key, T>
     }
 }
 
+/**
+ * 
+ */
 export namespace HashMap
 {
     // HEAD

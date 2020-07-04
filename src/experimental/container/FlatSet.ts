@@ -143,6 +143,9 @@ export class FlatSet<Key>
     protected _Handle_erase({}, {}): void {}
 }
 
+/**
+ * 
+ */
 export namespace FlatSet
 {
     // HEAD

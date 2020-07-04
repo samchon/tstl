@@ -4,18 +4,21 @@
  * @module std  
  */
 //================================================================
-import { HashMap } from "../container/HashMap";
-import { LockType } from "../internal/thread/LockType";
+import { List } from "../container/List";
 import { sleep_until } from "./global";
+
+import { LockType } from "../internal/thread/LockType";
 
 /**
  * Condition variable.
+ * 
+ * The `ConditionVariable` class blocks critical sections until be notified.
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class ConditionVariable
 {
-    private resolvers_: HashMap<IResolver, LockType>;
+    private resolvers_: List<IResolver>;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
@@ -25,55 +28,11 @@ export class ConditionVariable
      */
     public constructor()
     {
-        this.resolvers_ = new HashMap();
+        this.resolvers_ = new List();
     }
 
     /* ---------------------------------------------------------
-        NOTIFIERS
-    --------------------------------------------------------- */
-    /**
-     * Notify, wake only one.
-     */
-    public async notify_one(): Promise<void>
-    {
-        // NOTHING TO NOTIFY
-        if (this.resolvers_.empty())
-            return;
-
-        // POP THE 1ST RESOLVER
-        let it = this.resolvers_.begin();
-        this.resolvers_.erase(it);    
-
-        // CALL ITS HANDLER
-        if (it.second === LockType.HOLD)
-            it.first();
-        else
-            it.first(true);
-    }
-
-    /**
-     * Notify, wake all
-     */
-    public async notify_all(): Promise<void>
-    {
-        // NOTHING TO NOTIFY
-        if (this.resolvers_.empty())
-            return;
-
-        // POP RESOLVERS
-        let resolvers = this.resolvers_.toJSON();
-        this.resolvers_.clear();
-
-        // ITERATE RESOLVERS
-        for (let pair of resolvers)
-            if (pair.second === LockType.HOLD)
-                pair.first();
-            else
-                pair.first(true);
-    }
-
-    /* ---------------------------------------------------------
-        WAITORS
+        WAIT FUNCTIONS
     --------------------------------------------------------- */
     /**
      * Wait until notified.
@@ -92,9 +51,9 @@ export class ConditionVariable
      * 
      * @param predicator A predicator function determines completion.
      */
-    public wait(predicator: Predicator): Promise<void>;
+    public wait(predicator: ConditionVariable.Predicator): Promise<void>;
 
-    public async wait(predicator?: Predicator): Promise<void>
+    public async wait(predicator?: ConditionVariable.Predicator): Promise<void>
     {
         if (!predicator)
             return await this._Wait();
@@ -129,9 +88,9 @@ export class ConditionVariable
      * @param predicator A predicator function determines the completion.
      * @return Returned value of the *predicator*.
      */
-    public wait_for(ms: number, predicator: Predicator): Promise<boolean>;
+    public wait_for(ms: number, predicator: ConditionVariable.Predicator): Promise<boolean>;
 
-    public wait_for(ms: number, predicator?: Predicator): Promise<boolean>
+    public wait_for(ms: number, predicator?: ConditionVariable.Predicator): Promise<boolean>
     {
         let at: Date = new Date(Date.now() + ms);
         return this.wait_until(at, predicator!);
@@ -162,9 +121,9 @@ export class ConditionVariable
      * @param predicator A predicator function determines the completion.
      * @return Returned value of the *predicator*.
      */
-    public wait_until(at: Date, predicator: Predicator): Promise<boolean>;
+    public wait_until(at: Date, predicator: ConditionVariable.Predicator): Promise<boolean>;
 
-    public async wait_until(at: Date, predicator?: Predicator): Promise<boolean>
+    public async wait_until(at: Date, predicator?: ConditionVariable.Predicator): Promise<boolean>
     {
         if (!predicator)
             return await this._Wait_until(at);
@@ -180,7 +139,10 @@ export class ConditionVariable
     {
         return new Promise<void>(resolve => 
         {
-            this.resolvers_.emplace(resolve, LockType.HOLD);
+            this.resolvers_.push_back({ 
+                handler: resolve, 
+                lockType: LockType.HOLD 
+            });
         });
     }
 
@@ -188,24 +150,83 @@ export class ConditionVariable
     {
         return new Promise<boolean>(resolve =>
         {
-            this.resolvers_.emplace(resolve, LockType.KNOCK);
+            let it: List.Iterator<IResolver> = this.resolvers_.insert(this.resolvers_.end(), 
+            {
+                handler: resolve, 
+                lockType: LockType.KNOCK
+            });
 
             // AUTOMATIC UNLOCK
             sleep_until(at).then(() =>
             {
-                if (this.resolvers_.has(resolve) === false)
+                if (it.erased_ === true)
                     return;
 
                 // DO UNLOCK
-                this.resolvers_.erase(resolve); // POP THE LISTENER
+                this.resolvers_.erase(it); // POP THE LISTENER
                 resolve(false); // RETURN FAILURE
             });
         });
     }
+
+    /* ---------------------------------------------------------
+        NOTIFIERS
+    --------------------------------------------------------- */
+    /**
+     * Notify, wake only one up.
+     */
+    public async notify_one(): Promise<void>
+    {
+        // NOTHING TO NOTIFY
+        if (this.resolvers_.empty())
+            return;
+
+        // POP THE 1ST RESOLVER
+        let it = this.resolvers_.begin();
+        this.resolvers_.erase(it);    
+
+        // CALL ITS HANDLER
+        if (it.value.lockType === LockType.HOLD)
+            it.value.handler();
+        else
+            it.value.handler(true);
+    }
+
+    /**
+     * Notify, wake all up.
+     */
+    public async notify_all(): Promise<void>
+    {
+        // NOTHING TO NOTIFY
+        if (this.resolvers_.empty())
+            return;
+
+        // POP RESOLVERS
+        let resolverList: IResolver[] = this.resolvers_.toJSON();
+        this.resolvers_.clear();
+
+        // ITERATE RESOLVERS
+        for (let resolver of resolverList)
+            if (resolver.lockType === LockType.HOLD)
+                resolver.handler();
+            else
+                resolver.handler(true);
+    }
+}
+
+/**
+ * 
+ */
+export namespace ConditionVariable
+{
+    /**
+     * Type of predicator function who determines the completion.
+     */
+    export type Predicator = () => boolean | Promise<boolean>;
 }
 
 interface IResolver
 {
-    (value?: any): void;
+    handler: (value?: any) => void;
+    lockType: LockType;
 }
-type Predicator = () => boolean | Promise<boolean>;

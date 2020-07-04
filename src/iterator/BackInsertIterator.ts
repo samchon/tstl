@@ -50,13 +50,23 @@ export class BackInsertIterator<Source extends IPushBack<BackInsertIterator.Valu
         return equal_to(this.source_, obj.source_);
     }
 }
+
+/**
+ * 
+ */
 export namespace BackInsertIterator
 {
+    /**
+     * Deduct value type.
+     */
     export type ValueType<Source extends IPushBack<any>> = 
         Source extends IPushBack<infer T>
             ? T
             : unknown;
 
+    /**
+     * Deduct source type. 
+     */
     export type SourceType<Source extends Array<any> | IPushBack<any>> =
         Source extends Array<infer T>
             ? Vector<T>

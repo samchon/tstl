@@ -28,7 +28,7 @@ import { UniqueLock } from "./UniqueLock";
  * been completed or not, call the {@link Singleton.reload}() method. It would call the *lazy
  * constructor* forcibly, even if the *lany construction* has been completed in sometime.
  * 
- * @type T Type of the promised value to be lazy-constructed.
+ * @template T Type of the promised value to be lazy-constructed.
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class Singleton<T>
@@ -36,7 +36,7 @@ export class Singleton<T>
     /**
      * @hidden
      */
-    private lazy_constructor: () => Promise<T>;
+    private lazy_constructor_: () => Promise<T>;
 
     /**
      * @hidden
@@ -60,7 +60,7 @@ export class Singleton<T>
      */
     public constructor(lazyConstructor: () => Promise<T>)
     {
-        this.lazy_constructor = lazyConstructor;
+        this.lazy_constructor_ = lazyConstructor;
         this.mutex_ = new Mutex();
         this.value_ = NOT_MOUNTED_YET;
     }
@@ -118,7 +118,7 @@ export class Singleton<T>
                     return;
 
                 // CALL THE LAZY-CONSTRUCTOR
-                this.value_ = await this.lazy_constructor();
+                this.value_ = await this.lazy_constructor_();
             });
         return this.value_ as T;
     }

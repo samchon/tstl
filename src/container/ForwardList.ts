@@ -532,6 +532,9 @@ export class ForwardList<T>
     }
 }
 
+/**
+ * 
+ */
 export namespace ForwardList
 {
     /**

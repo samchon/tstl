@@ -150,6 +150,9 @@ export class FlatMultiMap<Key, T>
     protected _Handle_erase({}, {}): void {}
 }
 
+/**
+ * 
+ */
 export namespace FlatMultiMap
 {
     // HEAD

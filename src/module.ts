@@ -4,19 +4,8 @@
  * @module std  
  */
 //================================================================
-/**
- * Basic features.
- */
 import * as base from "./base/module";
-
-/**
- * Experimental features.
- */
 import * as experimental from "./experimental/module";
-
-/**
- * Ranged features.
- */
 import * as ranges from "./ranges/module";
 
 export { base, experimental, ranges };

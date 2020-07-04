@@ -18,11 +18,11 @@ import { Temporary } from "../../internal/functional/Temporary";
 /**
  * Basic set container.
  * 
- * @type Key Key type
- * @type Unique Whether duplicated key is blocked or not
- * @type Source Derived type extending this {@link SetContainer}
- * @type IteratorT Iterator type
- * @type ReverseT Reverse iterator type
+ * @template Key Key type
+ * @template Unique Whether duplicated key is blocked or not
+ * @template Source Derived type extending this {@link SetContainer}
+ * @template IteratorT Iterator type
+ * @template ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -229,6 +229,9 @@ export abstract class SetContainer<Key,
     protected abstract _Handle_erase(first: IteratorT, last: IteratorT): void;
 }
 
+/**
+ * 
+ */
 export namespace SetContainer
 {
     /**

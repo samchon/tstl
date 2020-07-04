@@ -13,9 +13,9 @@ import { ITreeSet } from "../../../base/container/ITreeSet";
 /**
  * Vector storing set elements.
  * 
- * @type Key Key type
- * @type Unique Whether duplicated key is blocked or not
- * @type Source Source type
+ * @template Key Key type
+ * @template Unique Whether duplicated key is blocked or not
+ * @template Source Source type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -74,14 +74,17 @@ export class SetElementVector<Key,
     }
 }
 
+/**
+ * 
+ */
 export namespace SetElementVector
 {
     /**
      * Iterator of set container storing elements in a vector.
      * 
-     * @type Key Key type
-     * @type Unique Whether duplicated key is blocked or not
-     * @type Source Source container type
+     * @template Key Key type
+     * @template Unique Whether duplicated key is blocked or not
+     * @template Source Source container type
      * 
      * @author Jeongho Nam - https://github.com/samchon
      */
@@ -124,9 +127,9 @@ export namespace SetElementVector
     /**
      * Reverse iterator of set container storing elements in a vector.
      * 
-     * @type Key Key type
-     * @type Unique Whether duplicated key is blocked or not
-     * @type Source Source container type
+     * @template Key Key type
+     * @template Unique Whether duplicated key is blocked or not
+     * @template Source Source container type
      * 
      * @author Jeongho Nam - https://github.com/samchon
      */

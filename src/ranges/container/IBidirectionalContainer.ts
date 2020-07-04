@@ -14,7 +14,7 @@ import { Vector } from "../../container/Vector";
 /**
  * Bidirection iterable container.
  * 
- * @type Iterator Iterator type
+ * @template Iterator Iterator type
  * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IBidirectionalContainer< 
@@ -39,6 +39,9 @@ export interface IBidirectionalContainer<
 
 export namespace IBidirectionalContainer
 {
+    /**
+     * Deduct iterator type.
+     */
     export type IteratorType<Container extends Array<any> | IBidirectionalContainer<any, any>>
         = Container extends Array<infer T>
             ? Vector.Iterator<T>
@@ -46,6 +49,9 @@ export namespace IBidirectionalContainer
                 ? Iterator
                 : unknown;
 
+    /**
+     * Deduct reverse iterator type.
+     */
     export type ReverseIteratorType<Container extends Array<any> | IBidirectionalContainer<any, any>>
         = Container extends Array<infer T> 
             ? Vector.ReverseIterator<T>
@@ -53,6 +59,9 @@ export namespace IBidirectionalContainer
                 ? ReverseIterator
                 : unknown;
 
+    /**
+     * Deduct value type.
+     */
     export type ValueType<Container extends Array<any> | IBidirectionalContainer<any, any>>
         = IPointer.ValueType<IteratorType<Container>>;
 }

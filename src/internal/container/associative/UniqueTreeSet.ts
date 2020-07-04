@@ -15,10 +15,10 @@ import { Temporary } from "../../functional/Temporary";
 /**
  * Basic tree set blocking duplicated key.
  * 
- * @type Key Key type
- * @type Source Derived type extending this {@link UniqueTreeSet}
- * @type IteratorT Iterator type
- * @type ReverseT Reverse iterator type
+ * @template Key Key type
+ * @template Source Derived type extending this {@link UniqueTreeSet}
+ * @template IteratorT Iterator type
+ * @template ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */

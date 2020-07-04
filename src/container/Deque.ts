@@ -28,31 +28,25 @@ export class Deque<T>
     extends ArrayContainer<T, Deque<T>, Deque<T>, Deque.Iterator<T>, Deque.ReverseIterator<T>, T>
     implements IArrayContainer<T, Deque<T>, Deque.Iterator<T>, Deque.ReverseIterator<T>>
 {
-    /**
-     * A matrix containing elements.
-     * 
-     * This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
-     * Its number of rows follows {@link ROW_SIZE} and number of columns follows {@link get_col_size} which 
-     * returns divide of {@link capacity} and {@link ROW_SIZE}.
-     *  
-     * By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
-     * advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW_SIZE}
-     * times faster than {@link Vector} when inserting elements in middle position.
-     * 
-     * However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
-     * time complexity on accessing element. {@link Deque} is {@link ROW_SIZE} times slower than {@link Vector}
-     * when accessing element.
-     */
+    // A matrix containing elements.
+    //
+    // This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
+    // Its number of rows follows {@link ROW_SIZE} and number of columns follows {@link get_col_size} which 
+    // returns divide of {@link capacity} and {@link ROW_SIZE}.
+    // 
+    // By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
+    // advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW_SIZE}
+    // times faster than {@link Vector} when inserting elements in middle position.
+    //
+    // However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
+    // time complexity on accessing element. {@link Deque} is {@link ROW_SIZE} times slower than {@link Vector}
+    // when accessing element.
     private matrix_!: Array<Array<T>>;
     
-    /**
-     * Number of elements stored in the {@link Deque}
-     */
+    // Number of elements stored in the {@link Deque}.
     private size_!: number;
 
-    /**
-     * Maximum capacity that current {@link matrix_} can store in.
-     */
+    // Maximum capacity that current {@link matrix_} can store in.
     private capacity_!: number;
 
     /* =========================================================
@@ -136,6 +130,7 @@ export class Deque<T>
      * @inheritDoc
      */
     public assign(n: number, val: T): void;
+
     /**
      * @inheritDoc
      */
@@ -408,9 +403,6 @@ export class Deque<T>
         this.size_--;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected _Pop_back(): void
     {
         // ERASE LAST ELEMENT
@@ -625,6 +617,9 @@ export class Deque<T>
     }
 }
 
+/**
+ * 
+ */
 export namespace Deque
 {
     //----

@@ -13,9 +13,9 @@ import { SetContainer } from "../../../base/container/SetContainer";
 /**
  * Doubly Linked List storing set elements.
  * 
- * @type Key Key type
- * @type Unique Whether duplicated key is blocked or not
- * @type Source Source container type
+ * @template Key Key type
+ * @template Unique Whether duplicated key is blocked or not
+ * @template Source Source container type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -77,14 +77,17 @@ export class SetElementList<Key,
     }
 }
 
+/**
+ * 
+ */
 export namespace SetElementList
 {
     /**
      * Iterator of set container storing elements in a list.
      * 
-     * @type Key Key type
-     * @type Unique Whether duplicated key is blocked or not
-     * @type Source Source container type
+     * @template Key Key type
+     * @template Unique Whether duplicated key is blocked or not
+     * @template Source Source container type
      * 
      * @author Jeongho Nam - https://github.com/samchon
      */
@@ -167,9 +170,9 @@ export namespace SetElementList
     /**
      * Reverser iterator of set container storing elements in a list.
      * 
-     * @type Key Key type
-     * @type Unique Whether duplicated key is blocked or not
-     * @type Source Source container type
+     * @template Key Key type
+     * @template Unique Whether duplicated key is blocked or not
+     * @template Source Source container type
      * 
      * @author Jeongho Nam - https://github.com/samchon
      */

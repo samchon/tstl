@@ -156,6 +156,9 @@ export class TreeMap<Key, T>
     }
 }
 
+/**
+ * 
+ */
 export namespace TreeMap
 {
     // HEAD

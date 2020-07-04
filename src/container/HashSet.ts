@@ -339,6 +339,9 @@ export class HashSet<Key>
     }
 }
 
+/**
+ * 
+ */
 export namespace HashSet
 {
     // HEAD

@@ -1,7 +1,7 @@
 //================================================================ 
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 /**
@@ -20,7 +20,7 @@ export interface IPointer<T>
 export namespace IPointer
 {
     /**
-     * Inference of Value Type.
+     * Inference of value type.
      */
     export type ValueType<Pointer extends IPointer<any>> = 
         Pointer extends IPointer<infer T>

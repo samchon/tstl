@@ -15,10 +15,10 @@ import { Entry } from "../../../utility/Entry";
 /**
  * Vector storing map elements.
  * 
- * @type Key Key type
- * @type T Mapped type
- * @type Unique Whether duplicated key is blocked or not
- * @type Source Source type
+ * @template Key Key type
+ * @template T Mapped type
+ * @template Unique Whether duplicated key is blocked or not
+ * @template Source Source type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -77,15 +77,18 @@ export class MapElementVector<Key, T,
     }
 }
 
+/**
+ * 
+ */
 export namespace MapElementVector
 {
     /**
      * Iterator of map container storing elements in a vector.
      * 
-     * @type Key Key type
-     * @type T Mapped type
-     * @type Unique Whether duplicated key is blocked or not
-     * @type Source Source container type
+     * @template Key Key type
+     * @template T Mapped type
+     * @template Unique Whether duplicated key is blocked or not
+     * @template Source Source container type
      * 
      * @author Jeongho Nam - https://github.com/samchon
      */
@@ -158,10 +161,10 @@ export namespace MapElementVector
     /**
      * Reverse iterator of map container storing elements in a vector.
      * 
-     * @type Key Key type
-     * @type T Mapped type
-     * @type Unique Whether duplicated key is blocked or not
-     * @type Source Source container type
+     * @template Key Key type
+     * @template T Mapped type
+     * @template Unique Whether duplicated key is blocked or not
+     * @template Source Source container type
      * 
      * @author Jeongho Nam - https://github.com/samchon
      */

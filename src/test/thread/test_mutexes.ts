@@ -20,7 +20,7 @@ export async function test_mutexes(): Promise<void>
 --------------------------------------------------------- */
 export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.constructor.name): Promise<void>
 {
-    let start_time: number = new Date().getTime();
+    let start_time: number = Date.now();
 
     // LOCK FOR A SECOND
     mtx.lock();
@@ -31,7 +31,7 @@ export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.con
 
     // TRY LOCK AGAIN
     await mtx.lock();
-    let elapsed_time: number = new Date().getTime() - start_time;
+    let elapsed_time: number = Date.now() - start_time;
     await mtx.unlock();
 
     if (elapsed_time < SLEEP_TIME * .95)
@@ -41,7 +41,7 @@ export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.con
  export async function _Test_try_lock(mtx: ITimedLockable, name: string = mtx.constructor.name): Promise<void>
 {
     await _Test_lock(mtx, name);
-    let start_time: number = new Date().getTime();
+    let start_time: number = Date.now();
 
     // DO LOCK
     let ret: boolean = await mtx.try_lock_for(SLEEP_TIME);
@@ -50,7 +50,7 @@ export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.con
 
     // TRY LOCK AGAIN
     ret = await mtx.try_lock_for(SLEEP_TIME);
-    let elapsed_time: number = new Date().getTime() - start_time;
+    let elapsed_time: number = Date.now() - start_time;
 
     if (ret === true)
         throw new Error(`Bug on ${name}.try_lock_for(): it does not return exact value`);
@@ -84,7 +84,7 @@ async function _Test_lock_shared(mtx: std.base.ILockable & ISharedLockable): Pro
     //----
     // READ FIRST, WRITE LATER
     //----
-    let start_time: number = new Date().getTime();
+    let start_time: number = Date.now();
     std.sleep_for(SLEEP_TIME).then(() =>
     {
         // SLEEP FOR A SECOND AND UNLOCK ALL READINGS
@@ -96,14 +96,14 @@ async function _Test_lock_shared(mtx: std.base.ILockable & ISharedLockable): Pro
     await mtx.lock();
 
     // VALIDATE ELAPSED TIME
-    let elapsed_time: number = new Date().getTime() - start_time;
+    let elapsed_time: number = Date.now() - start_time;
     if (elapsed_time < SLEEP_TIME * .95)
         throw new Error(`Bug on ${mtx.constructor.name}.lock(): it does not block writing while reading.`);
 
     //----
     // WRITE FIRST, READ LATER
     //----
-    start_time = new Date().getTime();
+    start_time = Date.now();
     std.sleep_for(SLEEP_TIME).then(() => 
     {
         // SLEEP FOR A SECOND AND UNLOCK WRITINGS
@@ -113,7 +113,7 @@ async function _Test_lock_shared(mtx: std.base.ILockable & ISharedLockable): Pro
         await mtx.lock_shared();
 
     // VALIDATE ELAPSED TIME
-    elapsed_time = new Date().getTime() - start_time;
+    elapsed_time = Date.now() - start_time;
     if (elapsed_time < SLEEP_TIME * .95)
         throw new Error(`Bug on ${mtx.constructor.name}.lock_shared(): it does not block reading while writing.`);
 
@@ -135,7 +135,7 @@ async function _Test_try_lock_shared(mtx: ITimedLockable & ISharedTimedLockable)
     //----
     // READ SIMULTANEOUSLY
     //----
-    start_time = new Date().getTime();
+    start_time = Date.now();
 
     // READ LOCK; 10 TIMES
     for (let i: number = 0; i < READ_COUNT; ++i)
@@ -146,7 +146,7 @@ async function _Test_try_lock_shared(mtx: ITimedLockable & ISharedTimedLockable)
     }
 
     // VALIDATE ELAPSED TIME
-    elapsed_time = new Date().getTime() - start_time;
+    elapsed_time = Date.now() - start_time;
     if (elapsed_time >= SLEEP_TIME)
         throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not support simultaneous lock.`);
 
@@ -154,9 +154,9 @@ async function _Test_try_lock_shared(mtx: ITimedLockable & ISharedTimedLockable)
     // WRITE LOCK
     //----
     // TRY WRITE LOCK ON READING
-    start_time = new Date().getTime();
+    start_time = Date.now();
     flag = await mtx.try_lock_for(SLEEP_TIME);
-    elapsed_time = new Date().getTime() - start_time;
+    elapsed_time = Date.now() - start_time;
 
     if (flag === true)
         throw new Error(`Bug on ${mtx.constructor.name}.try_lock_for(): it does not return exact value while reading.`);
@@ -169,9 +169,9 @@ async function _Test_try_lock_shared(mtx: ITimedLockable & ISharedTimedLockable)
         for (let i: number = 0; i < READ_COUNT; ++i)
             mtx.unlock_shared();
     });
-    start_time = new Date().getTime();
+    start_time = Date.now();
     flag = await mtx.try_lock_for(SLEEP_TIME);
-    elapsed_time = new Date().getTime() - start_time;
+    elapsed_time = Date.now() - start_time;
 
     if (flag === false)
         throw new Error(`Bug on ${mtx.constructor.name}.try_lock_for(): it does not return exact value while reading.`);
@@ -182,20 +182,20 @@ async function _Test_try_lock_shared(mtx: ITimedLockable & ISharedTimedLockable)
     // READ LOCK
     //----
     // READ LOCK ON WRITING
-    start_time = new Date().getTime();
+    start_time = Date.now();
     for (let i: number = 0; i < READ_COUNT; ++i)
     {
         flag = await mtx.try_lock_shared_for(SLEEP_TIME);
         if (flag === true)
             throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not return exact value while writing.`);
     }
-    elapsed_time = new Date().getTime() - start_time;
+    elapsed_time = Date.now() - start_time;
 
     if (elapsed_time < SLEEP_TIME * READ_COUNT * .95)
         throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not work in exact time.`);
     
     // READ LOCK AFTER WRITING
-    start_time = new Date().getTime();
+    start_time = Date.now();
     std.sleep_for(SLEEP_TIME).then(() =>
     {
         mtx.unlock();
@@ -207,7 +207,7 @@ async function _Test_try_lock_shared(mtx: ITimedLockable & ISharedTimedLockable)
         if (flag === false)
             throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not return exact value after writing.`);
     }
-    elapsed_time = new Date().getTime() - start_time;
+    elapsed_time = Date.now() - start_time;
 
     if (elapsed_time < SLEEP_TIME * .95 || elapsed_time >= SLEEP_TIME * 5.0)
         throw new Error(`Bug on ${mtx.constructor.name}.try_lock_shared_for(): it does not work in exact time.`);

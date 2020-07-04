@@ -1,13 +1,20 @@
 //================================================================ 
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { ISharedLockable } from "../base/thread/ISharedLockable";
 import { ISharedTimedLockable } from "../base/thread/ISharedTimedLockable";
 
 import { SafeLock } from "../internal/thread/SafeLock";
+
+/**
+ * 
+ */
+export class SharedLock
+{
+}
 
 /**
  * Shared mutex wrapper for the safe read lock.

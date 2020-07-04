@@ -10,6 +10,13 @@ import { ITimedLockable } from "../base/thread/ITimedLockable";
 import { SafeLock } from "../internal/thread/SafeLock";
 
 /**
+ * 
+ */
+export class UniqueLock
+{
+}
+
+/**
  * Mutex wrapper for the safe write lock.
  * 
  * The module {@link UniqueLock} is a collection of general purpose functions wrapping mutex for 
@@ -170,5 +177,8 @@ export namespace UniqueLock
         );
     }
 
+    /**
+     * Type of closure function defining your business logic.
+     */
     type Closure = () => void | Promise<void>;
 }

@@ -13,10 +13,10 @@ import { ErrorGenerator } from "../../internal/exception/ErrorGenerator";
 /**
  * Basic set container blocking duplicated key.
  * 
- * @type Key Key type
- * @type Source Derived type extending this {@link UniqueSet}
- * @type IteratorT Iterator type
- * @type ReverseT Reverse iterator type
+ * @template Key Key type
+ * @template Source Derived type extending this {@link UniqueSet}
+ * @template IteratorT Iterator type
+ * @template ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -155,6 +155,9 @@ export abstract class UniqueSet<Key,
     }
 }
 
+/**
+ * 
+ */
 export namespace UniqueSet
 {
     /**

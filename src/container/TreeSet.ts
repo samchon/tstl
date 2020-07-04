@@ -152,6 +152,9 @@ export class TreeSet<Key>
     }
 }
 
+/**
+ * 
+ */
 export namespace TreeSet
 {
     // HEAD

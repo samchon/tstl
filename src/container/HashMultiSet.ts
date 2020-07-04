@@ -361,6 +361,9 @@ export class HashMultiSet<Key>
     }
 }
 
+/**
+ * 
+ */
 export namespace HashMultiSet
 {
     // HEAD

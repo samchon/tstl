@@ -5,6 +5,7 @@
  */
 //================================================================
 import { List } from "../container/List";
+import { InvalidArgument } from "../exception/InvalidArgument";
 import { OutOfRange } from "../exception/OutOfRange";
 
 import { ITimedLockable } from "../base/thread/ITimedLockable";
@@ -39,7 +40,9 @@ export class Semaphore<Max extends number = number>
     }
 
     /**
-     * Number of maximum sections acquirable.
+     * Get number of maximum sections lockable.
+     * 
+     * @return Number of maximum sections lockable.
      */
     public max(): Max
     {
@@ -47,13 +50,13 @@ export class Semaphore<Max extends number = number>
     }
 
     /* ---------------------------------------------------------
-        ACQURE & RELEASE
+        ACQUIRANCES
     --------------------------------------------------------- */
     /**
 	 * Acquires a section.
      * 
      * Acquires a section until be {@link release released}. If all of the sections in the 
-     * smeaphore already have been acquired by others, the function call would be blocked until 
+     * semaphore already have been acquired by others, the function call would be blocked until 
      * one of them returns its acquisition by calling the {@link release} method.
      * 
      * In same reason, if you don't call the {@link release} function after you business, the 
@@ -75,7 +78,7 @@ export class Semaphore<Max extends number = number>
             {
                 this.queue_.push_back({
                     handler: resolve,
-                    type: LockType.HOLD
+                    lockType: LockType.HOLD
                 });
             }
         });
@@ -111,87 +114,6 @@ export class Semaphore<Max extends number = number>
     }
 
     /**
-     * Release sections.
-     * 
-     * When you call this {@link release} method and there're someone who are currently blocked 
-     * by attemping to {@link acquire} a section from this semaphore, *n* of them 
-     * (FIFO; first-in-first-out) would {@link acquire} those {@link release released} sections 
-     * and continue their executions.
-     * 
-     * Otherwise, there's not anyone who is {@link acquire acquiring} the section or number of 
-     * the blocked are less than *n*, the {@link OutOfRange} error would be thrown.
-     * 
-     * > As you know, when you succeeded to {@link acquire} a section, you don't have to forget 
-     * > to calling this {@link release} method after your business. If you forget it, it would 
-     * > be a terrible situation for the others who're attempting to {@link acquire} a section 
-     * > from this semaphore.
-     * > 
-     * > However, if you utilize the {@link UniqueLock} with {@link Semaphore.get_lockable}, you 
-     * > don't need to consider about this {@link release} method. Just define your business into 
-     * > a callback function as a parameter of methods of the {@link UniqueLock}, then this 
-     * > {@link release} method would be automatically called by the {@link UniqueLock} after the 
-     * > business.
-     * 
-     * @param n Number of sections to be released. Default is 1.
-     * @throw {@link OutOfRange} when *n* is greater than currently {@link acquire acquired} sections.
-     */
-    public async release(n: number = 1): Promise<void>
-    {
-        // VALIDATE COUNT
-        if (n < 1)
-            throw new OutOfRange(`Bug on std.Semaphore.release(): parametric n is less than 1 -> (n = ${n}).`);
-        else if (n > this.max_)
-            throw new OutOfRange(`Bug on std.Semaphore.release(): parametric n is greater than max -> (n = ${n}, max = ${this.max_}).`);
-        else if (n > this.acquiring_)
-            throw new OutOfRange(`Bug on std.Semaphore.release(): parametric n is greater than acquiring -> (n = ${n}, acquiring = ${this.acquiring_}).`);
-
-        // DO RELEASE
-        this.acquiring_ -= n;
-        this._Release(n);
-    }
-
-    private _Release(n: number): void
-    {
-        for (let it = this.queue_.begin(); !it.equals(this.queue_.end()); it = it.next())
-        {
-            // DO RESOLVE
-            this.queue_.erase(it);
-            if (it.value.type === LockType.HOLD)
-                it.value.handler!();
-            else
-            {
-                it.value.handler!(true);
-                it.value.handler = null;
-            }
-
-            // BREAK CONDITION
-            if (++this.acquiring_ >= this.max_ || --n === 0)
-                break;
-        }
-    }
-
-    private _Cancel(it: List.Iterator<IResolver>): void
-    {
-        // POP THE LISTENER
-        --this.acquiring_;
-        this.queue_.erase(it);
-
-        let handler: Function = it.value.handler!;
-        it.value.handler = null;
-
-        // RELEASE IF LASTEST RESOLVER
-        let prev: List.Iterator<IResolver> = it.prev();
-        if (prev.equals(this.queue_.end()) === false && prev.value.handler !== null)
-            this._Release(1);
-        
-        // RETURNS FAILURE
-        handler(false);
-    }
-
-    /* ---------------------------------------------------------
-        TIMED ACQUIRE
-    --------------------------------------------------------- */
-    /**
      * Tries to acquire a section until timeout.
      * 
      * Attempts to acquire a section from the semaphore until timeout. If succeeded to acquire a 
@@ -216,15 +138,18 @@ export class Semaphore<Max extends number = number>
     {
         return new Promise<boolean>(resolve =>
         {
-            if (this.acquiring_++ < this.max_)
+            if (this.acquiring_ < this.max_)
+            {
+                ++this.acquiring_;
                 resolve(true);
+            }
             else
             {
                 // RESERVE ACQUIRE
                 let it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(), 
                 {
                     handler: resolve,
-                    type: LockType.KNOCK
+                    lockType: LockType.KNOCK
                 });
 
                 // AUTOMATIC RELEASE AFTER TIMEOUT
@@ -267,8 +192,91 @@ export class Semaphore<Max extends number = number>
 
         return this.try_acquire_for(ms);
     }
+
+    /* ---------------------------------------------------------
+        RELEASES
+    --------------------------------------------------------- */
+    /**
+     * Release sections.
+     * 
+     * When you call this {@link release} method and there're someone who are currently blocked 
+     * by attemping to {@link acquire} a section from this semaphore, *n* of them 
+     * (FIFO; first-in-first-out) would {@link acquire} those {@link release released} sections 
+     * and continue their executions.
+     * 
+     * Otherwise, there's not anyone who is {@link acquire acquiring} the section or number of 
+     * the blocked are less than *n*, the {@link OutOfRange} error would be thrown.
+     * 
+     * > As you know, when you succeeded to {@link acquire} a section, you don't have to forget 
+     * > to calling this {@link release} method after your business. If you forget it, it would 
+     * > be a terrible situation for the others who're attempting to {@link acquire} a section 
+     * > from this semaphore.
+     * > 
+     * > However, if you utilize the {@link UniqueLock} with {@link Semaphore.get_lockable}, you 
+     * > don't need to consider about this {@link release} method. Just define your business into 
+     * > a callback function as a parameter of methods of the {@link UniqueLock}, then this 
+     * > {@link release} method would be automatically called by the {@link UniqueLock} after the 
+     * > business.
+     * 
+     * @param n Number of sections to be released. Default is 1.
+     * @throw {@link OutOfRange} when *n* is greater than currently {@link acquire acquired} sections.
+     */
+    public async release(n: number = 1): Promise<void>
+    {
+        //----
+        // VALIDATION
+        //----
+        if (n < 1)
+            throw new InvalidArgument(`Error on std.Semaphore.release(): parametric n is less than 1 -> (n = ${n}).`);
+        else if (n > this.max_)
+            throw new OutOfRange(`Error on std.Semaphore.release(): parametric n is greater than max -> (n = ${n}, max = ${this.max_}).`);
+        else if (n > this.acquiring_)
+            throw new OutOfRange(`Error on std.Semaphore.release(): parametric n is greater than acquiring -> (n = ${n}, acquiring = ${this.acquiring_}).`);
+
+        //----
+        // RELEASE
+        //----
+        let resolverList: IResolver[] = [];
+        while (this.queue_.empty() === false && resolverList.length < n)
+        {
+            // COPY IF HANDLER EXISTS
+            let resolver: IResolver = this.queue_.front();
+            if (resolver.handler !== null)
+                resolverList.push({ ...resolver });
+
+            // DESTRUCT
+            this.queue_.pop_front();
+            resolver.handler = null;
+        }
+
+        // COMPUTE REMAINED ACQUIRANCES
+        this.acquiring_ -= (n - resolverList.length);
+
+        // CALL HANDLERS
+        for (let resolver of resolverList)
+            if (resolver.lockType === LockType.HOLD)
+                resolver.handler!();
+            else
+                resolver.handler!(true);
+    }
+
+    private _Cancel(it: List.Iterator<IResolver>): void
+    {
+        // POP THE LISTENER
+        let handler: Function = it.value.handler!;
+
+        // DESTRUCTION
+        it.value.handler = null;
+        this.queue_.erase(it);
+        
+        // RETURNS FAILURE
+        handler(false);
+    }
 }
 
+/**
+ * 
+ */
 export namespace Semaphore
 {
     /**
@@ -286,7 +294,7 @@ export namespace Semaphore
     /**
      * @internal
      */
-    export class Lockable <SemaphoreT extends Pick<Semaphore, "acquire"|"try_acquire"|"try_acquire_for"|"try_acquire_until"|"release">>
+    export class Lockable<SemaphoreT extends Pick<Semaphore, "acquire"|"try_acquire"|"try_acquire_for"|"try_acquire_until"|"release">>
         implements ITimedLockable
     {
         private semahpore_: SemaphoreT;
@@ -322,5 +330,5 @@ export namespace Semaphore
 interface IResolver
 {
     handler: Function | null;
-    type: LockType;
+    lockType: LockType;
 }

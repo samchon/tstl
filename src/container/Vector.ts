@@ -123,6 +123,9 @@ export class Vector<T>
     }
 }
 
+/**
+ * 
+ */
 export namespace Vector
 {
     // HEAD

@@ -17,11 +17,11 @@ import { Temporary } from "../../functional/Temporary";
 /**
  * Basic tree map blocking duplicated key.
  * 
- * @type Key Key type
- * @type T Mapped type
- * @type Source Derived type extending this {@link UniqueTreeMap}
- * @type IteratorT Iterator type
- * @type ReverseT Reverse iterator type
+ * @template Key Key type
+ * @template T Mapped type
+ * @template Source Derived type extending this {@link UniqueTreeMap}
+ * @template IteratorT Iterator type
+ * @template ReverseT Reverse iterator type
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
