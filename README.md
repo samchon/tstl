@@ -135,4 +135,4 @@ main();
   - **Extensions**
     - [ECol](https://github.com/samchon/ecol) - Collections dispatching events
     - [**TGrid**](https://github.com/samchon/tgrid) - Network & Thread extension
-    - [Mutex-Server](https://github.com/samchon/mutex) - Critical sections in the network level
+    - [Mutex-Server](https://github.com/samchon/mutex-server) - Critical sections in the network level
