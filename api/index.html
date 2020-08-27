@@ -81,7 +81,7 @@
 					<li>Algorithms</li>
 					<li>Functors</li>
 				</ul>
-				<p><strong>TSTL</strong> is an open-source project providing features of STL, migrated from <em>C++</em> to <em>TypeScript</em>. You can enjoy the STL&#39;s own specific <em>containers</em>, <em>algorithms</em> and <em>functors</em> in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.</p>
+				<p><strong>TSTL</strong> is an open-source project providing features of STL, migrated from <em>C++</em> to <em>TypeScript*. You can enjoy the STL&#39;s own specific *containers</em>, <em>algorithms</em> and <em>functors</em> in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.</p>
 				<p>Below components are list of provided objects in the <strong>TSTL</strong>. If you want to know more about the <strong>TSTL</strong>, then please read the <a href="https://github.com/samchon/tstl/wiki"><strong>Guide Documents</strong></a>.</p>
 				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 					<h2>Features</h2>
@@ -197,17 +197,17 @@ npm install --save tstl</code></pre>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h3>Usage</h3>
 				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> std = <span class="hljs-built_in">require</span>(<span class="hljs-string">"tstl"</span>);
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> std = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;tstl&quot;</span>);
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
 </span>{
     <span class="hljs-keyword">let</span> map: std.TreeMap&lt;<span class="hljs-built_in">number</span>, <span class="hljs-built_in">string</span>&gt; = <span class="hljs-keyword">new</span> std.TreeMap();
 
     <span class="hljs-comment">// INSERT ITEMS</span>
-    map.insert(std.make_pair(<span class="hljs-number">1</span>, <span class="hljs-string">"First"</span>)); <span class="hljs-comment">// Via tuple</span>
-    map.emplace(<span class="hljs-number">4</span>, <span class="hljs-string">"Fourth"</span>); <span class="hljs-comment">// C++11 Feature</span>
-    map.insert_or_assign(<span class="hljs-number">5</span>, <span class="hljs-string">"Fifth"</span>); <span class="hljs-comment">// C++17 Feature</span>
-    map.set(<span class="hljs-number">9</span>, <span class="hljs-string">"Nineth"</span>); <span class="hljs-comment">// Instead of the operetor[](Key)</span>
+    map.insert(std.make_pair(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;First&quot;</span>)); <span class="hljs-comment">// Via tuple</span>
+    map.emplace(<span class="hljs-number">4</span>, <span class="hljs-string">&quot;Fourth&quot;</span>); <span class="hljs-comment">// C++11 Feature</span>
+    map.insert_or_assign(<span class="hljs-number">5</span>, <span class="hljs-string">&quot;Fifth&quot;</span>); <span class="hljs-comment">// C++17 Feature</span>
+    map.set(<span class="hljs-number">9</span>, <span class="hljs-string">&quot;Nineth&quot;</span>); <span class="hljs-comment">// Instead of the operetor[](Key)</span>
 
     <span class="hljs-comment">// ITERATION</span>
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> it = map.begin(); !it.equals(map.end()); it = it.next())
@@ -264,16 +264,16 @@ main();</code></pre>
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
 	</div>
@@ -283,6 +283,5 @@ main();</code></pre>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

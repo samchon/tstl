@@ -74,7 +74,14 @@
 					<div class="lead">
 						<p>Latch for critical sections.</p>
 					</div>
-					<p>The Latch class blocks critical sections until the downward counter to be zero.</p>
+					<p>The <code>Latch</code> class blocks critical sections until the downward counter to be zero. Howver,
+						unlike <a href="std.barrier.html">Barrier</a> who can reusable that downward counter be reset whenever reach to the
+					zero, downward of the <code>Latch</code> is not reusable but diposable.</p>
+					<dl class="tsd-comment-tags">
+						<dt>author</dt>
+						<dd><p>Jeongho Nam - <a href="https://github.com/samchon">https://github.com/samchon</a></p>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -95,6 +102,17 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="std.latch.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.latch.html#arrive_and_wait" class="tsd-kind-icon">arrive_<wbr>and_<wbr>wait</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.latch.html#count_down" class="tsd-kind-icon">count_<wbr>down</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.latch.html#try_wait" class="tsd-kind-icon">try_<wbr>wait</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.latch.html#wait" class="tsd-kind-icon">wait</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.latch.html#wait_for" class="tsd-kind-icon">wait_<wbr>for</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.latch.html#wait_until" class="tsd-kind-icon">wait_<wbr>until</a></li>
+							</ul>
+						</section>
 					</div>
 				</section>
 			</section>
@@ -110,7 +128,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Latch.ts#L17">thread/Latch.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Latch.ts#L21">thread/Latch.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -130,6 +148,203 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="std.latch.html" class="tsd-signature-type">Latch</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="arrive_and_wait" class="tsd-anchor"></a>
+					<h3>arrive_<wbr>and_<wbr>wait</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">arrive_<wbr>and_<wbr>wait<span class="tsd-signature-symbol">(</span>n<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Latch.ts#L146">thread/Latch.ts:146</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decrements the counter and waits until the counter to be zero.</p>
+								</div>
+								<p>Decrements the counter by <em>n</em> and blocks the section until internal counter to be zero.</p>
+								<p>If the parametric value <em>n</em> is equal to or greater than internal counter, so that the
+									internal counter be equal to or less than zero, everyone who are <a href="std.latch.html#wait">waiting</a> for
+								the <a href="std.latch.html">Latch</a> would continue their execution including this one.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> n: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Value of the decrement. Default is 1.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="count_down" class="tsd-anchor"></a>
+					<h3>count_<wbr>down</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">count_<wbr>down<span class="tsd-signature-symbol">(</span>n<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Latch.ts#L128">thread/Latch.ts:128</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Derecements the counter.</p>
+								</div>
+								<p>Decrements the counter by <em>n</em> without blocking.</p>
+								<p>If the parametric value <em>n</em> is equal to or greater than internal counter, so that the
+									internal counter be equal to or less than zero, everyone who are <a href="std.latch.html#wait">waiting</a> for
+								the <a href="std.latch.html">Latch</a> would continue their execution.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> n: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Value of the decrement. Default is 1.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="try_wait" class="tsd-anchor"></a>
+					<h3>try_<wbr>wait</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">try_<wbr>wait<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Latch.ts#L62">thread/Latch.ts:62</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Test whether the counter has been reached to the zero.</p>
+								</div>
+								<p>The <a href="std.latch.html#try_wait">try_wait</a> function tests whether the internal counter has been reached to the
+								zero.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether reached to zero or not.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="wait" class="tsd-anchor"></a>
+					<h3>wait</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">wait<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Latch.ts#L48">thread/Latch.ts:48</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Waits until the counter to be zero.</p>
+								</div>
+								<p>Blocks the function calling until internal counter to be reached to the zero.</p>
+								<p>If the <a href="std.latch.html">Latch</a> already has been reached to the zero, it would be returned
+								immediately.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="wait_for" class="tsd-anchor"></a>
+					<h3>wait_<wbr>for</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">wait_<wbr>for<span class="tsd-signature-symbol">(</span>ms<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Latch.ts#L80">thread/Latch.ts:80</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tries to wait until the counter to be zero in timeout.</p>
+								</div>
+								<p>Attempts to block the function calling until internal counter to be reached to the zero
+									in timeout. If succeeded to waiting the counter to be reached to the zero, it returns
+									<code>true</code>. Otherwise, the <a href="std.latch.html">Latch</a> fails to reach to the zero in the given time, the
+								function gives up the waiting and returns <code>false</code>.</p>
+								<p>If the <a href="std.latch.html">Latch</a> already has been reached to the zero, it would return <code>true</code> directly.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ms: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The maximum miliseconds for waiting.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to waiting in the given time.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="wait_until" class="tsd-anchor"></a>
+					<h3>wait_<wbr>until</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">wait_<wbr>until<span class="tsd-signature-symbol">(</span>at<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Latch.ts#L101">thread/Latch.ts:101</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tries to wait until the counter to be zero in time expiration.</p>
+								</div>
+								<p>Attempts to block the function calling until internal counter to be reached to the zero
+									in time expiration. If succeeded to waiting the counter to be reached to the zero, it
+									returns <code>true</code>. Otherwise, the <a href="std.latch.html">Latch</a> fails to reach to the zero in the given time,
+								the function gives up the waiting and returns <code>false</code>.</p>
+								<p>If the <a href="std.latch.html">Latch</a> already has been reached to the zero, it would return <code>true</code> directly.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>at: <span class="tsd-signature-type">Date</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The maximum time point to wait.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to waiting in the given time.</p>
 						</li>
 					</ul>
 				</section>
@@ -156,6 +371,24 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="std.latch.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="std.latch.html#arrive_and_wait" class="tsd-kind-icon">arrive_<wbr>and_<wbr>wait</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="std.latch.html#count_down" class="tsd-kind-icon">count_<wbr>down</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="std.latch.html#try_wait" class="tsd-kind-icon">try_<wbr>wait</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="std.latch.html#wait" class="tsd-kind-icon">wait</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="std.latch.html#wait_for" class="tsd-kind-icon">wait_<wbr>for</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="std.latch.html#wait_until" class="tsd-kind-icon">wait_<wbr>until</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -173,13 +406,14 @@
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
@@ -190,6 +424,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

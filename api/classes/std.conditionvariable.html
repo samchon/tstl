@@ -74,6 +74,7 @@
 					<div class="lead">
 						<p>Condition variable.</p>
 					</div>
+					<p>The <code>ConditionVariable</code> class blocks critical sections until be notified.</p>
 					<dl class="tsd-comment-tags">
 						<dt>author</dt>
 						<dd><p>Jeongho Nam - <a href="https://github.com/samchon">https://github.com/samchon</a></p>
@@ -94,6 +95,12 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-class tsd-is-static"><a href="std.conditionvariable.html#predicator" class="tsd-kind-icon">Predicator</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="std.conditionvariable.html#constructor" class="tsd-kind-icon">constructor</a></li>
@@ -113,6 +120,39 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
+					<a name="predicator" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> Predicator</h3>
+					<div class="tsd-signature tsd-kind-icon">Predicator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L225">thread/ConditionVariable.ts:225</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Type of predicator function who determines the completion.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
 					<a name="constructor" class="tsd-anchor"></a>
@@ -124,7 +164,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L18">thread/ConditionVariable.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L21">thread/ConditionVariable.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -149,12 +189,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L57">thread/ConditionVariable.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L198">thread/ConditionVariable.ts:198</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Notify, wake all</p>
+									<p>Notify, wake all up.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -171,12 +211,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L37">thread/ConditionVariable.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L178">thread/ConditionVariable.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Notify, wake one.</p>
+									<p>Notify, wake only one up.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -188,13 +228,13 @@
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">wait<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">wait<span class="tsd-signature-symbol">(</span>predicator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Predicator</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait<span class="tsd-signature-symbol">(</span>predicator<span class="tsd-signature-symbol">: </span><a href="std.conditionvariable.html#predicator" class="tsd-signature-type">Predicator</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L81">thread/ConditionVariable.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L40">thread/ConditionVariable.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -207,7 +247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L95">thread/ConditionVariable.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L54">thread/ConditionVariable.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -216,12 +256,12 @@
 								</div>
 								<p>This method is equivalent to:</p>
 								<pre><code class="language-typescript"><span class="hljs-keyword">while</span> (!<span class="hljs-keyword">await</span> predicator())
-<span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.wait();</code></pre>
+<span class="hljs-keyword">await</span> <span class="hljs-built_in">this</span>.wait();</code></pre>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>predicator: <span class="tsd-signature-type">Predicator</span></h5>
+									<h5>predicator: <a href="std.conditionvariable.html#predicator" class="tsd-signature-type">Predicator</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>A predicator function determines completion.</p>
 									</div>
@@ -236,13 +276,13 @@
 					<h3>wait_<wbr>for</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">wait_<wbr>for<span class="tsd-signature-symbol">(</span>ms<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">wait_<wbr>for<span class="tsd-signature-symbol">(</span>ms<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, predicator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Predicator</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait_<wbr>for<span class="tsd-signature-symbol">(</span>ms<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, predicator<span class="tsd-signature-symbol">: </span><a href="std.conditionvariable.html#predicator" class="tsd-signature-type">Predicator</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L112">thread/ConditionVariable.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L71">thread/ConditionVariable.ts:71</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -265,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L132">thread/ConditionVariable.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L91">thread/ConditionVariable.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -276,7 +316,7 @@
 								<pre><code class="language-typescript"><span class="hljs-keyword">let</span> at: <span class="hljs-built_in">Date</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-built_in">Date</span>.now() + ms);
 <span class="hljs-keyword">while</span> (!<span class="hljs-keyword">await</span> predicator())
 {
-<span class="hljs-keyword">if</span> (!<span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.wait_until(at))
+<span class="hljs-keyword">if</span> (!<span class="hljs-keyword">await</span> <span class="hljs-built_in">this</span>.wait_until(at))
 <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> predicator();
 }
 <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;</code></pre>
@@ -290,7 +330,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>predicator: <span class="tsd-signature-type">Predicator</span></h5>
+									<h5>predicator: <a href="std.conditionvariable.html#predicator" class="tsd-signature-type">Predicator</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>A predicator function determines the completion.</p>
 									</div>
@@ -306,13 +346,13 @@
 					<h3>wait_<wbr>until</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">wait_<wbr>until<span class="tsd-signature-symbol">(</span>at<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">wait_<wbr>until<span class="tsd-signature-symbol">(</span>at<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, predicator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Predicator</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait_<wbr>until<span class="tsd-signature-symbol">(</span>at<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, predicator<span class="tsd-signature-symbol">: </span><a href="std.conditionvariable.html#predicator" class="tsd-signature-type">Predicator</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L146">thread/ConditionVariable.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L105">thread/ConditionVariable.ts:105</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -335,7 +375,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/ConditionVariable.ts#L165">thread/ConditionVariable.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L124">thread/ConditionVariable.ts:124</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -345,7 +385,7 @@
 								<p>This method is equivalent to:</p>
 								<pre><code class="language-typescript"><span class="hljs-keyword">while</span> (!<span class="hljs-keyword">await</span> predicator())
 {
-<span class="hljs-keyword">if</span> (!<span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.wait_until(at))
+<span class="hljs-keyword">if</span> (!<span class="hljs-keyword">await</span> <span class="hljs-built_in">this</span>.wait_until(at))
 <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> predicator();
 }
 <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;</code></pre>
@@ -359,7 +399,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>predicator: <span class="tsd-signature-type">Predicator</span></h5>
+									<h5>predicator: <a href="std.conditionvariable.html#predicator" class="tsd-signature-type">Predicator</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>A predicator function determines the completion.</p>
 									</div>
@@ -390,6 +430,9 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="std.conditionvariable.html" class="tsd-kind-icon">Condition<wbr>Variable</a>
 						<ul>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
+								<a href="std.conditionvariable.html#predicator" class="tsd-kind-icon">Predicator</a>
+							</li>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="std.conditionvariable.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
@@ -428,11 +471,11 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
@@ -443,6 +486,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

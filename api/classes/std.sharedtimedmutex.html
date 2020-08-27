@@ -92,8 +92,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">ITimedLockable</span></li>
-					<li><span class="tsd-signature-type">ISharedTimedLockable</span></li>
+					<li><a href="../interfaces/std.base-1.isharedtimedlockable.html" class="tsd-signature-type">ISharedTimedLockable</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -129,15 +128,23 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#lock">lock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L66">thread/SharedTimedMutex.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L65">thread/SharedTimedMutex.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Write locks the mutex.</p>
+								</div>
+								<p>Monopolies a mutex until be <a href="std.sharedtimedmutex.html#unlock">unlocked</a>. If there&#39;re someone who have already
+									<a href="std.sharedtimedmutex.html#lock">monopolied</a> or <a href="std.sharedtimedmutex.html#lock_shared">shared</a> the mutex, the function call would
+									be blocked until all of them to return their acquistions by calling <a href="std.sharedtimedmutex.html#unlock">unlock</a> or
+								<a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> methods.</p>
+								<p>In same reason, if you don&#39;t call the <a href="std.sharedtimedmutex.html#unlock">unlock</a> function after your business, the
+									others who want to <a href="std.sharedtimedmutex.html#lock">monopoly</a> or <a href="std.sharedtimedmutex.html#lock_shared">share</a> the mutex would be
+									fall into the forever sleep. Therefore, never forget to calling the <a href="std.sharedtimedmutex.html#unlock">unlock</a> function
+								or utilize the <a href="std.uniquelock.html#lock">UniqueLock.lock</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -152,15 +159,22 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#lock_shared">lock_shared</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L168">thread/SharedTimedMutex.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L173">thread/SharedTimedMutex.ts:173</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Read locks the mutex.</p>
+								</div>
+								<p>Shares a mutex until be <a href="std.sharedtimedmutex.html#unlock_shared">unlocked</a>. If there&#39;re someone who have
+									already <a href="std.sharedtimedmutex.html#lock">monopolied</a> the mutex, the function call would be blocked until all of
+								them to <a href="std.sharedtimedmutex.html#unlock">return</a> their acquisitions.</p>
+								<p>In same reason, if you don&#39;t call the <a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> function after your business,
+									the others who want to <a href="std.sharedtimedmutex.html#lock">monopoly</a> the mutex would be fall into the forever
+									sleep. Therefore, never forget to calling the <a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> or utilize the
+								<a href="std.sharedlock.html#lock">SharedLock.lock</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -175,17 +189,27 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#try_lock">try_lock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L87">thread/SharedTimedMutex.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L88">thread/SharedTimedMutex.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Tries to write lock the mutex.</p>
+								</div>
+								<p>Attempts to monopoly a mutex without blocking. If succeeded to monopoly the mutex
+									immediately, it returns <code>true</code> directly. Otherwise there&#39;s someone who has already
+									<a href="std.sharedtimedmutex.html#lock">monopolied</a> or <a href="std.sharedtimedmutex.html#lock_shared">shared</a> the mutex, the function gives up the
+								trial immediately and returns <code>false</code> directly.</p>
+								<p>Note that, if you succeeded to monopoly the mutex (returns <code>true</code>) but do not call the
+									<a href="std.sharedtimedmutex.html#unlock">unlock</a> function after your business, the others who want to <a href="std.sharedtimedmutex.html#lock">monopoly</a>
+									or <a href="std.sharedtimedmutex.html#lock_shared">share</a> the mutex would be fall into the forever sleep. Therefore,
+									never forget to calling the <a href="std.sharedtimedmutex.html#unlock">unlock</a> function or utilize the
+								<a href="std.uniquelock.html#try_lock">UniqueLock.try_lock</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to monopoly the mutex or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -198,23 +222,38 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#try_lock_for">try_lock_for</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L104">thread/SharedTimedMutex.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L109">thread/SharedTimedMutex.ts:109</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Tries to write lock the mutex until timeout.</p>
+								</div>
+								<p>Attempts to monopoly a mutex until timeout. If succeeded to monopoly the mutex until the
+									timeout, it returns <code>true</code>. Otherwise failed to acquiring the lock in the given time, the
+								function gives up the trial and returns <code>false</code>.</p>
+								<p>Failed to acquiring the lock in the given time (returns <code>false</code>), it means that there&#39;s
+									someone who has already <a href="std.sharedtimedmutex.html#lock">monopolied</a> or <a href="std.sharedtimedmutex.html#lock_shared">shared</a> the mutex and
+								does not return it over the timeout.</p>
+								<p>Note that, if you succeeded to monopoly the mutex (returns <code>true</code>) but do not call the
+									<a href="std.sharedtimedmutex.html#unlock">unlock</a> function after your business, the others who want to <a href="std.sharedtimedmutex.html#lock">monopoly</a>
+									or <a href="std.sharedtimedmutex.html#lock_shared">share</a> the mutex would be fall into the forever sleep. Therefore,
+									never forget to calling the <a href="std.sharedtimedmutex.html#unlock">unlock</a> function or utilize the
+								<a href="std.uniquelock.html#try_lock_for">UniqueLock.try_lock_for</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ms: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The maximum miliseconds for waiting.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to monopoly the mutex or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -227,17 +266,26 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#try_lock_shared">try_lock_shared</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L190">thread/SharedTimedMutex.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L195">thread/SharedTimedMutex.ts:195</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Tries to read lock the mutex.</p>
+								</div>
+								<p>Attemps to share a mutex without blocking. If succeeded to share the mutex immediately, it
+									returns <code>true</code> directly. Otherwise there&#39;s someone who has already <a href="std.sharedtimedmutex.html#lock">monopolied</a>
+								the mutex, the function gives up the trial immediately and returns <code>false</code> directly.</p>
+								<p>Note that, if you succeeded to share the mutex (returns <code>true</code>) but do not call the
+									<a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> function after your buinsess, the others who want to
+									<a href="std.sharedtimedmutex.html#lock">monopoly</a> the mutex would be fall into the forever sleep. Therefore, never
+									forget to calling the <a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> function or utilize the
+								<a href="std.sharedlock.html#try_lock">SharedLock.try_lock</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to share the mutex or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -250,23 +298,38 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#try_lock_shared_for">try_lock_shared_for</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L207">thread/SharedTimedMutex.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L212">thread/SharedTimedMutex.ts:212</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Tries to read lock the mutex until timeout.</p>
+								</div>
+								<p>Attemps to share a mutex until timeout. If succeeded to share the mutex until timeout, it
+									returns <code>true</code>. Otherwise failed to acquiring the shared lock in the given time, the
+								function gives up the trial and returns <code>false</code>.</p>
+								<p>Failed to acquring the shared lock in the given time (returns <code>false</code>), it means that
+									there&#39;s someone who has already <a href="std.sharedtimedmutex.html#lock">monopolied</a> the mutex and does not return it
+								over the timeout.</p>
+								<p>Note that, if you succeeded to share the mutex (returns <code>true</code>) but do not call the
+									<a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> function after your buinsess, the others who want to
+									<a href="std.sharedtimedmutex.html#lock">monopoly</a> the mutex would be fall into the forever sleep. Therefore, never
+									forget to calling the <a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> function or utilize the
+								<a href="std.sharedlock.html#try_lock_for">SharedLock.try_lock_for</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>ms: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The maximum miliseconds for waiting.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to share the mutex or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -279,23 +342,38 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#try_lock_shared_until">try_lock_shared_until</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L244">thread/SharedTimedMutex.ts:244</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L248">thread/SharedTimedMutex.ts:248</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Tries to read lock the mutex until time expiration.</p>
+								</div>
+								<p>Attemps to share a mutex until time expiration. If succeeded to share the mutex until time
+									expiration, it returns <code>true</code>. Otherwise failed to acquiring the shared lock in the given
+								time, the function gives up the trial and returns <code>false</code>.</p>
+								<p>Failed to acquring the shared lock in the given time (returns <code>false</code>), it means that
+									there&#39;s someone who has already <a href="std.sharedtimedmutex.html#lock">monopolied</a> the mutex and does not return it
+								over the time expiration.</p>
+								<p>Note that, if you succeeded to share the mutex (returns <code>true</code>) but do not call the
+									<a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> function after your buinsess, the others who want to
+									<a href="std.sharedtimedmutex.html#lock">monopoly</a> the mutex would be fall into the forever sleep. Therefore, never
+									forget to calling the <a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> function or utilize the
+								<a href="std.sharedlock.html#try_lock_until">SharedLock.try_lock_until</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>at: <span class="tsd-signature-type">Date</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The maximum time point to wait.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to share the mutex or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -308,23 +386,38 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#try_lock_until">try_lock_until</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L139">thread/SharedTimedMutex.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L144">thread/SharedTimedMutex.ts:144</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Tries to write lock the mutex until time expiration.</p>
+								</div>
+								<p>Attemps to monopoly a mutex until time expiration. If succeeded to monopoly the mutex
+									until the time expiration, it returns <code>true</code>. Otherwise failed to acquiring the lock in the
+								given time, the function gives up the trial and returns <code>false</code>.</p>
+								<p>Failed to acquiring the lock in the given time (returns <code>false</code>), it means that there&#39;s
+									someone who has already <a href="std.sharedtimedmutex.html#lock">monopolied</a> or <a href="std.sharedtimedmutex.html#lock_shared">shared</a> the mutex and
+								does not return it over the time expiration.</p>
+								<p>Note that, if you succeeded to monopoly the mutex (returns <code>true</code>) but do not call the
+									<a href="std.sharedtimedmutex.html#unlock">unlock</a> function after your business, the others who want to <a href="std.sharedtimedmutex.html#lock">monopoly</a>
+									or <a href="std.sharedtimedmutex.html#lock_shared">share</a> the mutex would be fall into the forever sleep. Therefore,
+									never forget to calling the <a href="std.sharedtimedmutex.html#unlock">unlock</a> function or utilize the
+								<a href="std.uniquelock.html#try_lock_until">UniqueLock.try_lock_until</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>at: <span class="tsd-signature-type">Date</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The maximum time point to wait.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Whether succeeded to monopoly the mutex or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -337,14 +430,33 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#unlock">unlock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L151">thread/SharedTimedMutex.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L156">thread/SharedTimedMutex.ts:156</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Write unlocks the mutex.</p>
+								</div>
+								<p>When you call this <a href="std.sharedtimedmutex.html#unlock">unlock</a> method and there&#39;re someone who are currently blocked by
+									attempting to <a href="std.sharedtimedmutex.html#lock">write</a> or <a href="std.sharedtimedmutex.html#lock_shared">read</a> lock this mutex, one of them
+								(FIFO; first-in-first-out) would acquire the lock and continues its execution.</p>
+								<p>Otherwise, there&#39;s not anyone who is acquiring the <a href="std.sharedtimedmutex.html#lock">write lock</a> of this mutex,
+								the <a href="std.domainerror.html">DomainError</a> exception would be thrown.</p>
+								<blockquote>
+									<p>As you know, when you succeeded to acquire the <code>write lock</code>, you don&#39;t have to forget to
+										calling this <a href="std.sharedtimedmutex.html#unlock">unlock</a> method after your business. If you forget it, it would be a
+									terrible situation for the others who&#39;re attempting to lock this mutex.</p>
+									<p>However, if you utilize the <a href="std.uniquelock.html">UniqueLock</a>, you don&#39;t need to consider about this
+										<a href="std.sharedtimedmutex.html#unlock">unlock</a> method. Just define your business into a callback function as a parameter
+										of methods of the <a href="std.uniquelock.html">UniqueLock</a>, then this <a href="std.sharedtimedmutex.html#unlock">unlock</a> method would be
+									automatically called by the <a href="std.uniquelock.html">UniqueLock</a> after the business.</p>
+								</blockquote>
 								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
+									<dt>throw</dt>
+									<dd><p><a href="std.domainerror.html">DomainError</a> when no one is acquiring the <a href="std.sharedtimedmutex.html#lock">write lock</a>.</p>
+									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -360,15 +472,29 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/std.base-1.isharedtimedlockable.html">ISharedTimedLockable</a>.<a href="../interfaces/std.base-1.isharedtimedlockable.html#unlock_shared">unlock_shared</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/SharedTimedMutex.ts#L256">thread/SharedTimedMutex.ts:256</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedTimedMutex.ts#L260">thread/SharedTimedMutex.ts:260</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
-								</dl>
+								<div class="lead">
+									<p>Read unlocks the mutex.</p>
+								</div>
+								<p>When you call this <a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> method and there&#39;re someone who are currently
+									blocked by attempting to <a href="std.sharedtimedmutex.html#lock">monopoly</a> this mutex, one of them
+								(FIFO; first-in-first-out) would acquire the lock and continues its execution.</p>
+								<p>Otherwise, there&#39;s not anyone who is acquiring the <a href="std.sharedtimedmutex.html#lock_shared">read lock</a> of this
+								mutex, the <a href="std.domainerror.html">DomainError</a> exception would be thrown.</p>
+								<blockquote>
+									<p>As you know, when you succeeded to acquire the <code>read lock</code>, you don&#39;t have to forget to
+										calling this <a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> method after your business. If you forget it, it would
+									be a terrible situation for the others who&#39;re attempting to lock this mutex.</p>
+									<p>However, if you utilize the <a href="std.sharedlock.html">SharedLock</a>, you don&#39;t need to consider about this
+										<a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> method. Just define your business into a callback function as a
+										parameter of methods of the <a href="std.sharedlock.html">SharedLock</a>, then this <a href="std.sharedtimedmutex.html#unlock_shared">unlock_shared</a> method
+									would be automatically called by the <a href="std.sharedlock.html">SharedLock</a> after the business.</p>
+								</blockquote>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -438,16 +564,16 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
@@ -458,6 +584,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

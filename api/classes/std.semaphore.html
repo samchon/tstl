@@ -116,6 +116,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.semaphore.html#try_acquire" class="tsd-kind-icon">try_<wbr>acquire</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.semaphore.html#try_acquire_for" class="tsd-kind-icon">try_<wbr>acquire_<wbr>for</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="std.semaphore.html#try_acquire_until" class="tsd-kind-icon">try_<wbr>acquire_<wbr>until</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="std.semaphore.html#get_lockable" class="tsd-kind-icon">get_<wbr>lockable</a></li>
 							</ul>
 						</section>
 					</div>
@@ -133,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Semaphore.ts#L24">thread/Semaphore.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Semaphore.ts#L24">thread/Semaphore.ts:24</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -147,7 +148,7 @@
 									<h5>max: <span class="tsd-signature-type">Max</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Number of maximum sections lockable.</p>
+											<p>Number of maximum sections acquirable.</p>
 										</div>
 									</div>
 								</li>
@@ -169,13 +170,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Semaphore.ts#L60">thread/Semaphore.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Semaphore.ts#L68">thread/Semaphore.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Acquire a section until be released.</p>
+									<p>Acquires a section.</p>
 								</div>
+								<p>Acquires a section until be <a href="std.semaphore.html#release">released</a>. If all of the sections in the
+									semaphore already have been acquired by others, the function call would be blocked until
+								one of them returns its acquisition by calling the <a href="std.semaphore.html#release">release</a> method.</p>
+								<p>In same reason, if you don&#39;t call the <a href="std.semaphore.html#release">release</a> function after you business, the
+									others who want to <a href="std.semaphore.html#acquire">acquire</a> a section from the semaphore would be fall into the
+									forever sleep. Therefore, never forget to calling the <a href="std.semaphore.html#release">release</a> function or utilize
+									the <a href="std.uniquelock.html#lock">UniqueLock.lock</a> function instead with <a href="std.semaphore.html#get_lockable">Semaphore.get_lockable</a> to ensure
+								the safety.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -191,15 +200,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Semaphore.ts#L44">thread/Semaphore.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Semaphore.ts#L47">thread/Semaphore.ts:47</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Number of maximum sections lockable.</p>
+									<p>Get number of maximum sections lockable.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Max</span></h4>
+							<p>Number of maximum sections lockable.</p>
 						</li>
 					</ul>
 				</section>
@@ -207,25 +217,49 @@
 					<a name="release" class="tsd-anchor"></a>
 					<h3>release</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">release<span class="tsd-signature-symbol">(</span>count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">release<span class="tsd-signature-symbol">(</span>n<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Semaphore.ts#L99">thread/Semaphore.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Semaphore.ts#L224">thread/Semaphore.ts:224</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Release sections.</p>
+								</div>
+								<p>When you call this <a href="std.semaphore.html#release">release</a> method and there&#39;re someone who are currently blocked
+									by attemping to <a href="std.semaphore.html#acquire">acquire</a> a section from this semaphore, <em>n</em> of them
+									(FIFO; first-in-first-out) would <a href="std.semaphore.html#acquire">acquire</a> those <a href="std.semaphore.html#release">released</a> sections
+								and continue their executions.</p>
+								<p>Otherwise, there&#39;s not anyone who is <a href="std.semaphore.html#acquire">acquiring</a> the section or number of
+								the blocked are less than <em>n</em>, the <a href="std.outofrange.html">OutOfRange</a> error would be thrown.</p>
+								<blockquote>
+									<p>As you know, when you succeeded to <a href="std.semaphore.html#acquire">acquire</a> a section, you don&#39;t have to forget
+										to calling this <a href="std.semaphore.html#release">release</a> method after your business. If you forget it, it would
+										be a terrible situation for the others who&#39;re attempting to <a href="std.semaphore.html#acquire">acquire</a> a section
+									from this semaphore.</p>
+									<p>However, if you utilize the <a href="std.uniquelock.html">UniqueLock</a> with <a href="std.semaphore.html#get_lockable">Semaphore.get_lockable</a>, you
+										don&#39;t need to consider about this <a href="std.semaphore.html#release">release</a> method. Just define your business into
+										a callback function as a parameter of methods of the <a href="std.uniquelock.html">UniqueLock</a>, then this
+										<a href="std.semaphore.html#release">release</a> method would be automatically called by the <a href="std.uniquelock.html">UniqueLock</a> after the
+									business.</p>
+								</blockquote>
 								<dl class="tsd-comment-tags">
-									<dt>inheritdoc</dt>
-									<dd></dd>
+									<dt>throw</dt>
+									<dd><p><a href="std.outofrange.html">OutOfRange</a> when <em>n</em> is greater than currently <a href="std.semaphore.html#acquire">acquired</a> sections.</p>
+									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> count: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> n: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Number of sections to be released. Default is 1.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -242,13 +276,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Semaphore.ts#L84">thread/Semaphore.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Semaphore.ts#L104">thread/Semaphore.ts:104</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Try acquire a section.</p>
+									<p>Tries to acquire a section.</p>
 								</div>
+								<p>Attempts to acquire a section without blocking. If succeeded to acquire a section from the
+									semaphore immediately, it returns <code>true</code> directly. Otherwise all of the sections in the
+									semaphore are full, the function gives up the trial immediately and returns <code>false</code>
+								directly.</p>
+								<p>Note that, if you succeeded to acquire a section from the semaphore (returns `true) but do
+									not call the <a href="std.semaphore.html#release">release</a> function after your business, the others who want to
+									<a href="std.semaphore.html#acquire">acquire</a> a section from the semaphore would be fall into the forever sleep.
+									Therefore, never forget to calling the <a href="std.semaphore.html#release">release</a> function or utilize the
+									<a href="std.uniquelock.html#try_lock">UniqueLock.try_lock</a> function instead with <a href="std.semaphore.html#get_lockable">Semaphore.get_lockable</a> to ensure
+								the safety.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>Whether succeeded to acquire or not.</p>
@@ -265,13 +309,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Semaphore.ts#L161">thread/Semaphore.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Semaphore.ts#L137">thread/Semaphore.ts:137</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Try acquire a section until timeout.</p>
+									<p>Tries to acquire a section until timeout.</p>
 								</div>
+								<p>Attempts to acquire a section from the semaphore until timeout. If succeeded to acquire a
+									section until the timeout, it returns <code>true</code>. Otherwise failed to acquiring a section in
+								given the time, the function gives up the trial and returns <code>false</code>.</p>
+								<p>Failed to acquiring a section in the given time (returns <code>false</code>), it means that there&#39;re
+									someone who have already <a href="std.semaphore.html#acquire">acquired</a> sections and do not return them over the
+								time expiration.</p>
+								<p>Note that, if you succeeded to acquire a section from the semaphore (returns `true) but do
+									not call the <a href="std.semaphore.html#release">release</a> function after your business, the others who want to
+									<a href="std.semaphore.html#acquire">acquire</a> a section from the semaphore would be fall into the forever sleep.
+									Therefore, never forget to calling the <a href="std.semaphore.html#release">release</a> function or utilize the
+									{@link UniqueLock.try_acquire_for} function instead with <a href="std.semaphore.html#get_lockable">Semaphore.get_lockable</a> to
+								ensure the safety.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -297,13 +353,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Semaphore.ts#L193">thread/Semaphore.ts:193</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Semaphore.ts#L187">thread/Semaphore.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Try acquire a section until time expiration.</p>
+									<p>Tries to acquire a section until timeout.</p>
 								</div>
+								<p>Attempts to acquire a section from the semaphore until time expiration. If succeeded to
+									acquire a section until the time expiration, it returns <code>true</code>. Otherwise failed to
+								acquiring a section in the given time, the function gives up the trial and returns <code>false</code>.</p>
+								<p>Failed to acquiring a section in the given time (returns <code>false</code>), it means that there&#39;re
+									someone who have already <a href="std.semaphore.html#acquire">acquired</a> sections and do not return them over the
+								time expiration.</p>
+								<p>Note that, if you succeeded to acquire a section from the semaphore (returns `true) but do
+									not call the <a href="std.semaphore.html#release">release</a> function after your business, the others who want to
+									<a href="std.semaphore.html#acquire">acquire</a> a section from the semaphore would be fall into the forever sleep.
+									Therefore, never forget to calling the <a href="std.semaphore.html#release">release</a> function or utilize the
+									{@link UniqueLock.try_acquire_until} function instead with <a href="std.semaphore.html#get_lockable">Semaphore.get_lockable</a>
+								to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -316,6 +384,44 @@
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>Whether succeded to acquire or not.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="get_lockable" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get_<wbr>lockable</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">get_<wbr>lockable&lt;SemaphoreT&gt;<span class="tsd-signature-symbol">(</span>semaphore<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SemaphoreT</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/std.base-1.itimedlockable.html" class="tsd-signature-type">ITimedLockable</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Semaphore.ts#L288">thread/Semaphore.ts:288</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Capsules a <a href="std.semaphore.html">Semaphore</a> to be suitable for the <a href="std.uniquelock.html">UniqueLock</a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>SemaphoreT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Pick</span><span class="tsd-signature-symbol">&lt;</span><a href="std.semaphore.html" class="tsd-signature-type">Semaphore</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">"acquire"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"try_acquire"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"try_acquire_for"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"try_acquire_until"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"release"</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>semaphore: <span class="tsd-signature-type">SemaphoreT</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Target semaphore to capsule.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/std.base-1.itimedlockable.html" class="tsd-signature-type">ITimedLockable</a></h4>
+							<p>Lockable instance suitable for the <a href="std.uniquelock.html">UniqueLock</a></p>
 						</li>
 					</ul>
 				</section>
@@ -360,6 +466,9 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="std.semaphore.html#try_acquire_until" class="tsd-kind-icon">try_<wbr>acquire_<wbr>until</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="std.semaphore.html#get_lockable" class="tsd-kind-icon">get_<wbr>lockable</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -380,11 +489,11 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
@@ -395,6 +504,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

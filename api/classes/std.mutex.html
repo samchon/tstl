@@ -92,7 +92,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/std.ilockable.html" class="tsd-signature-type">ILockable</a></li>
+					<li><a href="../interfaces/std.base-1.ilockable.html" class="tsd-signature-type">ILockable</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -128,7 +128,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Mutex.ts#L17">thread/Mutex.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Mutex.ts#L17">thread/Mutex.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -152,15 +152,22 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.ilockable.html">ILockable</a>.<a href="../interfaces/std.ilockable.html#lock">lock</a></p>
+								<p>Implementation of <a href="../interfaces/std.base-1.ilockable.html">ILockable</a>.<a href="../interfaces/std.base-1.ilockable.html#lock">lock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Mutex.ts#L36">thread/Mutex.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Mutex.ts#L36">thread/Mutex.ts:36</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Lock until be unlocked.</p>
+									<p>Locks the mutex.</p>
 								</div>
+								<p>Monopolies a mutex until be <a href="std.mutex.html#unlock">unlocked</a>. If there&#39;re someone who have already
+									<a href="std.mutex.html#lock">monopolied</a> the mutex, the function call would be blocked until all of them to
+								return their acquistions by calling the <a href="std.mutex.html#unlock">unlock</a> method.</p>
+								<p>In same reason, if you don&#39;t call the <a href="std.mutex.html#unlock">unlock</a> function after your business, the
+									others who want to <a href="std.mutex.html#lock">monopoly</a> the mutex would be fall into the forever sleep.
+									Therefore, never forget to calling the <a href="std.mutex.html#unlock">unlock</a> function or utilize the
+								<a href="std.uniquelock.html#lock">UniqueLock.lock</a> function instead to ensure the safety.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -175,18 +182,27 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.ilockable.html">ILockable</a>.<a href="../interfaces/std.ilockable.html#try_lock">try_lock</a></p>
+								<p>Implementation of <a href="../interfaces/std.base-1.ilockable.html">ILockable</a>.<a href="../interfaces/std.base-1.ilockable.html#try_lock">try_lock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Mutex.ts#L44">thread/Mutex.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Mutex.ts#L44">thread/Mutex.ts:44</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Try <a href="std.mutex.html#lock">lock</a>.</p>
+									<p>Tries to lock the mutex.</p>
 								</div>
+								<p>Attempts to monopoly a mutex without blocking. If succeeded to monopoly the mutex
+									immediately, it returns <code>true</code> directly. Otherwise there&#39;s someone who has already
+									<a href="std.mutex.html#lock">monopolied</a> the mutex, the function gives up the trial immediately and returns
+								<code>false</code> directly.</p>
+								<p>Note that, if you succeeded to monopoly the mutex (returns <code>true</code>) but do not call the
+									<a href="std.mutex.html#unlock">unlock</a> function after your business, the others who want to <a href="std.mutex.html#lock">monopoly</a>
+									the mutex would be fall into the forever sleep. Therefore, never forget to calling the
+									<a href="std.mutex.html#unlock">unlock</a> function or utilize the <a href="std.uniquelock.html#try_lock">UniqueLock.try_lock</a> function instead to
+								ensure the safety.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>Whether succeeded to lock or not.</p>
+							<p>Whether succeeded to monopoly the mutex or not.</p>
 						</li>
 					</ul>
 				</section>
@@ -199,15 +215,34 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/std.ilockable.html">ILockable</a>.<a href="../interfaces/std.ilockable.html#unlock">unlock</a></p>
+								<p>Implementation of <a href="../interfaces/std.base-1.ilockable.html">ILockable</a>.<a href="../interfaces/std.base-1.ilockable.html#unlock">unlock</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/e519900/src/thread/Mutex.ts#L52">thread/Mutex.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/Mutex.ts#L52">thread/Mutex.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Unlock.</p>
+									<p>Unlocks the mutex.</p>
 								</div>
+								<p>When you call this <a href="std.mutex.html#unlock">unlock</a> method and there&#39;re someone who are currently blocked by
+									attempting to <a href="std.mutex.html#lock">lock</a> this mutex, one of them (FIFO; first-in-first-out) would acquire
+								the lock and continues its execution.</p>
+								<p>Otherwise, there&#39;s not anyone who is acquiring the <a href="std.mutex.html#lock">lock</a> of this mutex, the
+								<a href="std.domainerror.html">DomainError</a> exception would be thrown.</p>
+								<blockquote>
+									<p>As you know, when you succeeded to acquire the <code>lock</code>, you don&#39;t have to forget to
+										calling this <a href="std.mutex.html#unlock">unlock</a> method after your business. If you forget it, it would be a
+									terrible situation for the others who&#39;re attempting to lock this mutex.</p>
+									<p>However, if you utilize the <a href="std.uniquelock.html">UniqueLock</a>, you don&#39;t need to consider about this
+										<a href="std.mutex.html#unlock">unlock</a> method. Just define your business into a callback function as a parameter
+										of methods of the <a href="std.uniquelock.html">UniqueLock</a>, then this <a href="std.mutex.html#unlock">unlock</a> method would be
+									automatically called by the <a href="std.uniquelock.html">UniqueLock</a> after the business.</p>
+								</blockquote>
+								<dl class="tsd-comment-tags">
+									<dt>throw</dt>
+									<dd><p><a href="std.domainerror.html">DomainError</a> when no one is acquiring the <a href="std.mutex.html#lock">write lock</a>.</p>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -265,11 +300,11 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
@@ -280,6 +315,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
