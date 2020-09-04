@@ -17,9 +17,10 @@
     "clean": "ts-node build/clean",
     "compile": "tsc",
     "dev": "tsc --watch",
-    "dist": "ts-node build/dist",
     "module": "tsc --noEmit --module amd && tsc --noEmit --module system && tsc --noEmit --module umd && tsc --noEmit --module esnext",
     "module:dev": "tsc --watch --noEmit --module esnext",
+    "package": "npm run build && ts-node build/dist && npm publish",
+    "package:next": "npm run dist -- --tag next",
     "test": "node dist/test",
     "test:ts": "ts-node src/test"
   },
